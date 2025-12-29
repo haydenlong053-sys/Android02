@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="voice_room_invite_send_success">邀请成功</string>
+    <string name="voice_room_invite_send_failed">邀请失败</string>
+    <string name="voice_room_apply_send_success">申请成功</string>
+    <string name="voice_room_apply_send_failed">申请失败</string>
+    <string name="voice_room_apply_accept_success">同意上麦申请成功</string>
+    <string name="voice_room_apply_accept_failed">同意上麦申请失败</string>
+    <string name="voice_room_apply_accepted">房主已接受您的申请</string>
+    <string name="voice_room_kick_user_success">踢人成功</string>
+    <string name="voice_room_kick_sure_tip">确认踢出？踢出后该用户无法再次进入房间</string>
+    <string name="voice_room_kick_by_host">您已被踢出房间</string>
+    <string name="voice_room_tip">提示</string>
+    <string name="aui_room_apply_accept">同意申请</string>
+    <string name="aui_room_invited_action">邀请上麦</string>
+    <string name="aui_room_invited_list">邀请列表</string>
+    <string name="aui_room_apply_list">申请列表</string>
+    <string name="aui_room_contribution_empty">暂无数据</string>
+    <string name="aui_member_item_kick">踢出</string>
+    <string name="aui_member_item_invited">邀请</string>
+    <string name="aui_micseat_item_title_idle">%d号麦位</string>
+    <string name="aui_micseat_roomowner">房主</string>
+    <string name="aui_micseat_chorus">副唱</string>
+    <string name="aui_micseat_leadsinger">主唱</string>
+    <string name="aui_micseat_dialog_title">麦位管理</string>
+    <string name="aui_micseat_dialog_up_seat">上麦</string>
+    <string name="aui_micseat_dialog_down_seat">下麦</string>
+    <string name="aui_micseat_dialog_kick_out_seat">踢人下麦</string>
+    <string name="aui_micseat_dialog_close_seat">锁麦</string>
+    <string name="aui_micseat_dialog_open_seat">取消锁麦</string>
+    <string name="aui_micseat_dialog_mute_audio">静音</string>
+    <string name="aui_micseat_dialog_unmute_audio">取消静音</string>
+    <string name="aui_micseat_dialog_mute_video">关闭视频</string>
+    <string name="aui_micseat_dialog_unmute_video">打开视频</string>
+    <string name="aui_micseat_dialog_invited">邀请</string>
+
+</resources>

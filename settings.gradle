@@ -27,3 +27,6 @@ rootProject.name = "Seekweb"
 include ':app'
 //include ':baselibrary'
 //include ':auikit'
+//include ':auikit-service'
+//include ':auikit-ui'
+//include ':asceneskit'

@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'io.agora.asceneskit'
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    sourceSets {
+        main {
+            res.srcDirs += "src/main/java/io/agora/asceneskit/voice/res-light"
+            res.srcDirs += "src/main/java/io/agora/asceneskit/voice/res-dark"
+        }
+    }
+}
+
+dependencies {
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    api project(':CommonLibrary')
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    api 'androidx.appcompat:appcompat:1.4.1'
+    api 'com.google.android.material:material:1.5.0'
+
+    implementation 'com.tencent.tav:libpag:latest.release'
+    implementation 'com.github.bumptech.glide:glide:4.15.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    if(findProject(":auikit") != null){
+        api project(':auikit')
+    }else{
+//        def uiKitVersion='1.2.0'
+//        api "com.github.AgoraIO-Community.AUIKit:AUIKit:$uiKitVersion"
+
+        //api "com.github.AgoraIO-Community.AUIKit:AUIKit-Service:$uiKitVersion"
+        //api "com.github.AgoraIO-Community.AUIKit:AUIKit-UI:$uiKitVersion"
+    }
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    constraints {
+        implementation("io.agora.rtc:chat-sdk:1.3.2") {
+            because("Fix security issues and ensure compatibility with Android 14")
+        }
+    }
+}
