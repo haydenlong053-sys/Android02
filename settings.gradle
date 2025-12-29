@@ -25,4 +25,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Seekweb"
 include ':app'
-include ':baselibrary'
+//include ':baselibrary'
+//include ':auikit'
