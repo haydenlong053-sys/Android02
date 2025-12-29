@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="camera">相机</string>
+    <string name="storage">存储</string>
+    <string name="read">读取</string>
+    <string name="microphone">麦克风</string>
+    <string name="phone">电话</string>
+    <string name="location_p">定位</string>
+    <string name="lack">缺少</string>
+    <string name="permission_pls_system_set_open_flag">权限，请在系统设置中打开该权限！</string>
+    <string name="about_per">相关</string>
+</resources>

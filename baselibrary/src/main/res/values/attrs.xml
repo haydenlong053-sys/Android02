@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundedImageView">
+        <attr name="riv_corner_radius" format="dimension" />
+        <attr name="riv_corner_radius_top_left" format="dimension" />
+        <attr name="riv_corner_radius_top_right" format="dimension" />
+        <attr name="riv_corner_radius_bottom_left" format="dimension" />
+        <attr name="riv_corner_radius_bottom_right" format="dimension" />
+        <attr name="riv_border_width" format="dimension" />
+        <attr name="riv_border_color" format="color" />
+        <attr name="riv_mutate_background" format="boolean" />
+        <attr name="riv_oval" format="boolean" />
+        <attr name="android:scaleType" format="integer" />
+        <!--        <attr name="android_scaleType" format="integer"/>-->
+        <attr name="riv_tile_mode">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_x">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_y">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="AppRoundedImageView">
+        <attr name="app_round_border_width" format="dimension" />
+        <attr name="app_round_border_color" format="color" />
+        <attr name="app_round_borderRadius" format="dimension" />
+        <attr name="app_round_borderRadius_type" format="integer" />
+        <attr name="app_round_round_type" format="integer" />
+        <attr name="app_round_border_width_ratio" format="integer" />
+        <attr name="app_round_border_height_ratio" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="ShapeView">
+
+        <attr name="shapeType" format="enum">
+            <enum name="rectangle" value="0" />
+            <enum name="oval" value="1" />
+            <enum name="line" value="2" />
+            <enum name="ring" value="3" />
+        </attr>
+
+        <attr name="shapeSolidColor" format="color" />
+
+        <attr name="shapeSelectorPressedColor" format="color" />
+        <attr name="shapeSelectorDisableColor" format="color" />
+        <attr name="shapeSelectorNormalColor" format="color" />
+
+        <attr name="shapeCornersRadius" format="dimension" />
+
+        <attr name="shapeCornersTopLeftRadius" format="dimension" />
+        <attr name="shapeCornersTopRightRadius" format="dimension" />
+        <attr name="shapeCornersBottomLeftRadius" format="dimension" />
+        <attr name="shapeCornersBottomRightRadius" format="dimension" />
+
+        <attr name="shapeStrokeWidth" format="dimension" />
+        <attr name="shapeStrokeDashWidth" format="dimension" />
+        <attr name="shapeStrokeDashGap" format="dimension" />
+        <attr name="shapeStrokeColor" format="color" />
+
+        <attr name="shapeSizeWidth" format="dimension" />
+        <attr name="shapeSizeHeight" format="dimension" />
+
+        <attr name="shapeGradientAngle" format="enum">
+            <enum name="left_right" value="0" />
+            <enum name="bl_tr" value="45" />
+            <enum name="bottom_top" value="90" />
+            <enum name="br_tl" value="135" />
+            <enum name="right_left" value="180" />
+            <enum name="tr_bl" value="225" />
+            <enum name="top_bottom" value="270" />
+            <enum name="tl_br" value="315" />
+        </attr>
+
+        <attr name="shapeGradientCenterX" format="float" />
+        <attr name="shapeGradientCenterY" format="float" />
+        <attr name="shapeGradientGradientRadius" format="dimension" />
+        <attr name="shapeGradientStartColor" format="color" />
+        <attr name="shapeGradientCenterColor" format="color" />
+        <attr name="shapeGradientEndColor" format="color" />
+        <attr name="shapeGradientUseLevel" format="boolean" />
+
+        <attr name="shapeUseSelector" format="boolean" />
+
+        <attr name="shapeGradientType" format="enum">
+            <enum name="linear" value="0" />
+            <enum name="radial" value="1" />
+            <enum name="sweep" value="2" />
+        </attr>
+
+        <attr name="showShadow" format="boolean" />
+
+        <attr name="showShadowCloseLayerType" format="boolean" />
+
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowColorAlpha" format="float" />
+
+        <attr name="shadowLeftWidth" format="dimension" />
+        <attr name="shadowTopWidth" format="dimension" />
+        <attr name="shadowBottomWidth" format="dimension" />
+        <attr name="shadowRightWidth" format="dimension" />
+
+        <attr name="shadowCornersRadius" format="dimension" />
+        <attr name="shadowCornersTopLeftRadius" format="dimension" />
+        <attr name="shadowCornersTopRightRadius" format="dimension" />
+        <attr name="shadowCornersBottomLeftRadius" format="dimension" />
+        <attr name="shadowCornersBottomRightRadius" format="dimension" />
+
+    </declare-styleable>
+
+    <declare-styleable name="ShadowLayout">
+        <!--阴影的圆角大小-->
+        <attr name="yc_cornerRadius" format="dimension" />
+        <!--阴影的扩散范围(也可以理解为扩散程度)-->
+        <attr name="yc_shadowLimit" format="dimension" />
+        <!--阴影颜色-->
+        <attr name="yc_shadowColor" format="color" />
+        <!--x轴的偏移量-->
+        <attr name="yc_dx" format="dimension" />
+        <!--y轴的偏移量-->
+        <attr name="yc_dy" format="dimension" />
+        <!--左边是否显示阴影-->
+        <attr name="yc_leftShow" format="boolean" />
+        <!--右边是否显示阴影-->
+        <attr name="yc_rightShow" format="boolean" />
+        <!--上边是否显示阴影-->
+        <attr name="yc_topShow" format="boolean" />
+        <!--下面是否显示阴影-->
+        <attr name="yc_bottomShow" format="boolean" />
+    </declare-styleable>
+
+</resources>

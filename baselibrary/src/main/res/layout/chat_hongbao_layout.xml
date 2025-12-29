@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/allView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/allGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.base.commonlibrary.view.RoundedImageView
+            android:id="@+id/hongbaoBg"
+            android:layout_width="224dp"
+            android:layout_height="94dp"
+            android:src="@mipmap/ic_red_envelope_webx"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="0dp"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvyilinghongbaodesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/dp_5"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#72F1F2"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/hongbaoBg"
+            app:layout_constraintStart_toStartOf="@id/hongbaoBg"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="人人皆股东 好运连连" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvhoongbaotips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#72F1F2"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@id/tvyilinghongbaodesc"
+            app:layout_constraintTop_toBottomOf="@id/tvyilinghongbaodesc"
+            tools:text="解锁你的数字未来" />
+
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/bottomTv"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:text="Web4 Blue Packet"
+            android:textColor="#A6000000"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@id/hongbaoBg"
+            app:layout_constraintStart_toStartOf="@id/hongbaoBg"
+            app:layout_constraintTop_toBottomOf="@id/hongbaoBg"
+            app:shape_bottomLeftRadius="12dp"
+            app:shape_bottomRightRadius="12dp"
+            app:shape_solidColor="@color/white" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/statusTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:paddingVertical="@dimen/dp_3"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/allGroup"
+        app:layout_constraintTop_toTopOf="@id/allGroup"
+        app:shape_bottomLeftRadius="0dp"
+        tools:text="已过期"
+        android:textColor="@color/white"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
