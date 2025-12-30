@@ -776,6 +776,7 @@
     <string name="ai_check_record">检测记录</string>
     <string name="ai_pop_tip">提示</string>
     <string name="ai_pop_tip_des">你要放弃当前上传的文件吗</string>
+    <string name="ps_cancel">取消</string>
 
 
 </resources>

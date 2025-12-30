@@ -1,6 +1,5 @@
 package com.cboda.baselibrary.base
 
-
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.BaseLoadMoreModule
 import com.chad.library.adapter.base.module.LoadMoreModule

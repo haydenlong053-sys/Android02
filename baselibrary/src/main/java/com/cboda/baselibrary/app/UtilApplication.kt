@@ -8,7 +8,7 @@ open class UtilApplication : Application() {
     }
 
     override fun onCreate() {
-        cxt = this
         super.onCreate()
+        cxt = this
     }
 }
