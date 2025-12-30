@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_10"
+    tools:background="@color/white">
+
+    <com.base.commonlibrary.view.SquareImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:app_round_borderRadius="@dimen/dp_12"
+        app:app_round_borderRadius_type="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_height="@dimen/dp_100"
+        tools:layout_marginStart="@dimen/dp_50"
+        tools:layout_marginTop="@dimen/dp_50"
+        tools:layout_width="@dimen/dp_100"
+        tools:src="@color/black"
+        tools:visibility="visible" />
+
+    <com.base.commonlibrary.view.SquareDashView
+        android:id="@+id/shapeView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeCornersRadius="@dimen/dp_12"
+        app:shapeSolidColor="@color/transparent"
+        app:shapeStrokeColor="#94A3B8"
+        app:shapeStrokeDashGap="@dimen/dp_5"
+        app:shapeStrokeDashWidth="@dimen/dp_5"
+        app:shapeStrokeWidth="@dimen/dp_1"
+        tools:layout_height="@dimen/dp_100"
+        tools:layout_marginStart="@dimen/dp_50"
+        tools:layout_marginTop="@dimen/dp_50"
+        tools:layout_width="@dimen/dp_100"
+        tools:visibility="visible" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/addImg"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_ai_add_img"
+        app:layout_constraintBottom_toTopOf="@id/addTv"
+        app:layout_constraintEnd_toEndOf="@id/shapeView"
+        app:layout_constraintStart_toStartOf="@id/shapeView"
+        app:layout_constraintTop_toTopOf="@id/shapeView"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/addTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:text="@string/action_add"
+        android:textColor="#94A3B8"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/shapeView"
+        app:layout_constraintEnd_toEndOf="@id/shapeView"
+        app:layout_constraintStart_toStartOf="@id/shapeView"
+        app:layout_constraintTop_toBottomOf="@id/addImg" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="shapeView,addImg,addTv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

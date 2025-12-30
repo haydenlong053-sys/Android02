@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
+    android:paddingBottom="1dp"
+    app:ios="false">
+
+    <LinearLayout
+        android:id="@+id/llItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="20dp"
+        android:background="@drawable/bg_rect_main"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:text="文本内容文本内容文本内容文本内容文本内容文本内容文"
+            android:textColor="#ffb6b6b6"
+            android:textSize="12sp"
+            />
+
+        <RelativeLayout
+            android:id="@+id/rlVideo"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_width="160dp"
+            android:layout_height="160dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/riVideo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="10dp"
+                tools:src="@mipmap/ic_zhanwei" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_video" />
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ryImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/tvFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/ic_wj_item"
+            android:text="文件名称"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"
+            />
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/btnDelete"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:background="#26090D"
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_delete_item"
+        />
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

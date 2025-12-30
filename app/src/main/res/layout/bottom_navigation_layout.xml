@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+        android:id="@+id/thirdIndex"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:visibility="visible"
+        app:itemTitle="派对"
+        app:normalColor="#888888"
+        app:normalIcon="@mipmap/ic_guangchang_false"
+        app:pressColor="#7768E5"
+        app:pressIcon="@mipmap/ic_guangchang_true"
+
+        />
+
+
+    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+
+        android:id="@+id/secondIndex"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:itemTitle="动态"
+        app:normalColor="#888888"
+        app:normalIcon="@mipmap/ic_third_normal"
+        app:pressColor="#7768E5"
+        app:pressIcon="@mipmap/ic_third_press" />
+
+    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+
+        android:id="@+id/firstIndex"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:itemTitle="广场"
+        app:normalColor="#888888"
+        app:normalIcon="@mipmap/ic_home_false"
+        app:pressColor="#7768E5"
+        app:pressIcon="@mipmap/ic_home_true" />
+
+
+    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+
+        android:id="@+id/fouthIndex"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:itemTitle="消息"
+        app:normalColor="#888888"
+        app:normalIcon="@mipmap/ic_xiaoxi_false"
+        app:pressColor="#7768E5"
+        app:pressIcon="@mipmap/ic_xiaoxi_true" />
+
+    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+
+        android:id="@+id/fiveIndex"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:itemTitle="我的"
+        app:normalColor="#888888"
+        app:normalIcon="@mipmap/ic_wode_false"
+        app:pressColor="#7768E5"
+        app:pressIcon="@mipmap/ic_wode_t" />
+
+
+</LinearLayout>

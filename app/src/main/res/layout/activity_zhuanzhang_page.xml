@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bg_main">
+
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/ivTouxiang"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        />
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tvnicheng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/daishoulkuan"
+        android:textColor="@color/color_text0"
+        android:textSize="15sp"
+        />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="15dp"
+        android:gravity="bottom"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/qianNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00"
+            android:textStyle="bold"
+            android:textColor="@color/color_price_red"
+            android:textSize="29sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/yuanqian"
+            android:textStyle="bold"
+            android:textColor="@color/color_price_red"
+            android:textSize="19sp"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_text_content"
+            android:textSize="12sp"
+            android:text="@string/zhuanzhuangshijian" />
+
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/shijian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_text_content"
+            android:textSize="12sp"
+             />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/shoukuanshijian"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_text_content"
+            android:textSize="12sp"
+            android:text="@string/shoukuanshijian" />
+
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/shoukuanshijian1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_text_content"
+            android:textSize="12sp"
+            />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/tvPhoneLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="40dp"
+        android:background="@mipmap/ic_bg_btn2_01"
+        android:gravity="center"
+        tools:visibility="visible"
+        android:text="@string/shoukuan"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+    />
+</LinearLayout>

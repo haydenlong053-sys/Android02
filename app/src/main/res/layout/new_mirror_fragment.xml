@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 背景图，与 MirrorScreen 中 bg_mirror 一致 -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_mirror"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bottomIv2"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_31"
+        android:layout_marginBottom="-15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_mirror_bottom_line"
+        app:layout_constraintBottom_toTopOf="@id/bottomIv1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <!-- 中间角色形象 -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivMirrorAvatar"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_32"
+        android:layout_marginBottom="@dimen/dp_45"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/ic_mirror_female"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bottomIv1"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="158dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_mirror_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/qrCodeLayout"
+        android:layout_width="@dimen/dp_85"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_bottomRightRadius="@dimen/dp_18"
+        app:shape_solidColor="#A6ffffff"
+        app:shape_strokeColor="@color/white"
+        app:shape_strokeWidth="@dimen/dp_1"
+        app:shape_topRightRadius="@dimen/dp_18" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/qrCode"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_30"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_mirror_qrcode"
+        app:layout_constraintBottom_toBottomOf="@id/qrCodeLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/qrCodeLayout" />
+
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/layoutMirrorCredit"
+        android:layout_width="@dimen/dp_85"
+        android:layout_height="@dimen/dp_64"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="#2D4F6FF3"
+        app:shape_strokeColor="@color/white"
+        app:shape_strokeWidth="@dimen/dp_1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMirrorCreditScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#031256"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_mirror_credit_label"
+        app:layout_constraintEnd_toStartOf="@id/tvMirrorCreditScoreValue"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/layoutMirrorCredit"
+        app:layout_constraintTop_toTopOf="@id/layoutMirrorCredit"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="100" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMirrorCreditScoreValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分"
+        android:textColor="#031256"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvMirrorCreditScore"
+        app:layout_constraintEnd_toEndOf="@id/layoutMirrorCredit"
+        app:layout_constraintStart_toEndOf="@id/tvMirrorCreditScore" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_mirror_credit_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="信用分"
+        android:textColor="#031256"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/layoutMirrorCredit"
+        app:layout_constraintEnd_toEndOf="@id/layoutMirrorCredit"
+        app:layout_constraintStart_toStartOf="@id/layoutMirrorCredit"
+        app:layout_constraintTop_toBottomOf="@id/tvMirrorCreditScore" />
+    <!-- 顶部右侧：信用分卡片 -->
+
+    <!-- 签到红包 -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivMirrorSign"
+        android:layout_width="50dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="@dimen/dp_12"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="@id/layoutMirrorCredit"
+        app:layout_constraintTop_toBottomOf="@id/layoutMirrorCredit"
+        tools:src="@drawable/bg_sign_false" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/idTv"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qrCodeLayout"
+        tools:text="ID:66465456"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/vocationalTv"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="35dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/idTv"
+        tools:text="法师"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hobbyTv1"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vocationalTv"
+        tools:text="爱好1"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hobbyTv3"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="35dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hobbyTv1"
+        tools:text="爱好3"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hobbyTv5"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="35dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hobbyTv3"
+        tools:text="爱好5"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/daysTv"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="35dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivMirrorSign"
+        tools:text="20天"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hobbyTv2"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="10dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/daysTv"
+        tools:text="爱好2"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hobbyTv4"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="25dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hobbyTv2"
+        tools:text="爱好4"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hobbyTv6"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="10dp"
+        android:background="@mipmap/bg_mirror_tag_big"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="8"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dp_9"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hobbyTv4"
+        tools:text="爱好6"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

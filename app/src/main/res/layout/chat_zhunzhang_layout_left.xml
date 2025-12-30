@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llAll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxWidth="240dp"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/zhuanzhanglay"
+        android:layout_width="200dp"
+        android:layout_height="77dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/hongbaoBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_hongbao_bg2" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/hongbaoyijingBg"
+            android:tint="#FFD9AD"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_hongbao_bg2" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/hongbao"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/ic_zhuanzhang"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/yilingqu"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="63dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvyilinghongbaodesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="恭喜发财，大吉大"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:id="@+id/tvlingqu"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="已被领取"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <View
+            android:visibility="gone"
+            android:background="#80ffffff"
+            android:id="@+id/hongbaoTopBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

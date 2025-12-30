@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main_space"
+    android:orientation="vertical">
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:shapeCornersRadius="10dp"
+        app:shapeSolidColor="@color/bg_main">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/jinyanyitian"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="24dp"
+                    android:text="@string/jinyanyitian"
+                    android:textColor="@color/color_text0"
+                    android:textSize="15sp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/yitianicon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="23dp"
+                    android:src="@drawable/ic_weixuanz" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginEnd="23dp"
+                android:background="#09F3F3F3" />
+
+            <FrameLayout
+                android:id="@+id/jinyanyizhou"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="24dp"
+                    android:text="@string/jinyanyizhou"
+                    android:textColor="@color/color_text0"
+                    android:textSize="15sp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/yizhouicon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="23dp"
+                    android:src="@drawable/ic_weixuanz" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginEnd="23dp"
+                android:background="#09F3F3F3" />
+
+            <FrameLayout
+                android:id="@+id/jinyanyiyueu"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="24dp"
+                    android:text="@string/jinyanyigeyue"
+                    android:textColor="@color/color_text0"
+                    android:textSize="15sp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/yueicon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="23dp"
+                    android:src="@drawable/ic_weixuanz" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginEnd="23dp"
+                android:background="#09F3F3F3" />
+
+            <FrameLayout
+                android:id="@+id/yongjiu"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="24dp"
+                    android:text="@string/jinyanyongjiu"
+                    android:textColor="@color/color_text0"
+                    android:textSize="15sp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/yongjiuicon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="23dp"
+                    android:src="@drawable/ic_weixuanz" />
+            </FrameLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tvPhoneLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="40dp"
+        android:background="@mipmap/ic_bg_btn2_01"
+        android:gravity="center"
+        android:text="@string/queding"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</LinearLayout>

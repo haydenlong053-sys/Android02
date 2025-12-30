@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/ic_red_envelope_webx_back">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backIcon"
+        android:layout_width="@dimen/dp_44"
+        android:layout_height="@dimen/dp_44"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_back2_bg"
+        android:alpha="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="@dimen/dp_2"
+        android:layout_marginBottom="12dp"
+        android:src="@mipmap/ic_back2"
+        android:tint="@color/ps_color_white"
+        app:layout_constraintBottom_toBottomOf="@id/backIcon"
+        app:layout_constraintEnd_toEndOf="@id/backIcon"
+        app:layout_constraintStart_toStartOf="@id/backIcon"
+        app:layout_constraintTop_toTopOf="@id/backIcon" />
+
+    <com.base.commonlibrary.view.RoundedImageView
+        android:id="@+id/userImg"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backIcon"
+        app:riv_border_color="@color/ps_color_white"
+        app:riv_border_width="@dimen/dp_1"
+        tools:src="@mipmap/ic_logo_login" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_6"
+        android:textColor="@color/ps_color_white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userImg"
+        tools:text="JOY Follow发出的红包" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/redTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        android:gravity="center_horizontal"
+        android:textColor="#73DBE2"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userName"
+        tools:text="人人皆股东 好运连连" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/animationImg"
+        android:layout_width="@dimen/dp_394"
+        android:layout_height="@dimen/dp_394"
+        android:layout_marginTop="@dimen/dp_33"
+        android:src="@mipmap/ic_bg_test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backIcon" />
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/collectionBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="46dp"
+        android:layout_marginHorizontal="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_348"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/redTitle"
+        app:shape_endColor="#5837D3"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_startColor="#3B47DD" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/collectionImg"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_collection"
+        app:layout_constraintBottom_toBottomOf="@id/collectionBtn"
+        app:layout_constraintEnd_toStartOf="@id/collectionTv"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/collectionBtn"
+        app:layout_constraintTop_toTopOf="@id/collectionBtn" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/collectionTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_3"
+        android:text="收款"
+        android:textColor="@color/ps_color_white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/collectionBtn"
+        app:layout_constraintEnd_toEndOf="@id/collectionBtn"
+        app:layout_constraintStart_toEndOf="@id/collectionImg"
+        app:layout_constraintTop_toTopOf="@id/collectionBtn" />
+
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/refusedBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="46dp"
+        android:layout_marginTop="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="@id/collectionBtn"
+        app:layout_constraintStart_toStartOf="@id/collectionBtn"
+        app:layout_constraintTop_toBottomOf="@id/collectionBtn"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="#14ffffff"
+        app:shape_strokeColor="#1fffffff"
+        app:shape_strokeWidth="@dimen/dp_1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/refusedImg"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_refused"
+        app:layout_constraintBottom_toBottomOf="@id/refusedBtn"
+        app:layout_constraintEnd_toStartOf="@id/refusedTv"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/refusedBtn"
+        app:layout_constraintTop_toTopOf="@id/refusedBtn" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/refusedTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_3"
+        android:text="拒绝"
+        android:textColor="@color/ps_color_white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/refusedBtn"
+        app:layout_constraintEnd_toEndOf="@id/refusedBtn"
+        app:layout_constraintStart_toEndOf="@id/refusedImg"
+        app:layout_constraintTop_toTopOf="@id/refusedBtn" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/createTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_38"
+        android:gravity="center_horizontal"
+        android:textColor="#A6ffffff"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/refusedBtn"
+        tools:text="转账时间：2024年08月30日 14:34:30" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/moneyNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:gravity="center_horizontal"
+        android:textColor="#73DBE2"
+        android:textSize="62sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/moneyBefore"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/redTitle"
+        tools:text="899" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/moneyBefore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="WebX"
+        android:textColor="#73DBE2"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/moneyNum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/moneyNum" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/getTheTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_31"
+        android:textColor="#73ffffff"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moneyNum"
+        tools:text="已领取 2/10个，共1000WEBX" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="9dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/getTheTitle"
+        tools:background="@color/ps_color_white" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/noCollection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="createTime,collectionTv,collectionImg,collectionBtn,animationImg"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/refusedGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="refusedBtn,refusedTv,refusedImg"
+        tools:visibility="visible"
+
+        />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/haveCollection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="moneyNum,moneyBefore,getTheTitle,listView"
+        tools:visibility="gone" />
+</androidx.constraintlayout.widget.ConstraintLayout>

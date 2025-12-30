@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mViewRootBg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:shape_startColor="#FF3B47DD"
+    app:shape_endColor="#033B47DD"
+    app:shape_angle="-90"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/myToolView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/mIvMyBack"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:padding="18dp"
+                android:tint="@color/white"
+                android:src="@mipmap/ic_back2"
+                />
+
+            <TextView
+                android:id="@+id/tvMyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/color_title_page"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="50dp"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.hjq.shape.layout.ShapeLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="40dp"
+                    android:orientation="vertical"
+                    app:shape_radius="16dp"
+                    app:shape_solidColor="@color/white"
+                    >
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:drawableRight="@mipmap/ic_edit_name"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:hint="@string/shezhinichengb"
+                        android:paddingVertical="10dp"
+                        android:text=""
+                        android:textColor="@color/color_text0"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvIdno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="ID："
+                        android:textColor="@color/color_text0"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        />
+
+                    <FrameLayout
+                        android:id="@+id/llSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="76dp"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical"
+
+                        >
+                        <View
+                            android:id="@+id/mViewDash"
+                            android:layout_width="210dp"
+                            android:layout_height="210dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_mine_dash_line"
+
+                            />
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/ivQrcode"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:scaleType="fitXY"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            tools:visibility="visible"
+                            />
+                        <ImageView
+                            android:id="@+id/mIvBlur"
+                            android:layout_width="220dp"
+                            android:layout_height="220dp"
+                            android:src="@mipmap/ic_bg_mohu"
+                            android:layout_gravity="center_horizontal"
+                            android:visibility="visible"
+                            tools:visibility="visible"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/mIvCloseEyes"
+                            android:layout_width="32dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:src="@mipmap/ic_eyes_icon_bg"
+                            android:visibility="gone"
+                            tools:ignore="ContentDescription"
+                            tools:visibility="visible" />
+
+                        <com.hjq.shape.view.ShapeTextView
+                            android:id="@+id/mTvShowQrcode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="@string/m_eyes_qrcode_show"
+                            app:shape_radius="16dp"
+                            app:shape_solidColor="#101B3A"
+                            app:drawableStartCompat="@mipmap/ic_eyes_icon"
+                            android:drawablePadding="8dp"
+                            android:padding="12dp"
+                            android:layout_gravity="center"
+                            />
+
+                    </FrameLayout>
+                    <com.hjq.shape.layout.ShapeLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:shape_solidColor="@color/colorF7F8FA"
+                        app:shape_radius="10dp"
+                        android:paddingVertical="16dp"
+                        android:paddingHorizontal="12dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_3B47DD"
+                            android:textSize="16sp"
+                            android:gravity="center_vertical"
+                            android:text="@string/m_safe_des_1"
+                            android:textStyle="bold"
+                            app:drawableStartCompat="@mipmap/ic_safe_icon1"
+                            android:drawablePadding="8dp"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black65"
+                            android:textSize="14sp"
+                            android:gravity="center_vertical"
+                            android:text="@string/m_safe_des_2"
+                            android:layout_marginTop="16dp"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_F98B0F"
+                            android:textSize="14sp"
+                            android:gravity="center_vertical"
+                            android:text="@string/m_safe_des_3"
+                            android:layout_marginTop="16dp"
+                            />
+
+
+                    </com.hjq.shape.layout.ShapeLinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvRegInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@drawable/bg_rect_input"
+                        android:padding="20dp"
+                        android:text=""
+                        android:textColor="@color/color_text0"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/bg_rect_input"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="@string/用户名"
+                                android:textColor="@color/color_text0"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/etName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:gravity="right"
+                                android:hint="@string/请输入"
+                                android:padding="12dp"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/line" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="@string/密码"
+                                android:textColor="@color/color_text0"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/etPsw"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:gravity="right"
+                                android:hint="@string/请输入"
+                                android:inputType="textPassword"
+                                android:padding="12dp"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </com.hjq.shape.layout.ShapeLinearLayout>
+                <RelativeLayout
+                    android:id="@+id/rlIcon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_yinying"
+                        android:layout_margin="2dp"
+                        android:gravity="center">
+
+                    </LinearLayout>
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/riIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_head_defaut"
+                        app:riv_oval="true"
+                        app:riv_border_width="2dp"
+                        app:riv_border_color="@color/white"
+                        />
+
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:clickable="false"
+                        android:visibility="gone"
+                        android:src="@mipmap/ic_add_head2" />
+                </RelativeLayout>
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_rect_submit_16dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/m_save_login"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="40dp"
+                android:background="@mipmap/ic_bg_btn2_01"
+                android:gravity="center"
+                android:text="@string/登录"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+</com.hjq.shape.layout.ShapeLinearLayout>

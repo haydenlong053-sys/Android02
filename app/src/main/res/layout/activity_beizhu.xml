@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bg_main">
+    <TextView
+        android:id="@+id/tbeizhu"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="@string/bveizhu"
+        android:textColor="@color/color_text0"
+        android:textSize="14sp"
+         />
+
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:shapeSolidColor="@color/color_input_bg"
+        app:shapeCornersRadius="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <EditText
+            android:layout_marginEnd="60dp"
+            android:paddingStart="29dp"
+            android:id="@+id/edtBeizhu"
+            android:background="@null"
+            android:textColor="@color/color_text0"
+            android:textSize="14sp"
+            android:textColorHint="@color/color_text_content_hint"
+            android:hint="@string/bveizhutips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/ivqingchu"
+            android:visibility="gone"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_qingchu"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"/>
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+
+    <TextView
+        android:id="@+id/tvPhoneLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="center"
+        android:text="@string/wancheng"
+        android:background="@mipmap/ic_bg_btn2_01"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+      />
+</LinearLayout>

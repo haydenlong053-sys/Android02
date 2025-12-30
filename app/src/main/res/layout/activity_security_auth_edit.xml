@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/设置密保问题"
+        android:textColor="@color/black_or_white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="32dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/密保问题"
+        android:textColor="@color/black_or_white_65"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        />
+    <LinearLayout
+        android:id="@+id/mLlQuestionTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_mine_10dp"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/mTvQuestionTable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            tools:text="@string/mine_diy_question"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="18dp"
+            android:textColor="@color/color_3B47DDk"
+            android:textSize="16sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@mipmap/ic_select_type"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mTvDiyDes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/密保问题"
+        android:textColor="@color/black_or_white_65"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        />
+    <EditText
+        android:id="@+id/mEtDiyQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_mine_10dp"
+        android:gravity="center|start"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="18dp"
+        android:hint="@string/mine_input_question"
+        android:textColorHint="@color/black_or_white_45"
+        android:textColor="@color/black_or_white"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        tools:ignore="LabelFor,TouchTargetSizeCheck" />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/密保答案"
+        android:textColor="@color/black_or_white_65"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        />
+
+    <EditText
+        android:id="@+id/mEtAnswer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_mine_10dp"
+        android:gravity="center|start"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="18dp"
+        android:hint="@string/mine_input"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:textColorHint="@color/black_or_white_45"
+        android:textColor="@color/black_or_white"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        tools:ignore="LabelFor,TouchTargetSizeCheck" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:id="@+id/mTvSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_submit_16dp"
+        android:padding="12dp"
+        android:text="@string/mine_sure"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="24dp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/mTvCancel"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/bg_rect_blue_line"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/cancel"
+        android:gravity="center"
+        android:textColor="@color/color_3B47DDk"
+        android:textSize="16sp"
+        />
+</LinearLayout>

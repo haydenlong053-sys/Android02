@@ -1,0 +1,26 @@
+package com.lxkj.aiim.adapter
+
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.lxkj.aiim.R
+import com.base.commonlibrary.bean.CommonDataListBean
+import com.lxkj.aiim.utils.GlideLoaderHelper
+import com.lxkj.aiim.utils.PixelUtils
+
+class QunGuanLiAdapter(layoutResId: Int, private val type: String = "") :
+    BaseQuickAdapter<CommonDataListBean.CommonBean, BaseViewHolder>(layoutResId) {
+    override fun convert(holder: BaseViewHolder, item: CommonDataListBean.CommonBean) {
+        GlideLoaderHelper.loadCenterCopRoundedCornersUrl(
+            context,
+            item.icon?:"",
+            holder.getView(R.id.ivTouxiang),
+            PixelUtils.dip2px(context, 5f)
+        )
+
+        holder.setText(R.id.tvname, item.name?:"")
+
+        if (type == "jiechujinyan") {
+            holder.setText(R.id.tvNotAgree, context.getString(R.string.jiechujianyan))
+        }
+    }
+}

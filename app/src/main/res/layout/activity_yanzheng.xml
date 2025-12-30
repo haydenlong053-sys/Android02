@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginEnd="23dp"
+        app:shapeCornersRadius="20dp"
+        app:shapeSolidColor="@color/color_input_bg">
+
+        <EditText
+            android:id="@+id/edtSousuo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableLeft="@mipmap/ic_search2"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:imeOptions="actionSearch"
+            android:paddingStart="20dp"
+            android:singleLine="true"
+            android:hint="@string/sousuonicheng"
+            android:textColorHint="#868686"
+            android:textColor="#868686"
+            android:textSize="13sp" />
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/smartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_main_space"
+        android:paddingTop="8dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>

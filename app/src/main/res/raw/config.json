@@ -1,0 +1,13 @@
+{
+  "run_type": "client",
+  "local_addr": "0.0.0.0",
+  "local_port": 8808,
+  "remote_addr": "18.167.100.241",
+  "remote_port": 443,
+  "password": [
+    "Ok5XEfed"
+  ],
+  "ssl": {
+    "sni": "18.167.100.241"
+  }
+}

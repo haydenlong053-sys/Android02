@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:shapeCornersRadius="15dp"
+        android:layout_marginEnd="32dp"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/uxanzview"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@mipmap/ic_yixuanz"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="10dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/uxanzview2"
+            android:visibility="gone"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:tint="#80ffffff"
+            android:src="@mipmap/ic_yixuanz"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="10dp"
+            />
+
+        <ImageView
+            android:id="@+id/ivTouxiang"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="45dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="@color/color_text0"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivTouxiang"
+            app:layout_constraintTop_toTopOf="@+id/ivTouxiang"
+            tools:text="亚历克斯福建省大不大方水电费哈吉斯发送" />
+
+        <TextView
+            android:id="@+id/tvname2"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="45dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="@color/color_text0"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivTouxiang"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="亚历克斯福建省大不大方水电费哈吉斯发送" />
+
+
+        <TextView
+            android:id="@+id/tvnicheng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxWidth="200dp"
+            android:maxLines="1"
+            android:textColor="@color/color_text_content"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/ivTouxiang"
+            app:layout_constraintTop_toBottomOf="@+id/tvname"
+            tools:text="昵称：i后来" />
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+
+</LinearLayout>

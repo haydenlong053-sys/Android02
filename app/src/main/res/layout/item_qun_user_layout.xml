@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <FrameLayout
+            android:layout_width="52dp"
+            android:layout_height="52dp">
+            <ImageView
+                android:id="@+id/ivTouxiang"
+                android:layout_width="52dp"
+                android:layout_height="52dp"/>
+
+            <com.base.commonlibrary.shapeview.shape.ShapeTextView
+                android:id="@+id/tvshenfen"
+                android:visibility="gone"
+                android:textSize="11sp"
+                android:gravity="center"
+                app:shapeCornersTopLeftRadius="5dp"
+                app:shapeCornersBottomRightRadius="5dp"
+                app:shapeSolidColor="#FFF2E4"
+                android:textColor="#F99D3A"
+                tools:text="东方红水电费"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"/>
+        </FrameLayout>
+        <TextView
+            android:id="@+id/tvusername"
+            android:layout_marginTop="15dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥"
+            android:textColor="@color/color_text0"
+            android:textSize="12sp"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_tab_unselect">#463F68</color>
+    <color name="color_tab_select">#A96EDE</color>
+    <color name="color_text0">#ffffff</color>
+    <color name="bg_main">#000000</color>
+    <color name="bg_main2">#000000</color>
+    <color name="bg_main_space">#010101</color>
+    <color name="bg_main_space2">#09080E</color>
+    <color name="bg_main1">#09080E</color>
+    <color name="color_indicator">#ffffff</color>
+    <color name="color_language_select">#9C1FFB</color>
+    <color name="color_input_bg">#13111C</color>
+    <color name="color_text_content">#BEBEBE</color>
+    <color name="color_text_addfriend">#7A7BF8</color>
+    <color name="color_text_content_hint">#A5A5A5</color>
+    <color name="color_title_page">#ffffff</color>
+    <color name="color_dialog">#171717</color>
+    <color name="color_text_dialog_left">#ffffff</color>
+    <color name="color_text_select_sex">#A96EDE</color>
+    <color name="color_text_unselect_sex">#ffffff</color>
+    <color name="color_psw_bg">#2C2C2C</color>
+    <color name="color_psw_border">#9C1FFB</color>
+    <color name="color_jclh">#FFA6E6</color>
+    <color name="color_price_red">#FC4A46</color>
+    <color name="color_gdqcy">#6459F8</color>
+    <color name="color_yichu">#FFA6E6</color>
+    <color name="color_text_liang">#FFAA53</color>
+    <color name="color_text_zjc">#9B1FFA</color>
+    <color name="color_text_xg">#9C1FFB</color>
+</resources>

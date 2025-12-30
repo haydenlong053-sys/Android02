@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="#ffffff">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="#F8F8F8">
+
+        <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+            android:id="@+id/shanchulay"
+            android:layout_width="95dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+             app:shapeCornersRadius="5dp"
+
+            app:shapeSolidColor="#FFFFFF">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_jianpan_shanchu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+        <com.base.commonlibrary.shapeview.shape.ShapeTextView
+            android:id="@+id/zhuanzhangview"
+            android:layout_width="95dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/zhuanzhang"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shanchulay"
+             app:shapeCornersRadius="5dp"
+
+            app:shapeSolidColor="#01C35F">
+
+
+        </com.base.commonlibrary.shapeview.shape.ShapeTextView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomlay"
+            app:layout_constraintEnd_toStartOf="@+id/shanchulay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/bottomlay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/zhuanzhangview"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.base.commonlibrary.shapeview.shape.ShapeTextView
+                android:id="@+id/lingshuzi"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                 app:shapeCornersRadius="5dp"
+
+                app:shapeSolidColor="#FFFFFF" />
+
+            <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+                android:id="@+id/xiaoshudian"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                 app:shapeCornersRadius="5dp"
+
+                app:shapeSolidColor="#FFFFFF">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-16dp"
+                    android:src="@mipmap/ic_xiaoshudian"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/jinyants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:text="@string/jinyanshichang"
+            android:textColor="@color/color_text0"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+            android:layout_width="115dp"
+            android:id="@+id/jinyantian"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            app:shadowBottomWidth="2dp"
+            app:shadowColor="#11000000"
+            app:shadowCornersRadius="10dp"
+            app:shadowLeftWidth="2dp"
+            app:shadowRightWidth="2dp"
+            app:showShadow="true"
+            app:showShadowCloseLayerType="false">
+
+            <TextView
+                android:id="@+id/tvjinyan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/jinyanyitian"
+                android:textColor="@color/color_text_content"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@mipmap/ic_down"
+                android:tint="#808080"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.base.commonlibrary.shapeview.shape.ShapeTextView
+            android:id="@+id/tvAgree"
+            android:layout_width="90dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/queding"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            app:shapeCornersRadius="22dp"
+            app:shapeSolidColor="#9C1FFB" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical">
+
+        <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="23dp"
+            app:shapeCornersRadius="20dp"
+            app:shapeSolidColor="@color/color_input_bg">
+
+            <EditText
+                android:id="@+id/edtSousuo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableLeft="@mipmap/ic_search2"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/sousuonichengbeizhu"
+                android:imeOptions="actionSearch"
+                android:paddingStart="20dp"
+                android:singleLine="true"
+                android:textColorHint="@color/color_text_content_hint"
+                android:textColor="@color/color_text_content"
+                android:textSize="13sp" />
+
+        </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/smartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>

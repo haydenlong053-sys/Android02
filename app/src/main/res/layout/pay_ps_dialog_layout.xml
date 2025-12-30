@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        app:shapeCornersTopLeftRadius="15dp"
+        app:shapeCornersTopRightRadius="15dp"
+        app:shapeSolidColor="@color/bg_main"
+        android:layout_height="255dp">
+
+
+       <androidx.appcompat.widget.LinearLayoutCompat
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <androidx.appcompat.widget.AppCompatImageView
+               android:id="@+id/closezhifu"
+               android:tint="#101010"
+               android:padding="26dp"
+               app:tint="@color/color_text0"
+               android:src="@mipmap/ic_close_topic"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>
+
+           <TextView
+               android:id="@+id/tvtips"
+               android:layout_gravity="center_horizontal"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/hongbaojine"
+               android:textColor="@color/color_text0"
+               android:textSize="14sp"
+               />
+
+           <androidx.appcompat.widget.LinearLayoutCompat
+               android:layout_marginTop="13dp"
+               android:gravity="bottom"
+               android:layout_gravity="center_horizontal"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+               <TextView
+                   android:id="@+id/qianNum"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="0.00"
+                   android:textColor="#FC4A46"
+                   android:textSize="29sp"
+                   />
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/webX_name"
+                   android:textColor="#FC4A46"
+                   android:textSize="19sp"
+                   />
+
+           </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+           <com.maning.pswedittextlibrary.MNPasswordEditText
+               android:id="@+id/pswEdit"
+               android:layout_width="match_parent"
+               android:layout_height="52dp"
+               android:layout_marginTop="23dp"
+               android:layout_marginBottom="16dp"
+               android:focusableInTouchMode="true"
+               android:layout_marginHorizontal="20dp"
+               android:inputType="number"
+               android:maxLength="6"
+               android:textSize="20sp"
+               app:psw_mode="Circle"
+               app:psw_border_color="@color/color_psw_bg"
+               app:psw_border_radius="5dp"
+               app:psw_cover_circle_radius="4dp"
+               app:psw_border_selected_color="@color/color_psw_border"
+               app:psw_background_color="@color/color_psw_bg"
+               app:psw_border_width="1dp"
+               app:psw_cover_circle_color="@color/color_psw_border"
+               app:psw_cursor_width="0dp"
+               app:psw_item_margin="10dp"
+               app:psw_show_cursor="false"
+               app:psw_style="StyleOneself"
+               app:psw_text_color="@color/color_psw_border"/>
+
+       </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+</LinearLayout>

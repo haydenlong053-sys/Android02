@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/llChongzhi"
+        android:paddingHorizontal="25dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="@string/收款人"
+            android:textColor="@color/color_text0"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tvContent"
+            android:text="时来运转"
+            android:textSize="13sp"
+            android:textColor="@color/color_text_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <View
+        android:layout_marginHorizontal="16.5dp"
+        style="@style/Line2"
+        android:layout_width="match_parent"
+      />
+</LinearLayout>

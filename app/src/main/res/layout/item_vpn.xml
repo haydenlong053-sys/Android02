@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_marginTop="13dp"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="25dp"
+    android:id="@+id/llItem"
+    android:background="@drawable/bg_rect_white_15dp"
+    android:layout_marginHorizontal="23dp"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <TextView
+        android:id="@+id/tvJiedian"
+        android:text="节点-01"
+        android:textSize="15sp"
+        android:textColor="#5456F6"
+        android:textStyle="bold"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvSudu"
+        android:text=""
+        android:textSize="14sp"
+        android:textColor="#54BD5F"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

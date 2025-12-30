@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/qubmingcheng"
+        android:textColor="@color/color_text0"
+        android:textSize="14sp" />
+
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="32dp"
+        app:shapeCornersRadius="23dp"
+        app:shapeSolidColor="@color/color_input_bg">
+
+        <EditText
+            android:id="@+id/edtBeizhu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="60dp"
+            android:background="@null"
+            android:hint="@string/qingshuruqunmning"
+            android:paddingStart="29dp"
+            android:textColor="#A5A5A5"
+            android:textColorHint="#A5A5A5"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivqingchu"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            app:tint="@color/white"
+            android:src="@mipmap/ic_qingchu"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tvPhoneLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="center"
+        android:text="@string/wancheng"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:background="@mipmap/ic_bg_btn2_01"
+        app:shapeCornersRadius="25dp"
+         />
+</LinearLayout>

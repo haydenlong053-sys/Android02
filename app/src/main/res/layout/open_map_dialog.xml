@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        android:visibility="gone"
+
+        android:text="高德地图"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:id="@+id/tv_ali_map"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <ImageView
+        android:visibility="gone"
+
+        android:id="@+id/iv_ali_map_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EBEBEB"/>
+    <TextView
+        android:visibility="gone"
+
+        android:text="百度地图"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:id="@+id/tv_baidu_map"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <ImageView
+        android:id="@+id/iv_baidu_map_line"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EBEBEB"/>
+
+    <TextView
+        android:visibility="gone"
+
+        android:text="腾讯地图"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:id="@+id/tv_tenxun_map"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <ImageView
+        android:id="@+id/iv_tence_map_line"
+        android:visibility="gone"
+
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EBEBEB"/>
+
+    <TextView
+        android:text="取消"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#DA0000"
+        android:id="@+id/tv_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EBEBEB"/>
+</LinearLayout>

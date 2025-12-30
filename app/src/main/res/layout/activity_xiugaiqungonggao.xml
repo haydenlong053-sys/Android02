@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="23dp"
+        app:shapeCornersRadius="10dp"
+        app:shapeSolidColor="@color/color_input_bg">
+
+        <EditText
+            android:id="@+id/edtBeizhu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLength="600"
+            android:background="@null"
+            android:gravity="start"
+            android:hint="@string/qungonggapo"
+            android:padding="15dp"
+            android:textColor="@color/color_text0"
+            android:textColorHint="@color/color_text0"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvNumHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/color_text0"
+            android:textColorHint="@color/color_text0"
+            android:textSize="14sp"
+            android:text="0/600"/>
+
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/rightLayout"
+        android:layout_marginStart="31dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="35dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="31dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvNotAgree"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="7dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/quxiao"
+            android:textColor="@color/color_text_dialog_left"
+            android:textSize="13sp"
+            android:background="@mipmap/ic_bg_btn1_02"
+            app:layout_constraintEnd_toStartOf="@+id/tvAgree"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvContent"
+             />
+
+
+        <TextView
+            android:id="@+id/tvAgree"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_bg_btn2_02"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:text="@string/queding"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvNotAgree"
+            app:layout_constraintTop_toBottomOf="@+id/tvContent"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</LinearLayout>

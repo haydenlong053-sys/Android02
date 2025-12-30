@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="@drawable/ic_red_envelope_webx_back">
+
+    <Space
+        android:id="@+id/space"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_12" />
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="#14ffffff"
+        app:shape_strokeColor="#1fffffff"
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:layout_marginHorizontal="@dimen/dp_15"
+        tools:layout_marginTop="@dimen/dp_24">
+
+        <com.base.commonlibrary.view.RoundedImageView
+            android:id="@+id/ivTouxiang"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_border_color="@color/ps_color_white"
+            app:riv_border_width="@dimen/dp_1"
+            tools:src="@mipmap/ic_logo_login" />
+
+        <TextView
+            android:id="@+id/tvname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="@color/ps_color_white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tvnicheng"
+            app:layout_constraintEnd_toStartOf="@+id/tvprice"
+            app:layout_constraintStart_toEndOf="@+id/ivTouxiang"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="亚历克斯福建省大不大方水电费哈吉斯发送" />
+
+        <TextView
+            android:id="@+id/tvprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvpriceAfter"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="199"
+            tools:textColor="#73DBE2" />
+
+        <TextView
+            android:id="@+id/tvpriceAfter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="枚"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvprice"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:textColor="#73DBE2" />
+
+        <TextView
+            android:id="@+id/tvnicheng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_text_content"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvname"
+            app:layout_constraintTop_toBottomOf="@+id/tvname"
+            tools:text="2024/08/30" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+</LinearLayout>

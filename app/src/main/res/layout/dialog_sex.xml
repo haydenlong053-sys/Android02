@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_sex"
+    android:orientation="vertical">
+    <LinearLayout
+        android:paddingVertical="15dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvNan"
+            android:text="@string/男"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="#A96EDE"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        
+        <View
+            android:layout_width="match_parent"
+            style="@style/Line2"
+        />
+        <TextView
+            android:id="@+id/tvNv"
+            android:text="@string/女"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:background="@mipmap/ic_bg_btn2_01"
+        android:text="@string/完成"
+        android:textColor="#ffffffff"
+        android:textSize="16sp"
+        />
+
+</LinearLayout>

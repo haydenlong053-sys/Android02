@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/popLayout"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="12dp"
+        android:layout_height="7dp"
+        android:layout_marginEnd="25dp"
+        android:rotation="180"
+        android:layout_gravity="end"
+        android:src="@mipmap/ic_sanjiaoxing" />
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:layout_marginTop="-2dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="end"
+        android:layout_width="122dp"
+        android:layout_height="wrap_content"
+        app:shapeCornersRadius="5dp"
+        app:shapeSolidColor="#4C4C4B">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/faqiqun"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:src="@mipmap/ic_faqi_qun"
+                    android:layout_marginStart="13dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"/>
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/faqiqunliao"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                     />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/tianjaipengyou"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:src="@mipmap/ic_tinajia_pengyou"
+                    android:layout_marginStart="13dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"/>
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tianjiapengyou"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/saoyisao"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:src="@mipmap/ic_saoyisao"
+                    android:layout_marginStart="13dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"/>
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/saoyisao"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+</LinearLayout>

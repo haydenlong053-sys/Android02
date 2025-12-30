@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/yellow">
+
+    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+        android:id="@+id/rootView"
+        android:layout_width="318dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="29dp"
+        app:shapeCornersRadius="15dp"
+        app:shapeSolidColor="#FFFFFF">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_confim_top_bg"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/qungonggapo"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@+id/tvAgree"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="本平台只允许年满18周岁的成年人使用，请确认你是否已成年"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+        </androidx.core.widget.NestedScrollView>
+
+
+        <com.base.commonlibrary.shapeview.shape.ShapeTextView
+            android:id="@+id/tvAgree"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="center"
+            android:text="@string/queding"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shapeCornersRadius="22.5dp"
+            app:shapeSolidColor="#5456F6" />
+
+    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+</LinearLayout>

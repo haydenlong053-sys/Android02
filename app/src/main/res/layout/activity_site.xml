@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".lj.SiteActivity">
+    <LinearLayout
+        android:background="#EDEDED"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:id="@+id/viHead"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <FrameLayout
+            android:id="@+id/flTitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <ImageView
+                android:id="@+id/imFinish"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:padding="18dp"
+                android:src="@mipmap/ic_back" />
+            <TextView
+                android:text="@string/所在位置"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#333333"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imSearch"
+                android:src="@mipmap/ic_site_search"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginRight="17dp"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center_vertical" />
+        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/llSite"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:layout_marginHorizontal="8dp"
+                android:background="@drawable/bg_rect_main"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="40dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/ic_region_search" />
+
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:singleLine="true"
+                    android:imeOptions="actionSearch"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:hint="@string/搜索附近位置"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvQuxiao"
+                android:text="@string/取消"
+                android:gravity="center_vertical"
+                android:textColor="#384761"
+                android:paddingHorizontal="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </LinearLayout>
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/smart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>

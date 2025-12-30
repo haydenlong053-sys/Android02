@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/mIvIcon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@mipmap/ic_icon_state_success"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="68dp"
+        />
+    <TextView
+        android:id="@+id/mTvStateName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_or_white"
+        android:textSize="16sp"
+        android:text="@string/mine_pay_ok"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mIvIcon"
+        android:layout_marginTop="19dp"
+        />
+    <TextView
+        android:id="@+id/mTvStateDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_or_white_65"
+        android:textSize="14sp"
+        android:text="@string/mine_3s_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mTvStateName"
+        android:layout_marginTop="8dp"
+        />
+
+    <TextView
+        android:id="@+id/mTvOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_mine_eeeff0_16dp"
+        android:padding="12dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="24dp"
+        android:textColor="@color/color_3B47DDk"
+        android:textSize="16sp"
+        android:text="@string/完成"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="52dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

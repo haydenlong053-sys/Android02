@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_white_16dp"
+        android:layout_marginHorizontal="40dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/mTvDes1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mine_save_des_1"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            />
+
+        <ImageView
+            android:id="@+id/mIvQrCodeAuth"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            tools:src="@mipmap/ic_security_auth"
+            android:layout_marginTop="24dp"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/mTvDes2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mine_save_des_2"
+            android:textColor="@color/black_65"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"/>
+
+        <LinearLayout
+            android:id="@+id/mLlGoogleAuthCopy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:minHeight="44dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_rect_save_10dp"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/mTvCopyDes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="16dp"
+                tools:text="GHFSHSGDJDFYDY"
+                android:gravity="center|start"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_copy"
+                android:layout_marginEnd="13dp"
+                tools:ignore="ContentDescription" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mTvOk"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_rect_blue_line"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/mine_ok"
+            android:gravity="center"
+            android:textColor="@color/color_3B47DDk"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+</FrameLayout>

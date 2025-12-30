@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flSave"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/bg_ewm_mine"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/color_text0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="haha"/>
+
+        <TextView
+            android:id="@+id/tvId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/color_text_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="账户ID：392017319" />
+
+      <ImageView
+          android:id="@+id/ivQrcode"
+          android:layout_width="180dp"
+          android:layout_height="180dp"
+          android:layout_marginTop="20dp"
+          android:layout_marginBottom="30dp"
+          android:scaleType="fitXY"
+          android:layout_gravity="center_horizontal"
+          android:src="@mipmap/ic_mine_erweima"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@mipmap/ic_bg_btn2_01"
+        android:text="@string/点击保存二维码"
+        android:textColor="#ffffffff"
+        android:textSize="16sp"
+        />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        app:riv_oval="true"
+        android:src="@mipmap/ic_head"/>
+
+</FrameLayout>

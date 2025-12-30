@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/black">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/languageGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="languageIv1,languageTv,languageIv2"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/languageIv1"
+        android:layout_width="@dimen/dp_33"
+        android:layout_height="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_17"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_login_select"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/languageTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/dp_4"
+        tools:text="简体中文"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@id/languageIv1"
+        app:layout_constraintEnd_toStartOf="@id/languageIv1"
+        app:layout_constraintTop_toTopOf="@id/languageIv1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/languageIv2"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_8"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_language"
+        app:layout_constraintBottom_toBottomOf="@id/languageIv1"
+        app:layout_constraintEnd_toStartOf="@id/languageTv"
+        app:layout_constraintTop_toTopOf="@id/languageIv1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBlack"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginTop="@dimen/dp_0"
+        android:padding="@dimen/dp_15"
+        android:src="@mipmap/ic_back2"
+        android:tint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/bottomTv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_34"
+        android:text="@string/continuing_means_you_agree"
+        android:textColor="#59ffffff"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/bottomTv2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/bottomTv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_agreement"
+        android:textColor="#A6ffffff"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@id/bottomTv3"
+        app:layout_constraintStart_toEndOf="@id/bottomTv1"
+        app:layout_constraintTop_toTopOf="@id/bottomTv1" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/bottomTv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/and"
+        android:textColor="#59ffffff"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@id/bottomTv5"
+        app:layout_constraintStart_toEndOf="@id/bottomTv2"
+        app:layout_constraintTop_toTopOf="@id/bottomTv1" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/bottomTv5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/privacy_agreement"
+        android:textColor="#A6ffffff"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/bottomTv3"
+        app:layout_constraintTop_toTopOf="@id/bottomTv1" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/loginViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_46"
+        app:layout_constraintBottom_toTopOf="@id/bottomTv1"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

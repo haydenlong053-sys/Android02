@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg_main_space"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/bg_main1"
+        android:layout_width="match_parent"
+        android:layout_height="53dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/ic_zhiding"
+            android:layout_marginStart="23dp"
+            android:text="@string/zhiding"
+            android:textColor="@color/color_text0"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/lockSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
+            android:theme="@style/switchStyle"
+            android:thumb="@drawable/thumb_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:track="@drawable/track_selector" />
+
+        <View
+            android:id="@+id/zhiding"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        style="@style/Line2"
+        android:layout_marginStart="20dp"
+        />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/bg_main1"
+        android:layout_width="match_parent"
+        android:layout_height="53dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/ic_mdr"
+            android:drawablePadding="5dp"
+            android:layout_marginStart="23dp"
+            android:text="@string/miaodarao"
+            android:textColor="@color/color_text0"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/lockSwitch2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
+            android:theme="@style/switchStyle"
+            android:thumb="@drawable/thumb_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:track="@drawable/track_selector" />
+        <View
+            android:id="@+id/miandarao"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        style="@style/Line2"
+        android:layout_marginStart="20dp"
+         />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/bg_main1"
+        android:layout_width="match_parent"
+        android:layout_height="53dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/ic_jrhmd"
+            android:text="@string/jiaruheimingdan"
+            android:textColor="@color/color_text0"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/lockSwitch3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
+            android:theme="@style/switchStyle"
+            android:thumb="@drawable/thumb_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:track="@drawable/track_selector" />
+        <View
+            android:id="@+id/jiaruheimingdan"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        style="@style/Line2"
+        android:layout_marginStart="20dp"
+        />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/bg_main1"
+        android:layout_width="match_parent"
+        android:layout_height="53dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:drawablePadding="5dp"
+            android:text="@string/自动翻译"
+            android:textColor="@color/color_text0"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/lockSwitch4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
+            android:theme="@style/switchStyle"
+            android:thumb="@drawable/thumb_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:track="@drawable/track_selector" />
+        <View
+            android:id="@+id/zidongfanyi"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp" />
+
+
+    <TextView
+        android:id="@+id/tvshanchu"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:visibility="gone"
+        android:text="@string/shanchu"
+        android:textColor="#E14747"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        tools:visibility="visible"
+        android:background="@color/bg_main"/>
+</LinearLayout>

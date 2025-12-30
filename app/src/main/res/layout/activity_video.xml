@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.lxkj.aiim.widge.LiXinStandardGSYVideoPlayer
+        android:id="@+id/videoplayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       />
+    <ImageView
+        android:id="@+id/mIvTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:id="@+id/viHead"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imFinish"
+            android:padding="15dp"
+            android:src="@mipmap/ic_fanhui"
+            android:tint="@color/white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/saveImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:src="@mipmap/ic_save" />
+
+</RelativeLayout>

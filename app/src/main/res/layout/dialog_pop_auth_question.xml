@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mViewTopBg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="544dp"
+    android:background="@drawable/bg_rect_white_only_top_18dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="bottom">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/mIvClose"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/ic_auth_close"
+                tools:ignore="ContentDescription"
+                android:padding="16dp"
+                />
+
+            <TextView
+                android:id="@+id/mTvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="18dp"
+                android:text="@string/mine_security_auth"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                 />
+
+            <ImageView
+                android:id="@+id/mIvGo"
+                android:layout_width="48dp"
+                android:layout_height="54dp"
+                android:src="@mipmap/ic_auth_go"
+                tools:ignore="ContentDescription"
+                android:padding="20dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mTvDes2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/密保问题"
+            android:textColor="@color/black_65"
+            android:textSize="14sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            tools:ignore="MissingConstraints"
+            />
+        <TextView
+            android:id="@+id/mTvSecurityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rect_save_10dp"
+            android:gravity="center|start"
+            android:text="@string/mine_your_name"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="18dp"
+            android:textColor="@color/color_3B47DDk"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+
+
+        <TextView
+            android:id="@+id/mTvDes3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/密保答案"
+            android:textColor="@color/black_65"
+            android:textSize="14sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            tools:ignore="MissingConstraints"
+            />
+        <EditText
+            android:id="@+id/mEtAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rect_save_10dp"
+            android:gravity="center|start"
+            android:hint="@string/mine_input"
+            android:importantForAutofill="no"
+            android:textColorHint="@color/black_35"
+            android:textColor="@color/black"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="18dp"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mTvSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_submit_16dp"
+        android:padding="12dp"
+        android:text="@string/mine_sure"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"
+        android:layout_marginHorizontal="24dp"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        />
+</FrameLayout>

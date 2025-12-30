@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/mTvTransferName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/mine_Transfer_records"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        />
+
+    <TextView
+        android:id="@+id/mTvTransferAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="160dp"
+        android:text="@string/mine_address"
+        android:textSize="10sp"
+        android:textColor="@color/black_45"
+        android:lines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="@id/mTvTransferName"
+        app:layout_constraintTop_toBottomOf="@id/mTvTransferName"
+        android:layout_marginTop="6dp"
+
+        />
+
+    <TextView
+        android:id="@+id/mTvTransferMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="9999"
+        android:textSize="14sp"
+        android:textColor="@color/color_3B47DDk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/mTvTransferTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2025-04-02 22:30:32"
+        android:textSize="10sp"
+        android:textColor="@color/black_45"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mTvTransferAddress"
+        app:layout_constraintBottom_toBottomOf="@id/mTvTransferAddress"
+        android:layout_marginEnd="16dp"
+        />
+
+    <View
+        android:id="@+id/mViewLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black_12"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

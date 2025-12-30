@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:endColor="#000000"
+                android:startColor="#000000" />
+        </shape>
+    </item>
+
+    <!-- 顶部 -->
+    <item>
+        <bitmap
+            android:gravity="fill"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_splash" />
+    </item>
+
+</layer-list>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_zxsb"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_zxsb"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:text="注销失败"
+        android:textColor="@color/color_text0"
+        android:textSize="17sp"
+        />
+
+    <TextView
+        android:id="@+id/tvHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="12dp"
+        android:layout_margin="30dp"
+        android:gravity="center"
+        android:text="钱包余额仍有余额"
+        android:background="@drawable/bg_zjclg"
+        android:textColor="@color/color_text_zjc"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:id="@+id/tvConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:background="@mipmap/ic_bg_btn2_01"
+        android:text="@string/我知道了"
+        android:textColor="#ffffffff"
+        android:textSize="16sp"
+        />
+
+</LinearLayout>
