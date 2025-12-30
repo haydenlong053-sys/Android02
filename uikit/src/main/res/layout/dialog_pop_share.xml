@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rect_white_only_top_18dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="bottom"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:id="@+id/mViewAddGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="35dp"
+        >
+
+        <TextView
+            android:id="@+id/mTvCancel"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rect_mine_3b47dd_10dp"
+            android:text="@string/quxiao"
+            android:gravity="center"
+            android:textColor="#3B47DD"
+            android:textSize="16sp"
+            android:layout_marginEnd="16dp"
+            />
+        <TextView
+            android:id="@+id/mTvSure"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rect_solid_3b47dd_10dp"
+            android:text="@string/fasongshenqing"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

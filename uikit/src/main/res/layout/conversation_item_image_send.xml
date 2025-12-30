@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.base.commonlibrary.view.AppRoundImage xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/imageView"
+    android:layout_width="@dimen/dp_140"
+    android:layout_height="@dimen/dp_140"
+    android:adjustViewBounds="true"
+    android:scaleType="centerCrop"
+    app:app_round_borderRadius="@dimen/dp_10"
+    app:app_round_borderRadius_type="1"
+    tools:src="@color/black" />

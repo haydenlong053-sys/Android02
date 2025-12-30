@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/search_view_bg2"
+        android:gravity="center_vertical"
+        android:paddingVertical="4dp"
+        android:paddingLeft="34dp"
+        android:paddingRight="34dp"
+        android:hint="@string/msg_search_keyword"
+        android:textColorHint="@color/color_text_main2"
+        android:singleLine="true"
+        android:textColor="@color/color_black_or_white"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:src="@mipmap/ic_search_lb"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/search_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|right"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:src="@mipmap/ic_cancel"
+        android:visibility="gone" />
+
+</merge>

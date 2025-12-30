@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toobarlay"
+        layout="@layout/toolbar"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/page_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/page_title_left_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="20dp"
+            android:src="@mipmap/ic_back" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/page_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxWidth="250dp"
+                android:singleLine="true"
+                android:textAlignment="gravity"
+                android:textColor="@color/color_text0"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="用户信息" />
+
+            <LinearLayout
+                android:id="@+id/titleGradeAndTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_2"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/page_title"
+                tools:visibility="visible">
+
+                <com.hjq.shape.view.ShapeTextView
+                    android:id="@+id/titleGrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/dp_4"
+                    android:paddingVertical="1dp"
+                    android:textColor="#3B47DD"
+                    android:textSize="10sp"
+                    app:shape_radius="@dimen/dp_4"
+                    app:shape_solidColor="#1F3B47DD"
+                    tools:text="信誉：89分" />
+
+                <com.hjq.shape.view.ShapeTextView
+                    android:id="@+id/titleTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:paddingHorizontal="@dimen/dp_4"
+                    android:paddingVertical="1dp"
+                    android:textColor="#3B47DD"
+                    android:textSize="10sp"
+                    app:shape_radius="@dimen/dp_4"
+                    app:shape_solidColor="#1F3B47DD"
+                    tools:text="信誉：89分" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/page_title_right_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:padding="20dp"
+            android:src="@mipmap/ic_gengduo" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/containerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F3F5" />
+
+</LinearLayout>
