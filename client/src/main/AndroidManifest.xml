@@ -1,0 +1,25 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
+    <application>
+        <service
+            android:name="cn.wildfirechat.client.ClientService"
+            />
+        <receiver
+            android:name="com.tencent.mars.BaseEvent$ConnectionReceiver"
+             />
+
+        <!--must run in th main process-->
+        <receiver android:name="cn.wildfirechat.remote.RecoverReceiver"
+            android:exported="true"/>
+    </application>
+</manifest>
