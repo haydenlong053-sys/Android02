@@ -1,5 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Theme.Seekweb" parent="Theme.AppCompat.Light.NoActionBar" />
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.VoiceChat" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/teal_200</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <!-- res/values/themes.xml -->
+    <style name="Theme.PictureSelector.Immersive" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 全屏 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 透明状态栏（可选） -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!-- 透明导航栏（关键） -->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!-- 延伸到刘海区域 -->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
 </resources>

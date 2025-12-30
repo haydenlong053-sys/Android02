@@ -2,26 +2,500 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />-->
+    <!--    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
+    <uses-permission
+        android:name="android.permission.WRITE_MEDIA_STORAGE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 检查wifi网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 检查网络状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 允许修改网络状态 -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!--    <uses-feature android:name="android.permission.MANAGE_USERS" />-->
+    <!--    <uses-feature android:name="android.permission.CREATE_USERS" />-->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" /> <!-- 蓝牙分享所需的权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 音视频通话时， 允许普通电话打断音视频通话 -->
+    <!--    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 通过GPS得到精确位置 -->
+    <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> &lt;!&ndash; 通过网络得到粗略位置 &ndash;&gt;-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.CONTROL_VPN"-->
+    <!--        tools:ignore="ProtectedPermissions" />-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+
     <application
+        android:name="com.lxkj.aiim.app.LiXinApp"
         android:allowBackup="true"
+        android:allowNativeHeapPointerTagging="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Seekweb">
+        android:theme="@style/Theme.VoiceChat"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:theme,android:allowBackup,android:networkSecurityConfig,android:icon,android:roundIcon"
+        tools:targetApi="31">
         <activity
-            android:name=".TestMainActivity"
+            android:name="com.lxkj.aiim.lj.VideoPlayOnlyActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.VerifyPayPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AiAntiFraudActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.RestOldPassworActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.activity.GetWebxRedEnvelopesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.lxkj.aiim.lj.MiBaoActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.UserNameActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.PushInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.BlackListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.ChatBgActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.FontSizeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.AddtypeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.CommonSetActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.activity.MessageSoundActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.activity.MeetingCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.EditPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.RestPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.YanzhengActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SetPhoneActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.UserSetActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.IssueActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.MyCollectActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.EmjoyActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.CircleDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.MyCircleActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.EditPayPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.ForgetPayPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SetPayPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.PaySettingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.BillActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.WithdrawRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.WithdrawActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.RechargeRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.RechargeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.QianbaoActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SafeCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.AiCheckResultActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.AiCheckRecordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.GoogleAuthStep1Activity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.GoogleAuthStep2Activity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.IdCardAuthActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SecurityAuthActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SecurityAuthEditActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.TransferActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.TransferListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.TransferDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.PaySuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.NoticeListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.NoticeDetailActivity"
+            android:exported="false" />
+
+
+        <activity
+            android:name="com.lxkj.aiim.lj.QianMingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.ErWeiMaActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.NickNameActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.UserInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.CircelMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.PushActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.CiecelActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.ScanActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.RegionActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.RetrieveActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.OldEquipmentActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.EquipmentActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.NewEquipmentActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name="com.lxkj.aiim.lj.NetWorkActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.LanguageActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.FanYiActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.lj.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.lxkj.aiim.activity.SplashActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            >
+            android:theme="@style/InitTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.lxkj.aiim.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.ZoomPicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.H5Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.HaoYouPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.HaoYouBeizhuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.HaoYouSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.FaHongBaoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.ZhuanzhangActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.HongBaoPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.ZhuanZhangPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.YanZhengActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunUserListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunTouSuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.TouSuLeiXingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunMemberListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunGongGaoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunNichengActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunJinYanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.XuanQunJinYanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunJinYanMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.MinGanCiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.ZhuanRangQunActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunGerenPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunGerenJInyanTimeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunGonggaoInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.FaQunHongBaoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.HaoyouListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.HaoyouApplyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.CreateQunActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.HaoYouAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.SearchUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.LixinSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.QunListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.HyzxActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.SjqlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.HyyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.HyyAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.DsxxActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.DsxxAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.ZhaqActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.lxkj.aiim.lj.PushInfo2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.lj.ZxzhActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.lxkj.aiim.lj.ZhuTiSetActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.lxkj.aiim.lj.PaymentPasswordTestActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".activity.MeetingRoomActivity"
+            android:screenOrientation="portrait"
+            android:supportsPictureInPicture="true"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name="com.lxkj.aiim.activity.CircleAndRemarkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.UserProfileInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.EditProfessionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lxkj.aiim.activity.EditAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.lxkj.aiim.activity.EditInterestActivity" />
+        <!-- 适配华为（huawei）刘海屏 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" /> <!-- 告知 XXPermissions 当前项目已经适配了分区存储特性 -->
+        <meta-data
+            android:name="ScopedStorage"
+            android:value="true" />
+
+
+        <!--        <service-->
+        <!--            android:name="com.car.trojango.AppService"-->
+        <!--            android:process="com.car.service.ProxyService" />-->
+        <service
+            android:name=".service.MeetingFloatService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
     </application>
 
 </manifest>

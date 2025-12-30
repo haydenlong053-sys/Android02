@@ -1,21 +1,61 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
+
+def releaseTime() {
+    return new Date().format("MMdd_HHmm", TimeZone.getTimeZone("GMT+8:00"))
 }
 
 android {
-    namespace 'com.cboda.intelligent'
-    compileSdk {
-        version = release(36)
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 
+    signingConfigs {
+
+        release {
+            storeFile file('googleplay.jks')
+            storePassword '123456'
+            keyAlias 'lxkj'
+            keyPassword '123456'
+            v2SigningEnabled true
+        }
+
+        debug {
+            storeFile file('googleplay.jks')
+            storePassword '123456'
+            keyAlias 'lxkj'
+            keyPassword '123456'
+            v2SigningEnabled true
+        }
+    }
+
+
+
+    namespace 'com.lxkj.aiim'
+//    compileSdk 32
+    compileSdk 36
+    buildToolsVersion "33.0.3"
     defaultConfig {
-        applicationId "com.cboda.intelligent"
-        minSdk 29
+        applicationId "com.lxkj.aiim"
         targetSdk 36
-        versionCode 1
-        versionName "1.0"
+        minSdk 29
+        versionCode 301
+        versionName "3.0.1"
+
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+//            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            abiFilters  'armeabi-v7a', 'arm64-v8a'
+//            abiFilters  'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -24,36 +64,175 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig  signingConfigs.release
+        }
+
+        debug{
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig  signingConfigs.release
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        // 启用核心库去糖
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '1.8'
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.5.4"
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    useLibrary 'org.apache.http.legacy'
     buildFeatures {
-        compose true
+        buildConfig true
+        viewBinding true
+        compose  true
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName ="SeekWeb4_" + "${variant.buildType.name}_" + defaultConfig.versionName + "_" + releaseTime() + ".apk"
+            outputFileName = fileName
+        }
+    }
+
+    // 如果提示 libc++_shared.so 冲突，打开下面的注释
+    packagingOptions {
+
+        exclude 'lib/arm64-v8a/libaosl.so'
+        exclude 'lib/armeabi-v7a/libaosl.so'
+        exclude 'lib/x86/libaosl.so'
+        exclude 'lib/x86_64/libaosl.so'
+
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst "lib/arm64-v8a/libaosl.so"
+        pickFirst "lib/armeabi-v7a/libaosl.so"
+        pickFirst "lib/x86/libaosl.so"
+        pickFirst "lib/x86_64/libaosl.so"
+        exclude 'assets/infowindow_bg.9.png'
+        exclude 'lib/arm64-v8a/librtmp-jni.so'
     }
 }
 
 dependencies {
 
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.lifecycle.runtime.ktx
-    implementation libs.androidx.activity.compose
-    implementation platform(libs.androidx.compose.bom)
-    implementation libs.androidx.ui
-    implementation libs.androidx.ui.graphics
-    implementation libs.androidx.ui.tooling.preview
-    implementation libs.androidx.material3
-//    testImplementation libs.junit
-//    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
-    androidTestImplementation platform(libs.androidx.compose.bom)
-    androidTestImplementation libs.androidx.ui.test.junit4
-    debugImplementation libs.androidx.ui.tooling
-    debugImplementation libs.androidx.ui.test.manifest
-    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.activity:activity:1.8.0'
+    implementation "androidx.fragment:fragment-ktx:1.8.4"
+//    implementation project(':data-local')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+
+    api project(':baselibrary')
+//    api project(':avenginekit')
+//    api project(':badgeview')
+    api project(':client')
+    api project(':emojilibrary')
+//    api project(':imagepicker')
+//    api project(':mars-core-release')
+//    api project(':pttclient')
+    api project(':uikit')
+//    api project(':uvccamera')
+//    api project(':webrtc')
+    api project(':asceneskit')
+
+
+//    implementation "com.facebook.fresco:fresco:2.4.0"
+//    implementation "com.facebook.fresco:animated-base:2.4.0"
+//    implementation "com.facebook.fresco:animated-drawable:2.4.0"
+//    implementation "com.facebook.fresco:animated-gif:2.4.0"
+//    implementation "com.facebook.fresco:animated-webp:2.4.0"
+//    implementation "com.facebook.fresco:webpsupport:2.4.0"
+//    implementation "com.facebook.fresco:imagepipeline-okhttp3:2.4.0"
+
+
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+
+
+//    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.10'
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+
+    implementation 'com.github.getActivity:XXPermissions:20.0'
+
+//    implementation 'io.github.lucksiege:pictureselector:v3.11.2'
+//    implementation 'io.github.lucksiege:compress:v3.11.2'
+//    implementation 'io.github.lucksiege:ucrop:v3.11.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'com.github.xiaohaibin:XBanner:1.9.1'
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    implementation 'com.tencent.sonic:sdk:3.1.0'
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.1.0'
+    implementation 'io.github.scwang90:refresh-header-material:2.1.0'
+    implementation 'io.github.scwang90:refresh-footer-ball:2.1.0'
+//    implementation 'com.zhy.base:fileprovider:1.0.0'
+    implementation 'com.google.zxing:core:3.5.3'
+
+
+    implementation 'com.github.lihangleo2:ShadowLayout:3.4.0'
+    implementation 'com.mylhyl:zxingscanner:2.2.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    //查看大图
+    implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-6.0.1'
+
+    implementation 'com.github.maning0303:MNPasswordEditText:V1.0.4'
+    //仿IOS加载loading
+    implementation 'com.github.gittjy:LoadingDialog:1.0.2'
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    //权限管理
+    implementation 'com.lovedise:permissiongen:0.0.6'
+    //视频播放
+    implementation 'cn.jzvd:jiaozivideoplayer:7.7.0'
+
+    implementation ('com.github.li-xiaojun:XPopup:2.10.0'){
+        exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
+    }
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.3.4-release-jitpack'
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    //侧滑
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.1'
+
+
+    implementation "androidx.activity:activity-compose:1.10.0"
+    implementation "androidx.compose.ui:ui:1.9.4"
+//    implementation "androidx.compose.material3:material3-android:1.4.0"
+    implementation "androidx.compose.material3:material3:1.3.0"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.9.4"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.9.4"
+    implementation("dev.chrisbanes.haze:haze:1.1.1")
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    implementation "androidx.navigation:navigation-compose:2.8.3"
+//    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    debugImplementation 'io.github.didi.dokit:dokitx:3.5.0'
+    releaseImplementation 'io.github.didi.dokit:dokitx-no-op:3.5.0'
+
 }
