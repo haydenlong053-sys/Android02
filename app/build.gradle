@@ -16,24 +16,24 @@ android {
         }
     }
 
-//    signingConfigs {
-//
-//        release {
-//            storeFile file('googleplay.jks')
-//            storePassword '123456'
-//            keyAlias 'lxkj'
-//            keyPassword '123456'
-//            v2SigningEnabled true
-//        }
-//
-//        debug {
-//            storeFile file('googleplay.jks')
-//            storePassword '123456'
-//            keyAlias 'lxkj'
-//            keyPassword '123456'
-//            v2SigningEnabled true
-//        }
-//    }
+    signingConfigs {
+
+        release {
+            storeFile file('googleplay.jks')
+            storePassword '123456'
+            keyAlias 'lxkj'
+            keyPassword '123456'
+            v2SigningEnabled true
+        }
+
+        debug {
+            storeFile file('googleplay.jks')
+            storePassword '123456'
+            keyAlias 'lxkj'
+            keyPassword '123456'
+            v2SigningEnabled true
+        }
+    }
 
 
 
@@ -64,13 +64,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            signingConfig  signingConfigs.release
+            signingConfig  signingConfigs.release
         }
 
         debug{
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            signingConfig  signingConfigs.release
+            signingConfig  signingConfigs.release
         }
     }
     compileOptions {

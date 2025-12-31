@@ -1,22 +1,26 @@
 package com.lxkj.aiim.lj.http;
 
+
+
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
+import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-
+import com.blankj.utilcode.util.GsonUtils;
+import com.cboda.baselibrary.network.ResInterceptor;
 import com.cboda.baselibrary.network.config.NetworkConfig;
-import com.google.gson.Gson;
+import com.cboda.baselibrary.utils.AESUtil;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.lj.bean.BaseBean;
 import com.lxkj.aiim.lj.configuration.AppConsts;
-import com.cboda.baselibrary.utils.AESUtil;
 import com.lxkj.aiim.lj.utils.SharePrefUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,7 +47,6 @@ public class OkHttpHelper {
 
     private static OkHttpHelper mInstance;
     private OkHttpClient mHttpClient;
-    private Gson mGson;
     private Context context;
     private Handler mHandler;
     private Map<String, Map<String, String>> mMap;
@@ -59,12 +62,15 @@ public class OkHttpHelper {
     }
 
     private OkHttpHelper() {
-        mHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
+        OkHttpClient.Builder beforeBuilder = new OkHttpClient.Builder();
+        beforeBuilder.connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(false)
-                .build();
-        mGson = new Gson();
+                .retryOnConnectionFailure(false);
+        if (getIsDebug()) {
+            ResInterceptor loggingInterceptor = new ResInterceptor("AppHttpOkHttp");
+            beforeBuilder.addInterceptor(loggingInterceptor);
+        }
+        mHttpClient = beforeBuilder.build();
         mHandler = new Handler(Looper.getMainLooper());
         mMap = new HashMap<>();
 
@@ -81,7 +87,8 @@ public class OkHttpHelper {
 
     /**
      * get 请求
-     *  @param url
+     *
+     * @param url
      * @param param
      * @param callback
      */
@@ -127,6 +134,7 @@ public class OkHttpHelper {
         Request request = buildFiles(url, fileParams);
         request(request, callback);
     }
+
     /**
      * 除文件外其他参数josn形式传递
      *
@@ -166,6 +174,7 @@ public class OkHttpHelper {
      */
     private void request(final Request request, final BaseCallback callback) {
         callback.onBeforeRequest(request);
+//        mHttpClient
         mHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -178,27 +187,27 @@ public class OkHttpHelper {
                 callback.onResponse(response);
 
                 if (response.isSuccessful()) {
-                    Log.e("http--url", request.url().toString());
+                    eLogD(TAG, "http--url", request.url().toString());
                     String resultStr = response.body().string();
                     String resultStrAes = "";
                     try {
                         resultStrAes = AESUtil.decrypt(resultStr);
                     } catch (Exception e) {
 //                        throw new RuntimeException(e);
-                        Log.e("http--http", "--->Exception "+e);
+                        eLogD(TAG, "http--http", "--->Exception " + e);
                     }
-                    Log.e("http--http---", resultStrAes);
+                    eLogD(TAG, "http--http---", resultStrAes);
 //                    Log.d("zhanglong","callback.mType=="+callback.mType);
                     if (callback.mType == String.class) {
 //                        callbackSuccess(callback, response, resultStr);
                         callbackSuccessVpn(callback, response, resultStrAes);
                     } else {
                         try {
-                            Object obj = mGson.fromJson(resultStrAes, callback.mType);
+                            Object obj = GsonUtils.getGson().fromJson(resultStrAes, callback.mType);
 //                            callbackSuccess(callback, response, obj);
                             callbackSuccessVpn(callback, response, obj);
                         } catch (com.google.gson.JsonParseException e) { // Json解析的错误
-                            e.printStackTrace();
+                            toLog(e, TAG);
                             callbackError(callback, response, e);
                         }
                     }
@@ -217,19 +226,19 @@ public class OkHttpHelper {
      * @param params
      * @return
      */
-    private Request buildRequest(String url, HttpMethodType methodType, Map<String, Object> params){
-        Log.e(TAG, "buildRequest: "+url);
+    private Request buildRequest(String url, HttpMethodType methodType, Map<String, Object> params) {
+        eLogD(TAG, "buildRequest: " + url);
         Request.Builder builder = new Request.Builder()
-                .addHeader("apptoken", SharePrefUtil.getString(context, AppConsts.APPTOKEN,""))
+                .addHeader("apptoken", SharePrefUtil.getString(context, AppConsts.APPTOKEN, ""))
                 .url(url);
-        String json = new Gson().toJson(params);
-        Log.e("http--json", json);
+        String json = GsonUtils.getGson().toJson(params);
+        eLogD(TAG, "http--json", json);
         if (methodType == HttpMethodType.POST) {
             Map<String, Object> paramsAes = new HashMap<>();
             try {
-                paramsAes.put("encrData", AESUtil.encrypt(mGson.toJson(params)));
+                paramsAes.put("encrData", AESUtil.encrypt(GsonUtils.getGson().toJson(params)));
             } catch (Exception e) {
-                e.printStackTrace();
+                toLog(e, TAG);
             }
             RequestBody body = builderFormData(paramsAes);
             builder.post(body);
@@ -240,9 +249,9 @@ public class OkHttpHelper {
     }
 
     private Request buildFiles(String url, Map<String, List<File>> fileParams) {
-        Log.e(TAG, "buildFiles: "+url);
+        eLogD(TAG, "buildFiles: " + url);
         Request.Builder builder = new Request.Builder()
-                .addHeader("apptoken", SharePrefUtil.getString(context, AppConsts.APPTOKEN,""))
+                .addHeader("apptoken", SharePrefUtil.getString(context, AppConsts.APPTOKEN, ""))
                 .url(url);
         RequestBody body = builderFiles(fileParams);
         builder.post(body);
@@ -273,7 +282,7 @@ public class OkHttpHelper {
      * @return
      */
     private RequestBody builderFormData(Map<String, Object> params) {
-        RequestBody body = FormBody.create(MediaType.parse("application/json"), new Gson().toJson(params));
+        RequestBody body = FormBody.create(MediaType.parse("application/json"), GsonUtils.getGson().toJson(params));
 //        FormBody.Builder builder = new FormBody.Builder();
 //        if (params != null) {
 //            for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -285,6 +294,7 @@ public class OkHttpHelper {
 
     /**
      * 组装表单数据带文件
+     *
      * @param params
      * @return
      */
@@ -373,8 +383,8 @@ public class OkHttpHelper {
             }
         }
         if (params != null) {
-            Log.e("http--json", new Gson().toJson(params));
-            requestBody.addFormDataPart("json", new Gson().toJson(params));
+            eLogD(TAG, GsonUtils.getGson().toJson(params));
+            requestBody.addFormDataPart("json", GsonUtils.getGson().toJson(params));
         }
         return requestBody.build();
     }
@@ -408,14 +418,14 @@ public class OkHttpHelper {
                 try {
                     if (callback.mType == String.class) {
                         callback.onSuccess(response, obj);
-                    } else if (((BaseBean) obj).code.equals("200")&& ((BaseBean) obj).success){
+                    } else if (((BaseBean) obj).code.equals("200") && ((BaseBean) obj).success) {
                         callback.onSuccess(response, obj);
-                    } else if (((BaseBean) obj).code.equals("401")){
+                    } else if (((BaseBean) obj).code.equals("401")) {
                         SharePrefUtil.saveString(context, AppConsts.APPTOKEN, "");
                         NetworkConfig.INSTANCE.updateAppToken(null);
-                        SharePrefUtil.saveString(context, AppConsts.UID,"");
+                        SharePrefUtil.saveString(context, AppConsts.UID, "");
                         ToastUtil.show(((BaseBean) obj).msg);
-                    }else {
+                    } else {
                         ToastUtil.show(((BaseBean) obj).msg);
                         callback.onError(response, 1, new Exception());
                     }
@@ -425,6 +435,7 @@ public class OkHttpHelper {
             }
         });
     }
+
     private void callbackSuccessVpn(final BaseCallback callback, final Response response, final Object obj) {
         mHandler.post(new Runnable() {
             @Override
@@ -435,20 +446,20 @@ public class OkHttpHelper {
                         if (callback.mType == String.class) {
 //                            Log.d("zhanglong","obj=="+obj);
                             callback.onSuccess(response, obj);
-                        } else if (((BaseBean) obj).code.equals("200")&& ((BaseBean) obj).success){
+                        } else if (((BaseBean) obj).code.equals("200") && ((BaseBean) obj).success) {
                             callback.onSuccess(response, obj);
-                        } else if (((BaseBean) obj).code.equals("401") || ((BaseBean) obj).code.equals("201")){
+                        } else if (((BaseBean) obj).code.equals("401") || ((BaseBean) obj).code.equals("201")) {
                             SharePrefUtil.saveString(context, AppConsts.APPTOKEN, "");
-                            SharePrefUtil.saveString(context, AppConsts.UID,"");
+                            SharePrefUtil.saveString(context, AppConsts.UID, "");
                             NetworkConfig.INSTANCE.updateAppToken(null);
                             ToastUtil.show(((BaseBean) obj).msg);
                             AppUtil.Companion.exit(context);
-                        }else {
+                        } else {
                             ToastUtil.show(((BaseBean) obj).msg);
                             BaseBean baseBean = (BaseBean) obj;
-                            if (baseBean.code.equals("200")&&!baseBean.success){
-                                 callback.onError(response,2,new Exception());
-                            }else {
+                            if (baseBean.code.equals("200") && !baseBean.success) {
+                                callback.onError(response, 2, new Exception());
+                            } else {
 
                                 callback.onError(response, 1, new Exception());
                             }
@@ -498,6 +509,7 @@ public class OkHttpHelper {
     }
 
     private Request buildPostRequest(String url, Map<String, Object> params) {
+
         return buildRequest(url, HttpMethodType.POST, params);
     }
 
