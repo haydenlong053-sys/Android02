@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
 import com.lxkj.aiim.R
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 import com.lxkj.aiim.utils.PixelUtils
 import com.lxkj.aiim.widge.LiXInCenterDialog
 

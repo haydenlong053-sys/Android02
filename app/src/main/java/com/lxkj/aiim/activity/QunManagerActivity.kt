@@ -3,11 +3,11 @@ package com.lxkj.aiim.activity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+import com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunGuanLiAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager

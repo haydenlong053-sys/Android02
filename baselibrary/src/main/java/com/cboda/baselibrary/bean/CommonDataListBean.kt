@@ -1,7 +1,7 @@
 package com.cboda.baselibrary.bean
 
 import android.text.TextUtils
-import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean
+import com.xdroid.IndexBar.bean.BaseIndexPinyinBean
 
 class CommonDataListBean:BaseResponse() {
     var dataList: MutableList<CommonBean>? = null

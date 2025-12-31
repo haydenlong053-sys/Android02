@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:layout_width="match_parent"
         app:shapeCornersTopLeftRadius="15dp"
         app:shapeCornersTopRightRadius="15dp"
@@ -87,6 +87,6 @@
 
        </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
 </LinearLayout>

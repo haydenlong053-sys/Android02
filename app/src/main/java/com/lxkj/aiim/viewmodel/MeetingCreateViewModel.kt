@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.wildfirechat.remote.ChatManager
-import com.base.commonlibrary.network.result.onError
-import com.base.commonlibrary.network.result.onFailure
-import com.base.commonlibrary.network.result.onSuccess
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
 import com.lxkj.aiim.model.CreateMeetingRequest
 import com.lxkj.aiim.model.CreateMeetingResponse
 import com.lxkj.aiim.model.MeetingCreateUiState

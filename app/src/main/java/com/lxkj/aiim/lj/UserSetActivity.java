@@ -1,6 +1,6 @@
 package com.lxkj.aiim.lj;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.getIsDebug;
+import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.lxkj.aiim.lj.utils.ViewExpandUtilKt.showGuidePasswordTip;
 import static com.lxkj.aiim.lj.utils.ViewExpandUtilKt.showToastMain;
 
@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commonlibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.utils.HttpsConfig;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.dialog.pop.AuthWayPop;
@@ -28,7 +28,7 @@ import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.utils.AppUtil;
 import com.lxkj.aiim.utils.GlideCatchUtil;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

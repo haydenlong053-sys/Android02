@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import cn.wildfire.chat.kit.databinding.DialogPopShareBinding
-import com.base.commonlibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomPop
 
 
 class SharePop(val context: Context, val view: View) : BaseBottomPop(context) {

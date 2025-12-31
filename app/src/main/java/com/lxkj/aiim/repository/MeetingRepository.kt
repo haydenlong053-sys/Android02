@@ -1,12 +1,12 @@
 package com.lxkj.aiim.repository
 
-import com.base.commonlibrary.network.NetworkUtils
-import com.base.commonlibrary.network.config.NetworkConfig
-import com.base.commonlibrary.network.repository.NetworkRepository
-import com.base.commonlibrary.network.result.NetworkResult
-import com.base.commonlibrary.network.result.onError
-import com.base.commonlibrary.network.result.onFailure
-import com.base.commonlibrary.network.result.onSuccess
+import com.cboda.baselibrary.network.NetworkUtils
+import com.cboda.baselibrary.network.config.NetworkConfig
+import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.network.result.NetworkResult
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
 import com.lxkj.aiim.lj.http.UrlConstants
 import com.lxkj.aiim.model.CreateMeetingRequest
 import com.lxkj.aiim.model.CreateMeetingResponse

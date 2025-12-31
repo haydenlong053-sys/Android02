@@ -2,11 +2,11 @@ package com.lxkj.aiim.repository
 
 import android.util.Log
 import cn.wildfirechat.remote.ChatManager
-import com.base.commonlibrary.network.repository.NetworkRepository
-import com.base.commonlibrary.network.result.NetworkResult
-import com.base.commonlibrary.network.result.onError
-import com.base.commonlibrary.network.result.onFailure
-import com.base.commonlibrary.network.result.onSuccess
+import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.network.result.NetworkResult
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lxkj.aiim.lj.http.UrlConstants

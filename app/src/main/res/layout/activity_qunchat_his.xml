@@ -22,7 +22,7 @@
             android:layout_height="match_parent" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    <com.base.commonlibrary.shapeview.shape.ShapeTextView
+    <com.cboda.baselibrary.shapeview.shape.ShapeTextView
         android:id="@+id/tvPhoneLogin"
         android:layout_width="match_parent"
         android:layout_height="50dp"

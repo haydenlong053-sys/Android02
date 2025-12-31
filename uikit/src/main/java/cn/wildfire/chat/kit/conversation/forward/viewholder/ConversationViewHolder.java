@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit.conversation.forward.viewholder;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.text.TextUtils;
 import android.view.View;
@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.bean.GlobalFriendBean;
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalFriendBean;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.utils.MMKVUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 

@@ -7,8 +7,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
-import com.base.commonlibrary.utils.removeTrailingZeros
-import com.base.commonlibrary.utils.setLeftImg
+import com.cboda.baselibrary.utils.removeTrailingZeros
+import com.cboda.baselibrary.utils.setLeftImg
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.databinding.ActivityCheckResultBinding
@@ -54,7 +54,7 @@ class AiCheckResultActivity : BaseSimple2Activity() {
         mBind = binding as? ActivityCheckResultBinding
         aiBean = intent.getSerializableExtra("ai_data") as? AiCheckResultBean
         id = intent.getIntExtra("id", 0)
-        setRootBgColor(getColor(com.base.commonlibrary.R.color.color_F4F8FD))
+        setRootBgColor(getColor(com.cboda.baselibrary.R.color.color_F4F8FD))
         mBind?.toolbar?.mTvTitle?.text = getString(R.string.ai_check_result)
         mBind?.toolbar?.mViewBack?.setOnClickListener {
             finish()

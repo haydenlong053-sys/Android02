@@ -1,13 +1,13 @@
 package com.lxkj.aiim.net.manager
 
 import android.content.Context
-import com.base.commonlibrary.network.model.NetworkResponse
-import com.base.commonlibrary.network.result.NetworkResult
+import com.cboda.baselibrary.network.model.NetworkResponse
+import com.cboda.baselibrary.network.result.NetworkResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lxkj.aiim.bean.AddMeetingTimeBean
-import com.base.commonlibrary.bean.BaseResponse
-import com.base.commonlibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.CommonResultBean
 import com.lxkj.aiim.bean.CreateRoomBean
 import com.lxkj.aiim.bean.KickListBean
 import com.lxkj.aiim.bean.MeetingData

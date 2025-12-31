@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.base.commonlibrary.utils.click
-import com.base.commonlibrary.utils.setDrawableStartAlpha
-import com.base.commonlibrary.utils.setEdTextChange
-import com.base.commonlibrary.utils.setStrokeColorAndStartAlpha
+import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.setDrawableStartAlpha
+import com.cboda.baselibrary.utils.setEdTextChange
+import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.UpdatePwdFragmentBinding
@@ -27,8 +27,8 @@ class UpdatePwdFragment : BaseFragment<UpdatePwdFragmentBinding, LoginViewModel>
     override fun initView() {
         super.initView()
         binding.loginAccount.setDrawableStartAlpha(start = true)
-        binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = com.base.commonlibrary.R.color.color_080E1E)
-        binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = com.base.commonlibrary.R.color.color_080E1E)
+        binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
+        binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
         binding.loginBtn.isSubmitCanGo(false)
         setAccountData()
     }

@@ -26,7 +26,7 @@ public class InputJhmDialog extends Dialog {
     OnInputListener onInputListener;
 
     public InputJhmDialog(final Context context, final OnInputListener onInputListener) {
-        super(context, com.base.commonlibrary.R.style.Theme_dialog); //dialog的样式
+        super(context, com.cboda.baselibrary.R.style.Theme_dialog); //dialog的样式
         this.context = context;
         this.onInputListener = onInputListener;
         Window window = getWindow();

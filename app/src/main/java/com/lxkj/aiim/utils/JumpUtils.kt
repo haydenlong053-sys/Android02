@@ -3,8 +3,8 @@ package com.lxkj.aiim.utils
 import android.content.Context
 import android.content.Intent
 import cn.wildfire.chat.kit.search.SearchPortalActivity
-import com.base.commonlibrary.utils.eLogD
-import com.base.commonlibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
 import com.lxkj.aiim.MainActivity
 import com.lxkj.aiim.activity.*
 import com.lxkj.aiim.dialog.pop.SaveGroupQrCodePop

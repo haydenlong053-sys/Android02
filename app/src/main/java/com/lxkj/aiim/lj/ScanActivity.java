@@ -20,10 +20,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.base.commonlibrary.BuildConfig;
-import com.base.commonlibrary.event.AppEvent;
-import com.base.commonlibrary.event.AppEventCode;
-import com.base.commonlibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.BuildConfig;
+import com.cboda.baselibrary.event.AppEvent;
+import com.cboda.baselibrary.event.AppEventCode;
+import com.cboda.baselibrary.utils.HttpsConfig;
 import com.google.zxing.Result;
 import com.google.zxing.client.result.ParsedResult;
 import com.hjq.permissions.OnPermissionCallback;

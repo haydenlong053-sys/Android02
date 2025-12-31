@@ -2,7 +2,7 @@ package com.lxkj.aiim.bean
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.base.commonlibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseResponse
 
 /**
  * 简述： <功能描述>

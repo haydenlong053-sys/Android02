@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cn.wildfire.chat.kit.R
-import com.base.commonlibrary.bean.GlobalNoticeBean
+import com.cboda.baselibrary.bean.GlobalNoticeBean
 
 class MyHeaderAdapter(var globalNoticeBean: GlobalNoticeBean?,val clickListener:(globalNoticeBean: GlobalNoticeBean?)-> Unit ={}) : RecyclerView.Adapter<MyHeaderAdapter.VH>() {
     private var nameTextView: TextView? = null

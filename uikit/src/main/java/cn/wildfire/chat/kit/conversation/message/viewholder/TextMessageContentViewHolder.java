@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit.conversation.message.viewholder;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.utils.SharePrefUtil;
+import com.cboda.baselibrary.utils.SharePrefUtil;
 import com.google.gson.Gson;
 import com.lqr.emoji.MoonUtils;
 

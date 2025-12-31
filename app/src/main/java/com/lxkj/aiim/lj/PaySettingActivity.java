@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.base.commonlibrary.bean.CommonResultBean;
+import com.cboda.baselibrary.bean.CommonResultBean;
 import com.lxkj.aiim.lj.bean.ResultBean;
 import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;

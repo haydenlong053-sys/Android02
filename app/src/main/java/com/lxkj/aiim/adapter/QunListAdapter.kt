@@ -4,7 +4,7 @@ import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lxkj.aiim.R
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 
 class QunListAdapter(layoutResId: Int) :
     BaseQuickAdapter<CommonDataListBean.CommonBean, BaseViewHolder>(layoutResId) {

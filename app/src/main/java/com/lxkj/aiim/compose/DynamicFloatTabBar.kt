@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.wildfire.chat.kit.third.utils.UIUtils.density
-import com.base.commonlibrary.utils.eLogD
+import com.cboda.baselibrary.utils.eLogD
 
 @Preview(showBackground = true, backgroundColor = 0xff000000)
 @Composable

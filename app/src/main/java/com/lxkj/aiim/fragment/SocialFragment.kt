@@ -82,9 +82,9 @@ import androidx.constraintlayout.compose.Dimension
 import cn.wildfire.chat.kit.contact.ContactViewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import com.base.commonlibrary.event.AppEvent
-import com.base.commonlibrary.event.AppEventCode
-import com.base.commonlibrary.utils.truncateTextWithEllipsis
+import com.cboda.baselibrary.event.AppEvent
+import com.cboda.baselibrary.event.AppEventCode
+import com.cboda.baselibrary.utils.truncateTextWithEllipsis
 import com.lxkj.aiim.activity.YanZhengActivity
 import com.lxkj.aiim.utils.JumpUtils
 import org.greenrobot.eventbus.EventBus

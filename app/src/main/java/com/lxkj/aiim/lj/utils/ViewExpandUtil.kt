@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.DrawableRes
-import com.base.commonlibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.getAppContext
 import com.bumptech.glide.Glide
 import com.luck.picture.lib.thread.PictureThreadUtils
 import com.lxkj.aiim.R

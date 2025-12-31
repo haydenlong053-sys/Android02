@@ -4,8 +4,7 @@
 
 package cn.wildfire.chat.kit;
 
-import com.base.commonlibrary.BuildConfig;
-import com.base.commonlibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.utils.HttpsConfig;
 
 /**
  * Created by heavyrain lee on 2017/11/24.

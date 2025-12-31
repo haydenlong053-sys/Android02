@@ -5,9 +5,9 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import com.base.commonlibrary.utils.getUuIdCreate
-import com.base.commonlibrary.utils.setEdTextChange
-import com.base.commonlibrary.utils.setStrokeColorAndStartAlpha
+import com.cboda.baselibrary.utils.getUuIdCreate
+import com.cboda.baselibrary.utils.setEdTextChange
+import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.blankj.utilcode.util.EncryptUtils
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.RegisteredFragmentBinding
@@ -24,9 +24,9 @@ class RegisteredFragment : BaseFragment<RegisteredFragmentBinding, LoginViewMode
 
     override fun initView() {
         super.initView()
-        binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = com.base.commonlibrary.R.color.color_080E1E)
-        binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = com.base.commonlibrary.R.color.color_080E1E)
-        binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = com.base.commonlibrary.R.color.color_080E1E)
+        binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
+        binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
+        binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
         binding.loginBtn.isSubmitCanGo(false)
         val uuIdCreate = getUuIdCreate()
         binding.content.text =

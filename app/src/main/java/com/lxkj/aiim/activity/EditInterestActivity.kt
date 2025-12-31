@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
-import com.base.commonlibrary.utils.eLogD
+import com.cboda.baselibrary.utils.eLogD
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.compose.navgraph.ProfileFlowHost

@@ -24,9 +24,9 @@ import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.bean.GlobalFriendListBean;
-import com.base.commonlibrary.common.UrlConstants;
-import com.base.commonlibrary.network.NetworkUtils;
+import com.cboda.baselibrary.bean.GlobalFriendListBean;
+import com.cboda.baselibrary.common.UrlConstants;
+import com.cboda.baselibrary.network.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

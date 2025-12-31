@@ -4,8 +4,8 @@
 
 package cn.wildfire.chat.kit.conversation.message.viewholder;
 
-import static com.base.commonlibrary.utils.GlideUtilsKt.loadDiyImg;
-import static com.base.commonlibrary.utils.GlideUtilsKt.loadDiyImg2;
+import static com.cboda.baselibrary.utils.GlideUtilsKt.loadDiyImg;
+import static com.cboda.baselibrary.utils.GlideUtilsKt.loadDiyImg2;
 import static com.blankj.utilcode.util.SizeUtils.dp2px;
 
 import android.view.View;

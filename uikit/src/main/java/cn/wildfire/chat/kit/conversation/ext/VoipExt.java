@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
-import com.base.commonlibrary.toast.ToastUtils;
+import com.cboda.baselibrary.toast.ToastUtils;
 
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.WfcUIKit;

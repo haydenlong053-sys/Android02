@@ -6,7 +6,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Vibrator
 import android.util.Log
-import com.base.commonlibrary.utils.SharePrefUtil
+import com.cboda.baselibrary.utils.SharePrefUtil
 
 class TiXingUtils {
     companion object {

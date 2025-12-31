@@ -23,7 +23,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
-import com.base.commonlibrary.event.AppEventCode
+import com.cboda.baselibrary.event.AppEventCode
 import com.lxkj.aiim.R
 import com.lxkj.aiim.activity.MeetingRoomActivity
 import com.lxkj.aiim.bean.MeetingData

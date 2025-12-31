@@ -8,7 +8,7 @@ import com.lxkj.aiim.model.SocialContact
 import com.lxkj.aiim.model.SocialUiState
 import com.lxkj.aiim.repository.SocialRepository
 import cn.wildfire.chat.kit.utils.PinyinUtils
-import com.base.commonlibrary.network.result.onSuccess
+import com.cboda.baselibrary.network.result.onSuccess
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

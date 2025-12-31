@@ -23,7 +23,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="6dp" />
-            <com.base.commonlibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
                 app:shapeSolidColor="#FF4F4F"
                 android:id="@+id/tvRedNum"
                 android:visibility="gone"

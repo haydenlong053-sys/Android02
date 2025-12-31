@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+            <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:layout_marginTop="8dp"
@@ -113,10 +113,10 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+            </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
 
-            <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+            <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -168,7 +168,7 @@
                         android:textColor="@color/color_text0"
                         android:textSize="15sp" />
 
-                    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+                    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="85dp"
                         android:layout_marginStart="25dp"
@@ -190,7 +190,7 @@
                             android:textSize="14sp" />
 
 
-                    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+                    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
 
                     <View
@@ -199,7 +199,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+            </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
 
             <TextView

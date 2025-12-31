@@ -11,8 +11,8 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.base.commonlibrary.BuildConfig;
-import com.base.commonlibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.BuildConfig;
+import com.cboda.baselibrary.utils.HttpsConfig;
 import com.lxkj.aiim.yehuo.model.LoginResult;
 import com.lxkj.aiim.yehuo.model.PCSession;
 

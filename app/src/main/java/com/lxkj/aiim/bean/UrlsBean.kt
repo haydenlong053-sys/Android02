@@ -1,6 +1,6 @@
 package com.lxkj.aiim.bean
 
-import com.base.commonlibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseResponse
 
 /**
  * 简述： <功能描述>

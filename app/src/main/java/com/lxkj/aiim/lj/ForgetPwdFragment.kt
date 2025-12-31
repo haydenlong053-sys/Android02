@@ -5,10 +5,10 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.base.commonlibrary.toast.ToastUtils
-import com.base.commonlibrary.utils.click
-import com.base.commonlibrary.utils.setEdTextChange
-import com.base.commonlibrary.utils.setStrokeColorAndStartAlpha
+import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.setEdTextChange
+import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.ForgetPwdFragmentBinding
@@ -23,7 +23,7 @@ class ForgetPwdFragment : BaseFragment<ForgetPwdFragmentBinding, LoginViewModel>
     private var forgetAccount = ""
     override fun initView() {
         super.initView()
-        binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = com.base.commonlibrary.R.color.color_080E1E)
+        binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
         binding.loginBtn.isSubmitCanGo(false)
         setAccountData()
     }

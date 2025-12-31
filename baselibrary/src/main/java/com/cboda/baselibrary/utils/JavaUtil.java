@@ -1,6 +1,6 @@
 package com.cboda.baselibrary.utils;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.toLog;
+import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 
 import android.util.Base64;
 

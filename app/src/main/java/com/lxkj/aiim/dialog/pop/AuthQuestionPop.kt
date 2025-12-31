@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import com.base.commonlibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomPop
 import com.lxkj.aiim.BuildConfig
 import com.lxkj.aiim.R
 import com.lxkj.aiim.databinding.DialogPopAuthQuestionBinding
@@ -63,12 +63,12 @@ class AuthQuestionPop(val context: Context, val jumpSource: Int = SafeJumpEnum.N
             binding.mIvClose.setImageResource(R.mipmap.ic_auth_close2)
             binding.mIvGo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             binding.mTvTitle.setTextColor(ContextCompat.getColor(context,R.color.white))
-            binding.mTvDes2.setTextColor(ContextCompat.getColor(context, com.base.commonlibrary.R.color.color_white_65))
-            binding.mTvDes3.setTextColor(ContextCompat.getColor(context, com.base.commonlibrary.R.color.color_white_65))
+            binding.mTvDes2.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_white_65))
+            binding.mTvDes3.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_white_65))
             binding.mTvSecurityName.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_16dp)
             binding.mEtAnswer.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_16dp)
             binding.mEtAnswer.setTextColor(ContextCompat.getColor(context,R.color.white))
-            binding.mEtAnswer.setHintTextColor(ContextCompat.getColor(context, com.base.commonlibrary.R.color.color_629CF8_35))
+            binding.mEtAnswer.setHintTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_629CF8_35))
 
 
         }

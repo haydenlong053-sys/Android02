@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.wildfire.chat.kit.conversation.ConversationActivity
 import cn.wildfire.chat.kit.conversation.message.model.UiMessage
 import cn.wildfirechat.model.Conversation
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.TouSuLeixingAdapter2
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 import cn.wildfire.chat.kit.bridge.TouSuJiLuEvent
 import com.lxkj.aiim.bean.TouSuLeiXingEvent
 import com.lxkj.aiim.holder.MutliPicSelectHolder

@@ -35,12 +35,12 @@ import android.webkit.MimeTypeMap;
 
 import androidx.annotation.Nullable;
 
-import com.base.commonlibrary.bean.OssFileBean;
-import com.base.commonlibrary.common.UrlConstants;
-import com.base.commonlibrary.network.NetworkUtils;
-import com.base.commonlibrary.utils.ELogUtilKt;
-import com.base.commonlibrary.utils.GsonUtilsKt;
-import com.base.commonlibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.bean.OssFileBean;
+import com.cboda.baselibrary.common.UrlConstants;
+import com.cboda.baselibrary.network.NetworkUtils;
+import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.GsonUtilsKt;
+import com.cboda.baselibrary.utils.HttpsConfig;
 import com.tencent.mars.BaseEvent;
 import com.tencent.mars.Mars;
 import com.tencent.mars.app.AppLogic;

@@ -19,7 +19,7 @@
         >
 
         <!-- WEBX 标签（选中状态） -->
-        <com.base.commonlibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
             android:id="@+id/tvCurrencyWebx"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -36,7 +36,7 @@
             />
 
         <!-- WX 标签（未选中状态） -->
-        <com.base.commonlibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
             android:id="@+id/tvCurrencyWx"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -55,7 +55,7 @@
     </LinearLayout>
 
 
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
@@ -107,7 +107,7 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
    <androidx.appcompat.widget.LinearLayoutCompat
        android:layout_width="match_parent"
@@ -130,7 +130,7 @@
            />
    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:id="@+id/geshulayout"
         android:layout_width="match_parent"
         android:layout_height="46dp"
@@ -179,9 +179,9 @@
             android:textColor="#EB534B"
             android:textSize="16sp"
             />
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:id="@+id/zhuanshulay"
         android:visibility="gone"
         tools:visibility="gone"
@@ -234,7 +234,7 @@
             android:layout_height="40dp"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_next" />
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
     <TextView
         android:id="@+id/quinrenshu"
@@ -260,7 +260,7 @@
         android:textColor="@color/black_65"
         android:textSize="14sp"
         />
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="8dp"
@@ -282,7 +282,7 @@
 
             />
 
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_marginTop="62dp"

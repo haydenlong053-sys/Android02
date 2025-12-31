@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.utils.SharePrefUtil;
+import com.cboda.baselibrary.utils.SharePrefUtil;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.adapter.LanguageAdapter;
@@ -17,7 +17,7 @@ import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.StringUtil;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -3,7 +3,7 @@ package com.lxkj.aiim.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lxkj.aiim.R
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.PixelUtils
 

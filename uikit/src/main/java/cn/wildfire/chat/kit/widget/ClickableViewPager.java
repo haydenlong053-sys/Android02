@@ -12,6 +12,7 @@ import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
 
+
 public class ClickableViewPager extends ViewPager {
 
     private OnClickListener mOnClickListener;

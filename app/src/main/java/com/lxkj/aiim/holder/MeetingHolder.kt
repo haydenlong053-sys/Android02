@@ -4,11 +4,11 @@ import android.content.Context
 import cn.wildfire.chat.kit.bridge.YeHuoEvent
 import cn.wildfire.chat.kit.widget.popup.OpenMeetingDialog
 import cn.wildfirechat.message.MeetingInviteMessageContent
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.activity.MeetingCreateActivity
-import com.base.commonlibrary.bean.BaseResponse
-import com.base.commonlibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.CommonResultBean
 import com.lxkj.aiim.bean.CreateRoomBean
 import com.lxkj.aiim.bean.UniqueRoomBean
 import com.lxkj.aiim.lj.http.UrlConstants

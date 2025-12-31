@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.base.commonlibrary.shapeview.shape.ShapeTextView
+    <com.cboda.baselibrary.shapeview.shape.ShapeTextView
         android:id="@+id/tousuleixing"
         android:layout_width="match_parent"
         android:layout_height="24dp"

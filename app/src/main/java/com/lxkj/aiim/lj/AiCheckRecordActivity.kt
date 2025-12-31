@@ -4,9 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
-import com.base.commonlibrary.utils.Vp2FragmentAdapter
-import com.base.commonlibrary.view.magicindicator.CommonNavigator
-import com.base.commonlibrary.view.magicindicator.bindIndicatorAndViewPager
+import com.cboda.baselibrary.utils.Vp2FragmentAdapter
+import com.cboda.baselibrary.view.magicindicator.CommonNavigator
+import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.databinding.ActivityCheckResultRecordBinding
@@ -39,7 +39,7 @@ class AiCheckRecordActivity : BaseSimple2Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBind = binding as? ActivityCheckResultRecordBinding
-        setRootBgColor(getColor(com.base.commonlibrary.R.color.color_F4F8FD))
+        setRootBgColor(getColor(com.cboda.baselibrary.R.color.color_F4F8FD))
         mBind?.toolbar?.mTvTitle?.text = getString(R.string.ai_check_record)
         mBind?.toolbar?.mViewBack?.setOnClickListener {
             finish()

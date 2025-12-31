@@ -1,12 +1,12 @@
 package com.lxkj.aiim.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.base.commonlibrary.bean.GlobalFriendBean
-import com.base.commonlibrary.network.repository.NetworkRepository
-import com.base.commonlibrary.network.result.onError
-import com.base.commonlibrary.network.result.onFailure
-import com.base.commonlibrary.network.result.onSuccess
-import com.base.commonlibrary.utils.MMKVUtils
+import com.cboda.baselibrary.bean.GlobalFriendBean
+import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.MMKVUtils
 import com.lxkj.aiim.base.BaseViewModel
 import com.lxkj.aiim.livedata.SingleLiveData
 import com.lxkj.aiim.lj.http.UrlConstants

@@ -1,8 +1,8 @@
 package com.lxkj.aiim.utils
 
-import com.base.commonlibrary.bean.BaseResponse
-import com.base.commonlibrary.bean.CommonDataListBean
-import com.base.commonlibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonResultBean
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lxkj.aiim.bean.*

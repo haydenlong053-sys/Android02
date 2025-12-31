@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
-import com.base.commonlibrary.utils.setTextGradientColor
+import com.cboda.baselibrary.utils.setTextGradientColor
 import com.hjq.shape.view.ShapeTextView
 import com.lxkj.aiim.R
 
@@ -45,8 +45,8 @@ class VerticalTextAdapter(private val items: List<String>) :
             currentIndex -> {
                 // 当前项：黑色，不透明
                 holder.textView.setTextGradientColor(
-                    com.base.commonlibrary.R.color.color_94A3B8,
-                    com.base.commonlibrary.R.color.color_94A3B8
+                    com.cboda.baselibrary.R.color.color_94A3B8,
+                    com.cboda.baselibrary.R.color.color_94A3B8
                 )
             }
 
@@ -54,8 +54,8 @@ class VerticalTextAdapter(private val items: List<String>) :
             else -> {
                 // 其他项：更淡
                 holder.textView.setTextGradientColor(
-                    com.base.commonlibrary.R.color.color_94A3B8_50,
-                    com.base.commonlibrary.R.color.transparent
+                    com.cboda.baselibrary.R.color.color_94A3B8_50,
+                    com.cboda.baselibrary.R.color.transparent
                 )
 
             }

@@ -24,7 +24,7 @@ import cn.wildfire.chat.kit.conversation.ConversationViewModel
 import cn.wildfire.chat.kit.utils.YeHuoIMActivityUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
-import com.base.commonlibrary.utils.SpanUtils
+import com.cboda.baselibrary.utils.SpanUtils
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
@@ -32,12 +32,12 @@ import com.hjq.permissions.XXPermissions
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.PengYouQuanAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
-import com.base.commonlibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonResultBean
 import com.lxkj.aiim.holder.CommanConfimHolder
 import com.lxkj.aiim.lj.MyCircleActivity
 import com.lxkj.aiim.utils.AppUtil
-import com.base.commonlibrary.bean.Constant
+import com.cboda.baselibrary.bean.Constant
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.utils.PixelUtils
@@ -46,8 +46,8 @@ import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
-import com.base.commonlibrary.utils.MMKVUtils
-import com.base.commonlibrary.utils.eLogD
+import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.eLogD
 
 
 class HaoYouPageActivity : BaseSimpleActivity() {

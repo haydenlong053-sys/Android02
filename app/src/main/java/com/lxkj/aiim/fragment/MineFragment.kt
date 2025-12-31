@@ -46,8 +46,8 @@ import com.lxkj.aiim.R
 import com.lxkj.aiim.ui.shape.BottomArcShape
 import com.lxkj.aiim.ui.shape.TopArcShape
 import com.lxkj.aiim.ui.shape.TopRoundedBottomArcShape
-import com.base.commonlibrary.event.AppEvent
-import com.base.commonlibrary.event.AppEventCode
+import com.cboda.baselibrary.event.AppEvent
+import com.cboda.baselibrary.event.AppEventCode
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.dialog.pop.AuthPasswordPop
 import com.lxkj.aiim.lj.utils.SharePrefUtil

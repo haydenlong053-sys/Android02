@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit.conversation.ext;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.app.Activity;
 import android.content.Context;

@@ -4,8 +4,8 @@
 
 package cn.wildfire.chat.kit.conversation.ext;
 
-import static com.base.commonlibrary.utils.BugLyUtilKt.bgReport;
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.BugLyUtilKt.bgReport;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.blankj.utilcode.util.SizeUtils.dp2px;
 
 import android.Manifest;
@@ -16,8 +16,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
-import com.base.commonlibrary.popup.PermissionExplainPopup;
-import com.base.commonlibrary.utils.AppPermissionUtils;
+import com.cboda.baselibrary.popup.PermissionExplainPopup;
+import com.cboda.baselibrary.utils.AppPermissionUtils;
 import com.blankj.utilcode.util.BarUtils;
 import com.lqr.imagepicker.ImagePicker;
 import com.lqr.imagepicker.bean.ImageItem;

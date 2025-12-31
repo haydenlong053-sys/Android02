@@ -15,8 +15,8 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.base.commonlibrary.utils.AppPermissionUtils
-import com.base.commonlibrary.utils.NetworkFileSaver
+import com.cboda.baselibrary.utils.AppPermissionUtils
+import com.cboda.baselibrary.utils.NetworkFileSaver
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.compose.MirrorScreen

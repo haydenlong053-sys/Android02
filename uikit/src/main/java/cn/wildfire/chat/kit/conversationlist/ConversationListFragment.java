@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.base.commonlibrary.event.DoubleMessageEvent;
-import com.base.commonlibrary.event.UnreadCountEvent;
+import com.cboda.baselibrary.event.DoubleMessageEvent;
+import com.cboda.baselibrary.event.UnreadCountEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

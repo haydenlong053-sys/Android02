@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.base.commonlibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomPop
 import com.lxkj.aiim.R
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum

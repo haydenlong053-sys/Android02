@@ -6,9 +6,9 @@ package cn.wildfire.chat.kit.utils;
 
 import android.text.TextUtils;
 
-import com.base.commonlibrary.bean.GlobalFriendBean;
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalFriendBean;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import cn.wildfirechat.model.NullUserInfo;
 import cn.wildfirechat.model.UserInfo;

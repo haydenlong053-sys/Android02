@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit.conversation;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,10 +20,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.base.commonlibrary.BuildConfig;
-import com.base.commonlibrary.bean.GlobalFriendBean;
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalFriendBean;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.utils.MMKVUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.Gson;
 import com.lqr.emoji.EmotionEvent;

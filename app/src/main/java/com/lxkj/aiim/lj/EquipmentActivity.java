@@ -14,9 +14,9 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
-import com.base.commonlibrary.event.AppEvent;
-import com.base.commonlibrary.event.AppEventCode;
-import com.base.commonlibrary.network.config.NetworkConfig;
+import com.cboda.baselibrary.event.AppEvent;
+import com.cboda.baselibrary.event.AppEventCode;
+import com.cboda.baselibrary.network.config.NetworkConfig;
 import com.google.gson.Gson;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
@@ -37,7 +37,7 @@ import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.net.manager.UserServerManager;
 import com.lxkj.aiim.utils.AppUtil;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

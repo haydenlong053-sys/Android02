@@ -1,13 +1,13 @@
 package com.cboda.baselibrary.network.repository
 
 import android.util.Log
-import com.cboda.baselibrary.BuildConfig
 import com.cboda.baselibrary.network.NetworkUtils
 import com.cboda.baselibrary.network.result.NetworkResult
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
 import com.blankj.utilcode.util.GsonUtils
+import com.cboda.baselibrary.utils.getIsDebug
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -228,7 +228,7 @@ object NetworkRepository {
                         val json = gson.toJson(list)
                         val type = TypeToken.getParameterized(List::class.java, clazz).getType()
                         val result = gson.fromJson<List<T>>(json, type)
-                        if (BuildConfig.DEBUG) {
+                        if (getIsDebug()) {
                             eLogD("data返回体list:", json)
                         }
                         continuation.resume(
@@ -632,7 +632,7 @@ object NetworkRepository {
             body = body,
             callback = object : NetworkUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
-                    if (BuildConfig.DEBUG) {
+                    if (getIsDebug()) {
                         eLogD("返回体", data.toString())
                     }
                     if (data == null) {
@@ -651,7 +651,7 @@ object NetworkRepository {
                 }
 
                 override fun onFailure(code: Int, message: String, data: Any?) {
-                    if (BuildConfig.DEBUG) {
+                    if (getIsDebug()) {
                         eLogD("请求失败", "code $code message $message")
                         data?.let {
                             eLogD("失败时的数据", it.toString())
@@ -662,7 +662,7 @@ object NetworkRepository {
                 }
 
                 override fun onError(throwable: Throwable) {
-                    if (BuildConfig.DEBUG) {
+                    if (getIsDebug()) {
                         eLogD("请求失败", "onError: ${throwable.message}")
                     }
                     throwable.printStackTrace()
@@ -695,7 +695,7 @@ object NetworkRepository {
                         val json = gson.toJson(list)
                         val type = TypeToken.getParameterized(List::class.java, clazz).getType()
                         val result = gson.fromJson<List<T>>(json, type)
-                        if (BuildConfig.DEBUG) {
+                        if (getIsDebug()) {
                             eLogD("返回体listGson", result.toString())
                         }
                         continuation.resume(

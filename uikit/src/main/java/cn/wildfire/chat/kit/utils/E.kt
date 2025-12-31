@@ -1,10 +1,10 @@
 package cn.wildfire.chat.kit.utils
 
-import com.base.commonlibrary.bean.CommonDataListBean
-import com.base.commonlibrary.common.UrlConstants
-import com.base.commonlibrary.network.NetworkUtils
-import com.base.commonlibrary.network.NetworkUtils.postEncryptedList
-import com.base.commonlibrary.utils.MMKVUtils.Companion.getRealUserId
+import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.common.UrlConstants
+import com.cboda.baselibrary.network.NetworkUtils
+import com.cboda.baselibrary.network.NetworkUtils.postEncryptedList
+import com.cboda.baselibrary.utils.MMKVUtils.Companion.getRealUserId
 import com.blankj.utilcode.util.GsonUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

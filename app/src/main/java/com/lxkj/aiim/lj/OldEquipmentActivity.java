@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 
 public class OldEquipmentActivity extends BaseSimpleActivity implements View.OnClickListener {

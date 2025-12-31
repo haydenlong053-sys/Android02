@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit.search.viewHolder;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.view.View;
 import android.widget.ImageView;

@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit.viewmodel;
 
-import static com.base.commonlibrary.utils.GsonUtilsKt.toJson2;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,10 +16,10 @@ import android.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.base.commonlibrary.bean.CommonDataListBean;
-import com.base.commonlibrary.bean.MsgExtra;
-import com.base.commonlibrary.utils.CompressionUtil;
-import com.base.commonlibrary.utils.SharePrefUtil;
+import com.cboda.baselibrary.bean.CommonDataListBean;
+import com.cboda.baselibrary.bean.MsgExtra;
+import com.cboda.baselibrary.utils.CompressionUtil;
+import com.cboda.baselibrary.utils.SharePrefUtil;
 import com.luck.picture.lib.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;

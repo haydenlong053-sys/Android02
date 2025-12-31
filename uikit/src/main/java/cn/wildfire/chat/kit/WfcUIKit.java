@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit;
 
-import static com.base.commonlibrary.utils.ViewExpandUtilKt.checkAudioPermission;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.checkAudioPermission;
 
 import android.Manifest;
 import android.app.Activity;
@@ -35,7 +35,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 
-import com.base.commonlibrary.toast.ToastUtils;
+import com.cboda.baselibrary.toast.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;

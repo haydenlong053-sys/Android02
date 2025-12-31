@@ -10,12 +10,12 @@ import cc.shinichi.library.ImagePreview
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
-import com.base.commonlibrary.bean.Constant
+import com.cboda.baselibrary.bean.Constant
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonResultBean
-import com.base.commonlibrary.utils.MMKVUtils
-import com.base.commonlibrary.utils.eLogD
+import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.eLogD
 import com.lxkj.aiim.holder.CommanConfimHolder
 import com.lxkj.aiim.utils.*
 import com.lxkj.aiim.viewmodel.CommViewModel

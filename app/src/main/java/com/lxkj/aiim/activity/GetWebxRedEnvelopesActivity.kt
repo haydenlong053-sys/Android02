@@ -5,11 +5,11 @@ import android.text.TextUtils
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isGone
-import com.base.commonlibrary.bean.GlobalInfo
-import com.base.commonlibrary.utils.MMKVUtils
-import com.base.commonlibrary.utils.OnSingleClickListener
-import com.base.commonlibrary.utils.fromJson2
-import com.base.commonlibrary.utils.toJson2
+import com.cboda.baselibrary.bean.GlobalInfo
+import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.OnSingleClickListener
+import com.cboda.baselibrary.utils.fromJson2
+import com.cboda.baselibrary.utils.toJson2
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
 import com.lxkj.aiim.R
@@ -107,7 +107,7 @@ class GetWebxRedEnvelopesActivity : BaseSimple2Activity() {
                     )
                 }
             })
-//            userImg.setImageResource(com.base.commonlibrary.R.mipmap.ic_logo_login)
+//            userImg.setImageResource(com.cboda.baselibrary.R.mipmap.ic_logo_login)
 //            userName.text = "JOY Follow发出的红包"
 //            redTitle.text = "人人皆股东 好运连连"
 //            createTime.text = "转账时间：2024年08月30日 14:34:30"
@@ -128,7 +128,7 @@ class GetWebxRedEnvelopesActivity : BaseSimple2Activity() {
                     }
                     Glide.with(this@GetWebxRedEnvelopesActivity)
                         .load(it1.icon)
-                        .placeholder(com.base.commonlibrary.R.mipmap.ic_logo_login)
+                        .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
                         .into(userImg)
                     moneyNum.text = it1.money
                     if (isGroup) {

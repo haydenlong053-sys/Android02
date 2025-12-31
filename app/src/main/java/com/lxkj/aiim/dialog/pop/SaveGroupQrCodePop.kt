@@ -9,7 +9,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import cn.wildfirechat.remote.ChatManager
-import com.base.commonlibrary.utils.eLogD
+import com.cboda.baselibrary.utils.eLogD
 import com.bumptech.glide.Glide
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission

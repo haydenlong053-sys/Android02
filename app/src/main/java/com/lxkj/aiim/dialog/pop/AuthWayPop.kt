@@ -12,9 +12,9 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import com.base.commonlibrary.popup.BaseBottomPop
-import com.base.commonlibrary.utils.eLogD
-import com.base.commonlibrary.utils.setLeftImgAndTextColor
+import com.cboda.baselibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.setLeftImgAndTextColor
 import com.lxkj.aiim.databinding.DialogPopAuthWayBinding
 import com.lxkj.aiim.lj.GoogleAuthStep1Activity
 import com.lxkj.aiim.lj.SecurityAuthEditActivity

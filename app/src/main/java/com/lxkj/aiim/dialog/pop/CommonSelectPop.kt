@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.base.commonlibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomPop
 import com.lxkj.aiim.adapter.CommonSelectAdapter
 import com.lxkj.aiim.databinding.DialogPopCommonSelectBinding
 import com.lxkj.aiim.lj.bean.CommonSelectBean

@@ -13,13 +13,13 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.appcompat.widget.AppCompatImageView
-import com.base.commonlibrary.utils.getAppColor
-import com.base.commonlibrary.view.magicindicator.buildins.UIUtil
-import com.base.commonlibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
-import com.base.commonlibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
-import com.base.commonlibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import com.base.commonlibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-import com.base.commonlibrary.view.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView
+import com.cboda.baselibrary.utils.getAppColor
+import com.cboda.baselibrary.view.magicindicator.buildins.UIUtil
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView
 
 class ImgIndicatorAdapter : CommonNavigatorAdapter {
     private val mTitles: IntArray?
@@ -44,14 +44,14 @@ class ImgIndicatorAdapter : CommonNavigatorAdapter {
         context: Context,
         titles: IntArray?,
         imgS: IntArray?,
-        @DimenRes fontSize: Int = com.base.commonlibrary.R.dimen.dp_16
+        @DimenRes fontSize: Int = com.cboda.baselibrary.R.dimen.dp_16
     ) {
         mImgS = imgS
         mTitles = titles
-        mSelectedColor = getAppColor(context, com.base.commonlibrary.R.color.color_2563EB)
-        mNormalColor = getAppColor(context, com.base.commonlibrary.R.color.color_94A3B8)
+        mSelectedColor = getAppColor(context, com.cboda.baselibrary.R.color.color_2563EB)
+        mNormalColor = getAppColor(context, com.cboda.baselibrary.R.color.color_94A3B8)
         mIndicatorColor = ArrayList()
-        mIndicatorColor.add(getAppColor(context, com.base.commonlibrary.R.color.transparent))
+        mIndicatorColor.add(getAppColor(context, com.cboda.baselibrary.R.color.transparent))
         textSize = context.resources.getDimensionPixelSize(fontSize)
     }
 

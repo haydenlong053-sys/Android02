@@ -37,7 +37,7 @@ public class UserEwmDialog extends Dialog {
     private Context context;      // 上下文
 
     public UserEwmDialog(final Context context, String qrcode, String icon,String name,String id) {
-        super(context, com.base.commonlibrary.R.style.Theme_dialog); //dialog的样式
+        super(context, com.cboda.baselibrary.R.style.Theme_dialog); //dialog的样式
         this.context = context;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中

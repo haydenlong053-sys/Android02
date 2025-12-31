@@ -41,13 +41,13 @@ class AiRecordListAdapter(
             // 异常状态 - 红色背景
             holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_abnormal)
             holder.setText(R.id.tvStatus, context.getString(R.string.abnormal))
-            holder.setTextColorRes(R.id.tvStatus, com.base.commonlibrary.R.color.color_EE7171)
+            holder.setTextColorRes(R.id.tvStatus, com.cboda.baselibrary.R.color.color_EE7171)
 
         } else {
             // 正常状态 - 绿色背景
             holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_normal)
             holder.setText(R.id.tvStatus, context.getString(R.string.normal))
-            holder.setTextColorRes(R.id.tvStatus, com.base.commonlibrary.R.color.color_3FCA37)
+            holder.setTextColorRes(R.id.tvStatus, com.cboda.baselibrary.R.color.color_3FCA37)
         }
     }
 }

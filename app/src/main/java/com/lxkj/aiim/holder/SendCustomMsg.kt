@@ -13,7 +13,7 @@ import cn.wildfirechat.message.ZhuanZhangMessageContent
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.SendMessageCallback
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.utils.AppUtil
 

@@ -3,7 +3,7 @@ package com.lxkj.aiim.activity
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.viewModels
-import com.base.commonlibrary.view.magicindicator.CommonNavigator
+import com.cboda.baselibrary.view.magicindicator.CommonNavigator
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.databinding.AiAntiFraudActivityBinding
 import com.lxkj.aiim.viewmodel.CommViewModel
@@ -14,7 +14,7 @@ class AiAntiFraudActivity : BaseSimple2Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = (binding as? AiAntiFraudActivityBinding)
-        mIvBgTop.setImageResource(com.base.commonlibrary.R.color.white)
+        mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.white)
         mIvBgTop.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         mIvBgTop.requestLayout() // 或直接调用 setLayoutParams 会自动触发
     }

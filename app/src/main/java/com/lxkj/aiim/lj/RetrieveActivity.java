@@ -27,7 +27,7 @@ import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.TimerUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import java.util.HashMap;
 import java.util.Map;

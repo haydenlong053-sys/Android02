@@ -44,17 +44,17 @@ import cn.wildfirechat.model.ModifyMyInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnReceiveMessageListener
 import cn.wildfirechat.viewmodel.HomeUIViewModel
-import com.base.commonlibrary.event.AppEvent
-import com.base.commonlibrary.event.AppEventCode
-import com.base.commonlibrary.event.DoubleMessageEvent
-import com.base.commonlibrary.event.UnreadCountEvent
-import com.base.commonlibrary.utils.AppPermissionUtils
+import com.cboda.baselibrary.event.AppEvent
+import com.cboda.baselibrary.event.AppEventCode
+import com.cboda.baselibrary.event.DoubleMessageEvent
+import com.cboda.baselibrary.event.UnreadCountEvent
+import com.cboda.baselibrary.utils.AppPermissionUtils
 import com.google.gson.Gson
 import com.lqr.emoji.EmotionEvent
 import com.lxkj.aiim.adapter.FragmentAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonResultBean
-import com.base.commonlibrary.bean.GlobalInfo
+import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.GlobalInfo
 import com.lxkj.aiim.compose.ExpandableBottomBar
 import com.lxkj.aiim.compose.ExpandableBottomBarItem
 import com.lxkj.aiim.fragment.MineFragment
@@ -70,9 +70,9 @@ import com.lxkj.aiim.lj.utils.ToastUtil
 import com.lxkj.aiim.model.NoticeInfoBean
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.AppUtil.Companion.exit
-import com.base.commonlibrary.utils.MMKVUtils
-import com.base.commonlibrary.utils.eLogD
-import com.base.commonlibrary.utils.toJson2
+import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
 import com.lxkj.aiim.fragment.CleverBodyFragment
 import com.lxkj.aiim.fragment.NewMirrorFragment
 import com.lxkj.aiim.viewmodel.CommViewModel
@@ -402,9 +402,6 @@ class MainActivity : BaseSimpleActivity() {
 //        }
 
     }
-
-
-
 
 
     private fun getsitonggonggao() {

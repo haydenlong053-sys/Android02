@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit.conversation.message.viewholder;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.tencent.mars.proto.ProtoLogic.getUserInfo;
 
 import android.content.Context;
@@ -26,9 +26,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.base.commonlibrary.bean.GlobalFriendBean;
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.bean.GlobalSmallGroupBean;
+import com.cboda.baselibrary.bean.GlobalFriendBean;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.bean.GlobalSmallGroupBean;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -425,7 +425,7 @@ public abstract class NormalMessageContentViewHolder extends MessageContentViewH
             //默认头像
             Glide.with(fragment)
                     .load(portraitUrl == null ? "" : portraitUrl)
-                    .placeholder(com.base.commonlibrary.R.mipmap.ic_logo_login)
+                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
                     .into(portraitImageView);
         }
     }

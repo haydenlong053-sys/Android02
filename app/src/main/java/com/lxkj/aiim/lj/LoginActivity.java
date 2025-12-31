@@ -42,7 +42,7 @@ import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;
 import com.lxkj.aiim.utils.GlideLoaderHelper;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 import com.lxkj.aiim.widge.LiXinStandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 

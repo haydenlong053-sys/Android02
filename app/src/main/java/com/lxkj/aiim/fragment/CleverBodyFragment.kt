@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
-import com.base.commonlibrary.utils.Vp2FragmentAdapter
-import com.base.commonlibrary.utils.click
-import com.base.commonlibrary.view.magicindicator.CommonNavigator
-import com.base.commonlibrary.view.magicindicator.bindIndicatorAndViewPager
+import com.cboda.baselibrary.utils.Vp2FragmentAdapter
+import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.view.magicindicator.CommonNavigator
+import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.FragmentCleverBodyBinding

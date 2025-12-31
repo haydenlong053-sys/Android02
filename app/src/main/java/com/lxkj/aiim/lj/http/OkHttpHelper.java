@@ -7,12 +7,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.base.commonlibrary.network.config.NetworkConfig;
+import com.cboda.baselibrary.network.config.NetworkConfig;
 import com.google.gson.Gson;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.lj.bean.BaseBean;
 import com.lxkj.aiim.lj.configuration.AppConsts;
-import com.base.commonlibrary.utils.AESUtil;
+import com.cboda.baselibrary.utils.AESUtil;
 import com.lxkj.aiim.lj.utils.SharePrefUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;

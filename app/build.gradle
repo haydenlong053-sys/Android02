@@ -39,7 +39,7 @@ android {
 
     namespace 'com.lxkj.aiim'
 //    compileSdk 32
-    compileSdk 36
+    compileSdkVersion 36
     buildToolsVersion "33.0.3"
     defaultConfig {
         applicationId "com.lxkj.aiim"
@@ -76,11 +76,8 @@ android {
     compileOptions {
         // 启用核心库去糖
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     composeOptions {
         kotlinCompilerExtensionVersion "1.5.4"
@@ -195,9 +192,7 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.tencent.sonic:sdk:3.1.0'
-    implementation 'io.github.scwang90:refresh-layout-kernel:2.1.0'
-    implementation 'io.github.scwang90:refresh-header-material:2.1.0'
-    implementation 'io.github.scwang90:refresh-footer-ball:2.1.0'
+
 //    implementation 'com.zhy.base:fileprovider:1.0.0'
     implementation 'com.google.zxing:core:3.5.3'
 

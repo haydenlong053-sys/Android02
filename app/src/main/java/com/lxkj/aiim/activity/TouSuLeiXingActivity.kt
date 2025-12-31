@@ -5,11 +5,11 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.TouSuLeixingAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 import com.lxkj.aiim.bean.TouSuLeiXingEvent
 import com.lxkj.aiim.viewmodel.CommViewModel
 import org.greenrobot.eventbus.EventBus

@@ -2,8 +2,8 @@ package com.lxkj.aiim.adapter
 
 import android.text.TextUtils
 import android.widget.ImageView
-import com.base.commonlibrary.base.BaseAdapter
-import com.base.commonlibrary.utils.loadImg
+import com.cboda.baselibrary.base.BaseAdapter
+import com.cboda.baselibrary.utils.loadImg
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.luck.picture.lib.entity.LocalMedia
 import com.lxkj.aiim.R

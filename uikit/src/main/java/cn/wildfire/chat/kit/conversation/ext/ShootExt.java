@@ -14,8 +14,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.base.commonlibrary.popup.PermissionExplainPopup;
-import com.base.commonlibrary.utils.AppPermissionUtils;
+import com.cboda.baselibrary.popup.PermissionExplainPopup;
+import com.cboda.baselibrary.utils.AppPermissionUtils;
 
 import java.io.File;
 

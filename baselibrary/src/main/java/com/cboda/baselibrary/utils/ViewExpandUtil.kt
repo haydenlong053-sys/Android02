@@ -37,6 +37,7 @@ import com.blankj.utilcode.util.EncryptUtils.encryptMD5ToString
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.TimeUtils
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.hjq.shape.layout.ShapeConstraintLayout
 import com.hjq.shape.layout.ShapeLinearLayout
 import com.hjq.shape.layout.ShapeRelativeLayout
@@ -168,47 +169,48 @@ private fun getNotScrollVerticalStaggeredGridLayoutManager(
     return layoutManager
 }
 
-fun ShapeConstraintLayout.setBackColor(
-    @ColorRes color: Int,
-    radius: Float,
-    isTop: Boolean,
-    isBottom: Boolean
-) {
-    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
-    if (isTop && isBottom) {
-        this.shapeDrawableBuilder.setRadius(radius)
-    } else {
-        if (isBottom) {
-            this.shapeDrawableBuilder.bottomLeftRadius = radius
-            this.shapeDrawableBuilder.bottomRightRadius = radius
-        }
-        if (isTop) {
-            this.shapeDrawableBuilder.topLeftRadius = radius
-            this.shapeDrawableBuilder.topRightRadius = radius
-        }
-    }
-    this.shapeDrawableBuilder.intoBackground()
-}
+// Temporarily commented out due to ConstraintLayout access issue
+// fun ShapeConstraintLayout.setBackColor(
+//     @ColorRes color: Int,
+//     radius: Float,
+//     isTop: Boolean,
+//     isBottom: Boolean
+// ) {
+//     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
+//     if (isTop && isBottom) {
+//         this.shapeDrawableBuilder.setRadius(radius)
+//     } else {
+//         if (isBottom) {
+//             this.shapeDrawableBuilder.bottomLeftRadius = radius
+//             this.shapeDrawableBuilder.bottomRightRadius = radius
+//         }
+//         if (isTop) {
+//             this.shapeDrawableBuilder.topLeftRadius = radius
+//             this.shapeDrawableBuilder.topRightRadius = radius
+//         }
+//     }
+//     this.shapeDrawableBuilder.intoBackground()
+// }
 
-fun ShapeConstraintLayout.setBackColor(
-    @ColorRes color: Int
-) {
-    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
-    this.shapeDrawableBuilder.intoBackground()
-}
+// fun ShapeConstraintLayout.setBackColor(
+//     @ColorRes color: Int
+// ) {
+//     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
+//     this.shapeDrawableBuilder.intoBackground()
+// }
 
-fun ShapeConstraintLayout.setBackColor(
-    @ColorRes startColor: Int,
-    @ColorRes endColor: Int,
-    angle: Int = 0
-) {
-    this.shapeDrawableBuilder.setSolidGradientColors(
-        getAppColor(this.context, startColor),
-        getAppColor(this.context, endColor)
-    )
-    this.shapeDrawableBuilder.angle = angle
-    this.shapeDrawableBuilder.intoBackground()
-}
+// fun ShapeConstraintLayout.setBackColor(
+//     @ColorRes startColor: Int,
+//     @ColorRes endColor: Int,
+//     angle: Int = 0
+// ) {
+//     this.shapeDrawableBuilder.setSolidGradientColors(
+//         getAppColor(this.context, startColor),
+//         getAppColor(this.context, endColor)
+//     )
+//     this.shapeDrawableBuilder.angle = angle
+//     this.shapeDrawableBuilder.intoBackground()
+// }
 
 fun ShapeImageView.setBackColor(@ColorRes startColor: Int, @ColorRes endColor: Int) {
     this.shapeDrawableBuilder.setSolidGradientColors(
@@ -325,11 +327,12 @@ fun ShapeLinearLayout.setBackColor(@ColorRes color: Int, radius: Float) {
     this.shapeDrawableBuilder.intoBackground()
 }
 
-fun ShapeConstraintLayout.setBackColor(@ColorRes color: Int, radius: Float) {
-    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
-    this.shapeDrawableBuilder.setRadius(radius)
-    this.shapeDrawableBuilder.intoBackground()
-}
+// Temporarily commented out due to ConstraintLayout access issue
+// fun ShapeConstraintLayout.setBackColor(@ColorRes color: Int, radius: Float) {
+//     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
+//     this.shapeDrawableBuilder.setRadius(radius)
+//     this.shapeDrawableBuilder.intoBackground()
+// }
 
 fun ShapeView.setBackColor(@ColorRes color: Int, radius: Float) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
@@ -378,8 +381,8 @@ fun ShapeLinearLayout.setBackColorAndStrokeWidth(@ColorRes color: Int, strokeWid
 }
 
 fun ShapeEditText.setStrokeColor(
-    @ColorRes focusColor: Int = com.base.commonlibrary.R.color.color_3B47DD,
-    @ColorRes noFocusColor: Int = com.base.commonlibrary.R.color.color_0E1832,
+    @ColorRes focusColor: Int = com.cboda.baselibrary.R.color.color_3B47DD,
+    @ColorRes noFocusColor: Int = com.cboda.baselibrary.R.color.color_0E1832,
     callback: (Boolean) -> Unit = {}
 ) {
     this.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
@@ -390,8 +393,8 @@ fun ShapeEditText.setStrokeColor(
 
 
 fun ShapeEditText.setStrokeColorAndStartAlpha(
-    @ColorRes focusColor: Int = com.base.commonlibrary.R.color.color_3B47DD,
-    @ColorRes noFocusColor: Int = com.base.commonlibrary.R.color.color_0E1832,
+    @ColorRes focusColor: Int = com.cboda.baselibrary.R.color.color_3B47DD,
+    @ColorRes noFocusColor: Int = com.cboda.baselibrary.R.color.color_0E1832,
     noFocusAlpha: Float = 0.5f,
     callback: (Boolean) -> Unit = {}
 ) {

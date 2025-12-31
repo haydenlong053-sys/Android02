@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.bean.GlobalNoticeBean;
-import com.base.commonlibrary.toast.ToastUtils;
+import com.cboda.baselibrary.bean.GlobalNoticeBean;
+import com.cboda.baselibrary.toast.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;

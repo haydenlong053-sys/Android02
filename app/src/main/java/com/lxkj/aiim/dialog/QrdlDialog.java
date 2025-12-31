@@ -36,7 +36,7 @@ public class QrdlDialog extends Dialog {
     private TextView tvConfirm;
 
     public QrdlDialog(final Context context, final OnInputListener onInputListener, String acc) {
-        super(context, com.base.commonlibrary.R.style.Theme_dialog); //dialog的样式
+        super(context, com.cboda.baselibrary.R.style.Theme_dialog); //dialog的样式
         this.context = context;
         this.onInputListener = onInputListener;
         Window window = getWindow();

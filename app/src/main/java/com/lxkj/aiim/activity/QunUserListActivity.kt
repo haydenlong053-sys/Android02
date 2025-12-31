@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
-import com.base.commonlibrary.bean.CommonResultBean.CommonResult
+import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonResultBean.CommonResult
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 

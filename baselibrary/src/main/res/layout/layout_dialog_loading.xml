@@ -11,7 +11,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.base.commonlibrary.widge.IOSLoadingView
+        <com.cboda.baselibrary.widge.IOSLoadingView
             android:layout_width="30dp"
             android:layout_height="30dp"
             />

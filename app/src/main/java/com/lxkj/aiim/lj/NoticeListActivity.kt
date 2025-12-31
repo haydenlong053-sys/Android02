@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
-import com.base.commonlibrary.network.repository.NetworkListResult
+import com.cboda.baselibrary.network.repository.NetworkListResult
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.NoticeListAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity

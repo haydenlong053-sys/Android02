@@ -22,10 +22,10 @@ import cn.wildfire.chat.kit.conversation.message.viewholder.ZhuanZhangMessageCon
 import cn.wildfire.chat.kit.third.location.viewholder.LocationMessageContentViewHolder
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnConnectToServerListener
-import com.base.commonlibrary.app.UtilApplication
-import com.base.commonlibrary.network.config.NetworkConfig
-import com.base.commonlibrary.toast.ToastUtils
-import com.base.commonlibrary.utils.initBuGly
+import com.cboda.baselibrary.app.UtilApplication
+import com.cboda.baselibrary.network.config.NetworkConfig
+import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.utils.initBuGly
 import com.danikula.videocache.HttpProxyCacheServer
 import com.didichuxing.doraemonkit.DoKit
 import com.lxkj.aiim.BuildConfig
@@ -36,14 +36,14 @@ import com.lxkj.aiim.lj.utils.SharePrefUtil
 import com.lxkj.aiim.net.LiXinMyHttpLoggingInterceptor
 import com.lxkj.aiim.service.AppService
 import com.lxkj.aiim.utils.AppUtil
-import com.base.commonlibrary.bean.Constant
-import com.base.commonlibrary.utils.HttpsConfig.setHttpMode
-import com.base.commonlibrary.network.ResInterceptor
+import com.cboda.baselibrary.bean.Constant
+import com.cboda.baselibrary.utils.HttpsConfig.setHttpMode
+import com.cboda.baselibrary.network.ResInterceptor
 import com.lxkj.aiim.utils.DeviceUtils
-import com.base.commonlibrary.utils.MMKVUtils
-import com.base.commonlibrary.utils.clearUserDataLiveData
-import com.base.commonlibrary.utils.eLogD
-import com.base.commonlibrary.utils.getIsDebug
+import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.clearUserDataLiveData
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getIsDebug
 import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
 import com.lxkj.aiim.utils.PixelUtils
@@ -242,8 +242,8 @@ class LiXinApp : UtilApplication(), OnConnectToServerListener {
 
             MessageViewHolderManager.getInstance().registerMessageViewHolder(
                 HongBaoMessageContentViewHolder::class.java,
-                com.base.commonlibrary.R.layout.chat_hongbao_layout,
-                com.base.commonlibrary.R.layout.chat_hongbao_layout
+                com.cboda.baselibrary.R.layout.chat_hongbao_layout,
+                com.cboda.baselibrary.R.layout.chat_hongbao_layout
             )
 
             MessageViewHolderManager.getInstance().registerMessageViewHolder(

@@ -1,6 +1,6 @@
 package com.lxkj.aiim.lj.http
 
-import com.base.commonlibrary.utils.HttpsConfig.appHost
+import com.cboda.baselibrary.utils.HttpsConfig.appHost
 
 
 object UrlConstants {

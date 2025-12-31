@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.base.commonlibrary.utils.getResumeActivity
+import com.cboda.baselibrary.utils.getResumeActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 

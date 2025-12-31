@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.base.commonlibrary.utils.CompressionUtil.imgCompression
+import com.cboda.baselibrary.utils.CompressionUtil.imgCompression
 import com.luck.picture.lib.entity.LocalMedia
 import com.lxkj.aiim.R
 import com.lxkj.aiim.utils.GlideLoaderHelper

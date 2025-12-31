@@ -939,7 +939,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"/>
 
-                        <com.base.commonlibrary.shapeview.shape.ShapeTextView
+                        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
                             android:id="@+id/tvjiangeshi"
                             android:gravity="center"
                             android:text="1"

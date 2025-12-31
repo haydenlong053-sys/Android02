@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import com.base.commonlibrary.utils.OnSingleClickListener
+import com.cboda.baselibrary.utils.OnSingleClickListener
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.NewMirrorFragmentBinding

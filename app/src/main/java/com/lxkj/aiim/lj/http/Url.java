@@ -1,8 +1,8 @@
 package com.lxkj.aiim.lj.http;
 
 
-import com.base.commonlibrary.BuildConfig;
-import com.base.commonlibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.BuildConfig;
+import com.cboda.baselibrary.utils.HttpsConfig;
 
 /**
  * Created by kxn on 2018/5/17 0017.

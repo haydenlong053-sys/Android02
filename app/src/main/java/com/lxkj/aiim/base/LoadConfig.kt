@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.base.commonlibrary.utils.getResumeActivity
+import com.cboda.baselibrary.utils.getResumeActivity
 import com.lxkj.aiim.databinding.LayoutDataViewBinding
 
 class LoadConfig(private var binding: LayoutDataViewBinding? = null) {

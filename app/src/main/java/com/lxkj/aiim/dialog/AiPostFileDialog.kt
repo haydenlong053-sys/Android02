@@ -16,7 +16,7 @@ import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.VerticalTextAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.base.commonlibrary.utils.eLogD
+import com.cboda.baselibrary.utils.eLogD
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.lxkj.aiim.fragment.AiAllFragment.Companion.DOCUMENT_TYPE

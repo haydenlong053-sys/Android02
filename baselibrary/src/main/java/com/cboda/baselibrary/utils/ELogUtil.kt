@@ -211,7 +211,7 @@ private fun getFunctionName(): String? {
             if (className == Thread::class.java.name) {
                 continue
             }
-            if (className == "com.base.commonlibrary.utils.ELogUtilKt" || className == "com.base.commonlibrary.utils.ELogUtilKt" || className == "com.base.commonlibrary.utils.p") {
+            if (className == "com.cboda.baselibrary.utils.ELogUtilKt" || className == "com.cboda.baselibrary.utils.ELogUtilKt" || className == "com.cboda.baselibrary.utils.p") {
                 continue
             }
             return ("[ Thread:" + Thread.currentThread().name + ", at " + st.className + "." + st.methodName

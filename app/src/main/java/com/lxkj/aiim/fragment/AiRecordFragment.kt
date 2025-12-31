@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.base.commonlibrary.network.repository.NetworkListResult
+import com.cboda.baselibrary.network.repository.NetworkListResult
 import com.lxkj.aiim.adapter.AiRecordListAdapter
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.FragmentAiRecordBinding

@@ -10,11 +10,11 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
 import cn.wildfire.chat.kit.conversation.message.model.UiMessage
 import cn.wildfirechat.message.HongBaoMessageContent
-import com.base.commonlibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.MMKVUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseDiaogFragment
-import com.base.commonlibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonResultBean
 import com.lxkj.aiim.bean.HongBaoBiangeng
 import com.lxkj.aiim.holder.SendCustomMsg
 import com.lxkj.aiim.utils.*

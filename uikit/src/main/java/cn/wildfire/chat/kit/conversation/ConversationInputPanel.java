@@ -46,8 +46,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.base.commonlibrary.toast.ToastUtils;
-import com.base.commonlibrary.utils.OnSingleClickListener;
+import com.cboda.baselibrary.toast.ToastUtils;
+import com.cboda.baselibrary.utils.OnSingleClickListener;
 import com.lqr.emoji.EmotionLayout;
 import com.lqr.emoji.IEmotionExtClickListener;
 import com.lqr.emoji.IEmotionSelectedListener;

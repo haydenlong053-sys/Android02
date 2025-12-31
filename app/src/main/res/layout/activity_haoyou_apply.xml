@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 发送好友申请输入框（多行） -->
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:id="@+id/layout_apply_reason"
         android:layout_width="0dp"
         android:layout_height="96dp"
@@ -50,7 +50,7 @@
             android:textColorHint="@color/color_text_content_hint"
             android:textSize="14sp" />
 
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
     <!-- 备注名标题 -->
     <TextView
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_apply_reason" />
 
     <!-- 备注名输入框 -->
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:id="@+id/layout_remark"
         android:layout_width="0dp"
         android:layout_height="52dp"
@@ -93,7 +93,7 @@
             android:textColorHint="@color/color_text_content_hint"
             android:textSize="14sp" />
 
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 
     <!-- 圈子标签标题 -->
     <TextView

@@ -8,23 +8,23 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.base.commonlibrary.shapeview.shape.ShapeTextView
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.shapeview.shape.ShapeTextView
+import com.cboda.baselibrary.toast.ToastUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunMemberAdapter
 import com.lxkj.aiim.adapter.YiXuanQunMemberAdapter
 import com.lxkj.aiim.app.LiXinApp
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 import com.lxkj.aiim.bean.ZhuanShuHongBaoEvent
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
-import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import com.xdroid.IndexBar.widget.IndexBar
 import org.greenrobot.eventbus.EventBus
 import java.lang.StringBuilder
 

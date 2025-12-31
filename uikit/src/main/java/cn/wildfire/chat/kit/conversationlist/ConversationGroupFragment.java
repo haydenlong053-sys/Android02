@@ -4,8 +4,8 @@
 
 package cn.wildfire.chat.kit.conversationlist;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
-import static com.base.commonlibrary.utils.GsonUtilsKt.toJson2;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import java.util.Arrays;
 import java.util.List;

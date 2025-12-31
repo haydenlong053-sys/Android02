@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.base.commonlibrary.toast.ToastUtils
-import com.base.commonlibrary.utils.CompressionUtil.imgCompression
+import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.utils.CompressionUtil.imgCompression
 import com.luck.picture.lib.entity.LocalMedia
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.SelectPicAdapter

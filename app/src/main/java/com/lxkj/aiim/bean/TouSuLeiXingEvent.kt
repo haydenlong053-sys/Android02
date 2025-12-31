@@ -1,5 +1,5 @@
 package com.lxkj.aiim.bean
 
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 
 class TouSuLeiXingEvent(var datalist:List<CommonDataListBean.CommonBean>)

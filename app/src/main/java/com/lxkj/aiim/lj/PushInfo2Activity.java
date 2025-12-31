@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.base.commonlibrary.utils.OnSingleClickListener;
+import com.cboda.baselibrary.utils.OnSingleClickListener;
 import com.blankj.utilcode.util.BarUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;

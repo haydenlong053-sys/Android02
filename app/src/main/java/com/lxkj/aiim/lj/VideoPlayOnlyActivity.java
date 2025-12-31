@@ -16,7 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.base.commonlibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.utils.GlideUtil;

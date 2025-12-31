@@ -16,7 +16,7 @@ import com.lxkj.aiim.lj.bean.DataListBean;
 import com.lxkj.aiim.lj.configuration.AppConsts;
 import com.lxkj.aiim.lj.utils.SharePrefUtil;
 import com.lxkj.aiim.utils.AppUtil;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import java.util.ArrayList;
 import java.util.List;

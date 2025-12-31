@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.lifecycle.ViewModelProvider
 import cn.wildfire.chat.kit.bridge.YeHuoCommonBridge
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.viewmodel.CommViewModel

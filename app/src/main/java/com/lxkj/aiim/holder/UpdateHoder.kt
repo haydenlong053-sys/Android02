@@ -16,12 +16,12 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastUtils
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.lxkj.aiim.R
-import com.base.commonlibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonResultBean
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.widge.LiXInCenterDialog
 import com.lzy.okgo.OkGo

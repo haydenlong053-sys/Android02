@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import com.base.commonlibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomPop
 import com.lxkj.aiim.R
 import com.lxkj.aiim.databinding.DialogPopAuthCodeBinding
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
@@ -52,8 +52,8 @@ class AuthCodePop(val context: Context, val jumpSource: Int = SafeJumpEnum.None.
             binding.mTvDes2.setTextColor(ContextCompat.getColor(context,R.color.white))
             binding.mLlGoogleAuthCopy.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_16dp)
             binding.mEtCode.setTextColor(ContextCompat.getColor(context,R.color.white))
-            binding.mEtCode.setHintTextColor(ContextCompat.getColor(context, com.base.commonlibrary.R.color.color_629CF8_35))
-            binding.mTvCopy.setTextColor(ContextCompat.getColor(context, com.base.commonlibrary.R.color.color_C83FF5))
+            binding.mEtCode.setHintTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_629CF8_35))
+            binding.mTvCopy.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_C83FF5))
 
         }
     }

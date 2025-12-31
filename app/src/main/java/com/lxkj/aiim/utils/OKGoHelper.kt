@@ -1,16 +1,16 @@
 package com.lxkj.aiim.utils
 
 import android.content.Context
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.bean.AddMeetingTimeBean
-import com.base.commonlibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseResponse
 import com.lxkj.aiim.bean.BaseResponse2
-import com.base.commonlibrary.bean.CommonDataListBean
-import com.base.commonlibrary.bean.Constant
-import com.base.commonlibrary.utils.eLogD
-import com.base.commonlibrary.bean.CommonResultBean
-import com.base.commonlibrary.utils.HttpsConfig
+import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.Constant
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.utils.HttpsConfig
 import com.lxkj.aiim.bean.CreateRoomBean
 import com.lxkj.aiim.bean.GroupMeetingBean
 import com.lxkj.aiim.bean.KickListBean
@@ -19,7 +19,7 @@ import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.bean.UniqueRoomBean
 import com.lxkj.aiim.bean.UpdateRoomBean
 import com.lxkj.aiim.utils.AppUtil.Companion.exit
-import com.base.commonlibrary.widge.LoadingDialog
+import com.cboda.baselibrary.widge.LoadingDialog
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response

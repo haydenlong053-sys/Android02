@@ -6,7 +6,7 @@
       <GradleProjectSettings>
         <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="jbr-17" />
+        <option name="gradleJvm" value="jbr-21" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -19,6 +19,8 @@
             <option value="$PROJECT_DIR$/emojilibrary" />
             <option value="$PROJECT_DIR$/imagepicker" />
             <option value="$PROJECT_DIR$/selector-piclib" />
+            <option value="$PROJECT_DIR$/susindexbar" />
+            <option value="$PROJECT_DIR$/swipemenu" />
             <option value="$PROJECT_DIR$/uikit" />
             <option value="$PROJECT_DIR$/videocompressor" />
           </set>

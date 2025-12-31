@@ -10,8 +10,8 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.bean.GlobalFriendBean;
-import com.base.commonlibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.bean.GlobalFriendBean;
+import com.cboda.baselibrary.bean.GlobalInfo;
 import com.bumptech.glide.Glide;
 
 import cn.wildfire.chat.kit.ChatManagerHolder;
@@ -39,7 +39,7 @@ public class SingleConversationViewHolder extends ConversationViewHolder {
         String name = getMyUserDisplayName(userInfo, friendSmailListBean);
         Glide.with(fragment)
                 .load(portrait)
-                .placeholder(com.base.commonlibrary.R.mipmap.ic_logo_login)
+                .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
                 .into(portraitImageView);
         nameTextView.setText(name);
         if (null != friendSmailListBean && null != friendSmailListBean.grade) {

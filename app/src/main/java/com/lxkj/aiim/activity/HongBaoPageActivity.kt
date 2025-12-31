@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.LingQuUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonResultBean
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.PixelUtils
 import com.lxkj.aiim.utils.StringUtils

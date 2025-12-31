@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import com.base.commonlibrary.utils.ChooseFileUtil
-import com.base.commonlibrary.utils.LauncherFragmentHelper
-import com.base.commonlibrary.utils.choosePicture
-import com.base.commonlibrary.utils.chooseVideo
-import com.base.commonlibrary.utils.click
-import com.base.commonlibrary.utils.getNotScrollVerticalGridLayoutManager
-import com.base.commonlibrary.utils.seStrokeColor
-import com.base.commonlibrary.utils.setTxt
+import com.cboda.baselibrary.utils.ChooseFileUtil
+import com.cboda.baselibrary.utils.LauncherFragmentHelper
+import com.cboda.baselibrary.utils.choosePicture
+import com.cboda.baselibrary.utils.chooseVideo
+import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.getNotScrollVerticalGridLayoutManager
+import com.cboda.baselibrary.utils.seStrokeColor
+import com.cboda.baselibrary.utils.setTxt
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.StringUtils
 import com.luck.picture.lib.entity.LocalMedia
@@ -221,8 +221,8 @@ open class AiAllFragment(val mResourceType: String) :
     }
 
     private fun checkRiskType() {
-        binding.view8.seStrokeColor(if (riskType == PROJECT_RISK_TYPE) com.base.commonlibrary.R.color.color_2563EB else com.base.commonlibrary.R.color.white)
-        binding.view5.seStrokeColor(if (riskType == CONTRACT_RISK_TYPE) com.base.commonlibrary.R.color.color_2563EB else com.base.commonlibrary.R.color.white)
+        binding.view8.seStrokeColor(if (riskType == PROJECT_RISK_TYPE) com.cboda.baselibrary.R.color.color_2563EB else com.cboda.baselibrary.R.color.white)
+        binding.view5.seStrokeColor(if (riskType == CONTRACT_RISK_TYPE) com.cboda.baselibrary.R.color.color_2563EB else com.cboda.baselibrary.R.color.white)
         binding.aiProjectIv5.setImageResource(if (riskType == PROJECT_RISK_TYPE) R.mipmap.icon_ai_select_project else R.mipmap.icon_ai_no_select_project)
         binding.aiContractIv.setImageResource(if (riskType == CONTRACT_RISK_TYPE) R.mipmap.icon_ai_select_contract else R.mipmap.icon_ai_no_select_contract)
     }

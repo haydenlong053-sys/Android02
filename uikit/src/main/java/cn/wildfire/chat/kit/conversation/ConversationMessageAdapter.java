@@ -4,8 +4,8 @@
 
 package cn.wildfire.chat.kit.conversation;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.toLog;
-import static com.base.commonlibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -27,8 +27,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.bean.MsgExtra;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.MsgExtra;
+import com.cboda.baselibrary.utils.MMKVUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.google.gson.Gson;
 import com.luck.picture.lib.utils.ToastUtils;

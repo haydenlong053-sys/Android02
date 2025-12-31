@@ -14,7 +14,7 @@ import cn.wildfirechat.remote.GeneralCallback
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.YanZhengAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBean
 import com.lxkj.aiim.lj.utils.ToastUtil
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.JumpUtils

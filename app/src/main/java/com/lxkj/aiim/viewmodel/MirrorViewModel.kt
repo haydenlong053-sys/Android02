@@ -3,11 +3,11 @@ package com.lxkj.aiim.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.base.commonlibrary.network.result.onAnyError
-import com.base.commonlibrary.network.result.onError
-import com.base.commonlibrary.network.result.onFailure
-import com.base.commonlibrary.network.result.onSuccess
-import com.base.commonlibrary.utils.eLogD
+import com.cboda.baselibrary.network.result.onAnyError
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.eLogD
 import com.lxkj.aiim.repository.MirrorRepository
 import com.lxkj.aiim.uistate.MirrorPageUiState
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -9,8 +9,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.base.commonlibrary.toast.ToastUtils
-import com.base.commonlibrary.utils.AmountInputFilter
+import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.utils.AmountInputFilter
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.holder.PayPsHolder

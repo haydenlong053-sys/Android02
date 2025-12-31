@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
-import com.base.commonlibrary.shapeview.shape.ShapeTextView
+import com.cboda.baselibrary.shapeview.shape.ShapeTextView
 import com.lxkj.aiim.R
 
 /**

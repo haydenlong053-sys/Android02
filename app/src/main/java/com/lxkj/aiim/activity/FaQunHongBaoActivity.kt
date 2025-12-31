@@ -10,12 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
-import com.base.commonlibrary.toast.ToastUtils
+import com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+import com.cboda.baselibrary.toast.ToastUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.base.commonlibrary.bean.CommonDataListBean
-import com.base.commonlibrary.utils.AmountInputFilter
+import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.utils.AmountInputFilter
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.bean.ZhuanShuHongBaoEvent
 import com.lxkj.aiim.holder.HongBaoBottomDialogHolder

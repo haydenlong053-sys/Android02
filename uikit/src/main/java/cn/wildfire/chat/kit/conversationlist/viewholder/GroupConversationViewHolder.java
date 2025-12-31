@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.bean.GlobalFriendBean;
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.bean.GlobalSmallGroupBean;
+import com.cboda.baselibrary.bean.GlobalFriendBean;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.bean.GlobalSmallGroupBean;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;

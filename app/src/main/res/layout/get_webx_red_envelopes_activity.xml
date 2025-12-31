@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="@id/backIcon"
         app:layout_constraintTop_toTopOf="@id/backIcon" />
 
-    <com.base.commonlibrary.view.RoundedImageView
+    <com.cboda.baselibrary.view.RoundedImageView
         android:id="@+id/userImg"
         android:layout_width="@dimen/dp_36"
         android:layout_height="@dimen/dp_36"

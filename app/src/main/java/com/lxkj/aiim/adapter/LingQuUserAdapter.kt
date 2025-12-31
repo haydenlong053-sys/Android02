@@ -4,8 +4,8 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lxkj.aiim.R
-import com.base.commonlibrary.bean.CommonResultBean
-import com.base.commonlibrary.utils.MMKVUtils
+import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.utils.MMKVUtils
 import com.bumptech.glide.Glide
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.PixelUtils
@@ -16,7 +16,7 @@ class LingQuUserAdapter(layoutResId: Int) :
         holder.setGone(R.id.space, holder.layoutPosition == 0)
         Glide.with(context)
             .load(item.icon ?: "")
-            .placeholder(com.base.commonlibrary.R.mipmap.ic_logo_login)
+            .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
             .into(holder.getView(R.id.ivTouxiang))
         holder.setText(R.id.tvname, item.name ?: "")
         holder.setText(R.id.tvprice, item.money)

@@ -16,7 +16,7 @@ import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.StringUtil;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import java.util.HashMap;
 import java.util.Map;

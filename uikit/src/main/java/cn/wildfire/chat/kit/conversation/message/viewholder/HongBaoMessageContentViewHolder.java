@@ -1,7 +1,7 @@
 package cn.wildfire.chat.kit.conversation.message.viewholder;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
-import static com.base.commonlibrary.utils.ViewExpandUtilKt.setBackColorAndRadius;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColorAndRadius;
 import static com.blankj.utilcode.util.SizeUtils.dp2px;
 
 import android.view.View;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.base.commonlibrary.utils.OnSingleClickListener;
-import com.base.commonlibrary.view.RoundedImageView;
+import com.cboda.baselibrary.utils.OnSingleClickListener;
+import com.cboda.baselibrary.view.RoundedImageView;
 import com.hjq.shape.view.ShapeTextView;
 
 import org.json.JSONArray;
@@ -42,16 +42,16 @@ public class HongBaoMessageContentViewHolder extends NormalMessageContentViewHol
     }
 
     private void bindViews(View itemView) {
-        statusTv = itemView.findViewById(com.base.commonlibrary.R.id.statusTv);
-        allGroup = itemView.findViewById(com.base.commonlibrary.R.id.allGroup);
-        hongbaoBg = itemView.findViewById(com.base.commonlibrary.R.id.hongbaoBg);
-        tvyilinghongbaodesc = itemView.findViewById(com.base.commonlibrary.R.id.tvyilinghongbaodesc);
-        tvhoongbaotips = itemView.findViewById(com.base.commonlibrary.R.id.tvhoongbaotips);
+        statusTv = itemView.findViewById(com.cboda.baselibrary.R.id.statusTv);
+        allGroup = itemView.findViewById(com.cboda.baselibrary.R.id.allGroup);
+        hongbaoBg = itemView.findViewById(com.cboda.baselibrary.R.id.hongbaoBg);
+        tvyilinghongbaodesc = itemView.findViewById(com.cboda.baselibrary.R.id.tvyilinghongbaodesc);
+        tvhoongbaotips = itemView.findViewById(com.cboda.baselibrary.R.id.tvhoongbaotips);
     }
 
     private void bindEvents(View itemView) {
 
-        itemView.findViewById(com.base.commonlibrary.R.id.allView).setOnClickListener(new OnSingleClickListener() {
+        itemView.findViewById(com.cboda.baselibrary.R.id.allView).setOnClickListener(new OnSingleClickListener() {
 
             @Override
             public void onSingleClick(View v) {
@@ -132,7 +132,7 @@ public class HongBaoMessageContentViewHolder extends NormalMessageContentViewHol
                 tvhoongbaotips.setText("已被解锁");
             } else {
                 statusTv.setVisibility(View.VISIBLE);
-                setBackColorAndRadius(statusTv, com.base.commonlibrary.R.color.color_E9A94F, com.base.commonlibrary.R.dimen.dp_0, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_0);
+                setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_E9A94F, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
                 tvhoongbaotips.setText("已解锁");
                 statusTv.setText("已领取");
             }
@@ -141,9 +141,9 @@ public class HongBaoMessageContentViewHolder extends NormalMessageContentViewHol
             statusTv.setVisibility(View.VISIBLE);
             statusTv.setText("已过期");
             if (message.message.direction == MessageDirection.Send) {
-                setBackColorAndRadius(statusTv, com.base.commonlibrary.R.color.color_777777, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_0, com.base.commonlibrary.R.dimen.dp_0, com.base.commonlibrary.R.dimen.dp_0);
+                setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_777777, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0);
             } else {
-                setBackColorAndRadius(statusTv, com.base.commonlibrary.R.color.color_777777, com.base.commonlibrary.R.dimen.dp_0, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_0);
+                setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_777777, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
             }
             tvhoongbaotips.setText("解锁你的数字未来");
         } else {
@@ -158,7 +158,7 @@ public class HongBaoMessageContentViewHolder extends NormalMessageContentViewHol
                 } else {
                     tvhoongbaotips.setText("已解锁");
                     statusTv.setVisibility(View.VISIBLE);
-                    setBackColorAndRadius(statusTv, com.base.commonlibrary.R.color.color_E9A94F, com.base.commonlibrary.R.dimen.dp_0, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_0);
+                    setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_E9A94F, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
                     statusTv.setText("已领取");
                 }
 //                }
@@ -171,7 +171,7 @@ public class HongBaoMessageContentViewHolder extends NormalMessageContentViewHol
                 } else {
                     tvhoongbaotips.setText("已拒绝");
                     statusTv.setVisibility(View.VISIBLE);
-                    setBackColorAndRadius(statusTv, com.base.commonlibrary.R.color.color_44A7C8, com.base.commonlibrary.R.dimen.dp_0, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_12, com.base.commonlibrary.R.dimen.dp_0);
+                    setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_44A7C8, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
                     statusTv.setText("已拒绝");
                 }
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:background="@color/yellow">
 
-    <com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
         android:id="@+id/rootView"
         android:layout_width="318dp"
         android:layout_height="250dp"
@@ -60,7 +60,7 @@
         </androidx.core.widget.NestedScrollView>
 
 
-        <com.base.commonlibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
             android:id="@+id/tvAgree"
             android:layout_width="160dp"
             android:layout_height="45dp"
@@ -78,5 +78,5 @@
             app:shapeCornersRadius="22.5dp"
             app:shapeSolidColor="#5456F6" />
 
-    </com.base.commonlibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
 </LinearLayout>

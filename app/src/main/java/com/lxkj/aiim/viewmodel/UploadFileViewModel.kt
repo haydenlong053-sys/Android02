@@ -2,13 +2,13 @@ package com.lxkj.aiim.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.base.commonlibrary.BuildConfig
+import com.cboda.baselibrary.BuildConfig
 import com.lxkj.aiim.bean.UrlBean
 import com.lxkj.aiim.bean.UrlsBean
 import com.lxkj.aiim.utils.AES
 import com.lxkj.aiim.utils.AppUtil
-import com.base.commonlibrary.bean.Constant
-import com.base.commonlibrary.utils.HttpsConfig
+import com.cboda.baselibrary.bean.Constant
+import com.cboda.baselibrary.utils.HttpsConfig
 import com.lxkj.aiim.utils.JsonUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback

@@ -4,8 +4,8 @@
 
 package cn.wildfire.chat.kit.conversation;
 
-import static com.base.commonlibrary.utils.ELogUtilKt.eLogD;
-import static com.base.commonlibrary.utils.GsonUtilsKt.toJson2;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,11 +40,11 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.base.commonlibrary.bean.GlobalFriendBean;
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.event.FanYiEvent;
-import com.base.commonlibrary.utils.ELogUtilKt;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalFriendBean;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.event.FanYiEvent;
+import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.MMKVUtils;
 import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;

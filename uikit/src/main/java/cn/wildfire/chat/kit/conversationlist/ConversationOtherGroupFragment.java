@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.base.commonlibrary.bean.GlobalInfo;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import java.util.Arrays;
 import java.util.List;

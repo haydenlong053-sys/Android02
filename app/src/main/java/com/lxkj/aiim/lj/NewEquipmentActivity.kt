@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
-import com.base.commonlibrary.event.AppEvent
-import com.base.commonlibrary.event.AppEventCode
-import com.base.commonlibrary.network.config.NetworkConfig.updateAppToken
-import com.base.commonlibrary.utils.MMKVUtils
-import com.base.commonlibrary.utils.OnSingleClickListener
-import com.base.commonlibrary.utils.Vp2FragmentAdapter
+import com.cboda.baselibrary.event.AppEvent
+import com.cboda.baselibrary.event.AppEventCode
+import com.cboda.baselibrary.network.config.NetworkConfig.updateAppToken
+import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.OnSingleClickListener
+import com.cboda.baselibrary.utils.Vp2FragmentAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.databinding.ActivityNewEquipmentBinding
 import com.lxkj.aiim.dialog.pop.AuthWayPop
@@ -45,7 +45,7 @@ class NewEquipmentActivity : BaseSimple2Activity() {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         mBinding = (binding as? ActivityNewEquipmentBinding)
-        mIvBgTop.setImageResource(com.base.commonlibrary.R.color.color_111B40)
+        mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.color_111B40)
         mIvBgTop.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         mIvBgTop.requestLayout() // 或直接调用 setLayoutParams 会自动触发
         setLottiePath("login_back1.json")

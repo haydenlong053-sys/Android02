@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.base.commonlibrary.bean.GlobalNoticeBean;
-import com.base.commonlibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalNoticeBean;
+import com.cboda.baselibrary.utils.MMKVUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
