@@ -14,8 +14,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
-import com.cboda.imgselect.ImagePicker;
-import com.cboda.imgselect.bean.ImageItem;
+//import com.cboda.imgselect.ImagePicker;
+//import com.cboda.imgselect.bean.ImageItem;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -151,50 +151,50 @@ public class ImageExt extends ConversationExt {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-
-                ChatManager.Instance().getWorkHandler().post(() -> {
-                    //是否发送原图
-                    boolean compress = data.getBooleanExtra(ImagePicker.EXTRA_COMPRESS, true);
-                    ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                    for (ImageItem imageItem : images) {
-                        boolean isGif = isGifFile(imageItem.path);
-                        if (isGif) {
-                            UIUtils.postTaskSafely(() -> messageViewModel.sendStickerMsg(conversation, imageItem.path, null));
-                            continue;
-                        }
-                        File imageFileThumb;
-                        File imageFileSource = null;
-                        // FIXME: 2018/11/29 压缩, 不是发原图的时候，大图需要进行压缩
-                        if (compress) {
-                            imageFileSource = ImageUtils.compressImage(imageItem.path);
-                        }
-                        imageFileSource = imageFileSource == null ? new File(imageItem.path) : imageFileSource;
-//                    if (isOrig) {
-//                    imageFileSource = new File(imageItem.path);
-                        imageFileThumb = ImageUtils.genThumbImgFile(imageItem.path);
-                        if (imageFileThumb == null) {
-                            Log.e("ImageExt", "gen image thumb fail");
-                            return;
-                        }
-//                    } else {
-//                        //压缩图片
-//                        // TODO  压缩的有问题
-//                        imageFileSource = ImageUtils.genThumbImgFileEx(imageItem.path);
-//                        //imageFileThumb = ImageUtils.genThumbImgFile(imageFileSource.getAbsolutePath());
-//                        imageFileThumb = imageFileSource;
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (data != null) {
+//
+//                ChatManager.Instance().getWorkHandler().post(() -> {
+//                    //是否发送原图
+//                    boolean compress = data.getBooleanExtra(ImagePicker.EXTRA_COMPRESS, true);
+//                    ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+//                    for (ImageItem imageItem : images) {
+//                        boolean isGif = isGifFile(imageItem.path);
+//                        if (isGif) {
+//                            UIUtils.postTaskSafely(() -> messageViewModel.sendStickerMsg(conversation, imageItem.path, null));
+//                            continue;
+//                        }
+//                        File imageFileThumb;
+//                        File imageFileSource = null;
+//                        // FIXME: 2018/11/29 压缩, 不是发原图的时候，大图需要进行压缩
+//                        if (compress) {
+//                            imageFileSource = ImageUtils.compressImage(imageItem.path);
+//                        }
+//                        imageFileSource = imageFileSource == null ? new File(imageItem.path) : imageFileSource;
+////                    if (isOrig) {
+////                    imageFileSource = new File(imageItem.path);
+//                        imageFileThumb = ImageUtils.genThumbImgFile(imageItem.path);
+//                        if (imageFileThumb == null) {
+//                            Log.e("ImageExt", "gen image thumb fail");
+//                            return;
+//                        }
+////                    } else {
+////                        //压缩图片
+////                        // TODO  压缩的有问题
+////                        imageFileSource = ImageUtils.genThumbImgFileEx(imageItem.path);
+////                        //imageFileThumb = ImageUtils.genThumbImgFile(imageFileSource.getAbsolutePath());
+////                        imageFileThumb = imageFileSource;
+////                    }
+////                            messageViewModel.sendImgMsg(conversation, imageFileThumb, imageFileSource);
+//                        File finalImageFileSource = imageFileSource;
+//                        UIUtils.postTaskSafely(() -> messageViewModel.sendImgMsg(conversation, imageFileThumb, finalImageFileSource));
+//
 //                    }
-//                            messageViewModel.sendImgMsg(conversation, imageFileThumb, imageFileSource);
-                        File finalImageFileSource = imageFileSource;
-                        UIUtils.postTaskSafely(() -> messageViewModel.sendImgMsg(conversation, imageFileThumb, finalImageFileSource));
-
-                    }
-
-                });
-
-            }
-        }
+//
+//                });
+//
+//            }
+//        }
     }
 
     @Override
