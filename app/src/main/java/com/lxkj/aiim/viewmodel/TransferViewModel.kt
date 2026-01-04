@@ -29,9 +29,11 @@ import com.lxkj.aiim.model.TwoFactorValidate
 import com.lxkj.aiim.model.TwoStepAuthBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.onFailure
+import kotlin.onSuccess
 
 
- class TransferViewModel: ViewModel() {
+class TransferViewModel: ViewModel() {
 
     /**
      * 获取资产初始信息
@@ -96,50 +98,50 @@ import kotlinx.coroutines.withContext
         return mLiveData
     }
 
-     /**
-      * 获取费率
-      * type=1:转账(入金wx) 2:提现
-      */
-     suspend fun getRateInfo(amount: String,type: Int=1,address: String) :SingleLiveData<RateInfoBean>{
-         val mLiveData = SingleLiveData<RateInfoBean>()
-         val params = hashMapOf<String, Any?>("amount" to amount)
-         params["type"] = type
-         params["address"] = address
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncrypted2(
-                     UrlConstants.TRANSACTION_RATEINFO,
-                     RateInfoBean::class.java,
-                     params
-                 ).onSuccess { userInfo ->
-                     userInfo?.let {
-                         mLiveData.postValue(it)
-                     }
+    /**
+     * 获取费率
+     * type=1:转账(入金wx) 2:提现
+     */
+    suspend fun getRateInfo(amount: String,type: Int=1,address: String) :SingleLiveData<RateInfoBean>{
+        val mLiveData = SingleLiveData<RateInfoBean>()
+        val params = hashMapOf<String, Any?>("amount" to amount)
+        params["type"] = type
+        params["address"] = address
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncrypted2(
+                    UrlConstants.TRANSACTION_RATEINFO,
+                    RateInfoBean::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    userInfo?.let {
+                        mLiveData.postValue(it)
+                    }
 
-                 }.onFailure { code, message ->
-                     showToastMain(message)
-                 }.onError {
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                }.onError {
 
-                 }
+                }
 
-             } catch (e: Exception) {
+            } catch (e: Exception) {
 
-             }
-         }
-         return mLiveData
-     }
+            }
+        }
+        return mLiveData
+    }
 
 
-     /**
+    /**
      * 转账交易下单
      */
     suspend fun goTransactionAddOrder(receivingAddress: String,amount: String) :SingleLiveData<OrderInfoBean>{
-         getTopBaseSimple2Activity()?.showLoading()
+        getTopBaseSimple2Activity()?.showLoading()
         val mLiveData = SingleLiveData<OrderInfoBean>()
-         val params = hashMapOf<String, Any>()
-         params["receivingAddress"] = receivingAddress
-         params["amount"] = amount
-         withContext(Dispatchers.IO) {
+        val params = hashMapOf<String, Any>()
+        params["receivingAddress"] = receivingAddress
+        params["amount"] = amount
+        withContext(Dispatchers.IO) {
             try {
                 NetworkRepository.postEncrypted2(
                     UrlConstants.TRANSACTION_ADD_ORDER,
@@ -164,217 +166,217 @@ import kotlinx.coroutines.withContext
         return mLiveData
     }
 
-     /**
-      * 提现下单/asset/withdraw/add
-      */
-     suspend fun goWithdrawAddOrder(receivingAddress: String,amount: String) :SingleLiveData<OrderInfoBean>{
-         getTopBaseSimple2Activity()?.showLoading()
-         val mLiveData = SingleLiveData<OrderInfoBean>()
-         val params = hashMapOf<String, Any>()
-         params["receivingAddress"] = receivingAddress
-         params["amount"] = amount
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncrypted2(
-                     UrlConstants.WITHDRAW_ADD_ORDER,
-                     OrderInfoBean::class.java,
-                     params
-                 ).onSuccess { info ->
-                     getTopBaseSimple2Activity()?.dismissLoading()
-                     info?.let {
-                         mLiveData.postValue(it)
-                     }
-                 }.onFailure { code, message ->
-                     getTopBaseSimple2Activity()?.dismissLoading()
-                     showToastMain(message)
-                 }.onError {
-                     getTopBaseSimple2Activity()?.dismissLoading()
-                 }
+    /**
+     * 提现下单/asset/withdraw/add
+     */
+    suspend fun goWithdrawAddOrder(receivingAddress: String,amount: String) :SingleLiveData<OrderInfoBean>{
+        getTopBaseSimple2Activity()?.showLoading()
+        val mLiveData = SingleLiveData<OrderInfoBean>()
+        val params = hashMapOf<String, Any>()
+        params["receivingAddress"] = receivingAddress
+        params["amount"] = amount
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncrypted2(
+                    UrlConstants.WITHDRAW_ADD_ORDER,
+                    OrderInfoBean::class.java,
+                    params
+                ).onSuccess { info ->
+                    getTopBaseSimple2Activity()?.dismissLoading()
+                    info?.let {
+                        mLiveData.postValue(it)
+                    }
+                }.onFailure { code, message ->
+                    getTopBaseSimple2Activity()?.dismissLoading()
+                    showToastMain(message)
+                }.onError {
+                    getTopBaseSimple2Activity()?.dismissLoading()
+                }
 
-             } catch (e: Exception) {
-                 getTopBaseSimple2Activity()?.dismissLoading()
-             }
-         }
-         return mLiveData
-     }
-
-
-     /**
-      * 转账列表
-      */
-     suspend fun getTransferInfoList(pageNo: Int =1) :SingleLiveData<NetworkListResult<OrderInfoBean>>{
-         val safeCenterLiveData = SingleLiveData<NetworkListResult<OrderInfoBean>>()
-         val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonConfig.pageSize)
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncryptedList2<OrderInfoBean>(
-                     UrlConstants.TRANSACTION_PAGE,
-                     OrderInfoBean::class.java,
-                     params
-                 ).onSuccess { bean ->
-                     bean?.let {
-                         safeCenterLiveData.postValue(it)
-                     }
-
-                 }.onFailure { code, message ->
-                     showToastMain(message)
-                 }.onError {
-
-                 }
-
-             } catch (e: Exception) {
-
-             }
-         }
-         return safeCenterLiveData
-     }
-     /**
-      * 提现列表
-      */
-     suspend fun getWithdrawInfoList(pageNo: Int =1) :SingleLiveData<NetworkListResult<OrderInfoBean>>{
-         val safeCenterLiveData = SingleLiveData<NetworkListResult<OrderInfoBean>>()
-         val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonConfig.pageSize)
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncryptedList2<OrderInfoBean>(
-                     UrlConstants.WITHDRAW_PAGE,
-                     OrderInfoBean::class.java,
-                     params
-                 ).onSuccess { bean ->
-                     bean?.let {
-                         safeCenterLiveData.postValue(it)
-                     }
-
-                 }.onFailure { code, message ->
-                     showToastMain(message)
-                 }.onError {
-
-                 }
-
-             } catch (e: Exception) {
-
-             }
-         }
-         return safeCenterLiveData
-     }
+            } catch (e: Exception) {
+                getTopBaseSimple2Activity()?.dismissLoading()
+            }
+        }
+        return mLiveData
+    }
 
 
+    /**
+     * 转账列表
+     */
+    suspend fun getTransferInfoList(pageNo: Int =1) :SingleLiveData<NetworkListResult<OrderInfoBean>>{
+        val safeCenterLiveData = SingleLiveData<NetworkListResult<OrderInfoBean>>()
+        val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonConfig.pageSize)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncryptedList2<OrderInfoBean>(
+                    UrlConstants.TRANSACTION_PAGE,
+                    OrderInfoBean::class.java,
+                    params
+                ).onSuccess { bean ->
+                    bean?.let {
+                        safeCenterLiveData.postValue(it)
+                    }
 
-     /**
-      * 转账详情
-      */
-     suspend fun goTransactionOrderDetail(id: String) :SingleLiveData<OrderInfoBean>{
-         val mLiveData = SingleLiveData<OrderInfoBean>()
-         val params = hashMapOf("id" to id)
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncrypted2(
-                     UrlConstants.TRANSACTION_ORDER_DETAIL,
-                     OrderInfoBean::class.java,
-                     params
-                 ).onSuccess { info ->
-                     info?.let {
-                         mLiveData.postValue(it)
-                     }
-                 }.onFailure { code, message ->
-                     showToastMain(message)
-                 }.onError {
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                }.onError {
 
-                 }
+                }
 
-             } catch (e: Exception) {
+            } catch (e: Exception) {
 
-             }
-         }
-         return mLiveData
-     }
-     /**
-      * 提现详情/asset/withdraw/detail
-      */
-     suspend fun goWithdrawOrderDetail(id: String) :SingleLiveData<OrderInfoBean>{
-         val mLiveData = SingleLiveData<OrderInfoBean>()
-         val params = hashMapOf("id" to id)
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncrypted2(
-                     UrlConstants.WITHDRAW_ORDER_DETAIL,
-                     OrderInfoBean::class.java,
-                     params
-                 ).onSuccess { info ->
-                     info?.let {
-                         mLiveData.postValue(it)
-                     }
-                 }.onFailure { code, message ->
-                     showToastMain(message)
-                 }.onError {
+            }
+        }
+        return safeCenterLiveData
+    }
+    /**
+     * 提现列表
+     */
+    suspend fun getWithdrawInfoList(pageNo: Int =1) :SingleLiveData<NetworkListResult<OrderInfoBean>>{
+        val safeCenterLiveData = SingleLiveData<NetworkListResult<OrderInfoBean>>()
+        val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonConfig.pageSize)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncryptedList2<OrderInfoBean>(
+                    UrlConstants.WITHDRAW_PAGE,
+                    OrderInfoBean::class.java,
+                    params
+                ).onSuccess { bean ->
+                    bean?.let {
+                        safeCenterLiveData.postValue(it)
+                    }
 
-                 }
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                }.onError {
 
-             } catch (e: Exception) {
+                }
 
-             }
-         }
-         return mLiveData
-     }
+            } catch (e: Exception) {
 
-     /**
-      * 安全中心
-      */
-     suspend fun goSecurityCenter() :SingleLiveData<SafeCenterBean>{
-         val safeCenterLiveData = SingleLiveData<SafeCenterBean>()
-         val params = hashMapOf("code" to "")
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncrypted2<SafeCenterBean>(
-                     UrlConstants.SECURITY_CENTER,
-                     SafeCenterBean::class.java,
-                     params
-                 ).onSuccess { userInfo ->
-                     userInfo?.let {
-                         safeCenterLiveData.postValue(it)
-                     }
+            }
+        }
+        return safeCenterLiveData
+    }
 
-                 }.onFailure { code, message ->
-                     showToastMain(message)
-                 }.onError {
 
-                 }
 
-             } catch (e: Exception) {
+    /**
+     * 转账详情
+     */
+    suspend fun goTransactionOrderDetail(id: String) :SingleLiveData<OrderInfoBean>{
+        val mLiveData = SingleLiveData<OrderInfoBean>()
+        val params = hashMapOf("id" to id)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncrypted2(
+                    UrlConstants.TRANSACTION_ORDER_DETAIL,
+                    OrderInfoBean::class.java,
+                    params
+                ).onSuccess { info ->
+                    info?.let {
+                        mLiveData.postValue(it)
+                    }
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                }.onError {
 
-             }
-         }
-         return safeCenterLiveData
-     }
+                }
 
-     /**
-      * 是否第一次交易/api/member//security/first
-      */
-     suspend fun checkSecurityFirst() :SingleLiveData<ResultBooBean>{
-         val mLiveData = SingleLiveData<ResultBooBean>()
-         val params = hashMapOf("code" to "")
-         withContext(Dispatchers.IO) {
-             try {
-                 NetworkRepository.postEncrypted2(
-                     UrlConstants.IS_SECURITY_FIRST,
-                     ResultBooBean::class.java,
-                     params
-                 ).onSuccess { bean ->
-                     bean?.let {
-                         mLiveData.postValue(bean)
-                     }
+            } catch (e: Exception) {
 
-                 }.onFailure { code, message ->
-                     showToastMain(message)
-                 }.onError {
+            }
+        }
+        return mLiveData
+    }
+    /**
+     * 提现详情/asset/withdraw/detail
+     */
+    suspend fun goWithdrawOrderDetail(id: String) :SingleLiveData<OrderInfoBean>{
+        val mLiveData = SingleLiveData<OrderInfoBean>()
+        val params = hashMapOf("id" to id)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncrypted2(
+                    UrlConstants.WITHDRAW_ORDER_DETAIL,
+                    OrderInfoBean::class.java,
+                    params
+                ).onSuccess { info ->
+                    info?.let {
+                        mLiveData.postValue(it)
+                    }
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                }.onError {
 
-                 }
+                }
 
-             } catch (e: Exception) {
+            } catch (e: Exception) {
 
-             }
-         }
-         return mLiveData
-     }
+            }
+        }
+        return mLiveData
+    }
 
- }
+    /**
+     * 安全中心
+     */
+    suspend fun goSecurityCenter() :SingleLiveData<SafeCenterBean>{
+        val safeCenterLiveData = SingleLiveData<SafeCenterBean>()
+        val params = hashMapOf("code" to "")
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncrypted2<SafeCenterBean>(
+                    UrlConstants.SECURITY_CENTER,
+                    SafeCenterBean::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    userInfo?.let {
+                        safeCenterLiveData.postValue(it)
+                    }
+
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                }.onError {
+
+                }
+
+            } catch (e: Exception) {
+
+            }
+        }
+        return safeCenterLiveData
+    }
+
+    /**
+     * 是否第一次交易/api/member//security/first
+     */
+    suspend fun checkSecurityFirst() :SingleLiveData<ResultBooBean>{
+        val mLiveData = SingleLiveData<ResultBooBean>()
+        val params = hashMapOf("code" to "")
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkRepository.postEncrypted2(
+                    UrlConstants.IS_SECURITY_FIRST,
+                    ResultBooBean::class.java,
+                    params
+                ).onSuccess { bean ->
+                    bean?.let {
+                        mLiveData.postValue(bean)
+                    }
+
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                }.onError {
+
+                }
+
+            } catch (e: Exception) {
+
+            }
+        }
+        return mLiveData
+    }
+
+}

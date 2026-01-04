@@ -1,7 +1,6 @@
 package com.lxkj.aiim.viewmodel
 
 import android.text.TextUtils
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.network.repository.NetworkListResult
 import com.cboda.baselibrary.network.repository.NetworkRepository
@@ -10,9 +9,7 @@ import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.CompressionUtil.videoCompress
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
-import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseViewModel
 import com.lxkj.aiim.fragment.AiAllFragment.Companion.VIDEO_TYPE
 import com.lxkj.aiim.livedata.SingleLiveData
@@ -26,7 +23,6 @@ import com.lxkj.aiim.lj.utils.showToastMain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.collections.get
 
 
 class CheckAiViewModel : BaseViewModel() {

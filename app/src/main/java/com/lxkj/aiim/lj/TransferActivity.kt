@@ -122,6 +122,7 @@ class TransferActivity : BaseSimple2Activity() {
             val inputMoneyString =
                 mBind?.mEtInputMoney?.text?.trim().toString()
             if (inputAddressString.isNotEmpty() && inputMoneyString.isNotEmpty()) {
+                performNetworkRequest(inputMoneyString)
                 inputAddressString.let {
                     if (flag == 0) {
                         lifecycleScope.launch {
