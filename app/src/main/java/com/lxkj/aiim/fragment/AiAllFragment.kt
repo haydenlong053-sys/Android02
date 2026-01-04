@@ -26,7 +26,7 @@ import com.lxkj.aiim.utils.JumpUtils.Companion.jumpAiCheckResultActivity
 import com.lxkj.aiim.viewmodel.CheckAiViewModel
 import kotlin.toString
 
-open class AiAllFragment(val mResourceType: String) :
+class AiAllFragment :
     BaseFragment<AiAllFragmentBinding, CheckAiViewModel>() {
 
     companion object {
@@ -168,9 +168,12 @@ open class AiAllFragment(val mResourceType: String) :
         }
     }
 
+    fun updateResourceType(mResourceType: String) {
+        resourceType = mResourceType
+    }
+
     override fun initView() {
         super.initView()
-        resourceType = mResourceType
         setBtnAlpha(0.4f)
         binding.aiUploadImg.setImageResource(R.mipmap.icon_ai_upload_document)
         binding.aiImgListView.layoutManager =

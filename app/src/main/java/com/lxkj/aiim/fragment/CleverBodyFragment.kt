@@ -28,10 +28,10 @@ class CleverBodyFragment : BaseFragment<FragmentCleverBodyBinding, CleverBodyVie
     private lateinit var videoFragment: AiAllFragment
 
     private fun initViewPagerAndIndicator() {
-        documentFragment = AiAllFragment(DOCUMENT_TYPE)
-        imgFragment = AiAllFragment(IMAGE_TYPE)
-        voiceFragment = AiAllFragment(VOICE_TYPE)
-        videoFragment = AiAllFragment(VIDEO_TYPE)
+        documentFragment = AiAllFragment().apply { updateResourceType(DOCUMENT_TYPE) }
+        imgFragment = AiAllFragment().apply { updateResourceType(IMAGE_TYPE)}
+        voiceFragment = AiAllFragment().apply { updateResourceType(VOICE_TYPE)}
+        videoFragment = AiAllFragment().apply { updateResourceType(VIDEO_TYPE)}
 //        val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
 //        vp2FragmentAdapter.addFragment(documentFragment)
 //        vp2FragmentAdapter.addFragment(imgFragment)
