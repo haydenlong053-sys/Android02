@@ -159,9 +159,9 @@ dependencies {
 //    api project(':mars-core-release')
 //    api project(':pttclient')
     api project(':uikit')
+    api project(':iGroup')
 //    api project(':uvccamera')
 //    api project(':webrtc')
-    api project(':asceneskit')
 
 
 //    implementation "com.facebook.fresco:fresco:2.4.0"
