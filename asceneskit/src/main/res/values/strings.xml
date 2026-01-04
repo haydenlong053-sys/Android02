@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="voice_room_invite_send_success">邀请成功</string>
     <string name="voice_room_invite_send_failed">邀请失败</string>
     <string name="voice_room_apply_send_success">申请成功</string>
@@ -33,5 +33,22 @@
     <string name="aui_micseat_dialog_mute_video">关闭视频</string>
     <string name="aui_micseat_dialog_unmute_video">打开视频</string>
     <string name="aui_micseat_dialog_invited">邀请</string>
+
+
+    <string name="voice_micseat_item_title_idle">%d号麦</string>
+    <string name="voice_chatroom_notice">公告</string>
+    <string name="voice_room_welcome">欢迎来到Web4X新世界！会议室内严禁色情、赌博、暴力等违法事项。</string>
+    <string name="voice_room_contribution_empty">没有数据</string>
+    <string name="voice_room_apply_list">申请列表</string>
+    <string name="voice_room_apply_action">申请上麦</string>
+    <string name="voice_room_invited_list">邀请列表</string>
+    <string name="voice_room_invited_action">邀请上麦</string>
+    <string name="voice_room_apply_accept">同意申请</string>
+    <string name="voice_room_receive_invitation_title">%s邀请您上%d号麦</string>
+    <string name="voice_room_receive_invitation_content">%s邀请您上麦</string>
+    <string name="voice_room_confirm">确定</string>
+    <string name="voice_room_reject">拒绝</string>
+    <string name="voice_room_apply_micSeat">申请上%d号麦</string>
+    <string name="voice_room_owner_mute_seat">当前麦位被房主静麦</string>
 
 </resources>

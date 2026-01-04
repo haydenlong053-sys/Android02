@@ -42,10 +42,10 @@ import com.lxkj.aiim.utils.CountdownTimerFlow
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
-import io.agora.asceneskit.R
-import io.agora.asceneskit.databinding.VoiceRoomActivityBinding
-import io.agora.asceneskit.voice.AUIVoiceRoomObserver
-import io.agora.asceneskit.voice.impl.MeetingOperateView
+import com.examole.asceneskit.R
+import com.examole.asceneskit.databinding.VoiceRoomActivityBinding
+import com.example.asceneskit.AUIVoiceRoomObserver
+import com.example.asceneskit.impl.MeetingOperateView
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
@@ -60,7 +60,6 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import kotlin.compareTo
 
 class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
     private val mViewBinding by lazy { VoiceRoomActivityBinding.inflate(layoutInflater) }

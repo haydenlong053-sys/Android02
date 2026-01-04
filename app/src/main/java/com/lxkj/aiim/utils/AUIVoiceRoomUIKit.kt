@@ -1,11 +1,10 @@
 package com.lxkj.aiim.utils
 
-import android.util.Log
 import com.lxkj.aiim.service.MeetingFloatService
-import io.agora.asceneskit.voice.AUIAPIConfig
-import io.agora.asceneskit.voice.AUIVoiceRoomObserver
-import io.agora.asceneskit.voice.AUIVoiceRoomService
-import io.agora.asceneskit.voice.AUIVoiceRoomView
+import com.example.asceneskit.AUIAPIConfig
+import com.example.asceneskit.AUIVoiceRoomObserver
+import com.example.asceneskit.AUIVoiceRoomService
+import com.example.asceneskit.AUIVoiceRoomView
 import io.agora.auikit.model.AUICommonConfig
 import io.agora.auikit.model.AUIRoomConfig
 import io.agora.auikit.model.AUIRoomContext

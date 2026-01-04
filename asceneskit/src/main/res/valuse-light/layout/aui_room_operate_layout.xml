@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_top_dialog_radius20"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="56dp"/>
+
+
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/ll_mic"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_mic"
+                android:scaleType="center"
+                android:src="@drawable/ic_voice_operate_mic_off"
+                android:background="@drawable/bg_meeting_close"
+                android:layout_width="52dp"
+                android:layout_height="52dp"/>
+
+            <TextView
+                android:id="@+id/tv_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="全开麦"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/ll_mute"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_mute"
+                android:scaleType="center"
+                android:src="@drawable/ic_voice_operate_mute_on"
+                android:background="@drawable/bg_meeting_close"
+                android:layout_width="52dp"
+                android:layout_height="52dp"/>
+
+            <TextView
+                android:id="@+id/tv_mute"
+                android:layout_marginTop="8dp"
+                android:text="全开言"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/ll_share"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:scaleType="center"
+                android:src="@drawable/ic_voice_operate_share"
+                android:background="@drawable/bg_meeting_close"
+                android:layout_width="52dp"
+                android:layout_height="52dp"/>
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:text="邀请"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_quite"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:scaleType="center"
+                android:src="@drawable/ic_voice_operate_close"
+                android:background="@drawable/bg_meeting_quite"
+                android:layout_width="52dp"
+                android:layout_height="52dp"/>
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:text="退出"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/dialog_line_header"
+        android:layout_width="35dp"
+        android:layout_height="3dp"/>
+
+
+</LinearLayout>

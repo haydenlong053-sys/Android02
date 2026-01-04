@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'io.agora.asceneskit'
+    namespace 'com.examole.asceneskit'
     compileSdk 36
 
     defaultConfig {
@@ -30,12 +30,12 @@ android {
     buildFeatures {
         viewBinding true
     }
-    sourceSets {
-        main {
-            res.srcDirs += "src/main/java/io/agora/asceneskit/voice/res-light"
-            res.srcDirs += "src/main/java/io/agora/asceneskit/voice/res-dark"
-        }
-    }
+//    sourceSets {
+//        main {
+//            res.srcDirs += "src/main/java/com/example/asceneskit/voice/res-light"
+//            res.srcDirs += "src/main/java/com/example/asceneskit/voice/res-dark"
+//        }
+//    }
 }
 
 dependencies {

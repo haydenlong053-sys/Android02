@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:id="@+id/llMemberRank"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_marginEnd="2dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <io.agora.auikit.ui.basic.AUIImageView
+            android:id="@+id/ivMember1"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:shapeAppearance="@style/aui_member_seat_roundStyle" />
+
+        <io.agora.auikit.ui.basic.AUIImageView
+            android:id="@+id/ivMember2"
+            android:layout_width="28dp"
+            android:layout_marginStart="-14dp"
+            android:layout_height="28dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:shapeAppearance="@style/aui_member_seat_roundStyle" />
+
+        <io.agora.auikit.ui.basic.AUIImageView
+            android:id="@+id/ivMember3"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="-14dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:shapeAppearance="@style/aui_member_seat_roundStyle" />
+
+<!--        <io.agora.auikit.ui.basic.AUIImageView-->
+<!--            android:id="@+id/ivMember4"-->
+<!--            android:layout_width="28dp"-->
+<!--            android:layout_height="28dp"-->
+<!--            android:layout_marginEnd="?attr/aui_upperRight_member_spacing"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="?attr/aui_upperRight_default_member_bg"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintDimensionRatio="1:1"-->
+<!--            app:shapeAppearance="@style/aui_member_seat_roundStyle" />-->
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/llMemberRank"
+        app:layout_constraintEnd_toStartOf="@id/btn_more"
+        android:id="@+id/tv_count"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+    <io.agora.auikit.ui.basic.AUIImageView
+        android:id="@+id/btn_more"
+        android:scaleType="center"
+        android:src="@drawable/ic_meeting_more"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/bg_meeting_close"
+        app:layout_constraintStart_toEndOf="@+id/tv_count"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:visibility="visible"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
