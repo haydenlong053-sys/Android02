@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.cboda.baselibrary.R
 import razerdp.basepopup.BasePopupWindow
 import razerdp.util.animation.AnimationHelper
-import razerdp.util.animation.Direction
 import razerdp.util.animation.TranslationConfig
 
 /**
@@ -33,7 +32,7 @@ class PermissionExplainBroadPopup(
     private lateinit var btnConfirm: TextView
 
     init {
-        setContentView(R.layout.popup_permission_explain)
+        setContentView(R.layout.popup_permission_broad_explain)
         setPopupGravity(Gravity.BOTTOM)
         setOutSideDismiss(false)
         setBackPressEnable(false)
@@ -68,7 +67,7 @@ class PermissionExplainBroadPopup(
 
     private fun addPermissionExplainItem(explainText: String) {
         val itemView = LayoutInflater.from(context).inflate(
-            R.layout.item_permission_explain, 
+            R.layout.item_permission_broad_explain,
             llPermissionList, 
             false
         )
