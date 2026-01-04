@@ -6,27 +6,20 @@ package cn.wildfire.chat.kit.conversation.ext;
 
 import static com.cboda.baselibrary.utils.BugLyUtilKt.bgReport;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
-import static com.blankj.utilcode.util.SizeUtils.dp2px;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
-import com.cboda.baselibrary.popup.PermissionExplainBroadPopup;
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
-import com.blankj.utilcode.util.BarUtils;
-import com.lqr.imagepicker.ImagePicker;
-import com.lqr.imagepicker.bean.ImageItem;
+//import com.cboda.imgselect.ImagePicker;
+//import com.cboda.imgselect.bean.ImageItem;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
-import com.luck.picture.lib.style.BottomNavBarStyle;
-import com.luck.picture.lib.style.PictureSelectorStyle;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,9 +36,6 @@ import cn.wildfire.chat.kit.third.utils.UIUtils;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
-import kotlin.jvm.functions.Function1;
 
 public class ImageExt extends ConversationExt {
 
@@ -161,50 +151,50 @@ public class ImageExt extends ConversationExt {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-
-                ChatManager.Instance().getWorkHandler().post(() -> {
-                    //是否发送原图
-                    boolean compress = data.getBooleanExtra(ImagePicker.EXTRA_COMPRESS, true);
-                    ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                    for (ImageItem imageItem : images) {
-                        boolean isGif = isGifFile(imageItem.path);
-                        if (isGif) {
-                            UIUtils.postTaskSafely(() -> messageViewModel.sendStickerMsg(conversation, imageItem.path, null));
-                            continue;
-                        }
-                        File imageFileThumb;
-                        File imageFileSource = null;
-                        // FIXME: 2018/11/29 压缩, 不是发原图的时候，大图需要进行压缩
-                        if (compress) {
-                            imageFileSource = ImageUtils.compressImage(imageItem.path);
-                        }
-                        imageFileSource = imageFileSource == null ? new File(imageItem.path) : imageFileSource;
-//                    if (isOrig) {
-//                    imageFileSource = new File(imageItem.path);
-                        imageFileThumb = ImageUtils.genThumbImgFile(imageItem.path);
-                        if (imageFileThumb == null) {
-                            Log.e("ImageExt", "gen image thumb fail");
-                            return;
-                        }
-//                    } else {
-//                        //压缩图片
-//                        // TODO  压缩的有问题
-//                        imageFileSource = ImageUtils.genThumbImgFileEx(imageItem.path);
-//                        //imageFileThumb = ImageUtils.genThumbImgFile(imageFileSource.getAbsolutePath());
-//                        imageFileThumb = imageFileSource;
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (data != null) {
+//
+//                ChatManager.Instance().getWorkHandler().post(() -> {
+//                    //是否发送原图
+//                    boolean compress = data.getBooleanExtra(ImagePicker.EXTRA_COMPRESS, true);
+//                    ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+//                    for (ImageItem imageItem : images) {
+//                        boolean isGif = isGifFile(imageItem.path);
+//                        if (isGif) {
+//                            UIUtils.postTaskSafely(() -> messageViewModel.sendStickerMsg(conversation, imageItem.path, null));
+//                            continue;
+//                        }
+//                        File imageFileThumb;
+//                        File imageFileSource = null;
+//                        // FIXME: 2018/11/29 压缩, 不是发原图的时候，大图需要进行压缩
+//                        if (compress) {
+//                            imageFileSource = ImageUtils.compressImage(imageItem.path);
+//                        }
+//                        imageFileSource = imageFileSource == null ? new File(imageItem.path) : imageFileSource;
+////                    if (isOrig) {
+////                    imageFileSource = new File(imageItem.path);
+//                        imageFileThumb = ImageUtils.genThumbImgFile(imageItem.path);
+//                        if (imageFileThumb == null) {
+//                            Log.e("ImageExt", "gen image thumb fail");
+//                            return;
+//                        }
+////                    } else {
+////                        //压缩图片
+////                        // TODO  压缩的有问题
+////                        imageFileSource = ImageUtils.genThumbImgFileEx(imageItem.path);
+////                        //imageFileThumb = ImageUtils.genThumbImgFile(imageFileSource.getAbsolutePath());
+////                        imageFileThumb = imageFileSource;
+////                    }
+////                            messageViewModel.sendImgMsg(conversation, imageFileThumb, imageFileSource);
+//                        File finalImageFileSource = imageFileSource;
+//                        UIUtils.postTaskSafely(() -> messageViewModel.sendImgMsg(conversation, imageFileThumb, finalImageFileSource));
+//
 //                    }
-//                            messageViewModel.sendImgMsg(conversation, imageFileThumb, imageFileSource);
-                        File finalImageFileSource = imageFileSource;
-                        UIUtils.postTaskSafely(() -> messageViewModel.sendImgMsg(conversation, imageFileThumb, finalImageFileSource));
-
-                    }
-
-                });
-
-            }
-        }
+//
+//                });
+//
+//            }
+//        }
     }
 
     @Override
