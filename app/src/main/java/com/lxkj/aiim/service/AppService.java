@@ -12,7 +12,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.cboda.baselibrary.BuildConfig;
-import com.cboda.baselibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.lxkj.aiim.yehuo.model.LoginResult;
 import com.lxkj.aiim.yehuo.model.PCSession;
 
@@ -57,7 +57,7 @@ public class AppService implements AppServiceProvider {
      * <br>
      */
 
-    public static String APP_SERVER_ADDRESS/*请仔细阅读上面的注释，http 前缀不能省略*/ = HttpsConfig.INSTANCE.getAppGroupAvatarHost();
+    public static String APP_SERVER_ADDRESS/*请仔细阅读上面的注释，http 前缀不能省略*/ = HttpsBroadConfig.INSTANCE.getAppGroupAvatarHost();
 
     private AppService() {
 

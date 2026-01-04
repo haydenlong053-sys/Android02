@@ -6,9 +6,9 @@ package cn.wildfire.chat.kit.utils;
 
 import android.text.TextUtils;
 
-import com.cboda.baselibrary.bean.GlobalFriendBean;
-import com.cboda.baselibrary.bean.GlobalInfo;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import cn.wildfirechat.model.NullUserInfo;
 import cn.wildfirechat.model.UserInfo;
@@ -30,13 +30,13 @@ public class Util {
         if (userInfo == null) {
             userInfo=new UserInfo();
         }
-        if (target.contains(MMKVUtils.Companion.getKeFuId())) {
-            userInfo.displayName = MMKVUtils.Companion.getKeFuName();
+        if (target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+            userInfo.displayName = MMKVBroadUtils.Companion.getKeFuName();
         } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
             userInfo.displayName = userInfo.friendAlias;
         } else if (!(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
         } else {
-            GlobalFriendBean friendSmailListBean = GlobalInfo.INSTANCE.queryMyFriendInfo(target);
+            GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(target);
             if (friendSmailListBean != null) {
                 userInfo.portrait = friendSmailListBean.icon;
                 if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {

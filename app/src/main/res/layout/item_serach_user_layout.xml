@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             tools:text="亚历克斯福建省大不大方水电费哈吉斯发送" />
 
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
 
     <View

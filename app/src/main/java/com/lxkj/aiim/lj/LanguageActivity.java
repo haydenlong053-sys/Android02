@@ -14,9 +14,9 @@ import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.adapter.LanguageAdapter;
 import com.lxkj.aiim.lj.bean.DataListBean;
 import com.lxkj.aiim.lj.configuration.AppConsts;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.utils.AppUtil;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +51,11 @@ public class LanguageActivity extends BaseSimpleActivity {
                 listBeans.get(position).isChecked = true;
                 languageAdapter.notifyDataSetChanged();
 
-                MMKVUtils.Companion.saveYuYan(listBeans.get(position).name);
+                MMKVBroadUtils.Companion.saveYuYan(listBeans.get(position).name);
                 for (int i = 0; i < AppUtil.Companion.getActivityList().size(); i++) {
                     AppUtil.Companion.getActivityList().get(i).finish();
                 }
-                if (TextUtils.isEmpty(SharePrefUtil.getString(LiXinApp.Companion.getMContext(), AppConsts.UID, ""))) {
+                if (TextUtils.isEmpty(SharePrefBroadUtil.getString(LiXinApp.Companion.getMContext(), AppConsts.UID, ""))) {
                     Intent intent = new Intent(LiXinApp.Companion.getMContext(), NewEquipmentActivity.class);
                     startActivity(intent);
                 } else {
@@ -214,7 +214,7 @@ public class LanguageActivity extends BaseSimpleActivity {
         }
         boolean ischeck = false;
         for (int i = 0; i < listBeans.size(); i++) {
-            if (listBeans.get(i).name.equals(MMKVUtils.Companion.getYuYan())) {
+            if (listBeans.get(i).name.equals(MMKVBroadUtils.Companion.getYuYan())) {
                 listBeans.get(i).isChecked = true;
                 ischeck = true;
             } else {
@@ -223,7 +223,7 @@ public class LanguageActivity extends BaseSimpleActivity {
         }
         if (!ischeck) {
             listBeans.get(0).isChecked = true;
-            MMKVUtils.Companion.saveYuYan(listBeans.get(0).name);
+            MMKVBroadUtils.Companion.saveYuYan(listBeans.get(0).name);
         }
 
         languageAdapter.notifyDataSetChanged();

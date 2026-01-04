@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.MainActivity
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimple2Activity
@@ -106,12 +106,12 @@ class HaoyouApplyActivity : BaseSimple2Activity() {
         tvPhoneLogin?.setOnClickListener {
 
             if (edtshenqing?.text?.trim().isNullOrEmpty()) {
-                ToastUtils.show(getString(R.string.fasonghaouyoushenqingtips))
+                ToastBroadUtils.show(getString(R.string.fasonghaouyoushenqingtips))
                 return@setOnClickListener
             }
 
             if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
-                ToastUtils.show(getString(R.string.shezhibneizhutispa))
+                ToastBroadUtils.show(getString(R.string.shezhibneizhutispa))
                 return@setOnClickListener
             }
 

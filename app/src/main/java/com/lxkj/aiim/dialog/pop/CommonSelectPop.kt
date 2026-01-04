@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cboda.baselibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.lxkj.aiim.adapter.CommonSelectAdapter
 import com.lxkj.aiim.databinding.DialogPopCommonSelectBinding
 import com.lxkj.aiim.lj.bean.CommonSelectBean
@@ -12,7 +12,7 @@ import com.lxkj.aiim.lj.bean.CommonSelectBean
 
 
 //选择弹框
-class CommonSelectPop(private val mContext: Context, val mTitle : String, val mData: List<CommonSelectBean>, val invokeSelect :(select:CommonSelectBean)-> Unit ={}) : BaseBottomPop(mContext) {
+class CommonSelectPop(private val mContext: Context, val mTitle : String, val mData: List<CommonSelectBean>, val invokeSelect :(select:CommonSelectBean)-> Unit ={}) : BaseBottomBroadPop(mContext) {
     private var  binding: DialogPopCommonSelectBinding = DialogPopCommonSelectBinding.inflate(
         LayoutInflater.from(mContext))
     init {

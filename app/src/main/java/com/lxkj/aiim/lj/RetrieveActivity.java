@@ -27,7 +27,7 @@ import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.TimerUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,7 +96,7 @@ public class RetrieveActivity extends BaseSimpleActivity implements View.OnClick
         linearParams.height = result;// 控件的高强制设成20
         viHead.setLayoutParams(linearParams);
 
-        tvLanguage.setText(MMKVUtils.Companion.getYuYan());
+        tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
 
         imFinish.setOnClickListener(this);
         tvLanguage.setOnClickListener(this);

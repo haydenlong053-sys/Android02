@@ -22,7 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import cn.wildfire.chat.kit.R;
-import cn.wildfire.chat.kit.livebus.LiveDataBus;
+import cn.wildfire.chat.kit.livebus.LiveDataBroadBus;
 import cn.wildfire.chat.kit.voip.FullScreenBottomSheetDialogFragment;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
@@ -68,7 +68,7 @@ public class ConferenceHandUpListFragment extends FullScreenBottomSheetDialogFra
 
         loadAndShowHandUpList();
 
-        LiveDataBus.subscribe("kConferenceCommandStateChanged", this, new Observer<Object>() {
+        LiveDataBroadBus.subscribe("kConferenceCommandStateChanged", this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
                 loadAndShowHandUpList();

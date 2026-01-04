@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.cboda.baselibrary.event.DoubleMessageEvent;
-import com.cboda.baselibrary.event.UnreadCountEvent;
+import com.cboda.baselibrary.event.DoubleMessageBroadEvent;
+import com.cboda.baselibrary.event.UnreadCountBroadEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -115,7 +115,7 @@ public class ConversationListFragment extends ProgressFragment {
                     unreadGroupCount += conversationInfos.get(i).unreadCount.unread;
                 }
             }
-            EventBus.getDefault().post(new UnreadCountEvent(null, unreadSingleCount + "", unreadGroupCount + "", null));
+            EventBus.getDefault().post(new UnreadCountBroadEvent(null, unreadSingleCount + "", unreadGroupCount + "", null));
             adapter.setConversationInfos(conversationInfos);
 
             mConversationList.clear();
@@ -207,7 +207,7 @@ public class ConversationListFragment extends ProgressFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(DoubleMessageEvent event) {
+    public void onEvent(DoubleMessageBroadEvent event) {
         for (int i = 0; i < mConversationList.size(); i++) {
             if (mConversationList.get(i).unreadCount.unread > 0) {
 //                recyclerView.smoothScrollToPosition(i);

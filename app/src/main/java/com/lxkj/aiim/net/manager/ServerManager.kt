@@ -1,20 +1,20 @@
 package com.lxkj.aiim.net.manager
 
 import android.content.Context
-import com.cboda.baselibrary.network.model.NetworkResponse
-import com.cboda.baselibrary.network.result.NetworkResult
+import com.cboda.baselibrary.network.model.NetworkBroadResponse
+import com.cboda.baselibrary.network.result.NetworkBroadResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lxkj.aiim.bean.AddMeetingTimeBean
-import com.cboda.baselibrary.bean.BaseResponse
-import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.bean.CreateRoomBean
 import com.lxkj.aiim.bean.KickListBean
 import com.lxkj.aiim.bean.MeetingData
 import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.bean.RoomData
 import com.lxkj.aiim.bean.UpdateRoomBean
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.utils.JsonUtils
 import com.lxkj.aiim.utils.OKGoHelper
 import com.lzy.okgo.OkGo
@@ -28,7 +28,7 @@ import org.json.JSONObject
 object ServerManager {
 
 
-    fun getUserInfo(context: Context?,userId:String="", completion: (CommonResultBean?) -> Unit){
+    fun getUserInfo(context: Context?,userId:String="", completion: (CommonResultBroadBean?) -> Unit){
         val map = mapOf(
             "code" to userId,
         )
@@ -36,16 +36,16 @@ object ServerManager {
             context,
             "/userInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    (bean as? CommonResultBean)?.let {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    (bean as? CommonResultBroadBean)?.let {
                          completion.invoke(it)
 
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
 
                 }
 
@@ -57,16 +57,16 @@ object ServerManager {
 
 
     fun getMeetingRoomInfo(roomId:String,completion: (MeetingData?) -> Unit){
-        OkGo.get<String>(UrlConstants.HOST + UrlConstants.GET_ROOM_INFO + roomId).execute(
+        OkGo.get<String>(UrlBroadConstants.HOST + UrlBroadConstants.GET_ROOM_INFO + roomId).execute(
             object : StringCallback() {
                 override fun onSuccess(response: Response<String?>?) {
                     var body = response?.body()
 
                     val baseBean = JsonUtils.getSuccessJsonBean(body)
                     if (baseBean?.code == "200") {
-                        val type = object : TypeToken<NetworkResponse<MeetingData>>() {}.type
+                        val type = object : TypeToken<NetworkBroadResponse<MeetingData>>() {}.type
                         val roomBean =
-                            Gson().fromJson<NetworkResponse<MeetingData>>(body, type)
+                            Gson().fromJson<NetworkBroadResponse<MeetingData>>(body, type)
                         roomBean.data?.let {
                              completion.invoke(it)
                         }
@@ -94,10 +94,10 @@ object ServerManager {
             "allMic" to allMic,
             "allMute" to allMute
         )
-        OKGoHelper().postNoAes(context, UrlConstants.HOST + UrlConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
+        OKGoHelper().postNoAes(context, UrlBroadConstants.HOST + UrlBroadConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
             UpdateRoomBean(), callBack = object :
                 OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     (bean as? UpdateRoomBean)?.let {
                          completion.invoke(it)
 
@@ -105,7 +105,7 @@ object ServerManager {
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
 
 
                 }
@@ -119,10 +119,10 @@ object ServerManager {
             "roomId" to roomId,
             "status" to state,
         )
-        OKGoHelper().postNoAes(context, UrlConstants.HOST + UrlConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
+        OKGoHelper().postNoAes(context, UrlBroadConstants.HOST + UrlBroadConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
             UpdateRoomBean(), callBack = object :
                 OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     (bean as? UpdateRoomBean)?.let {
                         completion.invoke(it)
 
@@ -130,7 +130,7 @@ object ServerManager {
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                     completion.invoke(null)
 
 
@@ -141,17 +141,17 @@ object ServerManager {
     }
 
     fun kickUser(context: Context?,roomId:String, userId:String, completion: (NoResultBean?) -> Unit){
-        val url = "${UrlConstants.HOST}/v2/users/channels/$roomId/kicked/$userId"
+        val url = "${UrlBroadConstants.HOST}/v2/users/channels/$roomId/kicked/$userId"
         OKGoHelper().postNoAes(context, url, "",
             NoResultBean(), callBack = object :
                 OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     (bean as? NoResultBean)?.let {
                         completion.invoke(it)
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                         completion.invoke(null)
                 }
             })
@@ -162,17 +162,17 @@ object ServerManager {
 
 
     fun getKickUserList(context: Context?,roomId: String, completion: (KickListBean?) -> Unit){
-         val url  = "${UrlConstants.HOST}/v2/users/channels/$roomId/kicked"
+         val url  = "${UrlBroadConstants.HOST}/v2/users/channels/$roomId/kicked"
 
         OKGoHelper().getNoAes(context, url, "",
             KickListBean(), callBack = object :
                 OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     (bean as? KickListBean)?.let {
                         completion.invoke(it)
                     }
                 }
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                     completion.invoke(null)
                 }
             }
@@ -193,17 +193,17 @@ object ServerManager {
             "meetingTime" to meetingTime,
             "groupId" to groupId,
         )
-          OKGoHelper().postNoAes(context,UrlConstants.HOST+"/"+UrlConstants.ADD_MEETING_TIME,Gson().toJson(map),
+          OKGoHelper().postNoAes(context,UrlBroadConstants.HOST+"/"+UrlBroadConstants.ADD_MEETING_TIME,Gson().toJson(map),
               AddMeetingTimeBean(),
               callBack = object :OKGoHelper.RequestCallBack{
-                  override fun onSuccess(bean: BaseResponse?) {
+                  override fun onSuccess(bean: BaseBroadResponse?) {
                       (bean as? AddMeetingTimeBean)?.let {
                           completion.invoke(it)
                       }
 
                   }
 
-                  override fun onFail(bean: BaseResponse?) {
+                  override fun onFail(bean: BaseBroadResponse?) {
                       completion.invoke(null)
                   }
 

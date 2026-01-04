@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import cn.wildfire.chat.kit.R;
-import cn.wildfire.chat.kit.third.utils.TimeUtils;
+import cn.wildfire.chat.kit.third.utils.TimeBroadUtils;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.notification.NotificationMessageContent;
 import cn.wildfirechat.model.Conversation;
@@ -108,7 +108,7 @@ public class GroupMemberMessageHistoryAdapter extends RecyclerView.Adapter<Group
             } else {
                 contentTextView.setText(message.digest());
             }
-            timeTextView.setText(TimeUtils.getMsgFormatTime(message.serverTime));
+            timeTextView.setText(TimeBroadUtils.getMsgFormatTime(message.serverTime));
         }
     }
 

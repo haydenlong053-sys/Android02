@@ -2,7 +2,7 @@ package com.lxkj.aiim.holder
 
 import android.os.Handler
 import android.os.Looper
-import com.lxkj.aiim.utils.TimeUtils
+import com.lxkj.aiim.utils.TimeBroadUtils
 
 /**
  * 简述： <功能描述>
@@ -18,7 +18,7 @@ class LeftTimeDownHolder3 {
             mLeftTime -= 1
             getLeftTime(mLeftTime)
             if (mLeftTime > 0) {
-                mHandler.postDelayed(this, TimeUtils.SECOND)
+                mHandler.postDelayed(this, TimeBroadUtils.SECOND)
             } else {
                 release()
             }
@@ -29,7 +29,7 @@ class LeftTimeDownHolder3 {
     fun startDown(leftTime: Int) {
         getLeftTime(leftTime)
         mLeftTime = leftTime
-        mHandler.postDelayed(downRunnable, TimeUtils.SECOND)
+        mHandler.postDelayed(downRunnable, TimeBroadUtils.SECOND)
     }
 
 

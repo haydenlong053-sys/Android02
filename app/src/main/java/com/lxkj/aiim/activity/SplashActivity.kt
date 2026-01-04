@@ -8,7 +8,7 @@ import com.lxkj.aiim.app.LiXinApp
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.lj.NewEquipmentActivity
 import com.lxkj.aiim.lj.configuration.AppConsts
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.utils.JumpUtils.Companion.startMainActivity
 
 class SplashActivity : BaseSimpleActivity() {
@@ -30,13 +30,13 @@ class SplashActivity : BaseSimpleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (MMKVUtils.isPrivacyready()) {
+//        if (MMKVBroadUtils.isPrivacyready()) {
 //            jumpAct()
 //        } else {
 //            JCollectionAuth.setAuth(this, false)
 //            PrivacyContentDialog(this, object : PrivacyContentDialog.OnAgreeListener {
 //                override fun onAgree() {
-//                    MMKVUtils.setPrivacyready(true)
+//                    MMKVBroadUtils.setPrivacyready(true)
 //                    lateInitSdk()
 //                    jumpAct()
 //                }
@@ -67,10 +67,10 @@ class SplashActivity : BaseSimpleActivity() {
 //        OkHttpHelper.getInstance().post_json(this, Url.ptConfig, param, object : BaseCallback<ResultBean?>() {
 //                override fun onError(response: Response, code: Int, e: Exception) {}
 //                override fun onSuccess(response: Response?, t: ResultBean?) {
-//                    SharePrefUtil.saveString(this@SplashActivity, AppConsts.showFx, t?.data?.showFx)
-//                    SharePrefUtil.saveString(this@SplashActivity, AppConsts.showXcx, t?.data?.showXcx)
-//                    SharePrefUtil.saveString(this@SplashActivity, AppConsts.LOGINTYPE, t?.data?.loginType)
-        if (TextUtils.isEmpty(SharePrefUtil.getString(this@SplashActivity, AppConsts.UID, ""))) {
+//                    SharePrefBroadUtil.saveString(this@SplashActivity, AppConsts.showFx, t?.data?.showFx)
+//                    SharePrefBroadUtil.saveString(this@SplashActivity, AppConsts.showXcx, t?.data?.showXcx)
+//                    SharePrefBroadUtil.saveString(this@SplashActivity, AppConsts.LOGINTYPE, t?.data?.loginType)
+        if (TextUtils.isEmpty(SharePrefBroadUtil.getString(this@SplashActivity, AppConsts.UID, ""))) {
 //                        when(t?.data?.loginType){
 //                            "1"->{//设备号登录
 

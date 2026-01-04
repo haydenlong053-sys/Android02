@@ -5,14 +5,14 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import cn.wildfire.chat.kit.ChatManagerHolder
-import com.cboda.baselibrary.bean.GlobalSmallGroupBean
-import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.baselibrary.utils.DeviceUtil.getAndroidId
-import com.cboda.baselibrary.utils.DeviceUtil.getDeviceBrand
-import com.cboda.baselibrary.utils.DeviceUtil.getDeviceModel
+import com.cboda.baselibrary.utils.DeviceBroadUtil.getAndroidId
+import com.cboda.baselibrary.utils.DeviceBroadUtil.getDeviceBrand
+import com.cboda.baselibrary.utils.DeviceBroadUtil.getDeviceModel
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.getAppContext
@@ -23,7 +23,7 @@ import com.lxkj.aiim.lj.PushInfo2Activity
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.http.SpotsCallBack
 import com.lxkj.aiim.lj.http.Url
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.lj.utils.dismissLoading
 import com.lxkj.aiim.lj.utils.showLoading
 import com.lxkj.aiim.lj.utils.showToastMain
@@ -63,7 +63,7 @@ class LoginViewModel : BaseViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val result = NetworkRepository.postEncrypted(
+                    val result = NetworkBroadRepository.postEncrypted(
                         "api/account/update",
                         Any::class.java, param
                     )
@@ -95,7 +95,7 @@ class LoginViewModel : BaseViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val result = NetworkRepository.postEncrypted(
+                    val result = NetworkBroadRepository.postEncrypted(
                         "api/account/mnemonic",
                         Map::class.java, HashMap<String, Any>()
                     )
@@ -124,8 +124,8 @@ class LoginViewModel : BaseViewModel() {
         val params = hashMapOf("account" to account)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2<SafeCenterBean>(
-                    UrlConstants.SECURITY_CENTER_FORGET_PASSWORD,
+                NetworkBroadRepository.postEncrypted2<SafeCenterBean>(
+                    UrlBroadConstants.SECURITY_CENTER_FORGET_PASSWORD,
                     SafeCenterBean::class.java,
                     params
                 ).onSuccess { userInfo ->

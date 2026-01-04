@@ -1,9 +1,9 @@
 package com.lxkj.aiim.bean
 
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.google.gson.annotations.SerializedName
 
-class AddMeetingTimeBean : BaseResponse(){
+class AddMeetingTimeBean : BaseBroadResponse(){
     @SerializedName("data")
     val `data`: AddMeetingTimeData? =null
 }

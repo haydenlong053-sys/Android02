@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.viewmodel.CommViewModel
@@ -70,7 +70,7 @@ class HaoYouBeizhuActivity:BaseSimpleActivity() {
 
         tvPhoneLogin?.setOnClickListener {
             if (edtBeizhu?.text?.trim().isNullOrEmpty()){
-                ToastUtils.show(getString(R.string.bveizhutips))
+                ToastBroadUtils.show(getString(R.string.bveizhutips))
                 return@setOnClickListener
             }
 

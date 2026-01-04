@@ -46,11 +46,11 @@ import com.lxkj.aiim.R
 import com.lxkj.aiim.ui.shape.BottomArcShape
 import com.lxkj.aiim.ui.shape.TopArcShape
 import com.lxkj.aiim.ui.shape.TopRoundedBottomArcShape
-import com.cboda.baselibrary.event.AppEvent
-import com.cboda.baselibrary.event.AppEventCode
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.dialog.pop.AuthPasswordPop
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.lj.http.OkHttpHelper
 import com.lxkj.aiim.lj.http.BaseCallback
 import com.lxkj.aiim.lj.http.Url
@@ -114,10 +114,10 @@ class MineFragment : BaseLazyFragment() {
 
 
     private fun refreshVipFromPrefs() {
-        val vipFlag = SharePrefUtil.getString(requireContext(), "isvip", "0")
+        val vipFlag = SharePrefBroadUtil.getString(requireContext(), "isvip", "0")
         isVip = vipFlag == "1"
         // 优先从偏好中读取到期时间（若未写入则为空字符串）
-        vipExpireText = SharePrefUtil.getString(requireContext(), "vipTime", "")
+        vipExpireText = SharePrefBroadUtil.getString(requireContext(), "vipTime", "")
     }
 
     private fun fetchUserInfo() {
@@ -143,8 +143,8 @@ class MineFragment : BaseLazyFragment() {
                     isHasPassword = hasPaypwd
 
                     // 同步到全局偏好，保持与旧逻辑一致
-                    SharePrefUtil.saveString(requireContext(), "isvip", vipFlag)
-                    SharePrefUtil.saveString(requireContext(), "vipTime", vipTimeText)
+                    SharePrefBroadUtil.saveString(requireContext(), "isvip", vipFlag)
+                    SharePrefBroadUtil.saveString(requireContext(), "vipTime", vipTimeText)
 
                     // 更新当前页面状态
                     isVip = vipFlag == "1"

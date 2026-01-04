@@ -1,6 +1,6 @@
 package com.cboda.baselibrary.utils
 
-import com.cboda.baselibrary.bean.GlobalSmallGroupBean
+import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
 import com.blankj.utilcode.util.GsonUtils
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken

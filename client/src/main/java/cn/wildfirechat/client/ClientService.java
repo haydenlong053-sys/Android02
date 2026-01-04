@@ -35,12 +35,12 @@ import android.webkit.MimeTypeMap;
 
 import androidx.annotation.Nullable;
 
-import com.cboda.baselibrary.bean.OssFileBean;
-import com.cboda.baselibrary.common.UrlConstants;
-import com.cboda.baselibrary.network.NetworkUtils;
+import com.cboda.baselibrary.bean.OssFileBroadBean;
+import com.cboda.baselibrary.common.UrlBroadConstants;
+import com.cboda.baselibrary.network.NetworkBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.GsonUtilsKt;
-import com.cboda.baselibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.tencent.mars.BaseEvent;
 import com.tencent.mars.Mars;
 import com.tencent.mars.app.AppLogic;
@@ -4544,7 +4544,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
     private void uploadBigFile(long messageId, String filePath, int mediaType, String contentType, UploadMediaCallback callback) {
         File file = new File(filePath);
         ELogUtilKt.eLogD("zhanglong","uploadBigFile====="+filePath);
-        if (HttpsConfig.INSTANCE.getAppBaseUrl().contains("https://api.seekweb4.net/lixin")){
+        if (HttpsBroadConfig.INSTANCE.getAppBaseUrl().contains("https://api.seekweb4.net/lixin")){
             getMyServerOssInfo(file.getName(), mediaType, contentType, new ProtoLogic.IGetUploadMediaUrlCallback() {
                 @Override
                 public void onSuccess(String uploadUrl, String remoteUrl, String backUploadupUrl, int serverType) {
@@ -4685,7 +4685,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
     private void getMyServerOssInfo(String fileName, int mediaType, String contentType, ProtoLogic.IGetUploadMediaUrlCallback urlCallback){
         Map<String, Object> map = new HashMap<>();
         map.put("fileName", fileName);
-        NetworkUtils.INSTANCE.postEncrypted(UrlConstants.GET_OSS_SIGN, map, new NetworkUtils.NetworkCallback<Object>() {
+        NetworkBroadUtils.INSTANCE.postEncrypted(UrlBroadConstants.GET_OSS_SIGN, map, new NetworkBroadUtils.NetworkBroadCallback<Object>() {
             @Override
             public void onFailure(int code, @NotNull String message, @org.jetbrains.annotations.Nullable Object data) {
                 urlCallback.onFailure(-10087);
@@ -4696,7 +4696,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
                 if (data !=null){
                     try {
                         String json2 = GsonUtilsKt.toJson2(data);
-                        OssFileBean ossFileBean = GsonUtilsKt.fromJson2(json2, OssFileBean.class);
+                        OssFileBroadBean ossFileBean = GsonUtilsKt.fromJson2(json2, OssFileBroadBean.class);
                         if (ossFileBean.getAws()!=null){
                             urlCallback.onSuccess(ossFileBean.getAws().getPresignedUrl(),ossFileBean.getAws().getUrl(),"",0);
                         }else if (ossFileBean.getQiniu()!=null){

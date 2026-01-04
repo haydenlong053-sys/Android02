@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.utils.SharePrefUtil;
+import com.cboda.baselibrary.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.adapter.LanguageAdapter;
@@ -17,7 +17,7 @@ import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.StringUtil;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class FanYiActivity extends BaseSimpleActivity {
                 listBeans.get(position).isChecked = true;
                 languageAdapter.notifyDataSetChanged();
 
-                MMKVUtils.Companion.saveFanYi(listBeans.get(position).name);
+                MMKVBroadUtils.Companion.saveFanYi(listBeans.get(position).name);
             }
         });
 
@@ -208,7 +208,7 @@ public class FanYiActivity extends BaseSimpleActivity {
         }
         boolean ischeck = false;
         for (int i = 0; i < listBeans.size(); i++) {
-            if (listBeans.get(i).name.equals(MMKVUtils.Companion.getFanYi())) {
+            if (listBeans.get(i).name.equals(MMKVBroadUtils.Companion.getFanYi())) {
                 listBeans.get(i).isChecked = true;
                 ischeck = true;
             } else {
@@ -217,7 +217,7 @@ public class FanYiActivity extends BaseSimpleActivity {
         }
         if (!ischeck) {
             listBeans.get(0).isChecked = true;
-            MMKVUtils.Companion.saveFanYi(listBeans.get(0).name);
+            MMKVBroadUtils.Companion.saveFanYi(listBeans.get(0).name);
         }
 
         languageAdapter.notifyDataSetChanged();
@@ -304,8 +304,8 @@ public class FanYiActivity extends BaseSimpleActivity {
                 }
 
                 if (null != autofanyi) {
-                    SharePrefUtil.saveString(FanYiActivity.this, "autofanyi", autofanyi);
-                    SharePrefUtil.saveLong(FanYiActivity.this, "autofanyitime", System.currentTimeMillis());
+                    SharePrefBroadUtil.saveString(FanYiActivity.this, "autofanyi", autofanyi);
+                    SharePrefBroadUtil.saveLong(FanYiActivity.this, "autofanyitime", System.currentTimeMillis());
                     if (autofanyi.equals("0"))
                         imZdfy.setImageResource(R.mipmap.ic_guan);
                     else

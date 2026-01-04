@@ -24,9 +24,9 @@ import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.bean.GlobalFriendListBean;
-import com.cboda.baselibrary.common.UrlConstants;
-import com.cboda.baselibrary.network.NetworkUtils;
+import com.cboda.baselibrary.bean.GlobalFriendListBroadBean;
+import com.cboda.baselibrary.common.UrlBroadConstants;
+import com.cboda.baselibrary.network.NetworkBroadUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -124,7 +124,7 @@ public class SearchFragment2 extends Fragment {
 //            Log.d("zhanglong", "keyword====" + mKeyword);
             Map<String, Object> map = new HashMap<>();
             map.put("text", mKeyword);
-            NetworkUtils.INSTANCE.postEncryptedList(UrlConstants.FRIEND_CONTACT_LIST, map, new NetworkUtils.ListCallback<GlobalFriendListBean>() {
+            NetworkBroadUtils.INSTANCE.postEncryptedList(UrlBroadConstants.FRIEND_CONTACT_LIST, map, new NetworkBroadUtils.ListBroadCallback<GlobalFriendListBroadBean>() {
                 @Override
                 public void onError(@NotNull Throwable throwable) {
 
@@ -132,11 +132,11 @@ public class SearchFragment2 extends Fragment {
 
                 @Override
                 public void onFailure(int code, @NotNull String message) {
-//                    ToastUtils.show(message);
+//                    ToastBroadUtils.show(message);
                 }
 
                 @Override
-                public void onSuccess(@org.jetbrains.annotations.Nullable List<? extends GlobalFriendListBean> list, int totalCount, int totalPage) {
+                public void onSuccess(@org.jetbrains.annotations.Nullable List<? extends GlobalFriendListBroadBean> list, int totalCount, int totalPage) {
                     if (getActivity() != null && isAdded()) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -146,7 +146,7 @@ public class SearchFragment2 extends Fragment {
                                         if (list != null && !list.isEmpty()) {
                                             Gson gson = new Gson();
                                             String jsonStr = gson.toJson(list);
-                                            List<GlobalFriendListBean> friendList = gson.fromJson(jsonStr, new TypeToken<List<GlobalFriendListBean>>() {
+                                            List<GlobalFriendListBroadBean> friendList = gson.fromJson(jsonStr, new TypeToken<List<GlobalFriendListBroadBean>>() {
                                             }.getType());
                                             myFriendAdapter.updateData(friendList,mKeyword);
                                         } else {
@@ -198,7 +198,7 @@ public class SearchFragment2 extends Fragment {
             myFriendAdapter = new MyFriendAdapter(new ArrayList<>(), getContext());
             myFriendAdapter.setOnItemClickListener(new MyFriendAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(int position, GlobalFriendListBean bean) {
+                public void onItemClick(int position, GlobalFriendListBroadBean bean) {
                     if (getActivity() != null) {
                         Intent intent = new Intent(getActivity(), ConversationActivity.class);
                         Conversation conversation = new Conversation(Conversation.ConversationType.Single, bean.getUserId(), 0);

@@ -22,7 +22,7 @@ import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.GlideUtil;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.view.MyScrollView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -87,7 +87,7 @@ public class MyCircleActivity extends BaseSimpleActivity implements View.OnClick
         viHead.setLayoutParams(linearParams);
 
         id = getIntent().getStringExtra("id");
-        if (id.equals(SharePrefUtil.getString(this, AppConsts.UID, ""))) {
+        if (id.equals(SharePrefBroadUtil.getString(this, AppConsts.UID, ""))) {
             imAdd.setVisibility(View.VISIBLE);
         } else {
             imAdd.setVisibility(View.GONE);
@@ -152,7 +152,7 @@ public class MyCircleActivity extends BaseSimpleActivity implements View.OnClick
             intent = new Intent(this, CircelMessageActivity.class);
             startActivity(intent);
         }else  if (view.getId() == R.id.imBg){
-            if (id.equals(SharePrefUtil.getString(this, AppConsts.UID, ""))) {
+            if (id.equals(SharePrefBroadUtil.getString(this, AppConsts.UID, ""))) {
                 intent = new Intent(this, ChatBgActivity.class);
                 intent.putExtra("type", "0");
                 startActivity(intent);

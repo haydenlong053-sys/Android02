@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.wildfire.chat.kit.conversation.ConversationActivity
 import cn.wildfire.chat.kit.conversation.message.model.UiMessage
 import cn.wildfirechat.model.Conversation
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.TouSuLeixingAdapter2
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import cn.wildfire.chat.kit.bridge.TouSuJiLuEvent
 import com.lxkj.aiim.bean.TouSuLeiXingEvent
 import com.lxkj.aiim.holder.MutliPicSelectHolder
@@ -36,7 +36,7 @@ class QunTouSuActivity:BaseSimpleActivity() {
     private var qunName = ""
     private var viewModel: CommViewModel? = null
     private var mAdapter: TouSuLeixingAdapter2? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var holder :MutliPicSelectHolder? = null
     private var mDataList2 = arrayListOf<UiMessage>()
     private var uploadViewModel: UploadFileViewModel? = null
@@ -92,11 +92,11 @@ class QunTouSuActivity:BaseSimpleActivity() {
 
         tvPhoneLogin?.setOnClickListener {
             if (mDataList.isEmpty()){
-                ToastUtils.show(getString(R.string.xuanztousuqunleixing))
+                ToastBroadUtils.show(getString(R.string.xuanztousuqunleixing))
                 return@setOnClickListener
             }
             if (mDataList2.isEmpty()){
-                ToastUtils.show(getString(R.string.uxanzhengjiju))
+                ToastBroadUtils.show(getString(R.string.uxanzhengjiju))
                 return@setOnClickListener
             }
             val typestr = StringBuilder()

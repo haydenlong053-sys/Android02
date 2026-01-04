@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import cn.wildfire.chat.kit.R;
-import cn.wildfire.chat.kit.livebus.LiveDataBus;
+import cn.wildfire.chat.kit.livebus.LiveDataBroadBus;
 import cn.wildfire.chat.kit.voip.conference.model.ConferenceInfo;
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.model.UserInfo;
@@ -87,10 +87,10 @@ public class ConferenceParticipantListFragment extends Fragment {
         }
         conferenceManager = ConferenceManager.getManager();
 
-        LiveDataBus.subscribe("kConferenceMemberChanged", this, o -> loadAndShowConferenceParticipants());
-        LiveDataBus.subscribe("kConferenceEnded", this, o -> loadAndShowConferenceParticipants());
-        LiveDataBus.subscribe("kConferenceMutedStateChanged", this, o -> loadAndShowConferenceParticipants());
-        LiveDataBus.subscribe("kConferenceCommandStateChanged", this, o -> loadAndShowConferenceParticipants());
+        LiveDataBroadBus.subscribe("kConferenceMemberChanged", this, o -> loadAndShowConferenceParticipants());
+        LiveDataBroadBus.subscribe("kConferenceEnded", this, o -> loadAndShowConferenceParticipants());
+        LiveDataBroadBus.subscribe("kConferenceMutedStateChanged", this, o -> loadAndShowConferenceParticipants());
+        LiveDataBroadBus.subscribe("kConferenceCommandStateChanged", this, o -> loadAndShowConferenceParticipants());
 
         this.loadAndShowConferenceParticipants();
     }

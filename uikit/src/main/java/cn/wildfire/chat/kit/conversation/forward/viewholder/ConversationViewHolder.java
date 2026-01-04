@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.bean.GlobalFriendBean;
-import com.cboda.baselibrary.bean.GlobalInfo;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -73,14 +73,14 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
     }
 
     private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
-        if (conversationInfo.target.contains(MMKVUtils.Companion.getKeFuId())) {
-            return MMKVUtils.Companion.getKeFuName();
+        if (conversationInfo.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+            return MMKVBroadUtils.Companion.getKeFuName();
         } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
             return userInfo.friendAlias;
         } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
             return userInfo.displayName;
         } else {
-            GlobalFriendBean friendSmailListBean = GlobalInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
+            GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
             if (friendSmailListBean != null) {
                 portrait = friendSmailListBean.icon;
                 if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {

@@ -12,13 +12,13 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import com.blankj.utilcode.util.GsonUtils;
-import com.cboda.baselibrary.network.ResInterceptor;
-import com.cboda.baselibrary.network.config.NetworkConfig;
-import com.cboda.baselibrary.utils.AESUtil;
+import com.cboda.baselibrary.network.ResBroadInterceptor;
+import com.cboda.baselibrary.network.config.NetworkBroadConfig;
+import com.cboda.baselibrary.utils.AESBroadUtil;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.lj.bean.BaseBean;
 import com.lxkj.aiim.lj.configuration.AppConsts;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;
 import java.io.File;
@@ -67,7 +67,7 @@ public class OkHttpHelper {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(false);
         if (getIsDebug()) {
-            ResInterceptor loggingInterceptor = new ResInterceptor("AppHttpOkHttp");
+            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpOkHttp");
             beforeBuilder.addInterceptor(loggingInterceptor);
         }
         mHttpClient = beforeBuilder.build();
@@ -191,7 +191,7 @@ public class OkHttpHelper {
                     String resultStr = response.body().string();
                     String resultStrAes = "";
                     try {
-                        resultStrAes = AESUtil.decrypt(resultStr);
+                        resultStrAes = AESBroadUtil.decrypt(resultStr);
                     } catch (Exception e) {
 //                        throw new RuntimeException(e);
                         eLogD(TAG, "http--http", "--->Exception " + e);
@@ -229,14 +229,14 @@ public class OkHttpHelper {
     private Request buildRequest(String url, HttpMethodType methodType, Map<String, Object> params) {
         eLogD(TAG, "buildRequest: " + url);
         Request.Builder builder = new Request.Builder()
-                .addHeader("apptoken", SharePrefUtil.getString(context, AppConsts.APPTOKEN, ""))
+                .addHeader("apptoken", SharePrefBroadUtil.getString(context, AppConsts.APPTOKEN, ""))
                 .url(url);
         String json = GsonUtils.getGson().toJson(params);
         eLogD(TAG, "http--json", json);
         if (methodType == HttpMethodType.POST) {
             Map<String, Object> paramsAes = new HashMap<>();
             try {
-                paramsAes.put("encrData", AESUtil.encrypt(GsonUtils.getGson().toJson(params)));
+                paramsAes.put("encrData", AESBroadUtil.encrypt(GsonUtils.getGson().toJson(params)));
             } catch (Exception e) {
                 toLog(e, TAG);
             }
@@ -251,7 +251,7 @@ public class OkHttpHelper {
     private Request buildFiles(String url, Map<String, List<File>> fileParams) {
         eLogD(TAG, "buildFiles: " + url);
         Request.Builder builder = new Request.Builder()
-                .addHeader("apptoken", SharePrefUtil.getString(context, AppConsts.APPTOKEN, ""))
+                .addHeader("apptoken", SharePrefBroadUtil.getString(context, AppConsts.APPTOKEN, ""))
                 .url(url);
         RequestBody body = builderFiles(fileParams);
         builder.post(body);
@@ -421,9 +421,9 @@ public class OkHttpHelper {
                     } else if (((BaseBean) obj).code.equals("200") && ((BaseBean) obj).success) {
                         callback.onSuccess(response, obj);
                     } else if (((BaseBean) obj).code.equals("401")) {
-                        SharePrefUtil.saveString(context, AppConsts.APPTOKEN, "");
-                        NetworkConfig.INSTANCE.updateAppToken(null);
-                        SharePrefUtil.saveString(context, AppConsts.UID, "");
+                        SharePrefBroadUtil.saveString(context, AppConsts.APPTOKEN, "");
+                        NetworkBroadConfig.INSTANCE.updateAppToken(null);
+                        SharePrefBroadUtil.saveString(context, AppConsts.UID, "");
                         ToastUtil.show(((BaseBean) obj).msg);
                     } else {
                         ToastUtil.show(((BaseBean) obj).msg);
@@ -449,9 +449,9 @@ public class OkHttpHelper {
                         } else if (((BaseBean) obj).code.equals("200") && ((BaseBean) obj).success) {
                             callback.onSuccess(response, obj);
                         } else if (((BaseBean) obj).code.equals("401") || ((BaseBean) obj).code.equals("201")) {
-                            SharePrefUtil.saveString(context, AppConsts.APPTOKEN, "");
-                            SharePrefUtil.saveString(context, AppConsts.UID, "");
-                            NetworkConfig.INSTANCE.updateAppToken(null);
+                            SharePrefBroadUtil.saveString(context, AppConsts.APPTOKEN, "");
+                            SharePrefBroadUtil.saveString(context, AppConsts.UID, "");
+                            NetworkBroadConfig.INSTANCE.updateAppToken(null);
                             ToastUtil.show(((BaseBean) obj).msg);
                             AppUtil.Companion.exit(context);
                         } else {

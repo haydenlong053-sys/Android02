@@ -19,17 +19,17 @@ import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.model.ModifyGroupInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
-import com.cboda.baselibrary.shapeview.shape.ShapeTextView
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.luck.picture.lib.entity.LocalMedia
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.bean.CommonResultBean
-import com.cboda.baselibrary.bean.GlobalInfo
-import com.cboda.baselibrary.utils.CompressionUtil.imgCompression
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.bean.GlobalBroadInfo
+import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.lxkj.aiim.holder.BottomDialogHolder
@@ -51,10 +51,10 @@ class QunInfoActivity : BaseSimpleActivity() {
     private var viewModel: CommViewModel? = null
     private val contentList = arrayListOf<String>()
     private var mAdapter: QunUserAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var pageNo = 1
     private var uploadViewModel: UploadFileViewModel? = null
-    private var qunxiangqing: CommonResultBean.CommonResult? = null
+    private var qunxiangqing: CommonResultBroadBean.CommonResult? = null
     private var jiangetime = 0
     private var conversationViewModel: ConversationViewModel? = null
     private lateinit var tuichuquan: TextView
@@ -63,7 +63,7 @@ class QunInfoActivity : BaseSimpleActivity() {
     private lateinit var kejianguanliView: View
     private lateinit var kejianguanli: SwitchCompat
     private lateinit var jiahao: AppCompatImageView
-    private lateinit var tvjiangeshi: ShapeTextView
+    private lateinit var tvjiangeshi: ShapeTextBroadView
     private lateinit var jianhao: AppCompatImageView
     private lateinit var wufajiahaoyouView: View
     private lateinit var wufajiahaoyou: SwitchCompat
@@ -207,7 +207,7 @@ class QunInfoActivity : BaseSimpleActivity() {
         viewModel?.gonggaoLiveData?.observe(this) {
             it.data?.apply {
                 qunxiangqing = this
-                MMKVUtils.updateGroupNameAndRenameCount(id, name, renameCount)
+                MMKVBroadUtils.updateGroupNameAndRenameCount(id, name, renameCount)
                 if (this.qrcode?.isNotEmpty() == true) {
                     GlideLoaderHelper.loadCenterCopRoundedCornersUrl(
                         this@QunInfoActivity,
@@ -261,11 +261,11 @@ class QunInfoActivity : BaseSimpleActivity() {
                 when (this.userType) {
                     "1" -> {
                         //群主
-                        val bean = CommonDataListBean.CommonBean()
+                        val bean = CommonDataListBroadBean.CommonBean()
                         bean.type = "add"
                         mDataList.add(bean)
 
-                        val bean1 = CommonDataListBean.CommonBean()
+                        val bean1 = CommonDataListBroadBean.CommonBean()
                         bean1.type = "remove"
                         mDataList.add(bean1)
 
@@ -276,11 +276,11 @@ class QunInfoActivity : BaseSimpleActivity() {
 
                     "2" -> {
                         //管理
-                        val bean = CommonDataListBean.CommonBean()
+                        val bean = CommonDataListBroadBean.CommonBean()
                         bean.type = "add"
                         mDataList.add(bean)
 
-                        val bean1 = CommonDataListBean.CommonBean()
+                        val bean1 = CommonDataListBroadBean.CommonBean()
                         bean1.type = "remove"
                         mDataList.add(bean1)
 
@@ -291,7 +291,7 @@ class QunInfoActivity : BaseSimpleActivity() {
 
                     else -> {
                         if (this.openQyyq == "1") {
-                            val bean = CommonDataListBean.CommonBean()
+                            val bean = CommonDataListBroadBean.CommonBean()
                             bean.type = "add"
                             mDataList.add(bean)
                         }
@@ -520,7 +520,7 @@ class QunInfoActivity : BaseSimpleActivity() {
                 }
                 holder.show()
             } else {
-                ToastUtils.show(getString(R.string.zhiyouqunzhuguanli))
+                ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanli))
             }
         }
 
@@ -528,7 +528,7 @@ class QunInfoActivity : BaseSimpleActivity() {
             if (qunxiangqing?.userType == "1" || qunxiangqing?.userType == "2") {
                 JumpUtils.startQunNameActivity(this, qunId, qunmingceng?.text?.toString() ?: "")
             } else {
-                ToastUtils.show(getString(R.string.zhiyouqunzhuguanlimingcheng))
+                ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanlimingcheng))
             }
         }
 
@@ -536,7 +536,7 @@ class QunInfoActivity : BaseSimpleActivity() {
             if (qunxiangqing?.userType == "1" || qunxiangqing?.userType == "2") {
                 JumpUtils.startQunGongGaoActivity(this, qunId, qunxiangqing?.gonggao ?: "")
             } else {
-                ToastUtils.show(getString(R.string.zhiyouqunzhuguanlimgongao))
+                ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanlimgongao))
             }
         }
 
@@ -604,7 +604,7 @@ class QunInfoActivity : BaseSimpleActivity() {
                         val groupConversation = ChatManager.Instance().getConversation(conversation)
 //                        conversationViewModel?.clearRemoteConversationMessage(groupConversation!!.conversation)
                         conversationViewModel?.clearConversationMessage(groupConversation!!.conversation)
-                        ToastUtils.show(getString(R.string.qincghujikusuc))
+                        ToastBroadUtils.show(getString(R.string.qincghujikusuc))
                     }
                 }
             }

@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -186,7 +186,7 @@ public class ConversationListViewModel extends ViewModel implements OnReceiveMes
         List<ConversationInfo> realSinglecConversationList = singlecConversationList.stream().filter(
                 conversationInfo -> {
                     try {
-                        return ChatManager.mClient.isMyFriend(conversationInfo.conversation.target) || TextUtils.equals(conversationInfo.conversation.target, MMKVUtils.Companion.getKeFuId());
+                        return ChatManager.mClient.isMyFriend(conversationInfo.conversation.target) || TextUtils.equals(conversationInfo.conversation.target, MMKVBroadUtils.Companion.getKeFuId());
                     } catch (RemoteException e) {
                         return false;
                     }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cboda.baselibrary.network.repository.NetworkListResult
+import com.cboda.baselibrary.network.repository.NetworkListBroadResult
 import com.lxkj.aiim.adapter.AiRecordListAdapter
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.FragmentAiRecordBinding
@@ -96,7 +96,7 @@ class AiRecordFragment(val index: Int) :
         }
     }
 
-    private fun showData(resultBean: NetworkListResult<AiResultListBean>) {
+    private fun showData(resultBean: NetworkListBroadResult<AiResultListBean>) {
         totalPage = resultBean.totalPage
         mBinding?.smart?.finishLoadMore()
         mBinding?.smart?.finishRefresh()

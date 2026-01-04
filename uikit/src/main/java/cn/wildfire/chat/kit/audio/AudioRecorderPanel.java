@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.cboda.baselibrary.toast.ToastUtils;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 
 import java.io.File;
 
@@ -291,7 +291,7 @@ public class AudioRecorderPanel implements View.OnTouchListener {
     private void showTooShortTip() {
 //        stateImageView.setImageResource(R.mipmap.ic_volume_wraning);
 //        stateTextView.setText(R.string.voice_short);
-        ToastUtils.show(context.getResources().getString(R.string.voice_short));
+        ToastBroadUtils.show(context.getResources().getString(R.string.voice_short));
     }
 
     private void showCancelTip() {
@@ -321,7 +321,7 @@ public class AudioRecorderPanel implements View.OnTouchListener {
             return;
         }
         if (seconds==3){
-            ToastUtils.show(R.string.msg_voice_msg_tip_3s);
+            ToastBroadUtils.show(R.string.msg_voice_msg_tip_3s);
         }
 
 //        stateImageView.setVisibility(View.GONE);

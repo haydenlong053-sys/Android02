@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 /**
  * author : Android 轮子哥
- * github : https://github.com/getActivity/ToastUtils
+ * github : https://github.com/getActivity/ToastBroadUtils
  * time   : 2021/04/06
  * desc   : Toast 接口
  */

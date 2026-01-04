@@ -2,7 +2,7 @@ package com.lxkj.aiim.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
@@ -13,7 +13,7 @@ import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.http.BaseCallback
 import com.lxkj.aiim.lj.http.OkHttpHelper
 import com.lxkj.aiim.lj.http.Url
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.lj.utils.dismissLoading
 import com.lxkj.aiim.lj.utils.getTopBaseSimple2Activity
 import com.lxkj.aiim.lj.utils.showLoading
@@ -37,8 +37,8 @@ open class SafeCenterViewModel: ViewModel() {
         val params = hashMapOf("account" to account)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2<SecurityInfoBean>(
-                    UrlConstants.SECURITY_ACCOUNT,
+                NetworkBroadRepository.postEncrypted2<SecurityInfoBean>(
+                    UrlBroadConstants.SECURITY_ACCOUNT,
                     SecurityInfoBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -71,8 +71,8 @@ open class SafeCenterViewModel: ViewModel() {
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2<SafeCenterBean>(
-                    UrlConstants.SECURITY_CENTER,
+                NetworkBroadRepository.postEncrypted2<SafeCenterBean>(
+                    UrlBroadConstants.SECURITY_CENTER,
                     SafeCenterBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -103,8 +103,8 @@ open class SafeCenterViewModel: ViewModel() {
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.TWO_STEP_VERIFICATION_QRCODE,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.TWO_STEP_VERIFICATION_QRCODE,
                     TwoStepAuthBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -133,8 +133,8 @@ open class SafeCenterViewModel: ViewModel() {
         val mLiveData = SingleLiveData<Boolean>()
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.BINDING_TWO_FACTOR_VALIDATE,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.BINDING_TWO_FACTOR_VALIDATE,
                     Any::class.java,
                     mBody
                 ).onSuccess { userInfo ->
@@ -170,8 +170,8 @@ open class SafeCenterViewModel: ViewModel() {
         }
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.TWO_FACTOR_VALIDATE,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.TWO_FACTOR_VALIDATE,
                     Any::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -203,8 +203,8 @@ open class SafeCenterViewModel: ViewModel() {
         val params = hashMapOf("id" to id,"title" to title,"answer" to answer)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.SET_MIBAO,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.SET_MIBAO,
                     Any::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -242,8 +242,8 @@ open class SafeCenterViewModel: ViewModel() {
         }
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.CHANGE_MIBAO,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.CHANGE_MIBAO,
                     Any::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -274,8 +274,8 @@ open class SafeCenterViewModel: ViewModel() {
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncryptedList2<CommonSelectBean>(
-                    UrlConstants.SECURITY_QUESTION_LIST,
+                NetworkBroadRepository.postEncryptedList2<CommonSelectBean>(
+                    UrlBroadConstants.SECURITY_QUESTION_LIST,
                     CommonSelectBean::class.java,
                     params
                 ).onSuccess { bean ->

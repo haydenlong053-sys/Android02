@@ -12,7 +12,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.baselibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.setLeftImgAndTextColor
 import com.lxkj.aiim.databinding.DialogPopAuthWayBinding
@@ -35,7 +35,7 @@ class AuthWayPop(
     val outSafeCenterBean:SafeCenterBean?=null,
     val account:String?=null,
 ) :
-    BaseBottomPop(context) {
+    BaseBottomBroadPop(context) {
     private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: SafeCenterViewModel? = null
 

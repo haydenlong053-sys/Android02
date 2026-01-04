@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.utils.OnSingleClickListener;
-import com.cboda.baselibrary.view.RoundedImageView;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.view.RoundedImageBroadView;
 import com.hjq.shape.view.ShapeTextView;
 
 import org.json.JSONArray;
@@ -30,7 +30,7 @@ import cn.wildfirechat.remote.ChatManager;
 @MessageContentType(HongBaoMessageContent.class)
 @EnableContextMenu
 public class HongBaoMessageContentViewHolder extends NormalMessageContentViewHolder {
-    private RoundedImageView hongbaoBg;
+    private RoundedImageBroadView hongbaoBg;
     private View allGroup;
     private TextView tvyilinghongbaodesc, tvhoongbaotips;
     private ShapeTextView statusTv;
@@ -51,7 +51,7 @@ public class HongBaoMessageContentViewHolder extends NormalMessageContentViewHol
 
     private void bindEvents(View itemView) {
 
-        itemView.findViewById(com.cboda.baselibrary.R.id.allView).setOnClickListener(new OnSingleClickListener() {
+        itemView.findViewById(com.cboda.baselibrary.R.id.allView).setOnClickListener(new OnSingleClickBroadListener() {
 
             @Override
             public void onSingleClick(View v) {

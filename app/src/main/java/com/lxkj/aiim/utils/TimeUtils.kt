@@ -9,7 +9,7 @@ import java.util.*
  * 简述： <功能描述>
  * Created by ysh on 2023/3/24.
  */
-class TimeUtils {
+class TimeBroadUtils {
 
     companion object {
         const val SECOND = 1000L

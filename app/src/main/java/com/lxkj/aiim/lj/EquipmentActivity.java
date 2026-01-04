@@ -14,9 +14,9 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
-import com.cboda.baselibrary.event.AppEvent;
-import com.cboda.baselibrary.event.AppEventCode;
-import com.cboda.baselibrary.network.config.NetworkConfig;
+import com.cboda.baselibrary.event.AppBroadEvent;
+import com.cboda.baselibrary.event.AppEventBroadCode;
+import com.cboda.baselibrary.network.config.NetworkBroadConfig;
 import com.google.gson.Gson;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
@@ -30,14 +30,14 @@ import com.lxkj.aiim.lj.configuration.SafeJumpEnum;
 import com.lxkj.aiim.lj.configuration.ScanJumpEnum;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
 import com.lxkj.aiim.lj.http.Url;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.TimerUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.net.manager.UserServerManager;
 import com.lxkj.aiim.utils.AppUtil;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,7 +103,7 @@ public class EquipmentActivity extends BaseSimpleActivity implements View.OnClic
 
         eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        mBinding.tvLanguage.setText(MMKVUtils.Companion.getYuYan());
+        mBinding.tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
         mBinding.tvLanguage.setOnClickListener(this);
         mBinding.tvLogin.setOnClickListener(this);
         mBinding.tvZhuce.setOnClickListener(this);
@@ -211,11 +211,11 @@ public class EquipmentActivity extends BaseSimpleActivity implements View.OnClic
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void receiveEventMsg(AppEvent<Object> eventBusBean) {
-        if (eventBusBean.getEventCode()== AppEventCode.EVENT_NEW_MACHINE_CHECK && eventBusBean.getData()!=null) {
+    public void receiveEventMsg(AppBroadEvent<Object> eventBusBean) {
+        if (eventBusBean.getEventCode()== AppEventBroadCode.EVENT_NEW_MACHINE_CHECK && eventBusBean.getData()!=null) {
             ResultBean resultBean = (ResultBean) eventBusBean.getData();
-            SharePrefUtil.saveString(this, AppConsts.APPTOKEN, resultBean.apptoken);
-            NetworkConfig.INSTANCE.updateAppToken(resultBean.apptoken);
+            SharePrefBroadUtil.saveString(this, AppConsts.APPTOKEN, resultBean.apptoken);
+            NetworkBroadConfig.INSTANCE.updateAppToken(resultBean.apptoken);
             AuthWayPop authWayPop = new AuthWayPop(this, SafeJumpEnum.LoginNewMachine.getSourceType(),true,null,null);
             authWayPop.transferInvoke =new Function0<Unit>() {
                 @Override

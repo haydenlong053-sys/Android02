@@ -2,7 +2,7 @@ package com.cboda.baselibrary.toast.config;
 
 /**
  * author : Android 轮子哥
- * github : https://github.com/getActivity/ToastUtils
+ * github : https://github.com/getActivity/ToastBroadUtils
  * time   : 2019/05/19
  * desc   : Toast 拦截器接口
  */

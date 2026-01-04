@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.baselibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.lxkj.aiim.R
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
@@ -42,7 +42,7 @@ class AuthPasswordPop(
     val isDeepColor: Boolean = false,
     val account:String?=null,
 ) :
-    BaseBottomPop(context) {
+    BaseBottomBroadPop(context) {
     private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: PasswordViewModel? = null
     var backInvoke: () -> Unit = {}

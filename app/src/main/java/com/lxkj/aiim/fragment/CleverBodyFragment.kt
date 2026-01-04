@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
-import com.cboda.baselibrary.utils.Vp2FragmentAdapter
+import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.click
-import com.cboda.baselibrary.view.magicindicator.CommonNavigator
+import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseFragment
@@ -32,7 +32,7 @@ class CleverBodyFragment : BaseFragment<FragmentCleverBodyBinding, CleverBodyVie
         imgFragment = AiAllFragment(IMAGE_TYPE)
         voiceFragment = AiAllFragment(VOICE_TYPE)
         videoFragment = AiAllFragment(VIDEO_TYPE)
-//        val vp2FragmentAdapter = Vp2FragmentAdapter(this)
+//        val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
 //        vp2FragmentAdapter.addFragment(documentFragment)
 //        vp2FragmentAdapter.addFragment(imgFragment)
 //        vp2FragmentAdapter.addFragment(voiceFragment)
@@ -51,7 +51,7 @@ class CleverBodyFragment : BaseFragment<FragmentCleverBodyBinding, CleverBodyVie
             R.mipmap.icon_ai_video
         )
         binding.aiMagicIndicator.setBackgroundColor(Color.TRANSPARENT)
-        val commonNavigator = CommonNavigator(requireContext())
+        val commonNavigator = CommonBroadNavigator(requireContext())
         commonNavigator.isAdjustMode = true
         commonNavigator.isSkimOver = true
         val indicatorAdapt = ImgIndicatorAdapter(requireContext(), mResIds, mResIds2)

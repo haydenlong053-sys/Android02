@@ -2,8 +2,8 @@ package com.lxkj.aiim.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.cboda.baselibrary.network.repository.NetworkListResult
-import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.network.repository.NetworkListBroadResult
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
@@ -15,7 +15,7 @@ import com.lxkj.aiim.lj.configuration.CommonConfig
 import com.lxkj.aiim.lj.http.BaseCallback
 import com.lxkj.aiim.lj.http.OkHttpHelper
 import com.lxkj.aiim.lj.http.Url
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.lj.utils.AppUtil
 import com.lxkj.aiim.lj.utils.getTopBaseSimple2Activity
 import com.lxkj.aiim.lj.utils.showToastMain
@@ -43,8 +43,8 @@ class TransferViewModel: ViewModel() {
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2<TransferInfoBean>(
-                    UrlConstants.TRANSACTION_INITIALIZE,
+                NetworkBroadRepository.postEncrypted2<TransferInfoBean>(
+                    UrlBroadConstants.TRANSACTION_INITIALIZE,
                     TransferInfoBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -74,8 +74,8 @@ class TransferViewModel: ViewModel() {
         val params = hashMapOf("receivingAddress" to receivingAddress)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.TRANSACTION_PERSONINFO,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.TRANSACTION_PERSONINFO,
                     PersonInfoBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -109,8 +109,8 @@ class TransferViewModel: ViewModel() {
         params["address"] = address
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.TRANSACTION_RATEINFO,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.TRANSACTION_RATEINFO,
                     RateInfoBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -143,8 +143,8 @@ class TransferViewModel: ViewModel() {
         params["amount"] = amount
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.TRANSACTION_ADD_ORDER,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.TRANSACTION_ADD_ORDER,
                     OrderInfoBean::class.java,
                     params
                 ).onSuccess { info ->
@@ -177,8 +177,8 @@ class TransferViewModel: ViewModel() {
         params["amount"] = amount
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.WITHDRAW_ADD_ORDER,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.WITHDRAW_ADD_ORDER,
                     OrderInfoBean::class.java,
                     params
                 ).onSuccess { info ->
@@ -204,13 +204,13 @@ class TransferViewModel: ViewModel() {
     /**
      * 转账列表
      */
-    suspend fun getTransferInfoList(pageNo: Int =1) :SingleLiveData<NetworkListResult<OrderInfoBean>>{
-        val safeCenterLiveData = SingleLiveData<NetworkListResult<OrderInfoBean>>()
+    suspend fun getTransferInfoList(pageNo: Int =1) :SingleLiveData<NetworkListBroadResult<OrderInfoBean>>{
+        val safeCenterLiveData = SingleLiveData<NetworkListBroadResult<OrderInfoBean>>()
         val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonConfig.pageSize)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncryptedList2<OrderInfoBean>(
-                    UrlConstants.TRANSACTION_PAGE,
+                NetworkBroadRepository.postEncryptedList2<OrderInfoBean>(
+                    UrlBroadConstants.TRANSACTION_PAGE,
                     OrderInfoBean::class.java,
                     params
                 ).onSuccess { bean ->
@@ -233,13 +233,13 @@ class TransferViewModel: ViewModel() {
     /**
      * 提现列表
      */
-    suspend fun getWithdrawInfoList(pageNo: Int =1) :SingleLiveData<NetworkListResult<OrderInfoBean>>{
-        val safeCenterLiveData = SingleLiveData<NetworkListResult<OrderInfoBean>>()
+    suspend fun getWithdrawInfoList(pageNo: Int =1) :SingleLiveData<NetworkListBroadResult<OrderInfoBean>>{
+        val safeCenterLiveData = SingleLiveData<NetworkListBroadResult<OrderInfoBean>>()
         val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonConfig.pageSize)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncryptedList2<OrderInfoBean>(
-                    UrlConstants.WITHDRAW_PAGE,
+                NetworkBroadRepository.postEncryptedList2<OrderInfoBean>(
+                    UrlBroadConstants.WITHDRAW_PAGE,
                     OrderInfoBean::class.java,
                     params
                 ).onSuccess { bean ->
@@ -270,8 +270,8 @@ class TransferViewModel: ViewModel() {
         val params = hashMapOf("id" to id)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.TRANSACTION_ORDER_DETAIL,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.TRANSACTION_ORDER_DETAIL,
                     OrderInfoBean::class.java,
                     params
                 ).onSuccess { info ->
@@ -298,8 +298,8 @@ class TransferViewModel: ViewModel() {
         val params = hashMapOf("id" to id)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.WITHDRAW_ORDER_DETAIL,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.WITHDRAW_ORDER_DETAIL,
                     OrderInfoBean::class.java,
                     params
                 ).onSuccess { info ->
@@ -327,8 +327,8 @@ class TransferViewModel: ViewModel() {
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2<SafeCenterBean>(
-                    UrlConstants.SECURITY_CENTER,
+                NetworkBroadRepository.postEncrypted2<SafeCenterBean>(
+                    UrlBroadConstants.SECURITY_CENTER,
                     SafeCenterBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -357,8 +357,8 @@ class TransferViewModel: ViewModel() {
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2(
-                    UrlConstants.IS_SECURITY_FIRST,
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadConstants.IS_SECURITY_FIRST,
                     ResultBooBean::class.java,
                     params
                 ).onSuccess { bean ->

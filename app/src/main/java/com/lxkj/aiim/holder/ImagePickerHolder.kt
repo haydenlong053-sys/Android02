@@ -136,7 +136,7 @@ class ImagePickerHolder(private val activity: Context?) {
         isGif: Boolean? = false,
         isSingle: Boolean = false
     ) {
-//        var glideEngine = GlideEngine().createGlideEngine()
+//        var glideEngine = GlideBroadEngine().createGlideEngine()
 //        //相册
 //        PictureSelector.create(activity) //在Fragment中使用则是 fragment.this
 //            ?.openGallery(if (isVideo) SelectMimeType.ofVideo() else SelectMimeType.ofImage()) //全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()

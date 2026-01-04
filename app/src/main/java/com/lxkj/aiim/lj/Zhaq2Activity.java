@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.cboda.baselibrary.utils.OnSingleClickListener;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.blankj.utilcode.util.BarUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
@@ -74,7 +74,7 @@ public class Zhaq2Activity extends BaseSimpleActivity implements View.OnClickLis
         initViews();
         BarUtils.addMarginTopEqualStatusBarHeight(myToolView);
         tvMyTitle.setText(getResources().getString(R.string.m_account_info));
-        mIvMyBack.setOnClickListener(new OnSingleClickListener() {
+        mIvMyBack.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
                 finish();

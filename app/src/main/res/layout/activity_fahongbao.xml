@@ -18,7 +18,7 @@
         >
 
         <!-- WEBX 标签（选中状态） -->
-        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
             android:id="@+id/tvCurrencyWebx"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -35,7 +35,7 @@
             />
 
         <!-- WX 标签（未选中状态） -->
-        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
             android:id="@+id/tvCurrencyWx"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -53,7 +53,7 @@
             />
     </LinearLayout>
 
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
@@ -105,7 +105,7 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
     <!-- 祝福语标签 -->
     <TextView
         android:id="@+id/tvGreetingLabel"
@@ -117,7 +117,7 @@
         android:textColor="@color/black_65"
         android:textSize="14sp"
         />
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="8dp"
@@ -139,7 +139,7 @@
 
             />
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_marginTop="62dp"

@@ -26,9 +26,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.cboda.baselibrary.bean.GlobalFriendBean;
-import com.cboda.baselibrary.bean.GlobalInfo;
-import com.cboda.baselibrary.bean.GlobalSmallGroupBean;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -416,7 +416,7 @@ public abstract class NormalMessageContentViewHolder extends MessageContentViewH
         }
 
         if (portraitUrl == null) {
-            GlobalFriendBean bean = GlobalInfo.INSTANCE.queryMyFriendInfo(item.sender);
+            GlobalFriendBroadBean bean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(item.sender);
             if (bean != null) {
                 portraitUrl = bean.icon;
             }
@@ -467,7 +467,7 @@ public abstract class NormalMessageContentViewHolder extends MessageContentViewH
                 return userInfo.displayName;
             }
         }
-        GlobalFriendBean globalFriendBean = GlobalInfo.INSTANCE.queryMyFriendInfo(memberId);
+        GlobalFriendBroadBean globalFriendBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(memberId);
         if (null != globalFriendBean) {
             if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
                 return globalFriendBean.remarkName;

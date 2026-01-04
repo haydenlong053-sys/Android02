@@ -15,12 +15,12 @@ import cn.wildfire.chat.kit.ChatManagerHolder
 import cn.wildfire.chat.kit.conversation.ConversationActivity
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
-import com.cboda.baselibrary.bean.Constant
-import com.cboda.baselibrary.event.AppEvent
-import com.cboda.baselibrary.event.AppEventCode
-import com.cboda.baselibrary.network.config.NetworkConfig
-import com.cboda.baselibrary.toast.ToastUtils
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.network.config.NetworkBroadConfig
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -35,7 +35,7 @@ import com.lxkj.aiim.lj.LoginActivity
 import com.lxkj.aiim.lj.NewEquipmentActivity
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.AppConsts
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.service.MeetingFloatService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -122,7 +122,7 @@ class AppUtil {
         fun showToast(context: Context, str: String?) {
             str?.apply {
 //                Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
-                ToastUtils.show(str)
+                ToastBroadUtils.show(str)
             }
         }
 
@@ -215,15 +215,15 @@ class AppUtil {
             yehuoUserToken: String?
         ) {
             debug("imLogin", "--> $uid $rytoken $yehuoUserToken")
-            SharePrefUtil.saveString(context, AppConsts.APPTOKEN, apptoken)
-            SharePrefUtil.saveString(context, AppConsts.UID, uid)
+            SharePrefBroadUtil.saveString(context, AppConsts.APPTOKEN, apptoken)
+            SharePrefBroadUtil.saveString(context, AppConsts.UID, uid)
 
-            MMKVUtils.saveUserId(apptoken ?: "")
-            MMKVUtils.saveTxUserSign(rytoken ?: "")
-            MMKVUtils.saveRealUserId(uid ?: "")
-            MMKVUtils.saveYeHuoToken(yehuoUserToken ?: "")
+            MMKVBroadUtils.saveUserId(apptoken ?: "")
+            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
+            MMKVBroadUtils.saveRealUserId(uid ?: "")
+            MMKVBroadUtils.saveYeHuoToken(yehuoUserToken ?: "")
 
-            NetworkConfig.updateAppToken(apptoken)
+            NetworkBroadConfig.updateAppToken(apptoken)
 
 
             //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
@@ -234,7 +234,7 @@ class AppUtil {
             LiXinApp.initOkGo()
             MainScope().launch {
                 delay(200)
-                EventBus.getDefault().post(AppEvent(AppEventCode.EVENT_LOGIN_SUCCESS, null))
+                EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_LOGIN_SUCCESS, null))
             }
             JumpUtils.startMainActivity(context)
             activityList.forEachIndexed { _, activity ->
@@ -244,7 +244,7 @@ class AppUtil {
             }
 
 
-            MMKVUtils.getRealUserId()?.apply {
+            MMKVBroadUtils.getRealUserId()?.apply {
 
             }
 
@@ -286,20 +286,20 @@ class AppUtil {
 
         fun clearUserData(context: Context?) {
             ChatManager.Instance().disconnect(true, false)
-            SharePrefUtil.saveString(context, AppConsts.UID, "")
-            SharePrefUtil.saveString(context, AppConsts.APPTOKEN, "")
-            NetworkConfig.updateAppToken(null)
+            SharePrefBroadUtil.saveString(context, AppConsts.UID, "")
+            SharePrefBroadUtil.saveString(context, AppConsts.APPTOKEN, "")
+            NetworkBroadConfig.updateAppToken(null)
             EventBus.getDefault().post(
                 MeetingFloatService.MeetingEvent(
                     MeetingFloatService.EVENT_BACKGROUND_QUITE,
                     ""
                 )
             )
-            Constant.userId = null
-            Constant.realUserId = ""
-            MMKVUtils.clearUserId()
-            MMKVUtils.clearRealUserId()
-            MMKVUtils.clearYeHuoToken()
+            BroadConstant.userId = null
+            BroadConstant.realUserId = ""
+            MMKVBroadUtils.clearUserId()
+            MMKVBroadUtils.clearRealUserId()
+            MMKVBroadUtils.clearYeHuoToken()
         }
 
     }

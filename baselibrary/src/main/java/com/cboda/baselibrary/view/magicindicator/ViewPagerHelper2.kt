@@ -2,12 +2,12 @@ package com.cboda.baselibrary.view.magicindicator
 
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter
 
 fun bindIndicatorAndViewPager(
-    magicIndicator: MagicIndicator,
+    magicIndicator: MagicBroadIndicator,
     viewPager: ViewPager2,
-    commonNavigatorAdapter: CommonNavigatorAdapter? = null,
+    commonNavigatorAdapter: CommonNavigatorBroadAdapter? = null,
     smoothScroll: Boolean = false,
     commonNavigatorAdapterCanResult: Boolean = true,
     callBack: (Int?, Int?, Float?, Int?, Int?) -> Unit = { _, _, _, _, _ -> }

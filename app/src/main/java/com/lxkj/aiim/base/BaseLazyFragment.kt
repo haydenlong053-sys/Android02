@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.cboda.baselibrary.widge.LoadingDialog
+import com.cboda.baselibrary.widge.LoadingBroadDialog
 
 abstract class BaseLazyFragment : Fragment() {
     /**
@@ -46,14 +46,14 @@ abstract class BaseLazyFragment : Fragment() {
         dialogHelper = null
     }
 
-    private var dialogHelper: LoadingDialog? = null
+    private var dialogHelper: LoadingBroadDialog? = null
     protected fun showLoading() {
         context?.apply {
             if ((this is Activity) && (this.isFinishing || this.isDestroyed)) {
                 return
             }
             if (dialogHelper == null) {
-                dialogHelper = LoadingDialog(this)
+                dialogHelper = LoadingBroadDialog(this)
             }
             dialogHelper?.show()
             dialogHelper?.setCanceledOnTouchOutside(true)

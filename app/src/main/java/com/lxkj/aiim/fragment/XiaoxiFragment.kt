@@ -36,15 +36,15 @@ import cn.wildfire.chat.kit.conversationlist.ConversationOtherGroupFragment
 import cn.wildfire.chat.kit.conversationlist.ConversationSingleFragment
 import cn.wildfire.chat.kit.widget.ProgressFragment
 import cn.wildfirechat.viewmodel.HomeUIViewModel
-import com.cboda.baselibrary.bean.GlobalNoticeBean
-import com.cboda.baselibrary.event.UnreadCountEvent
+import com.cboda.baselibrary.bean.GlobalNoticeBroadBean
+import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.MyPagerAdapter
 import com.lxkj.aiim.base.BaseLazyFragment
-import com.cboda.baselibrary.bean.CommonResultBean
-import com.cboda.baselibrary.bean.GlobalInfo
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.lxkj.aiim.compose.BlurButton
 import com.lxkj.aiim.compose.BlurFabButton
 import com.lxkj.aiim.compose.DynamicFloatTabBar
@@ -62,7 +62,7 @@ import com.lxkj.aiim.lj.utils.ScreenUtil
 import com.lxkj.aiim.model.NoticeInfoBean
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.JumpUtils
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.lxkj.aiim.viewmodel.CommViewModel
@@ -101,7 +101,7 @@ class XiaoxiFragment : BaseLazyFragment() {
     private var myGroupCount = "0"
     private var otherGroupCount = "0"
     private var socialCount = "0"
-    private var bean: CommonResultBean.CommonResult? = null
+    private var bean: CommonResultBroadBean.CommonResult? = null
     private val fragments = ArrayList<Fragment>()
     var titles: ArrayList<String> = ArrayList()
     private val noticeViewModel: NoticeViewModel by viewModels()
@@ -209,7 +209,7 @@ class XiaoxiFragment : BaseLazyFragment() {
         }
 
         ivkefu?.setOnClickListener {
-            MMKVUtils.getKeFuId()?.let { it1 -> AppUtil.goChat(context, it1, "") }
+            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppUtil.goChat(context, it1, "") }
         }
 //        val fragment = ConversationListFragment()
 //        addFragment(fragment)
@@ -233,13 +233,13 @@ class XiaoxiFragment : BaseLazyFragment() {
             friendViewModel.fetchFriendShipList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                    GlobalInfo.myFriendListBean = MMKVUtils.saveUserListData(mList)
+                    GlobalBroadInfo.myFriendListBean = MMKVBroadUtils.saveUserListData(mList)
                 }
             }
             friendViewModel.fetchGroupList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchGroupList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                    GlobalInfo.myGroupListData = MMKVUtils.saveGroupList(mList)
+                    GlobalBroadInfo.myGroupListData = MMKVBroadUtils.saveGroupList(mList)
                 }
             }
         }
@@ -255,7 +255,7 @@ class XiaoxiFragment : BaseLazyFragment() {
                             "zhanglong",
                             "mList.list!![0].noticeTitle==" + mList.list!![0].noticeTitle
                         )
-                        val noticeBean = GlobalNoticeBean(
+                        val noticeBean = GlobalNoticeBroadBean(
                             mList.list!![0].id,
                             mList.list!![0].createTime,
                             mList.list!![0].noticeTitle
@@ -404,7 +404,7 @@ class XiaoxiFragment : BaseLazyFragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: UnreadCountEvent?) {
+    fun onEvent(event: UnreadCountBroadEvent?) {
 //        if (null != event?.count0)
 //            count0 = event?.count0.toString()
         if (null != event?.singleCount) {
@@ -475,7 +475,7 @@ class XiaoxiFragment : BaseLazyFragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onReceiveEvent(event: GlobalNoticeBean?) {
+    fun onReceiveEvent(event: GlobalNoticeBroadBean?) {
         if (event?.jumpAppAction == 1) {
             val intent = Intent(requireContext(), NoticeDetailActivity::class.java)
             intent.putExtra("data", NoticeInfoBean().apply {

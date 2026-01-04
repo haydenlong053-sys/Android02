@@ -1,13 +1,13 @@
 package com.lxkj.aiim.bean
 
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.google.gson.annotations.SerializedName
 
  class CreateRoomBean(
     @SerializedName("data")
     val `data`: RoomData? = RoomData(),
 
-): BaseResponse()
+): BaseBroadResponse()
 
 data class RoomData(
     @SerializedName("appId")

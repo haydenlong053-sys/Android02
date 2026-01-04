@@ -22,7 +22,7 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
 
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:id="@+id/tvshenfen"
                 android:visibility="gone"
                 android:textSize="11sp"

@@ -40,11 +40,11 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.cboda.baselibrary.bean.GlobalFriendBean;
-import com.cboda.baselibrary.bean.GlobalInfo;
-import com.cboda.baselibrary.event.FanYiEvent;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.event.FanYiBroadEvent;
 import com.cboda.baselibrary.utils.ELogUtilKt;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;
@@ -1063,14 +1063,14 @@ public class ConversationFragment extends Fragment implements
     }
 
     private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
-        if (MMKVUtils.Companion.getKeFuId() != null && conversation.target.contains(MMKVUtils.Companion.getKeFuId())) {
-            return MMKVUtils.Companion.getKeFuName();
+        if (MMKVBroadUtils.Companion.getKeFuId() != null && conversation.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+            return MMKVBroadUtils.Companion.getKeFuName();
         } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
             return userInfo.friendAlias;
         } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
             return userInfo.displayName;
         } else {
-            GlobalFriendBean friendSmailListBean = GlobalInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
+            GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
             if (friendSmailListBean != null) {
                 if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
                     return friendSmailListBean.remarkName;
@@ -1255,7 +1255,7 @@ public class ConversationFragment extends Fragment implements
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgReceive(FanYiEvent fanYiEvent) {
+    public void onMsgReceive(FanYiBroadEvent fanYiEvent) {
         adapter.notifyDataSetChanged();
     }
 

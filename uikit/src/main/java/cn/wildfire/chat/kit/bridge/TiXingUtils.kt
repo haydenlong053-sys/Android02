@@ -6,7 +6,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Vibrator
 import android.util.Log
-import com.cboda.baselibrary.utils.SharePrefUtil
+import com.cboda.baselibrary.utils.SharePrefBroadUtil
 
 class TiXingUtils {
     companion object {
@@ -18,7 +18,7 @@ class TiXingUtils {
         const val  RING_TIXING="tixing.mp3"
 
         fun tixing(context:Context?){
-            val ringFileName= SharePrefUtil.getString(context,SharePrefUtil.RING_FILE_NAME_KEY, RING_FOUND)
+            val ringFileName= SharePrefBroadUtil.getString(context,SharePrefBroadUtil.RING_FILE_NAME_KEY, RING_FOUND)
             try {
                 //震动
                 if (vibrator == null) {

@@ -10,8 +10,8 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.bean.GlobalFriendBean;
-import com.cboda.baselibrary.bean.GlobalInfo;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.bumptech.glide.Glide;
 
 import cn.wildfire.chat.kit.ChatManagerHolder;
@@ -35,7 +35,7 @@ public class SingleConversationViewHolder extends ConversationViewHolder {
     protected void onBindConversationInfo(ConversationInfo conversationInfo) {
         UserInfo userInfo = ChatManagerHolder.gChatManager.getUserInfo(conversationInfo.conversation.target, false);
         this.portrait = userInfo.portrait;
-        GlobalFriendBean friendSmailListBean = GlobalInfo.INSTANCE.queryMyFriendInfo(conversationInfo.conversation.target);
+        GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.conversation.target);
         String name = getMyUserDisplayName(userInfo, friendSmailListBean);
         Glide.with(fragment)
                 .load(portrait)
@@ -58,7 +58,7 @@ public class SingleConversationViewHolder extends ConversationViewHolder {
     }
 
 
-    private String getMyUserDisplayName(UserInfo userInfo, GlobalFriendBean friendSmailListBean) {
+    private String getMyUserDisplayName(UserInfo userInfo, GlobalFriendBroadBean friendSmailListBean) {
         if (friendSmailListBean != null) {
             portrait = friendSmailListBean.icon;
         }

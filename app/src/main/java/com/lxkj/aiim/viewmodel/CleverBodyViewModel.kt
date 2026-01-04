@@ -1,15 +1,15 @@
 package com.lxkj.aiim.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.cboda.baselibrary.bean.GlobalFriendBean
-import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.lxkj.aiim.base.BaseViewModel
 import com.lxkj.aiim.livedata.SingleLiveData
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.model.SignInfoViewModel
 import com.lxkj.aiim.model.UserInfoModel
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +23,8 @@ class CleverBodyViewModel : BaseViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val result = NetworkRepository.postEncrypted(
-                        UrlConstants.SIGN_INFO,
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadConstants.SIGN_INFO,
                         SignInfoViewModel::class.java, HashMap<String, Any>()
                     )
                     result.onSuccess { data ->
@@ -47,19 +47,19 @@ class CleverBodyViewModel : BaseViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val result = NetworkRepository.postEncrypted(
-                        UrlConstants.GET_USER_INFO,
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadConstants.GET_USER_INFO,
                         UserInfoModel::class.java, HashMap<String, Any>()
                     )
                     result.onSuccess { data ->
                         data?.let {
-                            val bean = GlobalFriendBean()
+                            val bean = GlobalFriendBroadBean()
                             bean.userId = data.id
                             bean.icon = data.icon
                             bean.nickName = data.name
                             bean.grade = data.grade
                             bean.registerDay = data.registerDayBean?.registDay
-                            MMKVUtils.saveUserData(bean)
+                            MMKVBroadUtils.saveUserData(bean)
                         }
                         liveData.postValue(data)
                     }.onFailure { _, _ ->

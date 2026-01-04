@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.baselibrary.toast.ToastUtils
-import com.cboda.baselibrary.utils.CompressionUtil.imgCompression
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.luck.picture.lib.entity.LocalMedia
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.SelectPicAdapter
@@ -101,7 +101,7 @@ class MutliPicSelectHolder(
             }
             if (mDataList[position] == "add") {
                 if (imgsList.size >= maxPic) {
-                    ToastUtils.show("最多添加${maxPic}张图片")
+                    ToastBroadUtils.show("最多添加${maxPic}张图片")
                     return@setOnItemClickListener
                 }
                 openGallery()

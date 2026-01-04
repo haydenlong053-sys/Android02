@@ -25,7 +25,7 @@ public class EventLiveData extends LiveData<Object> {
     public void removeObserver(@NonNull Observer<? super Object> observer) {
         super.removeObserver(observer);
         if (!hasObservers()) {
-            LiveDataBus.unregister(mSubject);
+            LiveDataBroadBus.unregister(mSubject);
         }
     }
 
@@ -33,7 +33,7 @@ public class EventLiveData extends LiveData<Object> {
     public void removeObservers(@NonNull LifecycleOwner owner) {
         super.removeObservers(owner);
         if (!hasObservers()) {
-            LiveDataBus.unregister(mSubject);
+            LiveDataBroadBus.unregister(mSubject);
         }
     }
 

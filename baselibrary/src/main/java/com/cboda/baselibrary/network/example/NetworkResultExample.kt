@@ -2,9 +2,9 @@ package com.cboda.baselibrary.network.example
 //
 //import androidx.lifecycle.ViewModel
 //import androidx.lifecycle.viewModelScope
-//import com.cboda.baselibrary.network.repository.NetworkRepository
-//import com.cboda.baselibrary.network.repository.NetworkListRepository
-//import com.cboda.baselibrary.network.result.NetworkResult
+//import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+//import com.cboda.baselibrary.network.repository.NetworkListBroadRepository
+//import com.cboda.baselibrary.network.result.NetworkBroadResult
 //import com.cboda.baselibrary.network.result.onSuccess
 //import com.cboda.baselibrary.network.result.onFailure
 //import com.cboda.baselibrary.network.result.onError
@@ -15,28 +15,28 @@ package com.cboda.baselibrary.network.example
 //import kotlinx.coroutines.launch
 //
 ///**
-// * NetworkResult 使用示例
+// * NetworkBroadResult 使用示例
 // * 展示如何在 ViewModel 中使用新的网络请求结果处理方式
 // *
 // * @author CommonLibrary
 // */
 //
 //// 示例数据类
-//data class User(
+//data class BroadUser(
 //    val id: Int,
 //    val name: String,
 //    val email: String,
 //    val role: String
 //)
 //
-//data class LoginRequest(
+//data class LoginBroadRequest(
 //    val username: String,
 //    val password: String
 //)
 //
-//data class LoginResponse(
+//data class LoginBroadResponse(
 //    val token: String,
-//    val userInfo: User
+//    val userInfo: BroadUser
 //)
 //
 //data class CreateMeetingRequest(
@@ -52,14 +52,14 @@ package com.cboda.baselibrary.network.example
 //// UI 状态
 //data class UserUiState(
 //    val isLoading: Boolean = false,
-//    val user: User? = null,
-//    val users: List<User> = emptyList(),
+//    val user: BroadUser? = null,
+//    val users: List<BroadUser> = emptyList(),
 //    val errorMessage: String? = null,
 //    val isNetworkError: Boolean = false
 //)
 //
 ///**
-// * 示例 ViewModel：展示如何使用 NetworkResult
+// * 示例 ViewModel：展示如何使用 NetworkBroadResult
 // */
 //class NetworkResultExampleViewModel : ViewModel() {
 //
@@ -73,28 +73,28 @@ package com.cboda.baselibrary.network.example
 //        viewModelScope.launch {
 //            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 //
-//            val result = NetworkRepository.get<User>(
+//            val result = NetworkBroadRepository.get<BroadUser>(
 //                url = "api/user/$userId",
 //                params = emptyMap()
 //            )
 //
 //            // 方式1：使用 when 表达式处理所有状态
 //            when (result) {
-//                is NetworkResult.Success -> {
+//                is NetworkBroadResult.BroadSuccess -> {
 //                    _uiState.value = _uiState.value.copy(
 //                        isLoading = false,
 //                        user = result.data,
 //                        isNetworkError = false
 //                    )
 //                }
-//                is NetworkResult.Failure -> {
+//                is NetworkBroadResult.BroadFailure -> {
 //                    _uiState.value = _uiState.value.copy(
 //                        isLoading = false,
 //                        errorMessage = "获取用户信息失败: ${result.message} (错误码: ${result.code})",
 //                        isNetworkError = false
 //                    )
 //                }
-//                is NetworkResult.Error -> {
+//                is NetworkBroadResult.BroadError -> {
 //                    _uiState.value = _uiState.value.copy(
 //                        isLoading = false,
 //                        errorMessage = "网络错误: ${result.throwable.message}",
@@ -112,9 +112,9 @@ package com.cboda.baselibrary.network.example
 //        viewModelScope.launch {
 //            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 //
-//            val request = LoginRequest(username, password)
+//            val request = LoginBroadRequest(username, password)
 //
-//            NetworkRepository.post<LoginResponse>(
+//            NetworkBroadRepository.post<LoginBroadResponse>(
 //                url = "api/login",
 //                body = request
 //            )
@@ -166,7 +166,7 @@ package com.cboda.baselibrary.network.example
 //                "size" to size.toString()
 //            )
 //
-//            NetworkListRepository.getList<User>(
+//            NetworkListBroadRepository.getList<BroadUser>(
 //                url = "api/users",
 //                params = params
 //            )
@@ -196,7 +196,7 @@ package com.cboda.baselibrary.network.example
 //        viewModelScope.launch {
 //            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 //
-//            NetworkRepository.post<String>(
+//            NetworkBroadRepository.post<String>(
 //                url = "api/meeting/create",
 //                body = request
 //            )
@@ -239,7 +239,7 @@ package com.cboda.baselibrary.network.example
 //     */
 //    fun checkNetworkAndLoadData() {
 //        viewModelScope.launch {
-//            val result = NetworkRepository.get<User>(
+//            val result = NetworkBroadRepository.get<BroadUser>(
 //                url = "api/user/profile",
 //                params = emptyMap()
 //            )
@@ -275,7 +275,7 @@ package com.cboda.baselibrary.network.example
 //            _uiState.value = _uiState.value.copy(isLoading = true)
 //
 //            // 先获取用户信息
-//            val userResult = NetworkRepository.get<User>(
+//            val userResult = NetworkBroadRepository.get<BroadUser>(
 //                url = "api/user/$userId",
 //                params = emptyMap()
 //            )
@@ -299,7 +299,7 @@ package com.cboda.baselibrary.network.example
 //    }
 //
 //    private suspend fun loadUserPermissions(userId: Int) {
-//        NetworkRepository.get<List<String>>(
+//        NetworkBroadRepository.get<List<String>>(
 //            url = "api/user/$userId/permissions",
 //            params = emptyMap()
 //        )
@@ -353,7 +353,7 @@ package com.cboda.baselibrary.network.example
 //            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 //
 //            // 2. 发起网络请求
-//            val result = NetworkRepository.get<DataType>(url, params)
+//            val result = NetworkBroadRepository.get<DataType>(url, params)
 //
 //            // 3. 处理结果
 //            result
@@ -420,7 +420,7 @@ package com.cboda.baselibrary.network.example
 //    fun dataTransformation() {
 //        /*
 //        // 转换数据格式
-//        NetworkRepository.get<ApiResponse>(url, params)
+//        NetworkBroadRepository.get<ApiResponse>(url, params)
 //            .map { apiResponse ->
 //                // 将API响应转换为UI需要的格式
 //                apiResponse?.data?.let { UiModel.fromApiData(it) }
@@ -430,12 +430,12 @@ package com.cboda.baselibrary.network.example
 //            }
 //
 //        // 链式处理
-//        NetworkRepository.get<User>(url, params)
+//        NetworkBroadRepository.get<BroadUser>(url, params)
 //            .flatMap { user ->
 //                if (user != null) {
-//                    NetworkRepository.get<UserProfile>("api/user/${user.id}/profile")
+//                    NetworkBroadRepository.get<UserProfile>("api/user/${user.id}/profile")
 //                } else {
-//                    NetworkResult.Failure(-1, "用户信息为空")
+//                    NetworkBroadResult.BroadFailure(-1, "用户信息为空")
 //                }
 //            }
 //            .onSuccess { profile ->

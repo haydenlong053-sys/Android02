@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.baselibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.lxkj.aiim.BuildConfig
 import com.lxkj.aiim.R
 import com.lxkj.aiim.databinding.DialogPopAuthQuestionBinding
@@ -29,7 +29,7 @@ import okhttp3.Response
 
 //密保问题验证
 class AuthQuestionPop(val context: Context, val jumpSource: Int = SafeJumpEnum.None.sourceType,val isDeepColor: Boolean =false,val account:String?=null,) :
-    BaseBottomPop(context) {
+    BaseBottomBroadPop(context) {
     private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: SafeCenterViewModel? = null
     @JvmField

@@ -22,25 +22,25 @@ import cn.wildfire.chat.kit.conversation.message.viewholder.ZhuanZhangMessageCon
 import cn.wildfire.chat.kit.third.location.viewholder.LocationMessageContentViewHolder
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnConnectToServerListener
-import com.cboda.baselibrary.app.UtilApplication
-import com.cboda.baselibrary.network.config.NetworkConfig
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.network.config.NetworkBroadConfig
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.initBuGly
 import com.danikula.videocache.HttpProxyCacheServer
 import com.didichuxing.doraemonkit.DoKit
 import com.lxkj.aiim.BuildConfig
 import com.lxkj.aiim.R
 import com.lxkj.aiim.lj.configuration.AppConsts
-import com.lxkj.aiim.lj.http.UrlConstants
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.http.UrlBroadConstants
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.net.LiXinMyHttpLoggingInterceptor
 import com.lxkj.aiim.service.AppService
 import com.lxkj.aiim.utils.AppUtil
-import com.cboda.baselibrary.bean.Constant
-import com.cboda.baselibrary.utils.HttpsConfig.setHttpMode
-import com.cboda.baselibrary.network.ResInterceptor
+import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.utils.HttpsBroadConfig.setHttpMode
+import com.cboda.baselibrary.network.ResBroadInterceptor
 import com.lxkj.aiim.utils.DeviceUtils
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.clearUserDataLiveData
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug
@@ -60,7 +60,7 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 
 
-class LiXinApp : UtilApplication(), OnConnectToServerListener {
+class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
 
 
     companion object {
@@ -94,7 +94,7 @@ class LiXinApp : UtilApplication(), OnConnectToServerListener {
             builder.connectTimeout(180000, TimeUnit.MILLISECONDS)
             builder.readTimeout(180000, TimeUnit.MILLISECONDS)
             val headers = HttpHeaders()
-            headers.put("apptoken", Constant.getUid() ?: "")
+            headers.put("apptoken", BroadConstant.getUid() ?: "")
             headers.put("sensorNo", DeviceUtils.getDeviceId(mContext!!))
             if (getIsDebug()) {
 //                val loggingInterceptor = LiXinMyHttpLoggingInterceptor("OKGO")
@@ -102,7 +102,7 @@ class LiXinApp : UtilApplication(), OnConnectToServerListener {
 //                loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY)
 //                //log颜色级别，决定了log在控制台显示的颜色
 //                loggingInterceptor.setColorLevel(Level.INFO)
-                val loggingInterceptor = ResInterceptor("AppHttpOkGo")
+                val loggingInterceptor = ResBroadInterceptor("AppHttpOkGo")
                 builder.addInterceptor(loggingInterceptor)
             }
             OkGo.getInstance().init(mContext).setOkHttpClient(builder.build())
@@ -131,9 +131,9 @@ class LiXinApp : UtilApplication(), OnConnectToServerListener {
         mContext = this
 //        Fresco.initialize(this)
         initBuGly(this, "03a4cc2bab")
-        MMKVUtils.init(this)
+        MMKVBroadUtils.init(this)
         setHttpMode()
-        ToastUtils.init(this)
+        ToastBroadUtils.init(this)
         val cacheDir = File(applicationContext.cacheDir, "http")
         HttpResponseCache.install(cacheDir, 1024 * 1024 * 128)
 //        initDoraemonKit()
@@ -197,17 +197,17 @@ class LiXinApp : UtilApplication(), OnConnectToServerListener {
         }
     }
 
-    private fun initNetworkConfig() {
-        NetworkConfig.init(UrlConstants.HOST + "/")
-        NetworkConfig.updateAppToken(SharePrefUtil.getString(this, AppConsts.APPTOKEN, ""))
+    private fun initNetworkBroadConfig() {
+        NetworkBroadConfig.init(UrlBroadConstants.HOST + "/")
+        NetworkBroadConfig.updateAppToken(SharePrefBroadUtil.getString(this, AppConsts.APPTOKEN, ""))
     }
 
     private fun lateInitSdk(): Unit {
-//        if (!MMKVUtils.isPrivacyready()) {
+//        if (!MMKVBroadUtils.isPrivacyready()) {
 //            JCollectionAuth.setAuth(this, false) // 后续初始化过程将被拦截
 //        } else {
         initOkGo()
-        initNetworkConfig()
+        initNetworkBroadConfig()
 //        }
     }
 
@@ -257,8 +257,8 @@ class LiXinApp : UtilApplication(), OnConnectToServerListener {
             )
 
             setupWFCDirs()
-            val userId = MMKVUtils.getRealUserId()
-            val yehuoUserToken = MMKVUtils.getYeHuoToken()
+            val userId = MMKVBroadUtils.getRealUserId()
+            val yehuoUserToken = MMKVBroadUtils.getYeHuoToken()
             if (userId?.isNotEmpty() == true && yehuoUserToken?.isNotEmpty() == true) {
                 //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
                 //另外不能多次connect，如果需要切换用户请先disconnect，然后3秒钟之后再connect（如果是用户手动登录可以不用等，因为用户操作很难3秒完成，如果程序自动切换请等3秒）

@@ -2,13 +2,13 @@ package com.lxkj.aiim.bean
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 
 /**
  * 简述： <功能描述>
  * Created by ysh on 2023/4/6.
  */
-class CreatePayBean : BaseResponse() {
+class CreatePayBean : BaseBroadResponse() {
     var zfbResult: String? = null
     var wxMap: WxMapBean? = null
     var isZero: String? = null //是否是0元单  1：是  2：否

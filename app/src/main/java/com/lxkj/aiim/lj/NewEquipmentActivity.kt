@@ -7,19 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
-import com.cboda.baselibrary.event.AppEvent
-import com.cboda.baselibrary.event.AppEventCode
-import com.cboda.baselibrary.network.config.NetworkConfig.updateAppToken
-import com.cboda.baselibrary.utils.MMKVUtils
-import com.cboda.baselibrary.utils.OnSingleClickListener
-import com.cboda.baselibrary.utils.Vp2FragmentAdapter
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.network.config.NetworkBroadConfig.updateAppToken
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener
+import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.databinding.ActivityNewEquipmentBinding
 import com.lxkj.aiim.dialog.pop.AuthWayPop
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.AppConsts
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.lj.http.Url
 import com.lxkj.aiim.lj.utils.click
 import com.lxkj.aiim.utils.AppUtil.Companion.imLogin
@@ -49,7 +49,7 @@ class NewEquipmentActivity : BaseSimple2Activity() {
         mIvBgTop.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         mIvBgTop.requestLayout() // 或直接调用 setLayoutParams 会自动触发
         setLottiePath("login_back1.json")
-        val adapter = Vp2FragmentAdapter(this)
+        val adapter = Vp2FragmentBroadAdapter(this)
         val fragments = arrayListOf<Fragment>()
         fragments.add(SelectLoginFragment())
         fragments.add(LoginFragment())
@@ -59,7 +59,7 @@ class NewEquipmentActivity : BaseSimple2Activity() {
         adapter.setData(fragments)
         mBinding?.loginViewPager?.adapter = adapter
         mBinding?.loginViewPager?.isUserInputEnabled = false
-        val language = MMKVUtils.getYuYan()
+        val language = MMKVBroadUtils.getYuYan()
         mBinding?.languageTv?.text = if (TextUtils.isEmpty(language)) getString(R.string.simplified_chinese) else language
         mBinding?.ivBlack?.click {
             checkIsFinish()
@@ -133,7 +133,7 @@ class NewEquipmentActivity : BaseSimple2Activity() {
     }
 
 
-    private val switchLanguageClick = object : OnSingleClickListener() {
+    private val switchLanguageClick = object : OnSingleClickBroadListener() {
         override fun onSingleClick(v: View?) {
             startActivity(Intent(this@NewEquipmentActivity, LanguageActivity::class.java))
         }
@@ -189,10 +189,10 @@ class NewEquipmentActivity : BaseSimple2Activity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun receiveEventMsg(eventBusBean: AppEvent<Any?>) {
-        if (eventBusBean.eventCode == AppEventCode.EVENT_NEW_MACHINE_CHECK && eventBusBean.data != null) {
+    fun receiveEventMsg(eventBusBean: AppBroadEvent<Any?>) {
+        if (eventBusBean.eventCode == AppEventBroadCode.EVENT_NEW_MACHINE_CHECK && eventBusBean.data != null) {
             val resultBean = eventBusBean.data as ResultBean?
-            SharePrefUtil.saveString(this, AppConsts.APPTOKEN, resultBean!!.apptoken)
+            SharePrefBroadUtil.saveString(this, AppConsts.APPTOKEN, resultBean!!.apptoken)
             updateAppToken(resultBean.apptoken)
             val authWayPop = AuthWayPop(this, SafeJumpEnum.LoginNewMachine.sourceType, true)
             authWayPop.transferInvoke = {

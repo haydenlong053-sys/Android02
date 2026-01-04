@@ -60,7 +60,7 @@ import com.luck.picture.lib.manager.SelectedManager;
 import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.permissions.PermissionConfig;
 import com.luck.picture.lib.permissions.PermissionResultCallback;
-import com.luck.picture.lib.permissions.PermissionUtil;
+import com.luck.picture.lib.permissions.PermissionBroadUtil;
 import com.luck.picture.lib.service.ForegroundService;
 import com.luck.picture.lib.style.PictureWindowAnimationStyle;
 import com.luck.picture.lib.style.SelectMainStyle;
@@ -73,7 +73,7 @@ import com.luck.picture.lib.utils.MediaStoreUtils;
 import com.luck.picture.lib.utils.MediaUtils;
 import com.luck.picture.lib.utils.PictureFileUtils;
 import com.luck.picture.lib.utils.SdkVersionUtils;
-import com.luck.picture.lib.utils.ToastUtils;
+import com.luck.picture.lib.utils.ToastBroadUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -269,7 +269,7 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
                                 }
                             });
         } else {
-            PermissionUtil.goIntentSetting(this, PictureConfig.REQUEST_GO_SETTING);
+            PermissionBroadUtil.goIntentSetting(this, PictureConfig.REQUEST_GO_SETTING);
         }
     }
 
@@ -407,7 +407,7 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
                 }
                 if (isSelectLimit) {
                 } else {
-                    ToastUtils.showToast(getAppContext(), getString(R.string.ps_select_no_support));
+                    ToastBroadUtils.showToast(getAppContext(), getString(R.string.ps_select_no_support));
                 }
                 return SelectedManager.INVALID;
             }
@@ -1030,8 +1030,8 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
                 selectorConfig.onPermissionDescriptionListener.onDismiss(this);
             } else {
                 if (isDisplayExplain) {
-                    int permissionStatus = PermissionUtil.getPermissionStatus(requireActivity(), permissionArray[0]);
-                    if (permissionStatus != PermissionUtil.REFUSE_PERMANENT) {
+                    int permissionStatus = PermissionBroadUtil.getPermissionStatus(requireActivity(), permissionArray[0]);
+                    if (permissionStatus != PermissionBroadUtil.REFUSE_PERMANENT) {
                         selectorConfig.onPermissionDescriptionListener.onPermissionDescription(this, permissionArray);
                     }
                 } else {
@@ -1112,7 +1112,7 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    ToastUtils.showToast(getAppContext(), e.getMessage());
+                    ToastBroadUtils.showToast(getAppContext(), e.getMessage());
                 }
 
                 ArrayList<LocalMedia> result = new ArrayList<>(selectedResult);
@@ -1127,7 +1127,7 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
         } else if (resultCode == Crop.RESULT_CROP_ERROR) {
             Throwable throwable = data != null ? Crop.getError(data) : new Throwable("image crop error");
             if (throwable != null) {
-                ToastUtils.showToast(getAppContext(), throwable.getMessage());
+                ToastBroadUtils.showToast(getAppContext(), throwable.getMessage());
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             if (requestCode == PictureConfig.REQUEST_CAMERA) {

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cboda.baselibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.dialog.pop.AuthWayPop;
@@ -28,7 +28,7 @@ import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.utils.AppUtil;
 import com.lxkj.aiim.utils.GlideCatchUtil;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -74,7 +74,7 @@ public class UserSetActivity extends BaseSimpleActivity implements View.OnClickL
         initViews();
         getToolbarTitle().setText(getResources().getString(R.string.设置));
         tvSwitch.setVisibility(getIsDebug() ? View.VISIBLE : View.GONE);
-        tvSwitch.setText("切换环境（" + HttpsConfig.INSTANCE.getDevType() + "）");
+        tvSwitch.setText("切换环境（" + HttpsBroadConfig.INSTANCE.getDevType() + "）");
         tvSwitch.setOnClickListener(this);
         llUserInfo.setOnClickListener(this);
         EventBus.getDefault().register(this);
@@ -163,7 +163,7 @@ public class UserSetActivity extends BaseSimpleActivity implements View.OnClickL
         } else if (view.getId() == R.id.tvLogout) {
             AppUtil.Companion.exit(UserSetActivity.this);
         } else if (view.getId() == R.id.llLianxi) {
-            AppUtil.Companion.goChat(UserSetActivity.this, MMKVUtils.Companion.getKeFuId(), "");
+            AppUtil.Companion.goChat(UserSetActivity.this, MMKVBroadUtils.Companion.getKeFuId(), "");
         } else if (view.getId() == R.id.tvZx) {
             intent = new Intent(this, ZxzhActivity.class);
             startActivity(intent);
@@ -174,7 +174,7 @@ public class UserSetActivity extends BaseSimpleActivity implements View.OnClickL
                 changBindMachine();
             }
         } else if (view.getId() == R.id.tvSwitch) {
-            HttpsConfig.INSTANCE.showSwitchDialog();
+            HttpsBroadConfig.INSTANCE.showSwitchDialog();
         }
     }
 

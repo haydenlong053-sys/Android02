@@ -23,11 +23,11 @@ import com.lxkj.aiim.R
 import com.lxkj.aiim.app.LiXinApp
 import java.lang.reflect.Method
 import com.lxkj.aiim.lj.configuration.AppConsts
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.utils.AppUtil
-import com.cboda.baselibrary.utils.MMKVUtils
-import com.cboda.baselibrary.utils.MMKVUtils.Companion.getZt
-import com.cboda.baselibrary.widge.LoadingDialog
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getZt
+import com.cboda.baselibrary.widge.LoadingBroadDialog
 import java.util.Locale
 
 abstract class BaseSimpleActivity : AppCompatActivity() {
@@ -54,7 +54,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val language = MMKVUtils.getYuYan()
+        val language = MMKVBroadUtils.getYuYan()
 
         val zhuti = getZt()
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -384,7 +384,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         return llContentLayout
     }
 
-    private var dialogHelper: LoadingDialog? = null
+    private var dialogHelper: LoadingBroadDialog? = null
     private lateinit var llContentLayout: LinearLayoutCompat
     private lateinit var llTitleLayout: LinearLayout
     private lateinit var rightIcon: AppCompatImageView
@@ -409,7 +409,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             return
         }
         if (dialogHelper == null) {
-            dialogHelper = LoadingDialog(this)
+            dialogHelper = LoadingBroadDialog(this)
         }
         dialogHelper?.show()
         dialogHelper?.setCanceledOnTouchOutside(true)
@@ -448,7 +448,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     //设置字体大、中、小
     protected fun getTextSize(newBase: Context?): Float {
-        val fontScale: Float = SharePrefUtil.getString(newBase, AppConsts.FontScale, "1").toFloat()
+        val fontScale: Float = SharePrefBroadUtil.getString(newBase, AppConsts.FontScale, "1").toFloat()
         return fontScale
     }
 }

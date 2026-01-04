@@ -1,11 +1,11 @@
 package com.lxkj.aiim.bean
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.google.gson.annotations.SerializedName
  class GroupMeetingBean(
 
     @SerializedName("data")
     val `data`: GroupMeetingData? = GroupMeetingData(),
-): BaseResponse()
+): BaseBroadResponse()
 
 data class GroupMeetingData(
     @SerializedName("activeMeetingCount")

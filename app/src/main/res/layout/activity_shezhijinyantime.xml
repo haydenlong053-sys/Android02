@@ -6,7 +6,7 @@
     android:background="@color/bg_main_space"
     android:orientation="vertical">
 
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -135,7 +135,7 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
 
     <TextView

@@ -23,10 +23,10 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
-import com.cboda.baselibrary.event.AppEventCode
+import com.cboda.baselibrary.event.AppEventBroadCode
 import com.lxkj.aiim.R
 import com.lxkj.aiim.bean.MeetingData
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.utils.AUIVoiceRoomUIKit
 import com.lxkj.aiim.net.manager.ServerManager
 import com.lxkj.aiim.widge.VoiceWaveView
@@ -194,7 +194,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
                     !state.isExtended) {
 //                    showRenewalReminder(state)
                     //发送通知给页面续费提醒弹窗
-                    EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_ADD_TIP,mMeetData))
+                    EventBus.getDefault().post(MeetingEvent(AppEventBroadCode.EVENT_MEETING_ADD_TIP,mMeetData))
                     state.hasAlerted = true
                 }
             }
@@ -224,7 +224,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
     fun handleEvent(event: MeetingEvent<*>?){
         event?.eventCode?.let {
             when(it){
-                AppEventCode.EVENT_MEETING_UN_ADD_TIME->{
+                AppEventBroadCode.EVENT_MEETING_UN_ADD_TIME->{
                     mRoomInfo?.roomId?.let {roomId->
                         roomTimers[roomId]?.let {
                             it.hasAlerted=true
@@ -232,7 +232,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
                         }
                     }
                 }
-                AppEventCode.EVENT_MEETING_ADD_TIME->{
+                AppEventBroadCode.EVENT_MEETING_ADD_TIME->{
                       mRoomInfo?.roomId?.let {
                           getRoomInfo(it,true)
                       }
@@ -582,13 +582,13 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
 
 //        private  const val  appId="d1f140de133c4508a532c0033840a801"
 //        private  const val  appCert="3c78a21e0b4b4db9a025b61c61c0a087"
-//        private  const val  host=UrlConstants.HOST
+//        private  const val  host=UrlBroadConstants.HOST
 //        private  const val  imAppKey="411369491#1583729"
 //        private  const val  imClientId="0040aa35a98749ecb5b207948d5351f2";
 //        private  const val  imClientSecret="aed98e56a615417aa0c9ace3fb5359cd";
         private  const val  appId="91d54a270a4b41ea809164bd0c2486ed"
         private  const val  appCert="a22b2b5d67614df2a123c7b7a88644d6"
-        private   var  host=UrlConstants.HOST
+        private   var  host=UrlBroadConstants.HOST
         private  const val  imAppKey="411369491#1597850"
         private  const val  imClientId="0040aa35a98749ecb5b207948d5351f2";
         private  const val  imClientSecret="aed98e56a615417aa0c9ace3fb5359cd";

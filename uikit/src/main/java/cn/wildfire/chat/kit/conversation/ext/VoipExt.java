@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
-import com.cboda.baselibrary.toast.ToastUtils;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.WfcUIKit;
@@ -74,7 +74,7 @@ public class VoipExt extends ConversationExt {
         String[] notGrantedPermissions = checkPermissions(permissions);
         if (notGrantedPermissions.length > 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ToastUtils.show("请先授权语音和蓝牙权限!");
+                ToastBroadUtils.show("请先授权语音和蓝牙权限!");
                 activity.requestPermissions(notGrantedPermissions, 100);
                 return;
             }

@@ -27,7 +27,7 @@ import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.permissions.PermissionConfig;
 import com.luck.picture.lib.permissions.PermissionResultCallback;
 import com.luck.picture.lib.utils.SdkVersionUtils;
-import com.luck.picture.lib.utils.ToastUtils;
+import com.luck.picture.lib.utils.ToastBroadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -373,7 +373,7 @@ public class PictureSelectorSystemFragment extends PictureCommonFragment {
         if (isCheckReadStorage) {
             openSystemAlbum();
         } else {
-            ToastUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
+            ToastBroadUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
             onKeyBackFragmentFinish();
         }
         PermissionConfig.CURRENT_REQUEST_PERMISSION = new String[]{};

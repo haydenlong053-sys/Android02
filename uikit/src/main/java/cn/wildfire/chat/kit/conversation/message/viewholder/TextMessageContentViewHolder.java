@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.utils.SharePrefUtil;
+import com.cboda.baselibrary.utils.SharePrefBroadUtil;
 import com.google.gson.Gson;
 import com.lqr.emoji.MoonUtils;
 
@@ -95,12 +95,12 @@ public class TextMessageContentViewHolder extends NormalMessageContentViewHolder
             MoonUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
         }
 
-        String fy = SharePrefUtil.getString(fragment.getContext(), message.message.messageUid + "", "");
+        String fy = SharePrefBroadUtil.getString(fragment.getContext(), message.message.messageUid + "", "");
 
         if (message.message.direction == MessageDirection.Receive) {
-            if (SharePrefUtil.getString(fragment.getContext(), "autofanyi", "0").equals("1") &&
+            if (SharePrefBroadUtil.getString(fragment.getContext(), "autofanyi", "0").equals("1") &&
                     fy.length() == 0) {
-                long time = SharePrefUtil.getLong(fragment.getContext(), "autofanyitime", 0);
+                long time = SharePrefBroadUtil.getLong(fragment.getContext(), "autofanyitime", 0);
                 if (time == 0 || message.message.serverTime > time)
                     YeHuoCommonBridge.getInstance().setYeHuoQiaoJie(fragment.getContext(), "fanyi", ((TextMessageContent) message.message.content).getContent(), "", message);
             }

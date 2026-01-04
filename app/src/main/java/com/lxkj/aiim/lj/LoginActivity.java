@@ -36,13 +36,13 @@ import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.ListUtil;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;
 import com.lxkj.aiim.utils.GlideLoaderHelper;
 import com.lxkj.aiim.utils.JumpUtils;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.lxkj.aiim.widge.LiXinStandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 
@@ -146,21 +146,21 @@ public class LoginActivity extends BaseSimpleActivity implements View.OnClickLis
         linearParams.height = result;// 控件的高强制设成20
         viHead.setLayoutParams(linearParams);
 
-        tvLanguage.setText(MMKVUtils.Companion.getYuYan());
+        tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
 
         EventBus.getDefault().register(this);
 
         zhanghaoList.clear();
-        if (!StringUtil.isEmpty(SharePrefUtil.getString(this, AppConsts.zhanghaoList, ""))) {
+        if (!StringUtil.isEmpty(SharePrefBroadUtil.getString(this, AppConsts.zhanghaoList, ""))) {
             // 定义类型
             Type userListType = new TypeToken<List<DataListBean>>() {
             }.getType();
-            List<DataListBean> listBeans = (List<DataListBean>) new Gson().fromJson(SharePrefUtil.getString(this, AppConsts.zhanghaoList, ""), userListType);
+            List<DataListBean> listBeans = (List<DataListBean>) new Gson().fromJson(SharePrefBroadUtil.getString(this, AppConsts.zhanghaoList, ""), userListType);
             zhanghaoList.addAll(listBeans);
         }
 
 
-        switch (SharePrefUtil.getString(this, AppConsts.LOGINTYPE, "4")) {
+        switch (SharePrefBroadUtil.getString(this, AppConsts.LOGINTYPE, "4")) {
             case "2"://用户名密码登录
 
                 loginType = "2";
@@ -436,7 +436,7 @@ public class LoginActivity extends BaseSimpleActivity implements View.OnClickLis
                     if (!isChecked) {
                         zhanghaoList.add(dataListBean);
                     }
-                    SharePrefUtil.saveString(LoginActivity.this, AppConsts.zhanghaoList, new Gson().toJson(zhanghaoList));
+                    SharePrefBroadUtil.saveString(LoginActivity.this, AppConsts.zhanghaoList, new Gson().toJson(zhanghaoList));
 
                     AppUtil.Companion.imLogin(LoginActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
                 }

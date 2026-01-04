@@ -7,7 +7,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModelProvider
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonResultBean.CommonResult
+import com.cboda.baselibrary.bean.CommonResultBroadBean.CommonResult
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 

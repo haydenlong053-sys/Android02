@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.cboda.baselibrary.utils.HttpsConfig
-import com.cboda.baselibrary.utils.OnSingleClickListener
+import com.cboda.baselibrary.utils.HttpsBroadConfig
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.getIsDebug
 import com.lxkj.aiim.base.BaseFragment
@@ -36,7 +36,7 @@ class SelectLoginFragment : BaseFragment<SelectLoginFragmentBinding, LoginViewMo
         }
         if (getIsDebug()) {
             binding.selectLoginLayout.click {
-                HttpsConfig.showSwitchDialog()
+                HttpsBroadConfig.showSwitchDialog()
             }
         }
         binding.scanImg.setOnClickListener(scanClick)
@@ -44,7 +44,7 @@ class SelectLoginFragment : BaseFragment<SelectLoginFragmentBinding, LoginViewMo
         binding.scanTv.setOnClickListener(scanClick)
     }
 
-    private val scanClick = object : OnSingleClickListener() {
+    private val scanClick = object : OnSingleClickBroadListener() {
         override fun onSingleClick(v: View?) {
             val bundle = Bundle()
             bundle.putInt("jumpSource", ScanJumpEnum.Login.sourceType)

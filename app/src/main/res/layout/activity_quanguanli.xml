@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp" />
 
-            <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+            <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
                 android:id="@+id/tvPhoneLogin"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -58,7 +58,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+            </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

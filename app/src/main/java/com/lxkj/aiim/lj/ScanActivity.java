@@ -21,9 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.BuildConfig;
-import com.cboda.baselibrary.event.AppEvent;
-import com.cboda.baselibrary.event.AppEventCode;
-import com.cboda.baselibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.event.AppBroadEvent;
+import com.cboda.baselibrary.event.AppEventBroadCode;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.google.zxing.Result;
 import com.google.zxing.client.result.ParsedResult;
 import com.hjq.permissions.OnPermissionCallback;
@@ -39,7 +39,7 @@ import com.lxkj.aiim.lj.configuration.ScanJumpEnum;
 import com.lxkj.aiim.lj.dialogfra.NormalDialog;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
-import com.lxkj.aiim.lj.utils.GlideEngine;
+import com.lxkj.aiim.lj.utils.GlideBroadEngine;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;
@@ -110,7 +110,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
                     .setOnButtonClickListener(new NormalDialog.OnButtonClick() {
                         @Override
                         public void OnRightClick() {
-//                            AppPermissionUtils.INSTANCE.checkAndRequestCameraPermission(ScanActivity.this, 1002, new AppPermissionUtils.SimplePermissionCallback() {
+//                            AppPermissionBroadUtils.INSTANCE.checkAndRequestCameraPermission(ScanActivity.this, 1002, new AppPermissionBroadUtils.SimplePermissionCallback() {
 //                                @Override
 //                                public void onGranted() {
 //                                    initData();
@@ -123,7 +123,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
 //                                    finish();
 //                                }
 //                            });
-//                            AppPermissionUtils.INSTANCE.requestPermissions(ScanActivity.this,perms,1002);
+//                            AppPermissionBroadUtils.INSTANCE.requestPermissions(ScanActivity.this,perms,1002);
                             XXPermissions permission = XXPermissions.with(ScanActivity.this).permission(perms);
                             permission.request(new OnPermissionCallback() {
                                 @Override
@@ -162,8 +162,8 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
                             .setOnButtonClickListener(new NormalDialog.OnButtonClick() {
                                 @Override
                                 public void OnRightClick() {
-//                                    AppPermissionUtils.INSTANCE.checkAndRequestStoragePermission(ScanActivity.this,1002,
-//                                            new AppPermissionUtils.SimplePermissionCallback(){
+//                                    AppPermissionBroadUtils.INSTANCE.checkAndRequestStoragePermission(ScanActivity.this,1002,
+//                                            new AppPermissionBroadUtils.SimplePermissionCallback(){
 //
 //                                                @Override
 //                                                public void onDenied(boolean neverAskAgain) {
@@ -227,7 +227,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
     public void pmsSuccess() {
         PictureSelector.create(this)//在Fragment中使用则是 fragment.this
                 .openGallery(SelectMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .setImageEngine(GlideEngine.createGlideEngine())
+                .setImageEngine(GlideBroadEngine.createGlideEngine())
                 .setMaxSelectNum(1)
                 .setMinSelectNum(1)
                 .setImageSpanCount(3)// 每行显示个数 int
@@ -327,7 +327,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
                 case "1"://用户
                     Map<String, Object> param = new HashMap<>();
                     param.put("id", linkId);
-                    OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsConfig.INSTANCE.getAppBaseUrl() + "/duiInfo", param, new SpotsCallBack<ResultBean>(ScanActivity.this) {
+                    OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/duiInfo", param, new SpotsCallBack<ResultBean>(ScanActivity.this) {
 
                         @Override
                         public void onSuccess(Response response, ResultBean commonResultBean) {
@@ -349,7 +349,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
                 case "2"://群
                     Map<String, Object> param1 = new HashMap<>();
                     param1.put("id", linkId);
-                    OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsConfig.INSTANCE.getAppBaseUrl() + "/groupScan", param1, new SpotsCallBack<ResultBean>(ScanActivity.this) {
+                    OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupScan", param1, new SpotsCallBack<ResultBean>(ScanActivity.this) {
 
                         @Override
                         public void onSuccess(Response response, ResultBean commonResultBean) {
@@ -402,7 +402,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
         param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("model", Build.BRAND + " " + Build.MODEL);
-        OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBack<ResultBean>(ScanActivity.this) {
+        OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBack<ResultBean>(ScanActivity.this) {
 
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
@@ -417,7 +417,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
 //                } else {
                 if (jumpSource == ScanJumpEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, eqno)) {
                     //登录扫码，比对为新设备登录
-                    EventBus.getDefault().post(new AppEvent<ResultBean>(AppEventCode.EVENT_NEW_MACHINE_CHECK, resultBean));
+                    EventBus.getDefault().post(new AppBroadEvent<ResultBean>(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean));
                 } else {
                     AppUtil.Companion.imLogin(ScanActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
                 }
@@ -453,7 +453,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
                         case "1"://用户
                             Map<String, Object> param = new HashMap<>();
                             param.put("id", linkId);
-                            OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsConfig.INSTANCE.getAppBaseUrl() + "/duiInfo", param, new SpotsCallBack<ResultBean>(ScanActivity.this) {
+                            OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/duiInfo", param, new SpotsCallBack<ResultBean>(ScanActivity.this) {
 
                                 @Override
                                 public void onSuccess(Response response, ResultBean commonResultBean) {
@@ -476,7 +476,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
                         case "2"://群
                             Map<String, Object> param1 = new HashMap<>();
                             param1.put("id", linkId);
-                            OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsConfig.INSTANCE.getAppBaseUrl() + "/groupScan", param1, new SpotsCallBack<ResultBean>(ScanActivity.this) {
+                            OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupScan", param1, new SpotsCallBack<ResultBean>(ScanActivity.this) {
 
                                 @Override
                                 public void onSuccess(Response response, ResultBean commonResultBean) {

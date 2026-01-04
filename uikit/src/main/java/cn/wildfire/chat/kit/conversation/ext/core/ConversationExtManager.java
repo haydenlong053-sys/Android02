@@ -23,7 +23,7 @@ import cn.wildfire.chat.kit.conversation.ext.MeetingExt;
 import cn.wildfire.chat.kit.conversation.ext.ShootExt;
 import cn.wildfire.chat.kit.conversation.ext.UserCardExt;
 import cn.wildfire.chat.kit.conversation.ext.VoipExt;
-import cn.wildfire.chat.kit.utils.SharePrefUtil;
+import cn.wildfire.chat.kit.utils.SharePrefBroadUtil;
 import cn.wildfirechat.model.Conversation;
 
 public class ConversationExtManager {
@@ -51,7 +51,7 @@ public class ConversationExtManager {
 
     private void init() {
         //
-        String pingtaipeizhi = SharePrefUtil.getString(context, "pingtaipeizhi", "");
+        String pingtaipeizhi = SharePrefBroadUtil.getString(context, "pingtaipeizhi", "");
         Log.e("野火", "红包转账配置--> " + pingtaipeizhi);
         if (!TextUtils.isEmpty(pingtaipeizhi)) {
             imCommonResult = gson.fromJson(pingtaipeizhi, IMCommonResult.class);

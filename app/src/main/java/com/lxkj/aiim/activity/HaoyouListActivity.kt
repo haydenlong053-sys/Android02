@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunMemberAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.holder.SendCustomMsg
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
@@ -22,7 +22,7 @@ class HaoyouListActivity : BaseSimpleActivity() {
     private var uid = ""
     private var viewModel: CommViewModel? = null
     private var mAdapter: QunMemberAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var pageNo = 1
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
@@ -87,7 +87,7 @@ class HaoyouListActivity : BaseSimpleActivity() {
         })
 
 //        for (i in 0 until 3) {
-//            val bean = CommonDataListBean.CommonBean()
+//            val bean = CommonDataListBroadBean.CommonBean()
 //            bean.id = i.toString()
 //            mDataList.add(bean)
 //        }

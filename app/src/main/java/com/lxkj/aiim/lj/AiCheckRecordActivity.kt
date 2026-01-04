@@ -4,8 +4,8 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
-import com.cboda.baselibrary.utils.Vp2FragmentAdapter
-import com.cboda.baselibrary.view.magicindicator.CommonNavigator
+import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
+import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimple2Activity
@@ -47,7 +47,7 @@ class AiCheckRecordActivity : BaseSimple2Activity() {
         initViewPagerAndIndicator()
     }
     private fun initViewPagerAndIndicator() {
-        val vp2FragmentAdapter = Vp2FragmentAdapter(this)
+        val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
         vp2FragmentAdapter.addFragment(AiRecordFragment(0))
         vp2FragmentAdapter.addFragment(AiRecordFragment(1))
         vp2FragmentAdapter.addFragment(AiRecordFragment(2))
@@ -66,7 +66,7 @@ class AiCheckRecordActivity : BaseSimple2Activity() {
             R.mipmap.icon_ai_video
         )
         mBind?.aiMagicIndicator?.setBackgroundColor(Color.TRANSPARENT)
-        val commonNavigator = CommonNavigator(this)
+        val commonNavigator = CommonBroadNavigator(this)
         commonNavigator.isAdjustMode = true
         commonNavigator.isSkimOver = true
         val indicatorAdapt = ImgIndicatorAdapter(this, mResIds, mResIds2)

@@ -1,8 +1,8 @@
 package com.lxkj.aiim.utils
 
-import com.cboda.baselibrary.bean.BaseResponse
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lxkj.aiim.bean.*
@@ -10,11 +10,11 @@ import com.lxkj.aiim.bean.*
 class JsonUtils {
     companion object {
         private val gson = Gson()
-        fun getSuccessJsonBean(json: String?): BaseResponse? {
-            var bean: BaseResponse? = null
+        fun getSuccessJsonBean(json: String?): BaseBroadResponse? {
+            var bean: BaseBroadResponse? = null
             json?.apply {
                 try {
-                    bean = gson.fromJson(this, BaseResponse::class.java)
+                    bean = gson.fromJson(this, BaseBroadResponse::class.java)
                 } catch (e: Exception) {
                     AppUtil.debug("JsonError", "getSuccessJsonBean--> $e")
                 }
@@ -48,11 +48,11 @@ class JsonUtils {
             return bean
         }
 
-        fun getCommonResultBean(json: String?): CommonResultBean? {
-            var bean: CommonResultBean? = null
+        fun getCommonResultBean(json: String?): CommonResultBroadBean? {
+            var bean: CommonResultBroadBean? = null
             json?.apply {
                 try {
-                    bean = gson.fromJson(this, CommonResultBean::class.java)
+                    bean = gson.fromJson(this, CommonResultBroadBean::class.java)
                 } catch (e: Exception) {
                     AppUtil.debug("JsonError", "getCommonResultBean--> $e")
                 }
@@ -61,14 +61,14 @@ class JsonUtils {
         }
 
 
-        fun getCommonDataListBean(json: String?): CommonDataListBean? {
-            var bean: CommonDataListBean? = null
+        fun getCommonDataListBean(json: String?): CommonDataListBroadBean? {
+            var bean: CommonDataListBroadBean? = null
             json?.apply {
                 try {
-                    bean = gson.fromJson(this, CommonDataListBean::class.java)
+                    bean = gson.fromJson(this, CommonDataListBroadBean::class.java)
                     // 使用 TypeToken 保留泛型信息，避免 LinkedTreeMap 类型转换错误
-//                    val type = object : TypeToken<CommonDataListBean>() {}.type
-//                    bean = gson.fromJson(this, type) as? CommonDataListBean
+//                    val type = object : TypeToken<CommonDataListBroadBean>() {}.type
+//                    bean = gson.fromJson(this, type) as? CommonDataListBroadBean
                 } catch (e: Exception) {
                     AppUtil.debug("JsonError", "getCommonDataListBean--> $e")
                 }

@@ -1,6 +1,6 @@
 package com.lxkj.aiim.model
 
-import com.cboda.baselibrary.bean.CommonResultBean.RegisterDayBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean.RegisterDayBean
 import com.google.gson.annotations.SerializedName
 
 /**

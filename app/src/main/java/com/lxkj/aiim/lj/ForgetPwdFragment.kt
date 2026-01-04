@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
@@ -35,7 +35,7 @@ class ForgetPwdFragment : BaseFragment<ForgetPwdFragmentBinding, LoginViewModel>
             lifecycleScope.launch {
                 viewModel.checkAccount(binding.loginAccount.text.toString()).observe(this@ForgetPwdFragment){
                     if (it.twoFactorCode.isNullOrEmpty() && it.securityId.isNullOrEmpty() && it.payPassword.isNullOrEmpty()){
-                        ToastUtils.show(R.string.m_query_fail)
+                        ToastBroadUtils.show(R.string.m_query_fail)
                     }else{
                         val authWayPop = AuthWayPop(requireContext(), SafeJumpEnum.LoginForgetPassword.sourceType, true,it,binding.loginAccount.text.toString())
                         authWayPop.transferInvoke = {
