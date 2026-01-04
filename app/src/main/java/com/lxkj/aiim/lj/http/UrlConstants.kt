@@ -1,9 +1,9 @@
 package com.lxkj.aiim.lj.http
 
-import com.cboda.baselibrary.utils.HttpsConfig.appHost
+import com.cboda.baselibrary.utils.HttpsBroadConfig.appHost
 
 
-object UrlConstants {
+object UrlBroadConstants {
     var HOST: String = "$appHost/lixin"
 
     const val GET_UNIQUE_ROOM_ID = "/v2/room/getUniqueRoomId"

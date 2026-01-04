@@ -1,0 +1,31 @@
+package com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.badge;
+
+/**
+ * 角标的定位规则
+ * Created by hackware on 2016/7/19.
+ */
+public class BadgeBroadRule {
+    private BadgeAnchor mAnchor;
+    private int mOffset;
+
+    public BadgeBroadRule(BadgeAnchor anchor, int offset) {
+        mAnchor = anchor;
+        mOffset = offset;
+    }
+
+    public BadgeAnchor getAnchor() {
+        return mAnchor;
+    }
+
+    public void setAnchor(BadgeAnchor anchor) {
+        mAnchor = anchor;
+    }
+
+    public int getOffset() {
+        return mOffset;
+    }
+
+    public void setOffset(int offset) {
+        mOffset = offset;
+    }
+}

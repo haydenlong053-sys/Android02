@@ -24,7 +24,7 @@ import cn.wildfire.chat.kit.conversation.ConversationViewModel
 import cn.wildfire.chat.kit.utils.YeHuoIMActivityUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
-import com.cboda.baselibrary.utils.SpanUtils
+import com.cboda.baselibrary.utils.SpanBroadUtils
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
@@ -32,12 +32,12 @@ import com.hjq.permissions.XXPermissions
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.PengYouQuanAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.holder.CommanConfimHolder
 import com.lxkj.aiim.lj.MyCircleActivity
 import com.lxkj.aiim.utils.AppUtil
-import com.cboda.baselibrary.bean.Constant
+import com.cboda.baselibrary.bean.BroadConstant
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.utils.PixelUtils
@@ -46,7 +46,7 @@ import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 
 
@@ -56,10 +56,10 @@ class HaoYouPageActivity : BaseSimpleActivity() {
     private var otherUid = ""
     private var viewModel: CommViewModel? = null
     private var mAdapter: PengYouQuanAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var conversationViewModel: ConversationViewModel? = null
 
-    private var yonghubena: CommonResultBean.CommonResult? = null
+    private var yonghubena: CommonResultBroadBean.CommonResult? = null
     private lateinit var faxiaoxitonghua: LinearLayoutCompat
     private lateinit var yuyintonghua: ConstraintLayout
     private lateinit var faxiaoxi: ConstraintLayout
@@ -159,11 +159,11 @@ class HaoYouPageActivity : BaseSimpleActivity() {
 
                 }
                 val isFriend = "1" == it.data?.isFri
-                otherLayout.isGone = otherUid == MMKVUtils.getRealUserId() || !isFriend
+                otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
                 findViewById<ImageView>(R.id.iv_float_more).isGone =
-                    otherUid == MMKVUtils.getRealUserId() || !isFriend
+                    otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
                 findViewById<TextView>(R.id.addFriend).isGone =
-                    isFriend || otherUid == MMKVUtils.getRealUserId()
+                    isFriend || otherUid == MMKVBroadUtils.getRealUserId()
                 val daysTv = findViewById<TextView>(R.id.daysTv)
                 val registerDay = it.data?.registerDayBean?.registDay
                 daysTv.isGone = registerDay == null
@@ -198,7 +198,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
                 }
 
 
-//                eLogD("zhanglong","otherUid-->$otherUid======getRealUserId==${MMKVUtils.getRealUserId()}")
+//                eLogD("zhanglong","otherUid-->$otherUid======getRealUserId==${MMKVBroadUtils.getRealUserId()}")
                 var showName = ""
                 tvTagName.text = "ID:${idno}"
                 if (bei.isNullOrEmpty()) {
@@ -215,7 +215,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
                 val tvGrade = findViewById<TextView>(R.id.tv_grade)
                 tvGrade.text = "100分"
                 val fullGradeString = "${grade}分"
-                tvGrade.text = SpanUtils.small(fullGradeString, "分", 12f, "#031256".toColorInt())
+                tvGrade.text = SpanBroadUtils.small(fullGradeString, "分", 12f, "#031256".toColorInt())
 
 
                 if (isLiang != null && isLiang == "1") {
@@ -233,7 +233,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
                 beizhuname?.text = this.characterTags ?: ""
                 pengyouquanlay?.isVisible = this.isOpenQuan == "1"
 
-                if (Constant.getRealUid() == this.id) {
+                if (BroadConstant.getRealUid() == this.id) {
                     getRightImg()?.isVisible = false
                     faxiaoxitonghua?.isVisible = false
                 } else {
@@ -246,7 +246,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
             it.data?.quan?.apply {
                 mDataList.clear()
                 this.forEachIndexed { index, s ->
-                    val comm = CommonDataListBean.CommonBean()
+                    val comm = CommonDataListBroadBean.CommonBean()
                     comm.icon = s
                     mDataList.add(comm)
                 }
@@ -379,7 +379,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
         }
 
 //        for (i in 0 until 3) {
-//            mDataList.add(CommonDataListBean.CommonBean())
+//            mDataList.add(CommonDataListBroadBean.CommonBean())
 //        }
 
         mAdapter = PengYouQuanAdapter(R.layout.item_pengyouquan_layout)

@@ -1,14 +1,14 @@
 package com.lxkj.aiim.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.cboda.baselibrary.bean.GlobalFriendBean
-import com.cboda.baselibrary.bean.GlobalSmallGroupBean
-import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean
+import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.lxkj.aiim.livedata.SingleLiveData
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.model.SocialCircle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,8 +22,8 @@ open class FriendViewModel : ViewModel() {
         val liveData = SingleLiveData<List<SocialCircle>>()
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postListEncrypted(
-                    UrlConstants.FRIEND_CHARACTER,
+                NetworkBroadRepository.postListEncrypted(
+                    UrlBroadConstants.FRIEND_CHARACTER,
                     SocialCircle::class.java,
                     HashMap<String, String>()
                 ).onSuccess { circles ->
@@ -40,14 +40,14 @@ open class FriendViewModel : ViewModel() {
     }
 
 
-    suspend fun fetchFriendShipList(): SingleLiveData<List<GlobalFriendBean>> {
-        val liveData = SingleLiveData<List<GlobalFriendBean>>()
+    suspend fun fetchFriendShipList(): SingleLiveData<List<GlobalFriendBroadBean>> {
+        val liveData = SingleLiveData<List<GlobalFriendBroadBean>>()
         val body = HashMap<String, String>()
         withContext(Dispatchers.IO) {
-            var list: List<GlobalFriendBean> = emptyList()
-            val result = NetworkRepository.postEncryptedList2<GlobalFriendBean>(
-                UrlConstants.FRIEND_CONTACT_LIST,
-                GlobalFriendBean::class.java, body
+            var list: List<GlobalFriendBroadBean> = emptyList()
+            val result = NetworkBroadRepository.postEncryptedList2<GlobalFriendBroadBean>(
+                UrlBroadConstants.FRIEND_CONTACT_LIST,
+                GlobalFriendBroadBean::class.java, body
             )
             result.onSuccess { data ->
                 list = data?.list ?: emptyList()
@@ -65,17 +65,17 @@ open class FriendViewModel : ViewModel() {
         return liveData
     }
 
-    suspend fun fetchGroupList(): SingleLiveData<List<GlobalSmallGroupBean>> {
-        val liveData = SingleLiveData<List<GlobalSmallGroupBean>>()
+    suspend fun fetchGroupList(): SingleLiveData<List<GlobalSmallGroupBroadBean>> {
+        val liveData = SingleLiveData<List<GlobalSmallGroupBroadBean>>()
         val body = mapOf(
             "pageNo" to "1",
             "pageSize" to "100"
         )
         withContext(Dispatchers.IO) {
-            var list: List<GlobalSmallGroupBean> = emptyList()
-            val result = NetworkRepository.postEncryptedList2(
-                UrlConstants.GROUP_LIST,
-                GlobalSmallGroupBean::class.java, body
+            var list: List<GlobalSmallGroupBroadBean> = emptyList()
+            val result = NetworkBroadRepository.postEncryptedList2(
+                UrlBroadConstants.GROUP_LIST,
+                GlobalSmallGroupBroadBean::class.java, body
             )
             result.onSuccess { data ->
                 list = data?.list ?: emptyList()

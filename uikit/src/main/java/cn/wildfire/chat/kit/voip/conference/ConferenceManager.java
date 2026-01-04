@@ -19,7 +19,7 @@ import java.util.List;
 
 import cn.wildfire.chat.kit.AppServiceProvider;
 import cn.wildfire.chat.kit.WfcUIKit;
-import cn.wildfire.chat.kit.livebus.LiveDataBus;
+import cn.wildfire.chat.kit.livebus.LiveDataBroadBus;
 import cn.wildfire.chat.kit.voip.conference.message.ConferenceChangeModeContent;
 import cn.wildfire.chat.kit.voip.conference.message.ConferenceCommandContent;
 import cn.wildfire.chat.kit.voip.conference.model.ConferenceInfo;
@@ -151,7 +151,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
                                         this.applyingUnmuteMembers.add(msg.sender);
                                     }
                                 }
-                                LiveDataBus.setValue("kConferenceCommandStateChanged", new Object());
+                                LiveDataBroadBus.setValue("kConferenceCommandStateChanged", new Object());
                                 break;
                             case ConferenceCommandContent.ConferenceCommandType.APPROVE_UNMUTE:
                             case ConferenceCommandContent.ConferenceCommandType.APPROVE_ALL_UNMUTE:
@@ -178,7 +178,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
                                     Toast.makeText(context, senderName + " 放下举手", Toast.LENGTH_SHORT).show();
                                 }
 
-                                LiveDataBus.setValue("kConferenceCommandStateChanged", new Object());
+                                LiveDataBroadBus.setValue("kConferenceCommandStateChanged", new Object());
 
                                 break;
                             case ConferenceCommandContent.ConferenceCommandType.PUT_HAND_DOWN:
@@ -197,13 +197,13 @@ public class ConferenceManager implements OnReceiveMessageListener {
                                 this.currentConferenceInfo.setFocus(commandContent.getTargetUserId());
                                 this.reloadConferenceInfo();
                                 Toast.makeText(context, "主持人锁定焦点用户", Toast.LENGTH_SHORT).show();
-                                LiveDataBus.setValue("kConferenceCommandStateChanged", commandContent);
+                                LiveDataBroadBus.setValue("kConferenceCommandStateChanged", commandContent);
                                 break;
                             case ConferenceCommandContent.ConferenceCommandType.CANCEL_FOCUS:
                                 this.currentConferenceInfo.setFocus(null);
                                 this.reloadConferenceInfo();
                                 Toast.makeText(context, "主持人取消锁定焦点用户", Toast.LENGTH_SHORT).show();
-                                LiveDataBus.setValue("kConferenceCommandStateChanged", commandContent);
+                                LiveDataBroadBus.setValue("kConferenceCommandStateChanged", commandContent);
                                 break;
 
                             default:
@@ -232,7 +232,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
 
         this.applyingUnmuteMembers.remove(userId);
         this.sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.APPROVE_UNMUTE, userId, isAllow);
-        LiveDataBus.setValue("kConferenceCommandStateChanged", new Object());
+        LiveDataBroadBus.setValue("kConferenceCommandStateChanged", new Object());
     }
 
     public void approveAllMemberUnmute(boolean isAllow) {
@@ -242,7 +242,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
 
         this.applyingUnmuteMembers.clear();
         this.sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.APPROVE_ALL_UNMUTE, null, isAllow);
-        LiveDataBus.setValue("kConferenceCommandStateChanged", new Object());
+        LiveDataBroadBus.setValue("kConferenceCommandStateChanged", new Object());
     }
 
     public void muteAudio(boolean mute) {
@@ -273,7 +273,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
                 }
             }
         }
-        LiveDataBus.setValue("kConferenceMutedStateChanged", new Object());
+        LiveDataBroadBus.setValue("kConferenceMutedStateChanged", new Object());
     }
 
     public void muteVideo(boolean mute) {
@@ -336,7 +336,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
             @Override
             public void onSuccess() {
                 sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.MUTE_ALL, null, allowMemberUnmute);
-                LiveDataBus.setValue("kConferenceMutedStateChanged", new Object());
+                LiveDataBroadBus.setValue("kConferenceMutedStateChanged", new Object());
             }
 
             @Override
@@ -358,7 +358,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
             @Override
             public void onSuccess() {
                 sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.CANCEL_MUTE_ALL, null, unmute);
-                LiveDataBus.setValue("kConferenceMutedStateChanged", new Object());
+                LiveDataBroadBus.setValue("kConferenceMutedStateChanged", new Object());
             }
 
             @Override
@@ -380,7 +380,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
         }
         this.handUpMembers.remove(memberId);
         this.sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.PUT_HAND_DOWN, memberId, false);
-        LiveDataBus.setValue("kConferenceCommandStateChanged", this.handUpMembers);
+        LiveDataBroadBus.setValue("kConferenceCommandStateChanged", this.handUpMembers);
     }
 
     public void putAllHandDown() {
@@ -389,7 +389,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
         }
         this.handUpMembers.clear();
         this.sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.PUT_ALL_HAND_DOWN, null, false);
-        LiveDataBus.setValue("kConferenceCommandStateChanged", this.handUpMembers);
+        LiveDataBroadBus.setValue("kConferenceCommandStateChanged", this.handUpMembers);
     }
 
     public void requestRecord(boolean record) {
@@ -443,7 +443,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
                 sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.FOCUS, userId, false);
                 ConferenceCommandContent content = new ConferenceCommandContent(currentConferenceInfo.getConferenceId(), ConferenceCommandContent.ConferenceCommandType.FOCUS);
                 content.setTargetUserId(userId);
-                LiveDataBus.setValue("kConferenceCommandStateChanged", content);
+                LiveDataBroadBus.setValue("kConferenceCommandStateChanged", content);
                 if (callback != null) {
                     callback.onSuccess();
                 }
@@ -469,7 +469,7 @@ public class ConferenceManager implements OnReceiveMessageListener {
                 sendCommandMessage(ConferenceCommandContent.ConferenceCommandType.CANCEL_FOCUS, null, false);
                 ConferenceCommandContent content = new ConferenceCommandContent(currentConferenceInfo.getConferenceId(), ConferenceCommandContent.ConferenceCommandType.FOCUS);
                 content.setTargetUserId(null);
-                LiveDataBus.setValue("kConferenceCommandStateChanged", content);
+                LiveDataBroadBus.setValue("kConferenceCommandStateChanged", content);
                 if (callback != null) {
                     callback.onSuccess();
                 }

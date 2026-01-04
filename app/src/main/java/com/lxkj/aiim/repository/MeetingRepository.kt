@@ -1,13 +1,13 @@
 package com.lxkj.aiim.repository
 
-import com.cboda.baselibrary.network.NetworkUtils
-import com.cboda.baselibrary.network.config.NetworkConfig
-import com.cboda.baselibrary.network.repository.NetworkRepository
-import com.cboda.baselibrary.network.result.NetworkResult
+import com.cboda.baselibrary.network.NetworkBroadUtils
+import com.cboda.baselibrary.network.config.NetworkBroadConfig
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+import com.cboda.baselibrary.network.result.NetworkBroadResult
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.model.CreateMeetingRequest
 import com.lxkj.aiim.model.CreateMeetingResponse
 import com.lxkj.aiim.model.MeetingConfig
@@ -29,8 +29,8 @@ class MeetingRepository {
     /**
      * 获取会议配置信息
      */
-    suspend fun getMeetingConfig(): NetworkResult<MeetingConfig> = withContext(Dispatchers.IO) {
-          NetworkRepository.get(UrlConstants.GET_MEETING_CONFIG, MeetingConfig::class.java)
+    suspend fun getMeetingConfig(): NetworkBroadResult<MeetingConfig> = withContext(Dispatchers.IO) {
+          NetworkBroadRepository.get(UrlBroadConstants.GET_MEETING_CONFIG, MeetingConfig::class.java)
     }
     
     /**
@@ -43,8 +43,8 @@ class MeetingRepository {
             try {
                 var result: Result<PaymentPasswordStatusResponse>? = null
 
-                NetworkRepository.postEncrypted<UserInfoModel>(
-                    UrlConstants.GET_USER_INFO,
+                NetworkBroadRepository.postEncrypted<UserInfoModel>(
+                    UrlBroadConstants.GET_USER_INFO,
                     UserInfoModel::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -94,7 +94,7 @@ class MeetingRepository {
         return  withContext(Dispatchers.IO){
            try {
                var result: Result<PaymentPasswordVerifyResponse>? = null
-               NetworkRepository.postEncrypted(UrlConstants.CHECK_PAY_PASSWORD, Any::class.java, request)
+               NetworkBroadRepository.postEncrypted(UrlBroadConstants.CHECK_PAY_PASSWORD, Any::class.java, request)
                    .onSuccess {
                        result=Result.success(PaymentPasswordVerifyResponse(true,"验证成功"))
                    }
@@ -127,17 +127,17 @@ class MeetingRepository {
     /**
      * 查询会议价格
      */
-    suspend fun queryMeetingPrice(request: PriceQueryRequest): NetworkResult<PriceQueryResponse> = withContext(Dispatchers.IO) {
+    suspend fun queryMeetingPrice(request: PriceQueryRequest): NetworkBroadResult<PriceQueryResponse> = withContext(Dispatchers.IO) {
 
-        NetworkRepository.post(UrlConstants.CALCULATE_MEETING_PRICE, PriceQueryResponse::class.java, request)
+        NetworkBroadRepository.post(UrlBroadConstants.CALCULATE_MEETING_PRICE, PriceQueryResponse::class.java, request)
 
     }
 
     /**
      * 创建会议
      */
-    suspend fun createMeeting(request: CreateMeetingRequest): NetworkResult<CreateMeetingResponse> {
-        return NetworkRepository.post(UrlConstants.PRE_CREATE_MEETING, CreateMeetingResponse::class.java, request)
+    suspend fun createMeeting(request: CreateMeetingRequest): NetworkBroadResult<CreateMeetingResponse> {
+        return NetworkBroadRepository.post(UrlBroadConstants.PRE_CREATE_MEETING, CreateMeetingResponse::class.java, request)
     }
 
 }

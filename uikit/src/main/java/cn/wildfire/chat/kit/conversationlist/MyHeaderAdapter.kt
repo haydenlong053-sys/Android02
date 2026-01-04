@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cn.wildfire.chat.kit.R
-import com.cboda.baselibrary.bean.GlobalNoticeBean
+import com.cboda.baselibrary.bean.GlobalNoticeBroadBean
 
-class MyHeaderAdapter(var globalNoticeBean: GlobalNoticeBean?,val clickListener:(globalNoticeBean: GlobalNoticeBean?)-> Unit ={}) : RecyclerView.Adapter<MyHeaderAdapter.VH>() {
+class MyHeaderAdapter(var globalNoticeBean: GlobalNoticeBroadBean?,val clickListener:(globalNoticeBean: GlobalNoticeBroadBean?)-> Unit ={}) : RecyclerView.Adapter<MyHeaderAdapter.VH>() {
     private var nameTextView: TextView? = null
     private var timeTextView: TextView? = null
     private var portraitImageView: ImageView? = null
@@ -41,7 +41,7 @@ class MyHeaderAdapter(var globalNoticeBean: GlobalNoticeBean?,val clickListener:
         contentTextView?.text = globalNoticeBean?.noticeTitle ?: ""
         timeTextView?.text = globalNoticeBean?.createTime ?: ""
         holder.itemView.setOnClickListener {
-            clickListener.invoke(globalNoticeBean?:GlobalNoticeBean())
+            clickListener.invoke(globalNoticeBean?:GlobalNoticeBroadBean())
         }
 
     }
@@ -60,7 +60,7 @@ class MyHeaderAdapter(var globalNoticeBean: GlobalNoticeBean?,val clickListener:
 
     }
 
-    fun refreshHeaderData(mNoticeBean: GlobalNoticeBean) {
+    fun refreshHeaderData(mNoticeBean: GlobalNoticeBroadBean) {
         globalNoticeBean = mNoticeBean
         notifyItemChanged(0)
     }

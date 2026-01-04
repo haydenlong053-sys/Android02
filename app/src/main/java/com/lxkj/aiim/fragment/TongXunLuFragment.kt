@@ -120,11 +120,11 @@ class TongXunLuFragment:BaseLazyFragment() {
             JumpUtils.startSearchActivity(context)
         }
 
-//        val userSign = MMKVUtils.getTxUserSign()
-//        MMKVUtils.getRealUserId()?.apply {
+//        val userSign = MMKVBroadUtils.getTxUserSign()
+//        MMKVBroadUtils.getRealUserId()?.apply {
 //            TUILogin.login(
 //                LiXinApp.mContext!!,
-//                Constant.TX_IM_APP_ID,
+//                BroadConstant.TX_IM_APP_ID,
 //                this,
 //                userSign,
 //                object : TUICallback() {

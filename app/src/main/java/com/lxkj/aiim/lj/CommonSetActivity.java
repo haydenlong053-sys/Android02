@@ -16,7 +16,7 @@ import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.StringUtil;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,8 +58,8 @@ public class CommonSetActivity extends BaseSimpleActivity implements View.OnClic
         llClear.setOnClickListener(this);
         llZts.setOnClickListener(this);
         llTishiyin.setOnClickListener(this);
-        if (!StringUtil.isEmpty(MMKVUtils.Companion.getZt()))
-            tvZts.setText(MMKVUtils.Companion.getZt());
+        if (!StringUtil.isEmpty(MMKVBroadUtils.Companion.getZt()))
+            tvZts.setText(MMKVBroadUtils.Companion.getZt());
 
         userInfo();
 

@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.Constant
+import com.cboda.baselibrary.bean.BroadConstant
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.utils.PixelUtils
@@ -58,7 +58,7 @@ class HaoYouAddActivity : BaseSimpleActivity() {
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_nan else R.mipmap.ic_nv)
                 qianmingname?.text = this.sign ?: ""
 
-                tianjiadaotongxun?.isVisible = this.id != Constant.getRealUid()
+                tianjiadaotongxun?.isVisible = this.id != BroadConstant.getRealUid()
             }
         }
 

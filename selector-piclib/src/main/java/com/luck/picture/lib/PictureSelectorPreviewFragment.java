@@ -74,7 +74,7 @@ import com.luck.picture.lib.utils.DownloadFileUtils;
 import com.luck.picture.lib.utils.MediaUtils;
 import com.luck.picture.lib.utils.SdkVersionUtils;
 import com.luck.picture.lib.utils.StyleUtils;
-import com.luck.picture.lib.utils.ToastUtils;
+import com.luck.picture.lib.utils.ToastBroadUtils;
 import com.luck.picture.lib.utils.ValueOf;
 import com.luck.picture.lib.widget.BottomNavBar;
 import com.luck.picture.lib.widget.CompleteSelectView;
@@ -1418,10 +1418,10 @@ public class PictureSelectorPreviewFragment extends PictureCommonFragment {
                                     } else {
                                         errorMsg = getString(R.string.ps_save_image_error);
                                     }
-                                    ToastUtils.showToast(getContext(), errorMsg);
+                                    ToastBroadUtils.showToast(getContext(), errorMsg);
                                 } else {
                                     new PictureMediaScannerConnection(getActivity(), realPath);
-                                    ToastUtils.showToast(getContext(), getString(R.string.ps_save_success) + "\n" + realPath);
+                                    ToastBroadUtils.showToast(getContext(), getString(R.string.ps_save_success) + "\n" + realPath);
                                 }
                             }
                         });

@@ -26,7 +26,7 @@ import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.GlideUtil;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.view.MyScrollView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -267,7 +267,7 @@ public class CiecelActivity extends BaseSimpleActivity implements View.OnClickLi
             startActivity(intent);
         }else  if (view.getId() ==R.id.riIcon){
             intent = new Intent(this, MyCircleActivity.class);
-            intent.putExtra("id", SharePrefUtil.getString(this, AppConsts.UID, ""));
+            intent.putExtra("id", SharePrefBroadUtil.getString(this, AppConsts.UID, ""));
             startActivity(intent);
         }else  if (view.getId() ==R.id.imBg){
             intent = new Intent(this, ChatBgActivity.class);

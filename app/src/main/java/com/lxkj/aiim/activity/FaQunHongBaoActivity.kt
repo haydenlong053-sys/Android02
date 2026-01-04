@@ -10,11 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.utils.AmountInputFilter
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.bean.ZhuanShuHongBaoEvent
@@ -279,28 +279,28 @@ class FaQunHongBaoActivity : BaseSimple2Activity() {
 
         tvPhoneLogin?.setOnClickListener {
             if ((type == "1" || type == "2") && edthongbaonun?.text.isNullOrEmpty()) {
-                ToastUtils.show(getString(R.string.hongboashuliangtips))
+                ToastBroadUtils.show(getString(R.string.hongboashuliangtips))
                 return@setOnClickListener
             }
             if ((type == "1" || type == "2") && (edthongbaonun?.text?.trim().toString()
                     .toFloat()) <= 0
             ) {
-                ToastUtils.show(getString(R.string.hongboashuliangtips1))
+                ToastBroadUtils.show(getString(R.string.hongboashuliangtips1))
                 return@setOnClickListener
             }
 
             if (type == "3" && qunmingceng?.text.isNullOrEmpty()) {
-                ToastUtils.show(getString(R.string.xuanzefageishui))
+                ToastBroadUtils.show(getString(R.string.xuanzefageishui))
                 return@setOnClickListener
             }
 
             if (edtjine?.text?.trim().isNullOrEmpty()) {
-                ToastUtils.show(getString(R.string.querenfahongbaotips))
+                ToastBroadUtils.show(getString(R.string.querenfahongbaotips))
                 return@setOnClickListener
             }
 
             if ((edtjine?.text?.trim().toString().toFloat()) <= 0) {
-                ToastUtils.show(getString(R.string.querenfahongbaotips1))
+                ToastBroadUtils.show(getString(R.string.querenfahongbaotips1))
                 return@setOnClickListener
             }
 
@@ -352,7 +352,7 @@ class FaQunHongBaoActivity : BaseSimple2Activity() {
         zhuanshuUser = event.user
     }
 
-    private var zhuanshuUser: CommonDataListBean.CommonBean? = null
+    private var zhuanshuUser: CommonDataListBroadBean.CommonBean? = null
     private lateinit var tvPhoneLogin: TextView
     private lateinit var qianNum: TextView
     private lateinit var edtjieshao: EditText
@@ -360,10 +360,10 @@ class FaQunHongBaoActivity : BaseSimple2Activity() {
 
     //    private lateinit var tvmiaoshu: TextView
     private lateinit var quinrenshu: TextView
-    private lateinit var zhuanshulay: ShapeConstraintLayout
+    private lateinit var zhuanshulay: ShapeConstraintBroadLayout
     private lateinit var qunmingceng: TextView
     private lateinit var quntouxiang: ImageView
-    private lateinit var geshulayout: ShapeConstraintLayout
+    private lateinit var geshulayout: ShapeConstraintBroadLayout
     private lateinit var tvgeshu: TextView
     private lateinit var edthongbaonun: EditText
     private lateinit var hongbaoleixing: TextView
@@ -397,7 +397,7 @@ class FaQunHongBaoActivity : BaseSimple2Activity() {
         }
         setIvBgTopImg(R.mipmap.ic_hongbao_top_bg2)
         tvCurrencyWx.click {
-            ToastUtils.show(R.string.is_not_yet_available)
+            ToastBroadUtils.show(R.string.is_not_yet_available)
         }
     }
 

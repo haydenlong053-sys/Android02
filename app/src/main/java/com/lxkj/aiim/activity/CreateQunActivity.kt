@@ -8,13 +8,13 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.baselibrary.shapeview.shape.ShapeTextView
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunMemberAdapter
 import com.lxkj.aiim.adapter.YiXuanQunMemberAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
@@ -28,14 +28,14 @@ class CreateQunActivity : BaseSimpleActivity() {
 
     private var viewModel: CommViewModel? = null
     private var mAdapter: QunMemberAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var pageNo = 1
-    private var mDataList2 = arrayListOf<CommonDataListBean.CommonBean>()
-    private var mDataList3 = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList2 = arrayListOf<CommonDataListBroadBean.CommonBean>()
+    private var mDataList3 = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var mAdapter2: YiXuanQunMemberAdapter? = null
     private lateinit var tvSideBarHint: TextView
     private lateinit var indexBar: IndexBar
-    private lateinit var tvAgree: ShapeTextView
+    private lateinit var tvAgree: ShapeTextBroadView
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView
@@ -148,7 +148,7 @@ class CreateQunActivity : BaseSimpleActivity() {
                 }
             }
             if (mDataList3.isEmpty()) {
-                ToastUtils.show(getString(R.string.qingxuanzelianxiren))
+                ToastBroadUtils.show(getString(R.string.qingxuanzelianxiren))
                 return@setOnClickListener
             }
             val str = StringBuilder()
@@ -178,12 +178,12 @@ class CreateQunActivity : BaseSimpleActivity() {
         request()
     }
 
-    private fun addXuan(bean: CommonDataListBean.CommonBean) {
+    private fun addXuan(bean: CommonDataListBroadBean.CommonBean) {
         mDataList2.add(bean)
         mAdapter2?.setList(mDataList2)
     }
 
-    private fun removeXuan(bean: CommonDataListBean.CommonBean) {
+    private fun removeXuan(bean: CommonDataListBroadBean.CommonBean) {
         val iterator = mDataList2.iterator()
         while (iterator.hasNext()) {
             val next = iterator.next()

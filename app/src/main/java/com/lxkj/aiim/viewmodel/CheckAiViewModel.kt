@@ -2,12 +2,12 @@ package com.lxkj.aiim.viewmodel
 
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
-import com.cboda.baselibrary.network.repository.NetworkListResult
-import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.network.repository.NetworkListBroadResult
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.baselibrary.utils.CompressionUtil.videoCompress
+import com.cboda.baselibrary.utils.CompressionBroadUtil.videoCompress
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.lxkj.aiim.base.BaseViewModel
@@ -16,7 +16,7 @@ import com.lxkj.aiim.livedata.SingleLiveData
 import com.lxkj.aiim.lj.bean.AiCheckResultBean
 import com.lxkj.aiim.lj.bean.AiResultListBean
 import com.lxkj.aiim.lj.configuration.CommonConfig
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.lj.utils.dismissLoading
 import com.lxkj.aiim.lj.utils.showLoading
 import com.lxkj.aiim.lj.utils.showToastMain
@@ -34,7 +34,7 @@ class CheckAiViewModel : BaseViewModel() {
             withContext(Dispatchers.IO) {
                 eLogD(tAG, "postFile_filePath:$filePath")
                 try {
-                    val result = NetworkRepository.postFile<Map<String, String>>(
+                    val result = NetworkBroadRepository.postFile<Map<String, String>>(
                         "api/AI/file",
                         filePath
                     )
@@ -177,8 +177,8 @@ class CheckAiViewModel : BaseViewModel() {
             eLogD(tAG, "getAiResult1")
             withContext(Dispatchers.IO) {
                 try {
-                    NetworkRepository.postEncrypted2(
-                        UrlConstants.AI_RESULT,
+                    NetworkBroadRepository.postEncrypted2(
+                        UrlBroadConstants.AI_RESULT,
                         AiCheckResultBean::class.java,
                         params
                     ).onSuccess { it ->
@@ -212,8 +212,8 @@ class CheckAiViewModel : BaseViewModel() {
         val params = hashMapOf("id" to id)
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncrypted2<AiCheckResultBean>(
-                    UrlConstants.AI_DETAIL,
+                NetworkBroadRepository.postEncrypted2<AiCheckResultBean>(
+                    UrlBroadConstants.AI_DETAIL,
                     AiCheckResultBean::class.java,
                     params
                 ).onSuccess { userInfo ->
@@ -244,8 +244,8 @@ class CheckAiViewModel : BaseViewModel() {
     suspend fun getAiResultInfoList(
         resourceType: String?,
         pageNo: Int = 1
-    ): SingleLiveData<NetworkListResult<AiResultListBean>> {
-        val safeCenterLiveData = SingleLiveData<NetworkListResult<AiResultListBean>>()
+    ): SingleLiveData<NetworkListBroadResult<AiResultListBean>> {
+        val safeCenterLiveData = SingleLiveData<NetworkListBroadResult<AiResultListBean>>()
         val params = hashMapOf(
             "pageNo" to pageNo,
             "pageSize" to CommonConfig.pageSize,
@@ -253,8 +253,8 @@ class CheckAiViewModel : BaseViewModel() {
         )
         withContext(Dispatchers.IO) {
             try {
-                NetworkRepository.postEncryptedList2<AiResultListBean>(
-                    UrlConstants.AI_PAGE,
+                NetworkBroadRepository.postEncryptedList2<AiResultListBean>(
+                    UrlBroadConstants.AI_PAGE,
                     AiResultListBean::class.java,
                     params
                 ).onSuccess { bean ->

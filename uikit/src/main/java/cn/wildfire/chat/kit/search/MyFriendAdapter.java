@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.bean.GlobalFriendListBean;
+import com.cboda.baselibrary.bean.GlobalFriendListBroadBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -22,18 +22,18 @@ import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.search.viewHolder.FriendViewHolder;
 
 public class MyFriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
-    private List<GlobalFriendListBean> itemList = new ArrayList<>();
+    private List<GlobalFriendListBroadBean> itemList = new ArrayList<>();
     private OnItemClickListener listener;
     private Context context;
     private String keyword = "";
 
     // 点击监听接口
     public interface OnItemClickListener {
-        void onItemClick(int position, GlobalFriendListBean bean);
+        void onItemClick(int position, GlobalFriendListBroadBean bean);
     }
 
     // 构造方法
-    public MyFriendAdapter(List<GlobalFriendListBean> itemList, Context context) {
+    public MyFriendAdapter(List<GlobalFriendListBroadBean> itemList, Context context) {
         this.itemList = itemList;
         this.context = context;
     }
@@ -57,7 +57,7 @@ public class MyFriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
         // 获取当前位置的数据
-        GlobalFriendListBean currentItem = itemList.get(position);
+        GlobalFriendListBroadBean currentItem = itemList.get(position);
 //        Log.d("zhanglong","pos==="+position+"----size="+itemList.size());
         // 将数据绑定到ViewHolder的视图上
         if (position == 0 && position + 1 == itemList.size()) {
@@ -123,14 +123,14 @@ public class MyFriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
     }
 
     // 更新数据的方法
-    public void updateData(List<GlobalFriendListBean> newList, String keyword) {
+    public void updateData(List<GlobalFriendListBroadBean> newList, String keyword) {
         itemList = newList;
         this.keyword = keyword;
         notifyDataSetChanged(); // 通知列表刷新
     }
 
     // 局部更新方法（更高效）
-    public void addItem(GlobalFriendListBean item) {
+    public void addItem(GlobalFriendListBroadBean item) {
         itemList.add(item);
         notifyItemInserted(itemList.size() - 1);
     }

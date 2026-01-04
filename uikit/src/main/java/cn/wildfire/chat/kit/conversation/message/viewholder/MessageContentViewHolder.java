@@ -16,7 +16,7 @@ import cn.wildfire.chat.kit.*;
 import cn.wildfire.chat.kit.conversation.ConversationFragment;
 import cn.wildfire.chat.kit.conversation.ConversationMessageAdapter;
 import cn.wildfire.chat.kit.conversation.message.model.UiMessage;
-import cn.wildfire.chat.kit.third.utils.TimeUtils;
+import cn.wildfire.chat.kit.third.utils.TimeBroadUtils;
 import cn.wildfire.chat.kit.viewmodel.MessageViewModel;
 import cn.wildfirechat.message.Message;
 
@@ -73,13 +73,13 @@ public abstract class MessageContentViewHolder extends RecyclerView.ViewHolder {
 //            long preMsgTime = preMsg.serverTime;
 //            if (msgTime - preMsgTime > (5 * 60 * 1000)) {
                 timeTextView.setVisibility(View.VISIBLE);
-                timeTextView.setText(TimeUtils.getMsgFormatTime(msgTime));
+                timeTextView.setText(TimeBroadUtils.getMsgFormatTime(msgTime));
 //            } else {
 //                timeTextView.setVisibility(View.GONE);
 //            }
         } else {
             timeTextView.setVisibility(View.VISIBLE);
-            timeTextView.setText(TimeUtils.getMsgFormatTime(msgTime));
+            timeTextView.setText(TimeBroadUtils.getMsgFormatTime(msgTime));
         }
     }
 

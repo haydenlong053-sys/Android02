@@ -16,12 +16,12 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.lxkj.aiim.R
-import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.widge.LiXInCenterDialog
 import com.lzy.okgo.OkGo
@@ -46,7 +46,7 @@ class UpdateHoder(private val activity: Activity?) {
 
     var callBack: OnConfimCallBack? = null
 
-    fun show(version: CommonResultBean.CommonResult) {
+    fun show(version: CommonResultBroadBean.CommonResult) {
         activity?.apply {
             if (this.isFinishing || this.isDestroyed) {
                 return
@@ -92,7 +92,7 @@ class UpdateHoder(private val activity: Activity?) {
         }
     }
 
-    private fun startDownLoadApp(version: CommonResultBean.CommonResult) {
+    private fun startDownLoadApp(version: CommonResultBroadBean.CommonResult) {
         activity?.apply {
             if (this.isFinishing || this.isDestroyed) {
                 return
@@ -185,7 +185,7 @@ class UpdateHoder(private val activity: Activity?) {
                             .permission(Permission.REQUEST_INSTALL_PACKAGES)
                             .request(OnPermissionCallback { permissions, allGranted ->
                                 if (!allGranted) {
-                                    ToastUtils.show("请允许安装应用")
+                                    ToastBroadUtils.show("请允许安装应用")
                                     return@OnPermissionCallback
                                 }
 //                                callBack?.onClickConfim("")

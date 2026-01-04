@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import cn.wildfire.chat.kit.R;
-import cn.wildfire.chat.kit.third.utils.TimeUtils;
+import cn.wildfire.chat.kit.third.utils.TimeBroadUtils;
 import cn.wildfire.chat.kit.user.UserViewModel;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.notification.NotificationMessageContent;
@@ -67,6 +67,6 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         } else {
             contentTextView.setText(message.digest());
         }
-        timeTextView.setText(TimeUtils.getMsgFormatTime(message.serverTime));
+        timeTextView.setText(TimeBroadUtils.getMsgFormatTime(message.serverTime));
     }
 }

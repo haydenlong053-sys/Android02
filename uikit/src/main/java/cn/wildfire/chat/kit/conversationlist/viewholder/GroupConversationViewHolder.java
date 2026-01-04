@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.bean.GlobalFriendBean;
-import com.cboda.baselibrary.bean.GlobalInfo;
-import com.cboda.baselibrary.bean.GlobalSmallGroupBean;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class GroupConversationViewHolder extends ConversationViewHolder {
 
         // 加载群头像
         loadGroupPortrait(groupInfo, conversationInfo.conversation.target, portrait);
-        GlobalSmallGroupBean smallGroupBean = GlobalInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target);
+        GlobalSmallGroupBroadBean smallGroupBean = GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target);
         if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
             gradeTv.setVisibility(View.VISIBLE);
             gradeTv.setText(smallGroupBean.getGroupDays() + "天");
@@ -157,7 +157,7 @@ public class GroupConversationViewHolder extends ConversationViewHolder {
                         if (userInfo != null && !TextUtils.isEmpty(userInfo.portrait)) {
                             avatarUrls.add(userInfo.portrait);
                         } else if (userInfo != null) {
-                            GlobalFriendBean globalFriendBean = GlobalInfo.INSTANCE.queryMyFriendInfo(userInfo.uid);
+                            GlobalFriendBroadBean globalFriendBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(userInfo.uid);
                             if (globalFriendBean != null) {
                                 avatarUrls.add(globalFriendBean.icon);
                             }

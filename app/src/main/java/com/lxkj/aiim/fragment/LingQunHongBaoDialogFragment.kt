@@ -10,11 +10,11 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
 import cn.wildfire.chat.kit.conversation.message.model.UiMessage
 import cn.wildfirechat.message.HongBaoMessageContent
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseDiaogFragment
-import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.bean.HongBaoBiangeng
 import com.lxkj.aiim.holder.SendCustomMsg
 import com.lxkj.aiim.utils.*
@@ -27,7 +27,7 @@ class LingQunHongBaoDialogFragment : BaseDiaogFragment() {
     var messageUid = ""
     var payload = ""
     var msgBean: UiMessage? = null
-    var dataBean : CommonResultBean? = null
+    var dataBean : CommonResultBroadBean? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,7 +72,7 @@ class LingQunHongBaoDialogFragment : BaseDiaogFragment() {
                         SendCustomMsg().sendYeHuoLingQu(msgBean!!.message.conversation.target,"",
                             dataBean!!.data!!.uid!!,
                             dataBean!!.data!!.name!!,
-                            MMKVUtils.getRealUserId()!!, MMKVUtils.getUserName()!!
+                            MMKVBroadUtils.getRealUserId()!!, MMKVBroadUtils.getUserName()!!
                         )
                     }
 

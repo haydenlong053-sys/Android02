@@ -5,7 +5,7 @@ package com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs;
 
 
 
-import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.model.PositionData;
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.model.PositionBroadData;
 
 import java.util.List;
 
@@ -21,5 +21,5 @@ public interface IPagerIndicator {
 
     void onPageScrollStateChanged(int state);
 
-    void onPositionDataProvide(List<PositionData> dataList);
+    void onPositionDataProvide(List<PositionBroadData> dataList);
 }

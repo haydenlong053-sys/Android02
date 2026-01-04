@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import com.cboda.baselibrary.utils.ChooseFileUtil
-import com.cboda.baselibrary.utils.LauncherFragmentHelper
+import com.cboda.baselibrary.utils.ChooseFileBroadUtil
+import com.cboda.baselibrary.utils.LauncherFragmentBroadHelper
 import com.cboda.baselibrary.utils.choosePicture
 import com.cboda.baselibrary.utils.chooseVideo
 import com.cboda.baselibrary.utils.click
@@ -48,7 +48,7 @@ open class AiAllFragment(val mResourceType: String) :
     private val chooseImgData = arrayListOf<Pair<String, LocalMedia?>>()
 
     //    private var aiPostFileDialog: AiPostFileDialog? = null
-    private val childActivityLauncher = LauncherFragmentHelper(this)
+    private val childActivityLauncher = LauncherFragmentBroadHelper(this)
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -104,8 +104,8 @@ open class AiAllFragment(val mResourceType: String) :
     }
 
     private fun chooseDocument() {
-        childActivityLauncher.lunchResult(ChooseFileUtil.getChooseFileIntent()) { activityResult, _ ->
-            ChooseFileUtil.checkFileSizeAndIsLive(
+        childActivityLauncher.lunchResult(ChooseFileBroadUtil.getChooseFileIntent()) { activityResult, _ ->
+            ChooseFileBroadUtil.checkFileSizeAndIsLive(
                 activityResult?.data?.data,
                 context = requireContext()
             ) {
@@ -135,8 +135,8 @@ open class AiAllFragment(val mResourceType: String) :
     }
 
     private fun chooseAudio() {
-        childActivityLauncher.lunchResult(ChooseFileUtil.getChooseAudioIntent()) { activityResult, _ ->
-            ChooseFileUtil.checkFileSizeAndIsLive(
+        childActivityLauncher.lunchResult(ChooseFileBroadUtil.getChooseAudioIntent()) { activityResult, _ ->
+            ChooseFileBroadUtil.checkFileSizeAndIsLive(
                 activityResult?.data?.data,
                 context = requireContext()
             ) {

@@ -16,7 +16,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginRight="8dp">
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:inputType="numberPassword"
                 app:shapeCornersRadius="5dp"
                 app:shapeSolidColor="#2C2C2C"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginRight="8dp">
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:inputType="numberPassword"
                 app:shapeCornersRadius="5dp"
                 app:shapeSolidColor="#2C2C2C"
@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginRight="8dp">
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:inputType="numberPassword"
                 app:shapeCornersRadius="5dp"
                 app:shapeSolidColor="#2C2C2C"
@@ -71,7 +71,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginRight="8dp">
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:inputType="numberPassword"
                 app:shapeCornersRadius="5dp"
                 app:shapeSolidColor="#2C2C2C"
@@ -90,7 +90,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginRight="8dp">
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:inputType="numberPassword"
                 app:shapeCornersRadius="5dp"
                 app:shapeSolidColor="#2C2C2C"
@@ -109,7 +109,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginRight="8dp">
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:inputType="numberPassword"
                 app:shapeCornersRadius="5dp"
                 app:shapeSolidColor="#2C2C2C"

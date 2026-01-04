@@ -1,12 +1,12 @@
 package com.lxkj.aiim.bean
 
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 
 /**
  * 简述： <功能描述>
  * Created by ysh on 2023/4/7.
  */
-class VersionBean : BaseResponse() {
+class VersionBean : BaseBroadResponse() {
     var result: Version? = null
 
     class Version {

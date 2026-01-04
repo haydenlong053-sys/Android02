@@ -12,7 +12,7 @@
         android:layout_height="230dp"
         android:background="#F8F8F8">
 
-        <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+        <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
             android:id="@+id/shanchulay"
             android:layout_width="95dp"
             android:layout_height="45dp"
@@ -33,10 +33,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
 
-        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
             android:id="@+id/zhuanzhangview"
             android:layout_width="95dp"
             android:layout_height="0dp"
@@ -55,7 +55,7 @@
             app:shapeSolidColor="#01C35F">
 
 
-        </com.cboda.baselibrary.shapeview.shape.ShapeTextView>
+        </com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -82,7 +82,7 @@
             app:layout_constraintEnd_toStartOf="@+id/zhuanzhangview"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+            <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:id="@+id/lingshuzi"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
@@ -96,7 +96,7 @@
 
                 app:shapeSolidColor="#FFFFFF" />
 
-            <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+            <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
                 android:id="@+id/xiaoshudian"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
@@ -113,7 +113,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-            </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+            </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
 
         </LinearLayout>

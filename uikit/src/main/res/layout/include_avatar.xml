@@ -7,7 +7,7 @@
     android:focusable="false"
     android:focusableInTouchMode="false">
 
-    <com.cboda.baselibrary.view.AppRoundImage
+    <com.cboda.baselibrary.view.AppRoundBroadImage
         android:id="@+id/portraitImageView"
         android:layout_width="match_parent"
         android:layout_height="40dp"

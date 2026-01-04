@@ -15,8 +15,8 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.cboda.baselibrary.utils.AppPermissionUtils
-import com.cboda.baselibrary.utils.NetworkFileSaver
+import com.cboda.baselibrary.utils.AppPermissionBroadUtils
+import com.cboda.baselibrary.utils.NetworkFileBroadSaver
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.compose.MirrorScreen
@@ -82,17 +82,17 @@ class MirrorFragment: BaseLazyFragment() {
 //                        onDismiss = { showQr = false },
 //                        onSaveToGallery = {
 //                            val hasStoragePermission =
-//                                AppPermissionUtils.hasStoragePermission(requireContext())
+//                                AppPermissionBroadUtils.hasStoragePermission(requireContext())
 //                            if (hasStoragePermission){
 //                                saveQrCodeToGallery(it)
 //                            }else{
 //                                viewModel.saveQrCodeUrl=it
-//                                PermissionExplainPopup.Builder(requireActivity())
+//                                PermissionExplainBroadPopup.Builder(requireActivity())
 //                                    .setTitle("温馨提示")
 //                                    .addPermissionExplain("为了让你可以保存二维码,我们需要访问你的存储权限")
 //                                    .setOnConfirm {
-//                                        AppPermissionUtils.checkAndRequestStoragePermission(this@MirrorFragment,1002,object :
-//                                            AppPermissionUtils.SimplePermissionCallback{
+//                                        AppPermissionBroadUtils.checkAndRequestStoragePermission(this@MirrorFragment,1002,object :
+//                                            AppPermissionBroadUtils.SimplePermissionCallback{
 //                                            override fun onGranted() {
 //                                                saveQrCodeToGallery(it)
 //                                            }
@@ -153,17 +153,17 @@ class MirrorFragment: BaseLazyFragment() {
 //                    onDismiss = { showQr = false },
 //                    onSaveToGallery = {
 //                        val hasStoragePermission =
-//                            AppPermissionUtils.hasStoragePermission(requireContext())
+//                            AppPermissionBroadUtils.hasStoragePermission(requireContext())
 //                        if (hasStoragePermission){
 //                             saveQrCodeToGallery(it)
 //                        }else{
 //                            viewModel.saveQrCodeUrl=it
-//                            PermissionExplainPopup.Builder(requireActivity())
+//                            PermissionExplainBroadPopup.Builder(requireActivity())
 //                                .setTitle("温馨提示")
 //                                .addPermissionExplain("为了让你可以保存二维码,我们需要访问你的存储权限")
 //                                .setOnConfirm {
-//                                    AppPermissionUtils.checkAndRequestStoragePermission(this,1002,object :
-//                                        AppPermissionUtils.SimplePermissionCallback{
+//                                    AppPermissionBroadUtils.checkAndRequestStoragePermission(this,1002,object :
+//                                        AppPermissionBroadUtils.SimplePermissionCallback{
 //                                        override fun onGranted() {
 //                                            saveQrCodeToGallery(it)
 //                                        }
@@ -198,7 +198,7 @@ class MirrorFragment: BaseLazyFragment() {
         val fileName= "${requireContext().getString(R.string.app_name)}-${System.currentTimeMillis()}-qrcode"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.saveQrCodeUrl=""
-            val saveResult = NetworkFileSaver.saveFileFromUrl(requireActivity(), codeUrl,fileName)
+            val saveResult = NetworkFileBroadSaver.saveFileFromUrl(requireActivity(), codeUrl,fileName)
             if (saveResult.success){
                 ToastUtil.show("保存成功")
             }
@@ -214,7 +214,7 @@ class MirrorFragment: BaseLazyFragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             1002->{
-                if (AppPermissionUtils.hasStoragePermission(requireContext())){
+                if (AppPermissionBroadUtils.hasStoragePermission(requireContext())){
                     saveQrCodeToGallery(viewModel.saveQrCodeUrl)
                 }
 

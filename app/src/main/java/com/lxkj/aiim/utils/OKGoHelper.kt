@@ -1,16 +1,16 @@
 package com.lxkj.aiim.utils
 
 import android.content.Context
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.bean.AddMeetingTimeBean
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.lxkj.aiim.bean.BaseResponse2
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.bean.Constant
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.bean.CommonResultBean
-import com.cboda.baselibrary.utils.HttpsConfig
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.lxkj.aiim.bean.CreateRoomBean
 import com.lxkj.aiim.bean.GroupMeetingBean
 import com.lxkj.aiim.bean.KickListBean
@@ -19,7 +19,7 @@ import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.bean.UniqueRoomBean
 import com.lxkj.aiim.bean.UpdateRoomBean
 import com.lxkj.aiim.utils.AppUtil.Companion.exit
-import com.cboda.baselibrary.widge.LoadingDialog
+import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
@@ -31,13 +31,13 @@ import org.json.JSONObject
  */
 class OKGoHelper {
 
-    private var dialogHelper: LoadingDialog? = null
+    private var dialogHelper: LoadingBroadDialog? = null
 
     fun post(
         context: Context?,
         url: String,
         json: String,
-        bean: BaseResponse? = null,
+        bean: BaseBroadResponse? = null,
         showToast: Boolean = true,
         showLoading: Boolean = true,
         canDis: Boolean = true,
@@ -51,7 +51,7 @@ class OKGoHelper {
             "encrData" to AES.encrypt(json),
         )
 
-        OkGo.post<String>(if (hasBasUrl) url else (HttpsConfig.appBaseUrl + url))
+        OkGo.post<String>(if (hasBasUrl) url else (HttpsBroadConfig.appBaseUrl + url))
             ?.upJson(JSONObject(map).toString())
             ?.execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
@@ -68,20 +68,20 @@ class OKGoHelper {
 
                             val baseBean = JsonUtils.getSuccessJsonBean(body)
                             baseBean?.code?.apply {
-                                if (this == Constant.RESULT_OK && baseBean.success) {
+                                if (this == BroadConstant.RESULT_OK && baseBean.success) {
                                     when (bean) {
                                         is NoResultBean -> {
                                             val noResultBean = JsonUtils.getNoResultBean(body)
                                             callBack?.onSuccess(noResultBean)
                                         }
 
-                                        is CommonResultBean -> {
+                                        is CommonResultBroadBean -> {
                                             val commonResultBean =
                                                 JsonUtils.getCommonResultBean(body)
                                             callBack?.onSuccess(commonResultBean)
                                         }
 
-                                        is CommonDataListBean -> {
+                                        is CommonDataListBroadBean -> {
                                             val commonDataListBean =
                                                 JsonUtils.getCommonDataListBean(body)
                                             callBack?.onSuccess(commonDataListBean)
@@ -93,10 +93,10 @@ class OKGoHelper {
                                         }
                                     }
                                 } else if (this == "401" || this == "201") {
-                                    ToastUtils.show(baseBean.msg)
+                                    ToastBroadUtils.show(baseBean.msg)
                                     exit(context)
                                 } else {
-                                    if (showToast) ToastUtils.show(baseBean.msg)
+                                    if (showToast) ToastBroadUtils.show(baseBean.msg)
                                     callBack?.onFail(baseBean)
                                 }
                             }
@@ -110,7 +110,7 @@ class OKGoHelper {
                 override fun onError(response: Response<String>?) {
                     super.onError(response)
                     eLogD("OKGoHelperClass", "网络请求异常")
-                    if (showToast) ToastUtils.show("网络请求异常")
+                    if (showToast) ToastBroadUtils.show("网络请求异常")
                     if (showLoading) dismissLoading()
                 }
 
@@ -121,7 +121,7 @@ class OKGoHelper {
         context: Context?,
         url: String,
         json: String,
-        bean: BaseResponse? = null,
+        bean: BaseBroadResponse? = null,
         showToast: Boolean = true,
         showLoading: Boolean = true,
         canDis: Boolean = true,
@@ -137,7 +137,7 @@ class OKGoHelper {
             (if (hasBaseUrl) {
                 ""
             } else {
-                HttpsConfig.appBaseUrl
+                HttpsBroadConfig.appBaseUrl
             }) + url
         )
             ?.upJson(json)
@@ -231,10 +231,10 @@ class OKGoHelper {
                                         }
                                     }
                                 } else if (this == "401" || this == "201") {
-                                    ToastUtils.show(baseBean.msg)
+                                    ToastBroadUtils.show(baseBean.msg)
                                     exit(context)
                                 } else {
-                                    if (showToast) ToastUtils.show(baseBean.msg)
+                                    if (showToast) ToastBroadUtils.show(baseBean.msg)
                                     callBack?.onFail(baseBean)
                                 }
                             }
@@ -247,7 +247,7 @@ class OKGoHelper {
 
                 override fun onError(response: Response<String>?) {
                     super.onError(response)
-                    if (showToast) ToastUtils.show("网络请求异常")
+                    if (showToast) ToastBroadUtils.show("网络请求异常")
                     if (showLoading) dismissLoading()
                 }
 
@@ -258,7 +258,7 @@ class OKGoHelper {
         context: Context?,
         url: String,
         json: String,
-        bean: BaseResponse? = null,
+        bean: BaseBroadResponse? = null,
         showToast: Boolean = true,
         showLoading: Boolean = true,
         canDis: Boolean = true,
@@ -273,7 +273,7 @@ class OKGoHelper {
             (if (hasBaseUrl) {
                 ""
             } else {
-                HttpsConfig.appBaseUrl
+                HttpsBroadConfig.appBaseUrl
             }) + url
         )?.execute(
             object : StringCallback() {
@@ -350,10 +350,10 @@ class OKGoHelper {
                                         }
                                     }
                                 } else if (this == "401" || this == "201") {
-                                    ToastUtils.show(baseBean.msg)
+                                    ToastBroadUtils.show(baseBean.msg)
                                     exit(context)
                                 } else {
-                                    if (showToast) ToastUtils.show(baseBean.msg)
+                                    if (showToast) ToastBroadUtils.show(baseBean.msg)
                                     callBack?.onFail(baseBean)
                                 }
                             }
@@ -365,7 +365,7 @@ class OKGoHelper {
 
                 override fun onError(response: Response<String?>?) {
                     super.onError(response)
-                    if (showToast) ToastUtils.show("网络请求异常")
+                    if (showToast) ToastBroadUtils.show("网络请求异常")
                     if (showLoading) dismissLoading()
 
                 }
@@ -379,7 +379,7 @@ class OKGoHelper {
         try {
             context?.apply {
                 if (dialogHelper == null) {
-                    dialogHelper = LoadingDialog(context)
+                    dialogHelper = LoadingBroadDialog(context)
                 }
                 dialogHelper?.show()
                 dialogHelper?.setCanceledOnTouchOutside(canDis)
@@ -396,8 +396,8 @@ class OKGoHelper {
 
 
     interface RequestCallBack {
-        fun onSuccess(bean: BaseResponse?)
-        fun onFail(bean: BaseResponse?)
+        fun onSuccess(bean: BaseBroadResponse?)
+        fun onFail(bean: BaseBroadResponse?)
     }
 
     interface RequestCallBack2 {

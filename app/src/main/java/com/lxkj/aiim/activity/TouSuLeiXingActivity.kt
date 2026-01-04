@@ -5,11 +5,11 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.TouSuLeixingAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.bean.TouSuLeiXingEvent
 import com.lxkj.aiim.viewmodel.CommViewModel
 import org.greenrobot.eventbus.EventBus
@@ -17,8 +17,8 @@ import org.greenrobot.eventbus.EventBus
 class TouSuLeiXingActivity:BaseSimpleActivity() {
     private var viewModel: CommViewModel? = null
     private var mAdapter: TouSuLeixingAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
-    private var mDataList2 = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
+    private var mDataList2 = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private lateinit var tvPhoneLogin: TextView
     private lateinit var recyclerView: RecyclerView
 
@@ -68,7 +68,7 @@ class TouSuLeiXingActivity:BaseSimpleActivity() {
             }
 
             if (mDataList2.isEmpty()){
-                ToastUtils.show(getString(R.string.xuanzetousulieixng))
+                ToastBroadUtils.show(getString(R.string.xuanzetousulieixng))
                 return@setOnClickListener
             }
             EventBus.getDefault().post(TouSuLeiXingEvent(mDataList2))

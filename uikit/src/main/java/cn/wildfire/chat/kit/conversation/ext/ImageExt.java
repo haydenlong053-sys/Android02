@@ -16,8 +16,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
-import com.cboda.baselibrary.popup.PermissionExplainPopup;
-import com.cboda.baselibrary.utils.AppPermissionUtils;
+import com.cboda.baselibrary.popup.PermissionExplainBroadPopup;
+import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
 import com.blankj.utilcode.util.BarUtils;
 import com.lqr.imagepicker.ImagePicker;
 import com.lqr.imagepicker.bean.ImageItem;
@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.annotation.ExtContextMenuItem;
-import cn.wildfire.chat.kit.bridge.GlideEngine;
+import cn.wildfire.chat.kit.bridge.GlideBroadEngine;
 import cn.wildfire.chat.kit.conversation.ext.core.ConversationExt;
 import cn.wildfire.chat.kit.third.utils.ImageUtils;
 import cn.wildfire.chat.kit.third.utils.UIUtils;
@@ -55,7 +55,7 @@ public class ImageExt extends ConversationExt {
      */
     @ExtContextMenuItem
     public void pickImage(View containerView, Conversation conversation) {
-        AppPermissionUtils.INSTANCE.applyAndCheckReadStoragePermission(activity, () -> {
+        AppPermissionBroadUtils.INSTANCE.applyAndCheckReadStoragePermission(activity, () -> {
             openGalley();
             return null;
         });
@@ -63,7 +63,7 @@ public class ImageExt extends ConversationExt {
 
 
     private void openGalley() {
-        GlideEngine glideEngine = GlideEngine.createGlideEngine();
+        GlideBroadEngine glideEngine = GlideBroadEngine.createGlideEngine();
 //        PictureSelectorStyle paramStyle = new PictureSelectorStyle();
 //        BottomNavBarStyle bottomNavBarStyle=paramStyle.getBottomBarStyle();
 //        bottomNavBarStyle.setBottomNarBarHeight(dp2px(BarUtils.getNavBarHeight()));

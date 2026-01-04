@@ -34,10 +34,10 @@ import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.BitmapUtils1;
-import com.lxkj.aiim.lj.utils.GlideEngine;
+import com.lxkj.aiim.lj.utils.GlideBroadEngine;
 import com.lxkj.aiim.lj.utils.GlideUtil;
 import com.lxkj.aiim.lj.utils.ListUtil;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;
@@ -92,7 +92,7 @@ public class PushInfoActivity extends BaseSimpleActivity implements View.OnClick
         initViews();
         etName.setText(account);
         etPsw.setText(pwd);
-        SharePrefUtil.saveString(PushInfoActivity.this, AppConsts.APPTOKEN, apptoken);
+        SharePrefBroadUtil.saveString(PushInfoActivity.this, AppConsts.APPTOKEN, apptoken);
         GlideUtil.setImag(PushInfoActivity.this, qrcode, ivQrcode);
         tvName.setText("用户" + idno);
         rlIcon.setOnClickListener(this);
@@ -315,7 +315,7 @@ public class PushInfoActivity extends BaseSimpleActivity implements View.OnClick
 //                        @Override
 //                        public void onClickConfim(boolean isConfim) {
 //                            if (isConfim) {
-                SharePrefUtil.saveString(PushInfoActivity.this, AppConsts.UID, uid);
+                SharePrefBroadUtil.saveString(PushInfoActivity.this, AppConsts.UID, uid);
                 EventBusBean eventBusBean = new EventBusBean();
                 eventBusBean.msg = "登录成功";
                 EventBus.getDefault().post(eventBusBean);
@@ -326,7 +326,7 @@ public class PushInfoActivity extends BaseSimpleActivity implements View.OnClick
 //                    zhuceHuanyingyuHolder.show(ptbean.data.regInfo);
 
 //                } else {
-//                    SharePrefUtil.saveString(PushInfoActivity.this, AppConsts.UID, uid);
+//                    SharePrefBroadUtil.saveString(PushInfoActivity.this, AppConsts.UID, uid);
 //                    EventBusBean eventBusBean = new EventBusBean();
 //                    eventBusBean.msg = "登录成功";
 //                    EventBus.getDefault().post(eventBusBean);
@@ -396,7 +396,7 @@ public class PushInfoActivity extends BaseSimpleActivity implements View.OnClick
     public void pmsSuccess() {
         PictureSelector.create(this)//在Fragment中使用则是 fragment.this
                 .openGallery(SelectMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .setImageEngine(GlideEngine.createGlideEngine())
+                .setImageEngine(GlideBroadEngine.createGlideEngine())
                 .setMaxSelectNum(1)
                 .setMinSelectNum(1)
                 .setImageSpanCount(3)// 每行显示个数 int

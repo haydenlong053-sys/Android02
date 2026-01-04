@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import com.cboda.baselibrary.utils.OnSingleClickListener
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseFragment
 import com.lxkj.aiim.databinding.NewMirrorFragmentBinding
@@ -49,7 +49,7 @@ class NewMirrorFragment : BaseFragment<NewMirrorFragmentBinding, NewMirrorViewMo
         binding.hobbyTv6.setOnClickListener(userInfoClick)
     }
 
-    private val userInfoClick = object : OnSingleClickListener() {
+    private val userInfoClick = object : OnSingleClickBroadListener() {
         override fun onSingleClick(v: View?) {
             viewModel.startAct<UserInfoActivity>()
         }

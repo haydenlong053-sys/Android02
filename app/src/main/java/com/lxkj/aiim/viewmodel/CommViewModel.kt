@@ -5,11 +5,11 @@ import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.remote.ChatManager
-import com.cboda.baselibrary.bean.BaseResponse
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.bean.CommonResultBean
-import com.cboda.baselibrary.utils.MMKVUtils
-import com.cboda.baselibrary.utils.MMKVUtils.Companion.saveUserData
+import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
@@ -21,30 +21,30 @@ import org.json.JSONObject
 
 class CommViewModel : FriendViewModel() {
 
-    var roomCateLiveData = MutableLiveData<CommonDataListBean>()
+    var roomCateLiveData = MutableLiveData<CommonDataListBroadBean>()
     val refuseRedEnvelopesLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
     var errorLiveData = MutableLiveData<ErrorBean>()
-    val imUserLiveData = MutableLiveData<CommonResultBean>()
-    var lingquListLiveData = MutableLiveData<CommonResultBean>()
-    var hongbaoLiveData = MutableLiveData<CommonResultBean>()
-    var zhuanzhangLiveData = MutableLiveData<CommonResultBean>()
-    var yanzhengListLiveData = MutableLiveData<CommonDataListBean>()
-    var qunUserListLiveData = MutableLiveData<CommonDataListBean>()
-    var tousuleixingListLiveData = MutableLiveData<CommonDataListBean>()
-    var chengyuanListLiveData = MutableLiveData<CommonDataListBean>()
-    var guanliListLiveData = MutableLiveData<CommonDataListBean>()
-    var jinyanListLiveData = MutableLiveData<CommonDataListBean>()
-    var qunxinxiLiveData = MutableLiveData<CommonResultBean>()
-    var gonggaoLiveData = MutableLiveData<CommonResultBean>()
-    var xiaochengxuLiveData = MutableLiveData<CommonResultBean>()
-    var haoyouListLiveData = MutableLiveData<CommonDataListBean>()
-    var userLiveData = MutableLiveData<CommonResultBean>()
-    var keFuData = MutableLiveData<CommonResultBean>()
-    var pintaiLiveData = MutableLiveData<CommonResultBean>()
-    var versionUpdateData = MutableLiveData<CommonResultBean>()
-    var sousuoLiveData = MutableLiveData<CommonDataListBean>()
-    var qunchengyuanListLiveData = MutableLiveData<CommonDataListBean>()
-    var xitongaongaoListLiveData = MutableLiveData<CommonDataListBean>()
+    val imUserLiveData = MutableLiveData<CommonResultBroadBean>()
+    var lingquListLiveData = MutableLiveData<CommonResultBroadBean>()
+    var hongbaoLiveData = MutableLiveData<CommonResultBroadBean>()
+    var zhuanzhangLiveData = MutableLiveData<CommonResultBroadBean>()
+    var yanzhengListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var qunUserListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var tousuleixingListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var chengyuanListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var guanliListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var jinyanListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var qunxinxiLiveData = MutableLiveData<CommonResultBroadBean>()
+    var gonggaoLiveData = MutableLiveData<CommonResultBroadBean>()
+    var xiaochengxuLiveData = MutableLiveData<CommonResultBroadBean>()
+    var haoyouListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var userLiveData = MutableLiveData<CommonResultBroadBean>()
+    var keFuData = MutableLiveData<CommonResultBroadBean>()
+    var pintaiLiveData = MutableLiveData<CommonResultBroadBean>()
+    var versionUpdateData = MutableLiveData<CommonResultBroadBean>()
+    var sousuoLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var qunchengyuanListLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var xitongaongaoListLiveData = MutableLiveData<CommonDataListBroadBean>()
 
 
     private val okGoHelper = OKGoHelper()
@@ -56,16 +56,16 @@ class CommViewModel : FriendViewModel() {
             context,
             "/duiInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         saveUserData(bean.data)
                         imUserLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -81,13 +81,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "qingkongSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -104,13 +104,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "tianjiahaoyousuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -128,13 +128,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "yichubenqunsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -153,13 +153,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "shezhijinyantimesuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -185,13 +185,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "shezhibeizhuSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -209,13 +209,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "xiugaiqunmingSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -232,13 +232,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "shanchusuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -257,13 +257,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "zhidingsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -281,13 +281,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "zhidingsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -306,13 +306,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "miandaraosuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -331,13 +331,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "setFanyisuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -356,13 +356,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "jiaruheimingdansuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -382,14 +382,14 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value =
                             ErrorBean(type = "fahongbaosuc", type2 = bean.id ?: "")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -421,14 +421,14 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value =
                             ErrorBean(type = "fahongbaosuc", type2 = bean.id ?: "")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -448,14 +448,14 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value =
                             ErrorBean(type = "zhuanzhangsuc", type2 = bean.id ?: "")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -472,15 +472,15 @@ class CommViewModel : FriendViewModel() {
             context,
             if (isGroup) "/hbInfo" else "/dhbInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         lingquListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -498,17 +498,17 @@ class CommViewModel : FriendViewModel() {
             context,
             if (fromPage == "xindepengyou") "/newFriList" else "/newGroupList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         yanzhengListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -524,17 +524,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/dhbInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         hongbaoLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -550,17 +550,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/hbInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         hongbaoLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -576,17 +576,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/zzInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         zhuanzhangLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -604,13 +604,13 @@ class CommViewModel : FriendViewModel() {
             json,
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "shoukuanSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -645,13 +645,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "tongyiSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -669,13 +669,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "tongyiSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -693,17 +693,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/groupUserList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         qunUserListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -719,17 +719,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/noticeMsgList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = false,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         xitongaongaoListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -748,17 +748,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/tousuReason",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         tousuleixingListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -786,13 +786,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "tousuSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -822,17 +822,17 @@ class CommViewModel : FriendViewModel() {
             context,
             url,
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         chengyuanListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -851,17 +851,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/friendList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         haoyouListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -879,17 +879,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/serchList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         sousuoLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -907,12 +907,12 @@ class CommViewModel : FriendViewModel() {
             context,
             "/groupList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         bean.dataList?.forEachIndexed { index, commonBean ->
                             val groupInfo =
                                 ChatManager.Instance().getGroupInfo(commonBean.id, false)
@@ -922,7 +922,7 @@ class CommViewModel : FriendViewModel() {
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -938,13 +938,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "caozuomembersuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -962,13 +962,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "xiugaiqunxinxisuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -986,13 +986,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "xiugaigonggaoSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1009,13 +1009,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "mingancisetsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1031,13 +1031,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "qingkongSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1055,13 +1055,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "qunichenguSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1077,13 +1077,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "jiesanqunsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1099,13 +1099,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "jiesanqunsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1122,17 +1122,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/groupUserList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         guanliListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1149,17 +1149,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/groupUserList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         qunchengyuanListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1177,13 +1177,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "yichuguanliSuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1200,13 +1200,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "zhuanrangqunsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1224,17 +1224,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/jinyanUserList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
                         jinyanListLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1250,17 +1250,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/hongbaoInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         qunxinxiLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1276,17 +1276,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/groupInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         gonggaoLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1302,17 +1302,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/changeXcx",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         xiaochengxuLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1328,17 +1328,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/userInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = false,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         userLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1353,18 +1353,18 @@ class CommViewModel : FriendViewModel() {
             context,
             "/duiInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showToast = false,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         saveUserData(bean.data)
                         keFuData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1394,13 +1394,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "sehnqingsuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1424,7 +1424,7 @@ class CommViewModel : FriendViewModel() {
             json,
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         if (isGroup && !TextUtils.isEmpty(msgTarget) && !TextUtils.isEmpty(
                                 sendUserId
@@ -1434,14 +1434,14 @@ class CommViewModel : FriendViewModel() {
                                 msgTarget, "",
                                 sendUserId,
                                 sendUserName,
-                                MMKVUtils.getRealUserId()!!, MMKVUtils.getUserName()!!, msgSender
+                                MMKVBroadUtils.getRealUserId()!!, MMKVBroadUtils.getUserName()!!, msgSender
                             )
                         }
                         errorLiveData.value = ErrorBean(type = "linghongbaosuc", isGroup = isGroup)
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                     if (bean?.code == "200") {
                         try {
                             val msg = ChatManager.Instance().getMessage(messageId)
@@ -1469,13 +1469,13 @@ class CommViewModel : FriendViewModel() {
             json,
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "linghongbaosuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1488,11 +1488,11 @@ class CommViewModel : FriendViewModel() {
             context,
             "/redPacket/refuse",
             JSONObject(mapOf("id" to id)).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showLoading = true,
             showToast = true,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
 //
                     try {
                         val msg = ChatManager.Instance().getMessage(messageId)
@@ -1509,7 +1509,7 @@ class CommViewModel : FriendViewModel() {
                     refuseRedEnvelopesLiveData.value = Pair(isGroup, true)
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                     eLogD("refuseRedEnvelopesClass", "code:${bean?.code}")
                     if (bean?.code == "500") {
                         try {
@@ -1538,14 +1538,14 @@ class CommViewModel : FriendViewModel() {
             json,
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value =
                             ErrorBean(type = "linghongbaosuc", type2 = bean.isfin ?: "")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1562,17 +1562,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/ptConfig",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showLoading = false,
             showToast = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         pintaiLiveData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1588,17 +1588,17 @@ class CommViewModel : FriendViewModel() {
             context,
             "/versionUpdate",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             showLoading = false,
             showToast = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         versionUpdateData.value = bean
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1614,14 +1614,14 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value =
                             ErrorBean(type = "createGroupsuc", type2 = bean.groupId ?: "")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1645,13 +1645,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "caozuomembersuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1674,13 +1674,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "caozuomembersuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1699,13 +1699,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "xiugaiqunxinxisuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1723,13 +1723,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "zidongfanyisuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 
@@ -1747,13 +1747,13 @@ class CommViewModel : FriendViewModel() {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         errorLiveData.value = ErrorBean(type = "caozuomembersuc")
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
 

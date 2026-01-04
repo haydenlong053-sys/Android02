@@ -2,7 +2,7 @@ package com.lxkj.aiim.lj.http;
 
 
 import com.cboda.baselibrary.BuildConfig;
-import com.cboda.baselibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 
 /**
  * Created by kxn on 2018/5/17 0017.
@@ -11,8 +11,8 @@ import com.cboda.baselibrary.utils.HttpsConfig;
 public class Url {
 
     //2025/9/22  后端说全部从82改成84端口  数据自己建,然后再迁移，所以后期有数据问题就找他。
-    public static String IP = HttpsConfig.INSTANCE.getAppBaseUrl() + "/";
-    public static String WebIP = HttpsConfig.appWebHost;
+    public static String IP = HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/";
+    public static String WebIP = HttpsBroadConfig.appWebHost;
 
 
     public static String YHXY = WebIP + "/static/policy/user-agreement.html";//用户协议

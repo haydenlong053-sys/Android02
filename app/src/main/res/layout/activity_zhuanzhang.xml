@@ -76,7 +76,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:shapeCornersTopLeftRadius="15dp"
@@ -124,6 +124,6 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
 </LinearLayout>

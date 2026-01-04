@@ -13,7 +13,7 @@ import com.lxkj.aiim.lj.configuration.AppConsts;
 import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.Url;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.view.FontSizeView;
 
@@ -37,7 +37,7 @@ public class FontSizeActivity extends BaseSimpleActivity {
         initViews();
         getToolbarTitle().setText(getResources().getString(R.string.字体大小));
 
-        String size = SharePrefUtil.getString(this, AppConsts.FontScale, "");
+        String size = SharePrefBroadUtil.getString(this, AppConsts.FontScale, "");
         if (!StringUtil.isEmpty(size)) {
             fsvFontSize.setDefaultPosition(new BigDecimal((Float.parseFloat(size) - 0.875) / 0.125).intValue());
         }
@@ -105,7 +105,7 @@ public class FontSizeActivity extends BaseSimpleActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        SharePrefUtil.saveString(FontSizeActivity.this, AppConsts.FontScale, fontSizeScale + "");
+        SharePrefBroadUtil.saveString(FontSizeActivity.this, AppConsts.FontScale, fontSizeScale + "");
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

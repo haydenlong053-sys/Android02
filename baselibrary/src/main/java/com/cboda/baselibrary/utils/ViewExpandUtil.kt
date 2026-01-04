@@ -1,7 +1,6 @@
 package com.cboda.baselibrary.utils
 
 import android.Manifest
-import android.app.Activity.RESULT_OK
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
@@ -16,8 +15,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
@@ -25,20 +22,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.cboda.baselibrary.R
-import com.cboda.baselibrary.app.UtilApplication
-import com.cboda.baselibrary.widge.LoadingDialog
+import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.EncryptUtils.encryptMD5ToString
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.TimeUtils
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.hjq.shape.layout.ShapeConstraintLayout
 import com.hjq.shape.layout.ShapeLinearLayout
 import com.hjq.shape.layout.ShapeRelativeLayout
 import com.hjq.shape.view.ShapeEditText
@@ -100,7 +93,7 @@ fun getAppColor(context: Context? = null, color: Int): Int {
 
 
 fun getAppContext(context: Context? = null): Context {
-    return context ?: (getResumeActivity() ?: UtilApplication.cxt.applicationContext)
+    return context ?: (getResumeActivity() ?: UtilBroadApplication.cxt.applicationContext)
 }
 
 
@@ -170,7 +163,7 @@ private fun getNotScrollVerticalStaggeredGridLayoutManager(
 }
 
 // Temporarily commented out due to ConstraintLayout access issue
-// fun ShapeConstraintLayout.setBackColor(
+// fun ShapeConstraintBroadLayout.setBackColor(
 //     @ColorRes color: Int,
 //     radius: Float,
 //     isTop: Boolean,
@@ -192,14 +185,14 @@ private fun getNotScrollVerticalStaggeredGridLayoutManager(
 //     this.shapeDrawableBuilder.intoBackground()
 // }
 
-// fun ShapeConstraintLayout.setBackColor(
+// fun ShapeConstraintBroadLayout.setBackColor(
 //     @ColorRes color: Int
 // ) {
 //     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
 //     this.shapeDrawableBuilder.intoBackground()
 // }
 
-// fun ShapeConstraintLayout.setBackColor(
+// fun ShapeConstraintBroadLayout.setBackColor(
 //     @ColorRes startColor: Int,
 //     @ColorRes endColor: Int,
 //     angle: Int = 0
@@ -328,7 +321,7 @@ fun ShapeLinearLayout.setBackColor(@ColorRes color: Int, radius: Float) {
 }
 
 // Temporarily commented out due to ConstraintLayout access issue
-// fun ShapeConstraintLayout.setBackColor(@ColorRes color: Int, radius: Float) {
+// fun ShapeConstraintBroadLayout.setBackColor(@ColorRes color: Int, radius: Float) {
 //     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
 //     this.shapeDrawableBuilder.setRadius(radius)
 //     this.shapeDrawableBuilder.intoBackground()
@@ -850,10 +843,10 @@ class AmountInputFilter(
     }
 }
 
-private var dialogHelper: LoadingDialog? = null
+private var dialogHelper: LoadingBroadDialog? = null
 fun showLoadingDialog(context: Context? = null) {
     dismissLoadingDialog()
-    dialogHelper = LoadingDialog(getAppContext(context))
+    dialogHelper = LoadingBroadDialog(getAppContext(context))
     dialogHelper?.show()
     dialogHelper?.setCanceledOnTouchOutside(false)
     dialogHelper?.setCancelable(false)

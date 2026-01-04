@@ -11,7 +11,7 @@ import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonResultBean.CommonResult
+import com.cboda.baselibrary.bean.CommonResultBroadBean.CommonResult
 import com.lxkj.aiim.holder.CommanConfimHolder
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.StringUtils

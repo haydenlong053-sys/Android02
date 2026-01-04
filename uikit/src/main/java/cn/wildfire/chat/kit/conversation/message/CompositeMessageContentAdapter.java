@@ -26,7 +26,7 @@ import java.util.List;
 
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.third.utils.TimeConvertUtils;
-import cn.wildfire.chat.kit.third.utils.TimeUtils;
+import cn.wildfire.chat.kit.third.utils.TimeBroadUtils;
 import cn.wildfire.chat.kit.utils.FileUtils;
 import cn.wildfirechat.message.CompositeMessageContent;
 import cn.wildfirechat.message.FileMessageContent;
@@ -163,7 +163,7 @@ public class CompositeMessageContentAdapter extends RecyclerView.Adapter<Recycle
 
             UserInfo userInfo = ChatManager.Instance().getUserInfo(msg.sender, false);
             nameTextView.setText(userInfo.displayName);
-            timeTextView.setText(TimeUtils.getMsgFormatTime(msg.serverTime));
+            timeTextView.setText(TimeBroadUtils.getMsgFormatTime(msg.serverTime));
 
             if (position == 0) {
                 portraitImageView.setVisibility(View.VISIBLE);

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cboda.baselibrary.utils.OnSingleClickListener;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.blankj.utilcode.util.BarUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
@@ -33,10 +33,10 @@ import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.BitmapUtils1;
-import com.lxkj.aiim.lj.utils.GlideEngine;
+import com.lxkj.aiim.lj.utils.GlideBroadEngine;
 import com.lxkj.aiim.lj.utils.GlideUtil;
 import com.lxkj.aiim.lj.utils.ListUtil;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.utils.AppUtil;
@@ -103,7 +103,7 @@ public class PushInfo2Activity extends BaseSimpleActivity implements View.OnClic
         initViews();
         BarUtils.addMarginTopEqualStatusBarHeight(myToolView);
         tvMyTitle.setText(getResources().getString(R.string.m_account_info));
-        mIvMyBack.setOnClickListener(new OnSingleClickListener() {
+        mIvMyBack.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
                 finish();
@@ -112,7 +112,7 @@ public class PushInfo2Activity extends BaseSimpleActivity implements View.OnClic
 
         etName.setText(account);
         etPsw.setText(pwd);
-        SharePrefUtil.saveString(PushInfo2Activity.this, AppConsts.APPTOKEN, apptoken);
+        SharePrefBroadUtil.saveString(PushInfo2Activity.this, AppConsts.APPTOKEN, apptoken);
         GlideUtil.setImag(PushInfo2Activity.this, qrcode, ivQrcode);
         tvName.setText("用户" + idno);
 //        rlIcon.setOnClickListener(this);
@@ -122,7 +122,7 @@ public class PushInfo2Activity extends BaseSimpleActivity implements View.OnClic
         tvLogin.setOnClickListener(this);
         tvIdno.setText("ID:" + idno);
 
-        mTvShowQrcode.setOnClickListener(new OnSingleClickListener() {
+        mTvShowQrcode.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
                 mIvCloseEyes.setVisibility(View.VISIBLE);
@@ -133,7 +133,7 @@ public class PushInfo2Activity extends BaseSimpleActivity implements View.OnClic
 
             }
         });
-        mIvCloseEyes.setOnClickListener(new OnSingleClickListener() {
+        mIvCloseEyes.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
                 mIvCloseEyes.setVisibility(View.GONE);
@@ -367,7 +367,7 @@ public class PushInfo2Activity extends BaseSimpleActivity implements View.OnClic
 //                        @Override
 //                        public void onClickConfim(boolean isConfim) {
 //                            if (isConfim) {
-                SharePrefUtil.saveString(PushInfo2Activity.this, AppConsts.UID, uid);
+                SharePrefBroadUtil.saveString(PushInfo2Activity.this, AppConsts.UID, uid);
                 EventBusBean eventBusBean = new EventBusBean();
                 eventBusBean.msg = "登录成功";
                 EventBus.getDefault().post(eventBusBean);
@@ -378,7 +378,7 @@ public class PushInfo2Activity extends BaseSimpleActivity implements View.OnClic
 //                    zhuceHuanyingyuHolder.show(ptbean.data.regInfo);
 
 //                } else {
-//                    SharePrefUtil.saveString(PushInfoActivity.this, AppConsts.UID, uid);
+//                    SharePrefBroadUtil.saveString(PushInfoActivity.this, AppConsts.UID, uid);
 //                    EventBusBean eventBusBean = new EventBusBean();
 //                    eventBusBean.msg = "登录成功";
 //                    EventBus.getDefault().post(eventBusBean);
@@ -448,7 +448,7 @@ public class PushInfo2Activity extends BaseSimpleActivity implements View.OnClic
     public void pmsSuccess() {
         PictureSelector.create(this)//在Fragment中使用则是 fragment.this
                 .openGallery(SelectMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .setImageEngine(GlideEngine.createGlideEngine())
+                .setImageEngine(GlideBroadEngine.createGlideEngine())
                 .setMaxSelectNum(1)
                 .setMinSelectNum(1)
                 .setImageSpanCount(3)// 每行显示个数 int

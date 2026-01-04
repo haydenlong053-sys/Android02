@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.LingQuUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.PixelUtils
 import com.lxkj.aiim.utils.StringUtils
@@ -25,7 +25,7 @@ class HongBaoPageActivity : BaseSimpleActivity() {
     private var hongbaoId = ""
     private var viewModel: CommViewModel? = null
     private var mAdapter: LingQuUserAdapter? = null
-    private var mDataList = arrayListOf<CommonResultBean.CommonResult>()
+    private var mDataList = arrayListOf<CommonResultBroadBean.CommonResult>()
     private var pageNo = 1
     private var isgroup = ""
     private lateinit var smartLayout: SmartRefreshLayout

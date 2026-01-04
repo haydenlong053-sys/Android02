@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.bean.GlobalNoticeBean;
-import com.cboda.baselibrary.toast.ToastUtils;
+import com.cboda.baselibrary.bean.GlobalNoticeBroadBean;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -52,7 +52,7 @@ public class NoticeContentViewHolder extends NormalMessageContentViewHolder {
        itemView.findViewById(R.id.contentLayout).setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               GlobalNoticeBean event = new GlobalNoticeBean();
+               GlobalNoticeBroadBean event = new GlobalNoticeBroadBean();
                event.setId(inviteMessageContent.getId());
                event.setContentUrl(inviteMessageContent.getContentUrl());
                event.setNoticeTitle(inviteMessageContent.getNoticeTitle());

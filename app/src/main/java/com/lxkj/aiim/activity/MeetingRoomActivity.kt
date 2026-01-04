@@ -18,19 +18,19 @@ import androidx.lifecycle.lifecycleScope
 import cn.wildfire.chat.kit.conversation.forward.ForwardActivity
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import cn.wildfirechat.message.Message
-import com.cboda.baselibrary.event.AppEvent
-import com.cboda.baselibrary.event.AppEventCode
-import com.cboda.baselibrary.event.rtc.NetworkQualityEventData
-import com.cboda.baselibrary.network.model.NetworkResponse
-import com.cboda.baselibrary.toast.ToastUtils
-import com.cboda.baselibrary.utils.TimeUtils
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.event.rtc.NetworkQualityEventBroadData
+import com.cboda.baselibrary.network.model.NetworkBroadResponse
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.TimeBroadUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.lxkj.aiim.bean.MeetingData
 import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.lj.QianbaoActivity
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.service.MeetingFloatService
 import com.lxkj.aiim.service.MeetingFloatService.MeetingEvent
 import com.lxkj.aiim.utils.AUIVoiceRoomUIKit
@@ -238,7 +238,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                                             val jsonStr= QuickJsonUtils.toJson(msgObj)
                                             service.rtmManager.publish(service.channelName,"",jsonStr?:""){error->
                                                 if (error!=null){
-                                                    ToastUtils.show(error.message)
+                                                    ToastBroadUtils.show(error.message)
                                                 }else{
                                                     runOnUiThread {
                                                         service.micSeatService?.muteAllAudioSeat(!isMic) {
@@ -277,10 +277,10 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                                         val jsonStr= QuickJsonUtils.toJson(msgObj)
                                         service.rtmManager.publish(service.channelName,"",jsonStr?:""){error->
                                             if (error!=null){
-                                                ToastUtils.show(error.message)
+                                                ToastBroadUtils.show(error.message)
                                             }else{
                                                 //切换输入法
-                                                ToastUtils.show("房主/管理员已${(if (isMute)"开启禁言" else "关闭禁言")}")
+                                                ToastBroadUtils.show("房主/管理员已${(if (isMute)"开启禁言" else "关闭禁言")}")
 
                                             }
 
@@ -352,7 +352,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
         lifecycleScope.launch {
             countdownFlow?.remainingTime?.collect{
 //                Log.e("倒计时","$it")
-                mViewBinding.tvCountDown.text="剩余${TimeUtils.formatDuration(it.toLong())}"
+                mViewBinding.tvCountDown.text="剩余${TimeBroadUtils.formatDuration(it.toLong())}"
             }
         }
 
@@ -397,7 +397,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
                                                                                 }
                                                                                 else -> {
-                                                                                    ToastUtils.show("当前房间不是活动状态")
+                                                                                    ToastBroadUtils.show("当前房间不是活动状态")
                                                                                     shutDownRoom()
                                                                                 }
                                                                             }
@@ -457,10 +457,10 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
         }
 
         mViewBinding.tvTimeName.text=meetingData.meetingTimeName
-        mViewBinding.tvStartDate.text=TimeUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"yyyy年MM月dd日")
-        mViewBinding.tvEndDate.text=TimeUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"yyyy年MM月dd日")
-        mViewBinding.tvStartTime.text=TimeUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"HH:mm")
-        mViewBinding.tvEndTime.text=TimeUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"HH:mm")
+        mViewBinding.tvStartDate.text=TimeBroadUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"yyyy年MM月dd日")
+        mViewBinding.tvEndDate.text=TimeBroadUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"yyyy年MM月dd日")
+        mViewBinding.tvStartTime.text=TimeBroadUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"HH:mm")
+        mViewBinding.tvEndTime.text=TimeBroadUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"HH:mm")
 
 
 
@@ -517,7 +517,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
     private fun loadMeetingInfo() {
         val params = HashMap<String, Any>()
-        OkGo.get<String>(UrlConstants.HOST + UrlConstants.GET_ROOM_INFO + roomId).execute(
+        OkGo.get<String>(UrlBroadConstants.HOST + UrlBroadConstants.GET_ROOM_INFO + roomId).execute(
             object : StringCallback() {
                 override fun onSuccess(response: Response<String?>?) {
                     var body = response?.body()
@@ -525,9 +525,9 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
                     val baseBean = JsonUtils.getSuccessJsonBean(body)
                     if (baseBean?.code == "200") {
-                        val type = object : TypeToken<NetworkResponse<MeetingData>>() {}.type
+                        val type = object : TypeToken<NetworkBroadResponse<MeetingData>>() {}.type
                         val roomBean =
-                            Gson().fromJson<NetworkResponse<MeetingData>>(body, type)
+                            Gson().fromJson<NetworkBroadResponse<MeetingData>>(body, type)
 //                        val roomBean = Gson().fromJson(body, CreateRoomBean::class.java)
                         roomBean.data?.let {
                             meetingData=it
@@ -542,7 +542,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
                                     }
                                     else -> {
-                                        ToastUtils.show("当前房间不是活动状态")
+                                        ToastBroadUtils.show("当前房间不是活动状态")
                                         shutDownRoom()
                                     }
                                 }
@@ -698,19 +698,19 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onAppEventReceiver(event: AppEvent<*>?){
+    fun onAppEventReceiver(event: AppBroadEvent<*>?){
         Log.d("MeetingRoomActivity", "收到EventBus事件: eventCode=${event?.eventCode}")
         event?.let {
             when(event.eventCode){
-                AppEventCode.EVENT_QUALITY_CHANGE->{
+                AppEventBroadCode.EVENT_QUALITY_CHANGE->{
 //                    Log.d("MeetingRoomActivity", "收到网络质量变化事件")
-                    val networkQualityEventData = it.data as NetworkQualityEventData
+                    val networkQualityEventData = it.data as NetworkQualityEventBroadData
 //                    Log.d("MeetingRoomActivity", "事件数据: uid=${networkQualityEventData.uid}, txQuality=${networkQualityEventData.txQuality}, rxQuality=${networkQualityEventData.rxQuality}")
 //                    Log.d("MeetingRoomActivity", "当前用户ID: ${AUIRoomContext.shared().currentUserInfo.userId}")
                     if (networkQualityEventData.uid == AUIRoomContext.shared().currentUserInfo.userId||networkQualityEventData.uid=="0") {
 //                        Log.d("MeetingRoomActivity", "用户ID匹配，处理网络质量事件")
                         if (networkQualityEventData.txQuality>= Constants.QUALITY_VBAD||networkQualityEventData.rxQuality>= Constants.QUALITY_VBAD){
-//                            ToastUtils.show("网络质量不佳")
+//                            ToastBroadUtils.show("网络质量不佳")
                         }else{
 //                            Log.e("网络质量","上行:${networkQualityEventData.txQuality} 下行:${networkQualityEventData.rxQuality}")
                         }
@@ -743,16 +743,16 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                 }
                 MeetingFloatService.EVENT_CHANGE_MIC->{
                     val data = event.data as MeetingFloatService.MeetingAllEvent
-                    ToastUtils.show(if (data.allMic!=true){"房主/管理员开启了全员禁麦"} else {"房主/管理员取消了全员禁麦"})
+                    ToastBroadUtils.show(if (data.allMic!=true){"房主/管理员开启了全员禁麦"} else {"房主/管理员取消了全员禁麦"})
                 }
                 MeetingFloatService.EVENT_CHANGE_MUTE->{
                     val data = event.data as MeetingFloatService.MeetingAllEvent
-                    ToastUtils.show(if (data.allMute==true){"房主/管理员开启了全员禁言"} else {"房主/管理员取消了全员禁言"})
+                    ToastBroadUtils.show(if (data.allMute==true){"房主/管理员开启了全员禁言"} else {"房主/管理员取消了全员禁言"})
                     val roomOwner = AUIRoomContext.shared().isRoomOwner(roomId)
                     mViewBinding.VoiceRoomView.setMuteEditLayout(roomOwner,data.allMute?:false)
 
                 }
-                AppEventCode.EVENT_MEETING_ADD_TIP->{
+                AppEventBroadCode.EVENT_MEETING_ADD_TIP->{
                     val postData = event.data as MeetingData
                     AUIAlertSecondDialog(this).apply {
                         setTitle("提示")
@@ -765,9 +765,9 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                                     postData.ownerId?:"",
                                     (postData.minMeetingTime?:0).toString(),postData.roomId?:""){
                                     if (it!=null){
-                                        ToastUtils.show(it.msg)
+                                        ToastBroadUtils.show(it.msg)
                                         if (it.success){
-                                            EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_ADD_TIME,true))
+                                            EventBus.getDefault().post(MeetingEvent(AppEventBroadCode.EVENT_MEETING_ADD_TIME,true))
                                         }else{
                                             if ((it.data?.createout?:-1)==1){
                                                 startActivity(Intent(this@MeetingRoomActivity,QianbaoActivity::class.java))
@@ -782,12 +782,12 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                             }
                             setNegativeButton("不用"){
                                 dismiss()
-                                EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_UN_ADD_TIME,false))
+                                EventBus.getDefault().post(MeetingEvent(AppEventBroadCode.EVENT_MEETING_UN_ADD_TIME,false))
                             }
                         }else{
                             setPositiveButton("确定"){
                                 dismiss()
-                                EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_UN_ADD_TIME,false))
+                                EventBus.getDefault().post(MeetingEvent(AppEventBroadCode.EVENT_MEETING_UN_ADD_TIME,false))
                             }
                         }
 
@@ -858,7 +858,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
                                                                         }
                                                                         else -> {
-                                                                            ToastUtils.show("当前房间不是活动状态")
+                                                                            ToastBroadUtils.show("当前房间不是活动状态")
                                                                             shutDownRoom()
                                                                         }
                                                                     }
@@ -927,17 +927,17 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
             "allMic" to roomMic,
             "allMute" to roomMute
         )
-        OKGoHelper().postNoAes(this, UrlConstants.HOST + UrlConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
+        OKGoHelper().postNoAes(this, UrlBroadConstants.HOST + UrlBroadConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
             NoResultBean(), callBack = object :
                 OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     (bean as? NoResultBean)?.let {
 
 
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                     loadMeetingInfo()
 
                 }

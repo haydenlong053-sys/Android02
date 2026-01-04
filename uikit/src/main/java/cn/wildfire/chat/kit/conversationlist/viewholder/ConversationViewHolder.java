@@ -30,7 +30,7 @@ import cn.wildfire.chat.kit.conversation.Draft;
 import cn.wildfire.chat.kit.conversationlist.ConversationListViewModel;
 import cn.wildfire.chat.kit.conversationlist.ConversationListViewModelFactory;
 import cn.wildfire.chat.kit.group.GroupViewModel;
-import cn.wildfire.chat.kit.third.utils.TimeUtils;
+import cn.wildfire.chat.kit.third.utils.TimeBroadUtils;
 import cn.wildfire.chat.kit.utils.WfcTextUtils;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.core.MessageDirection;
@@ -128,7 +128,7 @@ public abstract class ConversationViewHolder extends RecyclerView.ViewHolder {
         ivCheckCnv.setVisibility(isSelectMode ? View.VISIBLE : View.GONE);
         ivCheckCnv.setImageResource(conversationInfo.isSelect ? R.mipmap.ic_check_cnv_select : R.mipmap.ic_check_cnv_normal);
 
-        timeTextView.setText(TimeUtils.getMsgFormatTime(conversationInfo.timestamp));
+        timeTextView.setText(TimeBroadUtils.getMsgFormatTime(conversationInfo.timestamp));
         silentImageView.setVisibility(conversationInfo.isSilent ? View.VISIBLE : View.GONE);
         statusImageView.setVisibility(View.GONE);
 

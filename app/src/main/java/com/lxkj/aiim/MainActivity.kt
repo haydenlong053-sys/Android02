@@ -45,17 +45,17 @@ import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnReceiveMessageListener
 import cn.wildfirechat.viewmodel.HomeUIViewModel
 import com.blankj.utilcode.util.GsonUtils
-import com.cboda.baselibrary.event.AppEvent
-import com.cboda.baselibrary.event.AppEventCode
-import com.cboda.baselibrary.event.DoubleMessageEvent
-import com.cboda.baselibrary.event.UnreadCountEvent
-import com.cboda.baselibrary.utils.AppPermissionUtils
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.event.DoubleMessageBroadEvent
+import com.cboda.baselibrary.event.UnreadCountBroadEvent
+import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.google.gson.Gson
 import com.lqr.emoji.EmotionEvent
 import com.lxkj.aiim.adapter.FragmentAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonResultBean
-import com.cboda.baselibrary.bean.GlobalInfo
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.lxkj.aiim.compose.ExpandableBottomBar
 import com.lxkj.aiim.compose.ExpandableBottomBarItem
 import com.lxkj.aiim.fragment.MineFragment
@@ -66,12 +66,12 @@ import com.lxkj.aiim.holder.UpdateHoder
 import com.lxkj.aiim.holder.XitonggaonggaoHolder
 import com.lxkj.aiim.holder.YeHuoImManagerHolder
 import com.lxkj.aiim.lj.ZhaqActivity
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.lj.utils.ToastUtil
 import com.lxkj.aiim.model.NoticeInfoBean
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.AppUtil.Companion.exit
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.lxkj.aiim.fragment.CleverBodyFragment
@@ -133,8 +133,8 @@ class MainActivity : BaseSimpleActivity() {
     }
 
     companion object {
-        var ptConfig: CommonResultBean.CommonResult? = null
-        var currtentLoginUser: CommonResultBean.CommonResult? = null
+        var ptConfig: CommonResultBroadBean.CommonResult? = null
+        var currtentLoginUser: CommonResultBroadBean.CommonResult? = null
     }
 
     //    private val fragmentNameList = arrayListOf<String>()
@@ -235,8 +235,8 @@ class MainActivity : BaseSimpleActivity() {
         viewModel?.pintaiLiveData?.observe(this) {
             it.data?.apply {
                 ptConfig = it.data
-                SharePrefUtil.saveString(this@MainActivity, "pingtaipeizhi", gson.toJson(it.data))
-                SharePrefUtil.saveString(this@MainActivity, "pingtaimgc", ptConfig!!.mgc)
+                SharePrefBroadUtil.saveString(this@MainActivity, "pingtaipeizhi", gson.toJson(it.data))
+                SharePrefBroadUtil.saveString(this@MainActivity, "pingtaimgc", ptConfig!!.mgc)
             }
         }
         viewModel?.xitongaongaoListLiveData?.observe(this) {
@@ -268,10 +268,10 @@ class MainActivity : BaseSimpleActivity() {
 //            }
             it.data?.apply {
                 currtentLoginUser = this
-                MMKVUtils.saveKeFuId(it.data?.kfid!!)
-                MMKVUtils.saveUserName(it.data?.name!!)
-                SharePrefUtil.saveString(this@MainActivity, "autofanyi", it.data?.autofanyi!!)
-                SharePrefUtil.saveString(this@MainActivity, "isvip", it.data?.isvip!!)
+                MMKVBroadUtils.saveKeFuId(it.data?.kfid!!)
+                MMKVBroadUtils.saveUserName(it.data?.name!!)
+                SharePrefBroadUtil.saveString(this@MainActivity, "autofanyi", it.data?.autofanyi!!)
+                SharePrefBroadUtil.saveString(this@MainActivity, "isvip", it.data?.isvip!!)
                 viewModel?.getKfInfo(this@MainActivity, it.data?.kfid!!)
 
                 val zongshu = this.fris + this.gros
@@ -280,7 +280,7 @@ class MainActivity : BaseSimpleActivity() {
                 ChatManager.Instance().qunshenqing = this.gros
                 Log.e("看看未读", "main$tongxunluUnreadCount")
                 EventBus.getDefault().post(
-                    UnreadCountEvent(
+                    UnreadCountBroadEvent(
                         null,
                         null,
                         null,
@@ -291,7 +291,7 @@ class MainActivity : BaseSimpleActivity() {
                         tongxunluUnreadCount
                     )
                 )
-//                EventBus.getDefault().post(AppEvent(AppEventCode.EVENT_REFRESH_CONTACT,true))
+//                EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT,true))
 
 
                 val entry =
@@ -308,7 +308,7 @@ class MainActivity : BaseSimpleActivity() {
 
         viewModel?.keFuData?.observe(this) {
             it.data?.apply {
-                this.name?.let { it1 -> MMKVUtils.saveKeFuName(it1) }
+                this.name?.let { it1 -> MMKVBroadUtils.saveKeFuName(it1) }
             }
         }
 
@@ -317,7 +317,7 @@ class MainActivity : BaseSimpleActivity() {
 //            it.number?.apply {
 //                if (this.toInt() > AppUtil.getVersionCode(this@MainActivity)) {
 //                    val holder = UpdateHoder(this@MainActivity)
-//                    var bean = CommonResultBean.CommonResult()
+//                    var bean = CommonResultBroadBean.CommonBroadResult()
 //                    bean.type = it.type
 //                    bean.url = it.url
 //                    bean.content = it.content
@@ -337,7 +337,7 @@ class MainActivity : BaseSimpleActivity() {
             }
 
             override fun onDoubleClick() {
-                EventBus.getDefault().post(DoubleMessageEvent())
+                EventBus.getDefault().post(DoubleMessageBroadEvent())
             }
         })
 
@@ -388,9 +388,9 @@ class MainActivity : BaseSimpleActivity() {
 //        getsitonggonggao()
         //todo 上架google要去掉本地更新
 //        viewModel?.versionUpdate(this)
-        val hasNotificationPermission = AppPermissionUtils.hasNotificationPermission(this)
+        val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
         if (!hasNotificationPermission) {
-            AppPermissionUtils.requestNotificationPermission(this, 1001)
+            AppPermissionBroadUtils.requestNotificationPermission(this, 1001)
 
         }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -436,10 +436,10 @@ class MainActivity : BaseSimpleActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onAppEventReceiver(event: AppEvent<*>?) {
+    fun onAppEventReceiver(event: AppBroadEvent<*>?) {
         event?.let {
             when (event.eventCode) {
-                AppEventCode.EVENT_LOGIN_SUCCESS -> {
+                AppEventBroadCode.EVENT_LOGIN_SUCCESS -> {
                     needShowAccount = true
                 }
             }
@@ -554,14 +554,14 @@ class MainActivity : BaseSimpleActivity() {
 //        fragmentList.add(TongXunLuFragment.getInstance())
 //        fragmentNameList.add("xiaoxi")
 //        fragmentNameList.add("tongxunlu")
-//        if (SharePrefUtil.getString(this, AppConsts.showXcx, "") == "1") {
+//        if (SharePrefBroadUtil.getString(this, AppConsts.showXcx, "") == "1") {
 //            fragmentList.add(XiaoChengXuFragment.getInstance())
 //            fragmentNameList.add("xiaochengxu")
 //            xiaochengxuLayout?.isVisible = true
 //        } else {
 //            xiaochengxuLayout?.isVisible = false
 //        }
-//        if (SharePrefUtil.getString(this, AppConsts.showFx, "") == "1") {
+//        if (SharePrefBroadUtil.getString(this, AppConsts.showFx, "") == "1") {
 
         faxiaoLayout?.isVisible = true
 //        } else {
@@ -626,7 +626,7 @@ class MainActivity : BaseSimpleActivity() {
                                         }
                                     }
                                     EventBus.getDefault().post(
-                                        UnreadCountEvent(
+                                        UnreadCountBroadEvent(
                                             null,
                                             null,
                                             null,
@@ -638,9 +638,9 @@ class MainActivity : BaseSimpleActivity() {
                                         )
                                     )
                                     EventBus.getDefault()
-                                        .post(AppEvent(AppEventCode.EVENT_REFRESH_CONTACT, true))
+                                        .post(AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true))
                                     //非自己名义发送的消息才响铃
-                                    if (message.sender != MMKVUtils.getRealUserId()) {
+                                    if (message.sender != MMKVBroadUtils.getRealUserId()) {
                                         TiXingUtils.tixing(this@MainActivity)
 
                                     }
@@ -656,7 +656,7 @@ class MainActivity : BaseSimpleActivity() {
                                 }
 
                                 1005 -> {
-                                    if (unkown.orignalPayload.content.equals(MMKVUtils.getRealUserId())) {
+                                    if (unkown.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
                                         YeHuoCommonBridge.getInstance().setYeHuoQiaoJie(
                                             this@MainActivity,
                                             "beifeng",
@@ -701,7 +701,7 @@ class MainActivity : BaseSimpleActivity() {
         conversationListViewModel?.unreadCountEventLiveData()?.observe(this) {
 //            Log.d("zhanglong","unreadCountEventLiveData==="+it.toString())
             EventBus.getDefault().post(
-                UnreadCountEvent(
+                UnreadCountBroadEvent(
                     null,
                     it.singleCount?.toString(),
                     it.groupCount?.toString(),

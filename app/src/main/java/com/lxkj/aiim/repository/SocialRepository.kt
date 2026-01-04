@@ -2,14 +2,14 @@ package com.lxkj.aiim.repository
 
 import android.util.Log
 import cn.wildfirechat.remote.ChatManager
-import com.cboda.baselibrary.network.repository.NetworkRepository
-import com.cboda.baselibrary.network.result.NetworkResult
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+import com.cboda.baselibrary.network.result.NetworkBroadResult
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.model.SocialCircle
 import com.lxkj.aiim.model.SocialContact
 import com.lxkj.aiim.model.SocialFriendRequest
@@ -25,8 +25,8 @@ class SocialRepository {
         val body = HashMap<String, String>()
         return withContext(Dispatchers.IO) {
             var list: List<SocialCircle> = emptyList()
-            val result = NetworkRepository.postListEncrypted<SocialCircle>(
-                UrlConstants.FRIEND_CHARACTER,
+            val result = NetworkBroadRepository.postListEncrypted<SocialCircle>(
+                UrlBroadConstants.FRIEND_CHARACTER,
                 SocialCircle::class.java, body
             )
             result.onSuccess { circles ->
@@ -81,8 +81,8 @@ class SocialRepository {
         val body = HashMap<String, String>()
         return withContext(Dispatchers.IO) {
             var list: List<SocialContact> = emptyList()
-            val result = NetworkRepository.postEncryptedList2<SocialContact>(
-                UrlConstants.FRIEND_CONTACT_LIST,
+            val result = NetworkBroadRepository.postEncryptedList2<SocialContact>(
+                UrlBroadConstants.FRIEND_CONTACT_LIST,
                 SocialContact::class.java, body
             )
             result.onSuccess { data ->
@@ -105,8 +105,8 @@ class SocialRepository {
         val params = HashMap<String, String>()
         return withContext(Dispatchers.IO) {
             var applyCount = 0
-            val result = NetworkRepository.postEncrypted(
-                UrlConstants.FRIEND_APPLY_COUNT,
+            val result = NetworkBroadRepository.postEncrypted(
+                UrlBroadConstants.FRIEND_APPLY_COUNT,
                 SocialFriendRequest::class.java, params
             )
             result.onSuccess {

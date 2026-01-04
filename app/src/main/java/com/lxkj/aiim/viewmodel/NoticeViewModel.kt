@@ -1,8 +1,8 @@
 package com.lxkj.aiim.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.cboda.baselibrary.network.repository.NetworkListResult
-import com.cboda.baselibrary.network.repository.NetworkRepository
+import com.cboda.baselibrary.network.repository.NetworkListBroadResult
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
@@ -11,7 +11,7 @@ import com.lxkj.aiim.livedata.SingleLiveData
 
 import com.lxkj.aiim.lj.configuration.CommonConfig
 
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.lj.utils.getTopBaseSimple2Activity
 
 import com.lxkj.aiim.lj.utils.showToastMain
@@ -28,13 +28,13 @@ import kotlinx.coroutines.withContext
      /**
       * 获取公告分页列表
       */
-     suspend fun getNoticeInfoList(pageNo: Int =1,pageSize: Int=CommonConfig.pageSize_20) :SingleLiveData<NetworkListResult<NoticeInfoBean>>{
-         val safeCenterLiveData = SingleLiveData<NetworkListResult<NoticeInfoBean>>()
+     suspend fun getNoticeInfoList(pageNo: Int =1,pageSize: Int=CommonConfig.pageSize_20) :SingleLiveData<NetworkListBroadResult<NoticeInfoBean>>{
+         val safeCenterLiveData = SingleLiveData<NetworkListBroadResult<NoticeInfoBean>>()
          val params = hashMapOf("pageNo" to pageNo,"pageSize" to pageSize)
          withContext(Dispatchers.IO) {
              try {
-                 NetworkRepository.postEncryptedList2<NoticeInfoBean>(
-                     UrlConstants.NOTICE_LIST,
+                 NetworkBroadRepository.postEncryptedList2<NoticeInfoBean>(
+                     UrlBroadConstants.NOTICE_LIST,
                      NoticeInfoBean::class.java,
                      params
                  ).onSuccess { bean ->
@@ -63,8 +63,8 @@ import kotlinx.coroutines.withContext
          val mLiveData = SingleLiveData<Boolean>()
          withContext(Dispatchers.IO) {
              try {
-                 NetworkRepository.postEncrypted2(
-                     UrlConstants.NOTICE_READ,
+                 NetworkBroadRepository.postEncrypted2(
+                     UrlBroadConstants.NOTICE_READ,
                      Any::class.java,
                      hashMapOf<String, Any?>("id" to id)
                  ).onSuccess { userInfo ->

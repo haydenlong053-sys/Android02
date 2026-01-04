@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/dp_10"
     tools:background="@color/white">
 
-    <com.cboda.baselibrary.view.SquareImageView
+    <com.cboda.baselibrary.view.SquareImageBroadView
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         tools:src="@color/black"
         tools:visibility="visible" />
 
-    <com.cboda.baselibrary.view.SquareDashView
+    <com.cboda.baselibrary.view.SquareDashBroadView
         android:id="@+id/shapeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

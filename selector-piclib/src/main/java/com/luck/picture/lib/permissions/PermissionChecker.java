@@ -97,7 +97,7 @@ public class PermissionChecker {
             boolean should = ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
             SpUtils.putBoolean(context, permission, should);
         }
-        if (PermissionUtil.isAllGranted(context, permissions, grantResults)) {
+        if (PermissionBroadUtil.isAllGranted(context, permissions, grantResults)) {
             action.onGranted();
         } else {
             action.onDenied();

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
-import com.cboda.baselibrary.shapeview.shape.ShapeTextView
+import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.lxkj.aiim.R
 
 /**
@@ -24,7 +24,7 @@ class LiXinBottomItemNavigation : LinearLayoutCompat {
     private var showIcon = true
     private var showText = true
     private lateinit var tvTitle: TextView
-    private lateinit var tvRedNum: ShapeTextView
+    private lateinit var tvRedNum: ShapeTextBroadView
     private lateinit var icon: AppCompatImageView
 
     private fun initViews(view: View) {

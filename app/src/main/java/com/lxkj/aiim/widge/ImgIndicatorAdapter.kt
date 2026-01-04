@@ -14,14 +14,14 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.appcompat.widget.AppCompatImageView
 import com.cboda.baselibrary.utils.getAppColor
-import com.cboda.baselibrary.view.magicindicator.buildins.UIUtil
-import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
+import com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerBroadIndicator
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleBroadView
 
-class ImgIndicatorAdapter : CommonNavigatorAdapter {
+class ImgIndicatorAdapter : CommonNavigatorBroadAdapter {
     private val mTitles: IntArray?
 
     private val mImgS: IntArray?
@@ -74,7 +74,7 @@ class ImgIndicatorAdapter : CommonNavigatorAdapter {
     }
 
     override fun getTitleView(context: Context, index: Int): IPagerTitleView {
-        val pagerTitleView = CommonPagerTitleView(context)
+        val pagerTitleView = CommonPagerTitleBroadView(context)
         // load custom layout
         val itemLayout = LayoutInflater.from(context).inflate(
             R.layout.img_indicator_tv,
@@ -88,7 +88,7 @@ class ImgIndicatorAdapter : CommonNavigatorAdapter {
         bottomIv.setImageResource(mImgS!![index])
         pagerTitleView.contentView = itemLayout
         pagerTitleView.onPagerTitleChangeListener = object :
-            CommonPagerTitleView.OnPagerTitleChangeListener {
+            CommonPagerTitleBroadView.OnPagerTitleChangeListener {
             override fun onSelected(index: Int, totalCount: Int) {
                 if (mSelectedColor != -1) {
                     titleText.setTextColor(mSelectedColor)
@@ -178,13 +178,13 @@ class ImgIndicatorAdapter : CommonNavigatorAdapter {
         )
     }
 
-    //LinePagerIndicator 当标题被选中时，标题下方出现一条直线
+    //LinePagerBroadIndicator 当标题被选中时，标题下方出现一条直线
     override fun getIndicator(context: Context): IPagerIndicator {
-        val indicator = LinePagerIndicator(context)
-        indicator.mode = LinePagerIndicator.MODE_EXACTLY
-        indicator.lineHeight = UIUtil.dip2px(context, 4.0).toFloat()
-        indicator.lineWidth = UIUtil.dip2px(context, 15.0).toFloat()
-        indicator.roundRadius = UIUtil.dip2px(context, 2.0).toFloat()
+        val indicator = LinePagerBroadIndicator(context)
+        indicator.mode = LinePagerBroadIndicator.MODE_EXACTLY
+        indicator.lineHeight = UIBroadUtil.dip2px(context, 4.0).toFloat()
+        indicator.lineWidth = UIBroadUtil.dip2px(context, 15.0).toFloat()
+        indicator.roundRadius = UIBroadUtil.dip2px(context, 2.0).toFloat()
         indicator.startInterpolator = AccelerateInterpolator()
         indicator.endInterpolator = DecelerateInterpolator(2.0f)
         indicator.colors = mIndicatorColor

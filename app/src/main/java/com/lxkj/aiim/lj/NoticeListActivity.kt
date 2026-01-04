@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
-import com.cboda.baselibrary.network.repository.NetworkListResult
+import com.cboda.baselibrary.network.repository.NetworkListBroadResult
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.NoticeListAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity
@@ -111,7 +111,7 @@ class NoticeListActivity : BaseSimple2Activity() {
         }
     }
 
-    private fun showData(resultBean: NetworkListResult<NoticeInfoBean>) {
+    private fun showData(resultBean: NetworkListBroadResult<NoticeInfoBean>) {
         totalPage = resultBean.totalPage
         mBind?.smart?.finishLoadMore()
         mBind?.smart?.finishRefresh()

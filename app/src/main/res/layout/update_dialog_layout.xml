@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:background="@color/yellow">
 
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:id="@+id/rootView"
         android:layout_width="318dp"
         android:layout_height="300dp"
@@ -84,7 +84,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
             android:id="@+id/tvAgree"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -101,5 +101,5 @@
             app:shapeStrokeColor="#FC485B"
             app:shapeStrokeWidth="1dp" />
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 </LinearLayout>

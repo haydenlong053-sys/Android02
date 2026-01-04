@@ -14,8 +14,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.cboda.baselibrary.popup.PermissionExplainPopup;
-import com.cboda.baselibrary.utils.AppPermissionUtils;
+import com.cboda.baselibrary.popup.PermissionExplainBroadPopup;
+import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
 
 import java.io.File;
 
@@ -36,15 +36,15 @@ public class ShootExt extends ConversationExt {
      */
     @ExtContextMenuItem
     public void shoot(View containerView, Conversation conversation) {
-        boolean hasPermission = AppPermissionUtils.INSTANCE.hasCameraPermission(activity);
-        boolean hasAudioPerMission=AppPermissionUtils.INSTANCE.hasAudioPermission(activity);
+        boolean hasPermission = AppPermissionBroadUtils.INSTANCE.hasCameraPermission(activity);
+        boolean hasAudioPerMission=AppPermissionBroadUtils.INSTANCE.hasAudioPermission(activity);
         if (hasPermission&&hasAudioPerMission) {
             Intent intent = new Intent(activity, TakePhotoActivity.class);
             startActivityForResult(intent, 100);
             TypingMessageContent content = new TypingMessageContent(TypingMessageContent.TYPING_CAMERA);
             messageViewModel.sendMessage(conversation, content);
         } else {
-            new PermissionExplainPopup.Builder(activity)
+            new PermissionExplainBroadPopup.BroadBuilder(activity)
                     .setTitle("温馨提示")
                     .addPermissionExplain("为了让你可以拍摄头像或分享照片，我们需要访问你的相机")
                     .addPermissionExplain("为了让你可以录像时录制声音，我们需要访问你的麦克风")
@@ -52,7 +52,7 @@ public class ShootExt extends ConversationExt {
                         @Override
                         public void run() {
                                     String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
-                            AppPermissionUtils.INSTANCE.requestPermissions(activity,permissions,1002);
+                            AppPermissionBroadUtils.INSTANCE.requestPermissions(activity,permissions,1002);
                         }
                     })
                     .show();

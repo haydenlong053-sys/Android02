@@ -64,7 +64,7 @@ import com.luck.picture.lib.utils.DateUtils;
 import com.luck.picture.lib.utils.DensityUtil;
 import com.luck.picture.lib.utils.DoubleUtils;
 import com.luck.picture.lib.utils.StyleUtils;
-import com.luck.picture.lib.utils.ToastUtils;
+import com.luck.picture.lib.utils.ToastBroadUtils;
 import com.luck.picture.lib.utils.ValueOf;
 import com.luck.picture.lib.widget.BottomNavBar;
 import com.luck.picture.lib.widget.CompleteSelectView;
@@ -517,9 +517,9 @@ public class PictureSelectorFragment extends PictureCommonFragment
             }
         } else {
             if (isHasCamera) {
-                ToastUtils.showToast(getContext(), getString(R.string.ps_camera));
+                ToastBroadUtils.showToast(getContext(), getString(R.string.ps_camera));
             } else {
-                ToastUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
+                ToastBroadUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
                 onKeyBackFragmentFinish();
             }
         }

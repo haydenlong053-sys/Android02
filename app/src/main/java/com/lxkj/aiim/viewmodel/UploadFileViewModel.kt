@@ -7,8 +7,8 @@ import com.lxkj.aiim.bean.UrlBean
 import com.lxkj.aiim.bean.UrlsBean
 import com.lxkj.aiim.utils.AES
 import com.lxkj.aiim.utils.AppUtil
-import com.cboda.baselibrary.bean.Constant
-import com.cboda.baselibrary.utils.HttpsConfig
+import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.lxkj.aiim.utils.JsonUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
@@ -42,7 +42,7 @@ class UploadFileViewModel : ViewModel() {
     }
 
     fun upload(file: File) {
-        OkGo.post<String>(HttpsConfig.appBaseUrl + "/uploadFile")?.tag(this)
+        OkGo.post<String>(HttpsBroadConfig.appBaseUrl + "/uploadFile")?.tag(this)
             ?.params("file", file)?.isMultipart(true)
             ?.execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
@@ -50,7 +50,7 @@ class UploadFileViewModel : ViewModel() {
                     body = AES.decrypt(body)
                     val bean = JsonUtils.getSuccessJsonBean(body)
                     bean?.code?.apply {
-                        if (this == Constant.RESULT_OK&& bean.success) {
+                        if (this == BroadConstant.RESULT_OK&& bean.success) {
                             val uploadResultBean = JsonUtils.getUrlBean(body)
                             uploadResultBean?.url?.apply {
                                 liveData?.value = uploadResultBean
@@ -74,7 +74,7 @@ class UploadFileViewModel : ViewModel() {
     }
 
     fun uploadList(files: List<File>) {
-        OkGo.post<String>(HttpsConfig.appBaseUrl + "/uploadFiles")?.tag(this)
+        OkGo.post<String>(HttpsBroadConfig.appBaseUrl + "/uploadFiles")?.tag(this)
             ?.addFileParams("files", files)?.isMultipart(true)
             ?.execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
@@ -82,7 +82,7 @@ class UploadFileViewModel : ViewModel() {
                     body = AES.decrypt(body)
                     val bean = JsonUtils.getSuccessJsonBean(body)
                     bean?.code?.apply {
-                        if (this == Constant.RESULT_OK&& bean.success) {
+                        if (this == BroadConstant.RESULT_OK&& bean.success) {
                             val uploadResultBean = JsonUtils.getUrlBean(body)
                             uploadResultBean?.url?.apply {
                                 liveData?.value = uploadResultBean
@@ -108,7 +108,7 @@ class UploadFileViewModel : ViewModel() {
 
     suspend fun uploadSyn(file: File):UrlBean? {
         return suspendCoroutine{
-            OkGo.post<String>(HttpsConfig.appBaseUrl + "/uploadFile")?.tag(this)
+            OkGo.post<String>(HttpsBroadConfig.appBaseUrl + "/uploadFile")?.tag(this)
                 ?.params("file", file)?.isMultipart(true)
                 ?.execute(object : StringCallback() {
                     override fun onSuccess(response: Response<String>?) {
@@ -116,7 +116,7 @@ class UploadFileViewModel : ViewModel() {
                         body = AES.decrypt(body)
                         val bean = JsonUtils.getSuccessJsonBean(body)
                         bean?.code?.apply {
-                            if (this == Constant.RESULT_OK&& bean.success) {
+                            if (this == BroadConstant.RESULT_OK&& bean.success) {
                                 val uploadResultBean = JsonUtils.getUrlBean(body)
                                 it.resume(uploadResultBean)
                             } else {
@@ -141,7 +141,7 @@ class UploadFileViewModel : ViewModel() {
 
     suspend fun uploadListSyn(files: List<File>) : UrlsBean?{
         return suspendCoroutine{
-            OkGo.post<String>(HttpsConfig.appBaseUrl + "/uploadFiles")?.tag(this)
+            OkGo.post<String>(HttpsBroadConfig.appBaseUrl + "/uploadFiles")?.tag(this)
                 ?.addFileParams("files", files)?.isMultipart(true)
                 ?.execute(object : StringCallback() {
                     override fun onSuccess(response: Response<String>?) {
@@ -149,7 +149,7 @@ class UploadFileViewModel : ViewModel() {
                         body = AES.decrypt(body)
                         val bean = JsonUtils.getSuccessJsonBean(body)
                         bean?.code?.apply {
-                            if (this == Constant.RESULT_OK&& bean.success) {
+                            if (this == BroadConstant.RESULT_OK&& bean.success) {
                                 val uploadResultBean = JsonUtils.getUrlsBean(body)
                                 uploadResultBean?.urls?.apply {
                                     it.resume(uploadResultBean)
@@ -157,8 +157,8 @@ class UploadFileViewModel : ViewModel() {
                                 //test
 //                                val uploadResultBean = UrlsBean()
 //                                val list = ArrayList<String>()
-//                                list.add(Constant.TEST_IMAGE)
-//                                list.add(Constant.TEST_IMAGE1)
+//                                list.add(BroadConstant.TEST_IMAGE)
+//                                list.add(BroadConstant.TEST_IMAGE1)
 //                                uploadResultBean.urls = list
 //                                it.resume(uploadResultBean)
 

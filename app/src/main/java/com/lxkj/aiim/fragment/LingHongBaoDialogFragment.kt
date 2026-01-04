@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseDiaogFragment
@@ -50,7 +50,7 @@ class LingHongBaoDialogFragment : BaseDiaogFragment() {
                     StringUtils.format(getString(R.string.mourendehongbao), this.name ?: "")
                 tvnicheng?.text = this.info ?: ""
                 if (this.tuiStatus == 1) {
-                    ToastUtils.show(getString(R.string.string_hongbao_expired))
+                    ToastBroadUtils.show(getString(R.string.string_hongbao_expired))
                     dismiss()
                 }
 

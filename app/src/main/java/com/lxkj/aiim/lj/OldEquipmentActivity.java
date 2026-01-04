@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 
 public class OldEquipmentActivity extends BaseSimpleActivity implements View.OnClickListener {
@@ -49,7 +49,7 @@ public class OldEquipmentActivity extends BaseSimpleActivity implements View.OnC
         linearParams.height = result;// 控件的高强制设成20
         viHead.setLayoutParams(linearParams);
 
-        tvLanguage.setText(MMKVUtils.Companion.getYuYan());
+        tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
 
         tvLanguage.setOnClickListener(this);
         tvLogin.setOnClickListener(this);

@@ -11,15 +11,15 @@ import cn.wildfirechat.message.TextMessageContent
 import cn.wildfirechat.message.VideoMessageContent
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
-import com.cboda.baselibrary.bean.BaseResponse
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.bean.CommonResultBean
-import com.cboda.baselibrary.bean.Constant
-import com.cboda.baselibrary.event.FanYiEvent
-import com.cboda.baselibrary.toast.ToastUtils
-import com.cboda.baselibrary.utils.MMKVUtils
-import com.cboda.baselibrary.utils.MMKVUtils.Companion.getFanYi
-import com.cboda.baselibrary.utils.MMKVUtils.Companion.saveUserData
+import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.event.FanYiBroadEvent
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
 import com.cboda.baselibrary.utils.eLogD
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
@@ -30,8 +30,8 @@ import com.lxkj.aiim.R
 import com.lxkj.aiim.bean.MeetingDetailBean
 import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.lj.VideoPlayOnlyActivity
-import com.lxkj.aiim.lj.http.UrlConstants
-import com.lxkj.aiim.lj.utils.SharePrefUtil
+import com.lxkj.aiim.lj.http.UrlBroadConstants
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.lj.utils.StringUtil
 import com.lxkj.aiim.utils.*
 import com.lxkj.aiim.utils.AppUtil.Companion.exit
@@ -86,15 +86,15 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                 context,
                                 "/duiInfo",
                                 JSONObject(map).toString(),
-                                CommonResultBean(),
+                                CommonResultBroadBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
-                                        if (bean is CommonResultBean) {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                        if (bean is CommonResultBroadBean) {
                                             saveUserData(bean.data)
                                         }
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                     }
                                 },
                             )
@@ -108,10 +108,10 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                 context,
                                 "/duiInfo",
                                 JSONObject(map).toString(),
-                                CommonResultBean(),
+                                CommonResultBroadBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
-                                        if (bean is CommonResultBean) {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                        if (bean is CommonResultBroadBean) {
                                             saveUserData(bean.data)
                                             if (bean.data?.isFri == "1") {
                                                 JumpUtils.startHaoYouAddActivity(
@@ -128,7 +128,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                         }
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                     }
                                 },
                             )
@@ -142,10 +142,10 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                 context,
                                 "/duiInfo",
                                 JSONObject(map).toString(),
-                                CommonResultBean(),
+                                CommonResultBroadBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
-                                        if (bean is CommonResultBean) {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                        if (bean is CommonResultBroadBean) {
                                             saveUserData(bean.data)
                                             if (bean.data?.isFri == "1") {
                                                 JumpUtils.startHaoYouAddActivity(
@@ -162,7 +162,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                         }
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                     }
                                 },
                             )
@@ -177,13 +177,13 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                     context,
                                     "/groupInfo",
                                     JSONObject(map).toString(),
-                                    CommonResultBean(),
+                                    CommonResultBroadBean(),
                                     callBack = object : OKGoHelper.RequestCallBack {
-                                        override fun onSuccess(bean: BaseResponse?) {
-                                            if (bean is CommonResultBean) {
+                                        override fun onSuccess(bean: BaseBroadResponse?) {
+                                            if (bean is CommonResultBroadBean) {
 
                                                 if (bean.data?.userType == "3" && bean.data?.openQzts == "1") {
-                                                    ToastUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
+                                                    ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
                                                 } else {
                                                     JumpUtils.startHaoyouListActivity(
                                                         mContext,
@@ -194,7 +194,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                             }
                                         }
 
-                                        override fun onFail(bean: BaseResponse?) {
+                                        override fun onFail(bean: BaseBroadResponse?) {
                                         }
                                     },
                                 )
@@ -278,7 +278,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                         }
 
                         "fanyi" -> {
-                            if (SharePrefUtil.getString(mContext, "isvip", "0").equals("1")) {
+                            if (SharePrefBroadUtil.getString(mContext, "isvip", "0").equals("1")) {
                                 fanyi(
                                     mContext,
                                     getFanYi().toString(),
@@ -364,7 +364,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                         }
 
                         "beifeng" -> {
-                            ToastUtils.show("您已被封禁，请重新登录")
+                            ToastBroadUtils.show("您已被封禁，请重新登录")
                             exit(mContext)
                         }
 
@@ -372,11 +372,11 @@ class YeHuoImManagerHolder(private val context: Context?) {
                             val map = mapOf(
                                 "groupId" to (params ?: ""),
                             )
-//                            okGoHelper.postNoAes(context, UrlConstants.HOST+"/"+ UrlConstants.GET_GROUP_MEETING,
+//                            okGoHelper.postNoAes(context, UrlBroadConstants.HOST+"/"+ UrlBroadConstants.GET_GROUP_MEETING,
 //                                JSONObject(map).toString(),
 //                                GroupMeetingBean(),
 //                                callBack = object : OKGoHelper.RequestCallBack{
-//                                    override fun onSuccess(bean: BaseResponse?) {
+//                                    override fun onSuccess(bean: BaseBroadResponse?) {
 //                                         ( bean as? GroupMeetingBean)?.let {
 //                                             it.data?.activeMeetings?.let {
 //                                                 if (it.isNotEmpty()){
@@ -413,16 +413,16 @@ class YeHuoImManagerHolder(private val context: Context?) {
 //
 //                                    }
 //
-//                                    override fun onFail(bean: BaseResponse?) {
+//                                    override fun onFail(bean: BaseBroadResponse?) {
 //                                    }
 //
 //                                })
                             okGoHelper.postNoAes(
-                                context, UrlConstants.HOST + "/" + UrlConstants.GET_GROUP_MEETING,
+                                context, UrlBroadConstants.HOST + "/" + UrlBroadConstants.GET_GROUP_MEETING,
                                 JSONObject(map).toString(),
                                 MeetingDetailBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
                                         (bean as? MeetingDetailBean)?.let {
                                             it.data?.let { data ->
                                                 data.id?.let {
@@ -454,7 +454,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
 
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                     }
 
                                 })
@@ -480,10 +480,10 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                 context,
                                 "/groupInfo",
                                 JSONObject(map).toString(),
-                                CommonResultBean(),
+                                CommonResultBroadBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
-                                        if (bean is CommonResultBean) {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                        if (bean is CommonResultBroadBean) {
                                             bean.data?.apply {
                                                 EventBus.getDefault().post(
                                                     YeHuoEvent(
@@ -496,7 +496,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                         }
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                         EventBus.getDefault()
                                             .post(YeHuoEvent("qunxiangqingshibai", "", ""))
                                     }
@@ -561,11 +561,11 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                 JSONObject(map).toString(),
                                 NoResultBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
 
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                     }
                                 },
                             )
@@ -585,44 +585,44 @@ class YeHuoImManagerHolder(private val context: Context?) {
                         }
 
                         "AI" -> {
-                            if (params == MMKVUtils.getKeFuId()) {
+                            if (params == MMKVBroadUtils.getKeFuId()) {
                                 val map = mapOf(
-                                    "uid" to Constant.getRealUid(),
+                                    "uid" to BroadConstant.getRealUid(),
                                     "info" to params2,
                                 )
                                 okGoHelper.post(
                                     context,
                                     "/aihuifu",
                                     JSONObject(map).toString(),
-                                    CommonResultBean(),
+                                    CommonResultBroadBean(),
                                     callBack = object : OKGoHelper.RequestCallBack {
-                                        override fun onSuccess(bean: BaseResponse?) {
+                                        override fun onSuccess(bean: BaseBroadResponse?) {
 
                                         }
 
-                                        override fun onFail(bean: BaseResponse?) {
+                                        override fun onFail(bean: BaseBroadResponse?) {
                                         }
                                     },
                                 )
                             } else {
-                                if (params2?.contains("@" + MMKVUtils.getKeFuName()) == true) {
+                                if (params2?.contains("@" + MMKVBroadUtils.getKeFuName()) == true) {
                                     var info = removeBeforeFirstSpace(params2 ?: "")
                                     val map = mapOf(
                                         "id" to params,
-                                        "uid" to Constant.getRealUid(),
+                                        "uid" to BroadConstant.getRealUid(),
                                         "info" to info,
                                     )
                                     okGoHelper.post(
                                         context,
                                         "/aihuifu",
                                         JSONObject(map).toString(),
-                                        CommonResultBean(),
+                                        CommonResultBroadBean(),
                                         callBack = object : OKGoHelper.RequestCallBack {
-                                            override fun onSuccess(bean: BaseResponse?) {
+                                            override fun onSuccess(bean: BaseBroadResponse?) {
 
                                             }
 
-                                            override fun onFail(bean: BaseResponse?) {
+                                            override fun onFail(bean: BaseBroadResponse?) {
                                             }
                                         },
                                     )
@@ -642,10 +642,10 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                 context,
                                 "/userInfo",
                                 JSONObject(map).toString(),
-                                CommonResultBean(),
+                                CommonResultBroadBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
-                                        (bean as? CommonResultBean)?.let {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                        (bean as? CommonResultBroadBean)?.let {
                                             val userIdNo = it.data?.mId ?: ""
                                             val map = mapOf(
                                                 "id" to params2,
@@ -655,12 +655,12 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                                 context,
                                                 "/groupInfo",
                                                 JSONObject(map).toString(),
-                                                CommonResultBean(),
+                                                CommonResultBroadBean(),
                                                 showToast = true,
                                                 showLoading = false,
                                                 callBack = object : OKGoHelper.RequestCallBack {
-                                                    override fun onSuccess(bean: BaseResponse?) {
-                                                        if (bean is CommonResultBean) {
+                                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                                        if (bean is CommonResultBroadBean) {
                                                             if (bean.data?.userType == "1" || bean.data?.userType == "2") {
 
                                                                 MeetingHolder.openMeetingDialog(
@@ -671,12 +671,12 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                                                     context
                                                                 )
                                                             } else {
-                                                                ToastUtils.show("只有群主/管理员可以开启会议室")
+                                                                ToastBroadUtils.show("只有群主/管理员可以开启会议室")
                                                             }
                                                         }
                                                     }
 
-                                                    override fun onFail(bean: BaseResponse?) {
+                                                    override fun onFail(bean: BaseBroadResponse?) {
                                                     }
                                                 },
                                             )
@@ -685,7 +685,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                         }
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                     }
 
                                 }
@@ -702,10 +702,10 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                 context,
                                 "/userInfo",
                                 JSONObject(map).toString(),
-                                CommonResultBean(),
+                                CommonResultBroadBean(),
                                 callBack = object : OKGoHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseResponse?) {
-                                        (bean as? CommonResultBean)?.let { cm ->
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                        (bean as? CommonResultBroadBean)?.let { cm ->
                                             QuickJsonUtils.parse(params2 ?: "")?.let {
                                                 val meetTitle =
                                                     QuickJsonUtils.getValue(params2 ?: "", "title")
@@ -720,7 +720,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
 //                                                                it.userId == cm.data?.idno
 //                                                            }
 //                                                            index?.let {
-//                                                                ToastUtils.show("您已被房主/管理员踢出会议室！")
+//                                                                ToastBroadUtils.show("您已被房主/管理员踢出会议室！")
 //                                                            }
 //                                                            if (index==null){
 //                                                                if (ownerId==cm.data?.idno){
@@ -766,7 +766,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                         }
                                     }
 
-                                    override fun onFail(bean: BaseResponse?) {
+                                    override fun onFail(bean: BaseBroadResponse?) {
                                     }
 
                                 }
@@ -811,13 +811,13 @@ class YeHuoImManagerHolder(private val context: Context?) {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
-                        ToastUtils.show(context?.getString(R.string.shoucangchengg))
+                        ToastBroadUtils.show(context?.getString(R.string.shoucangchengg))
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -842,21 +842,21 @@ class YeHuoImManagerHolder(private val context: Context?) {
             showToast = true,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
                         if (!StringUtil.isEmpty(bean.answer)) {
 //                            message.localExtra = bean.answer
-                            SharePrefUtil.saveString(
+                            SharePrefBroadUtil.saveString(
                                 context,
                                 message.messageUid.toString(),
                                 bean.answer
                             )
-                            EventBus.getDefault().post(FanYiEvent())
+                            EventBus.getDefault().post(FanYiBroadEvent())
                         }
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -871,24 +871,24 @@ class YeHuoImManagerHolder(private val context: Context?) {
             context,
             "/duiInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         saveUserData(bean.data)
                         if (bean.data?.isfanyi == "1") {
-                            SharePrefUtil.saveString(
+                            SharePrefBroadUtil.saveString(
                                 context,
                                 "autofanyi",
                                 "1"
                             )
-                            SharePrefUtil.saveLong(
+                            SharePrefBroadUtil.saveLong(
                                 context,
                                 "autofanyitime",
                                 bean.data?.fantime!!.toLong()
                             )
                         } else {
-                            SharePrefUtil.saveString(
+                            SharePrefBroadUtil.saveString(
                                 context,
                                 "autofanyi",
                                 "0"
@@ -897,7 +897,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -911,23 +911,23 @@ class YeHuoImManagerHolder(private val context: Context?) {
             context,
             "/groupInfo",
             JSONObject(map).toString(),
-            CommonResultBean(),
+            CommonResultBroadBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonResultBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonResultBroadBean) {
                         if (bean.data?.isfanyi == "1") {
-                            SharePrefUtil.saveString(
+                            SharePrefBroadUtil.saveString(
                                 context,
                                 "autofanyi",
                                 "1"
                             )
-                            SharePrefUtil.saveLong(
+                            SharePrefBroadUtil.saveLong(
                                 context,
                                 "autofanyitime",
                                 bean.data?.fantime!!.toLong()
                             )
                         } else {
-                            SharePrefUtil.saveString(
+                            SharePrefBroadUtil.saveString(
                                 context,
                                 "autofanyi",
                                 "0"
@@ -936,7 +936,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -972,10 +972,10 @@ class YeHuoImManagerHolder(private val context: Context?) {
                 context,
                 if (isGroup) "/hbInfo" else "/dhbInfo",
                 JSONObject(map).toString(),
-                CommonResultBean(),
+                CommonResultBroadBean(),
                 callBack = object : OKGoHelper.RequestCallBack {
-                    override fun onSuccess(bean: BaseResponse?) {
-                        if (bean is CommonResultBean) {
+                    override fun onSuccess(bean: BaseBroadResponse?) {
+                        if (bean is CommonResultBroadBean) {
                             if (bean.data!!.isLing == "1") {
                                 //已领取
 //                            JumpUtils.startHongBaoPageActivity(context, id, "1")
@@ -1003,7 +1003,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                     hongBaoMessageContent.lingquStatus = "3"
                                     ChatManager.Instance()
                                         .updateMessage(msg.message.messageId, hongBaoMessageContent)
-                                    ToastUtils.show(context?.getString(R.string.string_hongbao_expired))
+                                    ToastBroadUtils.show(context?.getString(R.string.string_hongbao_expired))
                                 } else if (bean.data?.tuiStatus == 2) {
                                     //红包已拒绝
                                     val hongBaoMessageContent =
@@ -1011,13 +1011,13 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                     hongBaoMessageContent.lingquStatus = "2"
                                     ChatManager.Instance()
                                         .updateMessage(msg.message.messageId, hongBaoMessageContent)
-//                                    ToastUtils.show("红包已拒绝")
+//                                    ToastBroadUtils.show("红包已拒绝")
                                 } else {
                                     JumpUtils.toGetWebxRedEnvelopesActivity(
                                         context,
                                         id,
                                         isGroup = isGroup,
-                                        isReceived = !isGroup && msg.message.sender == MMKVUtils.getRealUserId(),
+                                        isReceived = !isGroup && msg.message.sender == MMKVBroadUtils.getRealUserId(),
                                         payload,
                                         messageUid,
                                         msg.message.serverTime,
@@ -1042,7 +1042,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                         }
                     }
 
-                    override fun onFail(bean: BaseResponse?) {
+                    override fun onFail(bean: BaseBroadResponse?) {
                     }
                 },
             )
@@ -1060,14 +1060,14 @@ class YeHuoImManagerHolder(private val context: Context?) {
             JSONObject(map).toString(),
             NoResultBean(),
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBean) {
-                        ToastUtils.show(context?.getString(R.string.tianjaichengg))
+                        ToastBroadUtils.show(context?.getString(R.string.tianjaichengg))
                         addCustomFace()
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
@@ -1086,12 +1086,12 @@ class YeHuoImManagerHolder(private val context: Context?) {
             context,
             "/emojiList",
             JSONObject(map).toString(),
-            CommonDataListBean(),
+            CommonDataListBroadBean(),
             showToast = false,
             showLoading = false,
             callBack = object : OKGoHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseResponse?) {
-                    if (bean is CommonDataListBean) {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
 //                        bean.dataList?.apply {
 //                            val dataList = arrayListOf<String>()
 //                            this.forEachIndexed { index, commonBean ->
@@ -1103,7 +1103,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                     }
                 }
 
-                override fun onFail(bean: BaseResponse?) {
+                override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )

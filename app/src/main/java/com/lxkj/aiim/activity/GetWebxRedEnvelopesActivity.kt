@@ -5,9 +5,9 @@ import android.text.TextUtils
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isGone
-import com.cboda.baselibrary.bean.GlobalInfo
-import com.cboda.baselibrary.utils.MMKVUtils
-import com.cboda.baselibrary.utils.OnSingleClickListener
+import com.cboda.baselibrary.bean.GlobalBroadInfo
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.toJson2
 import com.blankj.utilcode.util.TimeUtils
@@ -77,12 +77,12 @@ class GetWebxRedEnvelopesActivity : BaseSimple2Activity() {
                 createTime.text =
                     "转账时间：${TimeUtils.millis2String(messageTime, "yyyy年MM月dd日 HH:mm:ss")}"
             }
-            backIcon.setOnClickListener(object : OnSingleClickListener() {
+            backIcon.setOnClickListener(object : OnSingleClickBroadListener() {
                 override fun onSingleClick(v: View?) {
                     finish()
                 }
             })
-            collectionBtn.setOnClickListener(object : OnSingleClickListener() {
+            collectionBtn.setOnClickListener(object : OnSingleClickBroadListener() {
                 override fun onSingleClick(v: View?) {
                     val bean = HongBaoBiangeng()
                     bean.id = redEnvelopesId
@@ -98,7 +98,7 @@ class GetWebxRedEnvelopesActivity : BaseSimple2Activity() {
                     )
                 }
             })
-            refusedBtn.setOnClickListener(object : OnSingleClickListener() {
+            refusedBtn.setOnClickListener(object : OnSingleClickBroadListener() {
                 override fun onSingleClick(v: View?) {
                     viewModel.refuseRedEnvelopes(
                         this@GetWebxRedEnvelopesActivity,
@@ -120,7 +120,7 @@ class GetWebxRedEnvelopesActivity : BaseSimple2Activity() {
                         sendUserId = it1.uid ?: ""
                         sendUserName = it1.name ?: ""
                     }
-                    val remarkName = GlobalInfo.queryMyFriendInfo(sender)?.remarkName
+                    val remarkName = GlobalBroadInfo.queryMyFriendInfo(sender)?.remarkName
                     if (!TextUtils.isEmpty(remarkName)) {
                         userName.text = "${remarkName}发出的红包"
                     } else if (!TextUtils.isEmpty(it1.name)) {
@@ -154,7 +154,7 @@ class GetWebxRedEnvelopesActivity : BaseSimple2Activity() {
 //                                msgTarget, "",
 //                                sendUserId,
 //                                sendUserName,
-//                                MMKVUtils.getRealUserId()!!, MMKVUtils.getUserName()!!
+//                                MMKVBroadUtils.getRealUserId()!!, MMKVBroadUtils.getUserName()!!
 //                            )
 //                        }
                     }

@@ -2,13 +2,13 @@ package com.lxkj.aiim.adapter
 
 import android.text.TextUtils
 import android.widget.ImageView
-import com.cboda.baselibrary.base.BaseAdapter
+import com.cboda.baselibrary.base.BaseBroadAdapter
 import com.cboda.baselibrary.utils.loadImg
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.luck.picture.lib.entity.LocalMedia
 import com.lxkj.aiim.R
 
-class AIImgAdapter : BaseAdapter<Pair<String, LocalMedia?>>(R.layout.ai_img_adapter) {
+class AIImgAdapter : BaseBroadAdapter<Pair<String, LocalMedia?>>(R.layout.ai_img_adapter) {
     override fun onBindData(
         holder: BaseViewHolder,
         bean: Pair<String, LocalMedia?>

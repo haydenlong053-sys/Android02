@@ -46,8 +46,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.cboda.baselibrary.toast.ToastUtils;
-import com.cboda.baselibrary.utils.OnSingleClickListener;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.lqr.emoji.EmotionLayout;
 import com.lqr.emoji.IEmotionExtClickListener;
 import com.lqr.emoji.IEmotionSelectedListener;
@@ -361,7 +361,7 @@ public class ConversationInputPanel extends FrameLayout implements IEmotionSelec
         emotionImageView.setOnClickListener(v -> onEmotionImageViewClick());
         findViewById(R.id.clearRefImageButton).setOnClickListener(v -> onClearRefImageButtonClick());
         menuImageView.setOnClickListener(v -> showChannelMenu());
-        audioImageView.setOnClickListener(new OnSingleClickListener() {
+        audioImageView.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
                 showRecordPanel(v);
@@ -369,13 +369,13 @@ public class ConversationInputPanel extends FrameLayout implements IEmotionSelec
         });
         pttImageView.setOnClickListener(this::showRecordPanel);
 
-        mIvVoiceCancel.setOnClickListener(new OnSingleClickListener() {
+        mIvVoiceCancel.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
                 cancelMsgVoice(v, true);
             }
         });
-        mIvVoiceSend.setOnClickListener(new OnSingleClickListener() {
+        mIvVoiceSend.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
                 sendVoiceMsg(v);
@@ -571,7 +571,7 @@ public class ConversationInputPanel extends FrameLayout implements IEmotionSelec
             if (activity.checkCallingOrSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 //                eLogD("showRecordPanelClass","true");
                 fragment.requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 100);
-                ToastUtils.show("请先授权麦克风录音权限！");
+                ToastBroadUtils.show("请先授权麦克风录音权限！");
                 return;
             } else {
 //                eLogD("showRecordPanelClass","false");

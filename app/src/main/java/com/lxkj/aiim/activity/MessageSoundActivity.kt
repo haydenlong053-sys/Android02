@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.cboda.baselibrary.utils.SharePrefUtil
+import com.cboda.baselibrary.utils.SharePrefBroadUtil
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import java.io.IOException
@@ -61,7 +61,7 @@ class MessageSoundActivity : BaseSimpleActivity() {
         setContent {
             MessageSoundScreen(
                 onSave = { selectedSound ->
-                    SharePrefUtil.saveString(this, SharePrefUtil.RING_FILE_NAME_KEY, selectedSound)
+                    SharePrefBroadUtil.saveString(this, SharePrefBroadUtil.RING_FILE_NAME_KEY, selectedSound)
                     finish()
                 },
                 onPlaySound = { soundFile ->
@@ -119,7 +119,7 @@ fun MessageSoundScreen(
     )
     
     // 获取当前选中的音频文件
-    val currentSound = SharePrefUtil.getString(context, SharePrefUtil.RING_FILE_NAME_KEY, "item_found.mp3")
+    val currentSound = SharePrefBroadUtil.getString(context, SharePrefBroadUtil.RING_FILE_NAME_KEY, "item_found.mp3")
     var selectedSound by remember { mutableStateOf(currentSound) }
     
     Column(

@@ -35,7 +35,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 
-import com.cboda.baselibrary.toast.ToastUtils;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -305,7 +305,7 @@ public class WfcUIKit implements AVEngineKit.AVEngineCallback, OnReceiveMessageL
             if (!hasRecordAudioPermission(application)) {
                 Log.w("WfcUIKit", "RECORD_AUDIO permission not granted, cannot start VoipCallService");
                 // 结束通话会话，因为没有录音权限无法正常进行语音通话
-                ToastUtils.show("接收到通话请求,请先授权语音权限!");
+                ToastBroadUtils.show("接收到通话请求,请先授权语音权限!");
                 if (callSession != null) {
                     callSession.endCall();
                 }
@@ -380,7 +380,7 @@ public class WfcUIKit implements AVEngineKit.AVEngineCallback, OnReceiveMessageL
             Conversation conversation = new Conversation(Conversation.ConversationType.Single, targetId);
             singleCall(context, conversation, targetId, isAudioOnly);
         } else {
-            ToastUtils.show("请先授权语音权限!");
+            ToastBroadUtils.show("请先授权语音权限!");
         }
     }
 
@@ -401,7 +401,7 @@ public class WfcUIKit implements AVEngineKit.AVEngineCallback, OnReceiveMessageL
 
     public static void multiCall(Context context, String groupId, List<String> participants, boolean isAudioOnly) {
         if (!checkAudioPermission()) {
-            ToastUtils.show("请先授权语音权限!");
+            ToastBroadUtils.show("请先授权语音权限!");
             return;
         }
         if (!AVEngineKit.isSupportMultiCall()) {

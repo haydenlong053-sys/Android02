@@ -14,7 +14,7 @@ import cn.wildfirechat.remote.GeneralCallback
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.YanZhengAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.lj.utils.ToastUtil
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.JumpUtils
@@ -28,7 +28,7 @@ class YanZhengActivity : BaseSimpleActivity() {
     private var fromPage = ""
     private var viewModel: CommViewModel? = null
     private var mAdapter: YanZhengAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var pageNo = 1
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
@@ -113,7 +113,7 @@ class YanZhengActivity : BaseSimpleActivity() {
 
 
 //        for (i in 0 until 3) {
-//            mDataList.add(CommonDataListBean.CommonBean())
+//            mDataList.add(CommonDataListBroadBean.CommonBean())
 //        }
         mAdapter = YanZhengAdapter(R.layout.item_yanzheng_user_layout, fromPage)
         recyclerView?.apply {

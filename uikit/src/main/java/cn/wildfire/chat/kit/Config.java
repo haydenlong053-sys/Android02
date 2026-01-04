@@ -4,7 +4,7 @@
 
 package cn.wildfire.chat.kit;
 
-import com.cboda.baselibrary.utils.HttpsConfig;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 
 /**
  * Created by heavyrain lee on 2017/11/24.
@@ -18,7 +18,7 @@ public class Config {
      * <br>
      */
     /*请仔细阅读上面的注释，没有 http 前缀，配置错误时，APP 会提示配置错误，然后直接退出*/
-    public static String IM_SERVER_HOST = HttpsConfig.INSTANCE.getAppImServerHost();
+    public static String IM_SERVER_HOST = HttpsBroadConfig.INSTANCE.getAppImServerHost();
 
     // 注意APP_SERVER_ADDRESS已从kit中移除，移动到了AppService.java中
     //public static String APP_SERVER_ADDRESS = "http://wildfirechat.net:8888";
@@ -37,7 +37,7 @@ public class Config {
     public static String[][] ICE_SERVERS/*请仔细阅读上面的注释*/ = new String[][]{
         // 如果是高级版，请删除掉下面的配置项目，保持ICE_SERVERS为空数组就行。
         // 数组元素定义
-        {HttpsConfig.appIceServer, HttpsConfig.appIceUserName, HttpsConfig.INSTANCE.getAppIcePassword()}
+        {HttpsBroadConfig.appIceServer, HttpsBroadConfig.appIceUserName, HttpsBroadConfig.INSTANCE.getAppIcePassword()}
 //        {"turn:turn.wildfirechat.net:3478", "wfchat", "wfchat1"}
 //            {"turn:222.186.173.158:3478", "admin", "123456"}
 //            {"turn:119.45.9.228:3478", "admin", "123456"}

@@ -1,0 +1,33 @@
+package com.cboda.baselibrary.toast;
+
+import android.app.Application;
+
+/**
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/ToastBroadUtils
+ * time   : 2021/11/30
+ * desc   : 利用悬浮窗权限弹出全局 Toast
+ */
+public class WindowBroadToast extends CustomBroadToast {
+
+    /**
+     * Toast 实现类
+     */
+    private final ToastBroadImpl mToastImpl;
+
+    public WindowBroadToast(Application application) {
+        mToastImpl = new ToastBroadImpl(application, this);
+    }
+
+    @Override
+    public void show() {
+        // 替换成 WindowManager 来显示
+        mToastImpl.show();
+    }
+
+    @Override
+    public void cancel() {
+        // 取消 WindowManager 的显示
+        mToastImpl.cancel();
+    }
+}

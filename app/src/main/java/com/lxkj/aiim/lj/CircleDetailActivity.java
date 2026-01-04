@@ -33,7 +33,7 @@ import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.Url;
 import com.lxkj.aiim.lj.utils.GlideUtil;
 import com.lxkj.aiim.lj.utils.ListUtil;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.view.ExpandableTextView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -381,7 +381,7 @@ public class CircleDetailActivity extends BaseSimpleActivity implements View.OnC
                     tvSite.setText(resultBean.data.address);
                 }
                 tvTime.setText(resultBean.data.time);
-                if (resultBean.data.userId.equals(SharePrefUtil.getString(CircleDetailActivity.this, AppConsts.UID, ""))) {
+                if (resultBean.data.userId.equals(SharePrefBroadUtil.getString(CircleDetailActivity.this, AppConsts.UID, ""))) {
                     imDelate.setVisibility(View.VISIBLE);
                 } else {
                     imDelate.setVisibility(View.GONE);

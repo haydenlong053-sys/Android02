@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.bean.CommonResultBean.CommonResult
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean.CommonResult
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 
@@ -16,7 +16,7 @@ class QunUserListActivity : BaseSimpleActivity() {
     private var qunId = ""
     private var viewModel: CommViewModel? = null
     private var mAdapter: QunUserAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var pageNo = 1
     private var qunxiangBena:CommonResult? = null
     private lateinit var recyclerView: RecyclerView

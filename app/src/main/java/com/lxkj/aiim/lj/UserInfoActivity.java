@@ -60,13 +60,12 @@ import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;
 import com.lxkj.aiim.lj.http.Url;
-import com.lxkj.aiim.lj.utils.GlideEngine;
+import com.lxkj.aiim.lj.utils.GlideBroadEngine;
 import com.lxkj.aiim.lj.utils.GlideUtil;
 import com.lxkj.aiim.lj.utils.ListUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
-import com.lxkj.aiim.utils.AppUtil;
-import com.makeramen.roundedimageview.RoundedImageView;
+
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropImageEngine;
 
@@ -493,7 +492,7 @@ public class UserInfoActivity extends BaseSimpleActivity implements View.OnClick
     public void pmsSuccess() {
         PictureSelector.create(this)//在Fragment中使用则是 fragment.this
                 .openGallery(SelectMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .setImageEngine(GlideEngine.createGlideEngine())
+                .setImageEngine(GlideBroadEngine.createGlideEngine())
                 .setMaxSelectNum(1)
                 .setMinSelectNum(1)
                 .setImageSpanCount(3)// 每行显示个数 int

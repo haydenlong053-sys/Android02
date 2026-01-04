@@ -4,14 +4,14 @@ import android.content.Context
 import cn.wildfire.chat.kit.bridge.YeHuoEvent
 import cn.wildfire.chat.kit.widget.popup.OpenMeetingDialog
 import cn.wildfirechat.message.MeetingInviteMessageContent
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.google.gson.Gson
 import com.lxkj.aiim.activity.MeetingCreateActivity
-import com.cboda.baselibrary.bean.BaseResponse
-import com.cboda.baselibrary.bean.CommonResultBean
+import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.bean.CreateRoomBean
 import com.lxkj.aiim.bean.UniqueRoomBean
-import com.lxkj.aiim.lj.http.UrlConstants
+import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.utils.OKGoHelper
 import org.greenrobot.eventbus.EventBus
@@ -31,9 +31,9 @@ object MeetingHolder {
                 "id" to (groupId ?: ""),
             )
             okGoHelper.post(it,"/groupInfo",JSONObject(map).toString(),
-                CommonResultBean(), callBack = object : OKGoHelper.RequestCallBack {
-                    override fun onSuccess(bean: BaseResponse?) {
-                        (bean as? CommonResultBean)?.let {
+                CommonResultBroadBean(), callBack = object : OKGoHelper.RequestCallBack {
+                    override fun onSuccess(bean: BaseBroadResponse?) {
+                        (bean as? CommonResultBroadBean)?.let {
                             if (it.code == "200") {
                                 context?.let {uiContext->
                                     MeetingCreateActivity.launch(uiContext,groupId,idNo,it.data?.name?:"")
@@ -48,12 +48,12 @@ object MeetingHolder {
 //                                        params["allMic"]=openMic
 //                                        okGoHelper.postNoAes(
 //                                            okContext,
-//                                            UrlConstants.HOST+UrlConstants.GET_UNIQUE_ROOM_ID,
+//                                            UrlBroadConstants.HOST+UrlBroadConstants.GET_UNIQUE_ROOM_ID,
 //                                            Gson().toJson(params),
 //                                            UniqueRoomBean(),
 //                                            hasBaseUrl = true,
 //                                            callBack = object : OKGoHelper.RequestCallBack{
-//                                                override fun onSuccess(bean: BaseResponse?) {
+//                                                override fun onSuccess(bean: BaseBroadResponse?) {
 //                                                    (bean as? UniqueRoomBean)?.let {
 //                                                        val meetingMessage=
 //                                                            MeetingInviteMessageContent()
@@ -99,8 +99,8 @@ object MeetingHolder {
 //                                                    }
 //                                                }
 //
-//                                                override fun onFail(bean: BaseResponse?) {
-//                                                    ToastUtils.show(bean?.msg?:"创建会议失败")
+//                                                override fun onFail(bean: BaseBroadResponse?) {
+//                                                    ToastBroadUtils.show(bean?.msg?:"创建会议失败")
 //
 //                                                }
 //
@@ -110,7 +110,7 @@ object MeetingHolder {
 //                                        )
 //                                        //请求创建会议的接口
 ////                                        OkHttpHelper.getInstance().post_json(uiContext,
-////                                            UrlConstants.HOST+ UrlConstants.CREATE_ROOM,
+////                                            UrlBroadConstants.HOST+ UrlBroadConstants.CREATE_ROOM,
 ////                                            params,
 ////                                            object : BaseCallback<ResultBean>() {
 ////                                                override fun onBeforeRequest(request: Request?) {
@@ -154,7 +154,7 @@ object MeetingHolder {
                         }
                     }
 
-                    override fun onFail(bean: BaseResponse?) {
+                    override fun onFail(bean: BaseBroadResponse?) {
                     }
 
                 })

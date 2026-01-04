@@ -82,8 +82,8 @@ import androidx.constraintlayout.compose.Dimension
 import cn.wildfire.chat.kit.contact.ContactViewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import com.cboda.baselibrary.event.AppEvent
-import com.cboda.baselibrary.event.AppEventCode
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
 import com.lxkj.aiim.activity.YanZhengActivity
 import com.lxkj.aiim.utils.JumpUtils
@@ -128,9 +128,9 @@ class SocialFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onAppEventReceiver(event: AppEvent<*>?) {
+    fun onAppEventReceiver(event: AppBroadEvent<*>?) {
         val eventCode = event?.eventCode
-        if (eventCode == AppEventCode.EVENT_REFRESH_CONTACT) {
+        if (eventCode == AppEventBroadCode.EVENT_REFRESH_CONTACT) {
             Log.e("SocialFragment", "收到刷新列表的事件通知")
             viewModel.refresh()
         }

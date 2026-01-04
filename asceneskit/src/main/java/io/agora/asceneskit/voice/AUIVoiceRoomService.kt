@@ -1,9 +1,9 @@
 package io.agora.asceneskit.voice
 
 import android.util.Log
-import com.cboda.baselibrary.event.AppEvent
-import com.cboda.baselibrary.event.AppEventCode
-import com.cboda.baselibrary.event.rtc.NetworkQualityEventData
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.event.rtc.NetworkQualityEventBroadData
 import io.agora.auikit.model.AUIRoomConfig
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIRoomInfo
@@ -101,10 +101,10 @@ class AUIVoiceRoomService constructor(
         override fun onNetworkQuality(userId: String?, txQuality: Int, rxQuality: Int) {
             super.onNetworkQuality(userId, txQuality, rxQuality)
             //发送通知给ui
-            val eventData = NetworkQualityEventData(userId?:"",txQuality,rxQuality)
+            val eventData = NetworkQualityEventBroadData(userId?:"",txQuality,rxQuality)
 //            Log.d("AUIVoiceRoomService", "发送网络质量事件: userId=$userId, txQuality=$txQuality, rxQuality=$rxQuality")
 //            Log.d("AUIVoiceRoomService", "事件数据: uid=${eventData.uid}, txQuality=${eventData.txQuality}, rxQuality=${eventData.rxQuality}")
-            EventBus.getDefault().post(AppEvent(AppEventCode.EVENT_QUALITY_CHANGE, eventData))
+            EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_QUALITY_CHANGE, eventData))
 
         }
 

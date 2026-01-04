@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.cboda.baselibrary.bean.GlobalNoticeBean;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalNoticeBroadBean;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -70,7 +70,7 @@ public class ConversationSingleFragment extends ProgressFragment {
 
     private boolean isSyncUser = false;
     private MyHeaderAdapter myHeaderAdapter;
-    private GlobalNoticeBean globalNoticeBean;
+    private GlobalNoticeBroadBean globalNoticeBean;
     private  boolean isSelectMode=false;
     private HomeUIViewModel uiViewModel;
 
@@ -167,7 +167,7 @@ public class ConversationSingleFragment extends ProgressFragment {
         }
     }
 
-    public void setGlobalNoticeBean(GlobalNoticeBean mNoticeBean) {
+    public void setGlobalNoticeBean(GlobalNoticeBroadBean mNoticeBean) {
         this.globalNoticeBean = mNoticeBean;
         if (BuildConfig.DEBUG){
             Log.d("zhanglong","--setGlobalNoticeBean---globalNoticeBean=="+globalNoticeBean.toString()+"---myHeaderAdapter=="+myHeaderAdapter);
@@ -202,16 +202,16 @@ public class ConversationSingleFragment extends ProgressFragment {
     private int unreadGroupCount;
 
     private void init() {
-//        HashMap<String, GlobalFriendBean> friendListData = MMKVUtils.Companion.getFriendListData();
-//        GlobalInfo.INSTANCE.setMyFriendListBean(friendListData);
-//        ELogUtilKt.eLogD("zhanglong","mList.size===="+GlobalInfo.INSTANCE.getMyFriendListBean().size());
-//        ELogUtilKt.eLogD("zhanglong","mList====="+GlobalInfo.INSTANCE.getMyFriendListBean());
+//        HashMap<String, GlobalFriendBroadBean> friendListData = MMKVBroadUtils.Companion.getFriendListData();
+//        GlobalBroadInfo.INSTANCE.setMyFriendListBean(friendListData);
+//        ELogUtilKt.eLogD("zhanglong","mList.size===="+GlobalBroadInfo.INSTANCE.getMyFriendListBean().size());
+//        ELogUtilKt.eLogD("zhanglong","mList====="+GlobalBroadInfo.INSTANCE.getMyFriendListBean());
 
         UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         adapter = new ConversationListAdapter(this,false);
-        myHeaderAdapter = new MyHeaderAdapter(globalNoticeBean, new Function1<GlobalNoticeBean, Unit>() {
+        myHeaderAdapter = new MyHeaderAdapter(globalNoticeBean, new Function1<GlobalNoticeBroadBean, Unit>() {
             @Override
-            public Unit invoke(GlobalNoticeBean globalNoticeBean) {
+            public Unit invoke(GlobalNoticeBroadBean globalNoticeBean) {
                 EventBus.getDefault().post(globalNoticeBean);
                 return null;
             }
@@ -233,12 +233,12 @@ public class ConversationSingleFragment extends ProgressFragment {
 //                    unreadGroupCount += conversationInfos.get(i).unreadCount.unread;
 //                }
 //            }
-//            EventBus.getDefault().post(new UnreadCountEvent(null, unreadSingleCount + "", unreadGroupCount + "", null));
+//            EventBus.getDefault().post(new UnreadCountBroadEvent(null, unreadSingleCount + "", unreadGroupCount + "", null));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 List<ConversationInfo> collect = conversationInfos.stream().filter(
                         conversationInfo -> {
                             try {
-                                return ChatManager.mClient.isMyFriend(conversationInfo.conversation.target) || TextUtils.equals(conversationInfo.conversation.target,MMKVUtils.Companion.getKeFuId());
+                                return ChatManager.mClient.isMyFriend(conversationInfo.conversation.target) || TextUtils.equals(conversationInfo.conversation.target,MMKVBroadUtils.Companion.getKeFuId());
                             } catch (RemoteException e) {
                                 return false;
                             }

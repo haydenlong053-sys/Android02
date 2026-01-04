@@ -27,11 +27,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.bean.MsgExtra;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.google.gson.Gson;
-import com.luck.picture.lib.utils.ToastUtils;
+import com.luck.picture.lib.utils.ToastBroadUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -58,7 +58,7 @@ import cn.wildfire.chat.kit.conversation.message.viewholder.MessageContextMenuIt
 import cn.wildfire.chat.kit.conversation.message.viewholder.MessageViewHolderManager;
 import cn.wildfire.chat.kit.conversation.message.viewholder.NormalMessageContentViewHolder;
 import cn.wildfire.chat.kit.conversation.message.viewholder.NotificationMessageContentViewHolder;
-import cn.wildfire.chat.kit.utils.SharePrefUtil;
+import cn.wildfire.chat.kit.utils.SharePrefBroadUtil;
 import cn.wildfire.chat.kit.viewmodel.MessageViewModel;
 import cn.wildfirechat.message.BiaoQingMessageContent;
 import cn.wildfirechat.message.CallStartMessageContent;
@@ -406,7 +406,7 @@ public class ConversationMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 int position = viewHolder.getAdapterPosition();
                 UiMessage message = getItem(position);
                 // FIXME: 2019/2/15 getUserInfo可能返回null
-                String keFuId = MMKVUtils.Companion.getKeFuId();
+                String keFuId = MMKVBroadUtils.Companion.getKeFuId();
                 if (!TextUtils.equals(message.message.sender, keFuId)) {
                     onPortraitClickListener.onPortraitClick(ChatManager.Instance().getUserInfo(message.message.sender, false));
                 }
@@ -415,10 +415,10 @@ public class ConversationMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         int position = viewHolder.getAdapterPosition();
         UiMessage message = getItem(position);
         TextView portraitTv = itemView.findViewById(R.id.portraitTv);
-        if (message.message.sender.equals(MMKVUtils.Companion.getRealUserId())) {
+        if (message.message.sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
             if (!TextUtils.isEmpty(message.message.content.extra)) {
                 portraitTv.setVisibility(View.VISIBLE);
-                MsgExtra msgExtra = fromJson2(message.message.content.extra, MsgExtra.class);
+                MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
                 portraitTv.setText(msgExtra.getGrade() + "分");
             } else if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null) {
                 portraitTv.setVisibility(View.VISIBLE);
@@ -430,7 +430,7 @@ public class ConversationMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
             if (!TextUtils.isEmpty(message.message.content.extra)) {
                 portraitTv.setVisibility(View.VISIBLE);
-                MsgExtra msgExtra = fromJson2(message.message.content.extra, MsgExtra.class);
+                MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
                 String joinGroupTime = msgExtra.getJoinGroupTime();
                 portraitTv.setText(msgExtra.getGrade() + "分");
                 joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
@@ -543,7 +543,7 @@ public class ConversationMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 //                if (contextMenus.isEmpty()) {
 //                    return false;
 //                }
-                String pingtaipeizhi = SharePrefUtil.getString(v.getContext(), "pingtaipeizhi", "");
+                String pingtaipeizhi = SharePrefBroadUtil.getString(v.getContext(), "pingtaipeizhi", "");
                 Log.e("野火长按配置", "--> " + pingtaipeizhi);
                 if (!TextUtils.isEmpty(pingtaipeizhi)) {
                     imCommonResult = gson.fromJson(pingtaipeizhi, IMCommonResult.class);
@@ -640,7 +640,7 @@ public class ConversationMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                             TextMessageContent content = (TextMessageContent) message.message.content;
                             ClipData clipData = ClipData.newPlainText("messageContent", content.getContent());
                             clipboardManager.setPrimaryClip(clipData);
-                            ToastUtils.showToast(fragment.getContext(), "复制成功");
+                            ToastBroadUtils.showToast(fragment.getContext(), "复制成功");
                         }
                     });
                     mPopActions.add(fuzhi);
@@ -749,7 +749,7 @@ public class ConversationMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                     mPopActions.add(shoucang);
                 }
                 if (message1.content.getMessageContentType() == 1
-                        && SharePrefUtil.getString(v.getContext(), "isvip", "0").equals("1")) {
+                        && SharePrefBroadUtil.getString(v.getContext(), "isvip", "0").equals("1")) {
                     titles.add("翻译");
                     ChatPopMenu.ChatPopMenuAction fanyi = new ChatPopMenu.ChatPopMenuAction();
                     fanyi.setActionName("翻译");

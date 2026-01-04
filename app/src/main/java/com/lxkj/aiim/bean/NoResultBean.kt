@@ -1,8 +1,8 @@
 package com.lxkj.aiim.bean
 
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 
-class NoResultBean: BaseResponse() {
+class NoResultBean: BaseBroadResponse() {
     var id:String? = null
     var groupId:String? = null
     var isfin:String? = null

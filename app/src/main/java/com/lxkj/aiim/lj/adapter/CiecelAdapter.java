@@ -27,7 +27,7 @@ import com.lxkj.aiim.lj.bean.DataListBean;
 import com.lxkj.aiim.lj.configuration.AppConsts;
 import com.lxkj.aiim.lj.utils.GlideUtil;
 import com.lxkj.aiim.lj.utils.ListUtil;
-import com.lxkj.aiim.lj.utils.SharePrefUtil;
+import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;
 import com.lxkj.aiim.lj.utils.StringUtil;
 import com.lxkj.aiim.lj.utils.ToastUtil;
 import com.lxkj.aiim.lj.view.ExpandableTextView;
@@ -117,7 +117,7 @@ public class CiecelAdapter extends RecyclerView.Adapter<CiecelAdapter.MyHolder> 
             holder.tvSite.setText(list.get(position).address);
         }
         holder.tvTime.setText(list.get(position).time);
-        if (list.get(position).userId.equals(SharePrefUtil.getString(context, AppConsts.UID,""))){
+        if (list.get(position).userId.equals(SharePrefBroadUtil.getString(context, AppConsts.UID,""))){
             holder.imDelate.setVisibility(View.VISIBLE);
         }else {
             holder.imDelate.setVisibility(View.GONE);

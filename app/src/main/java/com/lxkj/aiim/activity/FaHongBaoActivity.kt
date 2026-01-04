@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.AmountInputFilter
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimple2Activity
@@ -55,7 +55,7 @@ class FaHongBaoActivity : BaseSimple2Activity() {
         }
         setIvBgTopImg(R.mipmap.ic_hongbao_top_bg2)
         tvCurrencyWx.click {
-            ToastUtils.show(R.string.is_not_yet_available)
+            ToastBroadUtils.show(R.string.is_not_yet_available)
         }
     }
 
@@ -202,12 +202,12 @@ class FaHongBaoActivity : BaseSimple2Activity() {
         }
         tvPhoneLogin?.setOnClickListener {
             if (edtjine?.text?.trim().isNullOrEmpty()) {
-                ToastUtils.show(getString(R.string.querenfahongbaotips))
+                ToastBroadUtils.show(getString(R.string.querenfahongbaotips))
                 return@setOnClickListener
             }
 
             if ((edtjine?.text?.trim().toString().toFloat()) <= 0) {
-                ToastUtils.show(getString(R.string.querenfahongbaotips1))
+                ToastBroadUtils.show(getString(R.string.querenfahongbaotips1))
                 return@setOnClickListener
             }
 

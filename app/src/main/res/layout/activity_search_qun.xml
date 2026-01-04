@@ -12,7 +12,7 @@
         android:layout_height="60dp"
         android:gravity="center_vertical">
 
-        <com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
+        <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="23dp"
@@ -37,7 +37,7 @@
                 android:textColorHint="#AAAAAA"
                 android:textSize="13sp" />
 
-        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout>
+        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

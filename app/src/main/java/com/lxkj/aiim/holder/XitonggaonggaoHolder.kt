@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
 import com.lxkj.aiim.R
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.utils.PixelUtils
 import com.lxkj.aiim.widge.LiXInCenterDialog
 
@@ -17,7 +17,7 @@ import com.lxkj.aiim.widge.LiXInCenterDialog
 @Deprecated("已废弃")
 class XitonggaonggaoHolder(
     private val activity: Context?,
-    private val dataList: MutableList<CommonDataListBean.CommonBean>
+    private val dataList: MutableList<CommonDataListBroadBean.CommonBean>
 ) {
     private var dialog: AlertDialog? = null
     var callBack: OnConfimCallBack? = null

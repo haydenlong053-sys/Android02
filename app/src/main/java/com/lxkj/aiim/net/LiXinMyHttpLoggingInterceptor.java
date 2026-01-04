@@ -3,16 +3,16 @@ package com.lxkj.aiim.net;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.cboda.baselibrary.toast.ToastUtils;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.lxkj.aiim.BuildConfig;
 import com.lxkj.aiim.app.LiXinApp;
-import com.cboda.baselibrary.bean.BaseResponse;
+import com.cboda.baselibrary.bean.BaseBroadResponse;
 import com.lxkj.aiim.lj.LoginActivity;
 import com.lxkj.aiim.utils.AES;
 import com.lxkj.aiim.utils.AppUtil;
-import com.cboda.baselibrary.bean.Constant;
+import com.cboda.baselibrary.bean.BroadConstant;
 import com.lxkj.aiim.utils.JsonUtils;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.utils.IOUtils;
 import com.lzy.okgo.utils.OkLogger;
@@ -91,7 +91,7 @@ public class LiXinMyHttpLoggingInterceptor implements Interceptor {
             log("<-- HTTP FAILED: " + e);
             try{
                 if (e.toString().startsWith("java.net.ConnectException:")||e.toString().startsWith("java.net.SocketTimeoutException:") ){
-                    ToastUtils.show("网络请求失败");
+                    ToastBroadUtils.show("网络请求失败");
                 }
             }catch (Exception exception){
                 AppUtil.Companion.debug("解析异常",exception.toString());
@@ -178,12 +178,12 @@ public class LiXinMyHttpLoggingInterceptor implements Interceptor {
                             if (!TextUtils.isEmpty(body) && !JsonUtils.Companion.isBasicJsonFormat(body)){
                                 body= AES.decrypt(body);
                             }
-                            BaseResponse baseResponse = JsonUtils.Companion.getSuccessJsonBean(body);
+                            BaseBroadResponse baseResponse = JsonUtils.Companion.getSuccessJsonBean(body);
 //                            Log.d("zhanglong","step33---baseResponse="+baseResponse);
                             if (baseResponse != null && baseResponse.getCode()!=null && baseResponse.getCode().equals("999")){
-                                Constant.Companion.setUserId("");
-                                MMKVUtils.Companion.clearRealUserId();
-                                MMKVUtils.Companion.clearUserId();
+                                BroadConstant.Companion.setUserId("");
+                                MMKVBroadUtils.Companion.clearRealUserId();
+                                MMKVBroadUtils.Companion.clearUserId();
                                 if (LiXinApp.Companion.getMContext()!=null){
                                     Intent intent = new Intent();
                                     intent.setClass(LiXinApp.Companion.getMContext().getBaseContext(), LoginActivity.class);

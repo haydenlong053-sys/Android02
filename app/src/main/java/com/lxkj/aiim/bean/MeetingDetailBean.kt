@@ -1,10 +1,10 @@
 package com.lxkj.aiim.bean
-import com.cboda.baselibrary.bean.BaseResponse
+import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.google.gson.annotations.SerializedName
 class MeetingDetailBean(
     @SerializedName("data")
     val `data`: MeetingData? = MeetingData(),
-): BaseResponse()
+): BaseBroadResponse()
 data class MeetingData(
     @SerializedName("allMic")
     val allMic: Boolean? = false,

@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.cboda.baselibrary.bean.CommonResultBean;
+import com.cboda.baselibrary.bean.CommonResultBroadBean;
 import com.lxkj.aiim.lj.bean.ResultBean;
 import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
@@ -57,9 +57,9 @@ public class PaySettingActivity extends BaseSimpleActivity implements View.OnCli
             startActivity(intent);
         }
         if (view.getId()== R.id.llWangji){
-            ServerManager.INSTANCE.getUserInfo(this, "", new Function1<CommonResultBean, Unit>() {
+            ServerManager.INSTANCE.getUserInfo(this, "", new Function1<CommonResultBroadBean, Unit>() {
                 @Override
-                public Unit invoke(CommonResultBean commonResultBean) {
+                public Unit invoke(CommonResultBroadBean commonResultBean) {
                     if (bean != null) {
                         Intent intent1 = new Intent(PaySettingActivity.this, ForgetPayPasswordActivity.class);
                         intent1.putExtra("regType", bean.data.regType);

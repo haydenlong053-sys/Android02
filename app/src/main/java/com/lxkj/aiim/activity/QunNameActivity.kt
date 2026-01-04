@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import cn.wildfirechat.model.ModifyGroupInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
-import com.cboda.baselibrary.toast.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.utils.AppUtil
@@ -86,7 +86,7 @@ class QunNameActivity : BaseSimpleActivity() {
 
         tvPhoneLogin?.setOnClickListener {
             if (edtBeizhu?.text?.trim().isNullOrEmpty()) {
-                ToastUtils.show(getString(R.string.qingshuruqunmning))
+                ToastBroadUtils.show(getString(R.string.qingshuruqunmning))
                 return@setOnClickListener
             }
 

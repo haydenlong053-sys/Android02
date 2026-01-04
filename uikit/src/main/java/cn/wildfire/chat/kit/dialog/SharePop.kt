@@ -5,10 +5,10 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import cn.wildfire.chat.kit.databinding.DialogPopShareBinding
-import com.cboda.baselibrary.popup.BaseBottomPop
+import com.cboda.baselibrary.popup.BaseBottomBroadPop
 
 
-class SharePop(val context: Context, val view: View) : BaseBottomPop(context) {
+class SharePop(val context: Context, val view: View) : BaseBottomBroadPop(context) {
     var sureInvoke: () -> Unit = {}
     private var binding: DialogPopShareBinding = DialogPopShareBinding.inflate(
         LayoutInflater.from(context)

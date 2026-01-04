@@ -10,11 +10,11 @@ import cc.shinichi.library.ImagePreview
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
-import com.cboda.baselibrary.bean.Constant
+import com.cboda.baselibrary.bean.BroadConstant
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonResultBean
-import com.cboda.baselibrary.utils.MMKVUtils
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.lxkj.aiim.holder.CommanConfimHolder
 import com.lxkj.aiim.utils.*
@@ -27,8 +27,8 @@ class QunGerenPageActivity : BaseSimpleActivity() {
     private var source = ""
     private var type = ""
     private var viewModel: CommViewModel? = null
-    private var qunxiangqing: CommonResultBean.CommonResult? = null
-    private var duifang: CommonResultBean.CommonResult? = null
+    private var qunxiangqing: CommonResultBroadBean.CommonResult? = null
+    private var duifang: CommonResultBroadBean.CommonResult? = null
     private lateinit var tianjiadaotongxun: TextView
     private lateinit var gongnenglay: LinearLayoutCompat
     private lateinit var chehuishifenzhong: TextView
@@ -66,8 +66,8 @@ class QunGerenPageActivity : BaseSimpleActivity() {
                 when (this.userType) {
                     "1" -> {
                         //群主
-                        shezhijinyan?.isVisible = uid != Constant.getRealUid()
-                        gongnenglay?.isVisible = uid != Constant.getRealUid()
+                        shezhijinyan?.isVisible = uid != BroadConstant.getRealUid()
+                        gongnenglay?.isVisible = uid != BroadConstant.getRealUid()
                         initData()
                     }
                     "2" -> {
@@ -104,9 +104,9 @@ class QunGerenPageActivity : BaseSimpleActivity() {
                 tvname?.text = this.bei ?: ""
                 tvnicheng?.text = StringUtils.format(getString(R.string.nichengshi), "${this.name}")
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_nan else R.mipmap.ic_nv)
-                if (this@QunGerenPageActivity.uid == MMKVUtils.getRealUserId()){
+                if (this@QunGerenPageActivity.uid == MMKVBroadUtils.getRealUserId()){
                     tianjiadaotongxun?.isVisible = false
-                }else if (this.isFri == "1" || uid == Constant.getRealUid()) {
+                }else if (this.isFri == "1" || uid == BroadConstant.getRealUid()) {
                     tianjiadaotongxun?.isVisible = false
                 } else {
                     tianjiadaotongxun?.isVisible = true

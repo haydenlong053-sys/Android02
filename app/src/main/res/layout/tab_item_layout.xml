@@ -41,7 +41,7 @@
                 tools:text="美妆" />
         </FrameLayout>
 
-        <com.cboda.baselibrary.shapeview.shape.ShapeTextView
+        <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/title"
             android:layout_gravity="center_horizontal"

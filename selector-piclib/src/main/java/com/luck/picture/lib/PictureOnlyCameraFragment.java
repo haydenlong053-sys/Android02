@@ -14,7 +14,7 @@ import com.luck.picture.lib.manager.SelectedManager;
 import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.permissions.PermissionConfig;
 import com.luck.picture.lib.utils.SdkVersionUtils;
-import com.luck.picture.lib.utils.ToastUtils;
+import com.luck.picture.lib.utils.ToastBroadUtils;
 
 /**
  * @author：luck
@@ -84,10 +84,10 @@ public class PictureOnlyCameraFragment extends PictureCommonFragment {
             openSelectedCamera();
         } else {
             if (!PermissionChecker.isCheckCamera(getContext())) {
-                ToastUtils.showToast(getContext(), getString(R.string.ps_camera));
+                ToastBroadUtils.showToast(getContext(), getString(R.string.ps_camera));
             } else {
                 if (!PermissionChecker.isCheckWriteExternalStorage(getContext())) {
-                    ToastUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
+                    ToastBroadUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
                 }
             }
             onKeyBackFragmentFinish();

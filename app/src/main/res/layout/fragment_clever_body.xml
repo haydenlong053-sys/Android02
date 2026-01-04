@@ -31,7 +31,7 @@
         app:shape_shadowSize="@dimen/dp_10"
         app:shape_solidColor="@color/white" />
 
-    <com.cboda.baselibrary.view.magicindicator.MagicIndicator
+    <com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
         android:id="@+id/aiMagicIndicator"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_42"

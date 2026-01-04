@@ -7,12 +7,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.baselibrary.shapeview.shape.ShapeConstraintLayout
-import com.cboda.baselibrary.shapeview.shape.ShapeTextView
+import com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.QunMemberAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
-import com.cboda.baselibrary.bean.CommonDataListBean
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.holder.SelectTypeHolder
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
@@ -26,9 +26,9 @@ class XuanQunJinYanActivity : BaseSimpleActivity() {
     private var qunId = ""
     private var viewModel: CommViewModel? = null
     private var mAdapter: QunMemberAdapter? = null
-    private var mDataList = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var pageNo = 1
-    private var mDataList3 = arrayListOf<CommonDataListBean.CommonBean>()
+    private var mDataList3 = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var typeList = arrayListOf<String>()
 
     private var holder: SelectTypeHolder? = null
@@ -40,8 +40,8 @@ class XuanQunJinYanActivity : BaseSimpleActivity() {
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var edtSousuo: EditText
-    private lateinit var tvAgree: ShapeTextView
-    private lateinit var jinyantian: ShapeConstraintLayout
+    private lateinit var tvAgree: ShapeTextBroadView
+    private lateinit var jinyantian: ShapeConstraintBroadLayout
     private lateinit var tvjinyan: TextView
     private lateinit var jinyants:
             TextView
@@ -157,7 +157,7 @@ class XuanQunJinYanActivity : BaseSimpleActivity() {
                 }
             }
             if (mDataList3.isEmpty()) {
-//                ToastUtils.show(getString(R.string.qingxuanzelianxiren))
+//                ToastBroadUtils.show(getString(R.string.qingxuanzelianxiren))
                 return@setOnClickListener
             }
             val uids = StringBuilder()

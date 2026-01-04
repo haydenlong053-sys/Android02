@@ -20,9 +20,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.cboda.baselibrary.bean.GlobalFriendBean;
-import com.cboda.baselibrary.bean.GlobalInfo;
-import com.cboda.baselibrary.utils.MMKVUtils;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.Gson;
 import com.lqr.emoji.EmotionEvent;
@@ -242,13 +242,13 @@ public class ConversationActivity extends WfcBaseActivity {
     }
 
     private void getUserData() {
-        if (MMKVUtils.Companion.getKeFuId() != null && conversation.target.contains(MMKVUtils.Companion.getKeFuId())) {
+        if (MMKVBroadUtils.Companion.getKeFuId() != null && conversation.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
 //            YeHuoCommonBridge.getInstance().setYeHuoQiaoJie(ConversationActivity.this, "getUserData", conversation.target, "", null);
             titleGradeAndTime.setVisibility(View.GONE);
             page_title_right_icon.setVisibility(View.GONE);
         } else {
             YeHuoCommonBridge.getInstance().setYeHuoQiaoJie(ConversationActivity.this, "getUserData", conversation.target, "", null);
-            GlobalFriendBean bean = GlobalInfo.INSTANCE.queryMyFriendInfo(conversation.target);
+            GlobalFriendBroadBean bean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversation.target);
             if (null != bean && null != bean.grade && null != bean.registerDay) {
                 titleGradeAndTime.setVisibility(View.VISIBLE);
                 TextView titleGrade = findViewById(R.id.titleGrade);

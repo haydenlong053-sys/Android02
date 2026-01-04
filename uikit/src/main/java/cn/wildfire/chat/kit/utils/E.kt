@@ -1,10 +1,10 @@
 package cn.wildfire.chat.kit.utils
 
-import com.cboda.baselibrary.bean.CommonDataListBean
-import com.cboda.baselibrary.common.UrlConstants
-import com.cboda.baselibrary.network.NetworkUtils
-import com.cboda.baselibrary.network.NetworkUtils.postEncryptedList
-import com.cboda.baselibrary.utils.MMKVUtils.Companion.getRealUserId
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.common.UrlBroadConstants
+import com.cboda.baselibrary.network.NetworkBroadUtils
+import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.blankj.utilcode.util.GsonUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -12,13 +12,13 @@ import com.google.gson.reflect.TypeToken
 object E {
     fun getDetailUserData(
         groupId: String?,
-        callBack: (bean: CommonDataListBean.CommonBean?) -> Unit
+        callBack: (bean: CommonDataListBroadBean.CommonBean?) -> Unit
     ) {
         val map = mapOf("id" to groupId)
         postEncryptedList(
-            UrlConstants.GROUP_USER_LIST,
+            UrlBroadConstants.GROUP_USER_LIST,
             map,
-            object : NetworkUtils.ListCallback<CommonDataListBean.CommonBean> {
+            object : NetworkBroadUtils.ListBroadCallback<CommonDataListBroadBean.CommonBean> {
                 override fun onError(throwable: Throwable) {
                     callBack.invoke(null)
                 }
@@ -28,20 +28,20 @@ object E {
                 }
 
                 override fun onSuccess(
-                    list: List<CommonDataListBean.CommonBean>?,
+                    list: List<CommonDataListBroadBean.CommonBean>?,
                     totalCount: Int,
                     totalPage: Int
                 ) {
                     list?.also {
                         val gson = GsonUtils.getGson()
                         val jsonStr = gson.toJson(list)
-                        val userList = gson.fromJson<MutableList<CommonDataListBean.CommonBean>?>(
+                        val userList = gson.fromJson<MutableList<CommonDataListBroadBean.CommonBean>?>(
                             jsonStr,
                             object :
-                                TypeToken<MutableList<CommonDataListBean.CommonBean>?>() {}.type
+                                TypeToken<MutableList<CommonDataListBroadBean.CommonBean>?>() {}.type
                         )
                         userList?.also {
-                            var commonBean: CommonDataListBean.CommonBean? = null
+                            var commonBean: CommonDataListBroadBean.CommonBean? = null
                             for (bean in userList) {
                                 if (bean.userId == getRealUserId()) {
                                     commonBean = bean

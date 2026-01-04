@@ -51,7 +51,7 @@ import java.util.List;
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.WfcScheme;
 import cn.wildfire.chat.kit.conversation.ConversationActivity;
-import cn.wildfire.chat.kit.livebus.LiveDataBus;
+import cn.wildfire.chat.kit.livebus.LiveDataBroadBus;
 import cn.wildfire.chat.kit.voip.VoipBaseActivity;
 import cn.wildfire.chat.kit.voip.conference.message.ConferenceCommandContent;
 import cn.wildfire.chat.kit.voip.conference.model.ConferenceInfo;
@@ -163,7 +163,7 @@ public class ConferenceFragment extends BaseConferenceFragment implements AVEngi
         speakerImageView.setSelected(true);
         titleTextView.setText(this.callSession.getTitle());
 
-        LiveDataBus.subscribe("kConferenceCommandStateChanged", this, new Observer<Object>() {
+        LiveDataBroadBus.subscribe("kConferenceCommandStateChanged", this, new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
                 if (o instanceof ConferenceCommandContent) {
@@ -798,7 +798,7 @@ public class ConferenceFragment extends BaseConferenceFragment implements AVEngi
             onParticipantProfileUpdate(Collections.singletonList(userId));
         }
         Log.d(TAG, "didParticipantJoined " + userId);
-        LiveDataBus.setValue("kConferenceMemberChanged", new Object());
+        LiveDataBroadBus.setValue("kConferenceMemberChanged", new Object());
     }
 
     @Override
@@ -808,7 +808,7 @@ public class ConferenceFragment extends BaseConferenceFragment implements AVEngi
             onParticipantProfileUpdate(Collections.singletonList(userId));
         }
         Log.d(TAG, "didParticipantLeft " + userId);
-        LiveDataBus.setValue("kConferenceMemberChanged", new Object());
+        LiveDataBroadBus.setValue("kConferenceMemberChanged", new Object());
     }
 
     @Override
@@ -821,7 +821,7 @@ public class ConferenceFragment extends BaseConferenceFragment implements AVEngi
         if (userId.equals(ChatManager.Instance().getUserId())) {
             updateMuteState();
         }
-        LiveDataBus.setValue("kConferenceMutedStateChanged", new Object());
+        LiveDataBroadBus.setValue("kConferenceMutedStateChanged", new Object());
     }
 
     @Override
@@ -833,7 +833,7 @@ public class ConferenceFragment extends BaseConferenceFragment implements AVEngi
         if (participants.contains(ChatManager.Instance().getUserId())) {
             updateMuteState();
         }
-        LiveDataBus.setValue("kConferenceMutedStateChanged", new Object());
+        LiveDataBroadBus.setValue("kConferenceMutedStateChanged", new Object());
     }
 
     @Override

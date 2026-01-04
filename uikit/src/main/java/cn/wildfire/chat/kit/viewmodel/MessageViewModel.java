@@ -16,11 +16,11 @@ import android.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.cboda.baselibrary.bean.CommonDataListBean;
-import com.cboda.baselibrary.bean.MsgExtra;
-import com.cboda.baselibrary.utils.CompressionUtil;
-import com.cboda.baselibrary.utils.SharePrefUtil;
-import com.luck.picture.lib.utils.ToastUtils;
+import com.cboda.baselibrary.bean.CommonDataListBroadBean;
+import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.utils.CompressionBroadUtil;
+import com.cboda.baselibrary.utils.SharePrefBroadUtil;
+import com.luck.picture.lib.utils.ToastBroadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -320,9 +320,9 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
     public boolean shifoumianci = false;
     public String mgc;
     public String openMgc;
-    private CommonDataListBean.CommonBean userGroupData;
+    private CommonDataListBroadBean.CommonBean userGroupData;
 
-    public CommonDataListBean.CommonBean getUserGroupData() {
+    public CommonDataListBroadBean.CommonBean getUserGroupData() {
         return userGroupData;
     }
 
@@ -348,7 +348,7 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
 
     public void sendMessageAfter(Conversation conversation, MessageContent content) {
         if (conversation.type == Conversation.ConversationType.Group && null != userGroupData) {
-            content.extra = toJson2(new MsgExtra(userGroupData.getGrade(), userGroupData.getJoinTime()));
+            content.extra = toJson2(new MsgBroadExtra(userGroupData.getGrade(), userGroupData.getJoinTime()));
         }
         //野火发送消息
         if (content instanceof TypingMessageContent) {
@@ -365,7 +365,7 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
                     faxiaoxi(conversation, content);
                 } else {
 
-                    ToastUtils.showToast(context, "发言过于频繁");
+                    ToastBroadUtils.showToast(context, "发言过于频繁");
                 }
 
             } else {
@@ -375,7 +375,7 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
     }
 
     private void faxiaoxi(Conversation conversation, MessageContent content) {
-        String ptMgc = SharePrefUtil.getString(context, "pingtaimgc", "");
+        String ptMgc = SharePrefBroadUtil.getString(context, "pingtaimgc", "");
         List<String> items = new ArrayList<>();
         if (ptMgc.contains("|")) {
             items.addAll(Arrays.asList(ptMgc.split("\\|")));
@@ -383,7 +383,7 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
         if (content instanceof TextMessageContent) {
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).equals(((TextMessageContent) content).getContent())) {
-                    ToastUtils.showToast(context, "发言包含敏感词");
+                    ToastBroadUtils.showToast(context, "发言包含敏感词");
                     return;
                 }
             }
@@ -399,7 +399,7 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).equals(((TextMessageContent) content).getContent())) {
                     isMgc = true;
-                    ToastUtils.showToast(context, "发言包含敏感词");
+                    ToastBroadUtils.showToast(context, "发言包含敏感词");
                     if ("1".equals(openMgc)) {
                         YeHuoCommonBridge.getInstance().setYeHuoQiaoJie(context, "mingancichufajianyan", conversation.target, ChatManager.Instance().getUserId(), null);
                     }
@@ -473,7 +473,7 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
         // 在 new File()時找不到 File 而 return
         Uri imageFileThumbUri = Uri.parse(Uri.decode(imageFileThumb.getAbsolutePath()));
 //        Uri imageFileThumbUri = Uri.fromFile(imageFileThumb);
-        CompressionUtil.imgCompression(context, imageFileSource.getAbsolutePath(), 100, s -> {
+        CompressionBroadUtil.imgCompression(context, imageFileSource.getAbsolutePath(), 100, s -> {
             Uri imageFileSourceUri = Uri.parse(Uri.decode(s));
             sendImgMsg(conversation, imageFileThumbUri, imageFileSourceUri);
             return null;
@@ -483,7 +483,7 @@ public class MessageViewModel extends ViewModel implements OnReceiveMessageListe
     }
 
     public void sendVideoMsg(Conversation conversation, File file) {
-        CompressionUtil.sendVideoCompress(file.getPath(), (s, s2) -> {
+        CompressionBroadUtil.sendVideoCompress(file.getPath(), (s, s2) -> {
             VideoMessageContent videoMessageContent = new VideoMessageContent(s);
             sendMessage(conversation, videoMessageContent);
             return null;
