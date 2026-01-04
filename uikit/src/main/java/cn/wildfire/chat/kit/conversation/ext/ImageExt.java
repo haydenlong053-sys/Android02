@@ -6,27 +6,20 @@ package cn.wildfire.chat.kit.conversation.ext;
 
 import static com.cboda.baselibrary.utils.BugLyUtilKt.bgReport;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
-import static com.blankj.utilcode.util.SizeUtils.dp2px;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
-import com.cboda.baselibrary.popup.PermissionExplainBroadPopup;
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
-import com.blankj.utilcode.util.BarUtils;
-import com.lqr.imagepicker.ImagePicker;
-import com.lqr.imagepicker.bean.ImageItem;
+import com.cboda.imgselect.ImagePicker;
+import com.cboda.imgselect.bean.ImageItem;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
-import com.luck.picture.lib.style.BottomNavBarStyle;
-import com.luck.picture.lib.style.PictureSelectorStyle;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,9 +36,6 @@ import cn.wildfire.chat.kit.third.utils.UIUtils;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
-import kotlin.jvm.functions.Function1;
 
 public class ImageExt extends ConversationExt {
 

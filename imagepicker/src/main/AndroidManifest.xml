@@ -8,18 +8,18 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application>
-        <activity android:name=".ui.ImageBaseActivity"/>
+        <activity android:name="com.cboda.imgselect.ui.ImageBaseActivity"/>
         <activity
-            android:name=".ui.ImageGridActivity"
+            android:name="com.cboda.imgselect.ui.ImageGridActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/ImagePickerTheme"/>
         <activity
-            android:name=".ui.ImageCropActivity"
+            android:name="com.cboda.imgselect.ui.ImageCropActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
             android:theme="@style/ImagePickerTheme"/>
         <activity
-            android:name=".ui.ImagePreviewActivity"
+            android:name="com.cboda.imgselect.ui.ImagePreviewActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/ImagePickerThemeFullScreen"/>
     </application>
