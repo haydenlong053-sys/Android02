@@ -159,8 +159,8 @@ dependencies {
 //    api project(':mars-core-release')
 //    api project(':pttclient')
     api project(':uikit')
-    api project(':iGroup')
-//    api project(':uvccamera')
+    api project(':iMeet')
+    //    api project(':uvccamera')
 //    api project(':webrtc')
 
 
