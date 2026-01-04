@@ -8,15 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
-import com.examole.asceneskit.databinding.VoiceRoomViewBinding
+import com.example.asceneskit.databinding.VoiceRoomViewBinding
 import com.example.asceneskit.binder.AUIChatBottomBarBinder
 import com.example.asceneskit.binder.AUIChatListBinder
 import com.example.asceneskit.binder.AUIGiftBarrageBinder
 import com.example.asceneskit.binder.AUIInvitationBinder
-import com.example.asceneskit.binder.AUIMicSeatsBinder
+import com.example.asceneskit.binder.AUIMicSeatsBroadBinder
 import com.example.asceneskit.binder.AUIRoomInfoBinder
 import com.example.asceneskit.binder.AUIRoomMembersBinder
-import com.example.asceneskit.binder.IAUIBindable
+import com.example.asceneskit.binder.IAUIBroadBindable
 import com.example.asceneskit.dialog.VoiceMoreItemBean
 import com.example.asceneskit.dialog.VoiceRoomMoreDialog
 import io.agora.auikit.model.*
@@ -31,13 +31,13 @@ import io.agora.auikit.ui.micseats.MicSeatType
 import io.agora.auikit.utils.AUILogger
 import io.agora.auikit.utils.ThreadManager
 
-class AUIVoiceRoomView : FrameLayout,
-    AUIVoiceRoomObserver,
+class AUIVoiceRoomBroadView : FrameLayout,
+    AUIVoiceRoomBroadObserver,
     IAUIMicSeatService.AUIMicSeatRespObserver {
         private  val TAG="AUIVoiceRoomView"
     private val mRoomViewBinding = VoiceRoomViewBinding.inflate(LayoutInflater.from(context))
-    private val mBinders = mutableListOf<IAUIBindable>()
-    private var mVoiceService: AUIVoiceRoomService? = null
+    private val mBinders = mutableListOf<IAUIBroadBindable>()
+    private var mVoiceService: AUIVoiceRoomBroadService? = null
     private var listener: AUISoftKeyboardHeightChangeListener? = null
     private var activity:FragmentActivity?= null
     private var moreDialog: VoiceRoomMoreDialog?=null
@@ -76,7 +76,7 @@ class AUIVoiceRoomView : FrameLayout,
         addView(mRoomViewBinding.root)
     }
 
-    fun bindService(service: AUIVoiceRoomService) {
+    fun bindService(service: AUIVoiceRoomBroadService) {
         Log.d(TAG,"bindService")
         mVoiceService = service
         imManagerService = service.imManagerService as AUIIMManagerServiceImpl
@@ -89,7 +89,7 @@ class AUIVoiceRoomView : FrameLayout,
         getSoftKeyboardHeight()
     }
 
-    private fun viewBinderConnected(service:AUIVoiceRoomService, roomInfo: AUIRoomInfo){
+    private fun viewBinderConnected(service:AUIVoiceRoomBroadService, roomInfo: AUIRoomInfo){
         /** 获取礼物列表 初始化礼物Binder */
 //        service.giftService.getGiftsFromService(object : AUIGiftListCallback{
 //            override fun onResult(error: AUIException?, giftList: List<AUIGiftTabEntity>) {
@@ -108,7 +108,7 @@ class AUIVoiceRoomView : FrameLayout,
 //        })
 
 
-        service.chatManager.saveWelcomeMsg(context.getString(com.examole.asceneskit.R.string.voice_room_welcome))
+        service.chatManager.saveWelcomeMsg(context.getString(R.string.voice_room_welcome))
 
         val chatListBinder = AUIChatListBinder(
             roomInfo,
@@ -174,7 +174,7 @@ class AUIVoiceRoomView : FrameLayout,
             mBinders.add(it)
         }
 
-        val micSeatsBinder = AUIMicSeatsBinder(
+        val micSeatsBinder = AUIMicSeatsBroadBinder(
             context,
             when (micType) {
                 MicSeatType.EightTag -> {
@@ -309,8 +309,8 @@ class AUIVoiceRoomView : FrameLayout,
         val bean = VoiceMoreItemBean()
         val list = mutableListOf<VoiceMoreItemBean>()
         if (isRoomOwner()){ // 房主显示申请列表
-            bean.ItemIcon = context.getDrawable(com.examole.asceneskit.R.drawable.voice_icon_more_hands)
-            bean.ItemTitle = context.getString(com.examole.asceneskit.R.string.aui_room_apply_list)
+            bean.ItemIcon = context.getDrawable(R.drawable.voice_icon_more_hands)
+            bean.ItemTitle = context.getString(R.string.aui_room_apply_list)
             list.add(bean)
         }
         moreDialog = VoiceRoomMoreDialog(context, list, object :
@@ -344,9 +344,9 @@ class AUIVoiceRoomView : FrameLayout,
 
     private fun showKickedOutDialog() {
         AUIAlertDialog(context).apply {
-            setTitle(com.examole.asceneskit.R.string.voice_room_kick_by_host)
+            setTitle(R.string.voice_room_kick_by_host)
             setCancelable(false)
-            setPositiveButton(context.getString(com.examole.asceneskit.R.string.voice_room_confirm)) {
+            setPositiveButton(context.getString(R.string.voice_room_confirm)) {
                 dismiss()
                 mOnRoomDestroyEvent?.invoke()
             }

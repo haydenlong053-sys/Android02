@@ -24,13 +24,13 @@ import android.view.ViewConfiguration
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.cboda.baselibrary.event.AppEventBroadCode
+import com.example.asceneskit.AUIAPIBroadConfig
 import com.lxkj.aiim.R
 import com.lxkj.aiim.bean.MeetingData
 import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.utils.AUIVoiceRoomUIKit
 import com.lxkj.aiim.net.manager.ServerManager
 import com.lxkj.aiim.widge.VoiceWaveView
-import com.example.asceneskit.AUIAPIConfig
 import io.agora.auikit.model.AUICommonConfig
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIRoomInfo
@@ -140,7 +140,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
         }
         AUIVoiceRoomUIKit.init(
             config,
-            AUIAPIConfig()
+            AUIAPIBroadConfig()
         )
         EventBus.getDefault().post(MeetingEvent(EVENT_SERVICE_STATE,config.owner))
 
@@ -409,7 +409,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
             intent.putExtra(EXTRA_HOST_ID, roomInfo.owner?.userId)
             intent.putExtra(EXTRA_TITLE_ID, roomInfo.roomName)
             intent.putExtra(EXTRA_ROOM_ID, roomInfo.roomId)
-            intent.putExtra(EXTRA_THEME_ID,  com.examole.asceneskit.R.style.Theme_VoiceRoom_Light)
+            intent.putExtra(EXTRA_THEME_ID,  com.example.asceneskit.R.style.Theme_VoiceRoom_Light)
         }
         startActivity(intent)
     }

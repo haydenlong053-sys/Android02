@@ -29,7 +29,7 @@ class AUIGiftBarrageBinder constructor(
     private val data:List<AUIGiftTabEntity>,
     private val giftService: IAUIGiftsService,
     private val chatManager: AUIChatManager
-):IAUIBindable,IAUIGiftsService.AUIGiftRespObserver {
+):IAUIBroadBindable,IAUIGiftsService.AUIGiftRespObserver {
 
     private val TAG = "AUIGift_LOG"
     private var roomContext = AUIRoomContext.shared()

@@ -10,12 +10,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.asceneskit.AUIVoiceRoomBroadService;
+import com.example.asceneskit.R;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.examole.asceneskit.R;
-import com.example.asceneskit.AUIVoiceRoomService;
 import io.agora.auikit.model.AUIMicSeatInfo;
 import io.agora.auikit.model.AUIMicSeatStatus;
 import io.agora.auikit.model.AUIRoomContext;
@@ -33,8 +34,8 @@ import io.agora.auikit.utils.AUILogger;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
 
-public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
-        IAUIBindable,
+public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
+        IAUIBroadBindable,
         IMicSeatsView.ActionDelegate,
         IAUIMicSeatService.AUIMicSeatRespObserver,
         IAUIUserService.AUIUserRespObserver {
@@ -51,10 +52,10 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
     private AUIAlertDialog auiAlertDialog;
 
 
-    public AUIMicSeatsBinder(
+    public AUIMicSeatsBroadBinder(
             Context context,
             IMicSeatsView micSeatsView,
-            AUIVoiceRoomService voiceService) {
+            AUIVoiceRoomBroadService voiceService) {
         this.userService = voiceService.getUserService();
         this.micSeatsView = micSeatsView;
         this.micSeatService = voiceService.getMicSeatService();
@@ -153,11 +154,11 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
         IMicSeatItemView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
         // 使用旧的方法保持兼容性
         seatView.setAudioMuteVisibility(isMute ? View.VISIBLE : View.GONE);
-        
+
         // 检查是否有用户在麦位上
         AUIMicSeatInfo micSeatInfo = micSeatService.getMicSeatInfo(seatIndex);
         boolean hasUser = micSeatInfo != null && micSeatInfo.user != null && !TextUtils.isEmpty(micSeatInfo.user.userId);
-        
+
         // 使用新的麦位图标控制逻辑
         if (hasUser) {
             seatView.setAudioMuteNewVisibility(View.VISIBLE, isMute);
@@ -199,11 +200,11 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
         }
         AUIMicSeatInfo micSeatInfo = micSeatService.getMicSeatInfo(seatIndex);
         IMicSeatItemView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
-        
+
         // 检查麦位是否为空
-        boolean isSeatEmpty = micSeatInfo == null || micSeatInfo.seatStatus == AUIMicSeatStatus.idle || 
-                             micSeatInfo.user == null || TextUtils.isEmpty(micSeatInfo.user.userId);
-        
+        boolean isSeatEmpty = micSeatInfo == null || micSeatInfo.seatStatus == AUIMicSeatStatus.idle ||
+                micSeatInfo.user == null || TextUtils.isEmpty(micSeatInfo.user.userId);
+
         if (isSeatEmpty) {
             // 麦位为空时显示麦位编号
             seatView.setTitleIndex(seatIndex + 1);
@@ -213,7 +214,7 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
             seatView.setRoomOwnerVisibility((seatIndex == 0) ? View.VISIBLE : View.GONE);
             return;
         }
-        
+
         // 麦位有用户，获取用户信息
         AUIUserInfo userInfo = userService.getUserInfo(micSeatInfo.user.userId);
         if (userInfo != null){
@@ -221,7 +222,7 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
             micSeatInfo.user.userName = userInfo.userName;
             micSeatInfo.user.userAvatar = userInfo.userAvatar;
         }
-        
+
         seatView.setRoomOwnerVisibility((seatIndex == 0) ? View.VISIBLE : View.GONE);
 
         if (micSeatInfo.seatStatus == AUIMicSeatStatus.locked){
@@ -246,14 +247,14 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
         if (TextUtils.isEmpty(displayName) && userInfo != null) {
             displayName = userInfo.userName;
         }
-        
+
         if (!TextUtils.isEmpty(displayName)) {
             seatView.setTitleText(displayName);
         } else {
             // 如果用户名为空，显示默认文本而不是麦位编号
             seatView.setTitleText("用户");
         }
-        
+
         seatView.setUserAvatarImageUrl(micSeatInfo.user.userAvatar);
         seatView.setChorusMicOwnerType(IMicSeatItemView.ChorusType.None);
     }
@@ -284,7 +285,7 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
                 }
             }
         }
-        
+
         // 计算实际的静音状态（包含房主静音和用户自己静音）
         boolean actualMuteState = seatInfo.muteAudio;
         if (!isEmptySeat && seatInfo.user != null) {
@@ -293,7 +294,7 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
                 actualMuteState = actualMuteState || (userInfo.muteAudio == 1);
             }
         }
-        
+
         if (isRoomOwner) {
             if (isEmptySeat) {
                 dialogView.addInvite((seatInfo.seatStatus != AUIMicSeatStatus.locked));
@@ -374,27 +375,27 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
         // 获取当前用户信息
         String currentUserId = roomContext.currentUserInfo != null ? roomContext.currentUserInfo.userId : "";
         boolean isRoomOwner = roomContext.isRoomOwner(micSeatService.getChannelName());
-        
+
         // 获取麦位信息
         AUIMicSeatInfo micSeatInfo = micSeatService.getMicSeatInfo(index);
         if (micSeatInfo == null) {
             return;
         }
-        
+
         // 检查是否是自己的麦位
-        boolean isOwnSeat = micSeatInfo.user != null && 
-                           currentUserId.equals(micSeatInfo.user.userId);
-        
+        boolean isOwnSeat = micSeatInfo.user != null &&
+                currentUserId.equals(micSeatInfo.user.userId);
+
         // 权限检查逻辑
         if (!isRoomOwner) {
             // 非房主用户的权限检查
-            
+
             if (!isOwnSeat) {
                 // 不是自己的麦位，不允许操作
                 Toast.makeText(context, "只能操作自己的麦位", Toast.LENGTH_SHORT).show();
                 return;
             }
-            
+
             // 如果是取消静音操作，需要检查麦位是否被房主静音
             // 关键修复：只有当麦位被房主静音时才阻止用户取消静音
             // micSeatInfo.muteAudio 表示房主对麦位的静音状态
@@ -404,7 +405,7 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
                 return;
             }
         }
-        
+
         // 通过权限检查，执行静音操作
         // 注意：房主操作自己的麦位和操作他人麦位的逻辑不同
         if (isRoomOwner) {
@@ -490,7 +491,7 @@ public class AUIMicSeatsBinder extends IRtcEngineEventHandler implements
     @Override
     public void onUserOffline(int uid, int reason) {
         super.onUserOffline(uid, reason);
-        AUILogger.Companion.logger().d("AUIMicSeatsBinder", "onUserOffline >> uid=" + uid + ", reason=" + reason);
+        AUILogger.Companion.logger().d("AUIMicSeatsBroadBinder", "onUserOffline >> uid=" + uid + ", reason=" + reason);
     }
 
 

@@ -1,10 +1,10 @@
 package com.lxkj.aiim.utils
 
+import com.example.asceneskit.AUIAPIBroadConfig
 import com.lxkj.aiim.service.MeetingFloatService
-import com.example.asceneskit.AUIAPIConfig
-import com.example.asceneskit.AUIVoiceRoomObserver
-import com.example.asceneskit.AUIVoiceRoomService
-import com.example.asceneskit.AUIVoiceRoomView
+import com.example.asceneskit.AUIVoiceRoomBroadObserver
+import com.example.asceneskit.AUIVoiceRoomBroadService
+import com.example.asceneskit.AUIVoiceRoomBroadView
 import io.agora.auikit.model.AUICommonConfig
 import io.agora.auikit.model.AUIRoomConfig
 import io.agora.auikit.model.AUIRoomContext
@@ -28,9 +28,9 @@ import retrofit2.Response
 
 object AUIVoiceRoomUIKit {
     private val mSceneId = "VoiceRoomUIKit"
-    private var mAPIConfig: AUIAPIConfig? = null
+    private var mAPIConfig: AUIAPIBroadConfig? = null
     private val mRoomManager by lazy { AUIRoomManager(sceneId = mSceneId) }
-    private val mServices = mutableMapOf<String, AUIVoiceRoomService>()
+    private val mServices = mutableMapOf<String, AUIVoiceRoomBroadService>()
     //用来存放本地禁言状态
     private val mRoomMuteState = mutableMapOf<String, Boolean>()
 
@@ -47,7 +47,7 @@ object AUIVoiceRoomUIKit {
      */
     fun init(
         config: AUICommonConfig,
-        apiConfig: AUIAPIConfig
+        apiConfig: AUIAPIBroadConfig
     ) {
         mAPIConfig = apiConfig
         AUIRoomContext.shared().setCommonConfig(config)
@@ -63,7 +63,7 @@ object AUIVoiceRoomUIKit {
         mAPIConfig = null
     }
 
-    fun getServiceByRoomId(roomId:String): AUIVoiceRoomService? {
+    fun getServiceByRoomId(roomId:String): AUIVoiceRoomBroadService? {
        return mServices[roomId]
     }
 
@@ -120,7 +120,7 @@ object AUIVoiceRoomUIKit {
     fun createRoom(
         roomInfo: AUIRoomInfo,
         roomConfig: AUIRoomConfig,
-        roomView: AUIVoiceRoomView,
+        roomView: AUIVoiceRoomBroadView,
         completion: (AUIException?, AUIRoomInfo?) -> Unit
     ) {
         checkSetupAndCommonConfig()
@@ -135,7 +135,7 @@ object AUIVoiceRoomUIKit {
                 message = "Create room >> error=$error, roomInfo=$roomInfo"
             )
         }
-        val roomService = AUIVoiceRoomService(
+        val roomService = AUIVoiceRoomBroadService(
             mAPIConfig!!,
             roomConfig
         )
@@ -164,7 +164,7 @@ object AUIVoiceRoomUIKit {
     fun launchRoom(
         roomInfo: AUIRoomInfo,
         roomConfig: AUIRoomConfig,
-        voiceRoom: AUIVoiceRoomView,
+        voiceRoom: AUIVoiceRoomBroadView,
         completion: (AUIException?, AUIRoomInfo?) -> Unit
     ) {
         checkSetupAndCommonConfig()
@@ -172,7 +172,7 @@ object AUIVoiceRoomUIKit {
             completion.invoke(AUIException(AUIException.ERROR_CODE_ROOM_EXITED, ""), null)
             return
         }
-        val roomService = AUIVoiceRoomService(
+        val roomService = AUIVoiceRoomBroadService(
             mAPIConfig!!,
             roomConfig
         )
@@ -210,11 +210,11 @@ object AUIVoiceRoomUIKit {
 
     }
 
-    fun registerRespObserver(roomId: String, observer: AUIVoiceRoomObserver) {
+    fun registerRespObserver(roomId: String, observer: AUIVoiceRoomBroadObserver) {
         mServices[roomId]?.observableHelper?.subscribeEvent(observer)
     }
 
-    fun unRegisterRespObserver(roomId: String, observer: AUIVoiceRoomObserver) {
+    fun unRegisterRespObserver(roomId: String, observer: AUIVoiceRoomBroadObserver) {
         mServices[roomId]?.observableHelper?.unSubscribeEvent(observer)
     }
 

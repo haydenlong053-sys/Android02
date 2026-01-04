@@ -2,7 +2,7 @@ package com.example.asceneskit
 
 import io.agora.auikit.model.AUIRoomInfo
 
-interface AUIVoiceRoomObserver {
+interface AUIVoiceRoomBroadObserver {
 
     /**
      * 房间Token即将过期时回调

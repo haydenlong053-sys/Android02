@@ -16,7 +16,7 @@ class AUIChatListBinder constructor(
     private val chatBottomBar:IAUIChatBottomBarView,
     private val chatManager: AUIChatManager,
     private val imManagerService:IAUIIMManagerService,
-): IAUIBindable, AUIChatListItemClickListener, IAUIIMManagerService.AUIIMManagerRespObserver {
+): IAUIBroadBindable, AUIChatListItemClickListener, IAUIIMManagerService.AUIIMManagerRespObserver {
 
     init {
         (chatList as? AUIChatListView)?.setOwnerId(roomInfo.owner?.userId ?: "")

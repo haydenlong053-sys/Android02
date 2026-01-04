@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.textview.MaterialTextView
-import com.examole.asceneskit.R
-import com.examole.asceneskit.databinding.VoiceRoomMoreLayoutBinding
+import com.example.asceneskit.R
+import com.example.asceneskit.databinding.VoiceRoomMoreLayoutBinding
 import io.agora.auikit.ui.basic.AUISheetFragmentDialog
 import io.agora.auikit.ui.basic.AUIImageView
 import io.agora.auikit.utils.DeviceTools

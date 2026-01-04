@@ -3,8 +3,8 @@ package com.example.asceneskit.binder
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.example.asceneskit.AUIVoiceRoomService
-import com.examole.asceneskit.R
+import com.example.asceneskit.AUIVoiceRoomBroadService
+import com.example.asceneskit.R
 import io.agora.auikit.model.AUIMicSeatInfo
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIUserInfo
@@ -21,12 +21,12 @@ import io.agora.auikit.ui.micseats.IMicSeatsView
 import io.agora.auikit.utils.FastClickTools
 
 class AUIChatBottomBarBinder constructor(
-    private val voiceService: AUIVoiceRoomService,
+    private val voiceService: AUIVoiceRoomBroadService,
     private val chatBottomBarView: IAUIChatBottomBarView,
     private val chatList: IAUIChatListView,
     private val micSeatsView: IMicSeatsView,
     private val event: AUIChatBottomBarEventDelegate?
-) : IAUIBindable,
+) : IAUIBroadBindable,
     AUIMenuItemClickListener,
     IAUIUserService.AUIUserRespObserver,
     IAUIMicSeatService.AUIMicSeatRespObserver,

@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import com.example.asceneskit.AUIVoiceRoomService
-import com.examole.asceneskit.R
+import com.example.asceneskit.AUIVoiceRoomBroadService
+import com.example.asceneskit.R
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIUserInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
@@ -26,12 +26,12 @@ import io.agora.auikit.ui.basic.AUIAlertDialog
 
 class AUIInvitationBinder constructor(
     activity: FragmentActivity?,
-    voiceService: AUIVoiceRoomService,
+    voiceService: AUIVoiceRoomBroadService,
 ):
-    IAUIBindable, IAUIInvitationService.AUIInvitationRespObserver,
+    IAUIBroadBindable, IAUIInvitationService.AUIInvitationRespObserver,
     IAUIUserService.AUIUserRespObserver, IAUIMicSeatService.AUIMicSeatRespObserver {
     private var activity: FragmentActivity?
-    private var mVoiceService: AUIVoiceRoomService
+    private var mVoiceService: AUIVoiceRoomBroadService
     private var invitationService:IAUIInvitationService
     private val applyList = mutableListOf<AUIUserInfo?>()
     private var applyDialog:AUIApplyDialog?=null

@@ -217,7 +217,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.example.asceneskit.AUIVoiceRoomView
+    <com.example.asceneskit.AUIVoiceRoomBroadView
         android:id="@+id/VoiceRoomView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

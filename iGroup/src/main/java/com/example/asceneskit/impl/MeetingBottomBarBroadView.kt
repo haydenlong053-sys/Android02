@@ -15,8 +15,8 @@ import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.GravityInt
 import androidx.annotation.IdRes
-import com.examole.asceneskit.R
-import com.examole.asceneskit.databinding.AuiChatBottomBarNewBinding
+import com.example.asceneskit.R
+import com.example.asceneskit.databinding.AuiChatBottomBarNewBinding
 import io.agora.auikit.ui.chatBottomBar.AUIChatBottomBarIcon
 import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarView
 import io.agora.auikit.ui.chatBottomBar.impl.AUIEmojiUtils
@@ -26,7 +26,7 @@ import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeList
 import io.agora.auikit.ui.chatBottomBar.utils.KeyboardUtils
 import io.agora.auikit.utils.DeviceTools
 
-class MeetingBottomBarView : RelativeLayout , IAUIChatBottomBarView, AUIExpressionClickListener,
+class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExpressionClickListener,
     AUISoftKeyboardHeightChangeListener {
     private val mViewBinding = AuiChatBottomBarNewBinding.inflate(LayoutInflater.from(context))
     private val inputManager: InputMethodManager

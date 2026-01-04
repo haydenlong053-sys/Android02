@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.widget.ImageView
-import com.examole.asceneskit.R
-import com.examole.asceneskit.databinding.AuiRoomOperateLayoutBinding
+import com.example.asceneskit.R
+import com.example.asceneskit.databinding.AuiRoomOperateLayoutBinding
 import razerdp.basepopup.BasePopupWindow
 import razerdp.util.animation.AnimationHelper
 import razerdp.util.animation.Direction
 import razerdp.util.animation.TranslationConfig
 
-class MeetingOperateView(context: Context,isOwner: Boolean,isMute: Boolean,isMic: Boolean): BasePopupWindow(context) {
+class MeetingOperateBroadView(context: Context,isOwner: Boolean,isMute: Boolean,isMic: Boolean): BasePopupWindow(context) {
 
     private  var listener: OnOperateListener?=null
 

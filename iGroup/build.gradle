@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.examole.asceneskit'
+    namespace 'com.example.asceneskit'
     compileSdk 36
 
     defaultConfig {

@@ -40,8 +40,8 @@ import org.greenrobot.eventbus.EventBus
 
 val kRoomInfoAttrKey = "basic"
 
-class AUIVoiceRoomService constructor(
-    apiConfig: AUIAPIConfig,
+class AUIVoiceRoomBroadService constructor(
+    apiConfig: AUIAPIBroadConfig,
     private var roomConfig: AUIRoomConfig,
 ) {
 
@@ -118,7 +118,7 @@ class AUIVoiceRoomService constructor(
 
         override fun onMsgReceiveEmpty(channelName: String) {
             super.onMsgReceiveEmpty(channelName)
-            if (this@AUIVoiceRoomService.channelName != channelName) {
+            if (this@AUIVoiceRoomBroadService.channelName != channelName) {
                 return
             }
             isRoomDestroyed = true
@@ -130,7 +130,7 @@ class AUIVoiceRoomService constructor(
         override fun onConnectionStateChanged(channelName: String?, state: Int, reason: Int) {
             super.onConnectionStateChanged(channelName, state, reason)
             if (reason == RtmConstants.RtmConnectionChangeReason.getValue(RtmConstants.RtmConnectionChangeReason.REJOIN_SUCCESS)) {
-                AUIRoomContext.shared().getArbiter(this@AUIVoiceRoomService.channelName)?.acquire()
+                AUIRoomContext.shared().getArbiter(this@AUIVoiceRoomBroadService.channelName)?.acquire()
             }
         }
     }
@@ -208,7 +208,7 @@ class AUIVoiceRoomService constructor(
         apiConfig.rtmClient != null
     )
 
-    val observableHelper = ObservableHelper<AUIVoiceRoomObserver>()
+    val observableHelper = ObservableHelper<AUIVoiceRoomBroadObserver>()
 
     val chatManager = AUIChatManager(channelName, AUIRoomContext.shared())
 

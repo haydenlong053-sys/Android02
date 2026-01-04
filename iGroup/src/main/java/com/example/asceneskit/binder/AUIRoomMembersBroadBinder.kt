@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.example.asceneskit.AUIVoiceRoomService
-import com.example.asceneskit.impl.AUIRightMeetingTopView
-import com.example.asceneskit.impl.MeetingMemberListView
-import com.examole.asceneskit.R
+import com.example.asceneskit.AUIVoiceRoomBroadService
+import com.example.asceneskit.R
+import com.example.asceneskit.impl.AUIRightMeetingTopBroadView
+import com.example.asceneskit.impl.MeetingMemberListBroadView
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.model.AUIUserInfo
@@ -21,17 +21,17 @@ import io.agora.auikit.ui.member.listener.AUIRoomMembersActionListener
 
 class AUIRoomMembersBinder constructor(
     context: Context,
-    memberView: AUIRightMeetingTopView,
-    voiceService: AUIVoiceRoomService,
+    memberView: AUIRightMeetingTopBroadView,
+    voiceService: AUIVoiceRoomBroadService,
     listener: AUIRoomMemberEvent?,
-) : IAUIBindable,
+) : IAUIBroadBindable,
     IAUIUserService.AUIUserRespObserver,
     AUIRoomMembersActionListener,
     IAUIMicSeatService.AUIMicSeatRespObserver {
 
     private var userService: IAUIUserService?
     private var micSeats: IAUIMicSeatService?
-    private var memberView: AUIRightMeetingTopView?
+    private var memberView: AUIRightMeetingTopBroadView?
     private var roomInfo: AUIRoomInfo?
     private var context: Context? = null
     private var roomContext: AUIRoomContext
@@ -39,7 +39,7 @@ class AUIRoomMembersBinder constructor(
     private var mSeatMap = mutableMapOf<Int, String?>()
     private var isOwner: Boolean = false
     private var listener: AUIRoomMemberEvent?
-    private var dialogMemberView: MeetingMemberListView? = null
+    private var dialogMemberView: MeetingMemberListBroadView? = null
 
 
     init {
@@ -95,12 +95,12 @@ class AUIRoomMembersBinder constructor(
      * 显示用户列表
      */
     private fun showUserListDialog(context: Context) {
-        dialogMemberView = MeetingMemberListView(context)
+        dialogMemberView = MeetingMemberListBroadView(context)
         dialogMemberView?.setMembers(mMemberMap.values.toList().map {
             MemberInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
         }, mSeatMap)
         dialogMemberView?.setIsOwner(isOwner, roomInfo?.owner?.userId)
-        dialogMemberView?.setMemberActionListener(object : MeetingMemberListView.ActionListener {
+        dialogMemberView?.setMemberActionListener(object : MeetingMemberListBroadView.ActionListener {
             override fun onKickClick(view: View, position: Int, user: MemberInfo?) {
                 try {
                     val userId = user?.userId ?: return

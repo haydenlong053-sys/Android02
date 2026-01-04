@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import com.example.asceneskit.impl.AUILefMeetingTopView
+import com.example.asceneskit.impl.AUILefMeetingTopBroadView
 import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.ui.roomInfo.IAUIRoomInfoView
 import io.agora.auikit.ui.roomInfo.listener.AUIRoomInfoActionListener
@@ -14,8 +14,8 @@ class AUIRoomInfoBinder constructor(
     auiRoomInfo: AUIRoomInfo,
     listener:AUIRoomInfoEvent?
 ):
-    IAUIBindable, AUIRoomInfoActionListener {
-    private var auiRoomInfoView: AUILefMeetingTopView? = null
+    IAUIBroadBindable, AUIRoomInfoActionListener {
+    private var auiRoomInfoView: AUILefMeetingTopBroadView? = null
     private var roomInfoView:IAUIRoomInfoView? = null
     private var mMainHandler:Handler? = null
     private var auiRoomInfo:AUIRoomInfo? = null
@@ -24,7 +24,7 @@ class AUIRoomInfoBinder constructor(
     init {
         mMainHandler = Handler(Looper.getMainLooper())
         this.roomInfoView = roomInfoView
-        this.auiRoomInfoView = roomInfoView as AUILefMeetingTopView
+        this.auiRoomInfoView = roomInfoView as AUILefMeetingTopBroadView
         this.auiRoomInfo = auiRoomInfo
         this.listener = listener
 

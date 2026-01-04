@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.examole.asceneskit.R
-import com.examole.asceneskit.databinding.AuiRoomRightLayoutBinding
+import com.example.asceneskit.R
+import com.example.asceneskit.databinding.AuiRoomRightLayoutBinding
 import io.agora.auikit.ui.basic.AUIImageView
 import io.agora.auikit.ui.member.IAUIRoomMembersView
 import io.agora.auikit.ui.member.MemberInfo
 import io.agora.auikit.ui.member.listener.AUIRoomMembersActionListener
 import io.agora.auikit.utils.FastClickTools
 
-class AUIRightMeetingTopView: ConstraintLayout, IAUIRoomMembersView {
+class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersView {
     private val mRoomViewBinding = AuiRoomRightLayoutBinding.inflate(LayoutInflater.from(context))
     private var aUpperRightListener: AUIRoomMembersActionListener? = null
     private var aContext: Context? = null
