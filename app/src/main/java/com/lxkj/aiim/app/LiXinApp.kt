@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.net.http.HttpResponseCache
 import android.os.Process
 import android.text.TextUtils
-import android.view.View
 import androidx.lifecycle.Observer
 import cn.wildfire.chat.kit.ChatManagerHolder
 import cn.wildfire.chat.kit.Config
@@ -33,7 +32,6 @@ import com.lxkj.aiim.R
 import com.lxkj.aiim.lj.configuration.AppConsts
 import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
-import com.lxkj.aiim.net.LiXinMyHttpLoggingInterceptor
 import com.lxkj.aiim.service.AppService
 import com.lxkj.aiim.utils.AppUtil
 import com.cboda.baselibrary.bean.BroadConstant
@@ -49,7 +47,6 @@ import com.blankj.utilcode.util.Utils
 import com.lxkj.aiim.utils.PixelUtils
 import com.lxkj.aiim.yehuo.service.WfcDefaultPortraitProvider
 import com.lzy.okgo.OkGo
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor
 import com.lzy.okgo.model.HttpHeaders
 import com.scwang.smart.refresh.footer.BallPulseFooter
 import com.scwang.smart.refresh.header.MaterialHeader
@@ -57,7 +54,6 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import okhttp3.OkHttpClient
 import java.io.File
 import java.util.concurrent.TimeUnit
-import java.util.logging.Level
 
 
 class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
@@ -242,8 +238,8 @@ class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
 
             MessageViewHolderManager.getInstance().registerMessageViewHolder(
                 HongBaoMessageContentViewHolder::class.java,
-                com.cboda.baselibrary.R.layout.chat_hongbao_layout,
-                com.cboda.baselibrary.R.layout.chat_hongbao_layout
+                com.cboda.baselibrary.R.layout.chat_hongbao_broad_layout,
+                com.cboda.baselibrary.R.layout.chat_hongbao_broad_layout
             )
 
             MessageViewHolderManager.getInstance().registerMessageViewHolder(

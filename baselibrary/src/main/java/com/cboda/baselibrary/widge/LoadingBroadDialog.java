@@ -32,7 +32,7 @@ public class LoadingBroadDialog extends Dialog {
         this.context = context;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
-        setContentView(R.layout.layout_dialog_loading);
+        setContentView(R.layout.layout_dialog_broad_loading);
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.dimAmount = 0.0f;//dimAmount在0.0f和1.0f之间，0.0f完全不暗，即背景是可见的 ，1.0f时候，背景全部变黑暗。
         getWindow().setAttributes(lp);
