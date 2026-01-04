@@ -12,6 +12,7 @@ import android.view.animation.ScaleAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModelProvider
+import com.cboda.baselibrary.utils.setTxt
 import com.lxkj.aiim.BuildConfig
 import com.lxkj.aiim.R
 import com.lxkj.aiim.databinding.ActivityAuthStep1Binding
@@ -64,6 +65,7 @@ class UploadFileTipPop(val context: Context) :
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
+        this.setOnDismissListener(onDismissListener)
         binding.mIvClose.setOnClickListener {
             dismiss()
         }
@@ -80,13 +82,18 @@ class UploadFileTipPop(val context: Context) :
 
     }
 
-    fun setSureBtn(strName: String = ""): BasePopupWindow {
-        binding.mTvSure.text = strName
+    fun setContentTxt(strName: Int): BasePopupWindow {
+        binding.mTvDes.setTxt(strName)
         return this
     }
 
-    fun setCancelBtn(strName: String = ""): BasePopupWindow {
-        binding.mTvCancel.text = strName
+    fun setSureBtn(strName: Int): BasePopupWindow {
+        binding.mTvSure.setTxt(strName)
+        return this
+    }
+
+    fun setCancelBtn(strName: Int): BasePopupWindow {
+        binding.mTvCancel.setTxt(strName)
         return this
     }
 
@@ -99,6 +106,12 @@ class UploadFileTipPop(val context: Context) :
 
     }
 
+    var dismissInvoke: () -> Unit = {}
+    private val onDismissListener = object : OnDismissListener() {
+        override fun onDismiss() {
+            dismissInvoke.invoke()
+        }
+    }
 
     override fun onDismiss() {
 //        scope.cancel()

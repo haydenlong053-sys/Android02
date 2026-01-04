@@ -2,6 +2,7 @@ package com.lxkj.aiim.dialog
 
 import android.content.Context
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +36,26 @@ class AiPostFileDialog(context: Context, val riskType: String, val resourceType:
     private var listViewIndex = 0
     private val runTime = 1100L
 
+    var dismissInvoke: () -> Unit = {}
+
+    var onBackPressListener: (() -> Unit)? = null
+
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
         this.setOnDismissListener(onDismissListener)
+
+        // 设置按键监听，拦截返回键
+        contentView.isFocusableInTouchMode = true
+        contentView.requestFocus()
+        contentView.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                handleBackPress()
+                true // 返回 true 表示已处理该事件，拦截返回键
+            } else {
+                false
+            }
+        }
+
         lottie = contentView.findViewById(R.id.lottie)
         recyclerView = contentView.findViewById(R.id.listView)
         contentTv = contentView.findViewById(R.id.contentTv)
@@ -129,6 +147,7 @@ class AiPostFileDialog(context: Context, val riskType: String, val resourceType:
         override fun onDismiss() {
             ThreadUtils.getMainHandler().removeCallbacks(run)
             lottie?.cancelAnimation()
+            dismissInvoke.invoke()
         }
     }
 
@@ -164,6 +183,25 @@ class AiPostFileDialog(context: Context, val riskType: String, val resourceType:
         ThreadUtils.getMainHandler().postDelayed(run, runTime)
     }
 
+    /**
+     * 处理返回键事件
+     * @return true 表示已处理，false 表示未处理
+     */
+    private fun handleBackPress(): Boolean {
+        // 如果设置了自定义返回键监听器，优先使用自定义处理
+        return onBackPressListener?.let { listener ->
+            listener.invoke()
+            false
+        } ?: true
+    }
+
+    /**
+     * 重写 onBackPressed 方法，确保返回键被拦截
+     */
+    override fun onBackPressed(): Boolean {
+        return handleBackPress()
+    }
+
 
     init {
         // 设置全屏
@@ -185,7 +223,7 @@ class AiPostFileDialog(context: Context, val riskType: String, val resourceType:
 
         // 禁止点击外部关闭
         setOutSideDismiss(false)
-        setBackPressEnable(false)
+        setBackPressEnable(true)
     }
 
 

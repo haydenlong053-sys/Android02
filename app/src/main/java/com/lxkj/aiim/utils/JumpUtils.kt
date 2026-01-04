@@ -332,7 +332,7 @@ class JumpUtils {
             isMic: Boolean? = true
         ) {
             context?.let { ctx ->
-                if (MeetingFloatService.isServiceRunning) {
+                if (MeetingFloatService.isServiceRunning && MeetingFloatService.isFloatShow) {
                     AUIAlertDialog(ctx).apply {
                         setTitle("已加入其他会议室")
                         setMessage("您当前正在其他会议室，是否退出当前所在会议室？")
@@ -355,7 +355,15 @@ class JumpUtils {
 
 
                 } else {
-
+                    eLogD("zhanglong","roomId==$roomId---isCreate==$isCreate---MeetingFloatService==${MeetingFloatService.isFloatShow}")
+                    if (MeetingFloatService.isServiceRunning){
+                        EventBus.getDefault().post(
+                            MeetingFloatService.MeetingEvent(
+                                MeetingFloatService.EVENT_BACKGROUND_QUITE,
+                                ownerId
+                            )
+                        )
+                    }
                     MeetingRoomActivity.launch(ctx, roomId, ownerId, title, isCreate, isMute, isMic)
                 }
 

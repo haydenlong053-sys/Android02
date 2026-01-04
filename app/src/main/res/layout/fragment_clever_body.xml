@@ -47,8 +47,8 @@
         app:layout_constraintTop_toTopOf="@id/shapeView" />
 
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <FrameLayout
+        android:id="@+id/viewPagerLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         app:layout_constraintBottom_toBottomOf="parent"

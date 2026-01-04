@@ -1,7 +1,6 @@
 package com.cboda.baselibrary.utils
 
 
-
 import android.util.Log
 import com.cboda.baselibrary.BuildConfig
 import java.io.IOException
@@ -12,6 +11,7 @@ private const val eLogTag = "ELogClass"
 
 //private var mIsDebug = false
 fun getIsDebug(): Boolean = BuildConfig.DEBUG
+//fun getIsDebug(): Boolean = true
 //fun setIsDebug(isDebug: Boolean) {
 //    mIsDebug = isDebug
 //}
@@ -19,6 +19,7 @@ fun getIsDebug(): Boolean = BuildConfig.DEBUG
 fun eLogV(vararg msg: Any?) {
     eLogV(eLogTag, msg)
 }
+
 
 fun eLogV(tag: String?, vararg msgS: Any?) {
     if (getIsDebug()) {

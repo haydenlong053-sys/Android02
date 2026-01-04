@@ -83,7 +83,6 @@ object HttpsConfig {
             setServer(getNetType())
         } else {
             setServer(RELEASE_TYPE)
-//            setServer(HTTP_TYPE)
         }
     }
 
@@ -126,4 +125,3 @@ object HttpsConfig {
     }
 
 }
-

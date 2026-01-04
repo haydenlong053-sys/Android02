@@ -44,6 +44,7 @@ import cn.wildfirechat.model.ModifyMyInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnReceiveMessageListener
 import cn.wildfirechat.viewmodel.HomeUIViewModel
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.event.AppEvent
 import com.cboda.baselibrary.event.AppEventCode
 import com.cboda.baselibrary.event.DoubleMessageEvent
@@ -137,7 +138,7 @@ class MainActivity : BaseSimpleActivity() {
     }
 
     //    private val fragmentNameList = arrayListOf<String>()
-    private var gson = Gson()
+    private var gson = GsonUtils.getGson()
     private var yeHuoImManagerHolder: YeHuoImManagerHolder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -167,14 +168,14 @@ class MainActivity : BaseSimpleActivity() {
                     },
                     items = listOf(
                         ExpandableBottomBarItem(
-                            icon = painterResource(id = R.drawable.ic_ai_tab_mirror),
-                            selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_pre),
-                            text = "智体"
-                        ),
-                        ExpandableBottomBarItem(
                             icon = painterResource(id = R.drawable.ic_home_tab_mirror),
                             selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_pre),
                             text = "镜像"
+                        ),
+                        ExpandableBottomBarItem(
+                            icon = painterResource(id = R.drawable.ic_ai_tab_mirror),
+                            selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_pre),
+                            text = "智体"
                         ),
                         ExpandableBottomBarItem(
                             icon = painterResource(id = R.drawable.ic_home_tab_message),
@@ -545,9 +546,9 @@ class MainActivity : BaseSimpleActivity() {
     private fun initYeHuo() {
 
 //        fragmentList.add(MirrorFragment.getInstance())
-        fragmentList.add(CleverBodyFragment())
-        fragmentList.add(NewMirrorFragment())
 
+        fragmentList.add(NewMirrorFragment())
+        fragmentList.add(CleverBodyFragment())
 //        fragmentNameList.add("faxian")
         fragmentList.add(XiaoxiFragment.getInstance())
 //        fragmentList.add(TongXunLuFragment.getInstance())
@@ -719,8 +720,6 @@ class MainActivity : BaseSimpleActivity() {
         viewPager.postDelayed({
             conversationListViewModel?.reloadConversationUnreadStatus()
         }, 2000L)
-
-
 //        conversationListViewModel?.unreadCountLiveData()?.observe(this) {
 //            AppUtil.debug("野火", "会话未读数---> ${it?.unread}")
 //            it?.unread?.apply {

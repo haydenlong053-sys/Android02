@@ -12,6 +12,7 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import cn.wildfire.chat.kit.conversation.forward.ForwardActivity
@@ -59,6 +60,7 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import kotlin.compareTo
 
 class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
     private val mViewBinding by lazy { VoiceRoomActivityBinding.inflate(layoutInflater) }
@@ -175,51 +177,54 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
         }
 
+        // 使用 OnBackPressedDispatcher 拦截所有返回操作（包括手势返回）
+        setupBackPressedHandler()
+
         mViewBinding.VoiceRoomView.setClickMore {
             val isRoomOwner = (roomInfo?.owner?.userId == AUIRoomContext.shared().currentUserInfo.userId)
             ServerManager.getMeetingRoomInfo(roomId){
                 it?.let {
                     meetingData=it
-                   runOnUiThread {
-                       val operateView = MeetingOperateView(this,isRoomOwner,it.allMute?:false,it.allMic?:true)
-                       operateView.setOperateListener(object : MeetingOperateView.OnOperateListener{
-                           override fun quiteRoom(isOwner: Boolean?) {
-                               onUserLeaveRoom()
+                    runOnUiThread {
+                        val operateView = MeetingOperateView(this,isRoomOwner,it.allMute?:false,it.allMic?:true)
+                        operateView.setOperateListener(object : MeetingOperateView.OnOperateListener{
+                            override fun quiteRoom(isOwner: Boolean?) {
+                                onUserLeaveRoom()
 
-                           }
+                            }
 
-                           override fun shareRoom() {
-                               ServerManager.getUserInfo(this@MeetingRoomActivity){
-                                  it?.let {
-                                      val meetingMessage=
-                                          MeetingInviteMessageContent()
-                                              .apply {
-                                                  meetingId=roomId
-                                                  idno=it.data?.mId?:""
-                                                  title=mHostRoomTitle
-                                                  desc="我在会议室等你，快进来吧"
-                                                  isAllMic = true
-                                                  isAllMute= AUIVoiceRoomUIKit.isRoomMuted(roomId)
+                            override fun shareRoom() {
+                                ServerManager.getUserInfo(this@MeetingRoomActivity){
+                                    it?.let {
+                                        val meetingMessage=
+                                            MeetingInviteMessageContent()
+                                                .apply {
+                                                    meetingId=roomId
+                                                    idno=it.data?.mId?:""
+                                                    title=mHostRoomTitle
+                                                    desc="我在会议室等你，快进来吧"
+                                                    isAllMic = true
+                                                    isAllMute= AUIVoiceRoomUIKit.isRoomMuted(roomId)
 
-                                              }
-                                      val message = Message()
-                                      message.content=meetingMessage
-                                      runOnUiThread {
-                                          val intent = Intent(this@MeetingRoomActivity, ForwardActivity::class.java)
-                                          intent.putExtra("message",message)
-                                          this@MeetingRoomActivity.startActivity(intent)
-                                      }
-                                  }
-                               }
+                                                }
+                                        val message = Message()
+                                        message.content=meetingMessage
+                                        runOnUiThread {
+                                            val intent = Intent(this@MeetingRoomActivity, ForwardActivity::class.java)
+                                            intent.putExtra("message",message)
+                                            this@MeetingRoomActivity.startActivity(intent)
+                                        }
+                                    }
+                                }
 
 
 
-                           }
+                            }
 
-                           override fun openAllMic(isMic: Boolean) {
+                            override fun openAllMic(isMic: Boolean) {
                                 val updateRoomId=it.roomId?:""
-                               ServerManager.updateMeetingRoomInfo(this@MeetingRoomActivity,updateRoomId, allMic = isMic,
-                                  allMute = it.allMute?:false ){
+                                ServerManager.updateMeetingRoomInfo(this@MeetingRoomActivity,updateRoomId, allMic = isMic,
+                                    allMute = it.allMute?:false ){
                                     it?.let {roomData ->
                                         AUIVoiceRoomUIKit.getServiceByRoomId(updateRoomId)?.let {service->
                                             val switchObj= QuickJsonUtils.build(
@@ -252,45 +257,45 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                                             }
                                         }
                                     }
-                               }
+                                }
 
 
-                           }
+                            }
 
-                           override fun makeAllMute(isMute: Boolean) {
-                               ServerManager.updateMeetingRoomInfo(this@MeetingRoomActivity,it.roomId?:"", allMic = it.allMic?:true ,
-                                   allMute = isMute){ roomData ->
-                                   AUIVoiceRoomUIKit.getServiceByRoomId(it.roomId?:"")?.let {service->
-                                       val switchObj= QuickJsonUtils.build(
+                            override fun makeAllMute(isMute: Boolean) {
+                                ServerManager.updateMeetingRoomInfo(this@MeetingRoomActivity,it.roomId?:"", allMic = it.allMic?:true ,
+                                    allMute = isMute){ roomData ->
+                                    AUIVoiceRoomUIKit.getServiceByRoomId(it.roomId?:"")?.let {service->
+                                        val switchObj= QuickJsonUtils.build(
 //                                       "allMic" to  if (it.payload?.allMic?:false) "1" else "0",
-                                           "allMute" to  if (isMute) "1" else "0"
-                                       )
-                                       val msgObj= QuickJsonUtils.build(
-                                           "meeting_cmd" to "change_mute",
-                                           "cmd_params" to switchObj
-                                       )
-                                       val jsonStr= QuickJsonUtils.toJson(msgObj)
-                                       service.rtmManager.publish(service.channelName,"",jsonStr?:""){error->
-                                           if (error!=null){
-                                               ToastUtils.show(error.message)
-                                           }else{
-                                               //切换输入法
-                                               ToastUtils.show("房主/管理员已${(if (isMute)"开启禁言" else "关闭禁言")}")
+                                            "allMute" to  if (isMute) "1" else "0"
+                                        )
+                                        val msgObj= QuickJsonUtils.build(
+                                            "meeting_cmd" to "change_mute",
+                                            "cmd_params" to switchObj
+                                        )
+                                        val jsonStr= QuickJsonUtils.toJson(msgObj)
+                                        service.rtmManager.publish(service.channelName,"",jsonStr?:""){error->
+                                            if (error!=null){
+                                                ToastUtils.show(error.message)
+                                            }else{
+                                                //切换输入法
+                                                ToastUtils.show("房主/管理员已${(if (isMute)"开启禁言" else "关闭禁言")}")
 
-                                           }
+                                            }
 
-                                       }
-                                   }
-                               }
+                                        }
+                                    }
+                                }
 
 
-                           }
+                            }
 
-                       })
+                        })
 
-                       operateView.showPopupWindow()
+                        operateView.showPopupWindow()
 
-                   }
+                    }
                 }
             }
 
@@ -370,7 +375,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                                                 this@MeetingRoomActivity.meetingData=it
                                                 when(it.status?.lowercase()){
                                                     ROOM_ACTIVE_STATE->{
-                                                       runOnUiThread {  showJoiningLayout() }
+                                                        runOnUiThread {  showJoiningLayout() }
                                                         AUIVoiceRoomUIKit.launchRoom(
                                                             roomInfo,
                                                             roomConfig,
@@ -462,7 +467,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
     }
     private  fun hideCountDownLayout(){
-           showJoiningLayout()
+        showJoiningLayout()
     }
 
     private  fun  showJoinSuccessLayout(){
@@ -475,17 +480,17 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
     private  fun bindPreRoomInfo(){
 
-           //判断悬浮窗是否存在，存在则是点击悬浮窗进来
+        //判断悬浮窗是否存在，存在则是点击悬浮窗进来
         if (isFloatShow()){
-             roomInfo= intent.getSerializableExtra(EXTRA_ROOM_INFO) as AUIRoomInfo
+            roomInfo= intent.getSerializableExtra(EXTRA_ROOM_INFO) as AUIRoomInfo
             showJoinSuccessLayout()
-             roomInfo?.let {info->
-                 AUIVoiceRoomUIKit.getServiceByRoomId(info.roomId)?.let {
-                      mViewBinding.VoiceRoomView.bindService(it)
-                      mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(info.roomId),
-                          AUIVoiceRoomUIKit.isRoomMuted(info.roomId))
-                 }
-             }
+            roomInfo?.let {info->
+                AUIVoiceRoomUIKit.getServiceByRoomId(info.roomId)?.let {
+                    mViewBinding.VoiceRoomView.bindService(it)
+                    mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(info.roomId),
+                        AUIVoiceRoomUIKit.isRoomMuted(info.roomId))
+                }
+            }
         }else{
             showJoiningLayout()
             roomInfo = AUIRoomInfo().apply {
@@ -504,7 +509,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
             if (!isServiceRun()){
                 roomInfo?.let { MeetingFloatService.start(this,it) }
             }
-         }
+        }
 
 
 
@@ -524,25 +529,25 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                         val roomBean =
                             Gson().fromJson<NetworkResponse<MeetingData>>(body, type)
 //                        val roomBean = Gson().fromJson(body, CreateRoomBean::class.java)
-                         roomBean.data?.let {
-                             meetingData=it
-                             it.allMute?.let {
-                                 AUIVoiceRoomUIKit.setRoomMuteState(roomId,it)
-                                 mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(roomId),
-                                     AUIVoiceRoomUIKit.isRoomMuted(roomId))
-                             }
-                             it.status?.let {
-                                 when(it.lowercase()){
-                                     ROOM_ACTIVE_STATE->{
+                        roomBean.data?.let {
+                            meetingData=it
+                            it.allMute?.let {
+                                AUIVoiceRoomUIKit.setRoomMuteState(roomId,it)
+                                mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(roomId),
+                                    AUIVoiceRoomUIKit.isRoomMuted(roomId))
+                            }
+                            it.status?.let {
+                                when(it.lowercase()){
+                                    ROOM_ACTIVE_STATE->{
 
-                                     }
-                                     else -> {
-                                         ToastUtils.show("当前房间不是活动状态")
-                                         shutDownRoom()
-                                     }
-                                 }
-                             }
-                         }
+                                    }
+                                    else -> {
+                                        ToastUtils.show("当前房间不是活动状态")
+                                        shutDownRoom()
+                                    }
+                                }
+                            }
+                        }
 //                        roomBean.data?.let {
 //                            roomInfo?.roomName=it.payload?.roomName?:""
 //                            roomInfo?.owner?.userName=it.payload?.user?.username?:""
@@ -587,22 +592,42 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
         }
     }
 
-    override fun onBackPressed() {
-//        AUILogger.logger().d("VoiceRoomActivity", "onBackPressed ...")
-        if (mViewBinding.loadingView.visibility == VISIBLE||mViewBinding.clCountDown.visibility == VISIBLE){
-            shutDownRoom()
-            return
-        }
-        if (checkOverlayPermission()){
-            EventBus.getDefault().post(MeetingEvent(MeetingFloatService.EVENT_SHOW_FLOAT,true))
-            finish()
-
-        }else{
-
-//            onUserLeaveRoom()
-        }
-
+    /**
+     * 设置返回键处理（包括手势返回）
+     * 使用 OnBackPressedDispatcher 可以拦截所有返回操作，包括：
+     * 1. 物理返回键
+     * 2. 系统手势返回（边缘滑动）
+     * 3. 其他返回操作
+     */
+    private fun setupBackPressedHandler() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 处理返回逻辑
+                if (mViewBinding.loadingView.visibility == VISIBLE || mViewBinding.clCountDown.visibility == VISIBLE) {
+                    shutDownRoom()
+                    return
+                }
+                if (checkOverlayPermission()) {
+                    EventBus.getDefault().post(MeetingEvent(MeetingFloatService.EVENT_SHOW_FLOAT, true))
+                    finish()
+                } else {
+                    // 如果需要显示确认对话框，可以取消注释
+                    // onUserLeaveRoom()
+                }
+            }
+        })
     }
+
+    /**
+     * @deprecated 在 Android 13+ 上可能无法拦截手势返回
+     * 请使用 setupBackPressedHandler() 中的 OnBackPressedDispatcher
+     */
+//    @Deprecated("使用 OnBackPressedDispatcher 替代，以确保能拦截手势返回")
+//    override fun onBackPressed() {
+//        // 保留此方法以兼容旧版本，但实际处理逻辑已迁移到 setupBackPressedHandler()
+//        // 如果 OnBackPressedDispatcher 的回调未启用，则执行默认行为
+//        super.onBackPressed()
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -664,11 +689,11 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun handleEventOnlyCode(evetCode:Int){
-         when(evetCode){
-             1001->{
-                  shutDownRoom()
-             }
-         }
+        when(evetCode){
+            1001->{
+                shutDownRoom()
+            }
+        }
     }
 
 
@@ -729,47 +754,47 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                 }
                 AppEventCode.EVENT_MEETING_ADD_TIP->{
                     val postData = event.data as MeetingData
-                   AUIAlertSecondDialog(this).apply {
-                                                 setTitle("提示")
-                                                 setMessage("还有10分钟结束,是否加时延长会议?")
-                                              if (postData.isNonPayPwd == true){
-                                                  setMessage2("${postData.minMeetingTimeName}")
-                                                  setPositiveButton("加时"){
-                                                      dismiss()
-                                                      ServerManager.addMeetingTime(this@MeetingRoomActivity,postData.groupId?:"",
-                                                          postData.ownerId?:"",
-                                                          (postData.minMeetingTime?:0).toString(),postData.roomId?:""){
-                                                          if (it!=null){
-                                                              ToastUtils.show(it.msg)
-                                                              if (it.success){
-                                                                  EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_ADD_TIME,true))
-                                                              }else{
-                                                                  if ((it.data?.createout?:-1)==1){
-                                                                      startActivity(Intent(this@MeetingRoomActivity,QianbaoActivity::class.java))
-                                                                  }
-                                                              }
+                    AUIAlertSecondDialog(this).apply {
+                        setTitle("提示")
+                        setMessage("还有10分钟结束,是否加时延长会议?")
+                        if (postData.isNonPayPwd == true){
+                            setMessage2("${postData.minMeetingTimeName}")
+                            setPositiveButton("加时"){
+                                dismiss()
+                                ServerManager.addMeetingTime(this@MeetingRoomActivity,postData.groupId?:"",
+                                    postData.ownerId?:"",
+                                    (postData.minMeetingTime?:0).toString(),postData.roomId?:""){
+                                    if (it!=null){
+                                        ToastUtils.show(it.msg)
+                                        if (it.success){
+                                            EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_ADD_TIME,true))
+                                        }else{
+                                            if ((it.data?.createout?:-1)==1){
+                                                startActivity(Intent(this@MeetingRoomActivity,QianbaoActivity::class.java))
+                                            }
+                                        }
 //                                                              if ((it.data?.createout?:-1)=)
 
-                                                          }
+                                    }
 
 
-                                                      }
-                                                  }
-                                                  setNegativeButton("不用"){
-                                                      dismiss()
-                                                      EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_UN_ADD_TIME,false))
-                                                  }
-                                              }else{
-                                                  setPositiveButton("确定"){
-                                                      dismiss()
-                                                      EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_UN_ADD_TIME,false))
-                                                  }
-                                              }
+                                }
+                            }
+                            setNegativeButton("不用"){
+                                dismiss()
+                                EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_UN_ADD_TIME,false))
+                            }
+                        }else{
+                            setPositiveButton("确定"){
+                                dismiss()
+                                EventBus.getDefault().post(MeetingEvent(AppEventCode.EVENT_MEETING_UN_ADD_TIME,false))
+                            }
+                        }
 
-                                                 setCancelable(false)
-                                                 show()
+                        setCancelable(false)
+                        show()
 
-                                             }
+                    }
                 }
                 else -> {}
 
@@ -795,7 +820,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                                             runOnUiThread { shutDownRoom() }
                                         }else{
                                             //加入成功 显示界面
-                                           runOnUiThread {  showJoinSuccessLayout() }
+                                            runOnUiThread {  showJoinSuccessLayout() }
                                             //创建房间成功并且加入成功 更新信息
                                             val mute=intent.getBooleanExtra(EXTRA_MUTE_STATE,false)
                                             val mic =intent.getBooleanExtra(EXTRA_MIC_STATE,true)
@@ -805,50 +830,50 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
                                 )
                             } else {
                                 ServerManager.getMeetingRoomInfo(roomId){
-                                     if (it==null){
-                                         shutDownRoom()
-                                     }else{
-                                         meetingData=it
-                                         when(it.status?.lowercase()){
-                                             ROOM_ACTIVE_STATE->{
-                                             runOnUiThread {  showJoiningLayout() }
-                                                 AUIVoiceRoomUIKit.launchRoom(
-                                                     roomInfo,
-                                                     roomConfig,
-                                                     mViewBinding.VoiceRoomView,
-                                                     completion = { error, _ ->
-                                                         if (error != null) {
-                                                             shutDownRoom()
-                                                         }else{
-                                                             runOnUiThread {
-                                                                 showJoinSuccessLayout()
-                                                                 it.allMute?.let {
-                                                                     AUIVoiceRoomUIKit.setRoomMuteState(roomId,it)
-                                                                     mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(roomId),
-                                                                         AUIVoiceRoomUIKit.isRoomMuted(roomId))
-                                                                 }
-                                                                 it.status.let {
-                                                                     when(it.lowercase()){
-                                                                         ROOM_ACTIVE_STATE->{
+                                    if (it==null){
+                                        shutDownRoom()
+                                    }else{
+                                        meetingData=it
+                                        when(it.status?.lowercase()){
+                                            ROOM_ACTIVE_STATE->{
+                                                runOnUiThread {  showJoiningLayout() }
+                                                AUIVoiceRoomUIKit.launchRoom(
+                                                    roomInfo,
+                                                    roomConfig,
+                                                    mViewBinding.VoiceRoomView,
+                                                    completion = { error, _ ->
+                                                        if (error != null) {
+                                                            shutDownRoom()
+                                                        }else{
+                                                            runOnUiThread {
+                                                                showJoinSuccessLayout()
+                                                                it.allMute?.let {
+                                                                    AUIVoiceRoomUIKit.setRoomMuteState(roomId,it)
+                                                                    mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(roomId),
+                                                                        AUIVoiceRoomUIKit.isRoomMuted(roomId))
+                                                                }
+                                                                it.status.let {
+                                                                    when(it.lowercase()){
+                                                                        ROOM_ACTIVE_STATE->{
 
-                                                                         }
-                                                                         else -> {
-                                                                             ToastUtils.show("当前房间不是活动状态")
-                                                                             shutDownRoom()
-                                                                         }
-                                                                     }
-                                                                 }
-                                                             }
+                                                                        }
+                                                                        else -> {
+                                                                            ToastUtils.show("当前房间不是活动状态")
+                                                                            shutDownRoom()
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
 //                                                         loadMeetingInfo()
-                                                         }
-                                                     }
-                                                 )
-                                                 //                                             AUIVoiceRoomUIKit.registerRespObserver(roomId = roomInfo.roomId, this@MeetingRoomActivity)
-                                             }
-                                             ROOM_DESTORY_STATE->{
-                                                 runOnUiThread { showJoiningLayout() }
-                                                 mViewBinding.progress.setProgress(100,true)
-                                                 mViewBinding.tvStatusTips.text="该会议室已销毁"
+                                                        }
+                                                    }
+                                                )
+                                                //                                             AUIVoiceRoomUIKit.registerRespObserver(roomId = roomInfo.roomId, this@MeetingRoomActivity)
+                                            }
+                                            ROOM_DESTORY_STATE->{
+                                                runOnUiThread { showJoiningLayout() }
+                                                mViewBinding.progress.setProgress(100,true)
+                                                mViewBinding.tvStatusTips.text="该会议室已销毁"
 //                                             AUIAlertDialog(this).apply {
 //                                                 setTitle("会议室状态异常")
 //                                                 setMessage("此会议室已销毁")
@@ -860,17 +885,17 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomObserver {
 //                                                 show()
 //
 //                                             }
-                                             }
-                                             ROOM_WAITE_CREATE_STATE->{
-                                                 mViewBinding.progress.setProgress(100,true)
-                                                 mViewBinding.tvStatusTips.text="该会议室待创建"
-                                                 showCountDownLayout(it)
+                                            }
+                                            ROOM_WAITE_CREATE_STATE->{
+                                                mViewBinding.progress.setProgress(100,true)
+                                                mViewBinding.tvStatusTips.text="该会议室待创建"
+                                                showCountDownLayout(it)
 
-                                             }
+                                            }
 
-                                         }
+                                        }
 
-                                     }
+                                    }
                                 }
 
                             }

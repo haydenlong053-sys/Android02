@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-
+    <string name="are_you_abandoning_your_current_test">您要放弃当前检测吗?</string>
     <string name="upload_completed">上传完成</string>
     <string name="background_inspection_team">检测团队背景</string>
     <string name="project_risk">项目风险</string>
@@ -776,7 +776,6 @@
     <string name="ai_check_record">检测记录</string>
     <string name="ai_pop_tip">提示</string>
     <string name="ai_pop_tip_des">你要放弃当前上传的文件吗</string>
-    <string name="ps_cancel">取消</string>
 
 
 </resources>

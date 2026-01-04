@@ -7,6 +7,7 @@ import android.provider.OpenableColumns
 import com.cboda.baselibrary.toast.ToastUtils
 import com.blankj.utilcode.util.FileUtils
 import java.io.File
+import kotlin.plus
 
 object ChooseFileUtil {
 
@@ -37,7 +38,13 @@ object ChooseFileUtil {
         newIntent.putExtra(
             Intent.EXTRA_MIME_TYPES, arrayOf(
                 "audio/mpeg",    // MP3
-                "audio/wav"     // WAV
+                "audio/wav",    // WAV
+                "audio/x-wav",    // WAV
+                "audio/wave",    // WAV
+                "audio/ogg", //oog
+                "audio/aac", //aac
+                "audio/flac", //flac
+                "audio/x-m4a" //m4a
 //            ,"audio/ogg",
 //            "audio/flac"
             )
@@ -77,6 +84,7 @@ object ChooseFileUtil {
             "audio/flac" -> ".flac"
             "audio/aac" -> ".aac"
             "audio/amr" -> ".amr"
+            "audio/x-m4a" -> ".m4a"
             "application/pdf" -> ".pdf"
             "application/msword" -> ".doc"
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> ".docx"

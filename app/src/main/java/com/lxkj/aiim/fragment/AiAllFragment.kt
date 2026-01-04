@@ -24,6 +24,7 @@ import com.lxkj.aiim.dialog.pop.UploadFileTipPop
 import com.lxkj.aiim.lj.utils.showToastMain
 import com.lxkj.aiim.utils.JumpUtils.Companion.jumpAiCheckResultActivity
 import com.lxkj.aiim.viewmodel.CheckAiViewModel
+import kotlin.toString
 
 open class AiAllFragment(val mResourceType: String) :
     BaseFragment<AiAllFragmentBinding, CheckAiViewModel>() {
@@ -40,7 +41,6 @@ open class AiAllFragment(val mResourceType: String) :
 
     private var resourceType = ""
     private var riskType = ""
-
 
 
     private val adapter = AIImgAdapter()
@@ -267,17 +267,46 @@ open class AiAllFragment(val mResourceType: String) :
                 showToastMain(R.string.please_upload_files_tested_first)
                 return@click
             }
-            val aiPostFileDialog = AiPostFileDialog(requireContext(), riskType, resourceType)
-            aiPostFileDialog.showPopupWindow()
+            showAiPostFileDialog()
             viewModel.postFiles(riskType, resourceType, selectData).observe(this) { pair ->
-                aiPostFileDialog.dismiss()
-                if (pair.first == null) {
-                    showToastMain(pair.second ?: "检测失败，请稍后重试!")
-                } else {
-                    clearChooseData()
-                    jumpAiCheckResultActivity(requireContext(), pair.first)
+                if (null != aiPostFileDialog) {
+                    if (pair.first == null) {
+                        showToastMain(pair.second ?: "检测失败，请稍后重试!")
+                    } else {
+                        clearChooseData()
+                        jumpAiCheckResultActivity(requireContext(), pair.first)
+                    }
                 }
+                dismissAiPostFileDialog()
             }
         }
+    }
+
+
+    private var aiPostFileDialog: AiPostFileDialog? = null
+
+    private fun dismissAiPostFileDialog() {
+        aiPostFileDialog?.dismiss()
+        aiPostFileDialog = null
+    }
+
+    private fun showAiPostFileDialog() {
+        aiPostFileDialog = AiPostFileDialog(requireContext(), riskType, resourceType)
+        aiPostFileDialog?.onBackPressListener = {
+            val uploadFileTipPop = UploadFileTipPop(requireContext())
+            uploadFileTipPop.setContentTxt(R.string.are_you_abandoning_your_current_test)
+            uploadFileTipPop.setCancelBtn(R.string.mine_sure)
+            uploadFileTipPop.setSureBtn(R.string.quxiao)
+            uploadFileTipPop.cancelInvoke = {
+                clearChooseData()
+                dismissAiPostFileDialog()
+            }
+            uploadFileTipPop.showPopupWindow()
+
+        }
+        aiPostFileDialog?.dismissInvoke = {
+            aiPostFileDialog = null
+        }
+        aiPostFileDialog?.showPopupWindow()
     }
 }
