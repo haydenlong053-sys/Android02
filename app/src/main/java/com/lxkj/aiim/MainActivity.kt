@@ -62,7 +62,6 @@ import com.lxkj.aiim.fragment.MineFragment
 import com.lxkj.aiim.fragment.TongXunLuFragment
 import com.lxkj.aiim.fragment.XiaoxiFragment
 import com.lxkj.aiim.holder.SingleBtnHolder
-import com.lxkj.aiim.holder.UpdateHoder
 import com.lxkj.aiim.holder.XitonggaonggaoHolder
 import com.lxkj.aiim.holder.YeHuoImManagerHolder
 import com.lxkj.aiim.lj.ZhaqActivity
@@ -311,23 +310,6 @@ class MainActivity : BaseSimpleActivity() {
                 this.name?.let { it1 -> MMKVBroadUtils.saveKeFuName(it1) }
             }
         }
-
-        //todo 上架google要去掉
-//        viewModel?.versionUpdateData?.observe(this) {
-//            it.number?.apply {
-//                if (this.toInt() > AppUtil.getVersionCode(this@MainActivity)) {
-//                    val holder = UpdateHoder(this@MainActivity)
-//                    var bean = CommonResultBroadBean.CommonBroadResult()
-//                    bean.type = it.type
-//                    bean.url = it.url
-//                    bean.content = it.content
-//                    bean.url = it.url
-//                    bean.version = it.version
-//                    holder.show(bean)
-//                }
-//            }
-//
-//        }
 
         // The old click listeners are now replaced by the ExpandableBottomBar logic
         clickView.setOnClickAndDoubleClickListener(object :
