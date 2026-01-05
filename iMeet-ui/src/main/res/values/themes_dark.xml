@@ -1,5 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="NewApi">
+
+    <style name="Theme.AUIKit.AUIChatListBroadView.Dark">
+        <item name="aui_chatListView_appearance">@style/AUIChatListBroadView.Appearance.Dark</item>
+    </style>
+
+    <style name="AUIChatListBroadView.Appearance.Dark" parent="AUIChatListBroadView.Appearance">
+        <item name="aui_barrage_normal_layout_bg">@drawable/aui_bg_barrage_shape_dark</item>
+        <item name="aui_barrage_system_layout_bg">@drawable/aui_bg_barrage_system_shape_dark</item>
+    </style>
+
+    <style name="Theme.AUIKit.AUIChatBottomView.Dark">
+        <item name="aui_chatListView_appearance">@style/AUIChatBottomView.Appearance.Dark</item>
+    </style>
+
+    <style name="Theme.AUIKit.AUIEmojiBroadView.Dark">
+        <item name="aui_emojiView_appearance">@style/AUIEmojiBroadView.Appearance.Dark</item>
+    </style>
+
+    <style name="AUIChatBottomView.Appearance.Dark" parent="AUIChatBottomView.Appearance">
+        <item name="aui_primary_input_background">@drawable/aui_chat_bottom_bar_item_bg_dark</item>
+        <item name="aui_primary_tag_bg">@drawable/aui_chat_bottom_bar_item_bg_dark</item>
+        <item name="aui_primary_input_layout_bg">@color/voice_black_171A1C</item>
+        <item name="aui_primary_edit_background">@color/voice_black_2F3437</item>
+        <item name="aui_primary_edit_layout_background">
+            @drawable/aui_chat_bottom_bar_input_edit_dark
+        </item>
+        <item name="aui_primary_emoji_resource">@drawable/voice_icon_face_dark</item>
+        <item name="aui_primary_key_resource">@drawable/voice_icon_key_dark</item>
+        <item name="aui_primary_edit_hint_textColor">@color/voice_black_5E686E</item>
+        <item name="aui_primary_edit_textColor">@color/voice_white_F9FAFA</item>
+        <item name="aui_primary_expression_background">@color/voice_black_171A1C</item>
+
+
+    </style>
+
+    <style name="AUIEmojiBroadView.Appearance.Dark" parent="AUIEmojiBroadView.Appearance">
+        <item name="aui_emoji_view_background">@color/voice_black_171A1C</item>
+        <item name="aui_emoji_backspace">@drawable/voice_icon_backspace_dark</item>
+    </style>
+    <!-- 系统基础主题 -->
+    <style name="Theme.AUIKit.Basic.Dark" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:windowBackground">@android:color/black</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/aui_primary</item>
+        <item name="colorPrimaryVariant">@color/aui_primary</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/aui_grey_light</item>
+        <item name="colorSecondaryVariant">@color/aui_grey_light</item>
+        <item name="colorOnSecondary">@color/aui_black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <!-- 基础组件 -->
+        <!--         Button       -->
+        <item name="aui_button_appearance">@style/AUIBroadButton</item>
+        <item name="aui_button_appearance_min">@style/AUIBroadButton.Mini</item>
+        <item name="aui_button_appearance_circle">@style/AUIBroadButton.Circle</item>
+        <item name="aui_button_appearance_stroke">@style/AUIBroadButton.Stroke.Dark</item>
+        <item name="aui_button_appearance_min_stroke">@style/AUIBroadButton.Mini.Stroke.Dark</item>
+        <item name="aui_button_appearance_circle_stroke">@style/AUIBroadButton.Circle.Stroke.Dark
+        </item>
+        <!--         EditText       -->
+        <item name="aui_editText_appearance">@style/AUIEditBroadText.Dark</item>
+        <item name="aui_editText_appearance_outline">@style/AUIEditBroadText.OutLine.Dark</item>
+        <!--         BottomDialog       -->
+        <item name="aui_bottomDialog_appearance">@style/AUIBottomBroadDialog.Dark</item>
+        <!--         AlertDialog       -->
+        <item name="aui_alertDialog_appearance">@style/AUIAlertBroadDialog.Dark</item>
+        <item name="aui_alertDialog_appearance_outline">@style/AUIAlertBroadDialog.Dark.Outline
+        </item>
+        <!--         Dividers       -->
+        <item name="aui_dividers_appearance">@style/AUIBroadDividers.Dark</item>
+        <!--         TitleBar       -->
+        <item name="aui_titleBar_appearance">@style/AUITitleBroadBar.Dark</item>
+        <!--         NavigationBar       -->
+        <item name="aui_navigationBar_appearance">@style/AUINavigationBroadBar.Dark</item>
+        <!--         TabLayout       -->
+        <item name="aui_tabLayout_appearance">@style/AUITabBroadLayout.Dark</item>
+        <!--         AUICellBroadText       -->
+        <item name="aui_cellText_appearance">@style/AUICellBroadText.Dark</item>
+    </style>
+
+
+    <style name="AUITabBroadLayout.Dark">
+        <item name="aui_tabLayout_divider">@color/aui_grey_dark</item>
+        <item name="aui_tabLayout_menu_appearance">@style/AUITabLayoutBroadMenu.Dark</item>
+    </style>
+
+    <style name="AUITabLayoutBroadMenu.Dark">
+        <item name="aui_tabLayoutMenu_titleTextColor">@color/aui_white_light</item>
+        <item name="aui_tabLayoutMenu_titleTextColorSelected">@color/aui_white</item>
+    </style>
+
+
+    <style name="AUIEditBroadText.Dark">
+        <item name="aui_edittext_title_textColor">@color/aui_white</item>
+        <item name="aui_edittext_input_textColor">@color/aui_white</item>
+        <item name="aui_edittext_input_hintTextColor">@color/aui_grey_light</item>
+        <item name="aui_edittext_input_backgroundColor">@color/aui_grey_dark</item>
+        <item name="aui_edittext_input_backgroundHighlightColor">#009EFF</item>
+        <item name="aui_edittext_input_backgroundErrorColor">#26FA5151</item>
+        <item name="aui_edittext_input_backgroundErrorHighlightColor">#FA5151</item>
+        <item name="aui_edittext_input_phoneAreaTextColor">@color/aui_white</item>
+        <item name="aui_edittext_tip_textColor">#9599EF</item>
+        <item name="aui_edittext_icon_left_tint">@color/aui_white</item>
+        <item name="aui_edittext_icon_right_tint">@color/aui_white</item>
+    </style>
+
+    <style name="AUIEditBroadText.OutLine.Dark">
+        <item name="aui_edittext_title_textColor">@color/aui_white</item>
+        <item name="aui_edittext_input_textColor">@color/aui_white</item>
+        <item name="aui_edittext_input_hintTextColor">#59FFFFFF</item>
+        <item name="aui_edittext_input_backgroundColor">#594230C8</item>
+        <item name="aui_edittext_input_backgroundHighlightColor">#7800FF</item>
+        <item name="aui_edittext_input_backgroundErrorColor">#26FA5151</item>
+        <item name="aui_edittext_input_backgroundErrorHighlightColor">#FA5151</item>
+        <item name="aui_edittext_input_phoneAreaTextColor">@color/aui_white</item>
+        <item name="aui_edittext_tip_textColor">#9599EF</item>
+    </style>
+
+    <style name="AUIAlertBroadDialog.Dark">
+        <item name="aui_alertDialog_shadowColor">@color/aui_black_dark</item>
+        <item name="aui_alertDialog_contentBackgroundColor">@color/aui_black</item>
+        <item name="aui_alertDialog_titleTextColor">@android:color/white</item>
+        <item name="aui_alertDialog_messageTextColor">@color/aui_white</item>
+    </style>
+
+    <style name="AUIAlertBroadDialog.Dark.Outline">
+        <item name="aui_alertDialog_inputStyle">@style/AUIEditBroadText.OutLine</item>
+    </style>
+
+    <style name="AUIBottomBroadDialog.Dark">
+        <item name="aui_bottomDialog_backgroundColor">@color/aui_black</item>
+        <item name="aui_bottomDialog_backgroundShadowColor">@color/aui_black_dark</item>
+        <item name="aui_bottomDialog_backgroundIndicatorColor">@color/aui_grey</item>
+        <item name="aui_bottomDialog_titleTextColor">@android:color/white</item>
+        <item name="aui_bottomDialog_listDividerColor">@color/aui_grey_dark</item>
+        <item name="aui_bottomDialog_menu_appearance">@style/AUIBottomDialogMenu.Dark</item>
+    </style>
+
+    <style name="AUIBottomDialogMenu.Dark">
+        <item name="android:titleTextColor">@android:color/white</item>
+    </style>
+
+
+    <style name="AUIBroadButton.Stroke.Dark">
+        <item name="aui_button_textNormalColor">#F1F2F3</item>
+        <item name="aui_button_textPressedColor">#F1F2F3</item>
+        <item name="aui_button_textDisableColor">#F1F2F3</item>
+
+        <item name="aui_button_drawableTint">@color/aui_grey_light</item>
+        <item name="aui_button_drawablePressedTint">@color/aui_grey_light</item>
+        <item name="aui_button_drawableDisableTint">@color/aui_grey_lighter</item>
+
+        <item name="aui_button_background">@drawable/aui_button_stroke_dark</item>
+    </style>
+
+    <style name="AUIBroadButton.Mini.Stroke.Dark">
+        <item name="aui_button_textNormalColor">#F1F2F3</item>
+        <item name="aui_button_textPressedColor">#F1F2F3</item>
+        <item name="aui_button_textDisableColor">#F1F2F3</item>
+
+        <item name="aui_button_drawableTint">@color/aui_grey_light</item>
+        <item name="aui_button_drawablePressedTint">@color/aui_grey_light</item>
+        <item name="aui_button_drawableDisableTint">@color/aui_grey_lighter</item>
+
+        <item name="aui_button_background">@drawable/aui_button_stroke_dark</item>
+    </style>
+
+    <style name="AUIBroadButton.Circle.Stroke.Dark">
+        <item name="aui_button_textNormalColor">#F1F2F3</item>
+        <item name="aui_button_textPressedColor">#F1F2F3</item>
+        <item name="aui_button_textDisableColor">#F1F2F3</item>
+
+        <item name="aui_button_drawableTint">@color/aui_grey_light</item>
+        <item name="aui_button_drawablePressedTint">@color/aui_grey_light</item>
+        <item name="aui_button_drawableDisableTint">@color/aui_grey_lighter</item>
+    </style>
+
+    <style name="AUIBroadDividers.Dark">
+        <item name="android:background">#1B1067</item>
+        <item name="aui_dividers_textColor">@color/aui_grey_lighter</item>
+    </style>
+
+    <style name="AUITitleBroadBar.Dark">
+        <item name="android:background">@color/aui_black_dark</item>
+        <item name="aui_titleBar_titleTextColor">@color/aui_white</item>
+        <item name="aui_titleBar_stepTextColor">@color/aui_grey_light</item>
+    </style>
+
+    <style name="AUINavigationBroadBar.Dark">
+        <item name="aui_navigationBar_backgroundColor">@color/aui_black_dark</item>
+        <item name="aui_navigationBar_menu_appearance">@style/AUINavigationBarBroadMenu.Dark</item>
+    </style>
+
+    <style name="AUINavigationBarBroadMenu.Dark">
+        <item name="aui_navigationBarMenu_iconTint">#80C3C5FE</item>
+        <item name="aui_navigationBarMenu_iconTintActivated">#C3C5FE</item>
+        <item name="aui_navigationBarMenu_titleTextColor">#80C3C5FE</item>
+        <item name="aui_navigationBarMenu_titleTextColorActivated">#C3C5FE</item>
+    </style>
+
+    <style name="AUICellBroadText.Dark">
+        <item name="aui_navigationBarMenu_iconTint">#80C3C5FE</item>
+        <item name="aui_navigationBarMenu_iconTintActivated">#C3C5FE</item>
+        <item name="aui_navigationBarMenu_titleTextColor">#80C3C5FE</item>
+        <item name="aui_navigationBarMenu_titleTextColorActivated">#C3C5FE</item>
+    </style>
 
     <style name="Theme.AUIKit.AUIAction.Dark">
         <item name="aui_action_appearance">@style/AUIAction.Appearance.Dark</item>

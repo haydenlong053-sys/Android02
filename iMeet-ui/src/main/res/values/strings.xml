@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="aui_room_apply_accept">Apply</string>
     <string name="aui_room_invited_action">Invite</string>
     <string name="aui_room_invited_list">Audience</string>
     <string name="aui_room_apply_list">Application List</string>
     <string name="aui_room_contribution_empty">No Data</string>
+    <string name="aui_previous_step">Previous</string>
+    <string name="aui_next_step">Next</string>
+    <string name="aui_home">Home</string>
+    <string name="aui_message">Message</string>
+    <string name="aui_music">Music</string>
+    <string name="aui_more">More</string>
+    <string name="aui_option">Option</string>
+    <string name="aui_confirm">Confirm</string>
+    <string name="aui_cancel">Cancel</string>
+    <string name="voice_room_input_chat_title">Let\'s Chat</string>
+    <string name="voice_room_send_tip">Send</string>
+    <string name="voice_room_system_msg_member_add">Joined</string>
 </resources>
