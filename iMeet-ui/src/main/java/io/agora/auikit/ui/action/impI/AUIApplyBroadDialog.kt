@@ -17,10 +17,10 @@ import com.cboda.agora.ui.R
 import io.agora.auikit.ui.action.AUIActionUserInfo
 import io.agora.auikit.ui.action.AUIActionUserInfoList
 import io.agora.auikit.ui.action.IAUIListViewBinderBroadRefresh
-import io.agora.auikit.ui.action.fragment.VoiceRoomApplyListFragment
 import io.agora.auikit.ui.action.listener.AUIApplyDialogEventBroadListener
 import io.agora.auikit.ui.basic.AUISheetFragmentBroadDialog
 import com.cboda.agora.ui.databinding.AuiApplyLayoutBinding
+import com.cboda.agora.ui.ui.action.fragment.VoiceRoomApplyListFragment
 import io.agora.auikit.utils.ResourcesBroadTools
 
 class AUIApplyBroadDialog : AUISheetFragmentBroadDialog<AuiApplyLayoutBinding>(), IAUIListViewBinderBroadRefresh {
