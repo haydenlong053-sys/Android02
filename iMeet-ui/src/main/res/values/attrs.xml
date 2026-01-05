@@ -17,5 +17,4 @@
         <attr name="aui_invitation_item_title_color" format="reference|color"/>
 
     </declare-styleable>
-
 </resources>
