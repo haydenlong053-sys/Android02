@@ -109,6 +109,6 @@ abstract public class PickOrCreateConversationBroadActivity extends WfcBaseBroad
 
     @Override
     protected int contentLayout() {
-        return R.layout.pick_or_create_conversation_activity;
+        return R.layout.pick_or_create_conversation_broad_activity;
     }
 }

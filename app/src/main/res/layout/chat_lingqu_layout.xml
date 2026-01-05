@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:maxWidth="240dp"
     android:gravity="center"
-    android:background="@drawable/shape_notification_bg"
+    android:background="@drawable/shape_notification_broad_bg"
     android:orientation="horizontal"
     android:padding="5dp">
 

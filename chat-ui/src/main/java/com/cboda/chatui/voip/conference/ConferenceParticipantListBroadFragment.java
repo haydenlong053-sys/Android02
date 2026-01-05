@@ -56,7 +56,7 @@ public class ConferenceParticipantListBroadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.av_conference_participant_list, container, false);
+        View view = inflater.inflate(R.layout.av_conference_participant_broad_list, container, false);
         bindViews(view);
         bindEvents(view);
         init();
@@ -361,7 +361,7 @@ public class ConferenceParticipantListBroadFragment extends Fragment {
         @NonNull
         @Override
         public ParticipantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.av_conference_participant_list_item, parent, false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.av_conference_participant_list_broad_item, parent, false);
             return new ParticipantViewHolder(view);
         }
 

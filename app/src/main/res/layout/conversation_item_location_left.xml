@@ -3,7 +3,7 @@
     android:id="@+id/locationLinearLayout"
     android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_bubble_receive"
+    android:background="@drawable/bg_bubble_broad_receive"
     android:orientation="vertical">
 
     <TextView

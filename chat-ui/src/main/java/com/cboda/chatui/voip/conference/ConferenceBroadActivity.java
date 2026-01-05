@@ -41,7 +41,7 @@ public class ConferenceBroadActivity extends VoipBaseBroadActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.av_conference_activity);
+        setContentView(R.layout.av_conference_broad_activity);
         init();
     }
 

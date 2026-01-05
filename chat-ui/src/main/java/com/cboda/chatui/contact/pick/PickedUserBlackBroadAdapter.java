@@ -26,7 +26,7 @@ public class PickedUserBlackBroadAdapter extends PickedUserBroadAdapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picked_user_black, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picked_user_broad_black, parent, false);
         return new Holder(view);
     }
 

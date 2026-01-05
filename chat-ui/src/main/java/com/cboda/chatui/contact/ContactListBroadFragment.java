@@ -200,11 +200,11 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
     @Override
     public void initHeaderViewHolders() {
         if (!pick) {
-            addHeaderViewHolder(FriendRequestViewBroadHolder.class, R.layout.contact_header_friend, new FriendRequestBroadValue(contactViewModel.getUnreadFriendRequestCount()));
-            addHeaderViewHolder(GroupViewBroadHolder.class, R.layout.contact_header_group, new GroupBroadValue());
+            addHeaderViewHolder(FriendRequestViewBroadHolder.class, R.layout.contact_header_broad_friend, new FriendRequestBroadValue(contactViewModel.getUnreadFriendRequestCount()));
+            addHeaderViewHolder(GroupViewBroadHolder.class, R.layout.contact_header_broad_group, new GroupBroadValue());
         }
         if (showChannel) {
-            addHeaderViewHolder(ChannelViewBroadHolder.class, R.layout.contact_header_channel, new HeaderBroadValue());
+            addHeaderViewHolder(ChannelViewBroadHolder.class, R.layout.contact_header_broad_channel, new HeaderBroadValue());
         }
 //        if (!TextUtils.isEmpty(BroadConfig.ORG_SERVER_ADDRESS)) {
 //            organizationServiceViewModel.rootOrganizationLiveData().observe(this, new Observer<List<Organization>>() {
@@ -218,7 +218,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //                        for (Organization org : organizations) {
 //                            OrganizationBroadValue value = new OrganizationBroadValue();
 //                            value.setValue(org);
-//                            addHeaderViewHolder(OrganizationViewBroadHolder.class, R.layout.contact_header_organization, value);
+//                            addHeaderViewHolder(OrganizationViewBroadHolder.class, R.layout.contact_header_broad_organization, value);
 //                        }
 //                    }
 //                }
@@ -234,7 +234,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //                        for (Organization org : organizations) {
 //                            OrganizationBroadValue value = new OrganizationBroadValue();
 //                            value.setValue(org);
-//                            addHeaderViewHolder(DepartViewBroadHolder.class, R.layout.contact_header_department, value);
+//                            addHeaderViewHolder(DepartViewBroadHolder.class, R.layout.contact_header_broad_department, value);
 //                        }
 //                    }
 //
@@ -245,7 +245,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 
     @Override
     public void initFooterViewHolders() {
-//        addFooterViewHolder(ContactCountViewBroadHolder.class, R.layout.contact_item_footer, new ContactCountFooterBroadValue());
+//        addFooterViewHolder(ContactCountViewBroadHolder.class, R.layout.contact_item_broad_footer, new ContactCountFooterBroadValue());
     }
 
     @Override

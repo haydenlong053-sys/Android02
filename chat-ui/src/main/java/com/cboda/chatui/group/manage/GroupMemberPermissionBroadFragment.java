@@ -48,7 +48,7 @@ public class GroupMemberPermissionBroadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.group_manage_member_permission_fragment, container, false);
+        View view = inflater.inflate(R.layout.group_manage_member_permission_broad_fragment, container, false);
         if (groupInfo != null) {
             bindViews(view);
             init();

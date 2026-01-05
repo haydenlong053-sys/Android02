@@ -60,7 +60,7 @@ class VideoConferenceMainBroadView extends RelativeLayout {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        View view = inflate(context, R.layout.av_conference_video_main, this);
+        View view = inflate(context, R.layout.av_conference_video_broad_main, this);
         bindViews(view);
     }
 

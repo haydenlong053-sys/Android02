@@ -28,7 +28,7 @@ import cn.wildfirechat.remote.SearchChannelCallback;
 public class ChannelSearchBroadModule extends SearchableBroadModule<ChannelInfo, ChannelViewBroadHolder> {
     @Override
     public ChannelViewBroadHolder onCreateViewHolder(Fragment fragment, @NonNull ViewGroup parent, int type) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.channel_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.channel_broad_item, parent, false);
         return new ChannelViewBroadHolder(view);
     }
 
@@ -44,7 +44,7 @@ public class ChannelSearchBroadModule extends SearchableBroadModule<ChannelInfo,
 
     @Override
     public int getViewType(ChannelInfo channelInfo) {
-        return R.layout.channel_item;
+        return R.layout.channel_broad_item;
     }
 
     @Override

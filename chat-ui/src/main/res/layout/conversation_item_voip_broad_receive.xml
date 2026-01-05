@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bubble_broad_receive"
+    android:gravity="left|center_vertical"
+    android:maxWidth="240dp"
+    android:minHeight="40dp"
+    android:paddingTop="12dp"
+    android:paddingHorizontal="15dp"
+    android:paddingBottom="12dp">
+
+    <ImageView
+        android:id="@+id/callTypeImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:src="@mipmap/ic_msg_cell_video_call"
+        />
+
+    <TextView
+        android:id="@+id/contentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_text0"
+        android:textColorLink="#999999"
+        android:textSize="16sp"
+        tools:text="对方已挂断" />
+</LinearLayout>

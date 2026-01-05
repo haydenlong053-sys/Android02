@@ -34,7 +34,7 @@ public class OngoingCallBroadAdapter extends RecyclerView.Adapter<OngoingCallBro
     @Override
     public OngoingCallViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.conversation_item_ongoing_call, parent, false);
+        View view = inflater.inflate(R.layout.conversation_item_ongoing_broad_call, parent, false);
         return new OngoingCallViewHolder(view);
     }
 

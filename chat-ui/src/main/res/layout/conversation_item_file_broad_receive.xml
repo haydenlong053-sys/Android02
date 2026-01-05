@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fileMessageContentItemView"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:adjustViewBounds="true"
+    android:background="@drawable/bg_bubble_broad_receive"
+    android:maxWidth="10dp"
+    android:padding="10dp"
+    android:scaleType="fitCenter">
+
+    <ImageView
+        android:id="@+id/fileIconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_file" />
+
+    <TextView
+        android:id="@+id/fileNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#58595E"
+        android:layout_alignTop="@id/fileIconImageView"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/fileIconImageView"
+        android:ellipsize="end"
+        android:maxWidth="160dp"
+        android:maxLines="1"
+        tools:text="文件名。。。。。"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/fileSizeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#58595E"
+        android:layout_alignBottom="@id/fileIconImageView"
+        android:layout_toRightOf="@id/fileIconImageView"
+        android:maxLines="1"
+        tools:text="3K"
+        android:textSize="12sp" />
+
+</RelativeLayout>

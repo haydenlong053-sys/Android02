@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="12dp"
-    tools:background="@drawable/bg_rect_mine_3b47dd_10dp">
+    tools:background="@drawable/bg_rect_mine_3b47dd_broad_10dp">
 
     <TextView
         android:id="@+id/tvCircleTitle"

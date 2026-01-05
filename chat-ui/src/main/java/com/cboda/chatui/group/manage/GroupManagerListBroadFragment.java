@@ -66,7 +66,7 @@ public class GroupManagerListBroadFragment extends BaseUserListBroadFragment {
     @Override
     public void initFooterViewHolders() {
         if (groupMember.type == GroupMember.GroupMemberType.Owner) {
-            addFooterViewHolder(AddGroupManagerViewBroadHolder.class, R.layout.group_manage_item_add_manager, new FooterBroadValue());
+            addFooterViewHolder(AddGroupManagerViewBroadHolder.class, R.layout.group_manage_item_add_broad_manager, new FooterBroadValue());
         }
     }
 

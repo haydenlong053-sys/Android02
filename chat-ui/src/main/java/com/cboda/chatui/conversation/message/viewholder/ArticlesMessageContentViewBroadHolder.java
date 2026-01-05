@@ -89,7 +89,7 @@ public class ArticlesMessageContentViewBroadHolder extends ContextableNotificati
     }
 
     private void addSubArticle(ArticlesMessageContent.Article article, boolean isLast) {
-        View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_article, null, false);
+        View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_broad_article, null, false);
         TextView titleTextView = view.findViewById(R.id.titleTextView);
         titleTextView.setText(article.title);
         ImageView coverImageView = view.findViewById(R.id.coverImageView);

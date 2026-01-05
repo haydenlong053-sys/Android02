@@ -169,14 +169,14 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == R.layout.conversationlist_item_notification_container) {
-            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversationlist_item_notification_container, parent, false);
+        if (viewType == R.layout.conversationlist_item_notification_broad_container) {
+            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversationlist_item_notification_broad_container, parent, false);
             return new StatusNotificationContainerViewBroadHolder(view);
         }
         Class<? extends ConversationViewBroadHolder> viewHolderClazz = ConversationViewHolderBroadManager.getInstance().getConversationContentViewHolder(viewType);
 
         View itemView;
-        itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversationlist_item_conversation, parent, false);
+        itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversationlist_item_broad_conversation, parent, false);
 
         try {
             Constructor constructor = viewHolderClazz.getConstructor(Fragment.class, RecyclerView.Adapter.class, View.class);
@@ -345,7 +345,7 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public int getItemViewType(int position) {
         if (isStatusNotificationHeader(position)) {
-            return R.layout.conversationlist_item_notification_container;
+            return R.layout.conversationlist_item_notification_broad_container;
         }
         Conversation conversation = conversationInfos.get(position - headerCount()).conversation;
         return conversation.type.getValue() << 24 | conversation.line;

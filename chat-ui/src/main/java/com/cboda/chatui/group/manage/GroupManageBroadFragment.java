@@ -56,7 +56,7 @@ public class GroupManageBroadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.group_manage_fragment, container, false);
+        View view = inflater.inflate(R.layout.group_manage_broad_fragment, container, false);
         if (groupInfo != null) {
             bindViews(view);
             bindEvents(view);

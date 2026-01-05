@@ -34,7 +34,7 @@ public class ConferenceApplyUnmuteListBroadFragment extends FullScreenBottomShee
 
     @Override
     protected int contentLayout() {
-        return R.layout.av_conference_apply_unmute_list;
+        return R.layout.av_conference_apply_unmute_broad_list;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ConferenceApplyUnmuteListBroadFragment extends FullScreenBottomShee
         @Override
         public ApplyUnmuteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-            View view = layoutInflater.inflate(R.layout.av_conference_apply_unmute_list_item, parent, false);
+            View view = layoutInflater.inflate(R.layout.av_conference_apply_unmute_list_broad_item, parent, false);
             return new ApplyUnmuteViewHolder(view);
         }
 

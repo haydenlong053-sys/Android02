@@ -63,7 +63,7 @@ public class ConferenceInfoBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.av_conference_info_activity;
+        return R.layout.av_conference_info_broad_activity;
     }
 
     @Override

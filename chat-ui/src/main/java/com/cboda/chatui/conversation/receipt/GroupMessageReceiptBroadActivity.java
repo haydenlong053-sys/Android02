@@ -44,7 +44,7 @@ public class GroupMessageReceiptBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.conversation_receipt_activity;
+        return R.layout.conversation_receipt_broad_activity;
     }
 
     @Override

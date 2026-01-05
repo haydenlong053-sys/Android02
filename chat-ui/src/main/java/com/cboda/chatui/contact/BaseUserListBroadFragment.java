@@ -96,7 +96,7 @@ public abstract class BaseUserListBroadFragment extends ProgressBroadFragment im
      * @return
      */
     protected int getContentLayoutResId() {
-        return R.layout.contact_contacts_fragment;
+        return R.layout.contact_contacts_broad_fragment;
     }
 
     /**

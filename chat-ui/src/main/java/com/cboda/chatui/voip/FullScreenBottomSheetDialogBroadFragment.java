@@ -30,7 +30,7 @@ public abstract class FullScreenBottomSheetDialogBroadFragment extends BottomShe
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         BottomSheetDialog bottomSheet = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
-        View view = View.inflate(getContext(), R.layout.fullscreen_bottom_sheet_dialog_fragment, null);
+        View view = View.inflate(getContext(), R.layout.fullscreen_bottom_sheet_dialog_broad_fragment, null);
         bottomSheet.setContentView(view);
 
         ViewStub contentViewStub = view.findViewById(R.id.contentViewStub);

@@ -246,7 +246,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     }
 
     public void init(Fragment fragment, InputAwareBroadLayout rootInputAwareLayout, View mViewIntercept) {
-        LayoutInflater.from(getContext()).inflate(R.layout.conversation_input_panel, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.conversation_input_broad_panel, this, true);
         bindViews();
 
         this.activity = fragment.getActivity();
@@ -537,7 +537,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
                 }
                 textView.setGravity(Gravity.CENTER);
                 textView.setBackgroundColor(Color.parseColor("#F8F8F8"));
-                Drawable drawable = getResources().getDrawable(R.drawable.selector_common_item);
+                Drawable drawable = getResources().getDrawable(R.drawable.selector_common_broad_item);
                 textView.setBackground(drawable);
 
                 textView.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);

@@ -95,7 +95,7 @@ public class CreateConferenceBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.av_conference_create_activity;
+        return R.layout.av_conference_create_broad_activity;
     }
 
     @Override

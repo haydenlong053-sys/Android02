@@ -44,7 +44,7 @@ public class MultiCallIncomingBroadFragment extends Fragment implements AVEngine
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.av_multi_incoming, container, false);
+        View view = inflater.inflate(R.layout.av_multi_broad_incoming, container, false);
         bindViews(view);
         bindEvents(view);
         init();
@@ -71,7 +71,7 @@ public class MultiCallIncomingBroadFragment extends Fragment implements AVEngine
             return;
         }
         if(session.isAudioOnly()) {
-            acceptImageView.setImageResource(R.drawable.av_voice_answer_selector);
+            acceptImageView.setImageResource(R.drawable.av_voice_answer_broad_selector);
         }
         UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
         UserInfo invitor = userViewModel.getUserInfo(session.initiator, false);

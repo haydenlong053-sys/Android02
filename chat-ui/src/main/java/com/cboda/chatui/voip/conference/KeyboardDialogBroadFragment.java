@@ -38,7 +38,7 @@ public abstract class KeyboardDialogBroadFragment extends DialogFragment impleme
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.keyboard_dialog_fragment, container, false);
+        View view = inflater.inflate(R.layout.keyboard_dialog_broad_fragment, container, false);
         inputAwareLayout = view.findViewById(R.id.rootInputAwareLayout);
         inputAwareLayout.addOnKeyboardHiddenListener(this);
         inputAwareLayout.addOnKeyboardShownListener(this);

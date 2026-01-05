@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import com.cboda.chatui.R
 import com.cboda.chatui.bridge.ScreenBroadUtil
-import com.cboda.chatui.databinding.DialogMeetingPublishBinding
+import com.cboda.chatui.databinding.DialogMeetingBroadPublishBinding
 import razerdp.basepopup.BasePopupWindow
 
 class OpenMeetingBroadDialog(context: Context,title:String="",openMic: Boolean=true,openMute: Boolean=false,
@@ -18,7 +18,7 @@ class OpenMeetingBroadDialog(context: Context,title:String="",openMic: Boolean=t
     private var openClick: (openMic: Boolean, openMute: Boolean,meetingTitle: String) -> Unit? = openClick
 
     private var meetingTitle: String = title
-    private var  binding: DialogMeetingPublishBinding = DialogMeetingPublishBinding.inflate(LayoutInflater.from(context))
+    private var  binding: DialogMeetingBroadPublishBinding = DialogMeetingBroadPublishBinding.inflate(LayoutInflater.from(context))
 
     init {
         contentView = binding.root

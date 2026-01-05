@@ -77,7 +77,7 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
 
     @Override
     protected int contentLayout() {
-        return R.layout.conversationlist_single_frament;
+        return R.layout.conversationlist_single_broad_frament;
     }
 
     @Override

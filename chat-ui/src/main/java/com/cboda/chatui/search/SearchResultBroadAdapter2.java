@@ -101,10 +101,10 @@ public class SearchResultBroadAdapter2 extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (viewType == VIEW_TYPE_CATEGORY) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item_category2, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item_broad_category2, parent, false);
             return new CategoryViewBroadHolder(view);
         } else if (viewType == VIEW_TYPE_EXPAND) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item_expand, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item_broad_expand, parent, false);
             RecyclerView.ViewHolder holder = new ExpandViewBroadHolder(view);
             processOnClick(holder, view);
             return holder;

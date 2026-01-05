@@ -58,7 +58,7 @@ public class GroupMessageReceiptBroadAdapter extends RecyclerView.Adapter<GroupM
     @Override
     public MemberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.conversation_receipt_list_item, parent, false);
+        View view = inflater.inflate(R.layout.conversation_receipt_list_broad_item, parent, false);
         return new MemberViewHolder(view);
     }
 

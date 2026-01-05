@@ -37,7 +37,7 @@ public class MultiCallParticipantBroadAdapter extends RecyclerView.Adapter<Parti
     @Override
     public ParticipantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.av_multi_incoming_item, parent, false);
+        View view = inflater.inflate(R.layout.av_multi_incoming_broad_item, parent, false);
         return new ParticipantViewHolder(view);
     }
 

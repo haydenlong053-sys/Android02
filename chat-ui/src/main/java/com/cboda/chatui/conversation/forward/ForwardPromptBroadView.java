@@ -53,7 +53,7 @@ public class ForwardPromptBroadView extends LinearLayout {
 
     private void init() {
         View view = LayoutInflater.from(getContext())
-            .inflate(R.layout.forward_prompt_dialog, this, true);
+            .inflate(R.layout.forward_prompt_broad_dialog, this, true);
         bindViews(view);
     }
 

@@ -54,10 +54,10 @@ public class CompositeMessageContentBroadAdapter extends RecyclerView.Adapter<Re
         View itemView;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == 0) {
-            itemView = inflater.inflate(R.layout.composite_message_item_header, parent, false);
+            itemView = inflater.inflate(R.layout.composite_message_item_broad_header, parent, false);
             holder = new HeaderViewBroadHolder(itemView);
         } else {
-            itemView = inflater.inflate(R.layout.composite_message_item, parent, false);
+            itemView = inflater.inflate(R.layout.composite_message_broad_item, parent, false);
             holder = new MessageContentViewBroadHolder(itemView);
         }
         return holder;

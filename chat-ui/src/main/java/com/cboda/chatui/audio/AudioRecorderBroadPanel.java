@@ -110,7 +110,7 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                button.setBackgroundResource(R.drawable.shape_session_btn_voice_pressed);
+                button.setBackgroundResource(R.drawable.shape_session_btn_voice_broad_pressed);
                 startRecord();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -127,7 +127,7 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                button.setBackgroundResource(R.drawable.shape_session_btn_voice_normal);
+                button.setBackgroundResource(R.drawable.shape_session_btn_voice_broad_normal);
                 if (isToCancel) {
                     cancelRecord(true);
                 } else if (isRecording) {
@@ -248,7 +248,7 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
 
     private void showRecording() {
 //        if (recordingWindow == null) {
-//            View view = View.inflate(context, R.layout.audio_popup_wi_vo, null);
+//            View view = View.inflate(context, R.layout.audio_popup_wi_broad_vo, null);
 //            stateImageView = view.findViewById(R.id.rc_audio_state_image);
 //            stateTextView = view.findViewById(R.id.rc_audio_state_text);
 //            countDownTextView = view.findViewById(R.id.rc_audio_timer);
@@ -301,7 +301,7 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
         stateImageView.setImageResource(R.mipmap.ic_volume_cancel);
         stateTextView.setVisibility(View.VISIBLE);
         stateTextView.setText(R.string.voice_cancel);
-        stateTextView.setBackgroundResource(R.drawable.corner_voice_style);
+        stateTextView.setBackgroundResource(R.drawable.corner_voice_broad_style);
     }
 
     private void hideCancelTip() {

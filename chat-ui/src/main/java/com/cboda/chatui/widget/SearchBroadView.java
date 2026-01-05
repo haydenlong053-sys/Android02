@@ -43,7 +43,7 @@ public class SearchBroadView extends FrameLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.search_view, this);
+        inflate(getContext(), R.layout.search_broad_view, this);
         bindViews();
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override

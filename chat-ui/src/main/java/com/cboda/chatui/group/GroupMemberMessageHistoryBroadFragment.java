@@ -55,7 +55,7 @@ public class GroupMemberMessageHistoryBroadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.group_member_message_history_fragment, container, false);
+        View view = inflater.inflate(R.layout.group_member_message_history_broad_fragment, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

@@ -111,9 +111,9 @@ public class MMPreviewBroadActivity extends AppCompatActivity implements PhotoBr
             View view;
             MediaBroadEntry entry = entries.get(position);
             if (entry.getType() == MediaBroadEntry.TYPE_IMAGE) {
-                view = LayoutInflater.from(MMPreviewBroadActivity.this).inflate(R.layout.preview_photo, null);
+                view = LayoutInflater.from(MMPreviewBroadActivity.this).inflate(R.layout.preview_broad_photo, null);
             } else {
-                view = LayoutInflater.from(MMPreviewBroadActivity.this).inflate(R.layout.preview_video, null);
+                view = LayoutInflater.from(MMPreviewBroadActivity.this).inflate(R.layout.preview_broad_video, null);
             }
 
             container.addView(view);
@@ -400,7 +400,7 @@ public class MMPreviewBroadActivity extends AppCompatActivity implements PhotoBr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mm_preview);
+        setContentView(R.layout.activity_mm_broad_preview);
         supportPostponeEnterTransition();
 
         views = new SparseArray<>(3);

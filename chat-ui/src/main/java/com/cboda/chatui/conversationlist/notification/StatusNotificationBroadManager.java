@@ -34,8 +34,8 @@ public class StatusNotificationBroadManager {
     private void init() {
         notificationViewHolders = new HashMap<>();
         notificationViewHolderLayoutResMap = new HashMap<>();
-        registerNotificationViewHolder(PCOnlineNotificationViewBroadHolder.class, R.layout.conversationlist_item_notification_pc_online);
-        registerNotificationViewHolder(ConnectionNotificationViewBroadHolder.class, R.layout.conversationlist_item_notification_connection_status);
+        registerNotificationViewHolder(PCOnlineNotificationViewBroadHolder.class, R.layout.conversationlist_item_notification_pc_broad_online);
+        registerNotificationViewHolder(ConnectionNotificationViewBroadHolder.class, R.layout.conversationlist_item_notification_connection_broad_status);
     }
 
     public void registerNotificationViewHolder(Class<? extends StatusNotificationViewBroadHolder> holderClass, @LayoutRes int layoutResId) {

@@ -67,7 +67,7 @@ public class PCSessionBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.pc_session_activity;
+        return R.layout.pc_session_broad_activity;
     }
 
     void kickOffPC() {

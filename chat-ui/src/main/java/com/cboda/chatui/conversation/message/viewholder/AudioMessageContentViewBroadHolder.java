@@ -84,9 +84,9 @@ public class AudioMessageContentViewBroadHolder extends MediaMessageContentViewB
             // TODO 不知道怎么回事，动画开始了，就停不下来, 所以采用这种方式
             ivAudio.setBackground(null);
             if (message.message.direction == MessageDirection.Send) {
-                ivAudio.setBackgroundResource(R.drawable.audio_animation_right_list);
+                ivAudio.setBackgroundResource(R.drawable.audio_animation_right_broad_list);
             } else {
-                ivAudio.setBackgroundResource(R.drawable.audio_animation_left_list);
+                ivAudio.setBackgroundResource(R.drawable.audio_animation_left_broad_list);
             }
         }
     }

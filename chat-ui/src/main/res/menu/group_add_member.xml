@@ -4,7 +4,7 @@
         android:id="@+id/add"
         android:enabled="false"
         android:title="确定"
-        app:actionLayout="@layout/menu_confirm"
+        app:actionLayout="@layout/menu_broad_confirm"
         app:showAsAction="always" />
 
 </menu>

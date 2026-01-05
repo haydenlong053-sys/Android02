@@ -485,7 +485,7 @@ public class ConversationBroadFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.conversation_activity, container, false);
+        View view = inflater.inflate(R.layout.conversation_broad_activity, container, false);
         bindViews(view);
         bindEvents(view);
         initView();

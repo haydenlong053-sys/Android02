@@ -4,13 +4,13 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
-import com.cboda.chatui.databinding.DialogPopShareBinding
+import com.cboda.chatui.databinding.DialogPopBroadShareBinding
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 
 
 class ShareBroadPop(val context: Context, val view: View) : BaseBottomBroadPop(context) {
     var sureInvoke: () -> Unit = {}
-    private var binding: DialogPopShareBinding = DialogPopShareBinding.inflate(
+    private var binding: DialogPopBroadShareBinding = DialogPopBroadShareBinding.inflate(
         LayoutInflater.from(context)
     )
 

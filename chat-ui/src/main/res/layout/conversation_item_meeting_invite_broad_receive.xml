@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bubble_broad_receive"
+    >
+
+    <RelativeLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter">
+        <RelativeLayout
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:id="@+id/rl_meeting_icon"
+            android:background="@drawable/bg_white_radius_broad_8dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp">
+            <ImageView
+                android:scaleType="fitXY"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_meeting_msg"
+                android:layout_width="19dp"
+                android:layout_height="19dp"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/hostPortraitImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="6dp"
+            android:src="@mipmap/avatar_def" />
+
+        <TextView
+            android:layout_marginEnd="14dp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/rl_meeting_icon"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/rl_meeting_icon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="会议主题"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_below="@id/titleTextView"
+            android:layout_marginEnd="14dp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/descTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/rl_meeting_icon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="会议描述"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/dividerLine"
+            style="@style/Line"
+            android:layout_width="210dp"
+            android:layout_height="0.5px"
+            android:layout_below="@id/hostPortraitImageView"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="6dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dividerLine"
+            android:maxLines="1"
+            android:text="会议邀请"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -60,6 +60,6 @@ public class MentionGroupMemberBroadActivity extends SearchBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.group_mention_activity;
+        return R.layout.group_mention_broad_activity;
     }
 }

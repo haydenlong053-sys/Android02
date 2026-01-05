@@ -40,7 +40,7 @@ public class CompositeMessageContentBroadActivity extends WfcBaseBroadActivity i
 
     @Override
     protected int contentLayout() {
-        return R.layout.composite_message_activity;
+        return R.layout.composite_message_broad_activity;
     }
 
     @Override

@@ -56,7 +56,7 @@ public class GroupMemberMessageHistoryBroadAdapter extends RecyclerView.Adapter<
     @Override
     public MessageViewBroadHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.group_member_message_history_item, parent, false);
+        View view = inflater.inflate(R.layout.group_member_message_history_broad_item, parent, false);
         return new MessageViewBroadHolder(view);
     }
 

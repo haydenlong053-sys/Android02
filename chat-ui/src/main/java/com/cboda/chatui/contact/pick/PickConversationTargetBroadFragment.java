@@ -83,7 +83,7 @@ public class PickConversationTargetBroadFragment extends PickUserBroadFragment {
     @Override
     public void initHeaderViewHolders() {
         // 选择一个群
-        addHeaderViewHolder(PickGroupViewBroadHolder.class, R.layout.contact_header_group, new GroupBroadValue());
+        addHeaderViewHolder(PickGroupViewBroadHolder.class, R.layout.contact_header_broad_group, new GroupBroadValue());
         // 选取组织成员
         if (!TextUtils.isEmpty(BroadConfig.ORG_SERVER_ADDRESS)) {
             organizationServiceViewModel.rootOrganizationLiveData().observe(this, new Observer<List<Organization>>() {
@@ -93,7 +93,7 @@ public class PickConversationTargetBroadFragment extends PickUserBroadFragment {
                         for (Organization org : organizations) {
                             OrganizationBroadValue value = new OrganizationBroadValue();
                             value.setValue(org);
-                            addHeaderViewHolder(OrganizationViewBroadHolder.class, R.layout.contact_header_organization, value);
+                            addHeaderViewHolder(OrganizationViewBroadHolder.class, R.layout.contact_header_broad_organization, value);
                         }
                     }
                 }
@@ -105,7 +105,7 @@ public class PickConversationTargetBroadFragment extends PickUserBroadFragment {
                         for (Organization org : organizations) {
                             OrganizationBroadValue value = new OrganizationBroadValue();
                             value.setValue(org);
-                            addHeaderViewHolder(DepartViewBroadHolder.class, R.layout.contact_header_department, value);
+                            addHeaderViewHolder(DepartViewBroadHolder.class, R.layout.contact_header_broad_department, value);
                         }
                     }
 

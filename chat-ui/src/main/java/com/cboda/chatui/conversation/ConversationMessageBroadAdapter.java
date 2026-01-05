@@ -320,8 +320,8 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == R.layout.conversation_item_loading) {
-            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_loading, parent, false);
+        if (viewType == R.layout.conversation_item_broad_loading) {
+            View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_broad_loading, parent, false);
             return new LoadingViewBroadHolder(view);
         }
 
@@ -335,16 +335,16 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         View itemView;
         ViewStub viewStub;
         if (NotificationMessageContentViewBroadHolder.class.isAssignableFrom(viewHolderClazz)) {
-            itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_notification_containr, parent, false);
+            itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_notification_broad_containr, parent, false);
             viewStub = itemView.findViewById(R.id.contentViewStub);
             viewStub.setLayoutResource(direction == 0 ? sendResId : receiveResId);
         } else {
             if (direction == 0) {
-                itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_message_container_send, parent, false);
+                itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_message_container_broad_send, parent, false);
                 viewStub = itemView.findViewById(R.id.contentViewStub);
                 viewStub.setLayoutResource(sendResId);
             } else {
-                itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_message_container_receive, parent, false);
+                itemView = LayoutInflater.from(fragment.getContext()).inflate(R.layout.conversation_item_message_container_broad_receive, parent, false);
                 viewStub = itemView.findViewById(R.id.contentViewStub);
                 viewStub.setLayoutResource(receiveResId);
             }
@@ -980,7 +980,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     @Override
     public int getItemViewType(int position) {
         if (getItem(position) == null) {
-            return R.layout.conversation_item_loading;
+            return R.layout.conversation_item_broad_loading;
         }
         Message msg = getItem(position).message;
         return msg.direction.value() << 24 | msg.content.getMessageContentType();

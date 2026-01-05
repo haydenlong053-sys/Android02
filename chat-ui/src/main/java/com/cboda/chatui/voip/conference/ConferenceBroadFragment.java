@@ -124,7 +124,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.av_conference, container, false);
+        View view = inflater.inflate(R.layout.av_broad_conference, container, false);
         bindViews(view);
         bindEvents(view);
 
@@ -364,7 +364,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
 
     void showConferenceInfoDialog() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.av_conference_info_dialog, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.av_conference_info_broad_dialog, null);
         TextView titleTextView = view.findViewById(R.id.titleTextView);
         TextView conferenceIdTextView = view.findViewById(R.id.conferenceIdTextView);
         TextView conferenceHostTextView = view.findViewById(R.id.hostTextView);
@@ -405,7 +405,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
 
     void showMoreActionDialog() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.av_conference_action_more, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.av_conference_action_broad_more, null);
         ConferenceBroadManager conferenceManager = ConferenceBroadManager.getManager();
         ConferenceBroadInfo conferenceInfo = conferenceManager.getCurrentConferenceInfo();
 

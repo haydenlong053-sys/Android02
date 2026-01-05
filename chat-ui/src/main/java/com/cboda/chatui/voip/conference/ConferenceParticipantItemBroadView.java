@@ -67,7 +67,7 @@ public class ConferenceParticipantItemBroadView extends RelativeLayout {
     }
 
     protected void initView(Context context, AttributeSet attrs) {
-        View view = inflate(context, R.layout.av_conference_participant_grid_item, this);
+        View view = inflate(context, R.layout.av_conference_participant_grid_broad_item, this);
         portraitImageView = view.findViewById(R.id.portraitImageView);
         statusTextView = view.findViewById(R.id.statusTextView);
         micImageView = view.findViewById(R.id.micImageView);
@@ -125,7 +125,7 @@ public class ConferenceParticipantItemBroadView extends RelativeLayout {
         int padding = 0;
         if (volume > 500) {
             padding = 2;
-            this.portraitImageView.setBackgroundResource(R.drawable.av_conference_participant_item_highlight_boarder);
+            this.portraitImageView.setBackgroundResource(R.drawable.av_conference_participant_item_highlight_broad_boarder);
         } else {
             this.portraitImageView.setBackground(null);
         }

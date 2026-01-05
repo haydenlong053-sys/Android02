@@ -92,12 +92,12 @@ public class PttBroadPanel implements View.OnTouchListener {
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                button.setBackgroundResource(R.drawable.shape_session_btn_voice_pressed);
+                button.setBackgroundResource(R.drawable.shape_session_btn_voice_broad_pressed);
                 requestTalk();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                button.setBackgroundResource(R.drawable.shape_session_btn_voice_normal);
+                button.setBackgroundResource(R.drawable.shape_session_btn_voice_broad_normal);
                 stopTalk();
                 break;
             default:
@@ -167,7 +167,7 @@ public class PttBroadPanel implements View.OnTouchListener {
 
     private void showTalking() {
         if (talkingWindow == null) {
-            View view = View.inflate(context, R.layout.ptt_popup_wi_vo, null);
+            View view = View.inflate(context, R.layout.ptt_popup_wi_broad_vo, null);
             stateImageView = view.findViewById(R.id.rc_ptt_state_image);
             stateTextView = view.findViewById(R.id.rc_ptt_state_text);
             countDownTextView = view.findViewById(R.id.rc_ptt_timer);

@@ -20,6 +20,6 @@ public class GroupManageBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.fragment_container_activity;
+        return R.layout.fragment_container_broad_activity;
     }
 }

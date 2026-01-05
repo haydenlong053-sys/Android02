@@ -34,7 +34,7 @@ public class PickGroupMemberBlackBroadFragment extends PickGroupMemberBroadFragm
 
     @Override
     public int getContentLayoutResId() {
-        return R.layout.contact_pick_fragment_black;
+        return R.layout.contact_pick_fragment_broad_black;
     }
 
     @Override

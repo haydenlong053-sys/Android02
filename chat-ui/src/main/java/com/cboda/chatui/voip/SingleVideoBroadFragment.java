@@ -69,7 +69,7 @@ public class SingleVideoBroadFragment extends Fragment implements AVEngineKit.Ca
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.av_p2p_video_layout, container, false);
+        View view = inflater.inflate(R.layout.av_p2p_video_broad_layout, container, false);
         bindViews(view);
         bindEvents(view);
         init();

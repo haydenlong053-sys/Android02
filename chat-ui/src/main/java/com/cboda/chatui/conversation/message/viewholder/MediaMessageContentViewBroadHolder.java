@@ -45,7 +45,7 @@ public abstract class MediaMessageContentViewBroadHolder extends NormalMessageCo
         super(fragment, adapter, itemView);
         placeholderOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
         placeholderOptions.centerCrop();
-        placeholderOptions.placeholder(R.drawable.image_chat_placeholder);
+        placeholderOptions.placeholder(R.drawable.image_chat_broad_placeholder);
     }
 
     @Override
@@ -105,7 +105,7 @@ public abstract class MediaMessageContentViewBroadHolder extends NormalMessageCo
         } else {
             thumbnailRequest = Glide
                 .with(fragment)
-                .load(R.drawable.image_chat_placeholder);
+                .load(R.drawable.image_chat_broad_placeholder);
         }
         RequestBuilder<Drawable> request = Glide.with(fragment)
             .load(imagePath)

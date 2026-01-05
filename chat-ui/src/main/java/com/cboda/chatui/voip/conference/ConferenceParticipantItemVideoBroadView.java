@@ -47,7 +47,7 @@ public class ConferenceParticipantItemVideoBroadView extends ConferenceParticipa
 
     @Override
     protected void initView(Context context, AttributeSet attrs) {
-        View view = inflate(context, R.layout.av_conference_participant_grid_item_video, this);
+        View view = inflate(context, R.layout.av_conference_participant_grid_item_broad_video, this);
         portraitImageView = view.findViewById(R.id.portraitImageView);
         statusTextView = view.findViewById(R.id.statusTextView);
         videoContainer = view.findViewById(R.id.videoContainer);
@@ -106,7 +106,7 @@ public class ConferenceParticipantItemVideoBroadView extends ConferenceParticipa
         int padding = 0;
         if (volume > 500) {
             padding = 2;
-            this.setBackgroundResource(R.drawable.av_conference_participant_item_video_highlight_boarder);
+            this.setBackgroundResource(R.drawable.av_conference_participant_item_video_highlight_broad_boarder);
         } else {
             this.setBackground(null);
         }
