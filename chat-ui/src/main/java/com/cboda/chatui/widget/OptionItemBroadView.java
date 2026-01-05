@@ -56,7 +56,7 @@ public class OptionItemBroadView extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        View view = inflate(context, R.layout.option_item, this);
+        View view = inflate(context, R.layout.option_broad_item, this);
         startImageView = view.findViewById(R.id.leftImageView);
         endImageView = view.findViewById(R.id.rightImageView);
         arrowIndicator = view.findViewById(R.id.arrowImageView);

@@ -23,7 +23,7 @@ public class ProgressWebBroadView extends DWebBroadView{
         mProgressBar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
         mProgressBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 8, 0, 0));
 
-        Drawable drawable = context.getResources().getDrawable(R.drawable.progressbar_webview);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.progressbar_broad_webview);
         mProgressBar.setProgressDrawable(drawable);
         addView(mProgressBar);
         setWebChromeClient(new WebChromeClient());

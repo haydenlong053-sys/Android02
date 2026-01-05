@@ -34,7 +34,7 @@ public class ConferenceHandUpListBroadFragment extends FullScreenBottomSheetDial
 
     @Override
     protected int contentLayout() {
-        return R.layout.av_conference_hand_up_list;
+        return R.layout.av_conference_hand_up_broad_list;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ConferenceHandUpListBroadFragment extends FullScreenBottomSheetDial
         @Override
         public ApplyUnmuteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-            View view = layoutInflater.inflate(R.layout.av_conference_hand_up_list_item, parent, false);
+            View view = layoutInflater.inflate(R.layout.av_conference_hand_up_list_broad_item, parent, false);
             return new ApplyUnmuteViewHolder(view);
         }
 

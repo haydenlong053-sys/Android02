@@ -51,7 +51,7 @@ public class ConferencePortalBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.av_conference_portal_activity;
+        return R.layout.av_conference_portal_broad_activity;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ConferencePortalBroadActivity extends WfcBaseBroadActivity {
     }
 
     void joinConference() {
-        View view = LayoutInflater.from(this).inflate(R.layout.av_conference_join_dialog, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.av_conference_join_broad_dialog, null);
         new MaterialDialog.Builder(this)
             .customView(view, false)
             .cancelable(false)
@@ -137,7 +137,7 @@ public class ConferencePortalBroadActivity extends WfcBaseBroadActivity {
         @Override
         public FavConferenceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(ConferencePortalBroadActivity.this);
-            View view = inflater.inflate(R.layout.av_conference_fav_item, parent, false);
+            View view = inflater.inflate(R.layout.av_conference_fav_broad_item, parent, false);
             return new FavConferenceViewHolder(view);
         }
 

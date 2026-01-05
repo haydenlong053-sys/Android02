@@ -39,7 +39,7 @@ public class WebViewBroadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_webview, container, false);
+        View view = inflater.inflate(R.layout.fragment_broad_webview, container, false);
         bindViews(view);
         init();
         return view;

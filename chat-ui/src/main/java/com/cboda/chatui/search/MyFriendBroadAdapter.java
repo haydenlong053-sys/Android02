@@ -48,7 +48,7 @@ public class MyFriendBroadAdapter extends RecyclerView.Adapter<FriendViewBroadHo
     public FriendViewBroadHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 加载布局并创建ViewHolder
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.contact_item_contact2, parent, false);
+                .inflate(R.layout.contact_item_broad_contact2, parent, false);
 
         return new FriendViewBroadHolder(view);
     }
@@ -62,13 +62,13 @@ public class MyFriendBroadAdapter extends RecyclerView.Adapter<FriendViewBroadHo
         // 将数据绑定到ViewHolder的视图上
         if (position == 0 && position + 1 == itemList.size()) {
             //只有一条时
-            holder.contactLinearLayout.setBackgroundResource(R.drawable.bg_rect_white_16dp);
+            holder.contactLinearLayout.setBackgroundResource(R.drawable.bg_rect_white_broad_16dp);
         } else if (position == 0) {
             //第一条
-            holder.contactLinearLayout.setBackgroundResource(R.drawable.bg_rect_white_only_top_16dp);
+            holder.contactLinearLayout.setBackgroundResource(R.drawable.bg_rect_white_only_top_broad_16dp);
         } else if (position + 1 == itemList.size()) {
             //最后一条
-            holder.contactLinearLayout.setBackgroundResource(R.drawable.bg_rect_white_only_bottom_16dp);
+            holder.contactLinearLayout.setBackgroundResource(R.drawable.bg_rect_white_only_bottom_broad_16dp);
         } else {
             holder.contactLinearLayout.setBackgroundResource(R.color.white);
         }

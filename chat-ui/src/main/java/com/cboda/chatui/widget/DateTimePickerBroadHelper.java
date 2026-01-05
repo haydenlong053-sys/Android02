@@ -22,7 +22,7 @@ public class DateTimePickerBroadHelper {
             return;
         }
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.date_time_picker, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.date_time_broad_picker, null);
 
         WheelPicker datePicker = view.findViewById(R.id.datePicker);
         List<String> dates = new ArrayList<>();

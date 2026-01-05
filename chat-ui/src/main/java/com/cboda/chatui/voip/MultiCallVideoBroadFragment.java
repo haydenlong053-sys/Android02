@@ -63,7 +63,7 @@ public class MultiCallVideoBroadFragment extends Fragment implements AVEngineKit
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.av_multi_video_outgoing_connected, container, false);
+        View view = inflater.inflate(R.layout.av_multi_video_outgoing_broad_connected, container, false);
         bindViews(view);
         bindEvents(view);
         init();

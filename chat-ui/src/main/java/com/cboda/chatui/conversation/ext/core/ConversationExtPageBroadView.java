@@ -50,7 +50,7 @@ public class ConversationExtPageBroadView extends LinearLayout implements View.O
     }
 
     private void init(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.conversation_ext_layout, this, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.conversation_ext_broad_layout, this, false);
         addView(view);
     }
 

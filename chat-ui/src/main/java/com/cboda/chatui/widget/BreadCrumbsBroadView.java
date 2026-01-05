@@ -65,7 +65,7 @@ public class BreadCrumbsBroadView extends FrameLayout {
 
     private void init(Context context) {
         this.mContext = context;
-        View view = View.inflate(context, R.layout.layout_breadcrumbs_container, null);
+        View view = View.inflate(context, R.layout.layout_breadcrumbs_broad_container, null);
         recyclerView = view.findViewById(R.id.breadCrumbsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 //        float maxWidth = (ScreenBroadUtil.getScreenWidth(mContext) - ScreenBroadUtil.dip2px(mContext, 32)) / 3.0f - ScreenBroadUtil.dip2px(mContext, 8);
@@ -232,7 +232,7 @@ public class BreadCrumbsBroadView extends FrameLayout {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.layout_breadcrumbs_tab, parent, false);
+            View v = LayoutInflater.from(mContext).inflate(R.layout.layout_breadcrumbs_broad_tab, parent, false);
             return new ViewHolder(v);
         }
 

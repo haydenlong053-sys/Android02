@@ -83,7 +83,7 @@ public class InputBroadPanel extends FrameLayout implements IEmotionSelectedList
     }
 
     public void init(KeyboardDialogBroadFragment commentFragment, InputAwareBroadLayout rootInputAwareLayout) {
-        LayoutInflater.from(getContext()).inflate(R.layout.input_panel, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.input_broad_panel, this, true);
         bindViews();
 
         this.keyboardDialogFragment = commentFragment;

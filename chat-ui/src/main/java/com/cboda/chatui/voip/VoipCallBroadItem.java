@@ -51,7 +51,7 @@ public class VoipCallBroadItem extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        View view = inflate(context, R.layout.av_multi_call_item, this);
+        View view = inflate(context, R.layout.av_multi_call_broad_item, this);
         portraitImageView = view.findViewById(R.id.portraitImageView);
         statusTextView = view.findViewById(R.id.statusTextView);
         videoContainer = view.findViewById(R.id.videoContainer);

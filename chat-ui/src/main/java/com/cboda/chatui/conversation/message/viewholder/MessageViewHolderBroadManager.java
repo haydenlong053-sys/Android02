@@ -25,25 +25,25 @@ public class MessageViewHolderBroadManager {
     }
 
     private void init() {
-        registerMessageViewHolder(AudioMessageContentViewBroadHolder.class, R.layout.conversation_item_audio_send, R.layout.conversation_item_audio_receive);
-        registerMessageViewHolder(FileMessageContentViewBroadHolder.class, R.layout.conversation_item_file_send, R.layout.conversation_item_file_receive);
-        registerMessageViewHolder(ImageMessageContentViewBroadHolder.class, R.layout.conversation_item_image_send, R.layout.conversation_item_image_receive);
-        registerMessageViewHolder(StickerMessageContentViewBroadHolder.class, R.layout.conversation_item_sticker_send, R.layout.conversation_item_sticker_receive);
-        registerMessageViewHolder(TextMessageContentViewBroadHolder.class, R.layout.conversation_item_text_send, R.layout.conversation_item_text_receive);
-        registerMessageViewHolder(VideoMessageContentViewBroadHolder.class, R.layout.conversation_item_video_send, R.layout.conversation_item_video_send);
-        registerMessageViewHolder(VoipMessageViewBroadHolder.class, R.layout.conversation_item_voip_send, R.layout.conversation_item_voip_receive);
-        registerMessageViewHolder(SimpleNotificationMessageContentViewBroadHolder.class, R.layout.conversation_item_notification, R.layout.conversation_item_notification);
-        registerMessageViewHolder(RichNotificationMessageContentViewBroadHolder.class, R.layout.conversation_item_rich_notification, R.layout.conversation_item_rich_notification);
-        registerMessageViewHolder(RecallMessageContentViewBroadHolder.class, R.layout.conversation_item_recall_notification, R.layout.conversation_item_recall_notification);
-        registerMessageViewHolder(UserCardMessageContentViewBroadHolder.class, R.layout.conversation_item_user_card_send, R.layout.conversation_item_user_card_receive);
-        registerMessageViewHolder(ConferenceInviteMessageContentViewBroadHolder.class, R.layout.conversation_item_conference_invite_send, R.layout.conversation_item_conference_invite_receive);
+        registerMessageViewHolder(AudioMessageContentViewBroadHolder.class, R.layout.conversation_item_audio_broad_send, R.layout.conversation_item_audio_broad_receive);
+        registerMessageViewHolder(FileMessageContentViewBroadHolder.class, R.layout.conversation_item_file_broad_send, R.layout.conversation_item_file_broad_receive);
+        registerMessageViewHolder(ImageMessageContentViewBroadHolder.class, R.layout.conversation_item_image_broad_send, R.layout.conversation_item_image_broad_receive);
+        registerMessageViewHolder(StickerMessageContentViewBroadHolder.class, R.layout.conversation_item_sticker_broad_send, R.layout.conversation_item_sticker_broad_receive);
+        registerMessageViewHolder(TextMessageContentViewBroadHolder.class, R.layout.conversation_item_text_broad_send, R.layout.conversation_item_text_broad_receive);
+        registerMessageViewHolder(VideoMessageContentViewBroadHolder.class, R.layout.conversation_item_video_broad_send, R.layout.conversation_item_video_broad_send);
+        registerMessageViewHolder(VoipMessageViewBroadHolder.class, R.layout.conversation_item_voip_broad_send, R.layout.conversation_item_voip_broad_receive);
+        registerMessageViewHolder(SimpleNotificationMessageContentViewBroadHolder.class, R.layout.conversation_item_broad_notification, R.layout.conversation_item_broad_notification);
+        registerMessageViewHolder(RichNotificationMessageContentViewBroadHolder.class, R.layout.conversation_item_rich_broad_notification, R.layout.conversation_item_rich_broad_notification);
+        registerMessageViewHolder(RecallMessageContentViewBroadHolder.class, R.layout.conversation_item_recall_broad_notification, R.layout.conversation_item_recall_broad_notification);
+        registerMessageViewHolder(UserCardMessageContentViewBroadHolder.class, R.layout.conversation_item_user_card_broad_send, R.layout.conversation_item_user_card_broad_receive);
+        registerMessageViewHolder(ConferenceInviteMessageContentViewBroadHolder.class, R.layout.conversation_item_conference_invite_broad_send, R.layout.conversation_item_conference_invite_broad_receive);
         //注册声网消息体的holder
-        registerMessageViewHolder(MeetingInviteMessageContentViewBroadHolder.class, R.layout.conversation_item_meeting_invite_send, R.layout.conversation_item_meeting_invite_receive);
+        registerMessageViewHolder(MeetingInviteMessageContentViewBroadHolder.class, R.layout.conversation_item_meeting_invite_broad_send, R.layout.conversation_item_meeting_invite_broad_receive);
         //注册聊天公告消息的holder
-        registerMessageViewHolder(NoticeContentViewBroadHolder.class, R.layout.conversation_item_msg_notice_send, R.layout.conversation_item_msg_notice_receive);
-        registerMessageViewHolder(CompositeMessageContentViewBroadHolder.class, R.layout.conversation_item_composite_send, R.layout.conversation_item_composite_receive);
-        registerMessageViewHolder(LinkMessageContentViewBroadHolder.class, R.layout.conversation_item_link_send, R.layout.conversation_item_link_receive);
-        registerMessageViewHolder(ArticlesMessageContentViewBroadHolder.class, R.layout.conversation_item_articles, R.layout.conversation_item_articles);
+        registerMessageViewHolder(NoticeContentViewBroadHolder.class, R.layout.conversation_item_msg_notice_broad_send, R.layout.conversation_item_msg_notice_broad_receive);
+        registerMessageViewHolder(CompositeMessageContentViewBroadHolder.class, R.layout.conversation_item_composite_broad_send, R.layout.conversation_item_composite_broad_receive);
+        registerMessageViewHolder(LinkMessageContentViewBroadHolder.class, R.layout.conversation_item_link_broad_send, R.layout.conversation_item_link_broad_receive);
+        registerMessageViewHolder(ArticlesMessageContentViewBroadHolder.class, R.layout.conversation_item_broad_articles, R.layout.conversation_item_broad_articles);
 
     }
 
@@ -77,13 +77,13 @@ public class MessageViewHolderBroadManager {
     public @androidx.annotation.LayoutRes
     int sendLayoutResId(int messageType) {
         Integer sendLayoutResId = messageSendLayoutRes.get(messageType);
-        return sendLayoutResId == null ? R.layout.conversation_item_unknown_send : sendLayoutResId;
+        return sendLayoutResId == null ? R.layout.conversation_item_unknown_broad_send : sendLayoutResId;
     }
 
     public @androidx.annotation.LayoutRes
     int receiveLayoutResId(int messageType) {
         Integer receiveLayoutResId = messageReceiveLayoutRes.get(messageType);
-        return receiveLayoutResId == null ? R.layout.conversation_item_unknown_receive : receiveLayoutResId;
+        return receiveLayoutResId == null ? R.layout.conversation_item_unknown_broad_receive : receiveLayoutResId;
     }
 
     public Class<? extends MessageContentViewBroadHolder> getMessageContentViewHolder(int messageType) {

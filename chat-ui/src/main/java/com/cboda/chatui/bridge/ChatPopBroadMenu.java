@@ -64,7 +64,7 @@ public class ChatPopBroadMenu {
     public ChatPopBroadMenu(Context context) {
         chatPopMenu = this;
         this.context = context;
-        popupView = LayoutInflater.from(context).inflate(R.layout.chat_pop_menu_layout, null);
+        popupView = LayoutInflater.from(context).inflate(R.layout.chat_pop_menu_broad_layout, null);
         reactFrameLayout = popupView.findViewById(R.id.react_frame);
         indicatorHeight = context.getResources().getDimensionPixelOffset(R.dimen.chat_pop_menu_indicator_height);
 
@@ -259,7 +259,7 @@ public class ChatPopBroadMenu {
         @NonNull
         @Override
         public MenuItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(context).inflate(R.layout.chat_pop_menu_layout_item, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.chat_pop_menu_layout_broad_item, parent, false);
             return new MenuItemViewHolder(view);
         }
 

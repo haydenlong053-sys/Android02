@@ -72,7 +72,7 @@ public class GroupMemberMuteOrAllowListBroadFragment extends BaseUserListBroadFr
     @Override
     public void initHeaderViewHolders() {
         if (groupMember.type == GroupMember.GroupMemberType.Owner || groupMember.type == GroupMember.GroupMemberType.Manager) {
-            addHeaderViewHolder(MuteGroupMemberViewBroadHolder.class, R.layout.group_manage_item_mute_member, new HeaderBroadValue(groupInfo, groupMuted));
+            addHeaderViewHolder(MuteGroupMemberViewBroadHolder.class, R.layout.group_manage_item_mute_broad_member, new HeaderBroadValue(groupInfo, groupMuted));
         }
     }
 

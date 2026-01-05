@@ -45,7 +45,7 @@ public class PickOrCreateConversationBroadFragment extends Fragment implements P
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.pick_or_create_conversation_fragmentn, container, false);
+        View view = inflater.inflate(R.layout.pick_or_create_conversation_broad_fragmentn, container, false);
         bindViews(view);
         init();
         return view;

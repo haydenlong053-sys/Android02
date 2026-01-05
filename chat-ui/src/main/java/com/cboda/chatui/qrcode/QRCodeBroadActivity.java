@@ -53,7 +53,7 @@ public class QRCodeBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.qrcode_activity;
+        return R.layout.qrcode_broad_activity;
     }
 
     @Override

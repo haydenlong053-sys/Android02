@@ -17,7 +17,7 @@ import cn.wildfirechat.message.core.PersistFlag;
 
 /**
  * Created by heavyrain lee on 2017/12/6.
- * registerMessageViewHolder(NoticeContentViewBroadHolder.class, R.layout.conversation_item_msg_notice_send, R.layout.conversation_item_msg_notice_receive);
+ * registerMessageViewHolder(NoticeContentViewBroadHolder.class, R.layout.conversation_item_msg_notice_broad_send, R.layout.conversation_item_msg_notice_broad_receive);
  *  消息公告内部自定义消息
  */
 

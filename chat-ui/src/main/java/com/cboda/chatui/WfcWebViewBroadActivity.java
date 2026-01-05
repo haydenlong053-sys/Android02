@@ -49,7 +49,7 @@ public class WfcWebViewBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.activity_webview;
+        return R.layout.activity_broad_webview;
     }
 
     @Override

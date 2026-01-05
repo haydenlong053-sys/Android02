@@ -85,7 +85,7 @@ public class OrderConferenceBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.av_conference_order_activity;
+        return R.layout.av_conference_order_broad_activity;
     }
 
     @Override

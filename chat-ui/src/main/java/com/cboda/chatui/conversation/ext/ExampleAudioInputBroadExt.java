@@ -24,7 +24,7 @@ public class ExampleAudioInputBroadExt extends ConversationBroadExt {
     @ExtContextMenuBroadItem
     public void image(View containerView, Conversation conversation) {
         FrameLayout frameLayout = (FrameLayout) containerView;
-        View view = LayoutInflater.from(activity).inflate(R.layout.conversatioin_ext_example_layout, frameLayout, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.conversatioin_ext_example_broad_layout, frameLayout, false);
         frameLayout.addView(view);
         extension.disableHideOnScroll();
 

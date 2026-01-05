@@ -27,7 +27,7 @@ public class UserSearchBroadModule extends SearchableBroadModule<UserInfo, UserV
     @Override
     public UserViewBroadHolder onCreateViewHolder(Fragment fragment, @NonNull ViewGroup parent, int viewType) {
         View itemView;
-        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.search_item_contact, parent, false);
+        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.search_item_broad_contact, parent, false);
         return new UserViewBroadHolder(fragment, null, itemView);
     }
 
@@ -45,7 +45,7 @@ public class UserSearchBroadModule extends SearchableBroadModule<UserInfo, UserV
 
     @Override
     public int getViewType(UserInfo userInfo) {
-        return R.layout.contact_item_contact;
+        return R.layout.contact_item_broad_contact;
     }
 
     @Override

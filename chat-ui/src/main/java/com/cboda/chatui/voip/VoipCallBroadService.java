@@ -282,7 +282,7 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         params.x = getResources().getDisplayMetrics().widthPixels;
         params.y = 0;
 
-        view = LayoutInflater.from(this).inflate(R.layout.av_voip_float_view, null);
+        view = LayoutInflater.from(this).inflate(R.layout.av_voip_float_broad_view, null);
         view.setOnTouchListener(onTouchListener);
         wm.addView(view, params);
         if (session.getState() != AVEngineKit.CallState.Connected) {

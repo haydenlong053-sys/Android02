@@ -328,7 +328,7 @@
                         android:layout_height="46dp"
                         android:layout_marginHorizontal="24dp"
                         android:layout_marginTop="24dp"
-                        android:background="@drawable/bg_rect_mine_3b47dd_10dp"
+                        android:background="@drawable/bg_rect_mine_3b47dd_broad_10dp"
                         android:gravity="center"
                         android:text="@string/tianjiadaotongxun"
                         android:textColor="@color/color_3B47DD"

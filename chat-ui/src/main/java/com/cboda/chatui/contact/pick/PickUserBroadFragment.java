@@ -134,7 +134,7 @@ public abstract class PickUserBroadFragment extends BaseUserListBroadFragment im
 
     @Override
     public int getContentLayoutResId() {
-        return R.layout.contact_pick_fragment;
+        return R.layout.contact_pick_broad_fragment;
     }
 
     @Override

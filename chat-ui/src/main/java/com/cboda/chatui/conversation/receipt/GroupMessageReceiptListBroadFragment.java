@@ -60,7 +60,7 @@ public class GroupMessageReceiptListBroadFragment extends ProgressBroadFragment 
 
     @Override
     protected int contentLayout() {
-        return R.layout.conversation_receipt_fragment;
+        return R.layout.conversation_receipt_broad_fragment;
     }
 
     @Override

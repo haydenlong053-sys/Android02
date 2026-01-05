@@ -26,7 +26,7 @@ public class GroupSearchViewBroadModule2 extends SearchableBroadModule<GroupSear
     @Override
     public GroupViewBroadHolder2 onCreateViewHolder(Fragment fragment, @NonNull ViewGroup parent, int type) {
         View itemView;
-        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.search_item_group2, parent, false);
+        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.search_item_broad_group2, parent, false);
         return new GroupViewBroadHolder2(fragment, itemView);
     }
 
@@ -51,7 +51,7 @@ public class GroupSearchViewBroadModule2 extends SearchableBroadModule<GroupSear
 
     @Override
     public int getViewType(GroupSearchResult groupSearchResult) {
-        return R.layout.search_item_group2;
+        return R.layout.search_item_broad_group2;
     }
 
     @Override

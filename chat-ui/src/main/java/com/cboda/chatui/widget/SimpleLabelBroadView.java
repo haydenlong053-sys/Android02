@@ -47,7 +47,7 @@ public class SimpleLabelBroadView extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        View view = inflate(context, R.layout.conversation_item_rich_notification_data_item, this);
+        View view = inflate(context, R.layout.conversation_item_rich_notification_data_broad_item, this);
         titleTextView = view.findViewById(R.id.titleTextView);
         descTextView = view.findViewById(R.id.descTextView);
 

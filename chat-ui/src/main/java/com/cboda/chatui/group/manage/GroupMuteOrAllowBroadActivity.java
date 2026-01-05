@@ -32,7 +32,7 @@ public class GroupMuteOrAllowBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.group_manage_mute_activity;
+        return R.layout.group_manage_mute_broad_activity;
     }
 
     @Override

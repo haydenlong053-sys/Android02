@@ -57,13 +57,13 @@ public class GroupViewBroadHolder2 extends ResultItemViewBroadHolder<GroupSearch
         }
         if (currentPosition == startPosition + 1 && currentPosition == endPosition) {
             //只有一条时
-            mLlItemBg.setBackgroundResource(R.drawable.bg_rect_white_16dp);
+            mLlItemBg.setBackgroundResource(R.drawable.bg_rect_white_broad_16dp);
         }else if (currentPosition ==startPosition+1){
             //第一条
-            mLlItemBg.setBackgroundResource(R.drawable.bg_rect_white_only_top_16dp);
+            mLlItemBg.setBackgroundResource(R.drawable.bg_rect_white_only_top_broad_16dp);
         }else if (currentPosition==endPosition){
             //最后一条
-            mLlItemBg.setBackgroundResource(R.drawable.bg_rect_white_only_bottom_16dp);
+            mLlItemBg.setBackgroundResource(R.drawable.bg_rect_white_only_bottom_broad_16dp);
         }else {
             mLlItemBg.setBackgroundResource(R.color.white);
         }

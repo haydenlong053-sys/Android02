@@ -52,7 +52,7 @@ class ConferenceParticipantGridBroadView extends RelativeLayout {
     }
 
     private void initView(Context context) {
-        View view = inflate(context, R.layout.av_conference_video_participant_grid, this);
+        View view = inflate(context, R.layout.av_conference_video_participant_broad_grid, this);
         participantGridView = view.findViewById(R.id.participantGridView);
         if (this.isAudioConference) {
             participantGridView.setColumnCount(3);

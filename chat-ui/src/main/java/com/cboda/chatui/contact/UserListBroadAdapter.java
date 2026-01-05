@@ -127,7 +127,7 @@ public class UserListBroadAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     protected RecyclerView.ViewHolder onCreateContactViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
-        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.contact_item_contact, parent, false);
+        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.contact_item_broad_contact, parent, false);
         UserViewBroadHolder viewHolder = new UserViewBroadHolder(fragment, this, itemView);
         itemView.setOnClickListener(v -> {
             if (onUserClickListener != null) {

@@ -26,7 +26,7 @@ public class CheckableUserListBlackBroadAdapter extends CheckableUserListBroadAd
     @Override
     protected RecyclerView.ViewHolder onCreateContactViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
-        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.contact_item_contact_black, parent, false);
+        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.contact_item_contact_broad_black, parent, false);
         CheckableUserViewBroadHolder viewHolder = new CheckableUserBlackViewBroadHolder(fragment, this, itemView);
 
         itemView.setOnClickListener(v -> {

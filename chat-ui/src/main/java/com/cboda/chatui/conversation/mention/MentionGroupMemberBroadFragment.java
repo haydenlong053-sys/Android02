@@ -82,8 +82,8 @@ public class MentionGroupMemberBroadFragment extends BaseUserListBroadFragment {
     public void initHeaderViewHolders() {
         if (groupMember != null) {
             if (groupMember.type == GroupMember.GroupMemberType.Manager || groupMember.type == GroupMember.GroupMemberType.Owner) {
-                addHeaderViewHolder(MentionAllHeaderViewBroadHolder.class, R.layout.conversation_header_mention_all, new HeaderBroadValue());
-//                addHeaderViewHolder(MentionAllHeaderViewBroadHolder.class, R.layout.conversation_header_mention_xbao, new HeaderBroadValue());
+                addHeaderViewHolder(MentionAllHeaderViewBroadHolder.class, R.layout.conversation_header_mention_broad_all, new HeaderBroadValue());
+//                addHeaderViewHolder(MentionAllHeaderViewBroadHolder.class, R.layout.conversation_header_mention_broad_xbao, new HeaderBroadValue());
             }
         }
     }

@@ -43,11 +43,11 @@ public class PickedUserBroadAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == R.layout.picked_user) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picked_user, parent, false);
+        if (viewType == R.layout.picked_broad_user) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picked_broad_user, parent, false);
             return new UserViewBroadHolder(view);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picked_organization, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picked_broad_organization, parent, false);
             return new OrganizationViewBroadHolder(view);
         }
     }
@@ -64,9 +64,9 @@ public class PickedUserBroadAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (position < getOrganizationCount()) {
-            return R.layout.picked_organization;
+            return R.layout.picked_broad_organization;
         } else {
-            return R.layout.picked_user;
+            return R.layout.picked_broad_user;
         }
     }
 

@@ -30,7 +30,7 @@ public class ConversationSearchBroadModule2 extends SearchableBroadModule<Conver
     @Override
     public ConversationViewBroadHolder2 onCreateViewHolder(Fragment fragment, @NonNull ViewGroup parent, int type) {
         View itemView;
-        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.search_item_conversation2, parent, false);
+        itemView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.search_item_broad_conversation2, parent, false);
         return new ConversationViewBroadHolder2(fragment, itemView);
     }
 
@@ -46,7 +46,7 @@ public class ConversationSearchBroadModule2 extends SearchableBroadModule<Conver
 
     @Override
     public int getViewType(ConversationSearchResult conversationSearchResult) {
-        return R.layout.search_item_conversation2;
+        return R.layout.search_item_broad_conversation2;
     }
 
     @Override

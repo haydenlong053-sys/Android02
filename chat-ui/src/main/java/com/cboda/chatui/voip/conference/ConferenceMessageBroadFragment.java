@@ -42,7 +42,7 @@ public class ConferenceMessageBroadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.av_conference_message, container, false);
+        View view = inflater.inflate(R.layout.av_conference_broad_message, container, false);
         bindViews(view);
         bindEvents(view);
         messageViewModel = new ViewModelProvider(this).get(MessageViewBroadModel.class);
@@ -152,7 +152,7 @@ public class ConferenceMessageBroadFragment extends Fragment {
         @Override
         public MessageViewBroadHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View itemView = inflater.inflate(R.layout.av_conference_message_item, parent, false);
+            View itemView = inflater.inflate(R.layout.av_conference_message_broad_item, parent, false);
             return new TextMessageViewHolder(itemView);
         }
 

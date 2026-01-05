@@ -24,7 +24,7 @@ public abstract class ProgressBroadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.progress_fragment, container, false);
+        View view = inflater.inflate(R.layout.progress_broad_fragment, container, false);
 
         ViewStub loadingViewStub = view.findViewById(R.id.loadingViewStub);
         ViewStub contentViewStub = view.findViewById(R.id.contentViewStub);
@@ -43,7 +43,7 @@ public abstract class ProgressBroadFragment extends Fragment {
     protected abstract int contentLayout();
 
     protected int loadingLayout() {
-        return R.layout.loading_view;
+        return R.layout.loading_broad_view;
     }
 
     protected void showContent() {

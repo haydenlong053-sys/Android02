@@ -42,12 +42,12 @@ public abstract class SearchBroadActivity2 extends WfcBaseNoToolbarBroadActivity
     }
 
     /**
-     * 子类如果替换布局，它的布局中必须要包含 R.layout.search_bar
+     * 子类如果替换布局，它的布局中必须要包含 R.layout.search_broad_bar
      *
      * @return 布局资源id
      */
     protected int contentLayout() {
-        return R.layout.search_portal_activity2;
+        return R.layout.search_portal_broad_activity2;
     }
 
     protected void beforeViews() {

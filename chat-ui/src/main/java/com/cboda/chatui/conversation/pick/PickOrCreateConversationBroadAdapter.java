@@ -47,10 +47,10 @@ public class PickOrCreateConversationBroadAdapter extends RecyclerView.Adapter<R
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         RecyclerView.ViewHolder holder;
-        if (viewType == R.layout.forward_item_create_conversation) {
+        if (viewType == R.layout.forward_item_create_broad_conversation) {
             holder = new CreateConversationViewBroadHolder(view);
             processOnClick(holder);
-        } else if (viewType == R.layout.forward_item_category) {
+        } else if (viewType == R.layout.forward_item_broad_category) {
             holder = new CategoryViewBroadHolder(view);
         } else {
             holder = new ConversationViewBroadHolder(fragment, view);
@@ -94,13 +94,13 @@ public class PickOrCreateConversationBroadAdapter extends RecyclerView.Adapter<R
         int type;
         switch (position) {
             case 0:
-                type = R.layout.forward_item_create_conversation;
+                type = R.layout.forward_item_create_broad_conversation;
                 break;
             case 1:
-                type = R.layout.forward_item_category;
+                type = R.layout.forward_item_broad_category;
                 break;
             default:
-                type = R.layout.forward_item_recent_conversation;
+                type = R.layout.forward_item_recent_broad_conversation;
                 break;
         }
         return type;

@@ -35,7 +35,7 @@ public class SearchAndPickUserBroadFragment extends Fragment implements UserList
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.contact_search_fragment, container, false);
+        View view = inflater.inflate(R.layout.contact_search_broad_fragment, container, false);
         bindViews(view);
         bindEvents(view);
         init();

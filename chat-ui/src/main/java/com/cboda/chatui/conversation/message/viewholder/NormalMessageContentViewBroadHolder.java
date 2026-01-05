@@ -517,9 +517,9 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 
             if (readTimestamp != null && readTimestamp >= message.message.serverTime) {
                 //已读状态
-                singleReceiptImageView.setImageResource(R.drawable.bg_circle_read_icon);
+                singleReceiptImageView.setImageResource(R.drawable.bg_circle_read_broad_icon);
             } else {
-                singleReceiptImageView.setImageResource(R.drawable.bg_circle_unread_icon);
+                singleReceiptImageView.setImageResource(R.drawable.bg_circle_unread_broad_icon);
             }
         } else if (item.conversation.type == Conversation.ConversationType.Group) {
             singleReceiptImageView.setVisibility(View.GONE);
