@@ -22,12 +22,15 @@ import com.example.asceneskit.dialog.VoiceRoomMoreDialog
 import io.agora.auikit.model.*
 import io.agora.auikit.service.*
 import io.agora.auikit.service.imp.AUIIMManagerServiceImpl
-import io.agora.auikit.ui.basic.AUIAlertDialog
-import io.agora.auikit.ui.chatBottomBar.impl.AUIKeyboardStatusWatcher
-import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeListener
-import io.agora.auikit.ui.member.MemberInfo
-import io.agora.auikit.ui.micseats.MicSeatOption
-import io.agora.auikit.ui.micseats.MicSeatType
+import io.agora.auikit.ui.basic.AUIAlertBroadDialog
+import io.agora.auikit.ui.chatBottomBar.impl.AUIKeyboardStatusBroadWatcher
+import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+//import io.agora.auikit.ui.basic.AUIAlertBroadDialog
+//import io.agora.auikit.ui.chatBottomBar.impl.AUIKeyboardStatusBroadWatcher
+//import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import io.agora.auikit.ui.member.MemberBroadInfo
+import io.agora.auikit.ui.micseats.MicSeatBroadOption
+import io.agora.auikit.ui.micseats.MicSeatBroadType
 import io.agora.auikit.utils.AUILogger
 import io.agora.auikit.utils.ThreadManager
 
@@ -38,10 +41,10 @@ class AUIVoiceRoomBroadView : FrameLayout,
     private val mRoomViewBinding = VoiceRoomBroadViewBinding.inflate(LayoutInflater.from(context))
     private val mBinders = mutableListOf<IAUIBroadBindable>()
     private var mVoiceService: AUIVoiceRoomBroadService? = null
-    private var listener: AUISoftKeyboardHeightChangeListener? = null
+    private var listener: AUISoftKeyboardHeightChangeBroadListener? = null
     private var activity:FragmentActivity?= null
     private var moreDialog: VoiceRoomMoreDialog?=null
-    private var micType: MicSeatType?=null
+    private var micType: MicSeatBroadType?=null
     private var mOnClickShutDown: (() -> Unit)? = null
     private var mOnClickShare: (() -> Unit)? = null
     private var mOnClickMore: (() -> Unit)? = null
@@ -55,7 +58,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
     private var invitationBinder: AUIInvitationBinder?=null
     private var auiGiftBarrageBinder : AUIGiftBarrageBinder?=null
     private val mDestroyDialog by lazy {
-        AUIAlertDialog(context).apply {
+        AUIAlertBroadDialog(context).apply {
             setTitle("房间已销毁")
             setMessage("请返回房间列表 ")
             setPositiveButton("我知道了") {
@@ -161,7 +164,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
 
                 }
 
-                override fun kickUser(member: MemberInfo?) {
+                override fun kickUser(member: MemberBroadInfo?) {
                     super.kickUser(member)
                     mOnKickUser?.invoke(member!!.userId)
 
@@ -177,11 +180,11 @@ class AUIVoiceRoomBroadView : FrameLayout,
         val micSeatsBinder = AUIMicSeatsBroadBinder(
             context,
             when (micType) {
-                MicSeatType.EightTag -> {
+                MicSeatBroadType.EightTag -> {
                     mRoomViewBinding.micSeatsView
                 }
 
-                MicSeatType.NineTag -> {
+                MicSeatBroadType.NineTag -> {
                     mRoomViewBinding.micSeatsHostView
                 }
 
@@ -201,11 +204,11 @@ class AUIVoiceRoomBroadView : FrameLayout,
             mRoomViewBinding.chatBottomBar,
             mRoomViewBinding.chatListView,
             when (micType) {
-                MicSeatType.EightTag -> {
+                MicSeatBroadType.EightTag -> {
                     mRoomViewBinding.micSeatsView
                 }
 
-                MicSeatType.NineTag -> {
+                MicSeatBroadType.NineTag -> {
                     mRoomViewBinding.micSeatsHostView
                 }
 
@@ -293,11 +296,11 @@ class AUIVoiceRoomBroadView : FrameLayout,
     private fun getSoftKeyboardHeight(){
         ThreadManager.getInstance().runOnMainThreadDelay({
             activity?.let {
-                AUIKeyboardStatusWatcher(
+                AUIKeyboardStatusBroadWatcher(
                     it, activity!!
                 ) { isKeyboardShowed: Boolean, keyboardHeight: Int? ->
                     Log.e("apex", "isKeyboardShowed: $isKeyboardShowed $keyboardHeight")
-                    listener?.onSoftKeyboardHeightChanged(isKeyboardShowed,keyboardHeight)
+                    listener?.onSoftKeyboardHeightChanged(isKeyboardShowed, keyboardHeight)
                 }
             }
         },200)
@@ -343,7 +346,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
 
 
     private fun showKickedOutDialog() {
-        AUIAlertDialog(context).apply {
+        AUIAlertBroadDialog(context).apply {
             setTitle(R.string.voice_room_kick_by_host)
             setCancelable(false)
             setPositiveButton(context.getString(R.string.voice_room_confirm)) {
@@ -397,33 +400,33 @@ class AUIVoiceRoomBroadView : FrameLayout,
 
     private fun setUpRoomStyle(roomInfo:AUIRoomInfo){
         val seatStyle = roomInfo.micSeatStyle
-        micType = MicSeatType.fromString(seatStyle)
+        micType = MicSeatBroadType.fromString(seatStyle)
         when( micType ){
-            MicSeatType.OneTag ->{
+            MicSeatBroadType.OneTag ->{
                 mRoomViewBinding.micSeatsView.visibility = GONE
                 mRoomViewBinding.micSeatsHostView.visibility = GONE
                 mRoomViewBinding.micSeatsCircleView.visibility = VISIBLE
-                mRoomViewBinding.micSeatsCircleView.setOptions(MicSeatOption(
-                    roomInfo.micSeatCount,MicSeatType.OneTag
+                mRoomViewBinding.micSeatsCircleView.setOptions(MicSeatBroadOption(
+                    roomInfo.micSeatCount,MicSeatBroadType.OneTag
                 ))
             }
-            MicSeatType.SixTag ->{
+            MicSeatBroadType.SixTag ->{
                 mRoomViewBinding.micSeatsView.visibility = GONE
                 mRoomViewBinding.micSeatsHostView.visibility = GONE
                 mRoomViewBinding.micSeatsCircleView.visibility = VISIBLE
                 mRoomViewBinding.micSeatsCircleView.setOptions(
-                    MicSeatOption(
-                    roomInfo.micSeatCount,MicSeatType.SixTag,if (
+                    MicSeatBroadOption(
+                    roomInfo.micSeatCount,MicSeatBroadType.SixTag,if (
                     roomInfo.micSeatCount == 3 || roomInfo.micSeatCount == 5) 90 else 0
                 )
                 )
             }
-            MicSeatType.EightTag ->{
+            MicSeatBroadType.EightTag ->{
                 mRoomViewBinding.micSeatsView.visibility = VISIBLE
                 mRoomViewBinding.micSeatsCircleView.visibility = GONE
                 mRoomViewBinding.micSeatsHostView.visibility = GONE
             }
-            MicSeatType.NineTag ->{
+            MicSeatBroadType.NineTag ->{
                 mRoomViewBinding.micSeatsView.visibility = GONE
                 mRoomViewBinding.micSeatsCircleView.visibility = GONE
                 mRoomViewBinding.micSeatsHostView.visibility = VISIBLE

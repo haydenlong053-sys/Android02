@@ -12,16 +12,16 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.textview.MaterialTextView
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.VoiceRoomMoreBroadLayoutBinding
-import io.agora.auikit.ui.basic.AUISheetFragmentDialog
-import io.agora.auikit.ui.basic.AUIImageView
-import io.agora.auikit.utils.DeviceTools
-import io.agora.auikit.utils.FastClickTools
+import io.agora.auikit.ui.basic.AUISheetFragmentBroadDialog
+import io.agora.auikit.ui.basic.AUIImageBroadView
+import io.agora.auikit.utils.DeviceBroadTools
+import io.agora.auikit.utils.FastClickBroadTools
 
 class VoiceRoomMoreDialog(
     context: Context,
     itemList:MutableList<VoiceMoreItemBean>,
     itemListener:GridViewItemClickListener
-) : AUISheetFragmentDialog<VoiceRoomMoreBroadLayoutBinding>()  {
+) : AUISheetFragmentBroadDialog<VoiceRoomMoreBroadLayoutBinding>()  {
     private var mContext:Context
     private val mColumns = 4
     private var gridAdapter:VoiceMoreDialogAdapter? = null
@@ -50,7 +50,7 @@ class VoiceRoomMoreDialog(
 
     private fun initView() {
         binding?.gvGridview.let {
-            it?.verticalSpacing = DeviceTools.dp2px(mContext, 20F)
+            it?.verticalSpacing = DeviceBroadTools.dp2px(mContext, 20F)
             it?.numColumns = mColumns
             it?.verticalSpacing = 40
             gridAdapter = data?.let { it1 -> VoiceMoreDialogAdapter(mContext, 1, it1) }
@@ -61,7 +61,7 @@ class VoiceRoomMoreDialog(
     private fun initListener(){
         binding?.gvGridview?.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
-                if (!FastClickTools.isFastClick(view)){
+                if (!FastClickBroadTools.isFastClick(view)){
                     listener?.onItemClickListener(position)
                 }
             }
@@ -88,9 +88,9 @@ class VoiceMoreDialogAdapter(
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.voice_room_more_item_broad_layout, null)
         }
-        val icon = convertView!!.findViewById<AUIImageView>(R.id.ivItemIcon)
+        val icon = convertView!!.findViewById<AUIImageBroadView>(R.id.ivItemIcon)
         val title = convertView.findViewById<MaterialTextView>(R.id.mtItemTitle)
-        val status = convertView.findViewById<AUIImageView>(R.id.ivItemIconStatus)
+        val status = convertView.findViewById<AUIImageBroadView>(R.id.ivItemIconStatus)
         val item: VoiceMoreItemBean? = getItem(position)
         item.let {
             title.text = it?.ItemTitle

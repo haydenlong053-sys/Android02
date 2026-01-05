@@ -27,6 +27,7 @@ import com.cboda.baselibrary.utils.TimeBroadUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.example.asceneskit.AUIVoiceRoomBroadObserver
 import com.lxkj.aiim.bean.MeetingData
 import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.lj.QianbaoActivity
@@ -43,17 +44,16 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
 import com.example.asceneskit.R
-import com.example.asceneskit.AUIVoiceRoomBroadObserver
 import com.example.asceneskit.databinding.VoiceRoomBroadActivityBinding
 import com.example.asceneskit.impl.MeetingOperateBroadView
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
-import io.agora.auikit.ui.basic.AUIAlertDialog
-import io.agora.auikit.ui.basic.AUIAlertSecondDialog
-import io.agora.auikit.ui.micseats.MicSeatType
+import io.agora.auikit.ui.basic.AUIAlertBroadDialog
+import io.agora.auikit.ui.basic.AUIAlertSecondBroadDialog
+import io.agora.auikit.ui.micseats.MicSeatBroadType
 import io.agora.auikit.utils.AUILogger
-import io.agora.auikit.utils.PermissionHelp
+import io.agora.auikit.utils.PermissionBroadHelp
 import io.agora.rtc2.Constants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,7 +63,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
     private val mViewBinding by lazy { VoiceRoomBroadActivityBinding.inflate(layoutInflater) }
-    private val mPermissionHelp = PermissionHelp(this)
+    private val mPermissionHelp = PermissionBroadHelp(this)
     private  var countdownFlow: CountdownTimerFlow?=null
 
 
@@ -412,7 +412,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                                                         runOnUiThread { showJoiningLayout() }
                                                         mViewBinding.progress.setProgress(100,true)
                                                         mViewBinding.tvStatusTips.text="该会议室已销毁"
-//                                             AUIAlertDialog(this).apply {
+//                                             AUIAlertBroadDialog(this).apply {
 //                                                 setTitle("会议室状态异常")
 //                                                 setMessage("此会议室已销毁")
 //                                                 setPositiveButton("好的"){
@@ -500,7 +500,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                     userName = "会议主持${hostId}"
                     userAvatar = ""
                 }
-                micSeatStyle=MicSeatType.EightTag.value.toString()
+                micSeatStyle=MicSeatBroadType.EightTag.value.toString()
 
             }
             mViewBinding.tvRoomName.text=mHostRoomTitle
@@ -636,7 +636,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
 
     private fun onUserLeaveRoom() {
         val owner = (roomInfo?.owner?.userId == AUIRoomContext.shared().currentUserInfo.userId)
-        AUIAlertDialog(this).apply {
+        AUIAlertBroadDialog(this).apply {
 
             if (owner) {
                 setTitle("您要解散${roomInfo?.roomName}”吗？")
@@ -753,7 +753,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                 }
                 AppEventBroadCode.EVENT_MEETING_ADD_TIP->{
                     val postData = event.data as MeetingData
-                    AUIAlertSecondDialog(this).apply {
+                    AUIAlertSecondBroadDialog(this).apply {
                         setTitle("提示")
                         setMessage("还有10分钟结束,是否加时延长会议?")
                         if (postData.isNonPayPwd == true){
@@ -873,7 +873,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                                                 runOnUiThread { showJoiningLayout() }
                                                 mViewBinding.progress.setProgress(100,true)
                                                 mViewBinding.tvStatusTips.text="该会议室已销毁"
-//                                             AUIAlertDialog(this).apply {
+//                                             AUIAlertBroadDialog(this).apply {
 //                                                 setTitle("会议室状态异常")
 //                                                 setMessage("此会议室已销毁")
 //                                                 setPositiveButton("好的"){
@@ -948,7 +948,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
     fun checkOverlayPermission(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
-                AUIAlertDialog(this).apply {
+                AUIAlertBroadDialog(this).apply {
                     setTitle("缩小会议室")
                     setMessage("点击浮窗可回到这里哦")
                     setPositiveButton("好的"){

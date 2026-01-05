@@ -58,7 +58,7 @@ import com.lxkj.aiim.lj.NoticeListActivity
 import com.lxkj.aiim.lj.ScanActivity
 import com.lxkj.aiim.lj.configuration.CommonConfig
 import com.lxkj.aiim.lj.configuration.ScanJumpEnum
-import com.lxkj.aiim.lj.utils.ScreenUtil
+import com.lxkj.aiim.lj.utils.ScreenBroadUtil
 import com.lxkj.aiim.model.NoticeInfoBean
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.JumpUtils
@@ -381,7 +381,7 @@ class XiaoxiFragment : BaseLazyFragment() {
                     }
 
                 }
-                simplePagerTitleView.setWidth(ScreenUtil.getScreenWidth(context) / 6);
+                simplePagerTitleView.setWidth(ScreenBroadUtil.getScreenWidth(context) / 6);
                 return badgePagerTitleView
             }
 

@@ -33,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="request"/>
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/tab_bg"
             android:visibility="gone"
             android:background="?attr/aui_giftBottomDialog_tabLayout_tag_bg"

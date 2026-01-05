@@ -11,7 +11,7 @@ import com.lxkj.aiim.dialog.pop.SaveGroupQrCodePop
 import com.lxkj.aiim.lj.*
 import com.lxkj.aiim.lj.bean.AiCheckResultBean
 import com.lxkj.aiim.service.MeetingFloatService
-import io.agora.auikit.ui.basic.AUIAlertDialog
+import io.agora.auikit.ui.basic.AUIAlertBroadDialog
 import org.greenrobot.eventbus.EventBus
 
 
@@ -333,7 +333,7 @@ class JumpUtils {
         ) {
             context?.let { ctx ->
                 if (MeetingFloatService.isServiceRunning && MeetingFloatService.isFloatShow) {
-                    AUIAlertDialog(ctx).apply {
+                    AUIAlertBroadDialog(ctx).apply {
                         setTitle("已加入其他会议室")
                         setMessage("您当前正在其他会议室，是否退出当前所在会议室？")
                         setPositiveButton("确认退出") {

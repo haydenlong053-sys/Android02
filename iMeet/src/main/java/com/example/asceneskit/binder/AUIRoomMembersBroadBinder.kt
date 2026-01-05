@@ -14,10 +14,10 @@ import io.agora.auikit.model.AUIUserInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
 import io.agora.auikit.service.IAUIMicSeatService
 import io.agora.auikit.service.IAUIUserService
-import io.agora.auikit.ui.basic.AUIAlertDialog
-import io.agora.auikit.ui.basic.AUIBottomDialog
-import io.agora.auikit.ui.member.MemberInfo
-import io.agora.auikit.ui.member.listener.AUIRoomMembersActionListener
+import io.agora.auikit.ui.basic.AUIAlertBroadDialog
+import io.agora.auikit.ui.basic.AUIBottomBroadDialog
+import io.agora.auikit.ui.member.MemberBroadInfo
+import io.agora.auikit.ui.member.listener.AUIRoomMembersActionBroadListener
 
 class AUIRoomMembersBinder constructor(
     context: Context,
@@ -26,7 +26,7 @@ class AUIRoomMembersBinder constructor(
     listener: AUIRoomMemberEvent?,
 ) : IAUIBroadBindable,
     IAUIUserService.AUIUserRespObserver,
-    AUIRoomMembersActionListener,
+    AUIRoomMembersActionBroadListener,
     IAUIMicSeatService.AUIMicSeatRespObserver {
 
     private var userService: IAUIUserService?
@@ -87,7 +87,7 @@ class AUIRoomMembersBinder constructor(
         context?.let { showUserListDialog(it) }
     }
 
-    override fun onKickOutUser(view: View, user: MemberInfo?) {
+    override fun onKickOutUser(view: View, user: MemberBroadInfo?) {
         user?.let { listener?.kickUser(it) }
     }
 
@@ -97,11 +97,11 @@ class AUIRoomMembersBinder constructor(
     private fun showUserListDialog(context: Context) {
         dialogMemberView = MeetingMemberListBroadView(context)
         dialogMemberView?.setMembers(mMemberMap.values.toList().map {
-            MemberInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
+            MemberBroadInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
         }, mSeatMap)
         dialogMemberView?.setIsOwner(isOwner, roomInfo?.owner?.userId)
         dialogMemberView?.setMemberActionListener(object : MeetingMemberListBroadView.ActionListener {
-            override fun onKickClick(view: View, position: Int, user: MemberInfo?) {
+            override fun onKickClick(view: View, position: Int, user: MemberBroadInfo?) {
                 try {
                     val userId = user?.userId ?: return
                     if (isOwner) {
@@ -127,7 +127,7 @@ class AUIRoomMembersBinder constructor(
         })
 
         dialogMemberView.let {
-            AUIBottomDialog(context).apply {
+            AUIBottomBroadDialog(context).apply {
                 setBackground(null)
                 it?.let { it1 -> setCustomView(it1) }
                 show()
@@ -136,7 +136,7 @@ class AUIRoomMembersBinder constructor(
     }
 
     private fun showKickSureDialog(context: Context, confirm: ()->Unit) {
-        AUIAlertDialog(context).apply {
+        AUIAlertBroadDialog(context).apply {
             setTitle(R.string.voice_room_tip)
             setMessage(context.getString(R.string.voice_room_kick_sure_tip))
             setPositiveButton(context.getString(R.string.voice_room_confirm)){
@@ -173,7 +173,7 @@ class AUIRoomMembersBinder constructor(
             mMemberMap[userInfo.userId] = userInfo
         }
         memberView?.setMemberData(mMemberMap.values.toList().map {
-            MemberInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
+            MemberBroadInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
         })
     }
 
@@ -199,10 +199,10 @@ class AUIRoomMembersBinder constructor(
 
     private fun updateMemberView() {
         memberView?.setMemberData(mMemberMap.values.toList().map {
-            MemberInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
+            MemberBroadInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
         })
         dialogMemberView?.setMembers(mMemberMap.values.toList().map {
-            MemberInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
+            MemberBroadInfo(it?.userId ?: "", it?.userName ?: "", it?.userAvatar ?: "")
         }, mSeatMap)
     }
 
@@ -214,7 +214,7 @@ class AUIRoomMembersBinder constructor(
         open  fun showRoomOperate(){}
 
 
-        open  fun kickUser(member: MemberInfo?){}
+        open  fun kickUser(member: MemberBroadInfo?){}
     }
 
 }

@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <io.agora.auikit.ui.basic.AUIRecyclerView
+    <io.agora.auikit.ui.basic.AUIRecyclerBroadView
         android:id="@+id/rv_mic_seats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

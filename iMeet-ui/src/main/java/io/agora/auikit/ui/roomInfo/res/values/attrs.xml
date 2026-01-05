@@ -7,7 +7,7 @@
     <!--================= 样式属性 =================-->
 
     <!-- 房间信息样式 -->
-    <declare-styleable name="AUIRoomInfoView">
+    <declare-styleable name="AUIRoomInfoBroadView">
         <attr name="aui_roomInfo_appearance"/>
 
         <!-- ==根布局样式== -->

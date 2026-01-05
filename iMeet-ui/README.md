@@ -75,7 +75,7 @@ auikit-ui/src/main/java/io/agora/auikit/ui
 auikit-ui/src/main/java/io/agora/auikit/ui/basic
 ├── AUIAlertDialog.java                                 公用弹窗
 ├── AUIBottomDialog.java                                公用底部弹窗
-├── AUIButton.java                                      公用按钮
+├── AUIBroadButton.java                                      公用按钮
 ├── AUIDividers.java                                    公用分隔线
 ├── AUIEditText.java                                    公用输入框
 ├── AUINavigationBar.java                               公用底部导航栏
@@ -482,7 +482,7 @@ auikit-ui/src/main/java/io/agora/auikit/ui/basic
 ### <span>**`基础ui组件`**</span>
 #### **Button**
 
-按钮控件 -> [AUIButton](../auikit-ui/src/main/java/io/agora/auikit/ui/basic/AUIButton.java)
+按钮控件 -> [AUIButton](../auikit-ui/src/main/java/io/agora/auikit/ui/basic/AUIBroadButton.java)
 按钮自定义属性 -> [AUIButtonAttrs](../auikit-ui/src/main/java/io/agora/auikit/ui/basic/res/values/attrs_aui_button.xml)
 按钮默认样式 -> [AUIButtonwStyle](../auikit-ui/src/main/java/io/agora/auikit/ui/basic/res/values/attrs_aui_button.xml)
 

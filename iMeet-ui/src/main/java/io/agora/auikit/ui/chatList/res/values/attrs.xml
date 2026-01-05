@@ -13,7 +13,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="AUIChatListView">
+    <declare-styleable name="AUIChatListBroadView">
         <attr name="aui_chatListView_appearance"/>
 
         <attr name="aui_barrage_normal_title_tag_icon" format="reference"/>

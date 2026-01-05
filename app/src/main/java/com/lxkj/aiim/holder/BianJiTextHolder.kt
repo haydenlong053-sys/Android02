@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.lxkj.aiim.R
-import com.lxkj.aiim.utils.KeyboardUtils
+import com.lxkj.aiim.utils.KeyboardBroadUtils
 import com.lxkj.aiim.utils.PixelUtils
 import com.lxkj.aiim.widge.LiXInCenterDialog
 
@@ -41,7 +41,7 @@ class BianJiTextHolder(private val activity: Context?, private val mTitle: Strin
                     }
                     dialog?.dismiss()
                     callBack?.onClickConfim(edtBeizhu?.text?.trim()?.toString() ?: "")
-                    KeyboardUtils.closeSoftKeyboard(activity,edtBeizhu)
+                    KeyboardBroadUtils.closeSoftKeyboard(activity,edtBeizhu)
                 }
                 view.findViewById<View>(R.id.tvNotAgree)?.setOnClickListener {
                     dialog?.dismiss()

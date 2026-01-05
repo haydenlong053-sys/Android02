@@ -160,7 +160,7 @@ dependencies {
 //    api project(':pttclient')
     api project(':uikit')
     api project(':iMeet')
-    //    api project(':uvccamera')
+//    api project(':uvccamera')
 //    api project(':webrtc')
 
 

@@ -21,7 +21,7 @@
         android:visibility="?attr/aui_upperRight_memberRankVisibility"
         android:orientation="horizontal">
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/ivMember1"
             android:layout_width="?attr/aui_upperRight_member_item_width"
             android:layout_height="?attr/aui_upperRight_member_item_height"
@@ -32,7 +32,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:shapeAppearance="@style/aui_member_seat_roundStyle" />
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/ivMember2"
             android:layout_width="?attr/aui_upperRight_member_item_width"
             android:layout_height="?attr/aui_upperRight_member_item_height"
@@ -43,7 +43,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:shapeAppearance="@style/aui_member_seat_roundStyle" />
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/ivMember3"
             android:layout_width="?attr/aui_upperRight_member_item_width"
             android:layout_height="?attr/aui_upperRight_member_item_height"
@@ -78,12 +78,12 @@
         android:background="?attr/aui_upperRight_count_background"
         />
 
-    <io.agora.auikit.ui.basic.AUIButton
+    <io.agora.auikit.ui.basic.AUIBroadButton
         android:id="@+id/btnUserMore"
         app:layout_constraintStart_toEndOf="@+id/ivRoomCount"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/AUIButton.Circle"
+        style="@style/AUIBroadButton.Circle"
         android:layout_width="?attr/aui_roomMoreUser_width"
         android:layout_height="?attr/aui_roomMoreUser_height"
         android:layout_marginStart="?attr/aui_roomMoreUser_marginStart"
@@ -91,12 +91,12 @@
         app:aui_button_background="@drawable/aui_member_btn_bg"
         app:aui_button_drawableCenter="?attr/aui_roomMoreUser_drawable" />
 
-    <io.agora.auikit.ui.basic.AUIButton
+    <io.agora.auikit.ui.basic.AUIBroadButton
         android:id="@+id/btnShutDown"
         app:layout_constraintStart_toEndOf="@+id/btnUserMore"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/AUIButton.Circle"
+        style="@style/AUIBroadButton.Circle"
         android:layout_width="?attr/aui_roomClose_width"
         android:layout_height="?attr/aui_roomClose_height"
         android:layout_marginStart="?attr/aui_roomClose_marginStart"

@@ -9,7 +9,7 @@
 
 
     <!--================= 样式属性 =================-->
-    <declare-styleable name="AUIMusicPlayerView">
+    <declare-styleable name="AUIMusicPlayerBroadView">
         <attr name="aui_musicPlayer_appearance" />
         <!--  cardBackgroundColor      -->
         <attr name="aui_musicPlayer_backgroundColor" format="color" />
@@ -63,7 +63,7 @@
     </declare-styleable>
 
     <!-- 弹框样式 -->
-    <declare-styleable name="AUIMusicPlayerControllerDialogView">
+    <declare-styleable name="AUIMusicPlayerControllerDialogBroadView">
         <attr name="aui_musicPlayerControllerDialog_appearance" />
 
         <!--   背景     -->
@@ -81,7 +81,7 @@
         <attr name="aui_musicPlayerControllerDialog_seekbarThumb" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="AUIMusicPlayerPresetDialogView">
+    <declare-styleable name="AUIMusicPlayerPresetDialogBroadView">
         <attr name="aui_musicPlayerPresetDialog_titleTextColor" format="color"/>
     </declare-styleable>
 
@@ -96,7 +96,7 @@
         <attr name="aui_musicPlayerEffectPresetItem_textColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="AUIMusicPlayerGradeView">
+    <declare-styleable name="AUIMusicPlayerGradeBroadView">
         <attr name="aui_musicPlayerGradeView_backgroundColor" format="color"/>
         <attr name="aui_musicPlayerGradeView_contentStartColor" format="color"/>
         <attr name="aui_musicPlayerGradeView_contentMiddleColor" format="color"/>

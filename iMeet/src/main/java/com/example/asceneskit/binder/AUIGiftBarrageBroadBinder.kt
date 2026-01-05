@@ -13,8 +13,8 @@ import io.agora.auikit.service.IAUIGiftsService
 import io.agora.auikit.service.im.AUIChatManager
 import io.agora.auikit.ui.gift.AUIGiftInfo
 import io.agora.auikit.ui.gift.AUIGiftTabInfo
-import io.agora.auikit.ui.gift.IAUIGiftBarrageView
-import io.agora.auikit.ui.gift.impl.dialog.AUiGiftListView
+import io.agora.auikit.ui.gift.IAUIGiftBarrageBroadView
+import io.agora.auikit.ui.gift.impl.dialog.AUiGiftListBroadView
 import io.agora.auikit.utils.ThreadManager
 import org.libpag.PAGFile
 import org.libpag.PAGView
@@ -25,7 +25,7 @@ import java.security.MessageDigest
 
 class AUIGiftBarrageBinder constructor(
     private val activity: FragmentActivity?,
-    private val giftView: IAUIGiftBarrageView,
+    private val giftView: IAUIGiftBarrageBroadView,
     private val data:List<AUIGiftTabEntity>,
     private val giftService: IAUIGiftsService,
     private val chatManager: AUIChatManager
@@ -49,7 +49,7 @@ class AUIGiftBarrageBinder constructor(
 
     fun showBottomGiftDialog(){
         activity?.let {
-            val dialog = AUiGiftListView(it, data.map {tabEntity ->
+            val dialog = AUiGiftListBroadView(it, data.map {tabEntity ->
                 AUIGiftTabInfo(
                     tabEntity.tabId, tabEntity.displayName ?: "", tabEntity.gifts.map { entity ->
                         AUIGiftInfo(
@@ -61,7 +61,7 @@ class AUIGiftBarrageBinder constructor(
                     }
                 )
             })
-            dialog.setDialogActionListener(object : AUiGiftListView.ActionListener{
+            dialog.setDialogActionListener(object : AUiGiftListBroadView.ActionListener{
                 override fun onGiftSend(bean: AUIGiftInfo?) {
                     bean?.let { it1 ->
                         val giftEntity = AUIGiftEntity(

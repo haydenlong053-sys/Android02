@@ -25,21 +25,21 @@ import io.agora.auikit.model.AUIUserThumbnailInfo;
 import io.agora.auikit.service.IAUIInvitationService;
 import io.agora.auikit.service.IAUIMicSeatService;
 import io.agora.auikit.service.IAUIUserService;
-import io.agora.auikit.ui.basic.AUIAlertDialog;
-import io.agora.auikit.ui.micseats.IMicSeatDialogView;
-import io.agora.auikit.ui.micseats.IMicSeatItemView;
-import io.agora.auikit.ui.micseats.IMicSeatsView;
-import io.agora.auikit.ui.micseats.MicSeatStatus;
+import io.agora.auikit.ui.basic.AUIAlertBroadDialog;
+import io.agora.auikit.ui.micseats.IMicSeatDialogBroadView;
+import io.agora.auikit.ui.micseats.IMicSeatItemBroadView;
+import io.agora.auikit.ui.micseats.IMicSeatsBroadView;
+import io.agora.auikit.ui.micseats.MicSeatBroadStatus;
 import io.agora.auikit.utils.AUILogger;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
 
 public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         IAUIBroadBindable,
-        IMicSeatsView.ActionDelegate,
+        IMicSeatsBroadView.ActionDelegate,
         IAUIMicSeatService.AUIMicSeatRespObserver,
         IAUIUserService.AUIUserRespObserver {
-    private final IMicSeatsView micSeatsView;
+    private final IMicSeatsBroadView micSeatsView;
     private final IAUIUserService userService;
     private final IAUIMicSeatService micSeatService;
     private final IAUIInvitationService invitationService;
@@ -49,12 +49,12 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
     private Map<Integer, String> mSeatMap = new HashMap();
     private Map<String,Integer> mVolumeMap = new HashMap();
     private Context context;
-    private AUIAlertDialog auiAlertDialog;
+    private AUIAlertBroadDialog auiAlertDialog;
 
 
     public AUIMicSeatsBroadBinder(
             Context context,
-            IMicSeatsView micSeatsView,
+            IMicSeatsBroadView micSeatsView,
             AUIVoiceRoomBroadService voiceService) {
         this.userService = voiceService.getUserService();
         this.micSeatsView = micSeatsView;
@@ -66,8 +66,8 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         mSeatMap.put(0,roomContext.getRoomOwner(micSeatService.getChannelName()));
         mVolumeMap.put(roomContext.getRoomOwner(micSeatService.getChannelName()),0);
 
-        // update view
-        IMicSeatItemView[] seatViewList = micSeatsView.getMicSeatItemViewList();
+        // update view  micSeatsView.getMicSeatItemViewList();
+        IMicSeatItemBroadView[] seatViewList = micSeatsView.getMicSeatItemViewList();
         for (int seatIndex = 0; seatIndex < seatViewList.length; seatIndex++) {
             updateSeatView(seatIndex);
         }
@@ -123,7 +123,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         AUIUserInfo auiUserInfo = userService.getUserInfo(userInfo.userId);
         mSeatMap.put(seatIndex,userInfo.userId);
         mVolumeMap.put(userInfo.userId,seatIndex);
-        IMicSeatItemView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
+        IMicSeatItemBroadView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
         if (auiUserInfo != null){
             seatView.setTitleText(auiUserInfo.userName);
             seatView.setUserAvatarImageUrl(auiUserInfo.userAvatar);
@@ -151,7 +151,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         if(seatIndex >=  micSeatsView.getMicSeatItemViewList().length){
             return;
         }
-        IMicSeatItemView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
+        IMicSeatItemBroadView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
         // 使用旧的方法保持兼容性
         seatView.setAudioMuteVisibility(isMute ? View.VISIBLE : View.GONE);
 
@@ -182,13 +182,13 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
             return;
         }
         AUIMicSeatInfo seatInfo = micSeatService.getMicSeatInfo(seatIndex);
-        IMicSeatItemView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
+        IMicSeatItemBroadView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
         if (seatInfo.seatStatus == AUIMicSeatStatus.idle) {
-            seatView.setMicSeatState(MicSeatStatus.idle);
+            seatView.setMicSeatState(MicSeatBroadStatus.idle);
         } else if (seatInfo.seatStatus == AUIMicSeatStatus.locked) {
-            seatView.setMicSeatState(MicSeatStatus.locked);
+            seatView.setMicSeatState(MicSeatBroadStatus.locked);
         } else {
-            seatView.setMicSeatState(MicSeatStatus.used);
+            seatView.setMicSeatState(MicSeatBroadStatus.used);
         }
 
         micSeatsView.stopRippleAnimation(seatIndex);
@@ -199,7 +199,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
             return;
         }
         AUIMicSeatInfo micSeatInfo = micSeatService.getMicSeatInfo(seatIndex);
-        IMicSeatItemView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
+        IMicSeatItemBroadView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
 
         // 检查麦位是否为空
         boolean isSeatEmpty = micSeatInfo == null || micSeatInfo.seatStatus == AUIMicSeatStatus.idle ||
@@ -209,7 +209,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
             // 麦位为空时显示麦位编号
             seatView.setTitleIndex(seatIndex + 1);
             seatView.setUserAvatarImageDrawable(null);
-            seatView.setChorusMicOwnerType(IMicSeatItemView.ChorusType.None);
+            seatView.setChorusMicOwnerType(IMicSeatItemBroadView.ChorusType.None);
             seatView.setAudioMuteNewVisibility(View.GONE, false);
             seatView.setRoomOwnerVisibility((seatIndex == 0) ? View.VISIBLE : View.GONE);
             return;
@@ -226,7 +226,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         seatView.setRoomOwnerVisibility((seatIndex == 0) ? View.VISIBLE : View.GONE);
 
         if (micSeatInfo.seatStatus == AUIMicSeatStatus.locked){
-            seatView.setMicSeatState(MicSeatStatus.locked);
+            seatView.setMicSeatState(MicSeatBroadStatus.locked);
         }
 
         boolean isAudioMute = micSeatInfo.muteAudio;
@@ -256,12 +256,12 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         }
 
         seatView.setUserAvatarImageUrl(micSeatInfo.user.userAvatar);
-        seatView.setChorusMicOwnerType(IMicSeatItemView.ChorusType.None);
+        seatView.setChorusMicOwnerType(IMicSeatItemBroadView.ChorusType.None);
     }
 
-    /** AUIMicSeatDialogView.ActionDelegate implements. */
+    /** AUIMicSeatDialogBroadView.ActionDelegate implements. */
     @Override
-    public boolean onClickSeat(int index, IMicSeatDialogView dialogView) {
+    public boolean onClickSeat(int index, IMicSeatDialogBroadView dialogView) {
         AUIMicSeatInfo seatInfo = micSeatService.getMicSeatInfo(index);
         if (seatInfo == null){ return false;}
         if(seatInfo.user != null){
@@ -339,7 +339,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
     }
 
     public void showEnterDialog(int index) {
-        auiAlertDialog = new AUIAlertDialog(context);
+        auiAlertDialog = new AUIAlertBroadDialog(context);
         auiAlertDialog.setTitle(context.getString(R.string.voice_room_apply_action));
         auiAlertDialog.setMessage(context.getString(R.string.voice_room_apply_micSeat,index+1));
         auiAlertDialog.setPositiveButton(context.getString(R.string.voice_room_confirm), view -> {
@@ -446,7 +446,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
                     @Override
                     public void run() {
                         // update view
-                        IMicSeatItemView[] seatViewList = micSeatsView.getMicSeatItemViewList();
+                        IMicSeatItemBroadView[] seatViewList = micSeatsView.getMicSeatItemViewList();
                         for (int seatIndex = 0; seatIndex < seatViewList.length; seatIndex++) {
                             updateSeatView(seatIndex);
                         }

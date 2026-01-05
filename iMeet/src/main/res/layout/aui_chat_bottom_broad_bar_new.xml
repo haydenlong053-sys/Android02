@@ -37,7 +37,7 @@
            android:background="@drawable/bg_meeting_broad_close"
            android:layout_width="40dp"
            android:layout_height="40dp">
-           <io.agora.auikit.ui.basic.AUIImageView
+           <io.agora.auikit.ui.basic.AUIImageBroadView
                android:id="@+id/iv_manager"
                android:src="@drawable/ic_voice_bottom_manager"
                app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
             android:background="@drawable/bg_meeting_broad_close"
             android:layout_width="40dp"
             android:layout_height="40dp">
-            <io.agora.auikit.ui.basic.AUIImageView
+            <io.agora.auikit.ui.basic.AUIImageBroadView
                 android:id="@+id/iv_mic"
                 android:src="@drawable/ic_voice_bottom_mic_on"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toTopOf="@+id/vKeyboardBg"
         android:layout_height="55dp">
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/mic_icon"
             style="@style/ShapeAppearance.MaterialComponents.RoundComponent"
             android:layout_width="24dp"
@@ -144,7 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="22dp"/>
 
-            <io.agora.auikit.ui.basic.AUIImageView
+            <io.agora.auikit.ui.basic.AUIImageBroadView
                 android:id="@+id/icon_emoji"
                 android:src="@drawable/voice_icon_face"
                 android:layout_marginEnd="9dp"
@@ -172,7 +172,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <io.agora.auikit.ui.chatBottomBar.impl.AUIEmojiView
+    <io.agora.auikit.ui.chatBottomBar.impl.AUIEmojiBroadView
         android:id="@+id/expression_view"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -12,22 +12,22 @@ import io.agora.auikit.model.AUIUserThumbnailInfo
 import io.agora.auikit.service.IAUIInvitationService
 import io.agora.auikit.service.IAUIMicSeatService
 import io.agora.auikit.service.IAUIUserService
-import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarView
-import io.agora.auikit.ui.chatBottomBar.listener.AUIMenuItemClickListener
-import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeListener
-import io.agora.auikit.ui.chatList.AUIChatInfo
-import io.agora.auikit.ui.chatList.IAUIChatListView
-import io.agora.auikit.ui.micseats.IMicSeatsView
-import io.agora.auikit.utils.FastClickTools
+import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import io.agora.auikit.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
+import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import io.agora.auikit.ui.chatList.AUIChatBroadInfo
+import io.agora.auikit.ui.chatList.IAUIChatListBroadView
+import io.agora.auikit.ui.micseats.IMicSeatsBroadView
+import io.agora.auikit.utils.FastClickBroadTools
 
 class AUIChatBottomBarBinder constructor(
     private val voiceService: AUIVoiceRoomBroadService,
-    private val chatBottomBarView: IAUIChatBottomBarView,
-    private val chatList: IAUIChatListView,
-    private val micSeatsView: IMicSeatsView,
+    private val chatBottomBarView: IAUIChatBottomBarBroadView,
+    private val chatList: IAUIChatListBroadView,
+    private val micSeatsView: IMicSeatsBroadView,
     private val event: AUIChatBottomBarEventDelegate?
 ) : IAUIBroadBindable,
-    AUIMenuItemClickListener,
+    AUIMenuItemClickBroadListener,
     IAUIUserService.AUIUserRespObserver,
     IAUIMicSeatService.AUIMicSeatRespObserver,
     IAUIInvitationService.AUIInvitationRespObserver {
@@ -39,7 +39,7 @@ class AUIChatBottomBarBinder constructor(
     private val imManagerService = voiceService.imManagerService
     private val chatManager = voiceService.chatManager
 
-    private var listener: AUISoftKeyboardHeightChangeListener? = null
+    private var listener: AUISoftKeyboardHeightChangeBroadListener? = null
     private var roomContext = AUIRoomContext.shared()
     private var mLocalMute = true
     private val mVolumeMap: HashMap<String, Int> = HashMap()
@@ -105,11 +105,11 @@ class AUIChatBottomBarBinder constructor(
         chatBottomBarView.setShowMoreStatus(isOwner, status)
     }
 
-    override fun setSoftKeyBoardHeightChangedListener(listener: AUISoftKeyboardHeightChangeListener) {
+    override fun setSoftKeyBoardHeightChangedListener(listener: AUISoftKeyboardHeightChangeBroadListener) {
         this.listener = listener
     }
 
-    fun getSoftKeyboardHeightChangeListener(): AUISoftKeyboardHeightChangeListener? {
+    fun getSoftKeyboardHeightChangeListener(): AUISoftKeyboardHeightChangeBroadListener? {
         return listener
     }
 
@@ -117,7 +117,7 @@ class AUIChatBottomBarBinder constructor(
         when (itemId) {
             R.id.voice_extend_item_more -> {
                 //自定义预留
-                if (view?.let { FastClickTools.isFastClick(it) } == true) return
+                if (view?.let { FastClickBroadTools.isFastClick(it) } == true) return
                 chatBottomBarView.setShowMoreStatus(isRoomOwner, false)
                 event?.onClickMore(view)
             }
@@ -153,7 +153,7 @@ class AUIChatBottomBarBinder constructor(
             }
 
             R.id.voice_extend_item_gift -> {
-                if (view?.let { FastClickTools.isFastClick(it) } == true) return
+                if (view?.let { FastClickBroadTools.isFastClick(it) } == true) return
                 //点击下方礼物按钮 弹出送礼菜单
                 event?.onClickGift(view)
             }
@@ -173,7 +173,7 @@ class AUIChatBottomBarBinder constructor(
         ) { _, error ->
             if(error == null){
                 chatList.refreshSelectLast(chatManager.getMsgList().map {
-                    AUIChatInfo(
+                    AUIChatBroadInfo(
                         it.user?.userId ?: "", it.user?.userName ?: "",
                         it.content, it.joined
                     )

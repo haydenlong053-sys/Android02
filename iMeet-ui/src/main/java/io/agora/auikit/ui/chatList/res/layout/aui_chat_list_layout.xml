@@ -7,7 +7,7 @@
     android:paddingBottom="3dp"
     >
 
-    <io.agora.auikit.ui.basic.AUIRecyclerView
+    <io.agora.auikit.ui.basic.AUIRecyclerBroadView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

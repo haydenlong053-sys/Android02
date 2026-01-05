@@ -10,7 +10,7 @@
     <!--================= 样式属性 =================-->
 
     <!-- 点唱机样式 -->
-    <declare-styleable name="AUIJukeboxView">
+    <declare-styleable name="AUIJukeboxBroadView">
         <attr name="aui_jukebox_appearance"/>
 
         <!-- 背景 -->
@@ -67,7 +67,7 @@
 
 
     <!-- 点唱机点歌样式 -->
-    <declare-styleable name="AUIJukeboxChooseView">
+    <declare-styleable name="AUIJukeboxChooseBroadView">
         <attr name="aui_jukeboxChoose_appearance"/>
 
         <!-- 搜索输入框 -->
@@ -116,7 +116,7 @@
     </style>
 
     <!-- 点唱机歌曲样式 -->
-    <declare-styleable name="AUIJukeboxChooseItemView">
+    <declare-styleable name="AUIJukeboxChooseItemBroadView">
         <attr name="aui_jukeboxChooseItem_appearance"/>
 
         <attr name="aui_jukeboxChooseItem_paddingHorizontal" format="dimension"/>
@@ -152,7 +152,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="AUIJukeboxChosenView">
+    <declare-styleable name="AUIJukeboxChosenBroadView">
         <attr name="aui_jukeboxChosen_appearance"/>
 
         <!-- 列表分隔线 -->
@@ -167,7 +167,7 @@
     </style>
 
     <!-- 点唱机已点歌曲样式 -->
-    <declare-styleable name="AUIJukeboxChosenItemView">
+    <declare-styleable name="AUIJukeboxChosenItemBroadView">
         <attr name="aui_jukeboxChosenItem_appearance"/>
 
         <attr name="aui_jukeboxChosenItem_paddingHorizontal" format="dimension"/>

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="?attr/aui_jukeboxChosen_appearance">
 
-    <io.agora.auikit.ui.basic.AUIRecyclerView
+    <io.agora.auikit.ui.basic.AUIRecyclerBroadView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

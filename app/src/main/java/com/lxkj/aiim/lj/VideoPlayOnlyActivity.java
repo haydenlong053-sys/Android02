@@ -92,7 +92,7 @@ public class VideoPlayOnlyActivity extends BaseSimpleActivity {
 //        if (thumbnail!=null &&thumbnail.getWidth()>0 && thumbnail.getHeight()>0){
 //            ELogUtilKt.eLogD("zhanglong","w=="+thumbnail.getWidth());
 //            ELogUtilKt.eLogD("zhanglong","h=="+thumbnail.getHeight());
-//            int screenWidth = ScreenUtil.getScreenWidth(this);
+//            int screenWidth = ScreenBroadUtil.getScreenWidth(this);
 //
 //            mIvTemp.getLayoutParams().height = screenWidth/ thumbnail.getWidth() *thumbnail.getHeight();
 //        }

@@ -33,7 +33,7 @@
         android:textColor="#94A3B8"
         />
 
-    <io.agora.auikit.ui.basic.AUIImageView
+    <io.agora.auikit.ui.basic.AUIImageBroadView
         android:id="@+id/icon_system"
         android:visibility="gone"
         android:src="?attr/aui_barrage_system_endIcon_resource"

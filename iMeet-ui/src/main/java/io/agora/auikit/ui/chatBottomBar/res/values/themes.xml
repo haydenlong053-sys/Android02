@@ -5,8 +5,8 @@
         <item name="aui_chatBottomView_appearance">@style/AUIChatBottomView.Appearance</item>
     </style>
 
-    <style name="Theme.AUIKit.AUIEmojiView">
-        <item name="aui_emojiView_appearance">@style/AUIEmojiView.Appearance</item>
+    <style name="Theme.AUIKit.AUIEmojiBroadView">
+        <item name="aui_emojiView_appearance">@style/AUIEmojiBroadView.Appearance</item>
     </style>
 
 

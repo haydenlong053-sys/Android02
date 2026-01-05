@@ -5,8 +5,8 @@
         <item name="aui_chatListView_appearance">@style/AUIChatBottomView.Appearance.Dark</item>
     </style>
 
-    <style name="Theme.AUIKit.AUIEmojiView.Dark">
-        <item name="aui_emojiView_appearance">@style/AUIEmojiView.Appearance.Dark</item>
+    <style name="Theme.AUIKit.AUIEmojiBroadView.Dark">
+        <item name="aui_emojiView_appearance">@style/AUIEmojiBroadView.Appearance.Dark</item>
     </style>
 
     <style name="AUIChatBottomView.Appearance.Dark" parent="AUIChatBottomView.Appearance">
@@ -24,7 +24,7 @@
 
     </style>
 
-    <style name="AUIEmojiView.Appearance.Dark" parent="AUIEmojiView.Appearance">
+    <style name="AUIEmojiBroadView.Appearance.Dark" parent="AUIEmojiBroadView.Appearance">
         <item name="aui_emoji_view_background">@color/voice_black_171A1C</item>
         <item name="aui_emoji_backspace">@drawable/voice_icon_backspace_dark</item>
     </style>

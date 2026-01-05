@@ -16,7 +16,7 @@
         android:layout_width="84dp"
         android:layout_height="110dp">
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/iv_gift"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <io.agora.auikit.ui.basic.AUIImageView
+            <io.agora.auikit.ui.basic.AUIImageBroadView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:src="?attr/aui_giftBottomDialog_gift_subtitle_icon"/>

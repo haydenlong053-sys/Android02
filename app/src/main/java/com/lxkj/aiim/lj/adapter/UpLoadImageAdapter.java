@@ -12,7 +12,7 @@ import com.lxkj.aiim.R;
 import com.lxkj.aiim.lj.utils.AppUtil;
 import com.lxkj.aiim.lj.utils.GlideUtil;
 import com.lxkj.aiim.lj.utils.MediaFile;
-import com.lxkj.aiim.lj.utils.ScreenUtil;
+import com.lxkj.aiim.lj.utils.ScreenBroadUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class UpLoadImageAdapter extends RecyclerView.Adapter<UpLoadImageAdapter.
             }
         });
         ViewGroup.LayoutParams layoutParams = holder.ivImage.getLayoutParams();
-        layoutParams.width = (ScreenUtil.getScreenWidth(context) - AppUtil.dip2px(context, space)) / 3;
+        layoutParams.width = (ScreenBroadUtil.getScreenWidth(context) - AppUtil.dip2px(context, space)) / 3;
         layoutParams.height = layoutParams.width;
         holder.ivImage.setLayoutParams(layoutParams);
         if (position == list.size()) {

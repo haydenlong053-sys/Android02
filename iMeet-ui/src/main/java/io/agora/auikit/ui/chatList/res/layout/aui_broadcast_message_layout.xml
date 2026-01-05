@@ -11,7 +11,7 @@
     android:visibility="gone"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <io.agora.auikit.ui.basic.AUIImageView
+    <io.agora.auikit.ui.basic.AUIImageBroadView
         android:id="@+id/icon_horn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <io.agora.auikit.ui.chatList.impl.AUIBroadcastMessageView
+    <io.agora.auikit.ui.chatList.impl.AUIBroadcastMessageBroadView
         android:id="@+id/content"
         app:layout_constraintLeft_toRightOf="@+id/icon_horn"
         app:layout_constraintTop_toTopOf="parent"

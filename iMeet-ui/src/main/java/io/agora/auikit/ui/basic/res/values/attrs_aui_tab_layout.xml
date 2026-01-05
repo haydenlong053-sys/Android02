@@ -4,7 +4,7 @@
     <attr name="aui_tabLayout_appearance" format="reference"/>
     <attr name="aui_tabLayout_appearance_round" format="reference"/>
 
-    <declare-styleable name="AUITabLayout">
+    <declare-styleable name="AUITabBroadLayout">
         <attr name="android:background" format="color|reference" />
         <attr name="android:padding" format="dimension" />
 
@@ -96,7 +96,7 @@
         <attr name="aui_tabLayoutMenu_dotPaddingBottom" format="dimension" />
     </declare-styleable>
 
-    <style name="AUITabLayout">
+    <style name="AUITabBroadLayout">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">0dp</item>
 
@@ -116,11 +116,11 @@
 
         <!-- ====== Menu配置 ====== -->
         <item name="aui_tabLayout_menu">@menu/aui_tab_menu</item>
-        <item name="aui_tabLayout_menu_appearance">@style/AUITabLayoutMenu</item>
+        <item name="aui_tabLayout_menu_appearance">@style/AUITabLayoutBroadMenu</item>
 
     </style>
 
-    <style name="AUITabLayoutMenu">
+    <style name="AUITabLayoutBroadMenu">
         <!-- 布局id -->
         <item name="aui_tabLayoutMenu_layout">@layout/aui_tab_layout_item</item>
 
@@ -157,17 +157,17 @@
         <item name="aui_tabLayoutMenu_dotPaddingBottom">3dp</item>
     </style>
 
-    <style name="AUITabLayout.Round">
+    <style name="AUITabBroadLayout.Round">
         <item name="android:background">@drawable/aui_tab_layout_round_background</item>
         <item name="android:padding">1dp</item>
         <item name="aui_tabLayout_dividerHeight">0dp</item>
         <item name="aui_tabLayout_indicator">@drawable/aui_tab_layout_round_indicator</item>
         <item name="aui_tabLayout_indicatorFullWidth">true</item>
         <item name="aui_tabLayout_indicatorGravity">stretch</item>
-        <item name="aui_tabLayout_menu_appearance">@style/AUITabLayoutMenu.Round</item>
+        <item name="aui_tabLayout_menu_appearance">@style/AUITabLayoutBroadMenu.Round</item>
     </style>
 
-    <style name="AUITabLayoutMenu.Round">
+    <style name="AUITabLayoutBroadMenu.Round">
         <item name="aui_tabLayoutMenu_titleTextColor">@color/aui_primary</item>
         <item name="aui_tabLayoutMenu_titleTextColorSelected">@color/aui_white</item>
         <item name="aui_tabLayoutMenu_iconTintSelected">@color/aui_white</item>

@@ -127,7 +127,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="AUIRoomMemberListView">
+    <declare-styleable name="AUIRoomMemberListBroadView">
 
         <attr name="aui_memberInfoList_title_textColor" format="color"/>
 

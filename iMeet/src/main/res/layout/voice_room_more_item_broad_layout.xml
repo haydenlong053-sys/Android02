@@ -7,7 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <io.agora.auikit.ui.basic.AUIImageView
+    <io.agora.auikit.ui.basic.AUIImageBroadView
         android:id="@+id/ivItemIcon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,7 +33,7 @@
         android:textSize="12sp"
         tools:text="Application  List" />
 
-    <io.agora.auikit.ui.basic.AUIImageView
+    <io.agora.auikit.ui.basic.AUIImageBroadView
         android:id="@+id/ivItemIconStatus"
         app:layout_constraintTop_toTopOf="@+id/ivItemIcon"
         app:layout_constraintRight_toRightOf="@+id/ivItemIcon"

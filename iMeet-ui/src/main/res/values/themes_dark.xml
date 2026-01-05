@@ -34,11 +34,11 @@
 
         <item name="aui_roomInfo_appearance">@style/AUIRoomInfo.Appearance.Dark</item>
         <item name="aui_memberInfo_appearance">@style/AUIMemberInfo.Appearance.Dark</item>
-        <item name="aui_memberInfoList_appearance">@style/AUIRoomMemberListView.Dark</item>
+        <item name="aui_memberInfoList_appearance">@style/AUIRoomMemberListBroadView.Dark</item>
         <item name="aui_chatBottomView_appearance">@style/AUIChatBottomView.Appearance.Dark</item>
-        <item name="aui_emojiView_appearance">@style/AUIEmojiView.Appearance.Dark</item>
-        <item name="aui_chatListView_appearance">@style/AUIChatListView.Appearance.Dark</item>
-        <item name="aui_giftBarrage_appearance">@style/AUIGiftBarrageView.Appearance.Dark</item>
+        <item name="aui_emojiView_appearance">@style/AUIEmojiBroadView.Appearance.Dark</item>
+        <item name="aui_chatListView_appearance">@style/AUIChatListBroadView.Appearance.Dark</item>
+        <item name="aui_giftBarrage_appearance">@style/AUIGiftBarrageBroadView.Appearance.Dark</item>
         <item name="aui_giftBottomDialog_appearance">@style/AUIGiftBottomDialog.Appearance.Dark</item>
         <item name="aui_action_appearance">@style/AUIAction.Appearance.Dark</item>
 
@@ -59,7 +59,7 @@
         <item name="aui_musicPlayerEffectPresetItem_textColor">@color/aui_white</item>
     </style>
 
-    <style name="AUIRoomMemberListView.Dark">
+    <style name="AUIRoomMemberListBroadView.Dark">
         <item name="aui_memberInfoList_title_textColor">#F9FAFA</item>
         <item name="aui_memberInfoList_userName_textColor">#F9FAFA</item>
         <item name="aui_memberInfoList_userNameInfo_textColor">#919BA1</item>

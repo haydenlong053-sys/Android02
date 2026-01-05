@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.AUIKit.AUIGiftBarrageView.Dark">
-        <item name="aui_giftBarrage_appearance">@style/AUIGiftBarrageView.Appearance.Dark</item>
+    <style name="Theme.AUIKit.AUIGiftBarrageBroadView.Dark">
+        <item name="aui_giftBarrage_appearance">@style/AUIGiftBarrageBroadView.Appearance.Dark</item>
     </style>
 
-    <style name="AUIGiftBarrageView.Appearance.Dark" parent="AUIGiftBarrageView.Appearance">
+    <style name="AUIGiftBarrageBroadView.Appearance.Dark" parent="AUIGiftBarrageBroadView.Appearance">
         <item name="aui_giftBarrage_layout_bg">@drawable/aui_gift_widget_bg_dark</item>
     </style>
 

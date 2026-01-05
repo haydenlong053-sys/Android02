@@ -97,7 +97,7 @@
 
     </declare-styleable>
 
-    <declare-styleable name="AUIEmojiView">
+    <declare-styleable name="AUIEmojiBroadView">
         <attr name="aui_emojiView_appearance"/>
 
         <attr name="aui_emoji_view_background" format="color|reference"/>

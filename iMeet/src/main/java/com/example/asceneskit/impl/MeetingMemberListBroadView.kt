@@ -14,9 +14,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.MeetingListViewBroadLayoutBinding
 import com.example.asceneskit.databinding.MeetingMemberListBroadItemBinding
-import io.agora.auikit.ui.member.MemberInfo
-import io.agora.auikit.ui.member.MemberItemModel
-import io.agora.auikit.utils.BindingViewHolder
+import io.agora.auikit.ui.member.MemberBroadInfo
+import io.agora.auikit.ui.member.MemberItemBroadModel
+import io.agora.auikit.utils.BindingViewBroadHolder
 
 class MeetingMemberListBroadView : FrameLayout {
     private val mBinding by lazy { MeetingListViewBroadLayoutBinding.inflate(
@@ -25,7 +25,7 @@ class MeetingMemberListBroadView : FrameLayout {
         )
     ) }
 
-    private lateinit var listAdapter: ListAdapter<MemberItemModel, BindingViewHolder<MeetingMemberListBroadItemBinding>>
+    private lateinit var listAdapter: ListAdapter<MemberItemBroadModel, BindingViewBroadHolder<MeetingMemberListBroadItemBinding>>
     private var listener:ActionListener?=null
     private var isOwner:Boolean?=false
     private var ownerId:String? = ""
@@ -46,14 +46,14 @@ class MeetingMemberListBroadView : FrameLayout {
     private fun initView() {
         mBinding.rvUserList.layoutManager = GridLayoutManager(context, 1)
         listAdapter =
-            object : ListAdapter<MemberItemModel, BindingViewHolder<MeetingMemberListBroadItemBinding>>(object :
-                DiffUtil.ItemCallback<MemberItemModel>() {
-                override fun areItemsTheSame(oldItem: MemberItemModel, newItem: MemberItemModel) =
+            object : ListAdapter<MemberItemBroadModel, BindingViewBroadHolder<MeetingMemberListBroadItemBinding>>(object :
+                DiffUtil.ItemCallback<MemberItemBroadModel>() {
+                override fun areItemsTheSame(oldItem: MemberItemBroadModel, newItem: MemberItemBroadModel) =
                     oldItem.user?.userId == newItem.user?.userId
 
                 override fun areContentsTheSame(
-                    oldItem: MemberItemModel,
-                    newItem: MemberItemModel
+                    oldItem: MemberItemBroadModel,
+                    newItem: MemberItemBroadModel
                 ) = false
 
             }) {
@@ -61,14 +61,14 @@ class MeetingMemberListBroadView : FrameLayout {
                     parent: ViewGroup,
                     viewType: Int
                 ) =
-                    BindingViewHolder(
+                    BindingViewBroadHolder(
                         MeetingMemberListBroadItemBinding.inflate(
                             LayoutInflater.from(parent.context)
                         )
                     )
 
                 override fun onBindViewHolder(
-                    holder: BindingViewHolder<MeetingMemberListBroadItemBinding>,
+                    holder: BindingViewBroadHolder<MeetingMemberListBroadItemBinding>,
                     position: Int
                 ) {
                     val item = getItem(position)
@@ -106,11 +106,11 @@ class MeetingMemberListBroadView : FrameLayout {
         mBinding.rvUserList.adapter = listAdapter
     }
 
-    fun setMembers(members: List<MemberInfo?>, seatMap: Map<Int, String?>) {
-        val temp = mutableListOf<MemberItemModel>()
+    fun setMembers(members: List<MemberBroadInfo?>, seatMap: Map<Int, String?>) {
+        val temp = mutableListOf<MemberItemBroadModel>()
         members.forEach {  user ->
             val micIndex = seatMap.entries.find { it.value == user?.userId }?.key
-            val item = MemberItemModel(user, micIndex)
+            val item = MemberItemBroadModel(user, micIndex)
             temp.add(item)
         }
         listAdapter.submitList(temp)
@@ -123,7 +123,7 @@ class MeetingMemberListBroadView : FrameLayout {
 
 
     interface ActionListener{
-        fun onKickClick(view: View, position:Int, user: MemberInfo?){}
+        fun onKickClick(view: View, position:Int, user: MemberBroadInfo?){}
     }
 
     fun setMemberActionListener(listener:ActionListener){

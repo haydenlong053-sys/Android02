@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.lj.utils.AppUtil;
 import com.lxkj.aiim.lj.utils.GlideUtil;
-import com.lxkj.aiim.lj.utils.ScreenUtil;
+import com.lxkj.aiim.lj.utils.ScreenBroadUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             }
         });
         ViewGroup.LayoutParams layoutParams = holder.ivImage.getLayoutParams();
-        layoutParams.width = (ScreenUtil.getScreenWidth(context) - AppUtil.dip2px(context, space)) / lineNum;
+        layoutParams.width = (ScreenBroadUtil.getScreenWidth(context) - AppUtil.dip2px(context, space)) / lineNum;
         layoutParams.height = layoutParams.width;
         holder.ivImage.setLayoutParams(layoutParams);
         GlideUtil.setImag(context, list.get(position), holder.ivImage);

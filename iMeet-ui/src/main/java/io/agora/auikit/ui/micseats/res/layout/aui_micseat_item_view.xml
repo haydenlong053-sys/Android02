@@ -63,7 +63,7 @@
             app:layout_constraintStart_toStartOf="@id/bg_seat"
             app:layout_constraintTop_toTopOf="@id/bg_seat" />
 
-        <io.agora.auikit.ui.micseats.impl.AUIRippleAnimationView
+        <io.agora.auikit.ui.micseats.impl.AUIRippleAnimationBroadView
             android:id="@+id/iv_ripple"
             app:layout_constraintBottom_toBottomOf="@id/bg_seat"
             app:layout_constraintEnd_toEndOf="@id/bg_seat"

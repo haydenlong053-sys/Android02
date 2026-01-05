@@ -3,7 +3,7 @@
     <!--================= 主题属性 =================-->
     <attr name="aui_ripple_appearance" format="reference"/>
 
-    <declare-styleable name="AUIRippleAnimationView">
+    <declare-styleable name="AUIRippleAnimationBroadView">
         <attr name="aui_ripple_appearance"/>
 
         <!--    水波纹颜色    -->

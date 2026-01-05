@@ -4,8 +4,8 @@
         <item name="aui_chatBottomView_appearance">@style/AUIChatBottomView.Appearance</item>
     </style>
 
-    <style name="AUIEmojiView">
-        <item name="aui_emojiView_appearance">@style/AUIEmojiView.Appearance</item>
+    <style name="AUIEmojiBroadView">
+        <item name="aui_emojiView_appearance">@style/AUIEmojiBroadView.Appearance</item>
     </style>
 
     <!--输入样式-->
@@ -56,7 +56,7 @@
 
     </style>
 
-    <style name="AUIEmojiView.Appearance" >
+    <style name="AUIEmojiBroadView.Appearance" >
         <item name="aui_emoji_view_background">@color/voice_white_100</item>
         <item name="aui_emoji_backspace">@drawable/voice_icon_backspace_light</item>
     </style>

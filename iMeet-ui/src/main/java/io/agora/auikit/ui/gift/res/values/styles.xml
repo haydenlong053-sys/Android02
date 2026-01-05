@@ -13,8 +13,8 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="AUIGiftBarrageView">
-        <item name="aui_giftBarrage_appearance">@style/AUIGiftBarrageView.Appearance</item>
+    <style name="AUIGiftBarrageBroadView">
+        <item name="aui_giftBarrage_appearance">@style/AUIGiftBarrageBroadView.Appearance</item>
     </style>
 
     <style name="AUIGiftBottomDialog">
@@ -22,7 +22,7 @@
     </style>
 
 
-    <style name="AUIGiftBarrageView.Appearance" >
+    <style name="AUIGiftBarrageBroadView.Appearance" >
         <item name="aui_giftBarrage_layout_bg">@drawable/aui_gift_widget_bg_light</item>
     </style>
 

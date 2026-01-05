@@ -6,7 +6,7 @@
     <attr name="aui_giftBottomDialog_appearance" format="reference"/>
 
     <!--================= 样式属性 =================-->
-    <declare-styleable name="AUIGiftBarrageView">
+    <declare-styleable name="AUIGiftBarrageBroadView">
         <attr name="aui_giftBarrage_appearance"/>
 
         <attr name="aui_giftBarrage_layout_bg" format="reference|color"/>

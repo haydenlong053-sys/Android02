@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/back_icon"
             android:layout_width="38dp"
             android:layout_height="38dp"
@@ -32,7 +32,7 @@
             android:paddingVertical="?attr/aui_upperLeft_layout_paddingVertical"
             >
 
-                <io.agora.auikit.ui.basic.AUIImageView
+                <io.agora.auikit.ui.basic.AUIImageBroadView
                     android:id="@+id/ivRoomCover"
                     style="@style/ShapeAppearance.MaterialComponents.RoundComponent"
                     android:layout_width="?attr/aui_upperLeft_avatar_width"
@@ -99,7 +99,7 @@
                     android:layout_marginStart="?attr/aui_upperLeft_right_icon_spacing"
                     >
 
-                        <io.agora.auikit.ui.basic.AUIImageView
+                        <io.agora.auikit.ui.basic.AUIImageBroadView
                             android:id="@+id/ivRoomRightIcon"
                             android:layout_width="?attr/aui_upperLeft_icon_width"
                             android:layout_height="?attr/aui_upperLeft_icon_height"

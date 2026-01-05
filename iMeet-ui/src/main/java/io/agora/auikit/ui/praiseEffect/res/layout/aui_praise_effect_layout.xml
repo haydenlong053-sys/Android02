@@ -11,7 +11,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/img"
             android:visibility="visible"
             android:clickable="true"

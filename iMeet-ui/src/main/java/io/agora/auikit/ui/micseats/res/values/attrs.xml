@@ -9,7 +9,7 @@
     <!--================= 样式属性 =================-->
 
     <!-- 麦位样式 -->
-    <declare-styleable name="AUIMicSeatsView">
+    <declare-styleable name="AUIMicSeatsBroadView">
         <attr name="aui_micSeats_appearance"/>
 
         <!-- 麦位横向间距 -->
@@ -22,7 +22,7 @@
     </declare-styleable>
 
     <!-- 麦位座位样式 -->
-    <declare-styleable name="AUIMicSeatItemView">
+    <declare-styleable name="AUIMicSeatItemBroadView">
         <attr name="aui_micSeatItem_appearance"/>
 
         <!-- 麦位全局(包括座位和标题名称等) -->
@@ -119,7 +119,7 @@
     </declare-styleable>
 
     <!-- 麦位弹窗样式 -->
-    <declare-styleable name="AUIMicSeatDialogView">
+    <declare-styleable name="AUIMicSeatDialogBroadView">
         <attr name="aui_micSeatDialog_appearance"/>
 
         <!-- 弹窗 -->

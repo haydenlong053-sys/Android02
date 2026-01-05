@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <io.agora.auikit.ui.basic.AUIRecyclerView
+        <io.agora.auikit.ui.basic.AUIRecyclerBroadView
             android:id="@+id/rvInvitedList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:theme="?attr/aui_jukeboxChoose_appearance">
 
-    <io.agora.auikit.ui.basic.AUIEditText
+    <io.agora.auikit.ui.basic.AUIEditBroadText
         android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <io.agora.auikit.ui.basic.AUITabLayout
+            <io.agora.auikit.ui.basic.AUITabBroadLayout
                 android:id="@+id/tl_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <io.agora.auikit.ui.basic.AUIRecyclerView
+                <io.agora.auikit.ui.basic.AUIRecyclerBroadView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <io.agora.auikit.ui.basic.AUIRecyclerView
+            <io.agora.auikit.ui.basic.AUIRecyclerBroadView
                 android:id="@+id/recyclerView_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

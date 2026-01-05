@@ -8,15 +8,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.AuiRoomRightBroadLayoutBinding
-import io.agora.auikit.ui.basic.AUIImageView
-import io.agora.auikit.ui.member.IAUIRoomMembersView
-import io.agora.auikit.ui.member.MemberInfo
-import io.agora.auikit.ui.member.listener.AUIRoomMembersActionListener
-import io.agora.auikit.utils.FastClickTools
+import io.agora.auikit.ui.basic.AUIImageBroadView
+import io.agora.auikit.ui.member.IAUIRoomMembersBroadView
+import io.agora.auikit.ui.member.MemberBroadInfo
+import io.agora.auikit.ui.member.listener.AUIRoomMembersActionBroadListener
+import io.agora.auikit.utils.FastClickBroadTools
 
-class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersView {
+class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersBroadView {
     private val mRoomViewBinding = AuiRoomRightBroadLayoutBinding.inflate(LayoutInflater.from(context))
-    private var aUpperRightListener: AUIRoomMembersActionListener? = null
+    private var aUpperRightListener: AUIRoomMembersActionBroadListener? = null
     private var aContext: Context? = null
 
     constructor(context: Context) : this(context, null)
@@ -33,16 +33,16 @@ class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersView {
 
     private fun initListener() {
         mRoomViewBinding.llMemberRank.setOnClickListener{
-//            if (!FastClickTools.isFastClick(it)){
+//            if (!FastClickBroadTools.isFastClick(it)){
 //                aUpperRightListener?.onMemberRankClickListener(it)
 //            }
-            if (!FastClickTools.isFastClick(it)){
+            if (!FastClickBroadTools.isFastClick(it)){
                 aUpperRightListener?.onMemberRightUserMoreClickListener(it)
             }
         }
 
         mRoomViewBinding.btnMore.setOnClickListener{
-            if (!FastClickTools.isFastClick(it)){
+            if (!FastClickBroadTools.isFastClick(it)){
                 aUpperRightListener?.onMemberRankClickListener(it)
             }
         }
@@ -50,14 +50,14 @@ class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersView {
 
     }
 
-    override fun setMemberActionListener(listener: AUIRoomMembersActionListener?) {
+    override fun setMemberActionListener(listener: AUIRoomMembersActionBroadListener?) {
         this.aUpperRightListener = listener
     }
 
     /**
      * 设置排行榜前三
      */
-    override fun setMemberData(memberList: List<MemberInfo?>){
+    override fun setMemberData(memberList: List<MemberBroadInfo?>){
         val size = memberList.size
         post { mRoomViewBinding.tvCount.text="$size" }
         size.let {
@@ -71,7 +71,7 @@ class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersView {
 
     }
 
-    private fun setMemberView(size:Int,rankList:List<MemberInfo?>){
+    private fun setMemberView(size:Int,rankList:List<MemberBroadInfo?>){
         when(size){
             0 -> {
                 mRoomViewBinding.ivMember1.visibility = GONE
@@ -119,7 +119,7 @@ class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersView {
         }
     }
 
-    private fun setResources(url:String,view: AUIImageView){
+    private fun setResources(url:String,view: AUIImageBroadView){
         aContext?.let {
             Glide.with(it)
                 .load(url)

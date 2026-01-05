@@ -29,7 +29,7 @@
         android:layout_marginBottom="36dp"
         android:orientation="horizontal">
 
-        <io.agora.auikit.ui.basic.AUIImageView
+        <io.agora.auikit.ui.basic.AUIImageBroadView
             android:id="@+id/iv_emoji_delete"
             android:layout_width="42dp"
             android:layout_height="42dp"

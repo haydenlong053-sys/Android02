@@ -6,7 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
 
-class KeyboardUtils {
+class KeyboardBroadUtils {
 
     companion object {
         /**

@@ -18,20 +18,20 @@ import androidx.annotation.IdRes
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.AuiChatBottomBroadBarNewBinding
 import io.agora.auikit.ui.chatBottomBar.AUIChatBottomBarIcon
-import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarView
-import io.agora.auikit.ui.chatBottomBar.impl.AUIEmojiUtils
-import io.agora.auikit.ui.chatBottomBar.listener.AUIExpressionClickListener
-import io.agora.auikit.ui.chatBottomBar.listener.AUIMenuItemClickListener
-import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeListener
-import io.agora.auikit.ui.chatBottomBar.utils.KeyboardUtils
-import io.agora.auikit.utils.DeviceTools
+import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import io.agora.auikit.ui.chatBottomBar.impl.AUIEmojiBroadUtils
+import io.agora.auikit.ui.chatBottomBar.listener.AUIExpressionClickBroadListener
+import io.agora.auikit.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
+import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import io.agora.auikit.ui.chatBottomBar.utils.KeyboardBroadUtils
+import io.agora.auikit.utils.DeviceBroadTools
 
-class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExpressionClickListener,
-    AUISoftKeyboardHeightChangeListener {
+class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarBroadView, AUIExpressionClickBroadListener,
+    AUISoftKeyboardHeightChangeBroadListener {
     private val mViewBinding = AuiChatBottomBroadBarNewBinding.inflate(LayoutInflater.from(context))
     private val inputManager: InputMethodManager
     private val itemModels = ArrayList<MenuItemModel>()
-    private var listener: AUIMenuItemClickListener?=null
+    private var listener: AUIMenuItemClickBroadListener?=null
 
     //是否显示表情
     private var isShowEmoji = false
@@ -113,7 +113,7 @@ class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExp
         hideKeyboard()
         showNormalLayout()
     }
-    override fun setMenuItemClickListener(listener: AUIMenuItemClickListener?) {
+    override fun setMenuItemClickListener(listener: AUIMenuItemClickBroadListener?) {
         this.listener = listener
     }
 
@@ -139,7 +139,7 @@ class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExp
             )
         } else {
             setViewLayoutParams(
-                mViewBinding.expressionView, LayoutParams.MATCH_PARENT, DeviceTools.dp2px(
+                mViewBinding.expressionView, LayoutParams.MATCH_PARENT, DeviceBroadTools.dp2px(
                     context, 55f
                 )
             )
@@ -206,11 +206,11 @@ class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExp
     }
 
     override fun hideKeyboard() {
-        KeyboardUtils.hideKeyboard(this)
+        KeyboardBroadUtils.hideKeyboard(this)
     }
 
     private fun showInputMethod(editText: EditText) {
-        KeyboardUtils.showKeyboard(editText)
+        KeyboardBroadUtils.showKeyboard(editText)
     }
     private fun hideExpressionView(isShowEx: Boolean) {
         if (isShowEx) {
@@ -220,7 +220,7 @@ class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExp
             setViewLayoutParams(
                 mViewBinding.vKeyboardBg,
                 LayoutParams.MATCH_PARENT,
-                DeviceTools.dp2px(context, 55f)
+                DeviceBroadTools.dp2px(context, 55f)
             )
         }
     }
@@ -271,7 +271,7 @@ class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExp
 
     override fun onExpressionClicked(emojiIcon: AUIChatBottomBarIcon?) {
         if (emojiIcon != null) {
-            mViewBinding.inputEditView.append(AUIEmojiUtils.getSmiledText(context, emojiIcon.labelString))
+            mViewBinding.inputEditView.append(AUIEmojiBroadUtils.getSmiledText(context, emojiIcon.labelString))
         }
     }
 
@@ -283,12 +283,12 @@ class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarView, AUIExp
                 lp?.height = keyboardHeight
                 softKeyHeight = keyboardHeight
 //                if (!isShowEmoji){
-//                    lp.height = DeviceTools.dp2px(context, 55f)
+//                    lp.height = DeviceBroadTools.dp2px(context, 55f)
 //                }
             }
         } else {
             if (!isShowEmoji) {
-                lp?.height = DeviceTools.dp2px(context, 55f)
+                lp?.height = DeviceBroadTools.dp2px(context, 55f)
                 showNormalLayout()
             }
         }

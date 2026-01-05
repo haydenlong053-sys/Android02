@@ -15,7 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.lxkj.aiim.R
 import com.lxkj.aiim.utils.AppUtil
-import com.lxkj.aiim.utils.KeyboardUtils
+import com.lxkj.aiim.utils.KeyboardBroadUtils
 import com.lxkj.aiim.widge.PhoneCode
 import com.maning.pswedittextlibrary.MNPasswordEditText
 

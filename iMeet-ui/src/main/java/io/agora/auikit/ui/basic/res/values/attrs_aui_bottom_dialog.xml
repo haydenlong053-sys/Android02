@@ -4,7 +4,7 @@
     <attr name="aui_bottomDialog_appearance" format="reference"/>
 
 
-    <declare-styleable name="AUIBottomDialog">
+    <declare-styleable name="AUIBottomBroadDialog">
 
         <!-- 背景 -->
         <attr name="aui_bottomDialog_backgroundColor" format="color" />
@@ -68,7 +68,7 @@
         <attr name="android:titleTextColor" />
     </declare-styleable>
 
-    <style name="AUIBottomDialog" parent="Theme.AppCompat.Dialog">
+    <style name="AUIBottomBroadDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:backgroundDimAmount">0</item>

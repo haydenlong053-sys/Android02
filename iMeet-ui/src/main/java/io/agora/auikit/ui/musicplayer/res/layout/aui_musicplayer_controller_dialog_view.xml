@@ -172,7 +172,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_music_pitch" />
 
-    <io.agora.auikit.ui.basic.AUIRecyclerView
+    <io.agora.auikit.ui.basic.AUIRecyclerBroadView
         android:id="@+id/rv_audio_reverb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -18,11 +18,11 @@ import io.agora.auikit.service.IAUIUserService
 import io.agora.auikit.service.callback.AUIException
 import io.agora.auikit.ui.action.AUIActionUserInfo
 import io.agora.auikit.ui.action.AUIActionUserInfoList
-import io.agora.auikit.ui.action.impI.AUIApplyDialog
-import io.agora.auikit.ui.action.impI.AUIInvitationDialog
-import io.agora.auikit.ui.action.listener.AUIApplyDialogEventListener
-import io.agora.auikit.ui.action.listener.AUIInvitationDialogEventListener
-import io.agora.auikit.ui.basic.AUIAlertDialog
+import io.agora.auikit.ui.action.impI.AUIApplyBroadDialog
+import io.agora.auikit.ui.action.impI.AUIInvitationBroadDialog
+import io.agora.auikit.ui.action.listener.AUIApplyDialogEventBroadListener
+import io.agora.auikit.ui.action.listener.AUIInvitationDialogEventBroadListener
+import io.agora.auikit.ui.basic.AUIAlertBroadDialog
 
 class AUIInvitationBinder constructor(
     activity: FragmentActivity?,
@@ -34,8 +34,8 @@ class AUIInvitationBinder constructor(
     private var mVoiceService: AUIVoiceRoomBroadService
     private var invitationService:IAUIInvitationService
     private val applyList = mutableListOf<AUIUserInfo?>()
-    private var applyDialog:AUIApplyDialog?=null
-    private var invitationDialog:AUIInvitationDialog?=null
+    private var applyDialog:AUIApplyBroadDialog?=null
+    private var invitationDialog:AUIInvitationBroadDialog?=null
 
     private var mSeatMap = mutableMapOf<Int, String>()
     private var mMemberMap = mutableMapOf<String?, AUIUserInfo?>()
@@ -74,7 +74,7 @@ class AUIInvitationBinder constructor(
     fun showApplyDialog(){
         var dialog = applyDialog
         if (dialog == null){
-            dialog = AUIApplyDialog()
+            dialog = AUIApplyBroadDialog()
             dialog.refreshApplyData(applyList.map { userInfo ->
                 AUIActionUserInfo(
                     userInfo?.userId ?: "",
@@ -85,7 +85,7 @@ class AUIInvitationBinder constructor(
             })
             applyDialog = dialog
         }
-        dialog.setApplyDialogListener(object : AUIApplyDialogEventListener {
+        dialog.setApplyDialogListener(object : AUIApplyDialogEventBroadListener {
             override fun onApplyItemClick(
                 view: View,
                 applyIndex: Int?,
@@ -114,7 +114,7 @@ class AUIInvitationBinder constructor(
         })
         activity?.supportFragmentManager?.let {
             applyDialog?.show(
-                it, "AUIApplyDialog"
+                it, "AUIApplyBroadDialog"
             )
         }
     }
@@ -171,13 +171,13 @@ class AUIInvitationBinder constructor(
         })
         invitationInfo.invitedIndex = index
         Log.e("apex","onShowInvited $index $invitationInfo")
-        invitationDialog = AUIInvitationDialog()
+        invitationDialog = AUIInvitationBroadDialog()
         invitationDialog?.apply {
             arguments = Bundle().apply {
-                putSerializable(AUIInvitationDialog.KEY_ROOM_INVITED_BEAN, invitationInfo)
-                putInt(AUIInvitationDialog.KEY_CURRENT_ITEM, 0)
+                putSerializable(AUIInvitationBroadDialog.KEY_ROOM_INVITED_BEAN, invitationInfo)
+                putInt(AUIInvitationBroadDialog.KEY_CURRENT_ITEM, 0)
             }
-            setInvitationDialogListener(object : AUIInvitationDialogEventListener {
+            setInvitationDialogListener(object : AUIInvitationDialogEventBroadListener {
                 override fun onInvitedItemClick(view: View, invitedIndex: Int, user: AUIActionUserInfo?) {
                     if (user != null){
                         mVoiceService.invitationService.sendInvitation(
@@ -197,7 +197,7 @@ class AUIInvitationBinder constructor(
         }
         activity?.supportFragmentManager?.let {
             invitationDialog?.show(
-                it, "AUIInvitationDialog"
+                it, "AUIInvitationBroadDialog"
             )
         }
     }
@@ -208,7 +208,7 @@ class AUIInvitationBinder constructor(
         }
         // 收到上麦邀请
         activity?.let {
-            AUIAlertDialog(it).apply {
+            AUIAlertBroadDialog(it).apply {
 
                 setTitle(
                     if (micIndex == -1){

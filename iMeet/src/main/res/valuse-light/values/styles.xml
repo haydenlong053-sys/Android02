@@ -28,9 +28,9 @@
         <item name="aui_upperRight_count_background">@drawable/aui_member_count_dark_bg</item>
     </style>
     <style name="AVoiceRoomChatBottomView" parent="AUIChatBottomView.Appearance"></style>
-    <style name="AVoiceRoomEmojiView" parent="AUIEmojiView.Appearance"></style>
-    <style name="AVoiceRoomChatListView" parent="AUIChatListView.Appearance"></style>
-    <style name="AVoiceRoomGiftBarrageView" parent="AUIGiftBarrageView.Appearance"></style>
+    <style name="AVoiceRoomEmojiView" parent="AUIEmojiBroadView.Appearance"></style>
+    <style name="AVoiceRoomChatListView" parent="AUIChatListBroadView.Appearance"></style>
+    <style name="AVoiceRoomGiftBarrageView" parent="AUIGiftBarrageBroadView.Appearance"></style>
     <style name="AVoiceRoomGiftBottomDialog" parent="AUIGiftBottomDialog.Appearance"></style>
     <style name="AVoiceRoomAction" parent="AUIAction.Appearance"></style>
 
