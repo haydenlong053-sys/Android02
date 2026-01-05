@@ -43,7 +43,7 @@
         android:layout_marginEnd="2dp"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:background="@drawable/voice_bg_more_status"
+        android:background="@drawable/voice_bg_more_broad_status"
         app:layout_constraintDimensionRatio="1:1"
         app:shapeAppearance="@style/voice_seat_roundStyle" />
 

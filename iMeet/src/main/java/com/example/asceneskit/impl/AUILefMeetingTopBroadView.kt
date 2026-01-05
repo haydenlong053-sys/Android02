@@ -4,12 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.asceneskit.databinding.AuiRoomLeftLayoutBinding
+import com.example.asceneskit.databinding.AuiRoomLeftBroadLayoutBinding
 import io.agora.auikit.ui.roomInfo.IAUIRoomInfoView
 import io.agora.auikit.ui.roomInfo.listener.AUIRoomInfoActionListener
 
 class AUILefMeetingTopBroadView: ConstraintLayout, IAUIRoomInfoView {
-    private val aRoomViewBinding = AuiRoomLeftLayoutBinding.inflate(LayoutInflater.from(context))
+    private val aRoomViewBinding = AuiRoomLeftBroadLayoutBinding.inflate(LayoutInflater.from(context))
     private var aUpperLeftListener: AUIRoomInfoActionListener? = null
     private var aContext: Context? = null
 

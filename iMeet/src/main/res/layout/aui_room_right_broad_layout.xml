@@ -75,7 +75,7 @@
         android:scaleType="center"
         android:src="@drawable/ic_meeting_more"
         android:layout_marginStart="12dp"
-        android:background="@drawable/bg_meeting_close"
+        android:background="@drawable/bg_meeting_broad_close"
         app:layout_constraintStart_toEndOf="@+id/tv_count"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/bg_top_dialog_radius20"
+    android:background="@drawable/bg_top_dialog_broad_radius20"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -34,7 +34,7 @@
                 android:id="@+id/iv_mic"
                 android:scaleType="center"
                 android:src="@drawable/ic_voice_operate_mic_off"
-                android:background="@drawable/bg_meeting_close"
+                android:background="@drawable/bg_meeting_broad_close"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
 
@@ -62,7 +62,7 @@
                 android:id="@+id/iv_mute"
                 android:scaleType="center"
                 android:src="@drawable/ic_voice_operate_mute_on"
-                android:background="@drawable/bg_meeting_close"
+                android:background="@drawable/bg_meeting_broad_close"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
 
@@ -89,7 +89,7 @@
             <ImageView
                 android:scaleType="center"
                 android:src="@drawable/ic_voice_operate_share"
-                android:background="@drawable/bg_meeting_close"
+                android:background="@drawable/bg_meeting_broad_close"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
 
@@ -113,7 +113,7 @@
             <ImageView
                 android:scaleType="center"
                 android:src="@drawable/ic_voice_operate_close"
-                android:background="@drawable/bg_meeting_quite"
+                android:background="@drawable/bg_meeting_broad_quite"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
 
@@ -132,7 +132,7 @@
 
     <View
         android:layout_marginBottom="8dp"
-        android:background="@drawable/dialog_line_header"
+        android:background="@drawable/dialog_line_broad_header"
         android:layout_width="35dp"
         android:layout_height="3dp"/>
 

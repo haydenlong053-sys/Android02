@@ -50,7 +50,7 @@
                android:paddingEnd="4dp"
                android:paddingTop="2dp"
                android:paddingBottom="2dp"
-               android:background="@drawable/bg_role_tag"
+               android:background="@drawable/bg_role_broad_tag"
                android:textColor="@color/white"
                android:textSize="10sp"
                android:text="房主"

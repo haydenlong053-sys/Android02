@@ -43,8 +43,8 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
 import com.example.asceneskit.R
-import com.example.asceneskit.databinding.VoiceRoomActivityBinding
 import com.example.asceneskit.AUIVoiceRoomBroadObserver
+import com.example.asceneskit.databinding.VoiceRoomBroadActivityBinding
 import com.example.asceneskit.impl.MeetingOperateBroadView
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIRoomInfo
@@ -62,7 +62,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
-    private val mViewBinding by lazy { VoiceRoomActivityBinding.inflate(layoutInflater) }
+    private val mViewBinding by lazy { VoiceRoomBroadActivityBinding.inflate(layoutInflater) }
     private val mPermissionHelp = PermissionHelp(this)
     private  var countdownFlow: CountdownTimerFlow?=null
 

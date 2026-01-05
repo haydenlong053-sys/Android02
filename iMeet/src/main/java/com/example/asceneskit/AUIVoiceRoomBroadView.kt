@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
-import com.example.asceneskit.databinding.VoiceRoomViewBinding
 import com.example.asceneskit.binder.AUIChatBottomBarBinder
 import com.example.asceneskit.binder.AUIChatListBinder
 import com.example.asceneskit.binder.AUIGiftBarrageBinder
@@ -17,6 +16,7 @@ import com.example.asceneskit.binder.AUIMicSeatsBroadBinder
 import com.example.asceneskit.binder.AUIRoomInfoBinder
 import com.example.asceneskit.binder.AUIRoomMembersBinder
 import com.example.asceneskit.binder.IAUIBroadBindable
+import com.example.asceneskit.databinding.VoiceRoomBroadViewBinding
 import com.example.asceneskit.dialog.VoiceMoreItemBean
 import com.example.asceneskit.dialog.VoiceRoomMoreDialog
 import io.agora.auikit.model.*
@@ -35,7 +35,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
     AUIVoiceRoomBroadObserver,
     IAUIMicSeatService.AUIMicSeatRespObserver {
         private  val TAG="AUIVoiceRoomView"
-    private val mRoomViewBinding = VoiceRoomViewBinding.inflate(LayoutInflater.from(context))
+    private val mRoomViewBinding = VoiceRoomBroadViewBinding.inflate(LayoutInflater.from(context))
     private val mBinders = mutableListOf<IAUIBroadBindable>()
     private var mVoiceService: AUIVoiceRoomBroadService? = null
     private var listener: AUISoftKeyboardHeightChangeListener? = null

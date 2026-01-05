@@ -12,20 +12,20 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.asceneskit.R
-import com.example.asceneskit.databinding.MeetingListViewLayoutBinding
-import com.example.asceneskit.databinding.MeetingMemberListItemBinding
+import com.example.asceneskit.databinding.MeetingListViewBroadLayoutBinding
+import com.example.asceneskit.databinding.MeetingMemberListBroadItemBinding
 import io.agora.auikit.ui.member.MemberInfo
 import io.agora.auikit.ui.member.MemberItemModel
 import io.agora.auikit.utils.BindingViewHolder
 
 class MeetingMemberListBroadView : FrameLayout {
-    private val mBinding by lazy { MeetingListViewLayoutBinding.inflate(
+    private val mBinding by lazy { MeetingListViewBroadLayoutBinding.inflate(
         LayoutInflater.from(
             context
         )
     ) }
 
-    private lateinit var listAdapter: ListAdapter<MemberItemModel, BindingViewHolder<MeetingMemberListItemBinding>>
+    private lateinit var listAdapter: ListAdapter<MemberItemModel, BindingViewHolder<MeetingMemberListBroadItemBinding>>
     private var listener:ActionListener?=null
     private var isOwner:Boolean?=false
     private var ownerId:String? = ""
@@ -46,7 +46,7 @@ class MeetingMemberListBroadView : FrameLayout {
     private fun initView() {
         mBinding.rvUserList.layoutManager = GridLayoutManager(context, 1)
         listAdapter =
-            object : ListAdapter<MemberItemModel, BindingViewHolder<MeetingMemberListItemBinding>>(object :
+            object : ListAdapter<MemberItemModel, BindingViewHolder<MeetingMemberListBroadItemBinding>>(object :
                 DiffUtil.ItemCallback<MemberItemModel>() {
                 override fun areItemsTheSame(oldItem: MemberItemModel, newItem: MemberItemModel) =
                     oldItem.user?.userId == newItem.user?.userId
@@ -62,13 +62,13 @@ class MeetingMemberListBroadView : FrameLayout {
                     viewType: Int
                 ) =
                     BindingViewHolder(
-                        MeetingMemberListItemBinding.inflate(
+                        MeetingMemberListBroadItemBinding.inflate(
                             LayoutInflater.from(parent.context)
                         )
                     )
 
                 override fun onBindViewHolder(
-                    holder: BindingViewHolder<MeetingMemberListItemBinding>,
+                    holder: BindingViewHolder<MeetingMemberListBroadItemBinding>,
                     position: Int
                 ) {
                     val item = getItem(position)

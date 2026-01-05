@@ -55,9 +55,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    api project(':auikit-ui')
-    api project(':auikit-service')
-//    if(findProject(":auikit") != null){
+    api project(':iMeet-ui')
+    api project(':iMeet-service')
+    //    if(findProject(":auikit") != null){
 //        api project(':auikit')
 //    }else{
 ////        def uiKitVersion='1.2.0'

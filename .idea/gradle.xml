@@ -11,12 +11,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/auikit-service" />
-            <option value="$PROJECT_DIR$/auikit-ui" />
             <option value="$PROJECT_DIR$/baselibrary" />
             <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/emojilibrary" />
             <option value="$PROJECT_DIR$/iMeet" />
+            <option value="$PROJECT_DIR$/iMeet-service" />
+            <option value="$PROJECT_DIR$/iMeet-ui" />
             <option value="$PROJECT_DIR$/selector-piclib" />
             <option value="$PROJECT_DIR$/susindexbar" />
             <option value="$PROJECT_DIR$/swipemenu" />

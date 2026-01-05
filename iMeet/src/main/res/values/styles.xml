@@ -16,7 +16,7 @@
         <item name="aui_micSeatDialog_userAvatarHeight">48dp</item>
         <item name="aui_micSeatDialog_userNameTextSize">17sp</item>
         <item name="aui_micSeatDialog_userDesVisible">invisible</item>
-        <item name="aui_micSeatDialog_background">@drawable/bg_dialog_radius20_dark</item>
+        <item name="aui_micSeatDialog_background">@drawable/bg_dialog_radius20_broad_dark</item>
         <item name="aui_micSeatDialog_buttonNormalTextColor">@color/white</item>
 
     </style>
@@ -46,7 +46,7 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">11sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/voice_bg_rect_radius13_black20</item>
+        <item name="android:background">@drawable/voice_bg_rect_radius13_broad_black20</item>
     </style>
 
 

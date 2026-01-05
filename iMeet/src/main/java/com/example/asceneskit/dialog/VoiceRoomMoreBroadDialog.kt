@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.textview.MaterialTextView
 import com.example.asceneskit.R
-import com.example.asceneskit.databinding.VoiceRoomMoreLayoutBinding
+import com.example.asceneskit.databinding.VoiceRoomMoreBroadLayoutBinding
 import io.agora.auikit.ui.basic.AUISheetFragmentDialog
 import io.agora.auikit.ui.basic.AUIImageView
 import io.agora.auikit.utils.DeviceTools
@@ -21,7 +21,7 @@ class VoiceRoomMoreDialog(
     context: Context,
     itemList:MutableList<VoiceMoreItemBean>,
     itemListener:GridViewItemClickListener
-) : AUISheetFragmentDialog<VoiceRoomMoreLayoutBinding>()  {
+) : AUISheetFragmentDialog<VoiceRoomMoreBroadLayoutBinding>()  {
     private var mContext:Context
     private val mColumns = 4
     private var gridAdapter:VoiceMoreDialogAdapter? = null
@@ -31,8 +31,8 @@ class VoiceRoomMoreDialog(
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): VoiceRoomMoreLayoutBinding {
-       return VoiceRoomMoreLayoutBinding.inflate(inflater, container, false)
+    ): VoiceRoomMoreBroadLayoutBinding {
+       return VoiceRoomMoreBroadLayoutBinding.inflate(inflater, container, false)
     }
 
     init {
@@ -86,7 +86,7 @@ class VoiceMoreDialogAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.voice_room_more_item_layout, null)
+            convertView = View.inflate(context, R.layout.voice_room_more_item_broad_layout, null)
         }
         val icon = convertView!!.findViewById<AUIImageView>(R.id.ivItemIcon)
         val title = convertView.findViewById<MaterialTextView>(R.id.mtItemTitle)
@@ -99,7 +99,7 @@ class VoiceMoreDialogAdapter(
             }else{
                 status.visibility = View.GONE
             }
-            icon.setBackgroundResource(R.drawable.voice_bg_more_item_gradient)
+            icon.setBackgroundResource(R.drawable.voice_bg_more_item_broad_gradient)
             Glide.with(context).load(it?.ItemIcon)
                 .apply(RequestOptions.placeholderOf(R.drawable.voice_icon_more_hands))
                 .into(icon)

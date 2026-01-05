@@ -7,7 +7,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.widget.ImageView
 import com.example.asceneskit.R
-import com.example.asceneskit.databinding.AuiRoomOperateLayoutBinding
+import com.example.asceneskit.databinding.AuiRoomOperateBroadLayoutBinding
 import razerdp.basepopup.BasePopupWindow
 import razerdp.util.animation.AnimationHelper
 import razerdp.util.animation.Direction
@@ -17,7 +17,7 @@ class MeetingOperateBroadView(context: Context,isOwner: Boolean,isMute: Boolean,
 
     private  var listener: OnOperateListener?=null
 
-    private var  binding: AuiRoomOperateLayoutBinding = AuiRoomOperateLayoutBinding.inflate(
+    private var  binding: AuiRoomOperateBroadLayoutBinding = AuiRoomOperateBroadLayoutBinding.inflate(
         LayoutInflater.from(context))
 
     private  var isOpenMic=isMic
