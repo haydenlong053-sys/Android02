@@ -6,7 +6,7 @@ import android.widget.ImageView
 import com.luck.picture.lib.engine.ImageEngine
 import com.luck.picture.lib.utils.ActivityCompatHelper
 
-class GlideBroadEngine private constructor() : ImageEngine {
+class GlideBroadBroadEngine private constructor() : ImageEngine {
     /**
      * 加载图片
      *
@@ -110,12 +110,12 @@ class GlideBroadEngine private constructor() : ImageEngine {
     }
 
     companion object {
-        private var instance: GlideBroadEngine? = null
-        fun createGlideEngine(): GlideBroadEngine? {
+        private var instance: GlideBroadBroadEngine? = null
+        fun createGlideEngine(): GlideBroadBroadEngine? {
             if (null == instance) {
-                synchronized(GlideBroadEngine::class.java) {
+                synchronized(GlideBroadBroadEngine::class.java) {
                     if (null == instance) {
-                        instance = GlideBroadEngine()
+                        instance = GlideBroadBroadEngine()
                     }
                 }
             }

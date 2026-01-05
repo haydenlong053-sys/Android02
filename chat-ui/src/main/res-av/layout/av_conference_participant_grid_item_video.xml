@@ -14,7 +14,7 @@
         android:scaleType="fitXY"
         android:src="@mipmap/avatar_def" />
 
-    <com.cboda.chatui.voip.ZoomableFrameLayout
+    <com.cboda.chatui.voip.ZoomableFrameBroadLayout
         android:id="@+id/videoContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:visibility="gone"
         app:layout_gravity="center">
 
-    </com.cboda.chatui.voip.ZoomableFrameLayout>
+    </com.cboda.chatui.voip.ZoomableFrameBroadLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:gravity="center_vertical"
         android:padding="5dp">
 
-        <com.cboda.chatui.voip.conference.MicImageView
+        <com.cboda.chatui.voip.conference.MicImageBroadView
             android:id="@+id/micImageView"
             android:layout_width="16dp"
             android:layout_height="16dp" />

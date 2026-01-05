@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message.notification;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_KICKOF_GROUP_MEMBER_VISIBLE;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_KICKOF_GROUP_MEMBER_VISIBLE;
 
 import android.os.Parcel;
 

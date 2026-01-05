@@ -12,7 +12,7 @@ import com.cboda.imgselect.R;
 import com.cboda.imgselect.Utils;
 import com.cboda.imgselect.adapter.ImagePageAdapter;
 import com.cboda.imgselect.bean.ImageItem;
-import com.cboda.imgselect.view.ViewPagerFixed;
+import com.cboda.imgselect.view.ViewPagerBroadFixed;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public abstract class ImagePreviewBaseActivity extends ImageBaseActivity {
     protected ArrayList<ImageItem> selectedImages;   //所有已经选中的图片
     protected View content;
     protected View topBar;
-    protected ViewPagerFixed mViewPager;
+    protected ViewPagerBroadFixed mViewPager;
     protected ImagePageAdapter mAdapter;
     protected int pickLimit;
 
@@ -64,7 +64,7 @@ public abstract class ImagePreviewBaseActivity extends ImageBaseActivity {
 
         mTitleCount = (TextView) findViewById(R.id.tv_des);
 
-        mViewPager = (ViewPagerFixed) findViewById(R.id.viewpager);
+        mViewPager = (ViewPagerBroadFixed) findViewById(R.id.viewpager);
         mAdapter = new ImagePageAdapter(this, mImageItems);
         mAdapter.setPhotoViewClickListener(new ImagePageAdapter.PhotoViewClickListener() {
             @Override

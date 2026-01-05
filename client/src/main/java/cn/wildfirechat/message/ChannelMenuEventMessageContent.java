@@ -7,12 +7,12 @@ package cn.wildfirechat.message;
 import android.os.Parcel;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.model.ChannelMenu;
 
-@ContentTag(type = MessageContentType.ContentType_Channel_Menu_Event, flag = PersistFlag.Transparent)
+@ContentTag(type = MessageContentBroadType.ContentType_Channel_Menu_Event, flag = PersistFlag.Transparent)
 public class ChannelMenuEventMessageContent extends MessageContent {
     private ChannelMenu menu;
 

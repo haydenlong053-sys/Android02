@@ -11,7 +11,7 @@ import cn.wildfirechat.message.core.ContentTag;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Tip_Notification;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Tip_Notification;
 
 /**
  * Created by heavyrainlee on 20/12/2017.

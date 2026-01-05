@@ -53,7 +53,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.get<Any>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     try {
                         val result = if (data != null) {
@@ -98,7 +98,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.getList<T>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     continuation.resume(
                         NetworkBroadResult.BroadSuccess(
@@ -130,7 +130,7 @@ object NetworkBroadRepository {
             url = url,
             baseUrl = baseUrl,
             params = params,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     continuation.resume(
                         NetworkBroadResult.BroadSuccess(
@@ -160,7 +160,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postList<T>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     continuation.resume(
                         NetworkBroadResult.BroadSuccess(
@@ -190,7 +190,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.getListEncrypted<T>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     continuation.resume(
                         NetworkBroadResult.BroadSuccess(
@@ -221,7 +221,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postEncryptedListByDataKey<T>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     try {
                         val gson = GsonUtils.getGson()
@@ -270,7 +270,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.get<T>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -303,7 +303,7 @@ object NetworkBroadRepository {
             url = url,
             baseUrl = baseUrl,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -333,7 +333,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.getEncrypted<T>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -365,7 +365,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.post<Any>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     try {
                         val gson = GsonUtils.getGson()
@@ -404,7 +404,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.post<T>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -437,7 +437,7 @@ object NetworkBroadRepository {
             url = url,
             baseUrl = baseUrl,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -469,7 +469,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postForm<Any>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     try {
                         val gson = GsonUtils.getGson()
@@ -508,7 +508,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postForm<T>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -540,7 +540,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postEncrypted<Any>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     data?.let {
 //                        eLogD("返回体",it.toString())
@@ -581,7 +581,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postEncrypted<Any>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     data?.let {
                         eLogD("返回体", it.toString())
@@ -630,7 +630,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postEncrypted<Any>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     if (getIsDebug()) {
                         eLogD("返回体", data.toString())
@@ -688,7 +688,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postEncryptedList<T>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     try {
                         val gson = GsonUtils.getGson()
@@ -734,7 +734,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postEncrypted<T>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -764,7 +764,7 @@ object NetworkBroadRepository {
         NetworkBroadUtils.postFormEncrypted<T>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+            callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
@@ -785,7 +785,7 @@ object NetworkBroadRepository {
             NetworkBroadUtils.uploadFile(
                 url,
                 filePath,
-                callback = object : NetworkBroadUtils.NetworkBroadCallback<T> {
+                callback = object : NetworkBroadUtils.NetworkCallback<T> {
                     override fun onSuccess(data: T?) {
 //                        data?.let {
 //                            eLogD("postFileClass返回体", it.toString())
@@ -836,7 +836,7 @@ object NetworkListBroadRepository {
         NetworkBroadUtils.getList<T>(
             url = url,
             params = params,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     continuation.resume(
                         NetworkBroadResult.BroadSuccess(
@@ -873,7 +873,7 @@ object NetworkListBroadRepository {
             url = url,
             baseUrl = baseUrl,
             params = params,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     continuation.resume(
                         NetworkBroadResult.BroadSuccess(
@@ -907,7 +907,7 @@ object NetworkListBroadRepository {
         NetworkBroadUtils.postList<T>(
             url = url,
             body = body,
-            callback = object : NetworkBroadUtils.ListBroadCallback<T> {
+            callback = object : NetworkBroadUtils.ListCallback<T> {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     continuation.resume(
                         NetworkBroadResult.BroadSuccess(

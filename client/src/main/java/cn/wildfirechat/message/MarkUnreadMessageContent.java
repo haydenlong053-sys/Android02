@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Mark_Unread_Sync;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Mark_Unread_Sync;
 
 import android.os.Parcel;
 

@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-@ContentTag(type = MessageContentType.ContentType_Call_Multi_Call_Ongoing, flag = PersistFlag.Transparent)
+@ContentTag(type = MessageContentBroadType.ContentType_Call_Multi_Call_Ongoing, flag = PersistFlag.Transparent)
 public class MultiCallOngoingMessageContent extends MessageContent {
     private String callId;
     private String initiator;

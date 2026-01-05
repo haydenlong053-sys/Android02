@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <!--内容显示区-->
-    <com.lqr.emoji.ViewPagerFixed
+    <com.lqr.emoji.ViewPagerBroadFixed
         android:id="@+id/vpEmotioin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -22,7 +22,7 @@
         android:gravity="center"
         android:orientation="horizontal" />
 
-    <com.lqr.emoji.ViewPagerFixed
+    <com.lqr.emoji.ViewPagerBroadFixed
         android:visibility="gone"
         android:id="@+id/vpEmotioin2"
         android:layout_width="match_parent"

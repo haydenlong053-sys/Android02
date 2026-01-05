@@ -98,7 +98,7 @@ class QunGerenPageActivity : BaseSimpleActivity() {
                     this@QunGerenPageActivity,
                     this.icon ?: "",
                     ivTouxiang,
-                    PixelUtils.dip2px(this@QunGerenPageActivity, 10f)
+                    PixelBroadUtils.dip2px(this@QunGerenPageActivity, 10f)
                 )
 
                 tvname?.text = this.bei ?: ""

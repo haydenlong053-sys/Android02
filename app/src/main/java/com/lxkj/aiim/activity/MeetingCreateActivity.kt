@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.cboda.chatui.R
-import com.cboda.chatui.bridge.YeHuoEvent
+import com.cboda.chatui.bridge.YeHuoBroadEvent
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import com.google.gson.Gson
 import com.lxkj.aiim.base.BaseSimpleActivity
@@ -101,7 +101,7 @@ class MeetingCreateActivity : BaseSimpleActivity() {
 
                                         }
                                 EventBus.getDefault().post(
-                                    YeHuoEvent(
+                                    YeHuoBroadEvent(
                                         "huiyishi",
                                         Gson().toJson(meetingMessage),
                                         ""

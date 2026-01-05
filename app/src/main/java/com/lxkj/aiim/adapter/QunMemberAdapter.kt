@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lxkj.aiim.R
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.utils.GlideLoaderHelper
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 
 class QunMemberAdapter(layoutResId: Int,private var fromPage:String = "") :
     BaseQuickAdapter<CommonDataListBroadBean.CommonBean, BaseViewHolder>(layoutResId) {
@@ -17,7 +17,7 @@ class QunMemberAdapter(layoutResId: Int,private var fromPage:String = "") :
                     context,
                     item.icon?:"",
                     holder.getView(R.id.ivTouxiang),
-                    PixelUtils.dip2px(context, 5f)
+                    PixelBroadUtils.dip2px(context, 5f)
                 )
 
                 if (item.bei.isNullOrEmpty()){
@@ -43,7 +43,7 @@ class QunMemberAdapter(layoutResId: Int,private var fromPage:String = "") :
                     context,
                    item.icon?:"",
                     holder.getView(R.id.ivTouxiang),
-                    PixelUtils.dip2px(context, 5f)
+                    PixelBroadUtils.dip2px(context, 5f)
                 )
 
                 if (item.bei.isNullOrEmpty()){

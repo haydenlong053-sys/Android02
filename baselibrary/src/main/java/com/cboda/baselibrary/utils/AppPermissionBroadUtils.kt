@@ -85,7 +85,7 @@ object AppPermissionBroadUtils {
     /**
      * 权限请求结果回调接口
      */
-    interface PermissionBroadCallback {
+    interface PermissionCallback {
         /**
          * 权限被授予
          * @param permissions 被授予的权限列表
@@ -104,7 +104,7 @@ object AppPermissionBroadUtils {
      * 简化的权限请求接口
      * 支持在任何地方（如Adapter）直接处理权限请求
      */
-    interface SimplePermissionBroadCallback {
+    interface SimplePermissionCallback {
         /**
          * 权限被授予时调用
          */
@@ -245,7 +245,7 @@ object AppPermissionBroadUtils {
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray,
-        callback: PermissionBroadCallback?
+        callback: PermissionCallback?
     ) {
         val result = PermissionRequestBroadResult(requestCode, permissions, grantResults)
 
@@ -264,7 +264,7 @@ object AppPermissionBroadUtils {
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray,
-        callback: PermissionBroadCallback?
+        callback: PermissionCallback?
     ) {
         val result = PermissionRequestBroadResult(requestCode, permissions, grantResults)
 
@@ -287,7 +287,7 @@ object AppPermissionBroadUtils {
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray,
-        callback: PermissionBroadCallback?
+        callback: PermissionCallback?
     ) {
         val result = PermissionRequestBroadResult(requestCode, permissions, grantResults)
 
@@ -416,7 +416,7 @@ object AppPermissionBroadUtils {
         activity: Activity,
         permission: String,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback,
+        callback: SimplePermissionCallback,
         showRationaleMessage: String? = null
     ) {
         when (getPermissionStatus(activity, permission)) {
@@ -454,7 +454,7 @@ object AppPermissionBroadUtils {
         fragment: Fragment,
         permission: String,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback,
+        callback: SimplePermissionCallback,
         showRationaleMessage: String? = null
     ) {
         when (getPermissionStatus(fragment.requireActivity(), permission)) {
@@ -494,7 +494,7 @@ object AppPermissionBroadUtils {
         activity: Activity,
         permissions: Array<String>,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         val deniedPermissions = getDeniedPermissions(activity, permissions)
 
@@ -520,7 +520,7 @@ object AppPermissionBroadUtils {
         fragment: Fragment,
         permissions: Array<String>,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         val deniedPermissions = getDeniedPermissions(fragment.requireContext(), permissions)
 
@@ -546,7 +546,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestStoragePermission(
         activity: Activity,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         val permissions = getStoragePermissions()
         checkAndRequestPermissions(activity, permissions, requestCode, callback)
@@ -558,7 +558,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestStoragePermission(
         fragment: Fragment,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         val permissions = getStoragePermissions()
         checkAndRequestPermissions(fragment, permissions, requestCode, callback)
@@ -570,7 +570,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestCameraPermission(
         activity: Activity,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         checkAndRequestPermission(activity, BroadPermissions.CAMERA, requestCode, callback)
     }
@@ -581,7 +581,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestCameraPermission(
         fragment: Fragment,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         checkAndRequestPermission(fragment, BroadPermissions.CAMERA, requestCode, callback)
     }
@@ -592,7 +592,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestAudioPermission(
         activity: Activity,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         checkAndRequestPermission(activity, BroadPermissions.RECORD_AUDIO, requestCode, callback)
     }
@@ -603,7 +603,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestAudioPermission(
         fragment: Fragment,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback
+        callback: SimplePermissionCallback
     ) {
         checkAndRequestPermission(fragment, BroadPermissions.RECORD_AUDIO, requestCode, callback)
     }
@@ -614,7 +614,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestLocationPermission(
         activity: Activity,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback,
+        callback: SimplePermissionCallback,
         includeFineLocation: Boolean = true
     ) {
         val permissions = if (includeFineLocation) {
@@ -631,7 +631,7 @@ object AppPermissionBroadUtils {
     fun checkAndRequestLocationPermission(
         fragment: Fragment,
         requestCode: Int,
-        callback: SimplePermissionBroadCallback,
+        callback: SimplePermissionCallback,
         includeFineLocation: Boolean = true
     ) {
         val permissions = if (includeFineLocation) {

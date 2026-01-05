@@ -8,7 +8,7 @@ import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.luck.picture.lib.entity.LocalMedia
 import com.lxkj.aiim.R
 import com.lxkj.aiim.utils.GlideLoaderHelper
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
@@ -35,8 +35,8 @@ class SinglePicSelectHolder(
         val itemView = View.inflate(context, R.layout.item_single_pic_layout, null)
         ivSinglePic = itemView.findViewById(R.id.ivSinglePic)
         val params = ivSinglePic?.layoutParams
-        params?.width = PixelUtils.dip2px(context, width)
-        params?.height = PixelUtils.dip2px(context, height)
+        params?.width = PixelBroadUtils.dip2px(context, width)
+        params?.height = PixelBroadUtils.dip2px(context, height)
         ivSinglePic?.layoutParams = params
 
         if (red != 0) {
@@ -69,7 +69,7 @@ class SinglePicSelectHolder(
                                 context,
                                 "file://${resultList[0].realPath}",
                                 ivSinglePic!!,
-                                PixelUtils.dip2px(context, conner)
+                                PixelBroadUtils.dip2px(context, conner)
                             )
                         }
 
@@ -110,7 +110,7 @@ class SinglePicSelectHolder(
                 context,
                 url,
                 ivSinglePic!!,
-                PixelUtils.dip2px(context, conner)
+                PixelBroadUtils.dip2px(context, conner)
             )
         }
     }

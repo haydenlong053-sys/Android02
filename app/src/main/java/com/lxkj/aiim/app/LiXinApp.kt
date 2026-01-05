@@ -9,16 +9,16 @@ import android.net.http.HttpResponseCache
 import android.os.Process
 import android.text.TextUtils
 import androidx.lifecycle.Observer
-import com.cboda.chatui.ChatManagerHolder
-import com.cboda.chatui.Config
-import com.cboda.chatui.WfcUIKit
-import com.cboda.chatui.conversation.message.viewholder.BiaoQingMessageContentViewHolder
-import com.cboda.chatui.conversation.message.viewholder.HongBaoMessageContentViewHolder
-import com.cboda.chatui.conversation.message.viewholder.LingQuMessageContentViewHolder
-import com.cboda.chatui.conversation.message.viewholder.MessageViewHolderManager
-import com.cboda.chatui.conversation.message.viewholder.ZhuanZhangJieShouMessageContentViewHolder
-import com.cboda.chatui.conversation.message.viewholder.ZhuanZhangMessageContentViewHolder
-import com.cboda.chatui.third.location.viewholder.LocationMessageContentViewHolder
+import com.cboda.chatui.ChatManagerBroadHolder
+import com.cboda.chatui.BroadConfig
+import com.cboda.chatui.WfcUIBroadKit
+import com.cboda.chatui.conversation.message.viewholder.BiaoQingMessageContentViewBroadHolder
+import com.cboda.chatui.conversation.message.viewholder.HongBaoMessageContentViewBroadHolder
+import com.cboda.chatui.conversation.message.viewholder.LingQuMessageContentViewBroadHolder
+import com.cboda.chatui.conversation.message.viewholder.MessageViewHolderBroadManager
+import com.cboda.chatui.conversation.message.viewholder.ZhuanZhangJieShouMessageContentViewBroadHolder
+import com.cboda.chatui.conversation.message.viewholder.ZhuanZhangMessageContentViewBroadHolder
+import com.cboda.chatui.third.location.viewholder.LocationMessageContentViewBroadHolder
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnConnectToServerListener
 import com.cboda.baselibrary.app.UtilBroadApplication
@@ -44,7 +44,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug
 import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.yehuo.service.WfcDefaultPortraitProvider
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
@@ -80,7 +80,7 @@ class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ ->
                 val footer = BallPulseFooter(context)
                 footer.setAnimatingColor(Color.parseColor("#9B4EDC"))
-                footer.minimumHeight = PixelUtils.dip2px(context, 50f)
+                footer.minimumHeight = PixelBroadUtils.dip2px(context, 50f)
                 footer
             }
         }
@@ -216,39 +216,39 @@ class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
             spconfig?.edit()?.putBoolean("darkTheme", false)?.apply()
 
             // 如果uikit是以aar的方式引入 ，那么需要在此对Config里面的属性进行配置，如：
-            // Config.IM_SERVER_HOST = "im.example.com";
-            val wfcUIKit = WfcUIKit.getWfcUIKit()
+            // BroadConfig.IM_SERVER_HOST = "im.example.com";
+            val wfcUIKit = WfcUIBroadKit.getWfcUIKit()
             wfcUIKit.init(this)
             wfcUIKit.setEnableNativeNotification(true)
             wfcUIKit.appServiceProvider = AppService.Instance()
             //            PushService.init(this, BuildConfig.APPLICATION_ID);
-            MessageViewHolderManager.getInstance().registerMessageViewHolder(
-                LocationMessageContentViewHolder::class.java,
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                LocationMessageContentViewBroadHolder::class.java,
                 R.layout.conversation_item_location_send,
                 R.layout.conversation_item_location_left
             )
-            MessageViewHolderManager.getInstance().registerMessageViewHolder(
-                ZhuanZhangMessageContentViewHolder::class.java,
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                ZhuanZhangMessageContentViewBroadHolder::class.java,
                 R.layout.chat_zhunzhang_layout, R.layout.chat_zhunzhang_layout_left
             )
-            MessageViewHolderManager.getInstance().registerMessageViewHolder(
-                ZhuanZhangJieShouMessageContentViewHolder::class.java,
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                ZhuanZhangJieShouMessageContentViewBroadHolder::class.java,
                 R.layout.chat_zhunzhang_layout, R.layout.chat_zhunzhang_layout_left
             )
 
-            MessageViewHolderManager.getInstance().registerMessageViewHolder(
-                HongBaoMessageContentViewHolder::class.java,
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                HongBaoMessageContentViewBroadHolder::class.java,
                 com.cboda.baselibrary.R.layout.chat_hongbao_broad_layout,
                 com.cboda.baselibrary.R.layout.chat_hongbao_broad_layout
             )
 
-            MessageViewHolderManager.getInstance().registerMessageViewHolder(
-                BiaoQingMessageContentViewHolder::class.java,
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                BiaoQingMessageContentViewBroadHolder::class.java,
                 R.layout.conversation_item_sticker_send, R.layout.conversation_item_sticker_receive
             )
 
-            MessageViewHolderManager.getInstance().registerMessageViewHolder(
-                LingQuMessageContentViewHolder::class.java,
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                LingQuMessageContentViewBroadHolder::class.java,
                 R.layout.chat_lingqu_layout, R.layout.chat_lingqu_layout
             )
 
@@ -258,21 +258,21 @@ class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
             if (userId?.isNotEmpty() == true && yehuoUserToken?.isNotEmpty() == true) {
                 //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
                 //另外不能多次connect，如果需要切换用户请先disconnect，然后3秒钟之后再connect（如果是用户手动登录可以不用等，因为用户操作很难3秒完成，如果程序自动切换请等3秒）
-                val connextStatus = ChatManagerHolder.gChatManager.connect(userId, yehuoUserToken)
+                val connextStatus = ChatManagerBroadHolder.gChatManager.connect(userId, yehuoUserToken)
                 AppUtil.debug("野火", "connect----> $connextStatus")
             }
 //
-//            if (!TextUtils.isEmpty(Config.ORG_SERVER_ADDRESS)) {
+//            if (!TextUtils.isEmpty(BroadConfig.ORG_SERVER_ADDRESS)) {
 //                val organizationService: OrganizationService = OrganizationService.Instance()
 //                wfcUIKit.organizationServiceProvider = organizationService
 //            }
             ChatManager.Instance()
                 .setDefaultPortraitProviderClazz(WfcDefaultPortraitProvider::class.java)
             ChatManager.Instance().addConnectToServerListener(this)
-            val sp = getSharedPreferences(Config.SP_CONFIG_FILE_NAME, MODE_PRIVATE)
-            Config.ENABLE_AUDIO_MESSAGE_AMPLIFICATION = sp.getBoolean(
+            val sp = getSharedPreferences(BroadConfig.SP_CONFIG_FILE_NAME, MODE_PRIVATE)
+            BroadConfig.ENABLE_AUDIO_MESSAGE_AMPLIFICATION = sp.getBoolean(
                 "audioMessageAmplificationEnabled",
-                Config.ENABLE_AUDIO_MESSAGE_AMPLIFICATION
+                BroadConfig.ENABLE_AUDIO_MESSAGE_AMPLIFICATION
             )
 
         }
@@ -280,10 +280,10 @@ class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
     }
 
     private fun setupWFCDirs() {
-        Config.VIDEO_SAVE_DIR = getDir("video", MODE_PRIVATE).absolutePath
-        Config.AUDIO_SAVE_DIR = getDir("audio", MODE_PRIVATE).absolutePath
-        Config.PHOTO_SAVE_DIR = getDir("photo", MODE_PRIVATE).absolutePath
-        Config.FILE_SAVE_DIR = getDir("file", MODE_PRIVATE).absolutePath
+        BroadConfig.VIDEO_SAVE_DIR = getDir("video", MODE_PRIVATE).absolutePath
+        BroadConfig.AUDIO_SAVE_DIR = getDir("audio", MODE_PRIVATE).absolutePath
+        BroadConfig.PHOTO_SAVE_DIR = getDir("photo", MODE_PRIVATE).absolutePath
+        BroadConfig.FILE_SAVE_DIR = getDir("file", MODE_PRIVATE).absolutePath
     }
 
     private fun getCurProcessName(context: Context): String? {

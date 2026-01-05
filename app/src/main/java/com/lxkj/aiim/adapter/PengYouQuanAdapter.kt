@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lxkj.aiim.R
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.utils.GlideLoaderHelper
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 
 class PengYouQuanAdapter(layoutResId: Int) :
     BaseQuickAdapter<CommonDataListBroadBean.CommonBean, BaseViewHolder>(layoutResId) {
@@ -14,7 +14,7 @@ class PengYouQuanAdapter(layoutResId: Int) :
             context,
             item.icon?:"",
             holder.getView(R.id.ivtupian),
-            PixelUtils.dip2px(context,5f)
+            PixelBroadUtils.dip2px(context,5f)
         )
     }
 }

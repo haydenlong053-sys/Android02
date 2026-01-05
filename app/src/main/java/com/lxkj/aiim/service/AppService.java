@@ -26,24 +26,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cboda.chatui.AppServiceProvider;
-import com.cboda.chatui.ChatManagerHolder;
-import com.cboda.chatui.Config;
-import com.cboda.chatui.WfcUIKit;
-import com.cboda.chatui.favorite.FavoriteItem;
-import com.cboda.chatui.group.GroupAnnouncement;
+import com.cboda.chatui.AppServiceBroadProvider;
+import com.cboda.chatui.ChatManagerBroadHolder;
+import com.cboda.chatui.BroadConfig;
+import com.cboda.chatui.WfcUIBroadKit;
+import com.cboda.chatui.favorite.FavoriteBroadItem;
+import com.cboda.chatui.group.GroupBroadAnnouncement;
 import com.cboda.chatui.net.BooleanCallback;
-import com.cboda.chatui.net.OKHttpHelper;
+import com.cboda.chatui.net.OKHttpBroadHelper;
 import com.cboda.chatui.net.SimpleCallback;
-import com.cboda.chatui.net.base.StatusResult;
-import com.cboda.chatui.voip.conference.model.ConferenceInfo;
+import com.cboda.chatui.net.base.StatusBroadResult;
+import com.cboda.chatui.voip.conference.model.ConferenceBroadInfo;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GeneralCallback;
 import cn.wildfirechat.remote.GeneralCallback2;
 import okhttp3.MediaType;
 
-public class AppService implements AppServiceProvider {
+public class AppService implements AppServiceBroadProvider {
     private static final AppService Instance = new AppService();
 
     /**
@@ -86,14 +86,14 @@ public class AppService implements AppServiceProvider {
         params.put("platform", new Integer(2));
 
         try {
-            params.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+            params.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         } catch (Exception e) {
             e.printStackTrace();
             callback.onUiFailure(-1, "网络出来问题了。。。");
             return;
         }
 
-        OKHttpHelper.post(url, params, new SimpleCallback<LoginResult>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<LoginResult>() {
             @Override
             public void onUiSuccess(LoginResult loginResult) {
                 callback.onUiSuccess(loginResult);
@@ -131,14 +131,14 @@ public class AppService implements AppServiceProvider {
         params.put("platform", new Integer(2));
 
         try {
-            params.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+            params.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         } catch (Exception e) {
             e.printStackTrace();
             callback.onUiFailure(-1, "获取clientId失败");
             return;
         }
 
-        OKHttpHelper.post(url, params, new SimpleCallback<LoginResult>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<LoginResult>() {
             @Override
             public void onUiSuccess(LoginResult loginResult) {
                 callback.onUiSuccess(loginResult);
@@ -152,7 +152,7 @@ public class AppService implements AppServiceProvider {
     }
 
 
-    public void resetPassword(String mobile, String code, String password, SimpleCallback<StatusResult> callback) {
+    public void resetPassword(String mobile, String code, String password, SimpleCallback<StatusBroadResult> callback) {
         String url = APP_SERVER_ADDRESS + "/reset_pwd";
         Map<String, Object> params = new HashMap<>();
         if (!TextUtils.isEmpty(mobile)) {
@@ -161,16 +161,16 @@ public class AppService implements AppServiceProvider {
         params.put("resetCode", code);
         params.put("newPassword", password);
 
-        OKHttpHelper.post(url, params, callback);
+        OKHttpBroadHelper.post(url, params, callback);
     }
 
-    public void changePassword(String oldPassword, String newPassword, SimpleCallback<StatusResult> callback) {
+    public void changePassword(String oldPassword, String newPassword, SimpleCallback<StatusBroadResult> callback) {
         String url = APP_SERVER_ADDRESS + "/change_pwd";
         Map<String, Object> params = new HashMap<>();
         params.put("oldPassword", oldPassword);
         params.put("newPassword", newPassword);
 
-        OKHttpHelper.post(url, params, callback);
+        OKHttpBroadHelper.post(url, params, callback);
 
     }
 
@@ -185,9 +185,9 @@ public class AppService implements AppServiceProvider {
         String url = APP_SERVER_ADDRESS + "/send_code";
         Map<String, Object> params = new HashMap<>();
         params.put("mobile", phoneNumber);
-        OKHttpHelper.post(url, params, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (statusResult.getCode() == 0) {
                     callback.onUiSuccess();
                 } else {
@@ -210,9 +210,9 @@ public class AppService implements AppServiceProvider {
         if (!TextUtils.isEmpty(phoneNumber)) {
             params.put("mobile", phoneNumber);
         }
-        OKHttpHelper.post(url, params, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (statusResult.getCode() == 0) {
                     callback.onUiSuccess();
                 } else {
@@ -237,7 +237,7 @@ public class AppService implements AppServiceProvider {
     public void scanPCLogin(String token, ScanPCCallback callback) {
         String url = APP_SERVER_ADDRESS + "/scan_pc";
         url += "/" + token;
-        OKHttpHelper.post(url, null, new SimpleCallback<PCSession>() {
+        OKHttpBroadHelper.post(url, null, new SimpleCallback<PCSession>() {
             @Override
             public void onUiSuccess(PCSession pcSession) {
                 if (pcSession.getStatus() == 1) {
@@ -267,7 +267,7 @@ public class AppService implements AppServiceProvider {
         params.put("user_id", userId);
         params.put("token", token);
         params.put("quick_login", 1);
-        OKHttpHelper.post(url, params, new SimpleCallback<PCSession>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<PCSession>() {
             @Override
             public void onUiSuccess(PCSession pcSession) {
                 if (pcSession.getStatus() == 2) {
@@ -289,7 +289,7 @@ public class AppService implements AppServiceProvider {
 
         Map<String, Object> params = new HashMap<>(3);
         params.put("token", token);
-        OKHttpHelper.post(url, params, new SimpleCallback<PCSession>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<PCSession>() {
             @Override
             public void onUiSuccess(PCSession pcSession) {
                 if (pcSession.getStatus() == 2) {
@@ -314,9 +314,9 @@ public class AppService implements AppServiceProvider {
 
         Map<String, Object> params = new HashMap<>(2);
         params.put("groupId", groupId);
-        OKHttpHelper.post(url, params, new SimpleCallback<GroupAnnouncement>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<GroupBroadAnnouncement>() {
             @Override
-            public void onUiSuccess(GroupAnnouncement announcement) {
+            public void onUiSuccess(GroupBroadAnnouncement announcement) {
                 callback.onUiSuccess(announcement);
             }
 
@@ -335,11 +335,11 @@ public class AppService implements AppServiceProvider {
 
         Map<String, Object> params = new HashMap<>(2);
         params.put("groupId", groupId);
-        params.put("author", ChatManagerHolder.gChatManager.getUserId());
+        params.put("author", ChatManagerBroadHolder.gChatManager.getUserId());
         params.put("text", announcement);
-        OKHttpHelper.post(url, params, new SimpleCallback<GroupAnnouncement>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<GroupBroadAnnouncement>() {
             @Override
-            public void onUiSuccess(GroupAnnouncement announcement) {
+            public void onUiSuccess(GroupBroadAnnouncement announcement) {
                 callback.onUiSuccess(announcement);
             }
 
@@ -356,7 +356,7 @@ public class AppService implements AppServiceProvider {
         intent.putExtra("token", token);
         intent.putExtra("isConfirmPcLogin", true);
         intent.putExtra("platform", platform);
-        WfcUIKit.startActivity(ChatManager.Instance().getApplicationContext(), intent);
+        WfcUIBroadKit.startActivity(ChatManager.Instance().getApplicationContext(), intent);
     }
 
     @Override
@@ -391,7 +391,7 @@ public class AppService implements AppServiceProvider {
             // 重复上传最后一个日志文件，因为上传之后，还会追加内容
             if (!sp.contains(path) || i == filePaths.size() - 1) {
                 toUploadCount++;
-                OKHttpHelper.upload(url, null, file, MediaType.get("application/octet-stream"), new SimpleCallback<Void>() {
+                OKHttpBroadHelper.upload(url, null, file, MediaType.get("application/octet-stream"), new SimpleCallback<Void>() {
                     @Override
                     public void onUiSuccess(Void aVoid) {
                         if (callback != null) {
@@ -422,7 +422,7 @@ public class AppService implements AppServiceProvider {
 
         Map<String, Object> params = new HashMap<>(2);
         params.put("newName", newName);
-        OKHttpHelper.post(url, params, new SimpleCallback<Void>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<Void>() {
             @Override
             public void onUiSuccess(Void aVoid) {
                 callback.onUiSuccess(null);
@@ -445,7 +445,7 @@ public class AppService implements AppServiceProvider {
         Map<String, Object> params = new HashMap<>();
         params.put("id", startId);
         params.put("count", count);
-        OKHttpHelper.post(url, params, new SimpleCallback<String>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<String>() {
             @Override
             public void onUiSuccess(String s) {
                 try {
@@ -454,11 +454,11 @@ public class AppService implements AppServiceProvider {
                     boolean hasMore = result.getBoolean("hasMore");
                     JSONArray items = result.getJSONArray("items");
 
-                    List<FavoriteItem> favoriteItems = new ArrayList<>();
+                    List<FavoriteBroadItem> favoriteItems = new ArrayList<>();
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject itemObj = items.getJSONObject(i);
                         Conversation conversation = new Conversation(Conversation.ConversationType.type(itemObj.getInt("convType")), itemObj.getString("convTarget"), itemObj.getInt("convLine"));
-                        FavoriteItem item = new FavoriteItem(itemObj.getInt("id"),
+                        FavoriteBroadItem item = new FavoriteBroadItem(itemObj.getInt("id"),
                             itemObj.optLong("messageUid"),
                             itemObj.getInt("type"),
                             itemObj.getLong("timestamp"),
@@ -490,7 +490,7 @@ public class AppService implements AppServiceProvider {
     }
 
     @Override
-    public void addFavoriteItem(FavoriteItem item, SimpleCallback<Void> callback) {
+    public void addFavoriteItem(FavoriteBroadItem item, SimpleCallback<Void> callback) {
         String url = APP_SERVER_ADDRESS + "/fav/add";
         Map<String, Object> params = new HashMap<>();
         params.put("messageUid", item.getMessageUid());
@@ -505,25 +505,25 @@ public class AppService implements AppServiceProvider {
         params.put("thumbUrl", item.getThumbUrl());
         params.put("data", item.getData());
 
-        OKHttpHelper.post(url, params, callback);
+        OKHttpBroadHelper.post(url, params, callback);
     }
 
     @Override
     public void removeFavoriteItem(int favId, SimpleCallback<Void> callback) {
         String url = APP_SERVER_ADDRESS + "/fav/del/" + favId;
-        OKHttpHelper.post(url, null, callback);
+        OKHttpBroadHelper.post(url, null, callback);
     }
 
     public static void validateConfig(Context context) {
-        if (TextUtils.isEmpty(Config.IM_SERVER_HOST)
-            || Config.IM_SERVER_HOST.startsWith("http")
-//            || Config.IM_SERVER_HOST.contains(":")
+        if (TextUtils.isEmpty(BroadConfig.IM_SERVER_HOST)
+            || BroadConfig.IM_SERVER_HOST.startsWith("http")
+//            || BroadConfig.IM_SERVER_HOST.contains(":")
             || TextUtils.isEmpty(APP_SERVER_ADDRESS)
             || (!APP_SERVER_ADDRESS.startsWith("http") && !APP_SERVER_ADDRESS.startsWith("https"))
-            || Config.IM_SERVER_HOST.equals("127.0.0.1")
+            || BroadConfig.IM_SERVER_HOST.equals("127.0.0.1")
             || APP_SERVER_ADDRESS.contains("127.0.0.1")
-            || (!Config.IM_SERVER_HOST.contains("wildfirechat.net") && APP_SERVER_ADDRESS.contains("wildfirechat.net"))
-            || (Config.IM_SERVER_HOST.contains("wildfirechat.net") && !APP_SERVER_ADDRESS.contains("wildfirechat.net"))
+            || (!BroadConfig.IM_SERVER_HOST.contains("wildfirechat.net") && APP_SERVER_ADDRESS.contains("wildfirechat.net"))
+            || (BroadConfig.IM_SERVER_HOST.contains("wildfirechat.net") && !APP_SERVER_ADDRESS.contains("wildfirechat.net"))
         ) {
             Toast.makeText(context, "配置错误，请检查配置，应用即将关闭...", Toast.LENGTH_LONG).show();
             new Handler().postDelayed(() -> {
@@ -531,8 +531,8 @@ public class AppService implements AppServiceProvider {
             }, 5 * 1000);
         }
 
-        if (Config.ICE_SERVERS != null) {
-            for (String[] ice : Config.ICE_SERVERS) {
+        if (BroadConfig.ICE_SERVERS != null) {
+            for (String[] ice : BroadConfig.ICE_SERVERS) {
                 if (!ice[0].startsWith("turn")) {
                     Toast.makeText(context, "Turn配置错误，请检查配置，应用即将关闭...", Toast.LENGTH_LONG).show();
                     new Handler().postDelayed(() -> {
@@ -549,7 +549,7 @@ public class AppService implements AppServiceProvider {
             return;
         }
         String url = APP_SERVER_ADDRESS + "/conference/get_my_id";
-        OKHttpHelper.post(url, null, new SimpleCallback<String>() {
+        OKHttpBroadHelper.post(url, null, new SimpleCallback<String>() {
 
             @Override
             public void onUiSuccess(String response) {
@@ -574,9 +574,9 @@ public class AppService implements AppServiceProvider {
     }
 
     @Override
-    public void createConference(ConferenceInfo info, GeneralCallback2 callback) {
+    public void createConference(ConferenceBroadInfo info, GeneralCallback2 callback) {
         String url = APP_SERVER_ADDRESS + "/conference/create";
-        OKHttpHelper.post(url, info, new SimpleCallback<String>() {
+        OKHttpBroadHelper.post(url, info, new SimpleCallback<String>() {
             @Override
             public void onUiSuccess(String response) {
                 try {
@@ -610,10 +610,10 @@ public class AppService implements AppServiceProvider {
         if (!TextUtils.isEmpty(password)) {
             map.put("password", password);
         }
-        OKHttpHelper.post(url, map, new SimpleCallback<ConferenceInfo>() {
+        OKHttpBroadHelper.post(url, map, new SimpleCallback<ConferenceBroadInfo>() {
 
             @Override
-            public void onUiSuccess(ConferenceInfo info) {
+            public void onUiSuccess(ConferenceBroadInfo info) {
                 callback.onSuccess(info);
             }
 
@@ -627,10 +627,10 @@ public class AppService implements AppServiceProvider {
     @Override
     public void destroyConference(String conferenceId, GeneralCallback callback) {
         String url = APP_SERVER_ADDRESS + "/conference/destroy/" + conferenceId;
-        OKHttpHelper.post(url, null, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, null, new SimpleCallback<StatusBroadResult>() {
 
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (statusResult.isSuccess()) {
                     callback.onSuccess();
                 } else {
@@ -648,9 +648,9 @@ public class AppService implements AppServiceProvider {
     @Override
     public void favConference(String conferenceId, GeneralCallback callback) {
         String url = APP_SERVER_ADDRESS + "/conference/fav/" + conferenceId;
-        OKHttpHelper.post(url, null, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, null, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (callback != null) {
                     if (statusResult.isSuccess()) {
                         callback.onSuccess();
@@ -673,9 +673,9 @@ public class AppService implements AppServiceProvider {
     @Override
     public void unfavConference(String conferenceId, GeneralCallback callback) {
         String url = APP_SERVER_ADDRESS + "/conference/unfav/" + conferenceId;
-        OKHttpHelper.post(url, null, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, null, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (callback != null) {
                     if (statusResult.isSuccess()) {
                         callback.onSuccess();
@@ -697,9 +697,9 @@ public class AppService implements AppServiceProvider {
     @Override
     public void isFavConference(String conferenceId, BooleanCallback callback) {
         String url = APP_SERVER_ADDRESS + "/conference/is_fav/" + conferenceId;
-        OKHttpHelper.post(url, null, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, null, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (callback != null) {
                     if (statusResult.getCode() == 0) {
                         callback.onSuccess(true);
@@ -723,9 +723,9 @@ public class AppService implements AppServiceProvider {
     @Override
     public void getFavConferences(FavConferenceCallback callback) {
         String url = APP_SERVER_ADDRESS + "/conference/fav_conferences";
-        OKHttpHelper.post(url, null, new SimpleCallback<List<ConferenceInfo>>() {
+        OKHttpBroadHelper.post(url, null, new SimpleCallback<List<ConferenceBroadInfo>>() {
             @Override
-            public void onUiSuccess(List<ConferenceInfo> favConferences) {
+            public void onUiSuccess(List<ConferenceBroadInfo> favConferences) {
                 if (callback != null) {
                     callback.onSuccess(favConferences);
                 }
@@ -741,11 +741,11 @@ public class AppService implements AppServiceProvider {
     }
 
     @Override
-    public void updateConference(ConferenceInfo conferenceInfo, GeneralCallback callback) {
+    public void updateConference(ConferenceBroadInfo conferenceInfo, GeneralCallback callback) {
         String url = APP_SERVER_ADDRESS + "/conference/put_info";
-        OKHttpHelper.post(url, conferenceInfo, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, conferenceInfo, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (callback != null) {
                     callback.onSuccess();
                 }
@@ -765,9 +765,9 @@ public class AppService implements AppServiceProvider {
         String url = APP_SERVER_ADDRESS + "/conference/recording/" + conferenceId;
         Map<String, Boolean> params = new HashMap<>();
         params.put("recording", record);
-        OKHttpHelper.post(url, params, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (callback != null) {
                     callback.onSuccess();
                 }
@@ -787,9 +787,9 @@ public class AppService implements AppServiceProvider {
         String url = APP_SERVER_ADDRESS + "/conference/focus/" + conferenceId;
         Map<String, String> params = new HashMap<>();
         params.put("userId", TextUtils.isEmpty(userId) ? "" : userId);
-        OKHttpHelper.post(url, params, new SimpleCallback<StatusResult>() {
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<StatusBroadResult>() {
             @Override
-            public void onUiSuccess(StatusResult statusResult) {
+            public void onUiSuccess(StatusBroadResult statusResult) {
                 if (callback != null) {
                     callback.onSuccess();
                 }

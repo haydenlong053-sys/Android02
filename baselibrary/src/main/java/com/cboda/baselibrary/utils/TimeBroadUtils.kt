@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-object TimeBroadUtils {
+object TimeBroadBroadUtils {
 
     /**
      * 格式化日期

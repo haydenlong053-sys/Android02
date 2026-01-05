@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-@ContentTag(type = MessageContentType.ContentType_Rich_Notification, flag = PersistFlag.Persist_And_Count)
+@ContentTag(type = MessageContentBroadType.ContentType_Rich_Notification, flag = PersistFlag.Persist_And_Count)
 public class RichNotificationMessageContent extends NotificationMessageContent{
     // 富通知消息
     public String title;

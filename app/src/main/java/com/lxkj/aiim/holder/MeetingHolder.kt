@@ -1,7 +1,7 @@
 package com.lxkj.aiim.holder
 
 import android.content.Context
-import com.cboda.chatui.widget.popup.OpenMeetingDialog
+import com.cboda.chatui.widget.popup.OpenMeetingBroadDialog
 import com.lxkj.aiim.activity.MeetingCreateActivity
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonResultBroadBean
@@ -58,7 +58,7 @@ object MeetingHolder {
 //
 //                                                                }
 //                                                        EventBus.getDefault().post(
-//                                                            YeHuoEvent(
+//                                                            YeHuoBroadEvent(
 //                                                                "huiyishi",
 //                                                                Gson().toJson(meetingMessage),
 //                                                                ""
@@ -81,7 +81,7 @@ object MeetingHolder {
 //
 //                                                                }
 //                                                        EventBus.getDefault().post(
-//                                                            YeHuoEvent(
+//                                                            YeHuoBroadEvent(
 //                                                                "huiyishi",
 //                                                                Gson().toJson(meetingMessage),
 //                                                                ""
@@ -155,7 +155,7 @@ object MeetingHolder {
 
     }
 
-    private  fun  createMeetingDialog(context: Context,meetingTitle:String,openClick: (openMic: Boolean, openMute: Boolean,meetingTitle: String) -> Unit?): OpenMeetingDialog{
-        return OpenMeetingDialog(context,meetingTitle,true,false,openClick)
+    private  fun  createMeetingDialog(context: Context,meetingTitle:String,openClick: (openMic: Boolean, openMute: Boolean,meetingTitle: String) -> Unit?): OpenMeetingBroadDialog{
+        return OpenMeetingBroadDialog(context,meetingTitle,true,false,openClick)
     }
 }

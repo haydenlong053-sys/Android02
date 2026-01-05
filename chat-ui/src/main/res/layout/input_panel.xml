@@ -71,7 +71,7 @@
                 android:visibility="visible" />
         </LinearLayout>
 
-        <com.cboda.chatui.widget.KeyboardHeightFrameLayout
+        <com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout
             android:id="@+id/emotionContainerFrameLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_custom_keyboard_size"
@@ -83,6 +83,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone" />
-        </com.cboda.chatui.widget.KeyboardHeightFrameLayout>
+        </com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout>
     </LinearLayout>
 </merge>

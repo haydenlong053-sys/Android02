@@ -19,7 +19,7 @@ import cn.wildfirechat.message.core.ContentTag;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Location;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Location;
 
 /**
  * Created by heavyrain lee on 2017/12/6.

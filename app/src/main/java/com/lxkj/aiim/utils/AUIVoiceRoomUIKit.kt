@@ -52,7 +52,7 @@ object AUIVoiceRoomUIKit {
         mAPIConfig = apiConfig
         AUIRoomContext.shared().setCommonConfig(config)
         HttpManager.setBaseURL(config.host)
-        AUILogger.initLogger(AUILogger.Config(config.context, "Voice"))
+        AUILogger.initLogger(AUILogger.BroadConfig(config.context, "Voice"))
 
     }
 

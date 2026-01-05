@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * @author：luck
  * @date：2017-05-24 17:02
- * @describe：PictureSelector Config
+ * @describe：PictureSelector BroadConfig
  */
 
 public final class SelectorConfig {

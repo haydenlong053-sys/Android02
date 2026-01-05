@@ -13,7 +13,7 @@ import com.lxkj.aiim.adapter.LingQuUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.utils.GlideLoaderHelper
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.utils.StringUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
@@ -94,7 +94,7 @@ class HongBaoPageActivity : BaseSimpleActivity() {
                     this@HongBaoPageActivity,
                     this.icon ?: "",
                     ivTouxiang,
-                    PixelUtils.dip2px(this@HongBaoPageActivity, 5f)
+                    PixelBroadUtils.dip2px(this@HongBaoPageActivity, 5f)
                 )
                 tvname?.isInvisible = false
                 tvhongbaogeshu?.isInvisible = false

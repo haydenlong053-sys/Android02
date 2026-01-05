@@ -15,7 +15,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.cboda.chatui.conversation.forward.ForwardActivity
+import com.cboda.chatui.conversation.forward.ForwardBroadActivity
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import cn.wildfirechat.message.Message
 import com.cboda.agora.ui.micseats.MicSeatBroadType
@@ -24,7 +24,7 @@ import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.rtc.NetworkQualityEventBroadData
 import com.cboda.baselibrary.network.model.NetworkBroadResponse
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.cboda.baselibrary.utils.TimeBroadUtils
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.cboda.baselibrary.bean.BaseBroadResponse
@@ -205,7 +205,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                                         val message = Message()
                                         message.content=meetingMessage
                                         runOnUiThread {
-                                            val intent = Intent(this@MeetingRoomActivity, ForwardActivity::class.java)
+                                            val intent = Intent(this@MeetingRoomActivity, ForwardBroadActivity::class.java)
                                             intent.putExtra("message",message)
                                             this@MeetingRoomActivity.startActivity(intent)
                                         }
@@ -347,7 +347,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         lifecycleScope.launch {
             countdownFlow?.remainingTime?.collect{
 //                Log.e("倒计时","$it")
-                mViewBinding.tvCountDown.text="剩余${TimeBroadUtils.formatDuration(it.toLong())}"
+                mViewBinding.tvCountDown.text="剩余${TimeBroadBroadUtils.formatDuration(it.toLong())}"
             }
         }
 
@@ -452,10 +452,10 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         }
 
         mViewBinding.tvTimeName.text=meetingData.meetingTimeName
-        mViewBinding.tvStartDate.text=TimeBroadUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"yyyy年MM月dd日")
-        mViewBinding.tvEndDate.text=TimeBroadUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"yyyy年MM月dd日")
-        mViewBinding.tvStartTime.text=TimeBroadUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"HH:mm")
-        mViewBinding.tvEndTime.text=TimeBroadUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"HH:mm")
+        mViewBinding.tvStartDate.text=TimeBroadBroadUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"yyyy年MM月dd日")
+        mViewBinding.tvEndDate.text=TimeBroadBroadUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"yyyy年MM月dd日")
+        mViewBinding.tvStartTime.text=TimeBroadBroadUtils.formatTimestamp((meetingData.startTime?:0L).toString(),"HH:mm")
+        mViewBinding.tvEndTime.text=TimeBroadBroadUtils.formatTimestamp((meetingData.endTime?:0L).toString(),"HH:mm")
 
 
 

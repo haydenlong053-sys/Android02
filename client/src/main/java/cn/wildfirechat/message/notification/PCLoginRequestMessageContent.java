@@ -12,11 +12,11 @@ import org.json.JSONObject;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.MessageContent;
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-@ContentTag(type = MessageContentType.ContentType_PC_LOGIN_REQUSET, flag = PersistFlag.No_Persist)
+@ContentTag(type = MessageContentBroadType.ContentType_PC_LOGIN_REQUSET, flag = PersistFlag.No_Persist)
 public class PCLoginRequestMessageContent extends MessageContent {
     // 3 windows, 4 osx, 5 web
     private int platform;

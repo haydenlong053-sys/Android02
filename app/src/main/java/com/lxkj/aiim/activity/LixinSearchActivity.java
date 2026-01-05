@@ -2,11 +2,11 @@ package com.lxkj.aiim.activity;
 
 import java.util.List;
 
-import com.cboda.chatui.search.SearchActivity;
-import com.cboda.chatui.search.SearchableModule;
+import com.cboda.chatui.search.SearchBroadActivity;
+import com.cboda.chatui.search.SearchableBroadModule;
 
-public class LixinSearchActivity extends SearchActivity {
+public class LixinSearchActivity extends SearchBroadActivity {
     @Override
-    protected void initSearchModule(List<SearchableModule> modules) {
+    protected void initSearchModule(List<SearchableBroadModule> modules) {
     }
 }

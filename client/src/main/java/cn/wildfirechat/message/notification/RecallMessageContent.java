@@ -17,7 +17,7 @@ import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Recall;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Recall;
 
 /**
  * Created by heavyrain lee on 2017/12/6.

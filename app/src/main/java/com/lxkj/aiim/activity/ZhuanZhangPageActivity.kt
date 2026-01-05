@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.chatui.bridge.YeHuoEvent
+import com.cboda.chatui.bridge.YeHuoBroadEvent
 import com.google.gson.Gson
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity
@@ -65,7 +65,7 @@ class ZhuanZhangPageActivity:BaseSimpleActivity() {
             when (it.type) {
                 "shoukuanSuc" -> {
                     viewModel?.zhuanzhangInfo(this,hongbaoId)
-                    EventBus.getDefault().post(YeHuoEvent("fajieshouzhuanzhangxiaoxi",hongbaoId,mprice))
+                    EventBus.getDefault().post(YeHuoBroadEvent("fajieshouzhuanzhangxiaoxi",hongbaoId,mprice))
 
 //                    val customMsg = SendCustomMsg()
 //                    customMsg.sendYeHuoZhuanZhangJieShou(

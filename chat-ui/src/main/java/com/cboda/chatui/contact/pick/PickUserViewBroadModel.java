@@ -1,0 +1,158 @@
+/*
+ * Copyright (c) 2020 WildFireChat. All rights reserved.
+ */
+
+package com.cboda.chatui.contact.pick;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cboda.chatui.contact.model.UIUserBroadInfo;
+import com.cboda.chatui.utils.PinyinBroadUtils;
+import cn.wildfirechat.model.UserInfo;
+import cn.wildfirechat.remote.ChatManager;
+
+public class PickUserViewBroadModel extends ViewModel {
+    private List<UIUserBroadInfo> users;
+    private List<String> uncheckableIds;
+    private List<String> initialCheckedIds;
+    private MutableLiveData<UIUserBroadInfo> userCheckStatusUpdateLiveData;
+    private int maxPickCount = Integer.MAX_VALUE;
+
+    public PickUserViewBroadModel() {
+        super();
+    }
+
+    public MutableLiveData<UIUserBroadInfo> userCheckStatusUpdateLiveData() {
+        if (userCheckStatusUpdateLiveData == null) {
+            userCheckStatusUpdateLiveData = new MutableLiveData<>();
+        }
+        return userCheckStatusUpdateLiveData;
+    }
+
+    public void setMaxPickCount(int maxPickCount) {
+        this.maxPickCount = maxPickCount;
+    }
+
+    public int getMaxPickCount() {
+        return maxPickCount;
+    }
+
+    public void setUncheckableIds(List<String> uncheckableIds) {
+        this.uncheckableIds = uncheckableIds;
+        updateUserStatus();
+    }
+
+    public void addUncheckableIds(List<String> uncheckableIds) {
+        if (uncheckableIds == null || uncheckableIds.isEmpty()) {
+            return;
+        }
+        if (this.uncheckableIds == null) {
+            this.uncheckableIds = new ArrayList<>();
+        }
+        this.uncheckableIds.addAll(uncheckableIds);
+    }
+
+    public void setInitialCheckedIds(List<String> checkedIds) {
+        this.initialCheckedIds = checkedIds;
+        updateUserStatus();
+    }
+
+    public List<String> getInitialCheckedIds() {
+        return initialCheckedIds;
+    }
+
+    public void setUsers(List<UIUserBroadInfo> users) {
+        this.users = users;
+        updateUserStatus();
+    }
+
+    private void updateUserStatus() {
+        if (users == null || users.isEmpty()) {
+            return;
+        }
+        for (UIUserBroadInfo info : users) {
+            if (initialCheckedIds != null && !initialCheckedIds.isEmpty()) {
+                if (initialCheckedIds.contains(info.getUserInfo().uid)) {
+                    info.setChecked(true);
+                }
+            }
+            if (uncheckableIds != null && !uncheckableIds.isEmpty()) {
+                if (uncheckableIds.contains(info.getUserInfo().uid)) {
+                    info.setCheckable(false);
+                }
+            }
+        }
+    }
+
+    public List<UIUserBroadInfo> searchUser(String keyword) {
+        if (users == null || users.isEmpty()) {
+            return null;
+        }
+
+        List<UIUserBroadInfo> resultList = new ArrayList<>();
+        for (UIUserBroadInfo info : users) {
+            UserInfo userInfo = info.getUserInfo();
+            String name = ChatManager.Instance().getUserDisplayName(userInfo);
+            String pinyin = PinyinBroadUtils.getPinyin(name);
+            if (name.contains(keyword) || pinyin.contains(keyword.toUpperCase())) {
+                resultList.add(info);
+                if (uncheckableIds != null && uncheckableIds.contains(userInfo.uid)) {
+                    info.setCheckable(false);
+                }
+                if (initialCheckedIds != null && initialCheckedIds.contains(userInfo.uid)) {
+                    info.setChecked(true);
+                }
+            }
+        }
+        if (resultList.isEmpty()) {
+            return null;
+        }
+        resultList.get(0).setShowCategory(true);
+        resultList.get(0).setCategory("搜索结果");
+        return resultList;
+    }
+
+    /**
+     * include initial checked users
+     *
+     * @return
+     */
+    public @NonNull List<UIUserBroadInfo> getCheckedUsers() {
+        List<UIUserBroadInfo> checkedUsers = new ArrayList<>();
+        if (users == null) {
+            return checkedUsers;
+        }
+        for (UIUserBroadInfo info : users) {
+            if (info.isCheckable() && info.isChecked()) {
+                checkedUsers.add(info);
+            }
+        }
+        return checkedUsers;
+    }
+
+    /**
+     * @param userInfo
+     * @param checked
+     * @return 选择成功，则返回true；否则，失败
+     */
+    public boolean checkUser(UIUserBroadInfo userInfo, boolean checked) {
+        if (checked && getCheckedUsers() != null && getCheckedUsers().size() >= maxPickCount) {
+            return false;
+        }
+        userInfo.setChecked(checked);
+        if (userCheckStatusUpdateLiveData != null) {
+            userCheckStatusUpdateLiveData.setValue(userInfo);
+        }
+        return true;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+    }
+}

@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-@ContentTag(type = MessageContentType.ContentType_Articles, flag = PersistFlag.Persist_And_Count)
+@ContentTag(type = MessageContentBroadType.ContentType_Articles, flag = PersistFlag.Persist_And_Count)
 public class ArticlesMessageContent extends MessageContent {
     public Article topArticle;
     public ArrayList<Article> subArticles;

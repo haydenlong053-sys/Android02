@@ -10,7 +10,7 @@ import static cn.wildfirechat.client.ConnectionStatus.ConnectionStatusConnected;
 import static cn.wildfirechat.client.ConnectionStatus.ConnectionStatusConnecting;
 import static cn.wildfirechat.client.ConnectionStatus.ConnectionStatusLogout;
 import static cn.wildfirechat.client.ConnectionStatus.ConnectionStatusReceiveing;
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Mark_Unread_Sync;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Mark_Unread_Sync;
 import static cn.wildfirechat.remote.UserSettingScope.ConversationSilent;
 import static cn.wildfirechat.remote.UserSettingScope.ConversationTop;
 
@@ -3927,9 +3927,9 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         }
     }
 
-    private class WfcRemoteCallbackList<E extends IInterface> extends RemoteCallbackList<E> {
+    private class WfcRemoteCallbackList<BroadE extends IInterface> extends RemoteCallbackList<BroadE> {
         @Override
-        public void onCallbackDied(E callback, Object cookie) {
+        public void onCallbackDied(BroadE callback, Object cookie) {
             Log.e("ClientService", "main process died");
             Intent intent = new Intent(ClientService.this, RecoverReceiver.class);
             sendBroadcast(intent);
@@ -4685,7 +4685,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
     private void getMyServerOssInfo(String fileName, int mediaType, String contentType, ProtoLogic.IGetUploadMediaUrlCallback urlCallback){
         Map<String, Object> map = new HashMap<>();
         map.put("fileName", fileName);
-        NetworkBroadUtils.INSTANCE.postEncrypted(UrlBroadConstants.GET_OSS_SIGN, map, new NetworkBroadUtils.NetworkBroadCallback<Object>() {
+        NetworkBroadUtils.INSTANCE.postEncrypted(UrlBroadConstants.GET_OSS_SIGN, map, new NetworkBroadUtils.NetworkCallback<Object>() {
             @Override
             public void onFailure(int code, @NotNull String message, @org.jetbrains.annotations.Nullable Object data) {
                 urlCallback.onFailure(-10087);

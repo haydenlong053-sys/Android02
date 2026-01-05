@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Call_Add_Participant;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Call_Add_Participant;
 
 import android.os.Parcel;
 import android.os.Parcelable;

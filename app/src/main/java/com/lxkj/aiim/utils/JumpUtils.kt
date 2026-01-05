@@ -2,7 +2,7 @@ package com.lxkj.aiim.utils
 
 import android.content.Context
 import android.content.Intent
-import com.cboda.chatui.search.SearchPortalActivity
+import com.cboda.chatui.search.SearchPortalBroadActivity
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.lxkj.aiim.MainActivity
@@ -428,7 +428,7 @@ class JumpUtils {
 //            context?.startActivity(intent)
             val intent = Intent(
                 context,
-                SearchPortalActivity::class.java
+                SearchPortalBroadActivity::class.java
             )
             context?.startActivity(intent)
         }

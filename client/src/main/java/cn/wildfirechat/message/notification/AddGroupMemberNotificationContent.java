@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message.notification;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_ADD_GROUP_MEMBER;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_ADD_GROUP_MEMBER;
 
 import android.os.Parcel;
 

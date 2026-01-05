@@ -15,7 +15,7 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.remote.ChatManager;
 
-import static cn.wildfirechat.message.core.MessageContentType.CONTENT_TYPE_CHANGE_PRIVATECHAT;
+import static cn.wildfirechat.message.core.MessageContentBroadType.CONTENT_TYPE_CHANGE_PRIVATECHAT;
 
 @ContentTag(type = CONTENT_TYPE_CHANGE_PRIVATECHAT, flag = PersistFlag.Persist)
 public class GroupPrivateChatNotificationContent extends GroupNotificationMessageContent {

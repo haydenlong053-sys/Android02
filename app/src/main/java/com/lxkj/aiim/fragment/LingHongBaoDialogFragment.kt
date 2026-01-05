@@ -44,7 +44,7 @@ class LingHongBaoDialogFragment : BaseDiaogFragment() {
                     context,
                     this.icon ?: "",
                     ivTouxiang,
-                    PixelUtils.dip2px(context, 10f)
+                    PixelBroadUtils.dip2px(context, 10f)
                 )
                 tvname?.text =
                     StringUtils.format(getString(R.string.mourendehongbao), this.name ?: "")

@@ -14,7 +14,7 @@
         android:background="@color/white"
         android:padding="20dp">
 
-        <com.cboda.chatui.widget.FixedTextInputEditText
+        <com.cboda.chatui.widget.FixedTextInputEditBroadText
             android:id="@+id/conferenceTitleTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

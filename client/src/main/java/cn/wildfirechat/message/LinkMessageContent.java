@@ -5,7 +5,7 @@
 package cn.wildfirechat.message;
 
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Link;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Link;
 
 import android.os.Parcel;
 import android.text.TextUtils;

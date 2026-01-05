@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 当发出和收到的消息UI一致时，可使用{@link LayoutRes} 代替同时设置{@link SendLayoutRes} 和 {@link ReceiveLayoutRes}
+ * 当发出和收到的消息UI一致时，可使用{@link LayoutRes} 代替同时设置{@link SendLayoutBroadRes} 和 {@link ReceiveLayoutBroadRes}
  * <p>
  * 一般用户设置通知类消息和对应消息体的映射关系
  */

@@ -6,7 +6,7 @@ import com.cboda.baselibrary.app.UtilBroadApplication
 import com.blankj.utilcode.util.PermissionUtils
 import com.luck.picture.lib.permissions.PermissionConfig
 
-fun requestPermission(callback: OnPermissionBroadCallback? = null, vararg permissions: String) {
+fun requestPermission(callback: OnPermissionCallback? = null, vararg permissions: String) {
     val permissionList = ArrayList<String>()
     PermissionUtils.permission(
         *permissions
@@ -35,7 +35,7 @@ fun requestPermission(callback: OnPermissionBroadCallback? = null, vararg permis
 }
 
 
-fun requestPermission2(callback: OnPermissionBroadCallback2? = null, vararg permissions: String) {
+fun requestPermission2(callback: OnPermissionCallback2? = null, vararg permissions: String) {
     val permissionList = ArrayList<String>()
     PermissionUtils.permission(
         *permissions
@@ -65,7 +65,7 @@ fun requestPermission2(callback: OnPermissionBroadCallback2? = null, vararg perm
 
 
 fun requestPermission(permissions: Array<String>, callBack: () -> Unit) {
-    requestPermission(object : OnPermissionBroadCallback {
+    requestPermission(object : OnPermissionCallback {
         override fun onAllPermissionGranted() {
             callBack.invoke()
         }
@@ -76,14 +76,14 @@ fun requestPermission(permissions: Array<String>, callBack: () -> Unit) {
     }, *permissions)
 }
 
-interface OnPermissionBroadCallback {
+interface OnPermissionCallback {
     fun onAllPermissionGranted()
 
     fun onPermissionRefuse()
 
 }
 
-interface OnPermissionBroadCallback2 {
+interface OnPermissionCallback2 {
     fun onAllPermissionGranted()
 
     fun onPermissionRefuse()

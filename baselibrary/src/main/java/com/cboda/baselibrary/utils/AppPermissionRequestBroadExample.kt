@@ -159,7 +159,7 @@ object AppPermissionRequestBroadExample {
                 REQUEST_STORAGE -> {
                     AppPermissionBroadUtils.handlePermissionResult(
                         this, requestCode, permissions, grantResults,
-                        object : AppPermissionBroadUtils.PermissionBroadCallback {
+                        object : AppPermissionBroadUtils.PermissionCallback {
                             override fun onPermissionGranted(permissions: List<String>) {
                                 performStorageOperation()
                             }
@@ -178,7 +178,7 @@ object AppPermissionRequestBroadExample {
                 REQUEST_CAMERA -> {
                     AppPermissionBroadUtils.handlePermissionResult(
                         this, requestCode, permissions, grantResults,
-                        object : AppPermissionBroadUtils.PermissionBroadCallback {
+                        object : AppPermissionBroadUtils.PermissionCallback {
                             override fun onPermissionGranted(permissions: List<String>) {
                                 openCamera()
                             }
@@ -193,7 +193,7 @@ object AppPermissionRequestBroadExample {
                 REQUEST_LOCATION -> {
                     AppPermissionBroadUtils.handlePermissionResult(
                         this, requestCode, permissions, grantResults,
-                        object : AppPermissionBroadUtils.PermissionBroadCallback {
+                        object : AppPermissionBroadUtils.PermissionCallback {
                             override fun onPermissionGranted(permissions: List<String>) {
                                 startLocationService()
                             }
@@ -208,7 +208,7 @@ object AppPermissionRequestBroadExample {
                 REQUEST_MULTIPLE -> {
                     AppPermissionBroadUtils.handlePermissionResult(
                         this, requestCode, permissions, grantResults,
-                        object : AppPermissionBroadUtils.PermissionBroadCallback {
+                        object : AppPermissionBroadUtils.PermissionCallback {
                             override fun onPermissionGranted(permissions: List<String>) {
                                 // 检查是否所有权限都被授予
                                 val allPermissions = arrayOf(
@@ -304,7 +304,7 @@ object AppPermissionRequestBroadExample {
                 REQUEST_AUDIO -> {
                     AppPermissionBroadUtils.handlePermissionResult(
                         requestCode, permissions, grantResults,
-                        object : AppPermissionBroadUtils.PermissionBroadCallback {
+                        object : AppPermissionBroadUtils.PermissionCallback {
                             override fun onPermissionGranted(permissions: List<String>) {
                                 startRecording()
                             }
@@ -319,7 +319,7 @@ object AppPermissionRequestBroadExample {
                 REQUEST_NOTIFICATION -> {
                     AppPermissionBroadUtils.handlePermissionResult(
                         requestCode, permissions, grantResults,
-                        object : AppPermissionBroadUtils.PermissionBroadCallback {
+                        object : AppPermissionBroadUtils.PermissionCallback {
                             override fun onPermissionGranted(permissions: List<String>) {
                                 enableNotifications()
                             }
@@ -681,7 +681,7 @@ object AppPermissionRequestBroadExample {
                 AppPermissionBroadUtils.checkAndRequestCameraPermission(
                     activity,
                     REQUEST_CAMERA_PERMISSION,
-                    object : AppPermissionBroadUtils.SimplePermissionBroadCallback {
+                    object : AppPermissionBroadUtils.SimplePermissionCallback {
                         override fun onGranted() {
                             // 权限已授予，直接执行拍照逻辑
                             takePhoto()
@@ -707,7 +707,7 @@ object AppPermissionRequestBroadExample {
                 AppPermissionBroadUtils.checkAndRequestStoragePermission(
                     activity,
                     REQUEST_STORAGE_PERMISSION,
-                    object : AppPermissionBroadUtils.SimplePermissionBroadCallback {
+                    object : AppPermissionBroadUtils.SimplePermissionCallback {
                         override fun onGranted() {
                             // 存储权限已授予，保存照片
                             savePhotoToGallery()
@@ -738,7 +738,7 @@ object AppPermissionRequestBroadExample {
                     activity,
                     permissions,
                     REQUEST_MULTIPLE_PERMISSIONS,
-                    object : AppPermissionBroadUtils.SimplePermissionBroadCallback {
+                    object : AppPermissionBroadUtils.SimplePermissionCallback {
                         override fun onGranted() {
                             // 所有权限都已授予
                             takePhotoAndSave()
@@ -820,7 +820,7 @@ object AppPermissionRequestBroadExample {
             AppPermissionBroadUtils.checkAndRequestCameraPermission(
                 activity,
                 REQUEST_CAMERA,
-                object : AppPermissionBroadUtils.SimplePermissionBroadCallback {
+                object : AppPermissionBroadUtils.SimplePermissionCallback {
                     override fun onGranted() {
                         // 权限已授予，执行拍照
                         performTakePhoto()
@@ -840,7 +840,7 @@ object AppPermissionRequestBroadExample {
             AppPermissionBroadUtils.checkAndRequestAudioPermission(
                 activity,
                 REQUEST_AUDIO,
-                object : AppPermissionBroadUtils.SimplePermissionBroadCallback {
+                object : AppPermissionBroadUtils.SimplePermissionCallback {
                     override fun onGranted() {
                         performStartRecording()
                     }
@@ -859,7 +859,7 @@ object AppPermissionRequestBroadExample {
             AppPermissionBroadUtils.checkAndRequestLocationPermission(
                 activity,
                 REQUEST_LOCATION,
-                object : AppPermissionBroadUtils.SimplePermissionBroadCallback {
+                object : AppPermissionBroadUtils.SimplePermissionCallback {
                     override fun onGranted() {
                         performGetLocation()
                     }

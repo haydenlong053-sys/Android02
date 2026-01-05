@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Composite_Message;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Composite_Message;
 
 import android.os.Parcel;
 import android.text.TextUtils;

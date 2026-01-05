@@ -56,7 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cboda.chatui.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerBroadHolder;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -409,7 +409,7 @@ public class LoginActivity extends BaseSimpleActivity implements View.OnClickLis
         param.put("pwd", etPassword.getText().toString());
         param.put("qu", tvDiqu.getText().toString().replace("+", ""));
         param.put("eqid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
-        param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         OkHttpHelper.getInstance().post_json(this, Url.zhLogin, param, new SpotsCallBack<ResultBean>(this) {
             @Override
@@ -456,7 +456,7 @@ public class LoginActivity extends BaseSimpleActivity implements View.OnClickLis
         param.put("phone", etPhone.getText().toString());
         param.put("qu", etPhone.getText().toString());
         param.put("pwd", etPassword.getText().toString());
-        param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("eqid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
         OkHttpHelper.getInstance().post_json(this, Url.pwdLogin, param, new SpotsCallBack<ResultBean>(this) {

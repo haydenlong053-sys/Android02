@@ -15,7 +15,7 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.remote.ChatManager;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_CHANGE_GROUP_PORTRAIT;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_CHANGE_GROUP_PORTRAIT;
 
 /**
  * Created by heavyrainlee on 20/12/2017.

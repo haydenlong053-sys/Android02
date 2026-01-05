@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cboda.chatui.conversation.mention.Mention;
-import com.cboda.chatui.conversation.mention.MentionSpan;
+import com.cboda.chatui.conversation.mention.MentionBroadSpan;
 import cn.wildfirechat.model.QuoteInfo;
 
 public class Draft {
@@ -56,11 +56,11 @@ public class Draft {
         draft.quoteInfo = quoteInfo;
 
         List<Mention> mentions;
-        MentionSpan[] mentionSpans = content.getSpans(0, content.length(), MentionSpan.class);
+        MentionBroadSpan[] mentionSpans = content.getSpans(0, content.length(), MentionBroadSpan.class);
         if (mentionSpans != null && mentionSpans.length > 0) {
             mentions = new ArrayList<>();
             Mention mention;
-            for (MentionSpan span : mentionSpans) {
+            for (MentionBroadSpan span : mentionSpans) {
                 mention = new Mention(content.getSpanStart(span), content.getSpanEnd(span));
                 if (span.isMentionAll()) {
                     mention.setMentionAll(true);
@@ -112,11 +112,11 @@ public class Draft {
         SpannableStringBuilder builder = new SpannableStringBuilder(draft.content);
         if (draft.mentions != null && !draft.mentions.isEmpty()) {
             for (Mention mention : draft.mentions) {
-                MentionSpan span;
+                MentionBroadSpan span;
                 if (mention.isMentionAll()) {
-                    span = new MentionSpan(true);
+                    span = new MentionBroadSpan(true);
                 } else {
-                    span = new MentionSpan(mention.getUid());
+                    span = new MentionBroadSpan(mention.getUid());
                 }
                 builder.setSpan(span, mention.getStart(), mention.getEnd(), Spanned.SPAN_MARK_MARK);
             }

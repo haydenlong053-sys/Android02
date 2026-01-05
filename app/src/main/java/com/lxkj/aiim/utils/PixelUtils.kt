@@ -6,7 +6,7 @@ import android.util.TypedValue
 import android.view.WindowManager
 
 
-class PixelUtils {
+class PixelBroadUtils {
     companion object {
         fun dip2px(context: Context?, dpValue: Float): Int {
             val scale: Float = context?.resources?.displayMetrics?.density ?: 0F

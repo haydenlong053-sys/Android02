@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 
 /**
  * 简述： <功能描述>
@@ -63,8 +63,8 @@ class LevelHolder2(
         levelIcon?.visibility = if (reId == 0) View.GONE else View.VISIBLE
         levelTxt?.visibility = if (reId == 0) View.GONE else View.VISIBLE
         val params  = levelIcon?.layoutParams
-        params?.width = PixelUtils.dip2px(context,40f)
-        params?.height = PixelUtils.dip2px(context,20f)
+        params?.width = PixelBroadUtils.dip2px(context,40f)
+        params?.height = PixelBroadUtils.dip2px(context,20f)
         levelIcon?.layoutParams = params
 
     }
@@ -116,8 +116,8 @@ class LevelHolder2(
         levelIcon?.visibility = if (reId == 0) View.GONE else View.VISIBLE
         levelTxt?.visibility = if (reId == 0) View.GONE else View.VISIBLE
         val params  = levelIcon?.layoutParams
-        params?.width = PixelUtils.dip2px(context,40f)
-        params?.height = PixelUtils.dip2px(context,20f)
+        params?.width = PixelBroadUtils.dip2px(context,40f)
+        params?.height = PixelBroadUtils.dip2px(context,20f)
         levelIcon?.layoutParams = params
 
     }

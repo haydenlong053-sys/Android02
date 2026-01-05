@@ -31,7 +31,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cboda.chatui.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerBroadHolder;
 import okhttp3.Response;
 
 public class RegisterActivity extends BaseSimpleActivity implements View.OnClickListener {
@@ -170,7 +170,7 @@ public class RegisterActivity extends BaseSimpleActivity implements View.OnClick
         eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         Map<String, Object> param = new HashMap<>();
         param.put("eqno", eqno);
-        param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("model", Build.BRAND + " " + Build.MODEL);
         param.put("account", etPhone.getText().toString());

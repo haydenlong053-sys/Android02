@@ -14,7 +14,7 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.model.QuoteInfo;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Text;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Text;
 
 /**
  * Created by heavyrain lee on 2017/12/6.

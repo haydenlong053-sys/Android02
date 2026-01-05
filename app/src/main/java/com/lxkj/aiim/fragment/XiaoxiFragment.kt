@@ -31,10 +31,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
-import com.cboda.chatui.conversationlist.ConversationGroupFragment
-import com.cboda.chatui.conversationlist.ConversationOtherGroupFragment
-import com.cboda.chatui.conversationlist.ConversationSingleFragment
-import com.cboda.chatui.widget.ProgressFragment
+import com.cboda.chatui.conversationlist.ConversationGroupBroadFragment
+import com.cboda.chatui.conversationlist.ConversationOtherGroupBroadFragment
+import com.cboda.chatui.conversationlist.ConversationSingleBroadFragment
+import com.cboda.chatui.widget.ProgressBroadFragment
 import cn.wildfirechat.viewmodel.HomeUIViewModel
 import com.cboda.baselibrary.bean.GlobalNoticeBroadBean
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
@@ -105,7 +105,7 @@ class XiaoxiFragment : BaseLazyFragment() {
     var titles: ArrayList<String> = ArrayList()
     private val noticeViewModel: NoticeViewModel by viewModels()
     private val friendViewModel: FriendViewModel by viewModels()
-    private var conversationSingleFragment: ConversationSingleFragment? = null
+    private var conversationSingleFragment: ConversationSingleBroadFragment? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -210,14 +210,14 @@ class XiaoxiFragment : BaseLazyFragment() {
         ivkefu?.setOnClickListener {
             MMKVBroadUtils.getKeFuId()?.let { it1 -> AppUtil.goChat(context, it1, "") }
         }
-//        val fragment = ConversationListFragment()
+//        val fragment = ConversationListBroadFragment()
 //        addFragment(fragment)
 
-//        fragments.add(ConversationListFragment())
-        conversationSingleFragment = ConversationSingleFragment()
+//        fragments.add(ConversationListBroadFragment())
+        conversationSingleFragment = ConversationSingleBroadFragment()
         fragments.add(conversationSingleFragment!!)
-        fragments.add(ConversationGroupFragment())
-        fragments.add(ConversationOtherGroupFragment())
+        fragments.add(ConversationGroupBroadFragment())
+        fragments.add(ConversationOtherGroupBroadFragment())
         fragments.add(SocialFragment())
 
 
@@ -604,7 +604,7 @@ class XiaoxiFragment : BaseLazyFragment() {
                     uiViewModel.updateBottomState(isManagerClick)
 
 
-                    (fragments[currentIndex] as? ProgressFragment)?.let { fragment ->
+                    (fragments[currentIndex] as? ProgressBroadFragment)?.let { fragment ->
                         val tag = when (currentIndex) {
                             0 -> "single"
                             1 -> "myGroup"

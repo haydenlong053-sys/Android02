@@ -760,7 +760,7 @@ public class VideoController {
        /* try {
            // copyFile(cacheFile,inputFile);
             //inputFile.delete();
-            FileUtils.copyFile(cacheFile,inputFile);
+            FileBroadUtils.copyFile(cacheFile,inputFile);
         } catch (IOException e) {
             e.printStackTrace();
         }*/

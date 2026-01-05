@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.chatui.contact.ContactListFragment
+import com.cboda.chatui.contact.ContactListBroadFragment
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -66,7 +66,7 @@ class TongXunLuFragment:BaseLazyFragment() {
                 contactListFragment?.setFriendData(gson.toJson(it))
             }
         }
-        contactListFragment = ContactListFragment()
+        contactListFragment = ContactListBroadFragment()
         addFragment(contactListFragment!!)
     }
 
@@ -142,7 +142,7 @@ class TongXunLuFragment:BaseLazyFragment() {
 //        }
 
     }
-    private var contactListFragment: ContactListFragment? = null
+    private var contactListFragment: ContactListBroadFragment? = null
 
 
     private fun initViews(view: View) {

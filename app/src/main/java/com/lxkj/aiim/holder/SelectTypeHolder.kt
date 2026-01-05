@@ -11,7 +11,7 @@ import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.SelectTypeAdapter
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
 
 
@@ -59,7 +59,7 @@ class SelectTypeHolder(
                 }
                 if (marginEnd != 0F) {
                     val params = recyclerView.layoutParams as ViewGroup.MarginLayoutParams
-                    params.marginEnd = PixelUtils.dip2px(context, marginEnd)
+                    params.marginEnd = PixelBroadUtils.dip2px(context, marginEnd)
                     recyclerView.layoutParams = params
                 }
             }

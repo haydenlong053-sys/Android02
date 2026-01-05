@@ -14,14 +14,14 @@ public class ListUtil {
         return (null == list) ? 0 : list.size();
     }
 
-    public static <E> E getIndex(final List<E> list, final int i) {
+    public static <BroadE> BroadE getIndex(final List<BroadE> list, final int i) {
         if (null == list || i < 0 || i >= list.size()) {
             return null;
         }
         return list.get(i);
     }
 
-    public static <E> int indexOf(final List<E> list, final E o) {
+    public static <BroadE> int indexOf(final List<BroadE> list, final BroadE o) {
         if (!isEmpty(list) && null != o) {
             for (int i = 0; i < list.size(); i++) {
                 if (o.equals(list.get(i))) {
@@ -32,7 +32,7 @@ public class ListUtil {
         return -1;
     }
 
-    public static <E> List<E> cutIfLong(final List<E> list, final int max) {
+    public static <BroadE> List<BroadE> cutIfLong(final List<BroadE> list, final int max) {
         if (null == list || max <= 0 || max >= list.size()) {
             return list;
         }

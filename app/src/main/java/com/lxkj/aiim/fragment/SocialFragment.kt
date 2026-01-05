@@ -68,10 +68,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.Dp
-import com.cboda.chatui.utils.PinyinUtils
+import com.cboda.chatui.utils.PinyinBroadUtils
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.cboda.chatui.contact.ContactViewModel
+import com.cboda.chatui.contact.ContactViewBroadModel
 import coil.compose.AsyncImage
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
@@ -89,7 +89,7 @@ enum class CircleInteractionMode {
 
 class SocialFragment : Fragment() {
     private val viewModel: SocialViewModel by viewModels()
-    private val contactViewModel: ContactViewModel by viewModels()
+    private val contactViewModel: ContactViewBroadModel by viewModels()
 
     private var mGroupInvitedCount by mutableStateOf(0)
 
@@ -577,7 +577,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                 val first = display.firstOrNull()
                 if (first == null) '#'
                 else {
-                    val py = PinyinUtils.getPinyin(first.toString())
+                    val py = PinyinBroadUtils.getPinyin(first.toString())
                     val ch = py.firstOrNull()
                     if (ch != null && ch.isLetter()) ch.uppercaseChar() else '#'
                 }

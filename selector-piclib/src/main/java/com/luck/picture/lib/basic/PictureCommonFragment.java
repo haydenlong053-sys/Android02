@@ -117,7 +117,7 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
     protected IBridgeMediaLoader mLoader;
 
     /**
-     * PictureSelector Config
+     * PictureSelector BroadConfig
      */
     protected SelectorConfig selectorConfig;
 
