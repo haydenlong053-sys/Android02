@@ -15,7 +15,7 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.remote.ChatManager;
 
-import static cn.wildfirechat.message.core.MessageContentType.CONTENT_TYPE_CHANGE_JOINTYPE;
+import static cn.wildfirechat.message.core.MessageContentBroadType.CONTENT_TYPE_CHANGE_JOINTYPE;
 
 @ContentTag(type = CONTENT_TYPE_CHANGE_JOINTYPE, flag = PersistFlag.Persist)
 public class GroupJoinTypeNotificationContent extends GroupNotificationMessageContent {

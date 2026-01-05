@@ -15,7 +15,7 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.remote.ChatManager;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_DISMISS_GROUP;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_DISMISS_GROUP;
 
 /**
  * Created by heavyrainlee on 20/12/2017.

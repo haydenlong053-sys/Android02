@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.cboda.chatui.widget.InputAwareLayout
+    <com.cboda.chatui.widget.InputAwareBroadLayout
         android:id="@+id/rootInputAwareLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,11 +18,11 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <com.cboda.chatui.voip.conference.InputPanel
+        <com.cboda.chatui.voip.conference.InputBroadPanel
             android:id="@+id/inputPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </com.cboda.chatui.widget.InputAwareLayout>
+    </com.cboda.chatui.widget.InputAwareBroadLayout>
 
 </RelativeLayout>

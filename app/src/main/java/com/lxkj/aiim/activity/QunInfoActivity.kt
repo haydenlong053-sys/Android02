@@ -11,10 +11,10 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.chatui.WfcUIKit
-import com.cboda.chatui.conversation.ConversationActivity
-import com.cboda.chatui.conversation.ConversationViewModel
-import com.cboda.chatui.utils.YeHuoIMActivityUtils
+import com.cboda.chatui.WfcUIBroadKit
+import com.cboda.chatui.conversation.ConversationBroadActivity
+import com.cboda.chatui.conversation.ConversationViewBroadModel
+import com.cboda.chatui.utils.YeHuoIMActivityBroadUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.model.ModifyGroupInfoType
 import cn.wildfirechat.remote.ChatManager
@@ -51,7 +51,7 @@ class QunInfoActivity : BaseSimpleActivity() {
     private var uploadViewModel: UploadFileViewModel? = null
     private var qunxiangqing: CommonResultBroadBean.CommonResult? = null
     private var jiangetime = 0
-    private var conversationViewModel: ConversationViewModel? = null
+    private var conversationViewModel: ConversationViewBroadModel? = null
     private lateinit var tuichuquan: TextView
     private lateinit var jiesanqun: TextView
     private lateinit var qunguanlilay: LinearLayoutCompat
@@ -171,8 +171,8 @@ class QunInfoActivity : BaseSimpleActivity() {
             }
             holder.show()
         }
-        conversationViewModel = WfcUIKit.getAppScopeViewModel(
-            ConversationViewModel::class.java
+        conversationViewModel = WfcUIBroadKit.getAppScopeViewModel(
+            ConversationViewBroadModel::class.java
         )
         viewModel = ViewModelProvider(this)[CommViewModel::class.java]
         viewModel?.errorLiveData?.observe(this) {
@@ -182,8 +182,8 @@ class QunInfoActivity : BaseSimpleActivity() {
                 }
 
                 "jiesanqunsuc" -> {
-                    YeHuoIMActivityUtils.activities.forEachIndexed { index, activity ->
-                        if (activity is ConversationActivity) {
+                    YeHuoIMActivityBroadUtils.activities.forEachIndexed { index, activity ->
+                        if (activity is ConversationBroadActivity) {
                             activity.finish()
                         }
                     }
@@ -208,7 +208,7 @@ class QunInfoActivity : BaseSimpleActivity() {
                         this@QunInfoActivity,
                         this.qrcode ?: "",
                         qunma,
-                        PixelUtils.dip2px(this@QunInfoActivity, 10f)
+                        PixelBroadUtils.dip2px(this@QunInfoActivity, 10f)
                     )
                 }
                 if (this.icon?.isNotEmpty() == true) {
@@ -216,7 +216,7 @@ class QunInfoActivity : BaseSimpleActivity() {
                         this@QunInfoActivity,
                         this.icon ?: "",
                         quntouxiang,
-                        PixelUtils.dip2px(this@QunInfoActivity, 5f)
+                        PixelBroadUtils.dip2px(this@QunInfoActivity, 5f)
                     )
                 }
 
@@ -452,7 +452,7 @@ class QunInfoActivity : BaseSimpleActivity() {
                                 this@QunInfoActivity,
                                 "file://${resultList[0].realPath}",
                                 quntouxiang,
-                                PixelUtils.dip2px(this@QunInfoActivity, 5f)
+                                PixelBroadUtils.dip2px(this@QunInfoActivity, 5f)
                             )
                             imgCompression(this@QunInfoActivity, card1File) { _, compressFile ->
                                 compressFile?.apply {

@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import com.cboda.chatui.conversation.forward.ForwardActivity
+import com.cboda.chatui.conversation.forward.ForwardBroadActivity
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeMessageContent
 import com.lxkj.aiim.R
@@ -79,7 +79,7 @@ class NoticeDetailActivity: BaseSimple2Activity() {
             if (noticeInfoBean!=null){
                 val message = Message()
                 message.content= NoticeMessageContent(noticeInfoBean?.contentUrl,noticeInfoBean?.id,noticeInfoBean?.createTime,noticeInfoBean?.noticeTitle,noticeInfoBean?.previewContent,noticeInfoBean?.status?:false)
-                val intent = Intent(this@NoticeDetailActivity, ForwardActivity::class.java)
+                val intent = Intent(this@NoticeDetailActivity, ForwardBroadActivity::class.java)
                 intent.putExtra("message",message)
                 this@NoticeDetailActivity.startActivity(intent)
             }

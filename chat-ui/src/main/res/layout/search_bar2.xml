@@ -6,7 +6,7 @@
     android:orientation="horizontal"
    >
 
-    <com.cboda.chatui.widget.SearchView2
+    <com.cboda.chatui.widget.SearchBroadView2
         android:id="@+id/search_view"
         android:layout_width="0dp"
         android:layout_height="36dp"

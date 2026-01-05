@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.utils.SharePrefBroadUtil;
+import com.cboda.baselibrary.utils.SharePrefBroadBroadUtil;
 import com.lxkj.aiim.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.adapter.LanguageAdapter;
@@ -304,8 +304,8 @@ public class FanYiActivity extends BaseSimpleActivity {
                 }
 
                 if (null != autofanyi) {
-                    SharePrefBroadUtil.saveString(FanYiActivity.this, "autofanyi", autofanyi);
-                    SharePrefBroadUtil.saveLong(FanYiActivity.this, "autofanyitime", System.currentTimeMillis());
+                    SharePrefBroadBroadUtil.saveString(FanYiActivity.this, "autofanyi", autofanyi);
+                    SharePrefBroadBroadUtil.saveLong(FanYiActivity.this, "autofanyitime", System.currentTimeMillis());
                     if (autofanyi.equals("0"))
                         imZdfy.setImageResource(R.mipmap.ic_guan);
                     else

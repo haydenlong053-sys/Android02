@@ -10,7 +10,7 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.Transformation
 import java.util.concurrent.atomic.AtomicInteger
 
-class AUIPathBroadAnimator(config: Config?) :
+class AUIPathBroadAnimator(config: BroadConfig?) :
     AUIAbstractPathBroadAnimator(config) {
     private val mCounter = AtomicInteger(0)
     private var mHandler: Handler? = null

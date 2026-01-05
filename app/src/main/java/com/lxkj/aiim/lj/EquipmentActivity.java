@@ -46,7 +46,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cboda.chatui.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerBroadHolder;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import okhttp3.Response;
@@ -260,10 +260,10 @@ public class EquipmentActivity extends BaseSimpleActivity implements View.OnClic
     private void eqLogin() {
         Map<String, Object> param = new HashMap<>();
         param.put("eqno", eqno);
-        param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("model", Build.BRAND + " " + Build.MODEL);
-        Log.d("设备嘛",eqno +"  \n"+ChatManagerHolder.gChatManager.getClientId());
+        Log.d("设备嘛",eqno +"  \n"+ChatManagerBroadHolder.gChatManager.getClientId());
         UserServerManager.INSTANCE.qeLogin(this, param, Url.eqLogin, new SpotsCallBack<ResultBean>(this) {
 
             @Override
@@ -300,7 +300,7 @@ public class EquipmentActivity extends BaseSimpleActivity implements View.OnClic
         param.put("pwd", mBinding.etNewPassword.getText().toString());
         param.put("eqno", eqno);
         param.put("code", code);
-        param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("model", Build.BRAND + " " + Build.MODEL);
 
@@ -347,7 +347,7 @@ public class EquipmentActivity extends BaseSimpleActivity implements View.OnClic
     private void regist() {
         Map<String, Object> param = new HashMap<>();
         param.put("eqno", eqno);
-        param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("model", Build.BRAND + " " + Build.MODEL);
 

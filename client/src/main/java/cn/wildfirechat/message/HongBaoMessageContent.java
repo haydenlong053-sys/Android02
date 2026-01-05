@@ -1,7 +1,7 @@
 package cn.wildfirechat.message;
 
 
-import static cn.wildfirechat.message.core.MessageContentType.MESSAGE_CONTENT_TYPE_HONGBAO;
+import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_HONGBAO;
 
 import android.os.Parcel;
 

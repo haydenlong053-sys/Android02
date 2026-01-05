@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <com.cboda.chatui.voip.ZoomableFrameLayout
+    <com.cboda.chatui.voip.ZoomableFrameBroadLayout
         android:id="@+id/zoomableFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,9 +18,9 @@
             android:layout_centerVertical="true"
             android:foregroundGravity="center"
             android:visibility="gone" />
-    </com.cboda.chatui.voip.ZoomableFrameLayout>
+    </com.cboda.chatui.voip.ZoomableFrameBroadLayout>
 
-    <com.cboda.chatui.widget.PhotoView
+    <com.cboda.chatui.widget.PhotoBroadView
         android:id="@+id/photoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

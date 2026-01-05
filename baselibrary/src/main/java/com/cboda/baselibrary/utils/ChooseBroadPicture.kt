@@ -66,7 +66,7 @@ fun chooseMedia(
             else -> ofImage()
         }
         val pictureSelector = PictureSelector.create(getAppContext(null)).openGallery(chooseMode)
-        pictureSelector.setImageEngine(GlideBroadEngine.createGlideEngine())
+        pictureSelector.setImageEngine(GlideBroadBroadEngine.createGlideEngine())
             .setCompressEngine(ImageCompressFileBroadEngine())
             .setSandboxFileEngine(MeSandboxFileBroadEngine())
             .setLanguage(LanguageConfig.SYSTEM_LANGUAGE)

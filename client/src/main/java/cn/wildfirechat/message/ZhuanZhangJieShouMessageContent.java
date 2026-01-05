@@ -2,7 +2,7 @@ package cn.wildfirechat.message;
 
 
 
-import static cn.wildfirechat.message.core.MessageContentType.MESSAGE_CONTENT_TYPE_ZHUANGZHANGJIESHOU;
+import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_ZHUANGZHANGJIESHOU;
 
 import android.os.Parcel;
 

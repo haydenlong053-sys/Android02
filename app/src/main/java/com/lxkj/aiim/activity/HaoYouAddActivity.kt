@@ -10,7 +10,7 @@ import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.BroadConstant
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.JumpUtils
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 
 class HaoYouAddActivity : BaseSimpleActivity() {
@@ -51,7 +51,7 @@ class HaoYouAddActivity : BaseSimpleActivity() {
                     this@HaoYouAddActivity,
                     this.icon ?: "",
                     ivTouxiang,
-                    PixelUtils.dip2px(this@HaoYouAddActivity, 10f)
+                    PixelBroadUtils.dip2px(this@HaoYouAddActivity, 10f)
                 )
 
                 tvname?.text = this.name ?: ""

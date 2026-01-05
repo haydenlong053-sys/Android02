@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:paddingTop="70dp" />
 
-        <com.cboda.chatui.widget.QuickIndexBar
+        <com.cboda.chatui.widget.QuickIndexBroadBar
             android:id="@+id/quickIndexBar"
             android:layout_width="20dp"
             android:layout_height="match_parent"
@@ -58,7 +58,7 @@
             android:visibility="visible">
 
             <!--被选中的联系人头像列表-->
-            <com.cboda.chatui.widget.MaxSizeRecyclerView
+            <com.cboda.chatui.widget.MaxSizeRecyclerBroadView
                 android:id="@+id/pickedUserRecyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

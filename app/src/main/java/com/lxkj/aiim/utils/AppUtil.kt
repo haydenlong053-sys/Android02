@@ -11,8 +11,8 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.telephony.TelephonyManager
 import android.util.Log
-import com.cboda.chatui.ChatManagerHolder
-import com.cboda.chatui.conversation.ConversationActivity
+import com.cboda.chatui.ChatManagerBroadHolder
+import com.cboda.chatui.conversation.ConversationBroadActivity
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.BroadConstant
@@ -226,7 +226,7 @@ class AppUtil {
 
             //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
             val connextStatus =
-                ChatManagerHolder.gChatManager.connect(uid ?: "", yehuoUserToken ?: "")
+                ChatManagerBroadHolder.gChatManager.connect(uid ?: "", yehuoUserToken ?: "")
             debug("野火", "connect----> $connextStatus --> }")
 //            txLogin()
             LiXinApp.initOkGo()
@@ -264,7 +264,7 @@ class AppUtil {
             // 点击会话
             val intent = Intent(
                 context,
-                ConversationActivity::class.java
+                ConversationBroadActivity::class.java
             )
             intent.putExtra("conversation", conversation)
             context?.startActivity(intent)

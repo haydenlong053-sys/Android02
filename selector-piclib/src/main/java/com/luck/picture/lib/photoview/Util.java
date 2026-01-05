@@ -3,7 +3,7 @@ package com.luck.picture.lib.photoview;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-class Util {
+class BroadUtil {
 
     static void checkZoomLevels(float minZoom, float midZoom,
                                 float maxZoom) {

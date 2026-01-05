@@ -46,8 +46,8 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
     private int mTabPosi = 0;
     private Context mContext;
     private View emotionLayout;
-    private ViewPagerFixed mVpEmotioin;
-    private ViewPagerFixed vpEmotioin2;
+    private ViewPagerBroadFixed mVpEmotioin;
+    private ViewPagerBroadFixed vpEmotioin2;
     private LinearLayout mLlPageNumber;
     private LinearLayout llPageNumber2;
     private LinearLayout mLlTabContainer;
@@ -182,7 +182,7 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
         zidingyibiaoqiang = findViewById(R.id.zidingyibiaoqiang);
         vpEmotioin2 = findViewById(R.id.vpEmotioin2);
         llPageNumber2 = findViewById(R.id.llPageNumber2);
-        mVpEmotioin = (ViewPagerFixed) findViewById(R.id.vpEmotioin);
+        mVpEmotioin = (ViewPagerBroadFixed) findViewById(R.id.vpEmotioin);
         mLlPageNumber = (LinearLayout) findViewById(R.id.llPageNumber);
         mLlTabContainer = (LinearLayout) findViewById(R.id.llTabContainer);
         mRlEmotionAdd = (RelativeLayout) findViewById(R.id.rlEmotionAdd);

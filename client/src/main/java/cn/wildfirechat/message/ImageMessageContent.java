@@ -18,7 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.model.ImgBean;
@@ -30,7 +30,7 @@ import cn.wildfirechat.utils.WeChatImageUtils;
  * 占位图-缩略图-原图
  */
 
-@ContentTag(type = MessageContentType.ContentType_Image, flag = PersistFlag.Persist_And_Count)
+@ContentTag(type = MessageContentBroadType.ContentType_Image, flag = PersistFlag.Persist_And_Count)
 public class ImageMessageContent extends MediaMessageContent {
 
     private static final String TAG = "ImageMessageContent";

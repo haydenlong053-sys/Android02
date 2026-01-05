@@ -20,21 +20,21 @@
             android:paddingBottom="5dp"
             android:text="成员管理" />
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/managerOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_common_item"
             app:divider_align_to_title="true"
             app:title="管理员" />
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/muteOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_common_item"
             app:divider_align_to_title="true"
             app:title="设置禁言" />
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/permissionOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_common_item"
@@ -56,7 +56,7 @@
             android:paddingBottom="5dp"
             android:text="群基本设置" />
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/joinOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_common_item"
@@ -64,14 +64,14 @@
             app:divider_align_to_title="true"
             app:title="加群方式" />
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/searchOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_common_item"
             app:desc="不允许查找"
             app:title="查找方式" />
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/historyMessageOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_common_item"

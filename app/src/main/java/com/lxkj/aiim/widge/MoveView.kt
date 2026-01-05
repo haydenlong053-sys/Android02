@@ -7,7 +7,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.customview.widget.ViewDragHelper
 import com.lxkj.aiim.R
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 
 /**
  * 简述： <功能描述>
@@ -42,24 +42,24 @@ class MoveView : ConstraintLayout {
 
             override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
                 var slideLeft = left
-                if (slideLeft > PixelUtils.getScreenWidth(context) - child.measuredWidth - PixelUtils.dip2px(
+                if (slideLeft > PixelBroadUtils.getScreenWidth(context) - child.measuredWidth - PixelBroadUtils.dip2px(
                         context,
                         10f
                     )
                 ) {
                     slideLeft =
-                        PixelUtils.getScreenWidth(context) - child.measuredWidth - PixelUtils.dip2px(
+                        PixelBroadUtils.getScreenWidth(context) - child.measuredWidth - PixelBroadUtils.dip2px(
                             context,
                             10f
                         )
-                } else if (slideLeft < PixelUtils.dip2px(context, 10f)) {
-                    slideLeft = PixelUtils.dip2px(context, 10f)
+                } else if (slideLeft < PixelBroadUtils.dip2px(context, 10f)) {
+                    slideLeft = PixelBroadUtils.dip2px(context, 10f)
                 }
                 return slideLeft
             }
 
             override fun getViewHorizontalDragRange(child: View): Int {
-                return PixelUtils.getScreenWidth(context) - child.measuredWidth - PixelUtils.dip2px(
+                return PixelBroadUtils.getScreenWidth(context) - child.measuredWidth - PixelBroadUtils.dip2px(
                     context,
                     10f
                 )
@@ -67,18 +67,18 @@ class MoveView : ConstraintLayout {
 
             override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
                 var slideTop = top
-                if (slideTop > PixelUtils.getScreenHeight(context) - child.measuredHeight
+                if (slideTop > PixelBroadUtils.getScreenHeight(context) - child.measuredHeight
                 ) {
                     slideTop =
-                        PixelUtils.getScreenHeight(context) - child.measuredHeight
-                } else if (slideTop < PixelUtils.dip2px(context, 50f)) {
-                    slideTop = PixelUtils.dip2px(context, 50f)
+                        PixelBroadUtils.getScreenHeight(context) - child.measuredHeight
+                } else if (slideTop < PixelBroadUtils.dip2px(context, 50f)) {
+                    slideTop = PixelBroadUtils.dip2px(context, 50f)
                 }
                 return slideTop
             }
 
             override fun getViewVerticalDragRange(child: View): Int {
-                return PixelUtils.getScreenHeight(context) - child.measuredHeight
+                return PixelBroadUtils.getScreenHeight(context) - child.measuredHeight
             }
 
             override fun onViewPositionChanged(

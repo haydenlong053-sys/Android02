@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.lxkj.aiim.R
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 
 /**
  * 简述：底部导航
@@ -46,7 +46,7 @@ class LiXinBottomNavigation : LinearLayoutCompat {
     )
 
     init {
-        val screenWidth = PixelUtils.getScreenWidth(context)
+        val screenWidth = PixelBroadUtils.getScreenWidth(context)
         val view = View.inflate(context, R.layout.bottom_navigation_layout, null)
         addView(view)
         initViews(view)

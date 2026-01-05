@@ -98,7 +98,7 @@ public class BusLiveBroadData<T> extends MutableLiveData<T> {
     protected void onInactive() {
         super.onInactive();
         if (!hasObservers()) {
-            LiveDataBroadBus.getInstance().mHashMap.remove(mKey);
+            LiveDataBroadBroadBus.getInstance().mHashMap.remove(mKey);
         }
     }
 

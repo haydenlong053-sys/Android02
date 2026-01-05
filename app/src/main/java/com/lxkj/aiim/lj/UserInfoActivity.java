@@ -73,7 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cboda.chatui.user.UserViewModel;
+import com.cboda.chatui.user.UserViewBroadModel;
 import cn.wildfirechat.model.ModifyMyInfoEntry;
 import cn.wildfirechat.model.ModifyMyInfoType;
 import kotlin.Unit;
@@ -87,7 +87,7 @@ public class UserInfoActivity extends BaseSimpleActivity implements View.OnClick
 
     private ResultBean bean;
     private ResultBean oldBean;
-    private UserViewModel userViewModel;
+    private UserViewBroadModel userViewModel;
     private ActivityUserInfoBinding mBinding;
     private InterestAdapter interestAdapter;
 
@@ -128,7 +128,7 @@ public class UserInfoActivity extends BaseSimpleActivity implements View.OnClick
         ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
 
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
 
         userInfo();
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);

@@ -32,7 +32,7 @@ class AUIRtmManager constructor(
     val proxy = AUIRtmMsgProxy()
 
     private val rtmStreamChannelMap = mutableMapOf<String, StreamChannel>()
-    private val logger = AUILogger(AUILogger.Config(context, "AUIRtmManager"))
+    private val logger = AUILogger(AUILogger.BroadConfig(context, "AUIRtmManager"))
     private val throttlerUpdateMetaDataModel = AUIThrottlerUpdateMetaDataModel()
     private val throttlerRemoveMetaDataModel = AUIThrottlerRemoveMetaDataModel()
 

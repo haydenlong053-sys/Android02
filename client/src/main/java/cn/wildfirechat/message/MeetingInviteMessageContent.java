@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Meeting_Invite;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Meeting_Invite;
 
 import android.os.Parcel;
 

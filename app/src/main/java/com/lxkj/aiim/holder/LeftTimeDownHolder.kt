@@ -2,7 +2,7 @@ package com.lxkj.aiim.holder
 
 import android.os.Handler
 import android.os.Looper
-import com.lxkj.aiim.utils.TimeBroadUtils
+import com.lxkj.aiim.utils.TimeBroadBroadUtils
 
 /**
  * 简述： 活动倒计时
@@ -18,10 +18,10 @@ class LeftTimeDownHolder {
 
     private var downRunnable = object : Runnable {
         override fun run() {
-            mLeftTime -= TimeBroadUtils.SECOND
+            mLeftTime -= TimeBroadBroadUtils.SECOND
             getLeftTime(mLeftTime)
             if (mLeftTime > 0) {
-                mHandler.postDelayed(this, TimeBroadUtils.SECOND)
+                mHandler.postDelayed(this, TimeBroadBroadUtils.SECOND)
             } else {
                 release()
             }
@@ -32,14 +32,14 @@ class LeftTimeDownHolder {
     fun startDown(leftTime: Long) {
         getLeftTime(leftTime)
         mLeftTime = leftTime
-        mHandler.postDelayed(downRunnable, TimeBroadUtils.SECOND)
+        mHandler.postDelayed(downRunnable, TimeBroadBroadUtils.SECOND)
     }
 
 
     private fun getLeftTime(time: Long) {
 //        AppUtil.debug("倒计时","---> $time")
-        val mins = time / TimeBroadUtils.MINUTE
-        val sec = (time  - mins*TimeBroadUtils.MINUTE)/ TimeBroadUtils.SECOND
+        val mins = time / TimeBroadBroadUtils.MINUTE
+        val sec = (time  - mins*TimeBroadBroadUtils.MINUTE)/ TimeBroadBroadUtils.SECOND
         leftTimeListener?.onLeftTime(
             if (mins < 10) "0$mins" else mins.toString(),
             if (sec < 10) "0$sec" else sec.toString(),

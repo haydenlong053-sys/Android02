@@ -56,7 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cboda.chatui.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerBroadHolder;
 import okhttp3.Response;
 
 public class ScanActivity extends BaseSimpleActivity implements View.OnClickListener {
@@ -398,7 +398,7 @@ public class ScanActivity extends BaseSimpleActivity implements View.OnClickList
         }
         Map<String, Object> param = new HashMap<>();
         param.put("id", linkId);
-        param.put("clientId", ChatManagerHolder.gChatManager.getClientId());
+        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("model", Build.BRAND + " " + Build.MODEL);
         OkHttpHelper.getInstance().post_json(ScanActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBack<ResultBean>(ScanActivity.this) {

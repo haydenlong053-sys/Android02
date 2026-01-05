@@ -24,8 +24,8 @@ class SelectPicAdapter (layoutResId: Int) :
         holder.getView<AppCompatImageView>(R.id.deleteIcon1)?.tag = item
 
 //        val params = holder.itemView.pic?.layoutParams
-//        params?.width = (PixelUtils.getScreenWidth(context) - PixelUtils.dip2px(context,90f))/3
-//        params?.height = (PixelUtils.getScreenWidth(context) - PixelUtils.dip2px(context,90f))/3
+//        params?.width = (PixelBroadUtils.getScreenWidth(context) - PixelBroadUtils.dip2px(context,90f))/3
+//        params?.height = (PixelBroadUtils.getScreenWidth(context) - PixelBroadUtils.dip2px(context,90f))/3
 //        holder.itemView.pic?.layoutParams = params
     }
 }

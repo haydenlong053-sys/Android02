@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.roundToInt
 
 abstract class AUIAbstractPathBroadAnimator(
-    protected val mConfig: Config? = null)
+    protected val mConfig: BroadConfig? = null)
 {
     private var mRandom: Random? = null
 
@@ -59,7 +59,7 @@ abstract class AUIAbstractPathBroadAnimator(
 
     abstract fun start(child: View?, parent: ViewGroup?)
 
-    class Config {
+    class BroadConfig {
         var initX = 0
         var initY = 0
         var xRand = 0
@@ -79,8 +79,8 @@ abstract class AUIAbstractPathBroadAnimator(
                 pointx: Int,
                 heartWidth: Int,
                 heartHeight: Int
-            ): Config {
-                val config = Config()
+            ): BroadConfig {
+                val config = BroadConfig()
                 val res = typedArray.resources
                 config.initX =
                     typedArray.getDimension(R.styleable.voice_LikeLayout_voice_initX, x).toInt()

@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message.notification;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_TRANSFER_GROUP_OWNER;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_TRANSFER_GROUP_OWNER;
 
 import android.os.Parcel;
 

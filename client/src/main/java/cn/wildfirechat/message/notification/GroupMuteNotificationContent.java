@@ -15,7 +15,7 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.remote.ChatManager;
 
-import static cn.wildfirechat.message.core.MessageContentType.CONTENT_TYPE_CHANGE_MUTE;
+import static cn.wildfirechat.message.core.MessageContentBroadType.CONTENT_TYPE_CHANGE_MUTE;
 
 @ContentTag(type = CONTENT_TYPE_CHANGE_MUTE, flag = PersistFlag.Persist)
 public class GroupMuteNotificationContent extends GroupNotificationMessageContent {

@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message.notification;
 
-import static cn.wildfirechat.message.core.MessageContentType.CONTENT_TYPE_MUTE_MEMBER;
+import static cn.wildfirechat.message.core.MessageContentBroadType.CONTENT_TYPE_MUTE_MEMBER;
 
 import android.os.Parcel;
 

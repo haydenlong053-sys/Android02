@@ -26,7 +26,7 @@ import com.lxkj.aiim.lj.http.Url
 import com.lxkj.aiim.lj.utils.StringUtil
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.HideKeyboardUtils
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.utils.StringUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 import okhttp3.Request
@@ -183,7 +183,7 @@ class ZhuanzhangActivity : BaseSimpleActivity() {
                     this@ZhuanzhangActivity,
                     this.icon ?: "",
                     ivTouxiang,
-                    PixelUtils.dip2px(this@ZhuanzhangActivity, 7f)
+                    PixelBroadUtils.dip2px(this@ZhuanzhangActivity, 7f)
                 )
 
                 tvname?.text =

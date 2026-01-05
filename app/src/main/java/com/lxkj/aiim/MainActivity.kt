@@ -24,13 +24,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager.widget.ViewPager
-import com.cboda.chatui.IMConnectionStatusViewModel
-import com.cboda.chatui.IMServiceStatusViewModel
-import com.cboda.chatui.bridge.TiXingUtils
-import com.cboda.chatui.bridge.YeHuoCommonBridge
-import com.cboda.chatui.conversationlist.ConversationListViewModel
-import com.cboda.chatui.conversationlist.ConversationListViewModelFactory
-import com.cboda.chatui.user.UserViewModel
+import com.cboda.chatui.IMConnectionStatusViewBroadModel
+import com.cboda.chatui.IMServiceStatusViewBroadModel
+import com.cboda.chatui.bridge.TiXingBroadUtils
+import com.cboda.chatui.bridge.YeHuoCommonBroadBridge
+import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
+import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
+import com.cboda.chatui.user.UserViewBroadModel
 import cn.wildfirechat.client.ConnectionStatus
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeInformMessageContent
@@ -396,7 +396,7 @@ class MainActivity : BaseSimpleActivity() {
 
     private var viewModel: CommViewModel? = null
 
-    private var conversationListViewModel: ConversationListViewModel? = null
+    private var conversationListViewModel: ConversationListViewBroadModel? = null
 
     override fun onResume() {
         super.onResume()
@@ -435,7 +435,7 @@ class MainActivity : BaseSimpleActivity() {
     private var playHolder: SingleBtnHolder? = null
     private fun afterViews() {
         eLogD("MainActivityClass", "野火开始初始化--->")
-        val imServiceStatusViewModel = ViewModelProvider(this)[IMServiceStatusViewModel::class.java]
+        val imServiceStatusViewModel = ViewModelProvider(this)[IMServiceStatusViewBroadModel::class.java]
         imServiceStatusViewModel.imServiceStatusLiveData().observe(this) {
             if (it && !isInitialized) {
                 eLogD("MainActivityClass", "野火初始化成功--->")
@@ -447,7 +447,7 @@ class MainActivity : BaseSimpleActivity() {
         }
 
         val connectionStatusViewModel =
-            ViewModelProvider(this)[IMConnectionStatusViewModel::class.java]
+            ViewModelProvider(this)[IMConnectionStatusViewBroadModel::class.java]
         connectionStatusViewModel.connectionStatusLiveData().observe(this) {
             AppUtil.debug("野火", "连接状态--> $it")
             when (it) {
@@ -489,7 +489,7 @@ class MainActivity : BaseSimpleActivity() {
 
     }
 
-    private var userViewModel: UserViewModel? = null
+    private var userViewModel: UserViewBroadModel? = null
     private val fragmentList = arrayListOf<Fragment>()
 
     private fun initViews() {
@@ -613,7 +613,7 @@ class MainActivity : BaseSimpleActivity() {
                                         .post(AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true))
                                     //非自己名义发送的消息才响铃
                                     if (message.sender != MMKVBroadUtils.getRealUserId()) {
-                                        TiXingUtils.tixing(this@MainActivity)
+                                        TiXingBroadUtils.tixing(this@MainActivity)
 
                                     }
                                 }
@@ -624,12 +624,12 @@ class MainActivity : BaseSimpleActivity() {
                                             fragment.reflushTongxunlu()
                                         }
                                     }
-                                    TiXingUtils.tixing(this@MainActivity)
+                                    TiXingBroadUtils.tixing(this@MainActivity)
                                 }
 
                                 1005 -> {
                                     if (unkown.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
-                                        YeHuoCommonBridge.getInstance().setYeHuoQiaoJie(
+                                        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(
                                             this@MainActivity,
                                             "beifeng",
                                             "",
@@ -657,10 +657,10 @@ class MainActivity : BaseSimpleActivity() {
         }
 
 
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        userViewModel = ViewModelProvider(this)[UserViewBroadModel::class.java]
         viewModel?.getUserInfo(this, "")
         conversationListViewModel = ViewModelProvider(
-            this, ConversationListViewModelFactory(
+            this, ConversationListViewModelBroadFactory(
                 listOf(
                     ConversationType.Single,
                     ConversationType.Group,
@@ -668,7 +668,7 @@ class MainActivity : BaseSimpleActivity() {
                     ConversationType.SecretChat
                 ), listOf(0)
             )
-        )[ConversationListViewModel::class.java]
+        )[ConversationListViewBroadModel::class.java]
 
         conversationListViewModel?.unreadCountEventLiveData()?.observe(this) {
 //            Log.d("zhanglong","unreadCountEventLiveData==="+it.toString())

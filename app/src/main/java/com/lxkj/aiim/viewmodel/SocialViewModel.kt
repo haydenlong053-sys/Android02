@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.lxkj.aiim.model.SocialContact
 import com.lxkj.aiim.model.SocialUiState
 import com.lxkj.aiim.repository.SocialRepository
-import com.cboda.chatui.utils.PinyinUtils
+import com.cboda.chatui.utils.PinyinBroadUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,7 +98,7 @@ class SocialViewModel(
     private fun initialOf(contact: SocialContact): Char {
         val name = displayName(contact)
         val firstChar = name.firstOrNull() ?: return '#'
-        val py = PinyinUtils.getPinyin(firstChar.toString())
+        val py = PinyinBroadUtils.getPinyin(firstChar.toString())
         val ch = py.firstOrNull()
         return if (ch != null && ch.isLetter()) ch.uppercaseChar() else '#'
     }

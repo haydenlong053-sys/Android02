@@ -9,7 +9,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AUILogger(private val config: Config) {
+class AUILogger(private val config: BroadConfig) {
 
     companion object {
 
@@ -34,18 +34,18 @@ class AUILogger(private val config: Config) {
             }
         }
 
-        fun initLogger(config: Config){
+        fun initLogger(config: BroadConfig){
             logger = AUILogger(config)
         }
 
         fun logger() : AUILogger {
-            return logger ?: throw RuntimeException("Before calling AUILogger.logger(), the AUILogger.initLogger(Config) method must be called firstly!")
+            return logger ?: throw RuntimeException("Before calling AUILogger.logger(), the AUILogger.initLogger(BroadConfig) method must be called firstly!")
         }
 
     }
 
 
-    data class Config(
+    data class BroadConfig(
         val context: Context,
         val rootTag: String,
         val logFileSize: Int = 2 * 1024 * 1024, // 2M，单位Byte
@@ -136,7 +136,7 @@ class AUILogger(private val config: Config) {
     }
 
 
-    private class WriteHandler(val config: Config, looper: Looper) : Handler(looper) {
+    private class WriteHandler(val config: BroadConfig, looper: Looper) : Handler(looper) {
 
         override fun handleMessage(msg: Message) {
             val content = msg.obj as String

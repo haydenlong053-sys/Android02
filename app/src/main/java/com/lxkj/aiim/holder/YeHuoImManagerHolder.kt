@@ -2,9 +2,9 @@ package com.lxkj.aiim.holder
 
 import android.content.Context
 import android.content.Intent
-import com.cboda.chatui.bridge.YeHuoCommonBridge
-import com.cboda.chatui.bridge.YeHuoEvent
-import com.cboda.chatui.conversation.message.model.UiMessage
+import com.cboda.chatui.bridge.YeHuoCommonBroadBridge
+import com.cboda.chatui.bridge.YeHuoBroadEvent
+import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.TextMessageContent
@@ -46,14 +46,14 @@ class YeHuoImManagerHolder(private val context: Context?) {
     private var okGoHelper = OKGoHelper()
 
     private fun setqiaojie() {
-        YeHuoCommonBridge.getInstance()
-            ?.setYeHuoImCommonListener(object : YeHuoCommonBridge.YeHuoImCommonListener {
+        YeHuoCommonBroadBridge.getInstance()
+            ?.setYeHuoImCommonListener(object : YeHuoCommonBroadBridge.YeHuoImCommonListener {
                 override fun qiaojie(
                     mContext: Context?,
                     type: String?,
                     params: String?,
                     params2: String?,
-                    msg: UiMessage?
+                    msg: UiBroadMessage?
                 ) {
                     AppUtil.debug("野火桥接", "---> $type  $params  $params2")
                     when (type) {
@@ -242,7 +242,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                                         "更新文本消息-->onSuccess"
                                                     )
                                                     EventBus.getDefault()
-                                                        .post(YeHuoEvent("reloadMsg", "", ""))
+                                                        .post(YeHuoBroadEvent("reloadMsg", "", ""))
                                                 }
 
                                                 override fun onFail(errorCode: Int) {
@@ -384,7 +384,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
 //                                                         it?.status=="active"
 //                                                     }?.let {
 //                                                         EventBus.getDefault().post(
-//                                                             YeHuoEvent(
+//                                                             YeHuoBroadEvent(
 //                                                                 "qunMeeting",
 //                                                                 it.roomId,
 //                                                                 QuickJsonUtils.build(
@@ -397,7 +397,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
 //
 //                                                 }else{
 //                                                     EventBus.getDefault().post(
-//                                                         YeHuoEvent(
+//                                                         YeHuoBroadEvent(
 //                                                             "qunMeeting",
 //                                                             "",
 //                                                             ""
@@ -427,7 +427,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                             it.data?.let { data ->
                                                 data.id?.let {
                                                     EventBus.getDefault().post(
-                                                        YeHuoEvent(
+                                                        YeHuoBroadEvent(
                                                             "qunMeeting",
                                                             data.roomId,
                                                             QuickJsonUtils.build(
@@ -440,7 +440,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                                 }
                                                 if (data.id.isNullOrEmpty()) {
                                                     EventBus.getDefault().post(
-                                                        YeHuoEvent(
+                                                        YeHuoBroadEvent(
                                                             "qunMeeting",
                                                             "",
                                                             ""
@@ -462,7 +462,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
 
                         "enterMeeting" -> {
                             if (!params.isNullOrEmpty()) {
-                                YeHuoCommonBridge.getInstance().setYeHuoQiaoJie(
+                                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(
                                     context,
                                     "meeting",
                                     params,
@@ -486,7 +486,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                                         if (bean is CommonResultBroadBean) {
                                             bean.data?.apply {
                                                 EventBus.getDefault().post(
-                                                    YeHuoEvent(
+                                                    YeHuoBroadEvent(
                                                         "qunxiangqing",
                                                         gson.toJson(this),
                                                         ""
@@ -498,7 +498,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
 
                                     override fun onFail(bean: BaseBroadResponse?) {
                                         EventBus.getDefault()
-                                            .post(YeHuoEvent("qunxiangqingshibai", "", ""))
+                                            .post(YeHuoBroadEvent("qunxiangqingshibai", "", ""))
                                     }
                                 },
                             )
@@ -516,7 +516,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                         "huoquyonghuxinxi" -> {
                             MainActivity.currtentLoginUser?.apply {
                                 EventBus.getDefault()
-                                    .post(YeHuoEvent("yonghuxinxi", gson.toJson(this), ""))
+                                    .post(YeHuoBroadEvent("yonghuxinxi", gson.toJson(this), ""))
                             }
                         }
 
@@ -947,7 +947,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
         id: String,
         messageUid: String,
         payload: String,
-        msg: UiMessage,
+        msg: UiBroadMessage,
         lingStatus: String,
         isGroup: Boolean
     ) {

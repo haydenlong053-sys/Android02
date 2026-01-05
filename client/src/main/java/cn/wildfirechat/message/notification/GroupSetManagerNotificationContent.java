@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message.notification;
 
-import static cn.wildfirechat.message.core.MessageContentType.CONTENT_TYPE_SET_MANAGER;
+import static cn.wildfirechat.message.core.MessageContentBroadType.CONTENT_TYPE_SET_MANAGER;
 
 import android.os.Parcel;
 

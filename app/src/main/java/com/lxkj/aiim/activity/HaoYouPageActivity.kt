@@ -15,10 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.shinichi.library.ImagePreview
-import com.cboda.chatui.WfcUIKit
-import com.cboda.chatui.conversation.ConversationActivity
-import com.cboda.chatui.conversation.ConversationViewModel
-import com.cboda.chatui.utils.YeHuoIMActivityUtils
+import com.cboda.chatui.WfcUIBroadKit
+import com.cboda.chatui.conversation.ConversationBroadActivity
+import com.cboda.chatui.conversation.ConversationViewBroadModel
+import com.cboda.chatui.utils.YeHuoIMActivityBroadUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.utils.SpanBroadUtils
@@ -37,7 +37,7 @@ import com.lxkj.aiim.utils.AppUtil
 import com.cboda.baselibrary.bean.BroadConstant
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.JumpUtils
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.utils.StringUtils
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
@@ -53,7 +53,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
     private var viewModel: CommViewModel? = null
     private var mAdapter: PengYouQuanAdapter? = null
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
-    private var conversationViewModel: ConversationViewModel? = null
+    private var conversationViewModel: ConversationViewBroadModel? = null
 
     private var yonghubena: CommonResultBroadBean.CommonResult? = null
     private lateinit var faxiaoxitonghua: LinearLayoutCompat
@@ -134,8 +134,8 @@ class HaoYouPageActivity : BaseSimpleActivity() {
         getRightImg()?.setOnClickListener {
             JumpUtils.startHaoYouSetActivity(this, otherUid, "")
         }
-        conversationViewModel = WfcUIKit.getAppScopeViewModel(
-            ConversationViewModel::class.java
+        conversationViewModel = WfcUIBroadKit.getAppScopeViewModel(
+            ConversationViewBroadModel::class.java
         )
 
         viewModel = ViewModelProvider(this)[CommViewModel::class.java]
@@ -146,7 +146,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
                     this@HaoYouPageActivity,
                     this.icon ?: "",
                     ivTouxiang,
-                    PixelUtils.dip2px(this@HaoYouPageActivity, 10f)
+                    PixelBroadUtils.dip2px(this@HaoYouPageActivity, 10f)
                 )
                 if (sex == null || sex == "0") {
                     ivMirrorSex.setImageResource(R.drawable.ic_mirror_female)
@@ -309,8 +309,8 @@ class HaoYouPageActivity : BaseSimpleActivity() {
 
         faxiaoxi?.setOnClickListener {
 
-            YeHuoIMActivityUtils.activities.forEachIndexed { index, activity ->
-                if (activity is ConversationActivity) {
+            YeHuoIMActivityBroadUtils.activities.forEachIndexed { index, activity ->
+                if (activity is ConversationBroadActivity) {
                     activity.finish()
                 }
             }
@@ -323,7 +323,7 @@ class HaoYouPageActivity : BaseSimpleActivity() {
             XXPermissions.with(this).permission(Permission.RECORD_AUDIO)
                 .request(object : OnPermissionCallback {
                     override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                        WfcUIKit.singleCall(this@HaoYouPageActivity, otherUid, true)
+                        WfcUIBroadKit.singleCall(this@HaoYouPageActivity, otherUid, true)
 
                     }
                 })

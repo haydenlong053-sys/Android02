@@ -8,7 +8,7 @@
     android:layout_height="wrap_content">
 
     <!-- 图片 -->
-    <com.cboda.chatui.widget.BubbleImageView
+    <com.cboda.chatui.widget.BubbleImageBroadView
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -25,7 +25,7 @@
         app:bubble_showText="false"
         tools:background="@color/gray" />
 
-    <com.cboda.chatui.widget.CircularProgressBar
+    <com.cboda.chatui.widget.CircularProgressBroadBar
         android:id="@+id/cpbLoading"
         android:layout_width="30dp"
         android:layout_height="30dp"

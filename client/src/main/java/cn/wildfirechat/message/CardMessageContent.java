@@ -17,7 +17,7 @@ import cn.wildfirechat.message.core.ContentTag;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Card;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Card;
 
 
 @ContentTag(type = ContentType_Card, flag = PersistFlag.Persist_And_Count)

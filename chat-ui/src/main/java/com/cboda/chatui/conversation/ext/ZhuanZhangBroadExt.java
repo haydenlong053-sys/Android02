@@ -1,0 +1,36 @@
+package com.cboda.chatui.conversation.ext;
+
+import android.content.Context;
+import android.view.View;
+
+import com.cboda.chatui.R;
+import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
+import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
+import cn.wildfirechat.model.Conversation;
+
+public class ZhuanZhangBroadExt extends ConversationBroadExt {
+    @ExtContextMenuBroadItem
+    public void pickZhuanZhang(View containerView, Conversation conversation) {
+        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(containerView.getContext(),"zhuanzhang",conversation.target,"",null);
+    }
+    @Override
+    public int priority() {
+        return 100;
+    }
+
+    @Override
+    public int iconResId() {
+        return R.mipmap.ic_func_zhuanzhang;
+    }
+
+    @Override
+    public String title(Context context) {
+        return "转账";
+    }
+
+    @Override
+    public String contextMenuTitle(Context context, String tag) {
+        return title(context);
+    }
+}

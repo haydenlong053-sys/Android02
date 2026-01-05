@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cboda.chatui.widget.InputAwareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cboda.chatui.widget.InputAwareBroadLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="42dp">
-        <com.cboda.chatui.MarqueeTextView
+        <com.cboda.chatui.MarqueeTextBroadView
             android:id="@+id/gonggaoxinxi"
             android:text="群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告"
             android:focusable="true"
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="42dp">
-        <com.cboda.chatui.MarqueeTextView
+        <com.cboda.chatui.MarqueeTextBroadView
             android:id="@+id/tvQunMeeting"
             android:text="群通知：已经开启语音房，点击可加入!"
             android:focusable="true"
@@ -93,7 +93,7 @@
                         />
 
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-                <com.cboda.chatui.widget.TopInterceptView
+                <com.cboda.chatui.widget.TopInterceptBroadView
                     android:id="@+id/mViewIntercept"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -102,7 +102,7 @@
             </FrameLayout>
 
 
-            <com.cboda.chatui.conversation.ConversationInputPanel
+            <com.cboda.chatui.conversation.ConversationInputBroadPanel
                 android:id="@+id/inputPanelFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -172,4 +172,4 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
     </FrameLayout>
-</com.cboda.chatui.widget.InputAwareLayout>
+</com.cboda.chatui.widget.InputAwareBroadLayout>

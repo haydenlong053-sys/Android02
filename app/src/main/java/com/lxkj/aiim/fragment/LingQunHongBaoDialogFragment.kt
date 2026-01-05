@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.chatui.conversation.message.model.UiMessage
+import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import cn.wildfirechat.message.HongBaoMessageContent
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.google.gson.Gson
@@ -26,7 +26,7 @@ class LingQunHongBaoDialogFragment : BaseDiaogFragment() {
     var isgroup = ""
     var messageUid = ""
     var payload = ""
-    var msgBean: UiMessage? = null
+    var msgBean: UiBroadMessage? = null
     var dataBean : CommonResultBroadBean? = null
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +50,7 @@ class LingQunHongBaoDialogFragment : BaseDiaogFragment() {
                     context,
                    this.icon?:"",
                     ivTouxiang,
-                    PixelUtils.dip2px(context, 10f)
+                    PixelBroadUtils.dip2px(context, 10f)
                 )
                 if (msgBean != null && msgBean!!.message != null && msgBean!!.message.content is HongBaoMessageContent &&( msgBean!!.message.content as HongBaoMessageContent).hongbaoLeixing == "3") {
                     tvname?.text = StringUtils.format(getString(R.string.shuidezhuanchuhong), (msgBean!!.message.content as HongBaoMessageContent) .zhuanshuUserName?:"")

@@ -33,7 +33,7 @@ object NetworkBroadUtils {
     /**
      * 网络请求回调接口
      */
-    interface NetworkBroadCallback<T> {
+    interface NetworkCallback<T> {
         /**
          * 请求成功
          * @param data 响应数据
@@ -57,7 +57,7 @@ object NetworkBroadUtils {
     /**
      * 列表请求回调接口
      */
-    interface ListBroadCallback<T> {
+    interface ListCallback<T> {
         /**
          * 请求成功
          * @param list 列表数据
@@ -93,7 +93,7 @@ object NetworkBroadUtils {
     fun <T> get(
         url: String,
         params: Map<String, String> = emptyMap(),
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -112,7 +112,7 @@ object NetworkBroadUtils {
     fun getAny(
         url: String,
         params: Map<String, String> = emptyMap(),
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -133,7 +133,7 @@ object NetworkBroadUtils {
         url: String,
         baseUrl: String,
         params: Map<String, String> = emptyMap(),
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi(baseUrl)
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -154,7 +154,7 @@ object NetworkBroadUtils {
         url: String,
         baseUrl: String,
         params: Map<String, String> = emptyMap(),
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi(baseUrl)
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -173,7 +173,7 @@ object NetworkBroadUtils {
     fun <T> getEncrypted(
         url: String,
         params: Map<String, String> = emptyMap(),
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -192,7 +192,7 @@ object NetworkBroadUtils {
     fun getEncryptedAny(
         url: String,
         params: Map<String, String> = emptyMap(),
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -213,7 +213,7 @@ object NetworkBroadUtils {
     fun <T> post(
         url: String,
         body: Any,
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -232,7 +232,7 @@ object NetworkBroadUtils {
     fun postAny(
         url: String,
         body: Any,
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -253,7 +253,7 @@ object NetworkBroadUtils {
         url: String,
         baseUrl: String,
         body: Any,
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi(baseUrl)
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -274,7 +274,7 @@ object NetworkBroadUtils {
         url: String,
         baseUrl: String,
         body: Any,
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi(baseUrl)
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -293,7 +293,7 @@ object NetworkBroadUtils {
     fun <T> postForm(
         url: String,
         params: Map<String, String>,
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -312,7 +312,7 @@ object NetworkBroadUtils {
     fun postFormAny(
         url: String,
         params: Map<String, String>,
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -331,7 +331,7 @@ object NetworkBroadUtils {
     fun <T> postEncrypted(
         url: String,
         body: Any,
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -350,7 +350,7 @@ object NetworkBroadUtils {
     fun <T> postEncryptedList(
         url: String,
         body: Any,
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -365,7 +365,7 @@ object NetworkBroadUtils {
     fun <T> postEncryptedListByDataKey(
         url: String,
         body: Any,
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -388,7 +388,7 @@ object NetworkBroadUtils {
     fun postEncryptedAny(
         url: String,
         body: Any,
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -407,7 +407,7 @@ object NetworkBroadUtils {
     fun <T> postFormEncrypted(
         url: String,
         params: Map<String, String>,
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -426,7 +426,7 @@ object NetworkBroadUtils {
     fun postFormEncryptedAny(
         url: String,
         params: Map<String, String>,
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         val api = createApi()
         // 手动拼接完整URL，因为@Url注解会忽略baseUrl
@@ -446,7 +446,7 @@ object NetworkBroadUtils {
     fun <T> getList(
         url: String,
         params: Map<String, String> = emptyMap(),
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
         val api = createApi()
         @Suppress("UNCHECKED_CAST")
@@ -465,7 +465,7 @@ object NetworkBroadUtils {
         url: String,
         baseUrl: String,
         params: Map<String, String> = emptyMap(),
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
         val api = createApi(baseUrl)
         @Suppress("UNCHECKED_CAST")
@@ -482,7 +482,7 @@ object NetworkBroadUtils {
     fun <T> postList(
         url: String,
         body: Any,
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
         val api = createApi()
         @Suppress("UNCHECKED_CAST")
@@ -499,7 +499,7 @@ object NetworkBroadUtils {
     fun <T> getListEncrypted(
         url: String,
         params: Map<String, String> = emptyMap(),
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
         val api = createApi()
         @Suppress("UNCHECKED_CAST")
@@ -547,7 +547,7 @@ object NetworkBroadUtils {
      */
     internal fun <T> executeCall(
         call: Call<NetworkBroadResponse<T>>,
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         call.enqueue(object : Callback<NetworkBroadResponse<T>> {
             override fun onResponse(
@@ -611,7 +611,7 @@ object NetworkBroadUtils {
      */
     private fun <T> executeListCall(
         call: Call<NetworkListBroadResponse<T>>,
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
         call.enqueue(object : Callback<NetworkListBroadResponse<T>> {
             override fun onResponse(
@@ -657,7 +657,7 @@ object NetworkBroadUtils {
      */
     private fun <T> executeListCall2(
         call: Call<NetworkListBroadResponse2<T>>,
-        callback: ListBroadCallback<T>
+        callback: ListCallback<T>
     ) {
 //        eLogD("NetWorkUtilsClass", "url:" + call.request().url.toString())
         call.enqueue(object : Callback<NetworkListBroadResponse2<T>> {
@@ -738,7 +738,7 @@ object NetworkBroadUtils {
         fileKey: String = "file",
         params: Map<String, String> = emptyMap(),
 //        mediaType: String = getMediaTypeFromFileName(filePath),// "application/octet-stream",
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         val file = File(filePath)
         val api = createApi()
@@ -777,7 +777,7 @@ object NetworkBroadUtils {
         filePath: String,
         fileKey: String = "file",
         params: Map<String, String> = emptyMap(),
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         uploadFile(url, filePath, fileKey, params, callback)
     }
@@ -800,7 +800,7 @@ object NetworkBroadUtils {
         fileKey: String = "files",
         params: Map<String, String> = emptyMap(),
         mediaType: String = "application/octet-stream",
-        callback: NetworkBroadCallback<T>
+        callback: NetworkCallback<T>
     ) {
         if (files.isEmpty()) {
             mainHandler.post {
@@ -860,7 +860,7 @@ object NetworkBroadUtils {
         fileKey: String = "files",
         params: Map<String, String> = emptyMap(),
         mediaType: String = "application/octet-stream",
-        callback: NetworkBroadCallback<Any>
+        callback: NetworkCallback<Any>
     ) {
         uploadFiles(url, files, fileKey, params, mediaType, callback)
     }

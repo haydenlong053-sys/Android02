@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message.notification;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_MODIFY_GROUP_MEMBER_EXTRA;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_MODIFY_GROUP_MEMBER_EXTRA;
 
 import android.os.Parcel;
 import android.text.TextUtils;

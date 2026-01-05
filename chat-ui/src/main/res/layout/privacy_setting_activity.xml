@@ -15,7 +15,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/blacklistOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_option_item"
@@ -30,7 +30,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/momentsPrivacyOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_option_item"
@@ -44,7 +44,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <com.cboda.chatui.widget.OptionItemView
+        <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/findMeOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_option_item"

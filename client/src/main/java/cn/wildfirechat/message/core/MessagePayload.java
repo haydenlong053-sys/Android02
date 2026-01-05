@@ -20,7 +20,7 @@ import cn.wildfirechat.model.ProtoMessageContent;
 
 public class MessagePayload implements Parcelable {
 
-    public /*MessageContentType*/ int type;
+    public /*MessageContentBroadType*/ int type;
     public String searchableContent;
     public String pushContent;
     public String pushData;

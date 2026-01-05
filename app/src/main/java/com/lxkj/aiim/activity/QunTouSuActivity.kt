@@ -8,15 +8,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.chatui.conversation.ConversationActivity
-import com.cboda.chatui.conversation.message.model.UiMessage
+import com.cboda.chatui.conversation.ConversationBroadActivity
+import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import cn.wildfirechat.model.Conversation
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.R
 import com.lxkj.aiim.adapter.TouSuLeixingAdapter2
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
-import com.cboda.chatui.bridge.TouSuJiLuEvent
+import com.cboda.chatui.bridge.TouSuJiLuBroadEvent
 import com.lxkj.aiim.bean.TouSuLeiXingEvent
 import com.lxkj.aiim.holder.MutliPicSelectHolder
 import com.lxkj.aiim.utils.AppUtil
@@ -38,7 +38,7 @@ class QunTouSuActivity:BaseSimpleActivity() {
     private var mAdapter: TouSuLeixingAdapter2? = null
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var holder :MutliPicSelectHolder? = null
-    private var mDataList2 = arrayListOf<UiMessage>()
+    private var mDataList2 = arrayListOf<UiBroadMessage>()
     private var uploadViewModel: UploadFileViewModel? = null
 
     override fun getLayoutId(): Int {
@@ -83,7 +83,7 @@ class QunTouSuActivity:BaseSimpleActivity() {
             // 点击会话
             val intent = Intent(
                 this,
-                ConversationActivity::class.java
+                ConversationBroadActivity::class.java
             )
             intent.putExtra("conversation",conversation )
             intent.putExtra("frompage","tousu")
@@ -194,7 +194,7 @@ class QunTouSuActivity:BaseSimpleActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMsgReceive(event: TouSuJiLuEvent) {
+    fun onMsgReceive(event: TouSuJiLuBroadEvent) {
         mDataList2.clear()
         mDataList2.addAll(event.dataList)
     }

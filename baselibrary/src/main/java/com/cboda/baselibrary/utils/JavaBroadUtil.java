@@ -14,15 +14,15 @@ public class JavaBroadUtil {
         String Ustr = Ustr0;
         String[] per = new String[6];
         try {
-            int S = 0, E = 0;
+            int S = 0, BroadE = 0;
             String C = "", Value = "";
             while (Ustr.contains("\\u")) {
                 S = Ustr.indexOf("\\u") + "\\u".length();
-                E = Ustr.indexOf("\\u", S);
-                if (E == -1) E = Ustr.length();
+                BroadE = Ustr.indexOf("\\u", S);
+                if (BroadE == -1) BroadE = Ustr.length();
 
-                if (E > S) {
-                    C = Ustr.substring(S, E);
+                if (BroadE > S) {
+                    C = Ustr.substring(S, BroadE);
                     if (C.length() > 4) C = C.substring(0, 4);
                     Value = (char) Integer.parseInt(C, 16) + "";
 

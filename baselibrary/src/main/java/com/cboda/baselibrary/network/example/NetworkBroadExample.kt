@@ -106,7 +106,7 @@ class NetworkBroadExample {
     fun simpleGetExample() {
         val params = mapOf("page" to "1", "size" to "10")
         
-        NetworkBroadUtils.get("api/users", params, object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+        NetworkBroadUtils.get("api/users", params, object : NetworkBroadUtils.NetworkCallback<Any> {
             override fun onSuccess(data: Any?) {
                 // 处理成功响应
                 println("GET请求成功: $data")
@@ -130,7 +130,7 @@ class NetworkBroadExample {
     fun simplePostExample() {
         val requestBody = LoginBroadRequest("admin", "123456")
         
-        NetworkBroadUtils.postAny("api/login", requestBody, object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+        NetworkBroadUtils.postAny("api/login", requestBody, object : NetworkBroadUtils.NetworkCallback<Any> {
             override fun onSuccess(data: Any?) {
                 // 处理成功响应
                 println("POST请求成功: $data")
@@ -157,7 +157,7 @@ class NetworkBroadExample {
             "password" to "123456"
         )
         
-        NetworkBroadUtils.postForm("api/login", params, object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+        NetworkBroadUtils.postForm("api/login", params, object : NetworkBroadUtils.NetworkCallback<Any> {
             override fun onSuccess(data: Any?) {
                 println("表单POST请求成功: $data")
             }
@@ -179,7 +179,7 @@ class NetworkBroadExample {
         val requestBody = LoginBroadRequest("admin", "123456")
         
         // 加密POST请求
-        NetworkBroadUtils.postEncryptedAny("api/login", requestBody, object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+        NetworkBroadUtils.postEncryptedAny("api/login", requestBody, object : NetworkBroadUtils.NetworkCallback<Any> {
             override fun onSuccess(data: Any?) {
                 println("加密POST请求成功: $data")
             }
@@ -195,7 +195,7 @@ class NetworkBroadExample {
         
         // 加密GET请求
         val params = mapOf("userId" to "123")
-        NetworkBroadUtils.getEncryptedAny("api/user/profile", params, object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+        NetworkBroadUtils.getEncryptedAny("api/user/profile", params, object : NetworkBroadUtils.NetworkCallback<Any> {
             override fun onSuccess(data: Any?) {
                 println("加密GET请求成功: $data")
             }
@@ -216,7 +216,7 @@ class NetworkBroadExample {
     fun listRequestExample() {
         val params = mapOf("page" to "1", "size" to "10")
         
-        NetworkBroadUtils.getList<BroadUser>("api/users", params, object : NetworkBroadUtils.ListBroadCallback<BroadUser> {
+        NetworkBroadUtils.getList<BroadUser>("api/users", params, object : NetworkBroadUtils.ListCallback<BroadUser> {
             override fun onSuccess(list: List<BroadUser>?, totalCount: Int, totalPage: Int) {
                 println("列表请求成功: 共${totalCount}条数据，${totalPage}页")
                 list?.forEach { user ->
@@ -241,7 +241,7 @@ class NetworkBroadExample {
         val customBaseUrl = "https://api.custom.com/"
         val params = mapOf("id" to "123")
         
-        NetworkBroadUtils.getAnyWithBaseUrl("api/data", customBaseUrl, params, object : NetworkBroadUtils.NetworkBroadCallback<Any> {
+        NetworkBroadUtils.getAnyWithBaseUrl("api/data", customBaseUrl, params, object : NetworkBroadUtils.NetworkCallback<Any> {
             override fun onSuccess(data: Any?) {
                 println("动态BaseURL请求成功: $data")
             }

@@ -49,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cboda.chatui.utils.FileUtils;
+import com.cboda.chatui.utils.FileBroadUtils;
 import okhttp3.Response;
 import top.zibin.luban.Luban;
 
@@ -309,7 +309,7 @@ public class HyyAddActivity extends BaseSimpleActivity {
 
         if (resultCode == Activity.RESULT_OK && requestCode == 100) {
             Uri uri = data.getData();
-            String path = FileUtils.getPath(this, uri);
+            String path = FileBroadUtils.getPath(this, uri);
             if (TextUtils.isEmpty(path)) {
                 Toast.makeText(this, "选择文件错误", Toast.LENGTH_SHORT).show();
                 return;

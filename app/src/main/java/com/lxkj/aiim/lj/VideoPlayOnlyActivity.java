@@ -32,7 +32,7 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 
 import java.io.File;
 
-import com.cboda.chatui.utils.FileUtils;
+import com.cboda.chatui.utils.FileBroadUtils;
 
 
 /**
@@ -124,7 +124,7 @@ public class VideoPlayOnlyActivity extends BaseSimpleActivity {
         // 配置边播放边缓存
         // 方法一：使用 GSYVideoOptionBuilder（推荐）
         GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-        if(FileUtils.isFileExists(video)){
+        if(FileBroadUtils.isFileExists(video)){
             gsyVideoOption
                     .setUrl(video)  // 设置视频URL
                     .setVideoTitle("")  // 设置视频标题

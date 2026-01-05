@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.lxkj.aiim.R
-import com.lxkj.aiim.utils.PixelUtils
+import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.widge.LiXInCenterDialog
 
 /**
@@ -35,10 +35,10 @@ class SingleBtnHolder(
                 val rootView = view.findViewById<View>(R.id.rootView)
                 if (rootView.layoutParams is ViewGroup.MarginLayoutParams) {
                     val mLayoutParams = rootView.layoutParams as ViewGroup.MarginLayoutParams
-                    mLayoutParams.marginStart = PixelUtils.dip2px(activity, 39f)
-                    mLayoutParams.marginEnd = PixelUtils.dip2px(activity, 39f)
+                    mLayoutParams.marginStart = PixelBroadUtils.dip2px(activity, 39f)
+                    mLayoutParams.marginEnd = PixelBroadUtils.dip2px(activity, 39f)
                     mLayoutParams.width =
-                        PixelUtils.getScreenWidth(activity) - 2 * PixelUtils.dip2px(
+                        PixelBroadUtils.getScreenWidth(activity) - 2 * PixelBroadUtils.dip2px(
                             activity,
                             39f
                         )

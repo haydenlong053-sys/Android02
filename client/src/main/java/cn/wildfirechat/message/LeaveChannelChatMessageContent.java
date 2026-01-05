@@ -7,11 +7,11 @@ package cn.wildfirechat.message;
 import android.os.Parcel;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-@ContentTag(type = MessageContentType.ContentType_Leave_Channel_Chat, flag = PersistFlag.Transparent)
+@ContentTag(type = MessageContentBroadType.ContentType_Leave_Channel_Chat, flag = PersistFlag.Transparent)
 public class LeaveChannelChatMessageContent extends MessageContent {
     @Override
     public void decode(MessagePayload payload) {

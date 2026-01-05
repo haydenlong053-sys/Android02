@@ -2,7 +2,7 @@ package com.lxkj.aiim.holder
 
 import android.os.Handler
 import android.os.Looper
-import com.lxkj.aiim.utils.TimeBroadUtils
+import com.lxkj.aiim.utils.TimeBroadBroadUtils
 
 /**
  * 简述： <功能描述>
@@ -15,10 +15,10 @@ class LeftTimeDownHolder2 {
 
     private var downRunnable = object : Runnable {
         override fun run() {
-            mLeftTime -= TimeBroadUtils.SECOND
+            mLeftTime -= TimeBroadBroadUtils.SECOND
             getLeftTime(mLeftTime)
             if (mLeftTime > 0) {
-                mHandler.postDelayed(this, TimeBroadUtils.SECOND)
+                mHandler.postDelayed(this, TimeBroadBroadUtils.SECOND)
             } else {
                 release()
             }
@@ -29,16 +29,16 @@ class LeftTimeDownHolder2 {
     fun startDown(leftTime: Long) {
         getLeftTime(leftTime)
         mLeftTime = leftTime
-        mHandler.postDelayed(downRunnable, TimeBroadUtils.SECOND)
+        mHandler.postDelayed(downRunnable, TimeBroadBroadUtils.SECOND)
     }
 
 
     private fun getLeftTime(time: Long) {
-        val day = time / TimeBroadUtils.DAY
-        val hour = (time - day * TimeBroadUtils.DAY) / TimeBroadUtils.HOUR
-        val mins = (time - day * TimeBroadUtils.DAY - hour * TimeBroadUtils.HOUR) / TimeBroadUtils.MINUTE
+        val day = time / TimeBroadBroadUtils.DAY
+        val hour = (time - day * TimeBroadBroadUtils.DAY) / TimeBroadBroadUtils.HOUR
+        val mins = (time - day * TimeBroadBroadUtils.DAY - hour * TimeBroadBroadUtils.HOUR) / TimeBroadBroadUtils.MINUTE
         val sec =
-            (time - day * TimeBroadUtils.DAY - hour * TimeBroadUtils.HOUR - mins * TimeBroadUtils.MINUTE) / TimeBroadUtils.SECOND
+            (time - day * TimeBroadBroadUtils.DAY - hour * TimeBroadBroadUtils.HOUR - mins * TimeBroadBroadUtils.MINUTE) / TimeBroadBroadUtils.SECOND
 //        AppUtil.debug("倒计时","---> $time $hour $mins $sec")
 
         leftTimeListener?.onLeftTime(

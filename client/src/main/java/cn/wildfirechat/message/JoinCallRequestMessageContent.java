@@ -10,11 +10,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-@ContentTag(type = MessageContentType.ContentType_Call_Join_Call_Request, flag = PersistFlag.Transparent)
+@ContentTag(type = MessageContentBroadType.ContentType_Call_Join_Call_Request, flag = PersistFlag.Transparent)
 public class JoinCallRequestMessageContent extends MessageContent {
     private String callId;
     private String clientId;

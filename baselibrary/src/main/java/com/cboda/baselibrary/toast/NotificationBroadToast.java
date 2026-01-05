@@ -42,7 +42,7 @@ public class NotificationBroadToast extends SystemBroadToast {
             // 获取到 Toast 中的 getService 静态方法
             Method getService = Toast.class.getDeclaredMethod("getService");
             getService.setAccessible(true);
-            // 执行方法，会返回一个 INotificationManager$Stub$Proxy 类型的对象
+            // 执行方法，会返回一个 INotificationManager$BroadStub$Proxy 类型的对象
             final Object iNotificationManager = getService.invoke(null);
             if (iNotificationManager == null) {
                 return;
@@ -56,7 +56,7 @@ public class NotificationBroadToast extends SystemBroadToast {
                     Thread.currentThread().getContextClassLoader(),
                     new Class[]{Class.forName("android.app.INotificationManager")},
                     new NotificationServiceBroadProxy(iNotificationManager));
-            // 将原来的 INotificationManager$Stub$Proxy 替换掉
+            // 将原来的 INotificationManager$BroadStub$Proxy 替换掉
             Field sService = Toast.class.getDeclaredField("sService");
             sService.setAccessible(true);
             sService.set(null, iNotificationManagerProxy);

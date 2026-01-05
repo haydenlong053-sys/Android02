@@ -107,7 +107,7 @@ class AUIPraiseEffectBroadLayout : RelativeLayout, View.OnClickListener,IAUIPrai
             pointx += 10
         } else pointx = initX
         mAnimator = AUIPathBroadAnimator(
-            AUIAbstractPathBroadAnimator.Config.fromTypeArray(
+            AUIAbstractPathBroadAnimator.BroadConfig.fromTypeArray(
                 a,
                 initX.toFloat(),
                 textHight.toFloat(),

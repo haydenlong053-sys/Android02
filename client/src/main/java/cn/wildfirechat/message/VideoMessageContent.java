@@ -16,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.model.VideoParam;
@@ -29,7 +29,7 @@ import cn.wildfirechat.utils.WeChatImageUtils;
  * 添加小视频的宽高，时长
  */
 
-@ContentTag(type = MessageContentType.ContentType_Video, flag = PersistFlag.Persist_And_Count)
+@ContentTag(type = MessageContentBroadType.ContentType_Video, flag = PersistFlag.Persist_And_Count)
 public class VideoMessageContent extends MediaMessageContent {
 
     private static final String TAG = "VideoMessageContent";

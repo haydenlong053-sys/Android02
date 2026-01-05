@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cboda.chatui.conversation.message.MessageItemView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cboda.chatui.conversation.message.MessageItemBroadView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/messageRootLinearLayout"
     android:layout_width="match_parent"
@@ -174,4 +174,4 @@
         tools:text="下午 5点"
         android:textColor="@color/gray11"
         android:textSize="14sp" />
-</com.cboda.chatui.conversation.message.MessageItemView>
+</com.cboda.chatui.conversation.message.MessageItemBroadView>

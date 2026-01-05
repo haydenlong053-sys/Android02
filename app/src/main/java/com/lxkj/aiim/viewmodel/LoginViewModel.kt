@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
-import com.cboda.chatui.ChatManagerHolder
+import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
@@ -153,7 +153,7 @@ class LoginViewModel : BaseViewModel() {
         val param =
             mapOf(
                 "eqno" to getAndroidId(),
-                "clientId" to ChatManagerHolder.gChatManager.getClientId(),
+                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
                 "type" to 2,
                 "model" to model
             )
@@ -209,7 +209,7 @@ class LoginViewModel : BaseViewModel() {
                 "pwd" to pwd,
                 "code" to code,
                 "eqno" to getAndroidId(),
-                "clientId" to ChatManagerHolder.gChatManager.getClientId(),
+                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
                 "type" to 2,
                 "model" to model
             )
@@ -273,7 +273,7 @@ class LoginViewModel : BaseViewModel() {
                 "account" to account,
                 "pwd" to pwd,
                 "eqno" to getAndroidId(),
-                "clientId" to ChatManagerHolder.gChatManager.getClientId(),
+                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
                 "type" to 2,
                 "model" to model
             )

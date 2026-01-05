@@ -4,7 +4,7 @@
 
 package cn.wildfirechat.message.notification;
 
-import static cn.wildfirechat.message.core.MessageContentType.ContentType_Start_Secret_Chat;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Start_Secret_Chat;
 
 import android.os.Parcel;
 

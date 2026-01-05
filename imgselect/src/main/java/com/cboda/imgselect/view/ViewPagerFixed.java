@@ -5,13 +5,13 @@ import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class ViewPagerFixed extends ViewPager {
+public class ViewPagerBroadFixed extends ViewPager {
 
-    public ViewPagerFixed(Context context) {
+    public ViewPagerBroadFixed(Context context) {
         super(context);
     }
 
-    public ViewPagerFixed(Context context, AttributeSet attrs) {
+    public ViewPagerBroadFixed(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

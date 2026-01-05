@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.wildfirechat.message.core.ContentTag;
-import cn.wildfirechat.message.core.MessageContentType;
+import cn.wildfirechat.message.core.MessageContentBroadType;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
@@ -18,7 +18,7 @@ import cn.wildfirechat.message.core.PersistFlag;
  * Created by heavyrain lee on 2017/12/6.
  */
 
-@ContentTag(type = MessageContentType.ContentType_Voice, flag = PersistFlag.Persist_And_Count)
+@ContentTag(type = MessageContentBroadType.ContentType_Voice, flag = PersistFlag.Persist_And_Count)
 public class SoundMessageContent extends MediaMessageContent {
     protected int duration;
 

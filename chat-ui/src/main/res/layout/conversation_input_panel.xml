@@ -226,7 +226,7 @@
 
         <View style="@style/Line" />
 
-        <com.cboda.chatui.widget.KeyboardHeightFrameLayout
+        <com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout
             android:id="@+id/emotionContainerFrameLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_custom_keyboard_size"
@@ -237,9 +237,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone" />
-        </com.cboda.chatui.widget.KeyboardHeightFrameLayout>
+        </com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout>
 
-        <com.cboda.chatui.widget.KeyboardHeightFrameLayout
+        <com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout
             android:id="@+id/extContainerContainerLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_custom_keyboard_size"
@@ -247,11 +247,11 @@
             android:visibility="gone">
 
             <!--其他功能-->
-            <com.cboda.chatui.widget.ViewPagerFixed
+            <com.cboda.chatui.widget.ViewPagerBroadFixed
                 android:id="@+id/conversationExtViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.cboda.chatui.widget.KeyboardHeightFrameLayout>
+        </com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout>
     </LinearLayout>
 </merge>

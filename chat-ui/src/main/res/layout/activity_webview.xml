@@ -6,7 +6,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <com.cboda.chatui.widget.ProgressWebView
+    <com.cboda.chatui.widget.ProgressWebBroadView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
