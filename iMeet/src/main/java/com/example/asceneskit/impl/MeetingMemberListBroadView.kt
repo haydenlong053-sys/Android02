@@ -14,9 +14,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.MeetingListViewBroadLayoutBinding
 import com.example.asceneskit.databinding.MeetingMemberListBroadItemBinding
-import io.agora.auikit.ui.member.MemberBroadInfo
-import io.agora.auikit.ui.member.MemberItemBroadModel
-import io.agora.auikit.utils.BindingViewBroadHolder
+import com.cboda.agora.ui.ui.member.MemberBroadInfo
+import com.cboda.agora.ui.ui.member.MemberItemBroadModel
+import com.cboda.agora.ui.utils.BindingViewBroadHolder
 
 class MeetingMemberListBroadView : FrameLayout {
     private val mBinding by lazy { MeetingListViewBroadLayoutBinding.inflate(

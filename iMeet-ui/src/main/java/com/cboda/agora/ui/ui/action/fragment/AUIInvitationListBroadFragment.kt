@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.cboda.agora.ui.R
+import com.cboda.agora.ui.action.AUIActionUserInfo
+import com.cboda.agora.ui.action.AUIActionUserInfoList
 import com.cboda.agora.ui.databinding.AuiInvitationListLayoutBinding
+import com.cboda.agora.ui.ui.basic.AUIImageBroadView
+import com.cboda.agora.ui.utils.ResourcesBroadTools
 import com.google.android.material.textview.MaterialTextView
-import io.agora.auikit.ui.action.AUIActionUserInfo
-import io.agora.auikit.ui.action.AUIActionUserInfoList
-import io.agora.auikit.ui.basic.AUIImageBroadView
-import io.agora.auikit.utils.ResourcesBroadTools
 
 
 class VoiceRoomInvitedListFragment : Fragment(),

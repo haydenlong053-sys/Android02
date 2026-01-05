@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.agora.auikit.model.AUIChoristerModel;
 
+
 public interface AUIChoristerListCallback {
     void onResult(@Nullable AUIException error, @Nullable List<AUIChoristerModel> songList);
 }

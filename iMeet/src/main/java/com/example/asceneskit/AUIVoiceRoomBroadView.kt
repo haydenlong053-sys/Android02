@@ -8,6 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
+import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import com.cboda.agora.ui.micseats.MicSeatBroadOption
+import com.cboda.agora.ui.micseats.MicSeatBroadType
+import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
+import com.cboda.agora.ui.ui.chatBottomBar.impl.AUIKeyboardStatusBroadWatcher
+import com.cboda.agora.ui.ui.member.MemberBroadInfo
 import com.example.asceneskit.binder.AUIChatBottomBarBinder
 import com.example.asceneskit.binder.AUIChatListBinder
 import com.example.asceneskit.binder.AUIGiftBarrageBinder
@@ -19,18 +25,10 @@ import com.example.asceneskit.binder.IAUIBroadBindable
 import com.example.asceneskit.databinding.VoiceRoomBroadViewBinding
 import com.example.asceneskit.dialog.VoiceMoreItemBean
 import com.example.asceneskit.dialog.VoiceRoomMoreDialog
-import io.agora.auikit.model.*
+import io.agora.auikit.model.AUIRoomContext
+import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.service.*
 import io.agora.auikit.service.imp.AUIIMManagerServiceImpl
-import io.agora.auikit.ui.basic.AUIAlertBroadDialog
-import io.agora.auikit.ui.chatBottomBar.impl.AUIKeyboardStatusBroadWatcher
-import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
-//import io.agora.auikit.ui.basic.AUIAlertBroadDialog
-//import io.agora.auikit.ui.chatBottomBar.impl.AUIKeyboardStatusBroadWatcher
-//import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
-import io.agora.auikit.ui.member.MemberBroadInfo
-import io.agora.auikit.ui.micseats.MicSeatBroadOption
-import io.agora.auikit.ui.micseats.MicSeatBroadType
 import io.agora.auikit.utils.AUILogger
 import io.agora.auikit.utils.ThreadManager
 
@@ -406,9 +404,11 @@ class AUIVoiceRoomBroadView : FrameLayout,
                 mRoomViewBinding.micSeatsView.visibility = GONE
                 mRoomViewBinding.micSeatsHostView.visibility = GONE
                 mRoomViewBinding.micSeatsCircleView.visibility = VISIBLE
-                mRoomViewBinding.micSeatsCircleView.setOptions(MicSeatBroadOption(
-                    roomInfo.micSeatCount,MicSeatBroadType.OneTag
-                ))
+                mRoomViewBinding.micSeatsCircleView.setOptions(
+                    MicSeatBroadOption(
+                        roomInfo.micSeatCount, MicSeatBroadType.OneTag
+                    )
+                )
             }
             MicSeatBroadType.SixTag ->{
                 mRoomViewBinding.micSeatsView.visibility = GONE

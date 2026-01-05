@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="38dp" />
 
-    <io.agora.auikit.ui.micseats.impl.AUIMicSeatsBroadView
+    <com.cboda.agora.ui.ui.micseats.impl.AUIMicSeatsBroadView
         android:id="@+id/micSeatsView"
         app:layout_constraintTop_toBottomOf="@+id/leftView"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <io.agora.auikit.ui.micseats.impl.AUIMicSeatCircleBroadLayout
+    <com.cboda.agora.ui.ui.micseats.impl.AUIMicSeatCircleBroadLayout
         android:id="@+id/micSeatsCircleView"
         app:layout_constraintTop_toBottomOf="@+id/leftView"
         android:layout_width="297dp"
@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <io.agora.auikit.ui.micseats.impl.AUIMicSeatHostAudienceBroadLayout
+    <com.cboda.agora.ui.ui.micseats.impl.AUIMicSeatHostAudienceBroadLayout
         android:id="@+id/micSeatsHostView"
         app:layout_constraintTop_toBottomOf="@+id/leftView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
         android:layout_height="300dp"/>
 
 
-    <io.agora.auikit.ui.gift.impl.AUIGiftBarrageBroadView
+    <com.cboda.agora.ui.ui.gift.impl.AUIGiftBarrageBroadView
         android:id="@+id/giftView"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/chatListView"
@@ -66,7 +66,7 @@
         android:layout_height="88dp"
         />
 
-    <io.agora.auikit.ui.chatList.impl.AUIChatListBroadView
+    <com.cboda.agora.ui.ui.chatList.impl.AUIChatListBroadView
         android:id="@+id/chatListView"
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@id/micSeatsView"
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         />
 
-<!--    <io.agora.auikit.ui.praiseEffect.impI.AUIPraiseEffectBroadLayout-->
+<!--    <com.cboda.agora.ui.ui.praiseEffect.impI.AUIPraiseEffectBroadLayout-->
 <!--        android:id="@+id/likeView"-->
 <!--        android:visibility="gone"-->
 <!--        app:layout_constraintRight_toRightOf="parent"-->

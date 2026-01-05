@@ -4,6 +4,7 @@ import io.agora.auikit.model.AUIGiftEntity
 import io.agora.auikit.service.callback.AUICallback
 import io.agora.auikit.service.callback.AUIGiftListCallback
 
+
 interface IAUIGiftsService : IAUICommonService<IAUIGiftsService.AUIGiftRespObserver> {
 
     /**

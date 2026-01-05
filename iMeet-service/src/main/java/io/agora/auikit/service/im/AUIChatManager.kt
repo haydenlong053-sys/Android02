@@ -27,7 +27,7 @@ import org.json.JSONObject
 
 class AUIChatManager(
     channelName: String,
-    roomContext:AUIRoomContext,
+    roomContext: AUIRoomContext,
 ): MessageListener, ChatRoomChangeListener {
     private val chatEvnetHandlers = mutableListOf<AUIChatEventHandler>()
     private var chatRoomId:String? = ""

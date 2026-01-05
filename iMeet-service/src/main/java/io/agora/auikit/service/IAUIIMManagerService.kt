@@ -3,6 +3,7 @@ package io.agora.auikit.service
 import io.agora.auikit.model.AUIUserThumbnailInfo
 import io.agora.auikit.service.callback.AUIException
 
+
 interface IAUIIMManagerService: IAUICommonService<IAUIIMManagerService.AUIIMManagerRespObserver>{
 
 

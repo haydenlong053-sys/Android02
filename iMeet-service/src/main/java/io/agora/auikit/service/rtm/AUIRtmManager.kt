@@ -3,7 +3,6 @@ package io.agora.auikit.service.rtm
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import io.agora.auikit.utils.AUILogger
 import io.agora.auikit.utils.GsonTools
 import io.agora.rtm.ErrorInfo

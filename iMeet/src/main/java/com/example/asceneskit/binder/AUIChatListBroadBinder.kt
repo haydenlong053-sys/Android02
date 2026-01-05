@@ -1,19 +1,19 @@
 package com.example.asceneskit.binder
 
+import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import com.cboda.agora.ui.chatList.AUIChatBroadInfo
+import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
+import com.cboda.agora.ui.ui.chatList.impl.AUIChatListBroadView
+import com.cboda.agora.ui.ui.chatList.listener.AUIChatListItemClickBroadListener
 import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.service.IAUIIMManagerService
 import io.agora.auikit.service.im.AUIChatManager
-import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarBroadView
-import io.agora.auikit.ui.chatList.AUIChatBroadInfo
-import io.agora.auikit.ui.chatList.IAUIChatListBroadView
-import io.agora.auikit.ui.chatList.impl.AUIChatListBroadView
-import io.agora.auikit.ui.chatList.listener.AUIChatListItemClickBroadListener
 import io.agora.auikit.utils.ThreadManager
 
 class AUIChatListBinder constructor(
-    roomInfo:AUIRoomInfo,
-    private val chatList:IAUIChatListBroadView,
-    private val chatBottomBar:IAUIChatBottomBarBroadView,
+    roomInfo: AUIRoomInfo,
+    private val chatList: IAUIChatListBroadView,
+    private val chatBottomBar: IAUIChatBottomBarBroadView,
     private val chatManager: AUIChatManager,
     private val imManagerService:IAUIIMManagerService,
 ): IAUIBroadBindable, AUIChatListItemClickBroadListener, IAUIIMManagerService.AUIIMManagerRespObserver {

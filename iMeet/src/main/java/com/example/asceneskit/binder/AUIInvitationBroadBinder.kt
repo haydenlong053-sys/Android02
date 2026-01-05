@@ -7,8 +7,15 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import com.cboda.agora.ui.action.AUIActionUserInfo
+import com.cboda.agora.ui.action.AUIActionUserInfoList
+import com.cboda.agora.ui.action.impI.AUIApplyBroadDialog
+import com.cboda.agora.ui.action.impI.AUIInvitationBroadDialog
+import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
+import com.cboda.agora.ui.ui.action.listener.AUIApplyDialogEventBroadListener
+import com.cboda.agora.ui.ui.action.listener.AUIInvitationDialogEventBroadListener
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIUserInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
@@ -16,13 +23,6 @@ import io.agora.auikit.service.IAUIInvitationService
 import io.agora.auikit.service.IAUIMicSeatService
 import io.agora.auikit.service.IAUIUserService
 import io.agora.auikit.service.callback.AUIException
-import io.agora.auikit.ui.action.AUIActionUserInfo
-import io.agora.auikit.ui.action.AUIActionUserInfoList
-import io.agora.auikit.ui.action.impI.AUIApplyBroadDialog
-import io.agora.auikit.ui.action.impI.AUIInvitationBroadDialog
-import io.agora.auikit.ui.action.listener.AUIApplyDialogEventBroadListener
-import io.agora.auikit.ui.action.listener.AUIInvitationDialogEventBroadListener
-import io.agora.auikit.ui.basic.AUIAlertBroadDialog
 
 class AUIInvitationBinder constructor(
     activity: FragmentActivity?,
@@ -34,8 +34,8 @@ class AUIInvitationBinder constructor(
     private var mVoiceService: AUIVoiceRoomBroadService
     private var invitationService:IAUIInvitationService
     private val applyList = mutableListOf<AUIUserInfo?>()
-    private var applyDialog:AUIApplyBroadDialog?=null
-    private var invitationDialog:AUIInvitationBroadDialog?=null
+    private var applyDialog: AUIApplyBroadDialog?=null
+    private var invitationDialog: AUIInvitationBroadDialog?=null
 
     private var mSeatMap = mutableMapOf<Int, String>()
     private var mMemberMap = mutableMapOf<String?, AUIUserInfo?>()
@@ -167,7 +167,12 @@ class AUIInvitationBinder constructor(
     //显示邀请列表
     fun showInvitationDialog(index:Int){
         val invitationInfo = AUIActionUserInfoList(currentMemberList.map { userInfo ->
-            AUIActionUserInfo(userInfo?.userId ?: "", userInfo?.userName ?: "", userInfo?.userAvatar ?: "", userInfo?.micIndex ?: 0)
+            AUIActionUserInfo(
+                userInfo?.userId ?: "",
+                userInfo?.userName ?: "",
+                userInfo?.userAvatar ?: "",
+                userInfo?.micIndex ?: 0
+            )
         })
         invitationInfo.invitedIndex = index
         Log.e("apex","onShowInvited $index $invitationInfo")

@@ -1,8 +1,6 @@
 package io.agora.auikit.service.imp
 
-import android.util.Log
 import io.agora.auikit.model.AUIInvitationInfo
-import io.agora.auikit.model.AUIInvitationInfo.AUIInvitationStatus
 import io.agora.auikit.model.AUIUserInfo
 import io.agora.auikit.service.IAUIInvitationService
 import io.agora.auikit.service.callback.AUICallback
@@ -215,7 +213,7 @@ class AUIInvitationServiceImpl(
         invitationCollection.mergeMetaData(
             AUIInvitationCmd.cancelApply.name,
             mapOf(
-                kStatusKey to AUIInvitationStatus.Cancel,
+                kStatusKey to AUIInvitationInfo.AUIInvitationStatus.Cancel,
                 kEditTimeKey to roomContext.ntpTime
             ),
             listOf(
@@ -238,7 +236,7 @@ class AUIInvitationServiceImpl(
         invitationCollection.mergeMetaData(
             AUIInvitationCmd.acceptApply.name,
             mapOf(
-                kStatusKey to AUIInvitationStatus.Accept,
+                kStatusKey to AUIInvitationInfo.AUIInvitationStatus.Accept,
                 kEditTimeKey to roomContext.ntpTime
             ),
             listOf(
@@ -432,11 +430,11 @@ class AUIInvitationServiceImpl(
         }
         if (applyListChanged) {
             observableHelper.notifyEventHandlers {
-                it.onApplyListUpdate(newApplyList.filter { it.status == AUIInvitationStatus.Waiting }.map {
+                it.onApplyListUpdate(newApplyList.filter { it.status == AUIInvitationInfo.AUIInvitationStatus.Waiting }.map {
                     AUIUserInfo().apply {
                         userId = it.userId
                         micIndex = it.seatNo
-                        isRead = if (it.status== AUIInvitationStatus.Waiting) 0 else 1
+                        isRead = if (it.status== AUIInvitationInfo.AUIInvitationStatus.Waiting) 0 else 1
                     }
                 })
             }
@@ -489,7 +487,7 @@ class AUIInvitationServiceImpl(
     private fun rejectDuplicateAcceptedRequests(list: List<Map<String, Any>>): List<Map<String, Any>>? {
         //获取accept的麦位数组
         val acceptSeatNos = list.map { item ->
-            if (item[kStatusKey] == AUIInvitationStatus.Accept.toLong()) {
+            if (item[kStatusKey] == AUIInvitationInfo.AUIInvitationStatus.Accept.toLong()) {
                 return@map item[kSeatNoKey] as? Long
             }
             return@map null
@@ -498,9 +496,9 @@ class AUIInvitationServiceImpl(
         val updateList = mutableListOf<Map<String, Any>>()
         list.forEach { i ->
             val item = HashMap(i)
-            if(item[kStatusKey] == AUIInvitationStatus.Waiting.toLong() && acceptSeatNos.contains(item[kSeatNoKey])){
+            if(item[kStatusKey] == AUIInvitationInfo.AUIInvitationStatus.Waiting.toLong() && acceptSeatNos.contains(item[kSeatNoKey])){
                 val currentTime = roomContext.ntpTime
-                item[kStatusKey] = AUIInvitationStatus.Reject
+                item[kStatusKey] = AUIInvitationInfo.AUIInvitationStatus.Reject
                 item[kEditTimeKey] = currentTime
             }
             updateList.add(item)

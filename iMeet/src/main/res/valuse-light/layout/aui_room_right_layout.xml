@@ -18,7 +18,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <io.agora.auikit.ui.basic.AUIImageBroadView
+        <com.cboda.agora.ui.ui.basic.AUIImageBroadView
             android:id="@+id/ivMember1"
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -26,7 +26,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:shapeAppearance="@style/aui_member_seat_roundStyle" />
 
-        <io.agora.auikit.ui.basic.AUIImageBroadView
+        <com.cboda.agora.ui.ui.basic.AUIImageBroadView
             android:id="@+id/ivMember2"
             android:layout_width="28dp"
             android:layout_marginStart="-14dp"
@@ -35,7 +35,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:shapeAppearance="@style/aui_member_seat_roundStyle" />
 
-        <io.agora.auikit.ui.basic.AUIImageBroadView
+        <com.cboda.agora.ui.ui.basic.AUIImageBroadView
             android:id="@+id/ivMember3"
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -44,7 +44,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:shapeAppearance="@style/aui_member_seat_roundStyle" />
 
-<!--        <io.agora.auikit.ui.basic.AUIImageBroadView-->
+<!--        <com.cboda.agora.ui.ui.basic.AUIImageBroadView-->
 <!--            android:id="@+id/ivMember4"-->
 <!--            android:layout_width="28dp"-->
 <!--            android:layout_height="28dp"-->
@@ -70,7 +70,7 @@
 
 
 
-    <io.agora.auikit.ui.basic.AUIImageBroadView
+    <com.cboda.agora.ui.ui.basic.AUIImageBroadView
         android:id="@+id/btn_more"
         android:scaleType="center"
         android:src="@drawable/ic_meeting_more"

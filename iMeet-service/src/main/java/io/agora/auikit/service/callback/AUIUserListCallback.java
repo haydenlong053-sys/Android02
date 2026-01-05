@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.agora.auikit.model.AUIUserInfo;
 
+
 public interface AUIUserListCallback {
 
     void onResult(@Nullable AUIException error, @Nullable List<AUIUserInfo> userList);

@@ -25,7 +25,7 @@ class AUIGiftServiceImpl constructor(
 
     private val observableHelper =
         ObservableHelper<IAUIGiftsService.AUIGiftRespObserver>()
-    private var roomContext:AUIRoomContext
+    private var roomContext: AUIRoomContext
 
     init {
         rtmManager.subscribeMessage(this)
@@ -77,7 +77,7 @@ class AUIGiftServiceImpl constructor(
                         getString(R.string.aui_gift_lollipop),
                         "1",
                         "https://fullapp.oss-cn-beijing.aliyuncs.com/uikit/pictures/gift/AUIKitGift6.png"
-                    ),AUIGiftEntity(
+                    ), AUIGiftEntity(
                         "ce3f8bc3-74d7-43be-a040-c397d5c49f6d",
                         getString(R.string.aui_gift_diamond),
                         "1",

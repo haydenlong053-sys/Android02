@@ -15,18 +15,19 @@ import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.GravityInt
 import androidx.annotation.IdRes
+import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIcon
+import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import com.cboda.agora.ui.chatBottomBar.listener.AUIExpressionClickBroadListener
+import com.cboda.agora.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
+import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import com.cboda.agora.ui.chatBottomBar.utils.KeyboardBroadUtils
+import com.cboda.agora.ui.ui.chatBottomBar.impl.AUIEmojiBroadUtils
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.AuiChatBottomBroadBarNewBinding
-import io.agora.auikit.ui.chatBottomBar.AUIChatBottomBarIcon
-import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarBroadView
-import io.agora.auikit.ui.chatBottomBar.impl.AUIEmojiBroadUtils
-import io.agora.auikit.ui.chatBottomBar.listener.AUIExpressionClickBroadListener
-import io.agora.auikit.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
-import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
-import io.agora.auikit.ui.chatBottomBar.utils.KeyboardBroadUtils
-import io.agora.auikit.utils.DeviceBroadTools
+import com.cboda.agora.ui.utils.DeviceBroadTools
 
-class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarBroadView, AUIExpressionClickBroadListener,
+class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarBroadView,
+    AUIExpressionClickBroadListener,
     AUISoftKeyboardHeightChangeBroadListener {
     private val mViewBinding = AuiChatBottomBroadBarNewBinding.inflate(LayoutInflater.from(context))
     private val inputManager: InputMethodManager

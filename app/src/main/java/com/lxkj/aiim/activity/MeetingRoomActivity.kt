@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.cboda.chatui.conversation.forward.ForwardActivity
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import cn.wildfirechat.message.Message
+import com.cboda.agora.ui.micseats.MicSeatBroadType
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.rtc.NetworkQualityEventBroadData
@@ -46,14 +47,14 @@ import com.lzy.okgo.model.Response
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.VoiceRoomBroadActivityBinding
 import com.example.asceneskit.impl.MeetingOperateBroadView
+import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
+import com.cboda.agora.ui.ui.basic.AUIAlertSecondBroadDialog
+import com.cboda.agora.ui.utils.PermissionBroadHelp
+import com.lxkj.aiim.utils.AUIVoiceRoomUIKit.renewToken
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
-import io.agora.auikit.ui.basic.AUIAlertBroadDialog
-import io.agora.auikit.ui.basic.AUIAlertSecondBroadDialog
-import io.agora.auikit.ui.micseats.MicSeatBroadType
 import io.agora.auikit.utils.AUILogger
-import io.agora.auikit.utils.PermissionBroadHelp
 import io.agora.rtc2.Constants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -78,12 +79,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         private val EXTRA_HOST_ID = "hostId"
         private val EXTRA_TITLE_ID = "titleId"
 
-        fun launch(
-            context: Context,
-            isCreateRoom: Boolean,
-            roomInfo: AUIRoomInfo,
-            themeId: Int = R.style.Theme_VoiceRoom_Light
-        ) {
+        fun launch(context: Context, isCreateRoom: Boolean, roomInfo: AUIRoomInfo, themeId: Int = R.style.Theme_VoiceRoom_Light) {
             val intent = Intent(context, MeetingRoomActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra(EXTRA_IS_CREATE_ROOM, isCreateRoom)
@@ -500,7 +496,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                     userName = "会议主持${hostId}"
                     userAvatar = ""
                 }
-                micSeatStyle=MicSeatBroadType.EightTag.value.toString()
+                micSeatStyle= MicSeatBroadType.EightTag.value.toString()
 
             }
             mViewBinding.tvRoomName.text=mHostRoomTitle
@@ -668,7 +664,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         AUIVoiceRoomUIKit.generateToken(
             roomId,
             onSuccess = {
-                AUIVoiceRoomUIKit.renewToken(roomId, it)
+                renewToken(roomId, it)
             },
             onFailure = {
                 AUILogger.logger()

@@ -4,6 +4,10 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
+import com.cboda.agora.ui.basic.AUIBottomBroadDialog
+import com.cboda.agora.ui.ui.member.listener.AUIRoomMembersActionBroadListener
+import com.cboda.agora.ui.ui.member.MemberBroadInfo
 import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
 import com.example.asceneskit.impl.AUIRightMeetingTopBroadView
@@ -14,10 +18,6 @@ import io.agora.auikit.model.AUIUserInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
 import io.agora.auikit.service.IAUIMicSeatService
 import io.agora.auikit.service.IAUIUserService
-import io.agora.auikit.ui.basic.AUIAlertBroadDialog
-import io.agora.auikit.ui.basic.AUIBottomBroadDialog
-import io.agora.auikit.ui.member.MemberBroadInfo
-import io.agora.auikit.ui.member.listener.AUIRoomMembersActionBroadListener
 
 class AUIRoomMembersBinder constructor(
     context: Context,

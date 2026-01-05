@@ -10,7 +10,7 @@ import com.lxkj.aiim.activity.*
 import com.lxkj.aiim.lj.*
 import com.lxkj.aiim.lj.bean.AiCheckResultBean
 import com.lxkj.aiim.service.MeetingFloatService
-import io.agora.auikit.ui.basic.AUIAlertBroadDialog
+import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import org.greenrobot.eventbus.EventBus
 
 

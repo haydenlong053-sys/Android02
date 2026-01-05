@@ -68,7 +68,7 @@
 
     </LinearLayout>
 
-    <io.agora.auikit.ui.basic.AUIBroadButton
+    <com.cboda.agora.ui.ui.basic.AUIBroadButton
         android:id="@+id/tvKick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

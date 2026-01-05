@@ -3,22 +3,22 @@ package com.example.asceneskit.binder
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import com.cboda.agora.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
+import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import com.cboda.agora.ui.chatList.AUIChatBroadInfo
+import com.cboda.agora.ui.micseats.IMicSeatsBroadView
+import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
+import io.agora.auikit.service.IAUIInvitationService
+import io.agora.auikit.service.IAUIMicSeatService
+import io.agora.auikit.service.IAUIUserService
+import com.cboda.agora.ui.utils.FastClickBroadTools
 import io.agora.auikit.model.AUIMicSeatInfo
 import io.agora.auikit.model.AUIRoomContext
 import io.agora.auikit.model.AUIUserInfo
 import io.agora.auikit.model.AUIUserThumbnailInfo
-import io.agora.auikit.service.IAUIInvitationService
-import io.agora.auikit.service.IAUIMicSeatService
-import io.agora.auikit.service.IAUIUserService
-import io.agora.auikit.ui.chatBottomBar.IAUIChatBottomBarBroadView
-import io.agora.auikit.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
-import io.agora.auikit.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
-import io.agora.auikit.ui.chatList.AUIChatBroadInfo
-import io.agora.auikit.ui.chatList.IAUIChatListBroadView
-import io.agora.auikit.ui.micseats.IMicSeatsBroadView
-import io.agora.auikit.utils.FastClickBroadTools
 
 class AUIChatBottomBarBinder constructor(
     private val voiceService: AUIVoiceRoomBroadService,

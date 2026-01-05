@@ -9,13 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
+import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.google.android.material.textview.MaterialTextView
 import com.example.asceneskit.R
 import com.example.asceneskit.databinding.VoiceRoomMoreBroadLayoutBinding
-import io.agora.auikit.ui.basic.AUISheetFragmentBroadDialog
-import io.agora.auikit.ui.basic.AUIImageBroadView
-import io.agora.auikit.utils.DeviceBroadTools
-import io.agora.auikit.utils.FastClickBroadTools
+import com.cboda.agora.ui.utils.DeviceBroadTools
+import com.cboda.agora.ui.utils.FastClickBroadTools
 
 class VoiceRoomMoreDialog(
     context: Context,

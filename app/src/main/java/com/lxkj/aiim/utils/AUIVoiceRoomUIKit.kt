@@ -5,10 +5,6 @@ import com.lxkj.aiim.service.MeetingFloatService
 import com.example.asceneskit.AUIVoiceRoomBroadObserver
 import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.AUIVoiceRoomBroadView
-import io.agora.auikit.model.AUICommonConfig
-import io.agora.auikit.model.AUIRoomConfig
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.service.callback.AUIException
 import io.agora.auikit.service.callback.AUIRoomCallback
 import io.agora.auikit.service.http.CommonResp
@@ -20,6 +16,10 @@ import io.agora.auikit.service.http.token.TokenGenerateReq
 import io.agora.auikit.service.http.token.TokenGenerateResp
 import io.agora.auikit.service.http.token.TokenInterface
 import io.agora.auikit.service.room.AUIRoomManager
+import io.agora.auikit.model.AUICommonConfig
+import io.agora.auikit.model.AUIRoomConfig
+import io.agora.auikit.model.AUIRoomContext
+import io.agora.auikit.model.AUIRoomInfo
 import io.agora.auikit.utils.AUILogger
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call

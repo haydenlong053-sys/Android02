@@ -4,6 +4,7 @@ import io.agora.auikit.service.callback.AUIException
 import io.agora.auikit.service.rtm.AUIRtmLockRespObserver
 import io.agora.auikit.service.rtm.AUIRtmManager
 
+
 class AUIArbiter(
     private val channelName: String,
     private val rtmManager: AUIRtmManager,
