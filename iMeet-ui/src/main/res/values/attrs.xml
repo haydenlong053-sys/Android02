@@ -147,4 +147,872 @@
         <attr name="aui_barrage_system_layout_bg" format="reference|color"/>
 
     </declare-styleable>
+
+
+    <!--================= 主题属性 =================-->
+    <attr name="aui_giftBarrage_appearance" format="reference"/>
+
+    <attr name="aui_giftBottomDialog_appearance" format="reference"/>
+
+    <!--================= 样式属性 =================-->
+    <declare-styleable name="AUIGiftBarrageBroadView">
+        <attr name="aui_giftBarrage_appearance"/>
+
+        <attr name="aui_giftBarrage_layout_bg" format="reference|color"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="AUIGiftBottomDialog">
+        <attr name="aui_giftBottomDialog_appearance"/>
+
+        <attr name="aui_giftBottomDialog_bg" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_topLayout_bg" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_topView_icon" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_tabLayout_title_color" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_tabLayout_hint_title_color" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_tabLayout_tag_bg" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_gift_textColor" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_gift_subtitle_textColor" format="reference|color"/>
+        <attr name="aui_giftBottomDialog_gift_subtitle_icon" format="reference|color"/>
+
+    </declare-styleable>
+
+    <!--================= 主题属性 =================-->
+    <attr name="aui_jukebox_appearance" format="reference"/>
+    <attr name="aui_jukeboxChoose_appearance" format="reference"/>
+    <attr name="aui_jukeboxChosen_appearance" format="reference"/>
+    <attr name="aui_jukeboxChooseItem_appearance" format="reference"/>
+    <attr name="aui_jukeboxChosenItem_appearance" format="reference"/>
+
+    <!--================= 样式属性 =================-->
+
+    <!-- 点唱机样式 -->
+    <declare-styleable name="AUIJukeboxBroadView">
+        <attr name="aui_jukebox_appearance"/>
+
+        <!-- 背景 -->
+        <attr name="aui_jukebox_background" format="reference|color"/>
+        <!-- 最小高度 -->
+        <attr name="aui_jukebox_minHeight" format="dimension"/>
+        <attr name="aui_jukebox_paddingTop" format="dimension"/>
+
+        <!-- 标题tab -->
+        <attr name="aui_jukebox_tab_layout_background" format="reference|color"/>
+        <attr name="aui_jukebox_tab_background" format="reference|color"/>
+        <attr name="aui_jukebox_titleTabChooseText" format="string" />
+        <attr name="aui_jukebox_titleTabChosenText" format="string" />
+        <attr name="aui_jukebox_titleTabMode">
+            <enum name="scrollable" value="0"/>
+            <enum name="fixed" value="1"/>
+            <enum name="auto" value="2"/>
+        </attr>
+        <attr name="aui_jukebox_titleTabGravity">
+            <enum name="fill" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="start" value="2"/>
+        </attr>
+        <attr name="aui_jukebox_titleTabTextColor" format="reference|color" />
+        <attr name="aui_jukebox_titleTabSelectedTextColor" format="color" />
+        <attr name="aui_jukebox_titleTabTextSize" format="dimension" />
+        <attr name="aui_jukebox_titleTabIndicator" format="reference" />
+        <attr name="aui_jukebox_titleTabDivider" format="reference" />
+
+        <!-- 标题数量标签tag -->
+        <attr name="aui_jukebox_numTagWidth" format="dimension" >
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukebox_numTagHeight" format="dimension" >
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukebox_numTagBackground" format="reference" />
+        <attr name="aui_jukebox_numTagTextColor" format="color" />
+        <attr name="aui_jukebox_numTagTextSize" format="dimension" />
+
+
+    </declare-styleable>
+
+    <style name="TextAppearance.Design.Tab.AUIJukeboxTitle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">?attr/aui_jukebox_titleTabTextSize</item>
+    </style>
+    <style name="TextAppearance.Design.Tab.AUIJukeboxChooseCategory" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">?attr/aui_jukeboxChoose_categoryTabTextSize</item>
+    </style>
+
+
+    <!-- 点唱机点歌样式 -->
+    <declare-styleable name="AUIJukeboxChooseBroadView">
+        <attr name="aui_jukeboxChoose_appearance"/>
+
+        <!-- 搜索输入框 -->
+        <attr name="aui_jukeboxChoose_searchBackground" format="reference"/>
+        <attr name="aui_jukeboxChoose_searchPaddingHorizontal" format="dimension"/>
+        <attr name="aui_jukeboxChoose_searchMarginHorizontal" format="dimension"/>
+        <attr name="aui_jukeboxChoose_searchInputMarginHorizontal" format="dimension"/>
+        <attr name="aui_jukeboxChoose_searchPaddingVertical" format="dimension"/>
+        <attr name="aui_jukeboxChoose_searchMarginVertical" format="dimension"/>
+        <attr name="aui_jukeboxChoose_searchIcon" format="reference"/>
+        <attr name="aui_jukeboxChoose_searchCloseIcon" format="reference"/>
+        <attr name="aui_jukeboxChoose_searchHintText" format="string"/>
+        <attr name="aui_jukeboxChoose_searchHintTextColor" format="color"/>
+        <attr name="aui_jukeboxChoose_searchTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChoose_searchTextColor" format="color"/>
+
+        <!-- 分类Tab -->
+        <attr name="aui_jukeboxChoose_categoryTabHeight" format="dimension" >
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukeboxChoose_categoryTabMode">
+            <enum name="scrollable" value="0"/>
+            <enum name="fixed" value="1"/>
+            <enum name="auto" value="2"/>
+        </attr>
+        <attr name="aui_jukeboxChoose_categoryTabGravity">
+            <enum name="fill" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="start" value="2"/>
+        </attr>
+        <attr name="aui_jukeboxChoose_categoryTabIndicator" format="reference" />
+        <attr name="aui_jukeboxChoose_categoryTabTextSize" format="dimension" />
+        <attr name="aui_jukeboxChoose_categoryTabTextColor" format="color" />
+        <attr name="aui_jukeboxChoose_categoryTabSelectedTextColor" format="color" />
+        <attr name="aui_jukeboxChoose_categoryTabDivider" format="reference" />
+
+        <!-- 列表分隔线 -->
+        <attr name="aui_jukeboxChoose_listDivider" format="reference"/>
+        <attr name="aui_jukeboxChoose_listPaddingHorizontal" format="dimension"/>
+
+    </declare-styleable>
+
+    <style name="ShapeAppearance.MaterialComponents.AUIJukeboxChooseItemCover" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">?attr/aui_jukeboxChooseItem_coverCircleRadius</item>
+    </style>
+
+    <!-- 点唱机歌曲样式 -->
+    <declare-styleable name="AUIJukeboxChooseItemBroadView">
+        <attr name="aui_jukeboxChooseItem_appearance"/>
+
+        <attr name="aui_jukeboxChooseItem_paddingHorizontal" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_paddingVertical" format="dimension"/>
+
+        <!-- 歌词封面 -->
+        <attr name="aui_jukeboxChooseItem_coverWidth" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_coverHeight" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_coverCircleRadius" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_coverDefaultImg" format="reference|color"/>
+
+        <!-- 歌词名 -->
+        <attr name="aui_jukeboxChooseItem_songNameTextColor" format="color"/>
+        <attr name="aui_jukeboxChooseItem_songNameTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_songNameMarginStart" format="dimension"/>
+
+        <!-- 歌手名 -->
+        <attr name="aui_jukeboxChooseItem_singerNameTextColor" format="color"/>
+        <attr name="aui_jukeboxChooseItem_singerNameTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_singerNameMarginStart" format="dimension"/>
+
+        <!-- 点歌/已点(no check / checked)按钮 -->
+
+        <attr name="aui_jukeboxChooseItem_buttonWidth" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_buttonHeight" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_buttonBackground" format="reference"/>
+        <attr name="aui_jukeboxChooseItem_buttonTextColor" format="color"/>
+        <attr name="aui_jukeboxChooseItem_buttonTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChooseItem_buttonText" format="string"/>
+        <attr name="aui_jukeboxChooseItem_buttonCheckedText" format="string"/>
+
+
+    </declare-styleable>
+
+
+    <declare-styleable name="AUIJukeboxChosenBroadView">
+        <attr name="aui_jukeboxChosen_appearance"/>
+
+        <!-- 列表分隔线 -->
+        <attr name="aui_jukeboxChosen_listDivider" format="reference"/>
+        <attr name="aui_jukeboxChosen_listPaddingHorizontal" format="dimension"/>
+
+    </declare-styleable>
+
+    <style name="ShapeAppearance.MaterialComponents.AUIJukeboxChosenItemCover" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">?attr/aui_jukeboxChosenItem_coverCircleRadius</item>
+    </style>
+
+    <!-- 点唱机已点歌曲样式 -->
+    <declare-styleable name="AUIJukeboxChosenItemBroadView">
+        <attr name="aui_jukeboxChosenItem_appearance"/>
+
+        <attr name="aui_jukeboxChosenItem_paddingHorizontal" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_paddingVertical" format="dimension"/>
+
+        <!-- 标号 -->
+        <attr name="aui_jukeboxChosenItem_orderMinWidth" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_orderTextColor" format="color"/>
+        <attr name="aui_jukeboxChosenItem_orderTextSize" format="dimension"/>
+
+        <!-- 歌词封面 -->
+        <attr name="aui_jukeboxChosenItem_coverWidth" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_coverHeight" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_coverCircleRadius" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_coverDefaultImg" format="reference|color"/>
+
+        <!-- 歌词名 -->
+        <attr name="aui_jukeboxChosenItem_songNameTextColor" format="color"/>
+        <attr name="aui_jukeboxChosenItem_songNameTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_songNameMarginStart" format="dimension"/>
+
+        <!-- 点唱/合唱者 -->
+        <attr name="aui_jukeboxChosenItem_singerTextColor" format="color"/>
+        <attr name="aui_jukeboxChosenItem_singerTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_singerMarginStart" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_singerSoloText" format="string"/>
+        <attr name="aui_jukeboxChosenItem_singerChorusText" format="string"/>
+
+        <!-- 演唱中图标 -->
+        <attr name="aui_jukeboxChosenItem_playingTagSrc" format="reference|color"/>
+        <attr name="aui_jukeboxChosenItem_playingTagPadding" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_playingTagWidth" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukeboxChosenItem_playingTagHeight" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukeboxChosenItem_playingTagLocation">
+            <enum name="aboveOrder" value="1"/>
+            <enum name="toTextStart" value="2"/>
+        </attr>
+
+        <!-- 演唱中按钮 -->
+        <attr name="aui_jukeboxChosenItem_playingBtnBackground" format="reference"/>
+        <attr name="aui_jukeboxChosenItem_playingBtnText" format="string"/>
+        <attr name="aui_jukeboxChosenItem_playingBtnTextColor" format="color"/>
+        <attr name="aui_jukeboxChosenItem_playingBtnTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_playingBtnWidth" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukeboxChosenItem_playingBtnHeight" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+
+        <!-- 删除按钮 -->
+        <attr name="aui_jukeboxChosenItem_deleteBtnBackground" format="reference"/>
+        <attr name="aui_jukeboxChosenItem_deleteBtnText" format="string"/>
+        <attr name="aui_jukeboxChosenItem_deleteBtnTextColor" format="color"/>
+        <attr name="aui_jukeboxChosenItem_deleteBtnTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_deleteBtnWidth" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukeboxChosenItem_deleteBtnHeight" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+        <!-- 置顶按钮 -->
+        <attr name="aui_jukeboxChosenItem_topBtnBackground" format="reference"/>
+        <attr name="aui_jukeboxChosenItem_topBtnText" format="string"/>
+        <attr name="aui_jukeboxChosenItem_topBtnTextColor" format="color"/>
+        <attr name="aui_jukeboxChosenItem_topBtnTextSize" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_topBtnMarginEnd" format="dimension"/>
+        <attr name="aui_jukeboxChosenItem_topBtnWidth" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_jukeboxChosenItem_topBtnHeight" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+
+    </declare-styleable>
+    <!--================= 主题属性 =================-->
+    <attr name="aui_memberInfo_appearance" format="reference"/>
+    <attr name="aui_memberInfoList_appearance" format="reference"/>
+
+    <!--================= 样式属性 =================-->
+
+    <!-- 房间人数和用户展示样式 -->
+    <declare-styleable name="AUIUpperRightInformationView">
+
+        <!-- ==根布局宽、高== -->
+        <attr name="aui_upperRight_root_layout_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_upperRight_root_layout_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- ==根布局内间距== -->
+        <attr name="aui_upperRight_layout_paddingHorizontal" format="dimension"/>
+        <attr name="aui_upperRight_layout_paddingVertical" format="dimension"/>
+
+        <!-- == 用户item 宽高== -->
+        <attr name="aui_upperRight_member_item_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_upperRight_member_item_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- == 用户数宽高== -->
+        <attr name="aui_upperRight_member_count_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_upperRight_member_count_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- == 用户item 间距== -->
+        <attr name="aui_upperRight_member_spacing" format="dimension"/>
+        <!-- == 用户item默认背景== -->
+        <attr name="aui_upperRight_default_member_bg" format="reference|color"/>
+        <!-- == 用户模块 展示\隐藏== -->
+        <attr name="aui_upperRight_memberRankVisibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <attr name="aui_upperRight_member1_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <attr name="aui_upperRight_member2_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <attr name="aui_upperRight_member3_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <!-- == 用户数文本 大小、颜色、样式 == -->
+        <attr name="aui_upperRight_count_text" format="string"/>
+        <attr name="aui_upperRight_count_size" format="dimension"/>
+        <attr name="aui_upperRight_count_color" format="reference|color"/>
+        <attr name="aui_upperRight_count_style" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+        </attr>
+        <attr name="aui_upperRight_count_max_width" format="dimension"/>
+        <attr name="aui_upperRight_count_min_width" format="dimension"/>
+        <!-- == 用户数和用户展示区的间距 == -->
+        <attr name="aui_upperRight_count_spacing" format="dimension"/>
+        <!-- == 用户数文本 内间距 == -->
+        <attr name="aui_upperRight_count_paddingHorizontal" format="dimension"/>
+        <attr name="aui_upperRight_count_paddingVertical" format="dimension"/>
+        <!-- == 用户数背景 == -->
+        <attr name="aui_upperRight_count_background" format="reference|color"/>
+        <attr name="aui_upperRight_count_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <!-- 更多用户 -->
+        <attr name="aui_roomMoreUser_drawable" format="reference"/>
+        <attr name="aui_roomMoreUser_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <attr name="aui_roomMoreUser_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_roomMoreUser_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_roomMoreUser_marginStart" format="dimension"/>
+        <!-- 关闭 -->
+        <attr name="aui_roomClose_drawable" format="reference"/>
+        <attr name="aui_roomClose_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <attr name="aui_roomClose_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_roomClose_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_roomClose_marginStart" format="dimension"/>
+        <!-- 按钮 -->
+        <attr name="aui_roomButton_normalColor" format="color"/>
+
+    </declare-styleable>
+
+
+    <declare-styleable name="AUIRoomMemberListBroadView">
+
+        <attr name="aui_memberInfoList_title_textColor" format="color"/>
+
+        <attr name="aui_memberInfoList_userName_textColor" format="color"/>
+        <attr name="aui_memberInfoList_userNameInfo_textColor" format="color"/>
+
+
+
+    </declare-styleable>
+    <!--================= 主题属性 =================-->
+    <attr name="aui_micSeats_appearance" format="reference"/>
+    <attr name="aui_micSeatItem_appearance" format="reference"/>
+    <attr name="aui_micSeatDialog_appearance" format="reference"/>
+
+
+    <!--================= 样式属性 =================-->
+
+    <!-- 麦位样式 -->
+    <declare-styleable name="AUIMicSeatsBroadView">
+        <attr name="aui_micSeats_appearance"/>
+
+        <!-- 麦位横向间距 -->
+        <attr name="aui_micSeats_spaceHorizontal" format="dimension"/>
+        <!-- 麦位纵向间距 -->
+        <attr name="aui_micSeats_spaceVertical" format="dimension"/>
+        <!-- 背景颜色 -->
+        <attr name="aui_micSeats_background" format="reference|color"/>
+
+    </declare-styleable>
+
+    <!-- 麦位座位样式 -->
+    <declare-styleable name="AUIMicSeatItemBroadView">
+        <attr name="aui_micSeatItem_appearance"/>
+
+        <!-- 麦位全局(包括座位和标题名称等) -->
+        <!-- ==背景色== -->
+        <attr name="aui_micSeatItem_background" format="reference|color"/>
+        <!-- ==宽高比例== -->
+        <attr name="aui_micSeatItem_dimensionRatio" format="string"/>
+
+        <!-- 麦位座位 -->
+        <!-- ==座位背景== -->
+        <attr name="aui_micSeatItem_seatBackground" format="reference|color"/>
+        <!-- ==座位空闲时图标== -->
+        <attr name="aui_micSeatItem_seatIconIdle" format="reference|color"/>
+        <!-- ==座位被锁时图标== -->
+        <attr name="aui_micSeatItem_seatIconLock" format="reference|color"/>
+        <!-- ==座位图标外间距== -->
+        <attr name="aui_micSeatItem_seatIconMargin" format="dimension"/>
+        <!-- ==座位图标宽高比例== -->
+        <attr name="aui_micSeatItem_seatIconDimensionRatio" format="string"/>
+
+        <!-- 麦位静音图标 -->
+        <!-- ==麦位静音图标资源== -->
+        <attr name="aui_micSeatItem_audioMuteIcon" format="reference|color"/>
+        <!-- ==麦位关闭视频图标资源== -->
+        <attr name="aui_micSeatItem_videoMuteIcon" format="reference|color"/>
+        <!-- ==麦位静音图标宽== -->
+        <attr name="aui_micSeatItem_audioMuteIconWidth" format="dimension|enum">
+            <enum name="match_parent" value="-1" /><!-- 拉伸满父布局大小 -->
+            <enum name="wrap_content" value="-2" /><!-- 以真实大小为准来显示 -->
+        </attr>
+        <!-- ==麦位静音图标高== -->
+        <attr name="aui_micSeatItem_audioMuteIconHeight" format="dimension|enum">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- ==麦位静音图标位置：居中或右下== -->
+        <attr name="aui_micSeatItem_audioMuteIconGravity" format="enum">
+            <enum name="bottomEnd" value="1"/>
+            <enum name="center" value="2"/>
+        </attr>
+
+        <!-- 麦位房主标志 -->
+        <!-- ==房主名称宽== -->
+        <attr name="aui_micSeatItem_roomOwnerWidth" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- ==房主名称高== -->
+        <attr name="aui_micSeatItem_roomOwnerHeight" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- ==房主名称文本== -->
+        <attr name="aui_micSeatItem_roomOwnerText" format="string"/>
+        <!-- ==房主名称文本颜色== -->
+        <attr name="aui_micSeatItem_roomOwnerTextColor" format="color"/>
+        <!-- ==房主名称文本字体大小== -->
+        <attr name="aui_micSeatItem_roomOwnerTextSize" format="dimension"/>
+        <!-- ==房主名称文本背景== -->
+        <attr name="aui_micSeatItem_roomOwnerBackground" format="reference|color"/>
+        <!-- ==房主名称文本横向内间距== -->
+        <attr name="aui_micSeatItem_roomOwnerPaddingHorizontal" format="dimension"/>
+        <!-- ==房主名称文本纵向内间距== -->
+        <attr name="aui_micSeatItem_roomOwnerPaddingVertical" format="dimension"/>
+
+        <!-- 麦位主标题 -->
+        <!-- ==麦位主标题文本== -->
+        <attr name="aui_micSeatItem_titleIdleText" format="string"/>
+        <!-- ==麦位主标题文本大小== -->
+        <attr name="aui_micSeatItem_titleTextSize" format="dimension"/>
+        <!-- ==麦位主标题文本颜色== -->
+        <attr name="aui_micSeatItem_titleTextColor" format="color"/>
+
+        <!-- 麦位合唱 -->
+        <!-- ==麦位合唱图标资源== -->
+        <attr name="aui_micSeatItem_chorusIcon" format="reference|color"/>
+        <!-- ==麦位合唱文本== -->
+        <attr name="aui_micSeatItem_chorusText" format="string"/>
+        <!-- ==麦位合唱文本字体颜色== -->
+        <attr name="aui_micSeatItem_chorusTextColor" format="reference|color"/>
+        <!-- ==麦位合唱文本字体大小== -->
+        <attr name="aui_micSeatItem_chorusTextSize" format="dimension"/>
+
+        <!-- 麦位主唱 -->
+        <!-- ==麦位主唱图标资源== -->
+        <attr name="aui_micSeatItem_leadSingerIcon" format="reference|color"/>
+        <!-- ==麦位主唱文本== -->
+        <attr name="aui_micSeatItem_leadSingerText" format="string"/>
+        <!-- ==麦位主唱文本字体颜色== -->
+        <attr name="aui_micSeatItem_leadSingerTextColor" format="reference|color"/>
+        <!-- ==麦位主唱文本字体大小== -->
+        <attr name="aui_micSeatItem_leadSingerTextSize" format="dimension"/>
+
+    </declare-styleable>
+
+    <!-- 麦位弹窗样式 -->
+    <declare-styleable name="AUIMicSeatDialogBroadView">
+        <attr name="aui_micSeatDialog_appearance"/>
+
+        <!-- 弹窗 -->
+        <attr name="aui_micSeatDialog_background" format="reference|color"/>
+        <attr name="aui_micSeatDialog_marginTop" format="dimension"/>
+        <attr name="aui_micSeatDialog_padding" format="dimension"/>
+
+        <!-- 标题 -->
+        <attr name="aui_micSeatDialog_titleVisibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <attr name="aui_micSeatDialog_titleText" format="string"/>
+        <attr name="aui_micSeatDialog_titleTextSize" format="dimension"/>
+        <attr name="aui_micSeatDialog_titleTextColor" format="color"/>
+
+        <!-- 用户信息显示位置 -->
+        <attr name="aui_micSeatDialog_userGravity">
+            <enum name="start" value="1" />
+            <enum name="center" value="2" />
+        </attr>
+
+        <!-- 用户头像 -->
+        <attr name="aui_micSeatDialog_userAvatarIdle" format="reference"/>
+        <attr name="aui_micSeatDialog_userAvatarWidth" format="dimension"/>
+        <attr name="aui_micSeatDialog_userAvatarHeight" format="dimension"/>
+
+        <!-- 用户名称 -->
+        <attr name="aui_micSeatDialog_userNameTextSize" format="dimension"/>
+        <attr name="aui_micSeatDialog_userNameTextColor" format="color"/>
+        <attr name="aui_micSeatDialog_userNameMarginTop" format="dimension"/>
+
+        <!-- 用户描述 -->
+        <attr name="aui_micSeatDialog_userDesTextSize" format="dimension"/>
+        <attr name="aui_micSeatDialog_userDesTextColor" format="color"/>
+        <attr name="aui_micSeatDialog_userDesText" format="string"/>
+        <attr name="aui_micSeatDialog_userDesVisible">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+
+        <!-- 多个操作按钮 -->
+        <attr name="aui_micSeatDialog_buttonsOrientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="aui_micSeatDialog_buttonsDivider" format="reference|color"/>
+        <attr name="aui_micSeatDialog_buttonsDividerColor" format="color"/>
+        <attr name="aui_micSeatDialog_buttonsDividerPadding" format="dimension"/>
+        <attr name="aui_micSeatDialog_buttonsMarginTop" format="dimension"/>
+        <attr name="aui_micSeatDialog_buttonsMarginBottom" format="dimension"/>
+
+        <!-- 单个操作按钮 -->
+        <attr name="aui_micSeatDialog_buttonBackground" format="reference|color"/>
+        <attr name="aui_micSeatDialog_buttonPaddingHorizontal" format="dimension"/>
+        <attr name="aui_micSeatDialog_buttonPaddingVertical" format="dimension"/>
+        <attr name="aui_micSeatDialog_buttonMarginHorizontal" format="dimension"/>
+        <attr name="aui_micSeatDialog_buttonMarginVertical" format="dimension"/>
+        <attr name="aui_micSeatDialog_buttonTextSize" format="dimension"/>
+        <attr name="aui_micSeatDialog_buttonNormalTextColor" format="color"/>
+        <attr name="aui_micSeatDialog_buttonAbandonTextColor" format="color"/>
+
+    </declare-styleable>
+    <!--================= 主题属性 =================-->
+    <attr name="aui_ripple_appearance" format="reference"/>
+
+    <declare-styleable name="AUIRippleAnimationBroadView">
+        <attr name="aui_ripple_appearance"/>
+
+        <!--    水波纹颜色    -->
+        <attr name="aui_ripple_color" format="color|reference"/>
+        <!--    水波纹边框大小    -->
+        <attr name="aui_ripple_stroke_width" format="dimension"/>
+        <!--    水波纹初始半径    -->
+        <attr name="aui_ripple_initial_radius" format="dimension"/>
+        <!--    水波纹最大半径    -->
+        <attr name="aui_ripple_max_radius" format="dimension"/>
+        <!--    水波纹半径倍率    -->
+        <attr name="aui_ripple_max_radiusRate" format="float"/>
+        <!--    水波纹创建速度    -->
+        <attr name="aui_ripple_speed" format="integer"/>
+
+
+    </declare-styleable>
+    <!--================= 主题属性 =================-->
+    <attr name="aui_musicPlayer_appearance" format="reference" />
+    <attr name="aui_musicPlayerControllerDialog_appearance" format="reference" />
+    <attr name="aui_musicPlayerPresetDialog_appearance" format="reference" />
+    <attr name="aui_musicPlayerEffectPresetItem_appearance" format="reference" />
+
+
+    <!--================= 样式属性 =================-->
+    <declare-styleable name="AUIMusicPlayerBroadView">
+        <attr name="aui_musicPlayer_appearance" />
+        <!--  cardBackgroundColor      -->
+        <attr name="aui_musicPlayer_backgroundColor" format="color" />
+        <attr name="aui_musicPlayer_minHeight" format="dimension" />
+        <attr name="aui_musicPlayer_cornerRadius" format="dimension" />
+        <attr name="aui_musicPlayer_titleIcon" format="dimension" />
+        <attr name="aui_musicPlayer_titleTextColor" format="color" />
+        <attr name="aui_musicPlayer_titleTextSize" format="dimension" />
+        <attr name="aui_musicPlayer_cumulativeScoreTextColor" format="color" />
+        <attr name="aui_musicPlayer_cumulativeScoreTextSize" format="dimension" />
+        <attr name="aui_musicPlayer_lineScoreTextColor" format="color" />
+        <attr name="aui_musicPlayer_lineScoreTextSize" format="dimension" />
+
+        <!--  未点歌      -->
+        <attr name="aui_musicPlayer_idleIcon" format="reference" />
+        <attr name="aui_musicPlayer_idleTextColor" format="color" />
+        <attr name="aui_musicPlayer_idleTextSize" format="dimension" />
+        <attr name="aui_musicPlayer_idleOrderText" format="string" />
+        <attr name="aui_musicPlayer_idleOrderTextColor" format="color" />
+        <attr name="aui_musicPlayer_idleOrderTextSize" format="string" />
+        <attr name="aui_musicPlayer_idleOrderBackground" format="reference|color" />
+
+        <!--  歌曲加载中      -->
+        <attr name="aui_musicPlayer_prepareIcon" format="reference" />
+        <attr name="aui_musicPlayer_prepareTextColor" format="color" />
+        <attr name="aui_musicPlayer_prepareTextSize" format="dimension" />
+
+        <!--      已点歌  -->
+        <attr name="aui_musicPlayer_activeTextSize" format="dimension" />
+        <attr name="aui_musicPlayer_activeTextColor" format="color" />
+        <attr name="aui_musicPlayer_activeStartIcon" format="reference" />
+        <attr name="aui_musicPlayer_activeSwitchIcon" format="reference" />
+        <attr name="aui_musicPlayer_activeChooseIcon" format="reference" />
+        <attr name="aui_musicPlayer_activeLeaveChorusIcon" format="reference" />
+        <attr name="aui_musicPlayer_activeVoiceSettingsIcon" format="reference" />
+        <attr name="aui_musicPlayer_activeMusicPresetIcon" format="reference" />
+        <attr name="aui_musicPlayer_activeSwitchOriginalIcon" format="reference" />
+        <attr name="aui_musicPlayer_activeJoinChorusBackground" format="reference|color" />
+        <attr name="aui_musicPlayer_activeJoinChorusTextColor" format="color" />
+        <attr name="aui_musicPlayer_activeJoinChorusTextSize" format="dimension" />
+        <attr name="aui_musicPlayer_activeSkipTextColor" format="color" />
+        <attr name="aui_musicPlayer_activeSkipTextSize" format="dimension" />
+
+        <attr name="aui_musicPlayer_gradeBackgroundColor" format="color"/>
+        <attr name="aui_musicPlayer_gradeContentStartColor" format="color"/>
+        <attr name="aui_musicPlayer_gradeContentMiddleColor" format="color"/>
+        <attr name="aui_musicPlayer_gradeContentEndColor" format="color"/>
+        <attr name="aui_musicPlayer_gradeLabelSeparatorColor" format="color"/>
+        <attr name="aui_musicPlayer_gradeLabelTextColor" format="color"/>
+
+    </declare-styleable>
+
+    <!-- 弹框样式 -->
+    <declare-styleable name="AUIMusicPlayerControllerDialogBroadView">
+        <attr name="aui_musicPlayerControllerDialog_appearance" />
+
+        <!--   背景     -->
+        <attr name="aui_musicPlayerControllerDialog_background" format="reference|color" />
+        <!--   标题     -->
+        <attr name="aui_musicPlayerControllerDialog_titleTextSize" format="dimension" />
+        <attr name="aui_musicPlayerControllerDialog_titleTextColor" format="color" />
+        <attr name="aui_musicPlayerControllerDialog_subTitleTextSize" format="dimension" />
+        <attr name="aui_musicPlayerControllerDialog_subTitleTextColor" format="color" />
+        <attr name="aui_musicPlayerControllerDialog_dividerColor" format="color" />
+        <attr name="aui_musicPlayerControllerDialog_dividerHeight" format="dimension" />
+        <attr name="aui_musicPlayerControllerDialog_switch_thumb" format="reference" />
+        <attr name="aui_musicPlayerControllerDialog_switch_track" format="reference" />
+        <attr name="aui_musicPlayerControllerDialog_seekbarProgressDrawable" format="reference" />
+        <attr name="aui_musicPlayerControllerDialog_seekbarThumb" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="AUIMusicPlayerPresetDialogBroadView">
+        <attr name="aui_musicPlayerPresetDialog_titleTextColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="AUIMusicPlayerEffectPresetItem">
+        <attr name="aui_musicPlayerEffectPresetItem_appearance" />
+
+        <attr name="aui_musicPlayerEffectPresetItem_backgroundColor" format="color" />
+        <attr name="aui_musicPlayerEffectPresetItem_outStokeColor" format="color" />
+        <attr name="aui_musicPlayerEffectPresetItem_outIconSize" format="dimension" />
+        <attr name="aui_musicPlayerEffectPresetItem_innerIconSize" format="dimension" />
+        <attr name="aui_musicPlayerEffectPresetItem_textSize" format="dimension" />
+        <attr name="aui_musicPlayerEffectPresetItem_textColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="AUIMusicPlayerGradeBroadView">
+        <attr name="aui_musicPlayerGradeView_backgroundColor" format="color"/>
+        <attr name="aui_musicPlayerGradeView_contentStartColor" format="color"/>
+        <attr name="aui_musicPlayerGradeView_contentMiddleColor" format="color"/>
+        <attr name="aui_musicPlayerGradeView_contentEndColor" format="color"/>
+        <attr name="aui_musicPlayerGradeView_labelSeparatorColor" format="color"/>
+        <attr name="aui_musicPlayerGradeView_labelTextColor" format="color"/>
+    </declare-styleable>
+
+    <style name="ShapeAppearance.MaterialComponents.AUIMusicPlayerEffectItem" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <!--================= 主题属性 =================-->
+    <attr name="aui_roomInfo_appearance" format="reference"/>
+
+    <!--================= 样式属性 =================-->
+
+    <!-- 房间信息样式 -->
+    <declare-styleable name="AUIRoomInfoBroadView">
+        <attr name="aui_roomInfo_appearance"/>
+
+        <!-- ==根布局样式== -->
+        <attr name="aui_upperLeft_rootLayout_style" format="enum">
+            <enum name="RECTANGLE" value="0"/>
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <!-- ==根布局内间距== -->
+        <attr name="aui_upperLeft_layout_paddingHorizontal" format="dimension"/>
+        <attr name="aui_upperLeft_layout_paddingVertical" format="dimension"/>
+        <!-- ==根布局圆角== -->
+        <attr name="aui_upperLeft_layout_radius" format="integer"/>
+        <!-- ==根布局宽、高== -->
+        <attr name="aui_upperLeft_layout_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_upperLeft_layout_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- ==背景色== -->
+        <attr name="aui_upperLeft_Layout_background" format="reference|color"/>
+        <!-- ==标题 子标题== -->
+        <attr name="aui_upperLeft_title" format="string"/>
+        <attr name="aui_upperLeft_subtitle" format="string"/>
+        <!-- ==标题 子标题 最小最大宽度== -->
+        <attr name="aui_upperLeft_title_max_width" format="dimension"/>
+        <attr name="aui_upperLeft_title_min_width" format="dimension"/>
+        <attr name="aui_upperLeft_subtitle_max_width" format="dimension"/>
+        <attr name="aui_upperLeft_subtitle_min_width" format="dimension"/>
+        <!-- ==主标题文本大小、颜色、样式== -->
+        <attr name="aui_upperLeft_titleText" format="string"/>
+        <attr name="aui_upperLeft_titleTextSize" format="dimension"/>
+        <attr name="aui_upperLeft_titleTextColor" format="color"/>
+        <attr name="aui_upperLeft_titleTextStyle" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+        </attr>
+        <!-- ==子标题文本大小、颜色、样式== -->
+        <attr name="aui_upperLeft_subtitleText" format="string"/>
+        <attr name="aui_upperLeft_subtitleTextSize" format="dimension"/>
+        <attr name="aui_upperLeft_subtitleTextColor" format="color"/>
+        <attr name="aui_upperLeft_subtitleTextStyle" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+        </attr>
+        <!-- ==头像宽高== -->
+        <attr name="aui_upperLeft_avatar_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_upperLeft_avatar_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- ==头像和标题的间距== -->
+        <attr name="aui_upperLeft_title_spacing" format="dimension"/>
+        <attr name="aui_upperLeft_subtitle_spacing" format="dimension"/>
+
+        <!-- ==右侧icon资源== -->
+        <attr name="aui_upperLeft_right_icon_idle" format="reference"/>
+        <!-- ==右侧icon背景== -->
+        <attr name="aui_upperLeft_right_icon_background" format="reference|color"/>
+        <!-- ==右侧icon宽、高== -->
+        <attr name="aui_upperLeft_icon_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_upperLeft_icon_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- ==右侧icon背景宽、高== -->
+        <attr name="aui_upperLeft_icon_bg_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="aui_upperLeft_icon_bg_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+        <attr name="aui_upperLeft_right_icon_spacing" format="dimension"/>
+        <!-- ==右侧icon、背景icon距离右侧间距== -->
+        <attr name="aui_upperLeft_rightIcon_bg_marginRight" format="dimension"/>
+
+        <attr name="aui_upperLeft_backVisibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+        <attr name="aui_upperLeft_titleVisibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+        <attr name="aui_upperLeft_subtitleVisibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+        <attr name="aui_upperLeft_rightIcon_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+        <attr name="aui_upperLeft_rightIcon_bg_Visibility">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+    </declare-styleable>
 </resources>

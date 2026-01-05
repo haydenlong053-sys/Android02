@@ -44,4 +44,13 @@
     <color name="voice_black_2F3437">#2F3437</color>
     <color name="voice_black">#000000</color>
     <color name="voice_black_5E686E">#5E686E</color>
+    <color name="voice_gift_sent_color">#F9FAFA</color>
+    <color name="voice_gift_black_171A1C">#171A1C</color>
+    <color name="voice_gift_grey_75828A">#75828A</color>
+    <color name="voice_gift_grey_919BA1">#919BA1</color>
+    <color name="voice_gift_grey_ACB4B9">#ACB4B9</color>
+    <color name="voice_gift_grey_5E686E">#5E686E</color>
+    <color name="aui_ripple_stroke_color">#25A6FF</color>
+    <color name="aui_ripple_stroke_color_owner">#D4AF37</color>
+    <color name="aui_upper_left_bg">#33000000</color>
 </resources>
