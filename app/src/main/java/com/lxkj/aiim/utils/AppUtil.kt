@@ -11,8 +11,8 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.telephony.TelephonyManager
 import android.util.Log
-import cn.wildfire.chat.kit.ChatManagerHolder
-import cn.wildfire.chat.kit.conversation.ConversationActivity
+import com.cboda.chatui.ChatManagerHolder
+import com.cboda.chatui.conversation.ConversationActivity
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.BroadConstant
@@ -31,9 +31,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.lxkj.aiim.BuildConfig
 import com.lxkj.aiim.MainActivity
 import com.lxkj.aiim.app.LiXinApp
-import com.lxkj.aiim.lj.LoginActivity
 import com.lxkj.aiim.lj.NewEquipmentActivity
-import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.AppConsts
 import com.lxkj.aiim.lj.utils.SharePrefBroadUtil
 import com.lxkj.aiim.service.MeetingFloatService

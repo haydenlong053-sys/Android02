@@ -13,8 +13,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -49,7 +47,6 @@ import com.lxkj.aiim.activity.EditInterestActivity;
 import com.lxkj.aiim.activity.EditProfessionActivity;
 import com.lxkj.aiim.adapter.InterestAdapter;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.lxkj.aiim.databinding.ActivityEquipmentBinding;
 import com.lxkj.aiim.databinding.ActivityUserInfoBinding;
 import com.lxkj.aiim.dialog.UserEwmDialog;
 import com.lxkj.aiim.dialog.pop.CommonTipPop;
@@ -75,9 +72,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import cn.wildfire.chat.kit.user.UserViewModel;
+import com.cboda.chatui.user.UserViewModel;
 import cn.wildfirechat.model.ModifyMyInfoEntry;
 import cn.wildfirechat.model.ModifyMyInfoType;
 import kotlin.Unit;
@@ -614,7 +610,7 @@ public class UserInfoActivity extends BaseSimpleActivity implements View.OnClick
 
     private void showSaveButtonUI(boolean isModify) {
         mBinding.tvSave.setBackgroundResource(!isModify ? R.drawable.bg_btn_outline : R.drawable.bg_btn_blue);
-        mBinding.tvSave.setTextColor(ContextCompat.getColor(UserInfoActivity.this, !isModify ? cn.wildfire.chat.kit.R.color.color_3B47DD : R.color.white));
+        mBinding.tvSave.setTextColor(ContextCompat.getColor(UserInfoActivity.this, !isModify ? com.cboda.chatui.R.color.color_3B47DD : R.color.white));
         mBinding.tvSave.setEnabled(isModify);
 
     }

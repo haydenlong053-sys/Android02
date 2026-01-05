@@ -46,7 +46,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.wildfire.chat.kit.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerHolder;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import okhttp3.Response;

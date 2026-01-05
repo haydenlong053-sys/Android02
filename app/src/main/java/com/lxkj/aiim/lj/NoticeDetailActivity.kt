@@ -7,14 +7,12 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import cn.wildfire.chat.kit.conversation.forward.ForwardActivity
+import com.cboda.chatui.conversation.forward.ForwardActivity
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeMessageContent
-import cn.wildfirechat.message.UnknownMessageContent
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.databinding.ActivityNoticeDetailBinding
-import com.lxkj.aiim.lj.utils.showToastMain
 import com.lxkj.aiim.model.NoticeInfoBean
 import com.lxkj.aiim.viewmodel.NoticeViewModel
 import kotlinx.coroutines.launch

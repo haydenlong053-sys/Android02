@@ -56,7 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.wildfire.chat.kit.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerHolder;
 import okhttp3.Request;
 import okhttp3.Response;
 

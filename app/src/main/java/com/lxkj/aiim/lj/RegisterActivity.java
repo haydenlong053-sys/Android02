@@ -31,7 +31,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.wildfire.chat.kit.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerHolder;
 import okhttp3.Response;
 
 public class RegisterActivity extends BaseSimpleActivity implements View.OnClickListener {

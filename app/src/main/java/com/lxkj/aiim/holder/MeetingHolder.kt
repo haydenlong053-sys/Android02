@@ -1,20 +1,11 @@
 package com.lxkj.aiim.holder
 
 import android.content.Context
-import cn.wildfire.chat.kit.bridge.YeHuoEvent
-import cn.wildfire.chat.kit.widget.popup.OpenMeetingDialog
-import cn.wildfirechat.message.MeetingInviteMessageContent
-import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.google.gson.Gson
+import com.cboda.chatui.widget.popup.OpenMeetingDialog
 import com.lxkj.aiim.activity.MeetingCreateActivity
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.lxkj.aiim.bean.CreateRoomBean
-import com.lxkj.aiim.bean.UniqueRoomBean
-import com.lxkj.aiim.lj.http.UrlBroadConstants
-import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.utils.OKGoHelper
-import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
 object MeetingHolder {

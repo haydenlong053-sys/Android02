@@ -55,7 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.wildfire.chat.kit.utils.FileUtils;
+import com.cboda.chatui.utils.FileUtils;
 import okhttp3.Response;
 import top.zibin.luban.Luban;
 

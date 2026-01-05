@@ -98,7 +98,7 @@ fun TitleBar(
             
             // 标题
             Text(
-                text = stringResource(cn.wildfire.chat.kit.R.string.创建会议主题),
+                text = stringResource(com.cboda.chatui.R.string.创建会议主题),
                 color = colorResource(id = R.color.color_title_page),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -540,9 +540,9 @@ fun SwitchItem(
                     Icon(
                         painter = painterResource(
                             id = if (isChecked) {
-                                cn.wildfire.chat.kit.R.mipmap.ic_switch_kai
+                                com.cboda.chatui.R.mipmap.ic_switch_kai
                             } else {
-                                cn.wildfire.chat.kit.R.mipmap.ic_switch_guan
+                                com.cboda.chatui.R.mipmap.ic_switch_guan
                             }
                         ),
                         contentDescription = if (isChecked) "开启" else "关闭",
@@ -604,9 +604,9 @@ fun DoubleSwitchItem(
                         Icon(
                             painter = painterResource(
                                 id = if (firstIsChecked) {
-                                    cn.wildfire.chat.kit.R.mipmap.ic_switch_kai
+                                    com.cboda.chatui.R.mipmap.ic_switch_kai
                                 } else {
-                                    cn.wildfire.chat.kit.R.mipmap.ic_switch_guan
+                                    com.cboda.chatui.R.mipmap.ic_switch_guan
                                 }
                             ),
                             contentDescription = if (firstIsChecked) "开启" else "关闭",
@@ -620,7 +620,7 @@ fun DoubleSwitchItem(
                 
                 // 分割线
                 Divider(
-                    color = colorResource(id = cn.wildfire.chat.kit.R.color.color_line_conversation_list),
+                    color = colorResource(id = com.cboda.chatui.R.color.color_line_conversation_list),
                     thickness = 0.5.dp,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -648,9 +648,9 @@ fun DoubleSwitchItem(
                         Icon(
                             painter = painterResource(
                                 id = if (secondIsChecked) {
-                                    cn.wildfire.chat.kit.R.mipmap.ic_switch_kai
+                                    com.cboda.chatui.R.mipmap.ic_switch_kai
                                 } else {
-                                    cn.wildfire.chat.kit.R.mipmap.ic_switch_guan
+                                    com.cboda.chatui.R.mipmap.ic_switch_guan
                                 }
                             ),
                             contentDescription = if (secondIsChecked) "开启" else "关闭",
@@ -964,7 +964,7 @@ fun SelectionDialog(
 
                         if (option != options.last()) {
                             Divider(
-                                color = colorResource(id = cn.wildfire.chat.kit.R.color.color_line_conversation_list),
+                                color = colorResource(id = com.cboda.chatui.R.color.color_line_conversation_list),
                                 thickness = 0.5.dp
                             )
                         }
@@ -1036,7 +1036,7 @@ fun MeetingUserCountDialog(
 
                         if (index < userTierOptions.size - 1) {
                             Divider(
-                                color = colorResource(id = cn.wildfire.chat.kit.R.color.color_line_conversation_list),
+                                color = colorResource(id = com.cboda.chatui.R.color.color_line_conversation_list),
                                 thickness = 0.5.dp
                             )
                         }

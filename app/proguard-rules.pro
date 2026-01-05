@@ -59,8 +59,8 @@
 -keepclassmembers class com.tenncent.mars.** {
   *;
 }
--keep class cn.wildfire.chat.kit.net.base.** {*;}
--keepclassmembers class cn.wildfire.chat.kit.net.base.** {
+-keep class com.cboda.chatui.net.base.** {*;}
+-keepclassmembers class com.cboda.chatui.net.base.** {
   *;
 }
 -keep class cn.wildfirechat.model.** {*;}
@@ -68,8 +68,8 @@
   *;
 }
 
--keep class cn.wildfire.chat.kit.organization.model.** {*;}
--keepclassmembers class cn.wildfire.chat.kit.organization.model.** {
+-keep class com.cboda.chatui.organization.model.** {*;}
+-keepclassmembers class com.cboda.chatui.organization.model.** {
   *;
 }
 

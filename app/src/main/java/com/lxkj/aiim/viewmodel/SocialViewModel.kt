@@ -3,12 +3,10 @@ package com.lxkj.aiim.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lxkj.aiim.model.SocialCircle
 import com.lxkj.aiim.model.SocialContact
 import com.lxkj.aiim.model.SocialUiState
 import com.lxkj.aiim.repository.SocialRepository
-import cn.wildfire.chat.kit.utils.PinyinUtils
-import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.chatui.utils.PinyinUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -20,7 +20,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cboda.baselibrary.BuildConfig;
 import com.cboda.baselibrary.event.AppBroadEvent;
 import com.cboda.baselibrary.event.AppEventBroadCode;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
@@ -57,7 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.wildfire.chat.kit.ChatManagerHolder;
+import com.cboda.chatui.ChatManagerHolder;
 import okhttp3.Response;
 
 public class ScanActivity extends BaseSimpleActivity implements View.OnClickListener {

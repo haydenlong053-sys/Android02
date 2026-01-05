@@ -270,7 +270,7 @@ abstract class BaseSimple2Activity : AppCompatActivity() {
 //            customToolbarAndStatusBarBackgroundColor(true);
 //        } else {
         // light
-//      setTheme(cn.wildfire.chat.kit.R.style.AppTheme_LightAppbar)
+//      setTheme(com.cboda.chatui.R.style.AppTheme_LightAppbar)
 
     }
 

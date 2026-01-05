@@ -32,7 +32,7 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 
 import java.io.File;
 
-import cn.wildfire.chat.kit.utils.FileUtils;
+import com.cboda.chatui.utils.FileUtils;
 
 
 /**

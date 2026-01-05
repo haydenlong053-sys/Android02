@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cboda.chatui.widget.InputAwareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/qungonggao"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="42dp">
+        <com.cboda.chatui.MarqueeTextView
+            android:id="@+id/gonggaoxinxi"
+            android:text="群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:textColor="@color/color_text_gonggao"
+            android:clickable="true"
+            android:textSize="13sp"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="10dp"
+            android:scrollHorizontally="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/qunMeetingNotice"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="42dp">
+        <com.cboda.chatui.MarqueeTextView
+            android:id="@+id/tvQunMeeting"
+            android:text="群通知：已经开启语音房，点击可加入!"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:textColor="@color/color_text_gonggao"
+            android:clickable="true"
+            android:textSize="13sp"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="10dp"
+            android:scrollHorizontally="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!--内容-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/conversationBackgroundScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/conversationBackgroundImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop" />
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeRefreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/msgRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <com.cboda.chatui.widget.TopInterceptView
+                    android:id="@+id/mViewIntercept"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    />
+            </FrameLayout>
+
+
+            <com.cboda.chatui.conversation.ConversationInputPanel
+                android:id="@+id/inputPanelFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tvPhoneLogin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="确定"
+                android:background="@drawable/shape_tousu_liaotian"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/multiMessageActionContainerLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/unreadCountLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/unreadCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_unread_message_count_label_bg"
+                android:maxLines="1"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="15dp"
+                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
+                android:text="12条消息"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/unreadMentionCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_unread_message_count_label_bg"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="15dp"
+                android:textColor="@color/white"
+                android:text="12条@消息"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ongoingCallRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </FrameLayout>
+</com.cboda.chatui.widget.InputAwareLayout>

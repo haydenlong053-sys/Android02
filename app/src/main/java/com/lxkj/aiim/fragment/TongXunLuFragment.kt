@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import cn.wildfire.chat.kit.contact.ContactListFragment
+import com.cboda.chatui.contact.ContactListFragment
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions

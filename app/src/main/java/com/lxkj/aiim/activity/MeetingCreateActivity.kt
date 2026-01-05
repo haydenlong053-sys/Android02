@@ -17,8 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import cn.wildfire.chat.kit.R
-import cn.wildfire.chat.kit.bridge.YeHuoEvent
+import com.cboda.chatui.R
+import com.cboda.chatui.bridge.YeHuoEvent
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import com.google.gson.Gson
 import com.lxkj.aiim.base.BaseSimpleActivity

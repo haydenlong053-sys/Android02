@@ -31,10 +31,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
-import cn.wildfire.chat.kit.conversationlist.ConversationGroupFragment
-import cn.wildfire.chat.kit.conversationlist.ConversationOtherGroupFragment
-import cn.wildfire.chat.kit.conversationlist.ConversationSingleFragment
-import cn.wildfire.chat.kit.widget.ProgressFragment
+import com.cboda.chatui.conversationlist.ConversationGroupFragment
+import com.cboda.chatui.conversationlist.ConversationOtherGroupFragment
+import com.cboda.chatui.conversationlist.ConversationSingleFragment
+import com.cboda.chatui.widget.ProgressFragment
 import cn.wildfirechat.viewmodel.HomeUIViewModel
 import com.cboda.baselibrary.bean.GlobalNoticeBroadBean
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
@@ -64,7 +64,6 @@ import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.JumpUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.toJson2
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.viewmodel.FriendViewModel
 import com.lxkj.aiim.viewmodel.NoticeViewModel

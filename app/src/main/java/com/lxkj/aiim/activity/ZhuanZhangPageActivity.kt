@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import cn.wildfire.chat.kit.bridge.YeHuoEvent
+import com.cboda.chatui.bridge.YeHuoEvent
 import com.google.gson.Gson
 import com.lxkj.aiim.R
 import com.lxkj.aiim.base.BaseSimpleActivity

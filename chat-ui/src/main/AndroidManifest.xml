@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <!--    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />-->
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
+
+
+
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- 通过GPS得到精确位置 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 通过网络得到粗略位置 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 访问网络. 某些位置信息需要从网络服务器获取 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 访问网络状态, 检测网络的可用性. 需要网络运营商相关信息用于网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 访问网络的变化, 需要某些信息用于网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- 访问手机当前状态, 需要某些信息用于网络定位 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- 蓝牙分享所需的权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <meta-data
+            android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="true" />
+
+        <!--<activity
+            android:name="com.cboda.chatui.conversation.ConversationActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />-->
+        <activity
+            android:name="com.cboda.chatui.conversation.ConversationActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cboda.chatui.mm.TakePhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
+
+        <activity
+            android:name="com.cboda.chatui.mm.MMPreviewActivity"
+            android:theme="@style/AppTheme.TransparentFullScreen" />
+        <activity
+            android:name="com.cboda.chatui.voip.SingleCallActivity"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="${packageName}.kit.voip.single" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name="com.cboda.chatui.conversation.CreateConversationActivity"
+            android:label="创建会话" />
+        <activity
+            android:name="com.cboda.chatui.conversation.mention.MentionGroupMemberActivity"
+            android:label="选择群成员" />
+
+
+        <activity
+            android:name="com.cboda.chatui.search.SearchPortalActivity"
+            android:label="搜索中心" />
+        <activity
+            android:name="com.cboda.chatui.conversation.forward.ForwardActivity"
+            android:label="选择一个聊天" />
+        <activity
+            android:name="com.cboda.chatui.conversation.pick.PickOrCreateConversationTargetActivity"
+            android:label="选择联系人" />
+        <activity
+            android:name="com.cboda.chatui.conversation.pick.PickConversationActivity"
+            android:label="选择会话" />
+        <activity
+            android:name=".conversation.receipt.GroupMessageReceiptActivity"
+            android:label="消息阅读状态" />
+
+        <activity
+            android:name="com.cboda.chatui.WfcWebViewActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="${packageName}.webview" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.cboda.chatui.search.SearchMessageActivity" />
+        <activity android:name="com.cboda.chatui.group.PickGroupMemberActivity" />
+        <activity android:name="com.cboda.chatui.qrcode.QRCodeActivity" />
+
+        <activity
+            android:name="com.cboda.chatui.group.manage.GroupManageActivity"
+            android:label="群管理" />
+        <activity
+            android:name="com.cboda.chatui.group.manage.GroupManagerListActivity"
+            android:label="管理员列表" />
+        <activity
+            android:name="com.cboda.chatui.group.manage.AddGroupManagerActivity"
+            android:label="添加管理员" />
+        <activity
+            android:name="com.cboda.chatui.group.manage.GroupMuteOrAllowActivity"
+            android:label="群禁言" />
+        <activity
+            android:name="com.cboda.chatui.group.manage.GroupMemberPermissionActivity"
+            android:label="群成员权限" />
+
+
+        <activity
+            android:name="com.cboda.chatui.contact.pick.PickContactActivity"
+            android:label="联系人选择" />
+
+        <activity
+            android:name="com.cboda.chatui.voip.conference.CreateConferenceActivity"
+            android:label="发起会议" />
+        <activity
+            android:name="com.cboda.chatui.voip.conference.ConferenceActivity"
+            android:excludeFromRecents="true"
+            android:label="会议"
+            android:launchMode="singleTask"
+            android:taskAffinity=".conference"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".voip.conference.ConferencePortalActivity"
+            android:label="会议" />
+        <activity
+            android:name=".voip.conference.OrderConferenceActivity"
+            android:label="预定会议" />
+        <activity
+            android:name=".voip.conference.ConferenceInfoActivity"
+            android:label="会议详情" />
+        <activity
+            android:name=".voip.conference.ConferenceInviteActivity"
+            android:label="会议邀请" />
+        <activity
+            android:name=".voip.conference.ConferenceParticipantListActivity"
+            android:label="参会人员" />
+        <activity
+            android:name=".voip.conference.ConferenceHistoryListActivity"
+            android:label="会议记录" />
+        <activity
+            android:name="com.cboda.chatui.voip.MultiCallActivity"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="${packageName}.kit.voip.multi" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.cboda.chatui.voip.VoipDummyActivity" />
+        <activity android:name="com.cboda.chatui.pc.PCSessionActivity" />
+
+
+
+        <!--moment start-->
+        <!--        <activity android:name="cn.wildfire.chat.moment.PublishFeedActivity" />-->
+        <!--        <activity android:name="cn.wildfire.chat.moment.FeedMessageActivity" />-->
+        <!--        <activity android:name="cn.wildfire.chat.moment.FeedDetailActivity" />-->
+        <!--        <activity-->
+        <!--            android:name="cn.wildfire.chat.moment.FeedListActivity"-->
+        <!--            android:exported="false">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="${packageName}.moment" />-->
+        <!--                <category android:name="android.intent.category.DEFAULT" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
+        <!--        <activity android:name="cn.wildfire.chat.moment.FeedVisibleScopeActivity" />-->
+        <!--moment end-->
+
+        <activity android:name=".group.manage.MuteGroupMemberActivity" />
+
+
+        <activity
+            android:name=".conversation.message.CompositeMessageContentActivity"
+            android:label="组合消息" />
+
+        <activity
+            android:name=".group.GroupMemberMessageHistoryActivity"
+            android:label="用户消息" />
+        <activity
+            android:name=".widget.AlertDialogActivity"
+            android:theme="@style/AppThemeDialog" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service
+            android:enabled="true"
+            android:exported="true"
+            android:name="com.cboda.chatui.voip.VoipCallService"
+            android:foregroundServiceType="microphone" />
+    </application>
+</manifest>

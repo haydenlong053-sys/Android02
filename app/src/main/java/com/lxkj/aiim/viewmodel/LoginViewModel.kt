@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
-import cn.wildfire.chat.kit.ChatManagerHolder
-import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
+import com.cboda.chatui.ChatManagerHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure

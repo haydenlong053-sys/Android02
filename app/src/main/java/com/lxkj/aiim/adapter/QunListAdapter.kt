@@ -14,7 +14,7 @@ class QunListAdapter(layoutResId: Int) :
 //            item.icon?:"",
 //            holder.itemView.ivTouxiang,
 //        )
-        Glide.with(context).load( item.icon?:"").placeholder(cn.wildfire.chat.kit.R.mipmap.ic_group_chat)
+        Glide.with(context).load( item.icon?:"").placeholder(com.cboda.chatui.R.mipmap.ic_group_chat)
             .into( holder.getView(R.id.ivTouxiang))
         holder.setText(R.id.tvname2,item.name?:"")
     }

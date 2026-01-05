@@ -2,9 +2,9 @@ package com.lxkj.aiim.holder
 
 import android.content.Context
 import android.content.Intent
-import cn.wildfire.chat.kit.bridge.YeHuoCommonBridge
-import cn.wildfire.chat.kit.bridge.YeHuoEvent
-import cn.wildfire.chat.kit.conversation.message.model.UiMessage
+import com.cboda.chatui.bridge.YeHuoCommonBridge
+import com.cboda.chatui.bridge.YeHuoEvent
+import com.cboda.chatui.conversation.message.model.UiMessage
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.TextMessageContent

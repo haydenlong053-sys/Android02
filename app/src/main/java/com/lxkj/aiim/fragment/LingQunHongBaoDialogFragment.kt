@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
-import cn.wildfire.chat.kit.conversation.message.model.UiMessage
+import com.cboda.chatui.conversation.message.model.UiMessage
 import cn.wildfirechat.message.HongBaoMessageContent
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.google.gson.Gson

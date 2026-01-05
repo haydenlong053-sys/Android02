@@ -11,10 +11,10 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cn.wildfire.chat.kit.WfcUIKit
-import cn.wildfire.chat.kit.conversation.ConversationActivity
-import cn.wildfire.chat.kit.conversation.ConversationViewModel
-import cn.wildfire.chat.kit.utils.YeHuoIMActivityUtils
+import com.cboda.chatui.WfcUIKit
+import com.cboda.chatui.conversation.ConversationActivity
+import com.cboda.chatui.conversation.ConversationViewModel
+import com.cboda.chatui.utils.YeHuoIMActivityUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.model.ModifyGroupInfoType
 import cn.wildfirechat.remote.ChatManager
@@ -27,11 +27,8 @@ import com.lxkj.aiim.adapter.QunUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.toJson2
 import com.lxkj.aiim.holder.BottomDialogHolder
 import com.lxkj.aiim.holder.CommanConfimHolder
 import com.lxkj.aiim.holder.ImagePickerHolder
@@ -40,8 +37,6 @@ import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.viewmodel.UploadFileViewModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import top.zibin.luban.Luban
-import top.zibin.luban.OnCompressListener
 import java.io.File
 
 

@@ -56,7 +56,7 @@ class QunCodeActivity : BaseSimpleActivity() {
                 }
                 val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
                 Glide.with(this@QunCodeActivity).load(groupInfo?.portrait ?: "")
-                    .placeholder(cn.wildfire.chat.kit.R.mipmap.ic_group_chat)
+                    .placeholder(com.cboda.chatui.R.mipmap.ic_group_chat)
                     .into(ivTouxiang)
 
 //                if (this.icon?.isNotEmpty() == true){

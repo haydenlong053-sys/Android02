@@ -2,12 +2,11 @@ package com.lxkj.aiim.utils
 
 import android.content.Context
 import android.content.Intent
-import cn.wildfire.chat.kit.search.SearchPortalActivity
+import com.cboda.chatui.search.SearchPortalActivity
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.lxkj.aiim.MainActivity
 import com.lxkj.aiim.activity.*
-import com.lxkj.aiim.dialog.pop.SaveGroupQrCodePop
 import com.lxkj.aiim.lj.*
 import com.lxkj.aiim.lj.bean.AiCheckResultBean
 import com.lxkj.aiim.service.MeetingFloatService

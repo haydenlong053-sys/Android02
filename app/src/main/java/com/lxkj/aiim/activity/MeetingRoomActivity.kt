@@ -15,7 +15,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import cn.wildfire.chat.kit.conversation.forward.ForwardActivity
+import com.cboda.chatui.conversation.forward.ForwardActivity
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import cn.wildfirechat.message.Message
 import com.cboda.baselibrary.event.AppBroadEvent

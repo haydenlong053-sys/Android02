@@ -164,121 +164,121 @@ public class AppUtil {
         return (int) (getDensity(context) * dp + 0.5);
     }
 
-    public static void invokingBaidu(Activity activity, String nowla, String nowlo, String gola, String golo, String nowname, String goname) {
-//com.baidu.BaiduMap
-
-        if (!isAvilible(activity, "com.baidu.BaiduMap")) {
-            showMarketDialogBD(activity);
-            return;
-        }
-
-        try {
-//            LngLat start = new LngLat(Double.parseDouble(nowlo), Double.parseDouble(nowla));
-//            start = CoodinateCovertor.bd_encrypt(start);
-//            LngLat end = new LngLat(Double.parseDouble(golo), Double.parseDouble(gola));
-//            end = CoodinateCovertor.bd_encrypt(end);
-            Intent i1 = new Intent();
-            // 驾车路线规划
-            i1.setData(Uri.parse("baidumap://map/direction?region=" + nowname + "&origin=" + nowla + "," + nowlo + "&destination=" + gola + "," + golo + "&mode=driving"));
-            activity.startActivity(i1);
-        } catch (Exception e) {
-            Toast.makeText(activity, "导航失败~", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    public static void invokingGD(Activity activity, String nowla, String nowlo, String gola, String golo, String nowname, String goname) {
-        //  com.autonavi.minimap这是高德地图的包名
-        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("androidamap://navi?sourceApplication=com.autonavi.minimap&lat=" + "&dev=0"));
-        intent.setPackage("com.autonavi.minimap");
-        intent.setData(Uri.parse("amapuri://route/plan/?sid=BGVIS1&slat=" + nowla + "&slon=" + nowlo + "&sname=" + nowname + "&did=BGVIS2&dlat=" + gola + "&dlon=" + golo + "&dname=" + goname + "&dev=0&t=0"));
-        if (isInstallByread("com.autonavi.minimap")) {
-            activity.startActivity(intent);
-        } else {
-            showMarketDialog(activity);
-        }
-    }
-
-    public static void showMarketDialog(final Activity activity) {
-        AlertDialog dialog = new AlertDialog.Builder(activity)
-                .setMessage("您没有安装高德地图客户端，请下载安装")
-                .setNegativeButton("取消", null)
-                .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        downloadGaoDe(activity);
-                    }
-                }).create();
-        dialog.show();
-    }
-
-    public static void showMarketDialogBD(final Activity activity) {
-        AlertDialog dialog = new AlertDialog.Builder(activity)
-                .setMessage("您没有安装百度地图客户端，请下载安装")
-                .setNegativeButton("取消", null)
-                .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        downloadBaidu(activity);
-                    }
-                }).create();
-        dialog.show();
-    }
+//    public static void invokingBaidu(Activity activity, String nowla, String nowlo, String gola, String golo, String nowname, String goname) {
+////com.baidu.BaiduMap
+//
+//        if (!isAvilible(activity, "com.baidu.BaiduMap")) {
+//            showMarketDialogBD(activity);
+//            return;
+//        }
+//
+//        try {
+////            LngLat start = new LngLat(Double.parseDouble(nowlo), Double.parseDouble(nowla));
+////            start = CoodinateCovertor.bd_encrypt(start);
+////            LngLat end = new LngLat(Double.parseDouble(golo), Double.parseDouble(gola));
+////            end = CoodinateCovertor.bd_encrypt(end);
+//            Intent i1 = new Intent();
+//            // 驾车路线规划
+//            i1.setData(Uri.parse("baidumap://map/direction?region=" + nowname + "&origin=" + nowla + "," + nowlo + "&destination=" + gola + "," + golo + "&mode=driving"));
+//            activity.startActivity(i1);
+//        } catch (Exception e) {
+//            Toast.makeText(activity, "导航失败~", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 
-    public static void downloadGaoDe(Activity activity) {
-        Uri uri = Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.autonavi.minimap");
-        Intent it = new Intent(Intent.ACTION_VIEW, uri);
-        activity.startActivity(it);
-    }
+//    public static void invokingGD(Activity activity, String nowla, String nowlo, String gola, String golo, String nowname, String goname) {
+//        //  com.autonavi.minimap这是高德地图的包名
+//        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("androidamap://navi?sourceApplication=com.autonavi.minimap&lat=" + "&dev=0"));
+//        intent.setPackage("com.autonavi.minimap");
+//        intent.setData(Uri.parse("amapuri://route/plan/?sid=BGVIS1&slat=" + nowla + "&slon=" + nowlo + "&sname=" + nowname + "&did=BGVIS2&dlat=" + gola + "&dlon=" + golo + "&dname=" + goname + "&dev=0&t=0"));
+//        if (isInstallByread("com.autonavi.minimap")) {
+//            activity.startActivity(intent);
+//        } else {
+//            showMarketDialog(activity);
+//        }
+//    }
 
-    public static void downloadBaidu(Activity activity) {
-        Uri uri = Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.baidu.BaiduMap");
-        Intent it = new Intent(Intent.ACTION_VIEW, uri);
-        activity.startActivity(it);
-    }
+//    public static void showMarketDialog(final Activity activity) {
+//        AlertDialog dialog = new AlertDialog.Builder(activity)
+//                .setMessage("您没有安装高德地图客户端，请下载安装")
+//                .setNegativeButton("取消", null)
+//                .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        downloadGaoDe(activity);
+//                    }
+//                }).create();
+//        dialog.show();
+//    }
 
-    /**
-     * 判断是否安装目标应用
-     *
-     * @param packageName 目标应用安装后的包名
-     * @return 是否已安装目标应用
-     */
-    public static boolean isInstallByread(String packageName) {
-        return new File("/data/data/" + packageName).exists();
-    }
-
-    public static boolean isAvilible(Context context, String packageName) {
-        //获取packagemanager
-        final PackageManager packageManager = context.getPackageManager();
-        //获取所有已安装程序的包信息
-        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-        //用于存储所有已安装程序的包名
-        List<String> packageNames = new ArrayList<String>();
-        //从pinfo中将包名字逐一取出，压入pName list中
-        if (packageInfos != null) {
-            for (int i = 0; i < packageInfos.size(); i++) {
-                String packName = packageInfos.get(i).packageName;
-                packageNames.add(packName);
-            }
-        }
-        //判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
-        return packageNames.contains(packageName);
-    }
+//    public static void showMarketDialogBD(final Activity activity) {
+//        AlertDialog dialog = new AlertDialog.Builder(activity)
+//                .setMessage("您没有安装百度地图客户端，请下载安装")
+//                .setNegativeButton("取消", null)
+//                .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        downloadBaidu(activity);
+//                    }
+//                }).create();
+//        dialog.show();
+//    }
 
 
-    public static ArrayList<String> getMapValue(HashMap<String, String> map) {
-        ArrayList<String> strings = new ArrayList<>();
-        if (map == null)
-            return strings;
+//    public static void downloadGaoDe(Activity activity) {
+//        Uri uri = Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.autonavi.minimap");
+//        Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//        activity.startActivity(it);
+//    }
 
-        Iterator<String> iterator = map.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
-            strings.add(map.get(key));
-        }
-        return strings;
-    }
+//    public static void downloadBaidu(Activity activity) {
+//        Uri uri = Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.baidu.BaiduMap");
+//        Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//        activity.startActivity(it);
+//    }
+
+//    /**
+//     * 判断是否安装目标应用
+//     *
+//     * @param packageName 目标应用安装后的包名
+//     * @return 是否已安装目标应用
+//     */
+//    public static boolean isInstallByread(String packageName) {
+//        return new File("/data/data/" + packageName).exists();
+//    }
+
+//    public static boolean isAvilible(Context context, String packageName) {
+//        //获取packagemanager
+//        final PackageManager packageManager = context.getPackageManager();
+//        //获取所有已安装程序的包信息
+//        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+//        //用于存储所有已安装程序的包名
+//        List<String> packageNames = new ArrayList<String>();
+//        //从pinfo中将包名字逐一取出，压入pName list中
+//        if (packageInfos != null) {
+//            for (int i = 0; i < packageInfos.size(); i++) {
+//                String packName = packageInfos.get(i).packageName;
+//                packageNames.add(packName);
+//            }
+//        }
+//        //判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+//        return packageNames.contains(packageName);
+//    }
+
+
+//    public static ArrayList<String> getMapValue(HashMap<String, String> map) {
+//        ArrayList<String> strings = new ArrayList<>();
+//        if (map == null)
+//            return strings;
+//
+//        Iterator<String> iterator = map.keySet().iterator();
+//        while (iterator.hasNext()) {
+//            String key = iterator.next();
+//            strings.add(map.get(key));
+//        }
+//        return strings;
+//    }
 
 
     /**
@@ -305,64 +305,64 @@ public class AppUtil {
     }
 
 
-    /**
-     * 打开高德地图（公交出行，起点位置使用地图当前位置）
-     * <p>
-     * t = 0（驾车）= 1（公交）= 2（步行）= 3（骑行）= 4（火车）= 5（长途客车）
-     *
-     * @param dlat  终点纬度
-     * @param dlon  终点经度
-     * @param dname 终点名称
-     */
-    public static void openGaoDeMap(Context context, double dlat, double dlon, String dname) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setPackage("com.autonavi.minimap");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.setData(Uri.parse("androidamap://route?sourceApplication=" + R.string.app_name
-                + "&sname=我的位置&dlat=" + dlat
-                + "&dlon=" + dlon
-                + "&dname=" + dname
-                + "&dev=0&m=0&t=1"));
-        context.startActivity(intent);
-    }
+//    /**
+//     * 打开高德地图（公交出行，起点位置使用地图当前位置）
+//     * <p>
+//     * t = 0（驾车）= 1（公交）= 2（步行）= 3（骑行）= 4（火车）= 5（长途客车）
+//     *
+//     * @param dlat  终点纬度
+//     * @param dlon  终点经度
+//     * @param dname 终点名称
+//     */
+//    public static void openGaoDeMap(Context context, double dlat, double dlon, String dname) {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setPackage("com.autonavi.minimap");
+//        intent.addCategory("android.intent.category.DEFAULT");
+//        intent.setData(Uri.parse("androidamap://route?sourceApplication=" + R.string.app_name
+//                + "&sname=我的位置&dlat=" + dlat
+//                + "&dlon=" + dlon
+//                + "&dname=" + dname
+//                + "&dev=0&m=0&t=1"));
+//        context.startActivity(intent);
+//    }
 
-    /**
-     * mode = transit（公交）、driving（驾车）、walking（步行）和riding（骑行）. 默认:driving
-     *  * 当 mode=transit 时 ： sy = 0：推荐路线 、 2：少换乘 、 3：少步行 、 4：不坐地铁 、 5：时间短 、 6：地铁优先
-     * @param dlat
-     * @param dlon
-     * @param dname
-     */
-    public static void openBaiduMap(Context context,double dlat, double dlon, String dname) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("baidumap://map/direction?origin=我的位置&destination=name:"
-                + dname
-                + "|latlng:" + dlat + "," + dlon
-                + "&mode=transit&sy=3&index=0&target=1"));
-        context.startActivity(intent);
-    }
+//    /**
+//     * mode = transit（公交）、driving（驾车）、walking（步行）和riding（骑行）. 默认:driving
+//     *  * 当 mode=transit 时 ： sy = 0：推荐路线 、 2：少换乘 、 3：少步行 、 4：不坐地铁 、 5：时间短 、 6：地铁优先
+//     * @param dlat
+//     * @param dlon
+//     * @param dname
+//     */
+//    public static void openBaiduMap(Context context,double dlat, double dlon, String dname) {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setData(Uri.parse("baidumap://map/direction?origin=我的位置&destination=name:"
+//                + dname
+//                + "|latlng:" + dlat + "," + dlon
+//                + "&mode=transit&sy=3&index=0&target=1"));
+//        context.startActivity(intent);
+//    }
 
-    /**
-     * 打开腾讯地图（公交出行，起点位置使用地图当前位置）
-     *
-     * 公交：type=bus，policy有以下取值
-     * 0：较快捷 、 1：少换乘 、 2：少步行 、 3：不坐地铁
-     * 驾车：type=drive，policy有以下取值
-     * 0：较快捷 、 1：无高速 、 2：距离短
-     * policy的取值缺省为0
-     *
-     * @param dlat  终点纬度
-     * @param dlon  终点经度
-     * @param dname 终点名称
-     */
-    public static void openTencent(Context context,double dlat, double dlon, String dname) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("qqmap://map/routeplan?type=bus&from=我的位置&fromcoord=0,0"
-                + "&to=" + dname
-                + "&tocoord=" + dlat + "," + dlon
-                + "&policy=1&referer=myapp"));
-        context.startActivity(intent);
-    }
+//    /**
+//     * 打开腾讯地图（公交出行，起点位置使用地图当前位置）
+//     *
+//     * 公交：type=bus，policy有以下取值
+//     * 0：较快捷 、 1：少换乘 、 2：少步行 、 3：不坐地铁
+//     * 驾车：type=drive，policy有以下取值
+//     * 0：较快捷 、 1：无高速 、 2：距离短
+//     * policy的取值缺省为0
+//     *
+//     * @param dlat  终点纬度
+//     * @param dlon  终点经度
+//     * @param dname 终点名称
+//     */
+//    public static void openTencent(Context context,double dlat, double dlon, String dname) {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setData(Uri.parse("qqmap://map/routeplan?type=bus&from=我的位置&fromcoord=0,0"
+//                + "&to=" + dname
+//                + "&tocoord=" + dlat + "," + dlon
+//                + "&policy=1&referer=myapp"));
+//        context.startActivity(intent);
+//    }
 
 }
 

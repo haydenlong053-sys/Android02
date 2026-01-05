@@ -1,14 +1,11 @@
 package com.lxkj.aiim.activity
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -18,10 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.shinichi.library.ImagePreview
-import cn.wildfire.chat.kit.WfcUIKit
-import cn.wildfire.chat.kit.conversation.ConversationActivity
-import cn.wildfire.chat.kit.conversation.ConversationViewModel
-import cn.wildfire.chat.kit.utils.YeHuoIMActivityUtils
+import com.cboda.chatui.WfcUIKit
+import com.cboda.chatui.conversation.ConversationActivity
+import com.cboda.chatui.conversation.ConversationViewModel
+import com.cboda.chatui.utils.YeHuoIMActivityUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.utils.SpanBroadUtils
@@ -47,7 +44,6 @@ import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.eLogD
 
 
 class HaoYouPageActivity : BaseSimpleActivity() {

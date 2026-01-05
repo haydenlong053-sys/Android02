@@ -252,7 +252,7 @@ fun SoundItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(0.5.dp)
-                .background(colorResource(id = cn.wildfire.chat.kit.R.color.color_line))
+                .background(colorResource(id = com.cboda.chatui.R.color.color_line))
         )
     }
 }
