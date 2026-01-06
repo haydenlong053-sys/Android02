@@ -24,7 +24,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.lqr.emoji.EmotionEvent
+import com.cboda.chatemoji.EmotionEvent
 import com.lxkj.aiim.MainActivity
 import com.lxkj.aiim.R
 import com.lxkj.aiim.bean.MeetingDetailBean

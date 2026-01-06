@@ -23,10 +23,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import com.lqr.emoji.EmotionLayout;
-import com.lqr.emoji.IEmotionSelectedListener;
-import com.lqr.emoji.LQREmotionKit;
-import com.lqr.emoji.MoonUtils;
+import com.cboda.chatemoji.EmotionLayout;
+import com.cboda.chatemoji.IEmotionSelectedListener;
+import com.cboda.chatemoji.LQREmotionKit;
+import com.cboda.chatemoji.MoonUtils;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.widget.InputAwareBroadLayout;

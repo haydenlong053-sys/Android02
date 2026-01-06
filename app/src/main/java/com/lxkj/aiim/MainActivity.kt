@@ -47,7 +47,7 @@ import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.DoubleMessageBroadEvent
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
-import com.lqr.emoji.EmotionEvent
+import com.cboda.chatemoji.EmotionEvent
 import com.lxkj.aiim.adapter.FragmentAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonResultBroadBean

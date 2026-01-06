@@ -35,7 +35,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.cboda.baselibrary.utils.ViewExpandUtilKt;
-import com.lqr.emoji.LQREmotionKit;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
@@ -46,6 +45,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import com.cboda.chatemoji.LQREmotionKit;
 import com.cboda.chatui.common.AppScopeViewBroadModel;
 import com.cboda.chatui.net.OKHttpBroadHelper;
 import com.cboda.chatui.organization.OrganizationServiceBroadProvider;

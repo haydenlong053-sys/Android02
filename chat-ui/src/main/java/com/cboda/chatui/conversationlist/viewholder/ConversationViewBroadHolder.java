@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lqr.emoji.MoonUtils;
+import com.cboda.chatemoji.MoonUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

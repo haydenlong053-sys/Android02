@@ -12,15 +12,13 @@ import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.utils.SharePrefBroadBroadUtil;
-import com.google.gson.Gson;
-import com.lqr.emoji.MoonUtils;
+import com.cboda.chatemoji.MoonUtils;
 
 import com.cboda.chatui.*;
 import com.cboda.chatui.WfcWebViewBroadActivity;

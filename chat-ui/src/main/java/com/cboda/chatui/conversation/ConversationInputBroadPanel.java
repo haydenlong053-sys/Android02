@@ -48,11 +48,11 @@ import androidx.lifecycle.ViewModelProviders;
 import com.airbnb.lottie.LottieAnimationView;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
-import com.lqr.emoji.EmotionLayout;
-import com.lqr.emoji.IEmotionExtClickListener;
-import com.lqr.emoji.IEmotionSelectedListener;
-import com.lqr.emoji.LQREmotionKit;
-import com.lqr.emoji.MoonUtils;
+import com.cboda.chatemoji.EmotionLayout;
+import com.cboda.chatemoji.IEmotionExtClickListener;
+import com.cboda.chatemoji.IEmotionSelectedListener;
+import com.cboda.chatemoji.LQREmotionKit;
+import com.cboda.chatemoji.MoonUtils;
 
 import java.io.File;
 import java.util.ArrayList;
