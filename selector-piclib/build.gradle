@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 apply from: '../config.gradle'
 
 android {
-    compileSdk 36
+    compileSdk libsinfo.compile_sdk
 
     defaultConfig {
-        minSdk 29
-        targetSdk 36
+        minSdk libsinfo.min_sdk
+        targetSdk libsinfo.compile_sdk
 
         vectorDrawables.useSupportLibrary = true
     }
