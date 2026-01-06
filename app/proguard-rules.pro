@@ -131,3 +131,29 @@
 # DoraemonKit 相关 - 忽略 Hummer 相关类的警告（可选依赖）
 -dontwarn com.didi.hummer.context.HummerContext
 -dontwarn com.didi.hummer.**
+-dontwarn com.amap.api.**
+-dontwarn com.baidu.location.**
+-dontwarn com.facebook.cache.**
+-dontwarn com.facebook.common.**
+-dontwarn com.facebook.imagepipeline.**
+
+-dontwarn com.loc.**
+-dontwarn com.nostra13.universalimageloader.core.**
+-dontwarn com.squareup.javapoet.**
+-dontwarn com.tencent.map.geolocation.**
+-dontwarn com.tencent.smtt.export.external.interfaces.**
+-dontwarn com.tencent.smtt.sdk.**
+-dontwarn java.awt.image.**
+-dontwarn javax.imageio.**
+-dontwarn javax.lang.model.**
+-dontwarn javax.tools.**
+
+
+
+
+
+
+
+
+
+
