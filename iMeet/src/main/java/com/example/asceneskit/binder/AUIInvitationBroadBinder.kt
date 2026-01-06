@@ -16,32 +16,32 @@ import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
 import com.cboda.agora.ui.ui.action.listener.AUIApplyDialogEventBroadListener
 import com.cboda.agora.ui.ui.action.listener.AUIInvitationDialogEventBroadListener
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIUserInfo
-import io.agora.auikit.model.AUIUserThumbnailInfo
-import io.agora.auikit.service.IAUIInvitationService
-import io.agora.auikit.service.IAUIMicSeatService
-import io.agora.auikit.service.IAUIUserService
-import io.agora.auikit.service.callback.AUIException
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIUserBroadInfo
+import io.agora.auikit.model.AUIUserThumbnailBroadInfo
+import io.agora.auikit.service.IAUIInvitationBroadService
+import io.agora.auikit.service.IAUIMicSeatBroadService
+import io.agora.auikit.service.IAUIUserBroadService
+import io.agora.auikit.service.callback.AUIBroadException
 
 class AUIInvitationBinder constructor(
     activity: FragmentActivity?,
     voiceService: AUIVoiceRoomBroadService,
 ):
-    IAUIBroadBindable, IAUIInvitationService.AUIInvitationRespObserver,
-    IAUIUserService.AUIUserRespObserver, IAUIMicSeatService.AUIMicSeatRespObserver {
+    IAUIBroadBindable, IAUIInvitationBroadService.AUIInvitationRespObserver,
+    IAUIUserBroadService.AUIUserRespObserver, IAUIMicSeatBroadService.AUIMicSeatRespObserver {
     private var activity: FragmentActivity?
     private var mVoiceService: AUIVoiceRoomBroadService
-    private var invitationService:IAUIInvitationService
-    private val applyList = mutableListOf<AUIUserInfo?>()
+    private var invitationService:IAUIInvitationBroadService
+    private val applyList = mutableListOf<AUIUserBroadInfo?>()
     private var applyDialog: AUIApplyBroadDialog?=null
     private var invitationDialog: AUIInvitationBroadDialog?=null
 
     private var mSeatMap = mutableMapOf<Int, String>()
-    private var mMemberMap = mutableMapOf<String?, AUIUserInfo?>()
-    private var currentMemberList:MutableList<AUIUserInfo?> = mutableListOf()
-    private var userService:IAUIUserService
-    private var applyUserList = ArrayList<AUIUserInfo?>()
+    private var mMemberMap = mutableMapOf<String?, AUIUserBroadInfo?>()
+    private var currentMemberList:MutableList<AUIUserBroadInfo?> = mutableListOf()
+    private var userService:IAUIUserBroadService
+    private var applyUserList = ArrayList<AUIUserBroadInfo?>()
 
     init {
         this.mVoiceService = voiceService
@@ -50,7 +50,7 @@ class AUIInvitationBinder constructor(
         this.userService = voiceService.userService
 
         val roomOwner = voiceService.roomInfo?.owner
-        val owner = AUIUserInfo()
+        val owner = AUIUserBroadInfo()
         owner.userName = roomOwner?.userName.toString()
         owner.userId = roomOwner?.userId.toString()
         owner.userAvatar = roomOwner?.userAvatar.toString()
@@ -119,7 +119,7 @@ class AUIInvitationBinder constructor(
         }
     }
 
-    override fun onApplyListUpdate(userList: List<AUIUserInfo>?) {
+    override fun onApplyListUpdate(userList: List<AUIUserBroadInfo>?) {
         super.onApplyListUpdate(userList)
         applyUserList = ArrayList(userList ?: emptyList())
         applyList.clear()
@@ -137,14 +137,14 @@ class AUIInvitationBinder constructor(
 
     override fun onApplyAccepted(userId: String, seatIndex: Int) {
         super.onApplyAccepted(userId, seatIndex)
-        if(userId == AUIRoomContext.shared().currentUserInfo.userId){
+        if(userId == AUIRoomBroadContext.shared().currentUserInfo.userId){
 //            Toast.makeText(activity, R.string.voice_room_apply_accepted, Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onApplyWillAccept(userId: String, seatIndex: Int): AUIException? {
+    override fun onApplyWillAccept(userId: String, seatIndex: Int): AUIBroadException? {
         if (mSeatMap[seatIndex]?.isNotEmpty() == true) {
-            return AUIException(AUIException.ERROR_CODE_SEAT_NOT_IDLE, "")
+            return AUIBroadException(AUIBroadException.ERROR_CODE_SEAT_NOT_IDLE, "")
         }
         userService.getUserInfo(userId)?.let {
             mVoiceService.micSeatService.pickSeat(seatIndex, it) {}
@@ -152,9 +152,9 @@ class AUIInvitationBinder constructor(
         return super.onApplyWillAccept(userId, seatIndex)
     }
 
-    override fun onInviteWillAccept(userId: String, seatIndex: Int): AUIException? {
+    override fun onInviteWillAccept(userId: String, seatIndex: Int): AUIBroadException? {
         if (mSeatMap[seatIndex]?.isNotEmpty() == true) {
-            return AUIException(AUIException.ERROR_CODE_SEAT_NOT_IDLE, "")
+            return AUIBroadException(AUIBroadException.ERROR_CODE_SEAT_NOT_IDLE, "")
         }
         userService.getUserInfo(userId)?.let {
             mVoiceService.micSeatService.pickSeat(seatIndex, it) {}
@@ -251,25 +251,25 @@ class AUIInvitationBinder constructor(
 
 
     /** IAUiUserService.AUiUserRespDelegate */
-    override fun onRoomUserEnter(roomId: String, userInfo: AUIUserInfo) {
+    override fun onRoomUserEnter(roomId: String, userInfo: AUIUserBroadInfo) {
         Log.d("apex","onRoomUserEnter ${userInfo.userId}")
         val auiUserInfo = userService.getUserInfo(userInfo.userId)
         mMemberMap[userInfo.userId] = auiUserInfo
         filterCurrentMember()
     }
 
-    override fun onRoomUserLeave(roomId: String, userInfo: AUIUserInfo) {
+    override fun onRoomUserLeave(roomId: String, userInfo: AUIUserBroadInfo) {
         mMemberMap.remove(userInfo.userId)
         filterCurrentMember()
     }
 
-    override fun onRoomUserUpdate(roomId: String, userInfo: AUIUserInfo) {
+    override fun onRoomUserUpdate(roomId: String, userInfo: AUIUserBroadInfo) {
         mMemberMap[userInfo.userId] = userInfo
         updateApplyUserInfo()
         filterCurrentMember()
     }
 
-    override fun onRoomUserSnapshot(roomId: String, userList: MutableList<AUIUserInfo>?) {
+    override fun onRoomUserSnapshot(roomId: String, userList: MutableList<AUIUserBroadInfo>?) {
         userList?.forEach { userInfo ->
             Log.e("apex","onRoomUserSnapshot ${userInfo.userName} - ${userInfo.userAvatar}")
             mMemberMap[userInfo.userId] = userInfo
@@ -278,12 +278,12 @@ class AUIInvitationBinder constructor(
     }
 
     /** IAUiMicSeatService.AUiMicSeatRespDelegate */
-    override fun onAnchorEnterSeat(seatIndex: Int, userInfo: AUIUserThumbnailInfo) {
+    override fun onAnchorEnterSeat(seatIndex: Int, userInfo: AUIUserThumbnailBroadInfo) {
         mSeatMap[seatIndex] = userInfo.userId
         filterCurrentMember()
     }
 
-    override fun onAnchorLeaveSeat(seatIndex: Int, userInfo: AUIUserThumbnailInfo) {
+    override fun onAnchorLeaveSeat(seatIndex: Int, userInfo: AUIUserThumbnailBroadInfo) {
         if (mSeatMap[seatIndex].equals(userInfo.userId)) {
             mSeatMap.remove(seatIndex)
         }

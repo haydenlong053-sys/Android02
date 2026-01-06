@@ -51,10 +51,10 @@ import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import com.cboda.agora.ui.ui.basic.AUIAlertSecondBroadDialog
 import com.cboda.agora.ui.utils.PermissionBroadHelp
 import com.lxkj.aiim.utils.AUIVoiceRoomUIKit.renewToken
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIRoomInfo
-import io.agora.auikit.model.AUIUserThumbnailInfo
-import io.agora.auikit.utils.AUILogger
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIRoomBroadInfo
+import io.agora.auikit.model.AUIUserThumbnailBroadInfo
+import io.agora.auikit.utils.AUIBroadLogger
 import io.agora.rtc2.Constants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -79,7 +79,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         private val EXTRA_HOST_ID = "hostId"
         private val EXTRA_TITLE_ID = "titleId"
 
-        fun launch(context: Context, isCreateRoom: Boolean, roomInfo: AUIRoomInfo, themeId: Int = R.style.Theme_VoiceRoom_Light) {
+        fun launch(context: Context, isCreateRoom: Boolean, roomInfo: AUIRoomBroadInfo, themeId: Int = R.style.Theme_VoiceRoom_Light) {
             val intent = Intent(context, MeetingRoomActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra(EXTRA_IS_CREATE_ROOM, isCreateRoom)
@@ -116,7 +116,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
     private val mHostRoomTitle by lazy {
         intent.getStringExtra(EXTRA_TITLE_ID).toString()
     }
-    private var roomInfo: AUIRoomInfo? = null
+    private var roomInfo: AUIRoomBroadInfo? = null
     private  var isJoinSuccess=false
     private  var meetingData:MeetingData?=null
 
@@ -124,7 +124,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
             roomInfo?.roomId = savedInstanceState.getString("roomId").toString()
-            val owner = AUIUserThumbnailInfo()
+            val owner = AUIUserThumbnailBroadInfo()
             owner.userId = savedInstanceState.getString("userId").toString()
             owner.userName = savedInstanceState.getString("userName").toString()
             owner.userAvatar = savedInstanceState.getString("userAvatar").toString()
@@ -176,7 +176,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         setupBackPressedHandler()
 
         mViewBinding.VoiceRoomView.setClickMore {
-            val isRoomOwner = (roomInfo?.owner?.userId == AUIRoomContext.shared().currentUserInfo.userId)
+            val isRoomOwner = (roomInfo?.owner?.userId == AUIRoomBroadContext.shared().currentUserInfo.userId)
             ServerManager.getMeetingRoomInfo(roomId){
                 it?.let {
                     meetingData=it
@@ -383,7 +383,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                                                                         showJoinSuccessLayout()
                                                                         it.allMute?.let {
                                                                             AUIVoiceRoomUIKit.setRoomMuteState(roomId,it)
-                                                                            mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(roomId),
+                                                                            mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomBroadContext.shared().isRoomOwner(roomId),
                                                                                 AUIVoiceRoomUIKit.isRoomMuted(roomId))
                                                                         }
                                                                         it.status.let {
@@ -477,21 +477,21 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
 
         //判断悬浮窗是否存在，存在则是点击悬浮窗进来
         if (isFloatShow()){
-            roomInfo= intent.getSerializableExtra(EXTRA_ROOM_INFO) as AUIRoomInfo
+            roomInfo= intent.getSerializableExtra(EXTRA_ROOM_INFO) as AUIRoomBroadInfo
             showJoinSuccessLayout()
             roomInfo?.let {info->
                 AUIVoiceRoomUIKit.getServiceByRoomId(info.roomId)?.let {
                     mViewBinding.VoiceRoomView.bindService(it)
-                    mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(info.roomId),
+                    mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomBroadContext.shared().isRoomOwner(info.roomId),
                         AUIVoiceRoomUIKit.isRoomMuted(info.roomId))
                 }
             }
         }else{
             showJoiningLayout()
-            roomInfo = AUIRoomInfo().apply {
+            roomInfo = AUIRoomBroadInfo().apply {
                 this.roomId = this@MeetingRoomActivity.roomId
                 roomName = mHostRoomTitle
-                owner = AUIUserThumbnailInfo().apply {
+                owner = AUIUserThumbnailBroadInfo().apply {
                     userId = hostId
                     userName = "会议主持${hostId}"
                     userAvatar = ""
@@ -528,7 +528,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                             meetingData=it
                             it.allMute?.let {
                                 AUIVoiceRoomUIKit.setRoomMuteState(roomId,it)
-                                mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(roomId),
+                                mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomBroadContext.shared().isRoomOwner(roomId),
                                     AUIVoiceRoomUIKit.isRoomMuted(roomId))
                             }
                             it.status?.let {
@@ -631,7 +631,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
     }
 
     private fun onUserLeaveRoom() {
-        val owner = (roomInfo?.owner?.userId == AUIRoomContext.shared().currentUserInfo.userId)
+        val owner = (roomInfo?.owner?.userId == AUIRoomBroadContext.shared().currentUserInfo.userId)
         AUIAlertBroadDialog(this).apply {
 
             if (owner) {
@@ -667,13 +667,13 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                 renewToken(roomId, it)
             },
             onFailure = {
-                AUILogger.logger()
+                AUIBroadLogger.logger()
                     .e("VoiceRoomActivity", "onTokenPrivilegeWillExpire generateToken error $it")
             })
     }
 
     private fun shutDownRoom() {
-        AUILogger.logger().d("VoiceRoomActivity", "shutDownRoom ...")
+        AUIBroadLogger.logger().d("VoiceRoomActivity", "shutDownRoom ...")
         val roomId = roomId
         mViewBinding.VoiceRoomView.destoryRoom()
         AUIVoiceRoomUIKit.destroyRoom(roomId)
@@ -701,8 +701,8 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
 //                    Log.d("MeetingRoomActivity", "收到网络质量变化事件")
                     val networkQualityEventData = it.data as NetworkQualityEventBroadData
 //                    Log.d("MeetingRoomActivity", "事件数据: uid=${networkQualityEventData.uid}, txQuality=${networkQualityEventData.txQuality}, rxQuality=${networkQualityEventData.rxQuality}")
-//                    Log.d("MeetingRoomActivity", "当前用户ID: ${AUIRoomContext.shared().currentUserInfo.userId}")
-                    if (networkQualityEventData.uid == AUIRoomContext.shared().currentUserInfo.userId||networkQualityEventData.uid=="0") {
+//                    Log.d("MeetingRoomActivity", "当前用户ID: ${AUIRoomBroadContext.shared().currentUserInfo.userId}")
+                    if (networkQualityEventData.uid == AUIRoomBroadContext.shared().currentUserInfo.userId||networkQualityEventData.uid=="0") {
 //                        Log.d("MeetingRoomActivity", "用户ID匹配，处理网络质量事件")
                         if (networkQualityEventData.txQuality>= Constants.QUALITY_VBAD||networkQualityEventData.rxQuality>= Constants.QUALITY_VBAD){
 //                            ToastBroadUtils.show("网络质量不佳")
@@ -730,7 +730,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         event?.eventCode?.let {
             when(it){
                 MeetingFloatService.EVENT_SERVICE_STATE->{
-                    val owner = event.data as AUIUserThumbnailInfo
+                    val owner = event.data as AUIUserThumbnailBroadInfo
                     owner?.let {
                         checkMicPerm(owner)
                     }
@@ -743,7 +743,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                 MeetingFloatService.EVENT_CHANGE_MUTE->{
                     val data = event.data as MeetingFloatService.MeetingAllEvent
                     ToastBroadUtils.show(if (data.allMute==true){"房主/管理员开启了全员禁言"} else {"房主/管理员取消了全员禁言"})
-                    val roomOwner = AUIRoomContext.shared().isRoomOwner(roomId)
+                    val roomOwner = AUIRoomBroadContext.shared().isRoomOwner(roomId)
                     mViewBinding.VoiceRoomView.setMuteEditLayout(roomOwner,data.allMute?:false)
 
                 }
@@ -797,7 +797,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
         }
     }
 
-    private  fun checkMicPerm(owner: AUIUserThumbnailInfo){
+    private  fun checkMicPerm(owner: AUIUserThumbnailBroadInfo){
         roomInfo?.let {roomInfo->
             mPermissionHelp.checkMicPerm(
                 {
@@ -844,7 +844,7 @@ class MeetingRoomActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
                                                                 showJoinSuccessLayout()
                                                                 it.allMute?.let {
                                                                     AUIVoiceRoomUIKit.setRoomMuteState(roomId,it)
-                                                                    mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomContext.shared().isRoomOwner(roomId),
+                                                                    mViewBinding.VoiceRoomView.setMuteEditLayout(AUIRoomBroadContext.shared().isRoomOwner(roomId),
                                                                         AUIVoiceRoomUIKit.isRoomMuted(roomId))
                                                                 }
                                                                 it.status.let {

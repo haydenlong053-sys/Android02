@@ -23,28 +23,28 @@ import java.util.List;
 import java.util.Map;
 
 
-import io.agora.auikit.model.AUIMicSeatInfo;
-import io.agora.auikit.model.AUIMicSeatStatus;
-import io.agora.auikit.model.AUIRoomContext;
-import io.agora.auikit.model.AUIUserInfo;
-import io.agora.auikit.model.AUIUserThumbnailInfo;
-import io.agora.auikit.service.IAUIInvitationService;
-import io.agora.auikit.service.IAUIMicSeatService;
-import io.agora.auikit.service.IAUIUserService;
-import io.agora.auikit.utils.AUILogger;
+import io.agora.auikit.model.AUIMicSeatBroadInfo;
+import io.agora.auikit.model.AUIMicSeatBroadStatus;
+import io.agora.auikit.model.AUIRoomBroadContext;
+import io.agora.auikit.model.AUIUserBroadInfo;
+import io.agora.auikit.model.AUIUserThumbnailBroadInfo;
+import io.agora.auikit.service.IAUIInvitationBroadService;
+import io.agora.auikit.service.IAUIMicSeatBroadService;
+import io.agora.auikit.service.IAUIUserBroadService;
+import io.agora.auikit.utils.AUIBroadLogger;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
 
 public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         IAUIBroadBindable,
         IMicSeatsBroadView.ActionDelegate,
-        IAUIMicSeatService.AUIMicSeatRespObserver,
-        IAUIUserService.AUIUserRespObserver {
+        IAUIMicSeatBroadService.AUIMicSeatRespObserver,
+        IAUIUserBroadService.AUIUserRespObserver {
     private final IMicSeatsBroadView micSeatsView;
-    private final IAUIUserService userService;
-    private final IAUIMicSeatService micSeatService;
-    private final IAUIInvitationService invitationService;
-    private AUIRoomContext roomContext;
+    private final IAUIUserBroadService userService;
+    private final IAUIMicSeatBroadService micSeatService;
+    private final IAUIInvitationBroadService invitationService;
+    private AUIRoomBroadContext roomContext;
     private Handler mMainHandler;
     private RtcEngine mRtcEngine;
     private Map<Integer, String> mSeatMap = new HashMap();
@@ -62,7 +62,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         this.micSeatService = voiceService.getMicSeatService();
         this.invitationService = voiceService.getInvitationService();
         this.mRtcEngine = voiceService.getRtcEngine();
-        this.roomContext = AUIRoomContext.shared();
+        this.roomContext = AUIRoomBroadContext.shared();
         this.context = context;
         mSeatMap.put(0,roomContext.getRoomOwner(micSeatService.getChannelName()));
         mVolumeMap.put(roomContext.getRoomOwner(micSeatService.getChannelName()),0);
@@ -114,14 +114,14 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
             }
         }
     }
-    /** IAUIMicSeatService.AUIMicSeatRespDelegate implements. */
+    /** IAUIMicSeatBroadService.AUIMicSeatRespDelegate implements. */
 
     @Override
-    public void onAnchorEnterSeat(int seatIndex, @NonNull AUIUserThumbnailInfo userInfo) {
+    public void onAnchorEnterSeat(int seatIndex, @NonNull AUIUserThumbnailBroadInfo userInfo) {
         if(seatIndex >=  micSeatsView.getMicSeatItemViewList().length){
             return;
         }
-        AUIUserInfo auiUserInfo = userService.getUserInfo(userInfo.userId);
+        AUIUserBroadInfo auiUserInfo = userService.getUserInfo(userInfo.userId);
         mSeatMap.put(seatIndex,userInfo.userId);
         mVolumeMap.put(userInfo.userId,seatIndex);
         IMicSeatItemBroadView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
@@ -134,7 +134,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
     }
 
     @Override
-    public void onAnchorLeaveSeat(int seatIndex, @NonNull AUIUserThumbnailInfo userInfo) {
+    public void onAnchorLeaveSeat(int seatIndex, @NonNull AUIUserThumbnailBroadInfo userInfo) {
         if(seatIndex >=  micSeatsView.getMicSeatItemViewList().length){
             return;
         }
@@ -157,7 +157,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         seatView.setAudioMuteVisibility(isMute ? View.VISIBLE : View.GONE);
 
         // 检查是否有用户在麦位上
-        AUIMicSeatInfo micSeatInfo = micSeatService.getMicSeatInfo(seatIndex);
+        AUIMicSeatBroadInfo micSeatInfo = micSeatService.getMicSeatInfo(seatIndex);
         boolean hasUser = micSeatInfo != null && micSeatInfo.user != null && !TextUtils.isEmpty(micSeatInfo.user.userId);
 
         // 使用新的麦位图标控制逻辑
@@ -182,11 +182,11 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         if(seatIndex >=  micSeatsView.getMicSeatItemViewList().length){
             return;
         }
-        AUIMicSeatInfo seatInfo = micSeatService.getMicSeatInfo(seatIndex);
+        AUIMicSeatBroadInfo seatInfo = micSeatService.getMicSeatInfo(seatIndex);
         IMicSeatItemBroadView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
-        if (seatInfo.seatStatus == AUIMicSeatStatus.idle) {
+        if (seatInfo.seatStatus == AUIMicSeatBroadStatus.idle) {
             seatView.setMicSeatState(MicSeatBroadStatus.idle);
-        } else if (seatInfo.seatStatus == AUIMicSeatStatus.locked) {
+        } else if (seatInfo.seatStatus == AUIMicSeatBroadStatus.locked) {
             seatView.setMicSeatState(MicSeatBroadStatus.locked);
         } else {
             seatView.setMicSeatState(MicSeatBroadStatus.used);
@@ -199,11 +199,11 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         if (seatIndex >= micSeatsView.getMicSeatItemViewList().length) {
             return;
         }
-        AUIMicSeatInfo micSeatInfo = micSeatService.getMicSeatInfo(seatIndex);
+        AUIMicSeatBroadInfo micSeatInfo = micSeatService.getMicSeatInfo(seatIndex);
         IMicSeatItemBroadView seatView = micSeatsView.getMicSeatItemViewList()[seatIndex];
 
         // 检查麦位是否为空
-        boolean isSeatEmpty = micSeatInfo == null || micSeatInfo.seatStatus == AUIMicSeatStatus.idle ||
+        boolean isSeatEmpty = micSeatInfo == null || micSeatInfo.seatStatus == AUIMicSeatBroadStatus.idle ||
                 micSeatInfo.user == null || TextUtils.isEmpty(micSeatInfo.user.userId);
 
         if (isSeatEmpty) {
@@ -217,7 +217,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         }
 
         // 麦位有用户，获取用户信息
-        AUIUserInfo userInfo = userService.getUserInfo(micSeatInfo.user.userId);
+        AUIUserBroadInfo userInfo = userService.getUserInfo(micSeatInfo.user.userId);
         if (userInfo != null){
             mVolumeMap.put(userInfo.userId, seatIndex);
             micSeatInfo.user.userName = userInfo.userName;
@@ -226,7 +226,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
 
         seatView.setRoomOwnerVisibility((seatIndex == 0) ? View.VISIBLE : View.GONE);
 
-        if (micSeatInfo.seatStatus == AUIMicSeatStatus.locked){
+        if (micSeatInfo.seatStatus == AUIMicSeatBroadStatus.locked){
             seatView.setMicSeatState(MicSeatBroadStatus.locked);
         }
 
@@ -263,10 +263,10 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
     /** AUIMicSeatDialogBroadView.ActionDelegate implements. */
     @Override
     public boolean onClickSeat(int index, IMicSeatDialogBroadView dialogView) {
-        AUIMicSeatInfo seatInfo = micSeatService.getMicSeatInfo(index);
+        AUIMicSeatBroadInfo seatInfo = micSeatService.getMicSeatInfo(index);
         if (seatInfo == null){ return false;}
         if(seatInfo.user != null){
-            AUIUserInfo userInfo = userService.getUserInfo(seatInfo.user.userId);
+            AUIUserBroadInfo userInfo = userService.getUserInfo(seatInfo.user.userId);
             if (userInfo != null) {
                 dialogView.setUserInfo(userInfo.userId);
                 dialogView.setUserAvatar(userInfo.userAvatar);
@@ -278,7 +278,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         boolean isRoomOwner = micSeatService.getRoomContext().isRoomOwner(micSeatService.getChannelName());
         boolean inSeat = false;
         for (int i = 0; i <= 7; i++) {
-            AUIMicSeatInfo info = micSeatService.getMicSeatInfo(i);
+            AUIMicSeatBroadInfo info = micSeatService.getMicSeatInfo(i);
             if (info != null){
                 if (info.user != null && info.user.userId.equals(micSeatService.getRoomContext().currentUserInfo.userId)) {
                     inSeat = true;
@@ -290,7 +290,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         // 计算实际的静音状态（包含房主静音和用户自己静音）
         boolean actualMuteState = seatInfo.muteAudio;
         if (!isEmptySeat && seatInfo.user != null) {
-            AUIUserInfo userInfo = userService.getUserInfo(seatInfo.user.userId);
+            AUIUserBroadInfo userInfo = userService.getUserInfo(seatInfo.user.userId);
             if (userInfo != null) {
                 actualMuteState = actualMuteState || (userInfo.muteAudio == 1);
             }
@@ -298,16 +298,16 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
 
         if (isRoomOwner) {
             if (isEmptySeat) {
-                dialogView.addInvite((seatInfo.seatStatus != AUIMicSeatStatus.locked));
+                dialogView.addInvite((seatInfo.seatStatus != AUIMicSeatBroadStatus.locked));
                 dialogView.addMuteAudio(actualMuteState);
-                dialogView.addCloseSeat((seatInfo.seatStatus == AUIMicSeatStatus.locked));
+                dialogView.addCloseSeat((seatInfo.seatStatus == AUIMicSeatBroadStatus.locked));
             } else {
                 if (isCurrentUser) {
                     dialogView.addMuteAudio(actualMuteState);
                 } else {
                     dialogView.addKickSeat();
                     dialogView.addMuteAudio(actualMuteState);
-                    dialogView.addCloseSeat((seatInfo.seatStatus == AUIMicSeatStatus.locked));
+                    dialogView.addCloseSeat((seatInfo.seatStatus == AUIMicSeatBroadStatus.locked));
                 }
             }
         } else {
@@ -315,7 +315,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
                 if (inSeat) {
                     return false;
                 } else {
-                    boolean seatUnLocked = seatInfo.seatStatus != AUIMicSeatStatus.locked;
+                    boolean seatUnLocked = seatInfo.seatStatus != AUIMicSeatBroadStatus.locked;
                     if (seatUnLocked) {
                         dialogView.addEnterSeat(true);
                     } else {
@@ -378,7 +378,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
         boolean isRoomOwner = roomContext.isRoomOwner(micSeatService.getChannelName());
 
         // 获取麦位信息
-        AUIMicSeatInfo micSeatInfo = micSeatService.getMicSeatInfo(index);
+        AUIMicSeatBroadInfo micSeatInfo = micSeatService.getMicSeatInfo(index);
         if (micSeatInfo == null) {
             return;
         }
@@ -435,9 +435,9 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
     }
 
 
-    /** IAUIUserService.AUIUserRespDelegate implements. */
+    /** IAUIUserBroadService.AUIUserRespDelegate implements. */
     @Override
-    public void onRoomUserSnapshot(@NonNull String roomId, @Nullable List<AUIUserInfo> userList) {
+    public void onRoomUserSnapshot(@NonNull String roomId, @Nullable List<AUIUserBroadInfo> userList) {
         // 用户数据快照到达，需要延迟一下确保数据完全同步后再更新视图
         runOnUiThread(new Runnable() {
             @Override
@@ -458,17 +458,17 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
     }
 
     @Override
-    public void onRoomUserEnter(@NonNull String roomId, @NonNull AUIUserInfo userInfo) {
+    public void onRoomUserEnter(@NonNull String roomId, @NonNull AUIUserBroadInfo userInfo) {
 
     }
 
     @Override
-    public void onRoomUserLeave(@NonNull String roomId, @NonNull AUIUserInfo userInfo) {
+    public void onRoomUserLeave(@NonNull String roomId, @NonNull AUIUserBroadInfo userInfo) {
 
     }
 
     @Override
-    public void onRoomUserUpdate(@NonNull String roomId, @NonNull AUIUserInfo userInfo) {
+    public void onRoomUserUpdate(@NonNull String roomId, @NonNull AUIUserBroadInfo userInfo) {
         // 当用户信息更新时，检查该用户是否在麦位上，如果在则更新麦位显示
         int micSeatIndex = micSeatService.getMicSeatIndex(userInfo.userId);
         if (micSeatIndex >= 0) {
@@ -492,7 +492,7 @@ public class AUIMicSeatsBroadBinder extends IRtcEngineEventHandler implements
     @Override
     public void onUserOffline(int uid, int reason) {
         super.onUserOffline(uid, reason);
-        AUILogger.Companion.logger().d("AUIMicSeatsBroadBinder", "onUserOffline >> uid=" + uid + ", reason=" + reason);
+        AUIBroadLogger.Companion.logger().d("AUIMicSeatsBroadBinder", "onUserOffline >> uid=" + uid + ", reason=" + reason);
     }
 
 

@@ -21,7 +21,7 @@
 
     </style>
 
-    <style name="AVoiceRoomInfoView" parent="AUIRoomInfo.Appearance">
+    <style name="AVoiceRoomInfoView" parent="AUIRoomBroadInfo.Appearance">
         <item name="aui_upperLeft_Layout_background">#33FFFFFF</item>
     </style>
     <style name="AVoiceRoomMemberInfoView" parent="AUIMemberInfo.Appearance">

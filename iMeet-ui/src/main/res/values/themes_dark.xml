@@ -262,7 +262,7 @@
             @style/AUIMusicPlayerEffectPresetItem.Appearance.Dark
         </item>
 
-        <item name="aui_roomInfo_appearance">@style/AUIRoomInfo.Appearance.Dark</item>
+        <item name="aui_roomInfo_appearance">@style/AUIRoomBroadInfo.Appearance.Dark</item>
         <item name="aui_memberInfo_appearance">@style/AUIMemberInfo.Appearance.Dark</item>
         <item name="aui_memberInfoList_appearance">@style/AUIRoomMemberListBroadView.Dark</item>
         <item name="aui_chatBottomView_appearance">@style/AUIChatBottomView.Appearance.Dark</item>
@@ -334,10 +334,10 @@
     </style>
 
     <style name="Theme.AUIKit.RoomInfo.Dark">
-        <item name="aui_roomInfo_appearance">@style/AUIRoomInfo.Appearance.Dark</item>
+        <item name="aui_roomInfo_appearance">@style/AUIRoomBroadInfo.Appearance.Dark</item>
     </style>
 
-    <style name="AUIRoomInfo.Appearance.Dark" parent="AUIRoomInfo.Appearance">
+    <style name="AUIRoomBroadInfo.Appearance.Dark" parent="AUIRoomBroadInfo.Appearance">
         <item name="aui_upperLeft_Layout_background">#33000000</item>
     </style>
 </resources>

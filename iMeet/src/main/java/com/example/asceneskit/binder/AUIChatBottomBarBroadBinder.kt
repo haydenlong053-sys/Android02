@@ -11,14 +11,14 @@ import com.cboda.agora.ui.micseats.IMicSeatsBroadView
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
-import io.agora.auikit.service.IAUIInvitationService
-import io.agora.auikit.service.IAUIMicSeatService
-import io.agora.auikit.service.IAUIUserService
+import io.agora.auikit.service.IAUIInvitationBroadService
+import io.agora.auikit.service.IAUIMicSeatBroadService
+import io.agora.auikit.service.IAUIUserBroadService
 import com.cboda.agora.ui.utils.FastClickBroadTools
-import io.agora.auikit.model.AUIMicSeatInfo
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIUserInfo
-import io.agora.auikit.model.AUIUserThumbnailInfo
+import io.agora.auikit.model.AUIMicSeatBroadInfo
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIUserBroadInfo
+import io.agora.auikit.model.AUIUserThumbnailBroadInfo
 
 class AUIChatBottomBarBinder constructor(
     private val voiceService: AUIVoiceRoomBroadService,
@@ -28,9 +28,9 @@ class AUIChatBottomBarBinder constructor(
     private val event: AUIChatBottomBarEventDelegate?
 ) : IAUIBroadBindable,
     AUIMenuItemClickBroadListener,
-    IAUIUserService.AUIUserRespObserver,
-    IAUIMicSeatService.AUIMicSeatRespObserver,
-    IAUIInvitationService.AUIInvitationRespObserver {
+    IAUIUserBroadService.AUIUserRespObserver,
+    IAUIMicSeatBroadService.AUIMicSeatRespObserver,
+    IAUIInvitationBroadService.AUIInvitationRespObserver {
 
     private val roomInfo = voiceService.roomInfo ?: throw RuntimeException("RoomInfo is null!")
     private val userService = voiceService.userService
@@ -40,7 +40,7 @@ class AUIChatBottomBarBinder constructor(
     private val chatManager = voiceService.chatManager
 
     private var listener: AUISoftKeyboardHeightChangeBroadListener? = null
-    private var roomContext = AUIRoomContext.shared()
+    private var roomContext = AUIRoomBroadContext.shared()
     private var mLocalMute = true
     private val mVolumeMap: HashMap<String, Int> = HashMap()
     private val isRoomOwner = roomContext.isRoomOwner(roomInfo.roomId)
@@ -194,7 +194,7 @@ class AUIChatBottomBarBinder constructor(
         if (localUserId != userId) {
             return
         }
-        var localUserSeat: AUIMicSeatInfo? = null
+        var localUserSeat: AUIMicSeatBroadInfo? = null
         for (i in 0..7) {
             val seatInfo = micSeatsService.getMicSeatInfo(i)
             if (seatInfo?.user != null && seatInfo.user?.userId == userId) {
@@ -212,7 +212,7 @@ class AUIChatBottomBarBinder constructor(
     }
 
     /** IAUiMicSeatService.AUiMicSeatRespDelegate */
-    override fun onAnchorEnterSeat(seatIndex: Int, userInfo: AUIUserThumbnailInfo) {
+    override fun onAnchorEnterSeat(seatIndex: Int, userInfo: AUIUserThumbnailBroadInfo) {
         val localUserId = roomContext?.currentUserInfo?.userId ?: ""
         mVolumeMap[userInfo.userId] = seatIndex
         if (userInfo.userId == localUserId) { // 本地用户上麦
@@ -225,7 +225,7 @@ class AUIChatBottomBarBinder constructor(
         }
     }
 
-    override fun onAnchorLeaveSeat(seatIndex: Int, userInfo: AUIUserThumbnailInfo) {
+    override fun onAnchorLeaveSeat(seatIndex: Int, userInfo: AUIUserThumbnailBroadInfo) {
         val localUserId = roomContext?.currentUserInfo?.userId ?: ""
         mVolumeMap.remove(userInfo.userId)
         if (userInfo.userId == localUserId) { // 本地用户下麦
@@ -273,7 +273,7 @@ class AUIChatBottomBarBinder constructor(
         }
     }
 
-    override fun onApplyListUpdate(userList: List<AUIUserInfo>?) {
+    override fun onApplyListUpdate(userList: List<AUIUserBroadInfo>?) {
         val firstOrNull = userList?.firstOrNull { it.isRead == 0 }
         val showStatus=if (firstOrNull!=null){
             true

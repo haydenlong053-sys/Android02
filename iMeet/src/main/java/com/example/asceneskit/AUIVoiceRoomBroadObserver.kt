@@ -1,6 +1,6 @@
 package com.example.asceneskit
 
-import io.agora.auikit.model.AUIRoomInfo
+import io.agora.auikit.model.AUIRoomBroadInfo
 
 
 interface AUIVoiceRoomBroadObserver {
@@ -25,7 +25,7 @@ interface AUIVoiceRoomBroadObserver {
      * @param roomId 房间id
      * @param roomInfo 房间信息
      */
-    fun onRoomInfoChange(roomId: String, roomInfo: AUIRoomInfo) {}
+    fun onRoomInfoChange(roomId: String, roomInfo: AUIRoomBroadInfo) {}
 
     /**
      * 房间公告发生变更

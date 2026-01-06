@@ -4,29 +4,29 @@ import android.util.Log
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.rtc.NetworkQualityEventBroadData
-import io.agora.auikit.model.AUIRoomConfig
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIRoomInfo
-import io.agora.auikit.model.AUIUserInfo
-import io.agora.auikit.service.IAUIIMManagerService
-import io.agora.auikit.service.IAUIInvitationService
-import io.agora.auikit.service.IAUIMicSeatService
-import io.agora.auikit.service.IAUIUserService
-import io.agora.auikit.service.arbiter.AUIArbiter
-import io.agora.auikit.service.callback.AUIException
-import io.agora.auikit.service.im.AUIChatManager
-import io.agora.auikit.service.imp.AUIIMManagerServiceImpl
+import io.agora.auikit.model.AUIRoomBroadConfig
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIRoomBroadInfo
+import io.agora.auikit.model.AUIUserBroadInfo
+import io.agora.auikit.service.IAUIIMManagerBroadService
+import io.agora.auikit.service.IAUIInvitationBroadService
+import io.agora.auikit.service.IAUIMicSeatBroadService
+import io.agora.auikit.service.IAUIUserBroadService
+import io.agora.auikit.service.arbiter.AUIBroadArbiter
+import io.agora.auikit.service.callback.AUIBroadException
+import io.agora.auikit.service.im.AUIChatBroadManager
+import io.agora.auikit.service.imp.AUIIMManagerServiceBroadImpl
 import io.agora.auikit.service.imp.AUIInvitationServiceImpl
 import io.agora.auikit.service.imp.AUIMicSeatServiceImpl
-import io.agora.auikit.service.imp.AUIUserServiceImpl
-import io.agora.auikit.service.rtm.AUIRtmErrorRespObserver
+import io.agora.auikit.service.imp.AUIUserServiceBroadImpl
+import io.agora.auikit.service.rtm.AUIRtmErrorRespBroadObserver
 import io.agora.auikit.service.rtm.AUIRtmLockRespObserver
-import io.agora.auikit.service.rtm.AUIRtmManager
-import io.agora.auikit.utils.AUILogger
-import io.agora.auikit.utils.AgoraEngineCreator
-import io.agora.auikit.utils.GsonTools
-import io.agora.auikit.utils.ObservableHelper
-import io.agora.auikit.utils.ThreadManager
+import io.agora.auikit.service.rtm.AUIRtmBroadManager
+import io.agora.auikit.utils.AUIBroadLogger
+import io.agora.auikit.utils.AgoraEngineBroadCreator
+import io.agora.auikit.utils.GsonBroadTools
+import io.agora.auikit.utils.ObservableBroadHelper
+import io.agora.auikit.utils.ThreadBroadManager
 import io.agora.rtc2.ChannelMediaOptions
 import io.agora.rtc2.Constants
 import io.agora.rtc2.RtcEngine
@@ -42,7 +42,7 @@ val kRoomInfoAttrKey = "basic"
 
 class AUIVoiceRoomBroadService constructor(
     apiConfig: AUIAPIBroadConfig,
-    private var roomConfig: AUIRoomConfig,
+    private var roomConfig: AUIRoomBroadConfig,
 ) {
 
     private val TAG = "AUIVoiceRoomService"
@@ -52,20 +52,20 @@ class AUIVoiceRoomBroadService constructor(
 
     private var isRoomDestroyed = false
 
-    private val userRespObserver = object : IAUIUserService.AUIUserRespObserver {
+    private val userRespObserver = object : IAUIUserBroadService.AUIUserRespObserver {
 
-        override fun onRoomUserSnapshot(roomId: String, userList: MutableList<AUIUserInfo>?) {
+        override fun onRoomUserSnapshot(roomId: String, userList: MutableList<AUIUserBroadInfo>?) {
             userSnapshotList = userList
-            userList?.firstOrNull { it.userId == AUIRoomContext.shared().currentUserInfo.userId }
+            userList?.firstOrNull { it.userId == AUIRoomBroadContext.shared().currentUserInfo.userId }
                 ?.let { user ->
                     onUserAudioMute(user.userId, (user.muteAudio == 1))
 //                    onUserVideoMute(user.userId, (user.muteVideo == 1))
                 }
         }
 
-        override fun onRoomUserLeave(roomId: String, userInfo: AUIUserInfo) {
+        override fun onRoomUserLeave(roomId: String, userInfo: AUIUserBroadInfo) {
             super.onRoomUserLeave(roomId, userInfo)
-            if (AUIRoomContext.shared().getRoomOwner(channelName) == userInfo.userId) {
+            if (AUIRoomBroadContext.shared().getRoomOwner(channelName) == userInfo.userId) {
                 cleanRoomInfo(roomId)
             } else {
                 cleanUserInfo(roomId, userInfo.userId)
@@ -73,14 +73,14 @@ class AUIVoiceRoomBroadService constructor(
         }
 
         override fun onUserAudioMute(userId: String, mute: Boolean) {
-            if (userId != AUIRoomContext.shared().currentUserInfo.userId) {
+            if (userId != AUIRoomBroadContext.shared().currentUserInfo.userId) {
                 return
             }
             rtcEngine.adjustRecordingSignalVolume(if (mute) 0 else 100)
         }
 
         override fun onUserVideoMute(userId: String, mute: Boolean) {
-            if (userId != AUIRoomContext.shared().currentUserInfo.userId) {
+            if (userId != AUIRoomBroadContext.shared().currentUserInfo.userId) {
                 return
             }
             rtcEngine.enableLocalVideo(!mute)
@@ -108,7 +108,7 @@ class AUIVoiceRoomBroadService constructor(
 
 
 
-    private val rtmErrorRespObserver = object : AUIRtmErrorRespObserver {
+    private val rtmErrorRespObserver = object : AUIRtmErrorRespBroadObserver {
         override fun onTokenPrivilegeWillExpire(channelName: String?) {
             channelName ?: return
             observableHelper.notifyEventHandlers {
@@ -130,7 +130,7 @@ class AUIVoiceRoomBroadService constructor(
         override fun onConnectionStateChanged(channelName: String?, state: Int, reason: Int) {
             super.onConnectionStateChanged(channelName, state, reason)
             if (reason == RtmConstants.RtmConnectionChangeReason.getValue(RtmConstants.RtmConnectionChangeReason.REJOIN_SUCCESS)) {
-                AUIRoomContext.shared().getArbiter(this@AUIVoiceRoomBroadService.channelName)?.acquire()
+                AUIRoomBroadContext.shared().getArbiter(this@AUIVoiceRoomBroadService.channelName)?.acquire()
             }
         }
     }
@@ -145,7 +145,7 @@ class AUIVoiceRoomBroadService constructor(
         }
     }
 
-    private var enterRoomCompletion: ((AUIRoomInfo?) -> Unit)? = null
+    private var enterRoomCompletion: ((AUIRoomBroadInfo?) -> Unit)? = null
 
     private var subscribeSuccess = false
         set(value) {
@@ -163,7 +163,7 @@ class AUIVoiceRoomBroadService constructor(
             }
         }
 
-    private var userSnapshotList: List<AUIUserInfo>? = null
+    private var userSnapshotList: List<AUIUserBroadInfo>? = null
         set(value) {
             if (field != value) {
                 field = value
@@ -176,15 +176,15 @@ class AUIVoiceRoomBroadService constructor(
             return roomConfig.channelName
         }
 
-    val rtcEngine: RtcEngine = apiConfig.rtcEngineEx ?: AgoraEngineCreator.createRtcEngine(
-        AUIRoomContext.shared().requireCommonConfig().context,
-        AUIRoomContext.shared().requireCommonConfig().appId,
+    val rtcEngine: RtcEngine = apiConfig.rtcEngineEx ?: AgoraEngineBroadCreator.createRtcEngine(
+        AUIRoomBroadContext.shared().requireCommonConfig().context,
+        AUIRoomBroadContext.shared().requireCommonConfig().appId,
     )
 
     val rtmClient = apiConfig.rtmClient ?: RtmClient.create(
         RtmConfig.Builder(
-            AUIRoomContext.shared().requireCommonConfig().appId,
-            AUIRoomContext.shared().currentUserInfo.userId
+            AUIRoomBroadContext.shared().requireCommonConfig().appId,
+            AUIRoomBroadContext.shared().currentUserInfo.userId
         ).presenceTimeout(60).eventListener(object : RtmEventListener {
             override fun onLockEvent(event: LockEvent?) {
                 super.onLockEvent(event)
@@ -202,66 +202,66 @@ class AUIVoiceRoomBroadService constructor(
         }).build()
     )
 
-    val rtmManager: AUIRtmManager = AUIRtmManager(
-        AUIRoomContext.shared().requireCommonConfig().context,
+    val rtmManager: AUIRtmBroadManager = AUIRtmBroadManager(
+        AUIRoomBroadContext.shared().requireCommonConfig().context,
         rtmClient,
         apiConfig.rtmClient != null
     )
 
-    val observableHelper = ObservableHelper<AUIVoiceRoomBroadObserver>()
+    val observableHelper = ObservableBroadHelper<AUIVoiceRoomBroadObserver>()
 
-    val chatManager = AUIChatManager(channelName, AUIRoomContext.shared())
+    val chatManager = AUIChatBroadManager(channelName, AUIRoomBroadContext.shared())
 
-    val userService: IAUIUserService = AUIUserServiceImpl(channelName, rtmManager, rtcEngine).apply {
+    val userService: IAUIUserBroadService = AUIUserServiceBroadImpl(channelName, rtmManager, rtcEngine).apply {
         registerRespObserver(userRespObserver)
     }
 
-    val imManagerService: IAUIIMManagerService = AUIIMManagerServiceImpl(
+    val imManagerService: IAUIIMManagerBroadService = AUIIMManagerServiceBroadImpl(
         channelName,
         rtmManager,
         chatManager
     )
 
-    val micSeatService: IAUIMicSeatService = AUIMicSeatServiceImpl(
+    val micSeatService: IAUIMicSeatBroadService = AUIMicSeatServiceImpl(
         channelName,
         rtmManager
     )
 
-    val invitationService: IAUIInvitationService = AUIInvitationServiceImpl(
+    val invitationService: IAUIInvitationBroadService = AUIInvitationServiceImpl(
         channelName,
         rtmManager
     )
 
-//    val giftService: IAUIGiftsService = AUIGiftServiceImpl(
+//    val giftService: IAUIGiftsBroadService = AUIGiftServiceBroadImpl(
 //        channelName,
 //        rtmManager,
 //        chatManager
 //    )
 
-    var roomInfo: AUIRoomInfo? = null
+    var roomInfo: AUIRoomBroadInfo? = null
         set(value) {
             if (field != value) {
                 field = value
-                AUIRoomContext.shared().insertRoomInfo(value)
+                AUIRoomBroadContext.shared().insertRoomInfo(value)
                 checkRoomValid()
             }
         }
 
     init {
-        AUIRoomContext.shared().roomConfigMap[channelName] = roomConfig
-        AUIRoomContext.shared().roomArbiterMap[channelName] = AUIArbiter(
+        AUIRoomBroadContext.shared().roomConfigMap[channelName] = roomConfig
+        AUIRoomBroadContext.shared().roomArbiterMap[channelName] = AUIBroadArbiter(
             channelName,
             rtmManager,
-            AUIRoomContext.shared().currentUserInfo.userId
+            AUIRoomBroadContext.shared().currentUserInfo.userId
         )
-        AUIRoomContext.shared().setNtpTimeSource {
+        AUIRoomBroadContext.shared().setNtpTimeSource {
             return@setNtpTimeSource rtcEngine.ntpWallTimeInMs
         }
     }
 
     fun create(
-        roomInfo: AUIRoomInfo,
-        completion: (AUIException?) -> Unit
+        roomInfo: AUIRoomBroadInfo,
+        completion: (AUIBroadException?) -> Unit
     ) {
         Log.d(TAG,"开始创建房间${roomInfo.roomId}")
         this.roomInfo = roomInfo
@@ -270,11 +270,11 @@ class AUIVoiceRoomBroadService constructor(
             roomConfig.rtmToken
         ) { error ->
             if (error != null) {
-                completion.invoke(AUIException(AUIException.ERROR_CODE_RTM, "error: $error"))
+                completion.invoke(AUIBroadException(AUIBroadException.ERROR_CODE_RTM, "error: $error"))
                 return@login
             }
             Log.d(TAG,"rtm登录成功 开始initRoom")
-            AUIRoomContext.shared().getArbiter(channelName)?.create()
+            AUIRoomBroadContext.shared().getArbiter(channelName)?.create()
             initRoom { initError ->
                 if (initError != null) {
                     Log.d(TAG,"initRoom错误${initError?.code}")
@@ -287,14 +287,14 @@ class AUIVoiceRoomBroadService constructor(
         }
     }
 
-    fun enter(completion: (AUIException?) -> Unit) {
+    fun enter(completion: (AUIBroadException?) -> Unit) {
         val roomId = channelName
         rtmManager.login(
             roomConfig.rtmToken
         ) { error ->
             if (error != null) {
-                ThreadManager.getInstance().runOnMainThread {
-                    completion.invoke(AUIException(AUIException.ERROR_CODE_RTM, "error: $error"))
+                ThreadBroadManager.getInstance().runOnMainThread {
+                    completion.invoke(AUIBroadException(AUIBroadException.ERROR_CODE_RTM, "error: $error"))
                 }
                 return@login
             }
@@ -302,18 +302,18 @@ class AUIVoiceRoomBroadService constructor(
 
 
             enterRoomCompletion = {
-                ThreadManager.getInstance().runOnMainThread {
+                ThreadBroadManager.getInstance().runOnMainThread {
                     completion.invoke(null)
                 }
             }
 
             if (roomInfo == null) {
                 rtmManager.getMetadata(roomId) { _, metadata ->
-                    val voiceRoomInfo = GsonTools.toBean(
+                    val voiceRoomInfo = GsonBroadTools.toBean(
                         metadata?.get(kRoomInfoAttrKey),
                         AUIVoiceRoomInfo::class.java
                     ) ?: return@getMetadata
-                    roomInfo = AUIRoomInfo().apply {
+                    roomInfo = AUIRoomBroadInfo().apply {
                         this.roomId = voiceRoomInfo.roomId
                         roomName = voiceRoomInfo.payload.roomName
                         owner = voiceRoomInfo.payload.owner
@@ -331,12 +331,12 @@ class AUIVoiceRoomBroadService constructor(
             }
 
 
-            AUIRoomContext.shared().getArbiter(channelName)?.acquire(){ lockError ->
+            AUIRoomBroadContext.shared().getArbiter(channelName)?.acquire(){ lockError ->
                 if(lockError != null && enterRoomCompletion != null){
                     enterRoomCompletion = null
                     isRoomDestroyed = true
-                    ThreadManager.getInstance().runOnMainThread {
-                        completion.invoke(AUIException(AUIException.ERROR_CODE_RTM, "error: $lockError"))
+                    ThreadBroadManager.getInstance().runOnMainThread {
+                        completion.invoke(AUIBroadException(AUIBroadException.ERROR_CODE_RTM, "error: $lockError"))
                     }
                     return@acquire
                 }
@@ -346,8 +346,8 @@ class AUIVoiceRoomBroadService constructor(
             rtmManager.subscribe(channelName) { subscribeError ->
                 if (subscribeError != null) {
                     completion.invoke(
-                        AUIException(
-                            AUIException.ERROR_CODE_RTM,
+                        AUIBroadException(
+                            AUIBroadException.ERROR_CODE_RTM,
                             "error : $subscribeError"
                         )
                     )
@@ -357,8 +357,8 @@ class AUIVoiceRoomBroadService constructor(
             }
 
             joinRtcChannel { joinError ->
-                ThreadManager.getInstance().runOnMainThread {
-                    completion.invoke(AUIException(AUIException.ERROR_CODE_RTM, "error: $joinError"))
+                ThreadBroadManager.getInstance().runOnMainThread {
+                    completion.invoke(AUIBroadException(AUIBroadException.ERROR_CODE_RTM, "error: $joinError"))
                 }
             }
         }
@@ -409,8 +409,8 @@ class AUIVoiceRoomBroadService constructor(
 
 
 
-    fun joinRtcChannel(failure: (AUIException) -> Unit) {
-        AUILogger.logger().d(TAG, "joinRtcRoom start ...")
+    fun joinRtcChannel(failure: (AUIBroadException) -> Unit) {
+        AUIBroadLogger.logger().d(TAG, "joinRtcRoom start ...")
         rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
         rtcEngine.disableVideo()
         rtcEngine.enableLocalVideo(false)
@@ -421,35 +421,35 @@ class AUIVoiceRoomBroadService constructor(
         )
         rtcEngine.enableAudioVolumeIndication(350, 2, true)
         rtcEngine.setClientRole(
-            if (AUIRoomContext.shared()
+            if (AUIRoomBroadContext.shared()
                     .isRoomOwner(channelName)
             ) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE
         )
 
-//        AUILogger.logger().d(
+//        AUIBroadLogger.logger().d(
 //            "RtcEngineEx",
-//            "joinChannel uid:${AUIRoomContext.shared().currentUserInfo.userId.toInt()}  rtcChannelName=${roomConfig.channelName}  rtcRtcToken=${roomConfig.rtcToken}"
+//            "joinChannel uid:${AUIRoomBroadContext.shared().currentUserInfo.userId.toInt()}  rtcChannelName=${roomConfig.channelName}  rtcRtcToken=${roomConfig.rtcToken}"
 //        )
         val ret: Int = rtcEngine.joinChannel(
             roomConfig.rtcToken,
             roomConfig.channelName,
             null,
-            AUIRoomContext.shared().currentUserInfo.userId.toInt()
+            AUIRoomBroadContext.shared().currentUserInfo.userId.toInt()
         )
 
         if (ret == Constants.ERR_OK) {
-            AUILogger.logger().d(TAG, "join rtc room success")
+            AUIBroadLogger.logger().d(TAG, "join rtc room success")
         } else {
-            AUILogger.logger().e(TAG, "join rtc room failed $ret")
-            failure.invoke(AUIException(ret, "join rtc room failed"))
+            AUIBroadLogger.logger().e(TAG, "join rtc room failed $ret")
+            failure.invoke(AUIBroadException(ret, "join rtc room failed"))
         }
-        AUILogger.logger().d(TAG, "joinRtcRoom end ...")
+        AUIBroadLogger.logger().d(TAG, "joinRtcRoom end ...")
     }
 
 
     //token过期之后调用该方法更新所有token
-    fun renew(config: AUIRoomConfig) {
-        AUIRoomContext.shared().roomConfigMap[config.channelName] = config
+    fun renew(config: AUIRoomBroadConfig) {
+        AUIRoomBroadContext.shared().roomConfigMap[config.channelName] = config
 
         //rtm renew
         rtmManager.renew(config.rtmToken)
@@ -457,7 +457,7 @@ class AUIVoiceRoomBroadService constructor(
 
         //rtc renew
         rtcEngine.renewToken(config.rtcToken)
-        AUILogger.logger().d(TAG, "renew token ...")
+        AUIBroadLogger.logger().d(TAG, "renew token ...")
     }
 
     fun destroy() {
@@ -466,13 +466,13 @@ class AUIVoiceRoomBroadService constructor(
     }
 
     fun exit(): Boolean {
-        cleanUserInfo(channelName, AUIRoomContext.shared().currentUserInfo.userId)
+        cleanUserInfo(channelName, AUIRoomBroadContext.shared().currentUserInfo.userId)
         cleanRoom()
-        AUIRoomContext.shared().getArbiter(channelName)?.release()
+        AUIRoomBroadContext.shared().getArbiter(channelName)?.release()
         return isRoomDestroyed
     }
 
-    private fun initRoom(completion: (AUIException?) -> Unit) {
+    private fun initRoom(completion: (AUIBroadException?) -> Unit) {
         val roomInfo = roomInfo?:return
         val basicInfo = AUIVoiceRoomInfo(
             roomInfo.micSeatCount,
@@ -481,11 +481,11 @@ class AUIVoiceRoomBroadService constructor(
             roomInfo
         )
 
-        val basicInfoStr = GsonTools.beanToString(basicInfo)
+        val basicInfoStr = GsonBroadTools.beanToString(basicInfo)
         if (basicInfoStr == null) {
             completion.invoke(
-                AUIException(
-                    AUIException.ERROR_CODE_NETWORK_PARSE,
+                AUIBroadException(
+                    AUIBroadException.ERROR_CODE_NETWORK_PARSE,
                     "initRoom >> bean to string failed!"
                 )
             )
@@ -501,8 +501,8 @@ class AUIVoiceRoomBroadService constructor(
                 completion.invoke(null)
             } else {
                 completion.invoke(
-                    AUIException(
-                        AUIException.ERROR_CODE_RTM,
+                    AUIBroadException(
+                        AUIBroadException.ERROR_CODE_RTM,
                         "initRoom >> setBatchMetadata failed : $err"
                     )
                 )
@@ -525,7 +525,7 @@ class AUIVoiceRoomBroadService constructor(
 
             // room owner not found, clean room
             val snapShotOwnerId = userSnapshotList?.find {
-                it.userId == AUIRoomContext.shared().getRoomOwner(channelName)
+                it.userId == AUIRoomBroadContext.shared().getRoomOwner(channelName)
             }
             if (snapShotOwnerId == null) {
                 cleanRoomInfo(channelName)
@@ -536,7 +536,7 @@ class AUIVoiceRoomBroadService constructor(
     }
 
     private fun cleanRoomInfo(roomId: String) {
-        if (AUIRoomContext.shared().getArbiter(roomId)?.isArbiter() != true) {
+        if (AUIRoomBroadContext.shared().getArbiter(roomId)?.isArbiter() != true) {
             return
         }
         micSeatService.deInitService { }
@@ -547,13 +547,13 @@ class AUIVoiceRoomBroadService constructor(
             remoteKeys = listOf(kRoomInfoAttrKey),
             fetchImmediately = true
         ) {}
-        AUIRoomContext.shared().getArbiter(channelName)?.destroy()
+        AUIRoomBroadContext.shared().getArbiter(channelName)?.destroy()
     }
 
     private fun cleanRoom() {
         logoutRtm()
         leaveRtcChannel()
-        AUIRoomContext.shared().cleanRoom(channelName)
+        AUIRoomBroadContext.shared().cleanRoom(channelName)
     }
 
     private fun logoutRtm() {
@@ -575,7 +575,7 @@ class AUIVoiceRoomBroadService constructor(
     }
 
     private fun cleanUserInfo(roomId: String, userId: String) {
-        if (AUIRoomContext.shared().getArbiter(roomId)?.isArbiter() != true) {
+        if (AUIRoomBroadContext.shared().getArbiter(roomId)?.isArbiter() != true) {
             return
         }
         val index = micSeatService.getMicSeatIndex(userId)
@@ -588,7 +588,7 @@ class AUIVoiceRoomBroadService constructor(
         val micSeatCount: Int,
         val micSeatStyle: Int,
         val roomId: String,
-        val payload: AUIRoomInfo
+        val payload: AUIRoomBroadInfo
     )
 
 }

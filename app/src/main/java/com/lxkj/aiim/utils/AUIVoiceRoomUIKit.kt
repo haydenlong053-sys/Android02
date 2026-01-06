@@ -5,22 +5,22 @@ import com.lxkj.aiim.service.MeetingFloatService
 import com.example.asceneskit.AUIVoiceRoomBroadObserver
 import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.AUIVoiceRoomBroadView
-import io.agora.auikit.service.callback.AUIException
-import io.agora.auikit.service.callback.AUIRoomCallback
-import io.agora.auikit.service.http.CommonResp
-import io.agora.auikit.service.http.HttpManager
-import io.agora.auikit.service.http.Utils
-import io.agora.auikit.service.http.room.RoomInterface
+import io.agora.auikit.service.callback.AUIBroadException
+import io.agora.auikit.service.callback.AUIRoomBroadCallback
+import io.agora.auikit.service.http.CommonBroadResp
+import io.agora.auikit.service.http.HttpBroadManager
+import io.agora.auikit.service.http.BroadUtils
+import io.agora.auikit.service.http.room.RoomBroadInterface
 import io.agora.auikit.service.http.room.UpdateRoomReq
-import io.agora.auikit.service.http.token.TokenGenerateReq
+import io.agora.auikit.service.http.token.TokenGenerateBroadReq
 import io.agora.auikit.service.http.token.TokenGenerateResp
-import io.agora.auikit.service.http.token.TokenInterface
-import io.agora.auikit.service.room.AUIRoomManager
-import io.agora.auikit.model.AUICommonConfig
-import io.agora.auikit.model.AUIRoomConfig
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIRoomInfo
-import io.agora.auikit.utils.AUILogger
+import io.agora.auikit.service.http.token.TokenBroadInterface
+import io.agora.auikit.service.room.AUIRoomBroadManager
+import io.agora.auikit.model.AUICommonBroadConfig
+import io.agora.auikit.model.AUIRoomBroadConfig
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIRoomBroadInfo
+import io.agora.auikit.utils.AUIBroadLogger
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,14 +29,14 @@ import retrofit2.Response
 object AUIVoiceRoomUIKit {
     private val mSceneId = "VoiceRoomUIKit"
     private var mAPIConfig: AUIAPIBroadConfig? = null
-    private val mRoomManager by lazy { AUIRoomManager(sceneId = mSceneId) }
+    private val mRoomManager by lazy { AUIRoomBroadManager(sceneId = mSceneId) }
     private val mServices = mutableMapOf<String, AUIVoiceRoomBroadService>()
     //用来存放本地禁言状态
     private val mRoomMuteState = mutableMapOf<String, Boolean>()
 
 
     private val roomInterface by lazy {
-        HttpManager.getService(RoomInterface::class.java)
+        HttpBroadManager.getService(RoomBroadInterface::class.java)
     }
 
     /**
@@ -46,13 +46,13 @@ object AUIVoiceRoomUIKit {
      *      当外部传入时在release时不会销毁
      */
     fun init(
-        config: AUICommonConfig,
+        config: AUICommonBroadConfig,
         apiConfig: AUIAPIBroadConfig
     ) {
         mAPIConfig = apiConfig
-        AUIRoomContext.shared().setCommonConfig(config)
-        HttpManager.setBaseURL(config.host)
-        AUILogger.initLogger(AUILogger.BroadConfig(config.context, "Voice"))
+        AUIRoomBroadContext.shared().setCommonConfig(config)
+        HttpBroadManager.setBaseURL(config.host)
+        AUIBroadLogger.initLogger(AUIBroadLogger.BroadConfig(config.context, "Voice"))
 
     }
 
@@ -73,8 +73,8 @@ object AUIVoiceRoomUIKit {
     fun getRoomList(
         startTime: Long?,
         pageSize: Int,
-        success: (List<AUIRoomInfo>) -> Unit,
-        failure: (AUIException) -> Unit
+        success: (List<AUIRoomBroadInfo>) -> Unit,
+        failure: (AUIBroadException) -> Unit
     ) {
         checkSetupAndCommonConfig()
         mRoomManager.getRoomInfoList(
@@ -89,25 +89,25 @@ object AUIVoiceRoomUIKit {
     }
 
 
-    fun updateRoomInfo(roomInfo: AUIRoomInfo,
-                       callback: AUIRoomCallback?){
-        roomInterface.updateRoomInfo(UpdateRoomReq(AUIRoomContext.shared().mCommonConfig?.appId?:"", mSceneId, roomInfo.roomId, roomInfo))
-            .enqueue(object : retrofit2.Callback<CommonResp<String>> {
+    fun updateRoomInfo(roomInfo: AUIRoomBroadInfo,
+                       callback: AUIRoomBroadCallback?){
+        roomInterface.updateRoomInfo(UpdateRoomReq(AUIRoomBroadContext.shared().mCommonConfig?.appId?:"", mSceneId, roomInfo.roomId, roomInfo))
+            .enqueue(object : retrofit2.Callback<CommonBroadResp<String>> {
                 override fun onResponse(
-                    call: Call<CommonResp<String>>,
-                    response: Response<CommonResp<String>>
+                    call: Call<CommonBroadResp<String>>,
+                    response: Response<CommonBroadResp<String>>
                 ) {
                     val rsp = response.body()?.data
                     if (response.body()?.code == 0 && rsp != null) {
                         // success
                         callback?.onResult(null, roomInfo)
                     } else {
-                        callback?.onResult(Utils.errorFromResponse(response), null)
+                        callback?.onResult(BroadUtils.errorFromResponse(response), null)
                     }
                 }
 
-                override fun onFailure(call: Call<CommonResp<String>>, t: Throwable) {
-                    callback?.onResult(AUIException(-1, t.message), null)
+                override fun onFailure(call: Call<CommonBroadResp<String>>, t: Throwable) {
+                    callback?.onResult(AUIBroadException(-1, t.message), null)
                 }
             })
 
@@ -118,20 +118,20 @@ object AUIVoiceRoomUIKit {
      * 创建房间
      */
     fun createRoom(
-        roomInfo: AUIRoomInfo,
-        roomConfig: AUIRoomConfig,
+        roomInfo: AUIRoomBroadInfo,
+        roomConfig: AUIRoomBroadConfig,
         roomView: AUIVoiceRoomBroadView,
-        completion: (AUIException?, AUIRoomInfo?) -> Unit
+        completion: (AUIBroadException?, AUIRoomBroadInfo?) -> Unit
     ) {
         checkSetupAndCommonConfig()
         if (mServices[roomInfo.roomId] != null) {
-            completion.invoke(AUIException(AUIException.ERROR_CODE_ROOM_EXITED, ""), null)
+            completion.invoke(AUIBroadException(AUIBroadException.ERROR_CODE_ROOM_EXITED, ""), null)
             return
         }
         mRoomManager.createRoom(
             roomInfo
         ) { error, _ ->
-            AUILogger.logger().d(
+            AUIBroadLogger.logger().d(
                 message = "Create room >> error=$error, roomInfo=$roomInfo"
             )
         }
@@ -144,11 +144,11 @@ object AUIVoiceRoomUIKit {
         roomService.create(roomInfo) { error ->
             if (error == null) {
                 // success
-                AUILogger.logger().d(tag = "KaraokeUiKit", message = "Enter room successfully")
+                AUIBroadLogger.logger().d(tag = "KaraokeUiKit", message = "Enter room successfully")
                 completion.invoke(null, roomInfo)
                 EventBus.getDefault().post(MeetingFloatService.MeetingEvent(MeetingFloatService.EVENT_SUBSCRIBE_MSG,true))
             } else {
-                AUILogger.logger()
+                AUIBroadLogger.logger()
                     .d(tag = "KaraokeUiKit", message = "Enter room failed : ${error.code}  msg:${error.message}")
                 completion.invoke(error, null)
             }
@@ -162,14 +162,14 @@ object AUIVoiceRoomUIKit {
      * 拉起并跳转的房间页面
      */
     fun launchRoom(
-        roomInfo: AUIRoomInfo,
-        roomConfig: AUIRoomConfig,
+        roomInfo: AUIRoomBroadInfo,
+        roomConfig: AUIRoomBroadConfig,
         voiceRoom: AUIVoiceRoomBroadView,
-        completion: (AUIException?, AUIRoomInfo?) -> Unit
+        completion: (AUIBroadException?, AUIRoomBroadInfo?) -> Unit
     ) {
         checkSetupAndCommonConfig()
         if (mServices[roomInfo.roomId] != null) {
-            completion.invoke(AUIException(AUIException.ERROR_CODE_ROOM_EXITED, ""), null)
+            completion.invoke(AUIBroadException(AUIBroadException.ERROR_CODE_ROOM_EXITED, ""), null)
             return
         }
         val roomService = AUIVoiceRoomBroadService(
@@ -183,11 +183,11 @@ object AUIVoiceRoomUIKit {
             if (error == null) {
                 // success
                 voiceRoom.bindService(roomService)
-                AUILogger.logger().d(tag = "AUIVoiceRoomUiKit", message = "Enter room successfully")
+                AUIBroadLogger.logger().d(tag = "AUIVoiceRoomUiKit", message = "Enter room successfully")
                 completion.invoke(null, roomInfo)
                 EventBus.getDefault().post(MeetingFloatService.MeetingEvent(MeetingFloatService.EVENT_SUBSCRIBE_MSG,true))
             } else {
-                AUILogger.logger()
+                AUIBroadLogger.logger()
                     .d(tag = "KaraokeUiKit", message = "Enter room failed : ${error.code}")
                 completion.invoke(error, null)
             }
@@ -195,7 +195,7 @@ object AUIVoiceRoomUIKit {
     }
 
     fun destroyRoom(roomId: String) {
-        if (AUIRoomContext.shared().isRoomOwner(roomId)) {
+        if (AUIRoomBroadContext.shared().isRoomOwner(roomId)) {
             mRoomManager.destroyRoom(
                 roomId
             ) {}
@@ -218,16 +218,16 @@ object AUIVoiceRoomUIKit {
         mServices[roomId]?.observableHelper?.unSubscribeEvent(observer)
     }
 
-    fun renewToken(roomId: String, roomConfig: AUIRoomConfig) {
+    fun renewToken(roomId: String, roomConfig: AUIRoomBroadConfig) {
         mServices[roomId]?.renew(roomConfig)
     }
 
     fun generateToken(
         roomId: String,
-        onSuccess: (AUIRoomConfig) -> Unit,
-        onFailure: (AUIException) -> Unit
+        onSuccess: (AUIRoomBroadConfig) -> Unit,
+        onFailure: (AUIBroadException) -> Unit
     ) {
-        val config = AUIRoomConfig(roomId)
+        val config = AUIRoomBroadConfig(roomId)
         var response = 2
         var isFailure = false
         val trySuccess = {
@@ -236,59 +236,59 @@ object AUIVoiceRoomUIKit {
                 onSuccess.invoke(config)
             }
         }
-        val failure = { ex: AUIException ->
+        val failure = { ex: AUIBroadException ->
             if (!isFailure) {
                 isFailure = true
                 onFailure.invoke(ex)
             }
         }
 
-        val userId = AUIRoomContext.shared().currentUserInfo.userId
-        HttpManager
-            .getService(TokenInterface::class.java)
+        val userId = AUIRoomBroadContext.shared().currentUserInfo.userId
+        HttpBroadManager
+            .getService(TokenBroadInterface::class.java)
             .tokenGenerate(
-                TokenGenerateReq(
-                    AUIRoomContext.shared().requireCommonConfig().appId,
-                    AUIRoomContext.shared().requireCommonConfig().appCert,
+                TokenGenerateBroadReq(
+                    AUIRoomBroadContext.shared().requireCommonConfig().appId,
+                    AUIRoomBroadContext.shared().requireCommonConfig().appCert,
                     config.channelName,
                     userId
                 )
             )
-            .enqueue(object : Callback<CommonResp<TokenGenerateResp>> {
+            .enqueue(object : Callback<CommonBroadResp<TokenGenerateResp>> {
                 override fun onResponse(
-                    call: Call<CommonResp<TokenGenerateResp>>,
-                    response: Response<CommonResp<TokenGenerateResp>>
+                    call: Call<CommonBroadResp<TokenGenerateResp>>,
+                    response: Response<CommonBroadResp<TokenGenerateResp>>
                 ) {
                     val rspObj = response.body()?.data
                     if (rspObj != null) {
                         config.rtcToken = rspObj.rtcToken
                         config.rtmToken = rspObj.rtmToken
-                        AUIRoomContext.shared().requireCommonConfig().appId = rspObj.appId
+                        AUIRoomBroadContext.shared().requireCommonConfig().appId = rspObj.appId
                     }
                     trySuccess.invoke()
                 }
 
                 override fun onFailure(
-                    call: Call<CommonResp<TokenGenerateResp>>,
+                    call: Call<CommonBroadResp<TokenGenerateResp>>,
                     t: Throwable
                 ) {
-                    failure.invoke(AUIException(-1, t.message))
+                    failure.invoke(AUIBroadException(-1, t.message))
                 }
             })
-        HttpManager
-            .getService(TokenInterface::class.java)
+        HttpBroadManager
+            .getService(TokenBroadInterface::class.java)
             .tokenGenerate(
-                TokenGenerateReq(
-                    AUIRoomContext.shared().requireCommonConfig().appId,
-                    AUIRoomContext.shared().requireCommonConfig().appCert,
+                TokenGenerateBroadReq(
+                    AUIRoomBroadContext.shared().requireCommonConfig().appId,
+                    AUIRoomBroadContext.shared().requireCommonConfig().appCert,
                     config.rtcChorusChannelName,
                     userId
                 )
             )
-            .enqueue(object : Callback<CommonResp<TokenGenerateResp>> {
+            .enqueue(object : Callback<CommonBroadResp<TokenGenerateResp>> {
                 override fun onResponse(
-                    call: Call<CommonResp<TokenGenerateResp>>,
-                    response: Response<CommonResp<TokenGenerateResp>>
+                    call: Call<CommonBroadResp<TokenGenerateResp>>,
+                    response: Response<CommonBroadResp<TokenGenerateResp>>
                 ) {
                     val rspObj = response.body()?.data
                     if (rspObj != null) {
@@ -299,17 +299,17 @@ object AUIVoiceRoomUIKit {
                 }
 
                 override fun onFailure(
-                    call: Call<CommonResp<TokenGenerateResp>>,
+                    call: Call<CommonBroadResp<TokenGenerateResp>>,
                     t: Throwable
                 ) {
-                    failure.invoke(AUIException(-3, t.message))
+                    failure.invoke(AUIBroadException(-3, t.message))
                 }
             })
     }
 
 
     private fun checkSetupAndCommonConfig() {
-        if (AUIRoomContext.shared().mCommonConfig == null) {
+        if (AUIRoomBroadContext.shared().mCommonConfig == null) {
             throw RuntimeException("make sure invoke setup first")
         }
     }

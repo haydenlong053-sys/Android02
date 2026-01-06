@@ -619,12 +619,12 @@
         <attr name="voice_anim_duration" format="integer" />
     </declare-styleable>
 
-    <style name="AUIRoomInfo">
-        <item name="aui_roomInfo_appearance">@style/AUIRoomInfo.Appearance</item>
+    <style name="AUIRoomBroadInfo">
+        <item name="aui_roomInfo_appearance">@style/AUIRoomBroadInfo.Appearance</item>
     </style>
 
     <!-- 房间信息默认样式 -->
-    <style name="AUIRoomInfo.Appearance">
+    <style name="AUIRoomBroadInfo.Appearance">
         <item name="aui_upperLeft_layout_width">wrap_content</item>
         <item name="aui_upperLeft_layout_height">wrap_content</item>
         <item name="aui_upperLeft_rootLayout_style">RECTANGLE</item>

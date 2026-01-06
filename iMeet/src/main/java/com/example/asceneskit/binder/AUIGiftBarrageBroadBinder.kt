@@ -10,12 +10,12 @@ import com.cboda.agora.ui.gift.AUIGiftInfo
 import com.cboda.agora.ui.gift.AUIGiftTabInfo
 import com.cboda.agora.ui.ui.gift.IAUIGiftBarrageBroadView
 import com.cboda.agora.ui.ui.gift.impl.dialog.AUiGiftListBroadView
-import io.agora.auikit.model.AUIGiftEntity
-import io.agora.auikit.model.AUIGiftTabEntity
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.service.IAUIGiftsService
-import io.agora.auikit.service.im.AUIChatManager
-import io.agora.auikit.utils.ThreadManager
+import io.agora.auikit.model.AUIGiftBroadEntity
+import io.agora.auikit.model.AUIGiftTabBroadEntity
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.service.IAUIGiftsBroadService
+import io.agora.auikit.service.im.AUIChatBroadManager
+import io.agora.auikit.utils.ThreadBroadManager
 import org.libpag.PAGFile
 import org.libpag.PAGView
 import java.io.File
@@ -26,13 +26,13 @@ import java.security.MessageDigest
 class AUIGiftBarrageBinder constructor(
     private val activity: FragmentActivity?,
     private val giftView: IAUIGiftBarrageBroadView,
-    private val data:List<AUIGiftTabEntity>,
-    private val giftService: IAUIGiftsService,
-    private val chatManager: AUIChatManager
-):IAUIBroadBindable,IAUIGiftsService.AUIGiftRespObserver {
+    private val data:List<AUIGiftTabBroadEntity>,
+    private val giftService: IAUIGiftsBroadService,
+    private val chatManager: AUIChatBroadManager
+):IAUIBroadBindable,IAUIGiftsBroadService.AUIGiftRespObserver {
 
     private val TAG = "AUIGift_LOG"
-    private var roomContext = AUIRoomContext.shared()
+    private var roomContext = AUIRoomBroadContext.shared()
     private var mPAGView: PAGView? = null
 
     init {
@@ -65,7 +65,7 @@ class AUIGiftBarrageBinder constructor(
             dialog.setDialogActionListener(object : AUiGiftListBroadView.ActionListener{
                 override fun onGiftSend(bean: AUIGiftInfo?) {
                     bean?.let { it1 ->
-                        val giftEntity = AUIGiftEntity(
+                        val giftEntity = AUIGiftBroadEntity(
                             it1.giftId,
                             it1.giftName,
                             it1.giftPrice,
@@ -78,7 +78,7 @@ class AUIGiftBarrageBinder constructor(
                         )
                         giftService.sendGift(giftEntity) { error ->
                             if (error == null) {
-                                ThreadManager.getInstance().runOnMainThread{
+                                ThreadBroadManager.getInstance().runOnMainThread{
                                     effectAnimation(giftEntity)
                                     val path = filePath(giftEntity.effectMD5 ?: "")
                                     if (path != null && path.isNotEmpty() && File(path).exists()) {
@@ -105,7 +105,7 @@ class AUIGiftBarrageBinder constructor(
         }
 
     }
-    private fun effectAnimation(gift: AUIGiftEntity) {
+    private fun effectAnimation(gift: AUIGiftBroadEntity) {
         val path = filePath(gift.effectMD5 ?: "")
         if (path == null || path.isEmpty() || !File(path).exists()) {
             return
@@ -145,7 +145,7 @@ class AUIGiftBarrageBinder constructor(
         mPAGView?.play()
     }
 
-    private fun downloadEffectResource(tabs: List<AUIGiftTabEntity>) {
+    private fun downloadEffectResource(tabs: List<AUIGiftTabBroadEntity>) {
         tabs.forEach { tab ->
             tab.gifts.forEach { gift ->
                 Log.d(TAG, "for each gift: $gift")
@@ -198,8 +198,8 @@ class AUIGiftBarrageBinder constructor(
         }
     }
 
-    override fun onReceiveGiftMsg(giftEntity:AUIGiftEntity?) {
-        ThreadManager.getInstance().runOnMainThread{
+    override fun onReceiveGiftMsg(giftEntity:AUIGiftBroadEntity?) {
+        ThreadBroadManager.getInstance().runOnMainThread{
             giftEntity?.let { effectAnimation(it) }
             giftView.refresh(chatManager.getGiftList().map {entity ->
                 AUIGiftInfo(

@@ -31,10 +31,10 @@ import com.lxkj.aiim.utils.AUIVoiceRoomUIKit
 import com.lxkj.aiim.net.manager.ServerManager
 import com.lxkj.aiim.widge.VoiceWaveView
 import com.example.asceneskit.AUIAPIBroadConfig
-import io.agora.auikit.model.AUICommonConfig
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIRoomInfo
-import io.agora.auikit.model.AUIUserThumbnailInfo
+import io.agora.auikit.model.AUICommonBroadConfig
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIRoomBroadInfo
+import io.agora.auikit.model.AUIUserThumbnailBroadInfo
 import io.agora.auikit.service.rtm.AUIRtmMessageRespObserver
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -53,7 +53,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
     private var windowManager: WindowManager? = null
     private var floatView: View? = null
     private var layoutParams: WindowManager.LayoutParams? = null
-    private  var mRoomInfo: AUIRoomInfo?=null
+    private  var mRoomInfo: AUIRoomBroadInfo?=null
     private  var mMeetData:MeetingData?=null
     private val handler = Handler(Looper.getMainLooper())
 
@@ -70,7 +70,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val roomInfo = intent?.getSerializableExtra(EXTRA_ROOM_INFO) as? AUIRoomInfo
+        val roomInfo = intent?.getSerializableExtra(EXTRA_ROOM_INFO) as? AUIRoomBroadInfo
         mRoomInfo=roomInfo
 
         initVoiceConfig()
@@ -124,7 +124,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
     }
 
     private  fun buildConfig(id:String,userName:String,avatar:String){
-        val config = AUICommonConfig()
+        val config = AUICommonBroadConfig()
         config.context = this
         config.appId = appId
         config.appCert = appCert
@@ -133,7 +133,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
         config.imAppKey = imAppKey
         config.imClientId = imClientId
         config.imClientSecret = imClientSecret
-        config.owner = AUIUserThumbnailInfo().apply {
+        config.owner = AUIUserThumbnailBroadInfo().apply {
             userId = id
             this.userName = userName
             userAvatar = avatar
@@ -253,14 +253,14 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
                         AUIVoiceRoomUIKit.getServiceByRoomId(it.roomId)?.let {
                             it.rtmManager.subscribeMessage(this)
                         }
-                        if (AUIRoomContext.shared().isRoomOwner(it.roomId)) {
+                        if (AUIRoomBroadContext.shared().isRoomOwner(it.roomId)) {
                             getRoomInfo(it.roomId,true)
                         }
                     }
                 }
                 EVENT_BACKGROUND_QUITE->{
                     mRoomInfo?.let {info->
-                        val owner = (info.owner?.userId == AUIRoomContext.shared().currentUserInfo.userId)
+                        val owner = (info.owner?.userId == AUIRoomBroadContext.shared().currentUserInfo.userId)
                         if (owner){
                             ServerManager.updateMeetingRoomState(this,info.roomId?:"","destroyed"){
                                 shutDownRoom(info.roomId,info.owner?.userId?:"")
@@ -278,7 +278,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
     }
 
     private  fun shutDownRoom(roomId: String, ownerId: String) {
-        val isRoomOwner = (ownerId == AUIRoomContext.shared().currentUserInfo.userId)
+        val isRoomOwner = (ownerId == AUIRoomBroadContext.shared().currentUserInfo.userId)
         if(isRoomOwner){
             try {
                 AUIVoiceRoomUIKit.getServiceByRoomId(roomId)?.let {
@@ -297,7 +297,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
         stopSelf()
     }
 
-     fun showFloatView(roomInfo: AUIRoomInfo?) {
+     fun showFloatView(roomInfo: AUIRoomBroadInfo?) {
         if (floatView != null) return
 
         val inflater = LayoutInflater.from(this)
@@ -351,7 +351,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
 
     }
 
-    private fun setupDragAndClick(view: View, roomInfo: AUIRoomInfo?) {
+    private fun setupDragAndClick(view: View, roomInfo: AUIRoomBroadInfo?) {
         var lastX = 0f
         var lastY = 0f
         var downX = 0f
@@ -393,7 +393,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
         }
     }
 
-    private fun tryStartActivity(roomInfo: AUIRoomInfo?) {
+    private fun tryStartActivity(roomInfo: AUIRoomBroadInfo?) {
 //        if (roomInfo!=null){
 //            MeetingRoomActivity.launch(this,roomInfo.roomId,roomInfo.owner?.userId?:"",roomInfo.roomName,false,true,false)
 //        }
@@ -504,8 +504,8 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
                  }
                  mRoomInfo?.roomId?.let {
                      AUIVoiceRoomUIKit.getServiceByRoomId(it)?.let {
-//                         it.micSeatService.muteAllAudioSeat(allMic,object : AUICallback{
-//                             override fun onResult(error: AUIException?) {
+//                         it.micSeatService.muteAllAudioSeat(allMic,object : AUIBroadCallback{
+//                             override fun onResult(error: AUIBroadException?) {
 //                                 if (error!=null){
 //                                     Log.e("rtm消息", "设置全禁麦失败: ${error.message}", error)
 //                                 }else{
@@ -594,7 +594,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
         private  const val  imClientSecret="aed98e56a615417aa0c9ace3fb5359cd";
 
 
-        fun start(context: Context, roomInfo: AUIRoomInfo) {
+        fun start(context: Context, roomInfo: AUIRoomBroadInfo) {
 //            if (!canDrawOverlays(context)) return
             val i = Intent(context, MeetingFloatService::class.java)
             i.putExtra(EXTRA_ROOM_INFO, roomInfo)

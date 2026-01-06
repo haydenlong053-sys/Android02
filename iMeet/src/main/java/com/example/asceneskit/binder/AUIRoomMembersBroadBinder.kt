@@ -12,12 +12,12 @@ import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
 import com.example.asceneskit.impl.AUIRightMeetingTopBroadView
 import com.example.asceneskit.impl.MeetingMemberListBroadView
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIRoomInfo
-import io.agora.auikit.model.AUIUserInfo
-import io.agora.auikit.model.AUIUserThumbnailInfo
-import io.agora.auikit.service.IAUIMicSeatService
-import io.agora.auikit.service.IAUIUserService
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIRoomBroadInfo
+import io.agora.auikit.model.AUIUserBroadInfo
+import io.agora.auikit.model.AUIUserThumbnailBroadInfo
+import io.agora.auikit.service.IAUIMicSeatBroadService
+import io.agora.auikit.service.IAUIUserBroadService
 
 class AUIRoomMembersBinder constructor(
     context: Context,
@@ -25,17 +25,17 @@ class AUIRoomMembersBinder constructor(
     voiceService: AUIVoiceRoomBroadService,
     listener: AUIRoomMemberEvent?,
 ) : IAUIBroadBindable,
-    IAUIUserService.AUIUserRespObserver,
+    IAUIUserBroadService.AUIUserRespObserver,
     AUIRoomMembersActionBroadListener,
-    IAUIMicSeatService.AUIMicSeatRespObserver {
+    IAUIMicSeatBroadService.AUIMicSeatRespObserver {
 
-    private var userService: IAUIUserService?
-    private var micSeats: IAUIMicSeatService?
+    private var userService: IAUIUserBroadService?
+    private var micSeats: IAUIMicSeatBroadService?
     private var memberView: AUIRightMeetingTopBroadView?
-    private var roomInfo: AUIRoomInfo?
+    private var roomInfo: AUIRoomBroadInfo?
     private var context: Context? = null
-    private var roomContext: AUIRoomContext
-    private var mMemberMap = mutableMapOf<String?, AUIUserInfo?>()
+    private var roomContext: AUIRoomBroadContext
+    private var mMemberMap = mutableMapOf<String?, AUIUserBroadInfo?>()
     private var mSeatMap = mutableMapOf<Int, String?>()
     private var isOwner: Boolean = false
     private var listener: AUIRoomMemberEvent?
@@ -46,14 +46,14 @@ class AUIRoomMembersBinder constructor(
         this.userService = voiceService.userService
         this.micSeats = voiceService.micSeatService
         this.roomInfo = voiceService.roomInfo
-        this.roomContext = AUIRoomContext.shared()
+        this.roomContext = AUIRoomBroadContext.shared()
         this.memberView = memberView
         this.context = context
         this.listener = listener
         val roomOwner = roomInfo?.owner
         isOwner = roomContext.currentUserInfo.userId == roomOwner?.userId
 
-        val owner = AUIUserInfo()
+        val owner = AUIUserBroadInfo()
         owner.userName = roomOwner?.userName.toString()
         owner.userId = roomOwner?.userId.toString()
         owner.userAvatar = roomOwner?.userAvatar.toString()
@@ -152,23 +152,23 @@ class AUIRoomMembersBinder constructor(
 
 
     /** IAUiUserService.AUiUserRespDelegate */
-    override fun onRoomUserEnter(roomId: String, userInfo: AUIUserInfo) {
+    override fun onRoomUserEnter(roomId: String, userInfo: AUIUserBroadInfo) {
         val auiUserInfo = userService?.getUserInfo(userInfo.userId)
         mMemberMap[userInfo.userId] = auiUserInfo
         updateMemberView()
     }
 
-    override fun onRoomUserLeave(roomId: String, userInfo: AUIUserInfo) {
+    override fun onRoomUserLeave(roomId: String, userInfo: AUIUserBroadInfo) {
         mMemberMap.remove(userInfo.userId)
         updateMemberView()
     }
 
-    override fun onRoomUserUpdate(roomId: String, userInfo: AUIUserInfo) {
+    override fun onRoomUserUpdate(roomId: String, userInfo: AUIUserBroadInfo) {
         mMemberMap[userInfo.userId] = userInfo
         updateMemberView()
     }
 
-    override fun onRoomUserSnapshot(roomId: String, userList: MutableList<AUIUserInfo>?) {
+    override fun onRoomUserSnapshot(roomId: String, userList: MutableList<AUIUserBroadInfo>?) {
         userList?.forEach { userInfo ->
             mMemberMap[userInfo.userId] = userInfo
         }
@@ -179,13 +179,13 @@ class AUIRoomMembersBinder constructor(
 
 
     /** IAUiMicSeatService.AUiMicSeatRespDelegate */
-    override fun onAnchorEnterSeat(seatIndex: Int, userInfo: AUIUserThumbnailInfo) {
+    override fun onAnchorEnterSeat(seatIndex: Int, userInfo: AUIUserThumbnailBroadInfo) {
         Log.e("apex", "onAnchorEnterSeat $seatIndex ${userInfo.userName}")
         mSeatMap[seatIndex] = userInfo.userId
         updateMemberView()
     }
 
-    override fun onAnchorLeaveSeat(seatIndex: Int, userInfo: AUIUserThumbnailInfo) {
+    override fun onAnchorLeaveSeat(seatIndex: Int, userInfo: AUIUserThumbnailBroadInfo) {
         if (mSeatMap[seatIndex].equals(userInfo.userId)) {
             mSeatMap.remove(seatIndex)
             updateMemberView()

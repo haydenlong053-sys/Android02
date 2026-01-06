@@ -25,16 +25,16 @@ import com.example.asceneskit.binder.IAUIBroadBindable
 import com.example.asceneskit.databinding.VoiceRoomBroadViewBinding
 import com.example.asceneskit.dialog.VoiceMoreItemBean
 import com.example.asceneskit.dialog.VoiceRoomMoreDialog
-import io.agora.auikit.model.AUIRoomContext
-import io.agora.auikit.model.AUIRoomInfo
+import io.agora.auikit.model.AUIRoomBroadContext
+import io.agora.auikit.model.AUIRoomBroadInfo
 import io.agora.auikit.service.*
-import io.agora.auikit.service.imp.AUIIMManagerServiceImpl
-import io.agora.auikit.utils.AUILogger
-import io.agora.auikit.utils.ThreadManager
+import io.agora.auikit.service.imp.AUIIMManagerServiceBroadImpl
+import io.agora.auikit.utils.AUIBroadLogger
+import io.agora.auikit.utils.ThreadBroadManager
 
 class AUIVoiceRoomBroadView : FrameLayout,
     AUIVoiceRoomBroadObserver,
-    IAUIMicSeatService.AUIMicSeatRespObserver {
+    IAUIMicSeatBroadService.AUIMicSeatRespObserver {
         private  val TAG="AUIVoiceRoomView"
     private val mRoomViewBinding = VoiceRoomBroadViewBinding.inflate(LayoutInflater.from(context))
     private val mBinders = mutableListOf<IAUIBroadBindable>()
@@ -52,7 +52,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
     private var mOnClickAllMute: ((allMute: Boolean) -> Unit)? = null
     private var mPIPEvent: (() -> Unit)? = null
     private var mOnRoomDestroyEvent: (() -> Unit)? = null
-    private var imManagerService:IAUIIMManagerService?=null
+    private var imManagerService:IAUIIMManagerBroadService?=null
     private var invitationBinder: AUIInvitationBinder?=null
     private var auiGiftBarrageBinder : AUIGiftBarrageBinder?=null
     private val mDestroyDialog by lazy {
@@ -80,7 +80,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
     fun bindService(service: AUIVoiceRoomBroadService) {
         Log.d(TAG,"bindService")
         mVoiceService = service
-        imManagerService = service.imManagerService as AUIIMManagerServiceImpl
+        imManagerService = service.imManagerService as AUIIMManagerServiceBroadImpl
         service.observableHelper.subscribeEvent(this)
         service.micSeatService.registerRespObserver(this)
 
@@ -90,10 +90,10 @@ class AUIVoiceRoomBroadView : FrameLayout,
         getSoftKeyboardHeight()
     }
 
-    private fun viewBinderConnected(service:AUIVoiceRoomBroadService, roomInfo: AUIRoomInfo){
+    private fun viewBinderConnected(service:AUIVoiceRoomBroadService, roomInfo: AUIRoomBroadInfo){
         /** 获取礼物列表 初始化礼物Binder */
-//        service.giftService.getGiftsFromService(object : AUIGiftListCallback{
-//            override fun onResult(error: AUIException?, giftList: List<AUIGiftTabEntity>) {
+//        service.giftService.getGiftsFromService(object : AUIGiftListBroadCallback{
+//            override fun onResult(error: AUIBroadException?, giftList: List<AUIGiftTabBroadEntity>) {
 //                auiGiftBarrageBinder = AUIGiftBarrageBinder(
 //                    activity,
 //                    mRoomViewBinding.giftView,
@@ -128,7 +128,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
             roomInfo,
             listener = object : AUIRoomInfoBinder.AUIRoomInfoEvent {
                 override fun onBackClickListener(view: View) {
-                    AUILogger.logger().d("AUIVoiceRoomView", "AUIRoomInfoBinder onBackClick ...")
+                    AUIBroadLogger.logger().d("AUIVoiceRoomView", "AUIRoomInfoBinder onBackClick ...")
 //                    mOnClickShutDown?.invoke()
                     mPIPEvent?.invoke()
                 }
@@ -145,7 +145,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
             service,
             listener = object : AUIRoomMembersBinder.AUIRoomMemberEvent {
                 override fun onCloseClickListener(view: View) {
-                    AUILogger.logger()
+                    AUIBroadLogger.logger()
                         .d("AUIVoiceRoomView", "AUIRoomMembersBinder onCloseClick ...")
                     mOnClickShutDown?.invoke()
                 }
@@ -261,7 +261,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        AUILogger.logger().d("AUIVoiceRoomView", "onDetachedFromWindow")
+        AUIBroadLogger.logger().d("AUIVoiceRoomView", "onDetachedFromWindow")
 
         mVoiceService?.observableHelper?.unSubscribeEvent(this)
         mVoiceService?.micSeatService?.unRegisterRespObserver(this)
@@ -289,10 +289,10 @@ class AUIVoiceRoomBroadView : FrameLayout,
 
     }
 
-    private fun isRoomOwner() = AUIRoomContext.shared().isRoomOwner(mVoiceService?.roomInfo?.roomId)
+    private fun isRoomOwner() = AUIRoomBroadContext.shared().isRoomOwner(mVoiceService?.roomInfo?.roomId)
 
     private fun getSoftKeyboardHeight(){
-        ThreadManager.getInstance().runOnMainThreadDelay({
+        ThreadBroadManager.getInstance().runOnMainThreadDelay({
             activity?.let {
                 AUIKeyboardStatusBroadWatcher(
                     it, activity!!
@@ -336,7 +336,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
     }
 
     override fun onRoomDestroy(roomId: String) {
-        AUILogger.logger().d("AUIVoiceRoomView", "onRoomDestroy $roomId")
+        AUIBroadLogger.logger().d("AUIVoiceRoomView", "onRoomDestroy $roomId")
         if (roomId == mVoiceService?.roomInfo?.roomId){
             mDestroyDialog.show()
         }
@@ -396,7 +396,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
         mOnRoomDestroyEvent = action
     }
 
-    private fun setUpRoomStyle(roomInfo:AUIRoomInfo){
+    private fun setUpRoomStyle(roomInfo:AUIRoomBroadInfo){
         val seatStyle = roomInfo.micSeatStyle
         micType = MicSeatBroadType.fromString(seatStyle)
         when( micType ){
