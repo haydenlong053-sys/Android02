@@ -1,4 +1,4 @@
-package com.example.asceneskit.binder
+package com.cboda.agora.binder
 
 import android.os.Handler
 import android.os.Looper
@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import com.cboda.agora.ui.roomInfo.listener.AUIRoomInfoActionBroadListener
 import com.cboda.agora.ui.ui.roomInfo.IAUIRoomInfoBroadView
-import com.example.asceneskit.impl.AUILefMeetingTopBroadView
+import com.cboda.agora.impl.AUILefMeetingTopBroadView
 import com.cboda.agora.service.model.AUIRoomBroadInfo
 
 class AUIRoomInfoBinder constructor(

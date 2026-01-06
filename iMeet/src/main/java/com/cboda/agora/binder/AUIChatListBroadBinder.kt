@@ -1,4 +1,4 @@
-package com.example.asceneskit.binder
+package com.cboda.agora.binder
 
 import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
 import com.cboda.agora.ui.chatList.AUIChatBroadInfo

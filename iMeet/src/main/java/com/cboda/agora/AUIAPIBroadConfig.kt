@@ -1,4 +1,4 @@
-package com.example.asceneskit
+package com.cboda.agora
 
 import io.agora.rtc2.RtcEngineEx
 import io.agora.rtm.RtmClient

@@ -1,4 +1,4 @@
-package com.example.asceneskit.binder
+package com.cboda.agora.binder
 
 import android.content.Context
 import android.util.Log
@@ -8,10 +8,10 @@ import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import com.cboda.agora.ui.basic.AUIBottomBroadDialog
 import com.cboda.agora.ui.ui.member.listener.AUIRoomMembersActionBroadListener
 import com.cboda.agora.ui.ui.member.MemberBroadInfo
-import com.example.asceneskit.AUIVoiceRoomBroadService
-import com.example.asceneskit.R
-import com.example.asceneskit.impl.AUIRightMeetingTopBroadView
-import com.example.asceneskit.impl.MeetingMemberListBroadView
+import com.cboda.agora.AUIVoiceRoomBroadService
+import com.cboda.agora.R
+import com.cboda.agora.impl.AUIRightMeetingTopBroadView
+import com.cboda.agora.impl.MeetingMemberListBroadView
 import com.cboda.agora.service.model.AUIRoomBroadContext
 import com.cboda.agora.service.model.AUIRoomBroadInfo
 import com.cboda.agora.service.model.AUIUserBroadInfo

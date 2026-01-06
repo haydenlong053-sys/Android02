@@ -1,4 +1,4 @@
-package com.example.asceneskit.impl
+package com.cboda.agora.impl
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,8 +10,8 @@ import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.cboda.agora.ui.ui.member.listener.AUIRoomMembersActionBroadListener
 import com.cboda.agora.ui.ui.member.IAUIRoomMembersBroadView
 import com.cboda.agora.ui.ui.member.MemberBroadInfo
-import com.example.asceneskit.R
-import com.example.asceneskit.databinding.AuiRoomRightBroadLayoutBinding
+import com.cboda.agora.R
+import com.cboda.agora.databinding.AuiRoomRightBroadLayoutBinding
 import com.cboda.agora.ui.utils.FastClickBroadTools
 
 class AUIRightMeetingTopBroadView: ConstraintLayout, IAUIRoomMembersBroadView {

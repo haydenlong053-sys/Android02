@@ -30,7 +30,7 @@ import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.utils.AUIVoiceRoomUIKit
 import com.lxkj.aiim.net.manager.ServerManager
 import com.lxkj.aiim.widge.VoiceWaveView
-import com.example.asceneskit.AUIAPIBroadConfig
+import com.cboda.agora.AUIAPIBroadConfig
 import com.cboda.agora.service.model.AUICommonBroadConfig
 import com.cboda.agora.service.model.AUIRoomBroadContext
 import com.cboda.agora.service.model.AUIRoomBroadInfo
@@ -409,7 +409,7 @@ class MeetingFloatService : Service(), AUIRtmMessageRespObserver {
             intent.putExtra(EXTRA_HOST_ID, roomInfo.owner?.userId)
             intent.putExtra(EXTRA_TITLE_ID, roomInfo.roomName)
             intent.putExtra(EXTRA_ROOM_ID, roomInfo.roomId)
-            intent.putExtra(EXTRA_THEME_ID,  com.example.asceneskit.R.style.Theme_VoiceRoom_Light)
+            intent.putExtra(EXTRA_THEME_ID,  com.cboda.agora.R.style.Theme_VoiceRoom_Light)
         }
         startActivity(intent)
     }

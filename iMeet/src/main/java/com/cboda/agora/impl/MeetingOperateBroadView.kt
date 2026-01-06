@@ -1,13 +1,12 @@
-package com.example.asceneskit.impl
+package com.cboda.agora.impl
 
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
-import android.widget.ImageView
-import com.example.asceneskit.R
-import com.example.asceneskit.databinding.AuiRoomOperateBroadLayoutBinding
+import com.cboda.agora.R
+import com.cboda.agora.databinding.AuiRoomOperateBroadLayoutBinding
 import razerdp.basepopup.BasePopupWindow
 import razerdp.util.animation.AnimationHelper
 import razerdp.util.animation.Direction

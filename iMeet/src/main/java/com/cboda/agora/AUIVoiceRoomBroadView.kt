@@ -1,4 +1,4 @@
-package com.example.asceneskit
+package com.cboda.agora
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -14,17 +14,17 @@ import com.cboda.agora.ui.micseats.MicSeatBroadType
 import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import com.cboda.agora.ui.ui.chatBottomBar.impl.AUIKeyboardStatusBroadWatcher
 import com.cboda.agora.ui.ui.member.MemberBroadInfo
-import com.example.asceneskit.binder.AUIChatBottomBarBinder
-import com.example.asceneskit.binder.AUIChatListBinder
-import com.example.asceneskit.binder.AUIGiftBarrageBinder
-import com.example.asceneskit.binder.AUIInvitationBinder
-import com.example.asceneskit.binder.AUIMicSeatsBroadBinder
-import com.example.asceneskit.binder.AUIRoomInfoBinder
-import com.example.asceneskit.binder.AUIRoomMembersBinder
-import com.example.asceneskit.binder.IAUIBroadBindable
-import com.example.asceneskit.databinding.VoiceRoomBroadViewBinding
-import com.example.asceneskit.dialog.VoiceMoreItemBean
-import com.example.asceneskit.dialog.VoiceRoomMoreDialog
+import com.cboda.agora.binder.AUIChatBottomBarBinder
+import com.cboda.agora.binder.AUIChatListBinder
+import com.cboda.agora.binder.AUIGiftBarrageBinder
+import com.cboda.agora.binder.AUIInvitationBinder
+import com.cboda.agora.binder.AUIMicSeatsBroadBinder
+import com.cboda.agora.binder.AUIRoomInfoBinder
+import com.cboda.agora.binder.AUIRoomMembersBinder
+import com.cboda.agora.binder.IAUIBroadBindable
+import com.cboda.agora.databinding.VoiceRoomBroadViewBinding
+import com.cboda.agora.dialog.VoiceMoreItemBean
+import com.cboda.agora.dialog.VoiceRoomMoreDialog
 import com.cboda.agora.service.model.AUIRoomBroadContext
 import com.cboda.agora.service.model.AUIRoomBroadInfo
 import com.cboda.agora.service.service.IAUIIMManagerBroadService

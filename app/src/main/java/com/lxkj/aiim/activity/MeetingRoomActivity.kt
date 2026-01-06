@@ -28,7 +28,7 @@ import com.cboda.baselibrary.utils.TimeBroadBroadUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.cboda.baselibrary.bean.BaseBroadResponse
-import com.example.asceneskit.AUIVoiceRoomBroadObserver
+import com.cboda.agora.AUIVoiceRoomBroadObserver
 import com.lxkj.aiim.bean.MeetingData
 import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.lj.QianbaoActivity
@@ -44,9 +44,9 @@ import com.lxkj.aiim.utils.CountdownTimerFlow
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
-import com.example.asceneskit.R
-import com.example.asceneskit.databinding.VoiceRoomBroadActivityBinding
-import com.example.asceneskit.impl.MeetingOperateBroadView
+import com.cboda.agora.R
+import com.cboda.agora.databinding.VoiceRoomBroadActivityBinding
+import com.cboda.agora.impl.MeetingOperateBroadView
 import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import com.cboda.agora.ui.ui.basic.AUIAlertSecondBroadDialog
 import com.cboda.agora.ui.utils.PermissionBroadHelp

@@ -1,4 +1,4 @@
-package com.example.asceneskit.binder;
+package com.cboda.agora.binder;
 
 public interface IAUIBroadBindable {
     void bind();

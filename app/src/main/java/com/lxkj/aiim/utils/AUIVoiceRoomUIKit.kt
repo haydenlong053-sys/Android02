@@ -1,10 +1,10 @@
 package com.lxkj.aiim.utils
 
-import com.example.asceneskit.AUIAPIBroadConfig
+import com.cboda.agora.AUIAPIBroadConfig
 import com.lxkj.aiim.service.MeetingFloatService
-import com.example.asceneskit.AUIVoiceRoomBroadObserver
-import com.example.asceneskit.AUIVoiceRoomBroadService
-import com.example.asceneskit.AUIVoiceRoomBroadView
+import com.cboda.agora.AUIVoiceRoomBroadObserver
+import com.cboda.agora.AUIVoiceRoomBroadService
+import com.cboda.agora.AUIVoiceRoomBroadView
 import com.cboda.agora.service.service.callback.AUIBroadException
 import com.cboda.agora.service.service.callback.AUIRoomBroadCallback
 import com.cboda.agora.service.service.http.CommonBroadResp
