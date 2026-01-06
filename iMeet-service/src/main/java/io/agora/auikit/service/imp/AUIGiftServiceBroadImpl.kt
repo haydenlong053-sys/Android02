@@ -5,7 +5,7 @@ import io.agora.auikit.model.AUIGiftBroadEntity
 import io.agora.auikit.model.AUIGiftTabBroadEntity
 import io.agora.auikit.model.AUIRoomBroadContext
 import io.agora.auikit.service.IAUIGiftsBroadService
-import io.agora.auikit.service.R
+import com.cboda.agora.service.R
 import io.agora.auikit.service.callback.AUIBroadCallback
 import io.agora.auikit.service.callback.AUIBroadException
 import io.agora.auikit.service.callback.AUIGiftListBroadCallback
