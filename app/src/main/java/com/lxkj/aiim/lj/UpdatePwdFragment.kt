@@ -8,9 +8,9 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setDrawableStartAlpha
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.UpdatePwdFragmentBinding
+import com.cboda.intelligent.databinding.UpdatePwdFragmentBinding
 import com.lxkj.aiim.lj.utils.isSubmitCanGo
 import com.lxkj.aiim.lj.utils.showToastMain
 import com.lxkj.aiim.viewmodel.LoginViewModel

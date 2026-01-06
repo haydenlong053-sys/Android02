@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.QunMemberAdapter
 import com.lxkj.aiim.adapter.YiXuanQunMemberAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity

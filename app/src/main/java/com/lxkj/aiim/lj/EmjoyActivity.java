@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.adapter.EmjoyAdapter;
 import com.lxkj.aiim.lj.bean.DataListBean;

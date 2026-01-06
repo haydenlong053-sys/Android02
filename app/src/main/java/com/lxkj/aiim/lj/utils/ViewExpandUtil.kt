@@ -17,7 +17,7 @@ import androidx.annotation.DrawableRes
 import com.cboda.baselibrary.utils.getAppContext
 import com.bumptech.glide.Glide
 import com.luck.picture.lib.thread.PictureThreadUtils
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.dialog.pop.AuthPasswordPop

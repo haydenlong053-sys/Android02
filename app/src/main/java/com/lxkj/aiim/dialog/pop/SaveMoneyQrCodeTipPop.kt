@@ -11,10 +11,10 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.king.zxing.util.CodeUtils
-import com.lxkj.aiim.R
-import com.lxkj.aiim.databinding.ActivityAuthStep1Binding
-import com.lxkj.aiim.databinding.DialogPopSaveAuthBinding
-import com.lxkj.aiim.databinding.DialogPopSaveMoneyQrcodeBinding
+import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.ActivityAuthStep1Binding
+import com.cboda.intelligent.databinding.DialogPopSaveAuthBinding
+import com.cboda.intelligent.databinding.DialogPopSaveMoneyQrcodeBinding
 import com.lxkj.aiim.lj.configuration.CommonConfig
 import com.lxkj.aiim.lj.dialogfra.NormalDialog
 import com.lxkj.aiim.lj.event.ActionEventBean

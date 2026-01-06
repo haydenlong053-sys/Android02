@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.cboda.baselibrary.utils.removeTrailingZeros
 import com.cboda.baselibrary.utils.setLeftImg
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityCheckResultBinding
+import com.cboda.intelligent.databinding.ActivityCheckResultBinding
 import com.lxkj.aiim.lj.adapter.CheckResultAdapter
 import com.lxkj.aiim.lj.bean.AiCheckResultBean
 import com.lxkj.aiim.lj.bean.CheckResultInfo

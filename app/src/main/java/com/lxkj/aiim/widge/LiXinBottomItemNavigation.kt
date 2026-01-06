@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
 import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 /**
  * 简述：底部导航item

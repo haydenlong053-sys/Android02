@@ -9,9 +9,9 @@ import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.FragmentCleverBodyBinding
+import com.cboda.intelligent.databinding.FragmentCleverBodyBinding
 import com.lxkj.aiim.fragment.AiAllFragment.Companion.DOCUMENT_TYPE
 import com.lxkj.aiim.fragment.AiAllFragment.Companion.IMAGE_TYPE
 import com.lxkj.aiim.fragment.AiAllFragment.Companion.VIDEO_TYPE

@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 
 import java.io.File;
 import java.io.FileInputStream;

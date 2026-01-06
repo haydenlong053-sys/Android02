@@ -2,7 +2,7 @@ package com.lxkj.aiim.lj.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.lj.bean.CheckResultItem
 
 /**

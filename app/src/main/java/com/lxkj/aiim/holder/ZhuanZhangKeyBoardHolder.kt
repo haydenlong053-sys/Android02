@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.ShuZiAdapter
 
 class ZhuanZhangKeyBoardHolder(

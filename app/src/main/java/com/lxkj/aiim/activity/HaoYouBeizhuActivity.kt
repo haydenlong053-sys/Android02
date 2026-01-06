@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.viewmodel.CommViewModel
 

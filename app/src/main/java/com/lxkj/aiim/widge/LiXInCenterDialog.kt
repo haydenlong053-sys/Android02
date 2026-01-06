@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 
 class LiXInCenterDialog(

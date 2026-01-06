@@ -3,7 +3,7 @@ package com.lxkj.aiim.adapter
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.bumptech.glide.Glide

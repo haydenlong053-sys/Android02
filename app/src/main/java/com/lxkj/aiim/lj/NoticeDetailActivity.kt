@@ -10,9 +10,9 @@ import androidx.viewbinding.ViewBinding
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeMessageContent
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityNoticeDetailBinding
+import com.cboda.intelligent.databinding.ActivityNoticeDetailBinding
 import com.lxkj.aiim.model.NoticeInfoBean
 import com.lxkj.aiim.viewmodel.NoticeViewModel
 import kotlinx.coroutines.launch

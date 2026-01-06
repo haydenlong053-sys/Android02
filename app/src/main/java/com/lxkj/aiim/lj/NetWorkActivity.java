@@ -2,7 +2,7 @@ package com.lxkj.aiim.lj;
 
 import android.os.Bundle;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 
 

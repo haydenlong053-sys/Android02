@@ -7,7 +7,7 @@ import android.webkit.WebView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.holder.XiaochengxuMaHolder
 import com.lxkj.aiim.viewmodel.CommViewModel

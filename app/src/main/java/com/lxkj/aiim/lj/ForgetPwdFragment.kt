@@ -9,9 +9,9 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.ForgetPwdFragmentBinding
+import com.cboda.intelligent.databinding.ForgetPwdFragmentBinding
 import com.lxkj.aiim.dialog.pop.AuthWayPop
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
 import com.lxkj.aiim.lj.utils.isSubmitCanGo

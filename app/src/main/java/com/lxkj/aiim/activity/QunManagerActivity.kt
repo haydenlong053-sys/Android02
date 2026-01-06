@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.QunGuanLiAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean

@@ -3,7 +3,7 @@ package com.lxkj.aiim.lj.utils
 
 import android.content.Context
 import android.content.Intent
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.dialog.pop.AuthCodePop
 import com.lxkj.aiim.dialog.pop.AuthPasswordPop
 import com.lxkj.aiim.dialog.pop.AuthQuestionPop

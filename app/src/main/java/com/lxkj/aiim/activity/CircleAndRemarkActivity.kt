@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.compose.RemarkAndCirclePage
 import com.lxkj.aiim.viewmodel.SocialViewModel

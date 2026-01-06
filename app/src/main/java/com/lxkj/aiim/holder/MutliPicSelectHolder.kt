@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.luck.picture.lib.entity.LocalMedia
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.SelectPicAdapter
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.JumpUtils

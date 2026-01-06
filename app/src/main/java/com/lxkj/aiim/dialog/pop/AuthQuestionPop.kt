@@ -12,9 +12,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
-import com.lxkj.aiim.BuildConfig
-import com.lxkj.aiim.R
-import com.lxkj.aiim.databinding.DialogPopAuthQuestionBinding
+import com.cboda.intelligent.BuildConfig
+import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.DialogPopAuthQuestionBinding
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
 import com.lxkj.aiim.lj.http.BaseCallback

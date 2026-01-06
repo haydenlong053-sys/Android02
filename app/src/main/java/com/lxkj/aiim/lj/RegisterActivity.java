@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.bean.EventBusBean;
 import com.lxkj.aiim.lj.bean.ResultBean;

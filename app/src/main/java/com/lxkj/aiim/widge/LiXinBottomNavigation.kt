@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.utils.PixelBroadUtils
 
 /**

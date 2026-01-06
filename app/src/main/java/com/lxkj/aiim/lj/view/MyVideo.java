@@ -3,7 +3,7 @@ package com.lxkj.aiim.lj.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 
 import cn.jzvd.JzvdStd;
 

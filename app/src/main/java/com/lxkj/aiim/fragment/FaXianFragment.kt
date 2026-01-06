@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.lj.CiecelActivity
 import com.lxkj.aiim.lj.ScanActivity

@@ -4,7 +4,7 @@ package com.lxkj.aiim.lj.utils;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.app.LiXinApp;
 
 import java.util.Random;

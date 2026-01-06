@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.lxkj.aiim.MainActivity
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.lj.utils.showToastMain
 import com.lxkj.aiim.model.SocialCircle

@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.lj.utils.AppUtil;
 
 import java.util.ArrayList;

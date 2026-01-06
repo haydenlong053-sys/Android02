@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.AiAntiFraudActivityBinding
+import com.cboda.intelligent.databinding.AiAntiFraudActivityBinding
 import com.lxkj.aiim.viewmodel.CommViewModel
 import kotlin.getValue
 

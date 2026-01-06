@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.BroadConstant
 import com.lxkj.aiim.utils.GlideLoaderHelper

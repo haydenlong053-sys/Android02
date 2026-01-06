@@ -17,7 +17,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.bean.BaseBean;
 import com.lxkj.aiim.lj.bean.ResultBean;

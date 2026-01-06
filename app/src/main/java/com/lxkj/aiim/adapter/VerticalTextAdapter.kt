@@ -8,7 +8,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.utils.setTextGradientColor
 import com.hjq.shape.view.ShapeTextView
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 
 class VerticalTextAdapter(private val items: List<String>) :

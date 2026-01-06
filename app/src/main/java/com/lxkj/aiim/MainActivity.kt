@@ -76,7 +76,7 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-
+import com.cboda.intelligent.R
 class MainActivity : BaseSimpleActivity() {
 
     private var needShowAccount = false

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
 import com.lxkj.aiim.adapter.AiRecordListAdapter
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.FragmentAiRecordBinding
+import com.cboda.intelligent.databinding.FragmentAiRecordBinding
 import com.lxkj.aiim.lj.bean.AiResultListBean
 import com.lxkj.aiim.utils.JumpUtils
 import com.lxkj.aiim.viewmodel.CheckAiViewModel

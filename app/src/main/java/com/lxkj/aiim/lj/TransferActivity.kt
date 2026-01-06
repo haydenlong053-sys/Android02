@@ -9,10 +9,10 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import com.lxkj.aiim.BuildConfig
-import com.lxkj.aiim.R
+import com.cboda.intelligent.BuildConfig
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityTransferBinding
+import com.cboda.intelligent.databinding.ActivityTransferBinding
 import com.lxkj.aiim.dialog.pop.AuthCodePop
 import com.lxkj.aiim.dialog.pop.AuthPasswordPop
 import com.lxkj.aiim.dialog.pop.AuthQuestionPop

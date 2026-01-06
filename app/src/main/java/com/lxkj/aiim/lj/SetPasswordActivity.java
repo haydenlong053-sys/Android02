@@ -7,9 +7,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.lxkj.aiim.databinding.ActivitySetPasswordBinding;
+import com.cboda.intelligent.databinding.ActivitySetPasswordBinding;
 import com.lxkj.aiim.lj.bean.ResultBean;
 import com.lxkj.aiim.lj.http.OkHttpHelper;
 import com.lxkj.aiim.lj.http.SpotsCallBack;

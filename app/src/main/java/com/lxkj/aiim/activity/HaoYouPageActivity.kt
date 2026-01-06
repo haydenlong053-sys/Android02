@@ -26,7 +26,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.PengYouQuanAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean

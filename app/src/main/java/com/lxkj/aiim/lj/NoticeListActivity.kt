@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.NoticeListAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityNoticeListBinding
+import com.cboda.intelligent.databinding.ActivityNoticeListBinding
 import com.lxkj.aiim.model.NoticeInfoBean
 import com.lxkj.aiim.viewmodel.NoticeViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout

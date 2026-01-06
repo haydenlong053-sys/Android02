@@ -7,9 +7,9 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityAuthStep1Binding
+import com.cboda.intelligent.databinding.ActivityAuthStep1Binding
 import com.lxkj.aiim.lj.event.ActionEventBean
 import com.lxkj.aiim.lj.utils.GlideUtil
 import com.lxkj.aiim.lj.utils.copyToClipboard

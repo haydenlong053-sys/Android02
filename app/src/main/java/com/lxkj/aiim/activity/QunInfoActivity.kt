@@ -22,7 +22,7 @@ import cn.wildfirechat.remote.GeneralCallback
 import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.luck.picture.lib.entity.LocalMedia
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.QunUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean

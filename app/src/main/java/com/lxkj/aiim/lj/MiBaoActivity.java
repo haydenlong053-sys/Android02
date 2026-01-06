@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnSelectListener;
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.bean.DataListBean;
 import com.lxkj.aiim.lj.bean.ResultBean;

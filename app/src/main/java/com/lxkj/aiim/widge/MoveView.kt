@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.customview.widget.ViewDragHelper
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.utils.PixelBroadUtils
 
 /**

@@ -10,7 +10,7 @@ import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.blankj.utilcode.util.EncryptUtils
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.RegisteredFragmentBinding
+import com.cboda.intelligent.databinding.RegisteredFragmentBinding
 import com.lxkj.aiim.lj.utils.click
 import com.lxkj.aiim.lj.utils.isSubmitCanGo
 import com.lxkj.aiim.viewmodel.LoginViewModel

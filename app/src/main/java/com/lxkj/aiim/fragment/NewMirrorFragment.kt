@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.NewMirrorFragmentBinding
+import com.cboda.intelligent.databinding.NewMirrorFragmentBinding
 import com.lxkj.aiim.dialog.pop.UserQrCodeTipPop
 import com.lxkj.aiim.lj.SignInActivity
 import com.lxkj.aiim.lj.UserInfoActivity

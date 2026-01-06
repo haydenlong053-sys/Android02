@@ -22,7 +22,7 @@ import com.hjq.permissions.XXPermissions;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.bean.EventBusBean;
 import com.lxkj.aiim.lj.bean.ResultBean;

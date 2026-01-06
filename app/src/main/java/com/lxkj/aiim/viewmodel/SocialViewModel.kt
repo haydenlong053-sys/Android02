@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lxkj.aiim.model.SocialContact
 import com.lxkj.aiim.model.SocialUiState
-import com.lxkj.aiim.repository.SocialRepository
 import com.cboda.chatui.utils.PinyinBroadUtils
+import com.lxkj.aiim.repository.SocialRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

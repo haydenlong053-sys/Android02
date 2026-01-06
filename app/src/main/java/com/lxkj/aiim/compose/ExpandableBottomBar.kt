@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 data class ExpandableBottomBarItem(
     val icon: Painter,

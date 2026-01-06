@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
 import com.lxkj.aiim.lj.event.ActionRefreshEvent

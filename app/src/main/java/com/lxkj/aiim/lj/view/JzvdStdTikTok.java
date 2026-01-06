@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 
 import cn.jzvd.JzvdStd;
 

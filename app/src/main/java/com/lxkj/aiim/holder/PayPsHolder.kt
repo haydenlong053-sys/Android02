@@ -13,7 +13,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.utils.KeyboardBroadUtils
 import com.lxkj.aiim.widge.PhoneCode

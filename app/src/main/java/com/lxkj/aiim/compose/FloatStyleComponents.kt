@@ -63,7 +63,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -82,8 +82,8 @@ fun FloatManagerBar(
     toSelectRead: (Boolean) -> Unit,
     toDelete: () -> Unit
 ) {
-    val textColor=Color(0xff3B47DD)
-    val disabledTextColor=Color.Black.copy(0.65f)
+    val textColor = Color(0xff3B47DD)
+    val disabledTextColor = Color.Black.copy(0.65f)
     val bgColor = contentColor
     val lightShadow = Color(0xA6FFFFFF)
     val darkShadow = Color(0x14000001)
@@ -121,25 +121,36 @@ fun FloatManagerBar(
             )
             .border(borderWidth, borderColor, RoundedCornerShape(35.dp))
             .padding(horizontal = 0.dp)
-    ){
-        Row(Modifier.fillMaxWidth().align(Alignment.Center),horizontalArrangement = Arrangement.SpaceAround) {
-            TextButton(onClick ={toSelectAll(showAllSelect)}, colors = ButtonDefaults.textButtonColors(
-                contentColor=textColor
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            TextButton(
+                onClick = { toSelectAll(showAllSelect) }, colors = ButtonDefaults.textButtonColors(
+                    contentColor = textColor
 
-            )) {
-                Text(if (showAllSelect)"全选" else "取消全选")
+                )
+            ) {
+                Text(if (showAllSelect) "全选" else "取消全选")
             }
-            TextButton({toSelectRead(showAllRead)},colors = ButtonDefaults.textButtonColors(
-                contentColor=textColor
+            TextButton(
+                { toSelectRead(showAllRead) }, colors = ButtonDefaults.textButtonColors(
+                    contentColor = textColor
 
-            )) {
-                Text(if (showAllRead)"全已读" else "已读")
+                )
+            ) {
+                Text(if (showAllRead) "全已读" else "已读")
             }
-            TextButton({toDelete()}, enabled = enableDelete,colors = ButtonDefaults.textButtonColors(
-                contentColor=textColor,
-                disabledContentColor = disabledTextColor
+            TextButton(
+                { toDelete() }, enabled = enableDelete, colors = ButtonDefaults.textButtonColors(
+                    contentColor = textColor,
+                    disabledContentColor = disabledTextColor
 
-            )) {
+                )
+            ) {
                 Text("删除")
             }
         }
@@ -193,7 +204,7 @@ fun FloatShadowBar(
             )
             .border(borderWidth, borderColor, RoundedCornerShape(35.dp))
             .padding(horizontal = 0.dp)
-    ){
+    ) {
         content()
     }
 
@@ -412,7 +423,9 @@ fun BlurFabButton(
                 .align(Alignment.Center)
                 .graphicsLayer { rotationZ = rotation },
             contentScale = ContentScale.Fit,
-            colorFilter = if (expanded)ColorFilter.tint(Color(0xFF3B47DD)) else ColorFilter.tint(Color.Black) // 可选：强制黑色
+            colorFilter = if (expanded) ColorFilter.tint(Color(0xFF3B47DD)) else ColorFilter.tint(
+                Color.Black
+            ) // 可选：强制黑色
         )
     }
 
@@ -479,16 +492,16 @@ data class MorePopItem(val icon: Painter, val label: String)
 @Composable
 private fun rememberDefaultMorePopItems(): List<MorePopItem> {
     return listOf(
-        MorePopItem(icon = painterResource(com.lxkj.aiim.R.mipmap.ic_pop_search), label = "搜索"),
+        MorePopItem(icon = painterResource(R.mipmap.ic_pop_search), label = "搜索"),
         MorePopItem(
-            icon = painterResource(com.lxkj.aiim.R.mipmap.ic_pop_add_group),
+            icon = painterResource(R.mipmap.ic_pop_add_group),
             label = "建群聊"
         ),
         MorePopItem(
-            icon = painterResource(com.lxkj.aiim.R.mipmap.ic_pop_add_contact),
+            icon = painterResource(R.mipmap.ic_pop_add_contact),
             label = "加好友"
         ),
-        MorePopItem(icon = painterResource(com.lxkj.aiim.R.mipmap.ic_pop_scan), label = "扫一扫")
+        MorePopItem(icon = painterResource(R.mipmap.ic_pop_scan), label = "扫一扫")
     )
 }
 
@@ -694,6 +707,6 @@ fun BlurButtonPreview() {
 
 @Preview
 @Composable
-fun FloatManagerPreview(){
+fun FloatManagerPreview() {
     FloatManagerBar(toSelectAll = {}, toSelectRead = {}, toDelete = {})
 }

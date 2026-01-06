@@ -12,7 +12,7 @@ import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 
 public class LixinUnreadCountTextView extends AppCompatTextView {
     private int mNormalSize;

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
-import com.lxkj.aiim.BuildConfig;
+import com.cboda.intelligent.BuildConfig;
 import com.lxkj.aiim.app.LiXinApp;
 import com.cboda.baselibrary.bean.BaseBroadResponse;
 import com.lxkj.aiim.lj.LoginActivity;

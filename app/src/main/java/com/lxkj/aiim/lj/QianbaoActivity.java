@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimple2Activity;
 import com.lxkj.aiim.dialog.pop.CommonTipPop;
 import com.lxkj.aiim.lj.bean.ResultBean;

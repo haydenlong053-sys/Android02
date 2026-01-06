@@ -4,7 +4,7 @@ import android.graphics.Color
 import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.PixelBroadUtils

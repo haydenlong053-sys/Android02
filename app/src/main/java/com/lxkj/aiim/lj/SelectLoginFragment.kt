@@ -10,7 +10,7 @@ import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.getIsDebug
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.SelectLoginFragmentBinding
+import com.cboda.intelligent.databinding.SelectLoginFragmentBinding
 import com.lxkj.aiim.lj.configuration.ScanJumpEnum
 import com.lxkj.aiim.viewmodel.LoginViewModel
 

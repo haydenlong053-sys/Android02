@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
-import com.lxkj.aiim.R
-import com.lxkj.aiim.databinding.DialogPopAuthCodeBinding
+import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.DialogPopAuthCodeBinding
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
 import com.lxkj.aiim.lj.utils.isSubmitCanGo
 import com.lxkj.aiim.lj.utils.pasteToEditText

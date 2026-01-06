@@ -4,6 +4,8 @@
 
 package com.lxkj.aiim.service;
 
+import static com.cboda.intelligent.BuildConfig.APPLICATION_ID;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -352,7 +354,7 @@ public class AppService implements AppServiceBroadProvider {
 
     @Override
     public void showPCLoginActivity(String userId, String token, int platform) {
-        Intent intent = new Intent(com.lxkj.aiim.BuildConfig.APPLICATION_ID + ".pc.login");
+        Intent intent = new Intent(APPLICATION_ID + ".pc.login");
         intent.putExtra("token", token);
         intent.putExtra("isConfirmPcLogin", true);
         intent.putExtra("platform", platform);

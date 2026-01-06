@@ -28,7 +28,7 @@ import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.gyf.immersionbar.ImmersionBar
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.app.LiXinApp
 import java.lang.reflect.Method
 import com.lxkj.aiim.lj.configuration.AppConsts

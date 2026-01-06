@@ -9,8 +9,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.lxkj.aiim.R
-import com.lxkj.aiim.databinding.DialogPopSysNoticeBinding
+import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.DialogPopSysNoticeBinding
 import com.lxkj.aiim.lj.NoticeDetailActivity
 import com.lxkj.aiim.lj.utils.GlideUtil
 import com.lxkj.aiim.model.NoticeInfoBean

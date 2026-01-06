@@ -12,7 +12,7 @@ import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import cn.wildfirechat.model.Conversation
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.TouSuLeixingAdapter2
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean

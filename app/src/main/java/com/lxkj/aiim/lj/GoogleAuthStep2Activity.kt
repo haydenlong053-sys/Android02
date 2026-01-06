@@ -5,9 +5,9 @@ import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityAuthStep2Binding
+import com.cboda.intelligent.databinding.ActivityAuthStep2Binding
 import com.lxkj.aiim.dialog.pop.SaveQrCodeTipPop
 import com.lxkj.aiim.lj.event.ActionEventBean
 import com.lxkj.aiim.lj.utils.isSubmitCanGo

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.SelectTypeAdapter
 import com.lxkj.aiim.utils.PixelBroadUtils
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager

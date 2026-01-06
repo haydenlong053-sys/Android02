@@ -19,7 +19,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.viewbinding.ViewBinding
 import com.gyf.immersionbar.ImmersionBar
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.app.LiXinApp
 import java.lang.reflect.Method
 import com.lxkj.aiim.lj.configuration.AppConsts

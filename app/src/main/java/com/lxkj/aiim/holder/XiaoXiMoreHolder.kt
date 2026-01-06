@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 class XiaoXiMoreHolder(
     private val context: Context?,

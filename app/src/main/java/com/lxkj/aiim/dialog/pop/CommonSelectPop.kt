@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.lxkj.aiim.adapter.CommonSelectAdapter
-import com.lxkj.aiim.databinding.DialogPopCommonSelectBinding
+import com.cboda.intelligent.databinding.DialogPopCommonSelectBinding
 import com.lxkj.aiim.lj.bean.CommonSelectBean
 
 

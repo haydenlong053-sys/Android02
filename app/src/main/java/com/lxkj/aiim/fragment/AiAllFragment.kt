@@ -15,10 +15,10 @@ import com.cboda.baselibrary.utils.setTxt
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.StringUtils
 import com.luck.picture.lib.entity.LocalMedia
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.AIImgAdapter
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.AiAllFragmentBinding
+import com.cboda.intelligent.databinding.AiAllFragmentBinding
 import com.lxkj.aiim.dialog.AiPostFileDialog
 import com.lxkj.aiim.dialog.pop.UploadFileTipPop
 import com.lxkj.aiim.lj.utils.showToastMain

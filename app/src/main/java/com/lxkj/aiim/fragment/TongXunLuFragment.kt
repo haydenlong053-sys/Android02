@@ -15,7 +15,7 @@ import com.cboda.chatui.contact.ContactListBroadFragment
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.compose.BlurFabButton
 import com.lxkj.aiim.compose.MorePopUp

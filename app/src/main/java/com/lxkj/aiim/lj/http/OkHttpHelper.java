@@ -15,7 +15,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.network.ResBroadInterceptor;
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
 import com.cboda.baselibrary.utils.AESBroadUtil;
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.lj.bean.BaseBean;
 import com.lxkj.aiim.lj.configuration.AppConsts;
 import com.lxkj.aiim.lj.utils.SharePrefBroadUtil;

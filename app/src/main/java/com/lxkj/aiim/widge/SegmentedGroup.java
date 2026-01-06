@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 
 
 /**

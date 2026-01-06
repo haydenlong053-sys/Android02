@@ -26,7 +26,7 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.chatemoji.EmotionBroadEvent
 import com.lxkj.aiim.MainActivity
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.bean.MeetingDetailBean
 import com.lxkj.aiim.bean.NoResultBean
 import com.lxkj.aiim.lj.VideoPlayOnlyActivity

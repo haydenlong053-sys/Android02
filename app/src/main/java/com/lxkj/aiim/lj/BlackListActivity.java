@@ -7,9 +7,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewbinding.ViewBinding;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.lxkj.aiim.databinding.ActivityBlackListBinding;
+import com.cboda.intelligent.databinding.ActivityBlackListBinding;
 import com.lxkj.aiim.lj.adapter.BlackListAdapter;
 import com.lxkj.aiim.lj.bean.DataListBean;
 import com.lxkj.aiim.lj.bean.ResultBean;

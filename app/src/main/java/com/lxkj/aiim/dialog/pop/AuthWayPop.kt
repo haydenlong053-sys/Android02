@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.setLeftImgAndTextColor
-import com.lxkj.aiim.databinding.DialogPopAuthWayBinding
+import com.cboda.intelligent.databinding.DialogPopAuthWayBinding
 import com.lxkj.aiim.lj.GoogleAuthStep1Activity
 import com.lxkj.aiim.lj.SecurityAuthEditActivity
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
@@ -24,7 +24,7 @@ import com.lxkj.aiim.viewmodel.SafeCenterViewModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 
 //认证方式选择

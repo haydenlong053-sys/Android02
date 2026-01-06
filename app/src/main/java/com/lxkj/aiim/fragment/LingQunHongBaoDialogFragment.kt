@@ -12,7 +12,7 @@ import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import cn.wildfirechat.message.HongBaoMessageContent
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.google.gson.Gson
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseDiaogFragment
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.lxkj.aiim.bean.HongBaoBiangeng

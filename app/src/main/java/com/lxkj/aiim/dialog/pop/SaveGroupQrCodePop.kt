@@ -14,10 +14,10 @@ import com.bumptech.glide.Glide
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.lxkj.aiim.BuildConfig
-import com.lxkj.aiim.R
-import com.lxkj.aiim.databinding.DialogPopSaveGroupQrcodeBinding
-import com.lxkj.aiim.databinding.DialogPopSaveUserQrcodeBinding
+import com.cboda.intelligent.BuildConfig
+import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.DialogPopSaveGroupQrcodeBinding
+import com.cboda.intelligent.databinding.DialogPopSaveUserQrcodeBinding
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.SafeJumpEnum
 import com.lxkj.aiim.lj.dialogfra.NormalDialog

@@ -12,10 +12,10 @@ import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.lxkj.aiim.base.BaseFragment
-import com.lxkj.aiim.databinding.LoginFragmentBinding
+import com.cboda.intelligent.databinding.LoginFragmentBinding
 import com.lxkj.aiim.lj.utils.isSubmitCanGo
 import com.lxkj.aiim.viewmodel.LoginViewModel
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 class LoginFragment : BaseFragment<LoginFragmentBinding, LoginViewModel>() {
 

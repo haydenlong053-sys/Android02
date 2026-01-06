@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 /**
  * 简述： <功能描述>

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.utils.AppUtil
 
 open class BaseDiaogFragment : DialogFragment() {

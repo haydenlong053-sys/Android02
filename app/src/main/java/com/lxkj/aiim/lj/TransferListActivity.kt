@@ -8,10 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.TransferListAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityTransferListBinding
+import com.cboda.intelligent.databinding.ActivityTransferListBinding
 import com.lxkj.aiim.lj.event.ActionEventBean
 import com.lxkj.aiim.model.OrderInfoBean
 import com.lxkj.aiim.viewmodel.TransferViewModel

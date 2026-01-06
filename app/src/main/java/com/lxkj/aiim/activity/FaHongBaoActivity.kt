@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.AmountInputFilter
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.holder.PayPsHolder
 import com.lxkj.aiim.holder.SendCustomMsg

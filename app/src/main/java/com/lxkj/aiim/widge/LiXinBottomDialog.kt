@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 /**
  * 简述：底部dialog

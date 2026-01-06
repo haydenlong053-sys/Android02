@@ -6,7 +6,7 @@ import com.cboda.baselibrary.base.BaseBroadAdapter
 import com.cboda.baselibrary.utils.loadImg
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.luck.picture.lib.entity.LocalMedia
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 class AIImgAdapter : BaseBroadAdapter<Pair<String, LocalMedia?>>(R.layout.ai_img_adapter) {
     override fun onBindData(

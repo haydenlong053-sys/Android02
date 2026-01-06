@@ -8,8 +8,8 @@ import android.view.View
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.lxkj.aiim.R
-import com.lxkj.aiim.databinding.DialogPopSaveUserQrcodeBinding
+import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.DialogPopSaveUserQrcodeBinding
 import com.lxkj.aiim.lj.dialogfra.NormalDialog
 import com.lxkj.aiim.lj.utils.BitmapUtils1
 import com.lxkj.aiim.lj.utils.GlideUtil

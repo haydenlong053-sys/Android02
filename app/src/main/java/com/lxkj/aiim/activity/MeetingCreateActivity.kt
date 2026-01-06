@@ -35,7 +35,7 @@ class MeetingCreateActivity : BaseSimpleActivity() {
 
     private val viewModel: MeetingCreateViewModel by viewModels()
 
-    override fun getLayoutId(): Int = com.lxkj.aiim.R.layout.activity_base
+    override fun getLayoutId(): Int = com.cboda.intelligent.R.layout.activity_base
 
     override fun showOrHideTitleLayout(): Boolean = false
 
@@ -108,8 +108,15 @@ class MeetingCreateActivity : BaseSimpleActivity() {
                                     )
                                 )
                                 finish()
-                               JumpUtils.startQunMeetingActivity(this,it.meeting?.roomId?:"",it.meeting?.idNo?:"",it.meeting?.roomName?:"",true,
-                                   it.meeting?.allMute ?: false,it.meeting?.allMic ?: true)
+                                JumpUtils.startQunMeetingActivity(
+                                    this,
+                                    it.meeting?.roomId ?: "",
+                                    it.meeting?.idNo ?: "",
+                                    it.meeting?.roomName ?: "",
+                                    true,
+                                    it.meeting?.allMute ?: false,
+                                    it.meeting?.allMic ?: true
+                                )
 
                             }
 
@@ -301,8 +308,8 @@ fun MeetingCreateScreen(
                 viewModel.verifyPaymentPassword(
                     password = password,
                     onSuccess = onCreateSuccess,
-                    onError = { error ,createout->
-                        when(createout){
+                    onError = { error, createout ->
+                        when (createout) {
                             1 -> {
                                 viewModel.showInsufficientTokenDialog()
 
@@ -311,7 +318,8 @@ fun MeetingCreateScreen(
                             2 -> {
                                 viewModel.showCreateFailedDialog()
                             }
-                            else->{
+
+                            else -> {
                                 viewModel.showValidationFailedDialog(error)
                             }
                         }
@@ -329,8 +337,8 @@ fun MeetingCreateScreen(
             onDismiss = { viewModel.dismissSetPasswordDialog() },
             onSetPassword = {
                 viewModel.dismissSetPasswordDialog()
-                val intent=Intent(context,SetPasswordActivity::class.java)
-                intent.putExtra("editIndex",1)
+                val intent = Intent(context, SetPasswordActivity::class.java)
+                intent.putExtra("editIndex", 1)
                 context.startActivity(intent)
             }
 //            onSetPassword = { viewModel.navigateToSetPassword() }
@@ -340,8 +348,10 @@ fun MeetingCreateScreen(
     // 代币不足弹窗
     if (uiState.showInsufficientTokenDialog) {
         InsufficientTokenDialog(
-            onDismiss = { viewModel.dismissInsufficientTokenDialog()
-            context.startActivity(Intent(context,QianbaoActivity::class.java))}
+            onDismiss = {
+                viewModel.dismissInsufficientTokenDialog()
+                context.startActivity(Intent(context, QianbaoActivity::class.java))
+            }
         )
     }
 
@@ -353,7 +363,7 @@ fun MeetingCreateScreen(
         )
     }
 
-    if (uiState.showValidationFailedDialog){
+    if (uiState.showValidationFailedDialog) {
         ValidationFailedDialog(
             message = uiState.validationFailedMessage,
             onDismiss = { viewModel.dismissValidationFailedDialog() }

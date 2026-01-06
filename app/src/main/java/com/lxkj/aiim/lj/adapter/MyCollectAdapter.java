@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.lj.bean.DataListBean;
 import com.lxkj.aiim.lj.utils.GlideUtil;
 import com.makeramen.roundedimageview.RoundedImageView;

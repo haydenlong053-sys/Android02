@@ -12,11 +12,11 @@ import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.toJson2
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.LingQuUserAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.bean.HongBaoBiangeng
-import com.lxkj.aiim.databinding.GetWebxRedEnvelopesActivityBinding
+import com.cboda.intelligent.databinding.GetWebxRedEnvelopesActivityBinding
 import com.lxkj.aiim.viewmodel.CommViewModel
 
 

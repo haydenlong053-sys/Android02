@@ -28,7 +28,7 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.gyf.immersionbar.ImmersionBar
-import com.lxkj.aiim.BuildConfig
+import com.cboda.intelligent.BuildConfig
 import com.lxkj.aiim.MainActivity
 import com.lxkj.aiim.app.LiXinApp
 import com.lxkj.aiim.lj.NewEquipmentActivity

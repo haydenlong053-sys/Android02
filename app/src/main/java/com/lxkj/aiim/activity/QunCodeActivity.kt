@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.lj.dialogfra.NormalDialog
 import com.lxkj.aiim.lj.dialogfra.NormalDialog.OnButtonClick

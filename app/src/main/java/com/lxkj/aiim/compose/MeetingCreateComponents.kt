@@ -51,7 +51,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalFocusManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.model.TimeOption
 import com.lxkj.aiim.model.UserTierOption
 import java.text.SimpleDateFormat
@@ -370,7 +370,7 @@ fun RoomNameInputField(
                                 if (roomName.isNotEmpty()) {
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Icon(
-                                        painter = painterResource(id = com.lxkj.aiim.R.mipmap.ic_meet_edit_clear),
+                                        painter = painterResource(id = R.mipmap.ic_meet_edit_clear),
                                         contentDescription = "清除",
                                         modifier = Modifier
                                             .size(16.dp)
@@ -434,7 +434,7 @@ fun StartTimeSection(
                 Spacer(modifier = Modifier.width(8.dp)) // 减少间距
                 
                 Icon(
-                    painter = painterResource(id = com.lxkj.aiim.R.drawable.ic_arrow_right),
+                    painter = painterResource(id = R.drawable.ic_arrow_right),
                     contentDescription = "选择时间",
                     tint = colorResource(id = R.color.color_text_content)
                 )

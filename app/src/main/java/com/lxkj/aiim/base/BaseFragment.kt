@@ -1,6 +1,6 @@
 package com.lxkj.aiim.base
 
-import com.lxkj.aiim.databinding.LayoutDataViewBinding
+import com.cboda.intelligent.databinding.LayoutDataViewBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

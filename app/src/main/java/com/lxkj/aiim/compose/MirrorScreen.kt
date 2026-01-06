@@ -64,7 +64,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.lj.utils.ToastUtil
 import com.lxkj.aiim.viewmodel.MirrorViewModel
 

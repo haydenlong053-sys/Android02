@@ -3,9 +3,9 @@ package com.lxkj.aiim.lj
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.viewbinding.ViewBinding
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityPaySuccessBinding
+import com.cboda.intelligent.databinding.ActivityPaySuccessBinding
 import com.lxkj.aiim.lj.event.ActionEventBean
 import org.greenrobot.eventbus.EventBus
 

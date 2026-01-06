@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.ui.shape.TopRoundedBottomArcShape
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.lj.utils.SharePrefBroadUtil

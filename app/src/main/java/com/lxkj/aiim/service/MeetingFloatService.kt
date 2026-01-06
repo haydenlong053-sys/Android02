@@ -24,7 +24,7 @@ import android.view.ViewConfiguration
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.cboda.baselibrary.event.AppEventBroadCode
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.bean.MeetingData
 import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.utils.AUIVoiceRoomUIKit

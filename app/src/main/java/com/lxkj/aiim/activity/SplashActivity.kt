@@ -3,7 +3,7 @@ package com.lxkj.aiim.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.app.LiXinApp
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.lj.NewEquipmentActivity

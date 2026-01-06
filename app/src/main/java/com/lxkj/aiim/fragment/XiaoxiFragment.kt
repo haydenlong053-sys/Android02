@@ -40,7 +40,7 @@ import com.cboda.baselibrary.bean.GlobalNoticeBroadBean
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.MyPagerAdapter
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.cboda.baselibrary.bean.CommonResultBroadBean

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.luck.picture.lib.entity.LocalMedia
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.PixelBroadUtils
 import top.zibin.luban.Luban

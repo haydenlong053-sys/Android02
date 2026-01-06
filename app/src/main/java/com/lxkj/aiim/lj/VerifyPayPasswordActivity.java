@@ -6,9 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
-import com.lxkj.aiim.databinding.ActivityVerifyPayPasswordBinding;
+import com.cboda.intelligent.databinding.ActivityVerifyPayPasswordBinding;
 import com.lxkj.aiim.lj.bean.ResultBean;
 import com.lxkj.aiim.lj.http.BaseCallback;
 import com.lxkj.aiim.lj.http.OkHttpHelper;

@@ -27,8 +27,8 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.initBuGly
 import com.danikula.videocache.HttpProxyCacheServer
 import com.didichuxing.doraemonkit.DoKit
-import com.lxkj.aiim.BuildConfig
-import com.lxkj.aiim.R
+import com.cboda.intelligent.BuildConfig
+import com.cboda.intelligent.R
 import com.lxkj.aiim.lj.configuration.AppConsts
 import com.lxkj.aiim.lj.http.UrlBroadConstants
 import com.lxkj.aiim.lj.utils.SharePrefBroadUtil

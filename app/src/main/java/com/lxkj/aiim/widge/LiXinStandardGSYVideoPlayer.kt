@@ -3,7 +3,7 @@ package com.lxkj.aiim.widge
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 
 

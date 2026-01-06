@@ -6,9 +6,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivitySecurityAuthEditBinding
+import com.cboda.intelligent.databinding.ActivitySecurityAuthEditBinding
 import com.lxkj.aiim.dialog.pop.CommonSelectPop
 import com.lxkj.aiim.lj.bean.CommonSelectBean
 import com.lxkj.aiim.lj.event.ActionEventBean

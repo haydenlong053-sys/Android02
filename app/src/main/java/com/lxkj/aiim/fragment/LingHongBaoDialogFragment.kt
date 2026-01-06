@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.google.gson.Gson
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseDiaogFragment
 import com.lxkj.aiim.bean.HongBaoBiangeng
 import com.lxkj.aiim.lj.utils.click

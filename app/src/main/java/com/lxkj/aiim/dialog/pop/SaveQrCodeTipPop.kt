@@ -6,8 +6,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.lxkj.aiim.databinding.ActivityAuthStep1Binding
-import com.lxkj.aiim.databinding.DialogPopSaveAuthBinding
+import com.cboda.intelligent.databinding.ActivityAuthStep1Binding
+import com.cboda.intelligent.databinding.DialogPopSaveAuthBinding
 import com.lxkj.aiim.lj.event.ActionEventBean
 import com.lxkj.aiim.lj.utils.copyToClipboard
 import com.lxkj.aiim.lj.utils.showBase64QrCodeIv

@@ -14,7 +14,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityNewEquipmentBinding
+import com.cboda.intelligent.databinding.ActivityNewEquipmentBinding
 import com.lxkj.aiim.dialog.pop.AuthWayPop
 import com.lxkj.aiim.lj.bean.ResultBean
 import com.lxkj.aiim.lj.configuration.AppConsts
@@ -27,7 +27,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import com.lxkj.aiim.utils.JumpUtils.Companion.startH5Activity
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 class NewEquipmentActivity : BaseSimple2Activity() {
     private val loginIndex = 1

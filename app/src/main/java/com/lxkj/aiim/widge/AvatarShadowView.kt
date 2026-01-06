@@ -14,7 +14,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.lj.utils.AppUtil
 
 class AvatarShadowView @JvmOverloads constructor(

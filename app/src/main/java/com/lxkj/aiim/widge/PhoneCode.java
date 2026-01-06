@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 
 import java.util.ArrayList;
 import java.util.List;

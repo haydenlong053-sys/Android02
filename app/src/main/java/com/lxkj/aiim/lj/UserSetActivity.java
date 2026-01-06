@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
-import com.lxkj.aiim.R;
+import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.dialog.pop.AuthWayPop;
 import com.lxkj.aiim.lj.bean.ResultBean;

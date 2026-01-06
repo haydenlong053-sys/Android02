@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 
 /**
  * 简述： 指示器

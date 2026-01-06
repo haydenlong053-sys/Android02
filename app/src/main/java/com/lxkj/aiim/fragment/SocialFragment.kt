@@ -59,7 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.model.SocialCircle
 import com.lxkj.aiim.model.SocialContact
 import com.lxkj.aiim.viewmodel.SocialViewModel

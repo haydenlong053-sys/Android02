@@ -17,7 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.NetworkFileBroadSaver
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseLazyFragment
 import com.lxkj.aiim.compose.MirrorScreen
 import com.lxkj.aiim.dialog.pop.UserQrCodeTipPop

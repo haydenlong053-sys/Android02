@@ -7,7 +7,7 @@ import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.livedata.SingleLiveData
 import com.lxkj.aiim.lj.bean.CommonSelectBean
 import com.lxkj.aiim.lj.bean.ResultBean

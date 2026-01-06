@@ -7,9 +7,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
-import com.lxkj.aiim.R
+import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.databinding.ActivityCheckResultRecordBinding
+import com.cboda.intelligent.databinding.ActivityCheckResultRecordBinding
 import com.lxkj.aiim.fragment.AiRecordFragment
 import com.lxkj.aiim.widge.ImgIndicatorAdapter
 
