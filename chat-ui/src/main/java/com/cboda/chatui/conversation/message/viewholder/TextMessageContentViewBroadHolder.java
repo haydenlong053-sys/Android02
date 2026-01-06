@@ -12,15 +12,13 @@ import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.utils.SharePrefBroadBroadUtil;
-import com.google.gson.Gson;
-import com.lqr.emoji.MoonUtils;
+import com.cboda.chatemoji.MoonBroadUtils;
 
 import com.cboda.chatui.*;
 import com.cboda.chatui.WfcWebViewBroadActivity;
@@ -89,10 +87,10 @@ public class TextMessageContentViewBroadHolder extends NormalMessageContentViewB
                 contentTextView.setText(spanned);
 
             } else {
-                MoonUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
+                MoonBroadUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
             }
         } else {
-            MoonUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
+            MoonBroadUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
         }
 
         String fy = SharePrefBroadBroadUtil.getString(fragment.getContext(), message.message.messageUid + "", "");

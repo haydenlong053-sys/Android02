@@ -78,7 +78,8 @@ dependencies {
 //    api project(':badgeview')
     api project(':baselibrary')
 
-    implementation project(':emojilibrary')
+//    api project(':emojilibrary')
+    api project(':chat-emoji')
 //    api project(':imagepicker')
 
     implementation 'com.lqr.adapter:library:1.0.2'

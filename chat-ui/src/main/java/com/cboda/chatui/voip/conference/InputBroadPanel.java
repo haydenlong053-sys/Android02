@@ -23,24 +23,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import com.lqr.emoji.EmotionLayout;
-import com.lqr.emoji.IEmotionSelectedListener;
-import com.lqr.emoji.LQREmotionKit;
-import com.lqr.emoji.MoonUtils;
+import com.cboda.chatemoji.EmotionBroadLayout;
+import com.cboda.chatemoji.IEmotionSelectedBroadListener;
+import com.cboda.chatemoji.LQREmotionBroadKit;
+import com.cboda.chatemoji.MoonBroadUtils;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.widget.InputAwareBroadLayout;
 import com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout;
 import com.cboda.chatui.widget.SimpleTextBroadWatcher;
 
-public class InputBroadPanel extends FrameLayout implements IEmotionSelectedListener {
+public class InputBroadPanel extends FrameLayout implements IEmotionSelectedBroadListener {
 
     EditText editText;
     ImageView emotionImageView;
     Button sendButton;
 
     KeyboardHeightFrameBroadLayout emotionContainerFrameLayout;
-    EmotionLayout emotionLayout;
+    EmotionBroadLayout emotionBroadLayout;
     LinearLayout inputContainerLinearLayout;
 
     private InputAwareBroadLayout rootLinearLayout;
@@ -90,10 +90,10 @@ public class InputBroadPanel extends FrameLayout implements IEmotionSelectedList
         this.rootLinearLayout = rootInputAwareLayout;
 
         // emotion
-        emotionLayout.setEmotionAddVisiable(false);
-        emotionLayout.setEmotionSettingVisiable(false);
-        emotionLayout.setStickerVisible(false);
-        emotionLayout.setEmotionSelectedListener(this);
+        emotionBroadLayout.setEmotionAddVisiable(false);
+        emotionBroadLayout.setEmotionSettingVisiable(false);
+        emotionBroadLayout.setStickerVisible(false);
+        emotionBroadLayout.setEmotionSelectedListener(this);
     }
 
     private void bindViews() {
@@ -101,7 +101,7 @@ public class InputBroadPanel extends FrameLayout implements IEmotionSelectedList
         emotionImageView = findViewById(R.id.emotionImageView);
         sendButton = findViewById(R.id.sendButton);
         emotionContainerFrameLayout = findViewById(R.id.emotionContainerFrameLayout);
-        emotionLayout = findViewById(R.id.emotionLayout);
+        emotionBroadLayout = findViewById(R.id.emotionLayout);
         inputContainerLinearLayout = findViewById(R.id.inputContainerLinearLayout);
 
         emotionImageView.setOnClickListener(v -> this.onEmotionImageViewClick());
@@ -199,7 +199,7 @@ public class InputBroadPanel extends FrameLayout implements IEmotionSelectedList
             editable.replace(start, end, value);
 
             int editEnd = editText.getSelectionEnd();
-            MoonUtils.replaceEmoticons(LQREmotionKit.getContext(), editable, 0, editable.toString().length());
+            MoonBroadUtils.replaceEmoticons(LQREmotionBroadKit.getContext(), editable, 0, editable.toString().length());
             editText.setSelection(editEnd);
         }
     }

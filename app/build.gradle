@@ -154,7 +154,7 @@ dependencies {
 //    api project(':avenginekit')
 //    api project(':badgeview')
     api project(':client')
-    api project(':emojilibrary')
+//    api project(':emojilibrary')
 //    api project(':imagepicker')
 //    api project(':mars-core-release')
 //    api project(':pttclient')

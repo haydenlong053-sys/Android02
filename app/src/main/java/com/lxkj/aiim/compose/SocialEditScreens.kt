@@ -81,7 +81,7 @@ fun RemarkAndCirclePage(
     }
 
     Scaffold(
-        contentColor = colorResource(com.lqr.emoji.R.color.colorF7F8FA),
+        contentColor = colorResource(com.cboda.chatemoji.R.color.colorF7F8FA),
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

@@ -35,7 +35,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.cboda.baselibrary.utils.ViewExpandUtilKt;
-import com.lqr.emoji.LQREmotionKit;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
@@ -46,6 +45,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import com.cboda.chatemoji.LQREmotionBroadKit;
 import com.cboda.chatui.common.AppScopeViewBroadModel;
 import com.cboda.chatui.net.OKHttpBroadHelper;
 import com.cboda.chatui.organization.OrganizationServiceBroadProvider;
@@ -116,7 +116,7 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
         initPttClient(application);
         setupWFCDirs(application);
         //初始化表情控件
-        LQREmotionKit.init(application, (context, path, imageView) -> Glide.with(context).load(path).apply(new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).dontAnimate()).into(imageView));
+        LQREmotionBroadKit.init(application, (context, path, imageView) -> Glide.with(context).load(path).apply(new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.RESOURCE).dontAnimate()).into(imageView));
 
         ProcessLifecycleOwner.get().getLifecycle().addObserver(new LifecycleObserver() {
             @OnLifecycleEvent(Lifecycle.Event.ON_START)

@@ -10,10 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
@@ -25,13 +23,12 @@ import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.Gson;
-import com.lqr.emoji.EmotionEvent;
+import com.cboda.chatemoji.EmotionBroadEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.IMServiceStatusViewBroadModel;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcBaseBroadActivity;
@@ -39,18 +36,14 @@ import com.cboda.chatui.bridge.LixinCommonBroadResult;
 import com.cboda.chatui.bridge.QunBroadXiangqing;
 import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
 import com.cboda.chatui.bridge.YeHuoBroadEvent;
-import com.cboda.chatui.net.OKHttpBroadHelper;
+
 import cn.wildfirechat.message.BiaoQingMessageContent;
 import cn.wildfirechat.message.MeetingInviteMessageContent;
 import cn.wildfirechat.message.Message;
-import cn.wildfirechat.message.ZhuanZhangJieShouMessageContent;
 import cn.wildfirechat.message.ZhuanZhangMessageContent;
 import cn.wildfirechat.model.Conversation;
-import cn.wildfirechat.model.ConversationInfo;
-import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.SendMessageCallback;
-import okhttp3.Response;
 
 public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private boolean isInitialized = false;
@@ -214,7 +207,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgReceive(EmotionEvent yeHuoEvent) {
+    public void onMsgReceive(EmotionBroadEvent yeHuoEvent) {
         if ("fasongbiaoqing".equals(yeHuoEvent.type)) {
             BiaoQingMessageContent biaoQingMessageContent = new BiaoQingMessageContent(yeHuoEvent.params);
             Message msg = new Message();

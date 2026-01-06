@@ -48,11 +48,11 @@ import androidx.lifecycle.ViewModelProviders;
 import com.airbnb.lottie.LottieAnimationView;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
-import com.lqr.emoji.EmotionLayout;
-import com.lqr.emoji.IEmotionExtClickListener;
-import com.lqr.emoji.IEmotionSelectedListener;
-import com.lqr.emoji.LQREmotionKit;
-import com.lqr.emoji.MoonUtils;
+import com.cboda.chatemoji.EmotionBroadLayout;
+import com.cboda.chatemoji.IEmotionExtClickBroadListener;
+import com.cboda.chatemoji.IEmotionSelectedBroadListener;
+import com.cboda.chatemoji.LQREmotionBroadKit;
+import com.cboda.chatemoji.MoonBroadUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ import cn.wildfirechat.model.QuoteInfo;
 import cn.wildfirechat.ptt.PTTClient;
 import cn.wildfirechat.remote.ChatManager;
 
-public class ConversationInputBroadPanel extends FrameLayout implements IEmotionSelectedListener, DefaultLifecycleObserver {
+public class ConversationInputBroadPanel extends FrameLayout implements IEmotionSelectedBroadListener, DefaultLifecycleObserver {
 
     LinearLayout inputContainerLinearLayout;
     TextView disableInputTipTextView;
@@ -107,7 +107,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     LinearLayout channelMenuContainerLinearLayout;
 
     KeyboardHeightFrameBroadLayout emotionContainerFrameLayout;
-    EmotionLayout emotionLayout;
+    EmotionBroadLayout emotionBroadLayout;
     KeyboardHeightFrameBroadLayout extContainerFrameLayout;
 
     ViewPagerBroadFixed extViewPager;
@@ -261,8 +261,8 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         sharedPreferences = getContext().getSharedPreferences("sticker", Context.MODE_PRIVATE);
 
         // emotion
-        emotionLayout.setEmotionAddVisiable(false);
-        emotionLayout.setEmotionSettingVisiable(false);
+        emotionBroadLayout.setEmotionAddVisiable(false);
+        emotionBroadLayout.setEmotionSettingVisiable(false);
 
         // audio record panel
         audioRecorderPanel = new AudioRecorderBroadPanel(getContext());
@@ -310,8 +310,8 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         });
 
         // 野火表情
-        emotionLayout.setEmotionSelectedListener(this);
-        emotionLayout.setEmotionExtClickListener(new IEmotionExtClickListener() {
+        emotionBroadLayout.setEmotionSelectedListener(this);
+        emotionBroadLayout.setEmotionExtClickListener(new IEmotionExtClickBroadListener() {
             @Override
             public void onEmotionAddClick(View view) {
                 Toast.makeText(activity, "add", Toast.LENGTH_SHORT).show();
@@ -351,7 +351,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         sendButton = findViewById(R.id.sendButton);
         channelMenuContainerLinearLayout = findViewById(R.id.channelMenuContainerLinearLayout);
         emotionContainerFrameLayout = findViewById(R.id.emotionContainerFrameLayout);
-        emotionLayout = findViewById(R.id.emotionLayout);
+        emotionBroadLayout = findViewById(R.id.emotionLayout);
         extContainerFrameLayout = findViewById(R.id.extContainerContainerLayout);
         extViewPager = findViewById(R.id.conversationExtViewPager);
         refRelativeLayout = findViewById(R.id.refRelativeLayout);
@@ -860,7 +860,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             editable.replace(start, end, value);
 
             int editEnd = editText.getSelectionEnd();
-            MoonUtils.replaceEmoticons(LQREmotionKit.getContext(), editable, 0, editable.toString().length());
+            MoonBroadUtils.replaceEmoticons(LQREmotionBroadKit.getContext(), editable, 0, editable.toString().length());
             editText.setSelection(editEnd);
         }
     }
