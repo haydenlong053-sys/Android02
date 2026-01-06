@@ -1,4 +1,4 @@
-package com.example.asceneskit
+package com.cboda.agora
 
 import com.cboda.agora.service.model.AUIRoomBroadInfo
 

@@ -1,4 +1,4 @@
-package com.example.asceneskit.dialog
+package com.cboda.agora.dialog
 
 import android.content.Context
 import android.os.Bundle
@@ -12,8 +12,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.google.android.material.textview.MaterialTextView
-import com.example.asceneskit.R
-import com.example.asceneskit.databinding.VoiceRoomMoreBroadLayoutBinding
+import com.cboda.agora.R
+import com.cboda.agora.databinding.VoiceRoomMoreBroadLayoutBinding
 import com.cboda.agora.ui.utils.DeviceBroadTools
 import com.cboda.agora.ui.utils.FastClickBroadTools
 

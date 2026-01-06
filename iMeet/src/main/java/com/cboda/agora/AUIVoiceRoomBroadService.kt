@@ -1,4 +1,4 @@
-package com.example.asceneskit
+package com.cboda.agora
 
 import android.util.Log
 import com.cboda.baselibrary.event.AppBroadEvent

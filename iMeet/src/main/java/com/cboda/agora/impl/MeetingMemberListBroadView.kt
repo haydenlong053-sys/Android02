@@ -1,4 +1,4 @@
-package com.example.asceneskit.impl
+package com.cboda.agora.impl
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.asceneskit.R
-import com.example.asceneskit.databinding.MeetingListViewBroadLayoutBinding
-import com.example.asceneskit.databinding.MeetingMemberListBroadItemBinding
+import com.cboda.agora.R
+import com.cboda.agora.databinding.MeetingListViewBroadLayoutBinding
+import com.cboda.agora.databinding.MeetingMemberListBroadItemBinding
 import com.cboda.agora.ui.ui.member.MemberBroadInfo
 import com.cboda.agora.ui.ui.member.MemberItemBroadModel
 import com.cboda.agora.ui.utils.BindingViewBroadHolder

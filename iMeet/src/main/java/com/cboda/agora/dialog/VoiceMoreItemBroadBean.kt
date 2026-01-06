@@ -1,4 +1,4 @@
-package com.example.asceneskit.dialog
+package com.cboda.agora.dialog
 
 import android.graphics.drawable.Drawable
 

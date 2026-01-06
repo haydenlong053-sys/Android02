@@ -1,4 +1,4 @@
-package com.example.asceneskit.impl
+package com.cboda.agora.impl
 
 import android.content.Context
 import android.text.TextUtils
@@ -22,8 +22,8 @@ import com.cboda.agora.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
 import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
 import com.cboda.agora.ui.chatBottomBar.utils.KeyboardBroadUtils
 import com.cboda.agora.ui.ui.chatBottomBar.impl.AUIEmojiBroadUtils
-import com.example.asceneskit.R
-import com.example.asceneskit.databinding.AuiChatBottomBroadBarNewBinding
+import com.cboda.agora.R
+import com.cboda.agora.databinding.AuiChatBottomBroadBarNewBinding
 import com.cboda.agora.ui.utils.DeviceBroadTools
 
 class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarBroadView,

@@ -1,4 +1,4 @@
-package com.example.asceneskit.binder
+package com.cboda.agora.binder
 
 import android.util.Log
 import android.view.View
@@ -9,8 +9,8 @@ import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroa
 import com.cboda.agora.ui.chatList.AUIChatBroadInfo
 import com.cboda.agora.ui.micseats.IMicSeatsBroadView
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
-import com.example.asceneskit.AUIVoiceRoomBroadService
-import com.example.asceneskit.R
+import com.cboda.agora.AUIVoiceRoomBroadService
+import com.cboda.agora.R
 import com.cboda.agora.service.service.IAUIInvitationBroadService
 import com.cboda.agora.service.service.IAUIMicSeatBroadService
 import com.cboda.agora.service.service.IAUIUserBroadService
