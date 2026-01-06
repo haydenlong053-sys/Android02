@@ -55,7 +55,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
                     params2: String?,
                     msg: UiBroadMessage?
                 ) {
-                    AppUtil.debug("野火桥接", "---> $type  $params  $params2")
+                    eLogD("野火桥接", "---> $type  $params  $params2")
                     when (type) {
                         "cjxlt" -> {
                             JumpUtils.startCreateQunActivity(mContext)

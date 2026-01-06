@@ -1,6 +1,6 @@
 package com.example.asceneskit
 
-import io.agora.auikit.model.AUIRoomBroadInfo
+import com.cboda.agora.service.model.AUIRoomBroadInfo
 
 
 interface AUIVoiceRoomBroadObserver {

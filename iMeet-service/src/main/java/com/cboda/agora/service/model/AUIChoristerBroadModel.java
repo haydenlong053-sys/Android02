@@ -1,0 +1,14 @@
+package com.cboda.agora.service.model;
+
+import androidx.annotation.NonNull;
+
+import com.google.gson.annotations.SerializedName;
+
+public class AUIChoristerBroadModel {
+    @SerializedName("userId")
+    public @NonNull String userId = "";
+
+    @SerializedName("chorusSongNo")
+    public @NonNull String chorusSongNo = "";    //合唱者演唱歌曲
+
+}

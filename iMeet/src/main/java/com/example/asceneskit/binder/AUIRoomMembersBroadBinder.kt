@@ -12,12 +12,12 @@ import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
 import com.example.asceneskit.impl.AUIRightMeetingTopBroadView
 import com.example.asceneskit.impl.MeetingMemberListBroadView
-import io.agora.auikit.model.AUIRoomBroadContext
-import io.agora.auikit.model.AUIRoomBroadInfo
-import io.agora.auikit.model.AUIUserBroadInfo
-import io.agora.auikit.model.AUIUserThumbnailBroadInfo
-import io.agora.auikit.service.IAUIMicSeatBroadService
-import io.agora.auikit.service.IAUIUserBroadService
+import com.cboda.agora.service.model.AUIRoomBroadContext
+import com.cboda.agora.service.model.AUIRoomBroadInfo
+import com.cboda.agora.service.model.AUIUserBroadInfo
+import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo
+import com.cboda.agora.service.service.IAUIMicSeatBroadService
+import com.cboda.agora.service.service.IAUIUserBroadService
 
 class AUIRoomMembersBinder constructor(
     context: Context,

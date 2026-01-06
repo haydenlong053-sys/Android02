@@ -81,7 +81,7 @@
             android:name="com.lxkj.aiim.lj.VerifyPayPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.AiAntiFraudActivity"
+            android:name="com.lxkj.aiim.activity.AiAntiFraudActivity"
             android:exported="false" />
         <activity
             android:name="com.lxkj.aiim.lj.RestOldPassworActivity"
@@ -459,7 +459,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activity.MeetingRoomActivity"
+            android:name="com.lxkj.aiim.activity.MeetingRoomActivity"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="true"
             android:windowSoftInputMode="adjustNothing" />
@@ -492,7 +492,7 @@
         <!--            android:name="com.car.trojango.AppService"-->
         <!--            android:process="com.car.service.ProxyService" />-->
         <service
-            android:name=".service.MeetingFloatService"
+            android:name="com.lxkj.aiim.service.MeetingFloatService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 

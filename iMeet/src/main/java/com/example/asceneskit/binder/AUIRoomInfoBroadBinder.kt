@@ -7,7 +7,7 @@ import android.view.View
 import com.cboda.agora.ui.roomInfo.listener.AUIRoomInfoActionBroadListener
 import com.cboda.agora.ui.ui.roomInfo.IAUIRoomInfoBroadView
 import com.example.asceneskit.impl.AUILefMeetingTopBroadView
-import io.agora.auikit.model.AUIRoomBroadInfo
+import com.cboda.agora.service.model.AUIRoomBroadInfo
 
 class AUIRoomInfoBinder constructor(
     roomInfoView: IAUIRoomInfoBroadView,

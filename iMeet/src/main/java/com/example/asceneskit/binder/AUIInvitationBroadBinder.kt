@@ -16,13 +16,13 @@ import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
 import com.cboda.agora.ui.ui.action.listener.AUIApplyDialogEventBroadListener
 import com.cboda.agora.ui.ui.action.listener.AUIInvitationDialogEventBroadListener
-import io.agora.auikit.model.AUIRoomBroadContext
-import io.agora.auikit.model.AUIUserBroadInfo
-import io.agora.auikit.model.AUIUserThumbnailBroadInfo
-import io.agora.auikit.service.IAUIInvitationBroadService
-import io.agora.auikit.service.IAUIMicSeatBroadService
-import io.agora.auikit.service.IAUIUserBroadService
-import io.agora.auikit.service.callback.AUIBroadException
+import com.cboda.agora.service.model.AUIRoomBroadContext
+import com.cboda.agora.service.model.AUIUserBroadInfo
+import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo
+import com.cboda.agora.service.service.IAUIInvitationBroadService
+import com.cboda.agora.service.service.IAUIMicSeatBroadService
+import com.cboda.agora.service.service.IAUIUserBroadService
+import com.cboda.agora.service.service.callback.AUIBroadException
 
 class AUIInvitationBinder constructor(
     activity: FragmentActivity?,

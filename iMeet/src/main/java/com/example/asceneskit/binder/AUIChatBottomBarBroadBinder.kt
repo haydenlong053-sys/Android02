@@ -11,14 +11,14 @@ import com.cboda.agora.ui.micseats.IMicSeatsBroadView
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.example.asceneskit.AUIVoiceRoomBroadService
 import com.example.asceneskit.R
-import io.agora.auikit.service.IAUIInvitationBroadService
-import io.agora.auikit.service.IAUIMicSeatBroadService
-import io.agora.auikit.service.IAUIUserBroadService
+import com.cboda.agora.service.service.IAUIInvitationBroadService
+import com.cboda.agora.service.service.IAUIMicSeatBroadService
+import com.cboda.agora.service.service.IAUIUserBroadService
 import com.cboda.agora.ui.utils.FastClickBroadTools
-import io.agora.auikit.model.AUIMicSeatBroadInfo
-import io.agora.auikit.model.AUIRoomBroadContext
-import io.agora.auikit.model.AUIUserBroadInfo
-import io.agora.auikit.model.AUIUserThumbnailBroadInfo
+import com.cboda.agora.service.model.AUIMicSeatBroadInfo
+import com.cboda.agora.service.model.AUIRoomBroadContext
+import com.cboda.agora.service.model.AUIUserBroadInfo
+import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo
 
 class AUIChatBottomBarBinder constructor(
     private val voiceService: AUIVoiceRoomBroadService,
