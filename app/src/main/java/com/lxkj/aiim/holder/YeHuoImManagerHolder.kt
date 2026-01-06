@@ -24,7 +24,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.cboda.chatemoji.EmotionEvent
+import com.cboda.chatemoji.EmotionBroadEvent
 import com.lxkj.aiim.MainActivity
 import com.lxkj.aiim.R
 import com.lxkj.aiim.bean.MeetingDetailBean
@@ -1099,7 +1099,7 @@ class YeHuoImManagerHolder(private val context: Context?) {
 //                            }
 //                        }
                         EventBus.getDefault()
-                            .post(EmotionEvent("biaoqiangneirong", gson.toJson(bean)))
+                            .post(EmotionBroadEvent("biaoqiangneirong", gson.toJson(bean)))
                     }
                 }
 

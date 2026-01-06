@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class EmojiAdapter extends BaseAdapter {
+public class EmojiBroadAdapter extends BaseAdapter {
 
     private Context mContext;
     private int mStartIndex;
@@ -20,14 +20,14 @@ public class EmojiAdapter extends BaseAdapter {
     private final float mPerHeight;
     private final float mIvSize;
 
-    public EmojiAdapter(Context context, int emotionLayoutWidth, int emotionLayoutHeight, int startIndex) {
+    public EmojiBroadAdapter(Context context, int emotionLayoutWidth, int emotionLayoutHeight, int startIndex) {
         mContext = context;
         mStartIndex = startIndex;
         mEmotionLayoutWidth = emotionLayoutWidth;
-        mEmotionLayoutHeight = emotionLayoutHeight - LQREmotionKit.dip2px(35 + 26 + 50);//减去底部的tab高度、小圆点的高度才是viewpager的高度，再减少30dp是让表情整体的顶部和底部有个外间距
+        mEmotionLayoutHeight = emotionLayoutHeight - LQREmotionBroadKit.dip2px(35 + 26 + 50);//减去底部的tab高度、小圆点的高度才是viewpager的高度，再减少30dp是让表情整体的顶部和底部有个外间距
 
-        mPerWidth = mEmotionLayoutWidth * 1f / EmotionLayout.EMOJI_COLUMNS;
-        mPerHeight = mEmotionLayoutHeight * 1f / EmotionLayout.EMOJI_ROWS;
+        mPerWidth = mEmotionLayoutWidth * 1f / EmotionBroadLayout.EMOJI_COLUMNS;
+        mPerHeight = mEmotionLayoutHeight * 1f / EmotionBroadLayout.EMOJI_ROWS;
         float ivWidth = mPerWidth * .6f;
         float ivHeight = mPerHeight * .6f;
         mIvSize = Math.min(ivWidth, ivHeight);
@@ -35,8 +35,8 @@ public class EmojiAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        int count = EmojiManager.getDisplayCount() - mStartIndex + 1;
-        count = Math.min(count, EmotionLayout.EMOJI_PER_PAGE + 1);
+        int count = EmojiBroadManager.getDisplayCount() - mStartIndex + 1;
+        count = Math.min(count, EmotionBroadLayout.EMOJI_PER_PAGE + 1);
         return count;
     }
 
@@ -57,12 +57,12 @@ public class EmojiAdapter extends BaseAdapter {
 //        rl.setBackgroundColor(Color.RED);
 
         ImageView emojiThumb = new ImageView(mContext);
-        int count = EmojiManager.getDisplayCount();
+        int count = EmojiBroadManager.getDisplayCount();
         int index = mStartIndex + position;
-        if (position == EmotionLayout.EMOJI_PER_PAGE || index == count) {
+        if (position == EmotionBroadLayout.EMOJI_PER_PAGE || index == count) {
             emojiThumb.setBackgroundResource(R.drawable.ic_emoji_del);
         } else if (index < count) {
-            emojiThumb.setBackground(EmojiManager.getDisplayDrawable(mContext, index));
+            emojiThumb.setBackground(EmojiBroadManager.getDisplayDrawable(mContext, index));
         }
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

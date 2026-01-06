@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class FragmentAdapter extends FragmentPagerAdapter {
     private final ArrayList<Fragment> fragmentList;
 

@@ -23,7 +23,7 @@ import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.Gson;
-import com.cboda.chatemoji.EmotionEvent;
+import com.cboda.chatemoji.EmotionBroadEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -207,7 +207,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgReceive(EmotionEvent yeHuoEvent) {
+    public void onMsgReceive(EmotionBroadEvent yeHuoEvent) {
         if ("fasongbiaoqing".equals(yeHuoEvent.type)) {
             BiaoQingMessageContent biaoQingMessageContent = new BiaoQingMessageContent(yeHuoEvent.params);
             Message msg = new Message();

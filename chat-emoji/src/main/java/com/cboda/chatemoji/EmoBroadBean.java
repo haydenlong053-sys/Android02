@@ -2,7 +2,7 @@ package com.cboda.chatemoji;
 
 import java.util.List;
 
-public class EmoBean {
+public class EmoBroadBean {
     public List<EmoItemBean>dataList;
 
     class EmoItemBean{

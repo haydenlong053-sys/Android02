@@ -14,33 +14,33 @@ import java.util.Map;
  * CSDN_LQR
  * 贴图管理类
  */
-public class StickerManager {
+public class StickerBroadManager {
 
-    private static StickerManager instance;
+    private static StickerBroadManager instance;
 
     //数据源
-    private List<StickerCategory> stickerCategories = new ArrayList<>();
-    private Map<String, StickerCategory> stickerCategoryMap = new HashMap<>();
+    private List<StickerBroadCategory> stickerCategories = new ArrayList<>();
+    private Map<String, StickerBroadCategory> stickerCategoryMap = new HashMap<>();
 //    private Map<String, Integer> stickerOrder = new HashMap<>();
 
-    public static StickerManager getInstance() {
+    public static StickerBroadManager getInstance() {
         if (instance == null) {
-            synchronized (StickerManager.class) {
+            synchronized (StickerBroadManager.class) {
                 if (instance == null) {
-                    instance = new StickerManager();
+                    instance = new StickerBroadManager();
                 }
             }
         }
         return instance;
     }
 
-    public StickerManager() {
+    public StickerBroadManager() {
 //        initStickerOrder();
         loadStickerCategory();
     }
 
     private void loadStickerCategory() {
-        File stickerDir = new File(LQREmotionKit.getStickerPath());
+        File stickerDir = new File(LQREmotionBroadKit.getStickerPath());
         if (stickerDir.exists()) {
             File[] files = stickerDir.listFiles();
             for (int i = 0; i < files.length; i++) {
@@ -48,27 +48,27 @@ public class StickerManager {
                 //当前的目录下同名的有文件和文件夹，只需要其中的一个取其名
                 if (file.isDirectory()) {
                     String name = file.getName();
-                    StickerCategory category = new StickerCategory(name, name, true, i);
+                    StickerBroadCategory category = new StickerBroadCategory(name, name, true, i);
                     stickerCategories.add(category);
                     stickerCategoryMap.put(name, category);
                 }
             }
 
             //排序
-            Collections.sort(stickerCategories, new Comparator<StickerCategory>() {
+            Collections.sort(stickerCategories, new Comparator<StickerBroadCategory>() {
                 @Override
-                public int compare(StickerCategory o1, StickerCategory o2) {
+                public int compare(StickerBroadCategory o1, StickerBroadCategory o2) {
                     return o1.getOrder() - o2.getOrder();
                 }
             });
         }
     }
 
-    public synchronized List<StickerCategory> getStickerCategories() {
+    public synchronized List<StickerBroadCategory> getStickerCategories() {
         return stickerCategories;
     }
 
-    public synchronized StickerCategory getCategory(String name) {
+    public synchronized StickerBroadCategory getCategory(String name) {
         return stickerCategoryMap.get(name);
     }
 
@@ -79,12 +79,12 @@ public class StickerManager {
 
     @Nullable
     public String getStickerBitmapPath(String categoryName, String stickerName) {
-        StickerManager manager = StickerManager.getInstance();
-        StickerCategory category = manager.getCategory(categoryName);
+        StickerBroadManager manager = StickerBroadManager.getInstance();
+        StickerBroadCategory category = manager.getCategory(categoryName);
         if (category == null) {
             return null;
         }
-        return LQREmotionKit.getStickerPath() + File.separator + category.getName() + File.separator + stickerName;
+        return LQREmotionBroadKit.getStickerPath() + File.separator + category.getName() + File.separator + stickerName;
     }
 
 

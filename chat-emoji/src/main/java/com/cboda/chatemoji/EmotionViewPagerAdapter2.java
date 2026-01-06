@@ -17,10 +17,10 @@ import java.util.List;
 
 public class EmotionViewPagerAdapter2 extends PagerAdapter {
 
-    private final List<List<EmoBean.EmoItemBean>> newList;
+    private final List<List<EmoBroadBean.EmoItemBean>> newList;
     private int mEmotionLayoutWidth;
     private int mEmotionLayoutHeight;
-    public EmotionViewPagerAdapter2(int emotionLayoutWidth, int emotionLayoutHeight,List<List<EmoBean.EmoItemBean>> newList){
+    public EmotionViewPagerAdapter2(int emotionLayoutWidth, int emotionLayoutHeight,List<List<EmoBroadBean.EmoItemBean>> newList){
         mEmotionLayoutWidth = emotionLayoutWidth;
         mEmotionLayoutHeight = emotionLayoutHeight;
         this.newList = newList;
@@ -47,12 +47,12 @@ public class EmotionViewPagerAdapter2 extends PagerAdapter {
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         gridView.setLayoutParams(params);
         gridView.setGravity(Gravity.CENTER);
-        gridView.setAdapter(new StickerAdapter2(context,  mEmotionLayoutWidth, mEmotionLayoutHeight, newList.get(position)));
-        gridView.setNumColumns(EmotionLayout.STICKER_COLUMNS);
+        gridView.setAdapter(new StickerBroadAdapter2(context,  mEmotionLayoutWidth, mEmotionLayoutHeight, newList.get(position)));
+        gridView.setNumColumns(EmotionBroadLayout.STICKER_COLUMNS);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                EventBus.getDefault().post(new EmotionEvent("fasongbiaoqing",newList.get(position).get(pos).emoji));
+                EventBus.getDefault().post(new EmotionBroadEvent("fasongbiaoqing",newList.get(position).get(pos).emoji));
             }
         });
         rl.addView(gridView);

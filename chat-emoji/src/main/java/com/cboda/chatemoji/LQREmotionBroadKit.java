@@ -16,14 +16,14 @@ import java.util.List;
  * 表情库Kit
  */
 
-public class LQREmotionKit {
+public class LQREmotionBroadKit {
 
     private static String STICKER_NAME_IN_ASSETS = "sticker";
     private static Context mContext;
     private static float density;
     private static float scaleDensity;
     private static String STICKER_PATH;//默认路径在 /data/data/包名/files/sticker 下
-    private static IImageLoader imageLoader;
+    private static IImageBroadLoader imageLoader;
 
     private static void getAndSaveParameter(Context context) {
         mContext = context.getApplicationContext();
@@ -45,12 +45,12 @@ public class LQREmotionKit {
         init(context, new File(context.getFilesDir(), STICKER_NAME_IN_ASSETS).getAbsolutePath());
     }
 
-    public static void init(Context context, IImageLoader imageLoader) {
+    public static void init(Context context, IImageBroadLoader imageLoader) {
         init(context);
         setImageLoader(imageLoader);
     }
 
-    public static void init(Context context, String stickerPath, IImageLoader imageLoader) {
+    public static void init(Context context, String stickerPath, IImageBroadLoader imageLoader) {
         init(context, stickerPath);
         setImageLoader(imageLoader);
     }
@@ -61,7 +61,7 @@ public class LQREmotionKit {
         try {
             String[] stickers = assetManager.list(assetsFolderPath);
             for (String fileName : stickers) {
-                if (!new File(LQREmotionKit.getStickerPath(), fileName).exists()) {
+                if (!new File(LQREmotionBroadKit.getStickerPath(), fileName).exists()) {
                     srcFile.add(fileName);
                 }
             }
@@ -141,15 +141,15 @@ public class LQREmotionKit {
         return STICKER_PATH;
     }
 
-    public static IImageLoader getImageLoader() {
+    public static IImageBroadLoader getImageLoader() {
         if (imageLoader == null) {
             throw new RuntimeException("you should use setImageLoader() in your App onCreate()");
         }
         return imageLoader;
     }
 
-    public static void setImageLoader(IImageLoader imageLoader) {
-        LQREmotionKit.imageLoader = imageLoader;
+    public static void setImageLoader(IImageBroadLoader imageLoader) {
+        LQREmotionBroadKit.imageLoader = imageLoader;
     }
 
 //    public static void setStickerPath(String stickerPath) {

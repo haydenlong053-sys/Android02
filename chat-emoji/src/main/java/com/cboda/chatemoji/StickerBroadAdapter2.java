@@ -12,23 +12,23 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class StickerAdapter2 extends BaseAdapter {
+public class StickerBroadAdapter2 extends BaseAdapter {
 
     private final Context mContext;
-    private final List<EmoBean.EmoItemBean> dataList;
+    private final List<EmoBroadBean.EmoItemBean> dataList;
     private int mEmotionLayoutWidth;
     private int mEmotionLayoutHeight;
     private float mPerWidth;
     private float mPerHeight;
     private float mIvSize;
     
-    public StickerAdapter2(Context context, int emotionLayoutWidth, int emotionLayoutHeight, List<EmoBean.EmoItemBean> dataList){
+    public StickerBroadAdapter2(Context context, int emotionLayoutWidth, int emotionLayoutHeight, List<EmoBroadBean.EmoItemBean> dataList){
         this.mContext = context;
 
         mEmotionLayoutWidth = emotionLayoutWidth;
-        mEmotionLayoutHeight = emotionLayoutHeight - LQREmotionKit.dip2px(35 + 26 + 50);//减去底部的tab高度、小圆点的高度才是viewpager的高度，再减少30dp是让表情整体的顶部和底部有个外间距
-        mPerWidth = mEmotionLayoutWidth * 1f / EmotionLayout.STICKER_COLUMNS;
-        mPerHeight = mEmotionLayoutHeight * 1f / EmotionLayout.STICKER_ROWS;
+        mEmotionLayoutHeight = emotionLayoutHeight - LQREmotionBroadKit.dip2px(35 + 26 + 50);//减去底部的tab高度、小圆点的高度才是viewpager的高度，再减少30dp是让表情整体的顶部和底部有个外间距
+        mPerWidth = mEmotionLayoutWidth * 1f / EmotionBroadLayout.STICKER_COLUMNS;
+        mPerHeight = mEmotionLayoutHeight * 1f / EmotionBroadLayout.STICKER_ROWS;
 
         float ivWidth = mPerWidth * .8f;
         float ivHeight = mPerHeight * .8f;

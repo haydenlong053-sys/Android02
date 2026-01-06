@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.chatemoji.MoonUtils;
+import com.cboda.chatemoji.MoonBroadUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,7 +157,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         Draft draft = Draft.fromDraftJson(conversationInfo.draft);
         if (draft != null) {
             String draftString = draft.getContent() != null ? draft.getContent() : "[草稿]";
-            MoonUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, draft.getContent(), ImageSpan.ALIGN_BOTTOM);
+            MoonBroadUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, draft.getContent(), ImageSpan.ALIGN_BOTTOM);
             setViewVisibility(R.id.promptTextView, View.VISIBLE);
             setViewVisibility(R.id.contentTextView, View.VISIBLE);
         } else {
@@ -186,7 +186,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
                     e.printStackTrace();
                 }
                 content = WfcTextBroadUtils.htmlToText(content);
-                MoonUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, content, ImageSpan.ALIGN_BOTTOM);
+                MoonBroadUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, content, ImageSpan.ALIGN_BOTTOM);
 
                 switch (lastMessage.status) {
                     case Sending:

@@ -232,7 +232,7 @@
             android:layout_height="@dimen/default_custom_keyboard_size"
             android:visibility="gone">
             <!--表情-->
-            <com.cboda.chatemoji.EmotionLayout
+            <com.cboda.chatemoji.EmotionBroadLayout
                 android:id="@+id/emotionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -27,7 +27,7 @@ import java.util.List;
  * CSDN_LQR
  * 表情布局
  */
-public class EmotionLayout extends LinearLayout implements View.OnClickListener {
+public class EmotionBroadLayout extends LinearLayout implements View.OnClickListener {
 
     public static final int EMOJI_COLUMNS = 7;
     public static final int EMOJI_ROWS = 3;
@@ -52,9 +52,9 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
 
     private int mTabCount;
     private SparseArray<View> mTabViewArray = new SparseArray<>();
-    private EmotionTab mSettingTab;
-    private IEmotionSelectedListener mEmotionSelectedListener;
-    private IEmotionExtClickListener mEmotionExtClickListener;
+    private EmotionBroadTab mSettingTab;
+    private IEmotionSelectedBroadListener mEmotionSelectedListener;
+    private IEmotionExtClickBroadListener mEmotionExtClickListener;
     private boolean mEmotionAddVisiable = false;
     private boolean mEmotionSettingVisiable = false;
     private RelativeLayout zidingyibiaoqiang;
@@ -62,20 +62,20 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
     //去掉之前贴图
     private boolean stickerVisible = false;
 
-    public EmotionLayout(Context context) {
+    public EmotionBroadLayout(Context context) {
         this(context, null);
     }
 
-    public EmotionLayout(Context context, @Nullable AttributeSet attrs) {
+    public EmotionBroadLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public EmotionLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public EmotionBroadLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
     }
 
-    public void setEmotionSelectedListener(IEmotionSelectedListener emotionSelectedListener) {
+    public void setEmotionSelectedListener(IEmotionSelectedBroadListener emotionSelectedListener) {
         if (emotionSelectedListener != null) {
             this.mEmotionSelectedListener = emotionSelectedListener;
         } else {
@@ -84,7 +84,7 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
     }
 
 
-    public void setEmotionExtClickListener(IEmotionExtClickListener emotionExtClickListener) {
+    public void setEmotionExtClickListener(IEmotionExtClickBroadListener emotionExtClickListener) {
         if (emotionExtClickListener != null) {
             this.mEmotionExtClickListener = emotionExtClickListener;
         } else {
@@ -144,7 +144,7 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {
-            result = LQREmotionKit.dip2px(200);
+            result = LQREmotionBroadKit.dip2px(200);
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
@@ -160,7 +160,7 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {
-            result = LQREmotionKit.dip2px(200);
+            result = LQREmotionBroadKit.dip2px(200);
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
@@ -174,7 +174,7 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
             removeView(emotionLayout);
         }
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        emotionLayout = inflater.inflate(R.layout.emotion_layout, this);
+        emotionLayout = inflater.inflate(R.layout.emotion_broad_layout, this);
         yehuobiaoqiang = findViewById(R.id.yehuobiaoqiang);
         zidingyibiaoqiang = findViewById(R.id.zidingyibiaoqiang);
         vpEmotioin2 = findViewById(R.id.vpEmotioin2);
@@ -186,8 +186,8 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
         yehuobiaoqiang.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_normal);
-                yehuobiaoqiang.setBackgroundResource(R.drawable.shape_tab_press);
+                zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_normal);
+                yehuobiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_press);
                 vpEmotioin2.setVisibility(GONE);
                 mVpEmotioin.setVisibility(VISIBLE);
                 llPageNumber2.setVisibility(GONE);
@@ -197,8 +197,8 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
         zidingyibiaoqiang.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_press);
-                yehuobiaoqiang.setBackgroundResource(R.drawable.shape_tab_normal);
+                zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_press);
+                yehuobiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_normal);
                 vpEmotioin2.setVisibility(VISIBLE);
                 mVpEmotioin.setVisibility(GONE);
                 llPageNumber2.setVisibility(VISIBLE);
@@ -227,19 +227,19 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
     }
 
     private Gson gson = new Gson();
-    private List<EmoBean.EmoItemBean> emiList = new ArrayList<>();
+    private List<EmoBroadBean.EmoItemBean> emiList = new ArrayList<>();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgReceive(EmotionEvent emotionEvent) {
-        if ("biaoqiangneirong".equals(emotionEvent.type)) {
-            EmoBean emoBean = gson.fromJson(emotionEvent.params, EmoBean.class);
-            Log.e("野火", "表情数据--> " + emotionEvent.params + "  " + mLlTabContainer.getChildCount());
-            if (emoBean != null && emoBean.dataList != null && emoBean.dataList.size() > 0) {
+    public void onMsgReceive(EmotionBroadEvent emotionBroadEvent) {
+        if ("biaoqiangneirong".equals(emotionBroadEvent.type)) {
+            EmoBroadBean emoBroadBean = gson.fromJson(emotionBroadEvent.params, EmoBroadBean.class);
+            Log.e("野火", "表情数据--> " + emotionBroadEvent.params + "  " + mLlTabContainer.getChildCount());
+            if (emoBroadBean != null && emoBroadBean.dataList != null && emoBroadBean.dataList.size() > 0) {
                 zidingyibiaoqiang.setVisibility(VISIBLE);
                 yehuobiaoqiang.setVisibility(VISIBLE);
                 emiList.clear();
-                emiList.addAll(emoBean.dataList);
-                List<List<EmoBean.EmoItemBean>> newList = splitList(emiList,8);
+                emiList.addAll(emoBroadBean.dataList);
+                List<List<EmoBroadBean.EmoItemBean>> newList = splitList(emiList,8);
 //                for (int i = 0; i < newList.size(); i++) {
 //                    List<EmoBean.EmoItemBean> innerList = new ArrayList<>();
 //                    for (int j = 0; j < newList.get(i).size(); j++) {
@@ -256,14 +256,14 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
         }
     }
 
-    private List<List<EmoBean.EmoItemBean>> splitList(
-             List<EmoBean.EmoItemBean> sourceList,
+    private List<List<EmoBroadBean.EmoItemBean>> splitList(
+             List<EmoBroadBean.EmoItemBean> sourceList,
              int groupSize
     ) {
         int length = sourceList.size();
         // 计算可以分成多少组
         int num = (length + groupSize - 1) / groupSize;
-        List<List<EmoBean.EmoItemBean>> newList = new ArrayList<>(num);
+        List<List<EmoBroadBean.EmoItemBean>> newList = new ArrayList<>(num);
         for (int i = 0; i < num; i++) {
             // 开始位置
             int fromIndex = i * groupSize;
@@ -276,17 +276,17 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
 
     private void initTabs() {
         //默认添加一个表情tab
-        EmotionTab emojiTab = new EmotionTab(mContext, R.drawable.ic_tab_emoji);
+        EmotionBroadTab emojiTab = new EmotionBroadTab(mContext, R.drawable.ic_tab_emoji);
         mTabCount = 1;
         mLlTabContainer.addView(emojiTab);
         mTabViewArray.put(0, emojiTab);
 
         //添加所有的贴图tab
         if (stickerVisible) {
-            List<StickerCategory> stickerCategories = StickerManager.getInstance().getStickerCategories();
+            List<StickerBroadCategory> stickerCategories = StickerBroadManager.getInstance().getStickerCategories();
             for (int i = 0; i < stickerCategories.size(); i++) {
-                StickerCategory category = stickerCategories.get(i);
-                EmotionTab tab = new EmotionTab(mContext, category.getCoverImgPath());
+                StickerBroadCategory category = stickerCategories.get(i);
+                EmotionBroadTab tab = new EmotionBroadTab(mContext, category.getCoverImgPath());
                 mLlTabContainer.addView(tab);
                 mTabViewArray.put(i + 1, tab);
                 mTabCount++;
@@ -294,7 +294,7 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
         }
         EventBus.getDefault().register(this);
 
-        EventBus.getDefault().post(new EmotionEvent("addEmotion", ""));
+        EventBus.getDefault().post(new EmotionBroadEvent("addEmotion", ""));
 
         //最后添加一个表情设置Tab
 //        if (mEmotionSettingVisiable) {
@@ -365,10 +365,10 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
     private void setCurPageCommon(int position) {
         mTabPosi = adapter.positionToCategoryTabIndex(position);
         if (mTabPosi == 0)
-            setCategoryPageIndexIndicator(position, (int) Math.ceil(EmojiManager.getDisplayCount() / (float) EmotionLayout.EMOJI_PER_PAGE));
+            setCategoryPageIndexIndicator(position, (int) Math.ceil(EmojiBroadManager.getDisplayCount() / (float) EmotionBroadLayout.EMOJI_PER_PAGE));
         else {
-            StickerCategory category = StickerManager.getInstance().getStickerCategories().get(mTabPosi - 1);
-            setCategoryPageIndexIndicator(position, (int) Math.ceil(category.getStickers().size() / (float) EmotionLayout.STICKER_PER_PAGE));
+            StickerBroadCategory category = StickerBroadManager.getInstance().getStickerCategories().get(mTabPosi - 1);
+            setCategoryPageIndexIndicator(position, (int) Math.ceil(category.getStickers().size() / (float) EmotionBroadLayout.STICKER_PER_PAGE));
         }
         selectTab(mTabPosi);
     }
@@ -386,7 +386,7 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
 //        mLlPageNumber.removeAllViews();
 //        mVpEmotioin.setCurrentItem(position, false);
 
-        zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_normal);
+        zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_normal);
         selectTab(0);
     }
 
@@ -396,16 +396,16 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
 
         for (int i = 0; i < mTabCount; i++) {
             View tab = mTabViewArray.get(i);
-            tab.setBackgroundResource(R.drawable.shape_tab_normal);
+            tab.setBackgroundResource(R.drawable.shape_tab_broad_normal);
         }
-        mTabViewArray.get(tabPosi).setBackgroundResource(R.drawable.shape_tab_press);
+        mTabViewArray.get(tabPosi).setBackgroundResource(R.drawable.shape_tab_broad_press);
 
     }
 
-    private EmotionViewPagerAdapter adapter;
+    private EmotionViewPagerBroadAdapter adapter;
 
     private void fillVpEmotioin(int tabPosi) {
-        adapter = new EmotionViewPagerAdapter(mMeasuredWidth, mMeasuredHeight, stickerVisible, mEmotionSelectedListener);
+        adapter = new EmotionViewPagerBroadAdapter(mMeasuredWidth, mMeasuredHeight, stickerVisible, mEmotionSelectedListener);
         mVpEmotioin.setAdapter(adapter);
         mVpEmotioin.setOffscreenPageLimit(1);
         setCurPageCommon(0);
@@ -431,11 +431,11 @@ public class EmotionLayout extends LinearLayout implements View.OnClickListener 
                     ivCur = (ImageView) mLlPageNumber.getChildAt(i);
                 } else {
                     ivCur = new ImageView(mContext);
-                    ivCur.setBackgroundResource(R.drawable.selector_view_pager_indicator);
-                    LayoutParams params = new LayoutParams(LQREmotionKit.dip2px(8), LQREmotionKit.dip2px(8));
+                    ivCur.setBackgroundResource(R.drawable.selector_view_pager_broad_indicator);
+                    LayoutParams params = new LayoutParams(LQREmotionBroadKit.dip2px(8), LQREmotionBroadKit.dip2px(8));
                     ivCur.setLayoutParams(params);
-                    params.leftMargin = LQREmotionKit.dip2px(3);
-                    params.rightMargin = LQREmotionKit.dip2px(3);
+                    params.leftMargin = LQREmotionBroadKit.dip2px(3);
+                    params.rightMargin = LQREmotionBroadKit.dip2px(3);
                     mLlPageNumber.addView(ivCur);
                 }
             }

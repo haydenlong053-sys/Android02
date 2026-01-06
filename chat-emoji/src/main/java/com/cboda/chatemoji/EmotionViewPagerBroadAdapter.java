@@ -14,30 +14,30 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.List;
 
-import static com.cboda.chatemoji.EmotionLayout.EMOJI_PER_PAGE;
-import static com.cboda.chatemoji.EmotionLayout.STICKER_PER_PAGE;
+import static com.cboda.chatemoji.EmotionBroadLayout.EMOJI_PER_PAGE;
+import static com.cboda.chatemoji.EmotionBroadLayout.STICKER_PER_PAGE;
 
 /**
  * CSDN_LQR
  * 表情控件的ViewPager适配器(emoji + 贴图)
  */
 
-public class EmotionViewPagerAdapter extends PagerAdapter {
+public class EmotionViewPagerBroadAdapter extends PagerAdapter {
 
     private int mPageCount = 0;
 
     private int mEmotionLayoutWidth;
     private int mEmotionLayoutHeight;
 
-    private IEmotionSelectedListener listener;
+    private IEmotionSelectedBroadListener listener;
 
-    public EmotionViewPagerAdapter(int emotionLayoutWidth, int emotionLayoutHeight, boolean stickerVisible, IEmotionSelectedListener listener) {
+    public EmotionViewPagerBroadAdapter(int emotionLayoutWidth, int emotionLayoutHeight, boolean stickerVisible, IEmotionSelectedBroadListener listener) {
         mEmotionLayoutWidth = emotionLayoutWidth;
         mEmotionLayoutHeight = emotionLayoutHeight;
-        mPageCount = (int) Math.ceil(EmojiManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
+        mPageCount = (int) Math.ceil(EmojiBroadManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
         if (stickerVisible) {
-            for (int i = 0; i < StickerManager.getInstance().getStickerCategories().size(); i++) {
-                mPageCount += StickerManager.getInstance().getStickerCategories().get(i).getStickers().size() / STICKER_PER_PAGE;
+            for (int i = 0; i < StickerBroadManager.getInstance().getStickerCategories().size(); i++) {
+                mPageCount += StickerBroadManager.getInstance().getStickerCategories().get(i).getStickers().size() / STICKER_PER_PAGE;
             }
         }
         this.listener = listener;
@@ -72,14 +72,14 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
 
         if (tabPosition == 0) {
             gridView.setOnItemClickListener(emojiListener);
-            gridView.setAdapter(new EmojiAdapter(context, mEmotionLayoutWidth, mEmotionLayoutHeight, position * EMOJI_PER_PAGE));
-            gridView.setNumColumns(EmotionLayout.EMOJI_COLUMNS);
+            gridView.setAdapter(new EmojiBroadAdapter(context, mEmotionLayoutWidth, mEmotionLayoutHeight, position * EMOJI_PER_PAGE));
+            gridView.setNumColumns(EmotionBroadLayout.EMOJI_COLUMNS);
         } else {
             int categoryStickerPageIndex = positionToCategoryPageIndex(position);
-            StickerCategory category = StickerManager.getInstance().getCategory(StickerManager.getInstance().getStickerCategories().get(tabPosition - 1).getName());
+            StickerBroadCategory category = StickerBroadManager.getInstance().getCategory(StickerBroadManager.getInstance().getStickerCategories().get(tabPosition - 1).getName());
             gridView.setOnItemClickListener(stickerListener);
-            gridView.setAdapter(new StickerAdapter(context, category, mEmotionLayoutWidth, mEmotionLayoutHeight, categoryStickerPageIndex * STICKER_PER_PAGE));
-            gridView.setNumColumns(EmotionLayout.STICKER_COLUMNS);
+            gridView.setAdapter(new StickerBroadAdapter(context, category, mEmotionLayoutWidth, mEmotionLayoutHeight, categoryStickerPageIndex * STICKER_PER_PAGE));
+            gridView.setNumColumns(EmotionBroadLayout.STICKER_COLUMNS);
         }
 
         rl.addView(gridView);
@@ -94,12 +94,12 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
      * @return
      */
     int categoryTabIndexToPagePosition(int categoryTabIndex) {
-        int position = (int) Math.ceil(EmojiManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
+        int position = (int) Math.ceil(EmojiBroadManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
         if (categoryTabIndex == 0) {
             return 0;
         } else {
             for (int i = 0; i < categoryTabIndex - 1; i++) {
-                position += (int) Math.ceil(StickerManager.getInstance().getStickerCategories().get(i).getStickers().size() / (float) EmotionLayout.STICKER_PER_PAGE);
+                position += (int) Math.ceil(StickerBroadManager.getInstance().getStickerCategories().get(i).getStickers().size() / (float) EmotionBroadLayout.STICKER_PER_PAGE);
             }
         }
         return position;
@@ -113,11 +113,11 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
      */
     int positionToCategoryTabIndex(int position) {
         int categoryTabindex = 0;
-        int emojiPageCount = (int) Math.ceil(EmojiManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
+        int emojiPageCount = (int) Math.ceil(EmojiBroadManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
         if (position >= emojiPageCount) {
             int stickerPageCount = 0;
-            for (int i = 0; i < StickerManager.getInstance().getStickerCategories().size(); i++) {
-                stickerPageCount += (int) Math.ceil(StickerManager.getInstance().getStickerCategories().get(i).getStickers().size() / (float) EmotionLayout.STICKER_PER_PAGE);
+            for (int i = 0; i < StickerBroadManager.getInstance().getStickerCategories().size(); i++) {
+                stickerPageCount += (int) Math.ceil(StickerBroadManager.getInstance().getStickerCategories().get(i).getStickers().size() / (float) EmotionBroadLayout.STICKER_PER_PAGE);
                 if (position < emojiPageCount + stickerPageCount) {
                     categoryTabindex = 1 + i;
                     break;
@@ -134,15 +134,15 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
      * @return
      */
     int positionToCategoryPageIndex(int position) {
-        int emojiPageCount = (int) Math.ceil(EmojiManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
+        int emojiPageCount = (int) Math.ceil(EmojiBroadManager.getDisplayCount() / (float) EMOJI_PER_PAGE);
         int categoryPageIndex = -1;
         if (position < emojiPageCount) {
             categoryPageIndex = position;
         } else {
             int stickerPageCount = 0;
-            for (int i = 0; i < StickerManager.getInstance().getStickerCategories().size(); i++) {
+            for (int i = 0; i < StickerBroadManager.getInstance().getStickerCategories().size(); i++) {
                 categoryPageIndex = position - emojiPageCount - stickerPageCount;
-                stickerPageCount += (int) Math.ceil(StickerManager.getInstance().getStickerCategories().get(i).getStickers().size() / (float) EmotionLayout.STICKER_PER_PAGE);
+                stickerPageCount += (int) Math.ceil(StickerBroadManager.getInstance().getStickerCategories().get(i).getStickers().size() / (float) EmotionBroadLayout.STICKER_PER_PAGE);
                 if (position < emojiPageCount + stickerPageCount) {
                     break;
                 }
@@ -160,14 +160,14 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            int index = position + (Integer) parent.getTag() * EmotionLayout.EMOJI_PER_PAGE;
-            int count = EmojiManager.getDisplayCount();
-            if (position == EmotionLayout.EMOJI_PER_PAGE || index >= count) {
+            int index = position + (Integer) parent.getTag() * EmotionBroadLayout.EMOJI_PER_PAGE;
+            int count = EmojiBroadManager.getDisplayCount();
+            if (position == EmotionBroadLayout.EMOJI_PER_PAGE || index >= count) {
                 if (listener != null) {
                     listener.onEmojiSelected("/DEL");
                 }
             } else {
-                String text = EmojiManager.getDisplayText((int) id);
+                String text = EmojiBroadManager.getDisplayText((int) id);
                 if (!TextUtils.isEmpty(text)) {
                     if (listener != null) {
                         listener.onEmojiSelected(text);
@@ -185,10 +185,10 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
             int index = position;
             if (pagePosition > 0) {
                 int categoryStartPagePosition = categoryTabIndexToPagePosition(categoryIndex);
-                index += (pagePosition - categoryStartPagePosition) * EmotionLayout.STICKER_PER_PAGE;
+                index += (pagePosition - categoryStartPagePosition) * EmotionBroadLayout.STICKER_PER_PAGE;
             }
-            StickerCategory category = StickerManager.getInstance().getStickerCategories().get(categoryIndex - 1);
-            List<StickerItem> stickers = category.getStickers();
+            StickerBroadCategory category = StickerBroadManager.getInstance().getStickerCategories().get(categoryIndex - 1);
+            List<StickerBroadItem> stickers = category.getStickers();
 
             if (index >= stickers.size()) {
                 Log.i("CSDN_LQR", "index " + index + " larger than size " + stickers.size());
@@ -196,14 +196,14 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
             }
 
             if (listener != null) {
-                StickerItem sticker = stickers.get(index);
-                StickerCategory real = StickerManager.getInstance().getCategory(sticker.getCategory());
+                StickerBroadItem sticker = stickers.get(index);
+                StickerBroadCategory real = StickerBroadManager.getInstance().getCategory(sticker.getCategory());
 
                 if (real == null) {
                     return;
                 }
 
-                listener.onStickerSelected(sticker.getCategory(), sticker.getName(), StickerManager.getInstance().getStickerBitmapPath(sticker.getCategory(), sticker.getName()));
+                listener.onStickerSelected(sticker.getCategory(), sticker.getName(), StickerBroadManager.getInstance().getStickerBitmapPath(sticker.getCategory(), sticker.getName()));
             }
         }
     };

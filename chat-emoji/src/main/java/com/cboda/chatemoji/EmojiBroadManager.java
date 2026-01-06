@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
  * CSDN_LQR
  * emoji表情管理器
  */
-public class EmojiManager {
+public class EmojiBroadManager {
 
     private static final String EMOT_DIR = "emoji/";
 
@@ -40,7 +40,7 @@ public class EmojiManager {
     private static LruCache<String, Bitmap> mDrawableCache;
 
     static {
-        Context context = LQREmotionKit.getContext();
+        Context context = LQREmotionBroadKit.getContext();
 
         load(context, EMOT_DIR + "emoji.xml");
 
@@ -129,9 +129,9 @@ public class EmojiManager {
         new EntryLoader().load(context, xmlPath);
 
         //补充最后一页少的表情
-        int tmp = mDefaultEntries.size() % EmotionLayout.EMOJI_PER_PAGE;
+        int tmp = mDefaultEntries.size() % EmotionBroadLayout.EMOJI_PER_PAGE;
         if (tmp != 0) {
-            int tmp2 = EmotionLayout.EMOJI_PER_PAGE - (mDefaultEntries.size() - (mDefaultEntries.size() / EmotionLayout.EMOJI_PER_PAGE) * EmotionLayout.EMOJI_PER_PAGE);
+            int tmp2 = EmotionBroadLayout.EMOJI_PER_PAGE - (mDefaultEntries.size() - (mDefaultEntries.size() / EmotionBroadLayout.EMOJI_PER_PAGE) * EmotionBroadLayout.EMOJI_PER_PAGE);
             for (int i = 0; i < tmp2; i++) {
                 mDefaultEntries.add(new Entry("", ""));
             }

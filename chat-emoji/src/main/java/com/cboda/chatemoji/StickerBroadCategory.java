@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StickerCategory {
+public class StickerBroadCategory {
     private static final long serialVersionUID = -81692490861539040L;
 
     private String name;//贴图包名
@@ -13,9 +13,9 @@ public class StickerCategory {
     private boolean system;//是否是系统内置表情
     private int order = 0;//默认顺序
 
-    private transient List<StickerItem> stickers;
+    private transient List<StickerBroadItem> stickers;
 
-    public StickerCategory(String name, String title, boolean system, int order) {
+    public StickerBroadCategory(String name, String title, boolean system, int order) {
         this.name = name;
         this.title = title;
         this.system = system;
@@ -56,11 +56,11 @@ public class StickerCategory {
         this.order = order;
     }
 
-    public List<StickerItem> getStickers() {
+    public List<StickerBroadItem> getStickers() {
         return stickers;
     }
 
-    public void setStickers(List<StickerItem> stickers) {
+    public void setStickers(List<StickerBroadItem> stickers) {
         this.stickers = stickers;
     }
 
@@ -77,7 +77,7 @@ public class StickerCategory {
     }
 
     public String getCoverImgPath() {
-        for (File file : new File(LQREmotionKit.getStickerPath()).listFiles()) {
+        for (File file : new File(LQREmotionBroadKit.getStickerPath()).listFiles()) {
             if (file.isFile() && file.getName().startsWith(name)) {
                 return "file://" + file.getAbsolutePath();
             }
@@ -85,24 +85,24 @@ public class StickerCategory {
         return null;
     }
 
-    public List<StickerItem> loadStickerData() {
-        List<StickerItem> stickers = new ArrayList<>();
-        File stickerDir = new File(LQREmotionKit.getStickerPath(), name);
+    public List<StickerBroadItem> loadStickerData() {
+        List<StickerBroadItem> stickers = new ArrayList<>();
+        File stickerDir = new File(LQREmotionBroadKit.getStickerPath(), name);
         if (stickerDir.exists()) {
             File[] files = stickerDir.listFiles();
             for (File file : files) {
                 //比如：tsj ---> tsj/tsj_001.gif
 //                stickers.add(new StickerItem(name, name + File.separator + file.getName()));
-                stickers.add(new StickerItem(name, file.getName()));
+                stickers.add(new StickerBroadItem(name, file.getName()));
             }
         }
 
         //补充最后一页缺少的贴图
-        int tmp = stickers.size() % EmotionLayout.STICKER_PER_PAGE;
+        int tmp = stickers.size() % EmotionBroadLayout.STICKER_PER_PAGE;
         if (tmp != 0) {
-            int tmp2 = EmotionLayout.STICKER_PER_PAGE - (stickers.size() - (stickers.size() / EmotionLayout.STICKER_PER_PAGE) * EmotionLayout.STICKER_PER_PAGE);
+            int tmp2 = EmotionBroadLayout.STICKER_PER_PAGE - (stickers.size() - (stickers.size() / EmotionBroadLayout.STICKER_PER_PAGE) * EmotionBroadLayout.STICKER_PER_PAGE);
             for (int i = 0; i < tmp2; i++) {
-                stickers.add(new StickerItem("", ""));
+                stickers.add(new StickerBroadItem("", ""));
             }
         }
 
@@ -112,13 +112,13 @@ public class StickerCategory {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof StickerCategory)) {
+        if (obj == null || !(obj instanceof StickerBroadCategory)) {
             return false;
         }
         if (obj == this) {
             return true;
         }
-        StickerCategory r = (StickerCategory) obj;
+        StickerBroadCategory r = (StickerBroadCategory) obj;
         return r.getName().equals(getName());
     }
 

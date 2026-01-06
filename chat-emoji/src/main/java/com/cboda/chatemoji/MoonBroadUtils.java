@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * CSDN_LQR
  * 图文混排工具
  */
-public class MoonUtils {
+public class MoonBroadUtils {
     private static final float DEF_SCALE = 0.6f;
     private static final float SMALL_SCALE = 0.6F;
 
@@ -68,7 +68,7 @@ public class MoonUtils {
                 isSurrogatePair = false;
             }
 
-            if (EmojiManager.contains(codePoint)) {
+            if (EmojiBroadManager.contains(codePoint)) {
                 Drawable d = getEmotDrawable(context, codePoint, scale);
                 if (d != null) {
                     ImageSpan span = new ImageSpan(d, align);
@@ -128,7 +128,7 @@ public class MoonUtils {
                 isSurrogatePair = false;
             }
 
-            if (EmojiManager.contains(codePoint)) {
+            if (EmojiBroadManager.contains(codePoint)) {
                 Drawable d = getEmotDrawable(context, codePoint, scale);
                 if (d != null) {
                     ImageSpan span = new ImageSpan(d, align);
@@ -203,7 +203,7 @@ public class MoonUtils {
                 isSurrogatePair = false;
             }
 
-            if (EmojiManager.contains(codePoint)) {
+            if (EmojiBroadManager.contains(codePoint)) {
                 Drawable d = getEmotDrawable(context, codePoint, SMALL_SCALE);
                 if (d != null) {
                     ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
@@ -214,7 +214,7 @@ public class MoonUtils {
     }
 
     private static Drawable getEmotDrawable(Context context, int code, float scale) {
-        Drawable drawable = EmojiManager.getDrawable(context, code);
+        Drawable drawable = EmojiBroadManager.getDrawable(context, code);
 
         // scale
         if (drawable != null) {

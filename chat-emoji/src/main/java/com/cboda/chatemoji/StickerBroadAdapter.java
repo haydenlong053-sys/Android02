@@ -13,10 +13,10 @@ import android.widget.RelativeLayout;
  * 贴图适配器
  */
 
-public class StickerAdapter extends BaseAdapter {
+public class StickerBroadAdapter extends BaseAdapter {
 
     private Context mContext;
-    private StickerCategory mCategory;
+    private StickerBroadCategory mCategory;
     private int startIndex;
 
     private int mEmotionLayoutWidth;
@@ -25,15 +25,15 @@ public class StickerAdapter extends BaseAdapter {
     private float mPerHeight;
     private float mIvSize;
 
-    public StickerAdapter(Context context, StickerCategory category, int emotionLayoutWidth, int emotionLayoutHeight, int startIndex) {
+    public StickerBroadAdapter(Context context, StickerBroadCategory category, int emotionLayoutWidth, int emotionLayoutHeight, int startIndex) {
         mContext = context;
         mCategory = category;
         this.startIndex = startIndex;
 
         mEmotionLayoutWidth = emotionLayoutWidth;
-        mEmotionLayoutHeight = emotionLayoutHeight - LQREmotionKit.dip2px(35 + 26 + 50);//减去底部的tab高度、小圆点的高度才是viewpager的高度，再减少30dp是让表情整体的顶部和底部有个外间距
-        mPerWidth = mEmotionLayoutWidth * 1f / EmotionLayout.STICKER_COLUMNS;
-        mPerHeight = mEmotionLayoutHeight * 1f / EmotionLayout.STICKER_ROWS;
+        mEmotionLayoutHeight = emotionLayoutHeight - LQREmotionBroadKit.dip2px(35 + 26 + 50);//减去底部的tab高度、小圆点的高度才是viewpager的高度，再减少30dp是让表情整体的顶部和底部有个外间距
+        mPerWidth = mEmotionLayoutWidth * 1f / EmotionBroadLayout.STICKER_COLUMNS;
+        mPerHeight = mEmotionLayoutHeight * 1f / EmotionBroadLayout.STICKER_ROWS;
 
         float ivWidth = mPerWidth * .8f;
         float ivHeight = mPerHeight * .8f;
@@ -44,7 +44,7 @@ public class StickerAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int count = mCategory.getStickers().size() - startIndex;
-        count = Math.min(count, EmotionLayout.STICKER_PER_PAGE);
+        count = Math.min(count, EmotionBroadLayout.STICKER_PER_PAGE);
         return count;
     }
 
@@ -89,13 +89,13 @@ public class StickerAdapter extends BaseAdapter {
             return convertView;
         }
 
-        StickerItem sticker = mCategory.getStickers().get(index);
+        StickerBroadItem sticker = mCategory.getStickers().get(index);
         if (sticker == null) {
             return convertView;
         }
 
-        String stickerBitmapUri = StickerManager.getInstance().getStickerBitmapUri(sticker.getCategory(), sticker.getName());
-        LQREmotionKit.getImageLoader().displayImage(mContext, stickerBitmapUri, viewHolder.mImageView);
+        String stickerBitmapUri = StickerBroadManager.getInstance().getStickerBitmapUri(sticker.getCategory(), sticker.getName());
+        LQREmotionBroadKit.getImageLoader().displayImage(mContext, stickerBitmapUri, viewHolder.mImageView);
 
         return convertView;
     }
