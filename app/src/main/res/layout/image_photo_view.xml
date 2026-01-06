@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.luck.picture.lib.photoview.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cboda.select.picture.photoview.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/photoView"
     android:layout_height="match_parent">
 
-</com.luck.picture.lib.photoview.PhotoView>
+</com.cboda.select.picture.photoview.PhotoView>

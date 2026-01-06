@@ -5,12 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
-import com.luck.picture.lib.entity.LocalMedia
+import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
 import com.lxkj.aiim.utils.GlideLoaderHelper
 import com.lxkj.aiim.utils.PixelBroadUtils
-import top.zibin.luban.Luban
-import top.zibin.luban.OnCompressListener
 import java.io.File
 import java.util.ArrayList
 

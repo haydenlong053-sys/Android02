@@ -21,7 +21,7 @@ import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
 import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.luck.picture.lib.entity.LocalMedia
+import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.QunUserAdapter
 import com.lxkj.aiim.base.BaseSimpleActivity

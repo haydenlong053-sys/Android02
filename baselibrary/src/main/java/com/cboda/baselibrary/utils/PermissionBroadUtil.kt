@@ -4,7 +4,7 @@ import android.Manifest
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.blankj.utilcode.util.PermissionUtils
-import com.luck.picture.lib.permissions.PermissionConfig
+import com.cboda.select.picture.permissions.PermissionConfig
 
 fun requestPermission(callback: OnPermissionCallback? = null, vararg permissions: String) {
     val permissionList = ArrayList<String>()

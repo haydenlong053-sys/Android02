@@ -21,7 +21,7 @@ class LingQuUserAdapter(layoutResId: Int) :
         holder.setText(R.id.tvprice, item.money)
         holder.setText(R.id.tvnicheng, item.time ?: "")
         val tvColor =
-            context.getColor(if (item.userId == MMKVBroadUtils.getRealUserId()) R.color.color_73DBE2 else com.luck.picture.lib.R.color.ps_color_white)
+            context.getColor(if (item.userId == MMKVBroadUtils.getRealUserId()) R.color.color_73DBE2 else com.cboda.select.picture.R.color.ps_color_white)
         holder.getView<TextView>(R.id.tvprice).setTextColor(tvColor)
         holder.getView<TextView>(R.id.tvpriceAfter).setTextColor(tvColor)
     }

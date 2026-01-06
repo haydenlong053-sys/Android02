@@ -7,7 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.luck.picture.lib.photoview.PhotoView
+import com.cboda.select.picture.photoview.PhotoView
 import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimpleActivity
 import com.lxkj.aiim.bean.CustomViewsInfo

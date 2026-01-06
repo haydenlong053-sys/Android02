@@ -1,6 +1,6 @@
 package com.lxkj.aiim.lj;
 
-import static com.luck.picture.lib.config.PictureConfig.CHOOSE_REQUEST;
+import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import androidx.annotation.Nullable;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
-import com.luck.picture.lib.basic.PictureSelector;
-import com.luck.picture.lib.config.SelectMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+import com.cboda.select.picture.basic.PictureSelector;
+import com.cboda.select.picture.config.SelectMimeType;
+import com.cboda.select.picture.entity.LocalMedia;
+import com.cboda.select.picture.interfaces.OnResultCallbackListener;
 import com.cboda.intelligent.R;
 import com.lxkj.aiim.base.BaseSimpleActivity;
 import com.lxkj.aiim.lj.bean.ResultBean;

@@ -90,9 +90,9 @@
 -dontwarn razerdp.basepopup.**
 -keep class razerdp.basepopup.**{*;}
 
--keep class com.luck.picture.lib.** { *; }
+-keep class com.cboda.select.picture.** { *; }
 
--keep class com.luck.lib.camerax.** { *; }
+-keep class com.cboda.lib.camerax.** { *; }
 
 -dontwarn com.yalantis.ucrop**
 -keep class com.yalantis.ucrop** { *; }

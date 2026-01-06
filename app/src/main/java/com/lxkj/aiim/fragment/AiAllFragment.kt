@@ -14,7 +14,7 @@ import com.cboda.baselibrary.utils.seStrokeColor
 import com.cboda.baselibrary.utils.setTxt
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.StringUtils
-import com.luck.picture.lib.entity.LocalMedia
+import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.AIImgAdapter
 import com.lxkj.aiim.base.BaseFragment
@@ -24,7 +24,6 @@ import com.lxkj.aiim.dialog.pop.UploadFileTipPop
 import com.lxkj.aiim.lj.utils.showToastMain
 import com.lxkj.aiim.utils.JumpUtils.Companion.jumpAiCheckResultActivity
 import com.lxkj.aiim.viewmodel.CheckAiViewModel
-import kotlin.toString
 
 class AiAllFragment :
     BaseFragment<AiAllFragmentBinding, CheckAiViewModel>() {

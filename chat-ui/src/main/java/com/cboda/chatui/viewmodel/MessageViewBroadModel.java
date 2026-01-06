@@ -20,7 +20,7 @@ import com.cboda.baselibrary.bean.CommonDataListBroadBean;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
 import com.cboda.baselibrary.utils.CompressionBroadUtil;
 import com.cboda.baselibrary.utils.SharePrefBroadBroadUtil;
-import com.luck.picture.lib.utils.ToastBroadUtils;
+import com.cboda.select.picture.utils.ToastBroadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 

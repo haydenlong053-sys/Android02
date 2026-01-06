@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.luck.picture.lib.engine.ImageEngine;
-import com.luck.picture.lib.utils.ActivityCompatHelper;
+import com.cboda.select.picture.engine.ImageEngine;
+import com.cboda.select.picture.utils.ActivityCompatHelper;
 
 /**
  * @author：luck
@@ -62,7 +62,7 @@ public class GlideBroadBroadEngine implements ImageEngine {
                 .override(180, 180)
                 .sizeMultiplier(0.5f)
                 .transform(new CenterCrop(), new RoundedCorners(8))
-                .placeholder(com.luck.picture.lib.R.drawable.ps_image_placeholder)
+                .placeholder(com.cboda.select.picture.R.drawable.ps_image_placeholder)
                 .into(imageView);
     }
 
@@ -83,7 +83,7 @@ public class GlideBroadBroadEngine implements ImageEngine {
                 .load(url)
                 .override(200, 200)
                 .centerCrop()
-                .placeholder(com.luck.picture.lib.R.drawable.ps_image_placeholder)
+                .placeholder(com.cboda.select.picture.R.drawable.ps_image_placeholder)
                 .into(imageView);
     }
 

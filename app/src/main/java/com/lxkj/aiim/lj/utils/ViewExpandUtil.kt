@@ -7,16 +7,12 @@ import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import com.cboda.baselibrary.utils.getAppContext
 import com.bumptech.glide.Glide
-import com.luck.picture.lib.thread.PictureThreadUtils
 import com.cboda.intelligent.R
 import com.lxkj.aiim.base.BaseSimple2Activity
 import com.lxkj.aiim.base.BaseSimpleActivity
