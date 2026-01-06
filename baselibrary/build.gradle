@@ -87,6 +87,6 @@ dependencies {
     api  'io.github.scwang90:refresh-header-material:3.0.0-alpha'    //谷歌刷新头
     api  'io.github.scwang90:refresh-footer-ball:3.0.0-alpha'        //球脉冲加载
     api project(':videocompressor')
-    api project(':susindexbar')
-    api project(':swipemenu')
+    api project(':library-cboda-Xbar')
+    api project(':library-cboda-Menu')
 }

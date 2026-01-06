@@ -1,7 +1,7 @@
 package com.cboda.baselibrary.bean
 
 import android.text.TextUtils
-import com.xdroid.IndexBar.bean.BaseIndexPinyinBean
+import com.cboda.susindexbar.IndexBar.bean.BaseIndexPinyinBean
 
 class CommonDataListBroadBean:BaseBroadResponse() {
     var dataList: MutableList<CommonBean>? = null

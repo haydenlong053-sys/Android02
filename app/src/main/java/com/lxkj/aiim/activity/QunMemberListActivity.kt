@@ -13,18 +13,15 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
 import com.lxkj.aiim.adapter.QunMemberAdapter
 import com.lxkj.aiim.adapter.YiXuanQunMemberAdapter
-import com.lxkj.aiim.app.LiXinApp
 import com.lxkj.aiim.base.BaseSimple2Activity
-import com.lxkj.aiim.base.BaseSimpleActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.lxkj.aiim.bean.ZhuanShuHongBaoEvent
-import com.lxkj.aiim.utils.AppUtil
 import com.lxkj.aiim.viewmodel.CommViewModel
 import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
-import com.xdroid.IndexBar.widget.IndexBar
+import com.cboda.susindexbar.IndexBar.widget.IndexBar
 import org.greenrobot.eventbus.EventBus
 import java.lang.StringBuilder
 

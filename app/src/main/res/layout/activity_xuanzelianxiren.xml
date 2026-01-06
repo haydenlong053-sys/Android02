@@ -90,7 +90,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <com.xdroid.IndexBar.widget.IndexBar
+    <com.cboda.susindexbar.IndexBar.widget.IndexBar
         android:id="@+id/indexBar"
         android:layout_width="30dp"
         android:layout_height="match_parent"

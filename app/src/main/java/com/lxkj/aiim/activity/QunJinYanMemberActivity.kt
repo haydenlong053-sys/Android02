@@ -17,7 +17,7 @@ import com.lxkj.aiim.widge.WrapContentLinearLayoutManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
-import com.xdroid.IndexBar.widget.IndexBar
+import com.cboda.susindexbar.IndexBar.widget.IndexBar
 
 class QunJinYanMemberActivity : BaseSimpleActivity() {
     private var qunId = ""
