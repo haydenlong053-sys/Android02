@@ -23,15 +23,15 @@ import java.util.List;
 import java.util.Map;
 
 
-import io.agora.auikit.model.AUIMicSeatBroadInfo;
-import io.agora.auikit.model.AUIMicSeatBroadStatus;
-import io.agora.auikit.model.AUIRoomBroadContext;
-import io.agora.auikit.model.AUIUserBroadInfo;
-import io.agora.auikit.model.AUIUserThumbnailBroadInfo;
-import io.agora.auikit.service.IAUIInvitationBroadService;
-import io.agora.auikit.service.IAUIMicSeatBroadService;
-import io.agora.auikit.service.IAUIUserBroadService;
-import io.agora.auikit.utils.AUIBroadLogger;
+import com.cboda.agora.service.model.AUIMicSeatBroadInfo;
+import com.cboda.agora.service.model.AUIMicSeatBroadStatus;
+import com.cboda.agora.service.model.AUIRoomBroadContext;
+import com.cboda.agora.service.model.AUIUserBroadInfo;
+import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo;
+import com.cboda.agora.service.service.IAUIInvitationBroadService;
+import com.cboda.agora.service.service.IAUIMicSeatBroadService;
+import com.cboda.agora.service.service.IAUIUserBroadService;
+import com.cboda.agora.service.utils.AUIBroadLogger;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
 

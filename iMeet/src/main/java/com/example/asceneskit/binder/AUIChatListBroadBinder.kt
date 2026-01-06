@@ -5,10 +5,10 @@ import com.cboda.agora.ui.chatList.AUIChatBroadInfo
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.cboda.agora.ui.ui.chatList.impl.AUIChatListBroadView
 import com.cboda.agora.ui.ui.chatList.listener.AUIChatListItemClickBroadListener
-import io.agora.auikit.model.AUIRoomBroadInfo
-import io.agora.auikit.service.IAUIIMManagerBroadService
-import io.agora.auikit.service.im.AUIChatBroadManager
-import io.agora.auikit.utils.ThreadBroadManager
+import com.cboda.agora.service.model.AUIRoomBroadInfo
+import com.cboda.agora.service.service.IAUIIMManagerBroadService
+import com.cboda.agora.service.service.im.AUIChatBroadManager
+import com.cboda.agora.service.utils.ThreadBroadManager
 
 class AUIChatListBinder constructor(
     roomInfo: AUIRoomBroadInfo,

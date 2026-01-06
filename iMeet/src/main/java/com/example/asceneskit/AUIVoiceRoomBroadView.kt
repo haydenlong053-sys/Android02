@@ -25,12 +25,13 @@ import com.example.asceneskit.binder.IAUIBroadBindable
 import com.example.asceneskit.databinding.VoiceRoomBroadViewBinding
 import com.example.asceneskit.dialog.VoiceMoreItemBean
 import com.example.asceneskit.dialog.VoiceRoomMoreDialog
-import io.agora.auikit.model.AUIRoomBroadContext
-import io.agora.auikit.model.AUIRoomBroadInfo
-import io.agora.auikit.service.*
-import io.agora.auikit.service.imp.AUIIMManagerServiceBroadImpl
-import io.agora.auikit.utils.AUIBroadLogger
-import io.agora.auikit.utils.ThreadBroadManager
+import com.cboda.agora.service.model.AUIRoomBroadContext
+import com.cboda.agora.service.model.AUIRoomBroadInfo
+import com.cboda.agora.service.service.IAUIIMManagerBroadService
+import com.cboda.agora.service.service.IAUIMicSeatBroadService
+import com.cboda.agora.service.service.imp.AUIIMManagerServiceBroadImpl
+import com.cboda.agora.service.utils.AUIBroadLogger
+import com.cboda.agora.service.utils.ThreadBroadManager
 
 class AUIVoiceRoomBroadView : FrameLayout,
     AUIVoiceRoomBroadObserver,
@@ -52,7 +53,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
     private var mOnClickAllMute: ((allMute: Boolean) -> Unit)? = null
     private var mPIPEvent: (() -> Unit)? = null
     private var mOnRoomDestroyEvent: (() -> Unit)? = null
-    private var imManagerService:IAUIIMManagerBroadService?=null
+    private var imManagerService: IAUIIMManagerBroadService?=null
     private var invitationBinder: AUIInvitationBinder?=null
     private var auiGiftBarrageBinder : AUIGiftBarrageBinder?=null
     private val mDestroyDialog by lazy {

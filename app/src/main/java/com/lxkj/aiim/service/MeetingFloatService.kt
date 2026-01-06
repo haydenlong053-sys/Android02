@@ -31,11 +31,11 @@ import com.lxkj.aiim.utils.AUIVoiceRoomUIKit
 import com.lxkj.aiim.net.manager.ServerManager
 import com.lxkj.aiim.widge.VoiceWaveView
 import com.example.asceneskit.AUIAPIBroadConfig
-import io.agora.auikit.model.AUICommonBroadConfig
-import io.agora.auikit.model.AUIRoomBroadContext
-import io.agora.auikit.model.AUIRoomBroadInfo
-import io.agora.auikit.model.AUIUserThumbnailBroadInfo
-import io.agora.auikit.service.rtm.AUIRtmMessageRespObserver
+import com.cboda.agora.service.model.AUICommonBroadConfig
+import com.cboda.agora.service.model.AUIRoomBroadContext
+import com.cboda.agora.service.model.AUIRoomBroadInfo
+import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo
+import com.cboda.agora.service.service.rtm.AUIRtmMessageRespObserver
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

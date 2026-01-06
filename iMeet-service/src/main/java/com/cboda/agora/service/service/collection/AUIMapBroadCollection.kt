@@ -1,0 +1,539 @@
+package com.cboda.agora.service.service.collection
+
+import android.util.Log
+import com.cboda.agora.service.service.imp.AUIMicSeatBroadCmd
+import com.google.gson.reflect.TypeToken
+import com.cboda.agora.service.service.rtm.AUIRtmBroadException
+import com.cboda.agora.service.service.rtm.AUIRtmBroadManager
+import com.cboda.agora.service.utils.GsonBroadTools
+import java.util.UUID
+
+class AUIMapBroadCollection(
+    private val channelName: String,
+    private val observeKey: String,
+    private val rtmManager: AUIRtmBroadManager
+) : AUIBaseBroadCollection(channelName, observeKey, rtmManager) {
+
+    private var currentMap: Map<String, Any> = mutableMapOf()
+        set(value) {
+            field = value
+            attributesDidChangedClosure?.invoke(channelName, observeKey, AUIAttributesModel(value))
+        }
+
+    override fun getMetaData(callback: ((error: AUICollectionBroadException?, value: Any?) -> Unit)?) {
+        rtmManager.getMetadata(
+            channelName = channelName,
+            completion = { error, metaData ->
+                if (error != null) {
+                    callback?.invoke(AUICollectionBroadException.ErrorCode.unknown.toException(), null)
+                    return@getMetadata
+                }
+                val data = metaData?.get(observeKey)
+                if (data == null) {
+                    callback?.invoke(null, null)
+                    return@getMetadata
+                }
+
+                val map = GsonBroadTools.toBean<Map<String, Any>>(
+                    data,
+                    object : TypeToken<Map<String, Any>>() {}.type
+                )
+                if (map == null) {
+                    callback?.invoke(
+                        AUICollectionBroadException.ErrorCode.encodeToJsonStringFail.toException(),
+                        null
+                    )
+                    return@getMetadata
+                }
+
+                callback?.invoke(null, map)
+            }
+        )
+    }
+
+    override fun updateMetaData(
+        valueCmd: String?,
+        value: Map<String, Any>,
+        filter: List<Map<String, Any>>?,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        if (isArbiter()) {
+            rtmUpdateMetaData(localUid(), valueCmd, value, callback)
+            return
+        }
+
+        val uniqueId = UUID.randomUUID().toString()
+        val data = AUICollectionMessage(
+            channelName = channelName,
+            uniqueId = uniqueId,
+            sceneKey = observeKey,
+            payload = AUICollectionMessagePayload(
+                dataCmd = valueCmd,
+                data = value
+            )
+        )
+        val jsonStr = GsonBroadTools.beanToString(data)
+        if (jsonStr == null) {
+            callback?.invoke(AUICollectionBroadException.ErrorCode.encodeToJsonStringFail.toException())
+            return
+        }
+        rtmManager.publishAndWaitReceipt(
+            channelName = channelName,
+            userId = arbiterUid(),
+            message = jsonStr,
+            uniqueId = uniqueId
+        ) { error ->
+            if (error != null) {
+                callback?.invoke(
+                    AUICollectionBroadException.ErrorCode.recvErrorReceipt.toException()
+                )
+            } else {
+                callback?.invoke(null)
+            }
+        }
+    }
+
+    override fun mergeMetaData(
+        valueCmd: String?,
+        value: Map<String, Any>,
+        filter: List<Map<String, Any>>?,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        if (isArbiter()) {
+            rtmMergeMetaData(localUid(), valueCmd, value, callback)
+            return
+        }
+
+        val uniqueId = UUID.randomUUID().toString()
+        val data = AUICollectionMessage(
+            channelName = channelName,
+            uniqueId = uniqueId,
+            sceneKey = observeKey,
+            payload = AUICollectionMessagePayload(
+                type = AUICollectionOperationTypeMerge,
+                dataCmd = valueCmd,
+                data = value
+            )
+        )
+        val jsonStr = GsonBroadTools.beanToString(data)
+        if (valueCmd == AUIMicSeatBroadCmd.muteAudioCmd.name){
+            Log.d("麦位","beanToString${jsonStr}")
+        }
+        if (jsonStr == null) {
+            callback?.invoke(AUICollectionBroadException.ErrorCode.encodeToJsonStringFail.toException())
+            return
+        }
+        rtmManager.publishAndWaitReceipt(
+            channelName = channelName,
+            userId = arbiterUid(),
+            message = jsonStr,
+            uniqueId = uniqueId
+        ) { error ->
+            if (error != null) {
+                callback?.invoke(AUICollectionBroadException.ErrorCode.recvErrorReceipt.toException("$error"))
+            } else {
+                callback?.invoke(null)
+            }
+        }
+    }
+
+    /**
+     * 添加
+     *
+     * @param value
+     * @param callback
+     */
+    override fun addMetaData(
+        valueCmd: String?,
+        value: Map<String, Any>,
+        filter: List<Map<String, Any>>?,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        updateMetaData(valueCmd, value, filter, callback)
+    }
+
+    override fun removeMetaData(
+        valueCmd: String?,
+        filter: List<Map<String, Any>>?,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        callback?.invoke(AUICollectionBroadException.ErrorCode.unsupportedAction.toException())
+    }
+
+    override fun calculateMetaData(
+        valueCmd: String?,
+        key: List<String>,
+        value: Int,
+        min: Int,
+        max: Int,
+        filter: List<Map<String, Any>>?,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        if (isArbiter()) {
+            rtmCalculateMetaData(
+                localUid(),
+                valueCmd,
+                key,
+                AUICollectionCalcValue(value, min, max),
+                callback
+            )
+            return
+        }
+
+        val uniqueId = UUID.randomUUID().toString()
+        val data = AUICollectionMessage(
+            channelName = channelName,
+            uniqueId = uniqueId,
+            sceneKey = observeKey,
+            payload = AUICollectionMessagePayload(
+                type = AUICollectionOperationTypeCalculate,
+                dataCmd = valueCmd,
+                data = GsonBroadTools.beanToMap(
+                    AUICollectionCalcData(
+                        key,
+                        AUICollectionCalcValue(value, max, min)
+                    )
+                )
+            )
+        )
+        val jsonStr = GsonBroadTools.beanToString(data)
+        if (jsonStr == null) {
+            callback?.invoke(AUICollectionBroadException.ErrorCode.calculateMapFail.toException())
+            return
+        }
+        rtmManager.publishAndWaitReceipt(
+            channelName = channelName,
+            userId = arbiterUid(),
+            message = jsonStr,
+            uniqueId = uniqueId
+        ) { error ->
+            if (error != null) {
+                callback?.invoke(
+                    AUICollectionBroadException.ErrorCode.recvErrorReceipt.toException("$error")
+                )
+            } else {
+                callback?.invoke(null)
+            }
+        }
+    }
+
+    override fun cleanMetaData(callback: ((error: AUICollectionBroadException?) -> Unit)?) {
+        if (isArbiter()) {
+            rtmCleanMetaData(callback)
+            return
+        }
+
+        val uniqueId = UUID.randomUUID().toString()
+        val data = AUICollectionMessage(
+            channelName = channelName,
+            uniqueId = uniqueId,
+            sceneKey = observeKey,
+            payload = AUICollectionMessagePayload(
+                type = AUICollectionOperationTypeClean,
+                dataCmd = null,
+                data = null
+            )
+        )
+        val jsonStr = GsonBroadTools.beanToString(data)
+        if (jsonStr == null) {
+            callback?.invoke(AUICollectionBroadException.ErrorCode.encodeToJsonStringFail.toException())
+            return
+        }
+        rtmManager.publishAndWaitReceipt(
+            channelName = channelName,
+            userId = arbiterUid(),
+            message = jsonStr,
+            uniqueId = uniqueId
+        ) { error ->
+            if (error != null) {
+                callback?.invoke(
+                    AUICollectionBroadException.ErrorCode.recvErrorReceipt.toException("$error")
+                )
+            } else {
+                callback?.invoke(null)
+            }
+        }
+    }
+
+    private fun rtmUpdateMetaData(
+        publisherId: String,
+        valueCmd: String?,
+        value: Map<String, Any>,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        val newValue = valueWillChangeClosure?.invoke(publisherId, valueCmd, value) ?: value
+
+        val error =
+            metadataWillUpdateClosure?.invoke(publisherId, valueCmd, newValue, HashMap(currentMap))
+        if (error != null) {
+            callback?.invoke(error)
+            return
+        }
+
+        val map = HashMap(currentMap)
+        newValue.forEach { (k, v) ->
+            map[k] = v
+        }
+        val outAttr = AUIAttributesModel(map)
+        attributesWillSetClosure?.invoke(
+            channelName,
+            observeKey,
+            valueCmd,
+            outAttr
+        )
+        val retMap = outAttr.getMap()
+        val data = GsonBroadTools.beanToString(retMap)
+        if (data == null) {
+            callback?.invoke(AUICollectionBroadException.ErrorCode.encodeToJsonStringFail.toException())
+            return
+        }
+
+        rtmManager.setBatchMetadata(
+            channelName,
+            metadata = mapOf(Pair(observeKey, data)),
+        ) { e ->
+            if (e != null) {
+                callback?.invoke(
+                    AUICollectionBroadException.ErrorCode.unknown.toException("rtm setBatchMetadata error: $e")
+                )
+            } else {
+                callback?.invoke(null)
+            }
+        }
+    }
+
+    private fun rtmMergeMetaData(
+        publisherId: String,
+        valueCmd: String?,
+        value: Map<String, Any>,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        val newValue = valueWillChangeClosure?.invoke(publisherId, valueCmd, value) ?: value
+
+        val error =
+            metadataWillMergeClosure?.invoke(publisherId, valueCmd, newValue, HashMap(currentMap))
+        if (error != null) {
+            callback?.invoke(error)
+            return
+        }
+
+        val map = AUICollectionBroadUtils.mergeMap(currentMap, newValue)
+        val outAttr = AUIAttributesModel(map)
+        attributesWillSetClosure?.invoke(
+            channelName,
+            observeKey,
+            valueCmd,
+            outAttr
+        )
+        val retMap = outAttr.getMap()
+        val data = GsonBroadTools.beanToString(retMap)
+        if (data == null) {
+            callback?.invoke(AUICollectionBroadException.ErrorCode.encodeToJsonStringFail.toException())
+            return
+        }
+
+        rtmManager.setBatchMetadata(
+            channelName,
+            metadata = mapOf(Pair(observeKey, data)),
+        ) { e ->
+            if (e != null) {
+                callback?.invoke(
+                    AUICollectionBroadException.ErrorCode.unknown.toException("rtm setBatchMetadata error: $e")
+                )
+            } else {
+                callback?.invoke(null)
+            }
+        }
+    }
+
+    private fun rtmCalculateMetaData(
+        publisherId: String,
+        valueCmd: String?,
+        key: List<String>,
+        value: AUICollectionCalcValue,
+        callback: ((error: AUICollectionBroadException?) -> Unit)?
+    ) {
+        val currMap = HashMap(currentMap)
+        val err = metadataWillCalculateClosure?.invoke(
+            publisherId,
+            valueCmd,
+            currMap,
+            key,
+            value.value,
+            value.min,
+            value.max
+        )
+        if (err != null) {
+            callback?.invoke(err)
+            return
+        }
+
+        val map = AUICollectionBroadUtils.calculateMap(
+            currMap,
+            key,
+            value.value,
+            value.min,
+            value.max
+        ) ?: mutableMapOf()
+        val outAttr = AUIAttributesModel(map)
+        attributesWillSetClosure?.invoke(
+            channelName,
+            observeKey,
+            valueCmd,
+            outAttr
+        )
+        val retMap = outAttr.getMap()
+        val data = GsonBroadTools.beanToString(retMap)
+        if (data == null) {
+            callback?.invoke(AUICollectionBroadException.ErrorCode.encodeToJsonStringFail.toException())
+            return
+        }
+
+        rtmManager.setBatchMetadata(
+            channelName,
+            metadata = mapOf(Pair(observeKey, data)),
+        ) { e ->
+            if (e != null) {
+                callback?.invoke(
+                    AUICollectionBroadException.ErrorCode.unknown.toException("rtm setBatchMetadata error: $e")
+                )
+            } else {
+                callback?.invoke(null)
+            }
+        }
+    }
+
+    private fun rtmCleanMetaData(callback: ((error: AUICollectionBroadException?) -> Unit)?) {
+        rtmManager.cleanBatchMetadata(
+            channelName = channelName,
+            remoteKeys = listOf(observeKey),
+            completion = { error ->
+                if (error != null) {
+                    callback?.invoke(AUICollectionBroadException.ErrorCode.unknown.toException("rtm rtmCleanMetaData error: $error"))
+                } else {
+                    callback?.invoke(null)
+                }
+            }
+        )
+    }
+
+    override fun onAttributeChanged(value: Any) {
+        val strValue = value as? String ?: return
+
+        val map = GsonBroadTools.toBean<Map<String, Any>>(
+            strValue,
+            object : TypeToken<Map<String, Any>>() {}.type
+        ) ?: return
+
+        currentMap = map
+    }
+
+    override fun onMessageReceive(publisherId: String, message: String) {
+        val messageModel = GsonBroadTools.toBean(message, AUICollectionMessage::class.java) ?: return
+
+        val uniqueId = messageModel.uniqueId
+        if (uniqueId == null
+            || messageModel.channelName != channelName
+            || messageModel.sceneKey != observeKey
+        ) {
+            return
+        }
+
+        if (messageModel.messageType == AUICollectionMessageTypeReceipt) {
+            // receipt message from arbiter
+            val collectionError = GsonBroadTools.toBean(
+                GsonBroadTools.beanToString(messageModel.payload?.data),
+                AUICollectionError::class.java
+            )
+            if (collectionError == null) {
+                rtmManager.markReceiptFinished(
+                    uniqueId, AUIRtmBroadException(
+                        -1, "data is not a map", "receipt message"
+                    )
+                )
+                return
+            }
+
+            val code = collectionError.code
+            val reason = collectionError.reason
+            if (code == 0) {
+                // success
+                rtmManager.markReceiptFinished(uniqueId, null)
+            } else {
+                // failure
+                rtmManager.markReceiptFinished(
+                    uniqueId, AUIRtmBroadException(
+                        code,
+                        reason,
+                        "receipt message from arbiter"
+                    )
+                )
+            }
+            return
+        }
+        val updateType = messageModel.payload?.type
+        if (updateType == null) {
+            sendReceipt(publisherId, uniqueId, AUICollectionBroadException.ErrorCode.updateTypeNotFound.toException())
+            return
+        }
+        val valueCmd = messageModel.payload.dataCmd
+        var error: AUICollectionBroadException? = null
+        when (updateType) {
+            AUICollectionOperationTypeAdd, AUICollectionOperationTypeUpdate, AUICollectionOperationTypeMerge -> {
+                val data = messageModel.payload.data
+                if (data != null) {
+                    if (updateType == AUICollectionOperationTypeMerge) {
+                        rtmMergeMetaData(publisherId, valueCmd, data) {
+                            sendReceipt(publisherId, uniqueId, it)
+                        }
+                    } else {
+                        rtmUpdateMetaData(publisherId, valueCmd, data) {
+                            sendReceipt(publisherId, uniqueId, it)
+                        }
+                    }
+
+                } else {
+                    error = AUICollectionBroadException.ErrorCode.invalidPayloadType.toException()
+                }
+            }
+
+            AUICollectionOperationTypeClean -> {
+                rtmCleanMetaData {
+                    sendReceipt(publisherId, uniqueId, it)
+                }
+            }
+
+            AUICollectionOperationTypeRemove -> {
+                error = AUICollectionBroadException.ErrorCode.updateTypeNotFound.toException()
+            }
+
+            AUICollectionOperationTypeCalculate -> {
+                val calcData = GsonBroadTools.toBean(
+                    GsonBroadTools.beanToString(messageModel.payload.data),
+                    AUICollectionCalcData::class.java
+                )
+                if (calcData != null) {
+                    rtmCalculateMetaData(
+                        publisherId,
+                        valueCmd,
+                        calcData.key,
+                        calcData.value
+                    ) {
+                        sendReceipt(publisherId, uniqueId, it)
+                    }
+                } else {
+                    error = AUICollectionBroadException.ErrorCode.invalidPayloadType.toException()
+                }
+            }
+        }
+
+        if (error != null) {
+            sendReceipt(
+                publisherId,
+                uniqueId,
+                error
+            )
+        }
+    }
+
+}

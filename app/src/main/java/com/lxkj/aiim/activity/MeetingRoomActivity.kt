@@ -51,10 +51,10 @@ import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import com.cboda.agora.ui.ui.basic.AUIAlertSecondBroadDialog
 import com.cboda.agora.ui.utils.PermissionBroadHelp
 import com.lxkj.aiim.utils.AUIVoiceRoomUIKit.renewToken
-import io.agora.auikit.model.AUIRoomBroadContext
-import io.agora.auikit.model.AUIRoomBroadInfo
-import io.agora.auikit.model.AUIUserThumbnailBroadInfo
-import io.agora.auikit.utils.AUIBroadLogger
+import com.cboda.agora.service.model.AUIRoomBroadContext
+import com.cboda.agora.service.model.AUIRoomBroadInfo
+import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo
+import com.cboda.agora.service.utils.AUIBroadLogger
 import io.agora.rtc2.Constants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
