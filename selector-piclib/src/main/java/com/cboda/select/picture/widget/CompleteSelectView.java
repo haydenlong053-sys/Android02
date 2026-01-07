@@ -59,7 +59,7 @@ public class CompleteSelectView extends LinearLayout {
     }
 
     protected void inflateLayout() {
-        LayoutInflater.from(getContext()).inflate(R.layout.ps_complete_selected_layout, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.ps_complete_selected_broad_layout, this);
     }
 
     /**

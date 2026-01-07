@@ -35,7 +35,7 @@ public class PictureOnlyCameraFragment extends PictureCommonFragment {
 
     @Override
     public int getResourceId() {
-        return R.layout.ps_empty;
+        return R.layout.ps_broad_empty;
     }
 
 

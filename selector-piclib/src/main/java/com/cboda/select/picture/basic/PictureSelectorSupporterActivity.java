@@ -33,7 +33,7 @@ public class PictureSelectorSupporterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initSelectorConfig();
         immersive();
-        setContentView(R.layout.ps_activity_container);
+        setContentView(R.layout.ps_activity_broad_container);
         setupFragment();
     }
 

@@ -57,13 +57,13 @@ public class PicturePreviewAdapter extends RecyclerView.Adapter<BasePreviewHolde
         int layoutResourceId;
         if (viewType == BasePreviewHolder.ADAPTER_TYPE_VIDEO) {
             layoutResourceId = InjectResourceSource.getLayoutResource(parent.getContext(), InjectResourceSource.PREVIEW_ITEM_VIDEO_LAYOUT_RESOURCE, selectorConfig);
-            return BasePreviewHolder.generate(parent, viewType, layoutResourceId != InjectResourceSource.DEFAULT_LAYOUT_RESOURCE ? layoutResourceId : R.layout.ps_preview_video);
+            return BasePreviewHolder.generate(parent, viewType, layoutResourceId != InjectResourceSource.DEFAULT_LAYOUT_RESOURCE ? layoutResourceId : R.layout.ps_preview_broad_video);
         } else if (viewType == BasePreviewHolder.ADAPTER_TYPE_AUDIO) {
             layoutResourceId = InjectResourceSource.getLayoutResource(parent.getContext(), InjectResourceSource.PREVIEW_ITEM_AUDIO_LAYOUT_RESOURCE, selectorConfig);
-            return BasePreviewHolder.generate(parent, viewType, layoutResourceId != InjectResourceSource.DEFAULT_LAYOUT_RESOURCE ? layoutResourceId : R.layout.ps_preview_audio);
+            return BasePreviewHolder.generate(parent, viewType, layoutResourceId != InjectResourceSource.DEFAULT_LAYOUT_RESOURCE ? layoutResourceId : R.layout.ps_preview_broad_audio);
         } else {
             layoutResourceId = InjectResourceSource.getLayoutResource(parent.getContext(), InjectResourceSource.PREVIEW_ITEM_IMAGE_LAYOUT_RESOURCE, selectorConfig);
-            return BasePreviewHolder.generate(parent, viewType, layoutResourceId != InjectResourceSource.DEFAULT_LAYOUT_RESOURCE ? layoutResourceId : R.layout.ps_preview_image);
+            return BasePreviewHolder.generate(parent, viewType, layoutResourceId != InjectResourceSource.DEFAULT_LAYOUT_RESOURCE ? layoutResourceId : R.layout.ps_preview_broad_image);
         }
     }
 

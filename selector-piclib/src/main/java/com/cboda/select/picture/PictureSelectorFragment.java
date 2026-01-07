@@ -133,7 +133,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
         if (layoutResourceId != InjectResourceSource.DEFAULT_LAYOUT_RESOURCE) {
             return layoutResourceId;
         }
-        return R.layout.ps_fragment_selector;
+        return R.layout.ps_fragment_broad_selector;
     }
 
     @SuppressLint("NotifyDataSetChanged")
