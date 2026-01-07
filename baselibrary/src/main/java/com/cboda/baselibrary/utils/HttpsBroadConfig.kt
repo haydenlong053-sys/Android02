@@ -15,11 +15,15 @@ object HttpsBroadConfig {
 
     val appBaseUrl
         get():String {
-            return "$appHost/lixin/api"
+            return "$appHost2/api"
         }
+    var appHost2 = ""
+
+    //    var appBaseUrl2 = ""
     var appHost = "http://119.45.9.228:82"
     var appImServerHost = "119.45.9.228"
     var appIcePassword = "aT3BxjPy4MRdC6@"
+    var appAesPwd = "1q30vqwerf8yiac3"
     var appGroupAvatarHost = "http://119.45.9.228:8888"
     const val appIceServer = "turn:turn.seekweb4.net:3478"
     const val appIceUserName = "seekweb4"
@@ -28,50 +32,71 @@ object HttpsBroadConfig {
         "82\nhttp://119.45.9.228:82",
         "https\nhttps://api.seekweb4.net",
         "fat\nhttps://api-fat.seekweb4.net",
-        "自定义"
+        "自定义",
+        "US\nhttps://app.seekweb4.net"
     )
     private const val RELEASE_TYPE = 0
     private const val HTTP_TYPE = 1
     private const val FAT_TYPE = 2
     private const val INPUT_TYPE = 3
+    private const val US_TYPE = 4
 
     private fun setServer(type: Int) {
         when (type) {
+            US_TYPE -> {
+                appHost = "https://app.seekweb4.net"
+                appHost2 = appHost
+                appImServerHost = "us.seekweb4.net"
+                appIcePassword = "aT3BxjPy4MRdC6@"
+                appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appAesPwd = "f81q30ryiacasda1"
+            }
+
             FAT_TYPE -> {
                 appHost = "https://api-fat.seekweb4.net"
+                appHost2 = "$appHost/lixin"
                 appImServerHost = "fat.seekweb4.net"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appAesPwd = "1q30vqwerf8yiac3"
             }
 
             HTTP_TYPE -> {
                 appHost = "https://api.seekweb4.net"
+                appHost2 = "$appHost/lixin"
                 appImServerHost = "ws.seekweb4.net"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api.seekweb4.net"
+                appAesPwd = "1q30vqwerf8yiac3"
             }
 
 
             INPUT_TYPE -> {
                 appHost = MMKV.defaultMMKV().decodeString(DEV_INPUT_BASE_URL)
                     ?: "https://api-fat.seekweb4.net"
+                appHost2 = "$appHost/lixin"
                 appImServerHost = "fat.seekweb4.net"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appAesPwd = "1q30vqwerf8yiac3"
             }
 
             RELEASE_TYPE -> {
                 appHost = "http://119.45.9.228:82"
+                appHost2 = "$appHost/lixin"
                 appImServerHost = "119.45.9.228"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "http://119.45.9.228:8888"
+                appAesPwd = "1q30vqwerf8yiac3"
             }
 
             else -> {
                 appHost = "http://119.45.9.228:82"
+                appHost2 = "$appHost/lixin"
                 appImServerHost = "119.45.9.228"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "http://119.45.9.228:8888"
+                appAesPwd = "1q30vqwerf8yiac3"
             }
         }
 

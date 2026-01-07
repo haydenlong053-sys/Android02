@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class AESBroadUtil {
 
     // AES密钥，16字节、24字节或32字节
-    private static final String AES_KEY = "1q30vqwerf8yiac3";
+    private static final String AES_KEY = HttpsBroadConfig.INSTANCE.getAppAesPwd();
 
     // 加密
     public static String encrypt(String input) throws Exception {

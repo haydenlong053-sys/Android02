@@ -2,6 +2,8 @@ package com.lxkj.aiim.utils;
 
 import android.util.Base64;
 
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -246,7 +248,7 @@ public class AES {
 
 
     // AES密钥，16字节、24字节或32字节
-    private static final String AES_KEY = "1q30vqwerf8yiac3";
+    private static final String AES_KEY = HttpsBroadConfig.INSTANCE.getAppAesPwd();
 
     public static String encrypt(String input) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");

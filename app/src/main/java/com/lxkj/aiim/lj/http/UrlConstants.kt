@@ -1,10 +1,10 @@
 package com.lxkj.aiim.lj.http
 
-import com.cboda.baselibrary.utils.HttpsBroadConfig.appHost
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 
 
 object UrlBroadConstants {
-    var HOST: String = "$appHost/lixin"
+    var HOST = HttpsBroadConfig.appHost2
 
     const val GET_UNIQUE_ROOM_ID = "/v2/room/getUniqueRoomId"
 
@@ -90,6 +90,7 @@ object UrlBroadConstants {
 
     //ai报告详情
     const val AI_DETAIL = "api/AI/detail"
+
     //检测列表-分页
     const val AI_PAGE = "api/AI/page"
 

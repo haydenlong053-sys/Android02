@@ -37,8 +37,7 @@ public class JavaBroadUtil {
     }
 
 
-
-    private static final String AES_KEY = "1q30vqwerf8yiac3";
+    private static final String AES_KEY = HttpsBroadConfig.INSTANCE.getAppAesPwd();
 
     public static String aesDecrypt(String encrypted) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
