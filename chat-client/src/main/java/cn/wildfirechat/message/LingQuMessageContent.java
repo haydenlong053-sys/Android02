@@ -1,15 +1,15 @@
 package cn.wildfirechat.message;
 
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_LINGQU;
 
 import android.os.Parcel;
-import android.util.Log;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.wildfirechat.client.R;
 import cn.wildfirechat.message.core.ContentTag;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
@@ -76,14 +76,14 @@ public class LingQuMessageContent extends GroupNotificationMessageContent {
         String content = "";
         LingQuMessageContent lqMessage = (LingQuMessageContent) message.content;
         if (lqMessage.sendUserId.equals(ChatManager.Instance().getUserId())) {
-            Log.d("formatNotificationClass", "sendUserId:" + lqMessage.sendUserId +",login:"+ChatManager.Instance().getUserId());
+            eLogD("formatNotificationClass", "sendUserId:" + lqMessage.sendUserId +",login:"+ChatManager.Instance().getUserId());
             if (message.sender.equals(ChatManager.Instance().getUserId())) {
                 content = "你领取了自己的红包";
             } else {
                 content = lqMessage.lingquUserName + "领取了你的红包";
             }
         } else {
-            Log.d("formatNotificationClass", "lingquUserId:" + lqMessage.lingquUserId);
+            eLogD("formatNotificationClass", "lingquUserId:" + lqMessage.lingquUserId);
             if (lqMessage.lingquUserId.equals(ChatManager.Instance().getUserId())) {
                 content = ("您领取了" + lqMessage.sendUserName + "红包");
             } else
@@ -97,14 +97,14 @@ public class LingQuMessageContent extends GroupNotificationMessageContent {
         String content = "";
         LingQuMessageContent lqMessage = (LingQuMessageContent) message.content;
         if (lqMessage.sendUserId.equals(ChatManager.Instance().getUserId())) {
-            Log.d("formatNotificationClass3", "lingquUserName:" + lqMessage.lingquUserName);
+            eLogD("formatNotificationClass3", "lingquUserName:" + lqMessage.lingquUserName);
             if (message.sender.equals(ChatManager.Instance().getUserId())) {
                 content = "你领取了自己的红包";
             } else {
                 content = lqMessage.lingquUserName + "领取了你的红包";
             }
         } else {
-            Log.d("formatNotificationClass3", "lingquUserId:" + lqMessage.lingquUserId);
+            eLogD("formatNotificationClass3", "lingquUserId:" + lqMessage.lingquUserId);
             if (lqMessage.lingquUserId.equals(ChatManager.Instance().getUserId())) {
                 content = ("您领取了" + lqMessage.sendUserName + "红包");
             } else

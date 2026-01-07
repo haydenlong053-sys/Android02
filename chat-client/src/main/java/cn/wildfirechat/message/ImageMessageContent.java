@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Parcel;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;

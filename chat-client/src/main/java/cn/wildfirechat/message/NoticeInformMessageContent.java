@@ -7,7 +7,6 @@ package cn.wildfirechat.message;
 import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_SYS_NOTICE_INFORM;
 
 import android.os.Parcel;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;

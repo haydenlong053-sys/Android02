@@ -1,4 +1,4 @@
-package com.vincent.videocompressor;
+package com.cboda.videocompressor;
 
 import android.os.AsyncTask;
 

@@ -42,7 +42,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    namespace 'cn.wildfirechat.client'
+    namespace 'com.cboda.chat.client'
     lint {
         abortOnError false
     }

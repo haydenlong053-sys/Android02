@@ -12,9 +12,9 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/baselibrary" />
+            <option value="$PROJECT_DIR$/chat-client" />
             <option value="$PROJECT_DIR$/chat-emoji" />
             <option value="$PROJECT_DIR$/chat-ui" />
-            <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/iMeet" />
             <option value="$PROJECT_DIR$/iMeet-service" />
             <option value="$PROJECT_DIR$/iMeet-ui" />

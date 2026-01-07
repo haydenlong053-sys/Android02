@@ -1,4 +1,4 @@
-package com.vincent.videocompressor;
+package com.cboda.videocompressor;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -17,9 +17,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 @SuppressLint("NewApi")
 public class VideoController {

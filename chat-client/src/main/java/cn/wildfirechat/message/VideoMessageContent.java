@@ -4,13 +4,14 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Parcel;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ public class VideoMessageContent extends MediaMessageContent {
     private Bitmap thumbnail;
     private byte[] thumbnailBytes;
 
-    private long duration ;
+    private long duration;
 
     // 所有消息都需要一个默认构造函数
     public VideoMessageContent() {
@@ -63,7 +64,7 @@ public class VideoMessageContent extends MediaMessageContent {
             if (!TextUtils.isEmpty(localPath)) {
                 thumbnail = ThumbnailUtils.createVideoThumbnail(localPath, MediaStore.Video.Thumbnails.MICRO_KIND);
                 thumbnail = ThumbnailUtils.extractThumbnail(thumbnail, 320, 240,
-                    ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+                        ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
             }
         }
         return thumbnail;
@@ -83,14 +84,14 @@ public class VideoMessageContent extends MediaMessageContent {
                 duration = videoParam.getDuration();
                 thumbnailBytes = videoParam.getThumbnailBytes();
                 payload.binaryContent = thumbnailBytes;
-                Log.e(TAG,"binaryContent="+ payload.binaryContent.length/1024+"kb");
+                eLogD(TAG, "binaryContent=" + payload.binaryContent.length / 1024 + "kb");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             payload.binaryContent = thumbnailBytes;
         }
-        Log.e(TAG, "videoMessageContent encode " + payload.binaryContent.length + " " + duration);
+        eLogD(TAG, "videoMessageContent encode " + payload.binaryContent.length + " " + duration);
         try {
             JSONObject objWrite = new JSONObject();
             objWrite.put("d", duration);
@@ -109,7 +110,7 @@ public class VideoMessageContent extends MediaMessageContent {
         thumbnailBytes = payload.binaryContent;
         try {
             JSONObject jsonObject = new JSONObject(payload.content);
-            if(jsonObject.has("d")) {
+            if (jsonObject.has("d")) {
                 duration = jsonObject.optLong("d");
             } else {
                 duration = jsonObject.optLong("duration");
@@ -117,7 +118,7 @@ public class VideoMessageContent extends MediaMessageContent {
 //            ELogUtilKt.eLogE("VideoMessageContent","jsonObject="+jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG,e.getMessage());
+            eLogD(TAG, e.getMessage());
         }
     }
 
@@ -160,7 +161,6 @@ public class VideoMessageContent extends MediaMessageContent {
             return new VideoMessageContent[size];
         }
     };
-
 
 
 }

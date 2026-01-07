@@ -1,10 +1,11 @@
 package cn.wildfirechat.utils;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -118,7 +119,7 @@ public class WeChatImageUtils {
             Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, imageSize[0] / 2, imageSize[1] / 2);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             thumbnail.compress(Bitmap.CompressFormat.JPEG, 75, baos);
-            Log.e(TAG, "thumbnailBytes=" + baos.toByteArray().length / 1024 + "kb");
+            eLogD(TAG, "thumbnailBytes=" + baos.toByteArray().length / 1024 + "kb");
             videoParam = new VideoParam(width, height, duration, baos.toByteArray());
         }
         try {

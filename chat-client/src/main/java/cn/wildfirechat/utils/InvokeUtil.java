@@ -1,7 +1,8 @@
 package cn.wildfirechat.utils;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -27,7 +28,7 @@ public final class InvokeUtil {
         }
         catch (Exception localException)
         {
-            Log.w(TAG, "Meet exception when make instance as a " + paramClass.getSimpleName(),
+            eLogD(TAG, "Meet exception when make instance as a " + paramClass.getSimpleName(),
                     localException);
         }
         return null;

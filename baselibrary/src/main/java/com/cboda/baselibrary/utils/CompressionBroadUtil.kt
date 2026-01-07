@@ -113,17 +113,17 @@ object CompressionBroadUtil {
                 val desPath =
                     targetPath + File.separator + getUuIdMd5() + "." + getFileExtension(path)
                 val quality =
-                    com.vincent.videocompressor.VideoController.COMPRESS_QUALITY_MEDIUM
+                    com.cboda.videocompressor.VideoController.COMPRESS_QUALITY_MEDIUM
 //                        2 -> com.vincent.videocompressor.VideoController.COMPRESS_QUALITY_MEDIUM
 //                        3 -> com.vincent.videocompressor.VideoController.COMPRESS_QUALITY_HIGH
 //                        else -> com.vincent.videocompressor.VideoController.COMPRESS_QUALITY_LOW
 //                    }
-                com.vincent.videocompressor.VideoCompress.compressVideo(
+                com.cboda.videocompressor.VideoCompress.compressVideo(
                     path,
                     desPath,
                     quality,
                     object :
-                        com.vincent.videocompressor.VideoCompress.CompressListener {
+                        com.cboda.videocompressor.VideoCompress.CompressListener {
                         override fun onStart() {
                         }
 

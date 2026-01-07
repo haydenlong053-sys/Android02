@@ -7,6 +7,8 @@ package cn.wildfirechat.remote;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -25,7 +27,6 @@ import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.LruCache;
 import android.util.Pair;
 import android.widget.Toast;
@@ -383,6 +384,7 @@ public class ChatManager {
     private ChatManager(String serverHost) {
         this.SERVER_HOST = serverHost;
     }
+
     public long shangcishijan = 0L;
 
     public static ChatManager Instance() throws NotInitializedExecption {
@@ -414,7 +416,7 @@ public class ChatManager {
      * @return
      */
     public static void init(Context context, String imServerHost) {
-        Log.d(TAG, "init " + imServerHost);
+        eLogD(TAG, "init " + imServerHost);
         if (imServerHost != null) {
             checkSDKHost(imServerHost);
         }
@@ -522,10 +524,10 @@ public class ChatManager {
      * @param status 连接状态
      */
     private void onConnectionStatusChange(final int status) {
-        Log.d(TAG, "connectionStatusChange " + status);
+        eLogD(TAG, "connectionStatusChange " + status);
         if (status == ConnectionStatus.ConnectionStatusTokenIncorrect || status == ConnectionStatus.ConnectionStatusSecretKeyMismatch) {
             // TODO
-            Log.d(TAG, "连接失败，请参考：" + "https://docs.wildfirechat.cn/faq/general.html");
+            eLogD(TAG, "连接失败，请参考：" + "https://docs.wildfirechat.cn/faq/general.html");
         }
 
         //连接成功，如果Manager有缓存需要清掉
@@ -556,7 +558,7 @@ public class ChatManager {
      * @param port 服务器port
      */
     private void onConnectToServer(final String host, final String ip, final int port) {
-        Log.e(TAG, "connectToServer " + host + " " + ip + " " + port + " " + getConnectionStatus());
+        eLogD(TAG, "connectToServer " + host + " " + ip + " " + port + " " + getConnectionStatus());
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -630,8 +632,8 @@ public class ChatManager {
             }
             for (Message message : messages) {
                 if ((message.content instanceof QuitGroupNotificationContent && ((QuitGroupNotificationContent) message.content).operator.equals(getUserId()))
-                    || (message.content instanceof KickoffGroupMemberNotificationContent && ((KickoffGroupMemberNotificationContent) message.content).kickedMembers.contains(getUserId()))
-                    || message.content instanceof DismissGroupNotificationContent) {
+                        || (message.content instanceof KickoffGroupMemberNotificationContent && ((KickoffGroupMemberNotificationContent) message.content).kickedMembers.contains(getUserId()))
+                        || message.content instanceof DismissGroupNotificationContent) {
                     for (OnRemoveConversationListener l : removeConversationListeners) {
                         l.onConversationRemove(message.conversation);
                     }
@@ -1198,8 +1200,8 @@ public class ChatManager {
 
         String imei = null;
         try (
-            RandomAccessFile fw = new RandomAccessFile(gContext.getFilesDir().getAbsoluteFile() + "/.czjstx", "rw");
-            FileChannel chan = fw.getChannel();
+                RandomAccessFile fw = new RandomAccessFile(gContext.getFilesDir().getAbsoluteFile() + "/.czjstx", "rw");
+                FileChannel chan = fw.getChannel();
         ) {
             FileLock lock = chan.lock();
             imei = fw.readLine();
@@ -1217,10 +1219,10 @@ public class ChatManager {
             lock.release();
         } catch (Exception ex) {
             ex.printStackTrace();
-            Log.e("getClientError", "" + ex.getMessage());
+            eLogD("getClientError", "" + ex.getMessage());
         }
         this.clientId = imei;
-        Log.d(TAG, "clientId " + this.clientId);
+        eLogD(TAG, "clientId " + this.clientId);
         return imei;
     }
 
@@ -1279,7 +1281,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(channelId)) {
-            Log.e(TAG, "Error, channelId is empty");
+            eLogD(TAG, "Error, channelId is empty");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -1332,7 +1334,7 @@ public class ChatManager {
             return new NullChannelInfo(channelId);
         }
         if (TextUtils.isEmpty(channelId)) {
-            Log.e(TAG, "Error, channelId is empty");
+            eLogD(TAG, "Error, channelId is empty");
             return new NullChannelInfo(channelId);
         }
 
@@ -1361,7 +1363,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(keyword)) {
-            Log.e(TAG, "Error, keyword is empty");
+            eLogD(TAG, "Error, keyword is empty");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -1413,7 +1415,7 @@ public class ChatManager {
             return false;
         }
         if (TextUtils.isEmpty(channelId)) {
-            Log.e(TAG, "Error, channelId is empty");
+            eLogD(TAG, "Error, channelId is empty");
             return false;
         }
 
@@ -1440,7 +1442,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(channelId)) {
-            Log.e(TAG, "Error, channelId is empty");
+            eLogD(TAG, "Error, channelId is empty");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -1493,7 +1495,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(channelId)) {
-            Log.e(TAG, "Error, channelId is empty");
+            eLogD(TAG, "Error, channelId is empty");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -2023,7 +2025,7 @@ public class ChatManager {
         try {
             Message message = mClient.getMessage(messageId);
             if (message == null) {
-                Log.e(TAG, "update message failure, message not exist");
+                eLogD(TAG, "update message failure, message not exist");
                 return false;
             }
             message.content = newMsgContent;
@@ -2056,7 +2058,7 @@ public class ChatManager {
         try {
             Message message = mClient.getMessage(messageId);
             if (message == null) {
-                Log.e(TAG, "update message failure, message not exist");
+                eLogD(TAG, "update message failure, message not exist");
                 return false;
             }
             message.content = newMsgContent;
@@ -2090,7 +2092,7 @@ public class ChatManager {
         try {
             Message message = mClient.getMessage(messageId);
             if (message == null) {
-                Log.e(TAG, "update message failure, message not exist");
+                eLogD(TAG, "update message failure, message not exist");
                 return false;
             }
             message.status = status;
@@ -2163,7 +2165,7 @@ public class ChatManager {
      */
     public long connect(String userId, String token) {
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(token) || TextUtils.isEmpty(SERVER_HOST)) {
-            Toast.makeText(getApplicationContext(),"服务器错误：imtoken为空",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "服务器错误：imtoken为空", Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("userId, token and im_server_host must not be empty!");
         }
         this.userId = userId;
@@ -2171,13 +2173,13 @@ public class ChatManager {
 
         if (mClient != null) {
             try {
-                Log.d(TAG, "connect " + userId + " " + token);
+                eLogD(TAG, "connect " + userId + " " + token);
                 return mClient.connect(this.userId, this.token);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         } else {
-            Log.d(TAG, "Mars service not start yet!");
+            eLogD(TAG, "Mars service not start yet!");
         }
         return 0;
     }
@@ -2191,7 +2193,7 @@ public class ChatManager {
     public void disconnect(boolean disablePush, boolean cleanSession) {
         if (mClient != null) {
             try {
-                Log.d(TAG, "disconnect " + disablePush + " " + cleanSession);
+                eLogD(TAG, "disconnect " + disablePush + " " + cleanSession);
                 mClient.disconnect(disablePush, cleanSession);
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -2491,7 +2493,7 @@ public class ChatManager {
             mClient.send(msg, new cn.wildfirechat.client.ISendMessageCallback.Stub() {
                 @Override
                 public void onSuccess(final long messageUid, final long timestamp) throws RemoteException {
-                   ChatManager.Instance().shangcishijan = timestamp;
+                    ChatManager.Instance().shangcishijan = timestamp;
                     msg.messageUid = messageUid;
                     msg.serverTime = timestamp;
                     msg.status = MessageStatus.Sent;
@@ -2510,13 +2512,13 @@ public class ChatManager {
 
                 @Override
                 public void onFailure(final int errorCode) throws RemoteException {
-                    Log.e("野火","发消息失败---> "+errorCode);
+                    eLogD("野火", "发消息失败---> " + errorCode);
                     msg.status = MessageStatus.Send_Failure;
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (errorCode==246){
-                                Toast.makeText(getApplicationContext(),"您已被对方拉黑!",Toast.LENGTH_SHORT).show();
+                            if (errorCode == 246) {
+                                Toast.makeText(getApplicationContext(), "您已被对方拉黑!", Toast.LENGTH_SHORT).show();
                             }
                             if (callback != null) {
                                 callback.onFail(errorCode);
@@ -2666,7 +2668,7 @@ public class ChatManager {
     }
 
     public void shutdown() {
-        Log.d(TAG, "shutdown");
+        eLogD(TAG, "shutdown");
         if (mClient != null) {
             gContext.unbindService(serviceConnection);
         }
@@ -2715,13 +2717,13 @@ public class ChatManager {
      */
     public List<ConversationInfo> getConversationList(List<Conversation.ConversationType> conversationTypes, List<Integer> lines, boolean lastMessage) {
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             return new ArrayList<>();
         }
 
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0) {
-            Log.e(TAG, "Invalid conversation type and lines");
+                lines == null || lines.size() == 0) {
+            eLogD(TAG, "Invalid conversation type and lines");
             return new ArrayList<>();
         }
 
@@ -2752,7 +2754,7 @@ public class ChatManager {
      */
     public void getConversationListAsync(List<Conversation.ConversationType> conversationTypes, List<Integer> lines, GetConversationListCallback callback) {
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             if (callback != null) {
                 callback.onFail(ErrorCode.SERVICE_DIED);
             }
@@ -2764,8 +2766,8 @@ public class ChatManager {
         }
 
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0) {
-            Log.e(TAG, "Invalid conversation type and lines");
+                lines == null || lines.size() == 0) {
+            eLogD(TAG, "Invalid conversation type and lines");
         }
 
         int[] intypes = new int[conversationTypes.size()];
@@ -2812,7 +2814,7 @@ public class ChatManager {
     ConversationInfo getConversation(Conversation conversation) {
         ConversationInfo conversationInfo = null;
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             return null;
         }
 
@@ -2827,7 +2829,7 @@ public class ChatManager {
 
     public long getFirstUnreadMessageId(Conversation conversation) {
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             return 0L;
         }
 
@@ -2867,14 +2869,14 @@ public class ChatManager {
     @Deprecated()
     public List<Message> getMessagesEx(List<Conversation.ConversationType> conversationTypes, List<Integer> lines, List<Integer> contentTypes, long fromIndex, boolean before, int count, String withUser) {
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             return null;
         }
 
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0 ||
-            contentTypes == null || contentTypes.size() == 0) {
-            Log.e(TAG, "Invalid conversation type or lines or contentType");
+                lines == null || lines.size() == 0 ||
+                contentTypes == null || contentTypes.size() == 0) {
+            eLogD(TAG, "Invalid conversation type or lines or contentType");
             return null;
         }
 
@@ -2894,13 +2896,13 @@ public class ChatManager {
     @Deprecated
     public List<Message> getMessagesEx2(List<Conversation.ConversationType> conversationTypes, List<Integer> lines, List<MessageStatus> messageStatus, long fromIndex, boolean before, int count, String withUser) {
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             return null;
         }
 
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0) {
-            Log.e(TAG, "Invalid conversation type or lines");
+                lines == null || lines.size() == 0) {
+            eLogD(TAG, "Invalid conversation type or lines");
             return null;
         }
 
@@ -3121,15 +3123,15 @@ public class ChatManager {
             return;
         }
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             callback.onFail(ErrorCode.SERVICE_DIED);
             return;
         }
 
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0 ||
-            contentTypes == null || contentTypes.size() == 0) {
-            Log.e(TAG, "Invalid conversation type or lines or contentType");
+                lines == null || lines.size() == 0 ||
+                contentTypes == null || contentTypes.size() == 0) {
+            eLogD(TAG, "Invalid conversation type or lines or contentType");
             callback.onFail(ErrorCode.INVALID_PARAMETER);
             return;
         }
@@ -3176,14 +3178,14 @@ public class ChatManager {
         }
 
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             callback.onFail(ErrorCode.SERVICE_DIED);
             return;
         }
 
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0) {
-            Log.e(TAG, "Invalid conversation type or lines");
+                lines == null || lines.size() == 0) {
+            eLogD(TAG, "Invalid conversation type or lines");
             callback.onFail(ErrorCode.INVALID_PARAMETER);
             return;
         }
@@ -3308,15 +3310,15 @@ public class ChatManager {
             return;
         }
         if (!checkRemoteService()) {
-            Log.e(TAG, "Remote service not available");
+            eLogD(TAG, "Remote service not available");
             callback.onFail(ErrorCode.SERVICE_DIED);
             return;
         }
 
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0 ||
-            contentTypes == null || contentTypes.size() == 0) {
-            Log.e(TAG, "Invalid conversation type or lines or contentType");
+                lines == null || lines.size() == 0 ||
+                contentTypes == null || contentTypes.size() == 0) {
+            eLogD(TAG, "Invalid conversation type or lines or contentType");
             callback.onFail(ErrorCode.INVALID_PARAMETER);
             return;
         }
@@ -3355,7 +3357,7 @@ public class ChatManager {
      * @discussion 获取得到的消息数目有可能少于指定的count数，如果count不为0就意味着还有更多的消息可以获取，只有获取到的消息数为0才表示没有更多的消息了。
      */
     public void getRemoteMessages(Conversation conversation, List<Integer> contentTypes, long beforeMessageUid, int count, GetRemoteMessageCallback callback) {
-//        Log.d("zhanglong","conversation.target===="+conversation.target+"===contentTypes==="+contentTypes+"===beforeMessageUid==="+beforeMessageUid+"===count===="+count);
+//        eLogD("zhanglong","conversation.target===="+conversation.target+"===contentTypes==="+contentTypes+"===beforeMessageUid==="+beforeMessageUid+"===count===="+count);
         if (!checkRemoteService()) {
             return;
         }
@@ -4849,7 +4851,7 @@ public class ChatManager {
             return new NullGroupInfo(groupId);
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.d(TAG, "get group info error, group id is empty");
+            eLogD(TAG, "get group info error, group id is empty");
             return null;
         }
 
@@ -4941,7 +4943,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(chatRoomId)) {
-            Log.e(TAG, "Error, chatroomid is empty");
+            eLogD(TAG, "Error, chatroomid is empty");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -5107,7 +5109,7 @@ public class ChatManager {
      */
     public UserInfo getUserInfo(String userId, String groupId, boolean refresh) {
         if (TextUtils.isEmpty(userId)) {
-            Log.e(TAG, "Error, user id is null");
+            eLogD(TAG, "Error, user id is null");
             return null;
         }
         UserInfo userInfo = null;
@@ -5784,8 +5786,8 @@ public class ChatManager {
             return;
         }
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0) {
-            Log.e(TAG, "Invalid conversation type or lines");
+                lines == null || lines.size() == 0) {
+            eLogD(TAG, "Invalid conversation type or lines");
             return;
         }
 
@@ -5827,8 +5829,8 @@ public class ChatManager {
             return;
         }
         if (conversationTypes == null || conversationTypes.size() == 0 ||
-            lines == null || lines.size() == 0) {
-            Log.e(TAG, "Invalid conversation type or lines");
+                lines == null || lines.size() == 0) {
+            eLogD(TAG, "Invalid conversation type or lines");
             return;
         }
 
@@ -5868,7 +5870,7 @@ public class ChatManager {
 
             signBytes = MessageDigest.getInstance("SHA1").digest(signBytes);
             String sign = Base64.getEncoder().encodeToString(signBytes);
-            Log.d(TAG, "The app sign is " + sign);
+            eLogD(TAG, "The app sign is " + sign);
             return sign;
         }
         return null;
@@ -6078,7 +6080,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6147,7 +6149,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6206,7 +6208,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6264,7 +6266,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6325,7 +6327,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6387,7 +6389,7 @@ public class ChatManager {
         }
 
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6449,7 +6451,7 @@ public class ChatManager {
         }
 
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6510,7 +6512,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6567,7 +6569,7 @@ public class ChatManager {
             return null;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             return null;
         }
         try {
@@ -6583,7 +6585,7 @@ public class ChatManager {
             return null;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "group id is null");
+            eLogD(TAG, "group id is null");
             return null;
         }
 
@@ -6600,7 +6602,7 @@ public class ChatManager {
             return null;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "group id is null");
+            eLogD(TAG, "group id is null");
             return null;
         }
 
@@ -6627,7 +6629,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6677,7 +6679,7 @@ public class ChatManager {
             return null;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             return null;
         }
 
@@ -6717,7 +6719,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6778,7 +6780,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6830,7 +6832,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -6882,7 +6884,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(groupId)) {
-            Log.e(TAG, "Error, group id is null");
+            eLogD(TAG, "Error, group id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -7236,7 +7238,7 @@ public class ChatManager {
             return false;
         }
         if (TextUtils.isEmpty(userId)) {
-            Log.e(TAG, "Error, user id is null");
+            eLogD(TAG, "Error, user id is null");
             return false;
         }
 
@@ -7254,7 +7256,7 @@ public class ChatManager {
             return;
         }
         if (TextUtils.isEmpty(userId)) {
-            Log.e(TAG, "Error, user id is null");
+            eLogD(TAG, "Error, user id is null");
             if (callback != null)
                 callback.onFail(-1);
             return;
@@ -7673,7 +7675,7 @@ public class ChatManager {
     }
 
     public void startLog() {
-        Log.d(TAG, "startLog");
+        eLogD(TAG, "startLog");
         startLog = true;
         if (!checkRemoteService()) {
             return;
@@ -7688,7 +7690,7 @@ public class ChatManager {
     }
 
     public void stopLog() {
-        Log.d(TAG, "stopLog");
+        eLogD(TAG, "stopLog");
         startLog = false;
         if (!checkRemoteService()) {
             return;
@@ -7753,7 +7755,7 @@ public class ChatManager {
      * @param pushType 使用什么推送你，可选值参考{@link cn.wildfirechat.push.PushService.PushServiceType}
      */
     public void setDeviceToken(String token, int pushType) {
-        Log.d(TAG, "setDeviceToken " + token + " " + pushType);
+        eLogD(TAG, "setDeviceToken " + token + " " + pushType);
         deviceToken = token;
         this.pushType = pushType;
         if (!checkRemoteService()) {
@@ -8586,11 +8588,11 @@ public class ChatManager {
         }
 
         try {
-            Log.d("PCRTCClient", "send conference data:" + request + ": " + data);
+            eLogD("PCRTCClient", "send conference data:" + request + ": " + data);
             mClient.sendConferenceRequest(sessionId, roomId, request, advanced, data, new cn.wildfirechat.client.IGeneralCallback2.Stub() {
                 @Override
                 public void onSuccess(String result) throws RemoteException {
-                    Log.d("PCRTCClient", "send conference result:" + result);
+                    eLogD("PCRTCClient", "send conference result:" + result);
                     if (callback != null) {
                         mainHandler.post(new Runnable() {
                             @Override
@@ -8632,7 +8634,7 @@ public class ChatManager {
             if (content instanceof CompositeMessageContent) {
                 ((CompositeMessageContent) content).decode(payload, this);
             } else {
-                Log.e(TAG, "decode");
+                eLogD(TAG, "decode");
                 content.decode(payload);
             }
             if (content instanceof NotificationMessageContent) {
@@ -8647,7 +8649,7 @@ public class ChatManager {
             }
             content.extra = payload.extra;
         } catch (Exception e) {
-            android.util.Log.e(TAG, "decode message error, fallback to unknownMessageContent. " + payload.type);
+            eLogD(TAG, "decode message error, fallback to unknownMessageContent. " + payload.type);
             e.printStackTrace();
             if (content == null) {
                 return null;
@@ -8683,12 +8685,12 @@ public class ChatManager {
             intent.putExtra("clientId", getClientId());
             boolean result = gContext.bindService(intent, serviceConnection, BIND_AUTO_CREATE);
             if (!result) {
-                Log.e(TAG, "Bind service failure");
-            }else{
-                Log.e(TAG, "Bind service success");
+                eLogD(TAG, "Bind service failure");
+            } else {
+                eLogD(TAG, "Bind service success");
             }
         } else {
-            Log.e(TAG, "Chat manager not initialized");
+            eLogD(TAG, "Chat manager not initialized");
         }
 
         return false;
@@ -8709,6 +8711,7 @@ public class ChatManager {
             }
         }
     }
+
     /**
      * @return 服务器时间 - 本地时间
      */
@@ -8721,7 +8724,7 @@ public class ChatManager {
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            Log.d(TAG, "marsClientService connected");
+            eLogD(TAG, "marsClientService connected");
             mClient = IRemoteClient.Stub.asInterface(iBinder);
             workHandler.post(() -> {
                 try {
@@ -8929,14 +8932,14 @@ public class ChatManager {
                     });
                 } catch (Throwable e) {
                     // 抓住所有异常，发生异常之后，im将不能正常工作，需要重新启动ClientService服务，故这儿抓住所以异常，防止应用crash并没有什么问题
-                    Log.e(TAG, "onServiceConnected worker exception" + e.toString());
+                    eLogD(TAG, "onServiceConnected worker exception" + e.toString());
                 }
             });
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            Log.e(TAG, "onServiceDisconnected");
+            eLogD(TAG, "onServiceDisconnected");
             mClient = null;
             checkRemoteService();
             mainHandler.post(() -> {
@@ -9022,7 +9025,7 @@ public class ChatManager {
             try {
                 return cls.newInstance();
             } catch (Exception e) {
-                android.util.Log.e(TAG, "create message content instance failed, fall back to UnknownMessageContent, the message content class must have a default constructor. " + type);
+                eLogD(TAG, "create message content instance failed, fall back to UnknownMessageContent, the message content class must have a default constructor. " + type);
                 e.printStackTrace();
             }
         }
@@ -9045,7 +9048,7 @@ public class ChatManager {
         Class clazz;
         Method method;
         boolean result;
-        Log.d(TAG, "*************** SDK检查 *****************");
+        eLogD(TAG, "*************** SDK检查 *****************");
         try {
             clazz = Class.forName("cn.wildfirechat.avenginekit.AVEngineKit");
             method = clazz.getMethod("isSupportMultiCall");
@@ -9053,15 +9056,15 @@ public class ChatManager {
             method = clazz.getMethod("isSupportConference");
             boolean conference = (boolean) method.invoke(null);
             if (conference) {
-                Log.e(TAG, "音视频SDK是高级版");
+                eLogD(TAG, "音视频SDK是高级版");
             } else if (multiCall) {
-                Log.e(TAG, "音视频SDK是多人版");
+                eLogD(TAG, "音视频SDK是多人版");
             } else {
-                Log.e(TAG, "音视频SDK是单人版");
+                eLogD(TAG, "音视频SDK是单人版");
             }
         } catch (Exception e) {
             // do nothing
-            Log.e(TAG, "检查音视频 SDK 失败: " + e.getMessage());
+            eLogD(TAG, "检查音视频 SDK 失败: " + e.getMessage());
         }
 
         try {
@@ -9069,11 +9072,11 @@ public class ChatManager {
             method = clazz.getMethod("checkAddress", String.class);
             result = (boolean) method.invoke(null, host);
             if (!result) {
-                Log.e(TAG, "错误，朋友圈SDK跟域名不匹配。请检查SDK的授权域名是否与当前使用的域名一致。");
+                eLogD(TAG, "错误，朋友圈SDK跟域名不匹配。请检查SDK的授权域名是否与当前使用的域名一致。");
             }
         } catch (Exception e) {
             // do nothing
-            Log.e(TAG, "检查朋友圈 SDK 失败: " + e.getMessage());
+            eLogD(TAG, "检查朋友圈 SDK 失败: " + e.getMessage());
         }
 
         try {
@@ -9081,14 +9084,14 @@ public class ChatManager {
             clazz = Class.forName("cn.wildfirechat.ptt.PTTClient");
             method = clazz.getMethod("checkAddress", String.class);
             result = (boolean) method.invoke(null, host);
-            Log.e(TAG,"host---> "+host);
+            eLogD(TAG, "host---> " + host);
             if (!result) {
-                Log.e(TAG, "错误，对讲SDK跟域名不匹配。请检查SDK的授权域名是否与当前使用的域名一致。");
+                eLogD(TAG, "错误，对讲SDK跟域名不匹配。请检查SDK的授权域名是否与当前使用的域名一致。");
             }
         } catch (Exception e) {
-            Log.e(TAG, "检查对讲 SDK 失败: " + e.getMessage());
+            eLogD(TAG, "检查对讲 SDK 失败: " + e.getMessage());
         }
-        Log.d(TAG, "*************** SDK检查 *****************");
+        eLogD(TAG, "*************** SDK检查 *****************");
         return true;
     }
 }
