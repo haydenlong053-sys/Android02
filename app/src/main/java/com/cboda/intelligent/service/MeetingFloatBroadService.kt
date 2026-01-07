@@ -36,6 +36,7 @@ import com.cboda.agora.service.model.AUIRoomBroadContext
 import com.cboda.agora.service.model.AUIRoomBroadInfo
 import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo
 import com.cboda.agora.service.service.rtm.AUIRtmMessageRespObserver
+import com.cboda.intelligent.activity.MeetingRoomBroadActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -398,9 +399,9 @@ class MeetingFloatBroadService : Service(), AUIRtmMessageRespObserver {
 //            MeetingRoomBroadActivity.launch(this,roomInfo.roomId,roomInfo.owner?.userId?:"",roomInfo.roomName,false,true,false)
 //        }
 
-        val pkg = packageName
-        val clazz = Class.forName("com.lxkj.aiim.activity.MeetingRoomBroadActivity")
-        val intent = Intent(this, clazz)
+//        val pkg = packageName
+//        val clazz = Class.forName("com.cboda.intelligent.activity.MeetingRoomBroadActivity")
+        val intent = Intent(this, MeetingRoomBroadActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         if (roomInfo != null) {
             intent.putExtra(EXTRA_ROOM_INFO, roomInfo)

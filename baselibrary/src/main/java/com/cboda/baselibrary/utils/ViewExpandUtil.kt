@@ -743,7 +743,7 @@ fun getAppPackName(): String {
         getAppContext().packageName
     } catch (e: Exception) {
         e.toLog(tAG)
-        "com.lxkj.aiim"
+        "com.cboda.intelligent"
     }
 }
 
