@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_main_space"
     android:orientation="vertical"
-    tools:context=".lj.LanguageActivity">
+    tools:context=".lj.LanguageBroadActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

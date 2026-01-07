@@ -8,7 +8,7 @@
     android:paddingHorizontal="10dp"
     android:orientation="vertical"
     android:background="@color/bg_main_space"
-    tools:context=".lj.CommonSetActivity">
+    tools:context=".lj.CommonSetBroadActivity">
     <LinearLayout
         android:paddingHorizontal="20dp"
         android:layout_marginTop="8dp"

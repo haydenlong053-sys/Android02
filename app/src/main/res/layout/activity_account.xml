@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="#000000"
     android:paddingHorizontal="10dp"
-    tools:context=".lj.AccountActivity">
+    tools:context=".lj.AccountBroadActivity">
     <LinearLayout
         android:id="@+id/llPhone"
         android:gravity="center_vertical"

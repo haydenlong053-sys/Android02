@@ -7,7 +7,7 @@
     android:background="@color/bg_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lj.MiBaoActivity">
+    tools:context=".lj.MiBaoBroadActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"

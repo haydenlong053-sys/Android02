@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_main_space"
-    tools:context=".lj.PushActivity">
+    tools:context=".lj.PushBroadActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

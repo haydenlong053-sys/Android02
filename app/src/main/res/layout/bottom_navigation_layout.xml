@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+    <com.cboda.intelligent.widge.LiXinBottomItemBroadNavigation
         android:id="@+id/thirdIndex"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -21,7 +21,7 @@
         />
 
 
-    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+    <com.cboda.intelligent.widge.LiXinBottomItemBroadNavigation
 
         android:id="@+id/secondIndex"
         android:layout_width="0dp"
@@ -34,7 +34,7 @@
         app:pressColor="#7768E5"
         app:pressIcon="@mipmap/ic_third_press" />
 
-    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+    <com.cboda.intelligent.widge.LiXinBottomItemBroadNavigation
 
         android:id="@+id/firstIndex"
         android:layout_width="0dp"
@@ -48,7 +48,7 @@
         app:pressIcon="@mipmap/ic_home_true" />
 
 
-    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+    <com.cboda.intelligent.widge.LiXinBottomItemBroadNavigation
 
         android:id="@+id/fouthIndex"
         android:layout_width="0dp"
@@ -61,7 +61,7 @@
         app:pressColor="#7768E5"
         app:pressIcon="@mipmap/ic_xiaoxi_true" />
 
-    <com.lxkj.aiim.widge.LiXinBottomItemNavigation
+    <com.cboda.intelligent.widge.LiXinBottomItemBroadNavigation
 
         android:id="@+id/fiveIndex"
         android:layout_width="0dp"

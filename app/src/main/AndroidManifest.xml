@@ -54,7 +54,7 @@
 
 
     <application
-        android:name="com.lxkj.aiim.app.LiXinApp"
+        android:name="com.cboda.intelligent.app.LiXinBroadApp"
         android:allowBackup="true"
         android:allowNativeHeapPointerTagging="false"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -72,234 +72,234 @@
         tools:replace="android:theme,android:allowBackup,android:networkSecurityConfig,android:icon,android:roundIcon,android:appComponentFactory"
         tools:targetApi="31">
         <activity
-            android:name="com.lxkj.aiim.lj.VideoPlayOnlyActivity"
+            android:name="com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.VerifyPayPasswordActivity"
+            android:name="com.cboda.intelligent.activity.VerifyPayPasswordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.activity.AiAntiFraudActivity"
+            android:name="com.cboda.intelligent.activity.AiAntiFraudBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.RestOldPassworActivity"
+            android:name="com.cboda.intelligent.activity.RestOldPassworBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.activity.GetWebxRedEnvelopesActivity"
+            android:name="com.cboda.intelligent.activity.GetWebxRedEnvelopesBroadActivity"
             android:exported="false" />
 
         <activity
-            android:name="com.lxkj.aiim.lj.MiBaoActivity"
+            android:name="com.cboda.intelligent.activity.MiBaoBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.UserNameActivity"
+            android:name="com.cboda.intelligent.activity.UserNameBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.PushInfoActivity"
+            android:name="com.cboda.intelligent.activity.PushInfoBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.FeedbackActivity"
+            android:name="com.cboda.intelligent.activity.FeedbackBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.AboutUsActivity"
+            android:name="com.cboda.intelligent.activity.AboutUsBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.BlackListActivity"
+            android:name="com.cboda.intelligent.activity.BlackListBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.ChatBgActivity"
+            android:name="com.cboda.intelligent.activity.ChatBgBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.FontSizeActivity"
+            android:name="com.cboda.intelligent.activity.FontSizeBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.AddtypeActivity"
+            android:name="com.cboda.intelligent.activity.AddtypeBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.CommonSetActivity"
+            android:name="com.cboda.intelligent.activity.CommonSetBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.activity.MessageSoundActivity"
+            android:name="com.cboda.intelligent.activity.MessageSoundBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.activity.MeetingCreateActivity"
+            android:name="com.cboda.intelligent.activity.MeetingCreateBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.EditPasswordActivity"
+            android:name="com.cboda.intelligent.activity.EditPasswordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.RestPasswordActivity"
+            android:name="com.cboda.intelligent.activity.RestPasswordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.SetPasswordActivity"
+            android:name="com.cboda.intelligent.activity.SetPasswordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.YanzhengActivity"
+            android:name="com.cboda.intelligent.activity.YanzhengBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.SetPhoneActivity"
+            android:name="com.cboda.intelligent.activity.SetPhoneBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.AccountActivity"
+            android:name="com.cboda.intelligent.activity.AccountBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.UserSetActivity"
+            android:name="com.cboda.intelligent.activity.UserSetBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.IssueActivity"
+            android:name="com.cboda.intelligent.activity.IssueBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.MyCollectActivity"
+            android:name="com.cboda.intelligent.activity.MyCollectBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.EmjoyActivity"
+            android:name="com.cboda.intelligent.activity.EmjoyBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.CircleDetailActivity"
+            android:name="com.cboda.intelligent.activity.CircleDetailBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.MyCircleActivity"
+            android:name="com.cboda.intelligent.activity.MyCircleBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.EditPayPasswordActivity"
+            android:name="com.cboda.intelligent.activity.EditPayPasswordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.ForgetPayPasswordActivity"
+            android:name="com.cboda.intelligent.activity.ForgetPayPasswordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.SetPayPasswordActivity"
+            android:name="com.cboda.intelligent.activity.SetPayPasswordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.PaySettingActivity"
+            android:name="com.cboda.intelligent.activity.PaySettingBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.BillActivity"
+            android:name="com.cboda.intelligent.activity.BillBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.WithdrawRecordActivity"
+            android:name="com.cboda.intelligent.activity.WithdrawRecordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.WithdrawActivity"
+            android:name="com.cboda.intelligent.activity.WithdrawBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.RechargeRecordActivity"
+            android:name="com.cboda.intelligent.activity.RechargeRecordBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.RechargeActivity"
+            android:name="com.cboda.intelligent.activity.RechargeBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.QianbaoActivity"
+            android:name="com.cboda.intelligent.activity.QianbaoBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.SafeCenterActivity"
+            android:name="com.cboda.intelligent.activity.SafeCenterBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.AiCheckResultActivity"
+            android:name="com.cboda.intelligent.activity.AiCheckResultBroadActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.AiCheckRecordActivity"
+            android:name="com.cboda.intelligent.activity.AiCheckRecordBroadActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.GoogleAuthStep1Activity"
+            android:name="com.cboda.intelligent.activity.GoogleAuthStep1BroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.GoogleAuthStep2Activity"
+            android:name="com.cboda.intelligent.activity.GoogleAuthStep2BroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.IdCardAuthActivity"
+            android:name="com.cboda.intelligent.activity.IdCardAuthBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.SecurityAuthActivity"
+            android:name="com.cboda.intelligent.activity.SecurityAuthBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.SecurityAuthEditActivity"
+            android:name="com.cboda.intelligent.activity.SecurityAuthEditBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.TransferActivity"
+            android:name="com.cboda.intelligent.activity.TransferBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.TransferListActivity"
+            android:name="com.cboda.intelligent.activity.TransferListBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.TransferDetailActivity"
+            android:name="com.cboda.intelligent.activity.TransferDetailBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.PaySuccessActivity"
+            android:name="com.cboda.intelligent.activity.PaySuccessBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.NoticeListActivity"
+            android:name="com.cboda.intelligent.activity.NoticeListBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.NoticeDetailActivity"
+            android:name="com.cboda.intelligent.activity.NoticeDetailBroadActivity"
             android:exported="false" />
 
 
         <activity
-            android:name="com.lxkj.aiim.lj.QianMingActivity"
+            android:name="com.cboda.intelligent.activity.QianMingBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.ErWeiMaActivity"
+            android:name="com.cboda.intelligent.activity.ErWeiMaBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.NickNameActivity"
+            android:name="com.cboda.intelligent.activity.NickNameBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.UserInfoActivity"
+            android:name="com.cboda.intelligent.activity.UserInfoBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.SignInActivity"
+            android:name="com.cboda.intelligent.activity.SignInBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.CircelMessageActivity"
+            android:name="com.cboda.intelligent.activity.CircelMessageBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.PushActivity"
+            android:name="com.cboda.intelligent.activity.PushBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.CiecelActivity"
+            android:name="com.cboda.intelligent.activity.CiecelBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.ScanActivity"
+            android:name="com.cboda.intelligent.activity.ScanBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.RegisterActivity"
+            android:name="com.cboda.intelligent.activity.RegisterBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.RegionActivity"
+            android:name="com.cboda.intelligent.activity.RegionBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.RetrieveActivity"
+            android:name="com.cboda.intelligent.activity.RetrieveBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.OldEquipmentActivity"
+            android:name="com.cboda.intelligent.activity.OldEquipmentBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.EquipmentActivity"
+            android:name="com.cboda.intelligent.activity.EquipmentBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.NewEquipmentActivity"
+            android:name="com.cboda.intelligent.activity.NewEquipmentBroadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="com.lxkj.aiim.lj.NetWorkActivity"
+            android:name="com.cboda.intelligent.activity.NetWorkBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.LanguageActivity"
+            android:name="com.cboda.intelligent.activity.LanguageBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.FanYiActivity"
+            android:name="com.cboda.intelligent.activity.FanYiBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.lj.LoginActivity"
+            android:name="com.cboda.intelligent.activity.LoginBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.lxkj.aiim.activity.SplashActivity"
+            android:name="com.cboda.intelligent.activity.SplashBroadActivity"
             android:exported="true"
             android:theme="@style/InitTheme">
             <intent-filter>
@@ -309,173 +309,173 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.lxkj.aiim.MainActivity"
+            android:name="com.cboda.intelligent.MainBroadActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.ZoomPicActivity"
+            android:name="com.cboda.intelligent.activity.ZoomPicBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.H5Activity"
+            android:name="com.cboda.intelligent.activity.H5BroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.HaoYouPageActivity"
+            android:name="com.cboda.intelligent.activity.HaoYouPageBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.HaoYouBeizhuActivity"
+            android:name="com.cboda.intelligent.activity.HaoYouBeizhuBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.HaoYouSetActivity"
+            android:name="com.cboda.intelligent.activity.HaoYouSetBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.FaHongBaoActivity"
+            android:name="com.cboda.intelligent.activity.FaHongBaoBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.ZhuanzhangActivity"
+            android:name="com.cboda.intelligent.activity.ZhuanzhangBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.HongBaoPageActivity"
+            android:name="com.cboda.intelligent.activity.HongBaoPageBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.ZhuanZhangPageActivity"
+            android:name="com.cboda.intelligent.activity.ZhuanZhangPageBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.YanZhengActivity"
+            android:name="com.cboda.intelligent.activity.YanZhengBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunInfoActivity"
+            android:name="com.cboda.intelligent.activity.QunInfoBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunUserListActivity"
+            android:name="com.cboda.intelligent.activity.QunUserListBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunTouSuActivity"
+            android:name="com.cboda.intelligent.activity.QunTouSuBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.TouSuLeiXingActivity"
+            android:name="com.cboda.intelligent.activity.TouSuLeiXingBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunMemberListActivity"
+            android:name="com.cboda.intelligent.activity.QunMemberListBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunNameActivity"
+            android:name="com.cboda.intelligent.activity.QunNameBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunGongGaoActivity"
+            android:name="com.cboda.intelligent.activity.QunGongGaoBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunNichengActivity"
+            android:name="com.cboda.intelligent.activity.QunNichengBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunManagerActivity"
+            android:name="com.cboda.intelligent.activity.QunManagerBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunJinYanActivity"
+            android:name="com.cboda.intelligent.activity.QunJinYanBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.XuanQunJinYanActivity"
+            android:name="com.cboda.intelligent.activity.XuanQunJinYanBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunJinYanMemberActivity"
+            android:name="com.cboda.intelligent.activity.QunJinYanMemberBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.MinGanCiActivity"
+            android:name="com.cboda.intelligent.activity.MinGanCiBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunCodeActivity"
+            android:name="com.cboda.intelligent.activity.QunCodeBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.ZhuanRangQunActivity"
+            android:name="com.cboda.intelligent.activity.ZhuanRangQunBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunGerenPageActivity"
+            android:name="com.cboda.intelligent.activity.QunGerenPageBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunGerenJInyanTimeActivity"
+            android:name="com.cboda.intelligent.activity.QunGerenJInyanTimeBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunGonggaoInfoActivity"
+            android:name="com.cboda.intelligent.activity.QunGonggaoInfoBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.FaQunHongBaoActivity"
+            android:name="com.cboda.intelligent.activity.FaQunHongBaoBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.HaoyouListActivity"
+            android:name="com.cboda.intelligent.activity.HaoyouListBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.HaoyouApplyActivity"
+            android:name="com.cboda.intelligent.activity.HaoyouApplyBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.CreateQunActivity"
+            android:name="com.cboda.intelligent.activity.CreateQunBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.HaoYouAddActivity"
+            android:name="com.cboda.intelligent.activity.HaoYouAddBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.SearchUserActivity"
+            android:name="com.cboda.intelligent.activity.SearchUserBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.LixinSearchActivity"
+            android:name="com.cboda.intelligent.activity.LixinSearchBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.QunListActivity"
+            android:name="com.cboda.intelligent.activity.QunListBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.HyzxActivity"
+            android:name="com.cboda.intelligent.activity.HyzxBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.SjqlActivity"
+            android:name="com.cboda.intelligent.activity.SjqlBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.HyyActivity"
+            android:name="com.cboda.intelligent.activity.HyyBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.HyyAddActivity"
+            android:name="com.cboda.intelligent.activity.HyyAddBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.DsxxActivity"
+            android:name="com.cboda.intelligent.activity.DsxxBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.DsxxAddActivity"
+            android:name="com.cboda.intelligent.activity.DsxxAddBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.ZhaqActivity"
+            android:name="com.cboda.intelligent.activity.ZhaqBroadActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.lxkj.aiim.lj.PushInfo2Activity"
+            android:name="com.cboda.intelligent.activity.PushInfo2BroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.lj.ZxzhActivity"
+            android:name="com.cboda.intelligent.activity.ZxzhBroadActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.lxkj.aiim.lj.ZhuTiSetActivity"
+            android:name="com.cboda.intelligent.activity.ZhuTiSetBroadActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.lxkj.aiim.lj.PaymentPasswordTestActivity"
+            android:name="com.cboda.intelligent.activity.PaymentPasswordTestBroadActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name="com.lxkj.aiim.activity.MeetingRoomActivity"
+            android:name="com.cboda.intelligent.activity.MeetingRoomBroadActivity"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="true"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name="com.lxkj.aiim.activity.CircleAndRemarkActivity"
+            android:name="com.cboda.intelligent.activity.CircleAndRemarkBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.UserProfileInfoActivity"
+            android:name="com.cboda.intelligent.activity.UserProfileInfoBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.EditProfessionActivity"
+            android:name="com.cboda.intelligent.activity.EditProfessionBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lxkj.aiim.activity.EditAddressActivity"
+            android:name="com.cboda.intelligent.activity.EditAddressBroadActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.lxkj.aiim.activity.EditInterestActivity" />
+        <activity android:name="com.cboda.intelligent.activity.EditInterestBroadActivity" />
         <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"
@@ -489,10 +489,10 @@
 
 
         <!--        <service-->
-        <!--            android:name="com.car.trojango.AppService"-->
+        <!--            android:name="com.car.trojango.AppBroadService"-->
         <!--            android:process="com.car.service.ProxyService" />-->
         <service
-            android:name="com.lxkj.aiim.service.MeetingFloatService"
+            android:name="com.cboda.intelligent.service.MeetingFloatBroadService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 

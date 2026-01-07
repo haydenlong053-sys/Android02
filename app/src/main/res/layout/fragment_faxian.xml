@@ -55,7 +55,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"/>
-                        <com.lxkj.aiim.lj.view.BadgeView
+                        <com.cboda.intelligent.widge.BadgeBroadView
                             android:id="@+id/badgeView"
                             android:layout_width="40dp"
                             android:layout_height="24dp"/>

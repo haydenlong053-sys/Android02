@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".lj.LoginActivity">
+    tools:context=".lj.LoginBroadActivity">
     <ImageView
         android:src="@mipmap/ic_login_bg"
         android:scaleType="fitXY"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.lxkj.aiim.widge.LiXinStandardGSYVideoPlayer
+        <com.cboda.intelligent.widge.LiXinStandardGSYVideoBroadPlayer
             android:id="@+id/videoplayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_main"
-    tools:context=".lj.BillActivity">
+    tools:context=".lj.BillBroadActivity">
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/smart"
         android:layout_width="match_parent"

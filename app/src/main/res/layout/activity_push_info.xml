@@ -8,7 +8,7 @@
     tools:background="@color/bg_main"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".lj.PushInfoActivity">
+    tools:context=".lj.PushInfoBroadActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_main_space"
     android:orientation="vertical"
-    tools:context=".lj.UserSetActivity">
+    tools:context=".lj.UserSetBroadActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     android:layout_height="96dp">
 
 
-    <com.lxkj.aiim.widge.VoiceWaveView
+    <com.cboda.intelligent.widge.VoiceWaveBroadView
         android:id="@+id/voice_wave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="80dp"
         android:layout_height="80dp"/>
-    <com.lxkj.aiim.widge.AvatarShadowView
+    <com.cboda.intelligent.widge.AvatarShadowBroadView
         android:id="@+id/speak_avatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
