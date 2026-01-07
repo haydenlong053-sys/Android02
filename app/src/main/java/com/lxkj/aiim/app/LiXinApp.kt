@@ -24,7 +24,7 @@ import cn.wildfirechat.remote.OnConnectToServerListener
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.cboda.baselibrary.utils.initBuGly
+import com.cboda.baselibrary.utils.initFireBase
 import com.danikula.videocache.HttpProxyCacheServer
 import com.didichuxing.doraemonkit.DoKit
 import com.cboda.intelligent.BuildConfig
@@ -126,7 +126,7 @@ class LiXinApp : UtilBroadApplication(), OnConnectToServerListener {
         super.onCreate()
         mContext = this
 //        Fresco.initialize(this)
-        initBuGly(this, "03a4cc2bab")
+        initFireBase(this, "03a4cc2bab")
         MMKVBroadUtils.init(this)
         setHttpMode()
         ToastBroadUtils.init(this)

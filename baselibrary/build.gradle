@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+
 }
 
 android {
@@ -38,8 +39,8 @@ android {
     }
     kotlinOptions {
         freeCompilerArgs += [
-            '-Xskip-prerelease-check',
-            '-Xno-param-assertions'
+                '-Xskip-prerelease-check',
+                '-Xno-param-assertions'
         ]
     }
     buildFeatures {
@@ -83,10 +84,11 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.10'
     // api 'io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.3.2'
     api 'io.github.lucksiege:ucrop:v3.11.2'
-    api  'io.github.scwang90:refresh-layout-kernel:3.0.0-alpha'      //核心必须依赖
-    api  'io.github.scwang90:refresh-header-material:3.0.0-alpha'    //谷歌刷新头
-    api  'io.github.scwang90:refresh-footer-ball:3.0.0-alpha'        //球脉冲加载
+    api 'io.github.scwang90:refresh-layout-kernel:3.0.0-alpha'      //核心必须依赖
+    api 'io.github.scwang90:refresh-header-material:3.0.0-alpha'    //谷歌刷新头
+    api 'io.github.scwang90:refresh-footer-ball:3.0.0-alpha'        //球脉冲加载
     api project(':videocompressor')
     api project(':library-cboda-Xbar')
     api project(':library-cboda-Menu')
+//    implementation 'com.google.android.gms:play-services-wallet:19.5.0'
 }

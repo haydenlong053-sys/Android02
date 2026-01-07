@@ -28,6 +28,6 @@ dependencies {
     })
     implementation 'androidx.appcompat:appcompat:1.2.0'
     testImplementation 'junit:junit:4.+'
-    implementation files('libs/isoparser-1.0.6.jar')
-    implementation files('libs/aspectjrt-1.7.3.jar')
+    implementation files('libs/broad_isoparser-1.0.6.jar')
+    implementation files('libs/broad_aspectjrt-1.7.3.jar')
 }

@@ -2,14 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    signingConfigs {
-        wfc {
-            keyAlias 'wfc'
-            keyPassword 'wildfirechat'
-            storeFile file('../wfc.keystore')
-            storePassword 'wildfirechat'
-        }
-    }
     compileSdkVersion 36
     defaultConfig {
         minSdkVersion 23
@@ -20,9 +12,9 @@ android {
             }
         }
 
-        ndk {
-            abiFilters "armeabi-v7a", 'x86', 'x86_64' // ，'armeabi', 'arm64-v8a', 'x86', 'x86_64'
-        }
+//        ndk {
+//            abiFilters "armeabi-v7a", 'x86', 'x86_64' // ，'armeabi', 'arm64-v8a', 'x86', 'x86_64'
+//        }
     }
 
     compileOptions {
@@ -62,9 +54,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    api files('libs/avenginekit.aar')
-    api files('libs/pttclient.aar')
-    api files('libs/libwebrtc.aar')
+    api files('libs/broad_chat_vengin.aar')
+    api files('libs/broad_chat_pttclient.aar')
+    api files('libs/broad_chat_libwebrtc.aar')
 //    api(name: 'avenginekit', ext: 'aar')
 //    api(name: 'pttclient', ext: 'aar')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'

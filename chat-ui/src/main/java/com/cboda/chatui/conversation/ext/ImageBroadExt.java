@@ -4,7 +4,7 @@
 
 package com.cboda.chatui.conversation.ext;
 
-import static com.cboda.baselibrary.utils.BugLyUtilKt.bgReport;
+import static com.cboda.baselibrary.utils.CrashUtilKt.bgReport;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.content.Context;

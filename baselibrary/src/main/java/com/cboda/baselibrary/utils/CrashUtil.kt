@@ -2,7 +2,6 @@ package com.cboda.baselibrary.utils
 
 import android.content.Context
 import com.cboda.baselibrary.utils.DeviceBroadUtil.getDeviceBrand
-import com.blankj.utilcode.util.ThreadUtils
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +43,7 @@ fun bgReport(canLog: Boolean, throwable: Throwable?) {
     }
 }
 
-fun initBuGly(context: Context, buglyId: String) {
+fun initFireBase(context: Context, buglyId: String) {
     try {
         val strategy = CrashReport.UserStrategy(context)
         strategy.deviceModel = getDeviceBrand()

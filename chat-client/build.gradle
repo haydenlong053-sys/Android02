@@ -12,15 +12,15 @@ android {
         minSdkVersion 21
 
         // testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            // TODO: changes this for your application if needed
-            moduleName = "mmnet"
-            //abiFilter "armeabi" //去掉armeabi架构，armeabi-v7a可以兼容armeabi架构。
-            abiFilter "armeabi-v7a"
-            abiFilter "arm64-v8a"
-            abiFilter "x86"
-            abiFilter "x86_64"
-        }
+//        ndk {
+//            // TODO: changes this for your application if needed
+//            moduleName = "mmnet"
+//            //abiFilter "armeabi" //去掉armeabi架构，armeabi-v7a可以兼容armeabi架构。
+//            abiFilter "armeabi-v7a"
+//            abiFilter "arm64-v8a"
+//            abiFilter "x86"
+//            abiFilter "x86_64"
+//        }
     }
 
 
@@ -57,7 +57,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    api files('libs/cboda-chat.aar')
+    api files('libs/broad-chat.aar')
     implementation project(':baselibrary')
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
