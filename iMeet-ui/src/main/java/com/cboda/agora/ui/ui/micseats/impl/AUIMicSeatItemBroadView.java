@@ -60,7 +60,7 @@ public class AUIMicSeatItemBroadView extends FrameLayout implements IMicSeatItem
     }
 
     private void initView(@NonNull Context context, @StyleRes int appearanceId) {
-        View.inflate(context, R.layout.aui_micseat_item_view, this);
+        View.inflate(context, R.layout.aui_micseat_item_broad_view, this);
 
         TypedArray typedArray = context.obtainStyledAttributes(appearanceId, R.styleable.AUIMicSeatItemBroadView);
         int audioMuteIconGravity = typedArray.getInt(R.styleable.AUIMicSeatItemBroadView_aui_micSeatItem_audioMuteIconGravity, 1);

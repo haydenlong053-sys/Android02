@@ -67,7 +67,7 @@ public class AUIBroadDividers extends FrameLayout {
     }
 
     private void initView(){
-        View.inflate(getContext(), R.layout.aui_dividers_layout, this);
+        View.inflate(getContext(), R.layout.aui_dividers_broad_layout, this);
         vLine = findViewById(R.id.line);
         tvText = findViewById(R.id.text);
     }

@@ -95,7 +95,7 @@ public class AUICellBroadText extends ConstraintLayout {
     }
 
     private void initView() {
-        View.inflate(getContext(), R.layout.aui_celltext_layout, this);
+        View.inflate(getContext(), R.layout.aui_celltext_broad_layout, this);
         tvTitle = findViewById(R.id.tvTitle);
         tvAsterisk = findViewById(R.id.tvAsterisk);
         tvInfo = findViewById(R.id.tvInfo);

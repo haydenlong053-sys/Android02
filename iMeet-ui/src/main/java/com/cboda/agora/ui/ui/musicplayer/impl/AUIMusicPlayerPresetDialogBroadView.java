@@ -43,7 +43,7 @@ public class AUIMusicPlayerPresetDialogBroadView extends FrameLayout {
     }
 
     private void initView(@NonNull Context context, List<ControllerEffectInfo> presetList) {
-        View.inflate(context, R.layout.aui_musicplayer_preset_dialog_view, this);
+        View.inflate(context, R.layout.aui_musicplayer_preset_dialog_broad_view, this);
         AUIRecyclerBroadView rvAudioPreset = findViewById(R.id.rv_audio_preset);
         mMusicPlayerPresetAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             @NonNull

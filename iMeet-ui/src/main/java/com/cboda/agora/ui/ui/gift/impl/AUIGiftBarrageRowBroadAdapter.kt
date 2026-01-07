@@ -36,7 +36,7 @@ class AUIGiftRowAdapter constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GiftViewHolder {
         return GiftViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.aui_gift_barrage_row_item, parent, false)
+            LayoutInflater.from(context).inflate(R.layout.aui_gift_barrage_row_broad_item, parent, false)
         )
     }
 

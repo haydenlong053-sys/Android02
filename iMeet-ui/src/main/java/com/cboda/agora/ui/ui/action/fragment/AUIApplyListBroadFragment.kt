@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import com.cboda.agora.ui.R
 import com.cboda.agora.ui.action.AUIActionUserInfo
 import com.cboda.agora.ui.action.AUIActionUserInfoList
-import com.cboda.agora.ui.databinding.AuiApplyListLayoutBinding
+import com.cboda.agora.ui.databinding.AuiApplyListBroadLayoutBinding
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.cboda.agora.ui.utils.ResourcesBroadTools
 import com.google.android.material.textview.MaterialTextView
@@ -31,7 +31,7 @@ class VoiceRoomApplyListFragment(
     VoiceApplyAdapter.ApplyEventListener {
 
     private val mRoomViewBinding by lazy {
-        AuiApplyListLayoutBinding.inflate(LayoutInflater.from(requireContext()))
+        AuiApplyListBroadLayoutBinding.inflate(LayoutInflater.from(requireContext()))
     }
 
     private var listener: ApplyEventListener? = null
@@ -161,7 +161,7 @@ class VoiceApplyAdapter constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplyViewHolder {
         return ApplyViewHolder(
             LayoutInflater.from(mContext)
-                .inflate(R.layout.aui_apply_list_item_layout, parent, false)
+                .inflate(R.layout.aui_apply_list_item_broad_layout, parent, false)
         )
     }
 

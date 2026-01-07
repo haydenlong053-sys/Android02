@@ -37,7 +37,7 @@ public class AUIJukeboxChooseItemBroadView extends FrameLayout {
     }
 
     private void initView(@NonNull Context context){
-        View.inflate(context, R.layout.aui_jukebox_choose_item, this);
+        View.inflate(context, R.layout.aui_jukebox_choose_broad_item, this);
         cbChoose = findViewById(R.id.cb_choose);
         tvSongName = findViewById(R.id.tv_song_name);
         tvSingerName = findViewById(R.id.tv_singer_name);

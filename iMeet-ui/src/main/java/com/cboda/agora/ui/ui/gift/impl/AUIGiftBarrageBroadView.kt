@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.databinding.AuiGiftBarrageLayoutBinding
+import com.cboda.agora.ui.databinding.AuiGiftBarrageBroadLayoutBinding
 import com.cboda.agora.ui.gift.AUIGiftInfo
 import com.cboda.agora.ui.ui.gift.IAUIGiftBarrageBroadView
 import com.cboda.agora.ui.utils.DeviceBroadTools
@@ -19,7 +19,7 @@ import com.cboda.agora.ui.utils.DeviceBroadTools
 class AUIGiftBarrageBroadView : LinearLayout,
     IAUIGiftBarrageBroadView {
     private var mContext: Context
-    private val aGiftViewBinding = AuiGiftBarrageLayoutBinding.inflate(LayoutInflater.from(context))
+    private val aGiftViewBinding = AuiGiftBarrageBroadLayoutBinding.inflate(LayoutInflater.from(context))
     private var mMainHandler: Handler? = null
     private val delay = 3000
     private var task: Runnable? = null

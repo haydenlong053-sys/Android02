@@ -14,7 +14,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.cboda.agora.ui.R
 import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
-import com.cboda.agora.ui.databinding.AuiGiftListViewLayoutBinding
+import com.cboda.agora.ui.databinding.AuiGiftListViewBroadLayoutBinding
 import com.cboda.agora.ui.gift.AUIGiftInfo
 import com.cboda.agora.ui.gift.AUIGiftTabInfo
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
@@ -24,7 +24,7 @@ import com.cboda.agora.ui.utils.ResourcesBroadTools
 class AUiGiftListBroadView constructor(
     context: Context,
     data:List<AUIGiftTabInfo>
-) : AUISheetFragmentBroadDialog<AuiGiftListViewLayoutBinding>(), IAUIGiftBarrageBroadView {
+) : AUISheetFragmentBroadDialog<AuiGiftListViewBroadLayoutBinding>(), IAUIGiftBarrageBroadView {
 
     private var mGiftList : List<AUIGiftTabInfo> = mutableListOf()
     private var tapList: MutableList<Int> = mutableListOf()
@@ -37,8 +37,8 @@ class AUiGiftListBroadView constructor(
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): AuiGiftListViewLayoutBinding {
-        return AuiGiftListViewLayoutBinding.inflate(inflater, container, false)
+    ): AuiGiftListViewBroadLayoutBinding {
+        return AuiGiftListViewBroadLayoutBinding.inflate(inflater, container, false)
     }
 
     init {
@@ -98,7 +98,7 @@ class AUiGiftListBroadView constructor(
                 TabLayoutMediator(
                     it, it1
                 ) { tab, position ->
-                    tab.setCustomView(R.layout.aui_gift_tab_item_layout)
+                    tab.setCustomView(R.layout.aui_gift_tab_item_broad_layout)
                     val title = tab.customView?.findViewById<TextView>(R.id.tab_item_title)
                     title?.text = mGiftList[position].tabName
                     binding?.tabLayout?.getTabAt(0)?.select() //默认选中某项放在加载viewpager之后

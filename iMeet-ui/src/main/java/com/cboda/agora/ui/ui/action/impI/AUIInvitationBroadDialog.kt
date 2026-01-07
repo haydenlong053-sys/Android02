@@ -18,13 +18,13 @@ import com.cboda.agora.ui.R
 import com.cboda.agora.ui.action.AUIActionUserInfo
 import com.cboda.agora.ui.action.AUIActionUserInfoList
 import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
-import com.cboda.agora.ui.databinding.AuiInvitationLayoutBinding
+import com.cboda.agora.ui.databinding.AuiInvitationBroadLayoutBinding
 import com.cboda.agora.ui.ui.action.IAUIListViewBinderBroadRefresh
 import com.cboda.agora.ui.ui.action.fragment.VoiceRoomInvitedListFragment
 import com.cboda.agora.ui.ui.action.listener.AUIInvitationDialogEventBroadListener
 import com.cboda.agora.ui.utils.ResourcesBroadTools
 
-class AUIInvitationBroadDialog : AUISheetFragmentBroadDialog<AuiInvitationLayoutBinding>(),
+class AUIInvitationBroadDialog : AUISheetFragmentBroadDialog<AuiInvitationBroadLayoutBinding>(),
     IAUIListViewBinderBroadRefresh {
 
     companion object {
@@ -49,8 +49,8 @@ class AUIInvitationBroadDialog : AUISheetFragmentBroadDialog<AuiInvitationLayout
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): AuiInvitationLayoutBinding {
-        return AuiInvitationLayoutBinding.inflate(inflater,container,false)
+    ): AuiInvitationBroadLayoutBinding {
+        return AuiInvitationBroadLayoutBinding.inflate(inflater,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +85,7 @@ class AUIInvitationBroadDialog : AUISheetFragmentBroadDialog<AuiInvitationLayout
                 vpInvitedLayout.adapter = adapter
                 val tabMediator = TabLayoutMediator(tabInvitedLayout, vpInvitedLayout) { tab, position ->
                     val customView =
-                        LayoutInflater.from(root.context).inflate(R.layout.aui_action_tab_item_layout, tab.view, false)
+                        LayoutInflater.from(root.context).inflate(R.layout.aui_action_tab_item_broad_layout, tab.view, false)
                     val tabText = customView.findViewById<TextView>(R.id.mtTabText)
                     tab.customView = customView
                     if (position == RoomInvitedFragmentAdapter.PAGE_INDEX0) {

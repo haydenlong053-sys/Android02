@@ -45,7 +45,7 @@ public class AUIJukeboxBroadView extends AUIFrameBroadLayout implements IAUIJuke
     }
 
     private void initView(Context context) {
-        View.inflate(context, R.layout.aui_jukebox_view, this);
+        View.inflate(context, R.layout.aui_jukebox_broad_view, this);
 
         tlCategory = findViewById(R.id.jbtabLayout);
         viewPager = findViewById(R.id.viewPager);

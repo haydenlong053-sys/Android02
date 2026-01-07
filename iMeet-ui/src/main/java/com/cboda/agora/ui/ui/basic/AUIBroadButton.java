@@ -251,7 +251,7 @@ public class AUIBroadButton extends ConstraintLayout {
     }
 
     private void initView() {
-        View.inflate(getContext(), R.layout.aui_button_layout, this);
+        View.inflate(getContext(), R.layout.aui_button_broad_layout, this);
         tvText = findViewById(R.id.text);
         ivDrawableStart = findViewById(R.id.drawableStart);
         ivDrawableEnd = findViewById(R.id.drawableEnd);

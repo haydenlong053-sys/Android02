@@ -49,7 +49,7 @@
                     app:aui_listDivider="?attr/aui_jukeboxChoose_listDivider"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="1"
-                    tools:listitem="@layout/aui_jukebox_choose_item" />
+                    tools:listitem="@layout/aui_jukebox_choose_broad_item" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -70,7 +70,7 @@
                 app:aui_listDivider="?attr/aui_jukeboxChoose_listDivider"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="1"
-                tools:listitem="@layout/aui_jukebox_choose_item" />
+                tools:listitem="@layout/aui_jukebox_choose_broad_item" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

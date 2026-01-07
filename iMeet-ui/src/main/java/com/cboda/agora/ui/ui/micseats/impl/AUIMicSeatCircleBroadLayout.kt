@@ -106,7 +106,7 @@ class AUIMicSeatCircleBroadLayout : FrameLayout, IMicSeatsBroadView {
     }
 
     private fun initView(context: Context){
-        val view = inflate(context, R.layout.aui_micseat_frame_layout, this)
+        val view = inflate(context, R.layout.aui_micseat_frame_broad_layout, this)
         val layout = view.findViewById<FrameLayout>(R.id.rootLayout)
         addView(layout)
     }

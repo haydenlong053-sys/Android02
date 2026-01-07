@@ -17,7 +17,7 @@
 
         <include
             android:id="@+id/ilIDLE"
-            layout="@layout/aui_musicplayer_idle_view"
+            layout="@layout/aui_musicplayer_idle_broad_view"
             android:visibility="visible"
             tools:visibility="gone" />
 
@@ -66,13 +66,13 @@
 
             <include
                 android:id="@+id/il_musicplayer_active_view"
-                layout="@layout/aui_musicplayer_active_view"
+                layout="@layout/aui_musicplayer_active_broad_view"
                 android:visibility="gone"
                 tools:visibility="gone" />
 
             <include
                 android:id="@+id/il_musicplayer_prepare_view"
-                layout="@layout/aui_musicplayer_prepare_view"
+                layout="@layout/aui_musicplayer_prepare_broad_view"
                 android:visibility="invisible"
                 tools:visibility="gone" />
 

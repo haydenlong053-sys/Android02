@@ -111,7 +111,7 @@ public class AUITitleBroadBar extends ConstraintLayout {
     }
 
     private void initView() {
-        View.inflate(getContext(), R.layout.aui_title_bar_layout, this);
+        View.inflate(getContext(), R.layout.aui_title_bar_broad_layout, this);
         tvTitle = findViewById(R.id.tvTitle);
         ivBack = findViewById(R.id.ivBack);
         tvStepPrevious = findViewById(R.id.tvStepPrevious);

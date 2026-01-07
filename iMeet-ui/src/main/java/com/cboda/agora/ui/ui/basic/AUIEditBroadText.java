@@ -293,7 +293,7 @@ public class AUIEditBroadText extends FrameLayout {
     }
 
     private void initView() {
-        View.inflate(getContext(), R.layout.aui_edittext_layout, this);
+        View.inflate(getContext(), R.layout.aui_edittext_broad_layout, this);
         tvTitle = findViewById(R.id.tvTitle);
         tvPhoneArea = findViewById(R.id.tvPhoneArea);
         vPhoneAreaLine = findViewById(R.id.vPhoneAreaLine);

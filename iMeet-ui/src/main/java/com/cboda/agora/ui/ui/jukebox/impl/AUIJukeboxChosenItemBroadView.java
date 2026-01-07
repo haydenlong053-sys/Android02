@@ -55,7 +55,7 @@ public class AUIJukeboxChosenItemBroadView extends FrameLayout implements IAUIJu
         playingTagLocation = typedArray.getInt(R.styleable.AUIJukeboxChosenItemBroadView_aui_jukeboxChosenItem_playingTagLocation, PlayingTagLocation_aboveOrder);
         typedArray.recycle();
 
-        View.inflate(context, R.layout.aui_jukebox_chosen_item, this);
+        View.inflate(context, R.layout.aui_jukebox_chosen_broad_item, this);
 
         tvSongName = findViewById(R.id.tv_song_name);
         tvSingerName = findViewById(R.id.tv_singer_name);

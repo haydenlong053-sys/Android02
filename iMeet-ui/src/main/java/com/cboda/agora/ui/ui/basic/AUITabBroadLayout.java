@@ -86,7 +86,7 @@ public class AUITabBroadLayout extends FrameLayout implements TabLayout.OnTabSel
     }
 
     private void initView() {
-        View view = View.inflate(getContext(), R.layout.aui_tab_layout_layout, this);
+        View view = View.inflate(getContext(), R.layout.aui_tab_layout_broad_layout, this);
         vDivider = view.findViewById(R.id.vDivider);
         tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.addOnTabSelectedListener(this);

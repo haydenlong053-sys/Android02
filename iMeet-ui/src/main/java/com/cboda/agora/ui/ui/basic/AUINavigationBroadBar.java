@@ -82,7 +82,7 @@ public class AUINavigationBroadBar extends LinearLayout {
     }
 
     private void initView() {
-        View.inflate(getContext(), R.layout.aui_navigation_bar_layout, this);
+        View.inflate(getContext(), R.layout.aui_navigation_bar_broad_layout, this);
         llItems = findViewById(R.id.llItems);
     }
 

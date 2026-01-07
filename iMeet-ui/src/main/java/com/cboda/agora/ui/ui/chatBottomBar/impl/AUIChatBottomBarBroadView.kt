@@ -20,19 +20,19 @@ import androidx.annotation.GravityInt
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.databinding.AuiChatBottomBarLayoutBinding
 import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIcon
 import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
 import com.cboda.agora.ui.chatBottomBar.listener.AUIExpressionClickBroadListener
 import com.cboda.agora.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
 import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
 import com.cboda.agora.ui.chatBottomBar.utils.KeyboardBroadUtils
+import com.cboda.agora.ui.databinding.AuiChatBottomBarBroadLayoutBinding
 import com.cboda.agora.ui.utils.DeviceBroadTools
 
 class AUIChatBottomBarBroadView : RelativeLayout,
     IAUIChatBottomBarBroadView, AUIExpressionClickBroadListener,
     AUISoftKeyboardHeightChangeBroadListener {
-    private val mViewBinding = AuiChatBottomBarLayoutBinding.inflate(LayoutInflater.from(context))
+    private val mViewBinding = AuiChatBottomBarBroadLayoutBinding.inflate(LayoutInflater.from(context))
     private val inputManager:InputMethodManager
     private val itemModels = ArrayList<MenuItemModel>()
     private var listener: AUIMenuItemClickBroadListener?=null

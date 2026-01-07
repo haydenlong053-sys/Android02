@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.cboda.agora.ui.R
 import com.cboda.agora.ui.action.AUIActionUserInfo
 import com.cboda.agora.ui.action.AUIActionUserInfoList
-import com.cboda.agora.ui.databinding.AuiInvitationListLayoutBinding
+import com.cboda.agora.ui.databinding.AuiInvitationListBroadLayoutBinding
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.cboda.agora.ui.utils.ResourcesBroadTools
 import com.google.android.material.textview.MaterialTextView
@@ -26,7 +26,7 @@ class VoiceRoomInvitedListFragment : Fragment(),
     SwipeRefreshLayout.OnRefreshListener, VoiceInvitedAdapter.InvitedEventListener {
 
     private val mRoomViewBinding by lazy {
-        AuiInvitationListLayoutBinding.inflate(
+        AuiInvitationListBroadLayoutBinding.inflate(
             LayoutInflater.from(
                 requireContext()
             )
@@ -178,7 +178,7 @@ class VoiceInvitedAdapter constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvitedViewHolder {
         return InvitedViewHolder(
             LayoutInflater.from(mContext)
-                .inflate(R.layout.aui_invitation_list_item_layout, parent, false)
+                .inflate(R.layout.aui_invitation_list_item_broad_layout, parent, false)
         )
     }
 

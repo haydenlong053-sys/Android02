@@ -63,7 +63,7 @@ public class AUIAlertSecondBroadDialog extends AppCompatDialog {
 
         TypedArray typedArray = getContext().obtainStyledAttributes(null, R.styleable.AUIAlertBroadDialog, 0, themeResId);
         // get layout id
-        int resourceId = R.layout.aui_alert_second_dialog;
+        int resourceId = R.layout.aui_alert_second_broad_dialog;
         if (resourceId != View.NO_ID) {
             setContentView(resourceId);
         }

@@ -17,13 +17,13 @@ import com.cboda.agora.ui.R
 import com.cboda.agora.ui.action.AUIActionUserInfo
 import com.cboda.agora.ui.action.AUIActionUserInfoList
 import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
-import com.cboda.agora.ui.databinding.AuiApplyLayoutBinding
+import com.cboda.agora.ui.databinding.AuiApplyBroadLayoutBinding
 import com.cboda.agora.ui.ui.action.IAUIListViewBinderBroadRefresh
 import com.cboda.agora.ui.ui.action.fragment.VoiceRoomApplyListFragment
 import com.cboda.agora.ui.ui.action.listener.AUIApplyDialogEventBroadListener
 import com.cboda.agora.ui.utils.ResourcesBroadTools
 
-class AUIApplyBroadDialog : AUISheetFragmentBroadDialog<AuiApplyLayoutBinding>(),
+class AUIApplyBroadDialog : AUISheetFragmentBroadDialog<AuiApplyBroadLayoutBinding>(),
     IAUIListViewBinderBroadRefresh {
 
     private var mEvnetListener: AUIApplyDialogEventBroadListener? = null
@@ -53,8 +53,8 @@ class AUIApplyBroadDialog : AUISheetFragmentBroadDialog<AuiApplyLayoutBinding>()
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): AuiApplyLayoutBinding {
-        return AuiApplyLayoutBinding.inflate(inflater, container, false)
+    ): AuiApplyBroadLayoutBinding {
+        return AuiApplyBroadLayoutBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,7 +96,7 @@ class AUIApplyBroadDialog : AUISheetFragmentBroadDialog<AuiApplyLayoutBinding>()
             TabLayoutMediator(binding.tabApplyLayout, binding.vpApplyLayout) { tab, position ->
                 val customView =
                     LayoutInflater.from(binding.root.context)
-                        .inflate(R.layout.aui_action_tab_item_layout, tab.view, false)
+                        .inflate(R.layout.aui_action_tab_item_broad_layout, tab.view, false)
                 val tabText = customView.findViewById<TextView>(R.id.mtTabText)
                 tab.customView = customView
                 tabText.text = mPageList[position].first

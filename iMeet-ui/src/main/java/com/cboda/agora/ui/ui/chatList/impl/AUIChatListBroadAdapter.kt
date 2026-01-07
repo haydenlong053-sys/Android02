@@ -75,19 +75,19 @@ class AUIChatListBroadAdapter(
             return NormalViewHolder(
                 LayoutInflater.from(
                     context
-                ).inflate(R.layout.aui_chat_list_msgs_item, parent, false)
+                ).inflate(R.layout.aui_chat_list_msgs_broad_item, parent, false)
             )
         } else if (viewType == ITEM_SYSTEM_TYPE) {
             return SystemViewHolder(
                 LayoutInflater.from(
                     context
-                ).inflate(R.layout.aui_chat_list_system_msgs_item, parent, false)
+                ).inflate(R.layout.aui_chat_list_system_msgs_broad_item, parent, false)
             )
         }
         return NormalViewHolder(
             LayoutInflater.from(
                 context
-            ).inflate(R.layout.aui_chat_list_msgs_item, parent, false)
+            ).inflate(R.layout.aui_chat_list_msgs_broad_item, parent, false)
         )
     }
 

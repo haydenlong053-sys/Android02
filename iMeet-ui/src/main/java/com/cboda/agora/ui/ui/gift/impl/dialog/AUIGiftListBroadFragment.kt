@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.databinding.AuiGiftListFragmentLayoutBinding
+import com.cboda.agora.ui.databinding.AuiGiftListFragmentBroadLayoutBinding
 import com.cboda.agora.ui.gift.AUIGiftInfo
 import com.cboda.agora.ui.gift.AUIGiftTabInfo
 import com.cboda.agora.ui.gift.listener.AUIConfirmClickBroadListener
@@ -39,7 +39,7 @@ class AUIGiftListBroadFragment : Fragment,AUIGiftItemClickBroadListener{
     private val mColumns = 4
     private var currentTag:Int? = 0
 
-    private lateinit var aGiftListBinding:AuiGiftListFragmentLayoutBinding
+    private lateinit var aGiftListBinding: AuiGiftListFragmentBroadLayoutBinding
 
     private var map:MutableMap<Int,List<AUIGiftInfo>> = mutableMapOf()
 
@@ -49,7 +49,7 @@ class AUIGiftListBroadFragment : Fragment,AUIGiftItemClickBroadListener{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        aGiftListBinding = AuiGiftListFragmentLayoutBinding.inflate(inflater)
+        aGiftListBinding = AuiGiftListFragmentBroadLayoutBinding.inflate(inflater)
         return aGiftListBinding.root
     }
 

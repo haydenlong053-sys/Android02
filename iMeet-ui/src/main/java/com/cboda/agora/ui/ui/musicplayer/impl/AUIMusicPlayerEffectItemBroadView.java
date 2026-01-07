@@ -38,7 +38,7 @@ public class AUIMusicPlayerEffectItemBroadView extends FrameLayout {
     public AUIMusicPlayerEffectItemBroadView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        View.inflate(context, R.layout.aui_musicplayer_effect_item_view, this);
+        View.inflate(context, R.layout.aui_musicplayer_effect_item_broad_view, this);
 
         int apResId = R.style.AUIMusicPlayerEffectPresetItem_Appearance;
         TypedValue outValue = new TypedValue();

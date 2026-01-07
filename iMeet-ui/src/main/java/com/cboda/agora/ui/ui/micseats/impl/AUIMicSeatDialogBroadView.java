@@ -53,7 +53,7 @@ public class AUIMicSeatDialogBroadView extends FrameLayout implements IMicSeatDi
     }
 
     private void initView(@NonNull Context context, @StyleRes int appearanceId) {
-        View.inflate(context, R.layout.aui_micseat_dialog_view, this);
+        View.inflate(context, R.layout.aui_micseat_dialog_broad_view, this);
 
         TypedArray typedArray = context.obtainStyledAttributes(appearanceId, R.styleable.AUIMicSeatDialogBroadView);
         int userGravity = typedArray.getInt(R.styleable.AUIMicSeatDialogBroadView_aui_micSeatDialog_userGravity, 1);

@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.agora.ui.R
 import com.cboda.agora.ui.chatList.AUIChatBroadInfo
-import com.cboda.agora.ui.databinding.AuiChatListLayoutBinding
+import com.cboda.agora.ui.databinding.AuiChatListBroadLayoutBinding
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.cboda.agora.ui.ui.chatList.listener.AUIChatListItemClickBroadListener
 import com.cboda.agora.ui.utils.DeviceBroadTools
 
 class AUIChatListBroadView : RelativeLayout,
     IAUIChatListBroadView {
-    private val mViewBinding = AuiChatListLayoutBinding.inflate(LayoutInflater.from(context))
+    private val mViewBinding = AuiChatListBroadLayoutBinding.inflate(LayoutInflater.from(context))
     private var listener: AUIChatListItemClickBroadListener?=null
     private var isScrollBottom = false
     private var adapter:AUIChatListBroadAdapter?=null

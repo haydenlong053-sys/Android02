@@ -185,5 +185,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_music_reverb"
-        tools:listitem="@layout/aui_musicplayer_effect_item_view" />
+        tools:listitem="@layout/aui_musicplayer_effect_item_broad_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

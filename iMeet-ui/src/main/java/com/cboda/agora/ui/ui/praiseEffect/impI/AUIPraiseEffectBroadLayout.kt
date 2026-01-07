@@ -56,7 +56,7 @@ class AUIPraiseEffectBroadLayout : RelativeLayout, View.OnClickListener, IAUIPra
     }
 
     private fun findViewById(context: Context) {
-        val view = LayoutInflater.from(context).inflate(R.layout.aui_praise_effect_layout, this)
+        val view = LayoutInflater.from(context).inflate(R.layout.aui_praise_effect_broad_layout, this)
         imageView = view.findViewById<AUIImageBroadView>(R.id.img)
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.voice_icon_like)
         dHeight = bitmap.width

@@ -45,7 +45,7 @@ class AUIGiftListBroadAdapter constructor(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.aui_gift_list_item_layout, null)
+            convertView = View.inflate(context, R.layout.aui_gift_list_item_broad_layout, null)
         }
         val giftInfo = getItem(position)
 

@@ -12,21 +12,21 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.databinding.AuiMemberListItemBinding
-import com.cboda.agora.ui.databinding.AuiMemberListViewLayoutBinding
+import com.cboda.agora.ui.databinding.AuiMemberListBroadItemBinding
+import com.cboda.agora.ui.databinding.AuiMemberListViewBroadLayoutBinding
 import com.cboda.agora.ui.ui.member.MemberBroadInfo
 import com.cboda.agora.ui.ui.member.MemberItemBroadModel
 import com.cboda.agora.ui.utils.BindingViewBroadHolder
 
 class AUIRoomMemberListBroadView : FrameLayout {
 
-    private val mBinding by lazy { AuiMemberListViewLayoutBinding.inflate(
+    private val mBinding by lazy { AuiMemberListViewBroadLayoutBinding.inflate(
         LayoutInflater.from(
             context
         )
     ) }
 
-    private lateinit var listAdapter: ListAdapter<MemberItemBroadModel, BindingViewBroadHolder<AuiMemberListItemBinding>>
+    private lateinit var listAdapter: ListAdapter<MemberItemBroadModel, BindingViewBroadHolder<AuiMemberListBroadItemBinding>>
     private var listener:ActionListener?=null
     private var isOwner:Boolean?=false
     private var ownerId:String? = ""
@@ -47,7 +47,7 @@ class AUIRoomMemberListBroadView : FrameLayout {
     private fun initView() {
         mBinding.rvUserList.layoutManager = GridLayoutManager(context, 1)
         listAdapter =
-            object : ListAdapter<MemberItemBroadModel, BindingViewBroadHolder<AuiMemberListItemBinding>>(object :
+            object : ListAdapter<MemberItemBroadModel, BindingViewBroadHolder<AuiMemberListBroadItemBinding>>(object :
                 DiffUtil.ItemCallback<MemberItemBroadModel>() {
                 override fun areItemsTheSame(oldItem: MemberItemBroadModel, newItem: MemberItemBroadModel) =
                     oldItem.user?.userId == newItem.user?.userId
@@ -63,13 +63,13 @@ class AUIRoomMemberListBroadView : FrameLayout {
                     viewType: Int
                 ) =
                     BindingViewBroadHolder(
-                        AuiMemberListItemBinding.inflate(
+                        AuiMemberListBroadItemBinding.inflate(
                             LayoutInflater.from(parent.context)
                         )
                     )
 
                 override fun onBindViewHolder(
-                    holder: BindingViewBroadHolder<AuiMemberListItemBinding>,
+                    holder: BindingViewBroadHolder<AuiMemberListBroadItemBinding>,
                     position: Int
                 ) {
                     val item = getItem(position)

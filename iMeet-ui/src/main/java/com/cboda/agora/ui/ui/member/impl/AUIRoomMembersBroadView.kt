@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.databinding.AuiMemberLayoutBinding
+import com.cboda.agora.ui.databinding.AuiMemberBroadLayoutBinding
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.cboda.agora.ui.ui.member.IAUIRoomMembersBroadView
 import com.cboda.agora.ui.ui.member.MemberBroadInfo
@@ -16,7 +16,7 @@ import com.cboda.agora.ui.utils.FastClickBroadTools
 
 class AUIRoomMembersBroadView : ConstraintLayout,
     IAUIRoomMembersBroadView {
-    private val mRoomViewBinding = AuiMemberLayoutBinding.inflate(LayoutInflater.from(context))
+    private val mRoomViewBinding = AuiMemberBroadLayoutBinding.inflate(LayoutInflater.from(context))
     private var aUpperRightListener: AUIRoomMembersActionBroadListener? = null
     private var aContext: Context? = null
 

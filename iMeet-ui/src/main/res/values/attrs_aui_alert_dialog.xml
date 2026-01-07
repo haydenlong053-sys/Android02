@@ -77,7 +77,7 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.3</item>
 
-        <item name="aui_alertDialog_contentLayout">@layout/aui_alert_dialog</item>
+        <item name="aui_alertDialog_contentLayout">@layout/aui_alert_broad_dialog</item>
         <item name="aui_alertDialog_minWidth">300dp</item>
 
         <!-- 背景 -->

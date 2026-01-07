@@ -53,7 +53,7 @@ public class AUIBottomBroadDialog extends BottomSheetDialog {
     private FrameLayout customContainer;
     private ViewPager2 viewPager;
     private TabLayout viewPagerIndicator;
-    private int itemLayoutId = R.layout.aui_bottom_dialog_item;
+    private int itemLayoutId = R.layout.aui_bottom_dialog_broad_item;
     private int orientation;
     private final Drawable dividerDrawable;
     private int listSpan = 1;
@@ -214,7 +214,7 @@ public class AUIBottomBroadDialog extends BottomSheetDialog {
     }
 
     private void initView() {
-        setContentView(R.layout.aui_bottom_dialog_layout);
+        setContentView(R.layout.aui_bottom_dialog_broad_layout);
         contentView = findViewById(R.id.contentRoot);
         tvTitle = findViewById(R.id.tvTitle);
         customContainer = findViewById(R.id.customContainer);

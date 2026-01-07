@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.widget.AdapterView
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.databinding.AuiEmojiGridviewLayoutBinding
 import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIcon
 import com.cboda.agora.ui.chatBottomBar.listener.AUIExpressionClickBroadListener
+import com.cboda.agora.ui.databinding.AuiEmojiGridviewBroadLayoutBinding
 import com.cboda.agora.ui.utils.DeviceBroadTools
 
 class AUIEmojiBroadView : LinearLayoutCompat {
     private var aContext: Context? = null
     private val mColumns = 7
-    private val mRoomViewBinding = AuiEmojiGridviewLayoutBinding.inflate(LayoutInflater.from(context))
+    private val mRoomViewBinding = AuiEmojiGridviewBroadLayoutBinding.inflate(LayoutInflater.from(context))
     private var gridAdapter: AUIEmojiGridBroadAdapter? = null
     private var listener: AUIExpressionClickBroadListener? = null
     private var baseLayout:Int = 0

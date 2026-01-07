@@ -56,7 +56,7 @@ class AUIBroadcastMessageBroadLayout : RelativeLayout, AUIStatusChangeBroadListe
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
-        val view = LayoutInflater.from(context).inflate(R.layout.aui_broadcast_message_layout, this)
+        val view = LayoutInflater.from(context).inflate(R.layout.aui_broadcast_message_broad_layout, this)
         broadcastLayout = view.findViewById(R.id.base_layout)
         broadcastView = view.findViewById(R.id.content)
 

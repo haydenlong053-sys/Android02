@@ -94,7 +94,7 @@
         <!-- Menu Item 配置 -->
         <item name="aui_navigationBarMenu_isActivated">false</item>
         <!-- 布局 -->
-        <item name="aui_navigationBarMenu_layout">@layout/aui_navigation_bar_item</item>
+        <item name="aui_navigationBarMenu_layout">@layout/aui_navigation_bar_broad_item</item>
         <!-- 图标 -->
         <item name="aui_navigationBarMenu_iconTint">@color/aui_primary_light</item>
         <item name="aui_navigationBarMenu_iconTintActivated">@color/aui_primary</item>

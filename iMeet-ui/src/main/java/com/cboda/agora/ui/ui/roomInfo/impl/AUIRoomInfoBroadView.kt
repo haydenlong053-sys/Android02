@@ -10,14 +10,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.databinding.AuiRoomInfoLayoutBinding
+import com.cboda.agora.ui.databinding.AuiRoomInfoBroadLayoutBinding
 import com.cboda.agora.ui.roomInfo.listener.AUIRoomInfoActionBroadListener
 import com.cboda.agora.ui.ui.roomInfo.IAUIRoomInfoBroadView
 import com.cboda.agora.ui.utils.DeviceBroadTools
 
 class AUIRoomInfoBroadView : ConstraintLayout,
     IAUIRoomInfoBroadView {
-    private val aRoomViewBinding = AuiRoomInfoLayoutBinding.inflate(LayoutInflater.from(context))
+    private val aRoomViewBinding = AuiRoomInfoBroadLayoutBinding.inflate(LayoutInflater.from(context))
     private var aUpperLeftListener: AUIRoomInfoActionBroadListener? = null
     private var aContext: Context? = null
 

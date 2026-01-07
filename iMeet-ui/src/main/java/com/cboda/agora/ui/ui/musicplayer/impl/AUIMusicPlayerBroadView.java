@@ -104,7 +104,7 @@ public class AUIMusicPlayerBroadView extends FrameLayout implements IMusicPlayer
     }
 
     private void init(Context context) {
-        View.inflate(context, R.layout.aui_musicplayer_view, this);
+        View.inflate(context, R.layout.aui_musicplayer_broad_view, this);
         tvMusicName = findViewById(R.id.tv_music_name);
         musicPlayerIdleView = findViewById(R.id.ilIDLE);
         mActiveView = findViewById(R.id.clActive);

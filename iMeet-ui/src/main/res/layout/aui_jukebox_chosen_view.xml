@@ -15,6 +15,6 @@
         app:aui_listDivider="?attr/aui_jukeboxChosen_listDivider"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="1"
-        tools:listitem="@layout/aui_jukebox_chosen_item" />
+        tools:listitem="@layout/aui_jukebox_chosen_broad_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
