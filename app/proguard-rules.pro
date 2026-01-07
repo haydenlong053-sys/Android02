@@ -38,10 +38,10 @@
 -dontwarn androidx.compose.**
 
 # 保留自定义 View
--keep class com.lxkj.aiim.** { *; }
+-keep class com.cboda.intelligent.** { *; }
 
 # 防止 R 资源被移除
--keep class com.lxkj.aiim.R { *; }
+-keep class com.cboda.intelligent.R { *; }
 -keepclassmembers class **.R$* {
     public static <fields>;
 }

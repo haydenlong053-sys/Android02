@@ -1,0 +1,429 @@
+package com.cboda.intelligent.activity;
+
+import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+import com.cboda.select.picture.basic.PictureSelector;
+import com.cboda.select.picture.config.PictureMimeType;
+import com.cboda.select.picture.config.SelectMimeType;
+import com.cboda.select.picture.entity.LocalMedia;
+import com.cboda.intelligent.R;
+import com.cboda.intelligent.base.BaseSimpleBroadActivity;
+import com.cboda.intelligent.holder.HongBaoBottomDialogBroadHolder;
+import com.cboda.intelligent.adapter.UpLoadImageBroadAdapter;
+import com.cboda.intelligent.bean.ResultBroadBean;
+import com.cboda.intelligent.dialog.NormalBroadDialog;
+import com.cboda.intelligent.utils.OkHttpBroadHelper;
+import com.cboda.intelligent.utils.SpotsCallBroadBack;
+import com.cboda.intelligent.net.BroadUrl;
+import com.cboda.intelligent.utils.GlideBroadBroadEngine;
+import com.cboda.intelligent.utils.ListBroadUtil;
+import com.cboda.intelligent.utils.MediaBroadFile;
+import com.cboda.intelligent.utils.StringBroadUtil;
+import com.cboda.intelligent.utils.ToastBroadUtil;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.cboda.chatui.utils.FileBroadUtils;
+import okhttp3.Response;
+import top.zibin.luban.Luban;
+
+public class HyyAddBroadActivity extends BaseSimpleBroadActivity {
+
+
+    private String id;
+    private UpLoadImageBroadAdapter imageAdapter;
+    private List<String> images = new ArrayList<>();
+    private boolean isHaveVideo = false;
+    private ArrayList<String> typeList = new ArrayList<>();
+    private int selectType = 0;//0图片 1视频 2PDF
+    private String pdf, size, miao, name;
+    private EditText etContent;
+    private RecyclerView ryImage;
+    private ImageView ivFile;
+    private TextView tvFileName;
+    private LinearLayout llAdd;
+    private TextView tvConfirm;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_hyy_add;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initViews();
+        getToolbarTitle().setText(getResources().getString(R.string.添加欢迎语));
+
+        id = getIntent().getStringExtra("id");
+        ryImage.setLayoutManager(new GridLayoutManager(this, 3));
+        imageAdapter = new UpLoadImageBroadAdapter(this, images, 9, 74);
+        ryImage.setAdapter(imageAdapter);
+        imageAdapter.setOnItemClickListener(new UpLoadImageBroadAdapter.OnItemClickListener() {
+            @Override
+            public void OnDeleteClick(int position) {
+                if (images.size() > position)
+                    images.remove(position);
+                imageAdapter.notifyDataSetChanged();
+
+                if (images.size() == 0) {
+                    llAdd.setVisibility(View.VISIBLE);
+                    ryImage.setVisibility(View.GONE);
+                    tvFileName.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void OnAddClick() {
+                String[] perms = {
+                        Permission.READ_MEDIA_IMAGES,
+                        Permission.READ_MEDIA_VIDEO,
+                        Permission.CAMERA};
+                if (XXPermissions.isGranted(HyyAddBroadActivity.this, perms)) {
+                    pmsSuccess();
+                } else {
+                    new NormalBroadDialog(HyyAddBroadActivity.this, getString(R.string.温馨提示), "使用选择图片功能需要相机、存储权限，是否请求权限？", "取消", "确定", true)
+                            .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
+                                @Override
+                                public void OnRightClick() {
+                                    XXPermissions permission = XXPermissions.with(HyyAddBroadActivity.this).permission(perms);
+                                    permission.request(new OnPermissionCallback() {
+                                        @Override
+                                        public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                                            pmsSuccess();
+                                        }
+
+                                        @Override
+                                        public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                                            OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+                                            ToastBroadUtil.show(getString(R.string.权限被拒绝));
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void OnLeftClick() {
+                                }
+                            }).show();
+                }
+            }
+        });
+        typeList.add(getString(R.string.图片));
+        typeList.add(getString(R.string.视频));
+        typeList.add(getString(R.string.PDF));
+        llAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HongBaoBottomDialogBroadHolder holder = new HongBaoBottomDialogBroadHolder(HyyAddBroadActivity.this, typeList);
+                holder.setCallBack(new HongBaoBottomDialogBroadHolder.BottomDialogClickCallBack() {
+                    @Override
+                    public void clickItem(int position) {
+                        selectType = position;
+                        select();
+                    }
+                });
+                holder.show();
+
+            }
+        });
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addHy();
+            }
+        });
+    }
+
+    /**
+     * 群欢迎语
+     */
+    private void addHy() {
+        if (TextUtils.isEmpty(etContent.getText())) {
+            ToastBroadUtil.show(getString(R.string.请填写消息内容));
+            return;
+        }
+        Map<String, Object> param = new HashMap<>();
+        param.put("gid", id);
+        param.put("txt", etContent.getText().toString());
+        if (!StringBroadUtil.isEmpty(name))
+            param.put("name", name);
+        if (!StringBroadUtil.isEmpty(pdf))
+            param.put("pdf", pdf);
+        if (!StringBroadUtil.isEmpty(size))
+            param.put("size", size);
+        param.put("type", getType());
+        if (!ListBroadUtil.isEmpty(images)) {
+            if (images.size() == 1) {
+                if (MediaBroadFile.isVideoFileType(images.get(0))) {
+                    param.put("video", images.get(0));
+                    param.put("vimg", images.get(0));
+                    param.put("miao", miao);
+                } else {
+                    param.put("imgs", images.get(0));
+                }
+            } else {
+                String imgs = "";
+                for (int i = 0; i < images.size(); i++) {
+                    imgs += images.get(i) + "|";
+                }
+                if (!StringBroadUtil.isEmpty(imgs)) {
+                    param.put("imgs", imgs);
+                }
+            }
+        }
+
+        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.addHy, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
+            @Override
+            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                ToastBroadUtil.show(resultBean.msg);
+                finish();
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
+
+    public int getVideoDuration(String filePath) {
+        int duration = 0;
+        try {
+            MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+            mmr.setDataSource(filePath);
+            String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            duration = Integer.parseInt(durationStr) / 1000; // 转换为秒
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return duration;
+    }
+
+    public String getType() {
+        String type = "1";
+        if (images.size() == 0 && StringBroadUtil.isEmpty(pdf))
+            type = "1";
+        else if (images.size() == 1) {
+            if (MediaBroadFile.isVideoFileType(images.get(0))) {
+                type = "3";
+            } else
+                type = "2";
+        } else if (images.size() > 1)
+            type = "2";
+        else
+            type = "4";
+        return type;
+    }
+
+    private void select() {
+        String[] permissions = new String[]{
+                Permission.READ_MEDIA_IMAGES,
+                Permission.READ_MEDIA_VIDEO,
+                Permission.CAMERA
+        };
+        if (XXPermissions.isGranted(HyyAddBroadActivity.this, permissions)) {
+            pmsSuccess();
+        } else {
+            new NormalBroadDialog(HyyAddBroadActivity.this, getString(R.string.温馨提示), "使用选择图片功能需要相机、存储权限，是否请求权限？", "取消", "确定", true)
+                    .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
+                        @Override
+                        public void OnRightClick() {
+                            XXPermissions permission = XXPermissions.with(HyyAddBroadActivity.this).permission(permissions);
+                            permission.request(new OnPermissionCallback() {
+                                @Override
+                                public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                                    pmsSuccess();
+                                }
+
+                                @Override
+                                public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                                    OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+                                    ToastBroadUtil.show(getString(R.string.权限被拒绝));
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void OnLeftClick() {
+                        }
+                    }).show();
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHOOSE_REQUEST && resultCode == RESULT_OK) {
+            ArrayList<String> photoLists = new ArrayList<>();
+            List<LocalMedia> selectList = PictureSelector.obtainSelectorList(data);
+            for (int i = 0; i < selectList.size(); i++) {
+                if (!StringBroadUtil.isEmpty(selectList.get(i).getRealPath()))
+                    photoLists.add(selectList.get(i).getRealPath());
+                else if (!StringBroadUtil.isEmpty(selectList.get(i).getSandboxPath()))
+                    photoLists.add(selectList.get(i).getSandboxPath());
+                else if (!StringBroadUtil.isEmpty(selectList.get(i).getPath()))
+                    photoLists.add(selectList.get(i).getPath());
+            }
+            if (photoLists != null && !photoLists.isEmpty()) {
+                File file = new File(photoLists.get(0));//获取第一张图片
+                if (file.exists()) {
+                    LocalMedia media = selectList.get(0);
+                    String pictureType = media.getMimeType();
+                    int mediaType = PictureMimeType.getMimeType(pictureType);
+                    if (mediaType == 2) {
+                        uploadVideo(photoLists.get(0));
+                        size = file.length() + "";
+                        miao = getVideoDuration(photoLists.get(0)) + "";
+                    } else {
+                        uploadFiles(photoLists);
+                    }
+                }
+            }
+        }
+
+        if (resultCode == Activity.RESULT_OK && requestCode == 100) {
+            Uri uri = data.getData();
+            String path = FileBroadUtils.getPath(this, uri);
+            if (TextUtils.isEmpty(path)) {
+                Toast.makeText(this, "选择文件错误", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String type = path.substring(path.lastIndexOf("."));
+            File file = new File(path);
+            switch (type) {
+                case ".pdf":
+                    tvFileName.setVisibility(View.VISIBLE);
+                    tvFileName.setText(path.substring(path.lastIndexOf("/") + 1));
+                    ivFile.setImageResource(R.mipmap.ic_wj_item);
+                    size = file.length() + "";
+                    uploadVideo(path);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 上传视频
+     */
+    private void uploadVideo(String path) {
+        List<File> file = new ArrayList<>();
+        file.add(new File(path));
+        Map<String, List<File>> files = new HashMap<>();
+        if (!ListBroadUtil.isEmpty(file))
+            files.put("file", file);
+        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFile, files, new SpotsCallBroadBack<ResultBroadBean>(this) {
+            @Override
+            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                if (selectType == 2) {
+                    pdf = resultBean.url;
+                    name = tvFileName.getText().toString();
+                } else {
+                    ryImage.setVisibility(View.VISIBLE);
+                    llAdd.setVisibility(View.GONE);
+                    images.clear();
+                    images.add(resultBean.url);
+                    imageAdapter.setMaxNum(1);
+                    imageAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
+
+
+    /**
+     * 上传文件
+     */
+    private void uploadFiles(List<String> path) {
+        List<String> reason = new ArrayList<>();
+        List<File> file = new ArrayList<>();
+        reason.addAll(path);
+        try {
+            file.addAll(Luban.with(this).load(reason).get());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Map<String, List<File>> files = new HashMap<>();
+        if (!ListBroadUtil.isEmpty(file))
+            files.put("files", file);
+        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFiles, files, new SpotsCallBroadBack<ResultBroadBean>(this) {
+            @Override
+            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                ryImage.setVisibility(View.VISIBLE);
+                llAdd.setVisibility(View.GONE);
+                images.addAll(resultBean.urls);
+                imageAdapter.setMaxNum(9);
+                imageAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
+
+    public void pmsSuccess() {
+        if (selectType == 2) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("application/pdf");//无类型限制
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, 100);
+        } else {
+            int chooseMode = SelectMimeType.ofAll();
+            switch (selectType) {
+                case 0:
+                    chooseMode = SelectMimeType.ofImage();
+                    break;
+                case 1:
+                    chooseMode = SelectMimeType.ofAll();
+                    break;
+            }
+            PictureSelector.create(this)//在Fragment中使用则是 fragment.this
+                    .openGallery(chooseMode)//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                    .setImageEngine(GlideBroadBroadEngine.createGlideEngine())
+                    .setMaxSelectNum(9 - images.size())
+                    .setMinSelectNum(1)
+                    .setImageSpanCount(3)// 每行显示个数 int
+                    .isDisplayCamera(true)// 是否显示拍照按钮 true or false
+                    .forResult(CHOOSE_REQUEST);//结果回调onActivityResult code
+        }
+    }
+
+    private void initViews() {
+        etContent = findViewById(R.id.etContent);
+        ryImage = findViewById(R.id.ryImage);
+        ivFile = findViewById(R.id.ivFile);
+        tvFileName = findViewById(R.id.tvFileName);
+        llAdd = findViewById(R.id.llAdd);
+        tvConfirm = findViewById(R.id.tvConfirm);
+    }
+}

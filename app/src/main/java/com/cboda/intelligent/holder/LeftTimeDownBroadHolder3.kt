@@ -1,0 +1,52 @@
+package com.cboda.intelligent.holder
+
+import android.os.Handler
+import android.os.Looper
+import com.cboda.intelligent.utils.TimeBroadUtils
+
+/**
+ * 简述： <功能描述>
+ * Created by ysh on 2024/1/30.
+ */
+class LeftTimeDownBroadHolder3 {
+    private var mLeftTime = 0
+    var leftTimeListener: LeftTimeListener? = null
+    private var mHandler = object : Handler(Looper.getMainLooper()) {}
+
+    private var downRunnable = object : Runnable {
+        override fun run() {
+            mLeftTime -= 1
+            getLeftTime(mLeftTime)
+            if (mLeftTime > 0) {
+                mHandler.postDelayed(this, TimeBroadUtils.SECOND)
+            } else {
+                release()
+            }
+        }
+
+    }
+
+    fun startDown(leftTime: Int) {
+        getLeftTime(leftTime)
+        mLeftTime = leftTime
+        mHandler.postDelayed(downRunnable, TimeBroadUtils.SECOND)
+    }
+
+
+    private fun getLeftTime(time: Int) {
+//        AppBroadUtil.debug("倒计时","---> $time")
+        leftTimeListener?.onLeftTime(
+            time.toString()
+        )
+
+    }
+
+    fun release() {
+        mLeftTime = 0
+        mHandler.removeCallbacks(downRunnable)
+    }
+
+    interface LeftTimeListener {
+        fun onLeftTime(second: String)
+    }
+}

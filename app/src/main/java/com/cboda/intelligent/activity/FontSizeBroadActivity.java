@@ -1,0 +1,138 @@
+package com.cboda.intelligent.activity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import com.cboda.intelligent.MainBroadActivity;
+import com.cboda.intelligent.R;
+import com.cboda.intelligent.base.BaseSimpleBroadActivity;
+import com.cboda.intelligent.bean.ResultBroadBean;
+import com.cboda.intelligent.configuration.AppBroadConsts;
+import com.cboda.intelligent.utils.BaseBroadCallback;
+import com.cboda.intelligent.utils.OkHttpBroadHelper;
+import com.cboda.intelligent.net.BroadUrl;
+import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
+import com.cboda.intelligent.utils.StringBroadUtil;
+import com.cboda.intelligent.widge.FontSizeBroadView;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Request;
+import okhttp3.Response;
+
+public class FontSizeBroadActivity extends BaseSimpleBroadActivity {
+
+    private float fontSizeScale = 1f;
+    private TextView tvRightTxt;
+    private TextView tvLeftTxt;
+    private FontSizeBroadView fsvFontSize;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initViews();
+        getToolbarTitle().setText(getResources().getString(R.string.字体大小));
+
+        String size = SharePrefBroadBroadUtil.getString(this, AppBroadConsts.FontScale, "");
+        if (!StringBroadUtil.isEmpty(size)) {
+            fsvFontSize.setDefaultPosition(new BigDecimal((Float.parseFloat(size) - 0.875) / 0.125).intValue());
+        }
+
+        //滑动返回监听
+        fsvFontSize.setChangeCallbackListener(new FontSizeBroadView.OnChangeCallbackListener() {
+            @Override
+            public void onChangeListener(int position) {
+                int dimension = getResources().getDimensionPixelSize(R.dimen.sp_stander);
+                //根据position 获取字体倍数
+                fontSizeScale = (float) (0.875 + 0.125 * position);
+                //放大后的sp单位
+                double v = fontSizeScale * (int) px2sp(FontSizeBroadActivity.this, dimension);
+                //改变当前页面大小
+                changeTextSize((int) v);
+            }
+        });
+
+//        userInfo();
+
+    }
+
+    /**
+     * 用户信息
+     */
+    private void userInfo() {
+        Map<String, Object> param = new HashMap<>();
+        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, new BaseBroadCallback<ResultBroadBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                String size = resultBean.data.ziti;
+                int dimension = getResources().getDimensionPixelSize(R.dimen.sp_stander);
+                if (!StringBroadUtil.isEmpty(size)) {
+                    //根据position 获取字体倍数
+                    fontSizeScale = (float) (0.875 + 0.125 * Double.parseDouble(size));
+                    //放大后的sp单位
+                    double v = fontSizeScale * (int) px2sp(FontSizeBroadActivity.this, dimension);
+                    //改变当前页面大小
+                    changeTextSize((int) v);
+                }
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SharePrefBroadBroadUtil.saveString(FontSizeBroadActivity.this, AppBroadConsts.FontScale, fontSizeScale + "");
+        Intent intent = new Intent(this, MainBroadActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    /**
+     * 改变textsize 大小
+     */
+    private void changeTextSize(int dimension) {
+        tvRightTxt.setTextSize(dimension);
+        tvLeftTxt.setTextSize(dimension);
+
+    }
+
+    public static int px2sp(Context context, float pxValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_font_size;
+    }
+
+    private void initViews() {
+        tvRightTxt = findViewById(R.id.tvRightTxt);
+        tvLeftTxt = findViewById(R.id.tvLeftTxt);
+        fsvFontSize = findViewById(R.id.fsv_font_size);
+    }
+}
