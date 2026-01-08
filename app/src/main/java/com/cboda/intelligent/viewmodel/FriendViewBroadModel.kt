@@ -1,6 +1,7 @@
 package com.cboda.intelligent.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -13,7 +14,7 @@ import com.cboda.intelligent.model.SocialBroadCircle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-open class FriendViewBroadModel : ViewModel() {
+open class FriendViewBroadModel : BaseViewModel() {
 
     /**
      * 安全中心

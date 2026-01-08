@@ -11,13 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.google.gson.Gson
 import com.cboda.intelligent.R
-import com.cboda.intelligent.base.BaseDiaogBroadFragment
+import com.cboda.intelligent.base.BaseDialogBroadFragment
 import com.cboda.intelligent.bean.HongBaoBroadBiangeng
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.*
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
-class LingHongBaoDialogBroadFragment : BaseDiaogBroadFragment() {
+class LingHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
     private var viewModel: CommViewBroadModel? = null
     var hongbaoId = ""
     var isgroup = ""

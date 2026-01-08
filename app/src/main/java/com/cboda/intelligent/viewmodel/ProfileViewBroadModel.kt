@@ -1,6 +1,7 @@
 package com.cboda.intelligent.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.cboda.baselibrary.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,7 +14,7 @@ data class UserBroadProfile(
     val interests: List<String> = listOf("Coding", "Design", "Music")
 )
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel : BaseViewModel() {
     // 原始数据（用于对比是否修改，以及重置）
     private var _originalProfile = UserBroadProfile()
 

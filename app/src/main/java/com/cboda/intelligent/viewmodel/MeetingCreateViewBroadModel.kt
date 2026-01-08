@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.wildfirechat.remote.ChatManager
+import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
@@ -24,7 +25,7 @@ import java.util.*
 
 class MeetingCreateViewBroadModel(
     private val repository: MeetingBroadRepository = MeetingBroadRepository()
-) : ViewModel() {
+) : BaseViewModel() {
     
     private val _uiState = MutableStateFlow(MeetingCreateUiState())
     val uiState: StateFlow<MeetingCreateUiState> = _uiState.asStateFlow()

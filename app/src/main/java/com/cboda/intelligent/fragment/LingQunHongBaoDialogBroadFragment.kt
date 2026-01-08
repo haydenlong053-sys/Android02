@@ -13,14 +13,14 @@ import cn.wildfirechat.message.HongBaoMessageContent
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.google.gson.Gson
 import com.cboda.intelligent.R
-import com.cboda.intelligent.base.BaseDiaogBroadFragment
+import com.cboda.intelligent.base.BaseDialogBroadFragment
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.intelligent.bean.HongBaoBroadBiangeng
 import com.cboda.intelligent.holder.SendCustomBroadMsg
 import com.cboda.intelligent.utils.*
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
-class LingQunHongBaoDialogBroadFragment : BaseDiaogBroadFragment() {
+class LingQunHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
     private var viewModel: CommViewBroadModel? = null
     var hongbaoId = ""
     var isgroup = ""

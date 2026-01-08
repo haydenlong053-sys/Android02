@@ -2,6 +2,7 @@ package com.cboda.intelligent.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.intelligent.bean.UrlBroadBean
 import com.cboda.intelligent.bean.UrlsBroadBean
 import com.cboda.intelligent.utils.AEBroadS
@@ -21,7 +22,7 @@ import kotlin.coroutines.suspendCoroutine
  * 简述： <功能描述>
  * Created by ysh on 2023/4/1.
  */
-class UploadFileViewBroadModel : ViewModel() {
+class UploadFileViewBroadModel : BaseViewModel() {
     private var liveData: MutableLiveData<UrlBroadBean>? = null
     override fun onCleared() {
         super.onCleared()

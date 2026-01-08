@@ -1,6 +1,7 @@
 package com.cboda.intelligent.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -20,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 
- class NoticeViewBroadModel: ViewModel() {
+ class NoticeViewBroadModel: BaseViewModel() {
 
 
 

@@ -13,7 +13,6 @@ import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity
 import cn.wildfirechat.message.MeetingInviteMessageContent
@@ -53,6 +52,7 @@ import com.cboda.agora.service.model.AUIRoomBroadContext
 import com.cboda.agora.service.model.AUIRoomBroadInfo
 import com.cboda.agora.service.model.AUIUserThumbnailBroadInfo
 import com.cboda.agora.service.utils.AUIBroadLogger
+import com.cboda.baselibrary.base.BaseActivity
 import com.cboda.baselibrary.utils.TimeBroadBroadUtils
 import io.agora.rtc2.Constants
 import kotlinx.coroutines.delay
@@ -61,7 +61,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MeetingRoomBroadActivity : AppCompatActivity(), AUIVoiceRoomBroadObserver {
+class MeetingRoomBroadActivity : BaseActivity(), AUIVoiceRoomBroadObserver {
     private val mViewBinding by lazy { VoiceRoomBroadActivityBinding.inflate(layoutInflater) }
     private val mPermissionHelp = PermissionBroadHelp(this)
     private  var countdownFlow: CountdownTimerBroadFlow?=null

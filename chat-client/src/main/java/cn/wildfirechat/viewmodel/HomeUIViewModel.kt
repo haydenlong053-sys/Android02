@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cn.wildfirechat.model.ConversationInfo
 import cn.wildfirechat.uistate.MessagePageUiState
+import com.cboda.baselibrary.base.BaseViewModel
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,7 @@ sealed class SocialAction {
     object CloseSelect: SocialAction()
 }
 
-class HomeUIViewModel : ViewModel() {
+class HomeUIViewModel : BaseViewModel() {
     private  val _uiState = MutableStateFlow(MessagePageUiState())
     val uiState = _uiState.asStateFlow()
     val uiStateLiveData = _uiState.asLiveData()

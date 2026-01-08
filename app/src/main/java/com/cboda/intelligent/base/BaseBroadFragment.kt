@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.blankj.utilcode.util.BarUtils
+import com.cboda.baselibrary.base.BaseFragment
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseBroadFragment<V : ViewBinding, VM : BaseViewBroadModel> : Fragment() {
+abstract class BaseBroadFragment<V : ViewBinding, VM : BaseViewBroadModel> : BaseFragment() {
     lateinit var binding: V
     var mBinding: V? = null
     lateinit var viewModel: VM

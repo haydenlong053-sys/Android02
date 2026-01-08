@@ -18,7 +18,6 @@ import android.widget.RelativeLayout.LayoutParams
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -27,6 +26,7 @@ import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.cboda.baselibrary.base.BaseActivity
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.LiXinBroadApp
@@ -42,7 +42,7 @@ import java.util.Locale
 /**
  * 适配新UI
  */
-abstract class BaseSimple2BroadActivity : AppCompatActivity() {
+abstract class BaseSimple2BroadActivity : BaseActivity() {
 
     /**
      * ViewBinding实例，仅在使用ViewBinding模式时可用

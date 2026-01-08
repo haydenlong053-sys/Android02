@@ -3,6 +3,7 @@ package com.cboda.intelligent.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.intelligent.model.SocialContact
 import com.cboda.intelligent.model.SocialUiState
 import com.cboda.chatui.utils.PinyinBroadUtils
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class SocialViewBroadModel(
     private val repository: SocialBroadRepository = SocialBroadRepository()
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(SocialUiState(isLoading = true))
     val uiState: StateFlow<SocialUiState> = _uiState.asStateFlow()

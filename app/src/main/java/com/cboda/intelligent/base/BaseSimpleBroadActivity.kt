@@ -13,11 +13,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.viewbinding.ViewBinding
+import com.cboda.baselibrary.base.BaseActivity
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.LiXinBroadApp
@@ -30,7 +30,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getZt
 import com.cboda.baselibrary.widge.LoadingBroadDialog
 import java.util.Locale
 
-abstract class BaseSimpleBroadActivity : AppCompatActivity() {
+abstract class BaseSimpleBroadActivity : BaseActivity() {
 
     /**
      * ViewBinding实例，仅在使用ViewBinding模式时可用

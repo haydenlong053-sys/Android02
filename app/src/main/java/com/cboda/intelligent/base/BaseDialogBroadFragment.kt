@@ -7,7 +7,7 @@ import androidx.fragment.app.DialogFragment
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.AppBroadUtils
 
-open class BaseDiaogBroadFragment : DialogFragment() {
+open class BaseDialogBroadFragment : DialogFragment() {
     /**
      * 自定义背景透明度
      */

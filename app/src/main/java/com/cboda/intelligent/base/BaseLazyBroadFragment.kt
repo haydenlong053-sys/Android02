@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.cboda.baselibrary.base.BaseFragment
 import com.cboda.baselibrary.widge.LoadingBroadDialog
 
-abstract class BaseLazyBroadFragment : Fragment() {
+abstract class BaseLazyBroadFragment : BaseFragment() {
     /**
      * 是否是第一次进入fragment 第一次进入加载数据
      */

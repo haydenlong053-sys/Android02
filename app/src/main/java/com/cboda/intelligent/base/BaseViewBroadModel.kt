@@ -7,12 +7,13 @@ import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
+import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.utils.getResumeActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 
-open class BaseViewBroadModel : ViewModel(), IBaseViewBroadModel {
+open class BaseViewBroadModel : BaseViewModel(), IBaseViewBroadModel {
 
     private val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 
