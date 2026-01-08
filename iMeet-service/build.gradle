@@ -21,9 +21,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true   //混淆
-//            shrinkResources true  //资源缩减(删除无用资源)
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            minifyEnabled true   //混淆
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {

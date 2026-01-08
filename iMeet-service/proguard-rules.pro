@@ -7,3 +7,7 @@
     public <methods>;
     public <fields>;
 }
+
+-keep class com.cboda.agora.service.model.** { *; }
+-keep class com.cboda.agora.service.service.** { *; }
+-keep class com.cboda.agora.service.utils.** { *; }
