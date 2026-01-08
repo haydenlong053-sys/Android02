@@ -75,7 +75,7 @@ public class SetPayPasswordBroadActivity extends BaseSimpleBroadActivity impleme
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_set_pay_password;
+        return R.layout.activity_set_pay_broad_password;
     }
 
     @Override

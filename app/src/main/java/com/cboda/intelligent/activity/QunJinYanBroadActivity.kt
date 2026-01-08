@@ -16,7 +16,7 @@ class QunJinYanBroadActivity : BaseSimpleBroadActivity() {
     private var viewModel: CommViewBroadModel? = null
     private var userIdList = arrayListOf<String>()
     override fun getLayoutId(): Int {
-        return R.layout.activity_qunjinyan
+        return R.layout.activity_qun_jin_broad_yan
     }
 
     private var qunxiangqing : CommonResult? = null

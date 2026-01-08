@@ -17,10 +17,10 @@ import androidx.viewbinding.ViewBinding;
 import com.cboda.baselibrary.event.AppBroadEvent;
 import com.cboda.baselibrary.event.AppEventBroadCode;
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
+import com.cboda.intelligent.databinding.ActivityBroadEquipmentBinding;
 import com.google.gson.Gson;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.databinding.ActivityEquipmentBinding;
 import com.cboda.intelligent.dialog.QrdlBroadDialog;
 import com.cboda.intelligent.dialog.pop.AuthWayBroadPop;
 import com.cboda.intelligent.bean.EventBusBroadBean;
@@ -56,7 +56,7 @@ public class EquipmentBroadActivity extends BaseSimpleBroadActivity implements V
 
 
     private String eqno;
-    private ActivityEquipmentBinding mBinding;
+    private ActivityBroadEquipmentBinding mBinding;
 
     @Override
     public boolean showOrHideTitleLayout() {
@@ -82,13 +82,13 @@ public class EquipmentBroadActivity extends BaseSimpleBroadActivity implements V
     @Nullable
     @Override
     protected Class<? extends ViewBinding> getViewBindingClass() {
-        return ActivityEquipmentBinding.class;
+        return ActivityBroadEquipmentBinding.class;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = (ActivityEquipmentBinding) getBinding();
+        mBinding = (ActivityBroadEquipmentBinding) getBinding();
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",
                 "dimen", "android");

@@ -44,7 +44,7 @@ class YanZhengBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_yanzheng
+        return R.layout.activity_yan_broad_zheng
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +67,7 @@ class YanZhengBroadActivity : BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -112,7 +112,7 @@ class YanZhengBroadActivity : BaseSimpleBroadActivity() {
 //        for (i in 0 until 3) {
 //            mDataList.add(CommonDataListBroadBean.CommonBean())
 //        }
-        mAdapter = YanZhengBroadAdapter(R.layout.item_yanzheng_user_layout, fromPage)
+        mAdapter = YanZhengBroadAdapter(R.layout.item_yan_broad_zheng_user_layout, fromPage)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@YanZhengBroadActivity)
             adapter = mAdapter

@@ -97,7 +97,7 @@ public class IssueBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_issue;
+        return R.layout.activity_broad_issue;
     }
 
     private void initViews() {

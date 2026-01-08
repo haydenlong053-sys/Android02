@@ -27,7 +27,7 @@ public class NormalBroadDialog extends Dialog {
         this.context = context;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
-        setContentView(R.layout.dialog_normal);
+        setContentView(R.layout.dialog_broad_normal);
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();

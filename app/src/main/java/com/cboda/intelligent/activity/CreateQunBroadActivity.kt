@@ -53,7 +53,7 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_xuanzelianxiren
+        return R.layout.activity_xu_broad_an_ze_lian_xi_ren
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +72,7 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -110,7 +110,7 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
             false
         })
 
-        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_layout, "createGroup")
+        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_broad_layout, "createGroup")
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@CreateQunBroadActivity)
             adapter = mAdapter
@@ -129,7 +129,7 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
         }
 
 
-        mAdapter2 = YiXuanQunMemberBroadAdapter(R.layout.item_yixuan_qun_member_layout)
+        mAdapter2 = YiXuanQunMemberBroadAdapter(R.layout.item_yi_xu_broad_an_qun_member_layout)
         recyclerView2?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(
                 this@CreateQunBroadActivity,

@@ -82,7 +82,7 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_ciecel;
+        return R.layout.activity_cie_broad_cel;
     }
 
     @Override

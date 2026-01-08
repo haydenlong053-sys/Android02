@@ -103,6 +103,6 @@ class XiaoChengXuBroadFragment : BaseLazyBroadFragment() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_xiaochengxu
+        return R.layout.fragment_xiao_cheng_broad_xu
     }
 }

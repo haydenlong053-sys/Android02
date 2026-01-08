@@ -184,7 +184,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
             resources?.updateConfiguration(yuyanconfig,resources.displayMetrics)
         }
 
-        setContentView(R.layout.activity_base)
+        setContentView(R.layout.activity_broad_base)
         initViews()
         initContentView()
 

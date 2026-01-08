@@ -33,7 +33,7 @@ class MeetingCreateBroadActivity : BaseSimpleBroadActivity() {
 
     private val viewModel: MeetingCreateViewBroadModel by viewModels()
 
-    override fun getLayoutId(): Int = com.cboda.intelligent.R.layout.activity_base
+    override fun getLayoutId(): Int = com.cboda.intelligent.R.layout.activity_broad_base
 
     override fun showOrHideTitleLayout(): Boolean = false
 

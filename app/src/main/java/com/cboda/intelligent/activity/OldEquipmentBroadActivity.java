@@ -32,7 +32,7 @@ public class OldEquipmentBroadActivity extends BaseSimpleBroadActivity implement
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_old_equipment;
+        return R.layout.activity_old_broad_equipment;
     }
 
     @Override

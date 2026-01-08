@@ -42,7 +42,7 @@ public class HyyBroadAdapter extends RecyclerView.Adapter<HyyBroadAdapter.MyHold
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_hyy, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_hyy, parent, false);
         return new MyHolder(view);
     }
 

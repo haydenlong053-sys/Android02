@@ -42,7 +42,7 @@ public class PayPassworDialogBroadFra extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        frView = inflater.inflate(R.layout.dialog_pay_password, null);
+        frView = inflater.inflate(R.layout.dialog_pay_broad_password, null);
         initViews(frView);
 
         tvMoney.setText(money);

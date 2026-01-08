@@ -37,7 +37,7 @@ public class JzvdStdTikBroadTok extends JzvdStd {
 
     @Override
     public int getLayoutId() {
-        return R.layout.jz_layout_std_tiktok;
+        return R.layout.jz_layout_std_broad_tiktok;
     }
 
     //changeUiTo 真能能修改ui的方法

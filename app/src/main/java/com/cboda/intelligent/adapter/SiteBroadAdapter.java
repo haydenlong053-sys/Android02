@@ -29,7 +29,7 @@ public class SiteBroadAdapter extends RecyclerView.Adapter<SiteBroadAdapter.MyHo
     }
     @Override
     public SiteBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_site, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_site, parent, false);
         return new SiteBroadAdapter.MyHolder(view);
     }
 

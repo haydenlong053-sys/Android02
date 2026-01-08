@@ -29,7 +29,7 @@ public class BlackListBroadAdapter extends RecyclerView.Adapter<BlackListBroadAd
     }
     @Override
     public BlackListBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_blacklist, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_black_broad_list, parent, false);
         return new BlackListBroadAdapter.MyHolder(view);
     }
 

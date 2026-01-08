@@ -46,7 +46,7 @@ public class AddtypeBroadActivity extends BaseSimpleBroadActivity implements Vie
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_addtype;
+        return R.layout.activity_add_broad_type;
     }
 
     @Override

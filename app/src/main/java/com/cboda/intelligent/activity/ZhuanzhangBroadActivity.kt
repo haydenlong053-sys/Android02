@@ -36,7 +36,7 @@ class ZhuanzhangBroadActivity : BaseSimpleBroadActivity() {
     private var viewModel: CommViewBroadModel? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_zhuanzhang
+        return R.layout.activity_zhu_an_broad_zhang
     }
 
     override fun showOrHideTitleLayout(): Boolean {

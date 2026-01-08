@@ -18,7 +18,7 @@ class LiXinStandardGSYVideoBroadPlayer : StandardGSYVideoPlayer {
     constructor(context: Context?, attrs: AttributeSet) : super(context, attrs)
 
     override fun getLayoutId(): Int {
-        return R.layout.video_layout_standard
+        return R.layout.video_layout_broad_standard
     }
 
 

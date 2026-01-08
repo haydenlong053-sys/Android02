@@ -22,7 +22,7 @@ class CommanConfimBroadHolder (private val activity: Context?,private val mTitle
             if (dialog == null) {
                 val view: View = View.inflate(
                     activity,
-                    R.layout.ke_hu_confim_dialog_layout,
+                    R.layout.ke_hu_con_broad_fim_dialog_layout,
                     null
                 )
                 val rootView = view.findViewById<View>(R.id.rootView)

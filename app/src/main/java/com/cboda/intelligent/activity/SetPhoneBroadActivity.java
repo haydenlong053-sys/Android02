@@ -29,7 +29,7 @@ public class SetPhoneBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_set_phone;
+        return R.layout.activity_set_broad_phone;
     }
 
     @Override

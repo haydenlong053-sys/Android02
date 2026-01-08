@@ -40,7 +40,7 @@ public class AccountBroadActivity extends BaseSimpleBroadActivity implements Vie
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_account;
+        return R.layout.activity_broad_account;
     }
 
     @Override

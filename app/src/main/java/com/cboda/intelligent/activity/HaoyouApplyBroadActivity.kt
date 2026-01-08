@@ -142,7 +142,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_haoyou_apply
+        return R.layout.activity_hao_broad_you_apply
     }
 
     /**
@@ -171,7 +171,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
             viewType: Int
         ): CircleViewHolder {
             val view = android.view.LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_circle_tag, parent, false)
+                .inflate(R.layout.item_circle_broad_tag, parent, false)
             return CircleViewHolder(view)
         }
 

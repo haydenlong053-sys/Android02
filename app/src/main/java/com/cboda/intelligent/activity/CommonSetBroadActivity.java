@@ -76,7 +76,7 @@ public class CommonSetBroadActivity extends BaseSimpleBroadActivity implements V
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_common_set;
+        return R.layout.activity_common_broad_set;
     }
 
     @Override

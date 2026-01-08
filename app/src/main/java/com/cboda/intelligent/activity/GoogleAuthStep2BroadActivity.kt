@@ -7,9 +7,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityAuthStep2Binding
 import com.cboda.intelligent.dialog.pop.SaveQrCodeTipBroadPop
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivityAuthBroadStep2Binding
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.utils.pasteToEditText
 import com.cboda.intelligent.model.TwoFactorBroadValidate
@@ -26,17 +26,17 @@ import kotlin.getValue
  */
 class GoogleAuthStep2BroadActivity : BaseSimple2BroadActivity() {
     private val viewModel: SafeCenterViewBroadModel by viewModels()
-    private var mBind :ActivityAuthStep2Binding?=null
+    private var mBind : ActivityAuthBroadStep2Binding?=null
     override fun getLayoutId(): Int {
-        return R.layout.activity_auth_step_2
+        return R.layout.activity_auth_broad_step_2
     }
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivityAuthStep2Binding::class.java
+        return ActivityAuthBroadStep2Binding::class.java
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBind =binding as? ActivityAuthStep2Binding
+        mBind =binding as? ActivityAuthBroadStep2Binding
         EventBus.getDefault().register(this)
         getToolbarTitle()?.text = getResources().getString(R.string.mine_google_auth)
         initData()

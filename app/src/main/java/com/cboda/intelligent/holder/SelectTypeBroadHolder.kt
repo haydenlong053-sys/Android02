@@ -38,7 +38,7 @@ class SelectTypeBroadHolder(
     fun show() {
         context?.apply {
             if (pop == null) {
-                val popView = View.inflate(context, R.layout.select_auth_type_pop_layout, null)
+                val popView = View.inflate(context, R.layout.select_auth_type_pop_broad_layout, null)
                 pop = PopupWindow(
                     popView, ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT, true
@@ -49,7 +49,7 @@ class SelectTypeBroadHolder(
                 pop?.setBackgroundDrawable(BitmapDrawable())
                 val recyclerView = popView.findViewById<RecyclerView>(R.id.recyclerView)
                 recyclerView.layoutManager = WrapContentLinearLayoutBroadManager(this)
-                adapter = SelectTypeBroadAdapter(R.layout.item_auth_type_layout)
+                adapter = SelectTypeBroadAdapter(R.layout.item_auth_type_broad_layout)
                 recyclerView.adapter = adapter
                 adapter?.setList(authList)
                 adapter?.setOnItemClickListener { _, _, position ->

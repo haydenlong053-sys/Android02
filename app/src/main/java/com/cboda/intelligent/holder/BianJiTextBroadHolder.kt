@@ -20,7 +20,7 @@ class BianJiTextBroadHolder(private val activity: Context?, private val mTitle: 
             if (dialog == null) {
                 val view: View = View.inflate(
                     activity,
-                    R.layout.bianji_txt_dialog_layout,
+                    R.layout.bi_an_broad_ji_txt_dialog_layout,
                     null
                 )
                 val rootView = view.findViewById<View>(R.id.rootView)

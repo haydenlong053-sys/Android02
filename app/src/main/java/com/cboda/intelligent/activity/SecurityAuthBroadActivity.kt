@@ -5,10 +5,10 @@ import androidx.activity.viewModels
 import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivitySecurityAuthBinding
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivitySecurityBroadAuthBinding
 import com.cboda.intelligent.utils.BaseBroadCallback
 import com.cboda.intelligent.utils.goSafeCenterAuth
 import com.cboda.intelligent.utils.maskWithLastChar
@@ -27,11 +27,11 @@ class SecurityAuthBroadActivity : BaseSimple2BroadActivity() {
     private var mData: SafeCenterBroadBean? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_security_auth
+        return R.layout.activity_security_broad_auth
     }
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivitySecurityAuthBinding::class.java
+        return ActivitySecurityBroadAuthBinding::class.java
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +43,7 @@ class SecurityAuthBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun initListener() {
-        (binding as? ActivitySecurityAuthBinding)?.mIvEdit?.setOnClickListener {
+        (binding as? ActivitySecurityBroadAuthBinding)?.mIvEdit?.setOnClickListener {
           mData?.let {
               goSafeCenterAuth(this,SafeJumpBroadEnum.QuestionAuth.sourceType,it)
           }
@@ -58,9 +58,9 @@ class SecurityAuthBroadActivity : BaseSimple2BroadActivity() {
         viewModel.userInfo(this@SecurityAuthBroadActivity,object : BaseBroadCallback<ResultBroadBean>() {
             override fun onError(response: Response, code: Int, e: Exception) {}
             override fun onSuccess(response: Response?, t: ResultBroadBean) {
-                (binding as? ActivitySecurityAuthBinding)?.mTvSecurityName?.text=  t.data.mbName
+                (binding as? ActivitySecurityBroadAuthBinding)?.mTvSecurityName?.text=  t.data.mbName
                 if (t.data.mbAnswer?.isNotEmpty() == true){
-                    (binding as? ActivitySecurityAuthBinding)?.mTvAnswer?.text = t.data.mbAnswer?.maskWithLastChar()
+                    (binding as? ActivitySecurityBroadAuthBinding)?.mTvAnswer?.text = t.data.mbAnswer?.maskWithLastChar()
                 }
 
 

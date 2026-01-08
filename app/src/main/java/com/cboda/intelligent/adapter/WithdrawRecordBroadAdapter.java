@@ -36,7 +36,7 @@ public class WithdrawRecordBroadAdapter extends RecyclerView.Adapter<WithdrawRec
     }
     @Override
     public WithdrawRecordBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_withdraw_record, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_withdraw_broad_record, parent, false);
         return new WithdrawRecordBroadAdapter.MyHolder(view);
     }
 

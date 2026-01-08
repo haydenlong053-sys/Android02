@@ -50,7 +50,7 @@ public class DsxxBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_hyy;
+        return R.layout.activity_broad_hyy;
     }
 
     @Override

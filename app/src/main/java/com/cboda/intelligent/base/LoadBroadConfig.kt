@@ -3,9 +3,9 @@ package com.cboda.intelligent.base
 
 import android.content.Context
 import android.view.LayoutInflater
-import com.cboda.intelligent.databinding.LayoutDataViewBinding
+import com.cboda.intelligent.databinding.LayoutDataBroadViewBinding
 
-class LoadBroadConfig(private var binding: LayoutDataViewBinding? = null) {
+class LoadBroadConfig(private var binding: LayoutDataBroadViewBinding? = null) {
 
 
     /**

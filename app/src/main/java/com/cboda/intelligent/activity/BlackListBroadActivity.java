@@ -9,10 +9,10 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.databinding.ActivityBlackListBinding;
 import com.cboda.intelligent.adapter.BlackListBroadAdapter;
 import com.cboda.intelligent.bean.DataListBroadBean;
 import com.cboda.intelligent.bean.ResultBroadBean;
+import com.cboda.intelligent.databinding.ActivityBlackBroadListBinding;
 import com.cboda.intelligent.utils.BaseBroadCallback;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.net.BroadUrl;
@@ -30,12 +30,12 @@ public class BlackListBroadActivity extends BaseSimpleBroadActivity {
 
     private BlackListBroadAdapter blacklistAdapter;
     private List<DataListBroadBean> listBeans = new ArrayList<>();
-    private ActivityBlackListBinding mBinding;
+    private ActivityBlackBroadListBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = (ActivityBlackListBinding) getBinding();
+        mBinding = (ActivityBlackBroadListBinding) getBinding();
         getToolbarTitle().setText(getResources().getString(R.string.通讯录黑名单));
 
         blacklistAdapter = new BlackListBroadAdapter(this, listBeans);
@@ -136,7 +136,7 @@ public class BlackListBroadActivity extends BaseSimpleBroadActivity {
     @Nullable
     @Override
     protected Class<? extends ViewBinding> getViewBindingClass() {
-        return ActivityBlackListBinding.class;
+        return ActivityBlackBroadListBinding.class;
     }
 
 //    @Override

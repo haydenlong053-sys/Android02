@@ -7,7 +7,7 @@ import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 
 class NoticeListBroadAdapter(
-    layoutResId: Int = R.layout.item_rv_notice
+    layoutResId: Int = R.layout.item_rv_broad_notice
 ) :
     BaseQuickAdapter<NoticeInfoBroadBean, BaseViewHolder>(layoutResId) {
     override fun convert(holder: BaseViewHolder, item: NoticeInfoBroadBean) {

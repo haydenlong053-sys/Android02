@@ -20,7 +20,7 @@ class ZhuceHuanyingyuBroadHolder(
             if (dialog == null) {
                 val view: View = View.inflate(
                     activity,
-                    R.layout.zhucehuanyingyu_dialog_layout,
+                    R.layout.zhucehuanyingyu_dialog_broad_layout,
                     null
                 )
                 val rootView = view.findViewById<View>(R.id.rootView)

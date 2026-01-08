@@ -8,7 +8,7 @@ import android.view.animation.Animation
 import android.view.animation.OvershootInterpolator
 import android.view.animation.ScaleAnimation
 import com.cboda.baselibrary.utils.setTxt
-import com.cboda.intelligent.databinding.DialogPopFileUploadTipBinding
+import com.cboda.intelligent.databinding.DialogPopFileUploadBroadTipBinding
 import razerdp.basepopup.BasePopupWindow
 
 //简单基础提示pop
@@ -20,7 +20,7 @@ class UploadFileTipBroadPop(val context: Context) :
 
     //添加取消回調
     var cancelInvoke: () -> Unit = {}
-    private var binding = DialogPopFileUploadTipBinding.inflate(
+    private var binding = DialogPopFileUploadBroadTipBinding.inflate(
         LayoutInflater.from(context)
     )
 

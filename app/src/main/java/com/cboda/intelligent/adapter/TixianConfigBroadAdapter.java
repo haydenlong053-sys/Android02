@@ -30,7 +30,7 @@ public class TixianConfigBroadAdapter extends RecyclerView.Adapter<TixianConfigB
    }
    @Override
    public TixianConfigBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(context).inflate(R.layout.item_tixianconfig, parent, false);
+      View view = LayoutInflater.from(context).inflate(R.layout.item_ti_broad_xian_config, parent, false);
       return new TixianConfigBroadAdapter.MyHolder(view);
    }
 

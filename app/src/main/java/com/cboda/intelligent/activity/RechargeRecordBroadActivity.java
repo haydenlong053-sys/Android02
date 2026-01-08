@@ -138,7 +138,7 @@ public class RechargeRecordBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_recharge_record;
+        return R.layout.activity_recharge_broad_record;
     }
 
     private void initViews() {

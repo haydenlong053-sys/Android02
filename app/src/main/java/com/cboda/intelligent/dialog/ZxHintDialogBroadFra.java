@@ -35,7 +35,7 @@ public class ZxHintDialogBroadFra extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        frView = inflater.inflate(R.layout.dialog_zxsb, null);
+        frView = inflater.inflate(R.layout.dialog_zx_broad_sb, null);
         initViews(frView);
         if (!StringBroadUtil.isEmpty(hint)) {
             tvHint.setText(hint);

@@ -57,9 +57,9 @@ class AuthPasswordBroadPop(
 
     init {
         if (isDeepColor) {
-            setContentView(R.layout.dialog_pop_password_auth_deep_color)
+            setContentView(R.layout.dialog_pop_password_auth_deep_broad_color)
         } else {
-            setContentView(R.layout.dialog_pop_password_auth)
+            setContentView(R.layout.dialog_pop_password_broad_auth)
 
         }
         setBackgroundColor(Color.parseColor("#8f000000"))

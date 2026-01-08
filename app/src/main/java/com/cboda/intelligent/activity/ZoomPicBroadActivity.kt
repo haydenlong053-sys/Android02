@@ -33,7 +33,7 @@ class ZoomPicBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_pic_zoom
+        return R.layout.activity_pic_broad_zoom
     }
 
     override fun showOrHideTitleLayout(): Boolean {
@@ -58,7 +58,7 @@ class ZoomPicBroadActivity : BaseSimpleBroadActivity() {
         imgUrl?.forEachIndexed { _, s ->
             imageUrls.add(CustomViewsBroadInfo(s))
         }
-        xBanner?.setBannerData(R.layout.image_photo_view, imageUrls)
+        xBanner?.setBannerData(R.layout.image_photo_broad_view, imageUrls)
         xBanner?.loadImage { _, model, view, _ ->
             try {
                 val uri = Uri.parse((model as CustomViewsBroadInfo).xBannerUrl)

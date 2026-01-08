@@ -7,7 +7,7 @@ import com.cboda.intelligent.model.OrderInfoBean
 
 //flagType :0是转账，1是提现
 class TransferListBroadAdapter(
-    layoutResId: Int = R.layout.item_rv_transfer_record,
+    layoutResId: Int = R.layout.item_rv_transfer_broad_record,
     var flagType: Int = 0
 ) :
     BaseQuickAdapter<OrderInfoBean, BaseViewHolder>(layoutResId) {

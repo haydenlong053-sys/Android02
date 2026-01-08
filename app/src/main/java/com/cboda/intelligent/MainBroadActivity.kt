@@ -110,7 +110,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_main
+        return R.layout.main_activity
     }
 
     override fun showOrHideTitleLayout(): Boolean {

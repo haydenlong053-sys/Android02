@@ -233,7 +233,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
             resources?.updateConfiguration(yuyanconfig, resources.displayMetrics)
         }
 
-        setContentView(R.layout.activity_base2)
+        setContentView(R.layout.activity_broad_base2)
         initViews()
         initContentView()
         var result = 0

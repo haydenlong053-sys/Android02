@@ -39,7 +39,7 @@ class LiXinStarBroadView : LinearLayoutCompat {
     }
 
     init {
-        val view = View.inflate(context, R.layout.item_star_layout, null)
+        val view = View.inflate(context, R.layout.item_star_broad_layout, null)
         addView(view)
         initViews(view)
     }
@@ -58,7 +58,7 @@ class LiXinStarBroadView : LinearLayoutCompat {
     fun addStar() {
         llStarLayout?.removeAllViews()
         for (i in 0 until totalCount) {
-            val innerView = View.inflate(context, R.layout.item_star_btn_layout, null)
+            val innerView = View.inflate(context, R.layout.item_star_btn_broad_layout, null)
             val start = innerView.findViewById<AppCompatImageView>(R.id.start)
             if (i < starCount)
                 start.setImageResource(pressStar)

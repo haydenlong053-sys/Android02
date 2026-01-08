@@ -100,7 +100,7 @@ public class ZhuTiSetBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_language;
+        return R.layout.activity_broad_language;
     }
 
     private void initViews() {

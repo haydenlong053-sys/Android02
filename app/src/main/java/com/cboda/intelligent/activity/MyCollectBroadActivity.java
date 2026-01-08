@@ -44,7 +44,7 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_my_collect;
+        return R.layout.activity_my_broad_collect;
     }
 
     @Override

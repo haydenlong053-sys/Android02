@@ -49,7 +49,7 @@ public class EditPasswordBroadActivity extends BaseSimpleBroadActivity implement
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_edit_password;
+        return R.layout.activity_edit_broad_password;
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.ActivityCheckResultRecordBinding
-import com.cboda.intelligent.fragment.AiRecordBroadFragment
+import com.cboda.intelligent.fragment.AiRecordFragment
 import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 
 class AiCheckRecordBroadActivity : BaseSimple2BroadActivity() {
@@ -48,10 +48,10 @@ class AiCheckRecordBroadActivity : BaseSimple2BroadActivity() {
     }
     private fun initViewPagerAndIndicator() {
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
-        vp2FragmentAdapter.addFragment(AiRecordBroadFragment(0))
-        vp2FragmentAdapter.addFragment(AiRecordBroadFragment(1))
-        vp2FragmentAdapter.addFragment(AiRecordBroadFragment(2))
-        vp2FragmentAdapter.addFragment(AiRecordBroadFragment(3))
+        vp2FragmentAdapter.addFragment(AiRecordFragment(0))
+        vp2FragmentAdapter.addFragment(AiRecordFragment(1))
+        vp2FragmentAdapter.addFragment(AiRecordFragment(2))
+        vp2FragmentAdapter.addFragment(AiRecordFragment(3))
         mBind?.viewPager?.adapter = vp2FragmentAdapter
         mBind?.viewPager?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mBind?.viewPager?.isUserInputEnabled = true

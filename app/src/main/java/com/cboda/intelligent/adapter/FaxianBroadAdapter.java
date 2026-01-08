@@ -30,7 +30,7 @@ public class FaxianBroadAdapter extends RecyclerView.Adapter<FaxianBroadAdapter.
     }
     @Override
     public FaxianBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_faxian, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_fa_broad_xian, parent, false);
         return new FaxianBroadAdapter.MyHolder(view);
     }
 

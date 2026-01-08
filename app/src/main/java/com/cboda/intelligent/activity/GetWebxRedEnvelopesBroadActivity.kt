@@ -15,7 +15,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.LingQuUserBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.bean.HongBaoBroadBiangeng
-import com.cboda.intelligent.databinding.GetWebxRedEnvelopesActivityBinding
+import com.cboda.intelligent.databinding.GetWeBroadBxRedEnvelopesActivityBinding
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
 
@@ -62,10 +62,10 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBind = (binding as? GetWebxRedEnvelopesActivityBinding)
+        mBind = (binding as? GetWeBroadBxRedEnvelopesActivityBinding)
         mIvBgTop.setBackgroundResource(R.drawable.ic_red_envelope_webx_back)
-        mAdapter = LingQuUserBroadAdapter(R.layout.item_lingqu_user_layout)
-        mAdapter?.setEmptyView(R.layout.list_empty_layout)
+        mAdapter = LingQuUserBroadAdapter(R.layout.item_ling_broad_qu_user_layout)
+        mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
         isReceived = getIsReceived
         mBind?.apply {
             listView.adapter = mAdapter
@@ -187,9 +187,9 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
         )
     }
 
-    private var mBind: GetWebxRedEnvelopesActivityBinding? = null
+    private var mBind: GetWeBroadBxRedEnvelopesActivityBinding? = null
     private val viewModel: CommViewBroadModel by viewModels()
-    override fun getViewBindingClass() = GetWebxRedEnvelopesActivityBinding::class.java
+    override fun getViewBindingClass() = GetWeBroadBxRedEnvelopesActivityBinding::class.java
     override fun showTransparentTopTitleLayout() = false
     override fun useViewBinding() = true
     override fun showOrHideTitleLayout() = false

@@ -43,7 +43,7 @@ class TouSuLeiXingBroadActivity:BaseSimpleBroadActivity() {
         }
         viewModel?.tousuleixing(this,"","")
 
-        mAdapter = TouSuLeixingBroadAdapter(R.layout.item_tousuleixing_layout)
+        mAdapter = TouSuLeixingBroadAdapter(R.layout.item_tou_su_lei_xi_broad_ng_layout)
         recyclerView?.apply {
             layoutManager = GridLayoutManager(
                 this@TouSuLeiXingBroadActivity,
@@ -78,7 +78,7 @@ class TouSuLeiXingBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_tousuleixing
+        return R.layout.activity_tou_su_lei_xi_broad_ng
     }
 
 }

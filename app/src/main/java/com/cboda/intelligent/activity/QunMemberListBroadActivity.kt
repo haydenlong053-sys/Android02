@@ -65,7 +65,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_xuanzelianxiren
+        return R.layout.activity_xu_broad_an_ze_lian_xi_ren
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,7 +112,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -148,7 +148,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         indexBar.setmPressedShowTextView(tvSideBarHint) //设置HintTextView
             .setNeedRealIndex(true) //设置需要真实的索引
             .setmLayoutManager(mManager) //设置RecyclerView的LayoutManager
-        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_layout, fromPage)
+        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_broad_layout, fromPage)
         recyclerView?.apply {
             layoutManager = mManager
             adapter = mAdapter
@@ -179,7 +179,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         }
 
 
-        mAdapter2 = YiXuanQunMemberBroadAdapter(R.layout.item_yixuan_qun_member_layout)
+        mAdapter2 = YiXuanQunMemberBroadAdapter(R.layout.item_yi_xu_broad_an_qun_member_layout)
         recyclerView2?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(
                 this@QunMemberListBroadActivity,

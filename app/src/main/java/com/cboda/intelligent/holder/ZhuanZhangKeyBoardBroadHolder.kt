@@ -31,7 +31,7 @@ class ZhuanZhangKeyBoardBroadHolder(
     fun show() {
         context?.apply {
             if (pop == null) {
-                val popView = View.inflate(context, R.layout.zhuanzhang_keyboard_pop_layout, null)
+                val popView = View.inflate(context, R.layout.zhuanzhang_keyboard_pop_broad_layout, null)
 
                 recyclerView = popView?.findViewById(R.id.recyclerView)
                 shanchulay = popView?.findViewById(R.id.shanchulay)
@@ -50,7 +50,7 @@ class ZhuanZhangKeyBoardBroadHolder(
                 pop?.setBackgroundDrawable(BitmapDrawable())
             }
 
-            shuziAdapter = ShuZiBroadAdapter(R.layout.list_shuzi_layout)
+            shuziAdapter = ShuZiBroadAdapter(R.layout.list_shu_broad_zi_layout)
             pop?.apply {
                 view?.apply {
                     showAtLocation(view,  Gravity.BOTTOM, 0, 0)

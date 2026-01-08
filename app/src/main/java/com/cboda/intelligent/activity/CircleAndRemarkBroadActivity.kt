@@ -14,7 +14,7 @@ import com.cboda.intelligent.viewmodel.SocialViewBroadModel
 
 class CircleAndRemarkBroadActivity: BaseSimpleBroadActivity() {
     override fun getLayoutId(): Int {
-        return R.layout.activity_base
+        return R.layout.activity_broad_base
     }
 
     override fun showOrHideTitleLayout(): Boolean {

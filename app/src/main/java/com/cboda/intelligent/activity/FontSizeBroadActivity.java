@@ -127,7 +127,7 @@ public class FontSizeBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_font_size;
+        return R.layout.activity_broad_font_size;
     }
 
     private void initViews() {

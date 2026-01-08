@@ -52,7 +52,7 @@ public class ImageBroadAdapter extends RecyclerView.Adapter<ImageBroadAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_image, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_image, parent, false);
         return new ViewHolder(view);
     }
 

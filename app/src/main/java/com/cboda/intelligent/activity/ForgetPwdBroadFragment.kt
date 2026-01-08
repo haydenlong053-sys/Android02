@@ -11,14 +11,14 @@ import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.ForgetPwdFragmentBinding
 import com.cboda.intelligent.dialog.pop.AuthWayBroadPop
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.databinding.ForgetPwdBroadFragmentBinding
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import kotlinx.coroutines.launch
 
-class ForgetPwdBroadFragment : BaseBroadFragment<ForgetPwdFragmentBinding, LoginViewBroadModel>() {
+class ForgetPwdBroadFragment : BaseBroadFragment<ForgetPwdBroadFragmentBinding, LoginViewBroadModel>() {
 
     private var forgetAccount = ""
     override fun initView() {
@@ -68,6 +68,6 @@ class ForgetPwdBroadFragment : BaseBroadFragment<ForgetPwdFragmentBinding, Login
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = ForgetPwdFragmentBinding.inflate(inflater, parent, false)
+    ) = ForgetPwdBroadFragmentBinding.inflate(inflater, parent, false)
 
 }

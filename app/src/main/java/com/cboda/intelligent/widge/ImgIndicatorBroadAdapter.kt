@@ -77,7 +77,7 @@ class ImgIndicatorBroadAdapter : CommonNavigatorBroadAdapter {
         val pagerTitleView = CommonPagerTitleBroadView(context)
         // load custom layout
         val itemLayout = LayoutInflater.from(context).inflate(
-            R.layout.img_indicator_tv,
+            R.layout.img_indicator_broad_tv,
             pagerTitleView, false
         )
         val titleText = itemLayout.findViewById<TextView>(R.id.imgIndicatorTitleTv)

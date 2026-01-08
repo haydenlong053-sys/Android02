@@ -35,7 +35,7 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_xiugaiqungonggao
+        return R.layout.activity_xiu_gai_qun_gong_broad_gao
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

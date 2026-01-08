@@ -41,7 +41,7 @@ public class QrdlBroadDialog extends Dialog {
         this.onInputListener = onInputListener;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
-        setContentView(R.layout.layout_dialog_qrdl);
+        setContentView(R.layout.layout_dialog_qr_broad_dl);
         initViews();
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();

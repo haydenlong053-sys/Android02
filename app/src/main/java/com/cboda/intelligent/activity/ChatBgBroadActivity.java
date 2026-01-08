@@ -241,7 +241,7 @@ public class ChatBgBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_chat_bg;
+        return R.layout.activity_chat_broad_bg;
     }
 
     private void initViews() {

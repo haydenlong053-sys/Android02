@@ -42,7 +42,7 @@ class QunTouSuBroadActivity:BaseSimpleBroadActivity() {
     private var uploadViewModel: UploadFileViewBroadModel? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_tousuqun
+        return R.layout.activity_tou_su_broad_qun
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +61,7 @@ class QunTouSuBroadActivity:BaseSimpleBroadActivity() {
             }
         }
 
-        mAdapter = TouSuLeixingBroadAdapter2(R.layout.item_tousuleixing_layout2)
+        mAdapter = TouSuLeixingBroadAdapter2(R.layout.item_tou_su_lei_xi_broad_ng_layout2)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(
                 this@QunTouSuBroadActivity,

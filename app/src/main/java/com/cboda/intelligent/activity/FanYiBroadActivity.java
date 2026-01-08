@@ -321,7 +321,7 @@ public class FanYiBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_fanyi;
+        return R.layout.activity_fan_broad_yi;
     }
 
     private void initViews() {

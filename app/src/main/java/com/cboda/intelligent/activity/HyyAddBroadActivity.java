@@ -72,7 +72,7 @@ public class HyyAddBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_hyy_add;
+        return R.layout.activity_hyy_broad_add;
     }
 
     @Override

@@ -30,7 +30,7 @@ class SinglePicSelectBroadHolder(
     init {
 
         paraent?.removeAllViews()
-        val itemView = View.inflate(context, R.layout.item_single_pic_layout, null)
+        val itemView = View.inflate(context, R.layout.item_single_pic_broad_layout, null)
         ivSinglePic = itemView.findViewById(R.id.ivSinglePic)
         val params = ivSinglePic?.layoutParams
         params?.width = PixelBroadBroadUtils.dip2px(context, width)

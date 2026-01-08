@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.utils.eLogD
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ThreadUtils
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.DOCUMENT_TYPE
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.IMAGE_TYPE
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.PROJECT_RISK_TYPE
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.VOICE_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.DOCUMENT_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.IMAGE_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.PROJECT_RISK_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.VOICE_TYPE
 
 class AiPostFileBroadDialog(context: Context, val riskType: String, val resourceType: String) :
     BasePopupWindow(context) {
@@ -219,7 +219,7 @@ class AiPostFileBroadDialog(context: Context, val riskType: String, val resource
         setBackgroundColor(android.graphics.Color.TRANSPARENT)
 
         // 设置内容视图
-        contentView = LayoutInflater.from(context).inflate(R.layout.ai_post_file_dialog, null)
+        contentView = LayoutInflater.from(context).inflate(R.layout.ai_post_file_broad_dialog, null)
 
         // 禁止点击外部关闭
         setOutSideDismiss(false)

@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.baselibrary.utils.setLeftImgAndTextColor
-import com.cboda.intelligent.databinding.DialogPopAuthWayBinding
 import com.cboda.intelligent.activity.GoogleAuthStep1BroadActivity
 import com.cboda.intelligent.activity.SecurityAuthEditBroadActivity
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
@@ -23,6 +22,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.DialogPopAuthBroadWayBinding
 
 
 //认证方式选择
@@ -41,7 +41,7 @@ class AuthWayBroadPop(
     var transferInvoke: () -> Unit = {}
     var safeCenterBean: SafeCenterBroadBean? = null
 
-    private var binding: DialogPopAuthWayBinding = DialogPopAuthWayBinding.inflate(
+    private var binding: DialogPopAuthBroadWayBinding = DialogPopAuthBroadWayBinding.inflate(
         LayoutInflater.from(context)
     )
 

@@ -9,8 +9,8 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.king.zxing.util.CodeUtils
 import com.cboda.intelligent.R
-import com.cboda.intelligent.databinding.DialogPopSaveMoneyQrcodeBinding
 import com.cboda.intelligent.configuration.CommonBroadConfig
+import com.cboda.intelligent.databinding.DialogPopSaveMoneyBroadQrcodeBinding
 import com.cboda.intelligent.dialog.NormalBroadDialog
 import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -19,7 +19,7 @@ import razerdp.basepopup.BasePopupWindow
 
 //保存提示pop
 class SaveMoneyQrCodeTipBroadPop(val context: Context,val qrCodeString: String?) : BasePopupWindow(context) {
-    private var binding: DialogPopSaveMoneyQrcodeBinding = DialogPopSaveMoneyQrcodeBinding.inflate(
+    private var binding: DialogPopSaveMoneyBroadQrcodeBinding = DialogPopSaveMoneyBroadQrcodeBinding.inflate(
         LayoutInflater.from(context)
     )
 

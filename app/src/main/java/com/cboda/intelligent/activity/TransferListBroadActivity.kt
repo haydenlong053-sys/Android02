@@ -11,8 +11,8 @@ import com.cboda.baselibrary.network.repository.NetworkListBroadResult
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.TransferListBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityTransferListBinding
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivityTransferBroadListBinding
 import com.cboda.intelligent.model.OrderInfoBean
 import com.cboda.intelligent.viewmodel.TransferViewBroadModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -27,11 +27,11 @@ class TransferListBroadActivity : BaseSimple2BroadActivity() {
     private var totalPage: Int = 1
     private val viewModel: TransferViewBroadModel by viewModels()
     private val mAdapter = TransferListBroadAdapter()
-    private var mBind: ActivityTransferListBinding? = null
+    private var mBind: ActivityTransferBroadListBinding? = null
     private var flag = 0
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivityTransferListBinding::class.java
+        return ActivityTransferBroadListBinding::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ class TransferListBroadActivity : BaseSimple2BroadActivity() {
         } else {
             getResources().getString(R.string.mine_Transfer_records)
         }
-        mBind = (binding as? ActivityTransferListBinding)
+        mBind = (binding as? ActivityTransferBroadListBinding)
         initAdapter()
         initListener()
 

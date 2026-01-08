@@ -89,7 +89,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_haoyou_page
+        return R.layout.activity_hao_broad_you_page
     }
 
 
@@ -377,7 +377,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //            mDataList.add(CommonDataListBroadBean.CommonBean())
 //        }
 
-        mAdapter = PengYouQuanBroadAdapter(R.layout.item_pengyouquan_layout)
+        mAdapter = PengYouQuanBroadAdapter(R.layout.item_peng_broad_you_quan_layout)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(
                 this@HaoYouPageBroadActivity,

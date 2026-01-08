@@ -46,7 +46,7 @@ class LiXinBottomItemBroadNavigation : LinearLayoutCompat {
     }
 
     init {
-        val view = View.inflate(context, R.layout.bottom_item_navigation_layout, null)
+        val view = View.inflate(context, R.layout.bottom_item_navigation_broad_layout, null)
         addView(view)
         initViews(view)
     }

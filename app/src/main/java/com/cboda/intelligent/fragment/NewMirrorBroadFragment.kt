@@ -11,20 +11,20 @@ import androidx.core.view.isVisible
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.NewMirrorFragmentBinding
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.intelligent.activity.SignInBroadActivity
 import com.cboda.intelligent.activity.UserInfoBroadActivity
+import com.cboda.intelligent.databinding.NewMirrorBroadFragmentBinding
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.model.UserInfoBroadModel
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 
-class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorFragmentBinding, NewMirrorViewBroadModel>() {
+class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, NewMirrorViewBroadModel>() {
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = NewMirrorFragmentBinding.inflate(inflater, parent, false)
+    ) = NewMirrorBroadFragmentBinding.inflate(inflater, parent, false)
 
     private var userInfo: UserInfoBroadModel? = null
 

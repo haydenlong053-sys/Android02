@@ -40,7 +40,7 @@ public class UserEwmBroadDialog extends Dialog {
         this.context = context;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
-        setContentView(R.layout.layout_dialog_ewm_mine);
+        setContentView(R.layout.layout_dialog_ewm_broad_mine);
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();

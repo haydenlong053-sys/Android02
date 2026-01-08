@@ -35,7 +35,7 @@ class HaoYouAddBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_haoyou_add
+        return R.layout.activity_hao_broad_you_add
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

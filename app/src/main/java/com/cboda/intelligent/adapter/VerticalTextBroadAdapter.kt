@@ -33,7 +33,7 @@ class VerticalTextBroadAdapter(private val items: List<String>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.vertical_text_adapter, parent, false)
+            .inflate(R.layout.vertical_text_broad_adapter, parent, false)
         return ViewHolder(view)
     }
 

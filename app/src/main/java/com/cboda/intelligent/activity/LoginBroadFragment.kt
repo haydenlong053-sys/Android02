@@ -12,18 +12,18 @@ import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.LoginFragmentBinding
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.LoginBroadFragmentBinding
 
-class LoginBroadFragment : BaseBroadFragment<LoginFragmentBinding, LoginViewBroadModel>() {
+class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginViewBroadModel>() {
 
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = LoginFragmentBinding.inflate(inflater, parent, false)
+    ) = LoginBroadFragmentBinding.inflate(inflater, parent, false)
 
     override fun initView() {
         super.initView()

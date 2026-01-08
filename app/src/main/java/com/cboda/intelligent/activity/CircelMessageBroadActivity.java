@@ -94,7 +94,7 @@ public class CircelMessageBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_circel_message;
+        return R.layout.activity_cir_broad_cel_message;
     }
 
     /**

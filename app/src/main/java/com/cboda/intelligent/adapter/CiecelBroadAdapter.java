@@ -59,7 +59,7 @@ public class CiecelBroadAdapter extends RecyclerView.Adapter<CiecelBroadAdapter.
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_circle, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_circle, parent, false);
         return new MyHolder(view);
     }
 

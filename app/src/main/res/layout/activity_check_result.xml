@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/layout_my_toolbar_style1" android:id="@+id/toolbar"/>
+    <include layout="@layout/layout_my_toolbar_broad_style1" android:id="@+id/toolbar"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/item_check_result" />
+                    tools:listitem="@layout/item_check_broad_result" />
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="60dp"/>

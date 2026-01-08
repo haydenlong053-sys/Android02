@@ -31,7 +31,7 @@ public class InputJhmBroadDialog extends Dialog {
         this.onInputListener = onInputListener;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
-        setContentView(R.layout.layout_dialog_input_jhm);
+        setContentView(R.layout.layout_dialog_input_broad_jhm);
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();

@@ -17,12 +17,12 @@ import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.bean.CheckResultInfo
 import com.cboda.intelligent.bean.CheckResultBroadItem
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startMainActivity
-import com.cboda.intelligent.viewmodel.CheckAiViewBroadModel
+import com.cboda.intelligent.viewmodel.CheckAiViewModel
 import kotlinx.coroutines.launch
 
 
 class AiCheckResultBroadActivity : BaseSimple2BroadActivity() {
-    private val viewModel: CheckAiViewBroadModel by viewModels()
+    private val viewModel: CheckAiViewModel by viewModels()
     private var mBind: ActivityCheckResultBinding? = null
     private lateinit var adapter: CheckResultBroadAdapter
     private var aiBean: AiCheckResultBroadBean? = null

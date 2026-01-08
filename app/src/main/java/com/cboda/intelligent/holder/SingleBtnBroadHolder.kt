@@ -29,7 +29,7 @@ class SingleBtnBroadHolder(
             if (dialog == null) {
                 val view: View = View.inflate(
                     activity,
-                    R.layout.confim_single_dialog_layout2,
+                    R.layout.con_firm_single_dialog_broad_layout2,
                     null
                 )
                 val rootView = view.findViewById<View>(R.id.rootView)

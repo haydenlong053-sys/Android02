@@ -31,7 +31,7 @@ class HaoYouBeizhuBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_beizhu
+        return R.layout.activity_bei_broad_zhu
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

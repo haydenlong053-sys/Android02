@@ -31,7 +31,7 @@ public class IssueBroadAdapter extends RecyclerView.Adapter<IssueBroadAdapter.My
     }
     @Override
     public IssueBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_issue, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_issue, parent, false);
         return new IssueBroadAdapter.MyHolder(view);
     }
 

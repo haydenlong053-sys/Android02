@@ -7,8 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityAuthStep1Binding
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivityAuthBroadStep1Binding
 import com.cboda.intelligent.utils.copyToClipboard
 import com.cboda.intelligent.utils.showBase64QrCodeIv
 import com.cboda.intelligent.viewmodel.SafeCenterViewBroadModel
@@ -25,11 +25,11 @@ class GoogleAuthStep1BroadActivity : BaseSimple2BroadActivity() {
     private val viewModel: SafeCenterViewBroadModel by viewModels()
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_auth_step_1
+        return R.layout.activity_auth_broad_step_1
     }
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivityAuthStep1Binding::class.java
+        return ActivityAuthBroadStep1Binding::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,12 +41,12 @@ class GoogleAuthStep1BroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun initListener() {
-        (binding as? ActivityAuthStep1Binding)?.mTvNext?.setOnClickListener {
+        (binding as? ActivityAuthBroadStep1Binding)?.mTvNext?.setOnClickListener {
             val intent = Intent(this, GoogleAuthStep2BroadActivity::class.java)
             startActivity(intent)
         }
-        (binding as? ActivityAuthStep1Binding)?.mIvCopy?.setOnClickListener {
-            copyToClipboard(this,(binding as? ActivityAuthStep1Binding)?.mTvRandomSecretKey?.text.toString())
+        (binding as? ActivityAuthBroadStep1Binding)?.mIvCopy?.setOnClickListener {
+            copyToClipboard(this,(binding as? ActivityAuthBroadStep1Binding)?.mTvRandomSecretKey?.text.toString())
 
         }
     }
@@ -55,10 +55,10 @@ class GoogleAuthStep1BroadActivity : BaseSimple2BroadActivity() {
         lifecycleScope.launch {
             viewModel.goTwoStepAuth().observe(this@GoogleAuthStep1BroadActivity) {
                 EventBus.getDefault().postSticky(it)
-                (binding as? ActivityAuthStep1Binding)?.mTvRandomSecretKey?.text = it.randomSecretKey
+                (binding as? ActivityAuthBroadStep1Binding)?.mTvRandomSecretKey?.text = it.randomSecretKey
 
                 if (it.qrCodeImageBase64?.isNotEmpty() == true && it.qrCodeImageBase64!!.contains("base64,")) {
-                    showBase64QrCodeIv(this@GoogleAuthStep1BroadActivity,(binding as? ActivityAuthStep1Binding)?.mIvQrCodeAuth!!,it.qrCodeImageBase64)
+                    showBase64QrCodeIv(this@GoogleAuthStep1BroadActivity,(binding as? ActivityAuthBroadStep1Binding)?.mIvQrCodeAuth!!,it.qrCodeImageBase64)
 
                 }
             }

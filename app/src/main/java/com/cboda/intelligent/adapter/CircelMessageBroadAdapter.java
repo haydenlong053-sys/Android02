@@ -31,7 +31,7 @@ public class CircelMessageBroadAdapter extends RecyclerView.Adapter<CircelMessag
     }
     @Override
     public CircelMessageBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_circel_message, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_circle_broad_message, parent, false);
         return new CircelMessageBroadAdapter.MyHolder(view);
     }
 

@@ -5,7 +5,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import com.cboda.intelligent.R
-import com.cboda.intelligent.databinding.DialogPopSureTransferBinding
+import com.cboda.intelligent.databinding.DialogPopSureBroadTransferBinding
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.model.PersonInfoBean
 import org.greenrobot.eventbus.EventBus
@@ -18,7 +18,7 @@ class TransferSureTipBroadPop(val context: Context,val actualAmount: String="") 
     //    private val scope = MainScope() // 创建主线程的协程作用域
 //    private var viewModel: TransferViewBroadModel? = null
     var sureInvoke:()-> Unit={}
-    private var binding = DialogPopSureTransferBinding.inflate(
+    private var binding = DialogPopSureBroadTransferBinding.inflate(
         LayoutInflater.from(context)
     )
 

@@ -9,8 +9,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.intelligent.databinding.DialogPopSysNoticeBinding
 import com.cboda.intelligent.activity.NoticeDetailBroadActivity
+import com.cboda.intelligent.databinding.DialogPopSysBroadNoticeBinding
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.viewmodel.NoticeViewBroadModel
@@ -25,7 +25,7 @@ class SysNoticeBroadPop(val context: Context, val bean: NoticeInfoBroadBean) :
     private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: NoticeViewBroadModel? = null
 //    var sureInvoke: () -> Unit = {}
-    private var binding = DialogPopSysNoticeBinding.inflate(
+    private var binding = DialogPopSysBroadNoticeBinding.inflate(
         LayoutInflater.from(context)
     )
 

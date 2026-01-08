@@ -9,7 +9,7 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.intelligent.R
-import com.cboda.intelligent.databinding.DialogPopSaveUserQrcodeBinding
+import com.cboda.intelligent.databinding.DialogPopSaveUserBroadQrcodeBinding
 import com.cboda.intelligent.dialog.NormalBroadDialog
 import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.GlideBroadUtil
@@ -19,7 +19,7 @@ import razerdp.basepopup.BasePopupWindow
 
 //保存提示pop
 class UserQrCodeTipBroadPop(val context: Context, val userInfo: UserInfoBroadModel?) : BasePopupWindow(context) {
-    private var binding: DialogPopSaveUserQrcodeBinding = DialogPopSaveUserQrcodeBinding.inflate(
+    private var binding: DialogPopSaveUserBroadQrcodeBinding = DialogPopSaveUserBroadQrcodeBinding.inflate(
         LayoutInflater.from(context)
     )
 

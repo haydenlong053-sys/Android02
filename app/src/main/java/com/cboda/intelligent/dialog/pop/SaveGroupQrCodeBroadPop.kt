@@ -13,7 +13,7 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.intelligent.R
-import com.cboda.intelligent.databinding.DialogPopSaveGroupQrcodeBinding
+import com.cboda.intelligent.databinding.DialogPopSaveGroupBroadQrcodeBinding
 import com.cboda.intelligent.dialog.NormalBroadDialog
 import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.GlideBroadUtil
@@ -25,7 +25,7 @@ import razerdp.basepopup.BasePopupWindow
 class SaveGroupQrCodeBroadPop(val context: Context,val qunId: String) : BasePopupWindow(context) {
 //    private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: CommViewBroadModel? = null
-    private var binding: DialogPopSaveGroupQrcodeBinding = DialogPopSaveGroupQrcodeBinding.inflate(
+    private var binding: DialogPopSaveGroupBroadQrcodeBinding = DialogPopSaveGroupBroadQrcodeBinding.inflate(
         LayoutInflater.from(context)
     )
 

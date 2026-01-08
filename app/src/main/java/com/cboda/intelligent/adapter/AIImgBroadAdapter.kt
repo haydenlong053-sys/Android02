@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
 
-class AIImgBroadAdapter : BaseBroadAdapter<Pair<String, LocalMedia?>>(R.layout.ai_img_adapter) {
+class AIImgBroadAdapter : BaseBroadAdapter<Pair<String, LocalMedia?>>(R.layout.ai_img_broad_adapter) {
     override fun onBindData(
         holder: BaseViewHolder,
         bean: Pair<String, LocalMedia?>

@@ -29,7 +29,7 @@ public class EmjoyBroadAdapter extends RecyclerView.Adapter<EmjoyBroadAdapter.My
    }
    @Override
    public EmjoyBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(context).inflate(R.layout.item_emjoy, parent, false);
+      View view = LayoutInflater.from(context).inflate(R.layout.item_em_broad_joy, parent, false);
       return new EmjoyBroadAdapter.MyHolder(view);
    }
 

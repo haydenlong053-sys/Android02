@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
-import com.cboda.intelligent.databinding.DialogPopAuthQuestionBinding
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.databinding.DialogPopAuthBroadQuestionBinding
 import com.cboda.intelligent.utils.BaseBroadCallback
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.SafeCenterViewBroadModel
@@ -33,7 +33,7 @@ class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpB
     private var viewModel: SafeCenterViewBroadModel? = null
     @JvmField
     var backInvoke:()-> Unit ={}
-    private var binding: DialogPopAuthQuestionBinding = DialogPopAuthQuestionBinding.inflate(
+    private var binding: DialogPopAuthBroadQuestionBinding = DialogPopAuthBroadQuestionBinding.inflate(
         LayoutInflater.from(context)
     )
 

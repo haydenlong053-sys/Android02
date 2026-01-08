@@ -52,7 +52,7 @@ public class PhoneBroadCode extends RelativeLayout {
 
     private void loadView() {
         imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        View view = LayoutInflater.from(context).inflate(R.layout.phone_code_layout, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.phone_code_broad_layout, this);
         initView(view);
         initEvent();
     }

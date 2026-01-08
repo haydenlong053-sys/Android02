@@ -41,7 +41,7 @@ class MirrorBroadFragment: BaseLazyBroadFragment() {
     }
 
     override fun getLayoutId(): Int {
-      return  R.layout.fragment_mirror
+      return  R.layout.fragment_broad_mirror
 
     }
     override fun onCreateView(

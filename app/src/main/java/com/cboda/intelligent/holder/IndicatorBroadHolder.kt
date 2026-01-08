@@ -27,7 +27,7 @@ class IndicatorBroadHolder(
         mTitleDataList?.forEachIndexed { index, title ->
             indicator?.apply {
                 val tabItem = this.newTab()
-                tabItem.setCustomView(R.layout.tab_item_layout)
+                tabItem.setCustomView(R.layout.tab_item_broad_layout)
                 val tvSelectName = tabItem.customView?.findViewById<TextView>(R.id.tvSelectName)
                 val tvTabName = tabItem.customView?.findViewById<TextView>(R.id.tvTabName)
                 tvSelectName?.setTextColor(Color.parseColor(pressColor))
@@ -43,7 +43,7 @@ class IndicatorBroadHolder(
 
             indicator2?.apply {
                 val tabItem = this.newTab()
-                tabItem.setCustomView(R.layout.tab_item_layout)
+                tabItem.setCustomView(R.layout.tab_item_broad_layout)
                 val tvSelectName = tabItem.customView?.findViewById<TextView>(R.id.tvSelectName)
                 val tvTabName = tabItem.customView?.findViewById<TextView>(R.id.tvTabName)
                 tvSelectName?.setTextColor(Color.parseColor(pressColor))

@@ -92,7 +92,7 @@ public class WithdrawBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_withdraw;
+        return R.layout.activity_broad_withdraw;
     }
 
     @Override

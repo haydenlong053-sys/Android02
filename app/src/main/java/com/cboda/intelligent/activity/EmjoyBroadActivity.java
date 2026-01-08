@@ -99,7 +99,7 @@ public class EmjoyBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_emjoy;
+        return R.layout.activity_em_broad_joy;
     }
 
     /**

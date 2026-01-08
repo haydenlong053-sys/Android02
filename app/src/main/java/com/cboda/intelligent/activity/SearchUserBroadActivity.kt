@@ -42,7 +42,7 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_search_user
+        return R.layout.activity_search_broad_user
     }
 
     override fun getStatusBarColor(): Int {
@@ -108,7 +108,7 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -129,7 +129,7 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
         })
 
 
-        mAdapter = SearchUserBroadAdapter(R.layout.item_serach_user_layout)
+        mAdapter = SearchUserBroadAdapter(R.layout.item_search_user_broad_layout)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@SearchUserBroadActivity)
             adapter = mAdapter

@@ -69,7 +69,7 @@ public class MyCircleBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_my_circle;
+        return R.layout.activity_my_broad_circle;
     }
 
     @Override

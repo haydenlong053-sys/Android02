@@ -16,6 +16,6 @@ public class AboutUsBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_about_us;
+        return R.layout.activity_about_broad_us;
     }
 }

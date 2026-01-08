@@ -35,7 +35,7 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_haoyoulist
+        return R.layout.activity_hao_broad_you_list
     }
 
 
@@ -65,7 +65,7 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -92,7 +92,7 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
 //            mDataList.add(bean)
 //        }
 
-        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_layout, "zhuanshuhongbao")
+        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_broad_layout, "zhuanshuhongbao")
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@HaoyouListBroadActivity)
             adapter = mAdapter

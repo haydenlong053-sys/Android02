@@ -224,6 +224,6 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_tongxunlu
+        return R.layout.fragment_tong_broad_xun_lu
     }
 }

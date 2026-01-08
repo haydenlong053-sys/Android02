@@ -38,7 +38,7 @@ public class RestPasswordBroadActivity extends BaseSimpleBroadActivity implement
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_rest_password;
+        return R.layout.activity_rest_broad_password;
     }
 
     @Override

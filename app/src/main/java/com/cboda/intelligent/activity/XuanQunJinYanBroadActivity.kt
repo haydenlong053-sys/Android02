@@ -34,7 +34,7 @@ class XuanQunJinYanBroadActivity : BaseSimpleBroadActivity() {
     private var holder: SelectTypeBroadHolder? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_xuan_qunjinyan
+        return R.layout.activity_xu_an_qun_broad_jin_yan
     }
     private var type = "1"
     private lateinit var smartLayout: SmartRefreshLayout
@@ -75,7 +75,7 @@ class XuanQunJinYanBroadActivity : BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -133,7 +133,7 @@ class XuanQunJinYanBroadActivity : BaseSimpleBroadActivity() {
             false
         })
 
-        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_layout)
+        mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_broad_layout)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@XuanQunJinYanBroadActivity)
             adapter = mAdapter

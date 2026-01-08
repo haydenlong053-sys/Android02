@@ -12,7 +12,7 @@ import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startMainActivity
 
 class SplashBroadActivity : BaseSimpleBroadActivity() {
     override fun getLayoutId(): Int {
-        return R.layout.activity_splash
+        return R.layout.splash_activity
     }
 
     override fun showOrHideTitleLayout(): Boolean {

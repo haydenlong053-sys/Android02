@@ -28,7 +28,7 @@ public class BrandBroadAdapter extends RecyclerView.Adapter<BrandBroadAdapter.My
     }
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_brand, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_brand, parent, false);
         return new MyHolder(view);
     }
 

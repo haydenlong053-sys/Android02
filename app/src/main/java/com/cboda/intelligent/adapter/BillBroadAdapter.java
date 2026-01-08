@@ -29,7 +29,7 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
     }
     @Override
     public BillBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_bill, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_bill, parent, false);
         return new BillBroadAdapter.MyHolder(view);
     }
 

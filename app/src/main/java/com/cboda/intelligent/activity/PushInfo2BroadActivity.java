@@ -180,7 +180,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_push_info2;
+        return R.layout.activity_push_broad_info2;
     }
 
     @Override

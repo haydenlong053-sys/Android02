@@ -72,7 +72,7 @@ class MineBroadFragment : BaseLazyBroadFragment() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_wode
+        return R.layout.fragment_wo_broad_de
     }
 
     override fun onDestroy() {

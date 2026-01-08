@@ -23,10 +23,10 @@ import com.cboda.intelligent.dialog.AiPostFileBroadDialog
 import com.cboda.intelligent.dialog.pop.UploadFileTipBroadPop
 import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.jumpAiCheckResultActivity
-import com.cboda.intelligent.viewmodel.CheckAiViewBroadModel
+import com.cboda.intelligent.viewmodel.CheckAiViewModel
 
-class AiAllBroadFragment :
-    BaseBroadFragment<AiAllFragmentBinding, CheckAiViewBroadModel>() {
+class AiAllFragment :
+    BaseBroadFragment<AiAllFragmentBinding, CheckAiViewModel>() {
 
     companion object {
         const val DOCUMENT_TYPE = "document"

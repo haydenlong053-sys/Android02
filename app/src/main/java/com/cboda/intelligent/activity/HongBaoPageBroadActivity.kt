@@ -52,7 +52,7 @@ class HongBaoPageBroadActivity : BaseSimpleBroadActivity() {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_hongbao
+        return R.layout.activity_hong_broad_bao
     }
 
     override fun showOrHideTitleLayout(): Boolean {
@@ -81,7 +81,7 @@ class HongBaoPageBroadActivity : BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -130,7 +130,7 @@ class HongBaoPageBroadActivity : BaseSimpleBroadActivity() {
         fanhui?.setOnClickListener {
             finish()
         }
-        mAdapter = LingQuUserBroadAdapter(R.layout.item_lingqu_user_layout)
+        mAdapter = LingQuUserBroadAdapter(R.layout.item_ling_broad_qu_user_layout)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@HongBaoPageBroadActivity)
             adapter = mAdapter

@@ -29,7 +29,7 @@ public class LanguageBroadAdapter extends RecyclerView.Adapter<LanguageBroadAdap
     }
     @Override
     public LanguageBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_language, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_language, parent, false);
         return new LanguageBroadAdapter.MyHolder(view);
     }
 

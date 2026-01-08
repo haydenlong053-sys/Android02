@@ -47,7 +47,7 @@ public class ErWeiMaBroadActivity extends BaseSimpleBroadActivity implements Vie
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_er_wei_ma;
+        return R.layout.activity_er_broad_wei_ma;
     }
 
     @Override

@@ -30,7 +30,7 @@ class LingHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View =
-            View.inflate(activity, R.layout.linghong_bao_layout, null)
+            View.inflate(activity, R.layout.ling_hong_broad_bao_layout, null)
         return view
     }
 

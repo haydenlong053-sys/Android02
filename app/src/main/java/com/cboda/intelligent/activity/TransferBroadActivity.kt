@@ -12,7 +12,6 @@ import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityTransferBinding
 import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
 import com.cboda.intelligent.dialog.pop.AuthQuestionBroadPop
@@ -23,6 +22,7 @@ import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.bean.ActionEventBroadBean
 import com.cboda.intelligent.bean.TransferEventBroadBean
+import com.cboda.intelligent.databinding.ActivityBroadTransferBinding
 import com.cboda.intelligent.utils.copyToClipboard
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.utils.isTransferLinkQrCode
@@ -51,17 +51,17 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
     private var linkString = ""
     private var isFirst = true
     private var safeCenterBean = SafeCenterBroadBean()
-    private var mBind: ActivityTransferBinding? = null
+    private var mBind: ActivityBroadTransferBinding? = null
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivityTransferBinding::class.java
+        return ActivityBroadTransferBinding::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         linkString = intent.getStringExtra("data") ?: ""
         flag = intent.getIntExtra("type", 0)
-        mBind = (binding as? ActivityTransferBinding)
+        mBind = (binding as? ActivityBroadTransferBinding)
         EventBus.getDefault().register(this)
         getToolbarTitle()?.text = if (flag == 1) {
             getResources().getString(R.string.提现)

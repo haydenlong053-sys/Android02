@@ -172,7 +172,7 @@ public class ZxzhBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_zxzh;
+        return R.layout.activity_zx_broad_zh;
     }
 
     @Override

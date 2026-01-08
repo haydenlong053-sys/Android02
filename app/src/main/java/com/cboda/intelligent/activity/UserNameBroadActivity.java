@@ -56,7 +56,7 @@ public class UserNameBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_user_name;
+        return R.layout.activity_user_broad_name;
     }
 
     @Override

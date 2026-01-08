@@ -302,7 +302,7 @@ class MeetingFloatBroadService : Service(), AUIRtmMessageRespObserver {
         if (floatView != null) return
 
         val inflater = LayoutInflater.from(this)
-        val view = inflater.inflate(R.layout.view_meeting_float, null)
+        val view = inflater.inflate(R.layout.view_meeting_broad_float, null)
         floatView = view
 
 

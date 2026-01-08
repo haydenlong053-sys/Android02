@@ -12,13 +12,13 @@ import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.FragmentAiRecordBinding
 import com.cboda.intelligent.bean.AiResultListBean
 import com.cboda.intelligent.utils.JumpBroadUtils
-import com.cboda.intelligent.viewmodel.CheckAiViewBroadModel
+import com.cboda.intelligent.viewmodel.CheckAiViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch
 
-class AiRecordBroadFragment(val index: Int) :
-    BaseBroadFragment<FragmentAiRecordBinding, CheckAiViewBroadModel>() {
+class AiRecordFragment(val index: Int) :
+    BaseBroadFragment<FragmentAiRecordBinding, CheckAiViewModel>() {
     private var page = 1
     private var totalPage: Int = 1
     private val mAdapter = AiRecordListBroadAdapter()
@@ -88,7 +88,7 @@ class AiRecordBroadFragment(val index: Int) :
                 }
             }
             viewModel.getAiResultInfoList(resourceType,page)
-                .observe(this@AiRecordBroadFragment) { resultBean ->
+                .observe(this@AiRecordFragment) { resultBean ->
                     showData(resultBean)
                 }
 

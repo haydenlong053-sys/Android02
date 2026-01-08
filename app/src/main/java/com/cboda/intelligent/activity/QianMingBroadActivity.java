@@ -23,7 +23,7 @@ public class QianMingBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_qian_ming;
+        return R.layout.activity_qi_broad_an_ming;
     }
 
     @Override

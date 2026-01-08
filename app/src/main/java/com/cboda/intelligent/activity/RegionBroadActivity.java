@@ -43,7 +43,7 @@ public class RegionBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_region;
+        return R.layout.activity_broad_region;
     }
 
     @Override

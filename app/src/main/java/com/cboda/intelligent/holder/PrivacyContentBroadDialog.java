@@ -22,7 +22,7 @@ public class PrivacyContentBroadDialog extends Dialog {
         this.context = context;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
-        setContentView(R.layout.layout_private);
+        setContentView(R.layout.layout_broad_private);
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = getWindow().getAttributes();

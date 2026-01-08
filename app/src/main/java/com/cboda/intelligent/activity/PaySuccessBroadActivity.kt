@@ -5,15 +5,15 @@ import android.os.CountDownTimer
 import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityPaySuccessBinding
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivityPayBroadSuccessBinding
 import org.greenrobot.eventbus.EventBus
 
 class PaySuccessBroadActivity : BaseSimple2BroadActivity() {
-    private var mBind: ActivityPaySuccessBinding? = null
+    private var mBind: ActivityPayBroadSuccessBinding? = null
     private var timer: CountDownTimer? = null
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivityPaySuccessBinding::class.java
+        return ActivityPayBroadSuccessBinding::class.java
     }
 
     override fun useViewBinding(): Boolean {
@@ -22,7 +22,7 @@ class PaySuccessBroadActivity : BaseSimple2BroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBind = binding as? ActivityPaySuccessBinding
+        mBind = binding as? ActivityPayBroadSuccessBinding
         mBind?.mTvStateDes?.text = String.format(getString(R.string.mine_3s_back), "3")
         mBind?.mTvOk?.setOnClickListener {
             performAction()

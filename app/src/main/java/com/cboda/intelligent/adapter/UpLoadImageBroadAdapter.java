@@ -60,7 +60,7 @@ public class UpLoadImageBroadAdapter extends RecyclerView.Adapter<UpLoadImageBro
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_image_upload, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_image_broad_upload, parent, false);
         return new ViewHolder(view);
     }
 

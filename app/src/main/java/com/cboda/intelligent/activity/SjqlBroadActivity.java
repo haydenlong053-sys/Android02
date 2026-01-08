@@ -69,7 +69,7 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_shengjiqunliao;
+        return R.layout.activity_shen_gji_qun_broad_liao;
     }
 
     @Override

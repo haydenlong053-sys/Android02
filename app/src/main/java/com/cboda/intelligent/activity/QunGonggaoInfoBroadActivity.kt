@@ -30,6 +30,6 @@ class QunGonggaoInfoBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_qungonggao
+        return R.layout.activity_qun_gong_broad_gao
     }
 }

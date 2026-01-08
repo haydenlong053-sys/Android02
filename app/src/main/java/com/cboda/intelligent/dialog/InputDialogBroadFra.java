@@ -42,7 +42,7 @@ public class InputDialogBroadFra extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        frView = inflater.inflate(R.layout.dialog_input, null);
+        frView = inflater.inflate(R.layout.dialog_broad_input, null);
         initViews(frView);
         if (!StringBroadUtil.isEmpty(userName)) {
             etContent.setHint(getResources().getString(R.string.回复) + userName);

@@ -21,7 +21,7 @@ class GongGaoBroadHolder(
             if (dialog == null) {
                 val view: View = View.inflate(
                     activity,
-                    R.layout.gonggao_dialog_layout2,
+                    R.layout.gong_broad_gao_dialog_layout2,
                     null
                 )
                 val rootView = view.findViewById<View>(R.id.rootView)

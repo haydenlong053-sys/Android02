@@ -25,7 +25,7 @@ public class MyBroadVideo extends JzvdStd {
 
     @Override
     public int getLayoutId() {
-        return R.layout.layout_myvideo;
+        return R.layout.layout_my_broad_video;
     }
 
 }

@@ -37,7 +37,7 @@ class QunListBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_search_qun
+        return R.layout.activity_search_broad_qun
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class QunListBroadActivity:BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -79,7 +79,7 @@ class QunListBroadActivity:BaseSimpleBroadActivity() {
         })
 
 
-        mAdapter = QunListBroadAdapter(R.layout.item_serach_user_layout)
+        mAdapter = QunListBroadAdapter(R.layout.item_search_user_broad_layout)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@QunListBroadActivity)
             adapter = mAdapter

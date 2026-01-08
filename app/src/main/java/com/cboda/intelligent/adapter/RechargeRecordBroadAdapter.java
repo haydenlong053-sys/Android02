@@ -32,7 +32,7 @@ public class RechargeRecordBroadAdapter extends RecyclerView.Adapter<RechargeRec
     }
     @Override
     public RechargeRecordBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_recharge_record, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_recharge_broad_record, parent, false);
         return new RechargeRecordBroadAdapter.MyHolder(view);
     }
 

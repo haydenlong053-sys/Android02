@@ -8,10 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivitySecurityAuthEditBinding
 import com.cboda.intelligent.dialog.pop.CommonSelectBroadPop
 import com.cboda.intelligent.bean.CommonSelectBroadBean
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivitySecurityAuthBroadEditBinding
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.SafeCenterViewBroadModel
 import kotlinx.coroutines.launch
@@ -25,19 +25,19 @@ class SecurityAuthEditBroadActivity : BaseSimple2BroadActivity() {
 
     private var mTableList: List<CommonSelectBroadBean>? = null
     private var selectBean: CommonSelectBroadBean? = null
-    private var mBind: ActivitySecurityAuthEditBinding? = null
+    private var mBind: ActivitySecurityAuthBroadEditBinding? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_security_auth_edit
+        return R.layout.activity_security_auth_broad_edit
     }
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivitySecurityAuthEditBinding::class.java
+        return ActivitySecurityAuthBroadEditBinding::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBind = binding as? ActivitySecurityAuthEditBinding
+        mBind = binding as? ActivitySecurityAuthBroadEditBinding
         getToolbarTitle()?.text = getResources().getString(R.string.设置密保问题)
         initListener()
         initData()

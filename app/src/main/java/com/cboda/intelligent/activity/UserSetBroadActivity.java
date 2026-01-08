@@ -117,7 +117,7 @@ public class UserSetBroadActivity extends BaseSimpleBroadActivity implements Vie
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_user_set;
+        return R.layout.activity_user_broad_set;
     }
 
     @Override

@@ -169,6 +169,6 @@ class QunCodeBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_quncode
+        return R.layout.activity_qun_broad_code
     }
 }

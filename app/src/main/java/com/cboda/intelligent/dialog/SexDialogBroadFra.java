@@ -38,7 +38,7 @@ public class SexDialogBroadFra extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        frView = inflater.inflate(R.layout.dialog_sex, null);
+        frView = inflater.inflate(R.layout.dialog_broad_sex, null);
         initViews(frView);
         if (StringBroadUtil.isEmpty(sex)) {
             sex = "1";

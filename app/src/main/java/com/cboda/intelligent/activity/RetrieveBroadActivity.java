@@ -79,7 +79,7 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_retrieve;
+        return R.layout.activity_broad_retrieve;
     }
 
     @Override

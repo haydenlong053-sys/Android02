@@ -11,17 +11,17 @@ import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.blankj.utilcode.util.EncryptUtils
 import com.cboda.baselibrary.R
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.RegisteredFragmentBinding
+import com.cboda.intelligent.databinding.RegisteredBroadFragmentBinding
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 
-class RegisteredBroadFragment : BaseBroadFragment<RegisteredFragmentBinding, LoginViewBroadModel>() {
+class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding, LoginViewBroadModel>() {
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = RegisteredFragmentBinding.inflate(inflater, parent, false)
+    ) = RegisteredBroadFragmentBinding.inflate(inflater, parent, false)
 
     override fun initView() {
         super.initView()

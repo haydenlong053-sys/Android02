@@ -44,7 +44,7 @@ public class ForgetPayPasswordBroadActivity extends BaseSimpleBroadActivity impl
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_forget_pay_password;
+        return R.layout.activity_forget_pay_broad_password;
     }
 
     @Override

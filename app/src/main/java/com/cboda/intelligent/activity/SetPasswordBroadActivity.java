@@ -9,7 +9,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.databinding.ActivitySetPasswordBinding;
+import com.cboda.intelligent.databinding.ActivitySetBroadPasswordBinding;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.utils.SpotsCallBroadBack;
@@ -25,13 +25,13 @@ import okhttp3.Response;
 public class SetPasswordBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
 
 
-    private ActivitySetPasswordBinding mBinding;
+    private ActivitySetBroadPasswordBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getToolbarTitle().setText(getResources().getString(R.string.更改密码));
-        mBinding= (ActivitySetPasswordBinding) getBinding();
+        mBinding= (ActivitySetBroadPasswordBinding) getBinding();
 
         mBinding.tvZhaohui.setOnClickListener(this);
         mBinding.tvSubmit.setOnClickListener(this);
@@ -39,7 +39,7 @@ public class SetPasswordBroadActivity extends BaseSimpleBroadActivity implements
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_set_password;
+        return R.layout.activity_set_broad_password;
     }
 
     @Override
@@ -97,6 +97,6 @@ public class SetPasswordBroadActivity extends BaseSimpleBroadActivity implements
     @Nullable
     @Override
     protected Class<? extends ViewBinding> getViewBindingClass() {
-        return ActivitySetPasswordBinding.class;
+        return ActivitySetBroadPasswordBinding.class;
     }
 }

@@ -32,7 +32,7 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
     }
     @Override
     public MyCollectBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_my_collect, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_my_broad_collect, parent, false);
         return new MyCollectBroadAdapter.MyHolder(view);
     }
 

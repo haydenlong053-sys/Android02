@@ -71,7 +71,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_hyzx;
+        return R.layout.activity_hy_broad_zx;
     }
 
     @Override

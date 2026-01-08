@@ -210,7 +210,7 @@ public class FeedbackBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_feedback;
+        return R.layout.activity_broad_feedback;
     }
 
     private void initViews() {

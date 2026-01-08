@@ -41,7 +41,7 @@ public class PaySettingBroadActivity extends BaseSimpleBroadActivity implements 
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_pay_setting;
+        return R.layout.activity_pay_broad_setting;
     }
 
     @Override

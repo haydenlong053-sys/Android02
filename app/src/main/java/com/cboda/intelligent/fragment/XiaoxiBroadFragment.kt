@@ -324,7 +324,7 @@ class XiaoxiBroadFragment : BaseLazyBroadFragment() {
                 badgePagerTitleView.isAutoCancelBadge = false
                 // setup badge
                 val badgeTextView = LayoutInflater.from(context)
-                    .inflate(R.layout.simple_count_badge_layout, null) as TextView
+                    .inflate(R.layout.simple_count_badge_broad_layout, null) as TextView
 //                when (index) {
 //                    0 -> if (count0 != "0") {
 //                        badgeTextView.text = count0
@@ -694,7 +694,7 @@ class XiaoxiBroadFragment : BaseLazyBroadFragment() {
 //    }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_xiaoxi
+        return R.layout.fragment_xiao_broad_xi
     }
 
     private fun bindTab(viewPager: ViewPager2) {

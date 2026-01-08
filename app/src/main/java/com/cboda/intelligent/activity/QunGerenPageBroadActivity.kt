@@ -246,6 +246,6 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_qungeren_page
+        return R.layout.activity_qun_ge_broad_ren_page
     }
 }

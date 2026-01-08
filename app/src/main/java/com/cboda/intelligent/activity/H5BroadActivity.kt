@@ -36,7 +36,7 @@ class H5BroadActivity : BaseSimpleBroadActivity() {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_h5
+        return R.layout.activity_broad_h5
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

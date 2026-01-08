@@ -68,7 +68,7 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_video;
+        return R.layout.activity_broad_video;
     }
 
     private void initView() {

@@ -42,7 +42,7 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_qianbao;
+        return R.layout.activity_qi_broad_an_bao;
     }
 
     @Override

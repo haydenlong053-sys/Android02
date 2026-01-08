@@ -31,7 +31,7 @@ class HongBaoBottomDialogBroadHolder(
             if (dialog == null) {
                 val view: View = View.inflate(
                     activity,
-                    R.layout.hongbao_bottom_dialog_layout,
+                    R.layout.hongbao_bottom_dialog_broad_layout,
                     null
                 )
                 dialog = LiXinBottomBroadDialog(activity, view)
@@ -56,7 +56,7 @@ class HongBaoBottomDialogBroadHolder(
 
     private fun setContent(recyclerView: RecyclerView) {
         if (adapter == null) {
-            adapter = BottomDialogAdapter(R.layout.item_bottom_dialog_layout)
+            adapter = BottomDialogAdapter(R.layout.item_bottom_dialog_broad_layout)
             recyclerView.adapter = adapter
             adapter?.setList(contentList)
         }

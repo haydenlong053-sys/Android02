@@ -9,16 +9,16 @@ import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.getIsDebug
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.SelectLoginFragmentBinding
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
+import com.cboda.intelligent.databinding.SelectLoginBroadFragmentBinding
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 
-class SelectLoginBroadFragment : BaseBroadFragment<SelectLoginFragmentBinding, LoginViewBroadModel>() {
+class SelectLoginBroadFragment : BaseBroadFragment<SelectLoginBroadFragmentBinding, LoginViewBroadModel>() {
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = SelectLoginFragmentBinding.inflate(inflater, parent, false)
+    ) = SelectLoginBroadFragmentBinding.inflate(inflater, parent, false)
 
     override fun initView() {
         super.initView()

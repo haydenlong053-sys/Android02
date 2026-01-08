@@ -100,7 +100,7 @@ class FaXianBroadFragment:BaseLazyBroadFragment() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_faxian
+        return R.layout.fragment_fa_broad_xian
     }
 
     /**

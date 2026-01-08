@@ -20,7 +20,7 @@ class EditInterestBroadActivity: BaseSimpleBroadActivity() {
         }
     }
     override fun getLayoutId(): Int {
-        return R.layout.activity_base
+        return R.layout.activity_broad_base
     }
 
     override fun showOrHideTitleLayout(): Boolean {

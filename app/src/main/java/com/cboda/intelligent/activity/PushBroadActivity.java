@@ -75,7 +75,7 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_push;
+        return R.layout.activity_broad_push;
     }
 
     @Override

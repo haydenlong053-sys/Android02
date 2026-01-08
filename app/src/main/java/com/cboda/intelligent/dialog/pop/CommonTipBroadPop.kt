@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import com.cboda.intelligent.databinding.DialogPopCommonTipBinding
+import com.cboda.intelligent.databinding.DialogPopCommonBroadTipBinding
 import razerdp.basepopup.BasePopupWindow
 
 //简单基础提示pop
@@ -15,7 +15,7 @@ class CommonTipBroadPop(val context: Context, val title: String = "", val des: S
     var sureInvoke:()-> Unit ={}
     //添加取消回調
     var cancelInvoke:()-> Unit ={}
-    private var binding = DialogPopCommonTipBinding.inflate(
+    private var binding = DialogPopCommonBroadTipBinding.inflate(
         LayoutInflater.from(context)
     )
 

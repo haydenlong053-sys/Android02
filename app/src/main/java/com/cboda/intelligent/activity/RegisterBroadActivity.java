@@ -65,7 +65,7 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     protected int getLayoutId() {
 
-        return R.layout.activity_register;
+        return R.layout.activity_broad_register;
     }
 
     @Override

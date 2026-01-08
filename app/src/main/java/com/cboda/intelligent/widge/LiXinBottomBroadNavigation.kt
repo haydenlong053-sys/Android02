@@ -47,7 +47,7 @@ class LiXinBottomBroadNavigation : LinearLayoutCompat {
 
     init {
         val screenWidth = PixelBroadBroadUtils.getScreenWidth(context)
-        val view = View.inflate(context, R.layout.bottom_navigation_layout, null)
+        val view = View.inflate(context, R.layout.bottom_navigation_broad_layout, null)
         addView(view)
         initViews(view)
         firstIndex?.press()

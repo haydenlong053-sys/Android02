@@ -83,7 +83,7 @@ public class CircleDetailBroadActivity extends BaseSimpleBroadActivity implement
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_circle_detail;
+        return R.layout.activity_circle_broad_detail;
     }
 
     @Override

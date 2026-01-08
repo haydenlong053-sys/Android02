@@ -62,7 +62,7 @@ public class MiBaoBroadActivity extends BaseSimpleBroadActivity implements View.
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_mi_bao;
+        return R.layout.activity_mi_broad_bao;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MiBaoBroadActivity extends BaseSimpleBroadActivity implements View.
                                         llZidingyiMibao.setVisibility(View.GONE);
                                     }
                                 }
-                            }, R.layout.popup_recycle, R.layout.custom_part_shadow_popup)
+                            }, R.layout.popup_broad_recycle, R.layout.custom_part_shadow_broad_popup)
                     .show();
         }
 

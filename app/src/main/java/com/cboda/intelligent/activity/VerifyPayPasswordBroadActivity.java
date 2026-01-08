@@ -8,8 +8,8 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.databinding.ActivityVerifyPayPasswordBinding;
 import com.cboda.intelligent.bean.ResultBroadBean;
+import com.cboda.intelligent.databinding.ActivityVerifyPayBroadPasswordBinding;
 import com.cboda.intelligent.utils.BaseBroadCallback;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.utils.SpotsCallBroadBack;
@@ -24,12 +24,12 @@ import okhttp3.Response;
 
 public class VerifyPayPasswordBroadActivity extends BaseSimpleBroadActivity {
 
-    private ActivityVerifyPayPasswordBinding mBinding;
+    private ActivityVerifyPayBroadPasswordBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding= (ActivityVerifyPayPasswordBinding) getBinding();
+        mBinding= (ActivityVerifyPayBroadPasswordBinding) getBinding();
         mBinding.pswEdit.setOnTextChangeListener(new MNPasswordEditText.OnTextChangeListener() {
             @Override
             public void onTextChange(String text, boolean isComplete) {
@@ -104,7 +104,7 @@ public class VerifyPayPasswordBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_verify_pay_password;
+        return R.layout.activity_verify_pay_broad_password;
     }
 
     @Override
@@ -115,6 +115,6 @@ public class VerifyPayPasswordBroadActivity extends BaseSimpleBroadActivity {
     @Nullable
     @Override
     protected Class<? extends ViewBinding> getViewBindingClass() {
-        return ActivityVerifyPayPasswordBinding.class;
+        return ActivityVerifyPayBroadPasswordBinding.class;
     }
 }

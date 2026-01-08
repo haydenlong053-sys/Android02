@@ -10,8 +10,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.intelligent.R
-import com.cboda.intelligent.databinding.DialogPopAuthCodeBinding
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.databinding.DialogPopAuthBroadCodeBinding
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.utils.pasteToEditText
 import com.cboda.intelligent.viewmodel.SafeCenterViewBroadModel
@@ -27,7 +27,7 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
     private var viewModel: SafeCenterViewBroadModel? = null
 
     var transferInvoke: () -> Unit = {}
-    private var binding: DialogPopAuthCodeBinding = DialogPopAuthCodeBinding.inflate(
+    private var binding: DialogPopAuthBroadCodeBinding = DialogPopAuthBroadCodeBinding.inflate(
         LayoutInflater.from(context)
     )
 

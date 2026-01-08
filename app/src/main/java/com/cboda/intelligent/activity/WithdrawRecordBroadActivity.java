@@ -90,7 +90,7 @@ public class WithdrawRecordBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_withdraw_record;
+        return R.layout.activity_withdraw_broad_record;
     }
 
     /**

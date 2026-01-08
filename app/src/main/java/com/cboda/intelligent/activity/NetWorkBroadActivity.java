@@ -16,6 +16,6 @@ public class NetWorkBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_net_work;
+        return R.layout.activity_net_broad_work;
     }
 }

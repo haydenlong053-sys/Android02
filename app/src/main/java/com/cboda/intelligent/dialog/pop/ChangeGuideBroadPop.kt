@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import com.cboda.intelligent.databinding.DialogPopChangeGuideTipBinding
+import com.cboda.intelligent.databinding.DialogPopChangeGuideBroadTipBinding
 import razerdp.basepopup.BasePopupWindow
 
 //安全中心引导pop
@@ -13,7 +13,7 @@ class ChangeGuideBroadPop(val context: Context, val title: String = "", val des:
     //    private val scope = MainScope() // 创建主线程的协程作用域
 //    private var viewModel: TransferViewBroadModel? = null
     var sureInvoke:()-> Unit ={}
-    private var binding = DialogPopChangeGuideTipBinding.inflate(
+    private var binding = DialogPopChangeGuideBroadTipBinding.inflate(
         LayoutInflater.from(context)
     )
 

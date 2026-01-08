@@ -44,7 +44,7 @@ public class YanzhengBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_mine_yanzheng;
+        return R.layout.activity_mine_yan_broad_zheng;
     }
 
     @Override

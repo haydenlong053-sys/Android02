@@ -63,7 +63,7 @@ public class RechargeBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_recharge;
+        return R.layout.activity_broad_recharge;
     }
 
     @Override

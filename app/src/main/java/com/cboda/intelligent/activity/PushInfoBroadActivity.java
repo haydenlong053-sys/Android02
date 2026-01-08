@@ -138,7 +138,7 @@ public class PushInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_push_info;
+        return R.layout.activity_push_broad_info;
     }
 
     @Override

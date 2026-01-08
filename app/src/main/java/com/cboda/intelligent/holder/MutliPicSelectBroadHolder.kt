@@ -67,7 +67,7 @@ class MutliPicSelectBroadHolder(
         }
 
 
-        mAdapter = SelectPicBroadAdapter(R.layout.item_add_comment_pic_layout)
+        mAdapter = SelectPicBroadAdapter(R.layout.item_add_comment_pic_broad_layout)
         recyclerView?.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = mAdapter

@@ -6,7 +6,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.AiResultListBean
 
 class AiRecordListBroadAdapter(
-    layoutResId: Int = R.layout.item_rv_ai_result_record
+    layoutResId: Int = R.layout.item_rv_ai_result_broad_record
 ) :
     BaseQuickAdapter<AiResultListBean, BaseViewHolder>(layoutResId) {
     override fun convert(holder: BaseViewHolder, item: AiResultListBean) {

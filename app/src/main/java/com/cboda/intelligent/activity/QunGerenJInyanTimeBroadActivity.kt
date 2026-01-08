@@ -120,6 +120,6 @@ class QunGerenJInyanTimeBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_shezhijinyantime
+        return R.layout.activity_she_broad_zhi_jin_yan_time
     }
 }

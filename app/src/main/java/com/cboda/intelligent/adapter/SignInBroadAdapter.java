@@ -28,7 +28,7 @@ public class SignInBroadAdapter extends RecyclerView.Adapter<SignInBroadAdapter.
    }
    @Override
    public SignInBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(context).inflate(R.layout.item_signin, parent, false);
+      View view = LayoutInflater.from(context).inflate(R.layout.item_sign_broad_in, parent, false);
       return new SignInBroadAdapter.MyHolder(view);
    }
 

@@ -148,7 +148,7 @@ public class Zhaq2BroadActivity extends BaseSimpleBroadActivity implements View.
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_zhaq2;
+        return R.layout.activity_zha_broad_q2;
     }
 
     @Override

@@ -34,7 +34,7 @@ class PayPsBroadHolder(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.pay_ps_dialog_layout)
+        setContentView(R.layout.pay_ps_dialog_broad_layout)
         qianNum = findViewById(R.id.qianNum)
         tvtips = findViewById(R.id.tvtips)
         pswEdit =  findViewById(R.id.pswEdit)

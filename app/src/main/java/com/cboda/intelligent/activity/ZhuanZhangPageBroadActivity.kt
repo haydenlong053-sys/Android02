@@ -111,6 +111,6 @@ class ZhuanZhangPageBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_zhuanzhang_page
+        return R.layout.activity_zhu_an_broad_zhang_page
     }
 }

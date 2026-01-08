@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import com.cboda.intelligent.databinding.DialogPopSaveAuthBinding
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.DialogPopSaveBroadAuthBinding
 import com.cboda.intelligent.utils.copyToClipboard
 import com.cboda.intelligent.utils.showBase64QrCodeIv
 import com.cboda.intelligent.model.TwoStepAuthBroadBean
@@ -16,7 +16,7 @@ import razerdp.basepopup.BasePopupWindow
 
 //保存提示pop
 class SaveQrCodeTipBroadPop(val context: Context) : BasePopupWindow(context) {
-    private var  binding: DialogPopSaveAuthBinding = DialogPopSaveAuthBinding.inflate(
+    private var  binding: DialogPopSaveBroadAuthBinding= DialogPopSaveBroadAuthBinding.inflate(
         LayoutInflater.from(context))
     init {
         contentView = binding.root

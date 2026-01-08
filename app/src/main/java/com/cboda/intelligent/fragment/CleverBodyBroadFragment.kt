@@ -8,27 +8,27 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.FragmentCleverBodyBinding
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.DOCUMENT_TYPE
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.IMAGE_TYPE
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.VIDEO_TYPE
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.VOICE_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.DOCUMENT_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.IMAGE_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.VIDEO_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.VOICE_TYPE
 import com.cboda.intelligent.activity.AiCheckRecordBroadActivity
+import com.cboda.intelligent.databinding.FragmentCleverBroadBodyBinding
 import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
 import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 
-class CleverBodyBroadFragment : BaseBroadFragment<FragmentCleverBodyBinding, CleverBodyViewBroadModel>() {
+class CleverBodyBroadFragment : BaseBroadFragment<FragmentCleverBroadBodyBinding, CleverBodyViewBroadModel>() {
     private var oldIndex = -1
-    private lateinit var documentFragment: AiAllBroadFragment
-    private lateinit var imgFragment: AiAllBroadFragment
-    private lateinit var voiceFragment: AiAllBroadFragment
-    private lateinit var videoFragment: AiAllBroadFragment
+    private lateinit var documentFragment: AiAllFragment
+    private lateinit var imgFragment: AiAllFragment
+    private lateinit var voiceFragment: AiAllFragment
+    private lateinit var videoFragment: AiAllFragment
 
     private fun initViewPagerAndIndicator() {
-        documentFragment = AiAllBroadFragment().apply { updateResourceType(DOCUMENT_TYPE) }
-        imgFragment = AiAllBroadFragment().apply { updateResourceType(IMAGE_TYPE)}
-        voiceFragment = AiAllBroadFragment().apply { updateResourceType(VOICE_TYPE)}
-        videoFragment = AiAllBroadFragment().apply { updateResourceType(VIDEO_TYPE)}
+        documentFragment = AiAllFragment().apply { updateResourceType(DOCUMENT_TYPE) }
+        imgFragment = AiAllFragment().apply { updateResourceType(IMAGE_TYPE)}
+        voiceFragment = AiAllFragment().apply { updateResourceType(VOICE_TYPE)}
+        videoFragment = AiAllFragment().apply { updateResourceType(VIDEO_TYPE)}
 //        val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
 //        vp2FragmentAdapter.addFragment(documentFragment)
 //        vp2FragmentAdapter.addFragment(imgFragment)
@@ -92,7 +92,7 @@ class CleverBodyBroadFragment : BaseBroadFragment<FragmentCleverBodyBinding, Cle
     }
 
 
-    private fun switchPage(index: Int?, aiFragment: AiAllBroadFragment?) {
+    private fun switchPage(index: Int?, aiFragment: AiAllFragment?) {
         index?.let {
             if (oldIndex != it) {
                 oldIndex = it
@@ -138,8 +138,8 @@ class CleverBodyBroadFragment : BaseBroadFragment<FragmentCleverBodyBinding, Cle
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
-    ): FragmentCleverBodyBinding {
-        return FragmentCleverBodyBinding.inflate(inflater, parent, false)
+    ): FragmentCleverBroadBodyBinding {
+        return FragmentCleverBroadBodyBinding.inflate(inflater, parent, false)
     }
 
 }

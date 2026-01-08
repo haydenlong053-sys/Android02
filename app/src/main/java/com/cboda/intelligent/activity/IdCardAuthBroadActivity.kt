@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityIdcardAuthBinding
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivityIdBroadCardAuthBinding
 import com.cboda.intelligent.utils.goSafeCenterAuth
 import com.cboda.intelligent.model.SafeCenterBroadBean
 import org.greenrobot.eventbus.EventBus
@@ -16,11 +16,11 @@ import org.greenrobot.eventbus.ThreadMode
 class IdCardAuthBroadActivity : BaseSimple2BroadActivity() {
     private var mData: SafeCenterBroadBean? = null
     override fun getLayoutId(): Int {
-        return R.layout.activity_idcard_auth
+        return R.layout.activity_id_broad_card_auth
     }
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivityIdcardAuthBinding::class.java
+        return ActivityIdBroadCardAuthBinding::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,9 +32,9 @@ class IdCardAuthBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun initData() {
-        (binding as? ActivityIdcardAuthBinding)?.mTvAuthTime?.text =
+        (binding as? ActivityIdBroadCardAuthBinding)?.mTvAuthTime?.text =
             String.format(getString(R.string.mine_idcard_auth_add), mData?.twoFaceTime ?: "")
-        (binding as? ActivityIdcardAuthBinding)?.mLlIdCardAuth?.setOnClickListener {
+        (binding as? ActivityIdBroadCardAuthBinding)?.mLlIdCardAuth?.setOnClickListener {
             mData?.let {
                 goSafeCenterAuth(this,SafeJumpBroadEnum.GoogleAuth.sourceType,it)
             }

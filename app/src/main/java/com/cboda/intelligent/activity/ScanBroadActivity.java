@@ -82,7 +82,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_scan;
+        return R.layout.activity_broad_scan;
     }
 
     @Override

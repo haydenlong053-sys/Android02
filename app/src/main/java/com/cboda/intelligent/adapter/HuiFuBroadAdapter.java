@@ -31,7 +31,7 @@ public class HuiFuBroadAdapter extends RecyclerView.Adapter<HuiFuBroadAdapter.My
    }
    @Override
    public HuiFuBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(context).inflate(R.layout.item_huifu, parent, false);
+      View view = LayoutInflater.from(context).inflate(R.layout.item_hui_broad_fu, parent, false);
       return new HuiFuBroadAdapter.MyHolder(view);
    }
 

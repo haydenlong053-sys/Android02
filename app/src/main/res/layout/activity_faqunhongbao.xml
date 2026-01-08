@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-    <include layout="@layout/layout_my_toolbar_style1" android:id="@+id/toolbar"/>
+    <include layout="@layout/layout_my_toolbar_broad_style1" android:id="@+id/toolbar"/>
 
     <LinearLayout
         android:id="@+id/llCurrencyTabs"

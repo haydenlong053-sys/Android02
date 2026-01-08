@@ -8,8 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityTansferDetailBinding
 import com.cboda.intelligent.bean.ActionEventBroadBean
+import com.cboda.intelligent.databinding.ActivityTansBroadFerDetailBinding
 import com.cboda.intelligent.utils.copyToClipboard
 import com.cboda.intelligent.model.OrderInfoBean
 
@@ -28,15 +28,15 @@ class TransferDetailBroadActivity : BaseSimple2BroadActivity() {
     //0是转账，1是提现
     private var flag = 0
     private var userId = ""
-    private var mBind: ActivityTansferDetailBinding? = null
+    private var mBind: ActivityTansBroadFerDetailBinding? = null
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
-        return ActivityTansferDetailBinding::class.java
+        return ActivityTansBroadFerDetailBinding::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBind = binding as? ActivityTansferDetailBinding
+        mBind = binding as? ActivityTansBroadFerDetailBinding
         flag = intent.getIntExtra("type", 0)
         userId = intent.getStringExtra("id") ?: ""
 

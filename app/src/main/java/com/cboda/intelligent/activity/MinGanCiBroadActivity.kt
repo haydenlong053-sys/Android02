@@ -25,7 +25,7 @@ class MinGanCiBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_minganci
+        return R.layout.activity_min_broad_gan_ci
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

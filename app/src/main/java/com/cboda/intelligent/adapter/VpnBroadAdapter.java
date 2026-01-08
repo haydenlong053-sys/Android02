@@ -29,7 +29,7 @@ public class VpnBroadAdapter extends RecyclerView.Adapter<VpnBroadAdapter.MyHold
     }
     @Override
     public VpnBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_vpn, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_vpn, parent, false);
         return new VpnBroadAdapter.MyHolder(view);
     }
 

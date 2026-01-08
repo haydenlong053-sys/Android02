@@ -24,7 +24,7 @@ class HaoYouSetBroadActivity : BaseSimpleBroadActivity() {
 //    private var presenter: FriendProfilePresenter? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_haoyou_set
+        return R.layout.activity_hao_broad_you_set
     }
 
     private var duifang: CommonResult? = null

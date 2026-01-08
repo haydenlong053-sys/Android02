@@ -26,7 +26,7 @@ class QunManagerBroadActivity:BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_quanguanli
+        return R.layout.activity_quan_guan_broad_li
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +52,7 @@ class QunManagerBroadActivity:BaseSimpleBroadActivity() {
             }
         }
 
-        mAdapter = QunGuanLiBroadAdapter(R.layout.item_qun_guanli_layout)
+        mAdapter = QunGuanLiBroadAdapter(R.layout.item_qun_guan_broad_li_layout)
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@QunManagerBroadActivity)
             adapter = mAdapter

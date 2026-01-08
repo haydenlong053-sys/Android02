@@ -39,7 +39,7 @@ class MessageSoundBroadActivity : BaseSimpleBroadActivity() {
     private var mediaPlayer: MediaPlayer? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_base
+        return R.layout.activity_broad_base
     }
 
     override fun showOrHideTitleLayout(): Boolean {

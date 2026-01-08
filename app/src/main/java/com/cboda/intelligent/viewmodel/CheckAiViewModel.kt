@@ -11,7 +11,7 @@ import com.cboda.baselibrary.utils.CompressionBroadUtil.videoCompress
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.base.BaseViewBroadModel
-import com.cboda.intelligent.fragment.AiAllBroadFragment.Companion.VIDEO_TYPE
+import com.cboda.intelligent.fragment.AiAllFragment.Companion.VIDEO_TYPE
 import com.cboda.intelligent.livedata.SingleLiveBroadData
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.bean.AiResultListBean
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class CheckAiViewBroadModel : BaseViewBroadModel() {
+class CheckAiViewModel : BaseViewBroadModel() {
 
 
     private val tAG = "CheckAiViewModelClass"

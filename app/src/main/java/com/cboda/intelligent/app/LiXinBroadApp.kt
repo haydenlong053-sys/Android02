@@ -230,16 +230,16 @@ class LiXinBroadApp : UtilBroadApplication(), OnConnectToServerListener {
             //            PushService.init(this, BuildConfig.APPLICATION_ID);
             MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
                 LocationMessageContentViewBroadHolder::class.java,
-                R.layout.conversation_item_location_send,
-                R.layout.conversation_item_location_left
+                R.layout.conversation_item_location_broad_send,
+                R.layout.conversation_item_location_broad_left
             )
             MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
                 ZhuanZhangMessageContentViewBroadHolder::class.java,
-                R.layout.chat_zhunzhang_layout, R.layout.chat_zhunzhang_layout_left
+                R.layout.chat_zh_broad_un_zhang_layout, R.layout.chat_zh_broad_un_zhang_layout_left
             )
             MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
                 ZhuanZhangJieShouMessageContentViewBroadHolder::class.java,
-                R.layout.chat_zhunzhang_layout, R.layout.chat_zhunzhang_layout_left
+                R.layout.chat_zh_broad_un_zhang_layout, R.layout.chat_zh_broad_un_zhang_layout_left
             )
 
             MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
@@ -250,12 +250,12 @@ class LiXinBroadApp : UtilBroadApplication(), OnConnectToServerListener {
 
             MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
                 BiaoQingMessageContentViewBroadHolder::class.java,
-                R.layout.conversation_item_sticker_send, R.layout.conversation_item_sticker_receive
+                R.layout.conversation_item_sticker_broad_send, R.layout.conversation_item_sticker_broad_receive
             )
 
             MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
                 LingQuMessageContentViewBroadHolder::class.java,
-                R.layout.chat_lingqu_layout, R.layout.chat_lingqu_layout
+                R.layout.chat_ling_broad_qu_layout, R.layout.chat_ling_broad_qu_layout
             )
 
             setupWFCDirs()

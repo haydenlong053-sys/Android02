@@ -1,6 +1,5 @@
 package com.cboda.intelligent.base
 
-import com.cboda.intelligent.databinding.LayoutDataViewBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.blankj.utilcode.util.BarUtils
 import com.cboda.baselibrary.base.BaseFragment
+import com.cboda.intelligent.databinding.LayoutDataBroadViewBinding
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseBroadFragment<V : ViewBinding, VM : BaseViewBroadModel> : BaseFragment() {
@@ -19,7 +19,7 @@ abstract class BaseBroadFragment<V : ViewBinding, VM : BaseViewBroadModel> : Bas
     var mBinding: V? = null
     lateinit var viewModel: VM
     private var isFirst = true
-    lateinit var dataViewBinding: LayoutDataViewBinding
+    lateinit var dataViewBinding: LayoutDataBroadViewBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +29,7 @@ abstract class BaseBroadFragment<V : ViewBinding, VM : BaseViewBroadModel> : Bas
         beforeLayout()
         binding = onCreateViewBinding(inflater, container, savedInstanceState)
         mBinding = binding
-        dataViewBinding = LayoutDataViewBinding.inflate(layoutInflater)
+        dataViewBinding = LayoutDataBroadViewBinding.inflate(layoutInflater)
         //如果返回的view是binding.root 请注释掉这一行 不然NameLockFragment会崩溃
 //        dataViewBinding.flData.addView(binding.root)
 

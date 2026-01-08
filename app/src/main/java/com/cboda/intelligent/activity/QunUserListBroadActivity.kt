@@ -26,7 +26,7 @@ class QunUserListBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_qun_user_list
+        return R.layout.activity_qun_user_broad_list
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +68,7 @@ class QunUserListBroadActivity : BaseSimpleBroadActivity() {
             viewModel?.getQunUser(this, qunId)
         }
 
-        mAdapter = QunUserBroadAdapter(R.layout.item_qun_user_layout)
+        mAdapter = QunUserBroadAdapter(R.layout.item_qun_user_broad_layout)
         recyclerView?.apply {
             layoutManager = GridLayoutManager(
                 this@QunUserListBroadActivity,

@@ -14,7 +14,6 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.databinding.ActivityNewEquipmentBinding
 import com.cboda.intelligent.dialog.pop.AuthWayBroadPop
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.AppBroadConsts
@@ -28,6 +27,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startH5Activity
 import com.cboda.intelligent.R
+import com.cboda.intelligent.databinding.ActivityNewBroadEquipmentBinding
 
 class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     private val loginIndex = 1
@@ -44,7 +44,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
-        mBinding = (binding as? ActivityNewEquipmentBinding)
+        mBinding = (binding as? ActivityNewBroadEquipmentBinding)
         mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.color_111B40)
         mIvBgTop.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         mIvBgTop.requestLayout() // 或直接调用 setLayoutParams 会自动触发
@@ -209,10 +209,10 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     }
 
 
-    private var mBinding: ActivityNewEquipmentBinding? = null
+    private var mBinding: ActivityNewBroadEquipmentBinding? = null
 
     //    private val viewModel: LoginViewBroadModel by viewModels()
-    override fun getViewBindingClass() = ActivityNewEquipmentBinding::class.java
+    override fun getViewBindingClass() = ActivityNewBroadEquipmentBinding::class.java
     override fun showTransparentTopTitleLayout() = false
     override fun useViewBinding() = true
     override fun showOrHideTitleLayout() = false

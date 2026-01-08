@@ -25,6 +25,7 @@ import androidx.viewbinding.ViewBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.cboda.intelligent.databinding.ActivityUserBroadInfoBinding;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.flexbox.AlignItems;
@@ -44,7 +45,6 @@ import com.cboda.select.picture.entity.LocalMedia;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.adapter.InterestBroadAdapter;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.databinding.ActivityUserInfoBinding;
 import com.cboda.intelligent.dialog.UserEwmBroadDialog;
 import com.cboda.intelligent.dialog.pop.CommonTipBroadPop;
 import com.cboda.intelligent.bean.ResultBroadBean;
@@ -85,7 +85,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     private ResultBroadBean bean;
     private ResultBroadBean oldBean;
     private UserViewBroadModel userViewModel;
-    private ActivityUserInfoBinding mBinding;
+    private ActivityUserBroadInfoBinding mBinding;
     private InterestBroadAdapter interestAdapter;
 
     @Override
@@ -106,7 +106,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Nullable
     @Override
     protected Class<? extends ViewBinding> getViewBindingClass() {
-        return ActivityUserInfoBinding.class;
+        return ActivityUserBroadInfoBinding.class;
     }
 
 //    @Override
@@ -121,7 +121,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = (ActivityUserInfoBinding) getBinding();
+        mBinding = (ActivityUserBroadInfoBinding) getBinding();
         ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
 

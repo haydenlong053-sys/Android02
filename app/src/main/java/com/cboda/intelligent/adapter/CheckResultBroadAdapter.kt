@@ -9,7 +9,7 @@ import com.cboda.intelligent.bean.CheckResultBroadItem
  * 检测结果列表适配器
  */
 class CheckResultBroadAdapter(
-    layoutResId: Int = R.layout.item_check_result
+    layoutResId: Int = R.layout.item_check_broad_result
 ) : BaseQuickAdapter<CheckResultBroadItem, BaseViewHolder>(layoutResId) {
 
     override fun convert(holder: BaseViewHolder, item: CheckResultBroadItem) {

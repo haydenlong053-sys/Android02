@@ -10,19 +10,19 @@ import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.UpdatePwdFragmentBinding
+import com.cboda.intelligent.databinding.UpdatePwdBroadFragmentBinding
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import kotlin.toString
 
-class UpdatePwdBroadFragment : BaseBroadFragment<UpdatePwdFragmentBinding, LoginViewBroadModel>() {
+class UpdatePwdBroadFragment : BaseBroadFragment<UpdatePwdBroadFragmentBinding, LoginViewBroadModel>() {
     private var inputAccount = ""
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = UpdatePwdFragmentBinding.inflate(inflater, parent, false)
+    ) = UpdatePwdBroadFragmentBinding.inflate(inflater, parent, false)
 
     override fun initView() {
         super.initView()

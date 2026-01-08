@@ -29,7 +29,7 @@ public class MyCircleBroadAdapter extends RecyclerView.Adapter<MyCircleBroadAdap
    }
    @Override
    public MyCircleBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(context).inflate(R.layout.item_my_circle, parent, false);
+      View view = LayoutInflater.from(context).inflate(R.layout.item_my_broad_circle, parent, false);
       return new MyCircleBroadAdapter.MyHolder(view);
    }
 

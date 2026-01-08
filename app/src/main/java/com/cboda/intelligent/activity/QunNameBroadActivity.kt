@@ -33,7 +33,7 @@ class QunNameBroadActivity : BaseSimpleBroadActivity() {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_xiugaiqunname
+        return R.layout.activity_xiu_broad_gai_qun_name
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

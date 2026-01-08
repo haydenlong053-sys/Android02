@@ -43,7 +43,7 @@ public class BillBroadActivity extends BaseSimpleBroadActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_bill;
+        return R.layout.activity_broad_bill;
     }
 
     @Override

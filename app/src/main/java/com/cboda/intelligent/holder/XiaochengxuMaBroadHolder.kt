@@ -19,7 +19,7 @@ class XiaochengxuMaBroadHolder(private val activity: Context?) {
             if (dialog == null) {
                 val view: View = View.inflate(
                     activity,
-                    R.layout.xiaochengxuma_dialog_layout,
+                    R.layout.xiaochengxuma_dialog_broad_layout,
                     null
                 )
                 edtBeizhu = view.findViewById(R.id.edtBeizhu)

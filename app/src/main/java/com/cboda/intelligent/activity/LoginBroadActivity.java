@@ -107,7 +107,7 @@ public class LoginBroadActivity extends BaseSimpleBroadActivity implements View.
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_login3;
+        return R.layout.activity_broad_login3;
     }
 
     private void setImageview() {
@@ -189,7 +189,7 @@ public class LoginBroadActivity extends BaseSimpleBroadActivity implements View.
                                             etUser.setText(text);
                                             etPassword.setText(zhanghaoList.get(xposition).mima);
                                         }
-                                    }, R.layout.popup_recycle, R.layout.custom_part_shadow_popup)
+                                    }, R.layout.popup_broad_recycle, R.layout.custom_part_shadow_broad_popup)
                             .show();
                 }
 
@@ -229,7 +229,7 @@ public class LoginBroadActivity extends BaseSimpleBroadActivity implements View.
                                             etUser.setText(text);
                                             etPassword.setText(zhanghaoList.get(xposition).mima);
                                         }
-                                    }, R.layout.popup_recycle, R.layout.custom_part_shadow_popup)
+                                    }, R.layout.popup_broad_recycle, R.layout.custom_part_shadow_broad_popup)
                             .show();
                 }
                 break;
@@ -265,7 +265,7 @@ public class LoginBroadActivity extends BaseSimpleBroadActivity implements View.
                                                 etUser.setText(text);
                                                 etPassword.setText(zhanghaoList.get(xposition).mima);
                                             }
-                                        }, R.layout.popup_recycle, R.layout.custom_part_shadow_popup)
+                                        }, R.layout.popup_broad_recycle, R.layout.custom_part_shadow_broad_popup)
                                 .show();
                     }
                 }

@@ -45,7 +45,7 @@ class QunJinYanMemberBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_xuanzelianxiren
+        return R.layout.activity_xu_broad_an_ze_lian_xi_ren
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +66,7 @@ class QunJinYanMemberBroadActivity : BaseSimpleBroadActivity() {
                 mAdapter?.setList(mDataList)
 
                 if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_layout)
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
                 if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
                     smartLayout?.setEnableLoadMore(false)
@@ -96,7 +96,7 @@ class QunJinYanMemberBroadActivity : BaseSimpleBroadActivity() {
         })
 
 
-        mAdapter = QunGuanLiBroadAdapter(R.layout.item_qun_guanli_layout, "jiechujinyan")
+        mAdapter = QunGuanLiBroadAdapter(R.layout.item_qun_guan_broad_li_layout, "jiechujinyan")
         recyclerView?.apply {
             layoutManager = WrapContentLinearLayoutBroadManager(this@QunJinYanMemberBroadActivity)
             adapter = mAdapter

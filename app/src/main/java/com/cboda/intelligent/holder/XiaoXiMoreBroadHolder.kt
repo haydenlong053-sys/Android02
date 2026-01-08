@@ -26,7 +26,7 @@ class XiaoXiMoreBroadHolder(
     fun show() {
         context?.apply {
             if (pop == null) {
-                val popView = View.inflate(context, R.layout.xiaoxi_more_pop_layout, null)
+                val popView = View.inflate(context, R.layout.xiaoxi_more_pop_broad_layout, null)
                 pop = PopupWindow(
                     popView, ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT, true
