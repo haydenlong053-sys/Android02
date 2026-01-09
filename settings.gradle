@@ -16,7 +16,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-//        mavenLocal()  // 添加本地 Maven 仓库，用于获取本地发布的 AAR
+        mavenLocal()  // 添加本地 Maven 仓库，用于获取本地发布的 AAR
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
