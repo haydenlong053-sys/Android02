@@ -63,7 +63,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -153,7 +153,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     api project(':baselibrary')
-    api project(':chat-client')
+//    api project(':chat-client')
 //    api project(':avenginekit')
 //    api project(':badgeview')
     //    api project(':emojilibrary')

@@ -9,7 +9,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 29
 
         // testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        ndk {
@@ -58,6 +58,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     api files('libs/broad-chat.aar')
+//    api 'com.cboda:broad-chat:1.0.0'
     implementation project(':baselibrary')
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
