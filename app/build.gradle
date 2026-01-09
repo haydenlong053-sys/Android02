@@ -18,22 +18,38 @@ android {
     }
 
     signingConfigs {
-
+//        release {
+//            storeFile file('googleplay.jks')
+//            storePassword '123456'
+//            keyAlias 'lxkj'
+//            keyPassword '123456'
+//            v2SigningEnabled true
+//        }
+//
+//        debug {
+//            storeFile file('googleplay.jks')
+//            storePassword '123456'
+//            keyAlias 'lxkj'
+//            keyPassword '123456'
+//            v2SigningEnabled true
+//        }
+        ////us环境签名
         release {
-            storeFile file('googleplay.jks')
-            storePassword '123456'
-            keyAlias 'lxkj'
-            keyPassword '123456'
+            storeFile file('google_play_us.jks')
+            storePassword 'Aa663366'
+            keyAlias 'uscbodabroadintelligent'
+            keyPassword 'Aa663366'
             v2SigningEnabled true
         }
 
         debug {
-            storeFile file('googleplay.jks')
-            storePassword '123456'
-            keyAlias 'lxkj'
-            keyPassword '123456'
+            storeFile file('google_play_us.jks')
+            storePassword 'Aa663366'
+            keyAlias 'uscbodabroadintelligent'
+            keyPassword 'Aa663366'
             v2SigningEnabled true
         }
+
     }
 
 

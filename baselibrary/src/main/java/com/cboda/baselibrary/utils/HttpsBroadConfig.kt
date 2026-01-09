@@ -91,12 +91,12 @@ object HttpsBroadConfig {
             }
 
             else -> {
-                appHost = "http://119.45.9.228:82"
-                appHost2 = "$appHost/lixin"
-                appImServerHost = "119.45.9.228"
+                appHost = "https://app.seekweb4.net"
+                appHost2 = appHost
+                appImServerHost = "us.seekweb4.net"
                 appIcePassword = "aT3BxjPy4MRdC6@"
-                appGroupAvatarHost = "http://119.45.9.228:8888"
-                appAesPwd = "1q30vqwerf8yiac3"
+                appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appAesPwd = "f81q30ryiacasda1"
             }
         }
 
@@ -107,12 +107,12 @@ object HttpsBroadConfig {
         if (getIsDebug()) {
             setServer(getNetType())
         } else {
-            setServer(RELEASE_TYPE)
+            setServer(US_TYPE)
         }
     }
 
 
-    private fun getNetType() = MMKV.defaultMMKV().decodeInt(NET_TYPE, RELEASE_TYPE)
+    private fun getNetType() = MMKV.defaultMMKV().decodeInt(NET_TYPE, US_TYPE)
 
     fun getDevType() = netItems[getNetType()]
 

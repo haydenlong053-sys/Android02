@@ -13,10 +13,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/baselibrary" />
             <option value="$PROJECT_DIR$/chat-client" />
-            <option value="$PROJECT_DIR$/chat-emoji" />
             <option value="$PROJECT_DIR$/chat-ui" />
             <option value="$PROJECT_DIR$/iMeet" />
-            <option value="$PROJECT_DIR$/iMeet-service" />
             <option value="$PROJECT_DIR$/iMeet-ui" />
             <option value="$PROJECT_DIR$/library-cboda-Menu" />
             <option value="$PROJECT_DIR$/library-cboda-Xbar" />
@@ -26,6 +24,5 @@
         </option>
       </GradleProjectSettings>
     </option>
-    <option name="offlineMode" value="true" />
   </component>
 </project>
