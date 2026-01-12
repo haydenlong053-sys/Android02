@@ -73,11 +73,11 @@ class MeetingOperateBroadView(context: Context,isOwner: Boolean,isMute: Boolean,
     }
 
     private  fun setMicSwitchImage(isSelect: Boolean){
-          binding.ivMic?.setImageResource(if (!isSelect) R.drawable.ic_voice_operate_mic_on else R.drawable.ic_voice_operate_mic_off)
+          binding.ivMic?.setImageResource(if (!isSelect) R.drawable.ic_voice_operate_mic_broad_on else R.drawable.ic_voice_operate_mic_broad_off)
           binding.tvMic?.text=if (!isSelect)"全开麦" else "全禁麦"
     }
     private  fun setMuteSwitchImage(isSelect: Boolean){
-        binding.ivMute?.setImageResource(if (isSelect) R.drawable.ic_voice_operate_mute_on else R.drawable.ic_voice_operate_mute_off)
+        binding.ivMute?.setImageResource(if (isSelect) R.drawable.ic_voice_operate_mute_broad_on else R.drawable.ic_voice_operate_mute_broad_off)
         binding.tvMute?.text=if (isSelect)"全开言" else "全禁言"
     }
 

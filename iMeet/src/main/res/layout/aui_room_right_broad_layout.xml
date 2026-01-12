@@ -73,7 +73,7 @@
     <com.cboda.agora.ui.ui.basic.AUIImageBroadView
         android:id="@+id/btn_more"
         android:scaleType="center"
-        android:src="@drawable/ic_meeting_more"
+        android:src="@drawable/ic_meeting_broad_more"
         android:layout_marginStart="12dp"
         android:background="@drawable/bg_meeting_broad_close"
         app:layout_constraintStart_toEndOf="@+id/tv_count"

@@ -37,10 +37,10 @@ class MeetingBottomBarBroadView : RelativeLayout , IAUIChatBottomBarBroadView,
     //是否显示表情
     private var isShowEmoji = false
     private var softKeyHeight = 0
-    private var mMenuMicOn:Int = R.drawable.ic_voice_bottom_mic_on
-    private var mMenuMicOff = R.drawable.ic_voice_bottom_mic_off
-    private var mFaceIcon:Int = R.drawable.voice_icon_face_light
-    private var mFaceIcon2:Int = R.drawable.voice_icon_key
+    private var mMenuMicOn:Int = R.drawable.ic_voice_bottom_mic_broad_on
+    private var mMenuMicOff = R.drawable.ic_voice_bottom_mic_broad_off
+    private var mFaceIcon:Int = R.drawable.voice_icon_face_broad_light
+    private var mFaceIcon2:Int = R.drawable.voice_icon_broad_key
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)

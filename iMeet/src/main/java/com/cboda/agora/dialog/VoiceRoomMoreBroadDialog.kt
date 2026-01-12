@@ -101,7 +101,7 @@ class VoiceMoreDialogAdapter(
             }
             icon.setBackgroundResource(R.drawable.voice_bg_more_item_broad_gradient)
             Glide.with(context).load(it?.ItemIcon)
-                .apply(RequestOptions.placeholderOf(R.drawable.voice_icon_more_hands))
+                .apply(RequestOptions.placeholderOf(R.drawable.voice_icon_more_broad_hands))
                 .into(icon)
             return convertView
         }

@@ -311,7 +311,7 @@ class AUIVoiceRoomBroadView : FrameLayout,
         val bean = VoiceMoreItemBean()
         val list = mutableListOf<VoiceMoreItemBean>()
         if (isRoomOwner()){ // 房主显示申请列表
-            bean.ItemIcon = context.getDrawable(R.drawable.voice_icon_more_hands)
+            bean.ItemIcon = context.getDrawable(R.drawable.voice_icon_more_broad_hands)
             bean.ItemTitle = context.getString(R.string.aui_room_apply_list)
             list.add(bean)
         }

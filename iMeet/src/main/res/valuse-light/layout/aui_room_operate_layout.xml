@@ -33,7 +33,7 @@
             <ImageView
                 android:id="@+id/iv_mic"
                 android:scaleType="center"
-                android:src="@drawable/ic_voice_operate_mic_off"
+                android:src="@drawable/ic_voice_operate_mic_broad_off"
                 android:background="@drawable/bg_meeting_close"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
@@ -61,7 +61,7 @@
             <ImageView
                 android:id="@+id/iv_mute"
                 android:scaleType="center"
-                android:src="@drawable/ic_voice_operate_mute_on"
+                android:src="@drawable/ic_voice_operate_mute_broad_on"
                 android:background="@drawable/bg_meeting_close"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
@@ -88,7 +88,7 @@
 
             <ImageView
                 android:scaleType="center"
-                android:src="@drawable/ic_voice_operate_share"
+                android:src="@drawable/ic_voice_operate_broad_share"
                 android:background="@drawable/bg_meeting_close"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
@@ -112,7 +112,7 @@
 
             <ImageView
                 android:scaleType="center"
-                android:src="@drawable/ic_voice_operate_close"
+                android:src="@drawable/ic_voice_operate_broad_close"
                 android:background="@drawable/bg_meeting_quite"
                 android:layout_width="52dp"
                 android:layout_height="52dp"/>
