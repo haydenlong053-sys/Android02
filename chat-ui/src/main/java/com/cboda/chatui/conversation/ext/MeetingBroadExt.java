@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import com.cboda.chatui.widget.popup.OpenMeetingBroadDialog;
 import cn.wildfirechat.message.MeetingInviteMessageContent;
@@ -25,9 +25,9 @@ public class MeetingBroadExt extends ConversationBroadExt {
         // 或者，如果你想提供一个初始标题：
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getActivity(),"huiyishi","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"huiyishi","",conversation.target,null);
         } else {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getActivity(),"huiyishi",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"huiyishi",conversation.target,"",null);
         }
 //        String initialMeetingTitle = conversation.target+" 会议室"; // 示例
 //

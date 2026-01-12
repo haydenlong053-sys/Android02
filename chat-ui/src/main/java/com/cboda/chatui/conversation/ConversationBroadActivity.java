@@ -34,8 +34,8 @@ import com.cboda.chatui.R;
 import com.cboda.chatui.WfcBaseBroadActivity;
 import com.cboda.chatui.bridge.LixinCommonBroadResult;
 import com.cboda.chatui.bridge.QunBroadXiangqing;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
-import com.cboda.chatui.bridge.YeHuoBroadEvent;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
+import com.cboda.chatui.bridge.MyBroadEvent;
 
 import cn.wildfirechat.message.BiaoQingMessageContent;
 import cn.wildfirechat.message.MeetingInviteMessageContent;
@@ -77,8 +77,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         if (null != conversation && null != conversation.type && null != conversation.target) {
             if (conversation.type == Conversation.ConversationType.Group) {
                 titleGradeAndTime.setVisibility(View.GONE);
-//            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this,"huoququnxiangqing",conversation.target,"",null);
-                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "huoququnMeeting", conversation.target, "", null);
+//            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this,"huoququnxiangqing",conversation.target,"",null);
+                MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "huoququnMeeting", conversation.target, "", null);
             } else if (conversation.type == Conversation.ConversationType.Single) {
                 getUserData();
             }
@@ -88,7 +88,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private Gson gson = GsonUtils.getGson();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgReceive(YeHuoBroadEvent yeHuoEvent) {
+    public void onMsgReceive(MyBroadEvent yeHuoEvent) {
         if ("danliaobiaoti".equals(yeHuoEvent.type)) {
 //            String params1 = yeHuoEvent.params1;
 //            eLogD("onMsgReceiveClass", "params1:" + params1);
@@ -133,7 +133,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (conversation.target.equals(yeHuoEvent.params2)) {
                 conversationFragment.qungonggao.setVisibility(View.VISIBLE);
                 conversationFragment.gonggaoxinxi.setText("群公告：" + yeHuoEvent.params1);
-                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "gengxingonggaole", yeHuoEvent.params1, "", null);
+                MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "gengxingonggaole", yeHuoEvent.params1, "", null);
             }
 
         } else if ("yonghuxinxi".equals(yeHuoEvent.type)) {
@@ -144,9 +144,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         } else if ("qunxiangqingshibai".equals(yeHuoEvent.type)) {
             page_title_right_icon.setVisibility(View.GONE);
         } else if ("xiugaifayanshijian".equals(yeHuoEvent.type)) {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "huoququnxiangqing", conversation.target, "", null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "huoququnxiangqing", conversation.target, "", null);
         } else if ("beifeng".equals(yeHuoEvent.type)) {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "beifeng", conversation.target, "", null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "beifeng", conversation.target, "", null);
         } else if ("fajieshouzhuanzhangxiaoxi".equals(yeHuoEvent.type)) {
             ZhuanZhangMessageContent cardMessageContent = new ZhuanZhangMessageContent(yeHuoEvent.params1, yeHuoEvent.params2, "", "1");
             Message msg = new Message();
@@ -177,7 +177,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "tianjiahaoyou", conversation.target, "", null);
+                            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "tianjiahaoyou", conversation.target, "", null);
                         }
                     })
                     .build()
@@ -197,7 +197,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (conversationFragment != null) {
                 conversationFragment.qunMeetingNotice.setVisibility(roomId.isEmpty() ? View.GONE : View.VISIBLE);
                 conversationFragment.tvQunMeeting.setOnClickListener(v -> {
-                    YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(this, "enterMeeting", roomId, jsonParams, null);
+                    MyCommonBroadBridge.getInstance().setMyQiaoJie(this, "enterMeeting", roomId, jsonParams, null);
 
                 });
             }
@@ -236,11 +236,11 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
     private void getUserData() {
         if (MMKVBroadUtils.Companion.getKeFuId() != null && conversation.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-//            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "getUserData", conversation.target, "", null);
+//            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "getUserData", conversation.target, "", null);
             titleGradeAndTime.setVisibility(View.GONE);
             page_title_right_icon.setVisibility(View.GONE);
         } else {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "getUserData", conversation.target, "", null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "getUserData", conversation.target, "", null);
             GlobalFriendBroadBean bean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversation.target);
             if (null != bean && null != bean.grade && null != bean.registerDay) {
                 titleGradeAndTime.setVisibility(View.VISIBLE);
@@ -279,9 +279,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             public void onClick(View v) {
                 if (conversation != null) {
                     if (conversation.type == Conversation.ConversationType.Single) {
-                        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "danliaogengduo", conversation.target, "", null);
+                        MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "danliaogengduo", conversation.target, "", null);
                     } else {
-                        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "qunliaozhuye", conversation.target, "", null);
+                        MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "qunliaozhuye", conversation.target, "", null);
                     }
 
                 }
@@ -358,20 +358,20 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             return;
         }
         if (conversation.type == Conversation.ConversationType.Group) {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "huoququnxiangqing", conversation.target, "", null);
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "huoququnMeeting", conversation.target, "", null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "huoququnxiangqing", conversation.target, "", null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "huoququnMeeting", conversation.target, "", null);
         }
 
 
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "huoquyonghuxinxi", conversation.target, "", null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "huoquyonghuxinxi", conversation.target, "", null);
         ChatManager.Instance().shangcishijan = 0L;
         conversationFragment.setupConversation(conversation, conversationTitle, initialFocusedMessageId, null, isPreJoinedChatRoom);
 
         if (conversation != null) {
             if (conversation.type == Conversation.ConversationType.Single)
-                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "jinyaninfo", conversation.target, "0", null);
+                MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "jinyaninfo", conversation.target, "0", null);
             else
-                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(ConversationBroadActivity.this, "jinyaninfo", conversation.target, "1", null);
+                MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "jinyaninfo", conversation.target, "1", null);
         }
 
     }

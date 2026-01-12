@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.third.utils.TimeConvertBroadUtils;
@@ -90,9 +90,9 @@ public class VideoMessageContentViewBroadHolder extends MediaMessageContentViewB
         VideoMessageContent videoMessageContent = (VideoMessageContent) message.message.content;
 //        ELogUtilKt.eLogD("zhanglong","localPath------"+videoMessageContent.localPath);
         if(FileBroadUtils.isFileExists(videoMessageContent.localPath)){
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(time_tv.getContext(),"bofangshipin",videoMessageContent.localPath,"",null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(time_tv.getContext(),"bofangshipin",videoMessageContent.localPath,"",null);
         }else {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(time_tv.getContext(),"bofangshipin",videoMessageContent.remoteUrl,"",message);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(time_tv.getContext(),"bofangshipin",videoMessageContent.remoteUrl,"",message);
         }
 
     }

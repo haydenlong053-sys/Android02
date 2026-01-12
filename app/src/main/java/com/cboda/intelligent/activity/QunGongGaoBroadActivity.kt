@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge
+import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
@@ -49,7 +49,7 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "xiugaigonggaoSuc" -> {
-                    YeHuoCommonBroadBridge.getInstance()?.setYeHuoQiaoJie(this@QunGongGaoBroadActivity,"huoququnxiangqing",qunId,"",null)
+                    MyCommonBroadBridge.getInstance()?.setMyQiaoJie(this@QunGongGaoBroadActivity,"huoququnxiangqing",qunId,"",null)
 
 //                    val v2TIMGroupInfo =  V2TIMGroupInfo()
 //                    v2TIMGroupInfo.groupID = qunId

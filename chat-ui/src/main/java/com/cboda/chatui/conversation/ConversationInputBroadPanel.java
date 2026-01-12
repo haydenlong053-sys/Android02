@@ -63,7 +63,7 @@ import com.cboda.chatui.R;
 import com.cboda.chatui.WfcWebViewBroadActivity;
 import com.cboda.chatui.audio.AudioRecorderBroadPanel;
 import com.cboda.chatui.audio.PttBroadPanel;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExtension;
 import com.cboda.chatui.conversation.mention.Mention;
 import com.cboda.chatui.conversation.mention.MentionGroupMemberBroadActivity;
@@ -651,7 +651,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             }
         }
 
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(), "AI", conversation.target, editText.getText().toString().trim(), null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(), "AI", conversation.target, editText.getText().toString().trim(), null);
         messageViewModel.sendTextMsg(conversation, txtContent);
         editText.setText("");
     }

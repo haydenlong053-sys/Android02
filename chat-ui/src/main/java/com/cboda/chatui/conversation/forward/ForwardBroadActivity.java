@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cboda.chatui.bridge.YeHuoBroadEvent;
+import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.conversation.pick.PickOrCreateConversationBroadActivity;
 import com.cboda.chatui.dialog.ShareBroadPop;
@@ -116,7 +116,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
                             @Override
                             public void onChanged(@Nullable OperateBroadResult<Integer> integerOperateResult) {
                                 if (integerOperateResult.isSuccess()) {
-                                    EventBus.getDefault().post(new YeHuoBroadEvent("reloadMsgZhuanFa","",""));
+                                    EventBus.getDefault().post(new MyBroadEvent("reloadMsgZhuanFa","",""));
                                     Toast.makeText(ForwardBroadActivity.this, "转发成功", Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {
@@ -151,7 +151,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
 //                            @Override
 //                            public void onChanged(@Nullable OperateBroadResult<Integer> integerOperateResult) {
 //                                if (integerOperateResult.isSuccess()) {
-//                                    EventBus.getDefault().post(new YeHuoBroadEvent("reloadMsgZhuanFa","",""));
+//                                    EventBus.getDefault().post(new MyBroadEvent("reloadMsgZhuanFa","",""));
 //                                    Toast.makeText(ForwardBroadActivity.this, "转发成功", Toast.LENGTH_SHORT).show();
 //                                    finish();
 //                                } else {

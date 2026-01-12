@@ -16,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.conversation.message.viewholder.NormalMessageContentViewBroadHolder;
@@ -64,7 +64,7 @@ public class LocationMessageContentViewBroadHolder extends NormalMessageContentV
 
     public void onClick(View view) {
         LocationMessageContent content = (LocationMessageContent) message.message.content;
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getContext(), "daohang", content.getTitle(), content.getLocation().getLatitude() + "|" + content.getLocation().getLongitude(), null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getContext(), "daohang", content.getTitle(), content.getLocation().getLatitude() + "|" + content.getLocation().getLongitude(), null);
 
     }
 }

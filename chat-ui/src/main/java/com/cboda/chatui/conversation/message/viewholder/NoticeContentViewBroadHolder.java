@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcBaseBroadActivity;
 import com.cboda.chatui.annotation.MessageContentBroadType;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import cn.wildfirechat.message.NoticeMessageContent;

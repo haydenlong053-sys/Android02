@@ -34,8 +34,8 @@ import java.util.Map;
 import com.cboda.chatui.WfcUIBroadKit;
 import com.cboda.chatui.audio.AudioPlayBroadManager;
 import com.cboda.chatui.audio.IAudioPlayBroadListener;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
-import com.cboda.chatui.bridge.YeHuoBroadEvent;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
+import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.conversation.message.viewholder.AudioMessageContentViewBroadHolder;
@@ -129,12 +129,12 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                     UnknownMessageContent tongzhiContent = (UnknownMessageContent) msg.content;
                     if (tongzhiContent.getOrignalPayload().type == 1001) {
                         Log.e("野火", "自定义通知--> " + tongzhiContent.getOrignalPayload().content + "  " + tongzhiContent.getOrignalPayload().extra);
-                        EventBus.getDefault().post(new YeHuoBroadEvent("xiugaigongaole", tongzhiContent.getOrignalPayload().content, tongzhiContent.getOrignalPayload().extra));
+                        EventBus.getDefault().post(new MyBroadEvent("xiugaigongaole", tongzhiContent.getOrignalPayload().content, tongzhiContent.getOrignalPayload().extra));
                     } else if (tongzhiContent.getOrignalPayload().type == 1004) {
-                        EventBus.getDefault().post(new YeHuoBroadEvent("xiugaifayanshijian", tongzhiContent.getOrignalPayload().content, ""));
+                        EventBus.getDefault().post(new MyBroadEvent("xiugaifayanshijian", tongzhiContent.getOrignalPayload().content, ""));
                     }
 //                    else if (tongzhiContent.getOrignalPayload().type == 1005) {
-//                        EventBus.getDefault().post(new YeHuoBroadEvent("beifeng", tongzhiContent.getOrignalPayload().content, ""));
+//                        EventBus.getDefault().post(new MyBroadEvent("beifeng", tongzhiContent.getOrignalPayload().content, ""));
 //                    }
                 }
             }
@@ -401,7 +401,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                     isMgc = true;
                     ToastBroadUtils.showToast(context, "发言包含敏感词");
                     if ("1".equals(openMgc)) {
-                        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(context, "mingancichufajianyan", conversation.target, ChatManager.Instance().getUserId(), null);
+                        MyCommonBroadBridge.getInstance().setMyQiaoJie(context, "mingancichufajianyan", conversation.target, ChatManager.Instance().getUserId(), null);
                     }
                 }
             }
@@ -640,7 +640,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     public void onSendFail(Message message, int errorCode) {
         postMessageUpdate(new UiBroadMessage(message));
         if (errorCode == 248) {
-            EventBus.getDefault().post(new YeHuoBroadEvent("bushihaoyoufaxiaoxi", "", ""));
+            EventBus.getDefault().post(new MyBroadEvent("bushihaoyoufaxiaoxi", "", ""));
         }
     }
 

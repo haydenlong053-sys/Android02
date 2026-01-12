@@ -22,7 +22,7 @@ import java.util.Map;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.bridge.FriendDataListBroadBean;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.contact.model.FriendRequestBroadValue;
 import com.cboda.chatui.contact.model.GroupBroadValue;
 import com.cboda.chatui.contact.model.HeaderBroadValue;
@@ -267,7 +267,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //        Intent intent = new Intent(getContext(), ConversationBroadActivity.class);
 //        intent.putExtra("conversation", conversation);
 //        startActivity(intent);
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(),"danliaogengduo",userInfo.getUserInfo().uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"danliaogengduo",userInfo.getUserInfo().uid,"",null);
     }
 
     @Override
@@ -291,14 +291,14 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //
 //        Intent intent = new Intent(getActivity(), FriendRequestListActivity.class);
 //        startActivity(intent);
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(),"xindepengyou","","",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"xindepengyou","","",null);
 
     }
 
     private void showGroupList() {
 //        Intent intent = new Intent(getActivity(), GroupListActivity.class);
 //        startActivity(intent);
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(),"ruqunyaoqing","","",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"ruqunyaoqing","","",null);
     }
 
     private void showChannelList() {
@@ -311,7 +311,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //        }
 //        Intent intent = new Intent(getActivity(), GroupListActivity.class);
 //        startActivity(intent);
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(),"qunliaoliebiao","","",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"qunliaoliebiao","","",null);
     }
 
 

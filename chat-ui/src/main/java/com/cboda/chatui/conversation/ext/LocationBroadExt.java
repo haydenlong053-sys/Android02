@@ -14,7 +14,7 @@ import android.view.View;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import com.cboda.chatui.third.location.data.LocationBroadData;
 import cn.wildfirechat.message.TypingMessageContent;
@@ -42,9 +42,9 @@ public class LocationBroadExt extends ConversationBroadExt {
         }
 
         if (conversation.type == Conversation.ConversationType.Group){
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(activity,"weizhi","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(activity,"weizhi","",conversation.target,null);
         } else {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(activity,"weizhi",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(activity,"weizhi",conversation.target,"",null);
 
         }
 
