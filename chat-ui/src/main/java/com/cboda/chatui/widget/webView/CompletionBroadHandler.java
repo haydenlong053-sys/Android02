@@ -1,11 +1,13 @@
-package wendu.dsbridge;
+package com.cboda.chatui.widget.webView;
 
 /**
  * Created by du on 16/12/31.
  */
 
-public interface  CompletionBroadHandler<T> {
+public interface CompletionBroadHandler<T> {
     void complete(T retValue);
+
     void complete();
+
     void setProgressData(T value);
 }

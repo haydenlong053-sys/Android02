@@ -29,8 +29,8 @@ import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GeneralCallback;
 import cn.wildfirechat.remote.GeneralCallback2;
-import wendu.dsbridge.CompletionBroadHandler;
-import wendu.dsbridge.DWebBroadView;
+import com.cboda.chatui.widget.webView.CompletionBroadHandler;
+import com.cboda.chatui.widget.webView.DWebBroadView;
 
 public class JsBroadApi {
     private static final String TAG = "JsBroadApi";

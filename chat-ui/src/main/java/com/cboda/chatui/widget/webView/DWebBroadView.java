@@ -1,4 +1,4 @@
-package wendu.dsbridge;
+package com.cboda.chatui.widget.webView;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -79,7 +79,7 @@ public class DWebBroadView extends WebView {
         @JavascriptInterface
         public String call(String methodName, String argStr) {
             String error = "Js bridge  called, but can't find a corresponded " +
-                "JavascriptInterface object , please check your code!";
+                    "JavascriptInterface object , please check your code!";
             String[] nameStr = parseNamespace(methodName.trim());
             methodName = nameStr[1];
             Object jsb = javaScriptNamespaceInterfaces.get(nameStr[0]);
@@ -93,7 +93,7 @@ public class DWebBroadView extends WebView {
                 PrintDebugInfo(error);
                 return ret.toString();
             }
-            Object arg=null;
+            Object arg = null;
             Method method = null;
             String callback = null;
 
@@ -102,7 +102,7 @@ public class DWebBroadView extends WebView {
                 if (args.has("_dscbstub")) {
                     callback = args.getString("_dscbstub");
                 }
-                if(args.has("data")) {
+                if (args.has("data")) {
                     arg = args.get("data");
                 }
             } catch (JSONException e) {
@@ -117,7 +117,7 @@ public class DWebBroadView extends WebView {
             boolean asyn = false;
             try {
                 method = cls.getMethod(methodName,
-                    new Class[]{Object.class, CompletionBroadHandler.class});
+                        new Class[]{Object.class, CompletionBroadHandler.class});
                 asyn = true;
             } catch (Exception e) {
                 try {
@@ -138,7 +138,7 @@ public class DWebBroadView extends WebView {
                 JavascriptInterface annotation = method.getAnnotation(JavascriptInterface.class);
                 if (annotation == null) {
                     error = "Method " + methodName + " is not invoked, since  " +
-                        "it is not declared with JavascriptInterface annotation! ";
+                            "it is not declared with JavascriptInterface annotation! ";
                     PrintDebugInfo(error);
                     return ret.toString();
                 }
@@ -299,7 +299,7 @@ public class DWebBroadView extends WebView {
                     Method method = null;
                     try {
                         method = cls.getMethod(nameStr[1],
-                            new Class[]{Object.class, CompletionBroadHandler.class});
+                                new Class[]{Object.class, CompletionBroadHandler.class});
                         asyn = true;
                     } catch (Exception e) {
                         try {
@@ -331,10 +331,10 @@ public class DWebBroadView extends WebView {
                     @Override
                     public void run() {
                         if (javascriptCloseWindowListener == null
-                            || javascriptCloseWindowListener.onClose()) {
+                                || javascriptCloseWindowListener.onClose()) {
                             Context context = getContext();
                             if (context instanceof Activity) {
-                                ((Activity)context).onBackPressed();
+                                ((Activity) context).onBackPressed();
                             }
                         }
                     }
@@ -357,7 +357,7 @@ public class DWebBroadView extends WebView {
 
             @Keep
             @JavascriptInterface
-            public void returnValue(final Object obj){
+            public void returnValue(final Object obj) {
                 runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -420,9 +420,9 @@ public class DWebBroadView extends WebView {
         runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                if (url != null && url.startsWith("javascript:")){
+                if (url != null && url.startsWith("javascript:")) {
                     DWebBroadView.super.loadUrl(url);
-                }else{
+                } else {
                     callInfoList = new ArrayList<>();
                     DWebBroadView.super.loadUrl(url);
                 }
@@ -442,9 +442,9 @@ public class DWebBroadView extends WebView {
         runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                if (url != null && url.startsWith("javascript:")){
+                if (url != null && url.startsWith("javascript:")) {
                     DWebBroadView.super.loadUrl(url, additionalHttpHeaders);
-                }else{
+                } else {
                     callInfoList = new ArrayList<>();
                     DWebBroadView.super.loadUrl(url, additionalHttpHeaders);
                 }
@@ -654,7 +654,7 @@ public class DWebBroadView extends WebView {
                                       boolean isUserGesture, Message resultMsg) {
             if (webChromeClient != null) {
                 return webChromeClient.onCreateWindow(view, isDialog,
-                    isUserGesture, resultMsg);
+                        isUserGesture, resultMsg);
             }
             return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
         }
@@ -688,18 +688,18 @@ public class DWebBroadView extends WebView {
                 }
             }
             Dialog alertDialog = new AlertDialog.Builder(getContext()).
-                setMessage(message).
-                setCancelable(false).
-                setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        if (alertBoxBlock) {
-                            result.confirm();
+                    setMessage(message).
+                    setCancelable(false).
+                    setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (alertBoxBlock) {
+                                result.confirm();
+                            }
                         }
-                    }
-                })
-                .create();
+                    })
+                    .create();
             alertDialog.show();
             return true;
         }
@@ -726,10 +726,10 @@ public class DWebBroadView extends WebView {
                     }
                 };
                 new AlertDialog.Builder(getContext())
-                    .setMessage(message)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok, listener)
-                    .setNegativeButton(android.R.string.cancel, listener).show();
+                        .setMessage(message)
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.ok, listener)
+                        .setNegativeButton(android.R.string.cancel, listener).show();
                 return true;
 
             }
@@ -774,15 +774,15 @@ public class DWebBroadView extends WebView {
                     }
                 };
                 new AlertDialog.Builder(getContext())
-                    .setTitle(message)
-                    .setView(editText)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok, listener)
-                    .setNegativeButton(android.R.string.cancel, listener)
-                    .show();
+                        .setTitle(message)
+                        .setView(editText)
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.ok, listener)
+                        .setNegativeButton(android.R.string.cancel, listener)
+                        .show();
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
                 int t = (int) (dpi * 16);
                 layoutParams.setMargins(t, 0, t, 0);
                 layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
@@ -809,10 +809,10 @@ public class DWebBroadView extends WebView {
                                             WebStorage.QuotaUpdater quotaUpdater) {
             if (webChromeClient != null) {
                 webChromeClient.onExceededDatabaseQuota(url, databaseIdentifier, quota,
-                    estimatedDatabaseSize, totalQuota, quotaUpdater);
+                        estimatedDatabaseSize, totalQuota, quotaUpdater);
             } else {
                 super.onExceededDatabaseQuota(url, databaseIdentifier, quota,
-                    estimatedDatabaseSize, totalQuota, quotaUpdater);
+                        estimatedDatabaseSize, totalQuota, quotaUpdater);
             }
         }
 
@@ -951,7 +951,7 @@ public class DWebBroadView extends WebView {
 
         File appCacheDir = new File(APP_CACHE_DIRNAME);
         File webviewCacheDir = new File(context.getCacheDir()
-            .getAbsolutePath() + "/webviewCache");
+                .getAbsolutePath() + "/webviewCache");
 
         if (webviewCacheDir.exists()) {
             deleteFile(webviewCacheDir);
@@ -985,8 +985,6 @@ public class DWebBroadView extends WebView {
         }
         mainHandler.post(runnable);
     }
-
-
 
 
 }
