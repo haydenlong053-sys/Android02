@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.cboda.intelligent.R
-import com.cboda.intelligent.widge.LiXinBottomBroadDialog
+import com.cboda.intelligent.widge.MyBottomBroadDialog
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 
 
@@ -34,7 +34,7 @@ class BottomDialogBroadHolder(
                     R.layout.bottom_dialog_broad_layout,
                     null
                 )
-                dialog = LiXinBottomBroadDialog(activity, view)
+                dialog = MyBottomBroadDialog(activity, view)
 
                 view.findViewById<View>(R.id.tvCancel).setOnClickListener {
                     dialog?.dismiss()

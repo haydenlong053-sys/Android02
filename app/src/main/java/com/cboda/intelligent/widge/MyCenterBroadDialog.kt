@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import com.cboda.intelligent.R
 
 
-class LiXInCenterBroadDialog(
+class MyCenterBroadDialog(
     private val activity: Context,
     private val view: View,
     private val showSoft: Boolean = false,

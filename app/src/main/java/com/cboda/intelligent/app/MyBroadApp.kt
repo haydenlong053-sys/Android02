@@ -56,7 +56,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 
-class LiXinBroadApp : UtilBroadApplication(), OnConnectToServerListener {
+class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
 
 
     companion object {
@@ -107,7 +107,7 @@ class LiXinBroadApp : UtilBroadApplication(), OnConnectToServerListener {
 
         @JvmStatic
         fun getProxy(context: Context): HttpProxyCacheServer {
-            val app = context.applicationContext as LiXinBroadApp
+            val app = context.applicationContext as MyBroadApp
             return if (Companion.proxy == null) (app.newProxy().also {
                 Companion.proxy = it
             }) else Companion.proxy!!

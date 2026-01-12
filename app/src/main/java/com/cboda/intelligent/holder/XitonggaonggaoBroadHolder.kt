@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import com.cboda.intelligent.R
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.widge.LiXInCenterBroadDialog
+import com.cboda.intelligent.widge.MyCenterBroadDialog
 
 /**
  * 简述： <功能描述>
@@ -68,7 +68,7 @@ class XitonggaonggaoBroadHolder(
                     callBack?.onClickConfim(false)
                 }
 
-                dialog = LiXInCenterBroadDialog(activity, view, isCancle = true).createAndShowDialog()
+                dialog = MyCenterBroadDialog(activity, view, isCancle = true).createAndShowDialog()
             } else {
                 dialog?.show()
             }

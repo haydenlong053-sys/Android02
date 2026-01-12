@@ -54,7 +54,7 @@
 
 
     <application
-        android:name="com.cboda.intelligent.app.LiXinBroadApp"
+        android:name="com.cboda.intelligent.app.MyBroadApp"
         android:allowBackup="true"
         android:allowNativeHeapPointerTagging="false"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -416,7 +416,7 @@
             android:name="com.cboda.intelligent.activity.SearchUserBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cboda.intelligent.activity.LixinSearchBroadActivity"
+            android:name="com.cboda.intelligent.activity.MySearchBroadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunListBroadActivity"

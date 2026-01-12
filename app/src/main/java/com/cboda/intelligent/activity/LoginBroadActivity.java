@@ -43,7 +43,7 @@ import com.cboda.intelligent.utils.AppBroadUtils;
 import com.cboda.intelligent.utils.GlideLoaderBroadHelper;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
-import com.cboda.intelligent.widge.LiXinStandardGSYVideoBroadPlayer;
+import com.cboda.intelligent.widge.MyStandardGSYVideoBroadPlayer;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,7 +67,7 @@ public class LoginBroadActivity extends BaseSimpleBroadActivity implements View.
     private ResultBroadBean bean;
     private List<DataListBroadBean> zhanghaoList = new ArrayList<>();
     private ImageView ivRegisterBg;
-    private LiXinStandardGSYVideoBroadPlayer videoplayer;
+    private MyStandardGSYVideoBroadPlayer videoplayer;
     private ImageView thumbImage;
     private FrameLayout videoLayout;
     private View viHead;

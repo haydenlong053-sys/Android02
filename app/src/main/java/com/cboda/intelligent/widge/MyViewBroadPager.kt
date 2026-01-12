@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager
  * 简述：是否可以滑动的viewpager
  * Created by ysh on 2023/2/13.
  */
-class LiXinViewBroadPager : ViewPager {
+class MyViewBroadPager : ViewPager {
     private var isScroll = true
 
     constructor(context: Context) : super(context)

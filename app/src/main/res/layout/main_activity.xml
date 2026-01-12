@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:adjustViewBounds="true"/>
 
-    <com.cboda.intelligent.widge.LiXinViewBroadPager
+    <com.cboda.intelligent.widge.MyViewBroadPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -71,7 +71,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.cboda.intelligent.widge.LixinUnreadCountTextBroadView
+            <com.cboda.intelligent.widge.MyUnreadCountTextBroadView
                 android:id="@+id/tvXiaoxiNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.cboda.intelligent.widge.LixinUnreadCountTextBroadView
+            <com.cboda.intelligent.widge.MyUnreadCountTextBroadView
                 android:id="@+id/tvTongxunLuNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

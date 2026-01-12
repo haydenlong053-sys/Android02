@@ -1,6 +1,6 @@
 package com.cboda.chatui.bridge
 
-class LixinCommonBroadResult {
+class MyCommonBroadResult {
     var id:String? = null
     var content:String? = null
     var version:String? = null

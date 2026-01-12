@@ -14,21 +14,21 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.cboda.intelligent.R;
 
-public class LixinUnreadCountTextBroadView extends AppCompatTextView {
+public class MyUnreadCountTextBroadView extends AppCompatTextView {
     private int mNormalSize;
     private Paint mPaint;
 
-    public LixinUnreadCountTextBroadView(Context context) {
+    public MyUnreadCountTextBroadView(Context context) {
         super(context);
         init(context, null);
     }
 
-    public LixinUnreadCountTextBroadView(Context context, AttributeSet attrs) {
+    public MyUnreadCountTextBroadView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public LixinUnreadCountTextBroadView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MyUnreadCountTextBroadView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -36,8 +36,8 @@ public class LixinUnreadCountTextBroadView extends AppCompatTextView {
     private void init(Context context, AttributeSet attrs) {
         setTextDirection(View.TEXT_DIRECTION_LTR);
         mNormalSize = dp2px(18.4f);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LixinUnreadCountTextView);
-        int paintColor = typedArray.getColor(R.styleable.LixinUnreadCountTextView_lixin_paint_color, getResources().getColor(R.color.lixn_read_dot_bg));
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyUnreadCountTextView);
+        int paintColor = typedArray.getColor(R.styleable.MyUnreadCountTextView_lixin_paint_color, getResources().getColor(R.color.lixn_read_dot_bg));
         typedArray.recycle();
 
         mPaint = new Paint();

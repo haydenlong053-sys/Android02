@@ -10,7 +10,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 /**
  * 简述：短视频播放器
  */
-class LiXinStandardGSYVideoBroadPlayer : StandardGSYVideoPlayer {
+class MyStandardGSYVideoBroadPlayer : StandardGSYVideoPlayer {
     var callBack: PlayerDoubleUpCallBack? = null
 
     constructor(context: Context?) : super(context)

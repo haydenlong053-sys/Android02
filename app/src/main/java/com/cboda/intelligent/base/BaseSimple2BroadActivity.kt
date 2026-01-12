@@ -29,7 +29,7 @@ import com.airbnb.lottie.LottieDrawable
 import com.cboda.baselibrary.base.BaseActivity
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.R
-import com.cboda.intelligent.app.LiXinBroadApp
+import com.cboda.intelligent.app.MyBroadApp
 import java.lang.reflect.Method
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
@@ -552,7 +552,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
         val res = super.getResources()
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             val config = res.configuration
-            config.fontScale = getTextSize(LiXinBroadApp.mContext)
+            config.fontScale = getTextSize(MyBroadApp.mContext)
             res.updateConfiguration(config, res.displayMetrics)
         }
         return res

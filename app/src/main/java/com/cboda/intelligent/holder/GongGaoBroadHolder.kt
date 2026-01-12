@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.widge.LiXInCenterBroadDialog
+import com.cboda.intelligent.widge.MyCenterBroadDialog
 
 class GongGaoBroadHolder(
     private val activity: Context?,
@@ -41,7 +41,7 @@ class GongGaoBroadHolder(
                 }
                 view.findViewById<TextView>(R.id.tvContent).text = content
 
-                dialog = LiXInCenterBroadDialog(activity, view, isCancle = true).createAndShowDialog()
+                dialog = MyCenterBroadDialog(activity, view, isCancle = true).createAndShowDialog()
             } else {
                 dialog?.show()
             }

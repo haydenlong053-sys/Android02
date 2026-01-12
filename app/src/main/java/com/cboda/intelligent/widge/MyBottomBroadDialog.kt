@@ -12,7 +12,7 @@ import com.cboda.intelligent.R
 /**
  * 简述：底部dialog
  */
-class LiXinBottomBroadDialog(private val activity: Context, private val view: View) :
+class MyBottomBroadDialog(private val activity: Context, private val view: View) :
     Dialog(activity, R.style.transparentFrameWindowStyle) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

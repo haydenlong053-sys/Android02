@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import com.cboda.intelligent.R
-import com.cboda.intelligent.app.LiXinBroadApp
+import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
@@ -51,7 +51,7 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 
 
     fun lateInitSdk() {
-        LiXinBroadApp.initOkGo()
+        MyBroadApp.initOkGo()
     }
 
     fun jumpAct() {

@@ -5,7 +5,7 @@ import android.os.CountDownTimer;
 import android.widget.TextView;
 
 import com.cboda.intelligent.R;
-import com.cboda.intelligent.app.LiXinBroadApp;
+import com.cboda.intelligent.app.MyBroadApp;
 
 import java.util.Random;
 
@@ -48,7 +48,7 @@ public class TimerBroadUtil {
         public void onFinish() {
             tv.setEnabled(true);
 //            tv.setBackgroundResource(R.drawable.selector_btn_round_main);
-            tv.setText(LiXinBroadApp.Companion.getMContext().getString(R.string.重新获取));
+            tv.setText(MyBroadApp.Companion.getMContext().getString(R.string.重新获取));
         }
     };
     public CountDownTimer count = new CountDownTimer(1000, 1000) {

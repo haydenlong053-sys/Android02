@@ -21,7 +21,7 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.intelligent.utils.ToastBroadUtil;
-import com.cboda.intelligent.widge.LiXinStandardGSYVideoBroadPlayer;
+import com.cboda.intelligent.widge.MyStandardGSYVideoBroadPlayer;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Progress;
@@ -43,7 +43,7 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
 
     private String video; // 视频URL
     private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1001;
-    private LiXinStandardGSYVideoBroadPlayer videoplayer;
+    private MyStandardGSYVideoBroadPlayer videoplayer;
     private View viHead;
     private AppCompatImageView imFinish;
     private ImageView saveImageView;
@@ -103,7 +103,7 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
 
         //    2.引用
 //        LinkedHashMap map = new LinkedHashMap();
-//        String proxyUrl = LiXinBroadApp.getProxy(this).getProxyUrl(video);
+//        String proxyUrl = MyBroadApp.getProxy(this).getProxyUrl(video);
 //        map.put("高清", proxyUrl);
 //        JZDataSource jzDataSource = new JZDataSource(map, "");
 //        jzDataSource.looping = true;

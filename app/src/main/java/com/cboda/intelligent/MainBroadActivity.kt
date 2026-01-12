@@ -70,8 +70,8 @@ import com.cboda.intelligent.fragment.CleverBodyBroadFragment
 import com.cboda.intelligent.fragment.NewMirrorBroadFragment
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
-import com.cboda.intelligent.widge.LiXinViewBroadPager
-import com.cboda.intelligent.widge.LixinUnreadCountTextBroadView
+import com.cboda.intelligent.widge.MyViewBroadPager
+import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -97,14 +97,14 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var ivxiaochengxu: AppCompatImageView
     private lateinit var tongxunluLayout: ConstraintLayout
     private lateinit var tvtongxunlu: TextView
-    private lateinit var tvTongxunLuNum: LixinUnreadCountTextBroadView
+    private lateinit var tvTongxunLuNum: MyUnreadCountTextBroadView
     private lateinit var ivtongxunlu: AppCompatImageView
     private lateinit var xiaoxiLayout: ConstraintLayout
     private lateinit var clickView: CustomClickBroadView
     private lateinit var tvXiaoxi: TextView
-    private lateinit var tvXiaoxiNum: LixinUnreadCountTextBroadView
+    private lateinit var tvXiaoxiNum: MyUnreadCountTextBroadView
     private lateinit var ivXiaoxi: AppCompatImageView
-    private lateinit var viewPager: LiXinViewBroadPager
+    private lateinit var viewPager: MyViewBroadPager
 
     private val uIViewModel: HomeUIViewModel by viewModels()
 

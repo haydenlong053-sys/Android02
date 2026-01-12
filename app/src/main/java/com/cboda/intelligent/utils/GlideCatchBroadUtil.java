@@ -3,7 +3,7 @@ package com.cboda.intelligent.utils;
 import android.os.Looper;
 
 import com.bumptech.glide.Glide;
-import com.cboda.intelligent.app.LiXinBroadApp;
+import com.cboda.intelligent.app.MyBroadApp;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ public class GlideCatchBroadUtil {
     // 获取Glide磁盘缓存大小
     public String getCacheSize() {
         try {
-            return getFormatSize(getFolderSize(new File(LiXinBroadApp.Companion.getMContext().getCacheDir() + "/" )));
+            return getFormatSize(getFolderSize(new File(MyBroadApp.Companion.getMContext().getCacheDir() + "/" )));
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";
@@ -30,7 +30,7 @@ public class GlideCatchBroadUtil {
 
     // 清除Glide磁盘缓存，自己获取缓存文件夹并删除方法
     public boolean cleanCatchDisk() {
-        return deleteFolderFile(LiXinBroadApp.Companion.getMContext().getCacheDir() + "/" , true);
+        return deleteFolderFile(MyBroadApp.Companion.getMContext().getCacheDir() + "/" , true);
     }
 
     // 清除图片磁盘缓存，调用Glide自带方法
@@ -40,11 +40,11 @@ public class GlideCatchBroadUtil {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Glide.get(LiXinBroadApp.Companion.getMContext()).clearDiskCache();
+                        Glide.get(MyBroadApp.Companion.getMContext()).clearDiskCache();
                     }
                 }).start();
             } else {
-                Glide.get(LiXinBroadApp.Companion.getMContext()).clearDiskCache();
+                Glide.get(MyBroadApp.Companion.getMContext()).clearDiskCache();
             }
             return true;
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class GlideCatchBroadUtil {
     public boolean clearCacheMemory() {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) { //只能在主线程执行
-                Glide.get(LiXinBroadApp.Companion.getMContext()).clearMemory();
+                Glide.get(MyBroadApp.Companion.getMContext()).clearMemory();
                 return true;
             }
         } catch (Exception e) {

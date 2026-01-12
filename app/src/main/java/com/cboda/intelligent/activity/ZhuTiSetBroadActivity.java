@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.intelligent.MainBroadActivity;
 import com.cboda.intelligent.R;
-import com.cboda.intelligent.app.LiXinBroadApp;
+import com.cboda.intelligent.app.MyBroadApp;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.LanguageBroadAdapter;
 import com.cboda.intelligent.bean.DataListBroadBean;
@@ -55,11 +55,11 @@ public class ZhuTiSetBroadActivity extends BaseSimpleBroadActivity {
                 for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
                     AppBroadUtils.Companion.getActivityList().get(i).finish();
                 }
-                if (TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(LiXinBroadApp.Companion.getMContext(), AppBroadConsts.UID, ""))) {
-                    Intent intent = new Intent(LiXinBroadApp.Companion.getMContext(), NewEquipmentBroadActivity.class);
+                if (TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(MyBroadApp.Companion.getMContext(), AppBroadConsts.UID, ""))) {
+                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), NewEquipmentBroadActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(LiXinBroadApp.Companion.getMContext(), MainBroadActivity.class);
+                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), MainBroadActivity.class);
                     startActivity(intent);
                 }
             }

@@ -123,7 +123,7 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
 //        val userSign = MMKVBroadUtils.getTxUserSign()
 //        MMKVBroadUtils.getRealUserId()?.apply {
 //            TUILogin.login(
-//                LiXinBroadApp.mContext!!,
+//                MyBroadApp.mContext!!,
 //                BroadConstant.TX_IM_APP_ID,
 //                this,
 //                userSign,

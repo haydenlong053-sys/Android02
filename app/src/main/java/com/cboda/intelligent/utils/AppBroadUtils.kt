@@ -30,7 +30,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.MainBroadActivity
-import com.cboda.intelligent.app.LiXinBroadApp
+import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.service.MeetingFloatBroadService
@@ -228,7 +228,7 @@ class AppBroadUtils {
                 ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
             debug("野火", "connect----> $connextStatus --> }")
 //            txLogin()
-            LiXinBroadApp.initOkGo()
+            MyBroadApp.initOkGo()
             MainScope().launch {
                 delay(200)
                 EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_LOGIN_SUCCESS, null))

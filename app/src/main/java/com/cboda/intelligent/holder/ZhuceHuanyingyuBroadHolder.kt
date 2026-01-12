@@ -7,7 +7,7 @@ import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.widge.LiXInCenterBroadDialog
+import com.cboda.intelligent.widge.MyCenterBroadDialog
 
 class ZhuceHuanyingyuBroadHolder(
     private val activity: Context?,
@@ -43,7 +43,7 @@ class ZhuceHuanyingyuBroadHolder(
                     regInfo
                 )
 
-                dialog = LiXInCenterBroadDialog(activity, view, isCancle = false).createAndShowDialog()
+                dialog = MyCenterBroadDialog(activity, view, isCancle = false).createAndShowDialog()
             } else {
                 dialog?.show()
             }

@@ -423,7 +423,7 @@ class JumpBroadUtils {
         }
 
         fun startSearchActivity(context: Context?) {
-//            val intent = Intent(context, LixinSearchBroadActivity::class.java)
+//            val intent = Intent(context, MySearchBroadActivity::class.java)
 //            context?.startActivity(intent)
             val intent = Intent(
                 context,

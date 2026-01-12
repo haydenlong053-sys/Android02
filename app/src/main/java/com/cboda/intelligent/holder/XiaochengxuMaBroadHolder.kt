@@ -7,7 +7,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.widge.LiXInCenterBroadDialog
+import com.cboda.intelligent.widge.MyCenterBroadDialog
 
 class XiaochengxuMaBroadHolder(private val activity: Context?) {
     private var dialog: AlertDialog? = null
@@ -46,7 +46,7 @@ class XiaochengxuMaBroadHolder(private val activity: Context?) {
                     dialog?.dismiss()
                 }
 
-                dialog = LiXInCenterBroadDialog(
+                dialog = MyCenterBroadDialog(
                     activity,
                     view,
                     isCancle = true,

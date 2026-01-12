@@ -2,7 +2,7 @@ package com.cboda.intelligent.utils;
 
 import android.widget.Toast;
 
-import com.cboda.intelligent.app.LiXinBroadApp;
+import com.cboda.intelligent.app.MyBroadApp;
 
 
 public final class ToastBroadUtil {
@@ -23,7 +23,7 @@ public final class ToastBroadUtil {
 
     private static void showToast(final String title, final int dur) {
 //        if (mToast == null) {
-            mToast = Toast.makeText(LiXinBroadApp.Companion.getMContext(), title, dur);
+            mToast = Toast.makeText(MyBroadApp.Companion.getMContext(), title, dur);
 //        }
         mToast.setText(title);
         mToast.show();

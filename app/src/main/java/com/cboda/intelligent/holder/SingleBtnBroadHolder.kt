@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.widge.LiXInCenterBroadDialog
+import com.cboda.intelligent.widge.MyCenterBroadDialog
 
 /**
  * 简述： <功能描述>
@@ -52,7 +52,7 @@ class SingleBtnBroadHolder(
                 view.findViewById<TextView>(R.id.tvTitle).text = mTitle
                 view.findViewById<TextView>(R.id.tvContent).text = content
 
-                dialog = LiXInCenterBroadDialog(activity, view, isCancle = isCancle).createAndShowDialog()
+                dialog = MyCenterBroadDialog(activity, view, isCancle = isCancle).createAndShowDialog()
             } else {
                 dialog?.show()
             }

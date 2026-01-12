@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.KeyboardBroadBroadUtils
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.widge.LiXInCenterBroadDialog
+import com.cboda.intelligent.widge.MyCenterBroadDialog
 
 class BianJiTextBroadHolder(private val activity: Context?, private val mTitle: String) {
     private var dialog: AlertDialog? = null
@@ -48,7 +48,7 @@ class BianJiTextBroadHolder(private val activity: Context?, private val mTitle: 
                 }
                 edtBeizhu = view.findViewById(R.id.edtBeizhu)
 
-                dialog = LiXInCenterBroadDialog(
+                dialog = MyCenterBroadDialog(
                     activity,
                     view,
                     isCancle = true,

@@ -31,7 +31,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import com.cboda.chatui.IMServiceStatusViewBroadModel;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcBaseBroadActivity;
-import com.cboda.chatui.bridge.LixinCommonBroadResult;
+import com.cboda.chatui.bridge.MyCommonBroadResult;
 import com.cboda.chatui.bridge.QunBroadXiangqing;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.bridge.MyBroadEvent;
@@ -136,7 +136,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             }
 
         } else if ("yonghuxinxi".equals(myImEvent.type)) {
-            LixinCommonBroadResult yoinghu = gson.fromJson(myImEvent.params1, LixinCommonBroadResult.class);
+            MyCommonBroadResult yoinghu = gson.fromJson(myImEvent.params1, MyCommonBroadResult.class);
             if (yoinghu != null && !TextUtils.isEmpty(yoinghu.getChatImg())) {
                 conversationFragment.setConversationBackgroundImage(yoinghu.getChatImg());
             }
