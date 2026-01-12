@@ -68,7 +68,7 @@ class ZhuanZhangPageBroadActivity:BaseSimpleBroadActivity() {
                     EventBus.getDefault().post(MyBroadEvent("fajieshouzhuanzhangxiaoxi",hongbaoId,mprice))
 
 //                    val customMsg = SendCustomBroadMsg()
-//                    customMsg.sendYeHuoZhuanZhangJieShou(
+//                    customMsg.sendMyImZhuanZhangJieShou(
 //                        "",
 //
 //                    )

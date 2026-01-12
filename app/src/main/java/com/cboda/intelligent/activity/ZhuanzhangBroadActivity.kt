@@ -162,7 +162,7 @@ class ZhuanzhangBroadActivity : BaseSimpleBroadActivity() {
 //                        uid
 //                    )
 
-                    sendCustomMsg.sendYeHuoZhuanZhang(
+                    sendCustomMsg.sendMyImZhuanZhang(
                         "",
                         uid,
                         "",

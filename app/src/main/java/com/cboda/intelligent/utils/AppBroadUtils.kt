@@ -218,7 +218,7 @@ class AppBroadUtils {
             MMKVBroadUtils.saveUserId(apptoken ?: "")
             MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
             MMKVBroadUtils.saveRealUserId(uid ?: "")
-            MMKVBroadUtils.saveYeHuoToken(yehuoUserToken ?: "")
+            MMKVBroadUtils.saveMyImToken(yehuoUserToken ?: "")
 
             NetworkBroadConfig.updateAppToken(apptoken)
 
@@ -296,7 +296,7 @@ class AppBroadUtils {
             BroadConstant.realUserId = ""
             MMKVBroadUtils.clearUserId()
             MMKVBroadUtils.clearRealUserId()
-            MMKVBroadUtils.clearYeHuoToken()
+            MMKVBroadUtils.clearMyImToken()
         }
 
     }

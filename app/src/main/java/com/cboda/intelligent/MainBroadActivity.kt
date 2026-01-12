@@ -439,7 +439,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         imServiceStatusViewModel.imServiceStatusLiveData().observe(this) {
             if (it && !isInitialized) {
                 eLogD("MainActivityClass", "野火初始化成功--->")
-                initYeHuo()
+                initMyIm()
                 isInitialized = true
             }
 //            else
@@ -515,7 +515,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         bottomLayout = findViewById(R.id.bottomLayout)
     }
 
-    private fun initYeHuo() {
+    private fun initMyIm() {
 
 //        fragmentList.add(MirrorBroadFragment.getInstance())
 

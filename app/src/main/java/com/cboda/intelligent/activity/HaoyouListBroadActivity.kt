@@ -109,7 +109,7 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
 //                    mDataList[position].name?:"",
 //                    uid,
 //                )
-                sendCustomMsg.sendYeHuoMingPian("", mDataList[position].userId?:"",uid, mDataList[position].name?:"",mDataList[position].icon?:"",this)
+                sendCustomMsg.sendMyImMingPian("", mDataList[position].userId?:"",uid, mDataList[position].name?:"",mDataList[position].icon?:"",this)
             } else {
 //                sendCustomMsg.sendQunMingPianMsg(
 //                    this@HaoyouListBroadActivity,
@@ -118,7 +118,7 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
 //                    mDataList[position].name?:"",
 //                    qunId,
 //                )
-                sendCustomMsg.sendYeHuoMingPian("1", mDataList[position].userId?:"",qunId,mDataList[position].name?:"",mDataList[position].icon?:"",this)
+                sendCustomMsg.sendMyImMingPian("1", mDataList[position].userId?:"",qunId,mDataList[position].name?:"",mDataList[position].icon?:"",this)
             }
             finish()
 

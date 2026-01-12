@@ -181,7 +181,7 @@ class FaHongBaoBroadActivity : BaseSimple2BroadActivity() {
 //                        "0",
 //                        uid
 //                    )
-                    sendCustomMsg.sendYeHuoHongBao(
+                    sendCustomMsg.sendMyImHongBao(
                         "",
                         uid,
                         edtjieshao?.text?.trim()?.toString() ?: "",

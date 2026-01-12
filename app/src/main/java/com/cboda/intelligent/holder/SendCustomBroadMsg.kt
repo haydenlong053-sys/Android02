@@ -20,7 +20,7 @@ class SendCustomBroadMsg {
     private val gson = Gson()
 
 
-    fun sendYeHuoMingPian(
+    fun sendMyImMingPian(
         isGroup: String,
         uid: String,
         target: String,
@@ -56,7 +56,7 @@ class SendCustomBroadMsg {
         })
     }
 
-    fun sendYeHuoZhuanZhang(
+    fun sendMyImZhuanZhang(
         isGroup: String,
         target: String,
         hongbaoDesc: String,
@@ -92,7 +92,7 @@ class SendCustomBroadMsg {
     }
 
 
-    fun sendYeHuoLingQu(
+    fun sendMyImLingQu(
         target: String,
         tipType: String,
         sendUserId: String,
@@ -130,7 +130,7 @@ class SendCustomBroadMsg {
     }
 
 
-    fun sendYeHuoZhuanZhangJieShou(
+    fun sendMyImZhuanZhangJieShou(
         isGroup: String,
         target: String,
         hongbaoDesc: String,
@@ -165,7 +165,7 @@ class SendCustomBroadMsg {
         })
     }
 
-    fun sendYeHuoHongBao(
+    fun sendMyImHongBao(
         isGroup: String,
         target: String,
         hongbaoDesc: String,
@@ -214,7 +214,7 @@ class SendCustomBroadMsg {
     }
 
 
-    fun sendYeHuoWeiZhi(
+    fun sendMyImWeiZhi(
         isGroup: String,
         target: String,
         title: String,

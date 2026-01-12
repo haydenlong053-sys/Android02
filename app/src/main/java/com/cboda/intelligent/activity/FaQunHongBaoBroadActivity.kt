@@ -183,7 +183,7 @@ class FaQunHongBaoBroadActivity : BaseSimple2BroadActivity() {
 //                        zhuanshuUser?.name?:"",
 //                    )
 
-                    sendCustomMsg.sendYeHuoHongBao(
+                    sendCustomMsg.sendMyImHongBao(
                         "1",
                         qunid,
                         edtjieshao?.text?.trim()?.toString() ?: "",

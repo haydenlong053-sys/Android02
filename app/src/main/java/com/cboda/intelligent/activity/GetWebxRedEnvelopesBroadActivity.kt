@@ -149,7 +149,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
 //                                sendUserId
 //                            )
 //                        ) {
-//                            SendCustomBroadMsg().sendYeHuoLingQu(
+//                            SendCustomBroadMsg().sendMyImLingQu(
 //                                msgTarget, "",
 //                                sendUserId,
 //                                sendUserName,

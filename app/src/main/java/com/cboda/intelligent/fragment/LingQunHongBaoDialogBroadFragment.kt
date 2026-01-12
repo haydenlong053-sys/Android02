@@ -69,7 +69,7 @@ class LingQunHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
                     JumpBroadUtils.startHongBaoPageActivity(context,hongbaoId,isgroup)
 
                     if (msgBean != null && msgBean!!.message != null && msgBean!!.message.content is HongBaoMessageContent) {
-                        SendCustomBroadMsg().sendYeHuoLingQu(msgBean!!.message.conversation.target,"",
+                        SendCustomBroadMsg().sendMyImLingQu(msgBean!!.message.conversation.target,"",
                             dataBean!!.data!!.uid!!,
                             dataBean!!.data!!.name!!,
                             MMKVBroadUtils.getRealUserId()!!, MMKVBroadUtils.getUserName()!!

@@ -1428,7 +1428,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
                                 sendUserId
                             )
                         ) {
-                            SendCustomBroadMsg().sendYeHuoLingQu(
+                            SendCustomBroadMsg().sendMyImLingQu(
                                 msgTarget, "",
                                 sendUserId,
                                 sendUserName,

@@ -115,17 +115,17 @@ class MMKVBroadUtils {
             return kv.decodeString(TX_USER_SIGN)
         }
 
-        fun saveYeHuoToken(txUserSign: String) {
+        fun saveMyImToken(txUserSign: String) {
             val kv = MMKV.defaultMMKV()
             kv.encode(YE_HUO_USER_TOKEN, txUserSign)
         }
 
-        fun getYeHuoToken(): String? {
+        fun getMyImToken(): String? {
             val kv = MMKV.defaultMMKV()
             return kv.decodeString(YE_HUO_USER_TOKEN)
         }
 
-        fun clearYeHuoToken() {
+        fun clearMyImToken() {
             val kv = MMKV.defaultMMKV()
             kv.remove(YE_HUO_USER_TOKEN)
         }
