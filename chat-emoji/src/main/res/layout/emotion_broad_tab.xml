@@ -9,7 +9,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_tab_emoji"/>
+        android:src="@drawable/ic_broad_tab_emoji"/>
 
     <View
         android:layout_width="1dp"

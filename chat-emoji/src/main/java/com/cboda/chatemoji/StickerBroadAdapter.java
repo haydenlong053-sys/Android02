@@ -66,7 +66,7 @@ public class StickerBroadAdapter extends BaseAdapter {
             rl.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, (int) mPerHeight));
 
             ImageView imageView = new ImageView(mContext);
-            imageView.setImageResource(R.drawable.ic_tab_emoji);
+            imageView.setImageResource(R.drawable.ic_broad_tab_emoji);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.width = (int) mIvSize;
             params.height = (int) mIvSize;

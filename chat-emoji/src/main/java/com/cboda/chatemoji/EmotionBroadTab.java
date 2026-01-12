@@ -14,7 +14,7 @@ public class EmotionBroadTab extends RelativeLayout {
 
     private ImageView mIvIcon;
     private String mStickerCoverImgPath;
-    private int mIconSrc = R.drawable.ic_tab_add;
+    private int mIconSrc = R.drawable.ic_broad_tab_add;
 
     public EmotionBroadTab(Context context, int iconSrc) {
         super(context);

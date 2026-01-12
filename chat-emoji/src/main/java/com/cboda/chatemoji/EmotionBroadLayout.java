@@ -276,7 +276,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
 
     private void initTabs() {
         //默认添加一个表情tab
-        EmotionBroadTab emojiTab = new EmotionBroadTab(mContext, R.drawable.ic_tab_emoji);
+        EmotionBroadTab emojiTab = new EmotionBroadTab(mContext, R.drawable.ic_broad_tab_emoji);
         mTabCount = 1;
         mLlTabContainer.addView(emojiTab);
         mTabViewArray.put(0, emojiTab);

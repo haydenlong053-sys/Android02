@@ -50,7 +50,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:src="@drawable/ic_tab_add"
+                    android:src="@drawable/ic_broad_tab_add"
                     app:tint="@color/white" />
 
             </LinearLayout>

@@ -60,7 +60,7 @@ public class EmojiBroadAdapter extends BaseAdapter {
         int count = EmojiBroadManager.getDisplayCount();
         int index = mStartIndex + position;
         if (position == EmotionBroadLayout.EMOJI_PER_PAGE || index == count) {
-            emojiThumb.setBackgroundResource(R.drawable.ic_emoji_del);
+            emojiThumb.setBackgroundResource(R.drawable.ic_broad_emoji_del);
         } else if (index < count) {
             emojiThumb.setBackground(EmojiBroadManager.getDisplayDrawable(mContext, index));
         }

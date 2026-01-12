@@ -70,7 +70,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_tab_add" />
+                android:src="@drawable/ic_broad_tab_add" />
         </RelativeLayout>
         <!--表情设置Tab-->
         <HorizontalScrollView
@@ -98,7 +98,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_tab_emoji" />
+                android:src="@drawable/ic_broad_tab_emoji" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -112,7 +112,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_emoji" />
+                android:src="@drawable/ic_broad_emoji" />
         </RelativeLayout>
 
     </LinearLayout>
