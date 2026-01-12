@@ -5,16 +5,6 @@
         <attr name="lixin_paint_color" format="color|reference"/>
     </declare-styleable>
 
-    <declare-styleable name="LiXinBottomItemNavigation">
-        <attr name="normalIcon" format="reference" />
-        <attr name="pressIcon" format="reference" />
-        <attr name="normalColor" format="color" />
-        <attr name="pressColor" format="color" />
-        <attr name="itemTitle" format="string" />
-        <attr name="showIcon" format="boolean" />
-        <attr name="showText" format="boolean" />
-    </declare-styleable>
-
 
     <declare-styleable name="TopNavigationLayout">
         <attr name="backIcon" format="reference" />
@@ -23,14 +13,6 @@
         <attr name="showRightIcon" format="boolean" />
         <attr name="rightIcon" format="reference" />
 
-    </declare-styleable>
-
-    <declare-styleable name="LiXinStarView">
-        <attr name="starCount" format="integer" />
-        <attr name="totalCount" format="integer" />
-        <attr name="clickStar" format="boolean" />
-        <attr name="normalStar" format="reference" />
-        <attr name="pressStar" format="string" />
     </declare-styleable>
 
     <declare-styleable name="FontSizeView">
