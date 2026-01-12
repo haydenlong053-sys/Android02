@@ -18,9 +18,11 @@ import androidx.annotation.Nullable;
 
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity;
 import com.cboda.chatui.workspace.JsBroadApi;
+
 import cn.wildfirechat.message.LinkMessageContent;
 import cn.wildfirechat.message.Message;
-import wendu.dsbridge.DWebBroadView;
+
+import com.cboda.chatui.widget.webView.DWebBroadView;
 
 public class WfcWebViewBroadActivity extends WfcBaseBroadActivity {
     private String url;

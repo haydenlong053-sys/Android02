@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.cboda.chatui.R;
-import wendu.dsbridge.DWebBroadView;
+import com.cboda.chatui.widget.webView.DWebBroadView;
 
 
 public class ProgressWebBroadView extends DWebBroadView{

@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.cboda.chatui.R;
-import wendu.dsbridge.DWebBroadView;
+import com.cboda.chatui.widget.webView.DWebBroadView;
 
 public class WebViewBroadFragment extends Fragment {
     private String url;
@@ -73,7 +73,7 @@ public class WebViewBroadFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (!jsApi.onActivityResult(requestCode, resultCode, data)){
+        if (!jsApi.onActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
