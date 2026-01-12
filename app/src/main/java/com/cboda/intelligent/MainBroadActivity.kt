@@ -128,7 +128,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
     //    private val fragmentNameList = arrayListOf<String>()
     private var gson = GsonUtils.getGson()
-    private var yeHuoImManagerHolder: MyImManagerBroadHolder? = null
+    private var myImManagerHolder: MyImManagerBroadHolder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -316,7 +316,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        val imManagerHolder = ImManagerHolder(this)
 //        imManagerHolder.tvXiaoxiNum = tvXiaoxiNum
 
-        yeHuoImManagerHolder = MyImManagerBroadHolder(this)
+        myImManagerHolder = MyImManagerBroadHolder(this)
 
 
         afterViews()
@@ -422,7 +422,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMsgReceive(event: EmotionBroadEvent) {
         if (event.type == "addEmotion") {
-            yeHuoImManagerHolder?.addCustomFace()
+            myImManagerHolder?.addCustomFace()
         }
     }
 

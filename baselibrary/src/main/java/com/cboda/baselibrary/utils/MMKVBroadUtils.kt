@@ -27,7 +27,7 @@ class MMKVBroadUtils {
         const val TX_USER_SIGN = "txUserSign"
         const val APP_PRIVACYREADY = "app_privacyready"
 
-        const val YE_HUO_USER_TOKEN = "yehuoUserToken"
+        const val MY_IM_USER_TOKEN = "myImUserToken"
         const val USER_YU_YAN_KEY = "yuyan"
         const val USER_ZHUTI_KEY = "zhuti"
         const val USER_FANYI_KEY = "fanyi"
@@ -117,17 +117,17 @@ class MMKVBroadUtils {
 
         fun saveMyImToken(txUserSign: String) {
             val kv = MMKV.defaultMMKV()
-            kv.encode(YE_HUO_USER_TOKEN, txUserSign)
+            kv.encode(MY_IM_USER_TOKEN, txUserSign)
         }
 
         fun getMyImToken(): String? {
             val kv = MMKV.defaultMMKV()
-            return kv.decodeString(YE_HUO_USER_TOKEN)
+            return kv.decodeString(MY_IM_USER_TOKEN)
         }
 
         fun clearMyImToken() {
             val kv = MMKV.defaultMMKV()
-            kv.remove(YE_HUO_USER_TOKEN)
+            kv.remove(MY_IM_USER_TOKEN)
         }
 
 

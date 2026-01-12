@@ -58,7 +58,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
     private boolean mEmotionAddVisiable = false;
     private boolean mEmotionSettingVisiable = false;
     private RelativeLayout zidingyibiaoqiang;
-    private RelativeLayout yehuobiaoqiang;
+    private RelativeLayout myImbiaoqiang;
     //去掉之前贴图
     private boolean stickerVisible = false;
 
@@ -175,7 +175,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
         }
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         emotionLayout = inflater.inflate(R.layout.emotion_broad_layout, this);
-        yehuobiaoqiang = findViewById(R.id.yehuobiaoqiang);
+        myImbiaoqiang = findViewById(R.id.myImbiaoqiang);
         zidingyibiaoqiang = findViewById(R.id.zidingyibiaoqiang);
         vpEmotioin2 = findViewById(R.id.vpEmotioin2);
         llPageNumber2 = findViewById(R.id.llPageNumber2);
@@ -183,11 +183,11 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
         mLlPageNumber = (LinearLayout) findViewById(R.id.llPageNumber);
         mLlTabContainer = (LinearLayout) findViewById(R.id.llTabContainer);
         mRlEmotionAdd = (RelativeLayout) findViewById(R.id.rlEmotionAdd);
-        yehuobiaoqiang.setOnClickListener(new OnClickListener() {
+        myImbiaoqiang.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_normal);
-                yehuobiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_press);
+                myImbiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_press);
                 vpEmotioin2.setVisibility(GONE);
                 mVpEmotioin.setVisibility(VISIBLE);
                 llPageNumber2.setVisibility(GONE);
@@ -198,7 +198,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
             @Override
             public void onClick(View v) {
                 zidingyibiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_press);
-                yehuobiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_normal);
+                myImbiaoqiang.setBackgroundResource(R.drawable.shape_tab_broad_normal);
                 vpEmotioin2.setVisibility(VISIBLE);
                 mVpEmotioin.setVisibility(GONE);
                 llPageNumber2.setVisibility(VISIBLE);
@@ -236,7 +236,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
             Log.e("野火", "表情数据--> " + emotionBroadEvent.params + "  " + mLlTabContainer.getChildCount());
             if (emoBroadBean != null && emoBroadBean.dataList != null && emoBroadBean.dataList.size() > 0) {
                 zidingyibiaoqiang.setVisibility(VISIBLE);
-                yehuobiaoqiang.setVisibility(VISIBLE);
+                myImbiaoqiang.setVisibility(VISIBLE);
                 emiList.clear();
                 emiList.addAll(emoBroadBean.dataList);
                 List<List<EmoBroadBean.EmoItemBean>> newList = splitList(emiList,8);

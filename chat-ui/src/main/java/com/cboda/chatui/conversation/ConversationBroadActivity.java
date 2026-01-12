@@ -88,17 +88,17 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private Gson gson = GsonUtils.getGson();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgReceive(MyBroadEvent yeHuoEvent) {
-        if ("danliaobiaoti".equals(yeHuoEvent.type)) {
-//            String params1 = yeHuoEvent.params1;
+    public void onMsgReceive(MyBroadEvent myImEvent) {
+        if ("danliaobiaoti".equals(myImEvent.type)) {
+//            String params1 = myImEvent.params1;
 //            eLogD("onMsgReceiveClass", "params1:" + params1);
-            page_title.setText(yeHuoEvent.params1);
-        } else if ("reloadMsg".equals(yeHuoEvent.type)) {
+            page_title.setText(myImEvent.params1);
+        } else if ("reloadMsg".equals(myImEvent.type)) {
             conversationFragment.reloadMessage();
-        } else if ("reloadMsgZhuanFa".equals(yeHuoEvent.type)) {
+        } else if ("reloadMsgZhuanFa".equals(myImEvent.type)) {
             conversationFragment.reloadZhuanFaMessage();
-        } else if ("qunxiangqing".equals(yeHuoEvent.type)) {
-            QunBroadXiangqing qunXiangqing = gson.fromJson(yeHuoEvent.params1, QunBroadXiangqing.class);
+        } else if ("qunxiangqing".equals(myImEvent.type)) {
+            QunBroadXiangqing qunXiangqing = gson.fromJson(myImEvent.params1, QunBroadXiangqing.class);
             if (qunXiangqing != null && !TextUtils.isEmpty(qunXiangqing.getGonggao())) {
                 conversationFragment.qungonggao.setVisibility(View.VISIBLE);
                 conversationFragment.gonggaoxinxi.setText("群公告：" + qunXiangqing.getGonggao());
@@ -129,26 +129,26 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                 }
             }
 
-        } else if ("xiugaigongaole".equals(yeHuoEvent.type)) {
-            if (conversation.target.equals(yeHuoEvent.params2)) {
+        } else if ("xiugaigongaole".equals(myImEvent.type)) {
+            if (conversation.target.equals(myImEvent.params2)) {
                 conversationFragment.qungonggao.setVisibility(View.VISIBLE);
-                conversationFragment.gonggaoxinxi.setText("群公告：" + yeHuoEvent.params1);
-                MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "gengxingonggaole", yeHuoEvent.params1, "", null);
+                conversationFragment.gonggaoxinxi.setText("群公告：" + myImEvent.params1);
+                MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "gengxingonggaole", myImEvent.params1, "", null);
             }
 
-        } else if ("yonghuxinxi".equals(yeHuoEvent.type)) {
-            LixinCommonBroadResult yoinghu = gson.fromJson(yeHuoEvent.params1, LixinCommonBroadResult.class);
+        } else if ("yonghuxinxi".equals(myImEvent.type)) {
+            LixinCommonBroadResult yoinghu = gson.fromJson(myImEvent.params1, LixinCommonBroadResult.class);
             if (yoinghu != null && !TextUtils.isEmpty(yoinghu.getChatImg())) {
                 conversationFragment.setConversationBackgroundImage(yoinghu.getChatImg());
             }
-        } else if ("qunxiangqingshibai".equals(yeHuoEvent.type)) {
+        } else if ("qunxiangqingshibai".equals(myImEvent.type)) {
             page_title_right_icon.setVisibility(View.GONE);
-        } else if ("xiugaifayanshijian".equals(yeHuoEvent.type)) {
+        } else if ("xiugaifayanshijian".equals(myImEvent.type)) {
             MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "huoququnxiangqing", conversation.target, "", null);
-        } else if ("beifeng".equals(yeHuoEvent.type)) {
+        } else if ("beifeng".equals(myImEvent.type)) {
             MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "beifeng", conversation.target, "", null);
-        } else if ("fajieshouzhuanzhangxiaoxi".equals(yeHuoEvent.type)) {
-            ZhuanZhangMessageContent cardMessageContent = new ZhuanZhangMessageContent(yeHuoEvent.params1, yeHuoEvent.params2, "", "1");
+        } else if ("fajieshouzhuanzhangxiaoxi".equals(myImEvent.type)) {
+            ZhuanZhangMessageContent cardMessageContent = new ZhuanZhangMessageContent(myImEvent.params1, myImEvent.params2, "", "1");
             Message msg = new Message();
             msg.conversation = conversation;
             msg.content = cardMessageContent;
@@ -169,7 +169,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
                 }
             });
-        } else if ("bushihaoyoufaxiaoxi".equals(yeHuoEvent.type)) {
+        } else if ("bushihaoyoufaxiaoxi".equals(myImEvent.type)) {
             new MaterialDialog.Builder(ConversationBroadActivity.this)
                     .content("你还不是他（她)朋友。请先发送朋友验证请求，对方验证通过后，才能聊天")
                     .negativeText("取消")
@@ -182,8 +182,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                     })
                     .build()
                     .show();
-        } else if ("huiyishi".equals(yeHuoEvent.type)) {
-            String json = yeHuoEvent.params1;
+        } else if ("huiyishi".equals(myImEvent.type)) {
+            String json = myImEvent.params1;
             MeetingInviteMessageContent inviteMessageContent =
                     new Gson().fromJson(json, MeetingInviteMessageContent.class);
             if (inviteMessageContent != null && conversationFragment != null) {
@@ -191,9 +191,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             }
 
 
-        } else if ("qunMeeting".equals(yeHuoEvent.type)) {
-            String roomId = yeHuoEvent.params1;
-            String jsonParams = yeHuoEvent.params2;
+        } else if ("qunMeeting".equals(myImEvent.type)) {
+            String roomId = myImEvent.params1;
+            String jsonParams = myImEvent.params2;
             if (conversationFragment != null) {
                 conversationFragment.qunMeetingNotice.setVisibility(roomId.isEmpty() ? View.GONE : View.VISIBLE);
                 conversationFragment.tvQunMeeting.setOnClickListener(v -> {
@@ -207,9 +207,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgReceive(EmotionBroadEvent yeHuoEvent) {
-        if ("fasongbiaoqing".equals(yeHuoEvent.type)) {
-            BiaoQingMessageContent biaoQingMessageContent = new BiaoQingMessageContent(yeHuoEvent.params);
+    public void onMsgReceive(EmotionBroadEvent myImEvent) {
+        if ("fasongbiaoqing".equals(myImEvent.type)) {
+            BiaoQingMessageContent biaoQingMessageContent = new BiaoQingMessageContent(myImEvent.params);
             Message msg = new Message();
             msg.conversation = conversation;
             msg.content = biaoQingMessageContent;

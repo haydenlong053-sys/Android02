@@ -88,13 +88,13 @@
         </HorizontalScrollView>
 
         <RelativeLayout
-            android:id="@+id/yehuobiaoqiang"
+            android:id="@+id/myImbiaoqiang"
             android:layout_width="55dp"
             android:layout_height="35dp"
             android:visibility="gone">
 
             <ImageView
-                android:id="@+id/ivyehuoIcon"
+                android:id="@+id/ivmyImIcon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerInParent="true"
