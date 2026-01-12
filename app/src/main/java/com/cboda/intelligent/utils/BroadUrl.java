@@ -6,6 +6,6 @@ package com.cboda.intelligent.utils;
  */
 
 public class BroadUrl {
-    public static String IP = "http://139.129.26.156:81/lixin2/api/";
+//    public static String IP = "http://139.129.26.156:81/lixin2/api/";
     public static String WebIP = "http://139.129.26.156:81";
 }

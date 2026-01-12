@@ -37,7 +37,7 @@ public class MyUnreadCountTextBroadView extends AppCompatTextView {
         setTextDirection(View.TEXT_DIRECTION_LTR);
         mNormalSize = dp2px(18.4f);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyUnreadCountTextView);
-        int paintColor = typedArray.getColor(R.styleable.MyUnreadCountTextView_lixin_paint_color, getResources().getColor(R.color.lixn_read_dot_bg));
+        int paintColor = typedArray.getColor(R.styleable.MyUnreadCountTextView_my_paint_color, getResources().getColor(R.color.lixn_read_dot_bg));
         typedArray.recycle();
 
         mPaint = new Paint();

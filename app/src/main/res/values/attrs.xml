@@ -2,7 +2,7 @@
 <resources>
 
     <declare-styleable name="MyUnreadCountTextView">
-        <attr name="lixin_paint_color" format="color|reference"/>
+        <attr name="my_paint_color" format="color|reference"/>
     </declare-styleable>
 
 
