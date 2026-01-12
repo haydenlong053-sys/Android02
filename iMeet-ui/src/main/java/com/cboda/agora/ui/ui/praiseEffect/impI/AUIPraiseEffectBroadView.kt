@@ -12,8 +12,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.cboda.agora.ui.R
 
 class AUIPraiseEffectBroadView : AppCompatImageView {
-    private var mHeartResId: Int = R.drawable.aui_praise_icon_1
-    private var mHeartBorderResId: Int = R.drawable.aui_praise_icon_2
+    private var mHeartResId: Int = R.drawable.aui_praise_icon_broad_1
+    private var mHeartBorderResId: Int = R.drawable.aui_praise_icon_broad_2
 
     constructor(context: Context) : this(context, null)
 

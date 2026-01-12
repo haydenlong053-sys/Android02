@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    tools:background="@drawable/aui_bg_bottom_dialog"
+    tools:background="@drawable/aui_bg_bottom_broad_dialog"
     android:theme="?attr/aui_musicPlayerPresetDialog_appearance"
     android:paddingVertical="16sp">
 

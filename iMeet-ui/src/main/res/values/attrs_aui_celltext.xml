@@ -53,7 +53,7 @@
         <item name="aui_cellText_subtitle_textColor">@color/aui_grey</item>
         <item name="aui_cellText_subtitle_textSize">17sp</item>
 
-        <item name="aui_cellText_indicator_icon">@drawable/aui_bottom_dialog_page_indicator</item>
+        <item name="aui_cellText_indicator_icon">@drawable/aui_bottom_dialog_page_broad_indicator</item>
         <item name="aui_cellText_indicator_show">false</item>
 
         <item name="aui_cellText_checkBox_show">false</item>

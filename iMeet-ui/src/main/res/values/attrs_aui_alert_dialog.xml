@@ -91,7 +91,7 @@
         <item name="aui_alertDialog_contentPaddingBottom">16dp</item>
 
         <!-- 标题 -->
-        <item name="aui_alertDialog_titleCloseIcon">@drawable/aui_ic_close</item>
+        <item name="aui_alertDialog_titleCloseIcon">@drawable/aui_ic_broad_close</item>
         <item name="aui_alertDialog_titleCloseIconSize">28dp</item>
         <item name="aui_alertDialog_titleCloseIconColor">#9599EF</item>
         <item name="aui_alertDialog_titleTextColor">@android:color/black</item>

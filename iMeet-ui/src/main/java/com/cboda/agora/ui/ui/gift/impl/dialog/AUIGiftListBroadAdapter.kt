@@ -59,7 +59,7 @@ class AUIGiftListBroadAdapter constructor(
             price?.text = giftInfo?.giftPrice
             name?.text = giftInfo?.giftName
 
-            Glide.with(context).load(giftInfo?.giftIcon).error(R.drawable.aui_gift_default_icon).into(img)
+            Glide.with(context).load(giftInfo?.giftIcon).error(R.drawable.aui_gift_default_broad_icon).into(img)
 
             selectedViewChange(giftInfo,action,name,itemLayout,selectedPosition == position)
 
@@ -84,7 +84,7 @@ class AUIGiftListBroadAdapter constructor(
             layout.background = context.let {
                 ContextCompat.getDrawable(
                     it,
-                    R.drawable.aui_gift_selected_shape_bg
+                    R.drawable.aui_gift_selected_shape_broad_bg
                 )
             }
         }else{

@@ -67,7 +67,7 @@ class AUiGiftListBroadView constructor(
         val typedArray = mContext.obtainStyledAttributes(appearanceId, R.styleable.AUIGiftBottomDialog)
         giftDialogBg = typedArray.getResourceId(
             R.styleable.AUIGiftBottomDialog_aui_giftBottomDialog_bg,
-            R.drawable.aui_gift_r20_white_bg_light
+            R.drawable.aui_gift_r20_white_bg_broad_light
         )
         mTabSelectedColor = typedArray.getResourceId(
             R.styleable.AUIGiftBottomDialog_aui_giftBottomDialog_tabLayout_title_color,

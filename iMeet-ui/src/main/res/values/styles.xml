@@ -7,15 +7,15 @@
     <!-- 弹幕默认样式 -->
     <style name="AUIChatListBroadView.Appearance">
 
-        <item name="aui_barrage_normal_title_tag_icon">@drawable/aui_icon_owner</item>
+        <item name="aui_barrage_normal_title_tag_icon">@drawable/aui_icon_broad_owner</item>
         <item name="aui_barrage_normal_title_TextColor">@color/chat_room_text_yellow</item>
         <item name="aui_barrage_normal_content_TextColor">@color/chat_room_text_white</item>
-        <item name="aui_barrage_normal_layout_bg">@drawable/bg_chat_normal_msg</item>
+        <item name="aui_barrage_normal_layout_bg">@drawable/bg_chat_normal_broad_msg</item>
 
         <item name="aui_barrage_system_title_TextColor">@color/voice_color_8bb3ff</item>
         <item name="aui_barrage_system_content_TextColor">@color/voice_color_fcf0b3</item>
-        <item name="aui_barrage_system_endIcon_resource">@drawable/aui_icon_shaking_hand</item>
-        <item name="aui_barrage_system_layout_bg">@drawable/aui_bg_barrage_system_shape_light</item>
+        <item name="aui_barrage_system_endIcon_resource">@drawable/aui_icon_shaking_broad_hand</item>
+        <item name="aui_barrage_system_layout_bg">@drawable/aui_bg_barrage_system_shape_broad_light</item>
     </style>
     <style name="AUIChatBottomView">
         <item name="aui_chatBottomView_appearance">@style/AUIChatBottomView.Appearance</item>
@@ -30,19 +30,19 @@
         <item name="aui_primary_contentPadding">7dp</item>
         <item name="aui_primary_input_width">38dp</item>
         <item name="aui_primary_input_height">38dp</item>
-        <item name="aui_primary_input_resource">@drawable/voice_icon_input</item>
-        <item name="aui_primary_input_background">@drawable/aui_chat_bottom_bar_item_bg_light</item>
+        <item name="aui_primary_input_resource">@drawable/voice_icon_broad_input</item>
+        <item name="aui_primary_input_background">@drawable/aui_chat_bottom_bar_item_bg_broad_light</item>
         <item name="aui_primary_input_marginStart">12dp</item>
         <item name="aui_primary_input_mic_width">30dp</item>
         <item name="aui_primary_input_mic_height">30dp</item>
-        <item name="aui_primary_input_mic_resource">@drawable/voice_icon_circle</item>
+        <item name="aui_primary_input_mic_resource">@drawable/voice_icon_broad_circle</item>
         <item name="aui_primary_input_layout_bg">@color/voice_white_100</item>
 
 
         <item name="aui_primary_micVisibility">gone</item>
         <item name="aui_primary_mic_marginEnd">8dp</item>
 
-        <item name="aui_primary_edit_layout_background">@drawable/aui_chat_bottom_bar_input_edit_light</item>
+        <item name="aui_primary_edit_layout_background">@drawable/aui_chat_bottom_bar_input_edit_broad_light</item>
         <item name="aui_primary_edit_layout_marginStart">18dp</item>
         <item name="aui_primary_edit_layout_marginEnd">5dp</item>
         <item name="aui_primary_edit_background">@color/voice_white</item>
@@ -52,14 +52,14 @@
         <item name="aui_primary_edit_textColor">@color/voice_black_171A1C</item>
         <item name="aui_primary_edit_hint_textColor">@color/voice_grey_919BA1</item>
 
-        <item name="aui_primary_emoji_resource">@drawable/voice_icon_face_light</item>
+        <item name="aui_primary_emoji_resource">@drawable/voice_icon_face_broad_light</item>
         <item name="aui_primary_emoji_width">28dp</item>
         <item name="aui_primary_emoji_height">28dp</item>
 
-        <item name="aui_primary_key_resource">@drawable/voice_icon_key_light</item>
+        <item name="aui_primary_key_resource">@drawable/voice_icon_key_broad_light</item>
 
 
-        <item name="aui_primary_send_background">@drawable/aui_chat_bottom_bar_send_bg</item>
+        <item name="aui_primary_send_background">@drawable/aui_chat_bottom_bar_send_broad_bg</item>
         <item name="aui_primary_send_textColor">@color/voice_white</item>
         <item name="aui_primary_send_textSize">16sp</item>
         <item name="aui_primary_send_marginEnd">15dp</item>
@@ -68,14 +68,14 @@
 
         <item name="aui_primary_expression_background">@color/voice_white_100</item>
 
-        <item name="aui_primary_tag_bg">@drawable/aui_chat_bottom_bar_item_bg_light</item>
-        <item name="aui_primary_more_status">@drawable/aui_chat_bottom_bar_more_status_bg</item>
+        <item name="aui_primary_tag_bg">@drawable/aui_chat_bottom_bar_item_bg_broad_light</item>
+        <item name="aui_primary_more_status">@drawable/aui_chat_bottom_bar_more_status_broad_bg</item>
 
     </style>
 
     <style name="AUIEmojiBroadView.Appearance" >
         <item name="aui_emoji_view_background">@color/voice_white_100</item>
-        <item name="aui_emoji_backspace">@drawable/voice_icon_backspace_light</item>
+        <item name="aui_emoji_backspace">@drawable/voice_icon_backspace_broad_light</item>
     </style>
     <style name="Theme.AppCompat.Dialog.Transparent" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -91,8 +91,8 @@
     </style>
 
     <style name="AUIAction.Appearance" >
-        <item name="aui_invitation_layout_bg">@drawable/voice_bg_rect_top_radius20_light</item>
-        <item name="aui_top_view_icon">@drawable/aui_icon_rectangle</item>
+        <item name="aui_invitation_layout_bg">@drawable/voice_bg_rect_top_radius20_broad_light</item>
+        <item name="aui_top_view_icon">@drawable/aui_icon_broad_rectangle</item>
         <item name="aui_userinfo_layout_bg">@color/aui_color_F9FAFA</item>
         <item name="aui_top_title_color">@color/aui_color_171A1C</item>
 
@@ -127,20 +127,20 @@
 
 
     <style name="AUIGiftBarrageBroadView.Appearance" >
-        <item name="aui_giftBarrage_layout_bg">@drawable/aui_gift_widget_bg_light</item>
+        <item name="aui_giftBarrage_layout_bg">@drawable/aui_gift_widget_bg_broad_light</item>
     </style>
 
     <style name="AUIGiftBottomDialog.Appearance" >
-        <item name="aui_giftBottomDialog_bg">@drawable/aui_gift_r20_white_bg_light</item>
-        <item name="aui_giftBottomDialog_topLayout_bg">@drawable/aui_gift_top_layout_bg</item>
-        <item name="aui_giftBottomDialog_topView_icon">@drawable/aui_gift_top_icon_bg_light</item>
+        <item name="aui_giftBottomDialog_bg">@drawable/aui_gift_r20_white_bg_broad_light</item>
+        <item name="aui_giftBottomDialog_topLayout_bg">@drawable/aui_gift_top_layout_broad_bg</item>
+        <item name="aui_giftBottomDialog_topView_icon">@drawable/aui_gift_top_icon_bg_broad_light</item>
         <item name="aui_giftBottomDialog_tabLayout_title_color">@color/voice_gift_black_171A1C</item>
         <item name="aui_giftBottomDialog_tabLayout_hint_title_color">@color/voice_gift_grey_ACB4B9</item>
-        <item name="aui_giftBottomDialog_tabLayout_tag_bg">@drawable/aui_gift_tablayout_tag_bg</item>
+        <item name="aui_giftBottomDialog_tabLayout_tag_bg">@drawable/aui_gift_tablayout_tag_broad_bg</item>
 
         <item name="aui_giftBottomDialog_gift_textColor">@color/voice_gift_black_171A1C</item>
         <item name="aui_giftBottomDialog_gift_subtitle_textColor">@color/voice_gift_grey_75828A</item>
-        <item name="aui_giftBottomDialog_gift_subtitle_icon">@drawable/aui_gift_icon_dollagora</item>
+        <item name="aui_giftBottomDialog_gift_subtitle_icon">@drawable/aui_gift_icon_broad_dollagora</item>
 
     </style>
     <style name="AUIJukebox">
@@ -163,14 +163,14 @@
     <style name="AUIJukebox.Appearance">
 
         <!-- 背景 -->
-        <item name="aui_jukebox_background">@drawable/aui_bg_bottom_dialog</item>
+        <item name="aui_jukebox_background">@drawable/aui_bg_bottom_broad_dialog</item>
         <!-- 最小高度 -->
         <item name="aui_jukebox_minHeight">600dp</item>
         <item name="aui_jukebox_paddingTop">18dp</item>
 
         <!-- 标题tab -->
-        <item name="aui_jukebox_tab_layout_background">@drawable/aui_jukebox_tab_layout_bg</item>
-        <item name="aui_jukebox_tab_background">@drawable/aui_jukebox_tab_bg</item>
+        <item name="aui_jukebox_tab_layout_background">@drawable/aui_jukebox_tab_layout_broad_bg</item>
+        <item name="aui_jukebox_tab_background">@drawable/aui_jukebox_tab_broad_bg</item>
         <item name="aui_jukebox_titleTabChooseText">@string/aui_jukebox_title_choose_song</item>
         <item name="aui_jukebox_titleTabChosenText">@string/aui_jukebox_title_chosen_song</item>
         <item name="aui_jukebox_titleTabMode">scrollable</item>
@@ -193,13 +193,13 @@
     <style name="AUIJukeboxChoose.Appearance">
 
         <!-- 搜索输入框 -->
-        <item name="aui_jukeboxChoose_searchBackground">@drawable/aui_jukebox_search_bg</item>
+        <item name="aui_jukeboxChoose_searchBackground">@drawable/aui_jukebox_search_broad_bg</item>
         <item name="aui_jukeboxChoose_searchPaddingHorizontal">16dp</item>
         <item name="aui_jukeboxChoose_searchPaddingVertical">8dp</item>
         <item name="aui_jukeboxChoose_searchMarginHorizontal">16dp</item>
         <item name="aui_jukeboxChoose_searchMarginVertical">12dp</item>
-        <item name="aui_jukeboxChoose_searchIcon">@drawable/aui_jukebox_choose_icon_search</item>
-        <item name="aui_jukeboxChoose_searchCloseIcon">@drawable/aui_jukebox_choose_icon_close</item>
+        <item name="aui_jukeboxChoose_searchIcon">@drawable/aui_jukebox_choose_icon_broad_search</item>
+        <item name="aui_jukeboxChoose_searchCloseIcon">@drawable/aui_jukebox_choose_icon_broad_close</item>
         <item name="aui_jukeboxChoose_searchHintText">@string/aui_jukebox_search_hint</item>
         <item name="aui_jukeboxChoose_searchHintTextColor">#59FFFFFF</item>
         <item name="aui_jukeboxChoose_searchTextSize">17sp</item>
@@ -210,14 +210,14 @@
         <item name="aui_jukeboxChoose_categoryTabHeight">44dp</item>
         <item name="aui_jukeboxChoose_categoryTabMode">scrollable</item>
         <item name="aui_jukeboxChoose_categoryTabGravity">center</item>
-        <item name="aui_jukeboxChoose_categoryTabIndicator">@drawable/aui_jukebox_tab_indicator</item>
+        <item name="aui_jukeboxChoose_categoryTabIndicator">@drawable/aui_jukebox_tab_broad_indicator</item>
         <item name="aui_jukeboxChoose_categoryTabTextSize">14sp</item>
         <item name="aui_jukeboxChoose_categoryTabTextColor">#80FFFFFF</item>
         <item name="aui_jukeboxChoose_categoryTabSelectedTextColor">#FFFFFF</item>
-        <item name="aui_jukeboxChoose_categoryTabDivider">@drawable/aui_jukebox_divider</item>
+        <item name="aui_jukeboxChoose_categoryTabDivider">@drawable/aui_jukebox_broad_divider</item>
 
         <!-- 列表分隔线 -->
-        <item name="aui_jukeboxChoose_listDivider">@drawable/aui_jukebox_divider</item>
+        <item name="aui_jukeboxChoose_listDivider">@drawable/aui_jukebox_broad_divider</item>
         <item name="aui_jukeboxChoose_listPaddingHorizontal">16dp</item>
 
     </style>
@@ -230,7 +230,7 @@
         <item name="aui_jukeboxChooseItem_coverWidth">56dp</item>
         <item name="aui_jukeboxChooseItem_coverHeight">56dp</item>
         <item name="aui_jukeboxChooseItem_coverCircleRadius">8dp</item>
-        <item name="aui_jukeboxChooseItem_coverDefaultImg">@drawable/aui_jukebox_song_cover_default</item>
+        <item name="aui_jukeboxChooseItem_coverDefaultImg">@drawable/aui_jukebox_song_cover_broad_default</item>
 
         <!-- 歌词名 -->
         <item name="aui_jukeboxChooseItem_songNameTextColor">@color/aui_black</item>
@@ -245,7 +245,7 @@
         <!-- 点歌/已点(no check / checked)按钮 -->
         <item name="aui_jukeboxChooseItem_buttonWidth">80dp</item>
         <item name="aui_jukeboxChooseItem_buttonHeight">38dp</item>
-        <item name="aui_jukeboxChooseItem_buttonBackground">@drawable/aui_jukebox_choose_song_btn</item>
+        <item name="aui_jukeboxChooseItem_buttonBackground">@drawable/aui_jukebox_choose_song_broad_btn</item>
         <item name="aui_jukeboxChooseItem_buttonTextColor">@color/aui_jukebox_choose_song_text_color</item>
         <item name="aui_jukeboxChooseItem_buttonTextSize">14sp</item>
         <item name="aui_jukeboxChooseItem_buttonText">@string/aui_jukebox_song_choose</item>
@@ -257,7 +257,7 @@
     <style name="AUIJukeboxChosen.Appearance">
 
         <!-- 列表分隔线 -->
-        <item name="aui_jukeboxChosen_listDivider">@drawable/aui_jukebox_divider</item>
+        <item name="aui_jukeboxChosen_listDivider">@drawable/aui_jukebox_broad_divider</item>
         <item name="aui_jukeboxChosen_listPaddingHorizontal">16dp</item>
 
     </style>
@@ -275,7 +275,7 @@
         <item name="aui_jukeboxChosenItem_coverWidth">56dp</item>
         <item name="aui_jukeboxChosenItem_coverHeight">56dp</item>
         <item name="aui_jukeboxChosenItem_coverCircleRadius">8dp</item>
-        <item name="aui_jukeboxChosenItem_coverDefaultImg">@drawable/aui_jukebox_song_cover_default</item>
+        <item name="aui_jukeboxChosenItem_coverDefaultImg">@drawable/aui_jukebox_song_cover_broad_default</item>
 
         <!-- 歌词名 -->
         <item name="aui_jukeboxChosenItem_songNameTextColor">@color/aui_black</item>
@@ -290,14 +290,14 @@
         <item name="aui_jukeboxChosenItem_singerChorusText">@string/aui_jukebox_sing_chorus</item>
 
         <!-- 演唱中图标 -->
-        <item name="aui_jukeboxChosenItem_playingTagSrc">@drawable/aui_jukebox_playing_tag_icon</item>
+        <item name="aui_jukeboxChosenItem_playingTagSrc">@drawable/aui_jukebox_playing_tag_broad_icon</item>
         <item name="aui_jukeboxChosenItem_playingTagPadding">0dp</item>
         <item name="aui_jukeboxChosenItem_playingTagWidth">wrap_content</item>
         <item name="aui_jukeboxChosenItem_playingTagHeight">wrap_content</item>
         <item name="aui_jukeboxChosenItem_playingTagLocation">aboveOrder</item>
 
         <!-- 演唱中按钮 -->
-        <item name="aui_jukeboxChosenItem_playingBtnBackground">@drawable/aui_jukebox_playing_icon</item>
+        <item name="aui_jukeboxChosenItem_playingBtnBackground">@drawable/aui_jukebox_playing_broad_icon</item>
         <item name="aui_jukeboxChosenItem_playingBtnText">@null</item>
         <item name="aui_jukeboxChosenItem_playingBtnTextSize">14sp</item>
         <item name="aui_jukeboxChosenItem_playingBtnTextColor">#00A2F4</item>
@@ -305,7 +305,7 @@
         <item name="aui_jukeboxChosenItem_playingBtnHeight">wrap_content</item>
 
         <!-- 删除按钮 -->
-        <item name="aui_jukeboxChosenItem_deleteBtnBackground">@drawable/aui_jukebox_delete_icon</item>
+        <item name="aui_jukeboxChosenItem_deleteBtnBackground">@drawable/aui_jukebox_delete_broad_icon</item>
         <item name="aui_jukeboxChosenItem_deleteBtnText">@null</item>
         <item name="aui_jukeboxChosenItem_deleteBtnTextSize">16sp</item>
         <item name="aui_jukeboxChosenItem_deleteBtnTextColor">#00A2F4</item>
@@ -313,7 +313,7 @@
         <item name="aui_jukeboxChosenItem_deleteBtnHeight">wrap_content</item>
 
         <!-- 置顶按钮 -->
-        <item name="aui_jukeboxChosenItem_topBtnBackground">@drawable/aui_jukebox_top_icon</item>
+        <item name="aui_jukeboxChosenItem_topBtnBackground">@drawable/aui_jukebox_top_broad_icon</item>
         <item name="aui_jukeboxChosenItem_topBtnText">@null</item>
         <item name="aui_jukeboxChosenItem_topBtnTextSize">16sp</item>
         <item name="aui_jukeboxChosenItem_topBtnTextColor">#00A2F4</item>
@@ -342,7 +342,7 @@
         <item name="aui_upperRight_member_count_width">26dp</item>
         <item name="aui_upperRight_member_count_height">26dp</item>
         <item name="aui_upperRight_member_spacing">2dp</item>
-        <item name="aui_upperRight_default_member_bg">@drawable/aui_member_item_light_bg</item>
+        <item name="aui_upperRight_default_member_bg">@drawable/aui_member_item_light_broad_bg</item>
 
         <item name="aui_upperRight_count_max_width">50dp</item>
         <item name="aui_upperRight_count_min_width">40dp</item>
@@ -355,17 +355,17 @@
         <item name="aui_upperRight_count_paddingHorizontal">4dp</item>
         <item name="aui_upperRight_count_paddingVertical">6dp</item>
 
-        <item name="aui_upperRight_count_background">@drawable/aui_member_count_dark_bg</item>
+        <item name="aui_upperRight_count_background">@drawable/aui_member_count_dark_broad_bg</item>
 
         <!-- 更多用户 -->
-        <item name="aui_roomMoreUser_drawable">@mipmap/aui_member_icon_arrow</item>
+        <item name="aui_roomMoreUser_drawable">@mipmap/aui_member_icon_broad_arrow</item>
         <item name="aui_roomMoreUser_Visibility">visible</item>
         <item name="aui_roomMoreUser_width">32dp</item>
         <item name="aui_roomMoreUser_height">32dp</item>
         <item name="aui_roomMoreUser_marginStart">4dp</item>
 
         <!-- 关闭 -->
-        <item name="aui_roomClose_drawable">@mipmap/aui_member_icon_shutdown</item>
+        <item name="aui_roomClose_drawable">@mipmap/aui_member_icon_broad_shutdown</item>
         <item name="aui_roomClose_Visibility">visible</item>
         <item name="aui_roomClose_width">36dp</item>
         <item name="aui_roomClose_height">36dp</item>
@@ -409,15 +409,15 @@
         <item name="aui_micSeatItem_dimensionRatio">9:10</item>
 
         <!-- 麦位座位 -->
-        <item name="aui_micSeatItem_seatBackground">@drawable/aui_micseat_item_seat_bg_normal</item>
-        <item name="aui_micSeatItem_seatIconIdle">@drawable/aui_micseat_item_icon_idle</item>
-        <item name="aui_micSeatItem_seatIconLock">@drawable/aui_micseat_item_icon_lock</item>
+        <item name="aui_micSeatItem_seatBackground">@drawable/aui_micseat_item_seat_bg_broad_normal</item>
+        <item name="aui_micSeatItem_seatIconIdle">@drawable/aui_micseat_item_icon_broad_idle</item>
+        <item name="aui_micSeatItem_seatIconLock">@drawable/aui_micseat_item_icon_broad_lock</item>
         <item name="aui_micSeatItem_seatIconMargin">0dp</item>
         <item name="aui_micSeatItem_seatIconDimensionRatio">1:1</item>
 
         <!-- 麦位静音图标 -->
-        <item name="aui_micSeatItem_audioMuteIcon">@drawable/aui_micseat_item_icon_auido_mute</item>
-        <item name="aui_micSeatItem_videoMuteIcon">@drawable/aui_micseat_item_icon_video_mute</item>
+        <item name="aui_micSeatItem_audioMuteIcon">@drawable/aui_micseat_item_icon_auido_broad_mute</item>
+        <item name="aui_micSeatItem_videoMuteIcon">@drawable/aui_micseat_item_icon_video_broad_mute</item>
         <item name="aui_micSeatItem_audioMuteIconWidth">wrap_content</item>
         <item name="aui_micSeatItem_audioMuteIconHeight">wrap_content</item>
         <item name="aui_micSeatItem_audioMuteIconGravity">bottomEnd</item>
@@ -428,7 +428,7 @@
         <item name="aui_micSeatItem_roomOwnerText">@string/aui_micseat_roomowner</item>
         <item name="aui_micSeatItem_roomOwnerTextSize">9sp</item>
         <item name="aui_micSeatItem_roomOwnerTextColor">@color/voice_white_80</item>
-        <item name="aui_micSeatItem_roomOwnerBackground">@drawable/aui_micseat_item_roomowner_bg_shape</item>
+        <item name="aui_micSeatItem_roomOwnerBackground">@drawable/aui_micseat_item_roomowner_bg_broad_shape</item>
         <item name="aui_micSeatItem_roomOwnerPaddingHorizontal">4dp</item>
         <item name="aui_micSeatItem_roomOwnerPaddingVertical">1dp</item>
 
@@ -438,13 +438,13 @@
         <item name="aui_micSeatItem_titleTextColor">@color/voice_white_80</item>
 
         <!-- 麦位合唱 -->
-        <item name="aui_micSeatItem_chorusIcon">@drawable/aui_micseat_item_icon_chorus</item>
+        <item name="aui_micSeatItem_chorusIcon">@drawable/aui_micseat_item_icon_broad_chorus</item>
         <item name="aui_micSeatItem_chorusText">@string/aui_micseat_chorus</item>
         <item name="aui_micSeatItem_chorusTextColor">@android:color/white</item>
         <item name="aui_micSeatItem_chorusTextSize">12sp</item>
 
         <!-- 麦位主唱 -->
-        <item name="aui_micSeatItem_leadSingerIcon">@drawable/aui_micseat_item_icon_leadsinger</item>
+        <item name="aui_micSeatItem_leadSingerIcon">@drawable/aui_micseat_item_icon_broad_leadsinger</item>
         <item name="aui_micSeatItem_leadSingerText">@string/aui_micseat_leadsinger</item>
         <item name="aui_micSeatItem_leadSingerTextColor">@android:color/white</item>
         <item name="aui_micSeatItem_leadSingerTextSize">12sp</item>
@@ -453,7 +453,7 @@
     <!-- 麦位弹窗默认样式 -->
     <style name="AUIMicSeatDialog.Appearance">
 
-        <item name="aui_micSeatDialog_background">@drawable/aui_bg_bottom_dialog</item>
+        <item name="aui_micSeatDialog_background">@drawable/aui_bg_bottom_broad_dialog</item>
         <item name="aui_micSeatDialog_marginTop">0dp</item>
         <item name="aui_micSeatDialog_padding">20dp</item>
 
@@ -464,7 +464,7 @@
         <item name="aui_micSeatDialog_titleTextColor">#171A1C</item>
 
         <!-- 用户头像 -->
-        <item name="aui_micSeatDialog_userAvatarIdle">@drawable/aui_micseat_dialog_avatar_idle</item>
+        <item name="aui_micSeatDialog_userAvatarIdle">@drawable/aui_micseat_dialog_avatar_broad_idle</item>
         <item name="aui_micSeatDialog_userAvatarWidth">60dp</item>
         <item name="aui_micSeatDialog_userAvatarHeight">60dp</item>
 
@@ -481,7 +481,7 @@
 
         <!-- 操作按钮 -->
         <item name="aui_micSeatDialog_buttonsOrientation">vertical</item>
-        <item name="aui_micSeatDialog_buttonsDivider">@drawable/aui_micseat_dialog_btn_divider</item>
+        <item name="aui_micSeatDialog_buttonsDivider">@drawable/aui_micseat_dialog_btn_broad_divider</item>
         <item name="aui_micSeatDialog_buttonsDividerColor">#E3E6E8</item>
         <item name="aui_micSeatDialog_buttonsDividerPadding">0dp</item>
         <item name="aui_micSeatDialog_buttonsMarginTop">10dp</item>
@@ -526,7 +526,7 @@
         <item name="aui_musicPlayer_backgroundColor">@color/aui_white_20_percent</item>
         <item name="aui_musicPlayer_minHeight">282dp</item>
         <item name="aui_musicPlayer_cornerRadius">24dp</item>
-        <item name="aui_musicPlayer_titleIcon">@drawable/aui_musicplayer_active_songname_icon</item>
+        <item name="aui_musicPlayer_titleIcon">@drawable/aui_musicplayer_active_songname_broad_icon</item>
         <item name="aui_musicPlayer_titleTextColor">@android:color/white</item>
         <item name="aui_musicPlayer_titleTextSize">12sp</item>
         <item name="aui_musicPlayer_cumulativeScoreTextSize">12sp</item>
@@ -535,17 +535,17 @@
         <item name="aui_musicPlayer_lineScoreTextColor">@android:color/white</item>
 
         <!--  未点歌  start    -->
-        <item name="aui_musicPlayer_idleIcon">@drawable/aui_musicplayer_bg_icon</item>
+        <item name="aui_musicPlayer_idleIcon">@drawable/aui_musicplayer_bg_broad_icon</item>
         <item name="aui_musicPlayer_idleTextColor">@color/aui_white</item>
         <item name="aui_musicPlayer_idleTextSize">14sp</item>
         <item name="aui_musicPlayer_idleOrderText">@string/aui_musicplayer_choose_song</item>
         <item name="aui_musicPlayer_idleOrderTextColor">@android:color/white</item>
         <item name="aui_musicPlayer_idleOrderTextSize">14sp</item>
-        <item name="aui_musicPlayer_idleOrderBackground">@drawable/aui_button_normal</item>
+        <item name="aui_musicPlayer_idleOrderBackground">@drawable/aui_button_broad_normal</item>
         <!--  未点歌  end    -->
 
         <!--  歌曲加载中  start    -->
-        <item name="aui_musicPlayer_prepareIcon">@drawable/aui_musicplayer_prepare</item>
+        <item name="aui_musicPlayer_prepareIcon">@drawable/aui_musicplayer_broad_prepare</item>
         <item name="aui_musicPlayer_prepareTextColor">@android:color/white</item>
         <item name="aui_musicPlayer_prepareTextSize">14sp</item>
         <!--  歌曲加载中  end    -->
@@ -553,14 +553,14 @@
         <!--  已点歌 start-->
         <item name="aui_musicPlayer_activeTextSize">10sp</item>
         <item name="aui_musicPlayer_activeTextColor">#BFFFFFFF</item>
-        <item name="aui_musicPlayer_activeStartIcon">@drawable/aui_musicplayer_active_start_selector</item>
-        <item name="aui_musicPlayer_activeSwitchIcon">@drawable/aui_musicplayer_switch_song</item>
-        <item name="aui_musicPlayer_activeChooseIcon">@drawable/aui_musicplayer_choose_song</item>
-        <item name="aui_musicPlayer_activeLeaveChorusIcon">@drawable/aui_musicplayer_leave_chorus</item>
-        <item name="aui_musicPlayer_activeVoiceSettingsIcon">@drawable/aui_musicplayer_voice_controller</item>
-        <item name="aui_musicPlayer_activeMusicPresetIcon">@drawable/aui_musicplayer_voice_preset</item>
-        <item name="aui_musicPlayer_activeSwitchOriginalIcon">@drawable/aui_musicplayer_active_original_selector</item>
-        <item name="aui_musicPlayer_activeJoinChorusBackground">@drawable/aui_button_normal</item>
+        <item name="aui_musicPlayer_activeStartIcon">@drawable/aui_musicplayer_active_start_broad_selector</item>
+        <item name="aui_musicPlayer_activeSwitchIcon">@drawable/aui_musicplayer_switch_broad_song</item>
+        <item name="aui_musicPlayer_activeChooseIcon">@drawable/aui_musicplayer_choose_broad_song</item>
+        <item name="aui_musicPlayer_activeLeaveChorusIcon">@drawable/aui_musicplayer_leave_broad_chorus</item>
+        <item name="aui_musicPlayer_activeVoiceSettingsIcon">@drawable/aui_musicplayer_voice_broad_controller</item>
+        <item name="aui_musicPlayer_activeMusicPresetIcon">@drawable/aui_musicplayer_voice_broad_preset</item>
+        <item name="aui_musicPlayer_activeSwitchOriginalIcon">@drawable/aui_musicplayer_active_original_broad_selector</item>
+        <item name="aui_musicPlayer_activeJoinChorusBackground">@drawable/aui_button_broad_normal</item>
         <item name="aui_musicPlayer_activeJoinChorusTextColor">@android:color/white</item>
         <item name="aui_musicPlayer_activeJoinChorusTextSize">14sp</item>
         <item name="aui_musicPlayer_activeSkipTextColor">@android:color/white</item>
@@ -577,17 +577,17 @@
 
     <!-- 音效默认样式 -->
     <style name="AUIMusicPlayerControllerDialog.Appearance">
-        <item name="aui_musicPlayerControllerDialog_background">@drawable/aui_bg_bottom_dialog</item>
+        <item name="aui_musicPlayerControllerDialog_background">@drawable/aui_bg_bottom_broad_dialog</item>
         <item name="aui_musicPlayerControllerDialog_titleTextSize">16sp</item>
         <item name="aui_musicPlayerControllerDialog_titleTextColor">@color/aui_black</item>
         <item name="aui_musicPlayerControllerDialog_subTitleTextColor">@color/aui_black_light</item>
         <item name="aui_musicPlayerControllerDialog_subTitleTextSize">14sp</item>
         <item name="aui_musicPlayerControllerDialog_dividerColor">@color/aui_grey_lighter</item>
         <item name="aui_musicPlayerControllerDialog_dividerHeight">0.5dp</item>
-        <item name="aui_musicPlayerControllerDialog_switch_thumb">@drawable/aui_switch_thumb</item>
-        <item name="aui_musicPlayerControllerDialog_switch_track">@drawable/aui_switch_track_selector</item>
-        <item name="aui_musicPlayerControllerDialog_seekbarProgressDrawable">@drawable/aui_musicplayer_seekbar_progress</item>
-        <item name="aui_musicPlayerControllerDialog_seekbarThumb">@drawable/aui_musicplayer_seekbar_thumb</item>
+        <item name="aui_musicPlayerControllerDialog_switch_thumb">@drawable/aui_switch_broad_thumb</item>
+        <item name="aui_musicPlayerControllerDialog_switch_track">@drawable/aui_switch_track_broad_selector</item>
+        <item name="aui_musicPlayerControllerDialog_seekbarProgressDrawable">@drawable/aui_musicplayer_seekbar_broad_progress</item>
+        <item name="aui_musicPlayerControllerDialog_seekbarThumb">@drawable/aui_musicplayer_seekbar_broad_thumb</item>
     </style>
 
     <!-- 音效item样式 -->
@@ -660,8 +660,8 @@
         <item name="aui_upperLeft_rightIcon_Visibility">visible</item>
         <item name="aui_upperLeft_rightIcon_bg_Visibility">visible</item>
 
-        <item name="aui_upperLeft_right_icon_idle">@drawable/aui_room_info_default_right_icon</item>
-        <item name="aui_upperLeft_right_icon_background">@drawable/aui_room_info_icon_bg</item>
+        <item name="aui_upperLeft_right_icon_idle">@drawable/aui_room_info_default_right_broad_icon</item>
+        <item name="aui_upperLeft_right_icon_background">@drawable/aui_room_info_icon_broad_bg</item>
 
         <item name="aui_upperLeft_icon_width">20dp</item>
         <item name="aui_upperLeft_icon_height">20dp</item>

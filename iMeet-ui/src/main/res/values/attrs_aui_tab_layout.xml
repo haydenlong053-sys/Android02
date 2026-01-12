@@ -105,17 +105,17 @@
         <item name="aui_tabLayout_tabGravity">fill</item>
 
         <!-- 指示器 -->
-        <item name="aui_tabLayout_indicator">@drawable/aui_tab_layout_indicator</item>
+        <item name="aui_tabLayout_indicator">@drawable/aui_tab_layout_broad_indicator</item>
         <item name="aui_tabLayout_indicatorFullWidth">false</item>
         <item name="aui_tabLayout_indicatorGravity">bottom</item>
 
 
         <!-- 分隔线 -->
-        <item name="aui_tabLayout_divider">@drawable/aui_tab_layout_divider</item>
+        <item name="aui_tabLayout_divider">@drawable/aui_tab_layout_broad_divider</item>
         <item name="aui_tabLayout_dividerHeight">1dp</item>
 
         <!-- ====== Menu配置 ====== -->
-        <item name="aui_tabLayout_menu">@menu/aui_tab_menu</item>
+        <item name="aui_tabLayout_menu">@menu/aui_tab_broad_menu</item>
         <item name="aui_tabLayout_menu_appearance">@style/AUITabLayoutBroadMenu</item>
 
     </style>
@@ -158,10 +158,10 @@
     </style>
 
     <style name="AUITabBroadLayout.Round">
-        <item name="android:background">@drawable/aui_tab_layout_round_background</item>
+        <item name="android:background">@drawable/aui_tab_layout_round_broad_background</item>
         <item name="android:padding">1dp</item>
         <item name="aui_tabLayout_dividerHeight">0dp</item>
-        <item name="aui_tabLayout_indicator">@drawable/aui_tab_layout_round_indicator</item>
+        <item name="aui_tabLayout_indicator">@drawable/aui_tab_layout_round_broad_indicator</item>
         <item name="aui_tabLayout_indicatorFullWidth">true</item>
         <item name="aui_tabLayout_indicatorGravity">stretch</item>
         <item name="aui_tabLayout_menu_appearance">@style/AUITabLayoutBroadMenu.Round</item>

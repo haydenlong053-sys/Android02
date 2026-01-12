@@ -25,7 +25,7 @@
         android:id="@+id/iv_effect_inner"
         android:layout_width="?attr/aui_musicPlayerEffectPresetItem_innerIconSize"
         android:layout_height="?attr/aui_musicPlayerEffectPresetItem_innerIconSize"
-        android:src="@drawable/aui_musicplayer_preset_none"
+        android:src="@drawable/aui_musicplayer_preset_broad_none"
         app:contentPadding="2dp"
         app:layout_constraintBottom_toBottomOf="@id/iv_effect_out"
         app:layout_constraintEnd_toEndOf="@id/iv_effect_out"

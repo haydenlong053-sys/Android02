@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="38dp" />
 
-    <com.cboda.agora.ui.micseats.impl.AUIMicSeatsBroadView
+    <com.cboda.agora.ui.ui.micseats.impl.AUIMicSeatsBroadView
         android:id="@+id/micSeatsView"
         app:layout_constraintTop_toBottomOf="@+id/leftView"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.cboda.agora.ui.micseats.impl.AUIMicSeatCircleBroadLayout
+    <com.cboda.agora.ui.ui.micseats.impl.AUIMicSeatCircleBroadLayout
         android:id="@+id/micSeatsCircleView"
         app:layout_constraintTop_toBottomOf="@+id/leftView"
         android:layout_width="297dp"
@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.cboda.agora.ui.micseats.impl.AUIMicSeatHostAudienceBroadLayout
+    <com.cboda.agora.ui.ui.micseats.impl.AUIMicSeatHostAudienceBroadLayout
         android:id="@+id/micSeatsHostView"
         app:layout_constraintTop_toBottomOf="@+id/leftView"
         app:layout_constraintEnd_toEndOf="parent"

@@ -104,7 +104,7 @@
             style="@style/ShapeAppearance.MaterialComponents.RoundComponent"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/voice_icon_mic_on"
+            android:src="@drawable/voice_icon_mic_broad_on"
             android:visibility="gone"
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"

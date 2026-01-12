@@ -137,23 +137,23 @@ class AUIChatBottomBarBroadView : RelativeLayout,
         val typedArray = context.obtainStyledAttributes(appearanceId, R.styleable.AUIChatBottomView)
         mMenuWidth = typedArray.getDimensionPixelSize(R.styleable.AUIChatBottomView_aui_primary_menuWidth, DeviceBroadTools.dp2px(context, 38f))
         mMenuHeight = typedArray.getDimensionPixelSize(R.styleable.AUIChatBottomView_aui_primary_menuHeight, DeviceBroadTools.dp2px(context, 38f))
-        mMenuMicOn = typedArray.getResourceId(R.styleable.AUIChatBottomView_aui_primary_menuMicOn, R.drawable.voice_icon_mic_on)
-        mMenuMicOff = typedArray.getResourceId(R.styleable.AUIChatBottomView_aui_primary_menuMicOff, R.drawable.voice_icon_mic_off)
+        mMenuMicOn = typedArray.getResourceId(R.styleable.AUIChatBottomView_aui_primary_menuMicOn, R.drawable.voice_icon_mic_broad_on)
+        mMenuMicOff = typedArray.getResourceId(R.styleable.AUIChatBottomView_aui_primary_menuMicOff, R.drawable.voice_icon_mic_broad_off)
         mTagIconBg = typedArray.getResourceId(
             R.styleable.AUIChatBottomView_aui_primary_tag_bg,
-            R.drawable.aui_chat_bottom_bar_item_bg_light
+            R.drawable.aui_chat_bottom_bar_item_bg_broad_light
         )
         mMoreStatusBg = typedArray.getResourceId(
             R.styleable.AUIChatBottomView_aui_primary_more_status,
-            R.drawable.aui_chat_bottom_bar_more_status_bg
+            R.drawable.aui_chat_bottom_bar_more_status_broad_bg
         )
         mFaceIcon = typedArray.getResourceId(
             R.styleable.AUIChatBottomView_aui_primary_emoji_resource,
-            R.drawable.voice_icon_face_light
+            R.drawable.voice_icon_face_broad_light
         )
         mKeyIcon = typedArray.getResourceId(
             R.styleable.AUIChatBottomView_aui_primary_key_resource,
-            R.drawable.voice_icon_key_light
+            R.drawable.voice_icon_key_broad_light
         )
         emojiViewBg = typedArray.getResourceId(
             R.styleable.AUIChatBottomView_aui_primary_expression_background,
@@ -165,10 +165,10 @@ class AUIChatBottomBarBroadView : RelativeLayout,
         mViewBinding.inputIcon.visibility = VISIBLE
         mViewBinding.menuLayout.visibility = VISIBLE
         mViewBinding.iconEmoji.setImageResource(mFaceIcon)
-        registerMenuItem(R.drawable.voice_icon_more, R.id.voice_extend_item_more)
+        registerMenuItem(R.drawable.voice_icon_broad_more, R.id.voice_extend_item_more)
         registerMenuItem(mMenuMicOn, R.id.voice_extend_item_mic)
-        registerMenuItem(R.drawable.voice_icon_gift, R.id.voice_extend_item_gift)
-        registerMenuItem(R.drawable.voice_icon_like, R.id.voice_extend_item_like)
+        registerMenuItem(R.drawable.voice_icon_broad_gift, R.id.voice_extend_item_gift)
+        registerMenuItem(R.drawable.voice_icon_broad_like, R.id.voice_extend_item_like)
         refreshMenuLayout()
     }
 

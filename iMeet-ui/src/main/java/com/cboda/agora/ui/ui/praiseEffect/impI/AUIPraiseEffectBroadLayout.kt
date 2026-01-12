@@ -58,7 +58,7 @@ class AUIPraiseEffectBroadLayout : RelativeLayout, View.OnClickListener, IAUIPra
     private fun findViewById(context: Context) {
         val view = LayoutInflater.from(context).inflate(R.layout.aui_praise_effect_broad_layout, this)
         imageView = view.findViewById<AUIImageBroadView>(R.id.img)
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.voice_icon_like)
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.voice_icon_broad_like)
         dHeight = bitmap.width
         dWidth = bitmap.height
         textHight = sp2px(getContext(), 20f) + dHeight / 2
@@ -144,12 +144,12 @@ class AUIPraiseEffectBroadLayout : RelativeLayout, View.OnClickListener, IAUIPra
     }
 
     private val defaultDrawableIds = intArrayOf(
-        R.drawable.aui_praise_icon_1,
-        R.drawable.aui_praise_icon_2,
-        R.drawable.aui_praise_icon_3,
-        R.drawable.aui_praise_icon_4,
-        R.drawable.aui_praise_icon_5,
-        R.drawable.aui_praise_icon_6
+        R.drawable.aui_praise_icon_broad_1,
+        R.drawable.aui_praise_icon_broad_2,
+        R.drawable.aui_praise_icon_broad_3,
+        R.drawable.aui_praise_icon_broad_4,
+        R.drawable.aui_praise_icon_broad_5,
+        R.drawable.aui_praise_icon_broad_6
     )
 
     override fun setDrawableIds(drawableIds: Array<Int>){

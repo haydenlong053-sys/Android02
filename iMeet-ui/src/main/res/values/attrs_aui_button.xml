@@ -70,7 +70,7 @@
         <item name="android:paddingTop">@null</item>
         <item name="android:paddingBottom">@null</item>
 
-        <item name="aui_button_background">@drawable/aui_button_normal</item>
+        <item name="aui_button_background">@drawable/aui_button_broad_normal</item>
 
         <item name="aui_button_textSize">16sp</item>
         <item name="aui_button_textNormalColor">@color/aui_white</item>
@@ -105,7 +105,7 @@
     </style>
 
     <style name="AUIBroadButton.Stroke">
-        <item name="aui_button_background">@drawable/aui_button_stroke</item>
+        <item name="aui_button_background">@drawable/aui_button_broad_stroke</item>
         <item name="aui_button_textNormalColor">#464E53</item>
         <item name="aui_button_textPressedColor">#009EFF</item>
         <item name="aui_button_textDisableColor">#C8CDD0</item>
@@ -126,7 +126,7 @@
     </style>
 
     <style name="AUIBroadButton.Mini.Stroke">
-        <item name="aui_button_background">@drawable/aui_button_stroke</item>
+        <item name="aui_button_background">@drawable/aui_button_broad_stroke</item>
         <item name="aui_button_textNormalColor">#464E53</item>
         <item name="aui_button_textPressedColor">#009EFF</item>
         <item name="aui_button_textDisableColor">#C8CDD0</item>
@@ -150,7 +150,7 @@
     </style>
 
     <style name="AUIBroadButton.Circle.Stroke">
-        <item name="aui_button_background">@drawable/aui_button_stroke</item>
+        <item name="aui_button_background">@drawable/aui_button_broad_stroke</item>
         <item name="aui_button_textNormalColor">#464E53</item>
         <item name="aui_button_textPressedColor">#009EFF</item>
         <item name="aui_button_textDisableColor">#C8CDD0</item>

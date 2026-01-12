@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="?attr/aui_micSeatItem_seatIconMargin"
-            android:src="@drawable/aui_micseat_item_icon_lock"
+            android:src="@drawable/aui_micseat_item_icon_broad_lock"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/bg_seat"
             app:layout_constraintDimensionRatio="?attr/aui_micSeatItem_seatIconDimensionRatio"
@@ -63,7 +63,7 @@
             app:layout_constraintStart_toStartOf="@id/bg_seat"
             app:layout_constraintTop_toTopOf="@id/bg_seat" />
 
-        <com.cboda.agora.ui.micseats.impl.AUIRippleAnimationBroadView
+        <com.cboda.agora.ui.ui.micseats.impl.AUIRippleAnimationBroadView
             android:id="@+id/iv_ripple"
             app:layout_constraintBottom_toBottomOf="@id/bg_seat"
             app:layout_constraintEnd_toEndOf="@id/bg_seat"
@@ -152,7 +152,7 @@
                android:layout_width="10dp"
                android:visibility="gone"
                android:layout_height="10dp"
-               android:src="@drawable/ic_seat_mic_off"/>
+               android:src="@drawable/ic_seat_mic_broad_off"/>
        </LinearLayout>
 
             <FrameLayout

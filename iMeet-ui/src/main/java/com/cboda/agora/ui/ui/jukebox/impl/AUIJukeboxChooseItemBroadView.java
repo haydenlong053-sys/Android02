@@ -62,6 +62,6 @@ public class AUIJukeboxChooseItemBroadView extends FrameLayout {
     }
 
     public void setSongCover(@Nullable CharSequence songCover){
-        Glide.with(shapeableIvCover).load(songCover).error(R.drawable.aui_jukebox_music_icon).into(shapeableIvCover);
+        Glide.with(shapeableIvCover).load(songCover).error(R.drawable.aui_jukebox_music_broad_icon).into(shapeableIvCover);
     }
 }

@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/home"
-        android:icon="@drawable/aui_ic_nav_home"
+        android:icon="@drawable/aui_ic_nav_broad_home"
         android:title="@string/aui_home" />
 
     <item
         android:id="@+id/message"
-        android:icon="@drawable/aui_ic_nav_msg"
+        android:icon="@drawable/aui_ic_nav_broad_msg"
         android:title="@string/aui_message"
         app:aui_navigationBarMenu_dotText="88" />
 
     <item
         android:id="@+id/floating"
-        android:icon="@drawable/aui_ic_nav_floating"
+        android:icon="@drawable/aui_ic_nav_broad_floating"
         android:title=""
         app:aui_navigationBarMenu_isFloating="true"
         app:aui_navigationBarMenu_scale="1.2" />
 
     <item
         android:id="@+id/music"
-        android:icon="@drawable/aui_ic_nav_music"
+        android:icon="@drawable/aui_ic_nav_broad_music"
         android:title="@string/aui_music"
         app:aui_navigationBarMenu_dotHeight="4dp"
         app:aui_navigationBarMenu_dotText="1"
@@ -31,7 +31,7 @@
 
     <item
         android:id="@+id/more"
-        android:icon="@drawable/aui_ic_nav_more"
+        android:icon="@drawable/aui_ic_nav_broad_more"
         android:title="@string/aui_more" />
 
 

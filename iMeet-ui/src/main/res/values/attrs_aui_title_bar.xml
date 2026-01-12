@@ -60,7 +60,7 @@
         <item name="aui_titleBar_mode">home</item>
 
         <!-- back模式下配置 -->
-        <item name="aui_titleBar_backDrawable">@drawable/aui_ic_back</item>
+        <item name="aui_titleBar_backDrawable">@drawable/aui_ic_broad_back</item>
         <item name="aui_titleBar_backWidth">wrap_content</item>
         <item name="aui_titleBar_backHeight">wrap_content</item>
 

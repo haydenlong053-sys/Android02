@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="?attr/aui_chatListView_appearance"
-    android:background="@drawable/bg_chat_system_msg"
+    android:background="@drawable/bg_chat_system_broad_msg"
     android:gravity="center_vertical"
     android:layout_marginStart="15dp"
     android:paddingTop="4dp"

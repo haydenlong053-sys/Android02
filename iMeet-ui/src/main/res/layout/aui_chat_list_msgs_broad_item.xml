@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_chat_normal_msg"
+    android:background="@drawable/bg_chat_normal_broad_msg"
     android:layout_marginLeft="15dp"
     android:layout_marginStart="15dp"
     android:paddingTop="9dp"

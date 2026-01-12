@@ -29,7 +29,7 @@ class AUIEmojiGridBroadAdapter(
                 emojIcon?.iconRes?.let { imageView.setImageResource(it) }
             } else if (emojIcon?.iconUrl != null) {
                 Glide.with(context).load(emojIcon.iconUrl)
-                    .apply(RequestOptions.placeholderOf(R.drawable.voice_icon_default_expression))
+                    .apply(RequestOptions.placeholderOf(R.drawable.voice_icon_default_broad_expression))
                     .into(imageView)
             }
             return convertView

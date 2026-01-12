@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.micseats.impl
+package com.cboda.agora.ui.ui.micseats.impl
 
 import android.content.Context
 import android.graphics.Canvas

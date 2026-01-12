@@ -162,7 +162,7 @@ public class AUIMusicPlayerControllerDialogBroadView extends FrameLayout {
                 }
                 if (position == 0) {
                     itemView.setPresetInnerVisibility(View.VISIBLE);
-                    itemView.setPresetInnerIcon(R.drawable.aui_musicplayer_preset_none);
+                    itemView.setPresetInnerIcon(R.drawable.aui_musicplayer_preset_broad_none);
                     itemView.setPresetOutIcon(0);
                 } else {
                     itemView.setPresetInnerVisibility(View.GONE);
@@ -232,14 +232,14 @@ public class AUIMusicPlayerControllerDialogBroadView extends FrameLayout {
 
     private void buildEffectInfoMap() {
         effectInfoMap.clear();
-        effectInfoMap.put(0, Pair.create(R.drawable.aui_musicplayer_preset_none, R.string.aui_musicplayer_reverb_none));
-        effectInfoMap.put(1, Pair.create(R.drawable.aui_musicplayer_reverb_effect1, R.string.aui_musicplayer_reverb_karaoke));
-        effectInfoMap.put(2, Pair.create(R.drawable.aui_musicplayer_reverb_effect2, R.string.aui_musicplayer_reverb_concert));
-        effectInfoMap.put(3, Pair.create(R.drawable.aui_musicplayer_reverb_effect3, R.string.aui_musicplayer_reverb_studio));
-        effectInfoMap.put(4, Pair.create(R.drawable.aui_musicplayer_reverb_effect4, R.string.aui_musicplayer_reverb_phonograph));
-        effectInfoMap.put(5, Pair.create(R.drawable.aui_musicplayer_reverb_effect5, R.string.aui_musicplayer_reverb_spacial));
-        effectInfoMap.put(6, Pair.create(R.drawable.aui_musicplayer_reverb_effect6, R.string.aui_musicplayer_reverb_ethereal));
-        effectInfoMap.put(7, Pair.create(R.drawable.aui_musicplayer_reverb_effect7, R.string.aui_musicplayer_reverb_popular));
-        effectInfoMap.put(8, Pair.create(R.drawable.aui_musicplayer_reverb_effect8, R.string.aui_musicplayer_reverb_rnb));
+        effectInfoMap.put(0, Pair.create(R.drawable.aui_musicplayer_preset_broad_none, R.string.aui_musicplayer_reverb_none));
+        effectInfoMap.put(1, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect1, R.string.aui_musicplayer_reverb_karaoke));
+        effectInfoMap.put(2, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect2, R.string.aui_musicplayer_reverb_concert));
+        effectInfoMap.put(3, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect3, R.string.aui_musicplayer_reverb_studio));
+        effectInfoMap.put(4, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect4, R.string.aui_musicplayer_reverb_phonograph));
+        effectInfoMap.put(5, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect5, R.string.aui_musicplayer_reverb_spacial));
+        effectInfoMap.put(6, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect6, R.string.aui_musicplayer_reverb_ethereal));
+        effectInfoMap.put(7, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect7, R.string.aui_musicplayer_reverb_popular));
+        effectInfoMap.put(8, Pair.create(R.drawable.aui_musicplayer_reverb_broad_effect8, R.string.aui_musicplayer_reverb_rnb));
     }
 }

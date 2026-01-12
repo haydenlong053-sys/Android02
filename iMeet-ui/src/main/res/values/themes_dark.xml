@@ -6,8 +6,8 @@
     </style>
 
     <style name="AUIChatListBroadView.Appearance.Dark" parent="AUIChatListBroadView.Appearance">
-        <item name="aui_barrage_normal_layout_bg">@drawable/aui_bg_barrage_shape_dark</item>
-        <item name="aui_barrage_system_layout_bg">@drawable/aui_bg_barrage_system_shape_dark</item>
+        <item name="aui_barrage_normal_layout_bg">@drawable/aui_bg_barrage_shape_broad_dark</item>
+        <item name="aui_barrage_system_layout_bg">@drawable/aui_bg_barrage_system_shape_broad_dark</item>
     </style>
 
     <style name="Theme.AUIKit.AUIChatBottomView.Dark">
@@ -19,15 +19,15 @@
     </style>
 
     <style name="AUIChatBottomView.Appearance.Dark" parent="AUIChatBottomView.Appearance">
-        <item name="aui_primary_input_background">@drawable/aui_chat_bottom_bar_item_bg_dark</item>
-        <item name="aui_primary_tag_bg">@drawable/aui_chat_bottom_bar_item_bg_dark</item>
+        <item name="aui_primary_input_background">@drawable/aui_chat_bottom_bar_item_bg_broad_dark</item>
+        <item name="aui_primary_tag_bg">@drawable/aui_chat_bottom_bar_item_bg_broad_dark</item>
         <item name="aui_primary_input_layout_bg">@color/voice_black_171A1C</item>
         <item name="aui_primary_edit_background">@color/voice_black_2F3437</item>
         <item name="aui_primary_edit_layout_background">
-            @drawable/aui_chat_bottom_bar_input_edit_dark
+            @drawable/aui_chat_bottom_bar_input_edit_broad_dark
         </item>
-        <item name="aui_primary_emoji_resource">@drawable/voice_icon_face_dark</item>
-        <item name="aui_primary_key_resource">@drawable/voice_icon_key_dark</item>
+        <item name="aui_primary_emoji_resource">@drawable/voice_icon_face_broad_dark</item>
+        <item name="aui_primary_key_resource">@drawable/voice_icon_key_broad_dark</item>
         <item name="aui_primary_edit_hint_textColor">@color/voice_black_5E686E</item>
         <item name="aui_primary_edit_textColor">@color/voice_white_F9FAFA</item>
         <item name="aui_primary_expression_background">@color/voice_black_171A1C</item>
@@ -37,7 +37,7 @@
 
     <style name="AUIEmojiBroadView.Appearance.Dark" parent="AUIEmojiBroadView.Appearance">
         <item name="aui_emoji_view_background">@color/voice_black_171A1C</item>
-        <item name="aui_emoji_backspace">@drawable/voice_icon_backspace_dark</item>
+        <item name="aui_emoji_backspace">@drawable/voice_icon_backspace_broad_dark</item>
     </style>
     <!-- 系统基础主题 -->
     <style name="Theme.AUIKit.Basic.Dark" parent="Theme.MaterialComponents.DayNight">
@@ -155,7 +155,7 @@
         <item name="aui_button_drawablePressedTint">@color/aui_grey_light</item>
         <item name="aui_button_drawableDisableTint">@color/aui_grey_lighter</item>
 
-        <item name="aui_button_background">@drawable/aui_button_stroke_dark</item>
+        <item name="aui_button_background">@drawable/aui_button_stroke_broad_dark</item>
     </style>
 
     <style name="AUIBroadButton.Mini.Stroke.Dark">
@@ -167,7 +167,7 @@
         <item name="aui_button_drawablePressedTint">@color/aui_grey_light</item>
         <item name="aui_button_drawableDisableTint">@color/aui_grey_lighter</item>
 
-        <item name="aui_button_background">@drawable/aui_button_stroke_dark</item>
+        <item name="aui_button_background">@drawable/aui_button_stroke_broad_dark</item>
     </style>
 
     <style name="AUIBroadButton.Circle.Stroke.Dark">
@@ -215,7 +215,7 @@
     </style>
 
     <style name="AUIAction.Appearance.Dark" parent="AUIAction.Appearance">
-        <item name="aui_invitation_layout_bg">@drawable/voice_bg_rect_top_radius20_dark</item>
+        <item name="aui_invitation_layout_bg">@drawable/voice_bg_rect_top_radius20_broad_dark</item>
 
         <item name="aui_tabLayout_selected_textColor">@color/aui_color_F9FAFA</item>
         <item name="aui_tabLayout_unselected_textColor">@color/aui_color_6c7192</item>
@@ -298,8 +298,8 @@
     </style>
 
     <style name="AUIMemberInfo.Appearance.Dark" parent="AUIMemberInfo.Appearance">
-        <item name="aui_upperRight_default_member_bg">@drawable/aui_member_item_dark_bg</item>
-        <item name="aui_upperRight_count_background">@drawable/aui_member_count_dark_bg</item>
+        <item name="aui_upperRight_default_member_bg">@drawable/aui_member_item_dark_broad_bg</item>
+        <item name="aui_upperRight_count_background">@drawable/aui_member_count_dark_broad_bg</item>
         <item name="aui_roomButton_normalColor">#33000000</item>
     </style>
 
@@ -314,7 +314,7 @@
     </style>
 
     <style name="AUIGiftBarrageBroadView.Appearance.Dark" parent="AUIGiftBarrageBroadView.Appearance">
-        <item name="aui_giftBarrage_layout_bg">@drawable/aui_gift_widget_bg_dark</item>
+        <item name="aui_giftBarrage_layout_bg">@drawable/aui_gift_widget_bg_broad_dark</item>
     </style>
 
 
@@ -323,12 +323,12 @@
     </style>
 
     <style name="AUIGiftBottomDialog.Appearance.Dark" parent="AUIGiftBottomDialog.Appearance">
-        <item name="aui_giftBottomDialog_bg">@drawable/aui_gift_r20_white_bg_dark</item>
-        <item name="aui_giftBottomDialog_topLayout_bg">@drawable/aui_gift_top_layout_bg_dark</item>
-        <item name="aui_giftBottomDialog_topView_icon">@drawable/aui_gift_top_icon_bg_dark</item>
+        <item name="aui_giftBottomDialog_bg">@drawable/aui_gift_r20_white_bg_broad_dark</item>
+        <item name="aui_giftBottomDialog_topLayout_bg">@drawable/aui_gift_top_layout_bg_broad_dark</item>
+        <item name="aui_giftBottomDialog_topView_icon">@drawable/aui_gift_top_icon_bg_broad_dark</item>
         <item name="aui_giftBottomDialog_tabLayout_title_color">@color/voice_gift_sent_color</item>
         <item name="aui_giftBottomDialog_tabLayout_hint_title_color">@color/voice_gift_grey_5E686E</item>
-        <item name="aui_giftBottomDialog_tabLayout_tag_bg">@drawable/aui_gift_tablayout_tag_bg</item>
+        <item name="aui_giftBottomDialog_tabLayout_tag_bg">@drawable/aui_gift_tablayout_tag_broad_bg</item>
         <item name="aui_giftBottomDialog_gift_textColor">@color/voice_gift_sent_color</item>
         <item name="aui_giftBottomDialog_gift_subtitle_textColor">@color/voice_gift_grey_919BA1</item>
     </style>

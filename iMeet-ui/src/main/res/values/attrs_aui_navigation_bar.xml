@@ -31,7 +31,7 @@
         <item name="aui_navigationBar_contentPaddingBottom">6dp</item>
 
         <!-- Menu配置 -->
-        <item name="aui_navigationBar_menu">@menu/aui_navigation_menu</item>
+        <item name="aui_navigationBar_menu">@menu/aui_navigation_broad_menu</item>
         <item name="aui_navigationBar_menu_appearance">@style/AUINavigationBarBroadMenu</item>
 
         <!-- 阴影背景配置 -->

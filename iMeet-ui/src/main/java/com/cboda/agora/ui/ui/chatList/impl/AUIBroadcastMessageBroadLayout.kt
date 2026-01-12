@@ -62,12 +62,12 @@ class AUIBroadcastMessageBroadLayout : RelativeLayout, AUIStatusChangeBroadListe
 
         broadcastView.setTextColor(resources.getColor(R.color.voice_white))
         broadcastView.movementMethod = ScrollingMovementMethod.getInstance()
-        broadcastView.animation = AnimationUtils.loadAnimation(context,R.anim.aui_subtitle_anim_enter)
+        broadcastView.animation = AnimationUtils.loadAnimation(context,R.anim.aui_subtitle_anim_broad_enter)
         broadcastView.setSubtitleStatusChanged(this)
     }
 
     private fun hideSubtitleView(){
-        broadcastLayout.animation = AnimationUtils.loadAnimation(context,R.anim.aui_subtitle_anim_exit)
+        broadcastLayout.animation = AnimationUtils.loadAnimation(context,R.anim.aui_subtitle_anim_broad_exit)
         broadcastView.text = ""
         broadcastView.visibility = GONE
         broadcastLayout.visibility = GONE
@@ -153,7 +153,7 @@ class AUIBroadcastMessageBroadLayout : RelativeLayout, AUIStatusChangeBroadListe
     }
 
     private fun setSubtitle(content:String){
-        broadcastLayout.animation = AnimationUtils.loadAnimation(context,R.anim.aui_subtitle_anim_enter)
+        broadcastLayout.animation = AnimationUtils.loadAnimation(context,R.anim.aui_subtitle_anim_broad_enter)
         broadcastLayout.visibility = visibility
         broadcastView.text = content
         broadcastView.visibility = visibility

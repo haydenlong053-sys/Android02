@@ -39,7 +39,7 @@ class AUIChatListBroadAdapter(
     init {
         normalTagIcon = typedArray.getResourceId(
             R.styleable.AUIChatListBroadView_aui_barrage_normal_title_tag_icon,
-            R.drawable.aui_icon_owner
+            R.drawable.aui_icon_broad_owner
         )
 
         normalTitleColor = typedArray.getColor(

@@ -109,7 +109,7 @@
 
 
         <!-- 分页 -->
-        <item name="aui_bottomDialog_pageIndicator">@drawable/aui_bottom_dialog_page_indicator</item>
+        <item name="aui_bottomDialog_pageIndicator">@drawable/aui_bottom_dialog_page_broad_indicator</item>
         <item name="aui_bottomDialog_pageIndicatorColorSelected">#7800FF</item>
         <item name="aui_bottomDialog_pageIndicatorColor">#267800FF</item>
         <item name="tabMaxWidth">20dp</item>
@@ -119,7 +119,7 @@
 
         <!-- 列表 -->
         <item name="aui_bottomDialog_listOrientation">vertical</item>
-        <item name="aui_bottomDialog_listDivider">@drawable/aui_bottom_dialog_list_divider</item>
+        <item name="aui_bottomDialog_listDivider">@drawable/aui_bottom_dialog_list_broad_divider</item>
         <item name="aui_bottomDialog_listDividerColor">#CFCFCF</item>
         <item name="aui_bottomDialog_listSpan">1</item>
 

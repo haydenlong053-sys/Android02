@@ -131,7 +131,7 @@
 
         <!-- 输入框输入类型，文本/密码/手机号 -->
         <item name="aui_edittext_input_type">text</item>
-        <item name="aui_edittext_input_passwordEyeSrc">@drawable/aui_ic_password_eye</item>
+        <item name="aui_edittext_input_passwordEyeSrc">@drawable/aui_ic_password_broad_eye</item>
         <item name="aui_edittext_input_passwordEyeWidth">30dp</item>
         <item name="aui_edittext_input_passwordEyeHeight">30dp</item>
         <item name="aui_edittext_input_phoneAreaText">+86</item>

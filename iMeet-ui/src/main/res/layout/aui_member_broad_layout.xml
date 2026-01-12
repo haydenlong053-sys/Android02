@@ -88,7 +88,7 @@
         android:layout_height="?attr/aui_roomMoreUser_height"
         android:layout_marginStart="?attr/aui_roomMoreUser_marginStart"
         android:visibility="?attr/aui_roomMoreUser_Visibility"
-        app:aui_button_background="@drawable/aui_member_btn_bg"
+        app:aui_button_background="@drawable/aui_member_btn_broad_bg"
         app:aui_button_drawableCenter="?attr/aui_roomMoreUser_drawable" />
 
     <com.cboda.agora.ui.ui.basic.AUIBroadButton
@@ -101,7 +101,7 @@
         android:layout_height="?attr/aui_roomClose_height"
         android:layout_marginStart="?attr/aui_roomClose_marginStart"
         android:visibility="?attr/aui_roomClose_Visibility"
-        app:aui_button_background="@drawable/aui_member_btn_bg"
+        app:aui_button_background="@drawable/aui_member_btn_broad_bg"
         app:aui_button_drawableCenter="?attr/aui_roomClose_drawable" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

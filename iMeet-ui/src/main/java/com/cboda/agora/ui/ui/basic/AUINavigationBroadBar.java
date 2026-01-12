@@ -53,7 +53,7 @@ public class AUINavigationBroadBar extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AUINavigationBroadBar, defStyleAttr, R.style.AUINavigationBroadBar);
 
         // Inflate menu
-        int menuResourceId = typedArray.getResourceId(R.styleable.AUINavigationBroadBar_aui_navigationBar_menu, R.menu.aui_navigation_menu);
+        int menuResourceId = typedArray.getResourceId(R.styleable.AUINavigationBroadBar_aui_navigationBar_menu, R.menu.aui_navigation_broad_menu);
         menuDefStyle = typedArray.getResourceId(R.styleable.AUINavigationBroadBar_aui_navigationBar_menu_appearance, R.style.AUINavigationBarBroadMenu);
         parseAndCreateMenu(menuResourceId);
 

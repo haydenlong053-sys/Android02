@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.micseats.impl;
+package com.cboda.agora.ui.ui.micseats.impl;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -110,7 +110,7 @@ public class AUIMicSeatItemBroadView extends FrameLayout implements IMicSeatItem
                 ivVideoMute.setLayoutParams(ivVideoMuteParams);
                 break;
         }
-        Drawable rippleDrawable= ContextCompat.getDrawable(context,R.drawable.aui_mic_item_ripple);
+        Drawable rippleDrawable= ContextCompat.getDrawable(context,R.drawable.aui_mic_item_broad_ripple);
         bgSeat.setForeground(rippleDrawable);
     }
 
@@ -173,9 +173,9 @@ public class AUIMicSeatItemBroadView extends FrameLayout implements IMicSeatItem
         ivAudioMuteNew.setVisibility(visible);
         if (visible == View.VISIBLE) {
             if (isMute) {
-                ivAudioMuteNew.setImageResource(R.drawable.ic_seat_mic_off);
+                ivAudioMuteNew.setImageResource(R.drawable.ic_seat_mic_broad_off);
             } else {
-                ivAudioMuteNew.setImageResource(R.drawable.ic_seat_mic_on);
+                ivAudioMuteNew.setImageResource(R.drawable.ic_seat_mic_broad_on);
             }
         }
     }
@@ -193,11 +193,11 @@ public class AUIMicSeatItemBroadView extends FrameLayout implements IMicSeatItem
     @Override
     public void setMicSeatState(MicSeatBroadStatus state) {
         if (state == MicSeatBroadStatus.locked) {
-            bgSeat.setBackgroundResource(R.drawable.aui_micseat_item_seat_bg_lock);
+            bgSeat.setBackgroundResource(R.drawable.aui_micseat_item_seat_bg_broad_lock);
             ivStateLock.setVisibility(View.VISIBLE);
             ivStateIdle.setVisibility(View.INVISIBLE);
         } else {
-            bgSeat.setBackgroundResource(R.drawable.aui_micseat_item_seat_bg_normal);
+            bgSeat.setBackgroundResource(R.drawable.aui_micseat_item_seat_bg_broad_normal);
             ivStateIdle.setVisibility(View.VISIBLE);
             ivStateLock.setVisibility(View.INVISIBLE);
         }
@@ -213,12 +213,12 @@ public class AUIMicSeatItemBroadView extends FrameLayout implements IMicSeatItem
     public void setChorusMicOwnerType(ChorusType type) {
         if (type == ChorusType.LeadSinger) {
             tvChorus.setVisibility(View.VISIBLE);
-            Drawable drawable = getResources().getDrawable(R.drawable.aui_micseat_item_icon_leadsinger);
+            Drawable drawable = getResources().getDrawable(R.drawable.aui_micseat_item_icon_broad_leadsinger);
             tvChorus.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
             tvChorus.setText(R.string.aui_micseat_leadsinger);
         } else if (type == ChorusType.SecondarySinger) {
             tvChorus.setVisibility(View.VISIBLE);
-            Drawable drawable = getResources().getDrawable(R.drawable.aui_micseat_item_icon_chorus);
+            Drawable drawable = getResources().getDrawable(R.drawable.aui_micseat_item_icon_broad_chorus);
             tvChorus.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
             tvChorus.setText(R.string.aui_micseat_chorus);
         } else {

@@ -121,7 +121,7 @@ public class AUIBottomBroadDialog extends BottomSheetDialog {
                         null
                 });
                 int backgroundIndicatorTop = typedArray.getDimensionPixelSize(R.styleable.AUIBottomBroadDialog_aui_bottomDialog_backgroundIndicatorTop, 0);
-                Drawable backgroundIndicator = AppCompatResources.getDrawable(getContext(), R.drawable.aui_bottom_dialog_bg_indicator);
+                Drawable backgroundIndicator = AppCompatResources.getDrawable(getContext(), R.drawable.aui_bottom_dialog_bg_broad_indicator);
                 if(backgroundIndicator != null){
                     layerBackground.setDrawable(1, backgroundIndicator);
                     layerBackground.setLayerGravity(1, Gravity.CENTER_HORIZONTAL);

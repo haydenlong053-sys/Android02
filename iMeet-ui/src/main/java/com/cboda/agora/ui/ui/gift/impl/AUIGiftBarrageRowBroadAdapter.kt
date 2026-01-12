@@ -30,7 +30,7 @@ class AUIGiftRowAdapter constructor(
         this.mContext = context
         giftBarrageLayoutBg = typedArray.getResourceId(
             R.styleable.AUIGiftBarrageBroadView_aui_giftBarrage_layout_bg,
-            R.drawable.aui_gift_widget_bg_light
+            R.drawable.aui_gift_widget_bg_broad_light
         )
     }
 
@@ -72,7 +72,7 @@ class AUIGiftRowAdapter constructor(
 
             Glide.with(context)
                 .load(auiGiftEntity.sendUserAvatar)
-                .error(R.drawable.aui_gift_user_default_icon)
+                .error(R.drawable.aui_gift_user_default_broad_icon)
                 .into(avatar)
 
             Glide.with(context)

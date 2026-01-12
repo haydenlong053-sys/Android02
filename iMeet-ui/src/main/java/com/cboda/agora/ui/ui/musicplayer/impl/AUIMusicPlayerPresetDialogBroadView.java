@@ -86,11 +86,11 @@ public class AUIMusicPlayerPresetDialogBroadView extends FrameLayout {
 
     private List<ControllerEffectInfo> buildPresetData() {
         List<ControllerEffectInfo> list = new ArrayList<>();
-        list.add(new ControllerEffectInfo(0, 0, R.drawable.aui_musicplayer_preset_none, R.string.aui_musicplayer_preset_original));
-        list.add(new ControllerEffectInfo(1, 1, R.drawable.aui_musicplayer_preset_child, R.string.aui_musicplayer_preset_child));
-        list.add(new ControllerEffectInfo(2, 2, R.drawable.aui_musicplayer_preset_lolita, R.string.aui_musicplayer_preset_lolita));
-        list.add(new ControllerEffectInfo(3, 3, R.drawable.aui_musicplayer_preset_uncle, R.string.aui_musicplayer_preset_uncle));
-        list.add(new ControllerEffectInfo(4, 4, R.drawable.aui_musicplayer_preset_airy, R.string.aui_musicplayer_preset_airy));
+        list.add(new ControllerEffectInfo(0, 0, R.drawable.aui_musicplayer_preset_broad_none, R.string.aui_musicplayer_preset_original));
+        list.add(new ControllerEffectInfo(1, 1, R.drawable.aui_musicplayer_preset_broad_child, R.string.aui_musicplayer_preset_child));
+        list.add(new ControllerEffectInfo(2, 2, R.drawable.aui_musicplayer_preset_broad_lolita, R.string.aui_musicplayer_preset_lolita));
+        list.add(new ControllerEffectInfo(3, 3, R.drawable.aui_musicplayer_preset_broad_uncle, R.string.aui_musicplayer_preset_uncle));
+        list.add(new ControllerEffectInfo(4, 4, R.drawable.aui_musicplayer_preset_broad_airy, R.string.aui_musicplayer_preset_airy));
         return list;
     }
 

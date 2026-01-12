@@ -11,7 +11,7 @@
         android:id="@+id/ivAvatar"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/aui_micseat_dialog_avatar_idle"
+        android:src="@drawable/aui_micseat_dialog_avatar_broad_idle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

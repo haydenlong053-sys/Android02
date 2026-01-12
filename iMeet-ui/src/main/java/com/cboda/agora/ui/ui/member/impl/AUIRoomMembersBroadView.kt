@@ -115,7 +115,7 @@ class AUIRoomMembersBroadView : ConstraintLayout,
         aContext?.let {
             Glide.with(it)
                 .load(url)
-                .error(R.drawable.aui_room_info_avatar)
+                .error(R.drawable.aui_room_info_broad_avatar)
                 .apply(RequestOptions.circleCropTransform())
                 .into(view)
         }

@@ -12,6 +12,6 @@
     </item>
     <item
         android:gravity="center">
-        <bitmap android:src="@drawable/aui_jukebox_music_icon"/>
+        <bitmap android:src="@drawable/aui_jukebox_music_broad_icon"/>
     </item>
 </layer-list>

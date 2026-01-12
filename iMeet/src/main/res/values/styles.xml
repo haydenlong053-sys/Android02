@@ -25,7 +25,7 @@
         <item name="aui_upperLeft_Layout_background">#33FFFFFF</item>
     </style>
     <style name="AVoiceRoomMemberInfoView" parent="AUIMemberInfo.Appearance">
-        <item name="aui_upperRight_count_background">@drawable/aui_member_count_dark_bg</item>
+        <item name="aui_upperRight_count_background">@drawable/aui_member_count_dark_broad_bg</item>
     </style>
     <style name="AVoiceRoomChatBottomView" parent="AUIChatBottomView.Appearance"></style>
     <style name="AVoiceRoomEmojiView" parent="AUIEmojiBroadView.Appearance"></style>
