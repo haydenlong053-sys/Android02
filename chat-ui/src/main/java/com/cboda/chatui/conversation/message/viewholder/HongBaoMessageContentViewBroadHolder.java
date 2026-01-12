@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import cn.wildfirechat.message.HongBaoMessageContent;
@@ -88,11 +88,11 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
                             lingstatus = "1";
                         }
                     }
-                    eLogD("hbInfoClass", "setYeHuoQiaoJie");
+                    eLogD("hbInfoClass", "setMyQiaoJie");
                     if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(tvhoongbaotips.getContext(), "lingqunhongbao", zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
+                        MyCommonBroadBridge.getInstance().setMyQiaoJie(tvhoongbaotips.getContext(), "lingqunhongbao", zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
                     } else {
-                        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(tvhoongbaotips.getContext(), "linghongbao", zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
+                        MyCommonBroadBridge.getInstance().setMyQiaoJie(tvhoongbaotips.getContext(), "linghongbao", zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
                     }
 
                 }

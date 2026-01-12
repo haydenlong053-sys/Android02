@@ -27,7 +27,7 @@ import androidx.viewpager.widget.ViewPager
 import com.cboda.chatui.IMConnectionStatusViewBroadModel
 import com.cboda.chatui.IMServiceStatusViewBroadModel
 import com.cboda.chatui.bridge.TiXingBroadUtils
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge
+import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
 import com.cboda.chatui.user.UserViewBroadModel
@@ -58,7 +58,7 @@ import com.cboda.intelligent.fragment.TongXunLuBroadFragment
 import com.cboda.intelligent.fragment.XiaoxiBroadFragment
 import com.cboda.intelligent.holder.SingleBtnBroadHolder
 import com.cboda.intelligent.holder.XitonggaonggaoBroadHolder
-import com.cboda.intelligent.holder.YeHuoImManagerBroadHolder
+import com.cboda.intelligent.holder.MyImManagerBroadHolder
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.model.NoticeInfoBroadBean
@@ -128,7 +128,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
     //    private val fragmentNameList = arrayListOf<String>()
     private var gson = GsonUtils.getGson()
-    private var yeHuoImManagerHolder: YeHuoImManagerBroadHolder? = null
+    private var yeHuoImManagerHolder: MyImManagerBroadHolder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -316,7 +316,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        val imManagerHolder = ImManagerHolder(this)
 //        imManagerHolder.tvXiaoxiNum = tvXiaoxiNum
 
-        yeHuoImManagerHolder = YeHuoImManagerBroadHolder(this)
+        yeHuoImManagerHolder = MyImManagerBroadHolder(this)
 
 
         afterViews()
@@ -629,7 +629,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
                                 1005 -> {
                                     if (unkown.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
-                                        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(
+                                        MyCommonBroadBridge.getInstance().setMyQiaoJie(
                                             this@MainBroadActivity,
                                             "beifeng",
                                             "",

@@ -21,7 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import com.cboda.chatui.conversation.forward.ForwardPromptBroadView;
 import cn.wildfirechat.message.CardMessageContent;
@@ -49,9 +49,9 @@ public class UserCardBroadExt extends ConversationBroadExt {
 //        startActivityForResult(intent, 100);
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getActivity(),"mingpian","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"mingpian","",conversation.target,null);
         } else {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getActivity(),"mingpian",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"mingpian",conversation.target,"",null);
         }
 
     }

@@ -47,7 +47,7 @@ import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContextMenuBroadItem;
 import com.cboda.chatui.bridge.ChatPopBroadMenu;
 import com.cboda.chatui.bridge.IMCommonBroadResult;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity;
 import com.cboda.chatui.conversation.message.MessageItemBroadView;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
@@ -566,7 +566,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             bianjiAction.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                                 @Override
                                 public void onClick() {
-                                    YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "bianji", "", "", message);
+                                    MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "bianji", "", "", message);
                                 }
                             });
                             mPopActions.add(bianjiAction);
@@ -580,7 +580,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((ImageMessageContent) message.message.content).remoteUrl, "", message);
+                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((ImageMessageContent) message.message.content).remoteUrl, "", message);
                             }
                         });
                         mPopActions.add(tianjia);
@@ -593,7 +593,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia2.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((StickerMessageContent) message.message.content).remoteUrl, "", message);
+                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((StickerMessageContent) message.message.content).remoteUrl, "", message);
                             }
                         });
                         mPopActions.add(tianjia2);
@@ -606,7 +606,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia3.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((BiaoQingMessageContent) message.message.content).emoji, "", message);
+                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((BiaoQingMessageContent) message.message.content).emoji, "", message);
                             }
                         });
                         mPopActions.add(tianjia3);
@@ -743,7 +743,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             } else if (message1.content.getMessageContentType() == 4) {
                                 params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
                             }
-                            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "shoucang", message1.sender, params2, message);
+                            MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "shoucang", message1.sender, params2, message);
                         }
                     });
                     mPopActions.add(shoucang);
@@ -756,7 +756,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     fanyi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
-                            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "fanyi", ((TextMessageContent) message1.content).getContent(), "", message);
+                            MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "fanyi", ((TextMessageContent) message1.content).getContent(), "", message);
                         }
                     });
                     mPopActions.add(fanyi);
@@ -780,15 +780,15 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //                        Log.e("野火点击", "长按内容--> " + text);
 //                        switch (text.toString()) {
 //                            case "编辑":
-//                                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "bianji", "", "", message);
+//                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "bianji", "", "", message);
 //                                break;
 //                            case "添加":
 //                                if (message1.content.getMessageContentType() == 3){
-//                                    YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((ImageMessageContent) message.message.content).remoteUrl, "", message);
+//                                    MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((ImageMessageContent) message.message.content).remoteUrl, "", message);
 //                                } else  if (message1.content.getMessageContentType() == 7){
-//                                    YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((StickerMessageContent) message.message.content).remoteUrl, "", message);
+//                                    MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((StickerMessageContent) message.message.content).remoteUrl, "", message);
 //                                }else  if (message1.content.getMessageContentType() == 2002){
-//                                    YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((BiaoQingMessageContent) message.message.content).emoji, "", message);
+//                                    MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((BiaoQingMessageContent) message.message.content).emoji, "", message);
 //                                }
 //                                break;
 //                            case "撤回":
@@ -852,7 +852,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //                                } else if (message1.content.getMessageContentType() == 4) {
 //                                    params2 = ((LocationMessageContent)message1.content).getTitle()+"|"+"5";
 //                                }
-//                                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(v.getContext(), "shoucang",message1.sender, params2, message);
+//                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "shoucang",message1.sender, params2, message);
 //                                break;
 //                        }
 //                    }

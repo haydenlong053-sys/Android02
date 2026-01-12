@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcBaseBroadActivity;
 import com.cboda.chatui.annotation.MessageContentBroadType;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.voip.conference.ConferenceInfoBroadActivity;
@@ -86,7 +86,7 @@ public class MeetingInviteMessageContentViewBroadHolder extends NormalMessageCon
             ojb.put("ownerId",inviteMessageContent.getIdno());
             ojb.put("title",inviteMessageContent.getTitle());
             String jsonParams = ojb.toString();
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getActivity(),"meeting",inviteMessageContent.getMeetingId(),jsonParams,null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"meeting",inviteMessageContent.getMeetingId(),jsonParams,null);
         }catch (Exception e){
             e.printStackTrace();
         }

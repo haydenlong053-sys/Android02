@@ -26,7 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.cboda.baselibrary.utils.ELogUtilKt;
-import com.cboda.chatui.utils.YeHuoIMActivityBroadUtils;
+import com.cboda.chatui.utils.MyIMActivityBroadUtils;
 
 public abstract class WfcBaseBroadActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -34,7 +34,7 @@ public abstract class WfcBaseBroadActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        YeHuoIMActivityBroadUtils.activities.remove(this);
+        MyIMActivityBroadUtils.activities.remove(this);
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class WfcBaseBroadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ELogUtilKt.eLogD("当前", "野火页面-->" + this.getClass().getSimpleName());
-        YeHuoIMActivityBroadUtils.activities.add(this);
+        MyIMActivityBroadUtils.activities.add(this);
         beforeViews();
         setContentView(contentLayout());
         bindViews();

@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import cn.wildfirechat.message.CardMessageContent;
@@ -71,6 +71,6 @@ public class UserCardMessageContentViewBroadHolder extends NormalMessageContentV
         UserInfo userInfo = ChatManager.Instance().getUserInfo(userCardMessageContent.getTarget(), false);
 //        intent.putExtra("userInfo", userInfo);
 //        fragment.startActivity(intent);
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getContext(),"tianjiahaoyou",userInfo.uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getContext(),"tianjiahaoyou",userInfo.uid,"",null);
     }
 }

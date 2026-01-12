@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.ConversationViewBroadModel
-import com.cboda.chatui.utils.YeHuoIMActivityBroadUtils
+import com.cboda.chatui.utils.MyIMActivityBroadUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.model.ModifyGroupInfoType
 import cn.wildfirechat.remote.ChatManager
@@ -182,7 +182,7 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
                 }
 
                 "jiesanqunsuc" -> {
-                    YeHuoIMActivityBroadUtils.activities.forEachIndexed { index, activity ->
+                    MyIMActivityBroadUtils.activities.forEachIndexed { index, activity ->
                         if (activity is ConversationBroadActivity) {
                             activity.finish()
                         }

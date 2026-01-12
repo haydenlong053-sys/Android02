@@ -64,8 +64,8 @@ import com.cboda.chatui.MarqueeTextBroadView;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcUIBroadKit;
 import com.cboda.chatui.bridge.TouSuJiLuBroadEvent;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
-import com.cboda.chatui.bridge.YeHuoBroadEvent;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
+import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.channel.ChannelViewBroadModel;
 import com.cboda.chatui.chatroom.ChatRoomViewBroadModel;
 import com.cboda.chatui.common.OperateBroadResult;
@@ -546,7 +546,7 @@ public class ConversationBroadFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 if (conversation != null) {
-                    YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(), "chakanqungonggao", conversation.target, gonggaoxinxi.getText().toString(), null);
+                    MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(), "chakanqungonggao", conversation.target, gonggaoxinxi.getText().toString(), null);
                 }
             }
         });
@@ -1091,7 +1091,7 @@ public class ConversationBroadFragment extends Fragment implements
         if (activity != null) {
             activity.setTitle(title);
         }
-        EventBus.getDefault().post(new YeHuoBroadEvent("danliaobiaoti", title, ""));
+        EventBus.getDefault().post(new MyBroadEvent("danliaobiaoti", title, ""));
     }
 
     boolean onTouch(View view, MotionEvent event) {
@@ -1104,7 +1104,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onPortraitClick(UserInfo userInfo) {
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(), "danliaogengduo", userInfo.uid, "", null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(), "danliaogengduo", userInfo.uid, "", null);
         // 去掉野火跳转用户主页
 //        if (conversation.type == Conversation.ConversationType.Channel) {
 //            Intent intent = new Intent(getActivity(), ChannelInfoActivity.class);

@@ -58,7 +58,7 @@ object MeetingBroadHolder {
 //
 //                                                                }
 //                                                        EventBus.getDefault().post(
-//                                                            YeHuoBroadEvent(
+//                                                            MyBroadEvent(
 //                                                                "huiyishi",
 //                                                                Gson().toJson(meetingMessage),
 //                                                                ""
@@ -81,7 +81,7 @@ object MeetingBroadHolder {
 //
 //                                                                }
 //                                                        EventBus.getDefault().post(
-//                                                            YeHuoBroadEvent(
+//                                                            MyBroadEvent(
 //                                                                "huiyishi",
 //                                                                Gson().toJson(meetingMessage),
 //                                                                ""

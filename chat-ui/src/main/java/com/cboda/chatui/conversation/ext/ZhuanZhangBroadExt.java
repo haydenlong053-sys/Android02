@@ -5,14 +5,14 @@ import android.view.View;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
 
 public class ZhuanZhangBroadExt extends ConversationBroadExt {
     @ExtContextMenuBroadItem
     public void pickZhuanZhang(View containerView, Conversation conversation) {
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(containerView.getContext(),"zhuanzhang",conversation.target,"",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(containerView.getContext(),"zhuanzhang",conversation.target,"",null);
     }
     @Override
     public int priority() {

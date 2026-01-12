@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
 
@@ -36,9 +36,9 @@ public class CollectBroadExt extends ConversationBroadExt {
 //        startActivityForResult(intent, 100);
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getActivity(),"shoucangim","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"shoucangim","",conversation.target,null);
         } else {
-            YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(fragment.getActivity(),"shoucangim",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"shoucangim",conversation.target,"",null);
         }
 
     }

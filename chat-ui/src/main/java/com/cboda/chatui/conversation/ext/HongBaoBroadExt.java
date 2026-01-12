@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
 
@@ -15,9 +15,9 @@ public class HongBaoBroadExt extends ConversationBroadExt {
     public void pickHongBao(View containerView, Conversation conversation) {
         if (conversation != null) {
             if (conversation.type == Conversation.ConversationType.Group) {
-                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(containerView.getContext(), "qunhongbao", conversation.target, "",null);
+                MyCommonBroadBridge.getInstance().setMyQiaoJie(containerView.getContext(), "qunhongbao", conversation.target, "",null);
             } else {
-                YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(containerView.getContext(), "hongbao", conversation.target, "",null);
+                MyCommonBroadBridge.getInstance().setMyQiaoJie(containerView.getContext(), "hongbao", conversation.target, "",null);
             }
         }
     }

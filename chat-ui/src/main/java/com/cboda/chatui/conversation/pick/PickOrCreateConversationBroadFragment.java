@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.cboda.chatui.R;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel;
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory;
 import cn.wildfirechat.model.Conversation;
@@ -94,7 +94,7 @@ public class PickOrCreateConversationBroadFragment extends Fragment implements P
     public void onNewConversationItemClick() {
 //        Intent intent = new Intent(getActivity(), PickOrCreateConversationTargetBroadActivity.class);
 //        startActivityForResult(intent, REQUEST_CODE_PICK_CONVERSATION_TARGET);
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getContext(),"cjxlt","","",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"cjxlt","","",null);
     }
 
     @Override

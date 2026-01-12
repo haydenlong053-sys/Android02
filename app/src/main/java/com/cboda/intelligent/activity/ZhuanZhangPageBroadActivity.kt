@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.cboda.chatui.bridge.YeHuoBroadEvent
+import com.cboda.chatui.bridge.MyBroadEvent
 import com.google.gson.Gson
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
@@ -65,7 +65,7 @@ class ZhuanZhangPageBroadActivity:BaseSimpleBroadActivity() {
             when (it.type) {
                 "shoukuanSuc" -> {
                     viewModel?.zhuanzhangInfo(this,hongbaoId)
-                    EventBus.getDefault().post(YeHuoBroadEvent("fajieshouzhuanzhangxiaoxi",hongbaoId,mprice))
+                    EventBus.getDefault().post(MyBroadEvent("fajieshouzhuanzhangxiaoxi",hongbaoId,mprice))
 
 //                    val customMsg = SendCustomBroadMsg()
 //                    customMsg.sendYeHuoZhuanZhangJieShou(

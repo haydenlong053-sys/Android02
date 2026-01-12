@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.chatui.R;
-import com.cboda.chatui.bridge.YeHuoCommonBroadBridge;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.widget.ProgressBroadFragment;
@@ -126,6 +126,6 @@ public class GroupMessageReceiptListBroadFragment extends ProgressBroadFragment 
 //        intent.putExtra("userInfo", userInfo);
 //        intent.putExtra("groupId", groupInfo.target);
 //        startActivity(intent);
-        YeHuoCommonBroadBridge.getInstance().setYeHuoQiaoJie(getActivity(),"weiduxiaoxitianjiahaoyou",userInfo.uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyQiaoJie(getActivity(),"weiduxiaoxitianjiahaoyou",userInfo.uid,"",null);
     }
 }
