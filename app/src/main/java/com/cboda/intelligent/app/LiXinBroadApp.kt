@@ -45,7 +45,7 @@ import com.cboda.baselibrary.utils.getIsDebug
 import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.yehuo.service.WfcDefaultPortraitBroadProvider
+import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.scwang.smart.refresh.footer.BallPulseFooter
