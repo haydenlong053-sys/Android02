@@ -28,7 +28,7 @@ rootProject.name = "Seekweb"
 include ':app'
 include ':baselibrary'
 //include ':auikit'
-//include ':iMeet-service'
+include ':iMeet-service'
 include ':iMeet-ui'
 include ':iMeet'
 include ':chat-client'

@@ -107,12 +107,12 @@ object HttpsBroadConfig {
         if (getIsDebug()) {
             setServer(getNetType())
         } else {
-            setServer(US_TYPE)
+            setServer(RELEASE_TYPE)
         }
     }
 
 
-    private fun getNetType() = MMKV.defaultMMKV().decodeInt(NET_TYPE, US_TYPE)
+    private fun getNetType() = MMKV.defaultMMKV().decodeInt(NET_TYPE, RELEASE_TYPE)
 
     fun getDevType() = netItems[getNetType()]
 
