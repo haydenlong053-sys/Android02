@@ -9,7 +9,7 @@
         android:layout_width="186dp"
         android:layout_height="186dp"
         android:layout_gravity="center"
-        android:background="@drawable/bg_voice_popup"
+        android:background="@drawable/bg_voice_broad_popup"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -47,7 +47,7 @@
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
             android:layout_marginTop="11dp"
-            android:background="@drawable/bg_voice_popup"
+            android:background="@drawable/bg_voice_broad_popup"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="15sp" />

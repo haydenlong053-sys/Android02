@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.voip;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static org.webrtc.RendererCommon.ScalingType.SCALE_ASPECT_BALANCED;
 
 import android.app.Notification;
@@ -20,7 +21,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -128,7 +128,7 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         }
 
         focusTargetId = intent.getStringExtra("focusTargetId");
-        Log.e("wfc", "on startCommand " + focusTargetId);
+        eLogD("wfc", "on startCommand " + focusTargetId);
         checkCallState();
         showFloatingWindow = intent.getBooleanExtra("showFloatingView", false);
         if (showFloatingWindow) {

@@ -74,11 +74,11 @@ public class ZhuanZhangJieShouMessageContentViewBroadHolder extends NormalMessag
 //            } else {
 //                tvlingqu.setText("发起了一笔转账");
 //            }
-            hongbaoBg.setImageResource(R.drawable.ic_hongbao_bg);
-            hongbaoyijingBg.setImageResource(R.drawable.ic_hongbao_bg);
+            hongbaoBg.setImageResource(R.drawable.ic_hongbao_broad_bg);
+            hongbaoyijingBg.setImageResource(R.drawable.ic_hongbao_broad_bg);
         } else {
-            hongbaoBg.setImageResource(R.drawable.ic_hongbao_bg2);
-            hongbaoyijingBg.setImageResource(R.drawable.ic_hongbao_bg2);
+            hongbaoBg.setImageResource(R.drawable.ic_hongbao_broad_bg2);
+            hongbaoyijingBg.setImageResource(R.drawable.ic_hongbao_broad_bg2);
 //            if ("1".equals(zhuanzhangMessage.lingquStatus)) {
                 tvlingqu.setText("已收款");
 //            } else {

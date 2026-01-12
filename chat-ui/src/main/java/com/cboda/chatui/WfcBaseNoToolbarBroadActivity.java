@@ -4,12 +4,13 @@
 
 package com.cboda.chatui;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -27,7 +28,7 @@ public abstract class WfcBaseNoToolbarBroadActivity extends AppCompatActivity {
         beforeViews();
         setContentView(contentLayout());
         afterViews();
-        Log.e("野火","当前页面--> "+getClass().getSimpleName());
+        eLogD("野火","当前页面--> "+getClass().getSimpleName());
     }
 
     protected void hideInputMethod() {

@@ -51,7 +51,7 @@ public class PickGroupMemberBroadActivity extends BasePickGroupMemberBroadActivi
 
     @Override
     protected int menu() {
-        return R.menu.group_member_pick;
+        return R.menu.group_member_broad_pick;
     }
 
     @Override

@@ -56,7 +56,7 @@ public class WfcWebViewBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int menu() {
-        return R.menu.web;
+        return R.menu.cb_web_broad;
     }
 
     @Override

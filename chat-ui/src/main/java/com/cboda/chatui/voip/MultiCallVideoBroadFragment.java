@@ -4,11 +4,12 @@
 
 package com.cboda.chatui.voip;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -366,7 +367,7 @@ public class MultiCallVideoBroadFragment extends Fragment implements AVEngineKit
 
     @Override
     public void didReportAudioVolume(String userId, int volume) {
-        Log.d(TAG, userId + " volume " + volume);
+        eLogD(TAG, userId + " volume " + volume);
         VoipCallBroadItem voipCallItem = getUserVoipCallItem(userId);
         if (voipCallItem != null) {
             if (volume > 1000) {

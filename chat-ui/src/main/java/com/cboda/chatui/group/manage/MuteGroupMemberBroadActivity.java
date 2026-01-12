@@ -48,7 +48,7 @@ public class MuteGroupMemberBroadActivity extends BasePickGroupMemberBroadActivi
 
     @Override
     protected int menu() {
-        return R.menu.group_manage_add_manager;
+        return R.menu.group_manage_add_broad_manager;
     }
 
     @Override

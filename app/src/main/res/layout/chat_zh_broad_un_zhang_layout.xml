@@ -18,7 +18,7 @@
             android:id="@+id/hongbaoBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_hongbao_bg" />
+            android:src="@drawable/ic_hongbao_broad_bg" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/hongbaoyijingBg"
@@ -26,7 +26,7 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_hongbao_bg" />
+            android:src="@drawable/ic_hongbao_broad_bg" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/hongbao"

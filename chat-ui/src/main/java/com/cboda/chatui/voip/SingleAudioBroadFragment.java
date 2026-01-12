@@ -4,9 +4,10 @@
 
 package com.cboda.chatui.voip;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import org.webrtc.StatsReport;
 import com.cboda.chatui.R;
 import com.cboda.chatui.glide.BlurBroadTransformation;
 import com.cboda.chatui.user.UserViewBroadModel;
+
 import cn.wildfirechat.avenginekit.AVAudioManager;
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.model.UserInfo;
@@ -162,7 +164,7 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
 
     @Override
     public void didReportAudioVolume(String userId, int volume) {
-        Log.d(TAG, "voip audio " + userId + " " + volume);
+        eLogD(TAG, "voip audio " + userId + " " + volume);
 
     }
 
@@ -277,14 +279,14 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
 
     private void updateUserInfoViews(UserInfo userInfo) {
         Glide.with(this)
-            .load(userInfo.portrait)
-            .placeholder(R.mipmap.avatar_def)
-            .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
-            .into(portraitImageView);
+                .load(userInfo.portrait)
+                .placeholder(R.mipmap.avatar_def)
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
+                .into(portraitImageView);
         Glide.with(this)
-            .load(userInfo.portrait)
-            .apply(RequestOptions.bitmapTransform(new BlurBroadTransformation(10)))
-            .into(backgroundImageView);
+                .load(userInfo.portrait)
+                .apply(RequestOptions.bitmapTransform(new BlurBroadTransformation(10)))
+                .into(backgroundImageView);
         nameTextView.setText(ChatManager.Instance().getUserDisplayName(userInfo));
     }
 

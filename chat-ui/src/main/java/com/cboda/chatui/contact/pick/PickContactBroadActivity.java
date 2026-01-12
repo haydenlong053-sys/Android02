@@ -74,7 +74,7 @@ public class PickContactBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected int menu() {
-        return R.menu.contact_pick;
+        return R.menu.contact_broad_pick;
     }
 
     @Override

@@ -14,6 +14,8 @@
 
 package com.cboda.chatui.voip;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +31,6 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -316,7 +317,7 @@ public abstract class VoipBaseBroadActivity extends FragmentActivity implements 
             if (!isFinishing()) {
                 action.run();
             } else {
-                Log.d(TAG, "activity is finishing");
+                eLogD(TAG, "activity is finishing");
             }
         };
         handler.post(runnable);

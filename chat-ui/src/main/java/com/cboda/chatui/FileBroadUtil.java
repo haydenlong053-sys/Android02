@@ -1,5 +1,7 @@
 package com.cboda.chatui;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,7 +14,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.bumptech.glide.Glide;
@@ -32,18 +33,18 @@ public class FileBroadUtil {
     private static final String TAG = "野火文件保存";
 
     public static boolean saveVideoToGallery(Context context, String videoPath) {
-        Log.d(TAG, "saveVideoToGallery called with path: " + videoPath);
-        Log.d(TAG, "Android SDK version: " + Build.VERSION.SDK_INT + ", Android Q: " + Build.VERSION_CODES.Q);
+        eLogD(TAG, "saveVideoToGallery called with path: " + videoPath);
+        eLogD(TAG, "Android SDK version: " + Build.VERSION.SDK_INT + ", Android Q: " + Build.VERSION_CODES.Q);
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Log.d(TAG, "Using MediaStore API for Android Q+");
+            eLogD(TAG, "Using MediaStore API for Android Q+");
             boolean result = saveVideoToGalleryByMediaStore(context, videoPath);
-            Log.d(TAG, "MediaStore API result: " + result);
+            eLogD(TAG, "MediaStore API result: " + result);
             return result;
         } else {
-            Log.d(TAG, "Using File API for Android < Q");
+            eLogD(TAG, "Using File API for Android < Q");
             boolean result = saveVideoToGalleryByFile(context, videoPath);
-            Log.d(TAG, "File API result: " + result);
+            eLogD(TAG, "File API result: " + result);
             return result;
         }
     }
@@ -112,7 +113,7 @@ public class FileBroadUtil {
                    storeBitmap(processedImageFile, bitmap);
                 }
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                eLogD(TAG, e.getMessage());
                 return imagePath;
             } finally {
                 try {
@@ -120,7 +121,7 @@ public class FileBroadUtil {
                         fileInputStream.close();
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
+                    eLogD(TAG, e.getMessage());
                 }
             }
         }
@@ -128,16 +129,16 @@ public class FileBroadUtil {
     }
 
     public static boolean saveVideoToGalleryByMediaStore(Context context, String videoPath) {
-        Log.d(TAG, "saveVideoToGalleryByMediaStore started");
+        eLogD(TAG, "saveVideoToGalleryByMediaStore started");
         if (TextUtils.isEmpty(videoPath) || context == null) {
-            Log.e(TAG, "param invalid - videoPath: " + videoPath + ", context: " + context);
+            eLogD(TAG, "param invalid - videoPath: " + videoPath + ", context: " + context);
             return false;
         }
 
         String videoFileName = getFileName(videoPath);
         String videoMimeType = getMimeType(videoPath);
         String appName = getAppName(context);
-        Log.d(TAG, "Video details - fileName: " + videoFileName + ", mimeType: " + videoMimeType + ", appName: " + appName);
+        eLogD(TAG, "Video details - fileName: " + videoFileName + ", mimeType: " + videoMimeType + ", appName: " + appName);
         
         final long now = System.currentTimeMillis();
         ContentValues videoImageValues = new ContentValues();
@@ -150,29 +151,29 @@ public class FileBroadUtil {
         videoImageValues.put(MediaStore.Video.Media.IS_PENDING, 1);
         String relativePath = Environment.DIRECTORY_MOVIES + "/" + appName + "/";
         videoImageValues.put(MediaStore.Video.Media.RELATIVE_PATH, relativePath);
-        Log.d(TAG, "Relative path: " + relativePath);
+        eLogD(TAG, "Relative path: " + relativePath);
 
         ContentResolver resolver = context.getContentResolver();
         Uri uri;
         try {
-            Log.d(TAG, "Inserting video to MediaStore...");
+            eLogD(TAG, "Inserting video to MediaStore...");
             uri = resolver.insert(videoExternalContentUri, videoImageValues);
-            Log.d(TAG, "Insert result URI: " + uri);
+            eLogD(TAG, "Insert result URI: " + uri);
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, "saveVideoToGalleryByMediaStore failed, " + e.getMessage());
+            eLogD(TAG, "saveVideoToGalleryByMediaStore failed, " + e.getMessage());
             return false;
         }
         if (uri == null) {
-            Log.e(TAG, "Failed to insert video to MediaStore - URI is null");
+            eLogD(TAG, "Failed to insert video to MediaStore - URI is null");
             return false;
         }
         
         // got permission, write file to public media dir
-        Log.d(TAG, "Writing file to URI: " + uri);
+        eLogD(TAG, "Writing file to URI: " + uri);
         boolean saveSuccess = saveFileToUri(resolver, uri, videoPath);
-        Log.d(TAG, "File write result: " + saveSuccess);
+        eLogD(TAG, "File write result: " + saveSuccess);
         if (!saveSuccess) {
-            Log.e(TAG, "Failed to write file to URI, deleting entry");
+            eLogD(TAG, "Failed to write file to URI, deleting entry");
             resolver.delete(uri, null, null);
             return false;
         }
@@ -180,13 +181,13 @@ public class FileBroadUtil {
         // Update IS_PENDING to make file visible
         videoImageValues.clear();
         videoImageValues.put(MediaStore.Video.Media.IS_PENDING, 0);
-        Log.d(TAG, "Updating IS_PENDING to 0 to make file visible");
+        eLogD(TAG, "Updating IS_PENDING to 0 to make file visible");
         int updateCount = resolver.update(uri, videoImageValues, null, null);
-        Log.d(TAG, "Update result count: " + updateCount);
+        eLogD(TAG, "Update result count: " + updateCount);
 
         // For Android Q and above, MediaStore API automatically adds the file to media database
         // However, as a backup measure, we also trigger manual media scan to ensure gallery refresh
-        Log.d(TAG, "Video saved to gallery successfully via MediaStore API, URI: " + uri);
+        eLogD(TAG, "Video saved to gallery successfully via MediaStore API, URI: " + uri);
         
         // 作为备用方案，手动触发媒体扫描以确保相册刷新
         try {
@@ -195,7 +196,7 @@ public class FileBroadUtil {
                     + "/" + getAppName(context) + "/" + getFileName(videoPath);
             triggerMediaScan(context, actualFilePath);
         } catch (Exception e) {
-            Log.w(TAG, "备用媒体扫描失败，但主要保存已成功: " + e.getMessage());
+            eLogD(TAG, "备用媒体扫描失败，但主要保存已成功: " + e.getMessage());
         }
         
         return true;
@@ -224,7 +225,7 @@ public class FileBroadUtil {
 
     public static boolean saveImageToGalleryByMediaStore(Context context, String imagePath) {
         if (TextUtils.isEmpty(imagePath) || context == null) {
-            Log.e(TAG, "param invalid");
+            eLogD(TAG, "param invalid");
             return false;
         }
 
@@ -247,7 +248,7 @@ public class FileBroadUtil {
         try {
             uri = resolver.insert(imageExternalContentUri, newImageValues);
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, "saveImageToGalleryByMediaStore failed, " + e.getMessage());
+            eLogD(TAG, "saveImageToGalleryByMediaStore failed, " + e.getMessage());
             return false;
         }
         if (uri == null) {
@@ -265,7 +266,7 @@ public class FileBroadUtil {
 
         // For Android Q and above, MediaStore API automatically adds the file to media database
         // However, as a backup measure, we also trigger manual media scan to ensure gallery refresh
-        Log.d(TAG, "Image saved to gallery successfully via MediaStore API");
+        eLogD(TAG, "Image saved to gallery successfully via MediaStore API");
         
         // 作为备用方案，手动触发媒体扫描以确保相册刷新
         try {
@@ -274,7 +275,7 @@ public class FileBroadUtil {
                     + "/" + getAppName(context) + "/" + getFileName(imagePath);
             triggerMediaScan(context, actualFilePath);
         } catch (Exception e) {
-            Log.w(TAG, "备用媒体扫描失败，但主要保存已成功: " + e.getMessage());
+            eLogD(TAG, "备用媒体扫描失败，但主要保存已成功: " + e.getMessage());
         }
         
         return true;
@@ -342,15 +343,15 @@ public class FileBroadUtil {
     }
 
     public static boolean saveFileToUri(ContentResolver contentResolver, Uri destinationUri, String srcPath) {
-        Log.d(TAG, "saveFileToUri开始 - 源文件: " + srcPath + ", 目标URI: " + destinationUri);
+        eLogD(TAG, "saveFileToUri开始 - 源文件: " + srcPath + ", 目标URI: " + destinationUri);
         
         File srcFile = new File(srcPath);
         if (!srcFile.exists()) {
-            Log.e(TAG, "saveFileToUri失败 - 源文件不存在: " + srcPath);
+            eLogD(TAG, "saveFileToUri失败 - 源文件不存在: " + srcPath);
             return false;
         }
         
-        Log.d(TAG, "源文件大小: " + srcFile.length() + " bytes");
+        eLogD(TAG, "源文件大小: " + srcFile.length() + " bytes");
         
         InputStream is = null;
         BufferedOutputStream bos = null;
@@ -367,10 +368,10 @@ public class FileBroadUtil {
                 totalBytesWritten += actualBytes;
             }
             
-            Log.d(TAG, "文件写入完成 - 总共写入字节数: " + totalBytesWritten);
+            eLogD(TAG, "文件写入完成 - 总共写入字节数: " + totalBytesWritten);
             
         } catch (IOException e) {
-            Log.e(TAG, "saveFileToUri异常: " + e.getMessage(), e);
+            eLogD(TAG, "saveFileToUri异常: " + e.getMessage(), e);
             return false;
         } finally {
             try {
@@ -381,11 +382,11 @@ public class FileBroadUtil {
                     bos.close();
                 }
             } catch (IOException e) {
-                Log.e(TAG, "关闭流时异常: " + e.getMessage(), e);
+                eLogD(TAG, "关闭流时异常: " + e.getMessage(), e);
             }
         }
         
-        Log.d(TAG, "saveFileToUri成功完成");
+        eLogD(TAG, "saveFileToUri成功完成");
         return true;
     }
 
@@ -394,16 +395,16 @@ public class FileBroadUtil {
      * 这是一个备用方案，当MediaStore API无法正确更新相册时使用
      */
     public static void triggerMediaScan(Context context, String filePath) {
-        Log.d(TAG, "手动触发媒体扫描: " + filePath);
+        eLogD(TAG, "手动触发媒体扫描: " + filePath);
         
         File file = new File(filePath);
         if (!file.exists()) {
-            Log.e(TAG, "文件不存在，无法触发媒体扫描: " + filePath);
+            eLogD(TAG, "文件不存在，无法触发媒体扫描: " + filePath);
             return;
         }
         
         String mimeType = getMimeType(filePath);
-        Log.d(TAG, "文件MIME类型: " + mimeType);
+        eLogD(TAG, "文件MIME类型: " + mimeType);
         
         MediaScannerConnection.scanFile(
             context,
@@ -412,7 +413,7 @@ public class FileBroadUtil {
             new MediaScannerConnection.OnScanCompletedListener() {
                 @Override
                 public void onScanCompleted(String path, Uri uri) {
-                    Log.d(TAG, "媒体扫描完成 - 路径: " + path + ", URI: " + uri);
+                    eLogD(TAG, "媒体扫描完成 - 路径: " + path + ", URI: " + uri);
                 }
             }
         );
@@ -459,7 +460,7 @@ public class FileBroadUtil {
                 appName = labelCharSequence.toString();
             }
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "getAppName exception:" + e.getMessage());
+            eLogD(TAG, "getAppName exception:" + e.getMessage());
         }
 
         return appName;

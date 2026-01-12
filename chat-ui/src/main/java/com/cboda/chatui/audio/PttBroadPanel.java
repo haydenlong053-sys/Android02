@@ -12,7 +12,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -66,8 +65,8 @@ public class PttBroadPanel implements View.OnTouchListener {
         this.button.setOnTouchListener(this);
         this.conversation = conversation;
         this.maxDuration = PTTClient.getInstance().getMaxSpeakTime(conversation) * 1000;
-        this.startSoundId = this.soundPool.load(context, R.raw.ptt_begin, 1);
-        this.stopSoundId = this.soundPool.load(context, R.raw.ptt_end, 1);
+        this.startSoundId = this.soundPool.load(context, R.raw.ptt_broad_begin, 1);
+        this.stopSoundId = this.soundPool.load(context, R.raw.ptt_broad_end, 1);
 
         PTTClient.getInstance().setEnablePtt(conversation, true);
     }
@@ -189,7 +188,7 @@ public class PttBroadPanel implements View.OnTouchListener {
         }
         stateTextView.setVisibility(View.VISIBLE);
         stateTextView.setText("松手结束对讲");
-        stateTextView.setBackgroundResource(R.drawable.bg_voice_popup);
+        stateTextView.setBackgroundResource(R.drawable.bg_voice_broad_popup);
     }
 
     private void hideTalking() {
@@ -211,7 +210,7 @@ public class PttBroadPanel implements View.OnTouchListener {
         stateImageView.setVisibility(View.GONE);
         stateTextView.setVisibility(View.VISIBLE);
         stateTextView.setText("松手结束对讲");
-        stateTextView.setBackgroundResource(R.drawable.bg_voice_popup);
+        stateTextView.setBackgroundResource(R.drawable.bg_voice_broad_popup);
         countDownTextView.setText(String.format("%s", seconds));
         countDownTextView.setVisibility(View.VISIBLE);
     }

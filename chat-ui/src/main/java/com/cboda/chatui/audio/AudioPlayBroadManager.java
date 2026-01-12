@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.audio;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -17,7 +19,6 @@ import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -111,7 +112,7 @@ public class AudioPlayBroadManager implements SensorEventListener {
             if (Build.VERSION.SDK_INT >= 21) {
                 this._wakeLock = this._powerManager.newWakeLock(32, "wfc:AudioPlayBroadManager");
             } else {
-                Log.e(TAG, "Does not support on level " + Build.VERSION.SDK_INT);
+                eLogD(TAG, "Does not support on level " + Build.VERSION.SDK_INT);
             }
         }
 
@@ -156,13 +157,13 @@ public class AudioPlayBroadManager implements SensorEventListener {
         //   低于 Android 6.0 的版本，不支持
         if (soundPool == null) {
             soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-            audioMsgPlayCompletionSoundId = soundPool.load(context, R.raw.audio_msg_play_completion, 0);
+            audioMsgPlayCompletionSoundId = soundPool.load(context, R.raw.audio_msg_play_broad_completion, 0);
         }
         if (data != null && data.length > 0) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                _startPlay(context, audioUri, new ByteArrayMediaDataSource(data), playListener);
+                imStartPlay(context, audioUri, new ByteArrayMediaDataSource(data), playListener);
             } else {
-                Log.d(TAG, "not support mediaDataSource");
+                eLogD(TAG, "not support mediaDataSource");
             }
         } else {
             startPlay(context, audioUri, playListener);
@@ -172,19 +173,19 @@ public class AudioPlayBroadManager implements SensorEventListener {
     public void startPlay(Context context, Uri audioUri, IAudioPlayBroadListener playListener) {
         if (soundPool == null) {
             soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-            audioMsgPlayCompletionSoundId = soundPool.load(context, R.raw.audio_msg_play_completion, 0);
+            audioMsgPlayCompletionSoundId = soundPool.load(context, R.raw.audio_msg_play_broad_completion, 0);
         }
-        _startPlay(context, audioUri, null, playListener);
+        imStartPlay(context, audioUri, null, playListener);
     }
 
-    private void _startPlay(Context context, Uri audioUri, Object mediaDataSource, IAudioPlayBroadListener playListener) {
+    private void imStartPlay(Context context, Uri audioUri, Object mediaDataSource, IAudioPlayBroadListener playListener) {
         if (context == null || audioUri == null) {
             return;
         }
         this.context = context;
         if (soundPool == null) {
             soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-            audioMsgPlayCompletionSoundId = soundPool.load(context, R.raw.audio_msg_play_completion, 0);
+            audioMsgPlayCompletionSoundId = soundPool.load(context, R.raw.audio_msg_play_broad_completion, 0);
         }
         if (this._playListener != null && this._playingUri != null) {
             this._playListener.onStop(this._playingUri);
@@ -193,7 +194,7 @@ public class AudioPlayBroadManager implements SensorEventListener {
         this.resetMediaPlayer();
         this.afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             public void onAudioFocusChange(int focusChange) {
-                Log.d(TAG, "OnAudioFocusChangeListener " + focusChange);
+                eLogD(TAG, "OnAudioFocusChangeListener " + focusChange);
                 if (AudioPlayBroadManager.this._audioManager != null && focusChange == -1) {
                     AudioPlayBroadManager.this._audioManager.abandonAudioFocus(AudioPlayBroadManager.this.afChangeListener);
                     AudioPlayBroadManager.this.afChangeListener = null;
@@ -237,7 +238,7 @@ public class AudioPlayBroadManager implements SensorEventListener {
             this._mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    Log.e(TAG, "onPrepared");
+                    eLogD(TAG, "onPrepared");
                     mp.start();
                 }
             });
@@ -320,7 +321,7 @@ public class AudioPlayBroadManager implements SensorEventListener {
     @TargetApi(8)
     private void muteAudioFocus(AudioManager audioManager, boolean bMute) {
         if (Build.VERSION.SDK_INT < 8) {
-            Log.d(TAG, "muteAudioFocus Android 2.1 and below can not stop music");
+            eLogD(TAG, "muteAudioFocus Android 2.1 and below can not stop music");
         } else {
             if (bMute) {
                 audioManager.requestAudioFocus(this.afChangeListener, 3, 2);

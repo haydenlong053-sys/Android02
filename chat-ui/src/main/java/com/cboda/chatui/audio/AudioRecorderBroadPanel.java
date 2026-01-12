@@ -90,13 +90,13 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
 //        this.button.setText("按住 说话");
 //        this.button.setOnTouchListener(this);
 
-        this.sendAudioMessageSuccessSoundId = this.soundPool.load(context, R.raw.audido_msg_send_success, 0);
+        this.sendAudioMessageSuccessSoundId = this.soundPool.load(context, R.raw.audio_msg_send_broad_success, 0);
     }
 
     public void deattch() {
         rootView = null;
         button = null;
-        this.soundPool.unload(R.raw.audido_msg_send_success);
+        this.soundPool.unload(R.raw.audio_msg_send_broad_success);
     }
 
     public void setRecordListener(OnRecordListener recordListener) {

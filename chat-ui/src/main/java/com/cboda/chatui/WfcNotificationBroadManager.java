@@ -4,6 +4,8 @@
 
 package com.cboda.chatui;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -61,7 +62,7 @@ public class WfcNotificationBroadManager {
     }
 
     private void showNotification(Context context, String tag, int id, String title, String content, PendingIntent pendingIntent) {
-        Log.e("野火","通知---> "+title+"  "+content);
+        eLogD("野火","通知---> "+title+"  "+content);
         TiXingBroadUtils.Companion.tixing(context);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

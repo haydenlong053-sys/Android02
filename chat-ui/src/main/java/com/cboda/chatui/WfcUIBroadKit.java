@@ -4,6 +4,8 @@
 
 package com.cboda.chatui;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
@@ -17,7 +19,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,6 +58,7 @@ import com.cboda.chatui.voip.VoipCallBroadService;
 import com.cboda.chatui.voip.conference.ConferenceBroadManager;
 import com.cboda.chatui.voip.conference.message.ConferenceChangeModeBroadContent;
 import com.cboda.chatui.voip.conference.message.ConferenceCommandBroadContent;
+
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.avenginekit.VideoProfile;
 import cn.wildfirechat.client.NotInitializedExecption;
@@ -161,7 +163,7 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
 //            ChatManager.Instance().getMainHandler().post(this::updateWaterMark);
 //        }
 
-        Log.d("WfcUIBroadKit", "init end");
+        eLogD("WfcUIBroadKit", "init end");
     }
 
     public void setEnableNativeNotification(boolean enable) {
@@ -297,7 +299,7 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
 
             // 检查录音权限，如果没有权限则不启动VoipCallService，避免闪退
             if (!hasRecordAudioPermission(application)) {
-                Log.w("WfcUIBroadKit", "RECORD_AUDIO permission not granted, cannot start VoipCallBroadService");
+                eLogD("WfcUIBroadKit", "RECORD_AUDIO permission not granted, cannot start VoipCallBroadService");
                 // 结束通话会话，因为没有录音权限无法正常进行语音通话
                 ToastBroadUtils.show("接收到通话请求,请先授权语音权限!");
                 if (callSession != null) {
@@ -331,7 +333,7 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
             return;
         }
         if (isIncoming && ChatManager.Instance().isVoipSilent()) {
-            Log.d("wfcUIKit", "用户设置禁止voip通知，忽略来电提醒");
+            eLogD("wfcUIKit", "用户设置禁止voip通知，忽略来电提醒");
             return;
         }
         ChatManager.Instance().getMainHandler().postDelayed(() -> {
@@ -341,10 +343,10 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
             }
 
             if (isIncoming) {
-                Uri uri = Uri.parse("android.resource://" + application.getPackageName() + "/" + R.raw.incoming_call_ring);
+                Uri uri = Uri.parse("android.resource://" + application.getPackageName() + "/" + R.raw.incoming_call_broad_ring);
                 ringPlayer.play(application, uri, true, AudioManager.STREAM_RING);
             } else {
-                Uri uri = Uri.parse("android.resource://" + application.getPackageName() + "/" + R.raw.outgoing_call_ring);
+                Uri uri = Uri.parse("android.resource://" + application.getPackageName() + "/" + R.raw.outgoing_call_broad_ring);
                 ringPlayer.play(application, uri, true, AudioManager.STREAM_RING);
             }
         }, 200);
@@ -356,7 +358,7 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
             avEngineCallback.shouldStopRing();
             return;
         }
-        Log.d("wfcUIKit", "showStopRing");
+        eLogD("wfcUIKit", "showStopRing");
         ringPlayer.stop();
     }
 
@@ -399,7 +401,7 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
             return;
         }
         if (!AVEngineKit.isSupportMultiCall()) {
-            Log.e("WfcKit", "avenginekit not support multi call");
+            eLogD("WfcKit", "avenginekit not support multi call");
             return;
         }
 

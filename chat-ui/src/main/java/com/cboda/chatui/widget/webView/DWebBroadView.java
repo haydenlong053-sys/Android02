@@ -1,5 +1,7 @@
 package com.cboda.chatui.widget.webView;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -13,7 +15,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class DWebBroadView extends WebView {
     private class InnerJavascriptInterface {
 
         private void PrintDebugInfo(String error) {
-            Log.d(LOG_TAG, error);
+            eLogD(LOG_TAG, error);
             if (isDebug) {
                 evaluateJavascript(String.format("alert('%s')", "DEBUG ERR MSG:\\n" + error.replaceAll("\\'", "\\\\'")));
             }
@@ -178,7 +179,7 @@ public class DWebBroadView extends WebView {
                                     if (complete) {
                                         script += "delete window." + cb;
                                     }
-                                    //Log.d(LOG_TAG, "complete " + script);
+                                    //eLogD(LOG_TAG, "complete " + script);
                                     evaluateJavascript(script);
                                 }
                             } catch (Exception e) {
@@ -974,7 +975,7 @@ public class DWebBroadView extends WebView {
             }
             file.delete();
         } else {
-            Log.e("Webview", "delete file no exists " + file.getAbsolutePath());
+            eLogD("Webview", "delete file no exists " + file.getAbsolutePath());
         }
     }
 
