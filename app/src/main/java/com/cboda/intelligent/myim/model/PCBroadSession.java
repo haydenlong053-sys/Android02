@@ -2,7 +2,7 @@
  * Copyright (c) 2020 WildFireChat. All rights reserved.
  */
 
-package com.cboda.intelligent.yehuo.model;
+package com.cboda.intelligent.myim.model;
 
 public class PCBroadSession {
     private String token;

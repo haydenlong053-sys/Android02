@@ -2,7 +2,7 @@
  * Copyright (c) 2023 WildFireChat. All rights reserved.
  */
 
-package com.cboda.intelligent.yehuo.service;
+package com.cboda.intelligent.myim.service;
 
 import android.net.Uri;
 import android.text.TextUtils;

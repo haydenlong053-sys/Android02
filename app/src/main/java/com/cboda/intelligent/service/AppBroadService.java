@@ -14,8 +14,8 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
-import com.cboda.intelligent.yehuo.model.LoginBroadResult;
-import com.cboda.intelligent.yehuo.model.PCBroadSession;
+import com.cboda.intelligent.myim.model.LoginBroadResult;
+import com.cboda.intelligent.myim.model.PCBroadSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;

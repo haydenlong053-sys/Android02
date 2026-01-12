@@ -209,23 +209,23 @@ class AppBroadUtils {
             apptoken: String?,
             rytoken: String?,
             uid: String?,
-            yehuoUserToken: String?
+            myImUserToken: String?
         ) {
-            debug("imLogin", "--> $uid $rytoken $yehuoUserToken")
+            debug("imLogin", "--> $uid $rytoken $myImUserToken")
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
 
             MMKVBroadUtils.saveUserId(apptoken ?: "")
             MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
             MMKVBroadUtils.saveRealUserId(uid ?: "")
-            MMKVBroadUtils.saveMyImToken(yehuoUserToken ?: "")
+            MMKVBroadUtils.saveMyImToken(myImUserToken ?: "")
 
             NetworkBroadConfig.updateAppToken(apptoken)
 
 
             //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
             val connextStatus =
-                ChatManagerBroadHolder.gChatManager.connect(uid ?: "", yehuoUserToken ?: "")
+                ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
             debug("野火", "connect----> $connextStatus --> }")
 //            txLogin()
             LiXinBroadApp.initOkGo()
