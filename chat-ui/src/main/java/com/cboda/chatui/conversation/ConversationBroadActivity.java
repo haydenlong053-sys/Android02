@@ -9,7 +9,6 @@ import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -156,12 +155,12 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             ChatManager.Instance().sendMessage(msg, new SendMessageCallback() {
                 @Override
                 public void onSuccess(long messageUid, long timestamp) {
-                    Log.e("野火", "发送接受转账消息onSuccess---> ");
+                    eLogD("野火", "发送接受转账消息onSuccess---> ");
                 }
 
                 @Override
                 public void onFail(int errorCode) {
-                    Log.e("野火", "发送接受转账消息onFail---> " + errorCode);
+                    eLogD("野火", "发送接受转账消息onFail---> " + errorCode);
                 }
 
                 @Override
@@ -217,12 +216,12 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             ChatManager.Instance().sendMessage(msg, new SendMessageCallback() {
                 @Override
                 public void onSuccess(long messageUid, long timestamp) {
-                    Log.e("野火", "发送表情-->onSuccess");
+                    eLogD("野火", "发送表情-->onSuccess");
                 }
 
                 @Override
                 public void onFail(int errorCode) {
-                    Log.e("野火", "发送表情-->onFail:: " + errorCode);
+                    eLogD("野火", "发送表情-->onFail:: " + errorCode);
                 }
 
                 @Override

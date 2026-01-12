@@ -4,9 +4,10 @@
 
 package com.cboda.chatui.voip;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,7 +190,7 @@ public class SingleVideoBroadFragment extends Fragment implements AVEngineKit.Ca
 
     @Override
     public void didReportAudioVolume(String userId, int volume) {
-        Log.d(TAG, "voip audio " + userId + " " + volume);
+        eLogD(TAG, "voip audio " + userId + " " + volume);
     }
 
     @Override
@@ -289,7 +290,7 @@ public class SingleVideoBroadFragment extends Fragment implements AVEngineKit.Ca
 
     // Log |msg| and Toast about it.
     private void logAndToast(String msg) {
-        Log.d(TAG, msg);
+        eLogD(TAG, msg);
         if (logToast != null) {
             logToast.cancel();
         }

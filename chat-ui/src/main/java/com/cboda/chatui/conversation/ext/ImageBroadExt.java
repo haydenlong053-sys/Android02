@@ -9,7 +9,6 @@ import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
@@ -102,7 +101,7 @@ public class ImageBroadExt extends ConversationBroadExt {
                                     imageFileSource = imageFileSource == null ? new File(imageItem.getRealPath()) : imageFileSource;
                                     imageFileThumb = ImageBroadUtils.genThumbImgFile(imageItem.getRealPath());
                                     if (imageFileThumb == null) {
-                                        Log.e("野火", "创建缩略图失败--->");
+                                        eLogD("野火", "创建缩略图失败--->");
                                         return;
                                     }
                                     File finalImageFileSource = imageFileSource;

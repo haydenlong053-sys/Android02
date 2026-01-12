@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.mm;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -268,7 +269,7 @@ public class MMPreviewBroadActivity extends AppCompatActivity implements PhotoBr
                             @Override
                             public void onProgress(int progress) {
                                 // TODO update progress
-                                Log.e(MMPreviewBroadActivity.class.getSimpleName(), "video downloading progress: " + progress);
+                                eLogD(MMPreviewBroadActivity.class.getSimpleName(), "video downloading progress: " + progress);
                             }
 
                             @Override
@@ -468,7 +469,7 @@ public class MMPreviewBroadActivity extends AppCompatActivity implements PhotoBr
 
     public static void previewMedia(Context context, List<MediaBroadEntry> entries, int current, boolean secret) {
         if (entries == null || entries.isEmpty()) {
-            Log.w(MMPreviewBroadActivity.class.getSimpleName(), "message is null or empty");
+            eLogD(MMPreviewBroadActivity.class.getSimpleName(), "message is null or empty");
             return;
         }
         MMPreviewBroadActivity.entries = entries;
@@ -480,7 +481,7 @@ public class MMPreviewBroadActivity extends AppCompatActivity implements PhotoBr
 
     public static void previewImage(Context context, Message message) {
         if (!(message.content instanceof ImageMessageContent)) {
-            Log.e(TAG, "previewImage without imageMessageContent");
+            eLogD(TAG, "previewImage without imageMessageContent");
             return;
         }
 
@@ -502,7 +503,7 @@ public class MMPreviewBroadActivity extends AppCompatActivity implements PhotoBr
 
     public static void previewVideo(Context context, Message message) {
         if (!(message.content instanceof VideoMessageContent)) {
-            Log.e(TAG, "previewVideo without videoMessageContent");
+            eLogD(TAG, "previewVideo without videoMessageContent");
             return;
         }
         List<MediaBroadEntry> entries = new ArrayList<>();

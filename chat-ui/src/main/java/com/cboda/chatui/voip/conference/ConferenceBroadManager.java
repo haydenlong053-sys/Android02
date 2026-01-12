@@ -4,10 +4,11 @@
 
 package com.cboda.chatui.voip.conference;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -24,6 +25,7 @@ import com.cboda.chatui.voip.conference.message.ConferenceChangeModeBroadContent
 import com.cboda.chatui.voip.conference.message.ConferenceCommandBroadContent;
 import com.cboda.chatui.voip.conference.model.ConferenceBroadInfo;
 import com.cboda.chatui.widget.AlertDialogBroadActivity;
+
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.model.Conversation;
@@ -252,14 +254,14 @@ public class ConferenceBroadManager implements OnReceiveMessageListener {
                 if (!session.isAudience() && session.videoMuted) {
                     boolean result = session.switchAudience(true);
                     if (!result) {
-                        Log.d(TAG, "switch to audience fail");
+                        eLogD(TAG, "switch to audience fail");
                         return;
                     }
                 }
                 session.muteAudio(true);
             } else {
                 if (session.isAudience() && !session.canSwitchAudience()) {
-                    Log.d(TAG, "can not switch to audience");
+                    eLogD(TAG, "can not switch to audience");
                     return;
                 }
                 if (session.isAudience() && isParticipantFull(session)) {
@@ -522,11 +524,11 @@ public class ConferenceBroadManager implements OnReceiveMessageListener {
     private void onRequestMute(boolean mute) {
         if (!mute) {
             AlertDialogBroadActivity.showAlterDialog(context, "主持人邀请你发言", false, "拒绝", "接受",
-                () -> Toast.makeText(context, "你拒绝了发言邀请", Toast.LENGTH_SHORT).show(),
-                () -> {
-                    Toast.makeText(context, "你接受了发言邀请", Toast.LENGTH_SHORT).show();
-                    muteAudioVideo(false);
-                });
+                    () -> Toast.makeText(context, "你拒绝了发言邀请", Toast.LENGTH_SHORT).show(),
+                    () -> {
+                        Toast.makeText(context, "你接受了发言邀请", Toast.LENGTH_SHORT).show();
+                        muteAudioVideo(false);
+                    });
         } else {
             Toast.makeText(context, "主持人关闭了你的发言", Toast.LENGTH_SHORT).show();
             muteAudioVideo(true);
@@ -536,11 +538,11 @@ public class ConferenceBroadManager implements OnReceiveMessageListener {
     private void onCancelMuteAll(boolean requestUnmute) {
         if (requestUnmute) {
             AlertDialogBroadActivity.showAlterDialog(context, "主持人关闭了全员静音，是否要打开麦克风", false, "忽略", "打开",
-                () -> {
-                },
-                () -> {
-                    muteAudio(false);
-                });
+                    () -> {
+                    },
+                    () -> {
+                        muteAudio(false);
+                    });
         }
         Toast.makeText(context, "主持人关闭了全员静音", Toast.LENGTH_SHORT).show();
     }

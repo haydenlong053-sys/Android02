@@ -1,19 +1,12 @@
 package com.cboda.chatui.conversation.ext;
 
 import android.content.Context;
-import android.util.Log; // 用于演示回调
-import android.view.Gravity; // 如果需要设置 Gravity
 import android.view.View;
-
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
-import com.cboda.chatui.widget.popup.OpenMeetingBroadDialog;
-import cn.wildfirechat.message.MeetingInviteMessageContent;
 import cn.wildfirechat.model.Conversation;
-import cn.wildfirechat.remote.ChatManager;
-import kotlin.Unit; // 导入 Kotlin 的 Unit 类型
 // 不需要 FunctionN 接口了，Java Lambda 可以直接匹配
 
 public class MeetingBroadExt extends ConversationBroadExt {

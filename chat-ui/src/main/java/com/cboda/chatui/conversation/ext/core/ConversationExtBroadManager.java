@@ -4,16 +4,17 @@
 
 package com.cboda.chatui.conversation.ext.core;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.google.gson.Gson;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.chatui.bridge.IMCommonBroadResult;
 import com.cboda.chatui.conversation.ext.CollectBroadExt;
 import com.cboda.chatui.conversation.ext.FileBroadExt;
@@ -24,6 +25,8 @@ import com.cboda.chatui.conversation.ext.ShootBroadExt;
 import com.cboda.chatui.conversation.ext.UserCardBroadExt;
 import com.cboda.chatui.conversation.ext.VoipBroadExt;
 import com.cboda.chatui.utils.SharePrefBroadBroadUtil;
+import com.google.gson.Gson;
+
 import cn.wildfirechat.model.Conversation;
 
 public class ConversationExtBroadManager {
@@ -41,18 +44,18 @@ public class ConversationExtBroadManager {
 
     public static synchronized ConversationExtBroadManager getInstance(Context context, Conversation.ConversationType type) {
 //        if (instance == null) {
-            instance = new ConversationExtBroadManager(context,type);
+        instance = new ConversationExtBroadManager(context, type);
 //        }
         return instance;
     }
 
-    private Gson gson = new Gson();
+    private Gson gson = GsonUtils.getGson();
     private IMCommonBroadResult imCommonResult;
 
     private void init() {
         //
         String pingtaipeizhi = SharePrefBroadBroadUtil.getString(context, "pingtaipeizhi", "");
-        Log.e("野火", "红包转账配置--> " + pingtaipeizhi);
+        eLogD("野火", "红包转账配置--> " + pingtaipeizhi);
         if (!TextUtils.isEmpty(pingtaipeizhi)) {
             imCommonResult = gson.fromJson(pingtaipeizhi, IMCommonBroadResult.class);
         }

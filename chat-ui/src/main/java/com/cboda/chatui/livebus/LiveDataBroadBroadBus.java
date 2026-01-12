@@ -4,7 +4,8 @@
 
 package com.cboda.chatui.livebus;
 
-import android.util.Log;
+
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
@@ -37,11 +38,11 @@ public final class LiveDataBroadBroadBus {
 
     static void unregister(String subject) {
         sSubjectMap.remove(subject);
-        Log.d("LiveDataBroadBroadBus", "remove subject " + subject);
+        eLogD("LiveDataBroadBroadBus", "remove subject " + subject);
     }
 
     /**
-     * pls refer to {@link androidx.lifecycle.LiveData#postValue(Object)}
+     * pls refer to 
      *
      * @param subject
      * @param message

@@ -20,6 +20,8 @@
  */
 package com.cboda.chatui.widget;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
@@ -28,7 +30,6 @@ import android.os.Build.VERSION_CODES;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowInsets;
@@ -106,7 +107,7 @@ public class KeyboardAwareLinearBroadLayout extends LinearLayoutCompat {
         int oldRotation = rotation;
         rotation = getDeviceRotation();
         if (oldRotation != -1 && oldRotation != rotation) {
-            Log.i(TAG, "rotation changed");
+            eLogD(TAG, "rotation changed");
             onKeyboardClose();
         }
     }
@@ -148,7 +149,7 @@ public class KeyboardAwareLinearBroadLayout extends LinearLayoutCompat {
             }
 
             if (bottomInset != 0 && (viewInset == 0 || viewInset == statusBarHeight)) {
-                Log.i(TAG, "Updating view inset based on WindowInsets. viewInset: " + viewInset + " windowInset: " + bottomInset);
+                eLogD(TAG, "Updating view inset based on WindowInsets. viewInset: " + viewInset + " windowInset: " + bottomInset);
                 viewInset = bottomInset;
             }
         }
@@ -187,14 +188,14 @@ public class KeyboardAwareLinearBroadLayout extends LinearLayoutCompat {
     }
 
     protected void onKeyboardOpen(int keyboardHeight) {
-        Log.i(TAG, "onKeyboardOpen(" + keyboardHeight + ")");
+        eLogD(TAG, "onKeyboardOpen(" + keyboardHeight + ")");
         keyboardOpen = true;
 
         notifyShownListeners();
     }
 
     protected void onKeyboardClose() {
-        Log.i(TAG, "onKeyboardClose()");
+        eLogD(TAG, "onKeyboardClose()");
         keyboardOpen = false;
         notifyHiddenListeners();
     }

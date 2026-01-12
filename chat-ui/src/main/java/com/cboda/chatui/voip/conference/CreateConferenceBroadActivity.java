@@ -4,10 +4,11 @@
 
 package com.cboda.chatui.voip.conference;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -255,7 +256,7 @@ public class CreateConferenceBroadActivity extends WfcBaseBroadActivity {
             @Override
             public void onFail(int i) {
                 Toast.makeText(CreateConferenceBroadActivity.this, "创建会议失败: " + i, Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "createConference fail" + i);
+                eLogD(TAG, "createConference fail" + i);
                 joinConferenceButton.setEnabled(true);
             }
         });

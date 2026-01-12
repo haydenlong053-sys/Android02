@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.conversation;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 
@@ -13,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -544,7 +544,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //                    return false;
 //                }
                 String pingtaipeizhi = SharePrefBroadBroadUtil.getString(v.getContext(), "pingtaipeizhi", "");
-                Log.e("野火长按配置", "--> " + pingtaipeizhi);
+                eLogD("野火长按配置", "--> " + pingtaipeizhi);
                 if (!TextUtils.isEmpty(pingtaipeizhi)) {
                     imCommonResult = gson.fromJson(pingtaipeizhi, IMCommonBroadResult.class);
                 }
@@ -552,7 +552,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 UiBroadMessage message = getItem(position);
                 Message message1 = message.message;
                 boolean canChehui = viewHolder.contextMenuItemFilter(message, MessageContextMenuItemBroadTags.TAG_RECALL);
-                Log.e("野火", "长按--> " + message1.direction + "  " + message1.content.getMessageContentType() + "  是否可撤回--> " + canChehui);
+                eLogD("野火", "长按--> " + message1.direction + "  " + message1.content.getMessageContentType() + "  是否可撤回--> " + canChehui);
                 List<String> titles = new ArrayList<>();
                 mPopActions.clear();
 

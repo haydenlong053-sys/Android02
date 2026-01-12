@@ -4,7 +4,8 @@
 
 package com.cboda.chatui.conversation.mention;
 
-import android.util.Log;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.view.View;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class MentionGroupMemberBroadActivity extends SearchBroadActivity {
             findViewById(R.id.containerFrameLayout).setVisibility(View.VISIBLE);
         }
 
-        Log.e("group--", "keyWord"+keyWord);
+        eLogD("group--", "keyWord"+keyWord);
     }
 
     @Override

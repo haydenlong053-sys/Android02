@@ -4,13 +4,13 @@
 
 package com.cboda.chatui.viewmodel;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
@@ -128,7 +128,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                 if (msg.content instanceof UnknownMessageContent) {
                     UnknownMessageContent tongzhiContent = (UnknownMessageContent) msg.content;
                     if (tongzhiContent.getOrignalPayload().type == 1001) {
-                        Log.e("野火", "自定义通知--> " + tongzhiContent.getOrignalPayload().content + "  " + tongzhiContent.getOrignalPayload().extra);
+                        eLogD("野火", "自定义通知--> " + tongzhiContent.getOrignalPayload().content + "  " + tongzhiContent.getOrignalPayload().extra);
                         EventBus.getDefault().post(new MyBroadEvent("xiugaigongaole", tongzhiContent.getOrignalPayload().content, tongzhiContent.getOrignalPayload().extra));
                     } else if (tongzhiContent.getOrignalPayload().type == 1004) {
                         EventBus.getDefault().post(new MyBroadEvent("xiugaifayanshijian", tongzhiContent.getOrignalPayload().content, ""));
@@ -234,7 +234,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
 
             @Override
             public void onFail(int errorCode) {
-                Log.e(MessageViewBroadModel.class.getSimpleName(), "撤回失败: " + errorCode);
+                eLogD(MessageViewBroadModel.class.getSimpleName(), "撤回失败: " + errorCode);
                 // TODO 撤回失败
             }
         });
@@ -270,7 +270,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
 
             @Override
             public void onFail(int errorCode) {
-                Log.e("Message", "delete remote message error: " + errorCode);
+                eLogD("Message", "delete remote message error: " + errorCode);
             }
         });
     }
@@ -302,7 +302,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
         if (file.exists()) {
             playAudio(message, file);
         } else {
-            Log.e("ConversationViewBroadHolder", "audio not exist");
+            eLogD("ConversationViewBroadHolder", "audio not exist");
         }
     }
 
@@ -360,7 +360,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
             if (shifouLanjie) {
                 long shiji = System.currentTimeMillis() - ChatManager.Instance().shangcishijan;
                 long shijicha = jiangeshijan * 1000L;
-                Log.e("野火", "发言时间差--> " + shiji + "  " + shijicha);
+                eLogD("野火", "发言时间差--> " + shiji + "  " + shijicha);
                 if (shiji >= shijicha) {
                     faxiaoxi(conversation, content);
                 } else {
@@ -388,7 +388,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                 }
             }
         }
-        Log.e("野火", "发消息--> " + shifoumianci + "  " + mgc + " " + openMgc + "  ");
+        eLogD("野火", "发消息--> " + shifoumianci + "  " + mgc + " " + openMgc + "  ");
         if (shifoumianci && content instanceof TextMessageContent) {
             String content1 = ((TextMessageContent) content).getContent();
             if (content1.contains("|")) {
@@ -517,7 +517,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
         if (audioPath != null) {
             File file = new File(audioPath.getPath());
             if (!file.exists() || file.length() == 0L) {
-                Log.e("ConversationViewBroadModel", "send audio file fail");
+                eLogD("ConversationViewBroadModel", "send audio file fail");
                 return;
             }
             SoundMessageContent soundContent = new SoundMessageContent(file.getAbsolutePath());
@@ -568,7 +568,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                 @Override
                 public void onFail(int errorCode) {
                     message.isDownloading = false;
-                    Log.d("MessageVideModel", "decodeSecretDataAsync error " + errorCode);
+                    eLogD("MessageVideModel", "decodeSecretDataAsync error " + errorCode);
                 }
             });
 
@@ -608,7 +608,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                 message.isDownloading = false;
                 message.progress = 0;
                 postMessageUpdate(message);
-                Log.e(AudioMessageContentViewBroadHolder.class.getSimpleName(), "download failed: " + message.message.messageId);
+                eLogD(AudioMessageContentViewBroadHolder.class.getSimpleName(), "download failed: " + message.message.messageId);
             }
         });
     }

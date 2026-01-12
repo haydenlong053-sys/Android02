@@ -4,13 +4,14 @@
 
 package com.cboda.chatui.conversationlist;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.RemoteException;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.Observer;
@@ -170,7 +171,7 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
     public void setGlobalNoticeBean(GlobalNoticeBroadBean mNoticeBean) {
         this.globalNoticeBean = mNoticeBean;
         if (BuildConfig.DEBUG){
-            Log.d("zhanglong","--setGlobalNoticeBean---globalNoticeBean=="+globalNoticeBean.toString()+"---myHeaderAdapter=="+myHeaderAdapter);
+            eLogD("zhanglong","--setGlobalNoticeBean---globalNoticeBean=="+globalNoticeBean.toString()+"---myHeaderAdapter=="+myHeaderAdapter);
         }
         if (myHeaderAdapter != null) {
             myHeaderAdapter.refreshHeaderData(globalNoticeBean);

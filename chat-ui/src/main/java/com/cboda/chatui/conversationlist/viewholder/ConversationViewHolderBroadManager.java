@@ -4,7 +4,8 @@
 
 package com.cboda.chatui.conversationlist.viewholder;
 
-import android.util.Log;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.util.SparseArray;
 
 import com.cboda.chatui.annotation.ConversationInfoBroadType;
@@ -43,7 +44,7 @@ public class ConversationViewHolderBroadManager {
             if (clazz == null) {
                 clazz = UnknownConversationViewBroadHolder.class;
             }
-            Log.e("wfc", "未配置对应的ConversationViewHolder，" + (type >> 24) + " " + (type & 0xFF) + " " + clazz.getSimpleName());
+            eLogD("wfc", "未配置对应的ConversationViewHolder，" + (type >> 24) + " " + (type & 0xFF) + " " + clazz.getSimpleName());
         }
         return clazz;
     }

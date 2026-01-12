@@ -4,11 +4,12 @@
 
 package com.cboda.chatui.conversation;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -84,7 +85,7 @@ public class Draft {
         try {
             draft = new Gson().fromJson(json, Draft.class);
         }catch (Exception e){
-            Log.e("Draft", e.getMessage());
+            eLogD("Draft", e.getMessage());
             // fallback
             draft = new Draft();
             draft.content = json;

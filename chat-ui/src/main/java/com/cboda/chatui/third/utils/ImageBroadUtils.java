@@ -1,5 +1,7 @@
 package com.cboda.chatui.third.utils;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,7 +20,6 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -134,7 +135,7 @@ public class ImageBroadUtils {
         //取出原檔的 Bitmap(若寬高超過會 resize)並設定原始的旋轉角度
         Bitmap srcBitmap = BitmapFactory.decodeFile(srcImgPath, options);
         if (srcBitmap == null) {
-            Log.e("ImageBroadUtils", "decode file error " + srcImgPath);
+            eLogD("ImageBroadUtils", "decode file error " + srcImgPath);
             return null;
         }
         Matrix matrix = new Matrix();

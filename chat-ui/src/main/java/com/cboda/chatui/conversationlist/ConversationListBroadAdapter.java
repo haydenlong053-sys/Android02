@@ -4,7 +4,8 @@
 
 package com.cboda.chatui.conversationlist;
 
-import android.util.Log;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
 
     public  void updateSelectMode(boolean isSelectMode) {
         this.isSelectMode = isSelectMode;
-        Log.e("xxxx","isSelectMode"+isSelectMode);
+        eLogD("xxxx","isSelectMode"+isSelectMode);
         notifyDataSetChanged();
     }
 

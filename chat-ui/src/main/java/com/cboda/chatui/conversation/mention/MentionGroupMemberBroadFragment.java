@@ -4,10 +4,11 @@
 
 package com.cboda.chatui.conversation.mention;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -44,13 +45,13 @@ public class MentionGroupMemberBroadFragment extends BaseUserListBroadFragment {
         groupInfo = getArguments().getParcelable("groupInfo");
         groupViewModel = ViewModelProviders.of(getActivity()).get(GroupViewBroadModel.class);
         groupMember = groupViewModel.getGroupMember(groupInfo.target, ChatManager.Instance().getUserId());
-        Log.e("group--", "onCreate");
+        eLogD("group--", "onCreate");
     }
 
     @Override
     protected void afterViews(View view) {
         super.afterViews(view);
-        Log.e("group--", "afterViews");
+        eLogD("group--", "afterViews");
         groupViewModel.getGroupMemberUIUserInfosLiveData(groupInfo.target, false).observe(this, uiUserInfos -> {
             showContent();
             UIUserBroadInfo xbao = null;
@@ -67,14 +68,14 @@ public class MentionGroupMemberBroadFragment extends BaseUserListBroadFragment {
                 xbao.setShowCategory(false);
                 uiUserInfos.add(0, xbao);
             }
-            Log.e("group--", "uiUserInfos" + uiUserInfos.size());
+            eLogD("group--", "uiUserInfos" + uiUserInfos.size());
             userListAdapter.setUsers(uiUserInfos);
         });
     }
 
     @Override
     public UserListBroadAdapter onCreateUserListAdapter() {
-        Log.e("group--", "onCreateUserListAdapter");
+        eLogD("group--", "onCreateUserListAdapter");
         return new UserListBroadAdapter(this);
     }
 

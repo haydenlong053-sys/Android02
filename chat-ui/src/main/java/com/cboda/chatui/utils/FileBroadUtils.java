@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.utils;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentUris;
@@ -17,7 +19,6 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -383,7 +384,7 @@ public class FileBroadUtils {
     private static String getLocalPath(final Context context, final Uri uri) {
 
         if (DEBUG)
-            Log.d(TAG + " File -",
+            eLogD(TAG + " File -",
                 "Authority: " + uri.getAuthority() +
                     ", Fragment: " + uri.getFragment() +
                     ", Port: " + uri.getPort() +
@@ -644,10 +645,10 @@ public class FileBroadUtils {
 
     private static void logDir(File dir) {
         if (!DEBUG) return;
-        Log.d(TAG, "Dir=" + dir);
+        eLogD(TAG, "Dir=" + dir);
         File[] files = dir.listFiles();
         for (File file : files) {
-            Log.d(TAG, "File=" + file.getPath());
+            eLogD(TAG, "File=" + file.getPath());
         }
     }
 
@@ -682,7 +683,7 @@ public class FileBroadUtils {
                 return null;
             }
         } catch (IOException e) {
-            Log.w(TAG, e);
+            eLogD(TAG, e);
             return null;
         }
 

@@ -17,6 +17,7 @@ package com.cboda.chatui.voip;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -64,6 +65,7 @@ public abstract class VoipBaseBroadActivity extends FragmentActivity implements 
     private String focusVideoUserId;
     private static final String TAG = "voip";
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +135,7 @@ public abstract class VoipBaseBroadActivity extends FragmentActivity implements 
         session.setCallback(this);
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         for (int result : grantResults) {
@@ -341,6 +344,7 @@ public abstract class VoipBaseBroadActivity extends FragmentActivity implements 
         return true;
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         // do nothing

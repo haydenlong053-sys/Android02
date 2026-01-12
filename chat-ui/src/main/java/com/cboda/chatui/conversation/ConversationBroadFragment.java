@@ -7,6 +7,7 @@ package com.cboda.chatui.conversation;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.os.RemoteException;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -85,6 +85,7 @@ import com.cboda.chatui.viewmodel.SettingViewBroadModel;
 import com.cboda.chatui.viewmodel.UserOnlineStateViewBroadModel;
 import com.cboda.chatui.widget.InputAwareBroadLayout;
 import com.cboda.chatui.widget.KeyboardAwareLinearBroadLayout;
+
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.client.IGetMessageCallback;
 import cn.wildfirechat.message.EnterChannelChatMessageContent;
@@ -112,6 +113,7 @@ import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
 
+@SuppressLint("FragmentLiveDataObserve")
 public class ConversationBroadFragment extends Fragment implements
         KeyboardAwareLinearBroadLayout.OnKeyboardShownListener,
         KeyboardAwareLinearBroadLayout.OnKeyboardHiddenListener,
@@ -600,7 +602,7 @@ public class ConversationBroadFragment extends Fragment implements
                     if (messages != null && !messages.isEmpty()) {
                         Message message = messages.get(0);
                         if (!(message.content instanceof TypingMessageContent)) {
-                            Log.e("野火", "获取最后一次发言时间--> " + message.serverTime);
+                            eLogD("野火", "获取最后一次发言时间--> " + message.serverTime);
                             ChatManager.Instance().shangcishijan = message.serverTime;
                         }
 
@@ -738,7 +740,7 @@ public class ConversationBroadFragment extends Fragment implements
         inputPanel.setupConversation(conversation);
 
         if (conversation.type != Conversation.ConversationType.ChatRoom) {
-//            Log.d("zhanglong","setupConversation---"+conversation.target+"===="+initialFocusedMessageId);
+//            eLogD("zhanglong","setupConversation---"+conversation.target+"===="+initialFocusedMessageId);
             loadMessage(initialFocusedMessageId);
         }
         if (conversation.type == Conversation.ConversationType.ChatRoom) {
@@ -842,7 +844,7 @@ public class ConversationBroadFragment extends Fragment implements
                     if (initialMessagePosition != -1) {
                         recyclerView.scrollToPosition(initialMessagePosition);
                         adapter.highlightFocusMessage(initialMessagePosition);
-                        Log.e("野火", "被aita pos--> " + initialMessagePosition);
+                        eLogD("野火", "被aita pos--> " + initialMessagePosition);
                     }
                 } else {
                     moveToBottom = true;
@@ -934,7 +936,7 @@ public class ConversationBroadFragment extends Fragment implements
 
                 @Override
                 public void onFailure(int errorCode) throws RemoteException {
-                    Log.e("野火", "获取@消息--> onFailure " + errorCode);
+                    eLogD("野火", "获取@消息--> onFailure " + errorCode);
                 }
             });
         } catch (Exception e) {
@@ -1163,7 +1165,7 @@ public class ConversationBroadFragment extends Fragment implements
             if (result) {
                 return;
             }
-            Log.d(TAG, "extension can not handle " + requestCode);
+            eLogD(TAG, "extension can not handle " + requestCode);
         }
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_PICK_MENTION_CONTACT) {
@@ -1304,13 +1306,14 @@ public class ConversationBroadFragment extends Fragment implements
         loadMoreOldMessages(false);
     }
 
+
     private void loadMoreOldMessages(boolean scrollToBottom) {
-//Log.e("zhanglong","channelPrivateChatUser======"+channelPrivateChatUser+"==="+adapter.oldestMessageId+"===="+adapter.oldestMessageUid);
-//Log.e("zhanglong","conversation=="+conversation.target+"==="+conversation.type);
+//eLogD("zhanglong","channelPrivateChatUser======"+channelPrivateChatUser+"==="+adapter.oldestMessageId+"===="+adapter.oldestMessageUid);
+//eLogD("zhanglong","conversation=="+conversation.target+"==="+conversation.type);
 
         conversationViewModel.loadOldMessages(conversation, channelPrivateChatUser, adapter.oldestMessageId, adapter.oldestMessageUid, MESSAGE_LOAD_COUNT_PER_TIME)
                 .observe(this, uiMessages -> {
-//                    Log.e("zhanglong","loadOldMessages===uiMessages.size==="+uiMessages.size());
+//                    eLogD("zhanglong","loadOldMessages===uiMessages.size==="+uiMessages.size());
 
                     List<UiBroadMessage> messageList = adapter.getMessages();
                     for (int i = 0; i < messageList.size(); i++) {

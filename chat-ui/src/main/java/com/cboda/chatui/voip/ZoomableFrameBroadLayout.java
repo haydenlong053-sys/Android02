@@ -4,12 +4,13 @@
 
 package com.cboda.chatui.voip;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -87,7 +88,7 @@ public class ZoomableFrameBroadLayout extends FrameLayout implements ScaleGestur
                 int x = (int) motionEvent.getX();
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
-                        Log.i(TAG, "DOWN");
+                        eLogD(TAG, "DOWN");
                         lastX = x;
                         lastY = y;
                         if (scale > MIN_ZOOM) {
@@ -117,7 +118,7 @@ public class ZoomableFrameBroadLayout extends FrameLayout implements ScaleGestur
                         mode = Mode.NONE; // changed from DRAG, was messing up zoom
                         break;
                     case MotionEvent.ACTION_UP:
-                        Log.i(TAG, "UP");
+                        eLogD(TAG, "UP");
                         if (mode == Mode.DRAG) {
                             float tmp = y - lastY;
                             if (Math.abs(tmp) < getViewHeight() / 6) {
@@ -153,7 +154,7 @@ public class ZoomableFrameBroadLayout extends FrameLayout implements ScaleGestur
                     float maxDy = child().getHeight() * (scale - 1);  // adjusted for zero pivot
                     dx = Math.min(Math.max(dx, -maxDx), 0);  // adjusted for zero pivot
                     dy = Math.min(Math.max(dy, -maxDy), 0);  // adjusted for zero pivot
-                    Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx
+                    eLogD(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx
                         + ", max " + maxDx);
                     applyScaleAndTranslation();
                 }
@@ -166,14 +167,14 @@ public class ZoomableFrameBroadLayout extends FrameLayout implements ScaleGestur
     // ScaleGestureDetector
     @Override
     public boolean onScaleBegin(ScaleGestureDetector scaleDetector) {
-        Log.i(TAG, "onScaleBegin");
+        eLogD(TAG, "onScaleBegin");
         return true;
     }
 
     @Override
     public boolean onScale(ScaleGestureDetector scaleDetector) {
         float scaleFactor = scaleDetector.getScaleFactor();
-        Log.i(TAG, "onScale(), scaleFactor = " + scaleFactor);
+        eLogD(TAG, "onScale(), scaleFactor = " + scaleFactor);
         if (lastScaleFactor == 0 || (Math.signum(scaleFactor) == Math.signum(lastScaleFactor))) {
             float prevScale = scale;
             scale *= scaleFactor;
@@ -181,14 +182,14 @@ public class ZoomableFrameBroadLayout extends FrameLayout implements ScaleGestur
             lastScaleFactor = scaleFactor;
             float adjustedScaleFactor = scale / prevScale;
             // added logic to adjust dx and dy for pinch/zoom pivot point
-            Log.d(TAG, "onScale, adjustedScaleFactor = " + adjustedScaleFactor);
-            Log.d(TAG, "onScale, BEFORE dx/dy = " + dx + "/" + dy);
+            eLogD(TAG, "onScale, adjustedScaleFactor = " + adjustedScaleFactor);
+            eLogD(TAG, "onScale, BEFORE dx/dy = " + dx + "/" + dy);
             float focusX = scaleDetector.getFocusX();
             float focusY = scaleDetector.getFocusY();
-            Log.d(TAG, "onScale, focusX/focusy = " + focusX + "/" + focusY);
+            eLogD(TAG, "onScale, focusX/focusy = " + focusX + "/" + focusY);
             dx += (dx - focusX) * (adjustedScaleFactor - 1);
             dy += (dy - focusY) * (adjustedScaleFactor - 1);
-            Log.d(TAG, "onScale, dx/dy = " + dx + "/" + dy);
+            eLogD(TAG, "onScale, dx/dy = " + dx + "/" + dy);
         } else {
             lastScaleFactor = 0;
         }
@@ -197,7 +198,7 @@ public class ZoomableFrameBroadLayout extends FrameLayout implements ScaleGestur
 
     @Override
     public void onScaleEnd(ScaleGestureDetector scaleDetector) {
-        Log.i(TAG, "onScaleEnd");
+        eLogD(TAG, "onScaleEnd");
     }
 
     @Override

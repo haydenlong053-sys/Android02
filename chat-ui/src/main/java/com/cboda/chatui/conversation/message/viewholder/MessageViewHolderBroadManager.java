@@ -4,11 +4,13 @@
 
 package com.cboda.chatui.conversation.message.viewholder;
 
-import android.util.Log;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.util.SparseArray;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.MessageContentBroadType;
+
 import cn.wildfirechat.message.MessageContent;
 import cn.wildfirechat.message.core.ContentTag;
 
@@ -69,7 +71,7 @@ public class MessageViewHolderBroadManager {
                 messageSendLayoutRes.put(contentTag.type(), sendLayoutRes);
                 messageReceiveLayoutRes.put(contentTag.type(), receiveLayoutRes);
             } else {
-                Log.e(MessageViewHolderBroadManager.class.getSimpleName(), "re-register message view holder " + clazz.getSimpleName());
+                eLogD(MessageViewHolderBroadManager.class.getSimpleName(), "re-register message view holder " + clazz.getSimpleName());
             }
         }
     }
@@ -89,7 +91,7 @@ public class MessageViewHolderBroadManager {
     public Class<? extends MessageContentViewBroadHolder> getMessageContentViewHolder(int messageType) {
         Class clazz = messageViewHolders.get(messageType);
         if (clazz == null) {
-            Log.d(TAG, "not register messageContentViewHolder for messageType " + messageType + ", fall-back to UnknownMessageContentViewHolder");
+            eLogD(TAG, "not register messageContentViewHolder for messageType " + messageType + ", fall-back to UnknownMessageContentViewHolder");
             return UnkownMessageContentViewBroadHolder.class;
         }
         return clazz;

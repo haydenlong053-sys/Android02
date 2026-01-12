@@ -1,7 +1,8 @@
 package com.cboda.chatui.glide;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -34,7 +35,7 @@ public class WfcHttpUrlBroadFetcher implements DataFetcher<InputStream> {
     private static final String TAG = "HttpUrlFetcher";
     private static final int MAXIMUM_REDIRECTS = 5;
     static final HttpUrlConnectionFactory DEFAULT_CONNECTION_FACTORY =
-        new DefaultHttpUrlConnectionFactory();
+            new DefaultHttpUrlConnectionFactory();
     /**
      * Returned when a connection error prevented us from receiving an http error.
      */
@@ -110,14 +111,10 @@ public class WfcHttpUrlBroadFetcher implements DataFetcher<InputStream> {
             });
 
         } catch (IOException e) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Failed to load data for url", e);
-            }
+            eLogD(TAG, "Failed to load data for url", e);
             callback.onLoadFailed(e);
         } finally {
-            if (Log.isLoggable(TAG, Log.VERBOSE)) {
-                Log.v(TAG, "Finished http url fetcher fetch in " + LogTime.getElapsedMillis(startTime));
-            }
+            eLogD(TAG, "Finished http url fetcher fetch in " + LogTime.getElapsedMillis(startTime));
         }
     }
 
@@ -189,14 +186,12 @@ public class WfcHttpUrlBroadFetcher implements DataFetcher<InputStream> {
     }
 
     private InputStream getStreamForSuccessfulRequest(HttpURLConnection urlConnection)
-        throws IOException {
+            throws IOException {
         if (TextUtils.isEmpty(urlConnection.getContentEncoding())) {
             int contentLength = urlConnection.getContentLength();
             stream = ContentLengthInputStream.obtain(urlConnection.getInputStream(), contentLength);
         } else {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Got non empty content encoding: " + urlConnection.getContentEncoding());
-            }
+            eLogD(TAG, "Got non empty content encoding: " + urlConnection.getContentEncoding());
             stream = urlConnection.getInputStream();
         }
         return stream;

@@ -5,7 +5,6 @@
 package com.cboda.chatui.contact.viewholder;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

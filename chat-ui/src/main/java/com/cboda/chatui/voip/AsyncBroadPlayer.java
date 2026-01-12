@@ -8,6 +8,8 @@ package com.cboda.chatui.voip;
  * Created by heavyrainlee on 24/02/2018.
  */
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -16,7 +18,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.os.SystemClock;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -58,7 +59,7 @@ public class AsyncBroadPlayer {
                 );
             }
             player.setOnErrorListener((mediaPlayer, i, i1) -> {
-                Log.e(mTag, "play ring error " + i + " " + i1);
+                eLogD(mTag, "play ring error " + i + " " + i1);
                 return false;
             });
             player.prepare();
@@ -69,9 +70,9 @@ public class AsyncBroadPlayer {
             }
             mPlayer = player;
         } catch (IOException e) {
-            Log.w(mTag, "error loading sound for " + cmd.uri, e);
+            eLogD(mTag, "error loading sound for " + cmd.uri, e);
         } catch (IllegalStateException e) {
-            Log.w(mTag, "IllegalStateException (content provider died?) " + cmd.uri, e);
+            eLogD(mTag, "IllegalStateException (content provider died?) " + cmd.uri, e);
         }
     }
 
@@ -98,15 +99,15 @@ public class AsyncBroadPlayer {
                         break;
                     case STOP:
 
-                        Log.e(mTag, "STOP CMD");
+                        eLogD(mTag, "STOP CMD");
                         if (mPlayer != null) {
-                            Log.e("AsyncBroadPlayer", "mediaPlayer stop & release");
+                            eLogD("AsyncBroadPlayer", "mediaPlayer stop & release");
                             mPlayer.stop();
                             mPlayer.release();
                             mPlayer = null;
                             audioManager.setMode(savedAudioMode);
                         } else {
-                            Log.w(mTag, "STOP command without a player");
+                            eLogD(mTag, "STOP command without a player");
                         }
                         break;
                 }
@@ -155,7 +156,7 @@ public class AsyncBroadPlayer {
     }
 
     public void stop() {
-        Log.e(mTag, "stop");
+        eLogD(mTag, "stop");
         synchronized (mCmdQueue) {
             if (mState != STOP) {
                 Command cmd = new Command();

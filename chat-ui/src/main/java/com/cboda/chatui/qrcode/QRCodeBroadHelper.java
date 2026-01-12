@@ -4,12 +4,13 @@
 
 package com.cboda.chatui.qrcode;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -79,20 +80,20 @@ public class QRCodeBroadHelper {
                 stream = context.getContentResolver().openInputStream(uri);
                 BitmapFactory.decodeStream(stream, null, options);
             } catch (Exception e) {
-                Log.w("resolveUri", "Unable to open content: " + uri, e);
+                eLogD("resolveUri", "Unable to open content: " + uri, e);
             } finally {
                 if (stream != null) {
                     try {
                         stream.close();
                     } catch (IOException e) {
-                        Log.w("resolveUri", "Unable to close content: " + uri, e);
+                        eLogD("resolveUri", "Unable to close content: " + uri, e);
                     }
                 }
             }
         } else if (ContentResolver.SCHEME_ANDROID_RESOURCE.equals(scheme)) {
-            Log.w("resolveUri", "Unable to close content: " + uri);
+            eLogD("resolveUri", "Unable to close content: " + uri);
         } else {
-            Log.w("resolveUri", "Unable to close content: " + uri);
+            eLogD("resolveUri", "Unable to close content: " + uri);
         }
     }
 
@@ -111,20 +112,20 @@ public class QRCodeBroadHelper {
                 stream = context.getContentResolver().openInputStream(uri);
                 bitmap = BitmapFactory.decodeStream(stream, null, options);
             } catch (Exception e) {
-                Log.w("resolveUriForBitmap", "Unable to open content: " + uri, e);
+                eLogD("resolveUriForBitmap", "Unable to open content: " + uri, e);
             } finally {
                 if (stream != null) {
                     try {
                         stream.close();
                     } catch (IOException e) {
-                        Log.w("resolveUriForBitmap", "Unable to close content: " + uri, e);
+                        eLogD("resolveUriForBitmap", "Unable to close content: " + uri, e);
                     }
                 }
             }
         } else if (ContentResolver.SCHEME_ANDROID_RESOURCE.equals(scheme)) {
-            Log.w("resolveUriForBitmap", "Unable to close content: " + uri);
+            eLogD("resolveUriForBitmap", "Unable to close content: " + uri);
         } else {
-            Log.w("resolveUriForBitmap", "Unable to close content: " + uri);
+            eLogD("resolveUriForBitmap", "Unable to close content: " + uri);
         }
 
         return bitmap;

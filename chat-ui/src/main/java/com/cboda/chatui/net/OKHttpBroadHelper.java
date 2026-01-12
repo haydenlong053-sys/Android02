@@ -4,10 +4,11 @@
 
 package com.cboda.chatui.net;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -103,7 +104,7 @@ public class OKHttpBroadHelper {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e(TAG, "response=" + response.toString());
+                eLogD(TAG, "response=" + response.toString());
                 handleResponse(url, call, response, callback);
             }
         });

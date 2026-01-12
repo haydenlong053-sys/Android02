@@ -4,7 +4,9 @@
 
 package com.cboda.chatui.contact;
 
-import android.util.Log;
+
+
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -190,7 +192,7 @@ public class OrganizationServiceViewBroadModel extends ViewModel implements OnCo
             public void run() {
                 List<Organization> pathList = new ArrayList<>();
                 getOrganizationPathSync(organizationId, pathList);
-                Log.d("PickOrgMemberFragment", "pathList " + organizationId + " " + pathList.size());
+                eLogD("PickOrgMemberFragment", "pathList " + organizationId + " " + pathList.size());
                 liveData.postValue(pathList);
             }
         });
@@ -240,7 +242,7 @@ public class OrganizationServiceViewBroadModel extends ViewModel implements OnCo
             @Override
             public void onUiFailure(int code, String msg) {
                 latch.countDown();
-                Log.e(TAG, "getOrganizations error " + code + " " + msg);
+                eLogD(TAG, "getOrganizations error " + code + " " + msg);
             }
         });
         try {
@@ -264,7 +266,7 @@ public class OrganizationServiceViewBroadModel extends ViewModel implements OnCo
 
                 @Override
                 public void onFail(int errorCode) {
-                    Log.e(TAG, "login failed " + errorCode);
+                    eLogD(TAG, "login failed " + errorCode);
 
                 }
             });

@@ -4,9 +4,10 @@
 
 package com.cboda.chatui.voip.conference;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -245,7 +246,7 @@ public class OrderConferenceBroadActivity extends WfcBaseBroadActivity {
 
             @Override
             public void onFail(int i) {
-                Log.e(TAG, "createConference fail" + i);
+                eLogD(TAG, "createConference fail" + i);
             }
         });
     }

@@ -4,7 +4,8 @@
 
 package com.cboda.chatui.conversation;
 
-import android.util.Log;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
@@ -17,6 +18,7 @@ import java.util.List;
 import com.cboda.chatui.common.AppScopeViewBroadModel;
 import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
+
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.model.BurnMessageInfo;
 import cn.wildfirechat.model.Conversation;
@@ -107,7 +109,7 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
 //                            }
 //                        });
 
-                    }else {
+                    } else {
 //                        Log.d("zhanglong","=====list==empty");
                         result.postValue(new ArrayList<>());
                     }
@@ -236,7 +238,7 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
 
             @Override
             public void onFail(int errorCode) {
-                Log.e("Conversation", "clearRemoteConversation error: " + errorCode);
+                eLogD("Conversation", "clearRemoteConversation error: " + errorCode);
             }
         });
     }

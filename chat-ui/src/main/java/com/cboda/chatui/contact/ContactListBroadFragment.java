@@ -4,11 +4,12 @@
 
 package com.cboda.chatui.contact;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -89,7 +90,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 
     private Gson gson = new Gson();
     public void setFriendData(String json){
-        Log.e("野火","通讯录好友数据--> "+json);
+        eLogD("野火","通讯录好友数据--> "+json);
         FriendDataListBroadBean friendDataListBean = gson.fromJson(json, FriendDataListBroadBean.class);
         if (friendDataListBean != null && friendDataListBean.getDataList() != null){
             List<UIUserBroadInfo> userInfos = new ArrayList<>();

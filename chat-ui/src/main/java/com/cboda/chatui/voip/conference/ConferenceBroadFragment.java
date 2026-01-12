@@ -6,6 +6,7 @@ package com.cboda.chatui.voip.conference;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
 import android.app.Activity;
@@ -15,7 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -627,7 +627,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             }
             container.addView(view);
             conferencePages.put(position % 3, view);
-            Log.d(TAG, "instantiateItem " + position);
+            eLogD(TAG, "instantiateItem " + position);
             return view;
         }
 
@@ -635,7 +635,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
         public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
             // 取消视频流订阅
             container.removeView((View) object);
-            Log.d(TAG, "destroyItem " + position);
+            eLogD(TAG, "destroyItem " + position);
             View view = (View) object;
             if (view instanceof VideoConferenceMainBroadView) {
                 ((VideoConferenceMainBroadView) view).onDestroyView();
@@ -646,7 +646,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
 
         @Override
         public int getCount() {
-            Log.d(TAG, "getCount " + profiles.size());
+            eLogD(TAG, "getCount " + profiles.size());
             int count;
             if (profiles.size() <= 2) {
                 ((ClickableViewBroadPager) viewPager).setPagingEnabled(false);
@@ -677,7 +677,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
 
         @Override
         public void onPageSelected(int position) {
-            Log.e(TAG, " onPageSelected " + position);
+            eLogD(TAG, " onPageSelected " + position);
             View view = conferencePages.get(position % 3);
             if (view == null) {
                 // pending layout
@@ -741,14 +741,14 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             View view = new ConferenceParticipantGridBroadView(container.getContext(), true);
             container.addView(view);
             conferencePages.put(position % 3, view);
-            Log.d(TAG, "instantiateItem " + position);
+            eLogD(TAG, "instantiateItem " + position);
             return view;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
             container.removeView((View) object);
-            Log.d(TAG, "destroyItem " + position);
+            eLogD(TAG, "destroyItem " + position);
             View view = (View) object;
             if (view instanceof ConferenceParticipantGridBroadView) {
                 ((ConferenceParticipantGridBroadView) view).onDestroyView();
@@ -757,7 +757,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
 
         @Override
         public int getCount() {
-            Log.d(TAG, "getCount " + profiles.size());
+            eLogD(TAG, "getCount " + profiles.size());
             int count;
             if (profiles.size() <= AUDIO_CONFERENCE_PARTICIPANT_COUNT_PER_PAGE) {
                 ((ClickableViewBroadPager) viewPager).setPagingEnabled(false);
@@ -797,7 +797,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             this.pagerAdapter.notifyDataSetChanged();
             onParticipantProfileUpdate(Collections.singletonList(userId));
         }
-        Log.d(TAG, "didParticipantJoined " + userId);
+        eLogD(TAG, "didParticipantJoined " + userId);
         LiveDataBroadBroadBus.setValue("kConferenceMemberChanged", new Object());
     }
 
@@ -807,13 +807,13 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             this.pagerAdapter.notifyDataSetChanged();
             onParticipantProfileUpdate(Collections.singletonList(userId));
         }
-        Log.d(TAG, "didParticipantLeft " + userId);
+        eLogD(TAG, "didParticipantLeft " + userId);
         LiveDataBroadBroadBus.setValue("kConferenceMemberChanged", new Object());
     }
 
     @Override
     public void didChangeType(String userId, boolean audience, boolean screenSharing) {
-        Log.d(TAG, "didChangeType " + userId + " " + audience);
+        eLogD(TAG, "didChangeType " + userId + " " + audience);
         if (!resetConferencePageAdapter()) {
             this.pagerAdapter.notifyDataSetChanged();
             onParticipantProfileUpdate(Collections.singletonList(userId));
@@ -838,7 +838,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
 
     @Override
     public void didReportAudioVolume(String userId, int volume) {
-//        Log.d(TAG, "didReportAudioVolume " + userId + " " + volume);
+//        eLogD(TAG, "didReportAudioVolume " + userId + " " + volume);
         if (currentPosition == -1) {
             return;
         }
@@ -909,7 +909,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
 
     @Override
     public void didAudioDeviceChanged(AVAudioManager.AudioDevice device) {
-        Log.d(TAG, "didAudioDeviceChanged " + device.name());
+        eLogD(TAG, "didAudioDeviceChanged " + device.name());
     }
 
     private void updateMuteState() {
@@ -1051,7 +1051,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
         if (focusProfile.getUserId().equals(ChatManager.Instance().getUserId()) && profiles.size() > 1) {
             focusProfile = profiles.get(1);
         }
-        Log.d(TAG, "findFocusProfile " + (focusProfile != null ? focusProfile.getUserId() : "null"));
+        eLogD(TAG, "findFocusProfile " + (focusProfile != null ? focusProfile.getUserId() : "null"));
         return focusProfile;
     }
 }
