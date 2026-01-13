@@ -9,7 +9,7 @@
         android:id="@+id/mViewBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_back2_bg"
+        android:src="@mipmap/ic_back2_broad_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,14 +56,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_back2_bg"
+            android:src="@mipmap/ic_back2_broad_bg"
             />
         <ImageView
             android:id="@+id/mIvRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_share_notice"
+            android:src="@mipmap/ic_share_broad_notice"
             app:layout_constraintStart_toStartOf="@id/mViewBack"
             app:layout_constraintTop_toTopOf="@id/mViewBack"
             app:layout_constraintBottom_toBottomOf="@id/mViewBack"

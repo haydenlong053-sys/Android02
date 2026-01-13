@@ -157,18 +157,18 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                     },
                     items = listOf(
                         ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_home_tab_mirror),
-                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_pre),
+                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
+                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
                             text = "镜像"
                         ),
                         ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_ai_tab_mirror),
-                            selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_pre),
+                            icon = painterResource(id = R.drawable.ic_ai_tab_broad_mirror),
+                            selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_broad_pre),
                             text = "智体"
                         ),
                         ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_home_tab_message),
-                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_pre),
+                            icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
+                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
                             text = "社交",
                             badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
                         ),
@@ -179,8 +179,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //                            badge = if (tongxunluUnreadCount == "0") "" else tongxunluUnreadCount
 //                        ),
                         ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_home_tab_mine),
-                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_pre),
+                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
+                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_broad_pre),
                             text = "中心"
                         )
                     )

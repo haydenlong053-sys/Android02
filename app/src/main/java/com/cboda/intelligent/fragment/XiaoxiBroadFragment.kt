@@ -593,7 +593,7 @@ class XiaoxiBroadFragment : BaseLazyBroadFragment() {
         }
         ivManager.setContent {
             BlurButton(
-                size = 50.dp, iconPainter = painterResource(R.mipmap.ic_manager_black),
+                size = 50.dp, iconPainter = painterResource(R.mipmap.ic_manager_broad_black),
                 expanded = isManagerClick, onExpandedChange = {
                     val currentIndex = viewPager.currentItem
                     if (currentIndex == 3) {
@@ -625,7 +625,7 @@ class XiaoxiBroadFragment : BaseLazyBroadFragment() {
 //            XiaoXiMoreBroadHolder(context, ivMore)
             BlurFabButton(
                 size = 50.dp,
-                addIconPainter = painterResource(R.mipmap.ic_add_black)
+                addIconPainter = painterResource(R.mipmap.ic_add_broad_black)
             ) { dismiss ->
                 MorePopUp(onItemClick = { index ->
                     when (index) {

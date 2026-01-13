@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="5dp"
-                        android:src="@mipmap/ic_hy_no_mine" />
+                        android:src="@mipmap/ic_hy_no_broad_mine" />
 
                 </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:id="@+id/imCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_mine_erweima" />
+                android:src="@mipmap/ic_mine_broad_erweima" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:background="@mipmap/ic_bg_hyzx_mine"
+                    android:background="@mipmap/ic_bg_hyzx_broad_mine"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -119,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:src="@mipmap/ic_hy_mine" />
+                        android:src="@mipmap/ic_hy_broad_mine" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:background="@drawable/bg_border_824818_50dp"
+                        android:background="@drawable/bg_border_824818_broad_50dp"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="2dp"
                         android:text="@string/开通"
@@ -163,7 +163,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -172,7 +172,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_qianbao" />
+                        android:src="@mipmap/ic_mine_broad_qianbao" />
 
                     <TextView
                         android:id="@+id/tvQianbao"
@@ -197,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -206,7 +206,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_pengyouquan" />
+                        android:src="@mipmap/ic_mine_broad_pengyouquan" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -233,7 +233,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -242,7 +242,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_qianbao" />
+                        android:src="@mipmap/ic_mine_broad_qianbao" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -269,7 +269,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -278,7 +278,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_biaoqing" />
+                        android:src="@mipmap/ic_mine_broad_biaoqing" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -304,7 +304,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -313,7 +313,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_shoucang" />
+                        android:src="@mipmap/ic_mine_broad_shoucang" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -340,7 +340,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -349,7 +349,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_safe_center" />
+                        android:src="@mipmap/ic_mine_safe_broad_center" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -375,7 +375,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -384,7 +384,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_changjianwenti" />
+                        android:src="@mipmap/ic_broad_changjianwenti" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -410,7 +410,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
@@ -419,7 +419,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_yonghushezhi" />
+                        android:src="@mipmap/ic_mine_broad_yonghushezhi" />
 
                     <TextView
                         android:layout_width="0dp"

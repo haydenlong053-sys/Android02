@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imCheck"
-            android:src="@mipmap/btn_checkbox_press"
+            android:src="@mipmap/btn_checkbox_broad_press"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

@@ -10,7 +10,7 @@
         android:id="@+id/mLlSaveView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rect_white_10dp"
+        android:background="@drawable/bg_rect_white_broad_10dp"
         android:layout_marginHorizontal="30dp"
         android:orientation="vertical"
         android:gravity="center_horizontal"

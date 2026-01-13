@@ -59,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_bg_btn2_01"
+            android:background="@mipmap/ic_bg_btn2_broad_01"
             android:maxLines="1"
             android:ellipsize="end"
             android:layout_marginStart="5dp"

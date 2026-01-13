@@ -45,10 +45,10 @@ public class VpnBroadAdapter extends RecyclerView.Adapter<VpnBroadAdapter.MyHold
 //            holder.tvSudu.setTextColor(Color.parseColor("#EE4C4A"));
 //        }
         if (list.get(position).isCheck){
-            holder.llItem.setBackgroundResource(R.drawable.bg_vpn_true);
+            holder.llItem.setBackgroundResource(R.drawable.bg_vpn_broad_true);
             holder.tvJiedian.setTextColor(Color.parseColor("#5456F6"));
         }else {
-            holder.llItem.setBackgroundResource(R.drawable.bg_rect_white_15dp);
+            holder.llItem.setBackgroundResource(R.drawable.bg_rect_white_broad_15dp);
             holder.tvJiedian.setTextColor(Color.parseColor("#01174F"));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

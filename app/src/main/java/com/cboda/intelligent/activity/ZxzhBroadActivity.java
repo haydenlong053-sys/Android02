@@ -148,14 +148,14 @@ public class ZxzhBroadActivity extends BaseSimpleBroadActivity implements View.O
                             llContent.setVisibility(View.INVISIBLE);
                             llXy.setVisibility(View.INVISIBLE);
                             tvConfirm.setVisibility(View.INVISIBLE);
-                            ivState.setImageResource(R.mipmap.ic_zxzh_sh);
+                            ivState.setImageResource(R.mipmap.ic_zxzh_broad_sh);
                             break;
                         case "3"://驳回
                             tvConfirm.setText("重新申请");
                             llXy.setVisibility(View.GONE);
                             tvHint.setText("拒绝原因：" + resultBean.data.zxReson);
                             tvState.setText("已拒绝");
-                            ivState.setImageResource(R.mipmap.ic_zxzh_jj);
+                            ivState.setImageResource(R.mipmap.ic_zxzh_broad_jj);
                             tvHint.setVisibility(View.VISIBLE);
                             webView.setVisibility(View.GONE);
                             break;

@@ -14,7 +14,7 @@
         android:layout_height="50dp">
         <LinearLayout
             android:layout_marginHorizontal="10dp"
-            android:background="@drawable/bg_rect_f4f7fd_16dp"
+            android:background="@drawable/bg_rect_f4f7fd_broad_16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_broad_button"
             android:gravity="center_vertical"
             android:paddingHorizontal="20dp"
             android:text="@string/发送"

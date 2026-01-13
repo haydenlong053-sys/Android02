@@ -37,7 +37,7 @@
             android:layout_marginRight="15dp"
             android:paddingHorizontal="5dp"
             android:paddingVertical="2dp"
-            android:background="@drawable/bg_rect_e1e1e1_5dp"
+            android:background="@drawable/bg_rect_e1e1e1_broad_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

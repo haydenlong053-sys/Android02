@@ -60,7 +60,7 @@
         android:textStyle="bold"
         tools:visibility="visible"
         android:gravity="center"
-        android:background="@mipmap/ic_bg_btn2_01"
+        android:background="@mipmap/ic_bg_btn2_broad_01"
         android:text="@string/添加欢迎语"
         android:textColor="#ffffffff"
         android:textSize="16sp"

@@ -88,7 +88,7 @@ public class UpLoadImageBroadAdapter extends RecyclerView.Adapter<UpLoadImageBro
         layoutParams.height = layoutParams.width;
         holder.ivImage.setLayoutParams(layoutParams);
         if (position == list.size()) {
-            holder.ivImage.setImageResource(R.mipmap.ic_add_image);
+            holder.ivImage.setImageResource(R.mipmap.ic_add_broad_image);
             holder.ivDelete.setVisibility(View.GONE);
             holder.ivVideo.setVisibility(View.GONE);
         } else {

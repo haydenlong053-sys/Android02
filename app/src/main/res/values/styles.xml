@@ -3,7 +3,7 @@
 
     <style name="InitTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/launch_bg</item>
+        <item name="android:windowBackground">@drawable/launch_broad_bg</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
@@ -20,24 +20,24 @@
     </style>
 
     <style name="main_menu_animstyle">
-        <item name="android:windowEnterAnimation">@anim/photo_dialog_in_anim</item>
-        <item name="android:windowExitAnimation">@anim/photo_dialog_out_anim</item>
+        <item name="android:windowEnterAnimation">@anim/photo_dialog_in_broad_anim</item>
+        <item name="android:windowExitAnimation">@anim/photo_dialog_out_broad_anim</item>
     </style>
 
     <style name="main_menu_animstyle2">
-        <item name="android:windowEnterAnimation">@anim/photo_dialog_in_anim2</item>
-        <item name="android:windowExitAnimation">@anim/photo_dialog_out_anim2</item>
+        <item name="android:windowEnterAnimation">@anim/photo_dialog_in_broad_anim2</item>
+        <item name="android:windowExitAnimation">@anim/photo_dialog_out_broad_anim2</item>
     </style>
 
     <style name="bottom_up_popup_animation">
-        <item name="android:windowEnterAnimation">@anim/popup_show</item>
-        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+        <item name="android:windowEnterAnimation">@anim/popup_broad_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_broad_hide</item>
     </style>
 
     <style name="pop_animation" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/pop_in</item>
+        <item name="android:windowEnterAnimation">@anim/pop_broad_in</item>
 <!--
-        <item name="android:windowExitAnimation">@anim/pop_out</item>
+        <item name="android:windowExitAnimation">@anim/pop_broad_out</item>
 -->
     </style>
 
@@ -69,12 +69,12 @@
     </style>
 
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/custom_checkbox_selector</item>
+        <item name="android:button">@drawable/custom_checkbox_broad_selector</item>
     </style>
 
     <style name="slide_bar_popup_animation">
-        <item name="android:windowEnterAnimation">@anim/popup_show1</item>
-        <item name="android:windowExitAnimation">@anim/popup_hide1</item>
+        <item name="android:windowEnterAnimation">@anim/popup_broad_show1</item>
+        <item name="android:windowExitAnimation">@anim/popup_broad_hide1</item>
     </style>
 
 
@@ -86,8 +86,8 @@
 
 
     <style name="ani_bottom" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/in_from_bottom</item>  <!--进入时的动画-->
-        <item name="android:windowExitAnimation">@anim/out_to_bottom</item>    <!--退出时的动画-->
+        <item name="android:windowEnterAnimation">@anim/in_from_broad_bottom</item>  <!--进入时的动画-->
+        <item name="android:windowExitAnimation">@anim/out_to_broad_bottom</item>    <!--退出时的动画-->
     </style>
 
     <style name="MyDialogStyle">
@@ -103,7 +103,7 @@
 
     <!-- 密码查看check-->
     <style name="checkbox_password_style" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/check_password_selector</item>
+        <item name="android:button">@drawable/check_password_broad_selector</item>
         <item name="android:padding">10dp</item>
     </style>
 

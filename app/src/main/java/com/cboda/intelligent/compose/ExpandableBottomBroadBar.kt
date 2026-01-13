@@ -234,7 +234,7 @@ fun ExpandableBottomBar(
                 val activeIndex = if (autoSwitchOnUnreadIcon && firstUnreadIndex >= 0) firstUnreadIndex else selectedIndex
                 val activeItem = items.getOrNull(activeIndex)
                 val fabIcon: Painter = activeItem?.selectedIcon ?: activeItem?.icon
-                    ?: painterResource(R.mipmap.ic_xiaoxi_true)
+                    ?: painterResource(R.mipmap.ic_xiaoxi_broad_true)
 
                 // 计算总未读角标（仅数值型，超99显示99+）
                 val totalBadgeCount = items.sumOf { parseBadgeStr(it.badge) }

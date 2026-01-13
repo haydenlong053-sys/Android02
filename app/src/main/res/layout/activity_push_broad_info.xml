@@ -27,13 +27,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_head_defaut"
+                android:src="@mipmap/ic_head_broad_defaut"
                 app:riv_oval="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_yinying"
+                android:background="@drawable/bg_broad_yinying"
                 android:gravity="center">
 
                 <ImageView
@@ -48,7 +48,7 @@
                 android:clickable="false"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:src="@mipmap/ic_add_head" />
+                android:src="@mipmap/ic_add_broad_head" />
         </RelativeLayout>
 
         <TextView
@@ -58,7 +58,7 @@
             android:hint="@string/shezhinichengb"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:drawableRight="@mipmap/ic_edit_name"
+            android:drawableRight="@mipmap/ic_edit_broad_name"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
             android:paddingVertical="10dp"
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:background="@drawable/bg_rect_input"
+            android:background="@drawable/bg_rect_broad_input"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="30dp">
@@ -100,7 +100,7 @@
             android:id="@+id/tvRegInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rect_input"
+            android:background="@drawable/bg_rect_broad_input"
             android:layout_marginHorizontal="20dp"
             android:padding="20dp"
             android:text=""
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:orientation="vertical"
-            android:background="@drawable/bg_rect_input">
+            android:background="@drawable/bg_rect_broad_input">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -179,7 +179,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:background="@mipmap/ic_bg_btn1_01"
+            android:background="@mipmap/ic_bg_btn1_broad_01"
             android:gravity="center"
             android:text="@string/点击保存二维码"
             android:textColor="@color/color_text0"
@@ -194,7 +194,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="40dp"
-            android:background="@mipmap/ic_bg_btn2_01"
+            android:background="@mipmap/ic_bg_btn2_broad_01"
             android:gravity="center"
             android:text="@string/登录"
             android:textColor="#ffffffff"

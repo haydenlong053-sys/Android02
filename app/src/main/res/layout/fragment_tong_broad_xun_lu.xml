@@ -40,7 +40,7 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_jiahao"
+                android:src="@mipmap/ic_broad_jiahao"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_sousuo"
+                android:src="@mipmap/ic_broad_sousuo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivAdd"
                 app:layout_constraintTop_toTopOf="parent" />

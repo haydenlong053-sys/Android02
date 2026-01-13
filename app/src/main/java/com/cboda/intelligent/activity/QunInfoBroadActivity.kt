@@ -159,7 +159,7 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
         super.onCreate(savedInstanceState)
         initViews()
         qunId = intent?.getStringExtra("qunid") ?: ""
-        getRightImg()?.setImageResource(R.mipmap.ic_gengduo_white)
+        getRightImg()?.setImageResource(R.mipmap.ic_gengduo_broad_white)
         getRightImg()?.setOnClickListener {
             contentList.clear()
             contentList.add(getString(R.string.tousuqun))

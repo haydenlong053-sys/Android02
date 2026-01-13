@@ -58,14 +58,14 @@ class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpB
 
     private fun initDeepColor() {
         if (isDeepColor){
-            binding.mViewTopBg.setBackgroundResource(R.drawable.bg_rect_deep_only_top_18dp)
-            binding.mIvClose.setImageResource(R.mipmap.ic_auth_close2)
+            binding.mViewTopBg.setBackgroundResource(R.drawable.bg_rect_deep_only_top_broad_18dp)
+            binding.mIvClose.setImageResource(R.mipmap.ic_auth_broad_close2)
             binding.mIvGo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             binding.mTvTitle.setTextColor(ContextCompat.getColor(context,R.color.white))
             binding.mTvDes2.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_white_65))
             binding.mTvDes3.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_white_65))
-            binding.mTvSecurityName.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_16dp)
-            binding.mEtAnswer.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_16dp)
+            binding.mTvSecurityName.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_broad_16dp)
+            binding.mEtAnswer.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_broad_16dp)
             binding.mEtAnswer.setTextColor(ContextCompat.getColor(context,R.color.white))
             binding.mEtAnswer.setHintTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_629CF8_35))
 

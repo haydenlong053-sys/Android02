@@ -184,7 +184,7 @@
                 android:gravity="center"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="right|center_vertical"
-                android:background="@drawable/bg_circle_add"
+                android:background="@drawable/bg_circle_broad_add"
                 android:orientation="horizontal"
                 android:layout_width="35dp"
                 android:layout_height="35dp">

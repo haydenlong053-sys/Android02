@@ -42,7 +42,7 @@
                 android:textColor="#5456F6"
                 android:textSize="14sp"
                 android:text="@string/取消"
-                android:background="@drawable/bg_rect_vpn" />
+                android:background="@drawable/bg_rect_broad_vpn" />
             <TextView
                 android:id="@+id/tvConfirm"
                 android:layout_width="0dp"
@@ -53,7 +53,7 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:text="@string/连接"
-                android:background="@drawable/bg_queding" />
+                android:background="@drawable/bg_broad_queding" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

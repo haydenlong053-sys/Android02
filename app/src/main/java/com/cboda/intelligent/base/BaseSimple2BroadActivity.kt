@@ -464,7 +464,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
 
     override fun startActivity(intent: Intent?) {
         super.startActivity(intent)
-        overridePendingTransition(R.anim.anim_right_in, R.anim.anim_left_out)
+        overridePendingTransition(R.anim.anim_right_broad_in, R.anim.anim_left_broad_out)
     }
 
     open fun getContentView(): View {

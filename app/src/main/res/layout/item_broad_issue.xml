@@ -6,7 +6,7 @@
     android:layout_marginHorizontal="15dp"
     android:layout_marginTop="10dp"
     android:padding="22dp"
-    android:background="@drawable/bg_rect_main"
+    android:background="@drawable/bg_rect_broad_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:ignore="WebViewLayout">

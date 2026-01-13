@@ -45,7 +45,7 @@ class TransferDetailBroadActivity : BaseSimple2BroadActivity() {
         } else {
             getResources().getString(R.string.mine_t_detail)
         }
-        getRightImg()?.setImageResource(R.mipmap.ic_top_close)
+        getRightImg()?.setImageResource(R.mipmap.ic_top_broad_close)
 
         mBind?.mTvLinkman?.text =
             String.format(getString(R.string.mine_t_add_linkman), "")
@@ -97,17 +97,17 @@ class TransferDetailBroadActivity : BaseSimple2BroadActivity() {
             when (item.paymentStatus) {
                 0 -> {
                     mBind?.mTvStateName?.text = getString(R.string.mine_transfer_ing)
-                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_ing)
+                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_broad_ing)
                 }
 
                 1 -> {
                     mBind?.mTvStateName?.text = getString(R.string.mine_transfer_success)
-                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_success)
+                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_broad_success)
                 }
 
                 2 -> {
                     mBind?.mTvStateName?.text = getString(R.string.mine_Transfer_fail)
-                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_fail)
+                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_broad_fail)
                 }
             }
 
@@ -118,17 +118,17 @@ class TransferDetailBroadActivity : BaseSimple2BroadActivity() {
             when (item.status) {
                 0,1,4 -> {
                     mBind?.mTvStateName?.text = getString(R.string.mine_t_Withdrawal_ing)
-                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_ing)
+                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_broad_ing)
                 }
 
                 2 -> {
                     mBind?.mTvStateName?.text = getString(R.string.mine_t_Withdrawal_ok)
-                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_success)
+                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_broad_success)
                 }
 
                 3,5 -> {
                     mBind?.mTvStateName?.text = getString(R.string.mine_t_Withdrawal_fail)
-                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_fail)
+                    mBind?.mIvState?.setImageResource(R.mipmap.ic_icon_state_broad_fail)
                 }
             }
         }

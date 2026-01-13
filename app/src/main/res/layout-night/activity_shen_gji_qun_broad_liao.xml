@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_bg_sjql"
+        android:background="@mipmap/ic_bg_broad_sjql"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -132,7 +132,7 @@
             android:layout_marginVertical="50dp"
             android:layout_marginHorizontal="30dp"
             android:gravity="center"
-            android:background="@mipmap/ic_bg_btn2_01"
+            android:background="@mipmap/ic_bg_btn2_broad_01"
             android:text="@string/立即升级"
             android:textColor="#ffffffff"
             android:textSize="16sp"

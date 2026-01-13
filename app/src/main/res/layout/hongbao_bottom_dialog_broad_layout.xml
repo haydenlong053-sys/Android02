@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_two_white_round_15"
+    android:background="@drawable/shape_two_white_round_broad_15"
     android:orientation="vertical">
 
 

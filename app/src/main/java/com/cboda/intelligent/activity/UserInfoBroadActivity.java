@@ -606,7 +606,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     }
 
     private void showSaveButtonUI(boolean isModify) {
-        mBinding.tvSave.setBackgroundResource(!isModify ? R.drawable.bg_btn_outline : R.drawable.bg_btn_blue);
+        mBinding.tvSave.setBackgroundResource(!isModify ? R.drawable.bg_btn_broad_outline : R.drawable.bg_btn_broad_blue);
         mBinding.tvSave.setTextColor(ContextCompat.getColor(UserInfoBroadActivity.this, !isModify ? com.cboda.chatui.R.color.color_3B47DD : R.color.white));
         mBinding.tvSave.setEnabled(isModify);
 

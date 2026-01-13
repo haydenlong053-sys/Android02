@@ -32,5 +32,5 @@
         android:text="@string/queding"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:background="@mipmap/ic_bg_btn2_01" />
+        android:background="@mipmap/ic_bg_btn2_broad_01" />
 </LinearLayout>

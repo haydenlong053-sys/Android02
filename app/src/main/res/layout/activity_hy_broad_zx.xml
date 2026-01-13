@@ -13,7 +13,7 @@
         android:adjustViewBounds="true"
         android:background="#1D2029"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_bg_hyzx" />
+        android:src="@mipmap/ic_bg_broad_hyzx" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                android:background="@mipmap/ic_bg_hyzx_mine2"
+                android:background="@mipmap/ic_bg_hyzx_broad_mine2"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp">
@@ -161,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:background="@mipmap/ic_bg_btn2_01"
+            android:background="@mipmap/ic_bg_btn2_broad_01"
             android:gravity="center"
             android:layout_marginBottom="30dp"
             android:text="@string/开通5000人群"
@@ -177,7 +177,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
-            android:background="@mipmap/ic_bg_btn1_01"
+            android:background="@mipmap/ic_bg_btn1_broad_01"
             android:gravity="center"
             android:text="@string/立即兑换"
             android:textColor="#25A6FF"

@@ -320,7 +320,7 @@ public class HyyAddBroadActivity extends BaseSimpleBroadActivity {
                 case ".pdf":
                     tvFileName.setVisibility(View.VISIBLE);
                     tvFileName.setText(path.substring(path.lastIndexOf("/") + 1));
-                    ivFile.setImageResource(R.mipmap.ic_wj_item);
+                    ivFile.setImageResource(R.mipmap.ic_wj_broad_item);
                     size = file.length() + "";
                     uploadVideo(path);
                     break;

@@ -13,7 +13,7 @@
         android:paddingHorizontal="20dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:background="@drawable/bg_main"
+        android:background="@drawable/bg_broad_main"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="55dp">
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imHoayou"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -37,7 +37,7 @@
         android:paddingHorizontal="20dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:background="@drawable/bg_main"
+        android:background="@drawable/bg_broad_main"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="55dp">
@@ -51,14 +51,14 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imjinzhi"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_main"
+        android:background="@drawable/bg_broad_main"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"/>
             <ImageView
                 android:id="@+id/imGengxin"
-                android:src="@mipmap/ic_kai"
+                android:src="@mipmap/ic_broad_kai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"/>
             <ImageView
                 android:id="@+id/imXiaoxi"
-                android:src="@mipmap/ic_kai"
+                android:src="@mipmap/ic_broad_kai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -167,7 +167,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_main"
+        android:background="@drawable/bg_broad_main"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -246,7 +246,7 @@
         android:paddingHorizontal="20dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:background="@drawable/bg_main"
+        android:background="@drawable/bg_broad_main"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="55dp">
@@ -268,7 +268,7 @@
         android:paddingHorizontal="20dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:background="@drawable/bg_main"
+        android:background="@drawable/bg_broad_main"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="55dp">

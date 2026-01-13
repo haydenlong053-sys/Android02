@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
-        android:background="@drawable/bg_rect_white_18dp"
+        android:background="@drawable/bg_rect_white_broad_18dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:ignore="UselessParent">
@@ -28,7 +28,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@mipmap/ic_ai_r_tip"
+            app:drawableStartCompat="@mipmap/ic_ai_r_broad_tip"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:padding="10dp"
-            android:src="@mipmap/ic_ai_r_back"
+            android:src="@mipmap/ic_ai_r_broad_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

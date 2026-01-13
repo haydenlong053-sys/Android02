@@ -59,13 +59,13 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
     override fun onResume() {
         super.onResume()
         viewModel.getSignInfo().observe(this) {
-            binding.ivMirrorSign.setImageResource(if (it) R.drawable.bg_sign_true else R.drawable.bg_sign_false)
+            binding.ivMirrorSign.setImageResource(if (it) R.drawable.bg_sign_broad_true else R.drawable.bg_sign_broad_false)
         }
         viewModel.getUserInfo().observe(this) {
             it?.let {
                 userInfo = it
             }
-            binding.ivMirrorAvatar.setImageResource(if (userInfo?.sex == "2") R.drawable.ic_mirror_female else R.drawable.ic_mirror_male)
+            binding.ivMirrorAvatar.setImageResource(if (userInfo?.sex == "2") R.drawable.ic_mirror_broad_female else R.drawable.ic_mirror_broad_male)
             binding.tvMirrorCreditScore.text = "${userInfo?.grade}"
             binding.idTv.text = "ID:${if(!TextUtils.isEmpty(userInfo?.idno)) userInfo?.idno else userInfo?.mId}"
             binding.vocationalTv.isGone = TextUtils.isEmpty(userInfo?.vocational)

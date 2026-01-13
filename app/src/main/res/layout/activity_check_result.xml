@@ -48,7 +48,7 @@
                             android:textStyle="bold"
                             android:drawablePadding="8dp"
                             android:gravity="center_vertical"
-                            app:drawableStartCompat="@mipmap/ic_ai_dangerous_low" />
+                            app:drawableStartCompat="@mipmap/ic_ai_dangerous_broad_low" />
 
                         <!-- 风险占比圆形指示器 -->
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,7 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@drawable/bg_btn_blue"
+            android:background="@drawable/bg_btn_broad_blue"
             android:layout_gravity="bottom"
             >
             <TextView
@@ -195,7 +195,7 @@
                 android:drawablePadding="8dp"
                 android:gravity="center"
                 android:layout_gravity="center"
-                app:drawableStartCompat="@mipmap/ic_ai_back" />
+                app:drawableStartCompat="@mipmap/ic_ai_broad_back" />
 
         </FrameLayout>
 

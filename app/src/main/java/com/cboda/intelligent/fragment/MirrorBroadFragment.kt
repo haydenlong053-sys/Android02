@@ -76,7 +76,7 @@ class MirrorBroadFragment: BaseLazyBroadFragment() {
 //                    QrCodeDialog(
 //                        userName = uiState.userInfo?.name,
 //                        userId = uiState.userInfo?.idno ?: uiState.userInfo?.id,
-//                        avatarResId = R.mipmap.ic_head_defaut,
+//                        avatarResId = R.mipmap.ic_head_broad_defaut,
 //                        avatarUrl = uiState.userInfo?.icon,
 //                        qrContent = uiState.userInfo?.qrcode?:"",
 //                        onDismiss = { showQr = false },
@@ -147,7 +147,7 @@ class MirrorBroadFragment: BaseLazyBroadFragment() {
 //                QrCodeDialog(
 //                    userName = uiState.userInfo?.name,
 //                    userId = uiState.userInfo?.idno ?: uiState.userInfo?.id,
-//                    avatarResId = R.mipmap.ic_head_defaut,
+//                    avatarResId = R.mipmap.ic_head_broad_defaut,
 //                    avatarUrl = uiState.userInfo?.icon,
 //                    qrContent = uiState.userInfo?.qrcode?:"",
 //                    onDismiss = { showQr = false },

@@ -70,7 +70,7 @@
         android:textSize="16sp"
         android:layout_marginTop="54dp"
         android:layout_marginHorizontal="62.5dp"
-        android:background="@drawable/bg_rect_white_27dp"
+        android:background="@drawable/bg_rect_white_broad_27dp"
         android:gravity="center"
         android:text="@string/点击保存图片"
         android:layout_width="match_parent"

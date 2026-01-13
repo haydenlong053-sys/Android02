@@ -69,7 +69,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
             getResources().getString(R.string.mine_transfer)
         }
         mBind?.mClMoneyAddress?.isVisible = (flag == 0)
-        getRightImg()?.setImageResource(R.mipmap.ic_tranfer_record)
+        getRightImg()?.setImageResource(R.mipmap.ic_tranfer_broad_record)
         mBind?.mLlSysCurrency?.isSelected = true
 
         mBind?.mTvSysCurrency?.text = String.format(

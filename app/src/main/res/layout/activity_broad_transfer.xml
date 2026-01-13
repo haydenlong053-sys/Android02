@@ -19,7 +19,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:padding="12dp"
-            android:background="@drawable/bg_rect_mine_transfer"
+            android:background="@drawable/bg_rect_mine_broad_transfer"
             >
             <TextView
                 android:id="@+id/mTvSysCurrency"
@@ -49,7 +49,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:padding="12dp"
-            android:background="@drawable/bg_rect_mine_transfer"
+            android:background="@drawable/bg_rect_mine_broad_transfer"
             android:layout_marginStart="11dp"
             >
             <TextView
@@ -81,14 +81,14 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/bg_rect_mine_eeeff0_10dp"
+        android:background="@drawable/bg_rect_mine_eeeff0_broad_10dp"
         >
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
             app:layout_constraintDimensionRatio="H,343:101"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_bg_transfer"
+            android:src="@mipmap/ic_bg_broad_transfer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -151,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_5"
-                android:src="@mipmap/ic_copy"
+                android:src="@mipmap/ic_broad_copy"
                 android:layout_marginEnd="6dp"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
@@ -164,7 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
-        android:background="@drawable/bg_rect_mine_eeeff0_10dp"
+        android:background="@drawable/bg_rect_mine_eeeff0_broad_10dp"
         android:gravity="center"
         android:orientation="horizontal"
         >
@@ -202,7 +202,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@drawable/bg_rect_mine_eeeff0_10dp"
+        android:background="@drawable/bg_rect_mine_eeeff0_broad_10dp"
         android:gravity="center|start"
         android:hint="@string/mine_input_money"
         android:importantForAutofill="no"
@@ -234,7 +234,7 @@
             android:layout_height="wrap_content"
             android:text=""
             android:gravity="center"
-            android:textColor="@color/color_select_black45_3b47dd"
+            android:textColor="@color/color_select_black45_broad_3b47dd"
             android:textSize="14sp"
             />
     </LinearLayout>
@@ -260,7 +260,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/color_select_black45_3b47dd"
+            android:textColor="@color/color_select_black45_broad_3b47dd"
             android:textSize="14sp"
             />
     </LinearLayout>
@@ -270,7 +270,7 @@
         android:id="@+id/mTvSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rect_submit_16dp"
+        android:background="@drawable/bg_rect_submit_broad_16dp"
         android:text="@string/mine_google_auth_submit"
         android:textColor="@color/white"
         android:padding="12dp"

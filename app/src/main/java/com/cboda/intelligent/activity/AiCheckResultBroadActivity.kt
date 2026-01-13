@@ -236,22 +236,22 @@ class AiCheckResultBroadActivity : BaseSimple2BroadActivity() {
         val value = (aiShowBean.riskValue * 100)
         if (value >= 0 && value < 10) {
             mBind?.tvRiskWarningTitle?.text = getString(R.string.no_risk_warning)
-            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_low)
+            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_broad_low)
         } else if (value >= 10 && value < 35) {
             mBind?.tvRiskWarningTitle?.text = getString(R.string.low_risk_warning)
-            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_low)
+            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_broad_low)
         } else if (value >= 35 && value < 65) {
             mBind?.tvRiskWarningTitle?.text = getString(R.string.mid_risk_warning)
-            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_mid)
+            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_broad_mid)
         } else if (value >= 65 && value < 90) {
             mBind?.tvRiskWarningTitle?.text = getString(R.string.high_risk_warning)
-            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous)
+            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_broad_dangerous)
         } else if (value >= 90) {
             mBind?.tvRiskWarningTitle?.text = getString(R.string.ai_risk_warning)
-            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous)
+            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_broad_dangerous)
         } else {
             mBind?.tvRiskWarningTitle?.text = getString(R.string.unknow_risk_warning)
-            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_low)
+            mBind?.tvRiskWarningTitle?.setLeftImg(R.mipmap.ic_ai_dangerous_broad_low)
         }
     }
 

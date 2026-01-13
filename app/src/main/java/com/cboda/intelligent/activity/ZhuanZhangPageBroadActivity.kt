@@ -51,7 +51,7 @@ class ZhuanZhangPageBroadActivity:BaseSimpleBroadActivity() {
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         viewModel?.zhuanzhangLiveData?.observe(this){
             it.data?.apply {
-                ivTouxiang?.setImageResource(if (this.isLing == "1")R.mipmap.ic_yishoukuan else R.mipmap.ic_daishoukuan)
+                ivTouxiang?.setImageResource(if (this.isLing == "1")R.mipmap.ic_broad_yishoukuan else R.mipmap.ic_broad_daishoukuan)
                 tvnicheng?.text = if (this.isLing == "1")getString(R.string.cunruyue) else getString(R.string.daishoulkuan)
                 qianNum?.text = this.money?:""
                 shijian?.text = this.zzTime?:""

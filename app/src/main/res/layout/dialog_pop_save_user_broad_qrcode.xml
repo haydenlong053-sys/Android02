@@ -49,7 +49,7 @@
                 android:id="@+id/mIvQrCodeAuth"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                tools:src="@mipmap/ic_security_auth"
+                tools:src="@mipmap/ic_security_broad_auth"
                 android:layout_marginTop="20dp"
                 android:scaleType="centerCrop"
                 tools:ignore="ContentDescription" />
@@ -69,7 +69,7 @@
                 android:id="@+id/mTvSaveQrcode"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:background="@drawable/bg_rect_mine_1e000000_16dp"
+                android:background="@drawable/bg_rect_mine_1e000000_broad_16dp"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="24dp"

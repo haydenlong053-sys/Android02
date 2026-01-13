@@ -16,7 +16,7 @@
 
         <EditText
             android:id="@+id/etContent"
-            android:background="@drawable/bg_rect_main"
+            android:background="@drawable/bg_rect_broad_main"
             android:gravity="top"
             android:paddingHorizontal="20dp"
             android:paddingVertical="15dp"
@@ -37,7 +37,7 @@
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:background="@drawable/bg_rect_main">
+            android:background="@drawable/bg_rect_broad_main">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ryImage"
@@ -59,7 +59,7 @@
                     android:id="@+id/ivFile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ic_add_upload"/>
+                    android:src="@mipmap/ic_add_broad_upload"/>
 
                 <TextView
                     android:id="@+id/tvFileName"
@@ -86,7 +86,7 @@
             android:layout_margin="30dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:background="@mipmap/ic_bg_btn2_01"
+            android:background="@mipmap/ic_bg_btn2_broad_01"
             android:text="@string/确认"
             android:textColor="#ffffffff"
             android:textSize="16sp"

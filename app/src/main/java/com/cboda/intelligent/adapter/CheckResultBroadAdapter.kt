@@ -22,12 +22,12 @@ class CheckResultBroadAdapter(
         // 设置状态标签
         if (!item.isNormal) {
             // 异常状态 - 红色背景
-            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_abnormal)
+            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_broad_abnormal)
             holder.setText(R.id.tvStatus, item.stateDes)
             holder.setTextColorRes(R.id.tvStatus, com.cboda.baselibrary.R.color.color_EE7171)
         } else {
             // 正常状态 - 绿色背景
-            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_normal)
+            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_broad_normal)
             holder.setText(R.id.tvStatus, item.stateDes)
             holder.setTextColorRes(R.id.tvStatus, com.cboda.baselibrary.R.color.color_3FCA37)
         }

@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_dialog"
+        android:background="@drawable/bg_broad_dialog"
         android:orientation="vertical">
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="44dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/bg_rect_login"
+            android:background="@drawable/bg_rect_broad_login"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="@mipmap/ic_bg_btn2_01"
+                android:background="@mipmap/ic_bg_btn2_broad_01"
                 android:text="@string/确认登录"
                 android:textColor="#ffffffff"
                 android:textSize="15sp"

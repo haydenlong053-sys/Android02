@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
         android:layout_margin="6dp"
-        android:background="@drawable/bg_interest_tag"
+        android:background="@drawable/bg_interest_broad_tag"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:paddingStart="12dp"

@@ -110,7 +110,7 @@
                             android:layout_width="220dp"
                             android:layout_height="220dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/bg_mine_dash_line"
+                            android:background="@drawable/bg_mine_dash_broad_line"
 
                             />
                         <com.makeramen.roundedimageview.RoundedImageView
@@ -143,7 +143,7 @@
                             android:gravity="center_vertical"
                             android:text="@string/m_safe_des_1"
                             android:textStyle="bold"
-                            app:drawableStartCompat="@mipmap/ic_safe_icon1"
+                            app:drawableStartCompat="@mipmap/ic_safe_broad_icon1"
                             android:drawablePadding="8dp"
                             />
                         <TextView
@@ -172,7 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
-                        android:background="@drawable/bg_rect_main"
+                        android:background="@drawable/bg_rect_broad_main"
                         android:padding="20dp"
                         android:text=""
                         android:textColor="#ffbebebe"
@@ -186,7 +186,7 @@
                         android:layout_margin="20dp"
                         android:orientation="vertical"
                         android:visibility="gone"
-                        android:background="@drawable/bg_rect_main">
+                        android:background="@drawable/bg_rect_broad_main">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -283,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:background="@mipmap/ic_bg_btn1_01"
+                android:background="@mipmap/ic_bg_btn1_broad_01"
                 android:gravity="center"
                 android:text="@string/保存"
                 android:textColor="@color/color_text0"
@@ -296,7 +296,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:background="@mipmap/ic_bg_btn2_01"
+                android:background="@mipmap/ic_bg_btn2_broad_01"
                 android:gravity="center"
                 android:text="@string/保存二维码"
                 android:textColor="#ffffffff"

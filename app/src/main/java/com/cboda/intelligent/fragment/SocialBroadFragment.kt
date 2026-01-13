@@ -315,7 +315,7 @@ private fun InviteRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         InviteCard(
-            iconRes = R.mipmap.ic_new_friend_request,
+            iconRes = R.mipmap.ic_new_friend_broad_request,
             title = "新增好友",
             onClick = onFriendClick,
             badgeCount = friendBadgeCount,
@@ -324,7 +324,7 @@ private fun InviteRow(
                 .height(64.dp)
         )
         InviteCard(
-            iconRes = R.mipmap.ic_new_group_request,
+            iconRes = R.mipmap.ic_new_group_broad_request,
             title = "新群邀请",
             onClick = onGroupClick,
             badgeCount = groupBadgeCount,

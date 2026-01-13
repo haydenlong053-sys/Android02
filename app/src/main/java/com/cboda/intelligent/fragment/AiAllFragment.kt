@@ -84,19 +84,19 @@ class AiAllFragment :
 
             DOCUMENT_TYPE -> {
                 setBtnAlpha(if (selectData.isNotEmpty() && riskType != "") 1f else 0.4f)
-                binding.aiUploadImg.setImageResource(if (selectData.isNotEmpty()) R.mipmap.icon_ai_upload_success else R.mipmap.icon_ai_upload_document)
+                binding.aiUploadImg.setImageResource(if (selectData.isNotEmpty()) R.mipmap.icon_ai_upload_broad_success else R.mipmap.icon_ai_upload_broad_document)
                 binding.aiUploadTitle.setTxt(if (selectData.isNotEmpty()) R.string.upload_completed else R.string.click_upload_document)
             }
 
             VIDEO_TYPE -> {
                 setBtnAlpha(if (selectData.isNotEmpty()) 1f else 0.4f)
-                binding.aiUploadImg.setImageResource(if (selectData.isNotEmpty()) R.mipmap.icon_ai_upload_success else R.mipmap.icon_ai_upload_document)
+                binding.aiUploadImg.setImageResource(if (selectData.isNotEmpty()) R.mipmap.icon_ai_upload_broad_success else R.mipmap.icon_ai_upload_broad_document)
                 binding.aiUploadTitle.setTxt(if (selectData.isNotEmpty()) R.string.upload_completed else R.string.click_upload_video)
             }
 
             VOICE_TYPE -> {
                 setBtnAlpha(if (selectData.isNotEmpty()) 1f else 0.4f)
-                binding.aiUploadImg.setImageResource(if (selectData.isNotEmpty()) R.mipmap.icon_ai_upload_success else R.mipmap.icon_ai_upload_document)
+                binding.aiUploadImg.setImageResource(if (selectData.isNotEmpty()) R.mipmap.icon_ai_upload_broad_success else R.mipmap.icon_ai_upload_broad_document)
                 binding.aiUploadTitle.setTxt(if (selectData.isNotEmpty()) R.string.upload_completed else R.string.click_upload_audio)
             }
         }
@@ -174,7 +174,7 @@ class AiAllFragment :
     override fun initView() {
         super.initView()
         setBtnAlpha(0.4f)
-        binding.aiUploadImg.setImageResource(R.mipmap.icon_ai_upload_document)
+        binding.aiUploadImg.setImageResource(R.mipmap.icon_ai_upload_broad_document)
         binding.aiImgListView.layoutManager =
             getNotScrollVerticalGridLayoutManager(requireContext(), 3)
         binding.aiImgListView.adapter = adapter
@@ -225,8 +225,8 @@ class AiAllFragment :
     private fun checkRiskType() {
         binding.view8.seStrokeColor(if (riskType == PROJECT_RISK_TYPE) com.cboda.baselibrary.R.color.color_2563EB else com.cboda.baselibrary.R.color.white)
         binding.view5.seStrokeColor(if (riskType == CONTRACT_RISK_TYPE) com.cboda.baselibrary.R.color.color_2563EB else com.cboda.baselibrary.R.color.white)
-        binding.aiProjectIv5.setImageResource(if (riskType == PROJECT_RISK_TYPE) R.mipmap.icon_ai_select_project else R.mipmap.icon_ai_no_select_project)
-        binding.aiContractIv.setImageResource(if (riskType == CONTRACT_RISK_TYPE) R.mipmap.icon_ai_select_contract else R.mipmap.icon_ai_no_select_contract)
+        binding.aiProjectIv5.setImageResource(if (riskType == PROJECT_RISK_TYPE) R.mipmap.icon_ai_select_broad_project else R.mipmap.icon_ai_no_select_broad_project)
+        binding.aiContractIv.setImageResource(if (riskType == CONTRACT_RISK_TYPE) R.mipmap.icon_ai_select_broad_contract else R.mipmap.icon_ai_no_select_broad_contract)
     }
 
 

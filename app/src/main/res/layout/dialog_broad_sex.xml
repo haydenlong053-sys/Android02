@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog_sex"
+    android:background="@drawable/bg_dialog_broad_sex"
     android:orientation="vertical">
     <LinearLayout
         android:paddingVertical="15dp"
@@ -44,7 +44,7 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:paddingVertical="12dp"
-        android:background="@mipmap/ic_bg_btn2_01"
+        android:background="@mipmap/ic_bg_btn2_broad_01"
         android:text="@string/完成"
         android:textColor="#ffffffff"
         android:textSize="16sp"

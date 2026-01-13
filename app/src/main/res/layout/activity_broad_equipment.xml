@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="17dp"
-                    android:src="@mipmap/ic_scan_login" />
+                    android:src="@mipmap/ic_scan_broad_login" />
 
                 <TextView
                     android:id="@+id/tvLanguage"
@@ -52,8 +52,8 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="17dp"
-                    android:drawableLeft="@mipmap/ic_change_yy"
-                    android:drawableRight="@mipmap/ic_down_white"
+                    android:drawableLeft="@mipmap/ic_change_broad_yy"
+                    android:drawableRight="@mipmap/ic_down_broad_white"
                     android:drawablePadding="4dp"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="8dp"
@@ -162,7 +162,7 @@
                         android:layout_height="44dp"
                         android:layout_marginHorizontal="33dp"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_rect_login"
+                        android:background="@drawable/bg_rect_broad_login"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -199,7 +199,7 @@
                         android:layout_height="44dp"
                         android:layout_marginHorizontal="33dp"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_rect_login"
+                        android:background="@drawable/bg_rect_broad_login"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -245,7 +245,7 @@
                         android:visibility="gone"
                         android:layout_marginHorizontal="33dp"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_rect_login"
+                        android:background="@drawable/bg_rect_broad_login"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -284,7 +284,7 @@
                     android:paddingVertical="40dp"
                     android:layout_gravity="center"
                     android:text="96位助记词一键登录"
-                    android:background="@drawable/bg_zjclg"
+                    android:background="@drawable/bg_broad_zjclg"
                     android:textColor="@color/color_text_zjc"
                     android:textSize="25sp"
                     android:textStyle="bold"
@@ -299,7 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="30dp"
-                android:background="@mipmap/ic_bg_btn2_01"
+                android:background="@mipmap/ic_bg_btn2_broad_01"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="@string/登录"
@@ -314,7 +314,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="30dp"
-                android:background="@mipmap/ic_bg_btn1_01"
+                android:background="@mipmap/ic_bg_btn1_broad_01"
                 android:gravity="center"
                 android:text="@string/立即注册"
                 android:textColor="@color/color_text1"

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog_zxsb"
+    android:background="@drawable/bg_dialog_broad_zxsb"
     android:orientation="vertical">
 
     <ImageView
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_zxsb"/>
+        android:src="@mipmap/ic_broad_zxsb"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_margin="30dp"
         android:gravity="center"
         android:text="钱包余额仍有余额"
-        android:background="@drawable/bg_zjclg"
+        android:background="@drawable/bg_broad_zjclg"
         android:textColor="@color/color_text_zjc"
         android:textSize="15sp"
         />
@@ -44,7 +44,7 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:paddingVertical="12dp"
-        android:background="@mipmap/ic_bg_btn2_01"
+        android:background="@mipmap/ic_bg_btn2_broad_01"
         android:text="@string/我知道了"
         android:textColor="#ffffffff"
         android:textSize="16sp"

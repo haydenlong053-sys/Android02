@@ -5,7 +5,7 @@
     <RelativeLayout
         android:layout_width="300dp"
         android:layout_height="180dp"
-        android:background="@drawable/shape_white_round_10">
+        android:background="@drawable/shape_white_round_broad_10">
         <TextView
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:max="100"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
-            android:progressDrawable="@drawable/down_load_progress_bar"
+            android:progressDrawable="@drawable/down_load_progress_broad_bar"
             />
 
         <TextView

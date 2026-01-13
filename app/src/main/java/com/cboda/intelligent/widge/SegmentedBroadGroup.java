@@ -163,8 +163,8 @@ public class SegmentedBroadGroup extends RadioGroup {
 
         private int children;
         private int child;
-        private final int SELECTED_LAYOUT = R.drawable.radio_checked;
-        private final int UNSELECTED_LAYOUT = R.drawable.radio_unchecked;
+        private final int SELECTED_LAYOUT = R.drawable.radio_broad_checked;
+        private final int UNSELECTED_LAYOUT = R.drawable.radio_broad_unchecked;
 
         private float r;    //this is the radios read by attributes or xml dimens
         private final float r1 = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP

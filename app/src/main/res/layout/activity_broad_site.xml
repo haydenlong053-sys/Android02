@@ -54,7 +54,7 @@
             android:layout_height="50dp">
             <LinearLayout
                 android:layout_marginHorizontal="8dp"
-                android:background="@drawable/bg_rect_main"
+                android:background="@drawable/bg_rect_broad_main"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_width="0dp"

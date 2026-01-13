@@ -118,8 +118,8 @@ fun View.isCanGo(boolean: Boolean) {
 
 fun View.isSubmitCanGo(
     boolean: Boolean,
-    @DrawableRes negativeBg: Int = R.drawable.bg_rect_submit_no_16dp,
-    @DrawableRes positiveBg: Int = R.drawable.bg_rect_submit_16dp,
+    @DrawableRes negativeBg: Int = R.drawable.bg_rect_submit_no_broad_16dp,
+    @DrawableRes positiveBg: Int = R.drawable.bg_rect_submit_broad_16dp,
 ) {
     this.isEnabled = boolean
     this.isSelected = boolean

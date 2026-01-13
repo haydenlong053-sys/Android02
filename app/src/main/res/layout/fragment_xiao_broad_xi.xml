@@ -55,7 +55,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/bg_top_add"
+                android:src="@drawable/bg_top_broad_add"
                 android:layout_marginEnd="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_sousuo"
+                android:src="@mipmap/ic_broad_sousuo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivAdd"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -105,7 +105,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivkefu"
-        android:src="@mipmap/ic_kefu"
+        android:src="@mipmap/ic_broad_kefu"
         android:layout_marginEnd="19dp"
         android:layout_marginBottom="70dp"
         app:layout_constraintEnd_toEndOf="parent"

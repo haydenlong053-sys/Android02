@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/bg_circle_3b37dd"
+        android:background="@drawable/bg_circle_broad_3b37dd"
         />
     <TextView
         android:id="@+id/mTvDes"

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="12dp"
         android:paddingHorizontal="20dp"
-        android:background="@drawable/bg_rect_09080e_10dp"
+        android:background="@drawable/bg_rect_09080e_broad_10dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tvTitle"
@@ -61,7 +61,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:drawablePadding="5dp"
-            android:drawableLeft="@mipmap/ic_wj_item"
+            android:drawableLeft="@mipmap/ic_wj_broad_item"
             android:text="文件名称"
             android:textColor="#ffffffff"
             android:textSize="14sp"
@@ -86,6 +86,6 @@
         android:background="#26090D"
         android:gravity="center"
         android:scaleType="centerInside"
-        android:src="@mipmap/ic_delete_item"
+        android:src="@mipmap/ic_delete_broad_item"
         />
 </com.mcxtzhang.swipemenulib.SwipeMenuLayout>

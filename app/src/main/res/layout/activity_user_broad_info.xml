@@ -59,7 +59,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:drawableEndCompat="@mipmap/ic_edit_icon"
+                app:drawableEndCompat="@mipmap/ic_edit_broad_icon"
                 tools:text="JOY Follow" />
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_height="54dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/bg_shape_white_top_16dp"
+                android:background="@drawable/bg_shape_white_top_broad_16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
@@ -233,7 +233,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_userinfo_qrcode"
+                    android:src="@mipmap/ic_userinfo_broad_qrcode"
                     app:riv_oval="true" />
 
                 <ImageView
@@ -258,7 +258,7 @@
                 android:layout_height="54dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/bg_shape_white_bottom_16dp"
+                android:background="@drawable/bg_shape_white_bottom_broad_16dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
@@ -317,7 +317,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/shape_white_round_16"
+                android:background="@drawable/shape_white_round_broad_16"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
@@ -352,7 +352,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="80dp"
-                android:background="@drawable/shape_white_round_16"
+                android:background="@drawable/shape_white_round_broad_16"
                 android:nestedScrollingEnabled="false"
                 android:padding="6dp"
                 android:visibility="visible" />
@@ -370,7 +370,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/bg_btn_outline"
+        android:background="@drawable/bg_btn_broad_outline"
         android:gravity="center"
         android:text="@string/提交"
         android:textColor="@color/color_3B47DD"

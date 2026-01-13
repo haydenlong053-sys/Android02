@@ -45,12 +45,12 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
 
     private fun initDeepColor() {
         if (isDeepColor){
-            binding.mViewTopBg.setBackgroundResource(R.drawable.bg_rect_deep_only_top_18dp)
-            binding.mIvClose.setImageResource(R.mipmap.ic_auth_close2)
+            binding.mViewTopBg.setBackgroundResource(R.drawable.bg_rect_deep_only_top_broad_18dp)
+            binding.mIvClose.setImageResource(R.mipmap.ic_auth_broad_close2)
 //            binding.mIvGo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             binding.mTvTitle.setTextColor(ContextCompat.getColor(context,R.color.white))
             binding.mTvDes2.setTextColor(ContextCompat.getColor(context,R.color.white))
-            binding.mLlGoogleAuthCopy.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_16dp)
+            binding.mLlGoogleAuthCopy.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_broad_16dp)
             binding.mEtCode.setTextColor(ContextCompat.getColor(context,R.color.white))
             binding.mEtCode.setHintTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_629CF8_35))
             binding.mTvCopy.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_C83FF5))

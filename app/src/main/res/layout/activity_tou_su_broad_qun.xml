@@ -211,7 +211,7 @@
                 android:layout_marginEnd="40dp"
                 android:gravity="center"
                 android:text="@string/tijiao"
-                android:background="@mipmap/ic_bg_btn2_01"
+                android:background="@mipmap/ic_bg_btn2_broad_01"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 

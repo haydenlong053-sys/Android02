@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imYonghu"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imID"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imPhone"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imQun"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imMingpian"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/imErweima"
-            android:src="@mipmap/ic_kai"
+            android:src="@mipmap/ic_broad_kai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

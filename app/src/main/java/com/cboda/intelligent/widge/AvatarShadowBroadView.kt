@@ -35,9 +35,9 @@ class AvatarShadowBroadView @JvmOverloads constructor(
             gravity = android.view.Gravity.CENTER
         }
         Glide.with(context)
-            .load(R.mipmap.ic_head_defaut)
+            .load(R.mipmap.ic_head_broad_defaut)
             .apply(RequestOptions.circleCropTransform())
-            .placeholder(R.mipmap.ic_head_defaut)
+            .placeholder(R.mipmap.ic_head_broad_defaut)
             .into(this)
     }
 

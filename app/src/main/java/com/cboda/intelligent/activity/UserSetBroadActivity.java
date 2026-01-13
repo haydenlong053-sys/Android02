@@ -326,9 +326,9 @@ public class UserSetBroadActivity extends BaseSimpleBroadActivity implements Vie
 
 
                 if (resultBean.data.showQuan.equals("0")) {
-                    imPengyouquan.setImageResource(R.mipmap.ic_guan);
+                    imPengyouquan.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imPengyouquan.setImageResource(R.mipmap.ic_kai);
+                    imPengyouquan.setImageResource(R.mipmap.ic_broad_kai);
                 }
 
                 if (bean.data.isvip.equals("1"))

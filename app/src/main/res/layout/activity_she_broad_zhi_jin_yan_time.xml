@@ -40,7 +40,7 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="23dp"
-                    android:src="@drawable/ic_weixuanz" />
+                    android:src="@drawable/ic_broad_weixuanz" />
             </FrameLayout>
 
             <View
@@ -70,7 +70,7 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="23dp"
-                    android:src="@drawable/ic_weixuanz" />
+                    android:src="@drawable/ic_broad_weixuanz" />
             </FrameLayout>
 
             <View
@@ -100,7 +100,7 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="23dp"
-                    android:src="@drawable/ic_weixuanz" />
+                    android:src="@drawable/ic_broad_weixuanz" />
             </FrameLayout>
 
             <View
@@ -130,7 +130,7 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="23dp"
-                    android:src="@drawable/ic_weixuanz" />
+                    android:src="@drawable/ic_broad_weixuanz" />
             </FrameLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -145,7 +145,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="39dp"
         android:layout_marginEnd="40dp"
-        android:background="@mipmap/ic_bg_btn2_01"
+        android:background="@mipmap/ic_bg_btn2_broad_01"
         android:gravity="center"
         android:text="@string/queding"
         android:textColor="@color/white"

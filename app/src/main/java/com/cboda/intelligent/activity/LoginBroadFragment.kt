@@ -65,7 +65,7 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
             viewModel.oneClickLogin()
         }
         binding.loginLookPwd.setOnTouchListener { _, event ->
-            binding.loginLookPwd.setImageResource(if (event.action == MotionEvent.ACTION_UP) R.mipmap.icon_pwd_close else R.mipmap.icon_pwd_open)
+            binding.loginLookPwd.setImageResource(if (event.action == MotionEvent.ACTION_UP) R.mipmap.icon_pwd_broad_close else R.mipmap.icon_pwd_broad_open)
             binding.loginPwd.setInputTypeKeepingCursor(if (event.action == MotionEvent.ACTION_UP) InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD else InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
             true
         }

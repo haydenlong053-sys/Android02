@@ -47,7 +47,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/ic_ad_qunguanli"
+                    android:drawableLeft="@mipmap/ic_ad_broad_qunguanli"
                     android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="@string/tianjaiqunguanli"

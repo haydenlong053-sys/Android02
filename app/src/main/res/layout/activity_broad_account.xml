@@ -14,7 +14,7 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="25dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_rect_0b0a10_10dp"
+        android:background="@drawable/bg_rect_0b0a10_broad_10dp"
         android:layout_width="match_parent"
         android:layout_height="55dp">
         <TextView
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:layout_marginLeft="11dp"
-            android:src="@mipmap/ic_next_white"
+            android:src="@mipmap/ic_next_broad_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -41,7 +41,7 @@
         android:orientation="vertical"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:background="@drawable/bg_rect_0b0a10_10dp"
+        android:background="@drawable/bg_rect_0b0a10_broad_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"/>
             <ImageView
                 android:layout_marginLeft="11dp"
-                android:src="@mipmap/ic_next_white"
+                android:src="@mipmap/ic_next_broad_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

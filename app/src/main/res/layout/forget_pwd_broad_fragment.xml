@@ -53,7 +53,7 @@
         android:layout_height="@dimen/dp_50"
         android:layout_marginHorizontal="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_16"
-        android:drawableStart="@mipmap/icon_login_account"
+        android:drawableStart="@mipmap/icon_login_broad_account"
         android:drawablePadding="@dimen/dp_12"
         android:hint="@string/please_enter_account"
         android:paddingHorizontal="@dimen/dp_16"

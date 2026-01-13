@@ -15,7 +15,7 @@
     <ImageView
         android:id="@+id/imCheck"
         android:padding="3dp"
-        android:src="@mipmap/btn_checkbox_normal"
+        android:src="@mipmap/btn_checkbox_broad_normal"
         android:layout_width="18dp"
         android:layout_height="18dp"/>
 </RelativeLayout>

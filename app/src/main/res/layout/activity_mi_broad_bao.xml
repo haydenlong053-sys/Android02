@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="7dp"
             app:tint="@color/color_text0"
-            android:src="@mipmap/ic_mibaowenti"/>
+            android:src="@mipmap/ic_broad_mibaowenti"/>
         <TextView
             android:text="@string/密保问题"
             android:textSize="14sp"
@@ -38,7 +38,7 @@
         android:paddingHorizontal="22dp"
         android:layout_marginTop="12dp"
         android:layout_marginHorizontal="33dp"
-        android:background="@drawable/bg_rect_input"
+        android:background="@drawable/bg_rect_broad_input"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         android:paddingHorizontal="22dp"
         android:layout_marginTop="12dp"
         android:layout_marginHorizontal="33dp"
-        android:background="@drawable/bg_rect_f7f8fa_22dp"
+        android:background="@drawable/bg_rect_f7f8fa_broad_22dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="7dp"
             app:tint="@color/color_text0"
-            android:src="@mipmap/ic_daan"/>
+            android:src="@mipmap/ic_broad_daan"/>
         <TextView
             android:text="@string/密保答案"
             android:textSize="14sp"
@@ -109,7 +109,7 @@
         android:paddingHorizontal="22dp"
         android:layout_marginTop="12dp"
         android:layout_marginHorizontal="33dp"
-        android:background="@drawable/bg_rect_input"
+        android:background="@drawable/bg_rect_broad_input"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -131,7 +131,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="52dp"
         android:layout_marginHorizontal="33dp"
-        android:background="@mipmap/ic_bg_btn2_01"
+        android:background="@mipmap/ic_bg_btn2_broad_01"
         android:gravity="center"
         android:text="@string/完成"
         android:textColor="@color/white"

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="80dp"
-        android:background="@drawable/bg_ewm_mine"
+        android:background="@drawable/bg_ewm_broad_mine"
         android:orientation="vertical">
 
         <TextView
@@ -44,7 +44,7 @@
           android:layout_marginBottom="30dp"
           android:scaleType="fitXY"
           android:layout_gravity="center_horizontal"
-          android:src="@mipmap/ic_mine_erweima"/>
+          android:src="@mipmap/ic_mine_broad_erweima"/>
 
     </LinearLayout>
 
@@ -55,7 +55,7 @@
         android:gravity="center"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="@mipmap/ic_bg_btn2_01"
+        android:background="@mipmap/ic_bg_btn2_broad_01"
         android:text="@string/点击保存二维码"
         android:textColor="#ffffffff"
         android:textSize="16sp"

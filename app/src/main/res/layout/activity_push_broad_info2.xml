@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="20dp"
-                        android:drawableRight="@mipmap/ic_edit_name"
+                        android:drawableRight="@mipmap/ic_edit_broad_name"
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:hint="@string/shezhinichengb"
@@ -117,7 +117,7 @@
                             android:layout_width="210dp"
                             android:layout_height="210dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/bg_mine_dash_line"
+                            android:background="@drawable/bg_mine_dash_broad_line"
 
                             />
                         <com.makeramen.roundedimageview.RoundedImageView
@@ -133,7 +133,7 @@
                             android:id="@+id/mIvBlur"
                             android:layout_width="220dp"
                             android:layout_height="220dp"
-                            android:src="@mipmap/ic_bg_mohu"
+                            android:src="@mipmap/ic_bg_broad_mohu"
                             android:layout_gravity="center_horizontal"
                             android:visibility="visible"
                             tools:visibility="visible"
@@ -144,7 +144,7 @@
                             android:layout_width="32dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:src="@mipmap/ic_eyes_icon_bg"
+                            android:src="@mipmap/ic_eyes_icon_broad_bg"
                             android:visibility="gone"
                             tools:ignore="ContentDescription"
                             tools:visibility="visible" />
@@ -157,7 +157,7 @@
                             android:text="@string/m_eyes_qrcode_show"
                             app:shape_radius="16dp"
                             app:shape_solidColor="#101B3A"
-                            app:drawableStartCompat="@mipmap/ic_eyes_icon"
+                            app:drawableStartCompat="@mipmap/ic_eyes_broad_icon"
                             android:drawablePadding="8dp"
                             android:padding="12dp"
                             android:layout_gravity="center"
@@ -184,7 +184,7 @@
                             android:gravity="center_vertical"
                             android:text="@string/m_safe_des_1"
                             android:textStyle="bold"
-                            app:drawableStartCompat="@mipmap/ic_safe_icon1"
+                            app:drawableStartCompat="@mipmap/ic_safe_broad_icon1"
                             android:drawablePadding="8dp"
                             />
                         <TextView
@@ -214,7 +214,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
-                        android:background="@drawable/bg_rect_input"
+                        android:background="@drawable/bg_rect_broad_input"
                         android:padding="20dp"
                         android:text=""
                         android:textColor="@color/color_text0"
@@ -226,7 +226,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:background="@drawable/bg_rect_input"
+                        android:background="@drawable/bg_rect_broad_input"
                         android:orientation="vertical"
                         android:visibility="gone"
                         >
@@ -305,7 +305,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_yinying"
+                        android:background="@drawable/bg_broad_yinying"
                         android:layout_margin="2dp"
                         android:gravity="center">
 
@@ -315,7 +315,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_head_defaut"
+                        android:src="@mipmap/ic_head_broad_defaut"
                         app:riv_oval="true"
                         app:riv_border_width="2dp"
                         app:riv_border_color="@color/white"
@@ -330,7 +330,7 @@
                         android:layout_alignParentBottom="true"
                         android:clickable="false"
                         android:visibility="gone"
-                        android:src="@mipmap/ic_add_head2" />
+                        android:src="@mipmap/ic_add_broad_head2" />
                 </RelativeLayout>
 
             </FrameLayout>
@@ -341,7 +341,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/bg_rect_submit_16dp"
+                android:background="@drawable/bg_rect_submit_broad_16dp"
                 android:gravity="center"
                 android:padding="12dp"
                 android:text="@string/m_save_login"
@@ -359,7 +359,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="40dp"
-                android:background="@mipmap/ic_bg_btn2_01"
+                android:background="@mipmap/ic_bg_btn2_broad_01"
                 android:gravity="center"
                 android:text="@string/登录"
                 android:textColor="#ffffffff"

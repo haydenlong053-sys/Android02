@@ -21,7 +21,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="13dp"
         android:layout_marginHorizontal="32dp"
-        android:background="@drawable/bg_rect_f5f6f7_22dp"
+        android:background="@drawable/bg_rect_f5f6f7_broad_22dp"
         android:layout_width="match_parent"
         android:layout_height="45dp">
         <EditText
@@ -47,7 +47,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:layout_marginHorizontal="37dp"
-        android:background="@drawable/bg_button"
+        android:background="@drawable/bg_broad_button"
         android:gravity="center"
         android:text="@string/完成"
         android:textColor="@color/white"

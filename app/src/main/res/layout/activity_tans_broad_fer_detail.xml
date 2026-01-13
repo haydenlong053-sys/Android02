@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/bg_rect_mine_10dp"
+            android:background="@drawable/bg_rect_mine_broad_10dp"
             android:gravity="center"
             android:layout_marginTop="6dp"
             >
@@ -23,7 +23,7 @@
                 android:id="@+id/mIvState"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                tools:src="@mipmap/ic_icon_avatar"
+                tools:src="@mipmap/ic_icon_broad_avatar"
                 android:layout_marginTop="19dp"
                 />
             <TextView
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_rect_mine_10dp"
+            android:background="@drawable/bg_rect_mine_broad_10dp"
             android:paddingVertical="12dp"
             android:paddingHorizontal="16dp"
             >
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_rect_mine_10dp"
+            android:background="@drawable/bg_rect_mine_broad_10dp"
             android:paddingVertical="12dp"
             android:paddingHorizontal="16dp"
             >
@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_rect_mine_10dp"
+            android:background="@drawable/bg_rect_mine_broad_10dp"
             android:paddingVertical="12dp"
             android:paddingHorizontal="16dp"
             android:visibility="gone"
@@ -146,7 +146,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_copy"
+                android:src="@mipmap/ic_broad_copy"
                 android:layout_gravity="center_vertical"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
@@ -156,7 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_rect_mine_10dp"
+            android:background="@drawable/bg_rect_mine_broad_10dp"
             android:paddingVertical="12dp"
             android:paddingHorizontal="16dp"
             >
@@ -183,7 +183,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_copy"
+                android:src="@mipmap/ic_broad_copy"
                 android:layout_gravity="center_vertical"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
@@ -192,7 +192,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_rect_mine_10dp"
+            android:background="@drawable/bg_rect_mine_broad_10dp"
             android:paddingVertical="12dp"
             android:paddingHorizontal="16dp"
             android:visibility="gone"
@@ -224,7 +224,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="@drawable/bg_rect_mine_10dp"
+            android:background="@drawable/bg_rect_mine_broad_10dp"
             android:paddingVertical="12dp"
             android:paddingHorizontal="16dp"
             >

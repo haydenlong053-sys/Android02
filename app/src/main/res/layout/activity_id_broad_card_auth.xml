@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_rect_mine_10dp"
+        android:background="@drawable/bg_rect_mine_broad_10dp"
         android:gravity="center"
         android:padding="16dp"
         >
@@ -46,7 +46,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:drawablePadding="8dp"
-            app:drawableStartCompat="@mipmap/ic_auth_safe"
+            app:drawableStartCompat="@mipmap/ic_auth_broad_safe"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@mipmap/ic_auth_edit"
+            android:src="@mipmap/ic_auth_broad_edit"
             tools:ignore="ContentDescription"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

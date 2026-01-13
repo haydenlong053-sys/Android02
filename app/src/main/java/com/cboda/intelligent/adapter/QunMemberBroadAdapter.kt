@@ -35,7 +35,7 @@ class QunMemberBroadAdapter(layoutResId: Int,private var fromPage:String = "") :
 
                 holder.setImageResource(
                     R.id.uxanzview,
-                    if (item.isSelect)R.drawable.ic_yixuanz else R.drawable.ic_weixuanz
+                    if (item.isSelect)R.drawable.ic_broad_yixuanz else R.drawable.ic_broad_weixuanz
                 )
             }
             else->{
@@ -71,7 +71,7 @@ class QunMemberBroadAdapter(layoutResId: Int,private var fromPage:String = "") :
                         }
                         holder.setImageResource(
                             R.id.uxanzview,
-                            if (item.isSelect) R.drawable.ic_yixuanz else R.drawable.ic_weixuanz
+                            if (item.isSelect) R.drawable.ic_broad_yixuanz else R.drawable.ic_broad_weixuanz
                         )
                     }
                     "remove" -> {
@@ -85,13 +85,13 @@ class QunMemberBroadAdapter(layoutResId: Int,private var fromPage:String = "") :
                         }
                         holder.setImageResource(
                             R.id.uxanzview,
-                            if (item.isSelect) R.drawable.ic_yixuanz else R.drawable.ic_weixuanz
+                            if (item.isSelect) R.drawable.ic_broad_yixuanz else R.drawable.ic_broad_weixuanz
                         )
                     }
                     else -> {
                         holder.setImageResource(
                             R.id.uxanzview,
-                            if (item.isSelect) R.drawable.ic_yixuanz else R.drawable.ic_weixuanz
+                            if (item.isSelect) R.drawable.ic_broad_yixuanz else R.drawable.ic_broad_weixuanz
                         )
                     }
                 }

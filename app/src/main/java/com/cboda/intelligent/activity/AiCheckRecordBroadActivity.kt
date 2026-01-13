@@ -60,10 +60,10 @@ class AiCheckRecordBroadActivity : BaseSimple2BroadActivity() {
         val mResIds =
             intArrayOf(R.string.ai_document, R.string.ai_img, R.string.ai_audio, R.string.ai_video)
         val mResIds2 = intArrayOf(
-            R.mipmap.icon_ai_document,
-            R.mipmap.icon_ai_img,
-            R.mipmap.icon_ai_audio,
-            R.mipmap.icon_ai_video
+            R.mipmap.icon_ai_broad_document,
+            R.mipmap.icon_ai_broad_img,
+            R.mipmap.icon_ai_broad_audio,
+            R.mipmap.icon_ai_broad_video
         )
         mBind?.aiMagicIndicator?.setBackgroundColor(Color.TRANSPARENT)
         val commonNavigator = CommonBroadNavigator(this)

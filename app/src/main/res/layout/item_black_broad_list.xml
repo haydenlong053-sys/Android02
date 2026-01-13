@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="5dp"
-        android:background="@drawable/bg_jclh"
+        android:background="@drawable/bg_broad_jclh"
         android:gravity="center_vertical"
         android:paddingHorizontal="10dp"
         android:text="@string/解除拉黑"

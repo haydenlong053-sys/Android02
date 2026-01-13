@@ -3,7 +3,7 @@
 
     <style name="InitTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/launch_bg</item>
+        <item name="android:windowBackground">@drawable/launch_broad_bg</item>
         <item name
             ="android:background">@color/transparent</item>
         <item name="android:windowFullscreen">true</item>

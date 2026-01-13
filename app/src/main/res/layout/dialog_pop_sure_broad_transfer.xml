@@ -42,7 +42,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rect_mine_eeeff0_10dp"
+            android:background="@drawable/bg_rect_mine_eeeff0_broad_10dp"
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="24dp"
             android:padding="12dp">
@@ -50,7 +50,7 @@
                 android:id="@+id/mIvAvatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                tools:src="@mipmap/ic_icon_avatar"
+                tools:src="@mipmap/ic_icon_broad_avatar"
                 android:scaleType="centerCrop"
                 tools:ignore="ContentDescription"
                 app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_rect_mine_eeeff0_10dp"
+            android:background="@drawable/bg_rect_mine_eeeff0_broad_10dp"
             android:padding="12dp"
             android:gravity="center"
             >

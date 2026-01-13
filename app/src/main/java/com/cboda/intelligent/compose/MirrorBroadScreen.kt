@@ -70,7 +70,7 @@ fun MirrorScreen(
 
         // 背景图
         Image(
-            painter = painterResource(R.drawable.bg_mirror),
+            painter = painterResource(R.drawable.bg_broad_mirror),
             contentDescription = "mirror background",
             modifier = Modifier.constrainAs(bg) {
                 start.linkTo(parent.start)
@@ -89,7 +89,7 @@ fun MirrorScreen(
             val nameTag = TagBroadSpec(it.name?:(it.idno?:""), 0.10f, 97.dp)
             val tagSpecs = listOf(nameTag)
             Image(
-                painter = painterResource(if (useSex==1)R.drawable.ic_mirror_male else R.drawable.ic_mirror_female),
+                painter = painterResource(if (useSex==1)R.drawable.ic_mirror_broad_male else R.drawable.ic_mirror_broad_female),
                 contentDescription = "avatar",
                 modifier = Modifier
                     .wrapContentWidth()
@@ -214,14 +214,14 @@ fun MirrorScreen(
 
         ) {
             Image(
-                painter = painterResource(R.drawable.ic_mirror_qrcode),
+                painter = painterResource(R.drawable.ic_mirror_broad_qrcode),
                 contentDescription = "qrcode",
                 modifier = Modifier.size(20.dp)
             )
         }
 
         Image(
-            painter = painterResource(if (!uiState.isSign) R.drawable.bg_sign_false else R.drawable.bg_sign_true),
+            painter = painterResource(if (!uiState.isSign) R.drawable.bg_sign_broad_false else R.drawable.bg_sign_broad_true),
             contentDescription = "sign",
             modifier = Modifier
                 .width(50.dp)
@@ -238,7 +238,7 @@ fun MirrorScreen(
 
         // 底部渐变区域
         Image(
-            painter = painterResource(R.drawable.bg_mirror_bottom),
+            painter = painterResource(R.drawable.bg_mirror_broad_bottom),
             contentDescription = "bottom",
             modifier = Modifier
                 .fillMaxWidth()
@@ -254,7 +254,7 @@ fun MirrorScreen(
 
         // 底部线条（贴在底部渐变图的顶部）
         Image(
-            painter = painterResource(R.drawable.bg_mirror_bottom_line),
+            painter = painterResource(R.drawable.bg_mirror_bottom_broad_line),
             contentDescription = "bottom line",
             modifier = Modifier
                 .fillMaxWidth()
@@ -303,7 +303,7 @@ private fun TagChip(text: String, modifier: Modifier = Modifier) {
     ) {
         Image(
             painter = painterResource(R.mipmap.
-            bg_mirror_tag_big),
+            bg_mirror_tag_broad_big),
             contentDescription = null,
             modifier = Modifier.matchParentSize(),
             contentScale = ContentScale.FillBounds

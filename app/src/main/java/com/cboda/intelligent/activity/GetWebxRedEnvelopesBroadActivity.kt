@@ -63,7 +63,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBind = (binding as? GetWeBroadBxRedEnvelopesActivityBinding)
-        mIvBgTop.setBackgroundResource(R.drawable.ic_red_envelope_webx_back)
+        mIvBgTop.setBackgroundResource(R.drawable.ic_red_envelope_webx_broad_back)
         mAdapter = LingQuUserBroadAdapter(R.layout.item_ling_broad_qu_user_layout)
         mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
         isReceived = getIsReceived

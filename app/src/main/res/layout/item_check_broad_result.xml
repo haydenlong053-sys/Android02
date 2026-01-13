@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginBottom="10dp"
-    android:background="@drawable/bg_rect_main"
+    android:background="@drawable/bg_rect_broad_main"
     android:padding="16dp">
 
     <TextView
@@ -25,7 +25,7 @@
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_status_abnormal"
+        android:background="@drawable/bg_status_broad_abnormal"
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
         android:text=""

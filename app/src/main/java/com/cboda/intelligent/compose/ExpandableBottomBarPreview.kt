@@ -30,26 +30,26 @@ fun ExpandableBottomBarPreview() {
 
     val previewItems = listOf(
         ExpandableBottomBarBroadItem(
-            icon = painterResource(R.mipmap.ic_xiaoxi_false),
-            selectedIcon = painterResource(R.mipmap.ic_xiaoxi_true),
+            icon = painterResource(R.mipmap.ic_xiaoxi_broad_false),
+            selectedIcon = painterResource(R.mipmap.ic_xiaoxi_broad_true),
             text = "消息",
             badge = "12"
         ),
         ExpandableBottomBarBroadItem(
-            icon = painterResource(R.mipmap.ic_tongxunlu_false),
-            selectedIcon = painterResource(R.mipmap.ic_tongxunlu_t),
+            icon = painterResource(R.mipmap.ic_tongxunlu_broad_false),
+            selectedIcon = painterResource(R.mipmap.ic_tongxunlu_broad_t),
             text = "通讯录",
             badge = "3"
         ),
         ExpandableBottomBarBroadItem(
-            icon = painterResource(R.mipmap.ic_faxian_false),
-            selectedIcon = painterResource(R.mipmap.ic_faxian_t),
+            icon = painterResource(R.mipmap.ic_faxian_broad_false),
+            selectedIcon = painterResource(R.mipmap.ic_faxian_broad_t),
             text = "发现",
             badge = "0"
         ),
         ExpandableBottomBarBroadItem(
-            icon = painterResource(R.mipmap.ic_wode_false),
-            selectedIcon = painterResource(R.mipmap.ic_wode_t),
+            icon = painterResource(R.mipmap.ic_wode_broad_false),
+            selectedIcon = painterResource(R.mipmap.ic_wode_broad_t),
             text = "我的",
             badge = "0"
         )

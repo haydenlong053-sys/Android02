@@ -50,7 +50,7 @@ class FaHongBaoBroadActivity : BaseSimple2BroadActivity() {
         mViewBack.setOnClickListener {
             finish()
         }
-        setIvBgTopImg(R.mipmap.ic_hongbao_top_bg2)
+        setIvBgTopImg(R.mipmap.ic_hongbao_top_broad_bg2)
         tvCurrencyWx.click {
             ToastBroadUtils.show(R.string.is_not_yet_available)
         }

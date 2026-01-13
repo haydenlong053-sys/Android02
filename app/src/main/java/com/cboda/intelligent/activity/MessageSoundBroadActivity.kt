@@ -134,7 +134,7 @@ fun MessageSoundScreen(
         ) {
             // 背景图片
             Image(
-                painter = painterResource(id = R.mipmap.ic_bg_top_main),
+                painter = painterResource(id = R.mipmap.ic_bg_top_broad_main),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.FillWidth,
@@ -239,7 +239,7 @@ fun SoundItem(
             
             if (isSelected) {
                 Image(
-                    painter = painterResource(id = R.mipmap.btn_checkbox_press),
+                    painter = painterResource(id = R.mipmap.btn_checkbox_broad_press),
                     contentDescription = "已选中",
                     modifier = Modifier.size(20.dp)
                 )

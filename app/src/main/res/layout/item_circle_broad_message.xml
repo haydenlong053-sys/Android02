@@ -34,7 +34,7 @@
             <ImageView
                 android:id="@+id/imZan"
                 android:layout_marginTop="5dp"
-                android:src="@mipmap/ic_dianzan_num_false"
+                android:src="@mipmap/ic_dianzan_num_broad_false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -58,7 +58,7 @@
         </LinearLayout>
         <LinearLayout
             android:gravity="center"
-            android:background="@drawable/bg_rect_f5f5f5_10dp"
+            android:background="@drawable/bg_rect_f5f5f5_broad_10dp"
             android:orientation="vertical"
             android:layout_width="56dp"
             android:layout_height="56dp">

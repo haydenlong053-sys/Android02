@@ -46,7 +46,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="40dp"
-        android:background="@mipmap/ic_bg_btn2_01"
+        android:background="@mipmap/ic_bg_btn2_broad_01"
         android:gravity="center"
         android:text="@string/点击保存二维码"
         android:textColor="#ffffffff"

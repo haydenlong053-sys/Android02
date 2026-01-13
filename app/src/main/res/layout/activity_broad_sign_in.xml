@@ -112,7 +112,7 @@
 
 
                     <LinearLayout
-                        android:background="@drawable/bg_rect_white_20dp"
+                        android:background="@drawable/bg_rect_white_broad_20dp"
                         android:layout_marginVertical="15dp"
                         android:layout_marginHorizontal="15dp"
                         android:orientation="vertical"

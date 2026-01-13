@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="@id/shapeView"
             app:layout_constraintStart_toStartOf="@id/shapeView"
             app:layout_constraintTop_toTopOf="@id/shapeView"
-            tools:src="@mipmap/icon_ai_upload_document"
+            tools:src="@mipmap/icon_ai_upload_broad_document"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -94,7 +94,7 @@
             android:layout_height="@dimen/dp_18"
             android:padding="@dimen/dp_4"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_ai_clear_data"
+            android:src="@mipmap/icon_ai_clear_broad_data"
             app:layout_constraintBottom_toBottomOf="@id/aiUploadTitle5"
             app:layout_constraintEnd_toStartOf="@id/aiClearImgTv"
             app:layout_constraintTop_toTopOf="@id/aiUploadTitle5" />
@@ -175,7 +175,7 @@
             android:layout_height="@dimen/dp_110"
             android:layout_marginTop="@dimen/dp_25"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_ai_img_result"
+            android:src="@mipmap/icon_ai_img_broad_result"
             app:layout_constraintEnd_toEndOf="@id/view3"
             app:layout_constraintStart_toStartOf="@id/view3"
             app:layout_constraintTop_toTopOf="@id/view3" />
@@ -253,7 +253,7 @@
             android:layout_marginStart="@dimen/dp_22"
             android:layout_marginTop="@dimen/dp_21"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_ai_img_show"
+            android:src="@mipmap/icon_ai_img_broad_show"
             app:layout_constraintEnd_toStartOf="@id/aiProjectView1"
             app:layout_constraintStart_toStartOf="@id/view3"
             app:layout_constraintTop_toBottomOf="@id/aiProjectContent3" />
@@ -286,7 +286,7 @@
             android:layout_width="@dimen/dp_16"
             android:layout_height="@dimen/dp_16"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_ai_audio_show"
+            android:src="@mipmap/icon_ai_audio_broad_show"
             app:layout_constraintBottom_toBottomOf="@id/aiProjectIv1"
             app:layout_constraintEnd_toStartOf="@id/aiProjectView2"
             app:layout_constraintStart_toEndOf="@id/aiProjectView1"
@@ -319,7 +319,7 @@
             android:layout_height="@dimen/dp_16"
             android:layout_marginEnd="@dimen/dp_22"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_ai_video_show"
+            android:src="@mipmap/icon_ai_video_broad_show"
             app:layout_constraintBottom_toBottomOf="@id/aiProjectIv1"
             app:layout_constraintEnd_toEndOf="@id/view3"
             app:layout_constraintStart_toEndOf="@id/aiProjectView2"
@@ -370,7 +370,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="@id/view8"
             app:layout_constraintTop_toTopOf="@id/view8"
-            tools:src="@mipmap/icon_ai_no_select_project" />
+            tools:src="@mipmap/icon_ai_no_select_broad_project" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/aiProjectTitle5"
@@ -444,7 +444,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="@id/view5"
             app:layout_constraintTop_toTopOf="@id/view5"
-            tools:src="@mipmap/icon_ai_no_select_contract" />
+            tools:src="@mipmap/icon_ai_no_select_broad_contract" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/aiContractTitle"
@@ -520,7 +520,7 @@
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_ai_scan"
+            android:src="@mipmap/icon_ai_broad_scan"
             app:layout_constraintBottom_toBottomOf="@id/updateBtn"
             app:layout_constraintEnd_toStartOf="@id/updateBtnTv"
             app:layout_constraintHorizontal_chainStyle="packed"

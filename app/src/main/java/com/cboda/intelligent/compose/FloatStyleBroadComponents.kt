@@ -612,7 +612,7 @@ fun TipToInfoPopUp(onDismiss: () -> Unit, okClick: () -> Unit) {
                         )
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.bg_dialog_gradient_top),
+                        painter = painterResource(R.drawable.bg_dialog_gradient_broad_top),
                         contentDescription = "dialog_top",
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier.fillMaxWidth()
@@ -700,7 +700,7 @@ fun TipToInfoPopUpPreview() {
 @Composable
 fun BlurButtonPreview() {
     BlurButton(
-        iconPainter = painterResource(R.mipmap.ic_manager_black),
+        iconPainter = painterResource(R.mipmap.ic_manager_broad_black),
         expanded = false,
         onExpandedChange = {})
 }

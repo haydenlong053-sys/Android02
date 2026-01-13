@@ -3,7 +3,7 @@
     android:layout_width="96dp"
     android:id="@+id/float_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bg_float_meeting"
+    android:background="@drawable/bg_float_broad_meeting"
     android:layout_height="96dp">
 
 
@@ -32,8 +32,8 @@
         app:layout_constraintStart_toStartOf="@id/speak_avatar"
         app:layout_constraintTop_toTopOf="@id/speak_avatar"
         android:scaleType="centerInside"
-        android:src="@mipmap/ic_meeting_float_mic_on"
-        android:background="@drawable/bg_white_oval"
+        android:src="@mipmap/ic_meeting_float_mic_broad_on"
+        android:background="@drawable/bg_white_broad_oval"
         android:layout_width="16dp"
         android:layout_height="16dp"/>
 

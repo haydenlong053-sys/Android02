@@ -31,7 +31,7 @@
             android:id="@+id/mIvQrCodeAuth"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            tools:src="@mipmap/ic_security_auth"
+            tools:src="@mipmap/ic_security_broad_auth"
             android:layout_marginTop="24dp"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
@@ -54,7 +54,7 @@
             android:layout_marginHorizontal="16dp"
             android:minHeight="44dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_rect_save_10dp"
+            android:background="@drawable/bg_rect_save_broad_10dp"
             android:gravity="center"
             >
             <TextView
@@ -72,7 +72,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_copy"
+                android:src="@mipmap/ic_broad_copy"
                 android:layout_marginEnd="13dp"
                 tools:ignore="ContentDescription" />
 
@@ -83,7 +83,7 @@
             android:id="@+id/mTvOk"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@drawable/bg_rect_blue_line"
+            android:background="@drawable/bg_rect_blue_broad_line"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"

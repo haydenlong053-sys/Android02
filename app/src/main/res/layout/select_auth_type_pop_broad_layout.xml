@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/shape_white_round_10"
+        android:background="@drawable/shape_white_round_broad_10"
         android:scrollbars="none" />
 </FrameLayout>

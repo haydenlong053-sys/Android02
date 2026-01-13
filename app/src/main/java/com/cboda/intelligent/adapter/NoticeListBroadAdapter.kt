@@ -12,10 +12,10 @@ class NoticeListBroadAdapter(
     BaseQuickAdapter<NoticeInfoBroadBean, BaseViewHolder>(layoutResId) {
     override fun convert(holder: BaseViewHolder, item: NoticeInfoBroadBean) {
         if (item.isRead) {
-            holder.setBackgroundResource(R.id.mViewReadBlue, R.drawable.bg_circle_3b37dd_20)
+            holder.setBackgroundResource(R.id.mViewReadBlue, R.drawable.bg_circle_3b37dd_broad_20)
             holder.setTextColorRes(R.id.mTvDes,R.color.black_or_white_65)
         } else {
-            holder.setBackgroundResource(R.id.mViewReadBlue, R.drawable.bg_circle_3b37dd)
+            holder.setBackgroundResource(R.id.mViewReadBlue, R.drawable.bg_circle_broad_3b37dd)
             holder.setTextColorRes(R.id.mTvDes,R.color.black_or_white)
         }
         holder.setText(R.id.mTvDes,item.noticeTitle)

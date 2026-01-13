@@ -220,25 +220,25 @@ public class CommonSetBroadActivity extends BaseSimpleBroadActivity implements V
 
 
                 if (resultBean.data.isAddYz.equals("0")) {
-                    imHoayou.setImageResource(R.mipmap.ic_guan);
+                    imHoayou.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imHoayou.setImageResource(R.mipmap.ic_kai);
+                    imHoayou.setImageResource(R.mipmap.ic_broad_kai);
                 }
                 if (resultBean.data.isQuantx.equals("0")) {
-                    imGengxin.setImageResource(R.mipmap.ic_guan);
+                    imGengxin.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imGengxin.setImageResource(R.mipmap.ic_kai);
+                    imGengxin.setImageResource(R.mipmap.ic_broad_kai);
                 }
                 if (resultBean.data.isMsgtx.equals("0")) {
-                    imXiaoxi.setImageResource(R.mipmap.ic_guan);
+                    imXiaoxi.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imXiaoxi.setImageResource(R.mipmap.ic_kai);
+                    imXiaoxi.setImageResource(R.mipmap.ic_broad_kai);
                 }
 
                 if ("1".equals(resultBean.data.noadd)) {
-                    imjinzhi.setImageResource(R.mipmap.ic_kai);
+                    imjinzhi.setImageResource(R.mipmap.ic_broad_kai);
                 } else {
-                    imjinzhi.setImageResource(R.mipmap.ic_guan);
+                    imjinzhi.setImageResource(R.mipmap.ic_broad_guan);
                 }
             }
 

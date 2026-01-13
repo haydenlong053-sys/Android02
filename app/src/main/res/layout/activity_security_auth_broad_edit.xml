@@ -28,7 +28,7 @@
         android:id="@+id/mLlQuestionTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rect_mine_10dp"
+        android:background="@drawable/bg_rect_mine_broad_10dp"
         android:layout_marginHorizontal="16dp"
         android:gravity="center"
         android:orientation="horizontal">
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:src="@mipmap/ic_select_type"
+            android:src="@mipmap/ic_select_broad_type"
             tools:ignore="ContentDescription" />
 
     </LinearLayout>
@@ -69,7 +69,7 @@
         android:id="@+id/mEtDiyQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rect_mine_10dp"
+        android:background="@drawable/bg_rect_mine_broad_10dp"
         android:gravity="center|start"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -100,7 +100,7 @@
         android:id="@+id/mEtAnswer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rect_mine_10dp"
+        android:background="@drawable/bg_rect_mine_broad_10dp"
         android:gravity="center|start"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -126,7 +126,7 @@
         android:id="@+id/mTvSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rect_submit_16dp"
+        android:background="@drawable/bg_rect_submit_broad_16dp"
         android:padding="12dp"
         android:text="@string/mine_sure"
         android:textColor="@color/white"
@@ -140,7 +140,7 @@
         android:id="@+id/mTvCancel"
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:background="@drawable/bg_rect_blue_line"
+        android:background="@drawable/bg_rect_blue_broad_line"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"

@@ -128,7 +128,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //        eLogD("zhanglong", "userInfo.otherUid----" + otherUid)
         initViews()
         getRightImg()?.isVisible = false
-        getRightImg()?.setImageResource(R.mipmap.ic_gengduo_white)
+        getRightImg()?.setImageResource(R.mipmap.ic_gengduo_broad_white)
 //        val isFriend = ChatManager.Instance().isMyFriend(otherUid)
         getRightImg()?.setOnClickListener {
             JumpBroadUtils.startHaoYouSetActivity(this, otherUid, "")
@@ -148,9 +148,9 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     PixelBroadBroadUtils.dip2px(this@HaoYouPageBroadActivity, 10f)
                 )
                 if (sex == null || sex == "0") {
-                    ivMirrorSex.setImageResource(R.drawable.ic_mirror_female)
+                    ivMirrorSex.setImageResource(R.drawable.ic_mirror_broad_female)
                 } else {
-                    ivMirrorSex.setImageResource(if (sex == "1") R.drawable.ic_mirror_male else R.drawable.ic_mirror_female)
+                    ivMirrorSex.setImageResource(if (sex == "1") R.drawable.ic_mirror_broad_male else R.drawable.ic_mirror_broad_female)
 
                 }
                 val isFriend = "1" == it.data?.isFri

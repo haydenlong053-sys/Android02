@@ -150,7 +150,7 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
 
                 if (isvip.equals("0")) {
                     tvKt.setText(getString(R.string.群主还未成为会员));
-                    tvKt.setBackgroundResource(R.mipmap.ic_bg_btn2_01);
+                    tvKt.setBackgroundResource(R.mipmap.ic_bg_btn2_broad_01);
                 } else {
                     if (bean.data.gsize.equals("1")) {
                         tvGsize.setText(getString(R.string.群成员上限为1000人));

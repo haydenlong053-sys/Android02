@@ -200,7 +200,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
                 tvDesc.setTextColor(tvDesc.context.resources.getColor(if (selected) R.color.color_3B47DDk else R.color.color_text_content))
                 itemView.background = androidx.core.content.ContextCompat.getDrawable(
                     itemView.context,
-                    if (selected) R.drawable.bg_rect_mine_3b47dd_10dp else R.drawable.bg_rect_mine_10dp
+                    if (selected) R.drawable.bg_rect_mine_3b47dd_broad_10dp else R.drawable.bg_rect_mine_broad_10dp
                 )
             }
         }

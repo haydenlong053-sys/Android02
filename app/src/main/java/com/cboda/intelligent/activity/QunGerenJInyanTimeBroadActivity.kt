@@ -98,23 +98,23 @@ class QunGerenJInyanTimeBroadActivity:BaseSimpleBroadActivity() {
     }
 
     private fun updateView() {
-        yitianicon?.setImageResource(R.drawable.ic_weixuanz)
-        yizhouicon?.setImageResource(R.drawable.ic_weixuanz)
-        yueicon?.setImageResource(R.drawable.ic_weixuanz)
-        yongjiuicon?.setImageResource(R.drawable.ic_weixuanz)
+        yitianicon?.setImageResource(R.drawable.ic_broad_weixuanz)
+        yizhouicon?.setImageResource(R.drawable.ic_broad_weixuanz)
+        yueicon?.setImageResource(R.drawable.ic_broad_weixuanz)
+        yongjiuicon?.setImageResource(R.drawable.ic_broad_weixuanz)
 
         when(type){
             "1"->{
-                yitianicon?.setImageResource(R.drawable.ic_yixuanz)
+                yitianicon?.setImageResource(R.drawable.ic_broad_yixuanz)
             }
             "2"->{
-                yizhouicon?.setImageResource(R.drawable.ic_yixuanz)
+                yizhouicon?.setImageResource(R.drawable.ic_broad_yixuanz)
             }
             "3"->{
-                yueicon?.setImageResource(R.drawable.ic_yixuanz)
+                yueicon?.setImageResource(R.drawable.ic_broad_yixuanz)
             }
             "4"->{
-                yongjiuicon?.setImageResource(R.drawable.ic_yixuanz)
+                yongjiuicon?.setImageResource(R.drawable.ic_broad_yixuanz)
             }
         }
     }

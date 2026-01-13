@@ -23,7 +23,7 @@
                 android:id="@+id/ivState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_zxzh"
+                android:src="@mipmap/ic_broad_zxzh"
                />
 
         </RelativeLayout>
@@ -75,7 +75,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@mipmap/ic_bg_btn2_01"
+            android:background="@mipmap/ic_bg_btn2_broad_01"
             android:gravity="center"
             android:text="申请注销"
             android:textColor="#ffffffff"

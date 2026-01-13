@@ -31,7 +31,7 @@
                 <LinearLayout
                     android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="13dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -43,7 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
                         <ImageView
-                            android:src="@mipmap/ic_haoyoufenxiang"
+                            android:src="@mipmap/ic_broad_haoyoufenxiang"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
                         <ImageView
-                            android:src="@mipmap/ic_faxian_soayisao"
+                            android:src="@mipmap/ic_faxian_broad_soayisao"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -110,7 +110,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="13dp"
-                    android:background="@drawable/bg_rect_main"
+                    android:background="@drawable/bg_rect_broad_main"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -123,7 +123,7 @@
                         android:layout_height="55dp">
                         <ImageView
                             android:layout_marginLeft="6dp"
-                            android:src="@mipmap/ic_qiandaohongbao"
+                            android:src="@mipmap/ic_broad_qiandaohongbao"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView

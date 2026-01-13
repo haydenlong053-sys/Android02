@@ -53,7 +53,7 @@ class TransferSureTipBroadPop(val context: Context,val actualAmount: String="") 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onAppEventReceiver(event: PersonInfoBean?) {
         event?.let {
-            GlideBroadUtil.setImag(context,R.mipmap.ic_icon_avatar,event.icon,binding.mIvAvatar)
+            GlideBroadUtil.setImag(context,R.mipmap.ic_icon_broad_avatar,event.icon,binding.mIvAvatar)
             binding.mTvName.text =it.userName
             binding.mTvMoney.text =actualAmount
             binding.mTvUID.text = String.format(context.getString(R.string.mine_user_uid),it.uid)

@@ -15,7 +15,7 @@
             android:paddingHorizontal="27dp"
             android:layout_marginTop="9dp"
             android:layout_marginHorizontal="15dp"
-            android:background="@drawable/bg_rect_main"
+            android:background="@drawable/bg_rect_broad_main"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:paddingHorizontal="27dp"
             android:layout_marginTop="9dp"
             android:layout_marginHorizontal="15dp"
-            android:background="@drawable/bg_rect_main"
+            android:background="@drawable/bg_rect_broad_main"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                 <ImageView
                     android:id="@+id/imCopy1"
                     android:layout_marginLeft="7dp"
-                    android:src="@mipmap/ic_copy"
+                    android:src="@mipmap/ic_broad_copy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -96,7 +96,7 @@
                 <ImageView
                     android:id="@+id/imCopy2"
                     android:layout_marginLeft="7dp"
-                    android:src="@mipmap/ic_copy"
+                    android:src="@mipmap/ic_broad_copy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -113,7 +113,7 @@
             android:paddingVertical="20dp"
             android:layout_marginTop="17dp"
             android:layout_marginHorizontal="15dp"
-            android:background="@drawable/bg_rect_main"
+            android:background="@drawable/bg_rect_broad_main"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -138,7 +138,7 @@
             android:paddingVertical="20dp"
             android:layout_marginTop="17dp"
             android:layout_marginHorizontal="15dp"
-            android:background="@drawable/bg_rect_main"
+            android:background="@drawable/bg_rect_broad_main"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -183,7 +183,7 @@
             android:paddingVertical="20dp"
             android:layout_marginTop="17dp"
             android:layout_marginHorizontal="15dp"
-            android:background="@drawable/bg_rect_main"
+            android:background="@drawable/bg_rect_broad_main"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -197,7 +197,7 @@
             <ImageView
                 android:id="@+id/imImage"
                 android:layout_marginTop="15dp"
-                android:src="@mipmap/ic_add_image"
+                android:src="@mipmap/ic_add_broad_image"
                 android:layout_width="75dp"
                 android:layout_height="75dp"/>
         </LinearLayout>
@@ -208,7 +208,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
             android:layout_marginHorizontal="37dp"
-            android:background="@mipmap/ic_bg_btn2_01"
+            android:background="@mipmap/ic_bg_btn2_broad_01"
             android:gravity="center"
             android:text="@string/确认充值"
             android:textColor="@color/white"

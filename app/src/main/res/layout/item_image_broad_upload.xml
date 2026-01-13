@@ -11,7 +11,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_add_image"
+        android:src="@mipmap/ic_add_broad_image"
         app:riv_corner_radius="5dp" />
 
     <ImageView

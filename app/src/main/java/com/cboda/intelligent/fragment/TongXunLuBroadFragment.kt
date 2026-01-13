@@ -153,7 +153,7 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
         ivMore = view.findViewById(R.id.ivMore)
         ivMore.setContent {
 //            XiaoXiMoreBroadHolder(context, ivMore)
-            BlurFabButton(size = 50.dp, addIconPainter = painterResource(R.mipmap.ic_add_black)) { dismiss ->
+            BlurFabButton(size = 50.dp, addIconPainter = painterResource(R.mipmap.ic_add_broad_black)) { dismiss ->
                 MorePopUp(onItemClick = { index ->
                     when (index) {
                         0 -> { // 搜索

@@ -65,7 +65,7 @@ fun TitleBar(
     ) {
         // 背景图片
         Image(
-            painter = painterResource(id = R.mipmap.ic_bg_top_main),
+            painter = painterResource(id = R.mipmap.ic_bg_top_broad_main),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillWidth,
@@ -429,7 +429,7 @@ fun StartTimeSection(
                 Spacer(modifier = Modifier.width(8.dp)) // 减少间距
                 
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_right),
+                    painter = painterResource(id = R.drawable.ic_arrow_broad_right),
                     contentDescription = "选择时间",
                     tint = colorResource(id = R.color.color_text_content)
                 )
@@ -485,7 +485,7 @@ fun OptionItem(
                 Spacer(modifier = Modifier.width(12.dp))
                 
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_right),
+                    painter = painterResource(id = R.drawable.ic_arrow_broad_right),
                     contentDescription = "选择",
                     tint = colorResource(id = R.color.color_text_content)
                 )

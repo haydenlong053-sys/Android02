@@ -118,13 +118,13 @@
                         android:id="@+id/llMore"
                         android:layout_width="29dp"
                         android:layout_height="18dp"
-                        android:background="@drawable/bg_rect_f8f8f8_5dp"
+                        android:background="@drawable/bg_rect_f8f8f8_broad_5dp"
                         android:gravity="center">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_circle_more" />
+                            android:src="@mipmap/ic_circle_broad_more" />
                     </LinearLayout>
                 </LinearLayout>
                  <LinearLayout
@@ -134,7 +134,7 @@
                      android:orientation="horizontal"
                      android:layout_marginRight="40dp"
                      android:layout_alignParentRight="true"
-                     android:background="@drawable/bg_rect_4c4c48_3dp"
+                     android:background="@drawable/bg_rect_4c4c48_broad_3dp"
                      android:layout_width="wrap_content"
                      android:layout_height="36dp">
                       <LinearLayout
@@ -203,7 +203,7 @@
             <ImageView
                 android:id="@+id/imDianzanAll"
                 android:layout_marginTop="22dp"
-                android:src="@mipmap/ic_dianzan_num_false"
+                android:src="@mipmap/ic_dianzan_num_broad_false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <com.cboda.intelligent.widge.ExpandableTextBroadView
@@ -231,7 +231,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_marginTop="21dp"
-                android:src="@mipmap/ic_pinglun"
+                android:src="@mipmap/ic_broad_pinglun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
            <androidx.recyclerview.widget.RecyclerView

@@ -64,7 +64,7 @@
             android:layout_width="220dp"
             android:layout_height="220dp"
             android:layout_gravity="center"
-            android:background="@drawable/bg_mine_dash_line"
+            android:background="@drawable/bg_mine_dash_broad_line"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mIvIcon"
@@ -78,7 +78,7 @@
             app:layout_constraintEnd_toEndOf="@id/mViewDash"
             app:layout_constraintTop_toTopOf="@id/mViewDash"
             app:layout_constraintBottom_toBottomOf="@id/mViewDash"
-            tools:src="@mipmap/ic_security_auth"
+            tools:src="@mipmap/ic_security_broad_auth"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 

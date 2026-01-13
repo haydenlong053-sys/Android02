@@ -20,7 +20,7 @@
             android:padding="16dp"
             android:textSize="16sp"
             android:textColor="#000000"
-            android:background="@drawable/bg_rect_eeeeed_5dp"
+            android:background="@drawable/bg_rect_eeeeed_broad_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <ImageView
@@ -48,7 +48,7 @@
             android:padding="18dp"
             android:textSize="16sp"
             android:textColor="#000000"
-            android:background="@drawable/bg_rect_eeeeed_5dp"
+            android:background="@drawable/bg_rect_eeeeed_broad_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

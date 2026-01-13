@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/ic_red_envelope_webx_back">
+    tools:background="@drawable/ic_red_envelope_webx_broad_back">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/backIcon"
@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="2dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_back2_bg"
+        android:src="@mipmap/ic_back2_broad_bg"
         android:alpha="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +76,7 @@
         android:layout_width="@dimen/dp_394"
         android:layout_height="@dimen/dp_394"
         android:layout_marginTop="@dimen/dp_33"
-        android:src="@mipmap/ic_bg_test"
+        android:src="@mipmap/ic_bg_broad_test"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/backIcon" />
@@ -99,7 +99,7 @@
         android:layout_width="@dimen/dp_16"
         android:layout_height="@dimen/dp_16"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon_collection"
+        android:src="@drawable/icon_broad_collection"
         app:layout_constraintBottom_toBottomOf="@id/collectionBtn"
         app:layout_constraintEnd_toStartOf="@id/collectionTv"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -138,7 +138,7 @@
         android:layout_width="@dimen/dp_16"
         android:layout_height="@dimen/dp_16"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon_refused"
+        android:src="@drawable/icon_broad_refused"
         app:layout_constraintBottom_toBottomOf="@id/refusedBtn"
         app:layout_constraintEnd_toStartOf="@id/refusedTv"
         app:layout_constraintHorizontal_chainStyle="packed"

@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintDimensionRatio="H,343:64"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_notice_icon_2"
+            android:src="@mipmap/ic_notice_icon_broad_2"
             />
         <TextView
             android:id="@+id/mTvNoticeTitle"
@@ -68,7 +68,7 @@
             android:layout_height="61dp"
             android:layout_marginHorizontal="24dp"
             android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_auth_step_1"
+            tools:src="@mipmap/ic_auth_step_broad_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mTvNoticeDes"
@@ -80,7 +80,7 @@
             android:id="@+id/mTvSure"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:background="@drawable/bg_rect_solid_3b47dd_16dp"
+            android:background="@drawable/bg_rect_solid_3b47dd_broad_16dp"
             android:text="@string/mine_look_go"
             android:gravity="center"
             android:textColor="@color/white"
@@ -102,7 +102,7 @@
         android:layout_width="196dp"
         android:layout_height="140dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_notice_icon_1"
+        android:src="@mipmap/ic_notice_icon_broad_1"
         android:layout_gravity="center_horizontal"
         />
 

@@ -7,7 +7,7 @@
     android:paddingVertical="16dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:background="@drawable/bg_rect_ffeadd_10dp"
+    android:background="@drawable/bg_rect_ffeadd_broad_10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout

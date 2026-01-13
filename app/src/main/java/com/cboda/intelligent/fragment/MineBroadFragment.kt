@@ -154,7 +154,7 @@ private fun MineScreen(isVip: Boolean, vipExpireText: String, isHasPassword: Boo
     ) {
         // 顶部蓝色背景，位于 VIP 图片的下层
         Image(
-            painter = painterResource(id = R.mipmap.bg_mine_top_blue),
+            painter = painterResource(id = R.mipmap.bg_mine_top_broad_blue),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -195,7 +195,7 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
 
         // 背景图，顶部圆角 12dp，底部凹形 16dp
         Image(
-            painter = painterResource(id = R.mipmap.bg_mine_vip),
+            painter = painterResource(id = R.mipmap.bg_mine_broad_vip),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -224,7 +224,7 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = R.mipmap.ic_mine_vip_logo),
+                painter = painterResource(id = R.mipmap.ic_mine_vip_broad_logo),
                 contentDescription = null,
                 modifier = Modifier.size(36.dp)
             )
@@ -254,7 +254,7 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
-                        painter = painterResource(id = R.mipmap.bg_btn_vip),
+                        painter = painterResource(id = R.mipmap.bg_btn_broad_vip),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.FillBounds
@@ -284,12 +284,12 @@ private fun MenuContainer(isHasPassword: Boolean) {
                 .padding(vertical = 10.dp)
         ) {
             val items = listOf(
-                MenuItem("个人资产", "管理您的数字财富", R.mipmap.ic_mine_service),
-                MenuItem("安全中心", "保护账户，安心使用", R.mipmap.ic_mine_safe),
-                MenuItem("灵感广场", "分享时刻，看见灵感", R.mipmap.ic_mine_moment),
-                MenuItem("我的收藏", "我收藏的都在这里", R.mipmap.ic_mine_collect),
-                MenuItem("常见问题", "快速解答关于我们", R.mipmap.ic_mine_feedback),
-                MenuItem("系统设置", "个性化您的使用体验", R.mipmap.ic_mine_setting)
+                MenuItem("个人资产", "管理您的数字财富", R.mipmap.ic_mine_broad_service),
+                MenuItem("安全中心", "保护账户，安心使用", R.mipmap.ic_mine_broad_safe),
+                MenuItem("灵感广场", "分享时刻，看见灵感", R.mipmap.ic_mine_broad_moment),
+                MenuItem("我的收藏", "我收藏的都在这里", R.mipmap.ic_mine_broad_collect),
+                MenuItem("常见问题", "快速解答关于我们", R.mipmap.ic_mine_broad_feedback),
+                MenuItem("系统设置", "个性化您的使用体验", R.mipmap.ic_mine_broad_setting)
             )
 
             // 两列网格：逐行渲染

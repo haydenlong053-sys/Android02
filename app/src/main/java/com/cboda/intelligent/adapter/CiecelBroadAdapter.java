@@ -130,7 +130,7 @@ public class CiecelBroadAdapter extends RecyclerView.Adapter<CiecelBroadAdapter.
 
         if (list.get(position).isDz.equals("0")){
             holder.imDianzan.setImageResource(R.mipmap.ic_circle_zan_false);
-            holder.imDianzanAll.setImageResource(R.mipmap.ic_dianzan_num_false);
+            holder.imDianzanAll.setImageResource(R.mipmap.ic_dianzan_num_broad_false);
         }else {
             holder.imDianzan.setImageResource(R.mipmap.ic_circle_zan_true);
             holder.imDianzanAll.setImageResource(R.mipmap.ic_circle_zan_true);

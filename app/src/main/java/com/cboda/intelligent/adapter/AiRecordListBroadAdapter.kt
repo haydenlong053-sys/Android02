@@ -21,31 +21,31 @@ class AiRecordListBroadAdapter(
         holder.setText(R.id.tvTimestamp,item.createTime)
         val resourceType= when (item.resourceType) {
             "document" -> {
-                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_doc)
+                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_broad_doc)
             }
             "image"-> {
-                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_img)
+                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_broad_img)
             }
             "voice" -> {
-                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_audio)
+                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_broad_audio)
             }
             "video" -> {
-                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_video)
+                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_broad_video)
             }
             else -> {
-                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_doc)
+                holder.setImageResource(R.id.ivDocumentIcon,R.mipmap.ic_ai_r_broad_doc)
             }
         }
 
         if (item.aiGenerated) {
             // 异常状态 - 红色背景
-            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_abnormal)
+            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_broad_abnormal)
             holder.setText(R.id.tvStatus, context.getString(R.string.abnormal))
             holder.setTextColorRes(R.id.tvStatus, com.cboda.baselibrary.R.color.color_EE7171)
 
         } else {
             // 正常状态 - 绿色背景
-            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_normal)
+            holder.setBackgroundResource(R.id.tvStatus, R.drawable.bg_status_broad_normal)
             holder.setText(R.id.tvStatus, context.getString(R.string.normal))
             holder.setTextColorRes(R.id.tvStatus, com.cboda.baselibrary.R.color.color_3FCA37)
         }

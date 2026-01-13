@@ -259,15 +259,15 @@ public class FanYiBroadActivity extends BaseSimpleBroadActivity {
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 bean = resultBean;
                 if (resultBean.data.biandabianyi.equals("0")) {
-                    imBxby.setImageResource(R.mipmap.ic_guan);
+                    imBxby.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imBxby.setImageResource(R.mipmap.ic_kai);
+                    imBxby.setImageResource(R.mipmap.ic_broad_kai);
                 }
 
                 if (resultBean.data.autofanyi.equals("0")) {
-                    imZdfy.setImageResource(R.mipmap.ic_guan);
+                    imZdfy.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imZdfy.setImageResource(R.mipmap.ic_kai);
+                    imZdfy.setImageResource(R.mipmap.ic_broad_kai);
                 }
             }
 
@@ -298,18 +298,18 @@ public class FanYiBroadActivity extends BaseSimpleBroadActivity {
                     bean.data.autofanyi = autofanyi;
                 if (null != biandabianyi) {
                     if (biandabianyi.equals("0"))
-                        imBxby.setImageResource(R.mipmap.ic_guan);
+                        imBxby.setImageResource(R.mipmap.ic_broad_guan);
                     else
-                        imBxby.setImageResource(R.mipmap.ic_kai);
+                        imBxby.setImageResource(R.mipmap.ic_broad_kai);
                 }
 
                 if (null != autofanyi) {
                     SharePrefBroadBroadUtil.saveString(FanYiBroadActivity.this, "autofanyi", autofanyi);
                     SharePrefBroadBroadUtil.saveLong(FanYiBroadActivity.this, "autofanyitime", System.currentTimeMillis());
                     if (autofanyi.equals("0"))
-                        imZdfy.setImageResource(R.mipmap.ic_guan);
+                        imZdfy.setImageResource(R.mipmap.ic_broad_guan);
                     else
-                        imZdfy.setImageResource(R.mipmap.ic_kai);
+                        imZdfy.setImageResource(R.mipmap.ic_broad_kai);
                 }
             }
 

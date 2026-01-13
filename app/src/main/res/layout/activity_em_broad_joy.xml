@@ -34,7 +34,7 @@
                 android:visibility="gone"
                 android:paddingVertical="7dp"
                 android:paddingHorizontal="25dp"
-                android:background="@drawable/bg_button"
+                android:background="@drawable/bg_broad_button"
                 android:gravity="center"
                 android:text="@string/删除"
                 android:textColor="@color/white"

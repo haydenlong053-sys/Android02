@@ -36,9 +36,9 @@ public class EmjoyBroadAdapter extends RecyclerView.Adapter<EmjoyBroadAdapter.My
    @Override
    public void onBindViewHolder(EmjoyBroadAdapter.MyHolder holder, final int position) {
       if (list.get(position).isChecked){
-         holder.imCheck.setImageResource(R.mipmap.btn_checkbox_press);
+         holder.imCheck.setImageResource(R.mipmap.btn_checkbox_broad_press);
       }else {
-         holder.imCheck.setImageResource(R.mipmap.btn_checkbox_normal);
+         holder.imCheck.setImageResource(R.mipmap.btn_checkbox_broad_normal);
       }
       if (list.get(position).isShowChecked){
          holder.imCheck.setVisibility(View.VISIBLE);

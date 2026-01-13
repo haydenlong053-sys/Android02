@@ -50,7 +50,7 @@
         android:layout_width="@dimen/dp_16"
         android:layout_height="@dimen/dp_16"
         android:scaleType="centerCrop"
-        android:src="@mipmap/icon_ai_add_img"
+        android:src="@mipmap/icon_ai_add_broad_img"
         app:layout_constraintBottom_toTopOf="@id/addTv"
         app:layout_constraintEnd_toEndOf="@id/shapeView"
         app:layout_constraintStart_toStartOf="@id/shapeView"

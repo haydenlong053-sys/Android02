@@ -169,35 +169,35 @@ public class AddtypeBroadActivity extends BaseSimpleBroadActivity implements Vie
                 }
 
                 if (resultBean.data.accSerch.equals("0")) {
-                    imYonghu.setImageResource(R.mipmap.ic_guan);
+                    imYonghu.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imYonghu.setImageResource(R.mipmap.ic_kai);
+                    imYonghu.setImageResource(R.mipmap.ic_broad_kai);
                 }
                 if (resultBean.data.idnoSerch.equals("0")) {
-                    imID.setImageResource(R.mipmap.ic_guan);
+                    imID.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imID.setImageResource(R.mipmap.ic_kai);
+                    imID.setImageResource(R.mipmap.ic_broad_kai);
                 }
 
                 if (resultBean.data.phoneSerch.equals("0")) {
-                    imPhone.setImageResource(R.mipmap.ic_guan);
+                    imPhone.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imPhone.setImageResource(R.mipmap.ic_kai);
+                    imPhone.setImageResource(R.mipmap.ic_broad_kai);
                 }
                 if (resultBean.data.groAdd.equals("0")) {
-                    imQun.setImageResource(R.mipmap.ic_guan);
+                    imQun.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imQun.setImageResource(R.mipmap.ic_kai);
+                    imQun.setImageResource(R.mipmap.ic_broad_kai);
                 }
                 if (resultBean.data.mpAdd.equals("0")) {
-                    imMingpian.setImageResource(R.mipmap.ic_guan);
+                    imMingpian.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imMingpian.setImageResource(R.mipmap.ic_kai);
+                    imMingpian.setImageResource(R.mipmap.ic_broad_kai);
                 }
                 if (resultBean.data.qrAdd.equals("0")) {
-                    imErweima.setImageResource(R.mipmap.ic_guan);
+                    imErweima.setImageResource(R.mipmap.ic_broad_guan);
                 } else {
-                    imErweima.setImageResource(R.mipmap.ic_kai);
+                    imErweima.setImageResource(R.mipmap.ic_broad_kai);
                 }
             }
 
