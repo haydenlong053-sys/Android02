@@ -12,7 +12,7 @@
         android:layout_height="80dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@mipmap/avatar_def" />
+        android:src="@mipmap/avatar_broad_def" />
 
     <com.cboda.chatui.voip.ZoomableFrameBroadLayout
         android:id="@+id/videoContainer"

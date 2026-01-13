@@ -171,7 +171,7 @@ public class CompositeMessageContentBroadAdapter extends RecyclerView.Adapter<Re
                     .with(itemView)
                     .load(userInfo.portrait)
                     .transforms(new CenterCrop(), new RoundedCorners(10))
-                    .placeholder(R.mipmap.avatar_def)
+                    .placeholder(R.mipmap.avatar_broad_def)
                     .into(portraitImageView);
             } else {
                 Message preMsg = compositeMessageContent.getMessages().get(position - 1);
@@ -183,7 +183,7 @@ public class CompositeMessageContentBroadAdapter extends RecyclerView.Adapter<Re
                         .with(itemView)
                         .load(userInfo.portrait)
                         .transforms(new CenterCrop(), new RoundedCorners(10))
-                        .placeholder(R.mipmap.avatar_def)
+                        .placeholder(R.mipmap.avatar_broad_def)
                         .into(portraitImageView);
                 }
             }

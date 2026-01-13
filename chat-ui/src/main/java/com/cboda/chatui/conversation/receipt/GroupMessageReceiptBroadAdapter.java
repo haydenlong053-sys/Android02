@@ -107,7 +107,7 @@ public class GroupMessageReceiptBroadAdapter extends RecyclerView.Adapter<GroupM
         public void bindUserInfo(UserInfo userInfo) {
             if (userInfo == null) {
                 nameTextView.setText("");
-                portraitImageView.setImageResource(R.mipmap.avatar_def);
+                portraitImageView.setImageResource(R.mipmap.avatar_broad_def);
                 return;
             }
             this.userInfo = userInfo;
@@ -115,7 +115,7 @@ public class GroupMessageReceiptBroadAdapter extends RecyclerView.Adapter<GroupM
             nameTextView.setText(ChatManager.Instance().getGroupMemberDisplayName(groupInfo.target, userInfo.uid));
             Glide.with(portraitImageView)
                 .load(userInfo.portrait)
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)).placeholder(R.mipmap.avatar_def))
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)).placeholder(R.mipmap.avatar_broad_def))
                 .into(portraitImageView);
         }
 

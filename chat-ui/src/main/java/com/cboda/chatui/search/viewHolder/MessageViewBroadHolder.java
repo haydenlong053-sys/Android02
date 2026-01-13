@@ -60,7 +60,7 @@ public class MessageViewBroadHolder extends RecyclerView.ViewHolder {
             nameTextView.setText(senderName);
 //            String portrait=sender.portrait;
 //            eLogD("MessageViewHolderClass","用户头像："+portrait);
-            Glide.with(portraitImageView).load(sender.portrait).placeholder(R.mipmap.avatar_def).into(portraitImageView);
+            Glide.with(portraitImageView).load(sender.portrait).placeholder(R.mipmap.avatar_broad_def).into(portraitImageView);
         }
         if (message.content instanceof NotificationMessageContent) {
             contentTextView.setText(((NotificationMessageContent) message.content).formatNotification(message));

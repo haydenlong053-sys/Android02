@@ -54,7 +54,7 @@ public class SecretConversationViewBroadHolder extends ConversationViewBroadHold
         Glide
             .with(fragment)
             .load(portrait)
-            .placeholder(R.mipmap.avatar_def)
+            .placeholder(R.mipmap.avatar_broad_def)
             .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(fragment.getContext(), 4)))
             .into(portraitImageView);
         nameTextView.setText(name);

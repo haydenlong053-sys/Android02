@@ -144,7 +144,7 @@ public class MultiCallVideoBroadFragment extends Fragment implements AVEngineKit
             voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(with / 3, with / 3));
             voipCallItem.getStatusTextView().setText(R.string.connecting);
             voipCallItem.setOnClickListener(clickListener);
-            Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_def).into(voipCallItem.getPortraitImageView());
+            Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
             participantGridView.addView(voipCallItem);
 
             session.setupRemoteVideoView(userInfo.uid, voipCallItem.videoContainer, scalingType);
@@ -155,7 +155,7 @@ public class MultiCallVideoBroadFragment extends Fragment implements AVEngineKit
         voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         voipCallItem.getStatusTextView().setText(focusedUserInfo.displayName);
         voipCallItem.setOnClickListener(clickListener);
-        Glide.with(voipCallItem).load(focusedUserInfo.portrait).placeholder(R.mipmap.avatar_def).into(voipCallItem.getPortraitImageView());
+        Glide.with(voipCallItem).load(focusedUserInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
         session.setupLocalVideoView(voipCallItem.videoContainer, scalingType);
 
         focusVideoContainerFrameLayout.addView(voipCallItem);
@@ -291,7 +291,7 @@ public class MultiCallVideoBroadFragment extends Fragment implements AVEngineKit
         voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(with / 3, with / 3));
         voipCallItem.getStatusTextView().setText(userInfo.displayName);
         voipCallItem.setOnClickListener(clickListener);
-        Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_def).into(voipCallItem.getPortraitImageView());
+        Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
         participantGridView.addView(voipCallItem);
         participants.add(userId);
 

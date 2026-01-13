@@ -76,7 +76,7 @@ public class MultiCallIncomingBroadFragment extends Fragment implements AVEngine
         UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
         UserInfo invitor = userViewModel.getUserInfo(session.initiator, false);
         invitorTextView.setText(invitor.displayName);
-        Glide.with(this).load(invitor.portrait).placeholder(R.mipmap.avatar_def).into(invitorImageView);
+        Glide.with(this).load(invitor.portrait).placeholder(R.mipmap.avatar_broad_def).into(invitorImageView);
 
         List<String> participants = session.getParticipantIds();
         participants.remove(invitor.uid);

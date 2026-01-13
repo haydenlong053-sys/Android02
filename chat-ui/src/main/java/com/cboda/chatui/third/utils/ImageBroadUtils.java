@@ -202,11 +202,11 @@ public class ImageBroadUtils {
 
                             Drawable drawable = null;
                             try {
-                                drawable = Glide.with(context).load(info.portrait).placeholder(R.mipmap.avatar_def).submit(60, 60).get();
+                                drawable = Glide.with(context).load(info.portrait).placeholder(R.mipmap.avatar_broad_def).submit(60, 60).get();
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 try {
-                                    drawable = Glide.with(context).load(R.mipmap.avatar_def).submit(60, 60).get();
+                                    drawable = Glide.with(context).load(R.mipmap.avatar_broad_def).submit(60, 60).get();
                                 } catch (ExecutionException ex) {
                                     ex.printStackTrace();
                                 } catch (InterruptedException ex) {

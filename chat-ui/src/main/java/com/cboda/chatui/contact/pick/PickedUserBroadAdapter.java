@@ -36,7 +36,7 @@ public class PickedUserBroadAdapter extends RecyclerView.Adapter {
         this.pickUserViewModel = pickUserViewModel;
         this.users = new ArrayList<>();
         mOptions = new RequestOptions()
-            .placeholder(R.mipmap.avatar_def)
+            .placeholder(R.mipmap.avatar_broad_def)
             .transforms(new CenterCrop(), new RoundedCorners(4));
     }
 

@@ -70,7 +70,7 @@ public class UserViewBroadHolder extends RecyclerView.ViewHolder {
         } else {
             descTextView.setVisibility(View.GONE);
         }
-        Glide.with(fragment).load(userInfo.getUserInfo().portrait).placeholder(R.mipmap.avatar_def)
+        Glide.with(fragment).load(userInfo.getUserInfo().portrait).placeholder(R.mipmap.avatar_broad_def)
             .transforms(new CenterCrop(), new RoundedCorners(10))
             .into(portraitImageView);
     }

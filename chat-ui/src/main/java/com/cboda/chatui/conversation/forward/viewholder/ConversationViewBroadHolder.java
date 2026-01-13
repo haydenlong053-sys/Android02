@@ -61,7 +61,7 @@ public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
                 portrait = userInfo.portrait;
 //                eLogD("MessageViewHolderClass", "用户头像：" + portrait);
                 nameTextView.setText(getMyUserDisplayName(conversation,userInfo));
-                Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_def)).into(portraitImageView);
+                Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
             }
         } else {
             GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, false);

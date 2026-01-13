@@ -65,7 +65,7 @@ public class ConferenceInviteMessageContentViewBroadHolder extends NormalMessage
             .with(fragment)
             .load(userInfo.portrait)
             .transforms(new CenterCrop(), new RoundedCorners(10))
-            .placeholder(R.mipmap.avatar_def)
+            .placeholder(R.mipmap.avatar_broad_def)
             .into(hostPortraitImageView);
     }
 

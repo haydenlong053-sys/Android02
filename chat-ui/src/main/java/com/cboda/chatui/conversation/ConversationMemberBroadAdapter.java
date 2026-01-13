@@ -170,7 +170,7 @@ public class ConversationMemberBroadAdapter extends RecyclerView.Adapter<Convers
         public void bindUserInfo(UserInfo userInfo) {
             if (userInfo == null) {
                 nameTextView.setText("");
-                portraitImageView.setImageResource(R.mipmap.avatar_def);
+                portraitImageView.setImageResource(R.mipmap.avatar_broad_def);
                 return;
             }
             this.userInfo = userInfo;
@@ -181,7 +181,7 @@ public class ConversationMemberBroadAdapter extends RecyclerView.Adapter<Convers
             } else {
                 nameTextView.setText(ChatManager.Instance().getUserDisplayName(userInfo.uid));
             }
-            Glide.with(portraitImageView).load(userInfo.portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_def)).into(portraitImageView);
+            Glide.with(portraitImageView).load(userInfo.portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
         }
 
         public void bindAddMember() {

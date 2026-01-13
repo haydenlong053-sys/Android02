@@ -104,7 +104,7 @@ public class MyFriendBroadAdapter extends RecyclerView.Adapter<FriendViewBroadHo
         } else {
             holder.descTextView.setVisibility(View.GONE);
         }
-        Glide.with(context).load(currentItem.getIcon()).placeholder(R.mipmap.avatar_def)
+        Glide.with(context).load(currentItem.getIcon()).placeholder(R.mipmap.avatar_broad_def)
                 .transforms(new CenterCrop(), new RoundedCorners(10))
                 .into(holder.portraitImageView);
 

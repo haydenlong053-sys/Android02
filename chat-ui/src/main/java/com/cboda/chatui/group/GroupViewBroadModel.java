@@ -678,10 +678,10 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
         for (UserInfo userInfo : userInfos) {
             Drawable drawable;
             try {
-                drawable = Glide.with(context).load(userInfo.portrait).placeholder(R.mipmap.avatar_def).submit(60, 60).get();
+                drawable = Glide.with(context).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).submit(60, 60).get();
             } catch (Exception e) {
                 e.printStackTrace();
-                drawable = Glide.with(context).load(R.mipmap.avatar_def).submit(60, 60).get();
+                drawable = Glide.with(context).load(R.mipmap.avatar_broad_def).submit(60, 60).get();
             }
             if (drawable instanceof BitmapDrawable) {
                 bitmaps.add(((BitmapDrawable) drawable).getBitmap());

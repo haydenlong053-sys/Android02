@@ -122,7 +122,7 @@ public class ConferenceHandUpListBroadFragment extends FullScreenBottomSheetDial
             UserInfo userInfo = ChatManager.Instance().getUserInfo(userId, false);
             String displayName = ChatManager.Instance().getUserDisplayName(userInfo);
             nameTextView.setText(displayName);
-            Glide.with(this.itemView).load(userInfo.portrait).placeholder(R.mipmap.avatar_def)
+            Glide.with(this.itemView).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
                 .into(portraitImageView);
         }

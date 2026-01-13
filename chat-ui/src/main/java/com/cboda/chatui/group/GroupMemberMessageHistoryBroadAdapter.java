@@ -101,7 +101,7 @@ public class GroupMemberMessageHistoryBroadAdapter extends RecyclerView.Adapter<
                     senderName = ChatManager.Instance().getUserDisplayName(sender);
                 }
                 nameTextView.setText(senderName);
-                Glide.with(portraitImageView).load(sender.portrait).placeholder(R.mipmap.avatar_def).into(portraitImageView);
+                Glide.with(portraitImageView).load(sender.portrait).placeholder(R.mipmap.avatar_broad_def).into(portraitImageView);
             }
             if (message.content instanceof NotificationMessageContent) {
                 contentTextView.setText(((NotificationMessageContent) message.content).formatNotification(message));

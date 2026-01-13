@@ -39,7 +39,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="80dp"
-                android:src="@mipmap/avatar_def" />
+                android:src="@mipmap/avatar_broad_def" />
 
             <TextView
                 android:id="@+id/nameTextView"

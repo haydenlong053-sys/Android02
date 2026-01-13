@@ -113,7 +113,7 @@ public class ConferenceParticipantItemBroadView extends RelativeLayout {
     }
 
     private void updateParticipantUserInfoViews(UserInfo userInfo) {
-        Glide.with(this).load(userInfo.portrait).apply(new RequestOptions().circleCrop()).placeholder(R.mipmap.avatar_def).into(portraitImageView);
+        Glide.with(this).load(userInfo.portrait).apply(new RequestOptions().circleCrop()).placeholder(R.mipmap.avatar_broad_def).into(portraitImageView);
         nameTextView.setText(ChatManager.Instance().getUserDisplayName(userInfo));
     }
 

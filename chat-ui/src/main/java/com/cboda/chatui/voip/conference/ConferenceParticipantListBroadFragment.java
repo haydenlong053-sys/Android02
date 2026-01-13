@@ -5,7 +5,6 @@
 package com.cboda.chatui.voip.conference;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -318,7 +317,7 @@ public class ConferenceParticipantListBroadFragment extends Fragment {
             UserInfo userInfo = ChatManager.Instance().getUserInfo(profile.getUserId(), false);
             String displayName = ChatManager.Instance().getUserDisplayName(userInfo);
             nameTextView.setText(displayName);
-            Glide.with(this.itemView).load(userInfo.portrait).placeholder(R.mipmap.avatar_def)
+            Glide.with(this.itemView).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
                 .into(portraitImageView);
 

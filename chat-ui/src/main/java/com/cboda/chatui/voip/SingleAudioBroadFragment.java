@@ -280,7 +280,7 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
     private void updateUserInfoViews(UserInfo userInfo) {
         Glide.with(this)
                 .load(userInfo.portrait)
-                .placeholder(R.mipmap.avatar_def)
+                .placeholder(R.mipmap.avatar_broad_def)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
                 .into(portraitImageView);
         Glide.with(this)

@@ -442,7 +442,7 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
 
             ImageView portraitImageView = remoteVideoFrameLayout.findViewById(R.id.portraitImageView);
             UserInfo userInfo = ChatManager.Instance().getUserInfo(nextFocusUserId, false);
-            Glide.with(remoteVideoFrameLayout).load(userInfo.portrait).placeholder(R.mipmap.avatar_def).into(portraitImageView);
+            Glide.with(remoteVideoFrameLayout).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(portraitImageView);
 
             if (TextUtils.equals(ChatManager.Instance().getUserId(), nextFocusUserId)) {
                 session.setupLocalVideoView(videoContainer, SCALE_ASPECT_BALANCED);
