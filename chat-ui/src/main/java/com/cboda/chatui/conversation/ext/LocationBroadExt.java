@@ -42,9 +42,9 @@ public class LocationBroadExt extends ConversationBroadExt {
         }
 
         if (conversation.type == Conversation.ConversationType.Group){
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(activity,"weizhi","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity,"weizhi","",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(activity,"weizhi",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity,"weizhi",conversation.target,"",null);
 
         }
 

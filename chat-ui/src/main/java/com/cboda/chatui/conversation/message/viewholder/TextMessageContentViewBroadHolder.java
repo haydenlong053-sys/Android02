@@ -100,7 +100,7 @@ public class TextMessageContentViewBroadHolder extends NormalMessageContentViewB
                     fy.length() == 0) {
                 long time = SharePrefBroadBroadUtil.getLong(fragment.getContext(), "autofanyitime", 0);
                 if (time == 0 || message.message.serverTime > time)
-                    MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getContext(), "fanyi", ((TextMessageContent) message.message.content).getContent(), "", message);
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), "fanyi", ((TextMessageContent) message.message.content).getContent(), "", message);
             }
         }
 

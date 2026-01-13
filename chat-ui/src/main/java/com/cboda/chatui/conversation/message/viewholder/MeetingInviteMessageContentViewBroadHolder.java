@@ -5,12 +5,10 @@
 package com.cboda.chatui.conversation.message.viewholder;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,8 +24,7 @@ import com.cboda.chatui.annotation.MessageContentBroadType;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
-import com.cboda.chatui.voip.conference.ConferenceInfoBroadActivity;
-import cn.wildfirechat.avenginekit.AVEngineKit;
+
 import cn.wildfirechat.message.MeetingInviteMessageContent;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
@@ -86,7 +83,7 @@ public class MeetingInviteMessageContentViewBroadHolder extends NormalMessageCon
             ojb.put("ownerId",inviteMessageContent.getIdno());
             ojb.put("title",inviteMessageContent.getTitle());
             String jsonParams = ojb.toString();
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"meeting",inviteMessageContent.getMeetingId(),jsonParams,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"meeting",inviteMessageContent.getMeetingId(),jsonParams,null);
         }catch (Exception e){
             e.printStackTrace();
         }

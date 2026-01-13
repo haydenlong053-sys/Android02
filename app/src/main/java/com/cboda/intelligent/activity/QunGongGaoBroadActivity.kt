@@ -49,7 +49,7 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "xiugaigonggaoSuc" -> {
-                    MyCommonBroadBridge.getInstance()?.setMyQiaoJie(this@QunGongGaoBroadActivity,"huoququnxiangqing",qunId,"",null)
+                    MyCommonBroadBridge.getInstance()?.setMyBridgeMethod(this@QunGongGaoBroadActivity,"huoququnxiangqing",qunId,"",null)
 
 //                    val v2TIMGroupInfo =  V2TIMGroupInfo()
 //                    v2TIMGroupInfo.groupID = qunId

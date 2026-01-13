@@ -49,9 +49,9 @@ public class UserCardBroadExt extends ConversationBroadExt {
 //        startActivityForResult(intent, 100);
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"mingpian","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"mingpian","",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"mingpian",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"mingpian",conversation.target,"",null);
         }
 
     }

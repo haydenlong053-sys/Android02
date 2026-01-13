@@ -15,9 +15,9 @@ public class HongBaoBroadExt extends ConversationBroadExt {
     public void pickHongBao(View containerView, Conversation conversation) {
         if (conversation != null) {
             if (conversation.type == Conversation.ConversationType.Group) {
-                MyCommonBroadBridge.getInstance().setMyQiaoJie(containerView.getContext(), "qunhongbao", conversation.target, "",null);
+                MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(), "qunhongbao", conversation.target, "",null);
             } else {
-                MyCommonBroadBridge.getInstance().setMyQiaoJie(containerView.getContext(), "hongbao", conversation.target, "",null);
+                MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(), "hongbao", conversation.target, "",null);
             }
         }
     }

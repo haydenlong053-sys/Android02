@@ -94,7 +94,7 @@ public class PickOrCreateConversationBroadFragment extends Fragment implements P
     public void onNewConversationItemClick() {
 //        Intent intent = new Intent(getActivity(), PickOrCreateConversationTargetBroadActivity.class);
 //        startActivityForResult(intent, REQUEST_CODE_PICK_CONVERSATION_TARGET);
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"cjxlt","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"cjxlt","","",null);
     }
 
     @Override

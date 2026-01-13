@@ -401,7 +401,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                     isMgc = true;
                     ToastBroadUtils.showToast(context, "发言包含敏感词");
                     if ("1".equals(openMgc)) {
-                        MyCommonBroadBridge.getInstance().setMyQiaoJie(context, "mingancichufajianyan", conversation.target, ChatManager.Instance().getUserId(), null);
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(context, "mingancichufajianyan", conversation.target, ChatManager.Instance().getUserId(), null);
                     }
                 }
             }

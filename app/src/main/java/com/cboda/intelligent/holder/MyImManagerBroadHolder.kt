@@ -40,15 +40,15 @@ import org.json.JSONObject
 
 class MyImManagerBroadHolder(private val context: Context?) {
     init {
-        setqiaojie()
+        setBridge()
     }
 
     private var okGoHelper = OKGoBroadHelper()
 
-    private fun setqiaojie() {
+    private fun setBridge() {
         MyCommonBroadBridge.getInstance()
             ?.setMyImCommonListener(object : MyCommonBroadBridge.MyImCommonListener {
-                override fun qiaojie(
+                override fun goBridgeMethod(
                     mContext: Context?,
                     type: String?,
                     params: String?,
@@ -462,7 +462,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                         "enterMeeting" -> {
                             if (!params.isNullOrEmpty()) {
-                                MyCommonBroadBridge.getInstance().setMyQiaoJie(
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(
                                     context,
                                     "meeting",
                                     params,

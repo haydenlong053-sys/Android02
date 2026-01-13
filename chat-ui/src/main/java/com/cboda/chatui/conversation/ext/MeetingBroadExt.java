@@ -18,9 +18,9 @@ public class MeetingBroadExt extends ConversationBroadExt {
         // 或者，如果你想提供一个初始标题：
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"huiyishi","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"huiyishi","",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getActivity(),"huiyishi",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"huiyishi",conversation.target,"",null);
         }
 //        String initialMeetingTitle = conversation.target+" 会议室"; // 示例
 //

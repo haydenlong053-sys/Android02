@@ -5,7 +5,6 @@
 package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
-import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -548,7 +547,7 @@ public class ConversationBroadFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 if (conversation != null) {
-                    MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(), "chakanqungonggao", conversation.target, gonggaoxinxi.getText().toString(), null);
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), "chakanqungonggao", conversation.target, gonggaoxinxi.getText().toString(), null);
                 }
             }
         });
@@ -1106,7 +1105,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onPortraitClick(UserInfo userInfo) {
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(), "danliaogengduo", userInfo.uid, "", null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), "danliaogengduo", userInfo.uid, "", null);
         // 去掉野火跳转用户主页
 //        if (conversation.type == Conversation.ConversationType.Channel) {
 //            Intent intent = new Intent(getActivity(), ChannelInfoActivity.class);

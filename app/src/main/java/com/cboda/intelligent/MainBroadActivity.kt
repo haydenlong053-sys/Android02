@@ -629,7 +629,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
                                 1005 -> {
                                     if (unkown.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
-                                        MyCommonBroadBridge.getInstance().setMyQiaoJie(
+                                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(
                                             this@MainBroadActivity,
                                             "beifeng",
                                             "",

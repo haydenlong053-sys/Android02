@@ -566,7 +566,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             bianjiAction.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                                 @Override
                                 public void onClick() {
-                                    MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "bianji", "", "", message);
+                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "bianji", "", "", message);
                                 }
                             });
                             mPopActions.add(bianjiAction);
@@ -580,7 +580,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((ImageMessageContent) message.message.content).remoteUrl, "", message);
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "tianjiadonghuabiaoqing", ((ImageMessageContent) message.message.content).remoteUrl, "", message);
                             }
                         });
                         mPopActions.add(tianjia);
@@ -593,7 +593,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia2.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((StickerMessageContent) message.message.content).remoteUrl, "", message);
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "tianjiadonghuabiaoqing", ((StickerMessageContent) message.message.content).remoteUrl, "", message);
                             }
                         });
                         mPopActions.add(tianjia2);
@@ -606,7 +606,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia3.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "tianjiadonghuabiaoqing", ((BiaoQingMessageContent) message.message.content).emoji, "", message);
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "tianjiadonghuabiaoqing", ((BiaoQingMessageContent) message.message.content).emoji, "", message);
                             }
                         });
                         mPopActions.add(tianjia3);
@@ -743,7 +743,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             } else if (message1.content.getMessageContentType() == 4) {
                                 params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
                             }
-                            MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "shoucang", message1.sender, params2, message);
+                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "shoucang", message1.sender, params2, message);
                         }
                     });
                     mPopActions.add(shoucang);
@@ -756,7 +756,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     fanyi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
-                            MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "fanyi", ((TextMessageContent) message1.content).getContent(), "", message);
+                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "fanyi", ((TextMessageContent) message1.content).getContent(), "", message);
                         }
                     });
                     mPopActions.add(fanyi);

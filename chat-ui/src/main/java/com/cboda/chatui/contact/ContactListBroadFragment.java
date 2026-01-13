@@ -268,7 +268,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //        Intent intent = new Intent(getContext(), ConversationBroadActivity.class);
 //        intent.putExtra("conversation", conversation);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"danliaogengduo",userInfo.getUserInfo().uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"danliaogengduo",userInfo.getUserInfo().uid,"",null);
     }
 
     @Override
@@ -292,14 +292,14 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //
 //        Intent intent = new Intent(getActivity(), FriendRequestListActivity.class);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"xindepengyou","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"xindepengyou","","",null);
 
     }
 
     private void showGroupList() {
 //        Intent intent = new Intent(getActivity(), GroupListActivity.class);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"ruqunyaoqing","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"ruqunyaoqing","","",null);
     }
 
     private void showChannelList() {
@@ -312,7 +312,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //        }
 //        Intent intent = new Intent(getActivity(), GroupListActivity.class);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(),"qunliaoliebiao","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"qunliaoliebiao","","",null);
     }
 
 

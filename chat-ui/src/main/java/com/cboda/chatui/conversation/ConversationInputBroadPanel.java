@@ -651,7 +651,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             }
         }
 
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(getContext(), "AI", conversation.target, editText.getText().toString().trim(), null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), "AI", conversation.target, editText.getText().toString().trim(), null);
         messageViewModel.sendTextMsg(conversation, txtContent);
         editText.setText("");
     }

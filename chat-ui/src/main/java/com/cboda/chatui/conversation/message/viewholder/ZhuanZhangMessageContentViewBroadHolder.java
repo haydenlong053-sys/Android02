@@ -56,7 +56,7 @@ public class ZhuanZhangMessageContentViewBroadHolder extends NormalMessageConten
                     hashMap.put("price",zhuanzhangMessage.price);
                     hashMap.put("hongbaoDesc",zhuanzhangMessage.hongbaoDesc);
                     hashMap.put("lingquStatus","1");
-                    MyCommonBroadBridge.getInstance().setMyQiaoJie(v.getContext(), "lingzhuanzhang", zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid, gson.toJson(hashMap), message);
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "lingzhuanzhang", zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid, gson.toJson(hashMap), message);
                 }
             }
         });

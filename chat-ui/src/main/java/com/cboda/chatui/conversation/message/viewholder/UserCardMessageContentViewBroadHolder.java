@@ -71,6 +71,6 @@ public class UserCardMessageContentViewBroadHolder extends NormalMessageContentV
         UserInfo userInfo = ChatManager.Instance().getUserInfo(userCardMessageContent.getTarget(), false);
 //        intent.putExtra("userInfo", userInfo);
 //        fragment.startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getContext(),"tianjiahaoyou",userInfo.uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(),"tianjiahaoyou",userInfo.uid,"",null);
     }
 }

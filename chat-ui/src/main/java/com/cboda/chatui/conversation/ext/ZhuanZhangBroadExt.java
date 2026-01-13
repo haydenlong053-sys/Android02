@@ -12,7 +12,7 @@ import cn.wildfirechat.model.Conversation;
 public class ZhuanZhangBroadExt extends ConversationBroadExt {
     @ExtContextMenuBroadItem
     public void pickZhuanZhang(View containerView, Conversation conversation) {
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(containerView.getContext(),"zhuanzhang",conversation.target,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(),"zhuanzhang",conversation.target,"",null);
     }
     @Override
     public int priority() {

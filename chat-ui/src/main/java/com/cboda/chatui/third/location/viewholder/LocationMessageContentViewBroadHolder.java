@@ -64,7 +64,7 @@ public class LocationMessageContentViewBroadHolder extends NormalMessageContentV
 
     public void onClick(View view) {
         LocationMessageContent content = (LocationMessageContent) message.message.content;
-        MyCommonBroadBridge.getInstance().setMyQiaoJie(fragment.getContext(), "daohang", content.getTitle(), content.getLocation().getLatitude() + "|" + content.getLocation().getLongitude(), null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), "daohang", content.getTitle(), content.getLocation().getLatitude() + "|" + content.getLocation().getLongitude(), null);
 
     }
 }

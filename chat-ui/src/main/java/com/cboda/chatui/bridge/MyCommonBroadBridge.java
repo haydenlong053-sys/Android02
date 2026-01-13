@@ -27,14 +27,14 @@ public class MyCommonBroadBridge {
         this.imCommonListener = imCommonListener;
     }
 
-    public void setMyQiaoJie(Context mContext, String type, String params, String params2, UiBroadMessage msg) {
+    public void setMyBridgeMethod(Context mContext, String type, String params, String params2, UiBroadMessage msg) {
         if (imCommonListener != null) {
-            imCommonListener.qiaojie(mContext, type, params, params2,msg);
+            imCommonListener.goBridgeMethod(mContext, type, params, params2,msg);
         }
     }
 
     public interface MyImCommonListener {
-        void qiaojie(Context mContext, String type, String params, String params2, UiBroadMessage msg);
+        void goBridgeMethod(Context mContext, String type, String params, String params2, UiBroadMessage msg);
     }
 
 }

@@ -90,9 +90,9 @@ public class VideoMessageContentViewBroadHolder extends MediaMessageContentViewB
         VideoMessageContent videoMessageContent = (VideoMessageContent) message.message.content;
 //        ELogUtilKt.eLogD("zhanglong","localPath------"+videoMessageContent.localPath);
         if(FileBroadUtils.isFileExists(videoMessageContent.localPath)){
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(time_tv.getContext(),"bofangshipin",videoMessageContent.localPath,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(),"bofangshipin",videoMessageContent.localPath,"",null);
         }else {
-            MyCommonBroadBridge.getInstance().setMyQiaoJie(time_tv.getContext(),"bofangshipin",videoMessageContent.remoteUrl,"",message);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(),"bofangshipin",videoMessageContent.remoteUrl,"",message);
         }
 
     }
