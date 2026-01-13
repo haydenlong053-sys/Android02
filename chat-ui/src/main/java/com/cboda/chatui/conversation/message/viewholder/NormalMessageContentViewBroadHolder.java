@@ -423,7 +423,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
             //默认头像
             Glide.with(fragment)
                     .load(portraitUrl == null ? "" : portraitUrl)
-                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
+                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
                     .into(portraitImageView);
         }
     }

@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/backIcon"
         app:riv_border_color="@color/ps_color_white"
         app:riv_border_width="@dimen/dp_1"
-        tools:src="@mipmap/ic_logo_login" />
+        tools:src="@mipmap/ic_logo_broad_login" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userName"

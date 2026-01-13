@@ -127,7 +127,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                     }
                     Glide.with(this@GetWebxRedEnvelopesBroadActivity)
                         .load(it1.icon)
-                        .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
+                        .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
                         .into(userImg)
                     moneyNum.text = it1.money
                     if (isGroup) {

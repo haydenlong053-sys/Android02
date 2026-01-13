@@ -39,7 +39,7 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
         String name = getMyUserDisplayName(userInfo, friendSmailListBean);
         Glide.with(fragment)
                 .load(portrait)
-                .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
+                .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
                 .into(portraitImageView);
         nameTextView.setText(name);
         if (null != friendSmailListBean && null != friendSmailListBean.grade) {

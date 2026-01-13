@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:riv_border_color="@color/ps_color_white"
             app:riv_border_width="@dimen/dp_1"
-            tools:src="@mipmap/ic_logo_login" />
+            tools:src="@mipmap/ic_logo_broad_login" />
 
         <TextView
             android:id="@+id/tvname"

@@ -15,7 +15,7 @@ class LingQuUserBroadAdapter(layoutResId: Int) :
         holder.setGone(R.id.space, holder.layoutPosition == 0)
         Glide.with(context)
             .load(item.icon ?: "")
-            .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_login)
+            .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
             .into(holder.getView(R.id.ivTouxiang))
         holder.setText(R.id.tvname, item.name ?: "")
         holder.setText(R.id.tvprice, item.money)

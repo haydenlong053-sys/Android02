@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
-            android:src="@mipmap/ic_logo_login" />
+            android:src="@mipmap/ic_logo_broad_login" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
