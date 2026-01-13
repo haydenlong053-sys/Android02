@@ -40,7 +40,7 @@
             android:id="@+id/imDelate"
             android:visibility="gone"
             android:paddingHorizontal="10dp"
-            android:src="@mipmap/ic_edit_delate"
+            android:src="@mipmap/ic_edit_broad_delate"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </LinearLayout>

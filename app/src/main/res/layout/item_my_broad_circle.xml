@@ -58,14 +58,14 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:scaleType="centerCrop"
-                    tools:src="@mipmap/ic_zhanwei" />
+                    tools:src="@mipmap/ic_broad_zhanwei" />
 
                 <ImageView
                     android:id="@+id/imVideo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@mipmap/ic_video" />
+                    android:src="@mipmap/ic_broad_video" />
             </RelativeLayout>
 
             <TextView

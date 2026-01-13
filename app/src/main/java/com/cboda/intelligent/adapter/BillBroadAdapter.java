@@ -52,21 +52,21 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
         }
         switch (list.get(position).type){
             case "1":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_hongbao);
+                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_hongbao);
                 break;
             case "2":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_zhuanzhang);
+                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_zhuanzhang);
                 break;
             case "3":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_chongzhi);
+                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_chongzhi);
                 break;
             case "4":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_qiandao);
+                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_qiandao);
             case "5":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_meeting);
+                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_meeting);
                 break;
             case "6":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_gift);
+                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_gift);
                 break;
         }
 

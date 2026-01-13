@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:padding="18dp"
-                android:src="@mipmap/ic_back"
+                android:src="@mipmap/ic_broad_back"
                 app:tint="@color/white" />
 
             <TextView
@@ -65,7 +65,7 @@
                     android:id="@+id/ivIcon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@mipmap/ic_head"
+                    android:src="@mipmap/ic_broad_head"
                     android:scaleType="centerCrop"
                     android:layout_marginRight="10dp"
                     app:riv_corner_radius="5dp"/>

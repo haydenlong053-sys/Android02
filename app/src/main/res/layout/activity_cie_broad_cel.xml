@@ -23,7 +23,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="310dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_logo"
+                    android:src="@mipmap/ic_broad_logo"
                     />
 
                 <LinearLayout
@@ -65,7 +65,7 @@
                                 android:layout_height="67dp"
                                 android:layout_marginRight="15dp"
                                 android:scaleType="centerCrop"
-                                android:src="@mipmap/ic_head"
+                                android:src="@mipmap/ic_broad_head"
                                 app:riv_corner_radius="10dp" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -86,7 +86,7 @@
                             android:layout_width="33dp"
                             android:layout_height="33dp"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_head"
+                            android:src="@mipmap/ic_broad_head"
                             app:riv_corner_radius="5dp" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
@@ -95,7 +95,7 @@
                             android:layout_height="33dp"
                             android:layout_marginLeft="5dp"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_logo"
+                            android:src="@mipmap/ic_broad_logo"
                             android:visibility="gone"
                             app:riv_corner_radius="5dp" />
 
@@ -128,7 +128,7 @@
                                 android:id="@+id/ivNoData"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/ic_empty_bg" />
+                                android:src="@mipmap/ic_empty_broad_bg" />
 
                             <TextView
                                 android:id="@+id/tvNoData"
@@ -171,7 +171,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:padding="18dp"
-                android:src="@mipmap/ic_back" />
+                android:src="@mipmap/ic_broad_back" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                 android:layout_height="35dp">
                 <ImageView
                     android:id="@+id/imAdd"
-                    android:src="@mipmap/ic_circle_add"
+                    android:src="@mipmap/ic_circle_broad_add"
                     android:layout_width="17dp"
                     android:layout_height="17dp"/>
             </LinearLayout>

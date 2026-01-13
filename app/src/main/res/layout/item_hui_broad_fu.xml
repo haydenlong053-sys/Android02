@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riIcon"
-            android:src="@mipmap/ic_zhanwei"
+            android:src="@mipmap/ic_broad_zhanwei"
             android:scaleType="centerCrop"
             app:riv_corner_radius="5dp"
             android:layout_width="33dp"

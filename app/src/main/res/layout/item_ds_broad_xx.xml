@@ -39,13 +39,13 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:riv_corner_radius="10dp"
-                tools:src="@mipmap/ic_zhanwei" />
+                tools:src="@mipmap/ic_broad_zhanwei" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_video" />
+                android:src="@mipmap/ic_broad_video" />
         </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ryImage"

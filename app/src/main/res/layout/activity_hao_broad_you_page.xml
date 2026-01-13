@@ -312,7 +312,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="20dp"
-                                android:src="@mipmap/ic_set_more"
+                                android:src="@mipmap/ic_set_broad_more"
                                 app:layout_constraintBottom_toBottomOf="@id/pengyouquan"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@id/pengyouquan" />
@@ -380,7 +380,7 @@
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:layout_marginStart="5dp"
-                                android:src="@mipmap/ic_nan"
+                                android:src="@mipmap/ic_broad_nan"
                                 app:layout_constraintBottom_toBottomOf="@+id/tvname"
                                 app:layout_constraintStart_toEndOf="@+id/tvname"
                                 app:layout_constraintTop_toTopOf="@+id/tvname" />
@@ -525,7 +525,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="20dp"
-                                    android:src="@mipmap/ic_set_more"
+                                    android:src="@mipmap/ic_set_broad_more"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -560,7 +560,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="20dp"
-                                    android:src="@mipmap/ic_set_more"
+                                    android:src="@mipmap/ic_set_broad_more"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -597,7 +597,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="20dp"
-                                    android:src="@mipmap/ic_set_more"
+                                    android:src="@mipmap/ic_set_broad_more"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />

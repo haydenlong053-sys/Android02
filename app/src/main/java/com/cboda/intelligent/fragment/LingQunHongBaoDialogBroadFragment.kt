@@ -117,7 +117,7 @@ class LingQunHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
                 }
             }
         }
-        kaihongbao?.setImageResource(R.mipmap.ic_linghongbao_bg2)
+        kaihongbao?.setImageResource(R.mipmap.ic_linghongbao_broad_bg2)
         viewModel?.qunhongbaoInfo(context, hongbaoId)
         kaihongbao?.setOnClickListener {
             val bean = HongBaoBroadBiangeng()

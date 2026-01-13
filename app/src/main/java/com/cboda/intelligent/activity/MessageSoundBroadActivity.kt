@@ -151,7 +151,7 @@ fun MessageSoundScreen(
             ) {
                 // 返回按钮 - 左对齐
                 Image(
-                    painter = painterResource(id = R.mipmap.ic_back),
+                    painter = painterResource(id = R.mipmap.ic_broad_back),
                     contentDescription = "返回",
                     modifier = Modifier
                         .size(20.dp)

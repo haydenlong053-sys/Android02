@@ -47,7 +47,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_marginStart="5dp"
-                android:src="@mipmap/ic_nan"
+                android:src="@mipmap/ic_broad_nan"
                 app:layout_constraintBottom_toBottomOf="@+id/tvname"
                 app:layout_constraintStart_toEndOf="@+id/tvname"
                 app:layout_constraintTop_toTopOf="@+id/tvname" />
@@ -99,7 +99,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_next" />
+                android:src="@mipmap/ic_broad_next" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 

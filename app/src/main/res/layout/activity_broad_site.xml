@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:padding="18dp"
-                android:src="@mipmap/ic_back" />
+                android:src="@mipmap/ic_broad_back" />
             <TextView
                 android:text="@string/所在位置"
                 android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
 
             <ImageView
                 android:id="@+id/imSearch"
-                android:src="@mipmap/ic_site_search"
+                android:src="@mipmap/ic_site_broad_search"
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
                 android:layout_marginRight="17dp"
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:src="@mipmap/ic_region_search" />
+                    android:src="@mipmap/ic_region_broad_search" />
 
                 <EditText
                     android:id="@+id/etSearch"

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riIcon"
-            android:src="@mipmap/ic_head"
+            android:src="@mipmap/ic_broad_head"
             android:scaleType="centerCrop"
             app:riv_corner_radius="5dp"
             android:layout_width="40dp"
@@ -58,14 +58,14 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     app:riv_corner_radius="10dp"
-                    tools:src="@mipmap/ic_zhanwei" />
+                    tools:src="@mipmap/ic_broad_zhanwei" />
 
                 <ImageView
                     android:id="@+id/imVideo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@mipmap/ic_video" />
+                    android:src="@mipmap/ic_broad_video" />
             </RelativeLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ryImage"
@@ -107,7 +107,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:src="@mipmap/ic_circle_delate" />
+                        android:src="@mipmap/ic_circle_broad_delate" />
 
                     <View
                         android:layout_width="0dp"
@@ -146,7 +146,7 @@
                           android:layout_height="match_parent">
                           <ImageView
                               android:id="@+id/imDianzan"
-                              android:src="@mipmap/ic_circle_zan_false"
+                              android:src="@mipmap/ic_circle_zan_broad_false"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"/>
                           <TextView
@@ -169,7 +169,7 @@
                          android:layout_width="wrap_content"
                          android:layout_height="match_parent">
                          <ImageView
-                             android:src="@mipmap/ic_circle_pinglun"
+                             android:src="@mipmap/ic_circle_broad_pinglun"
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"/>
                          <TextView

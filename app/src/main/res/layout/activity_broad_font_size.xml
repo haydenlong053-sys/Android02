@@ -26,7 +26,7 @@
         <ImageView
             android:layout_marginLeft="13dp"
             android:layout_marginRight="27dp"
-            android:src="@mipmap/ic_head"
+            android:src="@mipmap/ic_broad_head"
             android:layout_width="45dp"
             android:layout_height="45dp"/>
     </LinearLayout>
@@ -39,7 +39,7 @@
         <ImageView
             android:layout_marginLeft="27dp"
             android:layout_marginRight="13dp"
-            android:src="@mipmap/ic_head"
+            android:src="@mipmap/ic_broad_head"
             android:layout_width="45dp"
             android:layout_height="45dp"/>
         <TextView

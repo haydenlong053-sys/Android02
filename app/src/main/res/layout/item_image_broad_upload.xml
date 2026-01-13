@@ -20,12 +20,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:padding="5dp"
-        android:src="@mipmap/ic_delete_white" />
+        android:src="@mipmap/ic_delete_broad_white" />
     <ImageView
         android:id="@+id/ivVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:src="@mipmap/ic_video"
+        android:src="@mipmap/ic_broad_video"
         android:layout_gravity="center"/>
 </FrameLayout>

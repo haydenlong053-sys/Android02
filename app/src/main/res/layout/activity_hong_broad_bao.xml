@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:padding="18dp"
-                android:src="@mipmap/ic_back" />
+                android:src="@mipmap/ic_broad_back" />
 
         </FrameLayout>
 

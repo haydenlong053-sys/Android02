@@ -55,7 +55,7 @@ class HaoYouAddBroadActivity : BaseSimpleBroadActivity() {
                 )
 
                 tvname?.text = this.name ?: ""
-                ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_nan else R.mipmap.ic_nv)
+                ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
                 qianmingname?.text = this.sign ?: ""
 
                 tianjiadaotongxun?.isVisible = this.id != BroadConstant.getRealUid()

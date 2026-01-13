@@ -8,7 +8,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/riIcon"
         app:riv_corner_radius="5dp"
-        android:src="@mipmap/ic_zhanwei"
+        android:src="@mipmap/ic_broad_zhanwei"
         android:scaleType="centerCrop"
         android:layout_width="75dp"
         android:layout_height="75dp"/>

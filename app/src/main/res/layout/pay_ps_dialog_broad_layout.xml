@@ -21,7 +21,7 @@
                android:tint="#101010"
                android:padding="26dp"
                app:tint="@color/color_text0"
-               android:src="@mipmap/ic_close_topic"
+               android:src="@mipmap/ic_close_broad_topic"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"/>
 

@@ -29,7 +29,7 @@
                     android:id="@+id/ivNoData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_empty_bg" />
+                    android:src="@mipmap/ic_empty_broad_bg" />
 
                 <TextView
                     android:id="@+id/tvNoData"

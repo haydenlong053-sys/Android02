@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:src="@mipmap/ic_delate_white" />
+                android:src="@mipmap/ic_delate_broad_white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 android:layout_width="80dp"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:drawableTop="@mipmap/ic_scan_photo"
+                android:drawableTop="@mipmap/ic_scan_broad_photo"
                 android:drawablePadding="17dp"
                 android:text="@string/相册"
                 android:textColor="@color/white"
@@ -73,7 +73,7 @@
                 android:layout_width="80dp"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:drawableTop="@mipmap/ic_qingchukaideng"
+                android:drawableTop="@mipmap/ic_broad_qingchukaideng"
                 android:drawablePadding="17dp"
                 android:text="@string/轻触开灯"
                 android:textColor="@color/white"

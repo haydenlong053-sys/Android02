@@ -129,11 +129,11 @@ public class CiecelBroadAdapter extends RecyclerView.Adapter<CiecelBroadAdapter.
         }
 
         if (list.get(position).isDz.equals("0")){
-            holder.imDianzan.setImageResource(R.mipmap.ic_circle_zan_false);
+            holder.imDianzan.setImageResource(R.mipmap.ic_circle_zan_broad_false);
             holder.imDianzanAll.setImageResource(R.mipmap.ic_dianzan_num_broad_false);
         }else {
-            holder.imDianzan.setImageResource(R.mipmap.ic_circle_zan_true);
-            holder.imDianzanAll.setImageResource(R.mipmap.ic_circle_zan_true);
+            holder.imDianzan.setImageResource(R.mipmap.ic_circle_zan_broad_true);
+            holder.imDianzanAll.setImageResource(R.mipmap.ic_circle_zan_broad_true);
         }
 
 //        holder.tvDianzanName.initWidth(layoutParams.width);

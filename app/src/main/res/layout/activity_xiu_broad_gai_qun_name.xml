@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerInside"
             app:tint="@color/white"
-            android:src="@mipmap/ic_qingchu"
+            android:src="@mipmap/ic_broad_qingchu"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent" />
 

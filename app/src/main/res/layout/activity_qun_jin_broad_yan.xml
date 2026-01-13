@@ -28,7 +28,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_next" />
+            android:src="@mipmap/ic_broad_next" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
@@ -59,7 +59,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_next" />
+            android:src="@mipmap/ic_broad_next" />
     </androidx.appcompat.widget.LinearLayoutCompat>
     <View
         android:layout_width="match_parent"
@@ -89,7 +89,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_next" />
+            android:src="@mipmap/ic_broad_next" />
     </androidx.appcompat.widget.LinearLayoutCompat>
     <View
         android:layout_width="match_parent"

@@ -43,7 +43,7 @@
             android:id="@+id/ivqingchu"
             android:visibility="gone"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_qingchu"
+            android:src="@mipmap/ic_broad_qingchu"
             android:layout_width="60dp"
             android:layout_height="match_parent"/>
 

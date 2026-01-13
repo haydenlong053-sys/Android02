@@ -19,7 +19,7 @@ class YanZhengBroadAdapter(layoutResId: Int,private val fromPage:String) :
                 item.icon?:"",
                 holder.getView(R.id.ivTouxiang),
                 PixelBroadBroadUtils.dip2px(context,5f),
-                R.mipmap.ic_qun_moren
+                R.mipmap.ic_qun_broad_moren
             )
         } else {
             val groupInfo = ChatManager.Instance().getGroupInfo(item.id,false)

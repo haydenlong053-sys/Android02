@@ -85,7 +85,7 @@ fun TitleBar(
                 modifier = Modifier.align(Alignment.CenterStart)
             ) {
                 Icon(
-                    painter = painterResource(id = R.mipmap.ic_back),
+                    painter = painterResource(id = R.mipmap.ic_broad_back),
                     contentDescription = "返回",
                     tint = Color.White
                 )
@@ -365,7 +365,7 @@ fun RoomNameInputField(
                                 if (roomName.isNotEmpty()) {
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Icon(
-                                        painter = painterResource(id = R.mipmap.ic_meet_edit_clear),
+                                        painter = painterResource(id = R.mipmap.ic_meet_edit_broad_clear),
                                         contentDescription = "清除",
                                         modifier = Modifier
                                             .size(16.dp)
@@ -1100,7 +1100,7 @@ fun UserTierSelectionDialog(
                 ) {
                     // 关闭按钮
                     Icon(
-                        painter = painterResource(id = R.mipmap.ic_close_topic),
+                        painter = painterResource(id = R.mipmap.ic_close_broad_topic),
                         contentDescription = "关闭",
                         tint = Color(0xFFA7A9AC),
                         modifier = Modifier
@@ -1435,7 +1435,7 @@ fun PaymentPasswordDialog(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    painter = painterResource(id = R.mipmap.ic_close_topic),
+                    painter = painterResource(id = R.mipmap.ic_close_broad_topic),
                     contentDescription = "关闭",
                     tint = Color(0xFFA7A9AC),
                     modifier = Modifier
@@ -1598,7 +1598,7 @@ fun SetPaymentPasswordDialog(
             ) {
                 // 图标
 //                Icon(
-//                    painter = painterResource(id = R.mipmap.ic_close_topic), // 这里应该用一个锁的图标
+//                    painter = painterResource(id = R.mipmap.ic_close_broad_topic), // 这里应该用一个锁的图标
 //                    contentDescription = "支付密码",
 //                    tint = Color(0xFF25A6FF),
 //                    modifier = Modifier.size(48.dp)

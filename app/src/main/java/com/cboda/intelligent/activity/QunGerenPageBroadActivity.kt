@@ -102,7 +102,7 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
 
                 tvname?.text = this.bei ?: ""
                 tvnicheng?.text = StringBroadUtils.format(getString(R.string.nichengshi), "${this.name}")
-                ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_nan else R.mipmap.ic_nv)
+                ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
                 if (this@QunGerenPageBroadActivity.uid == MMKVBroadUtils.getRealUserId()){
                     tianjiadaotongxun?.isVisible = false
                 }else if (this.isFri == "1" || uid == BroadConstant.getRealUid()) {

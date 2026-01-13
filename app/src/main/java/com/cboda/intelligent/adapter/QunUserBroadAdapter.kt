@@ -16,12 +16,12 @@ class QunUserBroadAdapter(layoutResId: Int) :
             "add" -> {
                 holder.setGone(R.id.tvshenfen,true)
                 holder.setText(R.id.tvusername, context.getString(R.string.tianjaiuaer))
-                holder.setImageResource(R.id.ivTouxiang, R.mipmap.ic_add_qun_user)
+                holder.setImageResource(R.id.ivTouxiang, R.mipmap.ic_add_qun_broad_user)
             }
             "remove" -> {
                 holder.setGone(R.id.tvshenfen, true)
                 holder.setText(R.id.tvusername, context.getString(R.string.yichuuser))
-                holder.setImageResource(R.id.ivTouxiang, R.mipmap.ic_yichu_qun_user)
+                holder.setImageResource(R.id.ivTouxiang, R.mipmap.ic_yichu_qun_broad_user)
             }
             else -> {
                 holder.setText(R.id.tvusername, item.name ?: "")

@@ -319,10 +319,10 @@ public class LoginBroadActivity extends BaseSimpleBroadActivity implements View.
         if (view.getId() ==R.id.imEyes){
             if (etPassword.getTransformationMethod() == null) {
                 etPassword.setTransformationMethod(new PasswordTransformationMethod());
-                imEyes.setImageResource(R.mipmap.ic_biyan);
+                imEyes.setImageResource(R.mipmap.ic_broad_biyan);
             } else {
                 etPassword.setTransformationMethod(null);
-                imEyes.setImageResource(R.mipmap.ic_zhengyan);
+                imEyes.setImageResource(R.mipmap.ic_broad_zhengyan);
             }
             etPassword.setSelection(etPassword.getText().toString().length());
         }

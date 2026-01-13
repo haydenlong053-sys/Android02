@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:layout_marginLeft="3dp"
-            android:src="@mipmap/ic_zhankai"
+            android:src="@mipmap/ic_broad_zhankai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"/>
             <ImageView
                 android:id="@+id/imPingzheng"
-                tools:src="@mipmap/ic_zhanwei"
+                tools:src="@mipmap/ic_broad_zhanwei"
                 android:layout_marginLeft="8dp"
                 android:layout_width="50dp"
                 android:layout_height="31dp"/>

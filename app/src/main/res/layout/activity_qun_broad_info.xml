@@ -83,7 +83,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
@@ -125,7 +125,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
@@ -350,7 +350,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
@@ -382,7 +382,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </androidx.appcompat.widget.LinearLayoutCompat>
             <View
                 android:layout_width="match_parent"
@@ -430,7 +430,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -472,7 +472,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <View
@@ -504,7 +504,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <View
@@ -535,7 +535,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
                     android:layout_width="match_parent"
@@ -565,7 +565,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
                     android:layout_width="match_parent"
@@ -593,7 +593,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
                     android:layout_width="match_parent"
@@ -621,7 +621,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleType="centerInside"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
                     android:id="@+id/zhuanrangxian"
@@ -935,7 +935,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/jianhao"
-                            android:src="@mipmap/ic_yichu_qun_user"
+                            android:src="@mipmap/ic_yichu_qun_broad_user"
                             android:layout_width="24dp"
                             android:layout_height="24dp"/>
 
@@ -954,7 +954,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/jiahao"
-                            android:src="@mipmap/ic_add_qun_user"
+                            android:src="@mipmap/ic_add_qun_broad_user"
                             android:layout_width="24dp"
                             android:layout_height="24dp"/>
 

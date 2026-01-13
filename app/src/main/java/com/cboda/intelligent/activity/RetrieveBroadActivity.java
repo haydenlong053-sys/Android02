@@ -210,19 +210,19 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
         }else  if (view.getId() == R.id.imNewEyes){
             if (etNewPassword.getTransformationMethod() == null) {
                 etNewPassword.setTransformationMethod(new PasswordTransformationMethod());
-                imNewEyes.setImageResource(R.mipmap.ic_biyan);
+                imNewEyes.setImageResource(R.mipmap.ic_broad_biyan);
             } else {
                 etNewPassword.setTransformationMethod(null);
-                imNewEyes.setImageResource(R.mipmap.ic_zhengyan);
+                imNewEyes.setImageResource(R.mipmap.ic_broad_zhengyan);
             }
             etNewPassword.setSelection(etNewPassword.getText().toString().length());
         }else  if (view.getId() == R.id.imEnterEyes) {
             if (etPassword.getTransformationMethod() == null) {
                 etPassword.setTransformationMethod(new PasswordTransformationMethod());
-                imEnterEyes.setImageResource(R.mipmap.ic_biyan);
+                imEnterEyes.setImageResource(R.mipmap.ic_broad_biyan);
             } else {
                 etPassword.setTransformationMethod(null);
-                imEnterEyes.setImageResource(R.mipmap.ic_zhengyan);
+                imEnterEyes.setImageResource(R.mipmap.ic_broad_zhengyan);
             }
             etPassword.setSelection(etPassword.getText().toString().length());
         }else  if (view.getId() ==R.id.tvXy){

@@ -10,7 +10,7 @@
         android:id="@+id/riIcon"
         android:scaleType="centerCrop"
         app:riv_corner_radius="5dp"
-        android:src="@mipmap/ic_head"
+        android:src="@mipmap/ic_broad_head"
         android:layout_width="50dp"
         android:layout_height="50dp"/>
     <TextView

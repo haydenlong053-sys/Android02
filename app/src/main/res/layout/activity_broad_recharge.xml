@@ -129,7 +129,7 @@
                 android:scaleType="centerCrop"
                 android:id="@+id/imBiaoti"
                 android:layout_marginTop="15dp"
-                tools:src="@mipmap/ic_zhanwei"
+                tools:src="@mipmap/ic_broad_zhanwei"
                 android:layout_width="178dp"
                 android:layout_height="111dp"/>
         </LinearLayout>

@@ -12,7 +12,7 @@ class SelectPicBroadAdapter (layoutResId: Int) :
     override fun convert(holder: BaseViewHolder, item: String) {
         if (item == "add"){
             holder.setGone(R.id.deleteIcon1,true)
-            holder.setImageResource(R.id.pic,R.mipmap.ic_add_pic1)
+            holder.setImageResource(R.id.pic,R.mipmap.ic_add_broad_pic1)
         } else {
             holder.setGone(R.id.deleteIcon1,false)
             if (item.startsWith("http") || item.startsWith("https")) {

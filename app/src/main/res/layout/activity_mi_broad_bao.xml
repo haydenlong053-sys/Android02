@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
         <ImageView
-            android:src="@mipmap/ic_down"
+            android:src="@mipmap/ic_broad_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

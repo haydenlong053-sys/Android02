@@ -18,7 +18,7 @@
         android:layout_height="55dp">
         <ImageView
             android:id="@+id/imIcon"
-            android:src="@mipmap/ic_baidu"
+            android:src="@mipmap/ic_broad_baidu"
             android:layout_width="33.5dp"
             android:layout_height="33.5dp"/>
         <TextView
@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
         <ImageView
-            android:src="@mipmap/ic_next"
+            android:src="@mipmap/ic_broad_next"
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

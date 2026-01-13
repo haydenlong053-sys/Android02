@@ -13,7 +13,7 @@
         android:layout_marginEnd="25dp"
         android:rotation="180"
         android:layout_gravity="end"
-        android:src="@mipmap/ic_sanjiaoxing" />
+        android:src="@mipmap/ic_broad_sanjiaoxing" />
 
     <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:layout_marginTop="-2dp"
@@ -35,7 +35,7 @@
                 android:layout_height="44dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:src="@mipmap/ic_faqi_qun"
+                    android:src="@mipmap/ic_faqi_broad_qun"
                     android:layout_marginStart="13dp"
                     android:layout_width="18dp"
                     android:layout_height="18dp"/>
@@ -57,7 +57,7 @@
                 android:layout_height="44dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:src="@mipmap/ic_tinajia_pengyou"
+                    android:src="@mipmap/ic_tinajia_broad_pengyou"
                     android:layout_marginStart="13dp"
                     android:layout_width="18dp"
                     android:layout_height="18dp"/>
@@ -79,7 +79,7 @@
                 android:layout_height="44dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:src="@mipmap/ic_saoyisao"
+                    android:src="@mipmap/ic_broad_saoyisao"
                     android:layout_marginStart="13dp"
                     android:layout_width="18dp"
                     android:layout_height="18dp"/>

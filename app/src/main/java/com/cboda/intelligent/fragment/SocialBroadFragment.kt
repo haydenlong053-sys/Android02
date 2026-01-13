@@ -588,8 +588,8 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape),
-                placeholder = painterResource(R.mipmap.ic_head),  // 加载中
-                error = painterResource(R.mipmap.ic_head),              // 加载失败
+                placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
+                error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
                 contentScale = ContentScale.Crop
             )
 

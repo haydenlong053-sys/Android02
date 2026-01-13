@@ -28,11 +28,11 @@ public class GlideBroadUtil {
                             .override(width,height)
                             .into(iv);
                 } else
-                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_defaut).placeholder(R.mipmap.ic_defaut)).override(width,height).into(iv);
+                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_defaut).placeholder(R.mipmap.ic_broad_defaut)).override(width,height).into(iv);
             }else
-                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_defaut).dontAnimate().error(R.mipmap.ic_defaut)).override(width,height).into(iv);
+                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).override(width,height).into(iv);
         } else
-            Picasso.with(context).load(R.mipmap.ic_defaut).into(iv);
+            Picasso.with(context).load(R.mipmap.ic_broad_defaut).into(iv);
     }
     public static void setImag(Context context, String url, ImageView iv) {
         if (!StringBroadUtil.isEmpty(url)) {
@@ -45,11 +45,11 @@ public class GlideBroadUtil {
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .into(iv);
                 } else
-                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_defaut).placeholder(R.mipmap.ic_defaut)).into(iv);
+                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_defaut).placeholder(R.mipmap.ic_broad_defaut)).into(iv);
             }else
-                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_defaut).dontAnimate().error(R.mipmap.ic_defaut)).into(iv);
+                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).into(iv);
         } else
-            Picasso.with(context).load(R.mipmap.ic_defaut).into(iv);
+            Picasso.with(context).load(R.mipmap.ic_broad_defaut).into(iv);
     }
 
     public static void setImag(Context context,int res, String imageUrl, ImageView iv) {
@@ -65,9 +65,9 @@ public class GlideBroadUtil {
     public static void setHeadImag(Context context, String url, ImageView iv) {
         Glide.with(context)
                 .load(url)
-                .placeholder(R.mipmap.ic_head) // 加载中显示
-                .error(R.mipmap.ic_head) // 加载失败显示
-                .fallback(R.mipmap.ic_head) // 空URL或null时显示
+                .placeholder(R.mipmap.ic_broad_head) // 加载中显示
+                .error(R.mipmap.ic_broad_head) // 加载失败显示
+                .fallback(R.mipmap.ic_broad_head) // 空URL或null时显示
                 .into(iv);
     }
 

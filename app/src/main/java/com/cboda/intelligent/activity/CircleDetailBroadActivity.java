@@ -306,11 +306,11 @@ public class CircleDetailBroadActivity extends BaseSimpleBroadActivity implement
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 if (type.equals("0")) {
-                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_false);
+                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_broad_false);
                     imDianzanAll.setImageResource(R.mipmap.ic_dianzan_num_broad_false);
                 } else {
-                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_true);
-                    imDianzanAll.setImageResource(R.mipmap.ic_circle_zan_true);
+                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_broad_true);
+                    imDianzanAll.setImageResource(R.mipmap.ic_circle_zan_broad_true);
                 }
                 tvDianzanName.setText(resultBean.dzNames);
 
@@ -388,11 +388,11 @@ public class CircleDetailBroadActivity extends BaseSimpleBroadActivity implement
                 }
 
                 if (resultBean.data.isDz.equals("0")) {
-                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_false);
+                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_broad_false);
                     imDianzanAll.setImageResource(R.mipmap.ic_dianzan_num_broad_false);
                 } else {
-                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_true);
-                    imDianzanAll.setImageResource(R.mipmap.ic_circle_zan_true);
+                    imDianzan.setImageResource(R.mipmap.ic_circle_zan_broad_true);
+                    imDianzanAll.setImageResource(R.mipmap.ic_circle_zan_broad_true);
                 }
 
                 tvDianzanName.setMovementMethod(LinkMovementMethod.getInstance());

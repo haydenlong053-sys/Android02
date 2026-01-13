@@ -39,7 +39,7 @@
                 android:layout_height="82dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
-                android:src="@mipmap/ic_head"
+                android:src="@mipmap/ic_broad_head"
                 app:riv_border_color="@color/white"
                 app:riv_border_width="2dp"
                 app:riv_mutate_background="true"
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:src="@mipmap/ic_next"
+                    android:src="@mipmap/ic_broad_next"
                     android:visibility="visible"
                     app:tint="@color/black" />
             </LinearLayout>
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:src="@mipmap/ic_next"
+                    android:src="@mipmap/ic_broad_next"
                     android:visibility="visible"
                     app:tint="@color/black" />
             </LinearLayout>
@@ -196,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:src="@mipmap/ic_next"
+                    android:src="@mipmap/ic_broad_next"
                     android:visibility="visible"
                     app:tint="@color/black" />
             </LinearLayout>
@@ -240,7 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:src="@mipmap/ic_next"
+                    android:src="@mipmap/ic_broad_next"
                     android:visibility="visible"
                     app:tint="@color/black" />
             </LinearLayout>
@@ -278,7 +278,7 @@
                     android:id="@+id/ivQianmingAfter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_next"
+                    android:src="@mipmap/ic_broad_next"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -339,7 +339,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:src="@mipmap/ic_next"
+                    android:src="@mipmap/ic_broad_next"
                     app:tint="@color/black" />
 
             </LinearLayout>

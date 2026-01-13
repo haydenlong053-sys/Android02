@@ -38,7 +38,7 @@
                     android:layout_gravity="center_vertical"
                     android:padding="18dp"
                     android:tint="@color/white"
-                    android:src="@mipmap/ic_back" />
+                    android:src="@mipmap/ic_broad_back" />
 
                 <TextView
                     android:id="@+id/tvTitle"

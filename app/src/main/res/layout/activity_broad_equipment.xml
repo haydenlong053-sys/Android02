@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         android:layout_alignParentBottom="true"
-                        android:src="@mipmap/ic_login_bt_bg" />
+                        android:src="@mipmap/ic_login_bt_broad_bg" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:src="@mipmap/ic_login_bt_bg"
+                        android:src="@mipmap/ic_login_bt_broad_bg"
                         android:visibility="gone" />
 
                     <TextView
@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="34dp"
                         android:layout_marginTop="30dp"
-                        android:drawableLeft="@mipmap/ic_login_user"
+                        android:drawableLeft="@mipmap/ic_login_broad_user"
                         android:drawablePadding="12dp"
                         android:text="@string/用户名"
                         android:textColor="@color/color_text0"
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="34dp"
                         android:layout_marginTop="22dp"
-                        android:drawableLeft="@mipmap/ic_login_password"
+                        android:drawableLeft="@mipmap/ic_login_broad_password"
                         android:drawablePadding="12dp"
                         android:text="@string/密码"
                         android:textColor="@color/color_text0"
@@ -232,7 +232,7 @@
                         android:visibility="gone"
                         android:layout_marginLeft="34dp"
                         android:layout_marginTop="12dp"
-                        android:drawableLeft="@mipmap/ic_login_yzm"
+                        android:drawableLeft="@mipmap/ic_login_broad_yzm"
                         android:drawablePadding="12dp"
                         android:text="@string/验证码"
                         android:textColor="@color/color_text0"

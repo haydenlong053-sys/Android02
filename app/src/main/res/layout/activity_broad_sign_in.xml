@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_qiandao_bg" />
+        android:src="@mipmap/ic_qiandao_broad_bg" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:padding="18dp"
-                android:src="@mipmap/ic_back" />
+                android:src="@mipmap/ic_broad_back" />
             <TextView
                 android:text="@string/签到红包"
                 android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imIssue"
-                android:src="@mipmap/ic_wenhao"
+                android:src="@mipmap/ic_broad_wenhao"
                 android:tint="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -67,7 +67,7 @@
                     <LinearLayout
                         android:gravity="center_horizontal"
                         android:layout_gravity="center_horizontal"
-                        android:background="@mipmap/ic_hongbao_bg"
+                        android:background="@mipmap/ic_hongbao_broad_bg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -139,7 +139,7 @@
                                         android:id="@+id/ivNoData"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:src="@mipmap/ic_empty_bg" />
+                                        android:src="@mipmap/ic_empty_broad_bg" />
 
                                     <TextView
                                         android:id="@+id/tvNoData"

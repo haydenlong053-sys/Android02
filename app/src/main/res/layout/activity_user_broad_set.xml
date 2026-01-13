@@ -39,7 +39,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </LinearLayout>
 
             <View
@@ -98,7 +98,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -125,7 +125,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -159,7 +159,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_next" />
+                            android:src="@mipmap/ic_broad_next" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -191,7 +191,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -218,7 +218,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -247,7 +247,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -278,7 +278,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -305,7 +305,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -333,7 +333,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -368,7 +368,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -396,7 +396,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -433,7 +433,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View
@@ -460,7 +460,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_next" />
+                        android:src="@mipmap/ic_broad_next" />
                 </LinearLayout>
 
                 <View

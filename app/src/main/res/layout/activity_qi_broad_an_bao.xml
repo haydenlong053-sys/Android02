@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </LinearLayout>
 
             <View
@@ -176,7 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </LinearLayout>
 
             <View
@@ -211,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </LinearLayout>
 
             <View
@@ -245,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </LinearLayout>
 
 
@@ -276,7 +276,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_broad_next" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -24,7 +24,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_marginLeft="20dp"
-                 android:src="@mipmap/ic_region_search" />
+                 android:src="@mipmap/ic_region_broad_search" />
 
              <EditText
                  android:id="@+id/etSearch"

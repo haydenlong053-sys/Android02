@@ -68,6 +68,6 @@
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"
         app:riv_oval="true"
-        android:src="@mipmap/ic_head"/>
+        android:src="@mipmap/ic_broad_head"/>
 
 </FrameLayout>

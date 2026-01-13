@@ -492,16 +492,16 @@ data class MorePopBroadItem(val icon: Painter, val label: String)
 @Composable
 private fun rememberDefaultMorePopItems(): List<MorePopBroadItem> {
     return listOf(
-        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_search), label = "搜索"),
+        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_search), label = "搜索"),
         MorePopBroadItem(
-            icon = painterResource(R.mipmap.ic_pop_add_group),
+            icon = painterResource(R.mipmap.ic_pop_add_broad_group),
             label = "建群聊"
         ),
         MorePopBroadItem(
-            icon = painterResource(R.mipmap.ic_pop_add_contact),
+            icon = painterResource(R.mipmap.ic_pop_add_broad_contact),
             label = "加好友"
         ),
-        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_scan), label = "扫一扫")
+        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_scan), label = "扫一扫")
     )
 }
 

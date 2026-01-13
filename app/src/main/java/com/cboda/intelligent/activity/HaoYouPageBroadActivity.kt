@@ -223,7 +223,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 tvID?.text = "ID:${this.idno}"
                 tvname?.text = this.bei ?: ""
                 tvnicheng?.text = StringBroadUtils.format(getString(R.string.nichengshi), "${this.name}")
-                ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_nan else R.mipmap.ic_nv)
+                ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
                 qianmingname?.text = this.sign ?: ""
                 beizhuname?.text = this.characterTags ?: ""
                 pengyouquanlay?.isVisible = this.isOpenQuan == "1"

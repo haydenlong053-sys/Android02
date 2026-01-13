@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="310dp"
                     android:scaleType="centerCrop"
-                    tools:src="@mipmap/ic_zhanwei" />
+                    tools:src="@mipmap/ic_broad_zhanwei" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                                 android:layout_marginRight="15dp"
                                 android:scaleType="centerCrop"
                                 app:riv_corner_radius="10dp"
-                                tools:src="@mipmap/ic_logo" />
+                                tools:src="@mipmap/ic_broad_logo" />
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -87,7 +87,7 @@
                                 android:id="@+id/ivNoData"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/ic_empty_bg" />
+                                android:src="@mipmap/ic_empty_broad_bg" />
 
                             <TextView
                                 android:id="@+id/tvNoData"
@@ -130,7 +130,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:padding="18dp"
-                android:src="@mipmap/ic_back" />
+                android:src="@mipmap/ic_broad_back" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
                 android:visibility="gone"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="20dp"
-                android:src="@mipmap/ic_circel_right"
+                android:src="@mipmap/ic_circel_broad_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
