@@ -26,6 +26,7 @@ import cn.wildfirechat.message.HongBaoMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 @MessageContentBroadType(HongBaoMessageContent.class)
 @EnableContextBroadMenu
@@ -90,9 +91,9 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
                     }
                     eLogD("hbInfoClass", "setMyQiaoJie");
                     if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), "lingqunhongbao", zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), BridgeImEnum.LING_QUN_HONGBAO.getValue(), zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
                     } else {
-                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), "linghongbao", zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), BridgeImEnum.LING_HONGBAO.getValue(), zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
                     }
 
                 }

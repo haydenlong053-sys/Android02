@@ -25,6 +25,7 @@ import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessageStatus;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.utils.WeChatImageUtils;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 /**
  * 小视频尺寸展示高仿微信,并且带上时间
@@ -90,9 +91,9 @@ public class VideoMessageContentViewBroadHolder extends MediaMessageContentViewB
         VideoMessageContent videoMessageContent = (VideoMessageContent) message.message.content;
 //        ELogUtilKt.eLogD("zhanglong","localPath------"+videoMessageContent.localPath);
         if(FileBroadUtils.isFileExists(videoMessageContent.localPath)){
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(),"bofangshipin",videoMessageContent.localPath,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(), BridgeImEnum.BOFANG_SHIPIN.getValue(),videoMessageContent.localPath,"",null);
         }else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(),"bofangshipin",videoMessageContent.remoteUrl,"",message);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(), BridgeImEnum.BOFANG_SHIPIN.getValue(),videoMessageContent.remoteUrl,"",message);
         }
 
     }

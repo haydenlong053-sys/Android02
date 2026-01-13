@@ -73,6 +73,7 @@ import cn.wildfirechat.remote.OnReceiveMessageListener;
 import cn.wildfirechat.remote.OnSendMessageListener;
 import cn.wildfirechat.remote.SecretMessageBurnStateListener;
 import cn.wildfirechat.remote.SendMessageCallback;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class MessageViewBroadModel extends ViewModel implements OnReceiveMessageListener,
         OnSendMessageListener,
@@ -401,7 +402,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                     isMgc = true;
                     ToastBroadUtils.showToast(context, "发言包含敏感词");
                     if ("1".equals(openMgc)) {
-                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(context, "mingancichufajianyan", conversation.target, ChatManager.Instance().getUserId(), null);
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(context, BridgeImEnum.MINGANCI_CHUFA_JIANYAN.getValue(), conversation.target, ChatManager.Instance().getUserId(), null);
                     }
                 }
             }

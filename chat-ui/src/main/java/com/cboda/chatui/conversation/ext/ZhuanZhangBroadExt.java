@@ -8,11 +8,12 @@ import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class ZhuanZhangBroadExt extends ConversationBroadExt {
     @ExtContextMenuBroadItem
     public void pickZhuanZhang(View containerView, Conversation conversation) {
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(),"zhuanzhang",conversation.target,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(), BridgeImEnum.ZHUANZHANG.getValue(),conversation.target,"",null);
     }
     @Override
     public int priority() {

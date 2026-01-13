@@ -8,6 +8,7 @@ import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class HongBaoBroadExt extends ConversationBroadExt {
 
@@ -15,9 +16,9 @@ public class HongBaoBroadExt extends ConversationBroadExt {
     public void pickHongBao(View containerView, Conversation conversation) {
         if (conversation != null) {
             if (conversation.type == Conversation.ConversationType.Group) {
-                MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(), "qunhongbao", conversation.target, "",null);
+                MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(), BridgeImEnum.QUN_HONGBAO.getValue(), conversation.target, "",null);
             } else {
-                MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(), "hongbao", conversation.target, "",null);
+                MyCommonBroadBridge.getInstance().setMyBridgeMethod(containerView.getContext(), BridgeImEnum.HONGBAO.getValue(), conversation.target, "",null);
             }
         }
     }

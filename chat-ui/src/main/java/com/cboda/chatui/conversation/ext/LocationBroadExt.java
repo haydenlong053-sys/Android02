@@ -19,6 +19,7 @@ import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import com.cboda.chatui.third.location.data.LocationBroadData;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class LocationBroadExt extends ConversationBroadExt {
 
@@ -42,9 +43,9 @@ public class LocationBroadExt extends ConversationBroadExt {
         }
 
         if (conversation.type == Conversation.ConversationType.Group){
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity,"weizhi","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.WEIZHI.getValue(),"",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity,"weizhi",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.WEIZHI.getValue(),conversation.target,"",null);
 
         }
 

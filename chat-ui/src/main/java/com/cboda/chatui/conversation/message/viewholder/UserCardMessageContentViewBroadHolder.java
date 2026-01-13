@@ -23,6 +23,7 @@ import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import cn.wildfirechat.message.CardMessageContent;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 @MessageContentBroadType(value = {
     CardMessageContent.class,
@@ -71,6 +72,6 @@ public class UserCardMessageContentViewBroadHolder extends NormalMessageContentV
         UserInfo userInfo = ChatManager.Instance().getUserInfo(userCardMessageContent.getTarget(), false);
 //        intent.putExtra("userInfo", userInfo);
 //        fragment.startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(),"tianjiahaoyou",userInfo.uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), BridgeImEnum.TIANJIA_HAOYOU.getValue(),userInfo.uid,"",null);
     }
 }

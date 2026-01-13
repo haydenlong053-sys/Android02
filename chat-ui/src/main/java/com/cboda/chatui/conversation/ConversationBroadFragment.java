@@ -111,6 +111,7 @@ import cn.wildfirechat.model.UserOnlineState;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 @SuppressLint("FragmentLiveDataObserve")
 public class ConversationBroadFragment extends Fragment implements
@@ -547,7 +548,7 @@ public class ConversationBroadFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 if (conversation != null) {
-                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), "chakanqungonggao", conversation.target, gonggaoxinxi.getText().toString(), null);
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.CHAKAN_QUN_GONGGAO.getValue(), conversation.target, gonggaoxinxi.getText().toString(), null);
                 }
             }
         });
@@ -1105,7 +1106,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onPortraitClick(UserInfo userInfo) {
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), "danliaogengduo", userInfo.uid, "", null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.DANLIAO_GENGDUO.getValue(), userInfo.uid, "", null);
         // 去掉野火跳转用户主页
 //        if (conversation.type == Conversation.ConversationType.Channel) {
 //            Intent intent = new Intent(getActivity(), ChannelInfoActivity.class);
