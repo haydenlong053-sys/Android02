@@ -296,8 +296,9 @@ public class ConversationBroadFragment extends Fragment implements
                 if (isDisplayableMessage(uiMessage)) {
                     adapter.updateMessage(uiMessage);
                 }
-                if (uiMessage.progress == 100) {
+                if (uiMessage.progress == 100 && uiMessage.message.direction == MessageDirection.Receive) {
                     uiMessage.progress = 0;
+                    eLogD("zhanglong","---接收方语音消息完成，准备播放语音气泡");
                     messageViewModel.playAudioMessage(uiMessage);
                 }
                 if (uiMessage.audioPlayCompleted) {
@@ -337,6 +338,7 @@ public class ConversationBroadFragment extends Fragment implements
             }
             toPlayAudioMessage.continuousPlayAudio = true;
             if (file.exists()) {
+                eLogD("zhanglong","---2");
                 messageViewModel.playAudioMessage(toPlayAudioMessage);
             } else {
                 messageViewModel.downloadMedia(toPlayAudioMessage, file);
