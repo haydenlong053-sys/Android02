@@ -24,7 +24,7 @@ public class UIUserBroadInfo {
     private boolean isChecked;
     private boolean isCheckable = true;
     private String extra;
-    public String lixinUserName;
+//    public String lixinUserName;
 
     public UIUserBroadInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
