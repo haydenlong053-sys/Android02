@@ -8,109 +8,109 @@ enum class BridgeImEnum(val value: String) {
     CREATE_NEW_CHAT("cjxlt"),
 
     // 禁言信息
-    JINYAN_INFO("jinyaninfo"),
+    MUTE_INFO("jinyaninfo"),
 
     // 单聊更多
-    DANLIAO_GENGDUO("danliaogengduo"),
+    SINGLE_CHAT_MORE("danliaogengduo"),
 
     // 群聊主页
-    QUNLIAO_ZHUYE("qunliaozhuye"),
+    GROUP_CHAT_HOME("qunliaozhuye"),
 
     // 获取用户数据
     GET_USER_DATA("getUserData"),
 
     // 添加好友
-    TIANJIA_HAOYOU("tianjiahaoyou"),
+    ADD_FRIEND("tianjiahaoyou"),
 
     // 未读消息添加好友
-    WEIDUXIAOXI_TIANJIA_HAOYOU("weiduxiaoxitianjiahaoyou"),
+    UNREAD_MESSAGE_ADD_FRIEND("weiduxiaoxitianjiahaoyou"),
 
     // 名片
-    MINGPIAN("mingpian"),
+    BUSINESS_CARD("mingpian"),
 
     // 转账
-    ZHUANZHANG("zhuanzhang"),
+    TRANSFER("zhuanzhang"),
 
     // 红包
-    HONGBAO("hongbao"),
+    RED_PACKET("hongbao"),
 
     // 群红包
-    QUN_HONGBAO("qunhongbao"),
+    GROUP_RED_PACKET("qunhongbao"),
 
     // 编辑
-    BIANJI("bianji"),
+    EDIT("bianji"),
 
     // 添加动画表情
-    TIANJIA_DONGHUA_BIAOQING("tianjiadonghuabiaoqing"),
+    ADD_ANIMATED_EMOJI("tianjiadonghuabiaoqing"),
 
     // 收藏
-    SHOUCANG("shoucang"),
+    COLLECT("shoucang"),
 
     // 翻译
-    FANYI("fanyi"),
+    TRANSLATE("fanyi"),
 
     // 领转账
-    LING_ZHUANZHANG("lingzhuanzhang"),
+    RECEIVE_TRANSFER("lingzhuanzhang"),
 
     // 接收领转账
-    JIESHOU_LING_ZHUANZHANG("jieshoulingzhuanzhang"),
+    ACCEPT_RECEIVE_TRANSFER("jieshoulingzhuanzhang"),
 
     // 领红包
-    LING_HONGBAO("linghongbao"),
+    RECEIVE_RED_PACKET("linghongbao"),
 
     // 领群红包
-    LING_QUN_HONGBAO("lingqunhongbao"),
+    RECEIVE_GROUP_RED_PACKET("lingqunhongbao"),
 
     // 新的朋友
-    XINDE_PENGYOU("xindepengyou"),
+    NEW_FRIEND("xindepengyou"),
 
     // 入群邀请
-    RUQUN_YAOQING("ruqunyaoqing"),
+    JOIN_GROUP_INVITATION("ruqunyaoqing"),
 
     // 群聊列表
-    QUNLIAO_LIEBIAO("qunliaoliebiao"),
+    GROUP_CHAT_LIST("qunliaoliebiao"),
 
     // 被封
-    BEIFENG("beifeng"),
+    BANNED("beifeng"),
 
     // 获取群Meeting
-    HUOQU_QUN_MEETING("huoququnMeeting"),
+    GET_GROUP_MEETING("huoququnMeeting"),
 
     // 进入会议
     ENTER_MEETING("enterMeeting"),
 
     // 获取群详情
-    HUOQU_QUN_XIANGQING("huoququnxiangqing"),
+    GET_GROUP_DETAILS("huoququnxiangqing"),
 
     // 查看群公告
-    CHAKAN_QUN_GONGGAO("chakanqungonggao"),
+    VIEW_GROUP_ANNOUNCEMENT("chakanqungonggao"),
 
     // 更新公告了
-    GENGXIN_GONGGAOLE("gengxingonggaole"),
+    UPDATE_ANNOUNCEMENT("gengxingonggaole"),
 
     // 获取用户信息
-    HUOQU_YONGHU_XINXI("huoquyonghuxinxi"),
+    GET_USER_INFO("huoquyonghuxinxi"),
 
     // 位置
-    WEIZHI("weizhi"),
+    LOCATION("weizhi"),
 
     // 导航
-    DAOHANG("daohang"),
+    NAVIGATION("daohang"),
 
     // 敏感词触发检验
-    MINGANCI_CHUFA_JIANYAN("mingancichufajianyan"),
+    SENSITIVE_WORD_TRIGGER_CHECK("mingancichufajianyan"),
 
     // 播放视频
-    BOFANG_SHIPIN("bofangshipin"),
+    PLAY_VIDEO("bofangshipin"),
 
     // AI
     AI("AI"),
 
     // 收藏IM
-    SHOUCANG_IM("shoucangim"),
+    COLLECT_IM("shoucangim"),
 
     // 会议室
-    HUIYISHI("huiyishi"),
+    MEETING_ROOM("huiyishi"),
 
     // 会议
     MEETING("meeting");

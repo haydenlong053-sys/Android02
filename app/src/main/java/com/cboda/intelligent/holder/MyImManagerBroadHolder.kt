@@ -62,7 +62,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             JumpBroadUtils.startCreateQunActivity(mContext)
                         }
 
-                        BridgeImEnum.JINYAN_INFO.value -> {
+                        BridgeImEnum.MUTE_INFO.value -> {
                             if (params2 == "0") {//单聊
                                 duiInfo(params ?: "")
                             } else {//群聊
@@ -70,11 +70,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.DANLIAO_GENGDUO.value -> {
+                        BridgeImEnum.SINGLE_CHAT_MORE.value -> {
                             JumpBroadUtils.startHaoYouAddActivity(mContext, params ?: "", "2")
                         }
 
-                        BridgeImEnum.QUNLIAO_ZHUYE.value -> {
+                        BridgeImEnum.GROUP_CHAT_HOME.value -> {
                             JumpBroadUtils.startQunInfoActivity(mContext, params ?: "")
                         }
 
@@ -101,7 +101,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             )
                         }
 
-                        BridgeImEnum.TIANJIA_HAOYOU.value -> {
+                        BridgeImEnum.ADD_FRIEND.value -> {
                             val map = mapOf(
                                 "id" to params,
                             )
@@ -135,7 +135,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             )
                         }
 
-                        BridgeImEnum.WEIDUXIAOXI_TIANJIA_HAOYOU.value -> {
+                        BridgeImEnum.UNREAD_MESSAGE_ADD_FRIEND.value -> {
                             val map = mapOf(
                                 "id" to params,
                             )
@@ -169,7 +169,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             )
                         }
 
-                        BridgeImEnum.MINGPIAN.value -> {
+                        BridgeImEnum.BUSINESS_CARD.value -> {
                             if (params2?.isNotEmpty() == true) {
                                 val map = mapOf(
                                     "id" to (params2),
@@ -209,19 +209,19 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.ZHUANZHANG.value -> {
+                        BridgeImEnum.TRANSFER.value -> {
                             JumpBroadUtils.startZhuanzhangActivity(mContext, params ?: "")
                         }
 
-                        BridgeImEnum.HONGBAO.value -> {
+                        BridgeImEnum.RED_PACKET.value -> {
                             JumpBroadUtils.startFaHongBaoActivity(mContext, params ?: "")
                         }
 
-                        BridgeImEnum.QUN_HONGBAO.value -> {
+                        BridgeImEnum.GROUP_RED_PACKET.value -> {
                             JumpBroadUtils.startFaQunHongBaoActivity(mContext, params ?: "")
                         }
 
-                        BridgeImEnum.BIANJI.value -> {
+                        BridgeImEnum.EDIT.value -> {
                             val holder = BianJiTextBroadHolder(
                                 mContext,
                                 (msg?.message?.content as TextMessageContent).content
@@ -259,11 +259,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             holder.show()
                         }
 
-                        BridgeImEnum.TIANJIA_DONGHUA_BIAOQING.value -> {
+                        BridgeImEnum.ADD_ANIMATED_EMOJI.value -> {
                             addEmoji(mContext, params ?: "")
                         }
 
-                        BridgeImEnum.SHOUCANG.value -> {
+                        BridgeImEnum.COLLECT.value -> {
                             val paraList = params2?.split("|")
                             if (paraList?.size == 3) {
                                 shoucang(
@@ -278,7 +278,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.FANYI.value -> {
+                        BridgeImEnum.TRANSLATE.value -> {
                             if (SharePrefBroadBroadUtil.getString(mContext, "isvip", "0").equals("1")) {
                                 fanyi(
                                     mContext,
@@ -289,7 +289,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.LING_ZHUANZHANG.value -> {
+                        BridgeImEnum.RECEIVE_TRANSFER.value -> {
                             val paraList = params?.split("|")
                             paraList?.apply {
                                 JumpBroadUtils.startZhuanZhangPageActivity(
@@ -301,7 +301,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.JIESHOU_LING_ZHUANZHANG.value -> {
+                        BridgeImEnum.ACCEPT_RECEIVE_TRANSFER.value -> {
                             val paraList = params?.split("|")
                             paraList?.apply {
                                 JumpBroadUtils.startZhuanZhangPageActivity(
@@ -313,7 +313,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.LING_HONGBAO.value -> {
+                        BridgeImEnum.RECEIVE_RED_PACKET.value -> {
                             val paraList = params?.split("|")
                             paraList?.apply {
                                 if (this.size > 3) {
@@ -333,7 +333,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                         }
 
-                        BridgeImEnum.LING_QUN_HONGBAO.value -> {
+                        BridgeImEnum.RECEIVE_GROUP_RED_PACKET.value -> {
                             val paraList = params?.split("|")
                             paraList?.apply {
                                 if (this.size > 3) {
@@ -352,24 +352,24 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.XINDE_PENGYOU.value -> {
+                        BridgeImEnum.NEW_FRIEND.value -> {
                             JumpBroadUtils.startYanZhengActivity(mContext, "xindepengyou")
                         }
 
-                        BridgeImEnum.RUQUN_YAOQING.value -> {
+                        BridgeImEnum.JOIN_GROUP_INVITATION.value -> {
                             JumpBroadUtils.startYanZhengActivity(mContext, "ruqunyaoqing")
                         }
 
-                        BridgeImEnum.QUNLIAO_LIEBIAO.value -> {
+                        BridgeImEnum.GROUP_CHAT_LIST.value -> {
                             JumpBroadUtils.startQunListActivity(mContext)
                         }
 
-                        BridgeImEnum.BEIFENG.value -> {
+                        BridgeImEnum.BANNED.value -> {
                             ToastBroadUtils.show("您已被封禁，请重新登录")
                             exit(mContext)
                         }
 
-                        BridgeImEnum.HUOQU_QUN_MEETING.value -> {
+                        BridgeImEnum.GET_GROUP_MEETING.value -> {
                             val map = mapOf(
                                 "groupId" to (params ?: ""),
                             )
@@ -473,7 +473,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.HUOQU_QUN_XIANGQING.value -> {
+                        BridgeImEnum.GET_GROUP_DETAILS.value -> {
                             val map = mapOf(
                                 "id" to (params ?: ""),
                             )
@@ -505,23 +505,23 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             )
                         }
 
-                        BridgeImEnum.CHAKAN_QUN_GONGGAO.value -> {
+                        BridgeImEnum.VIEW_GROUP_ANNOUNCEMENT.value -> {
                             JumpBroadUtils.startQunGonggaoActivity(mContext, params ?: "")
                         }
 
-                        BridgeImEnum.GENGXIN_GONGGAOLE.value -> {
+                        BridgeImEnum.UPDATE_ANNOUNCEMENT.value -> {
                             val gongGaoHolder = GongGaoBroadHolder(mContext, params ?: "")
                             gongGaoHolder.show()
                         }
 
-                        BridgeImEnum.HUOQU_YONGHU_XINXI.value -> {
+                        BridgeImEnum.GET_USER_INFO.value -> {
                             MainBroadActivity.currtentLoginUser?.apply {
                                 EventBus.getDefault()
                                     .post(MyBroadEvent("yonghuxinxi", gson.toJson(this), ""))
                             }
                         }
 
-                        BridgeImEnum.WEIZHI.value -> {
+                        BridgeImEnum.LOCATION.value -> {
                             mContext?.apply {
                                 XXPermissions.with(this)
                                     .permission(
@@ -537,7 +537,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.DAOHANG.value -> {
+                        BridgeImEnum.NAVIGATION.value -> {
                             val paraList = params2?.split("|")
                             paraList?.apply {
                                 JumpBroadUtils.startMapsActivity(
@@ -550,7 +550,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.MINGANCI_CHUFA_JIANYAN.value -> {
+                        BridgeImEnum.SENSITIVE_WORD_TRIGGER_CHECK.value -> {
                             val map = mapOf(
                                 "uids" to (params2 ?: ""),
                                 "id" to (params ?: ""),
@@ -572,7 +572,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             )
                         }
 
-                        BridgeImEnum.BOFANG_SHIPIN.value -> {
+                        BridgeImEnum.PLAY_VIDEO.value -> {
                             val intent = Intent(mContext, VideoPlayOnlyBroadActivity::class.java)
                             intent.putExtra("video", params ?: "")
                             intent.putExtra("videoImage", params ?: "")
@@ -631,11 +631,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             }
                         }
 
-                        BridgeImEnum.SHOUCANG_IM.value -> {
+                        BridgeImEnum.COLLECT_IM.value -> {
                             JumpBroadUtils.startMyCollectActivity(mContext, params ?: "", params2 ?: "")
                         }
 
-                        BridgeImEnum.HUIYISHI.value -> {
+                        BridgeImEnum.MEETING_ROOM.value -> {
                             val map = mapOf(
                                 "code" to "",
                             )

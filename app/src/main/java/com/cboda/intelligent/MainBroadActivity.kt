@@ -631,7 +631,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                 1005 -> {
                                     if (unkown.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
                                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(
-                                            this@MainBroadActivity, BridgeImEnum.BEIFENG.value,
+                                            this@MainBroadActivity, BridgeImEnum.BANNED.value,
                                             "",
                                             "",
                                             null

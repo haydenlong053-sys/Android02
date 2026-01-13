@@ -567,7 +567,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             bianjiAction.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                                 @Override
                                 public void onClick() {
-                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.BIANJI.getValue(), "", "", message);
+                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.EDIT.getValue(), "", "", message);
                                 }
                             });
                             mPopActions.add(bianjiAction);
@@ -581,7 +581,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.TIANJIA_DONGHUA_BIAOQING.getValue(), ((ImageMessageContent) message.message.content).remoteUrl, "", message);
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((ImageMessageContent) message.message.content).remoteUrl, "", message);
                             }
                         });
                         mPopActions.add(tianjia);
@@ -594,7 +594,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia2.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.TIANJIA_DONGHUA_BIAOQING.getValue(), ((StickerMessageContent) message.message.content).remoteUrl, "", message);
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((StickerMessageContent) message.message.content).remoteUrl, "", message);
                             }
                         });
                         mPopActions.add(tianjia2);
@@ -607,7 +607,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         tianjia3.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.TIANJIA_DONGHUA_BIAOQING.getValue(), ((BiaoQingMessageContent) message.message.content).emoji, "", message);
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((BiaoQingMessageContent) message.message.content).emoji, "", message);
                             }
                         });
                         mPopActions.add(tianjia3);
@@ -744,7 +744,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             } else if (message1.content.getMessageContentType() == 4) {
                                 params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
                             }
-                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.SHOUCANG.getValue(), message1.sender, params2, message);
+                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
                         }
                     });
                     mPopActions.add(shoucang);
@@ -757,7 +757,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     fanyi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
-                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.FANYI.getValue(), ((TextMessageContent) message1.content).getContent(), "", message);
+                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.TRANSLATE.getValue(), ((TextMessageContent) message1.content).getContent(), "", message);
                         }
                     });
                     mPopActions.add(fanyi);

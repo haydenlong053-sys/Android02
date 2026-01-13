@@ -50,9 +50,9 @@ public class UserCardBroadExt extends ConversationBroadExt {
 //        startActivityForResult(intent, 100);
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.MINGPIAN.getValue(),"",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.BUSINESS_CARD.getValue(),"",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.MINGPIAN.getValue(),conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.BUSINESS_CARD.getValue(),conversation.target,"",null);
         }
 
     }

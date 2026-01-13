@@ -91,9 +91,9 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
                     }
                     eLogD("hbInfoClass", "setMyQiaoJie");
                     if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), BridgeImEnum.LING_QUN_HONGBAO.getValue(), zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), BridgeImEnum.RECEIVE_GROUP_RED_PACKET.getValue(), zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
                     } else {
-                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), BridgeImEnum.LING_HONGBAO.getValue(), zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(tvhoongbaotips.getContext(), BridgeImEnum.RECEIVE_RED_PACKET.getValue(), zhuanzhangMessage.hongbaoId + "|" + lingstatus + "|" + message.message.messageUid + "|" + objWrite, params2, message);
                     }
 
                 }

@@ -43,9 +43,9 @@ public class LocationBroadExt extends ConversationBroadExt {
         }
 
         if (conversation.type == Conversation.ConversationType.Group){
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.WEIZHI.getValue(),"",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.LOCATION.getValue(),"",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.WEIZHI.getValue(),conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.LOCATION.getValue(),conversation.target,"",null);
 
         }
 

@@ -127,6 +127,6 @@ public class GroupMessageReceiptListBroadFragment extends ProgressBroadFragment 
 //        intent.putExtra("userInfo", userInfo);
 //        intent.putExtra("groupId", groupInfo.target);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getActivity(), BridgeImEnum.WEIDUXIAOXI_TIANJIA_HAOYOU.getValue(),userInfo.uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getActivity(), BridgeImEnum.UNREAD_MESSAGE_ADD_FRIEND.getValue(),userInfo.uid,"",null);
     }
 }

@@ -91,9 +91,9 @@ public class VideoMessageContentViewBroadHolder extends MediaMessageContentViewB
         VideoMessageContent videoMessageContent = (VideoMessageContent) message.message.content;
 //        ELogUtilKt.eLogD("zhanglong","localPath------"+videoMessageContent.localPath);
         if(FileBroadUtils.isFileExists(videoMessageContent.localPath)){
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(), BridgeImEnum.BOFANG_SHIPIN.getValue(),videoMessageContent.localPath,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(), BridgeImEnum.PLAY_VIDEO.getValue(),videoMessageContent.localPath,"",null);
         }else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(), BridgeImEnum.BOFANG_SHIPIN.getValue(),videoMessageContent.remoteUrl,"",message);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(), BridgeImEnum.PLAY_VIDEO.getValue(),videoMessageContent.remoteUrl,"",message);
         }
 
     }
