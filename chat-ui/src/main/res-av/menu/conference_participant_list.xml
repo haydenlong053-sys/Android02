@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_conference_participant_add"
-        android:icon="@mipmap/ic_add"
+        android:icon="@mipmap/ic_broad_add"
         android:orderInCategory="100"
         android:title="邀请"
         app:showAsAction="always" />

@@ -88,7 +88,7 @@ public class ConversationViewBroadHolder2 extends ResultItemViewBroadHolder<Conv
         } else {
             GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, false);
             if (groupInfo != null) {
-                Glide.with(fragment).load(groupInfo.portrait).apply(new RequestOptions().placeholder(R.mipmap.ic_group_chat).centerCrop()).into(portraitImageView);
+                Glide.with(fragment).load(groupInfo.portrait).apply(new RequestOptions().placeholder(R.mipmap.ic_group_broad_chat).centerCrop()).into(portraitImageView);
                 nameTextView.setText(!TextUtils.isEmpty(groupInfo.remark) ? groupInfo.remark : groupInfo.name);
             }
         }

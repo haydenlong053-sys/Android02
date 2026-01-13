@@ -77,7 +77,7 @@ public class GroupViewBroadHolder2 extends ResultItemViewBroadHolder<GroupSearch
         String portrait = groupSearchResult.groupInfo.portrait;
         Glide.with(fragment)
                 .load(portrait)
-                .placeholder(R.mipmap.ic_group_chat)
+                .placeholder(R.mipmap.ic_group_broad_chat)
                 .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(fragment.getContext(), 4)))
                 .into(portraitImageView);
 

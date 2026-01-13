@@ -59,7 +59,7 @@ public class CollectBroadExt extends ConversationBroadExt {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_func_collect;
+        return R.mipmap.ic_func_broad_collect;
     }
 
     @Override

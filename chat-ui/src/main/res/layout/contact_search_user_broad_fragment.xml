@@ -53,7 +53,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_search3" />
+                android:src="@mipmap/ic_broad_search3" />
 
             <LinearLayout
                 android:layout_width="0dp"

@@ -62,7 +62,7 @@ public class PCSessionBroadActivity extends WfcBaseBroadActivity {
         descTextView.setText(platform.getPlatFormName() + " 已登录");
 
         isMuteWhenPCOnline = ChatManager.Instance().isMuteNotificationWhenPcOnline();
-        muteImageView.setImageResource(isMuteWhenPCOnline ? R.mipmap.ic_turn_off_ringer_hover : R.mipmap.ic_turn_off_ringer);
+        muteImageView.setImageResource(isMuteWhenPCOnline ? R.mipmap.ic_turn_off_ringer_broad_hover : R.mipmap.ic_turn_off_broad_ringer);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class PCSessionBroadActivity extends WfcBaseBroadActivity {
                 }
                 Toast.makeText(PCSessionBroadActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
                 isMuteWhenPCOnline = !isMuteWhenPCOnline;
-                muteImageView.setImageResource(isMuteWhenPCOnline ? R.mipmap.ic_turn_off_ringer_hover : R.mipmap.ic_turn_off_ringer);
+                muteImageView.setImageResource(isMuteWhenPCOnline ? R.mipmap.ic_turn_off_ringer_broad_hover : R.mipmap.ic_turn_off_broad_ringer);
             }
 
             @Override

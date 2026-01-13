@@ -58,7 +58,7 @@ public class LocationMessageContentViewBroadHolder extends NormalMessageContentV
             locationImageView.getLayoutParams().height = UIBroadUtils.dip2Px(height > 200 ? 200 : height);
             locationImageView.setImageBitmap(locationMessage.getThumbnail());
         } else {
-            Glide.with(fragment).load(R.mipmap.default_location)
+            Glide.with(fragment).load(R.mipmap.default_broad_location)
                 .apply(new RequestOptions().override(UIBroadUtils.dip2Px(200), UIBroadUtils.dip2Px(200)).centerCrop()).into(locationImageView);
         }
     }

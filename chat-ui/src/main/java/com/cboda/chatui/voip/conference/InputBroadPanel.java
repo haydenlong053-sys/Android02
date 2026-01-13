@@ -153,21 +153,21 @@ public class InputBroadPanel extends FrameLayout implements IEmotionSelectedBroa
     }
 
     private void showEmotionLayout() {
-        emotionImageView.setImageResource(R.mipmap.ic_chat_keyboard);
+        emotionImageView.setImageResource(R.mipmap.ic_chat_broad_keyboard);
         if (onConversationInputPanelStateChangeListener != null) {
             onConversationInputPanelStateChangeListener.onInputPanelExpanded();
         }
     }
 
     private void hideEmotionLayout() {
-        emotionImageView.setImageResource(R.mipmap.ic_chat_emo);
+        emotionImageView.setImageResource(R.mipmap.ic_chat_broad_emo);
         if (onConversationInputPanelStateChangeListener != null) {
             onConversationInputPanelStateChangeListener.onInputPanelCollapsed();
         }
     }
 
     void collapse() {
-        emotionImageView.setImageResource(R.mipmap.ic_chat_emo);
+        emotionImageView.setImageResource(R.mipmap.ic_chat_broad_emo);
         rootLinearLayout.hideAttachedInput(true);
         rootLinearLayout.hideCurrentInput(editText);
     }

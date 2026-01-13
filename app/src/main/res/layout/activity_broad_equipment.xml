@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main"
-    tools:context=".lj.EquipmentBroadActivity">
+    android:background="@color/bg_main">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:src="@mipmap/ic_bg_top_login" />
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_bg_top_broad_login" />
 
 
     <LinearLayout
@@ -65,20 +64,22 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:src="@mipmap/ic_logo_broad_login" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
                 android:text="@string/app_name"
                 android:textColor="@color/color_text0"
                 android:textSize="17sp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,9 +97,9 @@
                         android:id="@+id/imUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_alignParentBottom="true"
-                        android:src="@mipmap/ic_login_bt_broad_bg" />
+                        android:src="@mipmap/ic_login_bt_broad_bg"
+                        android:visibility="gone" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -113,8 +114,8 @@
                 <RelativeLayout
                     android:id="@+id/rlPhone"
                     android:layout_width="wrap_content"
-                    android:visibility="gone"
-                    android:layout_height="40dp">
+                    android:layout_height="40dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/imPhone"
@@ -173,10 +174,10 @@
                             android:layout_weight="1"
                             android:background="@color/transparent"
                             android:hint="@string/请输入用户名"
+                            android:importantForAutofill="no"
                             android:paddingHorizontal="22dp"
                             android:textColor="@color/color_text_content"
                             android:textColorHint="@color/color_text_content_hint"
-                            android:importantForAutofill="no"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -216,6 +217,7 @@
                             android:textColorHint="@color/color_text_content_hint"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
                         <CheckBox
                             android:id="@+id/cb_check_pass"
                             style="@style/checkbox_password_style"
@@ -229,7 +231,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_marginLeft="34dp"
                         android:layout_marginTop="12dp"
                         android:drawableLeft="@mipmap/ic_login_broad_yzm"
@@ -237,17 +238,18 @@
                         android:text="@string/验证码"
                         android:textColor="@color/color_text0"
                         android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
-                        android:visibility="gone"
                         android:layout_marginHorizontal="33dp"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/bg_rect_broad_login"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/etYzm"
@@ -279,12 +281,12 @@
                     android:id="@+id/tvYjdl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginHorizontal="34dp"
+                    android:background="@drawable/bg_broad_zjclg"
                     android:gravity="center"
                     android:paddingVertical="40dp"
-                    android:layout_gravity="center"
                     android:text="96位助记词一键登录"
-                    android:background="@drawable/bg_broad_zjclg"
                     android:textColor="@color/color_text_zjc"
                     android:textSize="25sp"
                     android:textStyle="bold"
@@ -292,13 +294,12 @@
             </FrameLayout>
 
 
-
             <TextView
                 android:id="@+id/tvLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="20dp"
                 android:background="@mipmap/ic_bg_btn2_broad_01"
                 android:gravity="center"
                 android:singleLine="true"
@@ -312,8 +313,8 @@
                 android:id="@+id/tvZhuce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
                 android:background="@mipmap/ic_bg_btn1_broad_01"
                 android:gravity="center"
                 android:text="@string/立即注册"
@@ -322,14 +323,13 @@
                 android:textStyle="bold" />
 
 
-
             <LinearLayout
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -370,29 +370,32 @@
                     android:text="@string/隐私协议"
                     android:textColor="@color/color_text0"
                     android:textSize="12sp" />
+
                 <TextView
-                    android:visibility="gone"
-                android:id="@+id/tvThrid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp"
-                android:text="@string/第三方信息共享清单"
-                android:textColor="@color/color_text0"
-                android:textSize="12sp" />
+                    android:id="@+id/tvThrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:text="@string/第三方信息共享清单"
+                    android:textColor="@color/color_text0"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="30dp"
                 android:text="SeekWeb4 开启崭新的世界"
                 android:textColor="@color/color_text0"
                 android:textSize="17sp"

@@ -25,7 +25,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:srcCompat="@mipmap/pc" />
+                app:srcCompat="@mipmap/p_broad_c" />
 
             <TextView
                 android:id="@+id/descTextView"
@@ -54,7 +54,7 @@
                     android:id="@+id/muteImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_turn_off_ringer" />
+                    android:src="@mipmap/ic_turn_off_broad_ringer" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_file_transfer_helper" />
+                    android:src="@mipmap/ic_file_transfer_broad_helper" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                     android:id="@+id/fileHelperImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_file_transfer_helper" />
+                    android:src="@mipmap/ic_file_transfer_broad_helper" />
 
                 <TextView
                     android:layout_width="wrap_content"

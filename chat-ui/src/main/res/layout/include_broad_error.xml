@@ -5,4 +5,4 @@
     android:layout_height="20dp"
     android:layout_gravity="center"
     android:layout_margin="5dp"
-    android:src="@mipmap/img_error" />
+    android:src="@mipmap/img_broad_error" />

@@ -54,7 +54,7 @@
             android:id="@+id/exPortraitImageView"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@mipmap/logo" />
+            android:src="@mipmap/lo_broad_go" />
 
         <TextView
             android:id="@+id/exNameTextView"
@@ -68,7 +68,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_right_arrow" />
+            android:src="@mipmap/ic_right_broad_arrow" />
 
     </LinearLayout>
 

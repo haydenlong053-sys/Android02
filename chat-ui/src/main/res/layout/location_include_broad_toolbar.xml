@@ -21,7 +21,7 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/ic_back" />
+                android:src="@mipmap/ic_broad_back" />
 
             <View
                 android:id="@+id/backDividerView"
@@ -69,7 +69,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/item_margin_left_and_right"
                 android:background="@null"
-                android:src="@mipmap/ic_add"
+                android:src="@mipmap/ic_broad_add"
                 android:visibility="gone"
                 tools:visibility="gone" />
 
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:drawableLeft="@mipmap/ic_search"
+                    android:drawableLeft="@mipmap/ic_broad_search"
                     android:drawablePadding="10dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -147,7 +147,7 @@
                 android:layout_marginRight="@dimen/item_margin_left_and_right"
                 android:layout_toLeftOf="@id/ibAddMenu"
                 android:background="@null"
-                android:src="@mipmap/ic_search"
+                android:src="@mipmap/ic_broad_search"
                 android:visibility="gone"
                 tools:visibility="gone" />
 
@@ -172,7 +172,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:src="@mipmap/ic_friend_more"
+                android:src="@mipmap/ic_friend_broad_more"
                 android:visibility="gone"
                 tools:visibility="gone" />
 

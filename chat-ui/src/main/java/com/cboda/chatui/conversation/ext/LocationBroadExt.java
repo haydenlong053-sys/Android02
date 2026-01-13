@@ -68,7 +68,7 @@ public class LocationBroadExt extends ConversationBroadExt {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_func_location;
+        return R.mipmap.ic_func_broad_location;
     }
 
     @Override

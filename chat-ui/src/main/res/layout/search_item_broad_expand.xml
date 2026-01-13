@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="22dp"
-        android:src="@mipmap/ic_right" />
+        android:src="@mipmap/ic_broad_right" />
 
 </FrameLayout>

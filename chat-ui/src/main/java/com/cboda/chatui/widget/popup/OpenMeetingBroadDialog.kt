@@ -55,7 +55,7 @@ class OpenMeetingBroadDialog(context: Context,title:String="",openMic: Boolean=t
     }
 
     private  fun switchState(switchView: ImageView, open: Boolean) {
-         switchView.setImageResource(if (open) R.mipmap.ic_switch_kai else R.mipmap.ic_switch_guan)
+         switchView.setImageResource(if (open) R.mipmap.ic_switch_broad_kai else R.mipmap.ic_switch_broad_guan)
     }
 
 }

@@ -49,6 +49,6 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/titleContentContainer"
         android:scaleType="centerCrop"
-        android:src="@mipmap/logo" />
+        android:src="@mipmap/lo_broad_go" />
 
 </RelativeLayout>

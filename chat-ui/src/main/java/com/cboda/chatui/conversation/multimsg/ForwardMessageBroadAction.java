@@ -82,7 +82,7 @@ public class ForwardMessageBroadAction extends MultiMessageBroadAction {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_forward;
+        return R.mipmap.ic_broad_forward;
     }
 
     @Override

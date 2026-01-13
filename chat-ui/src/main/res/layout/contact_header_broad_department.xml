@@ -19,7 +19,7 @@
             android:id="@+id/ivNewFriend"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@mipmap/ic_organization_expended" />
+            android:src="@mipmap/ic_organization_broad_expended" />
 
         <TextView
             android:id="@+id/nameTextView"

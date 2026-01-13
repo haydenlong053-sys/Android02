@@ -12,7 +12,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/default_header" />
+        android:src="@mipmap/default_broad_header" />
 
     <TextView
         android:id="@+id/nameTextView"

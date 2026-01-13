@@ -82,7 +82,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         itemView.setSelected(selected);
         // 你的 checkbox、勾选图标、背景色等
         if (ivCheckCnv != null) {
-            ivCheckCnv.setImageResource(selected ? R.mipmap.ic_check_cnv_select : R.mipmap.ic_check_cnv_normal);
+            ivCheckCnv.setImageResource(selected ? R.mipmap.ic_check_cnv_broad_select : R.mipmap.ic_check_cnv_broad_normal);
         }
         // 或者你用 ImageView 打勾
         // selectedIcon.setVisibility(selected ? View.VISIBLE : View.GONE);
@@ -126,7 +126,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         onBindConversationInfo(conversationInfo);
 
         ivCheckCnv.setVisibility(isSelectMode ? View.VISIBLE : View.GONE);
-        ivCheckCnv.setImageResource(conversationInfo.isSelect ? R.mipmap.ic_check_cnv_select : R.mipmap.ic_check_cnv_normal);
+        ivCheckCnv.setImageResource(conversationInfo.isSelect ? R.mipmap.ic_check_cnv_broad_select : R.mipmap.ic_check_cnv_broad_normal);
 
         timeTextView.setText(TimeBroadBroadUtils.getMsgFormatTime(conversationInfo.timestamp));
         silentImageView.setVisibility(conversationInfo.isSilent ? View.VISIBLE : View.GONE);
@@ -192,11 +192,11 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
                     case Sending:
                         statusImageView.setVisibility(View.VISIBLE);
                         // TODO update sending image resource
-                        statusImageView.setImageResource(R.mipmap.ic_sending);
+                        statusImageView.setImageResource(R.mipmap.ic_broad_sending);
                         break;
                     case Send_Failure:
                         statusImageView.setVisibility(View.VISIBLE);
-                        statusImageView.setImageResource(R.mipmap.img_error);
+                        statusImageView.setImageResource(R.mipmap.img_broad_error);
                         break;
                     default:
                         statusImageView.setVisibility(View.GONE);

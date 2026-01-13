@@ -25,7 +25,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imFinish"
             android:padding="15dp"
-            android:src="@mipmap/ic_fanhui"
+            android:src="@mipmap/ic_broad_fanhui"
             android:tint="@color/white"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
@@ -39,6 +39,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:padding="10dp"
-        android:src="@mipmap/ic_save" />
+        android:src="@mipmap/ic_broad_save" />
 
 </RelativeLayout>

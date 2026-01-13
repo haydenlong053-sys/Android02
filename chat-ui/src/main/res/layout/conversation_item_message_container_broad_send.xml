@@ -58,7 +58,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginEnd="2dp"
             android:scaleType="center"
-            android:src="@mipmap/receipt"
+            android:src="@mipmap/rec_broad_ei_pt"
             tools:visibility="visible"
             android:visibility="gone" />
 

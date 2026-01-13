@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="8dp"
-        android:src="@mipmap/ic_search2" />
+        android:src="@mipmap/ic_broad_search2" />
 
     <ImageView
         android:id="@+id/search_cancel"
@@ -30,7 +30,7 @@
         android:layout_gravity="center_vertical|right"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:src="@mipmap/ic_cancel"
+        android:src="@mipmap/ic_broad_cancel"
         android:visibility="gone" />
 
 </merge>

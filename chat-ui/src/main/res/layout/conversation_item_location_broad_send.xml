@@ -27,6 +27,6 @@
         android:layout_height="200dp"
         android:maxWidth="200dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/default_location" />
+        android:src="@mipmap/default_broad_location" />
 </LinearLayout>
 

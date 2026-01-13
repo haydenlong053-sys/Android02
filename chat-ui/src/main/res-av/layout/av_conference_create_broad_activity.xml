@@ -58,7 +58,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/ic_right" />
+                android:src="@mipmap/ic_broad_right" />
         </RelativeLayout>
 
         <View
@@ -96,7 +96,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/ic_right" />
+                android:src="@mipmap/ic_broad_right" />
         </RelativeLayout>
 
     </LinearLayout>

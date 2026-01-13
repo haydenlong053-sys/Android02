@@ -24,7 +24,7 @@
         android:layout_height="18dp"
         android:layout_marginEnd="@dimen/dp_2"
         android:layout_marginBottom="12dp"
-        android:src="@mipmap/ic_back2"
+        android:src="@mipmap/ic_broad_back2"
         android:tint="@color/ps_color_white"
         app:layout_constraintBottom_toBottomOf="@id/backIcon"
         app:layout_constraintEnd_toEndOf="@id/backIcon"

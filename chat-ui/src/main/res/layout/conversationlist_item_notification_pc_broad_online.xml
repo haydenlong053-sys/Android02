@@ -12,7 +12,7 @@
         android:layout_marginStart="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:src="@mipmap/pc"
+        android:src="@mipmap/p_broad_c"
         app:tint="#7C7C7C" />
 
     <TextView

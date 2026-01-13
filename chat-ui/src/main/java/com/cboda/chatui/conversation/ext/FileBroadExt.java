@@ -84,7 +84,7 @@ public class FileBroadExt extends ConversationBroadExt {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_func_file;
+        return R.mipmap.ic_func_broad_file;
     }
 
     @Override

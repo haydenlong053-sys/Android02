@@ -48,7 +48,7 @@ public class ChannelConversationViewBroadHolder extends ConversationViewBroadHol
         Glide
             .with(fragment)
             .load(portrait)
-            .placeholder(R.mipmap.ic_channel)
+            .placeholder(R.mipmap.ic_broad_channel)
             .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(4)))
             .into(portraitImageView);
     }

@@ -64,7 +64,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:id="@+id/iv_switch_mic"
-            android:src="@mipmap/ic_switch_kai"
+            android:src="@mipmap/ic_switch_broad_kai"
             android:layout_width="48dp"
             android:layout_height="28dp"/>
 
@@ -99,7 +99,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:id="@+id/iv_switch_mute"
-            android:src="@mipmap/ic_switch_kai"
+            android:src="@mipmap/ic_switch_broad_kai"
             android:layout_width="48dp"
             android:layout_height="28dp"/>
 

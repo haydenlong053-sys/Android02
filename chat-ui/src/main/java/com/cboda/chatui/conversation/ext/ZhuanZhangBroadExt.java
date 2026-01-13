@@ -22,7 +22,7 @@ public class ZhuanZhangBroadExt extends ConversationBroadExt {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_func_zhuanzhang;
+        return R.mipmap.ic_func_broad_zhuanzhang;
     }
 
     @Override

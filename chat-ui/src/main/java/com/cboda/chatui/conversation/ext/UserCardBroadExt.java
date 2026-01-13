@@ -134,7 +134,7 @@ public class UserCardBroadExt extends ConversationBroadExt {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_user_card;
+        return R.mipmap.ic_user_broad_card;
     }
 
     @Override

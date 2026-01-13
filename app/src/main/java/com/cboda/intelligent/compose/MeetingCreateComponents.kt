@@ -535,9 +535,9 @@ fun SwitchItem(
                     Icon(
                         painter = painterResource(
                             id = if (isChecked) {
-                                com.cboda.chatui.R.mipmap.ic_switch_kai
+                                com.cboda.chatui.R.mipmap.ic_switch_broad_kai
                             } else {
-                                com.cboda.chatui.R.mipmap.ic_switch_guan
+                                com.cboda.chatui.R.mipmap.ic_switch_broad_guan
                             }
                         ),
                         contentDescription = if (isChecked) "开启" else "关闭",
@@ -599,9 +599,9 @@ fun DoubleSwitchItem(
                         Icon(
                             painter = painterResource(
                                 id = if (firstIsChecked) {
-                                    com.cboda.chatui.R.mipmap.ic_switch_kai
+                                    com.cboda.chatui.R.mipmap.ic_switch_broad_kai
                                 } else {
-                                    com.cboda.chatui.R.mipmap.ic_switch_guan
+                                    com.cboda.chatui.R.mipmap.ic_switch_broad_guan
                                 }
                             ),
                             contentDescription = if (firstIsChecked) "开启" else "关闭",
@@ -643,9 +643,9 @@ fun DoubleSwitchItem(
                         Icon(
                             painter = painterResource(
                                 id = if (secondIsChecked) {
-                                    com.cboda.chatui.R.mipmap.ic_switch_kai
+                                    com.cboda.chatui.R.mipmap.ic_switch_broad_kai
                                 } else {
-                                    com.cboda.chatui.R.mipmap.ic_switch_guan
+                                    com.cboda.chatui.R.mipmap.ic_switch_broad_guan
                                 }
                             ),
                             contentDescription = if (secondIsChecked) "开启" else "关闭",

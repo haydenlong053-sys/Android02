@@ -91,7 +91,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
             Glide
                     .with(fragment)
                     .load(portrait)
-                    .placeholder(R.mipmap.ic_group_chat)
+                    .placeholder(R.mipmap.ic_group_broad_chat)
                     .into(portraitImageView);
 //        }else {
 //            try {
@@ -128,7 +128,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         // 如果群头像为空或无效，获取群成员信息并生成组合头像
         if (groupInfo != null && !TextUtils.isEmpty(groupId)) {
             // 先显示占位图
-            portraitImageView.setImageResource(R.mipmap.ic_group_chat);
+            portraitImageView.setImageResource(R.mipmap.ic_group_broad_chat);
 
             // 异步获取群成员信息
             ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, new GetGroupMembersCallback() {
@@ -182,7 +182,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
             });
         } else {
             // 没有群信息，显示默认占位图
-            portraitImageView.setImageResource(R.mipmap.ic_group_chat);
+            portraitImageView.setImageResource(R.mipmap.ic_group_broad_chat);
         }
 
     }

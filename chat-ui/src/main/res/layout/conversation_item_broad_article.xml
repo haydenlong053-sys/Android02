@@ -23,6 +23,6 @@
         android:layout_height="60dp"
         android:layout_margin="10dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/logo" />
+        android:src="@mipmap/lo_broad_go" />
 
 </LinearLayout>

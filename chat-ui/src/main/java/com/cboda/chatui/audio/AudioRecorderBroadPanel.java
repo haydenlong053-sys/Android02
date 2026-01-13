@@ -298,7 +298,7 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
         }
         countDownTextView.setVisibility(View.GONE);
         stateImageView.setVisibility(View.VISIBLE);
-        stateImageView.setImageResource(R.mipmap.ic_volume_cancel);
+        stateImageView.setImageResource(R.mipmap.ic_volume_broad_cancel);
         stateTextView.setVisibility(View.VISIBLE);
         stateTextView.setText(R.string.voice_cancel);
         stateTextView.setBackgroundResource(R.drawable.corner_voice_broad_style);
@@ -371,28 +371,28 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
         }
         switch (db) {
             case 0:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_1);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_1);
                 break;
             case 1:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_2);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_2);
                 break;
             case 2:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_3);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_3);
                 break;
             case 3:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_4);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_4);
                 break;
             case 4:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_5);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_5);
                 break;
             case 5:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_6);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_6);
                 break;
             case 6:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_7);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_7);
                 break;
             default:
-                this.stateImageView.setImageResource(R.mipmap.ic_volume_8);
+                this.stateImageView.setImageResource(R.mipmap.ic_volume_broad_8);
         }
 
     }

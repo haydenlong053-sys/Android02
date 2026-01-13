@@ -43,7 +43,7 @@ object GroupAvatarBroadLoader {
         size: Int = 240,
         cornerRadius: Float = 24f,
         spacing: Int = 6,
-        placeholder: Int = R.mipmap.ic_group_chat
+        placeholder: Int = R.mipmap.ic_group_broad_chat
     ) {
         if (urls.isEmpty()) {
             imageView.setImageResource(placeholder)

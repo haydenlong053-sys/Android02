@@ -32,7 +32,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="5dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_chat_menu" />
+                android:src="@mipmap/ic_chat_broad_menu" />
 
 
             <ImageView
@@ -42,7 +42,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="5dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_msg_add" />
+                android:src="@mipmap/ic_msg_broad_add" />
 
             <ImageView
                 android:id="@+id/mIvVoiceCancel"
@@ -51,7 +51,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="5dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_msg_voice_cancel"
+                android:src="@mipmap/ic_msg_voice_broad_cancel"
                 android:visibility="gone"
                 tools:visibility="visible"
                 />
@@ -66,7 +66,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="5dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_ptt"
+                android:src="@mipmap/ic_broad_ptt"
                 android:visibility="gone"
                 app:tint="@color/black" />
 
@@ -111,7 +111,7 @@
                             android:layout_gravity="bottom|end"
                             android:layout_margin="5dp"
                             android:scaleType="centerInside"
-                            android:src="@mipmap/ic_msg_emo" />
+                            android:src="@mipmap/ic_msg_broad_emo" />
                     </FrameLayout>
 
                     <RelativeLayout
@@ -141,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/ic_cancel" />
+                            android:src="@mipmap/ic_broad_cancel" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -185,7 +185,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="5dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_msg_voice" />
+                android:src="@mipmap/ic_msg_broad_voice" />
 
             <ImageView
                 android:id="@+id/mIvVoiceSend"
@@ -194,7 +194,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="5dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_msg_voice_send"
+                android:src="@mipmap/ic_msg_voice_broad_send"
                 android:visibility="gone"
                 tools:visibility="visible"
                 />

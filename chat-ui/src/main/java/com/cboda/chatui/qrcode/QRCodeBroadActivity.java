@@ -71,7 +71,7 @@ public class QRCodeBroadActivity extends WfcBaseBroadActivity {
         Glide.with(this)
             .asBitmap()
             .load(logoUrl)
-            .placeholder(R.mipmap.ic_launcher)
+            .placeholder(R.mipmap.ic_broad_launcher)
             .into(new CustomViewTarget<ImageView, Bitmap>(qrCodeImageView) {
                 @Override
                 public void onLoadFailed(@Nullable Drawable errorDrawable) {

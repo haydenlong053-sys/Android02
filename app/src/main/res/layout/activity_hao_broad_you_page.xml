@@ -726,7 +726,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_2"
         android:layout_marginBottom="12dp"
-        android:src="@mipmap/ic_back2"
+        android:src="@mipmap/ic_broad_back2"
         app:layout_constraintBottom_toBottomOf="@id/mViewBack"
         app:layout_constraintEnd_toEndOf="@id/mViewBack"
         app:layout_constraintStart_toStartOf="@id/mViewBack"

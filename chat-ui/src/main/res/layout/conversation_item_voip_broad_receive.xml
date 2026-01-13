@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingEnd="8dp"
-        android:src="@mipmap/ic_msg_cell_video_call"
+        android:src="@mipmap/ic_msg_cell_video_broad_call"
         />
 
     <TextView

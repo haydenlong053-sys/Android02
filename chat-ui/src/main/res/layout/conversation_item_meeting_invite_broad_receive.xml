@@ -22,7 +22,7 @@
             <ImageView
                 android:scaleType="fitXY"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_meeting_msg"
+                android:src="@mipmap/ic_meeting_broad_msg"
                 android:layout_width="19dp"
                 android:layout_height="19dp"/>
         </RelativeLayout>

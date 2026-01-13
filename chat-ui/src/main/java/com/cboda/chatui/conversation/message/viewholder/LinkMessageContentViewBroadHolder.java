@@ -53,7 +53,7 @@ public class LinkMessageContentViewBroadHolder extends NormalMessageContentViewB
         descTextView.setText(!TextUtils.isEmpty(linkMessageContent.getContentDigest()) ? linkMessageContent.getContentDigest() : linkMessageContent.getUrl());
         Glide.with(fragment)
             .load(linkMessageContent.getThumbnailUrl())
-            .placeholder(R.mipmap.logo)
+            .placeholder(R.mipmap.lo_broad_go)
             .into(thumbnailImageView);
     }
 

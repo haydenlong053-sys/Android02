@@ -97,9 +97,9 @@ public class VoipMessageViewBroadHolder extends NormalMessageContentViewBroadHol
         }
 
         if (content.isAudioOnly()) {
-            callTypeImageView.setImageResource(R.mipmap.ic_msg_cell_voice_call);
+            callTypeImageView.setImageResource(R.mipmap.ic_msg_cell_voice_broad_call);
         } else {
-            callTypeImageView.setImageResource(R.mipmap.ic_msg_cell_video_call);
+            callTypeImageView.setImageResource(R.mipmap.ic_msg_cell_video_broad_call);
         }
     }
 

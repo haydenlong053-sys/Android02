@@ -415,7 +415,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             hideConversationExtension();
             rootLinearLayout.showSoftkey(editText);
         } else {
-            emotionImageView.setImageResource(R.mipmap.ic_msg_emo);
+            emotionImageView.setImageResource(R.mipmap.ic_msg_broad_emo);
             showConversationExtension();
         }
     }
@@ -511,7 +511,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         }
 
         if (channelMenuContainerLinearLayout.getVisibility() == VISIBLE) {
-            menuImageView.setImageResource(R.mipmap.ic_chat_menu);
+            menuImageView.setImageResource(R.mipmap.ic_chat_broad_menu);
             audioImageView.setVisibility(VISIBLE);
             extImageView.setVisibility(VISIBLE);
             emotionImageView.setVisibility(VISIBLE);
@@ -520,7 +520,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             channelMenuContainerLinearLayout.setVisibility(GONE);
             return;
         }
-        menuImageView.setImageResource(R.mipmap.ic_chat_keyboard);
+        menuImageView.setImageResource(R.mipmap.ic_chat_broad_keyboard);
         audioImageView.setVisibility(GONE);
         extImageView.setVisibility(GONE);
         emotionImageView.setVisibility(GONE);
@@ -746,11 +746,11 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         }
         if (isPttMode) {
             pttPanel.attach(rootLinearLayout, audioButton, conversation);
-            pttImageView.setImageResource(R.mipmap.ic_chat_keyboard);
+            pttImageView.setImageResource(R.mipmap.ic_chat_broad_keyboard);
         } else {
             audioRecorderPanel.attach(rootLinearLayout, audioButton);
             audioRecorderPanel.startRecord();
-            audioImageView.setImageResource(R.mipmap.ic_chat_keyboard);
+            audioImageView.setImageResource(R.mipmap.ic_chat_broad_keyboard);
         }
         editText.setVisibility(View.GONE);
         extImageView.setVisibility(GONE);
@@ -768,11 +768,11 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         audioImageView.setVisibility(View.VISIBLE);
         if (isPttMode) {
             pttPanel.deattch();
-            pttImageView.setImageResource(R.mipmap.ic_ptt);
+            pttImageView.setImageResource(R.mipmap.ic_broad_ptt);
             isPttMode = false;
         } else {
             audioRecorderPanel.deattch();
-            audioImageView.setImageResource(R.mipmap.ic_msg_voice);
+            audioImageView.setImageResource(R.mipmap.ic_msg_broad_voice);
         }
         editText.setVisibility(View.VISIBLE);
         if (TextUtils.isEmpty(editText.getText())) {
@@ -786,7 +786,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
 
     private void showEmotionLayout() {
         audioButton.setVisibility(View.GONE);
-        emotionImageView.setImageResource(R.mipmap.ic_chat_keyboard);
+        emotionImageView.setImageResource(R.mipmap.ic_chat_broad_keyboard);
         rootLinearLayout.show(editText, emotionContainerFrameLayout);
         if (onConversationInputPanelStateChangeListener != null) {
             onConversationInputPanelStateChangeListener.onInputPanelExpanded();
@@ -794,7 +794,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     }
 
     private void hideEmotionLayout() {
-        emotionImageView.setImageResource(R.mipmap.ic_msg_emo);
+        emotionImageView.setImageResource(R.mipmap.ic_msg_broad_emo);
         if (onConversationInputPanelStateChangeListener != null) {
             onConversationInputPanelStateChangeListener.onInputPanelCollapsed();
         }
@@ -818,7 +818,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
 
     void closeConversationInputPanel() {
         extension.reset();
-        emotionImageView.setImageResource(R.mipmap.ic_msg_emo);
+        emotionImageView.setImageResource(R.mipmap.ic_msg_broad_emo);
         rootLinearLayout.hideAttachedInput(true);
         rootLinearLayout.hideCurrentInput(editText);
     }

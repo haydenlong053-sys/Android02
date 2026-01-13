@@ -186,14 +186,14 @@ public class ConversationMemberBroadAdapter extends RecyclerView.Adapter<Convers
 
         public void bindAddMember() {
             nameTextView.setVisibility(View.GONE);
-            portraitImageView.setImageResource(R.mipmap.ic_add_team_member);
+            portraitImageView.setImageResource(R.mipmap.ic_add_team_broad_member);
             this.type = TYPE_ADD;
 
         }
 
         public void bindRemoveMember() {
             nameTextView.setVisibility(View.GONE);
-            portraitImageView.setImageResource(R.mipmap.ic_remove_team_member);
+            portraitImageView.setImageResource(R.mipmap.ic_remove_team_broad_member);
             this.type = TYPE_REMOVE;
         }
     }

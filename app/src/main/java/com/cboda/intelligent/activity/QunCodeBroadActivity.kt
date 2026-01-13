@@ -53,7 +53,7 @@ class QunCodeBroadActivity : BaseSimpleBroadActivity() {
                 }
                 val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
                 Glide.with(this@QunCodeBroadActivity).load(groupInfo?.portrait ?: "")
-                    .placeholder(com.cboda.chatui.R.mipmap.ic_group_chat)
+                    .placeholder(com.cboda.chatui.R.mipmap.ic_group_broad_chat)
                     .into(ivTouxiang)
 
 //                if (this.icon?.isNotEmpty() == true){

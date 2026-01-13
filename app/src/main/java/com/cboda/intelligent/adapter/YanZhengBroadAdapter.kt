@@ -23,7 +23,7 @@ class YanZhengBroadAdapter(layoutResId: Int,private val fromPage:String) :
             )
         } else {
             val groupInfo = ChatManager.Instance().getGroupInfo(item.id,false)
-            Glide.with(context).load( groupInfo?.portrait?:"").placeholder(com.cboda.chatui.R.mipmap.ic_group_chat)
+            Glide.with(context).load( groupInfo?.portrait?:"").placeholder(com.cboda.chatui.R.mipmap.ic_group_broad_chat)
                 .into(  holder.getView(R.id.ivTouxiang))
         }
 

@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:src="@mipmap/ic_right"
+                android:src="@mipmap/ic_broad_right"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -138,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:src="@mipmap/ic_right" />
+                android:src="@mipmap/ic_broad_right" />
         </LinearLayout>
     </LinearLayout>
 

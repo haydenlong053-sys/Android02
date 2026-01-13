@@ -28,7 +28,7 @@
                 android:layout_gravity="center_vertical"
                 android:padding="18dp"
                 android:tint="@color/white"
-                android:src="@mipmap/ic_back2"
+                android:src="@mipmap/ic_broad_back2"
                 />
 
             <TextView

@@ -91,7 +91,7 @@ public class WfcNotificationBroadManager {
 //        notificationManager.notify(tag, id, builder.build());
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, channelId)
-                   .setSmallIcon(R.mipmap.ic_logo)//必须设置，否则会奔溃
+                   .setSmallIcon(R.mipmap.ic_broad_logo)//必须设置，否则会奔溃
 //                   .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_logo))
                    .setContentTitle (title)
                    .setContentText(content)

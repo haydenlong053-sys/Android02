@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_qun" />
+                android:src="@mipmap/ic_broad_qun" />
 
             <TextView
                 android:id="@+id/unreadFriendRequestCountTextView"
@@ -35,7 +35,7 @@
                 android:layout_alignRight="@id/portraitImageView"
                 android:layout_marginTop="-6dp"
                 android:layout_marginRight="-6dp"
-                android:background="@mipmap/bg_unread"
+                android:background="@mipmap/bg_broad_unread"
                 android:gravity="center"
                 android:text="10"
                 android:textColor="@color/white"

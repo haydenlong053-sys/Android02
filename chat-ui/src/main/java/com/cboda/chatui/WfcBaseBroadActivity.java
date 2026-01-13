@@ -75,7 +75,7 @@ public abstract class WfcBaseBroadActivity extends AppCompatActivity {
      */
     private void customToolbarAndStatusBarBackgroundColor(boolean darkTheme) {
         int toolbarBackgroundColorResId = darkTheme ? R.color.colorPrimary : R.color.white;
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_back);
+        Drawable drawable = getResources().getDrawable(R.mipmap.ic_broad_back);
         if (darkTheme) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 drawable.setTint(Color.WHITE);

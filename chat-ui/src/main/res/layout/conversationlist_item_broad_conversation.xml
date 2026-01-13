@@ -13,7 +13,7 @@
         android:layout_height="24dp"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
-        android:src="@mipmap/ic_check_cnv_normal"
+        android:src="@mipmap/ic_check_cnv_broad_normal"
         android:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@mipmap/ic_launcher" />
+            tools:src="@mipmap/ic_broad_launcher" />
 
         <com.hjq.shape.view.ShapeTextView
             android:id="@+id/gradeTv"
@@ -76,7 +76,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10px"
-                android:src="@mipmap/ic_lock"
+                android:src="@mipmap/ic_broad_lock"
                 android:visibility="gone" />
 
             <TableLayout
@@ -174,7 +174,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
-                    android:src="@mipmap/block_notification"
+                    android:src="@mipmap/block_broad_notification"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -199,7 +199,7 @@
                     android:layout_marginRight="5dp"
                     android:scaleType="centerCrop"
                     android:visibility="gone"
-                    tools:src="@mipmap/img_error"
+                    tools:src="@mipmap/img_broad_error"
                     tools:visibility="visible" />
 
                 <RelativeLayout

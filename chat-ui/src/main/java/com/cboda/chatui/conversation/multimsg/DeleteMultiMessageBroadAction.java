@@ -43,7 +43,7 @@ public class DeleteMultiMessageBroadAction extends MultiMessageBroadAction {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_delete;
+        return R.mipmap.ic_broad_delete;
     }
 
     @Override

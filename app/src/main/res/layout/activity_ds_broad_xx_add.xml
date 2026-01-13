@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_main_space"
-    tools:context=".lj.PushBroadActivity">
+    android:background="@color/bg_main_space">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:drawableRight="@mipmap/ic_right"
+                android:drawableRight="@mipmap/ic_broad_right"
                 android:text="2025/01/01 12:00"
                 android:hint="@string/请选择提醒时间"
                 android:textColor="@color/color_text_content"
@@ -138,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:drawableRight="@mipmap/ic_right"
+                android:drawableRight="@mipmap/ic_broad_right"
                 android:text="仅一次"
                 android:textColor="@color/color_text_content"
                 android:textSize="12sp"

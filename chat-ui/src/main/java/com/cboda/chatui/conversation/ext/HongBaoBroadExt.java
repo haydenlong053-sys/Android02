@@ -30,7 +30,7 @@ public class HongBaoBroadExt extends ConversationBroadExt {
 
     @Override
     public int iconResId() {
-        return R.mipmap.ic_func_hongbao;
+        return R.mipmap.ic_func_broad_hongbao;
     }
 
     @Override

@@ -132,7 +132,7 @@ public class PickedUserBroadAdapter extends RecyclerView.Adapter {
             this.organization = organization;
             Glide.with(imageView)
                 .load(organization.portraitUrl)
-                .error(R.mipmap.ic_deparment)
+                .error(R.mipmap.ic_broad_deparment)
                 .apply(mOptions)
                 .into(imageView);
         }

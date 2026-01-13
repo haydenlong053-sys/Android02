@@ -24,7 +24,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="20dp"
-            android:src="@mipmap/ic_back" />
+            android:src="@mipmap/ic_broad_back" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,7 +97,7 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:padding="20dp"
-            android:src="@mipmap/ic_gengduo" />
+            android:src="@mipmap/ic_broad_gengduo" />
     </RelativeLayout>
 
     <FrameLayout

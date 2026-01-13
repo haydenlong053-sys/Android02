@@ -236,7 +236,7 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         } else {
             title = "VOIP...";
         }
-        return builder.setSmallIcon(R.mipmap.ic_launcher_notification)
+        return builder.setSmallIcon(R.mipmap.ic_launcher_broad_notification)
                 .setContentTitle(title)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
