@@ -38,6 +38,7 @@ import cn.wildfirechat.model.ChannelInfo;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.model.UserOnlineState;
 import cn.wildfirechat.remote.ChatManager;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class ContactListBroadFragment extends BaseUserListBroadFragment implements QuickIndexBroadBar.OnLetterUpdateListener {
     private boolean pick = false;
@@ -268,7 +269,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //        Intent intent = new Intent(getContext(), ConversationBroadActivity.class);
 //        intent.putExtra("conversation", conversation);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"danliaogengduo",userInfo.getUserInfo().uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.DANLIAO_GENGDUO.getValue(),userInfo.getUserInfo().uid,"",null);
     }
 
     @Override
@@ -292,14 +293,14 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //
 //        Intent intent = new Intent(getActivity(), FriendRequestListActivity.class);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"xindepengyou","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.XINDE_PENGYOU.getValue(),"","",null);
 
     }
 
     private void showGroupList() {
 //        Intent intent = new Intent(getActivity(), GroupListActivity.class);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"ruqunyaoqing","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.RUQUN_YAOQING.getValue(),"","",null);
     }
 
     private void showChannelList() {
@@ -312,7 +313,7 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
 //        }
 //        Intent intent = new Intent(getActivity(), GroupListActivity.class);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"qunliaoliebiao","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.QUNLIAO_LIEBIAO.getValue(),"","",null);
     }
 
 

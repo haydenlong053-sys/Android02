@@ -22,6 +22,7 @@ import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.conversation.message.viewholder.NormalMessageContentViewBroadHolder;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import cn.wildfirechat.message.LocationMessageContent;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 @MessageContentBroadType(LocationMessageContent.class)
 @EnableContextBroadMenu
@@ -64,7 +65,7 @@ public class LocationMessageContentViewBroadHolder extends NormalMessageContentV
 
     public void onClick(View view) {
         LocationMessageContent content = (LocationMessageContent) message.message.content;
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), "daohang", content.getTitle(), content.getLocation().getLatitude() + "|" + content.getLocation().getLongitude(), null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), BridgeImEnum.DAOHANG.getValue(), content.getTitle(), content.getLocation().getLatitude() + "|" + content.getLocation().getLongitude(), null);
 
     }
 }

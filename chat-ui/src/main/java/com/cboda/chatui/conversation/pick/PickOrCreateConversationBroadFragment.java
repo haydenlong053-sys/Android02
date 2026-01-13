@@ -31,6 +31,7 @@ import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetConversationListCallback;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class PickOrCreateConversationBroadFragment extends Fragment implements PickOrCreateConversationBroadAdapter.OnConversationItemClickListener, PickOrCreateConversationBroadAdapter.OnNewConversationItemClickListener {
     private static final int REQUEST_CODE_PICK_CONVERSATION_TARGET = 100;
@@ -94,7 +95,7 @@ public class PickOrCreateConversationBroadFragment extends Fragment implements P
     public void onNewConversationItemClick() {
 //        Intent intent = new Intent(getActivity(), PickOrCreateConversationTargetBroadActivity.class);
 //        startActivityForResult(intent, REQUEST_CODE_PICK_CONVERSATION_TARGET);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(),"cjxlt","","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.CREATE_NEW_CHAT.getValue(),"","",null);
     }
 
     @Override

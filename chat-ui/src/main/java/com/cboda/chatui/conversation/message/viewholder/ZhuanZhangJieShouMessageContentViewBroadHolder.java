@@ -19,6 +19,7 @@ import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import cn.wildfirechat.message.ZhuanZhangJieShouMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 @MessageContentBroadType(ZhuanZhangJieShouMessageContent.class)
 @EnableContextBroadMenu
@@ -56,7 +57,7 @@ public class ZhuanZhangJieShouMessageContentViewBroadHolder extends NormalMessag
                     hashMap.put("price",zhuanzhangMessage.price);
                     hashMap.put("hongbaoDesc",zhuanzhangMessage.hongbaoDesc);
                     hashMap.put("lingquStatus","1");
-                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), "jieshoulingzhuanzhang", zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid, gson.toJson(hashMap), message);
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.JIESHOU_LING_ZHUANZHANG.getValue(), zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid, gson.toJson(hashMap), message);
                 }
             }
         });

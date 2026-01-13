@@ -18,6 +18,7 @@ import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class CollectBroadExt extends ConversationBroadExt {
 
@@ -36,9 +37,9 @@ public class CollectBroadExt extends ConversationBroadExt {
 //        startActivityForResult(intent, 100);
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"shoucangim","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.SHOUCANG_IM.getValue(),"",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"shoucangim",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.SHOUCANG_IM.getValue(),conversation.target,"",null);
         }
 
     }

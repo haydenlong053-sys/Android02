@@ -7,6 +7,7 @@ import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
+import com.cboda.baselibrary.common.BridgeImEnum;
 // 不需要 FunctionN 接口了，Java Lambda 可以直接匹配
 
 public class MeetingBroadExt extends ConversationBroadExt {
@@ -18,9 +19,9 @@ public class MeetingBroadExt extends ConversationBroadExt {
         // 或者，如果你想提供一个初始标题：
 
         if (conversation.type == Conversation.ConversationType.Group) {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"huiyishi","",conversation.target,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.HUIYISHI.getValue(),"",conversation.target,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"huiyishi",conversation.target,"",null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.HUIYISHI.getValue(),conversation.target,"",null);
         }
 //        String initialMeetingTitle = conversation.target+" 会议室"; // 示例
 //

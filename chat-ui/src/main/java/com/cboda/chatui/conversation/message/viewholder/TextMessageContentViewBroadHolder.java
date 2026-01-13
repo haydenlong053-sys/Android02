@@ -40,6 +40,7 @@ import cn.wildfirechat.message.VideoMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.model.QuoteInfo;
 import cn.wildfirechat.remote.ChatManager;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 
 @MessageContentBroadType(value = {
@@ -100,7 +101,7 @@ public class TextMessageContentViewBroadHolder extends NormalMessageContentViewB
                     fy.length() == 0) {
                 long time = SharePrefBroadBroadUtil.getLong(fragment.getContext(), "autofanyitime", 0);
                 if (time == 0 || message.message.serverTime > time)
-                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), "fanyi", ((TextMessageContent) message.message.content).getContent(), "", message);
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), BridgeImEnum.FANYI.getValue(), ((TextMessageContent) message.message.content).getContent(), "", message);
             }
         }
 

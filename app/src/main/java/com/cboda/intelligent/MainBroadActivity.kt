@@ -76,6 +76,7 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import com.cboda.baselibrary.common.BridgeImEnum
 
 class MainBroadActivity : BaseSimpleBroadActivity() {
 
@@ -630,8 +631,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                 1005 -> {
                                     if (unkown.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
                                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(
-                                            this@MainBroadActivity,
-                                            "beifeng",
+                                            this@MainBroadActivity, BridgeImEnum.BEIFENG.value,
                                             "",
                                             "",
                                             null

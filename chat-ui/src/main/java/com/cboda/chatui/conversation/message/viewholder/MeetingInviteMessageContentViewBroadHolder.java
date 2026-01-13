@@ -28,6 +28,7 @@ import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import cn.wildfirechat.message.MeetingInviteMessageContent;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 @MessageContentBroadType(value = {
     MeetingInviteMessageContent.class,
@@ -83,7 +84,7 @@ public class MeetingInviteMessageContentViewBroadHolder extends NormalMessageCon
             ojb.put("ownerId",inviteMessageContent.getIdno());
             ojb.put("title",inviteMessageContent.getTitle());
             String jsonParams = ojb.toString();
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(),"meeting",inviteMessageContent.getMeetingId(),jsonParams,null);
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.MEETING.getValue(),inviteMessageContent.getMeetingId(),jsonParams,null);
         }catch (Exception e){
             e.printStackTrace();
         }

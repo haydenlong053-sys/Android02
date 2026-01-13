@@ -120,7 +120,7 @@ enum class BridgeImEnum(val value: String) {
          * 根据字符串值获取枚举
          */
         fun fromValue(value: String?): BridgeImEnum? {
-            return values().find { it.value == value }
+            return entries.find { it.value == value }
         }
     }
 }

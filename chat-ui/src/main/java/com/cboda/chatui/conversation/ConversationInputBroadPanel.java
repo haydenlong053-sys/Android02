@@ -86,6 +86,7 @@ import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.QuoteInfo;
 import cn.wildfirechat.ptt.PTTClient;
 import cn.wildfirechat.remote.ChatManager;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class ConversationInputBroadPanel extends FrameLayout implements IEmotionSelectedBroadListener, DefaultLifecycleObserver {
 
@@ -651,7 +652,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             }
         }
 
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), "AI", conversation.target, editText.getText().toString().trim(), null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.AI.getValue(), conversation.target, editText.getText().toString().trim(), null);
         messageViewModel.sendTextMsg(conversation, txtContent);
         editText.setText("");
     }

@@ -12,6 +12,7 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.cboda.baselibrary.common.BridgeImEnum
 
 class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
 
@@ -49,7 +50,7 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "xiugaigonggaoSuc" -> {
-                    MyCommonBroadBridge.getInstance()?.setMyBridgeMethod(this@QunGongGaoBroadActivity,"huoququnxiangqing",qunId,"",null)
+                    MyCommonBroadBridge.getInstance()?.setMyBridgeMethod(this@QunGongGaoBroadActivity, BridgeImEnum.HUOQU_QUN_XIANGQING.value,qunId,"",null)
 
 //                    val v2TIMGroupInfo =  V2TIMGroupInfo()
 //                    v2TIMGroupInfo.groupID = qunId

@@ -26,6 +26,7 @@ import cn.wildfirechat.message.Message;
 import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class GroupMessageReceiptListBroadFragment extends ProgressBroadFragment implements GroupMessageReceiptBroadAdapter.OnMemberClickListener {
     private GroupInfo groupInfo;
@@ -126,6 +127,6 @@ public class GroupMessageReceiptListBroadFragment extends ProgressBroadFragment 
 //        intent.putExtra("userInfo", userInfo);
 //        intent.putExtra("groupId", groupInfo.target);
 //        startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getActivity(),"weiduxiaoxitianjiahaoyou",userInfo.uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getActivity(), BridgeImEnum.WEIDUXIAOXI_TIANJIA_HAOYOU.getValue(),userInfo.uid,"",null);
     }
 }
