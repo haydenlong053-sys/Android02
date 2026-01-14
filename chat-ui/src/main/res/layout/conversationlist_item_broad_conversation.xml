@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@mipmap/ic_broad_launcher" />
+            tools:src="@mipmap/ic_head_broad_defaut" />
 
         <com.hjq.shape.view.ShapeTextView
             android:id="@+id/gradeTv"
