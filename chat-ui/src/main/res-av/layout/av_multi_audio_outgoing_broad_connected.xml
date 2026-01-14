@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:src="@drawable/av_minimize"
+            android:src="@drawable/av_broad_minimize"
             android:tint="@color/white" />
 
         <View

@@ -27,7 +27,7 @@
                 android:id="@+id/inviteImageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/av_conference_invite" />
+                android:src="@drawable/av_conference_broad_invite" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                 android:id="@+id/muteImageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/av_conference_chat" />
+                android:src="@drawable/av_conference_broad_chat" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/av_conference_minimize" />
+                android:src="@drawable/av_conference_broad_minimize" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/av_conference_setting" />
+                android:src="@drawable/av_conference_broad_setting" />
 
             <TextView
                 android:layout_width="wrap_content"

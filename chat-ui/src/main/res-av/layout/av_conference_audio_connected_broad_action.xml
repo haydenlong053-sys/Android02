@@ -73,7 +73,7 @@
                 android:id="@+id/manageParticipantImageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/av_conference_members" />
+                android:src="@drawable/av_conference_broad_members" />
 
             <TextView
                 android:id="@+id/manageParticipantTextView"
@@ -97,7 +97,7 @@
                 android:id="@+id/hangupImageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/av_conference_end_call" />
+                android:src="@drawable/av_conference_end_broad_call" />
 
             <TextView
                 android:layout_width="wrap_content"

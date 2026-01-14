@@ -18,17 +18,17 @@ public class MicImageBroadView extends ImageView {
     private boolean muted = false;
     private int volume = 0;
     private static final int[] resources = {
-        R.drawable.av_mic_0,
-        R.drawable.av_mic_1,
-        R.drawable.av_mic_2,
-        R.drawable.av_mic_3,
-        R.drawable.av_mic_4,
-        R.drawable.av_mic_5,
-        R.drawable.av_mic_6,
-        R.drawable.av_mic_7,
-        R.drawable.av_mic_8,
-        R.drawable.av_mic_9,
-        R.drawable.av_mic_10,
+        R.drawable.av_mic_broad_0,
+        R.drawable.av_mic_broad_1,
+        R.drawable.av_mic_broad_2,
+        R.drawable.av_mic_broad_3,
+        R.drawable.av_mic_broad_4,
+        R.drawable.av_mic_broad_5,
+        R.drawable.av_mic_broad_6,
+        R.drawable.av_mic_broad_7,
+        R.drawable.av_mic_broad_8,
+        R.drawable.av_mic_broad_9,
+        R.drawable.av_mic_broad_10,
     };
 
     public MicImageBroadView(Context context) {
@@ -53,15 +53,15 @@ public class MicImageBroadView extends ImageView {
     }
 
     private void init() {
-        setImageResource(R.drawable.av_mic_0);
+        setImageResource(R.drawable.av_mic_broad_0);
     }
 
     public void setMuted(boolean muted) {
         this.muted = muted;
         if (muted) {
-            setImageResource(R.drawable.av_mic_mute);
+            setImageResource(R.drawable.av_mic_broad_mute);
         } else {
-            setImageResource(R.drawable.av_mic_0);
+            setImageResource(R.drawable.av_mic_broad_0);
         }
     }
 

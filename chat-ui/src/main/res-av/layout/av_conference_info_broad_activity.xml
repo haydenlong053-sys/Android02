@@ -132,7 +132,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/qr" />
+                android:src="@drawable/qr_broad" />
 
             <ImageView
                 android:layout_width="wrap_content"

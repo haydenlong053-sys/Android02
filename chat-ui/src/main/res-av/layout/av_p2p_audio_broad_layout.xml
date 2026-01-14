@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:padding="20dp"
-            android:src="@drawable/av_minimize"
+            android:src="@drawable/av_broad_minimize"
             android:visibility="visible" />
 
         <LinearLayout

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".voip.conference.ConferencePortalActivity">
+    tools:context=".voip.conference.ConferencePortalBroadActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/av_join_conference"
+                    android:src="@drawable/av_join_broad_conference"
                     app:shapeAppearanceOverlay="@style/roundedImageView_8dp" />
 
                 <TextView
@@ -53,7 +53,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/av_start_conference"
+                    android:src="@drawable/av_start_broad_conference"
                     app:shapeAppearanceOverlay="@style/roundedImageView_8dp" />
 
                 <TextView
@@ -75,7 +75,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/av_book_conference"
+                    android:src="@drawable/av_book_broad_conference"
                     app:shapeAppearanceOverlay="@style/roundedImageView_8dp" />
 
 
@@ -117,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.5"
-                android:src="@drawable/av_coffee" />
+                android:src="@drawable/av_broad_coffee" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -323,7 +323,7 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         view.findViewById(R.id.audioLinearLayout).setVisibility(View.VISIBLE);
         TextView timeView = view.findViewById(R.id.durationTextView);
         ImageView mediaIconV = view.findViewById(R.id.av_media_type);
-        mediaIconV.setImageResource(R.drawable.av_float_audio);
+        mediaIconV.setImageResource(R.drawable.av_float_broad_audio);
 
         String title = "";
         switch (session.getState()) {
@@ -372,7 +372,7 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         view.findViewById(R.id.audioLinearLayout).setVisibility(View.VISIBLE);
         TextView timeView = view.findViewById(R.id.durationTextView);
         ImageView mediaIconV = view.findViewById(R.id.av_media_type);
-        mediaIconV.setImageResource(R.drawable.av_float_audio);
+        mediaIconV.setImageResource(R.drawable.av_float_broad_audio);
 
         long duration = (System.currentTimeMillis() - session.getConnectedTime()) / 1000;
         if (duration >= 3600) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/av_conference_audio_mute" android:state_selected="true"  />
-    <item android:drawable="@drawable/av_conference_audio" />
+    <item android:drawable="@drawable/av_conference_audio_broad_mute" android:state_selected="true"  />
+    <item android:drawable="@drawable/av_conference_broad_audio" />
 </selector>

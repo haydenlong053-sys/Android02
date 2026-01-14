@@ -39,7 +39,7 @@
             android:id="@+id/copyCallIdImageView"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:src="@drawable/av_copy" />
+            android:src="@drawable/av_broad_copy" />
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +63,7 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:src="@drawable/av_copy"
+            android:src="@drawable/av_broad_copy"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -89,6 +89,6 @@
             android:id="@+id/copyLinkImageView"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:src="@drawable/av_copy" />
+            android:src="@drawable/av_broad_copy" />
     </LinearLayout>
 </LinearLayout>
