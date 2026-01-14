@@ -12,10 +12,12 @@ import android.widget.FrameLayout;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
+
 import cn.wildfirechat.model.Conversation;
 
 //用来演示类似微信语音输入那种扩展
-public class ExampleAudioInputBroadExt extends ConversationBroadExt {
+public class ExampleAudioInputBroadExt extends ConversationMidExt {
 
     /**
      * @param containerView 扩展view的container

@@ -21,12 +21,13 @@ import java.io.File;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.utils.FileBroadUtils;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
 
-public class FileBroadExt extends ConversationBroadExt {
+public class FileBroadExt extends ConversationMidExt {
 
     /**
      * @param containerView 扩展view的container

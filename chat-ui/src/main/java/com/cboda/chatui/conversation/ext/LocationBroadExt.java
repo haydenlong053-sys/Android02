@@ -16,12 +16,13 @@ import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import com.cboda.chatui.third.location.data.LocationBroadData;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
 import com.cboda.baselibrary.common.BridgeImEnum;
 
-public class LocationBroadExt extends ConversationBroadExt {
+public class LocationBroadExt extends ConversationMidExt {
 
     /**
      * @param containerView 扩展view的container

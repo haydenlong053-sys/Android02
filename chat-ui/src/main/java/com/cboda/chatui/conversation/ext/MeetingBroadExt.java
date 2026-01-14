@@ -8,9 +8,10 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 // 不需要 FunctionN 接口了，Java Lambda 可以直接匹配
 
-public class MeetingBroadExt extends ConversationBroadExt {
+public class MeetingBroadExt extends ConversationMidExt {
 
     @ExtContextMenuBroadItem
     public void pickMeeting(View containerView, Conversation conversation) {

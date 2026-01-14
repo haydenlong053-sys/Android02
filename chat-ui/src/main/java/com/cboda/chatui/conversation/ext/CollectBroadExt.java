@@ -19,8 +19,9 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 
-public class CollectBroadExt extends ConversationBroadExt {
+public class CollectBroadExt extends ConversationMidExt {
 
     /**
      * @param containerView 扩展view的container

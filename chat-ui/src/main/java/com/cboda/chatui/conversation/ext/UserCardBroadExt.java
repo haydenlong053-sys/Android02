@@ -23,6 +23,7 @@ import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import com.cboda.chatui.conversation.forward.ForwardPromptBroadView;
 import cn.wildfirechat.message.CardMessageContent;
 import cn.wildfirechat.message.TextMessageContent;
@@ -33,7 +34,7 @@ import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 import com.cboda.baselibrary.common.BridgeImEnum;
 
-public class UserCardBroadExt extends ConversationBroadExt {
+public class UserCardBroadExt extends ConversationMidExt {
 
     /**
      * @param containerView 扩展view的container

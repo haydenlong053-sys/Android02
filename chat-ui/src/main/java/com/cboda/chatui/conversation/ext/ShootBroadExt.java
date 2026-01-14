@@ -23,12 +23,13 @@ import com.cboda.chatui.R;
 import com.cboda.chatui.WfcBaseBroadActivity;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import com.cboda.chatui.mm.TakePhotoBroadActivity;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
 
-public class ShootBroadExt extends ConversationBroadExt {
+public class ShootBroadExt extends ConversationMidExt {
 
     /**
      * @param containerView 扩展view的container

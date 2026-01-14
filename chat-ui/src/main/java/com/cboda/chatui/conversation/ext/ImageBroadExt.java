@@ -14,6 +14,7 @@ import android.view.View;
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
 //import com.cboda.imgselect.ImagePicker;
 //import com.cboda.imgselect.bean.ImageItem;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import com.cboda.select.picture.basic.PictureSelector;
 import com.cboda.select.picture.config.SelectMimeType;
 import com.cboda.select.picture.entity.LocalMedia;
@@ -34,7 +35,7 @@ import com.cboda.chatui.third.utils.UIBroadUtils;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
 
-public class ImageBroadExt extends ConversationBroadExt {
+public class ImageBroadExt extends ConversationMidExt {
 
     /**
      * @param containerView 扩展view的container
