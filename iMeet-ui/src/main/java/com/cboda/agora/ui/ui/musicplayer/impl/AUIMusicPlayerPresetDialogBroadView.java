@@ -15,7 +15,7 @@ import java.util.List;
 
 import com.cboda.agora.ui.R;
 import com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView;
-import com.cboda.agora.ui.musicplayer.ControllerEffectInfo;
+import com.cboda.agora.ui.ui.musicplayer.ControllerEffectInfo;
 
 public class AUIMusicPlayerPresetDialogBroadView extends FrameLayout {
 

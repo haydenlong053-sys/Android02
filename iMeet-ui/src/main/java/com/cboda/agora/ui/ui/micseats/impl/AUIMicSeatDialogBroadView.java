@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.micseats.IMicSeatDialogBroadView;
+import com.cboda.agora.ui.ui.micseats.IMicSeatDialogBroadView;
 
 public class AUIMicSeatDialogBroadView extends FrameLayout implements IMicSeatDialogBroadView {
     private String userDesIdleText;

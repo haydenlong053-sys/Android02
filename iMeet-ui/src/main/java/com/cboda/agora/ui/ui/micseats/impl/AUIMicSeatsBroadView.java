@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cboda.agora.ui.R;
 import com.cboda.agora.ui.ui.basic.AUIBottomBroadDialog;
 import com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView;
-import com.cboda.agora.ui.micseats.IMicSeatItemBroadView;
-import com.cboda.agora.ui.micseats.IMicSeatsBroadView;
-import com.cboda.agora.ui.micseats.MicSeatBroadStatus;
+import com.cboda.agora.ui.ui.micseats.IMicSeatItemBroadView;
+import com.cboda.agora.ui.ui.micseats.IMicSeatsBroadView;
+import com.cboda.agora.ui.ui.micseats.MicSeatBroadStatus;
 
 public class AUIMicSeatsBroadView extends FrameLayout implements IMicSeatsBroadView {
 

@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.roomInfo.listener
+package com.cboda.agora.ui.ui.roomInfo.listener
 
 import android.view.View
 

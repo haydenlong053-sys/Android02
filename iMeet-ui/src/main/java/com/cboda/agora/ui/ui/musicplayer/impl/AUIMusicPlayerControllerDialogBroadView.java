@@ -21,8 +21,8 @@ import java.util.Map;
 
 import com.cboda.agora.ui.R;
 import com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView;
-import com.cboda.agora.ui.musicplayer.ControllerEffectInfo;
-import com.cboda.agora.ui.musicplayer.listener.IMusicPlayerEffectActionBroadListener;
+import com.cboda.agora.ui.ui.musicplayer.ControllerEffectInfo;
+import com.cboda.agora.ui.ui.musicplayer.listener.IMusicPlayerEffectActionBroadListener;
 
 /**
  * @author create by zhangwei03

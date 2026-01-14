@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog;
-import com.cboda.agora.ui.micseats.IMicSeatDialogBroadView;
-import com.cboda.agora.ui.micseats.IMicSeatItemBroadView;
-import com.cboda.agora.ui.micseats.IMicSeatsBroadView;
-import com.cboda.agora.ui.micseats.MicSeatBroadStatus;
+import com.cboda.agora.ui.ui.micseats.IMicSeatDialogBroadView;
+import com.cboda.agora.ui.ui.micseats.IMicSeatItemBroadView;
+import com.cboda.agora.ui.ui.micseats.IMicSeatsBroadView;
+import com.cboda.agora.ui.ui.micseats.MicSeatBroadStatus;
 import com.cboda.agora.AUIVoiceRoomBroadService;
 import com.cboda.agora.R;
 

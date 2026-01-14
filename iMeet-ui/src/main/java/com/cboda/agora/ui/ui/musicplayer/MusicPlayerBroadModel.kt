@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.musicplayer
+package com.cboda.agora.ui.ui.musicplayer
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

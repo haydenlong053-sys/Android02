@@ -1,7 +1,7 @@
 package com.cboda.agora.ui.ui.roomInfo
 
 import android.net.Uri
-import com.cboda.agora.ui.roomInfo.listener.AUIRoomInfoActionBroadListener
+import com.cboda.agora.ui.ui.roomInfo.listener.AUIRoomInfoActionBroadListener
 
 interface IAUIRoomInfoBroadView {
 

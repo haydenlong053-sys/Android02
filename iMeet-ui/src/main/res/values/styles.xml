@@ -246,7 +246,7 @@
         <item name="aui_jukeboxChooseItem_buttonWidth">80dp</item>
         <item name="aui_jukeboxChooseItem_buttonHeight">38dp</item>
         <item name="aui_jukeboxChooseItem_buttonBackground">@drawable/aui_jukebox_choose_song_broad_btn</item>
-        <item name="aui_jukeboxChooseItem_buttonTextColor">@color/aui_jukebox_choose_song_text_color</item>
+        <item name="aui_jukeboxChooseItem_buttonTextColor">@color/aui_jukebox_choose_song_text_broad_color</item>
         <item name="aui_jukeboxChooseItem_buttonTextSize">14sp</item>
         <item name="aui_jukeboxChooseItem_buttonText">@string/aui_jukebox_song_choose</item>
         <item name="aui_jukeboxChooseItem_buttonCheckedText">@string/aui_jukebox_song_chosen</item>

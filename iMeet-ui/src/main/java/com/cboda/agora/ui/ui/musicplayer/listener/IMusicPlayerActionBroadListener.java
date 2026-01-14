@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.musicplayer.listener;
+package com.cboda.agora.ui.ui.musicplayer.listener;
 
 import io.agora.karaoke_view.v11.model.LyricsLineModel;
 

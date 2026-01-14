@@ -22,8 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.micseats.IMicSeatItemBroadView;
-import com.cboda.agora.ui.micseats.MicSeatBroadStatus;
+import com.cboda.agora.ui.ui.micseats.IMicSeatItemBroadView;
+import com.cboda.agora.ui.ui.micseats.MicSeatBroadStatus;
 
 public class AUIMicSeatItemBroadView extends FrameLayout implements IMicSeatItemBroadView, ViewTreeObserver.OnGlobalLayoutListener {
     private String titleIdleText;

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.cboda.agora.ui.roomInfo.listener.AUIRoomInfoActionBroadListener
+import com.cboda.agora.ui.ui.roomInfo.listener.AUIRoomInfoActionBroadListener
 import com.cboda.agora.ui.ui.roomInfo.IAUIRoomInfoBroadView
 import com.cboda.agora.databinding.AuiRoomLeftBroadLayoutBinding
 

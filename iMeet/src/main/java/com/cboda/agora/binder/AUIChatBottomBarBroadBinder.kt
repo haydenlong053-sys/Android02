@@ -7,7 +7,7 @@ import com.cboda.agora.ui.ui.chatBottomBar.IAUIChatBottomBarBroadView
 import com.cboda.agora.ui.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
 import com.cboda.agora.ui.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
 import com.cboda.agora.ui.ui.chatList.AUIChatBroadInfo
-import com.cboda.agora.ui.micseats.IMicSeatsBroadView
+import com.cboda.agora.ui.ui.micseats.IMicSeatsBroadView
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.cboda.agora.AUIVoiceRoomBroadService
 import com.cboda.agora.R

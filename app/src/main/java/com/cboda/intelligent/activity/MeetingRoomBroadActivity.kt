@@ -17,7 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import cn.wildfirechat.message.Message
-import com.cboda.agora.ui.micseats.MicSeatBroadType
+import com.cboda.agora.ui.ui.micseats.MicSeatBroadType
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.rtc.NetworkQualityEventBroadData

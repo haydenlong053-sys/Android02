@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.musicplayer.utils;
+package com.cboda.agora.ui.ui.musicplayer.utils;
 import android.os.Looper;
 import android.util.Log;
 

@@ -1,9 +1,11 @@
-package com.cboda.agora.ui.musicplayer;
+package com.cboda.agora.ui.ui.musicplayer;
+
+import com.cboda.agora.ui.ui.musicplayer.listener.IMusicPlayerActionBroadListener;
 
 import java.util.List;
 import java.util.Map;
 
-import com.cboda.agora.ui.musicplayer.listener.IMusicPlayerActionBroadListener;
+
 
 public interface IMusicPlayerBroadView {
     void setMusicPlayerActionListener(IMusicPlayerActionBroadListener listener);

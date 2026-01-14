@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.micseats;
+package com.cboda.agora.ui.ui.micseats;
 
 public interface IMicSeatsBroadView {
 

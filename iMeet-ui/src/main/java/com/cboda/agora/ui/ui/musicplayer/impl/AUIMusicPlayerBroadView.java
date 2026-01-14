@@ -28,13 +28,13 @@ import java.util.Map;
 
 import com.cboda.agora.ui.R;
 import com.cboda.agora.ui.ui.basic.AUIBottomBroadDialog;
-import com.cboda.agora.ui.musicplayer.ControllerEffectInfo;
-import com.cboda.agora.ui.musicplayer.IMusicPlayerBroadView;
-import com.cboda.agora.ui.musicplayer.MusicSettingInfo;
-import com.cboda.agora.ui.musicplayer.listener.IMusicPlayerActionBroadListener;
-import com.cboda.agora.ui.musicplayer.listener.IMusicPlayerEffectActionBroadListener;
-import com.cboda.agora.ui.musicplayer.utils.DownloadBroadUtils;
-import com.cboda.agora.ui.musicplayer.utils.ZipBroadUtils;
+import com.cboda.agora.ui.ui.musicplayer.ControllerEffectInfo;
+import com.cboda.agora.ui.ui.musicplayer.IMusicPlayerBroadView;
+import com.cboda.agora.ui.ui.musicplayer.MusicSettingInfo;
+import com.cboda.agora.ui.ui.musicplayer.listener.IMusicPlayerActionBroadListener;
+import com.cboda.agora.ui.ui.musicplayer.listener.IMusicPlayerEffectActionBroadListener;
+import com.cboda.agora.ui.ui.musicplayer.utils.DownloadBroadUtils;
+import com.cboda.agora.ui.ui.musicplayer.utils.ZipBroadUtils;
 
 import io.agora.karaoke_view.v11.KaraokeEvent;
 import io.agora.karaoke_view.v11.KaraokeView;

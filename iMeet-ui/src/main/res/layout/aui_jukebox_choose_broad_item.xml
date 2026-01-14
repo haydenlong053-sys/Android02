@@ -52,7 +52,7 @@
         android:gravity="center"
         android:minHeight="48dp"
         android:text="@string/aui_jukebox_song_choose"
-        android:textColor="@color/aui_jukebox_choose_song_text_color"
+        android:textColor="@color/aui_jukebox_choose_song_text_broad_color"
         android:textSize="14sp"
         app:aui_checkedText="@string/aui_jukebox_song_chosen"
         app:layout_constraintBottom_toBottomOf="@id/iv_cover"

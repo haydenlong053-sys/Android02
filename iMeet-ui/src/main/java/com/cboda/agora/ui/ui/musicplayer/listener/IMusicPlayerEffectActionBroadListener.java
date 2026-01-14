@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.musicplayer.listener;
+package com.cboda.agora.ui.ui.musicplayer.listener;
 
 /**
  * @author create by zhangwei03
