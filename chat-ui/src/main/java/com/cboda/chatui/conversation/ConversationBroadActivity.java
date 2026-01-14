@@ -44,6 +44,7 @@ import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.SendMessageCallback;
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.cboda.baselibrary.common.MyEventCodeEnum;
 
 public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private boolean isInitialized = false;
@@ -89,15 +90,15 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMsgReceive(MyBroadEvent myImEvent) {
-        if ("danliaobiaoti".equals(myImEvent.type)) {
+        if (MyEventCodeEnum.SINGLE_CHAT_TITLE.getValue().equals(myImEvent.type)) {
 //            String params1 = myImEvent.params1;
 //            eLogD("onMsgReceiveClass", "params1:" + params1);
             pageTitle.setText(myImEvent.params1);
-        } else if ("reloadMsg".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.RELOAD_MESSAGE.getValue().equals(myImEvent.type)) {
             conversationBroadFragment.reloadMessage();
-        } else if ("reloadMsgZhuanFa".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.RELOAD_FORWARD_MESSAGE.getValue().equals(myImEvent.type)) {
             conversationBroadFragment.reloadZhuanFaMessage();
-        } else if ("qunxiangqing".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.GROUP_DETAILS.getValue().equals(myImEvent.type)) {
             QunBroadXiangqing qunXiangqing = gson.fromJson(myImEvent.params1, QunBroadXiangqing.class);
             if (qunXiangqing != null && !TextUtils.isEmpty(qunXiangqing.getGonggao())) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
@@ -129,25 +130,25 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                 }
             }
 
-        } else if ("xiugaigongaole".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.UPDATE_ANNOUNCEMENT.getValue().equals(myImEvent.type)) {
             if (conversationBroad.target.equals(myImEvent.params2)) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
                 conversationBroadFragment.gonggaoxinxiBroad.setText("群公告：" + myImEvent.params1);
                 MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.UPDATE_ANNOUNCEMENT.getValue(), myImEvent.params1, "", null);
             }
 
-        } else if ("yonghuxinxi".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.USER_INFO.getValue().equals(myImEvent.type)) {
             MyCommonBroadResult yoinghu = gson.fromJson(myImEvent.params1, MyCommonBroadResult.class);
             if (yoinghu != null && !TextUtils.isEmpty(yoinghu.getChatImg())) {
                 conversationBroadFragment.setConversationBackgroundImage(yoinghu.getChatImg());
             }
-        } else if ("qunxiangqingshibai".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.GROUP_DETAILS_FAILED.getValue().equals(myImEvent.type)) {
             pageTitleRightIcon.setVisibility(View.GONE);
-        } else if ("xiugaifayanshijian".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.UPDATE_SEND_TIME.getValue().equals(myImEvent.type)) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
-        } else if ("beifeng".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.BANNED.getValue().equals(myImEvent.type)) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.BANNED.getValue(), conversationBroad.target, "", null);
-        } else if ("fajieshouzhuanzhangxiaoxi".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.SEND_RECEIVE_TRANSFER_MESSAGE.getValue().equals(myImEvent.type)) {
             ZhuanZhangMessageContent cardMessageContent = new ZhuanZhangMessageContent(myImEvent.params1, myImEvent.params2, "", "1");
             Message msg = new Message();
             msg.conversation = conversationBroad;
@@ -169,7 +170,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
                 }
             });
-        } else if ("bushihaoyoufaxiaoxi".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.NOT_FRIEND_SEND_MESSAGE.getValue().equals(myImEvent.type)) {
             new MaterialDialog.Builder(ConversationBroadActivity.this)
                     .content("你还不是他（她)朋友。请先发送朋友验证请求，对方验证通过后，才能聊天")
                     .negativeText("取消")
@@ -182,7 +183,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                     })
                     .build()
                     .show();
-        } else if ("huiyishi".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.MEETING_ROOM.getValue().equals(myImEvent.type)) {
             String json = myImEvent.params1;
             MeetingInviteMessageContent inviteMessageContent =
                     new Gson().fromJson(json, MeetingInviteMessageContent.class);
@@ -191,7 +192,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             }
 
 
-        } else if ("qunMeeting".equals(myImEvent.type)) {
+        } else if (MyEventCodeEnum.GROUP_MEETING.getValue().equals(myImEvent.type)) {
             String roomId = myImEvent.params1;
             String jsonParams = myImEvent.params2;
             if (conversationBroadFragment != null) {
@@ -208,7 +209,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMsgReceive(EmotionBroadEvent myImEvent) {
-        if ("fasongbiaoqing".equals(myImEvent.type)) {
+        if (MyEventCodeEnum.SEND_EMOJI.getValue().equals(myImEvent.type)) {
             BiaoQingMessageContent biaoQingMessageContent = new BiaoQingMessageContent(myImEvent.params);
             Message msg = new Message();
             msg.conversation = conversationBroad;
@@ -307,7 +308,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                 .commit();
 
         setConversationBackground();
-        if ("tousu".equals(fromPageBroad)) {
+        if (MyEventCodeEnum.COMPLAINT.getValue().equals(fromPageBroad)) {
             pageTitleRightIcon.setVisibility(View.GONE);
 
             conversationBroadFragment.fromPage = fromPageBroad;
