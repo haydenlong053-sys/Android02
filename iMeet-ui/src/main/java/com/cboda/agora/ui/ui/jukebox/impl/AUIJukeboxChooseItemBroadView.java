@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.jukebox.impl;
+package com.cboda.agora.ui.ui.jukebox.impl;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -36,7 +36,7 @@ public class AUIJukeboxChooseItemBroadView extends FrameLayout {
         initView(context);
     }
 
-    private void initView(@NonNull Context context){
+    private void initView(@NonNull Context context) {
         View.inflate(context, R.layout.aui_jukebox_choose_broad_item, this);
         cbChoose = findViewById(R.id.cb_choose);
         tvSongName = findViewById(R.id.tv_song_name);
@@ -44,11 +44,11 @@ public class AUIJukeboxChooseItemBroadView extends FrameLayout {
         shapeableIvCover = findViewById(R.id.iv_cover);
     }
 
-    public void setSongName(@Nullable CharSequence songName){
+    public void setSongName(@Nullable CharSequence songName) {
         tvSongName.setText(songName);
     }
 
-    public void setSingerName(@Nullable CharSequence singerName){
+    public void setSingerName(@Nullable CharSequence singerName) {
         tvSingerName.setText(singerName);
     }
 
@@ -57,11 +57,11 @@ public class AUIJukeboxChooseItemBroadView extends FrameLayout {
         cbChoose.setClickable(!check);
     }
 
-    public void setOnChooseChangeListener(@Nullable CompoundButton.OnCheckedChangeListener listener){
+    public void setOnChooseChangeListener(@Nullable CompoundButton.OnCheckedChangeListener listener) {
         cbChoose.setOnCheckedChangeListener(listener);
     }
 
-    public void setSongCover(@Nullable CharSequence songCover){
+    public void setSongCover(@Nullable CharSequence songCover) {
         Glide.with(shapeableIvCover).load(songCover).error(R.drawable.aui_jukebox_music_broad_icon).into(shapeableIvCover);
     }
 }

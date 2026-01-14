@@ -1,5 +1,4 @@
-package com.cboda.agora.ui.jukebox.impl;
-
+package com.cboda.agora.ui.ui.jukebox.impl;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;

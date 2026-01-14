@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.jukebox.impl;
+package com.cboda.agora.ui.ui.jukebox.impl;
 
 import android.content.Context;
 import android.text.Editable;
