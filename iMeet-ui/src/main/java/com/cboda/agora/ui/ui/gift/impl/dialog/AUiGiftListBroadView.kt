@@ -15,8 +15,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.cboda.agora.ui.R
 import com.cboda.agora.ui.databinding.AuiGiftListViewBroadLayoutBinding
-import com.cboda.agora.ui.gift.AUIGiftInfo
-import com.cboda.agora.ui.gift.AUIGiftTabInfo
+import com.cboda.agora.ui.ui.gift.AUIGiftInfo
+import com.cboda.agora.ui.ui.gift.AUIGiftTabInfo
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.cboda.agora.ui.ui.basic.AUISheetFragmentBroadDialog
 import com.cboda.agora.ui.ui.gift.IAUIGiftBarrageBroadView

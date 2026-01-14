@@ -1,7 +1,7 @@
 package com.cboda.agora.binder
 
-import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
-import com.cboda.agora.ui.chatList.AUIChatBroadInfo
+import com.cboda.agora.ui.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import com.cboda.agora.ui.ui.chatList.AUIChatBroadInfo
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.cboda.agora.ui.ui.chatList.impl.AUIChatListBroadView
 import com.cboda.agora.ui.ui.chatList.listener.AUIChatListItemClickBroadListener

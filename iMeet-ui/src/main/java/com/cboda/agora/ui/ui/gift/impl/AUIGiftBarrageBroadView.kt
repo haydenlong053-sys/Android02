@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cboda.agora.ui.R
 import com.cboda.agora.ui.databinding.AuiGiftBarrageBroadLayoutBinding
-import com.cboda.agora.ui.gift.AUIGiftInfo
+import com.cboda.agora.ui.ui.gift.AUIGiftInfo
 import com.cboda.agora.ui.ui.gift.IAUIGiftBarrageBroadView
 import com.cboda.agora.ui.utils.DeviceBroadTools
 

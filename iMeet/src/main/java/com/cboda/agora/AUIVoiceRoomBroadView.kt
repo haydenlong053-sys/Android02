@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
-import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import com.cboda.agora.ui.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
 import com.cboda.agora.ui.micseats.MicSeatBroadOption
 import com.cboda.agora.ui.micseats.MicSeatBroadType
 import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog

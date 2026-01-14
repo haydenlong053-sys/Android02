@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.chatList.AUIChatBroadInfo
+import com.cboda.agora.ui.ui.chatList.AUIChatBroadInfo
 import com.cboda.agora.ui.databinding.AuiChatListBroadLayoutBinding
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.cboda.agora.ui.ui.chatList.listener.AUIChatListItemClickBroadListener

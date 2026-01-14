@@ -1,6 +1,6 @@
 package com.cboda.agora.ui.ui.chatList
 
-import com.cboda.agora.ui.chatList.AUIChatBroadInfo
+import com.cboda.agora.ui.ui.chatList.AUIChatBroadInfo
 import com.cboda.agora.ui.ui.chatList.impl.AUIBroadcastMessageBroadLayout
 import com.cboda.agora.ui.ui.chatList.listener.AUIChatListItemClickBroadListener
 

@@ -16,8 +16,8 @@ import java.util.List;
 
 import com.cboda.agora.ui.R;
 import com.cboda.agora.ui.ui.basic.AUITabBroadLayout;
-import com.cboda.agora.ui.jukebox.AUIMusicInfo;
-import com.cboda.agora.ui.jukebox.IAUIJukeboxBroadView;
+import com.cboda.agora.ui.ui.jukebox.AUIMusicInfo;
+import com.cboda.agora.ui.ui.jukebox.IAUIJukeboxBroadView;
 import com.cboda.agora.ui.ui.basic.AUIFrameBroadLayout;
 
 public class AUIJukeboxBroadView extends AUIFrameBroadLayout implements IAUIJukeboxBroadView {

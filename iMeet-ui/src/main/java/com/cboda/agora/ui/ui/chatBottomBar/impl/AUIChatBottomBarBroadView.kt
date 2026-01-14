@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -20,35 +19,37 @@ import androidx.annotation.GravityInt
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIcon
-import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
-import com.cboda.agora.ui.chatBottomBar.listener.AUIExpressionClickBroadListener
-import com.cboda.agora.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
-import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
-import com.cboda.agora.ui.chatBottomBar.utils.KeyboardBroadUtils
+import com.cboda.agora.ui.ui.chatBottomBar.AUIChatBottomBarIcon
+import com.cboda.agora.ui.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import com.cboda.agora.ui.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
+import com.cboda.agora.ui.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import com.cboda.agora.ui.ui.chatBottomBar.utils.KeyboardBroadUtils
 import com.cboda.agora.ui.databinding.AuiChatBottomBarBroadLayoutBinding
+import com.cboda.agora.ui.ui.chatBottomBar.listener.AUIExpressionClickBroadListener
 import com.cboda.agora.ui.utils.DeviceBroadTools
 
 class AUIChatBottomBarBroadView : RelativeLayout,
     IAUIChatBottomBarBroadView, AUIExpressionClickBroadListener,
     AUISoftKeyboardHeightChangeBroadListener {
-    private val mViewBinding = AuiChatBottomBarBroadLayoutBinding.inflate(LayoutInflater.from(context))
-    private val inputManager:InputMethodManager
+    private val mViewBinding =
+        AuiChatBottomBarBroadLayoutBinding.inflate(LayoutInflater.from(context))
+    private val inputManager: InputMethodManager
     private val itemModels = ArrayList<MenuItemModel>()
-    private var listener: AUIMenuItemClickBroadListener?=null
+    private var listener: AUIMenuItemClickBroadListener? = null
+
     //是否显示表情
     private var isShowEmoji = false
     private var softKeyHeight = 0
-    private var appearanceId:Int=0
+    private var appearanceId: Int = 0
     private var mTagIconBg: Int = 0
     private var mMoreStatusBg: Int = 0
-    private var mFaceIcon:Int = 0
-    private var mKeyIcon:Int = 0
-    private var mMenuWidth:Int = 0
-    private var mMenuHeight:Int = 0
-    private var mMenuMicOn:Int = 0
-    private var mMenuMicOff:Int = 0
-    private var emojiViewBg:Int = 0
+    private var mFaceIcon: Int = 0
+    private var mKeyIcon: Int = 0
+    private var mMenuWidth: Int = 0
+    private var mMenuHeight: Int = 0
+    private var mMenuMicOn: Int = 0
+    private var mMenuMicOff: Int = 0
+    private var emojiViewBg: Int = 0
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -60,8 +61,10 @@ class AUIChatBottomBarBroadView : RelativeLayout,
         addView(mViewBinding.root)
         inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        val themeTa = context.obtainStyledAttributes(attrs, R.styleable.AUIChatBottomView, defStyleAttr, 0)
-        appearanceId = themeTa.getResourceId(R.styleable.AUIChatBottomView_aui_chatBottomView_appearance, 0)
+        val themeTa =
+            context.obtainStyledAttributes(attrs, R.styleable.AUIChatBottomView, defStyleAttr, 0)
+        appearanceId =
+            themeTa.getResourceId(R.styleable.AUIChatBottomView_aui_chatBottomView_appearance, 0)
         themeTa.recycle()
 
         initMenu()
@@ -69,13 +72,14 @@ class AUIChatBottomBarBroadView : RelativeLayout,
     }
 
 
-    private fun initListener(){
+    private fun initListener() {
         mViewBinding.expressionView.setExpressionListener(this)
         mViewBinding.inputEditView.setOnEditorActionListener { v, actionId, event ->
             when (actionId and EditorInfo.IME_MASK_ACTION) {
                 EditorInfo.IME_ACTION_DONE -> {
                     sendMessage()
                 }
+
                 EditorInfo.IME_ACTION_NEXT -> {}
             }
             false
@@ -88,7 +92,7 @@ class AUIChatBottomBarBroadView : RelativeLayout,
                 }
             }
 
-        mViewBinding.inputIcon.setOnClickListener{
+        mViewBinding.inputIcon.setOnClickListener {
             mViewBinding.inputView.visibility = VISIBLE
             mViewBinding.inputEditView.requestFocus()
             showInputMethod(mViewBinding.inputEditView)
@@ -100,14 +104,14 @@ class AUIChatBottomBarBroadView : RelativeLayout,
             isShowEmoji = false
         }
 
-        mViewBinding.iconEmoji.setOnClickListener{
+        mViewBinding.iconEmoji.setOnClickListener {
             isShowEmoji = !isShowEmoji
             softShowing(isShowEmoji)
             checkShowExpression(isShowEmoji)
         }
 
-        mViewBinding.inputSend.setOnClickListener{
-            Log.e("apex","inputSend")
+        mViewBinding.inputSend.setOnClickListener {
+            Log.e("apex", "inputSend")
             sendMessage()
         }
     }
@@ -118,15 +122,15 @@ class AUIChatBottomBarBroadView : RelativeLayout,
         }
     }
 
-    fun removeMenu(itemId: Int){
+    fun removeMenu(itemId: Int) {
         unRegisterMenuItem(itemId)?.let {
             deleteMenuItemView(itemId)
         }
     }
 
-    fun updateMenuGravity(@IdRes itemId: Int, @GravityInt gravity: Int){
+    fun updateMenuGravity(@IdRes itemId: Int, @GravityInt gravity: Int) {
         getMenuItem(itemId)?.let {
-            if(it.gravity != gravity){
+            if (it.gravity != gravity) {
                 it.gravity = gravity
                 refreshMenuLayout()
             }
@@ -135,10 +139,22 @@ class AUIChatBottomBarBroadView : RelativeLayout,
 
     private fun initMenu() {
         val typedArray = context.obtainStyledAttributes(appearanceId, R.styleable.AUIChatBottomView)
-        mMenuWidth = typedArray.getDimensionPixelSize(R.styleable.AUIChatBottomView_aui_primary_menuWidth, DeviceBroadTools.dp2px(context, 38f))
-        mMenuHeight = typedArray.getDimensionPixelSize(R.styleable.AUIChatBottomView_aui_primary_menuHeight, DeviceBroadTools.dp2px(context, 38f))
-        mMenuMicOn = typedArray.getResourceId(R.styleable.AUIChatBottomView_aui_primary_menuMicOn, R.drawable.voice_icon_mic_broad_on)
-        mMenuMicOff = typedArray.getResourceId(R.styleable.AUIChatBottomView_aui_primary_menuMicOff, R.drawable.voice_icon_mic_broad_off)
+        mMenuWidth = typedArray.getDimensionPixelSize(
+            R.styleable.AUIChatBottomView_aui_primary_menuWidth,
+            DeviceBroadTools.dp2px(context, 38f)
+        )
+        mMenuHeight = typedArray.getDimensionPixelSize(
+            R.styleable.AUIChatBottomView_aui_primary_menuHeight,
+            DeviceBroadTools.dp2px(context, 38f)
+        )
+        mMenuMicOn = typedArray.getResourceId(
+            R.styleable.AUIChatBottomView_aui_primary_menuMicOn,
+            R.drawable.voice_icon_mic_broad_on
+        )
+        mMenuMicOff = typedArray.getResourceId(
+            R.styleable.AUIChatBottomView_aui_primary_menuMicOff,
+            R.drawable.voice_icon_mic_broad_off
+        )
         mTagIconBg = typedArray.getResourceId(
             R.styleable.AUIChatBottomView_aui_primary_tag_bg,
             R.drawable.aui_chat_bottom_bar_item_bg_broad_light
@@ -231,19 +247,19 @@ class AUIChatBottomBarBroadView : RelativeLayout,
         }
     }
 
-    private fun deleteMenuItemView(itemId: Int){
+    private fun deleteMenuItemView(itemId: Int) {
         val itemView = mViewBinding.menuLayout.findViewById<View>(itemId)
-        if(itemView != null){
+        if (itemView != null) {
             if (itemId == R.id.voice_extend_item_more) {
                 mViewBinding.menuLayout.removeView(itemView.parent as View)
-            }else{
+            } else {
                 mViewBinding.menuLayout.removeView(itemView)
             }
         }
     }
 
-    private fun sendMessage(){
-        if (!TextUtils.isEmpty(mViewBinding.inputEditView.text)){
+    private fun sendMessage() {
+        if (!TextUtils.isEmpty(mViewBinding.inputEditView.text)) {
             listener?.onSendMessage(
                 mViewBinding.inputEditView.text.toString().trim { it <= ' ' })
         }
@@ -264,7 +280,7 @@ class AUIChatBottomBarBroadView : RelativeLayout,
 
     private fun softShowing(isShowEmoji: Boolean) {
         if (isShowEmoji) {
-            Log.e("apex","softShowing $softKeyHeight")
+            Log.e("apex", "softShowing $softKeyHeight")
             setViewLayoutParams(
                 mViewBinding.expressionView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -277,7 +293,9 @@ class AUIChatBottomBarBroadView : RelativeLayout,
             )
         } else {
             setViewLayoutParams(
-                mViewBinding.expressionView, ViewGroup.LayoutParams.MATCH_PARENT, DeviceBroadTools.dp2px(
+                mViewBinding.expressionView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                DeviceBroadTools.dp2px(
                     context, 55f
                 )
             )
@@ -292,7 +310,11 @@ class AUIChatBottomBarBroadView : RelativeLayout,
      * @param itemId
      * id
      */
-    private fun registerMenuItem(drawableRes: Int, itemId: Int, gravity: Int = Gravity.END): MenuItemModel? {
+    private fun registerMenuItem(
+        drawableRes: Int,
+        itemId: Int,
+        gravity: Int = Gravity.END
+    ): MenuItemModel? {
         var item = itemModels.find { it.id == itemId }
         if (item == null) {
             item = MenuItemModel(
@@ -308,14 +330,14 @@ class AUIChatBottomBarBroadView : RelativeLayout,
 
     private fun unRegisterMenuItem(itemId: Int): MenuItemModel? {
         val item = itemModels.find { it.id == itemId }
-        if(item != null){
+        if (item != null) {
             itemModels.remove(item)
             return item
         }
         return null
     }
 
-    private fun getMenuItem(itemId: Int): MenuItemModel?{
+    private fun getMenuItem(itemId: Int): MenuItemModel? {
         return itemModels.find { it.id == itemId }
     }
 
@@ -428,11 +450,16 @@ class AUIChatBottomBarBroadView : RelativeLayout,
 
     override fun onExpressionClicked(emojiIcon: AUIChatBottomBarIcon?) {
         if (emojiIcon != null) {
-            mViewBinding.inputEditView.append(AUIEmojiBroadUtils.getSmiledText(context, emojiIcon.labelString))
+            mViewBinding.inputEditView.append(
+                AUIEmojiBroadUtils.getSmiledText(
+                    context,
+                    emojiIcon.labelString
+                )
+            )
         }
     }
 
-    override fun onSoftKeyboardHeightChanged(isKeyboardShowed: Boolean,keyboardHeight:Int?) {
+    override fun onSoftKeyboardHeightChanged(isKeyboardShowed: Boolean, keyboardHeight: Int?) {
         val lp: ViewGroup.LayoutParams = mViewBinding.vKeyboardBg.layoutParams
         if (isKeyboardShowed) {
             if (keyboardHeight != null) {
@@ -448,7 +475,7 @@ class AUIChatBottomBarBroadView : RelativeLayout,
         mViewBinding.vKeyboardBg.layoutParams = lp
     }
 
-    override fun setSoftKeyListener(){
+    override fun setSoftKeyListener() {
         listener?.setSoftKeyBoardHeightChangedListener(this)
     }
 

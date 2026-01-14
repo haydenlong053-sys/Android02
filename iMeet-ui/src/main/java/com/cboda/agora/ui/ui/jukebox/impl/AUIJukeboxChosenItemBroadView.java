@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.jukebox.IAUIJukeboxChosenItemBroadView;
+import com.cboda.agora.ui.ui.jukebox.IAUIJukeboxChosenItemBroadView;
 
 public class AUIJukeboxChosenItemBroadView extends FrameLayout implements IAUIJukeboxChosenItemBroadView {
     public static final int PlayingTagLocation_aboveOrder = 1;

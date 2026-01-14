@@ -2,8 +2,8 @@ package com.cboda.agora.ui.ui.chatBottomBar.impl;
 
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIcon;
-import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIconType;
+import com.cboda.agora.ui.ui.chatBottomBar.AUIChatBottomBarIcon;
+import com.cboda.agora.ui.ui.chatBottomBar.AUIChatBottomBarIconType;
 
 public class AUIDefaultEmojiBroadData {
     

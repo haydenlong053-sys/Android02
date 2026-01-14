@@ -15,8 +15,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.chatList.AUIChatBroadInfo
-import com.cboda.agora.ui.chatList.impl.AUICenteredImageBroadSpan
+import com.cboda.agora.ui.ui.chatList.AUIChatBroadInfo
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.cboda.agora.ui.ui.chatBottomBar.impl.AUIEmojiBroadUtils
 

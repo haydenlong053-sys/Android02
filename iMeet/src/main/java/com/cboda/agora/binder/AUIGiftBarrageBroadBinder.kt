@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
-import com.cboda.agora.ui.gift.AUIGiftInfo
-import com.cboda.agora.ui.gift.AUIGiftTabInfo
+import com.cboda.agora.ui.ui.gift.AUIGiftInfo
+import com.cboda.agora.ui.ui.gift.AUIGiftTabInfo
 import com.cboda.agora.ui.ui.gift.IAUIGiftBarrageBroadView
 import com.cboda.agora.ui.ui.gift.impl.dialog.AUiGiftListBroadView
 import com.cboda.agora.service.model.AUIGiftBroadEntity

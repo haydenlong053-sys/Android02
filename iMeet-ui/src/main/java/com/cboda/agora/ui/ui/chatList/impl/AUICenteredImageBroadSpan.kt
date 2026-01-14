@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.chatList.impl
+package com.cboda.agora.ui.ui.chatList.impl
 
 import android.content.Context
 import android.graphics.Canvas

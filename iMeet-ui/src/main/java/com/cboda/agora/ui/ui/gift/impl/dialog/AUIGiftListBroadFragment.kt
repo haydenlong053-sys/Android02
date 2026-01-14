@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.cboda.agora.ui.R
 import com.cboda.agora.ui.databinding.AuiGiftListFragmentBroadLayoutBinding
-import com.cboda.agora.ui.gift.AUIGiftInfo
-import com.cboda.agora.ui.gift.AUIGiftTabInfo
-import com.cboda.agora.ui.gift.listener.AUIConfirmClickBroadListener
-import com.cboda.agora.ui.gift.listener.AUIGiftItemClickBroadListener
-import com.cboda.agora.ui.gift.selected
+import com.cboda.agora.ui.ui.gift.AUIGiftInfo
+import com.cboda.agora.ui.ui.gift.AUIGiftTabInfo
+import com.cboda.agora.ui.ui.gift.listener.AUIConfirmClickBroadListener
+import com.cboda.agora.ui.ui.gift.listener.AUIGiftItemClickBroadListener
+import com.cboda.agora.ui.ui.gift.selected
 import com.cboda.agora.ui.utils.DeviceBroadTools
 
 class AUIGiftListBroadFragment : Fragment,AUIGiftItemClickBroadListener{

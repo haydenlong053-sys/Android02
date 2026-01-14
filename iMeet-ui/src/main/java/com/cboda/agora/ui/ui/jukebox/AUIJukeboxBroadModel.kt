@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.jukebox
+package com.cboda.agora.ui.ui.jukebox
 
 data class AUIMusicInfo(
     val songCode: String,

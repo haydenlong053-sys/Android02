@@ -1,6 +1,6 @@
-package com.cboda.agora.ui.chatBottomBar
+package com.cboda.agora.ui.ui.chatBottomBar
 
-import com.cboda.agora.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
+import com.cboda.agora.ui.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
 
 interface IAUIChatBottomBarBroadView {
 

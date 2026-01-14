@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.chatBottomBar.utils;
+package com.cboda.agora.ui.ui.chatBottomBar.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

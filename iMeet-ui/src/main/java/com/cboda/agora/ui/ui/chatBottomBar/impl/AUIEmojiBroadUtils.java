@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIcon;
+import com.cboda.agora.ui.ui.chatBottomBar.AUIChatBottomBarIcon;
 
 public class AUIEmojiBroadUtils {
     public static final String DELETE_KEY = "em_delete_delete_expression";

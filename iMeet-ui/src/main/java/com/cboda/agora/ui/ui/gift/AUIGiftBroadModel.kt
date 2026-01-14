@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.gift
+package com.cboda.agora.ui.ui.gift
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

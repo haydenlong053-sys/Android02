@@ -1,6 +1,6 @@
-package com.cboda.agora.ui.chatBottomBar.listener
+package com.cboda.agora.ui.ui.chatBottomBar.listener
 
-import com.cboda.agora.ui.chatBottomBar.AUIChatBottomBarIcon
+import com.cboda.agora.ui.ui.chatBottomBar.AUIChatBottomBarIcon
 
 
 interface AUIExpressionClickBroadListener {

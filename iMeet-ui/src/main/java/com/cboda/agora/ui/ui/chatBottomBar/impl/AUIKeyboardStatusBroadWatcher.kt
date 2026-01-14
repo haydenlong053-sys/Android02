@@ -12,13 +12,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.cboda.agora.ui.chatBottomBar.utils.NavigationBroadUtils
-import com.cboda.agora.ui.chatBottomBar.utils.StatusBarBroadCompat
-import com.cboda.agora.ui.chatBottomBar.utils.hasNavBar
-import com.cboda.agora.ui.chatBottomBar.utils.isFullScreen
-import com.cboda.agora.ui.chatBottomBar.utils.isPortrait
-import com.cboda.agora.ui.chatBottomBar.utils.navBarHeight
-import com.cboda.agora.ui.chatBottomBar.utils.screenHeight
+import com.cboda.agora.ui.ui.chatBottomBar.utils.NavigationBroadUtils
+import com.cboda.agora.ui.ui.chatBottomBar.utils.StatusBarBroadCompat
+import com.cboda.agora.ui.ui.chatBottomBar.utils.hasNavBar
+import com.cboda.agora.ui.ui.chatBottomBar.utils.isFullScreen
+import com.cboda.agora.ui.ui.chatBottomBar.utils.isPortrait
+import com.cboda.agora.ui.ui.chatBottomBar.utils.navBarHeight
+import com.cboda.agora.ui.ui.chatBottomBar.utils.screenHeight
 
 class AUIKeyboardStatusBroadWatcher(
     private val activity: FragmentActivity,

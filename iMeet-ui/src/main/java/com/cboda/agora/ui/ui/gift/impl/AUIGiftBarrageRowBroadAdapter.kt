@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.textview.MaterialTextView
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.gift.AUIGiftInfo
+import com.cboda.agora.ui.ui.gift.AUIGiftInfo
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 
 class AUIGiftRowAdapter constructor(

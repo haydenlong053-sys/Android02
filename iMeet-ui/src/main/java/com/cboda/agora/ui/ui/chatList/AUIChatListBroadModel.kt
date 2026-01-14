@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.chatList
+package com.cboda.agora.ui.ui.chatList
 
 import java.io.Serializable
 

@@ -3,10 +3,10 @@ package com.cboda.agora.binder
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.cboda.agora.ui.chatBottomBar.IAUIChatBottomBarBroadView
-import com.cboda.agora.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
-import com.cboda.agora.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
-import com.cboda.agora.ui.chatList.AUIChatBroadInfo
+import com.cboda.agora.ui.ui.chatBottomBar.IAUIChatBottomBarBroadView
+import com.cboda.agora.ui.ui.chatBottomBar.listener.AUIMenuItemClickBroadListener
+import com.cboda.agora.ui.ui.chatBottomBar.listener.AUISoftKeyboardHeightChangeBroadListener
+import com.cboda.agora.ui.ui.chatList.AUIChatBroadInfo
 import com.cboda.agora.ui.micseats.IMicSeatsBroadView
 import com.cboda.agora.ui.ui.chatList.IAUIChatListBroadView
 import com.cboda.agora.AUIVoiceRoomBroadService

@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.chatBottomBar.listener
+package com.cboda.agora.ui.ui.chatBottomBar.listener
 
 import android.view.View
 

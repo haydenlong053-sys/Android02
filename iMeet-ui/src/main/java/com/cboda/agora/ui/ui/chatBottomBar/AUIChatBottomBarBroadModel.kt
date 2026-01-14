@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.chatBottomBar
+package com.cboda.agora.ui.ui.chatBottomBar
 
 import androidx.annotation.DrawableRes
 
