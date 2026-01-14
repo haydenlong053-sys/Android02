@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.cboda.agora.ui.basic.AUIRecyclerBroadView
+    <com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView
         android:id="@+id/rv_audio_preset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

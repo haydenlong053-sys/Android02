@@ -7,10 +7,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import com.cboda.agora.ui.action.AUIActionUserInfo
-import com.cboda.agora.ui.action.AUIActionUserInfoList
-import com.cboda.agora.ui.action.impI.AUIApplyBroadDialog
-import com.cboda.agora.ui.action.impI.AUIInvitationBroadDialog
+import com.cboda.agora.ui.ui.action.AUIActionUserInfo
+import com.cboda.agora.ui.ui.action.AUIActionUserInfoList
 import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
 import com.cboda.agora.AUIVoiceRoomBroadService
 import com.cboda.agora.R
@@ -23,24 +21,26 @@ import com.cboda.agora.service.service.IAUIInvitationBroadService
 import com.cboda.agora.service.service.IAUIMicSeatBroadService
 import com.cboda.agora.service.service.IAUIUserBroadService
 import com.cboda.agora.service.service.callback.AUIBroadException
+import com.cboda.agora.ui.ui.action.impI.AUIApplyBroadDialog
+import com.cboda.agora.ui.ui.action.impI.AUIInvitationBroadDialog
 
 class AUIInvitationBinder constructor(
     activity: FragmentActivity?,
     voiceService: AUIVoiceRoomBroadService,
-):
+) :
     IAUIBroadBindable, IAUIInvitationBroadService.AUIInvitationRespObserver,
     IAUIUserBroadService.AUIUserRespObserver, IAUIMicSeatBroadService.AUIMicSeatRespObserver {
     private var activity: FragmentActivity?
     private var mVoiceService: AUIVoiceRoomBroadService
-    private var invitationService:IAUIInvitationBroadService
+    private var invitationService: IAUIInvitationBroadService
     private val applyList = mutableListOf<AUIUserBroadInfo?>()
-    private var applyDialog: AUIApplyBroadDialog?=null
-    private var invitationDialog: AUIInvitationBroadDialog?=null
+    private var applyDialog: AUIApplyBroadDialog? = null
+    private var invitationDialog: AUIInvitationBroadDialog? = null
 
     private var mSeatMap = mutableMapOf<Int, String>()
     private var mMemberMap = mutableMapOf<String?, AUIUserBroadInfo?>()
-    private var currentMemberList:MutableList<AUIUserBroadInfo?> = mutableListOf()
-    private var userService:IAUIUserBroadService
+    private var currentMemberList: MutableList<AUIUserBroadInfo?> = mutableListOf()
+    private var userService: IAUIUserBroadService
     private var applyUserList = ArrayList<AUIUserBroadInfo?>()
 
     init {
@@ -71,9 +71,9 @@ class AUIInvitationBinder constructor(
     }
 
     // 显示申请列表
-    fun showApplyDialog(){
+    fun showApplyDialog() {
         var dialog = applyDialog
-        if (dialog == null){
+        if (dialog == null) {
             dialog = AUIApplyBroadDialog()
             dialog.refreshApplyData(applyList.map { userInfo ->
                 AUIActionUserInfo(
@@ -92,21 +92,29 @@ class AUIInvitationBinder constructor(
                 user: AUIActionUserInfo?,
                 position: Int
             ) {
-                if (user?.userId != null && applyIndex != null){
+                if (user?.userId != null && applyIndex != null) {
 
 
                     mVoiceService.invitationService.acceptApply(
                         user.userId,
                         applyIndex
                     ) {
-                        if (it == null){
-                            Log.d("apex","房主同意上麦申请 成功")
-                            Toast.makeText(view.context, R.string.voice_room_apply_accept_success, Toast.LENGTH_SHORT).show()
-                            
+                        if (it == null) {
+                            Log.d("apex", "房主同意上麦申请 成功")
+                            Toast.makeText(
+                                view.context,
+                                R.string.voice_room_apply_accept_success,
+                                Toast.LENGTH_SHORT
+                            ).show()
+
                             // 优化后的重复申请处理逻辑（可选的安全保障）
 //                            handleDuplicateApplications(user.userId, applyIndex)
-                        }else{
-                            Toast.makeText(view.context, R.string.voice_room_apply_accept_failed, Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(
+                                view.context,
+                                R.string.voice_room_apply_accept_failed,
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
@@ -131,13 +139,18 @@ class AUIInvitationBinder constructor(
             }
         }
         applyDialog?.refreshApplyData(applyList.map { userInfo ->
-            AUIActionUserInfo(userInfo?.userId ?: "", userInfo?.userName ?: "", userInfo?.userAvatar ?: "", userInfo?.micIndex ?: 0)
+            AUIActionUserInfo(
+                userInfo?.userId ?: "",
+                userInfo?.userName ?: "",
+                userInfo?.userAvatar ?: "",
+                userInfo?.micIndex ?: 0
+            )
         })
     }
 
     override fun onApplyAccepted(userId: String, seatIndex: Int) {
         super.onApplyAccepted(userId, seatIndex)
-        if(userId == AUIRoomBroadContext.shared().currentUserInfo.userId){
+        if (userId == AUIRoomBroadContext.shared().currentUserInfo.userId) {
 //            Toast.makeText(activity, R.string.voice_room_apply_accepted, Toast.LENGTH_SHORT).show()
         }
     }
@@ -165,7 +178,7 @@ class AUIInvitationBinder constructor(
 
 
     //显示邀请列表
-    fun showInvitationDialog(index:Int){
+    fun showInvitationDialog(index: Int) {
         val invitationInfo = AUIActionUserInfoList(currentMemberList.map { userInfo ->
             AUIActionUserInfo(
                 userInfo?.userId ?: "",
@@ -175,7 +188,7 @@ class AUIInvitationBinder constructor(
             )
         })
         invitationInfo.invitedIndex = index
-        Log.e("apex","onShowInvited $index $invitationInfo")
+        Log.e("apex", "onShowInvited $index $invitationInfo")
         invitationDialog = AUIInvitationBroadDialog()
         invitationDialog?.apply {
             arguments = Bundle().apply {
@@ -183,17 +196,29 @@ class AUIInvitationBinder constructor(
                 putInt(AUIInvitationBroadDialog.KEY_CURRENT_ITEM, 0)
             }
             setInvitationDialogListener(object : AUIInvitationDialogEventBroadListener {
-                override fun onInvitedItemClick(view: View, invitedIndex: Int, user: AUIActionUserInfo?) {
-                    if (user != null){
+                override fun onInvitedItemClick(
+                    view: View,
+                    invitedIndex: Int,
+                    user: AUIActionUserInfo?
+                ) {
+                    if (user != null) {
                         mVoiceService.invitationService.sendInvitation(
                             user.userId,
                             invitedIndex
                         ) {
                             if (it == null) {
-                                Toast.makeText(context, R.string.voice_room_invite_send_success, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    R.string.voice_room_invite_send_success,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 dismiss()
                             } else {
-                                Toast.makeText(context, R.string.voice_room_invite_send_failed, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    R.string.voice_room_invite_send_failed,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
@@ -208,7 +233,7 @@ class AUIInvitationBinder constructor(
     }
 
     override fun onReceiveInvitation(userId: String, micIndex: Int) {
-        if(userId != mVoiceService.micSeatService.roomContext.currentUserInfo.userId){
+        if (userId != mVoiceService.micSeatService.roomContext.currentUserInfo.userId) {
             return
         }
         // 收到上麦邀请
@@ -216,30 +241,32 @@ class AUIInvitationBinder constructor(
             AUIAlertBroadDialog(it).apply {
 
                 setTitle(
-                    if (micIndex == -1){
-                        context.getString(R.string.voice_room_receive_invitation_content).format(mVoiceService.roomInfo?.owner?.userName,)
-                    }else{
+                    if (micIndex == -1) {
+                        context.getString(R.string.voice_room_receive_invitation_content)
+                            .format(mVoiceService.roomInfo?.owner?.userName)
+                    } else {
                         context.getString(R.string.voice_room_receive_invitation_title).format(
                             mVoiceService.roomInfo?.owner?.userName,
-                            micIndex+1
+                            micIndex + 1
                         )
 //                        context.getString(R.string.voice_room_receive_invitation_title,micIndex+1)
                     }
                 )
                 setMessage("上麦后可开启语音说话")
                 setPositiveButton(context.getString(R.string.voice_room_confirm)) {
-                    mVoiceService.invitationService.acceptInvitation(userId,micIndex
-                    ) { e->
-                        if (e == null){
-                            Log.d("apex","同意上麦邀请成功")
+                    mVoiceService.invitationService.acceptInvitation(
+                        userId, micIndex
+                    ) { e ->
+                        if (e == null) {
+                            Log.d("apex", "同意上麦邀请成功")
                         }
                     }
                     dismiss()
                 }
-                setNegativeButton( context.getString(R.string.voice_room_reject)) {
-                    mVoiceService.invitationService.rejectInvitation(userId){ e ->
-                        if (e == null){
-                            Log.d("apex","拒绝上麦邀请成功")
+                setNegativeButton(context.getString(R.string.voice_room_reject)) {
+                    mVoiceService.invitationService.rejectInvitation(userId) { e ->
+                        if (e == null) {
+                            Log.d("apex", "拒绝上麦邀请成功")
                         }
                     }
                     dismiss()
@@ -252,7 +279,7 @@ class AUIInvitationBinder constructor(
 
     /** IAUiUserService.AUiUserRespDelegate */
     override fun onRoomUserEnter(roomId: String, userInfo: AUIUserBroadInfo) {
-        Log.d("apex","onRoomUserEnter ${userInfo.userId}")
+        Log.d("apex", "onRoomUserEnter ${userInfo.userId}")
         val auiUserInfo = userService.getUserInfo(userInfo.userId)
         mMemberMap[userInfo.userId] = auiUserInfo
         filterCurrentMember()
@@ -271,7 +298,7 @@ class AUIInvitationBinder constructor(
 
     override fun onRoomUserSnapshot(roomId: String, userList: MutableList<AUIUserBroadInfo>?) {
         userList?.forEach { userInfo ->
-            Log.e("apex","onRoomUserSnapshot ${userInfo.userName} - ${userInfo.userAvatar}")
+            Log.e("apex", "onRoomUserSnapshot ${userInfo.userName} - ${userInfo.userAvatar}")
             mMemberMap[userInfo.userId] = userInfo
         }
         filterCurrentMember()
@@ -287,76 +314,86 @@ class AUIInvitationBinder constructor(
         if (mSeatMap[seatIndex].equals(userInfo.userId)) {
             mSeatMap.remove(seatIndex)
         }
-        invitationService.cleanUserInfo(userInfo.userId){}
+        invitationService.cleanUserInfo(userInfo.userId) {}
         filterCurrentMember()
     }
 
-    private fun filterCurrentMember(){
+    private fun filterCurrentMember() {
         // 过滤已在麦位的用户
         currentMemberList.clear()
-        mMemberMap.values.toList().forEach {  user ->
+        mMemberMap.values.toList().forEach { user ->
             // 在麦位数据和所有成员数据中 查找共有的uid
             val uid = mSeatMap.entries.find { it.value == user?.userId }?.value
-            if (user?.userId != uid && user?.userId != mVoiceService.roomInfo?.owner?.userId){
+            if (user?.userId != uid && user?.userId != mVoiceService.roomInfo?.owner?.userId) {
                 currentMemberList.add(user)
             }
         }
         invitationDialog?.refreshInvitationData(currentMemberList.map { userInfo ->
-            AUIActionUserInfo(userInfo?.userId ?: "", userInfo?.userName ?: "", userInfo?.userAvatar ?: "", userInfo?.micIndex ?: 0)
+            AUIActionUserInfo(
+                userInfo?.userId ?: "",
+                userInfo?.userName ?: "",
+                userInfo?.userAvatar ?: "",
+                userInfo?.micIndex ?: 0
+            )
         })
     }
 
-    private fun updateApplyUserInfo(){
+    private fun updateApplyUserInfo() {
         applyList.clear()
         applyUserList.forEach { it1 ->
             val userInfo = mMemberMap[it1?.userId]
-            userInfo?.micIndex = (it1?.micIndex)?:-1
+            userInfo?.micIndex = (it1?.micIndex) ?: -1
             userInfo?.let {
                 applyList.add(it)
             }
         }
         applyDialog?.refreshApplyData(applyList.map { userInfo ->
-            AUIActionUserInfo(userInfo?.userId ?: "", userInfo?.userName ?: "", userInfo?.userAvatar ?: "", userInfo?.micIndex ?: 0)
+            AUIActionUserInfo(
+                userInfo?.userId ?: "",
+                userInfo?.userName ?: "",
+                userInfo?.userAvatar ?: "",
+                userInfo?.micIndex ?: 0
+            )
         })
     }
 
     /**
      * 处理重复申请的优化方法
      * 当房主同意某个用户的上麦申请后，自动拒绝其他申请同一麦位的用户
-     * 
+     *
      * @param acceptedUserId 已被同意的用户ID
      * @param seatIndex 麦位索引
      */
     private fun handleDuplicateApplications(acceptedUserId: String, seatIndex: Int) {
         // 查找申请同一麦位的其他用户
         val duplicateApplications = applyList.filter { user ->
-            user != null && 
-            user.userId != acceptedUserId && 
-            user.micIndex == seatIndex
+            user != null &&
+                    user.userId != acceptedUserId &&
+                    user.micIndex == seatIndex
         }.mapNotNull { it?.userId }
-        
+
         if (duplicateApplications.isEmpty()) {
             Log.d("DuplicateApply", "没有发现重复申请同一麦位的用户")
             return
         }
-        
+
         val duplicateCount = duplicateApplications.size
         Log.d("DuplicateApply", "发现 $duplicateCount 个重复申请麦位 $seatIndex 的用户")
-        
+
         // 安全检查：如果重复申请过多，记录警告并限制处理数量
         if (duplicateCount > 20) {
             Log.w("DuplicateApply", "重复申请数量过多($duplicateCount)，可能存在异常情况")
             // 可以选择只处理前20个，或者完全跳过处理
             // return
         }
-        
+
         // 使用批量处理和限流机制
         batchRejectApplications(duplicateApplications, seatIndex)
     }
-    
+
     /**
      * 批量拒绝申请，使用限流机制避免并发请求风暴
-     * 
+     *
      * @param userIds 需要拒绝的用户ID列表
      * @param seatIndex 麦位索引
      */
@@ -364,11 +401,11 @@ class AUIInvitationBinder constructor(
         var successCount = 0
         var failureCount = 0
         val totalCount = userIds.size
-        
+
         // 限流处理：每次最多处理5个请求，间隔100ms
         val batchSize = 5
         val delayMs = 100L
-        
+
         userIds.chunked(batchSize).forEachIndexed { batchIndex, batch ->
             // 延迟处理，避免并发请求过多
             Handler(Looper.getMainLooper()).postDelayed({
@@ -376,15 +413,24 @@ class AUIInvitationBinder constructor(
                     mVoiceService.invitationService.rejectApply(userId) { error ->
                         if (error == null) {
                             successCount++
-                            Log.d("DuplicateApply", "成功拒绝用户 $userId 的重复申请 ($successCount/$totalCount)")
+                            Log.d(
+                                "DuplicateApply",
+                                "成功拒绝用户 $userId 的重复申请 ($successCount/$totalCount)"
+                            )
                         } else {
                             failureCount++
-                            Log.w("DuplicateApply", "拒绝用户 $userId 的重复申请失败: ${error.message} ($failureCount 失败)")
+                            Log.w(
+                                "DuplicateApply",
+                                "拒绝用户 $userId 的重复申请失败: ${error.message} ($failureCount 失败)"
+                            )
                         }
-                        
+
                         // 当所有请求完成时，输出统计信息
                         if (successCount + failureCount == totalCount) {
-                            Log.i("DuplicateApply", "批量拒绝完成 - 成功: $successCount, 失败: $failureCount, 总计: $totalCount")
+                            Log.i(
+                                "DuplicateApply",
+                                "批量拒绝完成 - 成功: $successCount, 失败: $failureCount, 总计: $totalCount"
+                            )
                         }
                     }
                 }

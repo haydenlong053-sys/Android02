@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.action.AUIActionUserInfo
-import com.cboda.agora.ui.action.AUIActionUserInfoList
+import com.cboda.agora.ui.ui.action.AUIActionUserInfo
+import com.cboda.agora.ui.ui.action.AUIActionUserInfoList
 import com.cboda.agora.ui.databinding.AuiInvitationListBroadLayoutBinding
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.cboda.agora.ui.utils.ResourcesBroadTools

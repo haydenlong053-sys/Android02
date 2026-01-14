@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.basic
+package com.cboda.agora.ui.ui.basic
 
 import android.content.DialogInterface
 import android.graphics.Color
@@ -18,13 +18,19 @@ abstract class AUISheetFragmentBroadDialog<B : ViewBinding?> : BottomSheetDialog
 
     var binding: B? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = getViewBinding(inflater, container)
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onHandleOnBackPressed()
-            }
-        })
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    onHandleOnBackPressed()
+                }
+            })
         return this.binding?.root
     }
 

@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
+import com.cboda.agora.ui.ui.basic.AUISheetFragmentBroadDialog
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
 import com.google.android.material.textview.MaterialTextView
 import com.cboda.agora.R
@@ -19,20 +19,20 @@ import com.cboda.agora.ui.utils.FastClickBroadTools
 
 class VoiceRoomMoreDialog(
     context: Context,
-    itemList:MutableList<VoiceMoreItemBean>,
-    itemListener:GridViewItemClickListener
-) : AUISheetFragmentBroadDialog<VoiceRoomMoreBroadLayoutBinding>()  {
-    private var mContext:Context
+    itemList: MutableList<VoiceMoreItemBean>,
+    itemListener: GridViewItemClickListener
+) : AUISheetFragmentBroadDialog<VoiceRoomMoreBroadLayoutBinding>() {
+    private var mContext: Context
     private val mColumns = 4
-    private var gridAdapter:VoiceMoreDialogAdapter? = null
-    private var data:MutableList<VoiceMoreItemBean>? = null
-    private var listener:GridViewItemClickListener?=null
+    private var gridAdapter: VoiceMoreDialogAdapter? = null
+    private var data: MutableList<VoiceMoreItemBean>? = null
+    private var listener: GridViewItemClickListener? = null
 
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): VoiceRoomMoreBroadLayoutBinding {
-       return VoiceRoomMoreBroadLayoutBinding.inflate(inflater, container, false)
+        return VoiceRoomMoreBroadLayoutBinding.inflate(inflater, container, false)
     }
 
     init {
@@ -42,7 +42,7 @@ class VoiceRoomMoreDialog(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view,savedInstanceState)
+        super.onViewCreated(view, savedInstanceState)
         binding?.root?.let { setOnApplyWindowInsets(it) }
         initView()
         initListener()
@@ -58,21 +58,21 @@ class VoiceRoomMoreDialog(
         }
     }
 
-    private fun initListener(){
+    private fun initListener() {
         binding?.gvGridview?.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
-                if (!FastClickBroadTools.isFastClick(view)){
+                if (!FastClickBroadTools.isFastClick(view)) {
                     listener?.onItemClickListener(position)
                 }
             }
     }
 
-    fun updateStatus(position: Int,enable: Boolean){
-        gridAdapter?.updateStatus(position,enable)
+    fun updateStatus(position: Int, enable: Boolean) {
+        gridAdapter?.updateStatus(position, enable)
     }
 
-    interface GridViewItemClickListener{
-        fun onItemClickListener(position:Int){}
+    interface GridViewItemClickListener {
+        fun onItemClickListener(position: Int) {}
     }
 }
 
@@ -80,8 +80,8 @@ class VoiceMoreDialogAdapter(
     context: Context,
     resource: Int,
     objects: MutableList<VoiceMoreItemBean>
-) : ArrayAdapter<VoiceMoreItemBean>(context, resource, objects){
-    private var selectPosition:Int = -1
+) : ArrayAdapter<VoiceMoreItemBean>(context, resource, objects) {
+    private var selectPosition: Int = -1
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
@@ -94,9 +94,9 @@ class VoiceMoreDialogAdapter(
         val item: VoiceMoreItemBean? = getItem(position)
         item.let {
             title.text = it?.ItemTitle
-            if (item?.ItemStatus == true && selectPosition == position){
+            if (item?.ItemStatus == true && selectPosition == position) {
                 status.visibility = View.VISIBLE
-            }else{
+            } else {
                 status.visibility = View.GONE
             }
             icon.setBackgroundResource(R.drawable.voice_bg_more_item_broad_gradient)
@@ -107,7 +107,7 @@ class VoiceMoreDialogAdapter(
         }
     }
 
-    fun updateStatus(position:Int,enable:Boolean){
+    fun updateStatus(position: Int, enable: Boolean) {
         selectPosition = position
         val item = getItem(position)
         item?.ItemStatus = enable

@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialog;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.basic.AUIShadowRectBroadDrawable;
 
 public class AUIAlertBroadDialog extends AppCompatDialog {
 
@@ -27,7 +26,7 @@ public class AUIAlertBroadDialog extends AppCompatDialog {
     private TextView tvMessage;
     private AUIBroadButton btnPositive;
     private AUIBroadButton btnNegative;
-    private com.cboda.agora.ui.basic.AUIEditBroadText edtInput;
+    private com.cboda.agora.ui.ui.basic.AUIEditBroadText edtInput;
     private Space btnSpace;
     private Space inputSpaceTop;
     private Space inputSpaceBottom;

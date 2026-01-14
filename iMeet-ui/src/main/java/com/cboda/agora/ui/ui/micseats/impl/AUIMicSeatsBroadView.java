@@ -9,12 +9,11 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.basic.AUIBottomBroadDialog;
-import com.cboda.agora.ui.basic.AUIRecyclerBroadView;
+import com.cboda.agora.ui.ui.basic.AUIBottomBroadDialog;
+import com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView;
 import com.cboda.agora.ui.micseats.IMicSeatItemBroadView;
 import com.cboda.agora.ui.micseats.IMicSeatsBroadView;
 import com.cboda.agora.ui.micseats.MicSeatBroadStatus;

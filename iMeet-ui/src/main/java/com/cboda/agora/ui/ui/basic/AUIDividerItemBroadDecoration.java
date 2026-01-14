@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.basic;
+package com.cboda.agora.ui.ui.basic;
 
 import android.content.Context;
 import android.content.res.TypedArray;

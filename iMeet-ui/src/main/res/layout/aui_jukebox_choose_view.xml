@@ -7,15 +7,15 @@
     android:orientation="vertical"
     android:theme="?attr/aui_jukeboxChoose_appearance">
 
-    <com.cboda.agora.ui.basic.AUIEditBroadText
+    <com.cboda.agora.ui.ui.basic.AUIEditBroadText
         android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:aui_edittext_icon_left="?attr/aui_jukeboxChoose_searchIcon"
-        app:aui_edittext_icon_right="?attr/aui_jukeboxChoose_searchCloseIcon"
-        app:aui_edittext_input_hintText="?attr/aui_jukeboxChoose_searchHintText"
-        android:layout_marginHorizontal="?attr/aui_jukeboxChoose_searchMarginHorizontal"
-        android:layout_marginVertical="?attr/aui_jukeboxChoose_searchMarginVertical" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="12dp"
+        app:aui_edittext_icon_left="@drawable/aui_jukebox_choose_icon_broad_search"
+        app:aui_edittext_icon_right="@drawable/aui_jukebox_choose_icon_broad_close"
+        app:aui_edittext_input_hintText="@string/aui_jukebox_search_hint" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,12 +27,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.cboda.agora.ui.basic.AUITabBroadLayout
+            <com.cboda.agora.ui.ui.basic.AUITabBroadLayout
                 android:id="@+id/tl_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:aui_tabLayout_tabMode="scrollable"
-                app:aui_tabLayout_menu="@menu/aui_jukebox_broad_category"/>
+                app:aui_tabLayout_menu="@menu/aui_jukebox_broad_category"
+                app:aui_tabLayout_tabMode="scrollable" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/srl_list"
@@ -40,7 +40,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <com.cboda.agora.ui.basic.AUIRecyclerBroadView
+                <com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <com.cboda.agora.ui.basic.AUIRecyclerBroadView
+            <com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView
                 android:id="@+id/recyclerView_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

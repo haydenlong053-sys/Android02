@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.basic;
+package com.cboda.agora.ui.ui.basic;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -66,7 +66,7 @@ public class AUIBroadDividers extends FrameLayout {
         typedArray.recycle();
     }
 
-    private void initView(){
+    private void initView() {
         View.inflate(getContext(), R.layout.aui_dividers_broad_layout, this);
         vLine = findViewById(R.id.line);
         tvText = findViewById(R.id.text);

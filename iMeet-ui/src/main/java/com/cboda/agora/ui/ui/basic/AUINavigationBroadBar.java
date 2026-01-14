@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.basic;
+package com.cboda.agora.ui.ui.basic;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -70,10 +70,10 @@ public class AUINavigationBroadBar extends LinearLayout {
         int contentPaddingTop = typedArray.getDimensionPixelSize(R.styleable.AUINavigationBroadBar_aui_navigationBar_contentPaddingTop, 0);
         int contentPaddingEnd = typedArray.getDimensionPixelSize(R.styleable.AUINavigationBroadBar_aui_navigationBar_contentPaddingEnd, 0);
         int contentPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.AUINavigationBroadBar_aui_navigationBar_contentPaddingBottom, 0);
-        if(contentPadding > 0){
+        if (contentPadding > 0) {
             contentPaddingTopWithoutOffset = contentPadding + bgShadowWidth;
             llItems.setPadding(contentPadding, contentPaddingTopWithoutOffset, contentPadding, contentPadding);
-        }else{
+        } else {
             contentPaddingTopWithoutOffset = contentPaddingTop + bgShadowWidth;
             llItems.setPadding(contentPaddingStart, contentPaddingTopWithoutOffset, contentPaddingEnd, contentPaddingBottom);
         }
@@ -131,7 +131,7 @@ public class AUINavigationBroadBar extends LinearLayout {
                         tagName = parser.getName();
                         if (tagName.equals("item")) {
                             createMenuItemView(index, attrs);
-                            index ++;
+                            index++;
                         } else {
                             lookingForEndOfUnknownTag = true;
                             unknownTagName = tagName;
@@ -265,7 +265,7 @@ public class AUINavigationBroadBar extends LinearLayout {
         itemView.setOnClickListener(v -> {
             changeItemActivated(itemView);
         });
-        if(index == 0){
+        if (index == 0) {
             changeItemActivated(itemView);
         }
     }

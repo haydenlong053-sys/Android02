@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.basic.AUIBottomBroadDialog;
+import com.cboda.agora.ui.ui.basic.AUIBottomBroadDialog;
 import com.cboda.agora.ui.musicplayer.ControllerEffectInfo;
 import com.cboda.agora.ui.musicplayer.IMusicPlayerBroadView;
 import com.cboda.agora.ui.musicplayer.MusicSettingInfo;

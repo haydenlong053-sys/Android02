@@ -16,7 +16,7 @@
         android:background="?attr/aui_jukebox_titleTabDivider"
         app:layout_constraintBottom_toBottomOf="@id/jbtabLayout" />
 
-    <com.cboda.agora.ui.basic.AUITabBroadLayout
+    <com.cboda.agora.ui.ui.basic.AUITabBroadLayout
         android:id="@+id/jbtabLayout"
         style="?attr/aui_tabLayout_appearance_round"
         android:layout_width="200dp"

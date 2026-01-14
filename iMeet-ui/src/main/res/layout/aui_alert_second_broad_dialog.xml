@@ -14,7 +14,7 @@
     android:paddingTop="?attr/aui_alertDialog_contentPaddingTop"
     android:paddingEnd="?attr/aui_alertDialog_contentPaddingEnd"
     android:paddingBottom="?attr/aui_alertDialog_contentPaddingBottom"
-    tools:theme="@style/AUiAlertDialog">
+    tools:theme="@style/AUIAlertBroadDialog">
 
     <LinearLayout
         android:id="@+id/topPanel"
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:gravity="?attr/aui_alertDialog_titleGravity"
+                android:gravity="center_horizontal"
                 android:singleLine="true"
                 android:textColor="?attr/aui_alertDialog_titleTextColor"
                 android:textSize="?attr/aui_alertDialog_titleTextSize" />
@@ -83,7 +83,7 @@
                     android:id="@+id/tvMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="?attr/aui_alertDialog_messageGravity"
+                    android:gravity="center_horizontal"
                     android:text="?attr/aui_alertDialog_messageText"
                     android:textColor="?attr/aui_alertDialog_messageTextColor"
                     android:textSize="?attr/aui_alertDialog_messageTextSize"
@@ -111,7 +111,7 @@
                     android:layout_height="?attr/aui_alertDialog_inputSpaceTop"
                     android:visibility="?attr/aui_alertDialog_inputVisible" />
 
-                <com.cboda.agora.ui.basic.AUIEditBroadText
+                <com.cboda.agora.ui.ui.basic.AUIEditBroadText
                     android:id="@+id/inputEditText"
                     style="?attr/aui_alertDialog_inputStyle"
                     android:layout_width="match_parent"

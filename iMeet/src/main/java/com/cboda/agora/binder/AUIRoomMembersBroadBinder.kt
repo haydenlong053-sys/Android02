@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
-import com.cboda.agora.ui.basic.AUIBottomBroadDialog
+import com.cboda.agora.ui.ui.basic.AUIBottomBroadDialog
 import com.cboda.agora.ui.ui.member.listener.AUIRoomMembersActionBroadListener
 import com.cboda.agora.ui.ui.member.MemberBroadInfo
 import com.cboda.agora.AUIVoiceRoomBroadService

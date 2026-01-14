@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.basic.AUIFrameBroadLayout;
-import com.cboda.agora.ui.basic.AUITabBroadLayout;
+import com.cboda.agora.ui.ui.basic.AUITabBroadLayout;
 import com.cboda.agora.ui.jukebox.AUIMusicInfo;
 import com.cboda.agora.ui.jukebox.IAUIJukeboxBroadView;
+import com.cboda.agora.ui.ui.basic.AUIFrameBroadLayout;
 
 public class AUIJukeboxBroadView extends AUIFrameBroadLayout implements IAUIJukeboxBroadView {
 
@@ -89,7 +89,7 @@ public class AUIJukeboxBroadView extends AUIFrameBroadLayout implements IAUIJuke
         });
 
         tlCategory.setOnTabSelectChangeListener((index, menuId, selected) -> {
-            if(selected){
+            if (selected) {
                 viewPager.setCurrentItem(index);
             }
         });

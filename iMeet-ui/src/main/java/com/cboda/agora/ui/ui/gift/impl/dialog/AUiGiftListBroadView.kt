@@ -1,4 +1,5 @@
 package com.cboda.agora.ui.ui.gift.impl.dialog
+
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Typeface
@@ -13,26 +14,26 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
 import com.cboda.agora.ui.databinding.AuiGiftListViewBroadLayoutBinding
 import com.cboda.agora.ui.gift.AUIGiftInfo
 import com.cboda.agora.ui.gift.AUIGiftTabInfo
 import com.cboda.agora.ui.ui.basic.AUIImageBroadView
+import com.cboda.agora.ui.ui.basic.AUISheetFragmentBroadDialog
 import com.cboda.agora.ui.ui.gift.IAUIGiftBarrageBroadView
 import com.cboda.agora.ui.utils.ResourcesBroadTools
 
 class AUiGiftListBroadView constructor(
     context: Context,
-    data:List<AUIGiftTabInfo>
+    data: List<AUIGiftTabInfo>
 ) : AUISheetFragmentBroadDialog<AuiGiftListViewBroadLayoutBinding>(), IAUIGiftBarrageBroadView {
 
-    private var mGiftList : List<AUIGiftTabInfo> = mutableListOf()
+    private var mGiftList: List<AUIGiftTabInfo> = mutableListOf()
     private var tapList: MutableList<Int> = mutableListOf()
-    private var mContext:Context
-    private var listener:ActionListener?=null
-    private var giftDialogBg:Int = 0
-    private var mTabSelectedColor:Int = 0
-    private var mTabUnSelectedColor:Int = 0
+    private var mContext: Context
+    private var listener: ActionListener? = null
+    private var giftDialogBg: Int = 0
+    private var mTabSelectedColor: Int = 0
+    private var mTabUnSelectedColor: Int = 0
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -51,20 +52,25 @@ class AUiGiftListBroadView constructor(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view,savedInstanceState)
+        super.onViewCreated(view, savedInstanceState)
         binding?.root?.let { setOnApplyWindowInsets(it) }
 
         // 获取自定义样式的ID
-        val themeTa: TypedArray = mContext.theme.obtainStyledAttributes(R.styleable.AUIGiftBottomDialog)
-        val appearanceId = themeTa.getResourceId(R.styleable.AUIGiftBottomDialog_aui_giftBottomDialog_appearance, 0)
+        val themeTa: TypedArray =
+            mContext.theme.obtainStyledAttributes(R.styleable.AUIGiftBottomDialog)
+        val appearanceId = themeTa.getResourceId(
+            R.styleable.AUIGiftBottomDialog_aui_giftBottomDialog_appearance,
+            0
+        )
         themeTa.recycle()
 
         initView(appearanceId)
         initListener()
     }
 
-    fun initView(appearanceId:Int) {
-        val typedArray = mContext.obtainStyledAttributes(appearanceId, R.styleable.AUIGiftBottomDialog)
+    fun initView(appearanceId: Int) {
+        val typedArray =
+            mContext.obtainStyledAttributes(appearanceId, R.styleable.AUIGiftBottomDialog)
         giftDialogBg = typedArray.getResourceId(
             R.styleable.AUIGiftBottomDialog_aui_giftBottomDialog_bg,
             R.drawable.aui_gift_r20_white_bg_broad_light
@@ -102,9 +108,9 @@ class AUiGiftListBroadView constructor(
                     val title = tab.customView?.findViewById<TextView>(R.id.tab_item_title)
                     title?.text = mGiftList[position].tabName
                     binding?.tabLayout?.getTabAt(0)?.select() //默认选中某项放在加载viewpager之后
-                    if (position == 0){
+                    if (position == 0) {
                         onTabLayoutSelected(tab)
-                    }else{
+                    } else {
                         onTabLayoutUnselected(tab)
                     }
                 }
@@ -118,7 +124,7 @@ class AUiGiftListBroadView constructor(
         tagIcon?.visibility = View.VISIBLE
     }
 
-    private fun initListener(){
+    private fun initListener() {
         binding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 onTabLayoutSelected(tab)
@@ -134,12 +140,12 @@ class AUiGiftListBroadView constructor(
         })
     }
 
-    override fun setDialogActionListener(listener:ActionListener){
+    override fun setDialogActionListener(listener: ActionListener) {
         this.listener = listener
     }
 
-    interface ActionListener{
-        fun onGiftSend(bean: AUIGiftInfo?){}
+    interface ActionListener {
+        fun onGiftSend(bean: AUIGiftInfo?) {}
     }
 
     private fun onTabLayoutSelected(tab: TabLayout.Tab?) {

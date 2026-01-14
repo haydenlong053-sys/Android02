@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.action
+package com.cboda.agora.ui.ui.action
 
 import java.io.Serializable
 

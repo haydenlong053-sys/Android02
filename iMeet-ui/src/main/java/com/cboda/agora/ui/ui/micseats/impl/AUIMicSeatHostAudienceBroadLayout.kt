@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.basic.AUIBottomBroadDialog
+import com.cboda.agora.ui.ui.basic.AUIBottomBroadDialog
 import com.cboda.agora.ui.micseats.IMicSeatItemBroadView
 import com.cboda.agora.ui.micseats.IMicSeatsBroadView
 import com.cboda.agora.ui.micseats.MicSeatBroadItem

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.basic.AUIRecyclerBroadView;
+import com.cboda.agora.ui.ui.basic.AUIRecyclerBroadView;
 import com.cboda.agora.ui.musicplayer.ControllerEffectInfo;
 import com.cboda.agora.ui.musicplayer.listener.IMusicPlayerEffectActionBroadListener;
 

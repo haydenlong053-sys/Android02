@@ -22,8 +22,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.List;
 
 import com.cboda.agora.ui.R;
-import com.cboda.agora.ui.basic.AUIEditBroadText;
-import com.cboda.agora.ui.basic.AUITabBroadLayout;
+import com.cboda.agora.ui.ui.basic.AUIEditBroadText;
+import com.cboda.agora.ui.ui.basic.AUITabBroadLayout;
 
 public class AUIJukeboxChooseBroadView extends FrameLayout {
 
@@ -107,7 +107,7 @@ public class AUIJukeboxChooseBroadView extends FrameLayout {
                 rvDataList.scrollToPosition(0);
                 srlDataList.setRefreshing(true);
 
-                if(onCategoryTabChangeListener != null){
+                if (onCategoryTabChangeListener != null) {
                     onCategoryTabChangeListener.onCategoryTabChanged(tab.getPosition());
                 }
             }
@@ -186,7 +186,7 @@ public class AUIJukeboxChooseBroadView extends FrameLayout {
         void onSearchingStart(String content);
     }
 
-    public interface OnCategoryTabChangeListener{
+    public interface OnCategoryTabChangeListener {
         void onCategoryTabChanged(int index);
     }
 
@@ -218,7 +218,7 @@ public class AUIJukeboxChooseBroadView extends FrameLayout {
 
         abstract void onLoadMore();
 
-        public void setLoadMoreComplete(){
+        public void setLoadMoreComplete() {
             isLoadingMore = false;
         }
 

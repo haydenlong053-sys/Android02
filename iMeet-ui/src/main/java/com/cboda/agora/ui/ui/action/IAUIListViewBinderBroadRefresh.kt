@@ -1,6 +1,6 @@
 package com.cboda.agora.ui.ui.action
 
-import com.cboda.agora.ui.action.AUIActionUserInfo
+import com.cboda.agora.ui.ui.action.AUIActionUserInfo
 import com.cboda.agora.ui.ui.action.listener.AUIApplyDialogEventBroadListener
 import com.cboda.agora.ui.ui.action.listener.AUIInvitationDialogEventBroadListener
 

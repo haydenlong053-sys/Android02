@@ -1,4 +1,4 @@
-package com.cboda.agora.ui.action.impI
+package com.cboda.agora.ui.ui.action.impI
 
 import android.content.res.TypedArray
 import android.graphics.Typeface
@@ -14,9 +14,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.cboda.agora.ui.R
-import com.cboda.agora.ui.action.AUIActionUserInfo
-import com.cboda.agora.ui.action.AUIActionUserInfoList
-import com.cboda.agora.ui.basic.AUISheetFragmentBroadDialog
+import com.cboda.agora.ui.ui.action.AUIActionUserInfo
+import com.cboda.agora.ui.ui.action.AUIActionUserInfoList
+import com.cboda.agora.ui.ui.basic.AUISheetFragmentBroadDialog
 import com.cboda.agora.ui.databinding.AuiApplyBroadLayoutBinding
 import com.cboda.agora.ui.ui.action.IAUIListViewBinderBroadRefresh
 import com.cboda.agora.ui.ui.action.fragment.VoiceRoomApplyListFragment
@@ -34,7 +34,7 @@ class AUIApplyBroadDialog : AUISheetFragmentBroadDialog<AuiApplyBroadLayoutBindi
         listOf<Pair<String, () -> Fragment>>(
             getString(R.string.aui_room_apply_list) to {
                 VoiceRoomApplyListFragment(mUserLiveData).apply {
-                    setApplyEventListener(object : VoiceRoomApplyListFragment.ApplyEventListener{
+                    setApplyEventListener(object : VoiceRoomApplyListFragment.ApplyEventListener {
                         override fun onApplyItemClick(
                             view: View,
                             applyIndex: Int?,
