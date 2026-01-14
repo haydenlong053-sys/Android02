@@ -124,73 +124,73 @@ public class ConversationBroadFragment extends Fragment implements
 
     private static final String TAG = "convFragment";
 
-    public static final int REQUEST_PICK_MENTION_CONTACT = 100;
-    public static final int REQUEST_CODE_GROUP_VIDEO_CHAT = 101;
-    public static final int REQUEST_CODE_GROUP_AUDIO_CHAT = 102;
+    public static final int REQUEST_BROAD_PICK_MENTION_CONTACT = 100;
+    public static final int REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT = 101;
+    public static final int REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT = 102;
 
-    private Conversation conversation;
-    private boolean loadingNewMessage;
-    private boolean shouldContinueLoadNewMessage = false;
-    private boolean isPreJoinedChatRoom = true;
+    private Conversation conversationBroad;
+    private boolean loadingNewMessageBroad;
+    private boolean shouldContinueLoadNewMessageBroad = false;
+    private boolean isPreJoinedChatRoomBroad = true;
 
-    private static final int MESSAGE_LOAD_COUNT_PER_TIME = 20;
-    private static final int MESSAGE_LOAD_AROUND = 10;
-    private static final long TYPING_INTERNAL = 10 * 1000;
+    private static final int MESSAGE_BROAD_LOAD_COUNT_PER_TIME = 20;
+    private static final int MESSAGE_BROAD_LOAD_AROUND = 10;
+    private static final long TYPING_BROAD_INTERNAL = 10 * 1000;
 
-    InputAwareBroadLayout rootLinearLayout;
-    SwipeRefreshLayout swipeRefreshLayout;
-    RecyclerView recyclerView;
+    InputAwareBroadLayout rootLinearLayoutBroad;
+    SwipeRefreshLayout swipeRefreshLayoutBroad;
+    RecyclerView recyclerViewBroad;
 
-    RecyclerView ongoingCallRecyclerView;
+    RecyclerView ongoingCallRecyclerViewBroad;
 
-    public ConversationInputBroadPanel inputPanel;
-    public View mViewIntercept;
-    public TextView tvPhoneLogin;
+    public ConversationInputBroadPanel inputPanelBroad;
+    public View mViewInterceptBroad;
+    public TextView tvPhoneLoginBroad;
 
-    LinearLayout multiMessageActionContainerLinearLayout;
+    LinearLayout multiMessageActionContainerLinearLayoutBroad;
 
-    LinearLayout unreadCountLinearLayout;
-    TextView unreadCountTextView;
-    TextView unreadMentionCountTextView;
+    LinearLayout unreadCountLinearLayoutBroad;
+    TextView unreadCountTextViewBroad;
+    TextView unreadMentionCountTextViewBroad;
 
-    private ConversationMessageBroadAdapter adapter;
-    private OngoingCallBroadAdapter ongoingCallAdapter;
+    private ConversationMessageBroadAdapter adapterBroad;
+    private OngoingCallBroadAdapter ongoingCallAdapterBroad;
     private boolean moveToBottom = true;
-    private ConversationViewBroadModel conversationViewModel;
-    private SettingViewBroadModel settingViewModel;
-    private UserOnlineStateViewBroadModel userOnlineStateViewModel;
-    public MessageViewBroadModel messageViewModel;
-    private UserViewBroadModel userViewModel;
-    private GroupViewBroadModel groupViewModel;
-    private ChatRoomViewBroadModel chatRoomViewModel;
+    private ConversationViewBroadModel conversationBroadViewModel;
+    private SettingViewBroadModel settingBroadViewModel;
+    private UserOnlineStateViewBroadModel userOnlineStateBroadViewModel;
+    public MessageViewBroadModel messageBroadViewModel;
+    private UserViewBroadModel userBroadViewModel;
+    private GroupViewBroadModel groupBroadViewModel;
+    private ChatRoomViewBroadModel chatRoomBroadViewModel;
 
-    private Handler handler;
-    private long initialFocusedMessageId;
-    private long firstUnreadMessageId;
+    private Handler handlerBroad;
+    private long initialFocusedBroadMessageId;
+    private long firstUnreadBroadMessageId;
     // 用户channel主发起，针对某个用户的会话
-    private String channelPrivateChatUser;
-    private String conversationTitle = "";
-    private LinearLayoutManager layoutManager;
+    private String channelPrivateBroadChatUser;
+    private String conversationBroadTitle = "";
+    private LinearLayoutManager layoutBroadManager;
 
     // for group
-    private GroupInfo groupInfo;
-    private GroupMember groupMember;
-    private boolean showGroupMemberName = false;
-    private Observer<List<GroupMember>> groupMembersUpdateLiveDataObserver;
-    private Observer<List<GroupInfo>> groupInfosUpdateLiveDataObserver;
-    private Observer<Object> settingUpdateLiveDataObserver;
-    private Map<String, Message> ongoingCalls;
+    private GroupInfo groupInfoBroad;
+    private GroupMember groupMemberBroad;
+    private boolean showGroupMemberNameBroad = false;
+    private Observer<List<GroupMember>> groupMembersUpdateBroadLiveDataObserver;
+    private Observer<List<GroupInfo>> groupInfosUpdateBroadLiveDataObserver;
+    private Observer<Object> settingUpdateBroadLiveDataObserver;
+    private Map<String, Message> ongoingCallsBroad;
 
-    private Map<String, Message> typingMessageMap;
+    private Map<String, Message> typingMessageBroadMap;
 
-    private String backgroundImageUri = null;
-    private int backgroundImageResId = 0;
-    public View qungonggao;
-    public View qunMeetingNotice;
-    public MarqueeTextBroadView gonggaoxinxi;
-    public MarqueeTextBroadView tvQunMeeting;
+    private String backgroundImageBroadUri = null;
+    private int backgroundImageBroadResId = 0;
+    public View qungonggaoBroad;
+    public View qunMeetingNoticeBroad;
+    public MarqueeTextBroadView gonggaoxinxiBroad;
+    public MarqueeTextBroadView tvQunMeetingBroad;
 
-    private Observer<UiBroadMessage> messageLiveDataObserver = new Observer<UiBroadMessage>() {
+    private Observer<UiBroadMessage> messageBroadLiveDataObserver = new Observer<UiBroadMessage>() {
         @Override
         public void onChanged(@Nullable UiBroadMessage uiMessage) {
             if (!isMessageInCurrentConversation(uiMessage)) {
@@ -207,22 +207,22 @@ public class ConversationBroadFragment extends Fragment implements
                     return;
                 }
 
-                if (ongoingCalls == null) {
-                    ongoingCalls = new HashMap<>();
+                if (ongoingCallsBroad == null) {
+                    ongoingCallsBroad = new HashMap<>();
                 }
-                ongoingCalls.put(ongoingCall.getCallId(), uiMessage.message);
+                ongoingCallsBroad.put(ongoingCall.getCallId(), uiMessage.message);
 
-                if (ongoingCalls.size() > 0) {
-                    ongoingCallRecyclerView.setVisibility(View.VISIBLE);
-                    if (ongoingCallAdapter == null) {
-                        ongoingCallAdapter = new OngoingCallBroadAdapter();
-                        ongoingCallRecyclerView.setAdapter(ongoingCallAdapter);
-                        ongoingCallRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                if (ongoingCallsBroad.size() > 0) {
+                    ongoingCallRecyclerViewBroad.setVisibility(View.VISIBLE);
+                    if (ongoingCallAdapterBroad == null) {
+                        ongoingCallAdapterBroad = new OngoingCallBroadAdapter();
+                        ongoingCallRecyclerViewBroad.setAdapter(ongoingCallAdapterBroad);
+                        ongoingCallRecyclerViewBroad.setLayoutManager(new LinearLayoutManager(getActivity()));
                     }
-                    ongoingCallAdapter.setOngoingCalls(new ArrayList<>(ongoingCalls.values()));
+                    ongoingCallAdapterBroad.setOngoingCalls(new ArrayList<>(ongoingCallsBroad.values()));
                 } else {
-                    ongoingCallRecyclerView.setVisibility(View.GONE);
-                    ongoingCallAdapter.setOngoingCalls(null);
+                    ongoingCallRecyclerViewBroad.setVisibility(View.GONE);
+                    ongoingCallAdapterBroad.setOngoingCalls(null);
                 }
                 cleanExpiredOngoingCalls();
 
@@ -231,61 +231,61 @@ public class ConversationBroadFragment extends Fragment implements
 
             if (isDisplayableMessage(uiMessage) && !(content instanceof RecallMessageContent)) {
                 // 消息定位时，如果收到新消息、或者发送消息，需要重新加载消息列表
-                if (shouldContinueLoadNewMessage) {
-                    shouldContinueLoadNewMessage = false;
+                if (shouldContinueLoadNewMessageBroad) {
+                    shouldContinueLoadNewMessageBroad = false;
                     eLogD("ConversationFragmentClass", "reloadMessage");
                     reloadMessage();
                     return;
                 }
-                adapter.addNewMessage(uiMessage);
+                adapterBroad.addNewMessage(uiMessage);
                 if (moveToBottom || uiMessage.message.sender.equals(ChatManager.Instance().getUserId())) {
                     UIBroadUtils.postTaskDelay(() -> {
 
-                                int position = adapter.getItemCount() - 1;
+                                int position = adapterBroad.getItemCount() - 1;
                                 if (position < 0) {
                                     return;
                                 }
-                                recyclerView.scrollToPosition(position);
+                                recyclerViewBroad.scrollToPosition(position);
                             },
                             100);
                 }
             }
             if (content instanceof TypingMessageContent && uiMessage.message.direction == MessageDirection.Receive) {
-                if (typingMessageMap == null) {
-                    typingMessageMap = new HashMap<>();
+                if (typingMessageBroadMap == null) {
+                    typingMessageBroadMap = new HashMap<>();
                 }
                 long now = System.currentTimeMillis();
-                if (now - uiMessage.message.serverTime + ChatManager.Instance().getServerDeltaTime() < TYPING_INTERNAL) {
-                    typingMessageMap.put(uiMessage.message.sender, uiMessage.message);
+                if (now - uiMessage.message.serverTime + ChatManager.Instance().getServerDeltaTime() < TYPING_BROAD_INTERNAL) {
+                    typingMessageBroadMap.put(uiMessage.message.sender, uiMessage.message);
                 }
                 updateTypingStatusTitle();
             } else {
-                if (uiMessage.message.direction == MessageDirection.Receive && typingMessageMap != null) {
-                    typingMessageMap.remove(uiMessage.message.sender);
+                if (uiMessage.message.direction == MessageDirection.Receive && typingMessageBroadMap != null) {
+                    typingMessageBroadMap.remove(uiMessage.message.sender);
                 }
                 updateTypingStatusTitle();
             }
 
             if (getLifecycle().getCurrentState() == Lifecycle.State.RESUMED && uiMessage.message.direction == MessageDirection.Receive) {
-                conversationViewModel.clearUnreadStatus(conversation);
+                conversationBroadViewModel.clearUnreadStatus(conversationBroad);
             }
         }
     };
-    private Observer<UiBroadMessage> messageUpdateLiveDatObserver = new Observer<UiBroadMessage>() {
+    private Observer<UiBroadMessage> messageUpdateBroadLiveDatObserver = new Observer<UiBroadMessage>() {
         @Override
         public void onChanged(@Nullable UiBroadMessage uiMessage) {
             // 聊天室，对方撤回消息
-            if (conversation == null) {
+            if (conversationBroad == null) {
                 return;
             }
-            if (conversation.type == Conversation.ConversationType.ChatRoom && uiMessage.message.conversation == null) {
-                List<UiBroadMessage> messages = adapter.getMessages();
+            if (conversationBroad.type == Conversation.ConversationType.ChatRoom && uiMessage.message.conversation == null) {
+                List<UiBroadMessage> messages = adapterBroad.getMessages();
                 for (UiBroadMessage uiMsg : messages) {
                     if (uiMsg.message.messageUid == uiMessage.message.messageUid) {
                         RecallMessageContent content = new RecallMessageContent(uiMsg.message.sender, uiMsg.message.messageUid);
                         content.setOriginalSender(uiMsg.message.sender);
                         uiMsg.message.content = content;
-                        adapter.updateMessage(uiMsg);
+                        adapterBroad.updateMessage(uiMsg);
                         break;
                     }
                 }
@@ -294,12 +294,12 @@ public class ConversationBroadFragment extends Fragment implements
                     return;
                 }
                 if (isDisplayableMessage(uiMessage)) {
-                    adapter.updateMessage(uiMessage);
+                    adapterBroad.updateMessage(uiMessage);
                 }
                 if (uiMessage.progress == 100 && uiMessage.message.direction == MessageDirection.Receive) {
                     uiMessage.progress = 0;
                     eLogD("zhanglong","---接收方语音消息完成，准备播放语音气泡");
-                    messageViewModel.playAudioMessage(uiMessage);
+                    messageBroadViewModel.playAudioMessage(uiMessage);
                 }
                 if (uiMessage.audioPlayCompleted) {
                     uiMessage.audioPlayCompleted = false;
@@ -313,7 +313,7 @@ public class ConversationBroadFragment extends Fragment implements
     };
 
     private void playNextAudioMessage(UiBroadMessage uiMessage) {
-        List<UiBroadMessage> messages = adapter.getMessages();
+        List<UiBroadMessage> messages = adapterBroad.getMessages();
         boolean found = false;
         UiBroadMessage toPlayAudioMessage = null;
         for (int i = 0; i < messages.size(); i++) {
@@ -339,9 +339,9 @@ public class ConversationBroadFragment extends Fragment implements
             toPlayAudioMessage.continuousPlayAudio = true;
             if (file.exists()) {
                 eLogD("zhanglong","---2");
-                messageViewModel.playAudioMessage(toPlayAudioMessage);
+                messageBroadViewModel.playAudioMessage(toPlayAudioMessage);
             } else {
-                messageViewModel.downloadMedia(toPlayAudioMessage, file);
+                messageBroadViewModel.downloadMedia(toPlayAudioMessage, file);
             }
         }
     }
@@ -354,7 +354,7 @@ public class ConversationBroadFragment extends Fragment implements
                 return;
             }
             if (uiMessage.message.messageId == 0 || isDisplayableMessage(uiMessage)) {
-                adapter.removeMessage(uiMessage);
+                adapterBroad.removeMessage(uiMessage);
             }
         }
     };
@@ -382,7 +382,7 @@ public class ConversationBroadFragment extends Fragment implements
         @Override
         public void onChanged(@Nullable List<Long> messageIds) {
             for (int i = 0; i < messageIds.size(); i++) {
-                adapter.removeMessageById(messageIds.get(i));
+                adapterBroad.removeMessageById(messageIds.get(i));
             }
         }
     };
@@ -390,9 +390,9 @@ public class ConversationBroadFragment extends Fragment implements
     private Observer<Conversation> clearConversationMessageObserver = new Observer<Conversation>() {
         @Override
         public void onChanged(Conversation conversation) {
-            if (conversation.equals(ConversationBroadFragment.this.conversation)) {
-                adapter.setMessages(null);
-                adapter.notifyDataSetChanged();
+            if (conversation.equals(ConversationBroadFragment.this.conversationBroad)) {
+                adapterBroad.setMessages(null);
+                adapterBroad.notifyDataSetChanged();
             }
         }
     };
@@ -400,16 +400,16 @@ public class ConversationBroadFragment extends Fragment implements
     private Observer<List<UserInfo>> userInfoUpdateLiveDataObserver = new Observer<List<UserInfo>>() {
         @Override
         public void onChanged(@Nullable List<UserInfo> userInfos) {
-            if (conversation == null) {
+            if (conversationBroad == null) {
                 return;
             }
-            if (conversation.type == Conversation.ConversationType.Single) {
-                conversationTitle = null;
+            if (conversationBroad.type == Conversation.ConversationType.Single) {
+                conversationBroadTitle = null;
                 setTitle();
             }
-            int start = layoutManager.findFirstVisibleItemPosition();
-            int end = layoutManager.findLastVisibleItemPosition();
-            adapter.notifyItemRangeChanged(start, end - start + 1, userInfos);
+            int start = layoutBroadManager.findFirstVisibleItemPosition();
+            int end = layoutBroadManager.findLastVisibleItemPosition();
+            adapterBroad.notifyItemRangeChanged(start, end - start + 1, userInfos);
         }
     };
 
@@ -417,67 +417,67 @@ public class ConversationBroadFragment extends Fragment implements
     private Observer<Map<String, UserOnlineState>> userOnlineStateLiveDataObserver = new Observer<Map<String, UserOnlineState>>() {
         @Override
         public void onChanged(Map<String, UserOnlineState> userOnlineStateMap) {
-            if (conversation == null) {
+            if (conversationBroad == null) {
                 return;
             }
-            if (conversation.type == Conversation.ConversationType.Single) {
-                conversationTitle = null;
+            if (conversationBroad.type == Conversation.ConversationType.Single) {
+                conversationBroadTitle = null;
                 setTitle();
             }
         }
     };
 
     private void initGroupObservers() {
-        groupMembersUpdateLiveDataObserver = groupMembers -> {
-            if (groupMembers == null || groupInfo == null) {
+        groupMembersUpdateBroadLiveDataObserver = groupMembers -> {
+            if (groupMembers == null || groupInfoBroad == null) {
                 return;
             }
             for (GroupMember member : groupMembers) {
-                if (member.groupId.equals(groupInfo.target) && member.memberId.equals(userViewModel.getUserId())) {
-                    groupMember = member;
+                if (member.groupId.equals(groupInfoBroad.target) && member.memberId.equals(userBroadViewModel.getUserId())) {
+                    groupMemberBroad = member;
                     updateGroupMuteStatus();
                     break;
                 }
             }
         };
 
-        groupInfosUpdateLiveDataObserver = groupInfos -> {
-            if (groupInfo == null || groupInfos == null) {
+        groupInfosUpdateBroadLiveDataObserver = groupInfos -> {
+            if (groupInfoBroad == null || groupInfos == null) {
                 return;
             }
             for (GroupInfo info : groupInfos) {
-                if (info.target.equals(groupInfo.target)) {
-                    groupInfo = info;
+                if (info.target.equals(groupInfoBroad.target)) {
+                    groupInfoBroad = info;
                     updateGroupMuteStatus();
                     setTitle();
-                    adapter.notifyDataSetChanged();
+                    adapterBroad.notifyDataSetChanged();
                     break;
                 }
             }
         };
 
 
-        groupViewModel.groupInfoUpdateLiveData().observeForever(groupInfosUpdateLiveDataObserver);
-        groupViewModel.groupMembersUpdateLiveData().observeForever(groupMembersUpdateLiveDataObserver);
+        groupBroadViewModel.groupInfoUpdateLiveData().observeForever(groupInfosUpdateBroadLiveDataObserver);
+        groupBroadViewModel.groupMembersUpdateLiveData().observeForever(groupMembersUpdateBroadLiveDataObserver);
     }
 
     private void unInitGroupObservers() {
-        if (groupViewModel == null) {
+        if (groupBroadViewModel == null) {
             return;
         }
-        groupViewModel.groupInfoUpdateLiveData().removeObserver(groupInfosUpdateLiveDataObserver);
-        groupViewModel.groupMembersUpdateLiveData().removeObserver(groupMembersUpdateLiveDataObserver);
+        groupBroadViewModel.groupInfoUpdateLiveData().removeObserver(groupInfosUpdateBroadLiveDataObserver);
+        groupBroadViewModel.groupMembersUpdateLiveData().removeObserver(groupMembersUpdateBroadLiveDataObserver);
     }
 
     private boolean isMessageInCurrentConversation(UiBroadMessage message) {
-        if (conversation == null || message == null || message.message == null) {
+        if (conversationBroad == null || message == null || message.message == null) {
             return false;
         }
-        return conversation.equals(message.message.conversation);
+        return conversationBroad.equals(message.message.conversation);
     }
 
     public ConversationInputBroadPanel getConversationInputPanel() {
-        return inputPanel;
+        return inputPanelBroad;
     }
 
     @Override
@@ -506,28 +506,28 @@ public class ConversationBroadFragment extends Fragment implements
     public String fromPage;
 
     private void bindViews(View view) {
-        gonggaoxinxi = view.findViewById(R.id.gonggaoxinxi);
-        tvQunMeeting = view.findViewById(R.id.tvQunMeeting);
-        qungonggao = view.findViewById(R.id.qungonggao);
-        qunMeetingNotice = view.findViewById(R.id.qunMeetingNotice);
-        rootLinearLayout = view.findViewById(R.id.rootLinearLayout);
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        recyclerView = view.findViewById(R.id.msgRecyclerView);
-        ongoingCallRecyclerView = view.findViewById(R.id.ongoingCallRecyclerView);
-        tvPhoneLogin = view.findViewById(R.id.tvPhoneLogin);
-        inputPanel = view.findViewById(R.id.inputPanelFrameLayout);
-        mViewIntercept = view.findViewById(R.id.mViewIntercept);
+        gonggaoxinxiBroad = view.findViewById(R.id.gonggaoxinxi);
+        tvQunMeetingBroad = view.findViewById(R.id.tvQunMeeting);
+        qungonggaoBroad = view.findViewById(R.id.qungonggao);
+        qunMeetingNoticeBroad = view.findViewById(R.id.qunMeetingNotice);
+        rootLinearLayoutBroad = view.findViewById(R.id.rootLinearLayout);
+        swipeRefreshLayoutBroad = view.findViewById(R.id.swipeRefreshLayout);
+        recyclerViewBroad = view.findViewById(R.id.msgRecyclerView);
+        ongoingCallRecyclerViewBroad = view.findViewById(R.id.ongoingCallRecyclerView);
+        tvPhoneLoginBroad = view.findViewById(R.id.tvPhoneLogin);
+        inputPanelBroad = view.findViewById(R.id.inputPanelFrameLayout);
+        mViewInterceptBroad = view.findViewById(R.id.mViewIntercept);
         if ("tousu".equals(fromPage)) {
-            tvPhoneLogin.setVisibility(View.VISIBLE);
-            inputPanel.setVisibility(View.GONE);
-            tvPhoneLogin.setOnClickListener(new View.OnClickListener() {
+            tvPhoneLoginBroad.setVisibility(View.VISIBLE);
+            inputPanelBroad.setVisibility(View.GONE);
+            tvPhoneLoginBroad.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (adapter != null && adapter.getMessages() != null) {
+                    if (adapterBroad != null && adapterBroad.getMessages() != null) {
                         List<UiBroadMessage> tousuMessages = new ArrayList<>();
-                        for (int i = 0; i < adapter.getMessages().size(); i++) {
-                            if (adapter.getMessages().get(i).isSelectTouSu) {
-                                tousuMessages.add(adapter.getMessages().get(i));
+                        for (int i = 0; i < adapterBroad.getMessages().size(); i++) {
+                            if (adapterBroad.getMessages().get(i).isSelectTouSu) {
+                                tousuMessages.add(adapterBroad.getMessages().get(i));
                             }
                         }
 
@@ -539,18 +539,18 @@ public class ConversationBroadFragment extends Fragment implements
                 }
             });
         }
-        multiMessageActionContainerLinearLayout = view.findViewById(R.id.multiMessageActionContainerLinearLayout);
-        unreadCountLinearLayout = view.findViewById(R.id.unreadCountLinearLayout);
-        unreadCountTextView = view.findViewById(R.id.unreadCountTextView);
-        unreadMentionCountTextView = view.findViewById(R.id.unreadMentionCountTextView);
+        multiMessageActionContainerLinearLayoutBroad = view.findViewById(R.id.multiMessageActionContainerLinearLayout);
+        unreadCountLinearLayoutBroad = view.findViewById(R.id.unreadCountLinearLayout);
+        unreadCountTextViewBroad = view.findViewById(R.id.unreadCountTextView);
+        unreadMentionCountTextViewBroad = view.findViewById(R.id.unreadMentionCountTextView);
 
         view.findViewById(R.id.contentLayout).setOnTouchListener((v, event) -> ConversationBroadFragment.this.onTouch(v, event));
-        recyclerView.setOnTouchListener((v, event) -> ConversationBroadFragment.this.onTouch(v, event));
-        gonggaoxinxi.setOnClickListener(new View.OnClickListener() {
+        recyclerViewBroad.setOnTouchListener((v, event) -> ConversationBroadFragment.this.onTouch(v, event));
+        gonggaoxinxiBroad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (conversation != null) {
-                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.VIEW_GROUP_ANNOUNCEMENT.getValue(), conversation.target, gonggaoxinxi.getText().toString(), null);
+                if (conversationBroad != null) {
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.VIEW_GROUP_ANNOUNCEMENT.getValue(), conversationBroad.target, gonggaoxinxiBroad.getText().toString(), null);
                 }
             }
         });
@@ -561,8 +561,8 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if (conversationViewModel != null && conversation != null) {
-            conversationViewModel.clearUnreadStatus(conversation);
+        if (conversationBroadViewModel != null && conversationBroad != null) {
+            conversationBroadViewModel.clearUnreadStatus(conversationBroad);
         }
     }
 
@@ -571,29 +571,29 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     public void setupConversation(Conversation conversation, String title, long focusMessageId, String target, boolean isJoinedChatRoom) {
-        if (this.conversation != null) {
-            if ((this.conversation.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(this.conversation.target))
-                    || this.conversation.type == Conversation.ConversationType.Group) {
-                userOnlineStateViewModel.unwatchOnlineState(this.conversation.type.getValue(), new String[]{this.conversation.target});
+        if (this.conversationBroad != null) {
+            if ((this.conversationBroad.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(this.conversationBroad.target))
+                    || this.conversationBroad.type == Conversation.ConversationType.Group) {
+                userOnlineStateBroadViewModel.unwatchOnlineState(this.conversationBroad.type.getValue(), new String[]{this.conversationBroad.target});
             }
-            this.adapter = new ConversationMessageBroadAdapter(this);
+            this.adapterBroad = new ConversationMessageBroadAdapter(this);
             if ("tousu".equals(fromPage)) {
-                this.adapter.istousu = "1";
+                this.adapterBroad.istousu = "1";
             }
-            this.recyclerView.setAdapter(this.adapter);
+            this.recyclerViewBroad.setAdapter(this.adapterBroad);
         }
 
         // TODO 要支持在线状态是才监听
         if ((conversation.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(conversation.target))
                 || conversation.type == Conversation.ConversationType.Group) {
-            userOnlineStateViewModel.watchUserOnlineState(conversation.type.getValue(), new String[]{conversation.target});
+            userOnlineStateBroadViewModel.watchUserOnlineState(conversation.type.getValue(), new String[]{conversation.target});
         }
 
-        this.conversation = conversation;
-        this.conversationTitle = title;
-        this.initialFocusedMessageId = focusMessageId;
-        this.channelPrivateChatUser = target;
-        this.isPreJoinedChatRoom = isJoinedChatRoom;
+        this.conversationBroad = conversation;
+        this.conversationBroadTitle = title;
+        this.initialFocusedBroadMessageId = focusMessageId;
+        this.channelPrivateBroadChatUser = target;
+        this.isPreJoinedChatRoomBroad = isJoinedChatRoom;
         setupConversation(conversation);
 
         if (conversation != null && conversation.type == Conversation.ConversationType.Group) {
@@ -622,31 +622,31 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void initView() {
-        handler = new Handler();
-        rootLinearLayout.addOnKeyboardShownListener(this);
+        handlerBroad = new Handler();
+        rootLinearLayoutBroad.addOnKeyboardShownListener(this);
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            if (adapter.getMessages() == null || adapter.getMessages().isEmpty()) {
-                swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayoutBroad.setOnRefreshListener(() -> {
+            if (adapterBroad.getMessages() == null || adapterBroad.getMessages().isEmpty()) {
+                swipeRefreshLayoutBroad.setRefreshing(false);
                 return;
             }
             loadMoreOldMessages();
         });
 
         // message list
-        adapter = new ConversationMessageBroadAdapter(this);
+        adapterBroad = new ConversationMessageBroadAdapter(this);
         if ("tousu".equals(fromPage)) {
-            this.adapter.istousu = "1";
+            this.adapterBroad.istousu = "1";
         }
-        adapter.setOnPortraitClickListener(this);
-        adapter.setOnMessageReceiptClickListener(this);
-        adapter.setOnPortraitLongClickListener(this);
-        adapter.setOnMessageCheckListener(this);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        adapterBroad.setOnPortraitClickListener(this);
+        adapterBroad.setOnMessageReceiptClickListener(this);
+        adapterBroad.setOnPortraitLongClickListener(this);
+        adapterBroad.setOnMessageCheckListener(this);
+        layoutBroadManager = new LinearLayoutManager(getActivity());
+        recyclerViewBroad.setLayoutManager(layoutBroadManager);
+        recyclerViewBroad.setAdapter(adapterBroad);
+        ((SimpleItemAnimator) recyclerViewBroad.getItemAnimator()).setSupportsChangeAnimations(false);
+        recyclerViewBroad.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -656,9 +656,9 @@ public class ConversationBroadFragment extends Fragment implements
                 }
                 if (!recyclerView.canScrollVertically(1)) {
                     moveToBottom = true;
-                    if ((initialFocusedMessageId != -1 || firstUnreadMessageId != 0) && !loadingNewMessage && shouldContinueLoadNewMessage) {
-                        int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
-                        if (lastVisibleItem > adapter.getItemCount() - 3) {
+                    if ((initialFocusedBroadMessageId != -1 || firstUnreadBroadMessageId != 0) && !loadingNewMessageBroad && shouldContinueLoadNewMessageBroad) {
+                        int lastVisibleItem = layoutBroadManager.findLastCompletelyVisibleItemPosition();
+                        if (lastVisibleItem > adapterBroad.getItemCount() - 3) {
                             loadMoreNewMessages();
                         }
                     }
@@ -668,102 +668,102 @@ public class ConversationBroadFragment extends Fragment implements
             }
         });
 
-        inputPanel.init(this, rootLinearLayout, mViewIntercept);
-        inputPanel.setOnConversationInputPanelStateChangeListener(this);
+        inputPanelBroad.init(this, rootLinearLayoutBroad, mViewInterceptBroad);
+        inputPanelBroad.setOnConversationInputPanelStateChangeListener(this);
 
-        conversationViewModel = WfcUIBroadKit.getAppScopeViewModel(ConversationViewBroadModel.class);
-        conversationViewModel.clearConversationMessageLiveData().observeForever(clearConversationMessageObserver);
-        conversationViewModel.secretConversationStateLiveData().observe(getViewLifecycleOwner(), new Observer<Pair<String, ChatManager.SecretChatState>>() {
+        conversationBroadViewModel = WfcUIBroadKit.getAppScopeViewModel(ConversationViewBroadModel.class);
+        conversationBroadViewModel.clearConversationMessageLiveData().observeForever(clearConversationMessageObserver);
+        conversationBroadViewModel.secretConversationStateLiveData().observe(getViewLifecycleOwner(), new Observer<Pair<String, ChatManager.SecretChatState>>() {
             @Override
             public void onChanged(Pair<String, ChatManager.SecretChatState> stringSecretChatStatePair) {
-                if (conversation != null && conversation.type == Conversation.ConversationType.SecretChat && conversation.target.equals(stringSecretChatStatePair.first)) {
+                if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.SecretChat && conversationBroad.target.equals(stringSecretChatStatePair.first)) {
                     reloadMessage();
                 }
             }
         });
-        messageViewModel = ViewModelProviders.of(this).get(MessageViewBroadModel.class);
+        messageBroadViewModel = ViewModelProviders.of(this).get(MessageViewBroadModel.class);
 
-        messageViewModel.messageLiveData().observeForever(messageLiveDataObserver);
-        messageViewModel.messageUpdateLiveData().observeForever(messageUpdateLiveDatObserver);
-        messageViewModel.messageRemovedLiveData().observeForever(messageRemovedLiveDataObserver);
-        messageViewModel.messageStartBurnLiveData().observeForever(messageStartBurnLiveDataObserver);
-        messageViewModel.messageBurnedLiveData().observeForever(messageBurnedLiveDataObserver);
+        messageBroadViewModel.messageLiveData().observeForever(messageBroadLiveDataObserver);
+        messageBroadViewModel.messageUpdateLiveData().observeForever(messageUpdateBroadLiveDatObserver);
+        messageBroadViewModel.messageRemovedLiveData().observeForever(messageRemovedLiveDataObserver);
+        messageBroadViewModel.messageStartBurnLiveData().observeForever(messageStartBurnLiveDataObserver);
+        messageBroadViewModel.messageBurnedLiveData().observeForever(messageBurnedLiveDataObserver);
 
-        messageViewModel.messageReadLiveData().observe(getActivity(), readEntries -> {
-            if (conversation == null) {
+        messageBroadViewModel.messageReadLiveData().observe(getActivity(), readEntries -> {
+            if (conversationBroad == null) {
                 return;
             }
-            Map<String, Long> convReadEntities = ChatManager.Instance().getConversationRead(conversation);
-            adapter.setReadEntries(convReadEntities);
+            Map<String, Long> convReadEntities = ChatManager.Instance().getConversationRead(conversationBroad);
+            adapterBroad.setReadEntries(convReadEntities);
         });
 
-        userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
-        userViewModel.userInfoLiveData().observeForever(userInfoUpdateLiveDataObserver);
+        userBroadViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        userBroadViewModel.userInfoLiveData().observeForever(userInfoUpdateLiveDataObserver);
 
-        settingUpdateLiveDataObserver = o -> {
-            if (groupInfo == null) {
+        settingUpdateBroadLiveDataObserver = o -> {
+            if (groupInfoBroad == null) {
                 return;
             }
-            boolean show = "1".equals(userViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfo.target));
-            if (showGroupMemberName != show) {
-                showGroupMemberName = show;
-                adapter.notifyDataSetChanged();
+            boolean show = "1".equals(userBroadViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfoBroad.target));
+            if (showGroupMemberNameBroad != show) {
+                showGroupMemberNameBroad = show;
+                adapterBroad.notifyDataSetChanged();
             }
             reloadMessage();
         };
 
-        settingViewModel = ViewModelProviders.of(this).get(SettingViewBroadModel.class);
-        settingViewModel.settingUpdatedLiveData().observeForever(settingUpdateLiveDataObserver);
+        settingBroadViewModel = ViewModelProviders.of(this).get(SettingViewBroadModel.class);
+        settingBroadViewModel.settingUpdatedLiveData().observeForever(settingUpdateBroadLiveDataObserver);
 
-        userOnlineStateViewModel = ViewModelProviders.of(this).get(UserOnlineStateViewBroadModel.class);
-        userOnlineStateViewModel.getUserOnlineStateLiveData().observe(getViewLifecycleOwner(), userOnlineStateLiveDataObserver);
+        userOnlineStateBroadViewModel = ViewModelProviders.of(this).get(UserOnlineStateViewBroadModel.class);
+        userOnlineStateBroadViewModel.getUserOnlineStateLiveData().observe(getViewLifecycleOwner(), userOnlineStateLiveDataObserver);
 
 
-        if (backgroundImageUri != null) {
-            setConversationBackgroundImage(backgroundImageUri);
-        } else if (backgroundImageResId != 0) {
-            setConversationBackgroundImage(backgroundImageResId);
+        if (backgroundImageBroadUri != null) {
+            setConversationBackgroundImage(backgroundImageBroadUri);
+        } else if (backgroundImageBroadResId != 0) {
+            setConversationBackgroundImage(backgroundImageBroadResId);
         }
     }
 
     private void setupConversation(Conversation conversation) {
         if (conversation.type == Conversation.ConversationType.Group) {
-            groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+            groupBroadViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
             initGroupObservers();
-            groupViewModel.getGroupMembers(conversation.target, true);
-            groupInfo = groupViewModel.getGroupInfo(conversation.target, true);
-            groupMember = groupViewModel.getGroupMember(conversation.target, userViewModel.getUserId());
-            showGroupMemberName = "1".equals(userViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfo.target));
+            groupBroadViewModel.getGroupMembers(conversation.target, true);
+            groupInfoBroad = groupBroadViewModel.getGroupInfo(conversation.target, true);
+            groupMemberBroad = groupBroadViewModel.getGroupMember(conversation.target, userBroadViewModel.getUserId());
+            showGroupMemberNameBroad = "1".equals(userBroadViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfoBroad.target));
 
             updateGroupMuteStatus();
         }
-        userViewModel.getUserInfo(userViewModel.getUserId(), true);
+        userBroadViewModel.getUserInfo(userBroadViewModel.getUserId(), true);
 
-        inputPanel.setupConversation(conversation);
+        inputPanelBroad.setupConversation(conversation);
 
         if (conversation.type != Conversation.ConversationType.ChatRoom) {
 //            eLogD("zhanglong","setupConversation---"+conversation.target+"===="+initialFocusedMessageId);
-            loadMessage(initialFocusedMessageId);
+            loadMessage(initialFocusedBroadMessageId);
         }
         if (conversation.type == Conversation.ConversationType.ChatRoom) {
-            chatRoomViewModel = ViewModelProviders.of(this).get(ChatRoomViewBroadModel.class);
-            if (!isPreJoinedChatRoom) {
+            chatRoomBroadViewModel = ViewModelProviders.of(this).get(ChatRoomViewBroadModel.class);
+            if (!isPreJoinedChatRoomBroad) {
                 joinChatRoom();
             } else {
                 loadMoreOldMessages(true);
             }
         } else if (conversation.type == Conversation.ConversationType.Channel) {
             EnterChannelChatMessageContent content = new EnterChannelChatMessageContent();
-            messageViewModel.sendMessage(conversation, content);
+            messageBroadViewModel.sendMessage(conversation, content);
         } else if (conversation.type == Conversation.ConversationType.Group) {
-            messageViewModel.getMsgDetailUserData(conversation.target);
+            messageBroadViewModel.getMsgDetailUserData(conversation.target);
 
         }
 
         ConversationInfo conversationInfo = ChatManager.Instance().getConversation(conversation);
         int unreadCount = conversationInfo.unreadCount.unread + conversationInfo.unreadCount.unreadMention + conversationInfo.unreadCount.unreadMentionAll;
         if (unreadCount > 10 && unreadCount < 300) {
-            firstUnreadMessageId = ChatManager.Instance().getFirstUnreadMessageId(conversation);
+            firstUnreadBroadMessageId = ChatManager.Instance().getFirstUnreadMessageId(conversation);
             showUnreadMessageCountLabel(unreadCount);
         }
         int aitunreadCount = conversationInfo.unreadCount.unreadMention + conversationInfo.unreadCount.unreadMentionAll;
@@ -773,41 +773,41 @@ public class ConversationBroadFragment extends Fragment implements
             hideUnreadMentionCountLabel();
         }
 
-        conversationViewModel.clearUnreadStatus(conversation);
+        conversationBroadViewModel.clearUnreadStatus(conversation);
 
-        ongoingCalls = null;
+        ongoingCallsBroad = null;
 
         setTitle();
     }
 
     public void setConversationBackgroundImage(String uri) {
-        if (rootLinearLayout == null) {
-            this.backgroundImageUri = uri;
+        if (rootLinearLayoutBroad == null) {
+            this.backgroundImageBroadUri = uri;
             return;
         }
-        ScrollView scrollView = rootLinearLayout.findViewById(R.id.conversationBackgroundScrollView);
-        ImageView imageView = rootLinearLayout.findViewById(R.id.conversationBackgroundImageView);
+        ScrollView scrollView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundScrollView);
+        ImageView imageView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundImageView);
         scrollView.setVisibility(View.VISIBLE);
         Glide.with(this).load(uri).into(imageView);
     }
 
     public void setConversationBackgroundImage(int drawableId) {
-        if (rootLinearLayout == null) {
-            this.backgroundImageResId = drawableId;
+        if (rootLinearLayoutBroad == null) {
+            this.backgroundImageBroadResId = drawableId;
             return;
         }
-        ScrollView scrollView = rootLinearLayout.findViewById(R.id.conversationBackgroundScrollView);
-        ImageView imageView = rootLinearLayout.findViewById(R.id.conversationBackgroundImageView);
+        ScrollView scrollView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundScrollView);
+        ImageView imageView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundImageView);
         scrollView.setVisibility(View.VISIBLE);
-        Glide.with(this).load(backgroundImageResId).into(imageView);
+        Glide.with(this).load(backgroundImageBroadResId).into(imageView);
     }
 
     private void updateaita(long focusMessageId) {
-        List<Message> oldMessageList = ChatManager.Instance().getMessages(conversation, focusMessageId, true, 100, channelPrivateChatUser);
+        List<Message> oldMessageList = ChatManager.Instance().getMessages(conversationBroad, focusMessageId, true, 100, channelPrivateBroadChatUser);
         List<UiBroadMessage> oldMessages = new ArrayList<>();
         if (oldMessageList != null) {
             for (Message msg : oldMessageList) {
-                if (conversation.type == Conversation.ConversationType.SecretChat) {
+                if (conversationBroad.type == Conversation.ConversationType.SecretChat) {
                     BurnMessageInfo burnMessageInfo = ChatManager.Instance().getBurnMessageInfo(msg.messageId);
                     oldMessages.add(new UiBroadMessage(msg, burnMessageInfo));
                 } else {
@@ -816,11 +816,11 @@ public class ConversationBroadFragment extends Fragment implements
             }
         }
         Message message = ChatManager.Instance().getMessage(focusMessageId);
-        List<Message> newMessageList = ChatManager.Instance().getMessages(conversation, focusMessageId, false, 100, channelPrivateChatUser);
+        List<Message> newMessageList = ChatManager.Instance().getMessages(conversationBroad, focusMessageId, false, 100, channelPrivateBroadChatUser);
         List<UiBroadMessage> newMessages = new ArrayList<>();
         if (newMessageList != null) {
             for (Message msg : newMessageList) {
-                if (conversation.type == Conversation.ConversationType.SecretChat) {
+                if (conversationBroad.type == Conversation.ConversationType.SecretChat) {
                     BurnMessageInfo burnMessageInfo = ChatManager.Instance().getBurnMessageInfo(msg.messageId);
                     newMessages.add(new UiBroadMessage(msg, burnMessageInfo));
                 } else {
@@ -836,21 +836,21 @@ public class ConversationBroadFragment extends Fragment implements
         }
         messages.addAll(newMessages);
         ChatManager.Instance().getMainHandler().post(() -> {
-            adapter.setMessages(messages);
-            adapter.notifyDataSetChanged();
+            adapterBroad.setMessages(messages);
+            adapterBroad.notifyDataSetChanged();
 
-            if (adapter.getItemCount() > 1) {
+            if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {
-                    initialMessagePosition = adapter.getMessagePosition(focusMessageId);
+                    initialMessagePosition = adapterBroad.getMessagePosition(focusMessageId);
                     if (initialMessagePosition != -1) {
-                        recyclerView.scrollToPosition(initialMessagePosition);
-                        adapter.highlightFocusMessage(initialMessagePosition);
+                        recyclerViewBroad.scrollToPosition(initialMessagePosition);
+                        adapterBroad.highlightFocusMessage(initialMessagePosition);
                         eLogD("野火", "被aita pos--> " + initialMessagePosition);
                     }
                 } else {
                     moveToBottom = true;
-                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                    recyclerViewBroad.scrollToPosition(adapterBroad.getItemCount() - 1);
                 }
             }
         });
@@ -861,56 +861,56 @@ public class ConversationBroadFragment extends Fragment implements
 
         MutableLiveData<List<UiBroadMessage>> messages;
         if (focusMessageId != -1) {
-            shouldContinueLoadNewMessage = true;
-            messages = conversationViewModel.loadAroundMessages(conversation, channelPrivateChatUser, focusMessageId, MESSAGE_LOAD_AROUND);
+            shouldContinueLoadNewMessageBroad = true;
+            messages = conversationBroadViewModel.loadAroundMessages(conversationBroad, channelPrivateBroadChatUser, focusMessageId, MESSAGE_BROAD_LOAD_AROUND);
         } else {
-            messages = conversationViewModel.getMessages(conversation, channelPrivateChatUser);
+            messages = conversationBroadViewModel.getMessages(conversationBroad, channelPrivateBroadChatUser);
         }
         // load message
-        swipeRefreshLayout.setRefreshing(true);
-        swipeRefreshLayout.postDelayed(new Runnable() {
+        swipeRefreshLayoutBroad.setRefreshing(true);
+        swipeRefreshLayoutBroad.postDelayed(new Runnable() {
             @Override
             public void run() {
                 //预防清空消息记录后下次进来远端拉去数据加载失败一直转圈圈
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayoutBroad.setRefreshing(false);
             }
         }, 3000L);
-        adapter.setReadEntries(ChatManager.Instance().getConversationRead(conversation));
+        adapterBroad.setReadEntries(ChatManager.Instance().getConversationRead(conversationBroad));
         messages.observe(this, uiMessages -> {
-            swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayoutBroad.setRefreshing(false);
 
-            adapter.setMessages(uiMessages);
-            adapter.notifyDataSetChanged();
+            adapterBroad.setMessages(uiMessages);
+            adapterBroad.notifyDataSetChanged();
 
-            if (adapter.getItemCount() > 1) {
+            if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {
-                    initialMessagePosition = adapter.getMessagePosition(focusMessageId);
+                    initialMessagePosition = adapterBroad.getMessagePosition(focusMessageId);
                     if (initialMessagePosition != -1) {
-                        recyclerView.scrollToPosition(initialMessagePosition);
-                        adapter.highlightFocusMessage(initialMessagePosition);
+                        recyclerViewBroad.scrollToPosition(initialMessagePosition);
+                        adapterBroad.highlightFocusMessage(initialMessagePosition);
                     }
                 } else {
                     moveToBottom = true;
-                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                    recyclerViewBroad.scrollToPosition(adapterBroad.getItemCount() - 1);
                 }
             }
         });
     }
 
     private void updateGroupMuteStatus() {
-        if (groupInfo == null || groupMember == null) {
+        if (groupInfoBroad == null || groupMemberBroad == null) {
             return;
         }
-        if (groupInfo.mute == 1
-                && groupMember.type != GroupMember.GroupMemberType.Owner
-                && groupMember.type != GroupMember.GroupMemberType.Manager
-                && groupMember.type != GroupMember.GroupMemberType.Allowed) {
-            inputPanel.disableInput("全员禁言中");
-        } else if (groupMember.type == GroupMember.GroupMemberType.Muted) {
-            inputPanel.disableInput("你已被禁言");
+        if (groupInfoBroad.mute == 1
+                && groupMemberBroad.type != GroupMember.GroupMemberType.Owner
+                && groupMemberBroad.type != GroupMember.GroupMemberType.Manager
+                && groupMemberBroad.type != GroupMember.GroupMemberType.Allowed) {
+            inputPanelBroad.disableInput("全员禁言中");
+        } else if (groupMemberBroad.type == GroupMember.GroupMemberType.Muted) {
+            inputPanelBroad.disableInput("你已被禁言");
         } else {
-            inputPanel.enableInput();
+            inputPanelBroad.enableInput();
         }
     }
 
@@ -920,18 +920,18 @@ public class ConversationBroadFragment extends Fragment implements
 
     void onUnreadCountTextViewClick() {
         hideUnreadMessageCountLabel();
-        shouldContinueLoadNewMessage = true;
-        loadMessage(firstUnreadMessageId);
+        shouldContinueLoadNewMessageBroad = true;
+        loadMessage(firstUnreadBroadMessageId);
     }
 
     void aitonUnreadCountTextViewClick() {
         hideUnreadMentionCountLabel();
         try {
-            ChatManager.Instance().mClient.getMentionedMessagesAsync(conversation, 0, true, 100, new IGetMessageCallback.Stub() {
+            ChatManager.Instance().mClient.getMentionedMessagesAsync(conversationBroad, 0, true, 100, new IGetMessageCallback.Stub() {
                 @Override
                 public void onSuccess(List<Message> messages, boolean hasMore) throws RemoteException {
                     if (messages != null && messages.size() > 0) {
-                        shouldContinueLoadNewMessage = true;
+                        shouldContinueLoadNewMessageBroad = true;
                         updateaita(messages.get(0).messageId);
                     }
                 }
@@ -947,42 +947,42 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void showUnreadMessageCountLabel(int count) {
-        unreadCountLinearLayout.setVisibility(View.VISIBLE);
-        unreadCountTextView.setVisibility(View.VISIBLE);
-        unreadCountTextView.setText(count + "条消息");
+        unreadCountLinearLayoutBroad.setVisibility(View.VISIBLE);
+        unreadCountTextViewBroad.setVisibility(View.VISIBLE);
+        unreadCountTextViewBroad.setText(count + "条消息");
     }
 
     private void hideUnreadMessageCountLabel() {
-        unreadCountTextView.setVisibility(View.GONE);
+        unreadCountTextViewBroad.setVisibility(View.GONE);
     }
 
     private void showUnreadMentionCountLabel(int count) {
-        unreadCountLinearLayout.setVisibility(View.VISIBLE);
-        unreadMentionCountTextView.setVisibility(View.VISIBLE);
-        unreadMentionCountTextView.setText(count + "条@消息");
+        unreadCountLinearLayoutBroad.setVisibility(View.VISIBLE);
+        unreadMentionCountTextViewBroad.setVisibility(View.VISIBLE);
+        unreadMentionCountTextViewBroad.setText(count + "条@消息");
     }
 
     private void hideUnreadMentionCountLabel() {
-        unreadMentionCountTextView.setVisibility(View.GONE);
+        unreadMentionCountTextViewBroad.setVisibility(View.GONE);
     }
 
     private void joinChatRoom() {
-        chatRoomViewModel.joinChatRoom(conversation.target)
+        chatRoomBroadViewModel.joinChatRoom(conversationBroad.target)
                 .observe(this, new Observer<OperateBroadResult<Boolean>>() {
                     @Override
                     public void onChanged(@Nullable OperateBroadResult<Boolean> booleanOperateResult) {
                         if (booleanOperateResult.isSuccess()) {
                             String welcome = "欢迎 %s 加入聊天室";
                             TipNotificationContent content = new TipNotificationContent();
-                            String userId = userViewModel.getUserId();
-                            UserInfo userInfo = userViewModel.getUserInfo(userId, false);
+                            String userId = userBroadViewModel.getUserId();
+                            UserInfo userInfo = userBroadViewModel.getUserInfo(userId, false);
                             if (userInfo != null) {
-                                content.tip = String.format(welcome, userViewModel.getUserDisplayName(userInfo));
+                                content.tip = String.format(welcome, userBroadViewModel.getUserDisplayName(userInfo));
                             } else {
                                 content.tip = String.format(welcome, "<" + userId + ">");
                             }
-                            handler.postDelayed(() -> {
-                                messageViewModel.sendMessage(conversation, content);
+                            handlerBroad.postDelayed(() -> {
+                                messageBroadViewModel.sendMessage(conversationBroad, content);
                             }, 1000);
                             setChatRoomConversationTitle();
 
@@ -997,77 +997,77 @@ public class ConversationBroadFragment extends Fragment implements
     private void quitChatRoom() {
         String welcome = "%s 离开了聊天室";
         TipNotificationContent content = new TipNotificationContent();
-        String userId = userViewModel.getUserId();
-        UserInfo userInfo = userViewModel.getUserInfo(userId, false);
+        String userId = userBroadViewModel.getUserId();
+        UserInfo userInfo = userBroadViewModel.getUserInfo(userId, false);
         if (userInfo != null) {
-            content.tip = String.format(welcome, userViewModel.getUserDisplayName(userInfo));
+            content.tip = String.format(welcome, userBroadViewModel.getUserDisplayName(userInfo));
         } else {
             content.tip = String.format(welcome, "<" + userId + ">");
         }
         Message message = new Message();
-        message.conversation = conversation;
+        message.conversation = conversationBroad;
         message.content = content;
-        messageViewModel.sendMessageEx(message).observe(this, voidOperateResult -> chatRoomViewModel.quitChatRoom(conversation.target));
+        messageBroadViewModel.sendMessageEx(message).observe(this, voidOperateResult -> chatRoomBroadViewModel.quitChatRoom(conversationBroad.target));
     }
 
     private void setChatRoomConversationTitle() {
-        chatRoomViewModel.getChatRoomInfo(conversation.target, 0)
+        chatRoomBroadViewModel.getChatRoomInfo(conversationBroad.target, 0)
                 .observe(this, chatRoomInfoOperateResult -> {
                     if (chatRoomInfoOperateResult.isSuccess()) {
                         ChatRoomInfo chatRoomInfo = chatRoomInfoOperateResult.getResult();
-                        conversationTitle = chatRoomInfo.title;
-                        setActivityTitle(conversationTitle);
+                        conversationBroadTitle = chatRoomInfo.title;
+                        setActivityTitle(conversationBroadTitle);
                     }
                 });
     }
 
     private void setTitle() {
-        if (!TextUtils.isEmpty(conversationTitle)) {
-            setActivityTitle(conversationTitle);
+        if (!TextUtils.isEmpty(conversationBroadTitle)) {
+            setActivityTitle(conversationBroadTitle);
         }
 
-        if (conversation.type == Conversation.ConversationType.Single) {
-            UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversation.target, false);
+        if (conversationBroad.type == Conversation.ConversationType.Single) {
+            UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversationBroad.target, false);
 //            conversationTitle = userViewModel.getUserDisplayName(userInfo);
-            conversationTitle = getMyUserDisplayName(conversation, userInfo);
-            ELogUtilKt.eLogD("zhanglong", "conversationTitle===" + conversationTitle);
+            conversationBroadTitle = getMyUserDisplayName(conversationBroad, userInfo);
+            ELogUtilKt.eLogD("zhanglong", "conversationTitle===" + conversationBroadTitle);
             UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
             if (userOnlineState != null) {
                 String onlineDesc = userOnlineState.desc();
                 if (!TextUtils.isEmpty(onlineDesc)) {
-                    conversationTitle += " (" + onlineDesc + ")";
+                    conversationBroadTitle += " (" + onlineDesc + ")";
                 }
             }
-        } else if (conversation.type == Conversation.ConversationType.Group) {
-            if (groupInfo != null) {
-                conversationTitle = (!TextUtils.isEmpty(groupInfo.remark) ? groupInfo.remark : groupInfo.name) + "(" + (groupInfo.memberCount - 1) + "人)";
+        } else if (conversationBroad.type == Conversation.ConversationType.Group) {
+            if (groupInfoBroad != null) {
+                conversationBroadTitle = (!TextUtils.isEmpty(groupInfoBroad.remark) ? groupInfoBroad.remark : groupInfoBroad.name) + "(" + (groupInfoBroad.memberCount - 1) + "人)";
             }
-        } else if (conversation.type == Conversation.ConversationType.Channel) {
+        } else if (conversationBroad.type == Conversation.ConversationType.Channel) {
             ChannelViewBroadModel channelViewModel = ViewModelProviders.of(this).get(ChannelViewBroadModel.class);
-            ChannelInfo channelInfo = channelViewModel.getChannelInfo(conversation.target, false);
+            ChannelInfo channelInfo = channelViewModel.getChannelInfo(conversationBroad.target, false);
             if (channelInfo != null) {
-                conversationTitle = channelInfo.name;
+                conversationBroadTitle = channelInfo.name;
             }
 
-            if (!TextUtils.isEmpty(channelPrivateChatUser)) {
-                UserInfo channelPrivateChatUserInfo = userViewModel.getUserInfo(channelPrivateChatUser, false);
+            if (!TextUtils.isEmpty(channelPrivateBroadChatUser)) {
+                UserInfo channelPrivateChatUserInfo = userBroadViewModel.getUserInfo(channelPrivateBroadChatUser, false);
                 if (channelPrivateChatUserInfo != null) {
-                    conversationTitle += "@" + userViewModel.getUserDisplayName(channelPrivateChatUserInfo);
+                    conversationBroadTitle += "@" + userBroadViewModel.getUserDisplayName(channelPrivateChatUserInfo);
                 } else {
-                    conversationTitle += "@<" + channelPrivateChatUser + ">";
+                    conversationBroadTitle += "@<" + channelPrivateBroadChatUser + ">";
                 }
             }
-        } else if (conversation.type == Conversation.ConversationType.SecretChat) {
-            String userId = ChatManager.Instance().getSecretChatInfo(conversation.target).getUserId();
+        } else if (conversationBroad.type == Conversation.ConversationType.SecretChat) {
+            String userId = ChatManager.Instance().getSecretChatInfo(conversationBroad.target).getUserId();
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(userId, false);
-            conversationTitle = userViewModel.getUserDisplayName(userInfo);
+            conversationBroadTitle = userBroadViewModel.getUserDisplayName(userInfo);
         }
 
-        setActivityTitle(conversationTitle);
+        setActivityTitle(conversationBroadTitle);
     }
 
     private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
-        if (MMKVBroadUtils.Companion.getKeFuId() != null && conversation.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+        if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
             return MMKVBroadUtils.Companion.getKeFuName();
         } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
             return userInfo.friendAlias;
@@ -1102,7 +1102,7 @@ public class ConversationBroadFragment extends Fragment implements
 //        if (event.getAction() == MotionEvent.ACTION_DOWN && inputPanel.extension.canHideOnScroll()) {
 //            inputPanel.collapse();
 //        }
-        inputPanel.closeConversationInputPanel();
+        inputPanelBroad.closeConversationInputPanel();
         return false;
     }
 
@@ -1150,42 +1150,42 @@ public class ConversationBroadFragment extends Fragment implements
         if (userInfo.uid.equals(ChatManager.Instance().getUserId())) {
             return;
         }
-        if (conversation.type == Conversation.ConversationType.Group) {
+        if (conversationBroad.type == Conversation.ConversationType.Group) {
             SpannableString spannableString = mentionSpannable(userInfo);
-            int position = inputPanel.editText.getSelectionEnd();
-            inputPanel.editText.getEditableText().append(" ");
-            inputPanel.editText.getEditableText().replace(position, position + 1, spannableString);
+            int position = inputPanelBroad.editText.getSelectionEnd();
+            inputPanelBroad.editText.getEditableText().append(" ");
+            inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
         } else {
-            inputPanel.editText.getEditableText().append(userViewModel.getUserDisplayName(userInfo));
+            inputPanelBroad.editText.getEditableText().append(userBroadViewModel.getUserDisplayName(userInfo));
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode >= ConversationBroadExtension.REQUEST_CODE_MIN) {
-            boolean result = inputPanel.extension.onActivityResult(requestCode, resultCode, data);
+            boolean result = inputPanelBroad.extension.onActivityResult(requestCode, resultCode, data);
             if (result) {
                 return;
             }
             eLogD(TAG, "extension can not handle " + requestCode);
         }
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_PICK_MENTION_CONTACT) {
+            if (requestCode == REQUEST_BROAD_PICK_MENTION_CONTACT) {
                 boolean isMentionAll = data.getBooleanExtra("mentionAll", false);
                 SpannableString spannableString;
                 if (isMentionAll) {
                     spannableString = mentionAllSpannable();
                 } else {
                     String userId = data.getStringExtra("userId");
-                    UserInfo userInfo = userViewModel.getUserInfo(userId, this.groupInfo.target, false);
+                    UserInfo userInfo = userBroadViewModel.getUserInfo(userId, this.groupInfoBroad.target, false);
                     spannableString = mentionSpannable(userInfo);
                 }
-                int position = inputPanel.editText.getSelectionEnd();
+                int position = inputPanelBroad.editText.getSelectionEnd();
                 position = position > 0 ? position - 1 : 0;
-                inputPanel.editText.getEditableText().replace(position, position + 1, spannableString);
+                inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
 
-            } else if (requestCode == REQUEST_CODE_GROUP_AUDIO_CHAT || requestCode == REQUEST_CODE_GROUP_VIDEO_CHAT) {
-                onPickGroupMemberToVoipChat(data, requestCode == REQUEST_CODE_GROUP_AUDIO_CHAT);
+            } else if (requestCode == REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT || requestCode == REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT) {
+                onPickGroupMemberToVoipChat(data, requestCode == REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT);
             }
         }
     }
@@ -1207,45 +1207,45 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onPause() {
         super.onPause();
-        inputPanel.onActivityPause();
-        messageViewModel.stopPlayAudio();
+        inputPanelBroad.onActivityPause();
+        messageBroadViewModel.stopPlayAudio();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if (conversation == null) {
+        if (conversationBroad == null) {
             return;
         }
 
-        if ((conversation.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(conversation.target))
-                || conversation.type == Conversation.ConversationType.Group) {
-            userOnlineStateViewModel.unwatchOnlineState(conversation.type.getValue(), new String[]{conversation.target});
+        if ((conversationBroad.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(conversationBroad.target))
+                || conversationBroad.type == Conversation.ConversationType.Group) {
+            userOnlineStateBroadViewModel.unwatchOnlineState(conversationBroad.type.getValue(), new String[]{conversationBroad.target});
         }
 
-        if (conversation.type == Conversation.ConversationType.ChatRoom) {
-            if (!isPreJoinedChatRoom) {
+        if (conversationBroad.type == Conversation.ConversationType.ChatRoom) {
+            if (!isPreJoinedChatRoomBroad) {
                 quitChatRoom();
             }
-        } else if (conversation.type == Conversation.ConversationType.Channel) {
+        } else if (conversationBroad.type == Conversation.ConversationType.Channel) {
             LeaveChannelChatMessageContent content = new LeaveChannelChatMessageContent();
-            messageViewModel.sendMessage(conversation, content);
+            messageBroadViewModel.sendMessage(conversationBroad, content);
         }
 
-        messageViewModel.messageLiveData().removeObserver(messageLiveDataObserver);
-        messageViewModel.messageUpdateLiveData().removeObserver(messageUpdateLiveDatObserver);
-        messageViewModel.messageRemovedLiveData().removeObserver(messageRemovedLiveDataObserver);
-        userViewModel.userInfoLiveData().removeObserver(userInfoUpdateLiveDataObserver);
-        conversationViewModel.clearConversationMessageLiveData().removeObserver(clearConversationMessageObserver);
-        settingViewModel.settingUpdatedLiveData().removeObserver(settingUpdateLiveDataObserver);
+        messageBroadViewModel.messageLiveData().removeObserver(messageBroadLiveDataObserver);
+        messageBroadViewModel.messageUpdateLiveData().removeObserver(messageUpdateBroadLiveDatObserver);
+        messageBroadViewModel.messageRemovedLiveData().removeObserver(messageRemovedLiveDataObserver);
+        userBroadViewModel.userInfoLiveData().removeObserver(userInfoUpdateLiveDataObserver);
+        conversationBroadViewModel.clearConversationMessageLiveData().removeObserver(clearConversationMessageObserver);
+        settingBroadViewModel.settingUpdatedLiveData().removeObserver(settingUpdateBroadLiveDataObserver);
 
         unInitGroupObservers();
-        inputPanel.onDestroy();
+        inputPanelBroad.onDestroy();
 
         // 退出密聊时，清空相关临时文件
-        if (conversation.type == Conversation.ConversationType.SecretChat) {
-            List<UiBroadMessage> messages = adapter.getMessages();
+        if (conversationBroad.type == Conversation.ConversationType.SecretChat) {
+            List<UiBroadMessage> messages = adapterBroad.getMessages();
             if (messages != null) {
                 for (UiBroadMessage uiMsg : messages) {
                     File file = DownloadBroadManager.mediaMessageContentFile(uiMsg.message);
@@ -1260,15 +1260,15 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMsgReceive(FanYiBroadEvent fanYiEvent) {
-        adapter.notifyDataSetChanged();
+        adapterBroad.notifyDataSetChanged();
     }
 
     boolean onBackPressed() {
         boolean consumed = true;
-        if (rootLinearLayout.getCurrentInput() != null) {
-            rootLinearLayout.hideAttachedInput(true);
-            inputPanel.closeConversationInputPanel();
-        } else if (multiMessageActionContainerLinearLayout.getVisibility() == View.VISIBLE) {
+        if (rootLinearLayoutBroad.getCurrentInput() != null) {
+            rootLinearLayoutBroad.hideAttachedInput(true);
+            inputPanelBroad.closeConversationInputPanel();
+        } else if (multiMessageActionContainerLinearLayoutBroad.getVisibility() == View.VISIBLE) {
             toggleConversationMode();
         } else {
             consumed = false;
@@ -1278,29 +1278,29 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onKeyboardShown() {
-        inputPanel.onKeyboardShown();
-        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+        inputPanelBroad.onKeyboardShown();
+        recyclerViewBroad.scrollToPosition(adapterBroad.getItemCount() - 1);
     }
 
     @Override
     public void onKeyboardHidden() {
-        inputPanel.onKeyboardHidden();
+        inputPanelBroad.onKeyboardHidden();
     }
 
     public void reloadMessage() {
-        conversationViewModel.getMessages(conversation, channelPrivateChatUser).observe(this, uiMessages -> {
-            adapter.setMessages(uiMessages);
-            adapter.notifyDataSetChanged();
+        conversationBroadViewModel.getMessages(conversationBroad, channelPrivateBroadChatUser).observe(this, uiMessages -> {
+            adapterBroad.setMessages(uiMessages);
+            adapterBroad.notifyDataSetChanged();
         });
     }
 
     public void reloadZhuanFaMessage() {
-        conversationViewModel.getMessages(conversation, channelPrivateChatUser).observe(this, uiMessages -> {
+        conversationBroadViewModel.getMessages(conversationBroad, channelPrivateBroadChatUser).observe(this, uiMessages -> {
             for (int i = 0; i < uiMessages.size(); i++) {
                 uiMessages.get(i).message.status = MessageStatus.Sent;
             }
-            adapter.setMessages(uiMessages);
-            adapter.notifyDataSetChanged();
+            adapterBroad.setMessages(uiMessages);
+            adapterBroad.notifyDataSetChanged();
         });
     }
 
@@ -1313,11 +1313,11 @@ public class ConversationBroadFragment extends Fragment implements
 //eLogD("zhanglong","channelPrivateChatUser======"+channelPrivateChatUser+"==="+adapter.oldestMessageId+"===="+adapter.oldestMessageUid);
 //eLogD("zhanglong","conversation=="+conversation.target+"==="+conversation.type);
 
-        conversationViewModel.loadOldMessages(conversation, channelPrivateChatUser, adapter.oldestMessageId, adapter.oldestMessageUid, MESSAGE_LOAD_COUNT_PER_TIME)
+        conversationBroadViewModel.loadOldMessages(conversationBroad, channelPrivateBroadChatUser, adapterBroad.oldestMessageId, adapterBroad.oldestMessageUid, MESSAGE_BROAD_LOAD_COUNT_PER_TIME)
                 .observe(this, uiMessages -> {
 //                    eLogD("zhanglong","loadOldMessages===uiMessages.size==="+uiMessages.size());
 
-                    List<UiBroadMessage> messageList = adapter.getMessages();
+                    List<UiBroadMessage> messageList = adapterBroad.getMessages();
                     for (int i = 0; i < messageList.size(); i++) {
                         for (int j = 0; j < uiMessages.size(); j++) {
                             if (messageList.get(i).message.messageId == uiMessages.get(j).message.messageId) {
@@ -1327,46 +1327,46 @@ public class ConversationBroadFragment extends Fragment implements
                         }
                     }
 
-                    adapter.addMessagesAtHead(uiMessages);
-                    swipeRefreshLayout.setRefreshing(false);
+                    adapterBroad.addMessagesAtHead(uiMessages);
+                    swipeRefreshLayoutBroad.setRefreshing(false);
                     if (scrollToBottom) {
-                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                        recyclerViewBroad.scrollToPosition(adapterBroad.getItemCount() - 1);
                     }
                 });
     }
 
     private void loadMoreNewMessages() {
-        loadingNewMessage = true;
-        adapter.showLoadingNewMessageProgressBar();
-        conversationViewModel.loadNewMessages(conversation, channelPrivateChatUser, adapter.getItem(adapter.getItemCount() - 2).message.messageId, MESSAGE_LOAD_COUNT_PER_TIME)
+        loadingNewMessageBroad = true;
+        adapterBroad.showLoadingNewMessageProgressBar();
+        conversationBroadViewModel.loadNewMessages(conversationBroad, channelPrivateBroadChatUser, adapterBroad.getItem(adapterBroad.getItemCount() - 2).message.messageId, MESSAGE_BROAD_LOAD_COUNT_PER_TIME)
                 .observe(this, messages -> {
-                    loadingNewMessage = false;
-                    adapter.dismissLoadingNewMessageProgressBar();
+                    loadingNewMessageBroad = false;
+                    adapterBroad.dismissLoadingNewMessageProgressBar();
 
                     if (messages == null || messages.isEmpty()) {
-                        shouldContinueLoadNewMessage = false;
+                        shouldContinueLoadNewMessageBroad = false;
                     }
                     if (messages != null && !messages.isEmpty()) {
-                        adapter.addMessagesAtTail(messages);
+                        adapterBroad.addMessagesAtTail(messages);
                     }
                 });
     }
 
     private void updateTypingStatusTitle() {
-        if (this.typingMessageMap == null || this.conversation.type == Conversation.ConversationType.Channel || this.conversation.type == Conversation.ConversationType.ChatRoom) {
+        if (this.typingMessageBroadMap == null || this.conversationBroad.type == Conversation.ConversationType.Channel || this.conversationBroad.type == Conversation.ConversationType.ChatRoom) {
             return;
         }
         this.checkUserTyping();
         String typingDesc = "";
-        if (conversation.type == Conversation.ConversationType.Group || typingMessageMap.size() == 0) {
+        if (conversationBroad.type == Conversation.ConversationType.Group || typingMessageBroadMap.size() == 0) {
             this.resetConversationTitle();
             return;
-        } else if (typingMessageMap.size() == 1) {
-            Set<String> users = typingMessageMap.keySet();
+        } else if (typingMessageBroadMap.size() == 1) {
+            Set<String> users = typingMessageBroadMap.keySet();
             String userId = users.toArray(new String[1])[0];
             UserInfo userInfo;
-            if (conversation.type == Conversation.ConversationType.Group) {
-                userInfo = ChatManager.Instance().getUserInfo(userId, conversation.target, false);
+            if (conversationBroad.type == Conversation.ConversationType.Group) {
+                userInfo = ChatManager.Instance().getUserInfo(userId, conversationBroad.target, false);
                 String userName = "有人";
                 if (!TextUtils.isEmpty(userInfo.friendAlias)) {
                     userName = userInfo.friendAlias;
@@ -1376,7 +1376,7 @@ public class ConversationBroadFragment extends Fragment implements
                     userName = userInfo.displayName;
                 }
 
-                TypingMessageContent typingMessageContent = (TypingMessageContent) typingMessageMap.get(userId).content;
+                TypingMessageContent typingMessageContent = (TypingMessageContent) typingMessageBroadMap.get(userId).content;
                 switch (typingMessageContent.getTypingType()) {
                     case TypingMessageContent.TYPING_TEXT:
                         typingDesc = "正在输入";
@@ -1399,7 +1399,7 @@ public class ConversationBroadFragment extends Fragment implements
                 }
                 typingDesc = userName + " " + typingDesc;
             } else {
-                TypingMessageContent typingMessageContent = (TypingMessageContent) typingMessageMap.get(userId).content;
+                TypingMessageContent typingMessageContent = (TypingMessageContent) typingMessageBroadMap.get(userId).content;
                 switch (typingMessageContent.getTypingType()) {
                     case TypingMessageContent.TYPING_TEXT:
                         typingDesc = "对方正在输入";
@@ -1422,20 +1422,20 @@ public class ConversationBroadFragment extends Fragment implements
                 }
             }
         } else {
-            typingDesc = typingMessageMap.size() + "人正在输入";
+            typingDesc = typingMessageBroadMap.size() + "人正在输入";
         }
         setActivityTitle(typingDesc);
-        handler.postDelayed(this::updateTypingStatusTitle, 5000);
+        handlerBroad.postDelayed(this::updateTypingStatusTitle, 5000);
     }
 
     private void checkUserTyping() {
-        Set<Map.Entry<String, Message>> entries = typingMessageMap.entrySet();
+        Set<Map.Entry<String, Message>> entries = typingMessageBroadMap.entrySet();
         Iterator<Map.Entry<String, Message>> iterator = entries.iterator();
         long now = System.currentTimeMillis();
         while (iterator.hasNext()) {
             Map.Entry<String, Message> next = iterator.next();
             Message msg = next.getValue();
-            if (now - msg.serverTime + ChatManager.Instance().getServerDeltaTime() > TYPING_INTERNAL) {
+            if (now - msg.serverTime + ChatManager.Instance().getServerDeltaTime() > TYPING_BROAD_INTERNAL) {
                 iterator.remove();
             }
         }
@@ -1445,14 +1445,14 @@ public class ConversationBroadFragment extends Fragment implements
         if (getActivity() == null || getActivity().isFinishing()) {
             return;
         }
-        if (!TextUtils.equals(conversationTitle, getActivity().getTitle())) {
-            setActivityTitle(conversationTitle);
+        if (!TextUtils.equals(conversationBroadTitle, getActivity().getTitle())) {
+            setActivityTitle(conversationBroadTitle);
         }
     }
 
     @Override
     public void onInputPanelExpanded() {
-        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+        recyclerViewBroad.scrollToPosition(adapterBroad.getItemCount() - 1);
     }
 
     @Override
@@ -1461,45 +1461,45 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     public void toggleMultiMessageMode(UiBroadMessage message) {
-        inputPanel.setVisibility(View.GONE);
+        inputPanelBroad.setVisibility(View.GONE);
         message.isChecked = true;
-        adapter.setMode(ConversationMessageBroadAdapter.MODE_CHECKABLE);
-        adapter.notifyDataSetChanged();
-        multiMessageActionContainerLinearLayout.setVisibility(View.VISIBLE);
+        adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_CHECKABLE);
+        adapterBroad.notifyDataSetChanged();
+        multiMessageActionContainerLinearLayoutBroad.setVisibility(View.VISIBLE);
         setupMultiMessageAction();
     }
 
     public void toggleConversationMode() {
-        inputPanel.setVisibility(View.VISIBLE);
-        multiMessageActionContainerLinearLayout.setVisibility(View.GONE);
-        adapter.setMode(ConversationMessageBroadAdapter.MODE_NORMAL);
-        adapter.clearMessageCheckStatus();
-        adapter.notifyDataSetChanged();
+        inputPanelBroad.setVisibility(View.VISIBLE);
+        multiMessageActionContainerLinearLayoutBroad.setVisibility(View.GONE);
+        adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_NORMAL);
+        adapterBroad.clearMessageCheckStatus();
+        adapterBroad.notifyDataSetChanged();
     }
 
     public void setInputText(String text) {
-        inputPanel.setInputText(text);
+        inputPanelBroad.setInputText(text);
     }
 
     private void setupMultiMessageAction() {
-        multiMessageActionContainerLinearLayout.removeAllViews();
-        List<MultiMessageBroadAction> actions = MultiMessageActionBroadManager.getInstance().getConversationActions(conversation);
+        multiMessageActionContainerLinearLayoutBroad.removeAllViews();
+        List<MultiMessageBroadAction> actions = MultiMessageActionBroadManager.getInstance().getConversationActions(conversationBroad);
         int width = getResources().getDisplayMetrics().widthPixels;
 
         for (MultiMessageBroadAction action : actions) {
-            action.onBind(this, conversation);
+            action.onBind(this, conversationBroad);
             ImageView imageView = new ImageView(getActivity());
             imageView.setImageResource(action.iconResId());
 
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width / actions.size(), LinearLayout.LayoutParams.WRAP_CONTENT);
-            multiMessageActionContainerLinearLayout.addView(imageView, layoutParams);
+            multiMessageActionContainerLinearLayoutBroad.addView(imageView, layoutParams);
             ViewGroup.LayoutParams p = imageView.getLayoutParams();
             p.height = 70;
             imageView.requestLayout();
 
             imageView.setOnClickListener(v -> {
-                List<UiBroadMessage> checkedMessages = adapter.getCheckedMessages();
+                List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
                 if (action.confirm()) {
                     new MaterialDialog.Builder(getActivity()).content(action.confirmPrompt())
                             .negativeText("取消")
@@ -1521,8 +1521,8 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onMessageCheck(UiBroadMessage message, boolean checked) {
-        List<UiBroadMessage> checkedMessages = adapter.getCheckedMessages();
-        setAllClickableChildViewState(multiMessageActionContainerLinearLayout, checkedMessages.size() > 0);
+        List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
+        setAllClickableChildViewState(multiMessageActionContainerLinearLayoutBroad, checkedMessages.size() > 0);
     }
 
     private void setAllClickableChildViewState(View view, boolean enable) {
@@ -1538,18 +1538,18 @@ public class ConversationBroadFragment extends Fragment implements
 
     public void pickGroupMemberToVoipChat(boolean isAudioOnly) {
         Intent intent = new Intent(getActivity(), PickGroupMemberBroadActivity.class);
-        GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, false);
+        GroupInfo groupInfo = groupBroadViewModel.getGroupInfo(conversationBroad.target, false);
         intent.putExtra("groupInfo", groupInfo);
         int maxCount = AVEngineKit.isSupportMultiCall() ? (isAudioOnly ? AVEngineKit.MAX_AUDIO_PARTICIPANT_COUNT - 1 : AVEngineKit.MAX_VIDEO_PARTICIPANT_COUNT - 1) : 1;
         intent.putExtra("maxCount", maxCount);
-        startActivityForResult(intent, isAudioOnly ? REQUEST_CODE_GROUP_AUDIO_CHAT : REQUEST_CODE_GROUP_VIDEO_CHAT);
+        startActivityForResult(intent, isAudioOnly ? REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT : REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT);
     }
 
     private void onPickGroupMemberToVoipChat(Intent intent, boolean isAudioOnly) {
         List<String> memberIds = intent.getStringArrayListExtra(PickGroupMemberBroadActivity.EXTRA_RESULT);
         if (memberIds != null && memberIds.size() > 0) {
             if (AVEngineKit.isSupportMultiCall()) {
-                WfcUIBroadKit.multiCall(getActivity(), conversation.target, memberIds, isAudioOnly);
+                WfcUIBroadKit.multiCall(getActivity(), conversationBroad.target, memberIds, isAudioOnly);
             } else {
                 WfcUIBroadKit.singleCall(getActivity(), memberIds.get(0), isAudioOnly);
             }
@@ -1560,22 +1560,22 @@ public class ConversationBroadFragment extends Fragment implements
     public void onMessageReceiptCLick(Message message) {
         Intent intent = new Intent(getActivity(), GroupMessageReceiptBroadActivity.class);
         intent.putExtra("message", message);
-        intent.putExtra("groupInfo", groupInfo);
+        intent.putExtra("groupInfo", groupInfoBroad);
         startActivity(intent);
     }
 
     private void cleanExpiredOngoingCalls() {
-        for (Iterator<Map.Entry<String, Message>> it = ongoingCalls.entrySet().iterator(); it.hasNext(); ) {
+        for (Iterator<Map.Entry<String, Message>> it = ongoingCallsBroad.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, Message> entry = it.next();
             if (System.currentTimeMillis() - (entry.getValue().serverTime + ChatManager.Instance().getServerDeltaTime()) > 3000) {
                 it.remove();
             }
         }
-        if (ongoingCalls.size() > 0) {
-            handler.postDelayed(this::cleanExpiredOngoingCalls, 1000);
+        if (ongoingCallsBroad.size() > 0) {
+            handlerBroad.postDelayed(this::cleanExpiredOngoingCalls, 1000);
         } else {
-            ongoingCallAdapter.setOngoingCalls(null);
-            ongoingCallRecyclerView.setVisibility(View.GONE);
+            ongoingCallAdapterBroad.setOngoingCalls(null);
+            ongoingCallRecyclerViewBroad.setVisibility(View.GONE);
         }
     }
 }

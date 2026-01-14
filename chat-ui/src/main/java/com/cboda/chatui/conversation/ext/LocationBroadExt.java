@@ -22,6 +22,7 @@ import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.model.Conversation;
 import com.cboda.baselibrary.common.BridgeImEnum;
 
+@Deprecated
 public class LocationBroadExt extends ConversationMidExt {
 
     /**
@@ -56,10 +57,10 @@ public class LocationBroadExt extends ConversationMidExt {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            LocationBroadData locationData = (LocationBroadData) data.getSerializableExtra("location");
-            messageViewModel.sendLocationMessage(conversation, locationData);
-        }
+//        if (resultCode == RESULT_OK) {
+//            LocationBroadData locationData = (LocationBroadData) data.getSerializableExtra("location");
+//            messageViewModel.sendLocationMessage(conversation, locationData);
+//        }
     }
 
     @Override

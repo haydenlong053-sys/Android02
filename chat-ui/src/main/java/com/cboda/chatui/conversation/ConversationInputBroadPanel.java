@@ -4,7 +4,7 @@
 
 package com.cboda.chatui.conversation;
 
-import static com.cboda.chatui.conversation.ConversationBroadFragment.REQUEST_PICK_MENTION_CONTACT;
+import static com.cboda.chatui.conversation.ConversationBroadFragment.REQUEST_BROAD_PICK_MENTION_CONTACT;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -487,7 +487,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         GroupViewBroadModel groupViewModel = ViewModelProviders.of(fragment).get(GroupViewBroadModel.class);
         GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, true);
         intent.putExtra("groupInfo", groupInfo);
-        fragment.startActivityForResult(intent, REQUEST_PICK_MENTION_CONTACT);
+        fragment.startActivityForResult(intent, REQUEST_BROAD_PICK_MENTION_CONTACT);
     }
 
     void afterInputTextChanged(Editable editable) {

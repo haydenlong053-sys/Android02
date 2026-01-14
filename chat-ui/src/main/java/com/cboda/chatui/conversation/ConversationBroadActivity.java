@@ -100,30 +100,30 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         } else if ("qunxiangqing".equals(myImEvent.type)) {
             QunBroadXiangqing qunXiangqing = gson.fromJson(myImEvent.params1, QunBroadXiangqing.class);
             if (qunXiangqing != null && !TextUtils.isEmpty(qunXiangqing.getGonggao())) {
-                conversationFragment.qungonggao.setVisibility(View.VISIBLE);
-                conversationFragment.gonggaoxinxi.setText("群公告：" + qunXiangqing.getGonggao());
+                conversationFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
+                conversationFragment.gonggaoxinxiBroad.setText("群公告：" + qunXiangqing.getGonggao());
             } else {
-                conversationFragment.qungonggao.setVisibility(View.GONE);
+                conversationFragment.qungonggaoBroad.setVisibility(View.GONE);
             }
 
             if (conversation.type == Conversation.ConversationType.Group) {
-                if (qunXiangqing != null && conversationFragment.messageViewModel != null) {
+                if (qunXiangqing != null && conversationFragment.messageBroadViewModel != null) {
                     if ("3".equals(qunXiangqing.getUserType())) {
-                        conversationFragment.messageViewModel.shifouLanjie = true;
+                        conversationFragment.messageBroadViewModel.shifouLanjie = true;
                     } else {
-                        conversationFragment.messageViewModel.shifouLanjie = false;
+                        conversationFragment.messageBroadViewModel.shifouLanjie = false;
                     }
-                    conversationFragment.messageViewModel.context = ConversationBroadActivity.this;
-                    conversationFragment.messageViewModel.jiangeshijan = qunXiangqing.getJiange();
+                    conversationFragment.messageBroadViewModel.context = ConversationBroadActivity.this;
+                    conversationFragment.messageBroadViewModel.jiangeshijan = qunXiangqing.getJiange();
                     if ("1".equals(qunXiangqing.getUserType())) {
-                        conversationFragment.messageViewModel.shifoumianci = false;
+                        conversationFragment.messageBroadViewModel.shifoumianci = false;
                     } else {
                         if (!TextUtils.isEmpty(qunXiangqing.getMgc())) {
-                            conversationFragment.messageViewModel.mgc = qunXiangqing.getMgc();
-                            conversationFragment.messageViewModel.openMgc = qunXiangqing.getOpenMgc();
-                            conversationFragment.messageViewModel.shifoumianci = true;
+                            conversationFragment.messageBroadViewModel.mgc = qunXiangqing.getMgc();
+                            conversationFragment.messageBroadViewModel.openMgc = qunXiangqing.getOpenMgc();
+                            conversationFragment.messageBroadViewModel.shifoumianci = true;
                         } else {
-                            conversationFragment.messageViewModel.shifoumianci = false;
+                            conversationFragment.messageBroadViewModel.shifoumianci = false;
                         }
                     }
                 }
@@ -131,8 +131,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
         } else if ("xiugaigongaole".equals(myImEvent.type)) {
             if (conversation.target.equals(myImEvent.params2)) {
-                conversationFragment.qungonggao.setVisibility(View.VISIBLE);
-                conversationFragment.gonggaoxinxi.setText("群公告：" + myImEvent.params1);
+                conversationFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
+                conversationFragment.gonggaoxinxiBroad.setText("群公告：" + myImEvent.params1);
                 MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.UPDATE_ANNOUNCEMENT.getValue(), myImEvent.params1, "", null);
             }
 
@@ -187,7 +187,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             MeetingInviteMessageContent inviteMessageContent =
                     new Gson().fromJson(json, MeetingInviteMessageContent.class);
             if (inviteMessageContent != null && conversationFragment != null) {
-                conversationFragment.messageViewModel.sendMessage(conversation, inviteMessageContent);
+                conversationFragment.messageBroadViewModel.sendMessage(conversation, inviteMessageContent);
             }
 
 
@@ -195,8 +195,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             String roomId = myImEvent.params1;
             String jsonParams = myImEvent.params2;
             if (conversationFragment != null) {
-                conversationFragment.qunMeetingNotice.setVisibility(roomId.isEmpty() ? View.GONE : View.VISIBLE);
-                conversationFragment.tvQunMeeting.setOnClickListener(v -> {
+                conversationFragment.qunMeetingNoticeBroad.setVisibility(roomId.isEmpty() ? View.GONE : View.VISIBLE);
+                conversationFragment.tvQunMeetingBroad.setOnClickListener(v -> {
                     MyCommonBroadBridge.getInstance().setMyBridgeMethod(this, BridgeImEnum.ENTER_MEETING.getValue(), roomId, jsonParams, null);
 
                 });
