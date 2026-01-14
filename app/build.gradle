@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.compose'
 //    id 'com.google.gms.google-services'
 }
+apply from: '../config.gradle'
 
 
 def releaseTime() {
@@ -55,14 +56,14 @@ android {
 
     namespace 'com.cboda.intelligent'
 //    compileSdk 32
-    compileSdkVersion 36
-    buildToolsVersion "33.0.3"
+    compileSdkVersion libsinfo.compileSdk
+    buildToolsVersion libsinfo.buildToolsVersion
     defaultConfig {
         applicationId "com.cboda.intelligent"
-        targetSdk 36
-        minSdk 29
-        versionCode 301
-        versionName "3.0.1"
+        targetSdk libsinfo.compileSdk
+        minSdk libsinfo.minSdk
+        versionCode libsinfo.versionCode
+        versionName libsinfo.versionName
 
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
