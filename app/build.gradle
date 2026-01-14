@@ -18,40 +18,22 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-
     signingConfigs {
-//        release {
-//            storeFile file('googleplay.jks')
-//            storePassword '123456'
-//            keyAlias 'lxkj'
-//            keyPassword '123456'
-//            v2SigningEnabled true
-//        }
-//
-//        debug {
-//            storeFile file('googleplay.jks')
-//            storePassword '123456'
-//            keyAlias 'lxkj'
-//            keyPassword '123456'
-//            v2SigningEnabled true
-//        }
-        ////us环境签名
         release {
-            storeFile file('google_play_us.jks')
-            storePassword 'Aa663366'
-            keyAlias 'uscbodabroadintelligent'
-            keyPassword 'Aa663366'
+            storeFile file(libsinfo.storeFile)
+            storePassword libsinfo.storePassword
+            keyAlias libsinfo.keyAlias
+            keyPassword libsinfo.storePassword
             v2SigningEnabled true
         }
 
         debug {
-            storeFile file('google_play_us.jks')
-            storePassword 'Aa663366'
-            keyAlias 'uscbodabroadintelligent'
-            keyPassword 'Aa663366'
+            storeFile file(libsinfo.storeFile)
+            storePassword libsinfo.storePassword
+            keyAlias libsinfo.keyAlias
+            keyPassword libsinfo.storePassword
             v2SigningEnabled true
         }
-
     }
 
 
@@ -169,6 +151,9 @@ dependencies {
     implementation "${andx.ui_tooling_preview}"
     implementation "${andx.constraintlayout_compose}"
     implementation "${andx.navigation_compose}"
+    implementation "${andx.material_icons_core}"
+    implementation "${andx.material_icons_extended}"
+    implementation "${andx.material}"
     implementation "${thirdPartyApis.material}"
     implementation "${thirdPartyApis.transformations}"
     implementation "${thirdPartyApis.immersionbar}"

@@ -1,11 +1,8 @@
 package com.cboda.intelligent.utils;
 
-import com.google.gson.internal.$Gson$Types;
-
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -18,8 +15,8 @@ public abstract class BaseBroadCallback<T> {
             throw new RuntimeException("Missing type parameter.");
         }
         ParameterizedType parameterized = (ParameterizedType) superclass;
-
-        return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
+        return TypeUtils.canonicalize(parameterized.getActualTypeArguments()[0]);
+//        return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
     }
 
 
