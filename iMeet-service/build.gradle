@@ -40,12 +40,11 @@ ext {
     PUBLISH_ARTIFACT_ID = "imeetservice"
 }
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Unit Test Libraries
-//    testImplementation 'junit:junit:4.13.2'
-    testImplementation "${thirdPartyApis.junit}"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+//    testImplementation "junit:junit:4.13.2"
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     // androidTestImplementation 'androidx.test.espresso:espressso-core:3.4.0'
 
     // Android Component Libraries

@@ -3,11 +3,12 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.compose'
 //    id 'com.google.gms.google-services'
+//    id 'com.github.ben-manes.versions' version '0.51.0'
 }
 apply from: '../config.gradle'
 
 
-def releaseTime() {
+static def releaseTime() {
     return new Date().format("MMdd_HHmm", TimeZone.getTimeZone("GMT+8:00"))
 }
 
@@ -59,7 +60,7 @@ android {
     compileSdkVersion libsinfo.compileSdk
     buildToolsVersion libsinfo.buildToolsVersion
     defaultConfig {
-        applicationId "com.cboda.intelligent"
+        applicationId libsinfo.applicationId
         targetSdk libsinfo.compileSdk
         minSdk libsinfo.minSdk
         versionCode libsinfo.versionCode
@@ -114,7 +115,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all {
-            def fileName = "SeekWeb4_" + "${variant.buildType.name}_" + defaultConfig.versionName + "_" + releaseTime() + ".apk"
+            def fileName = "MyApp_" + "${variant.buildType.name}_" + defaultConfig.versionName + "_" + releaseTime() + ".apk"
             outputFileName = fileName
         }
     }
@@ -153,36 +154,58 @@ configurations.all {
 }
 
 dependencies {
-
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.activity:activity:1.8.0'
-    implementation "androidx.fragment:fragment-ktx:1.8.4"
-//    implementation project(':data-local')
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-
     api project(':baselibrary')
-//    api project(':chat-client')
-//    api project(':avenginekit')
-//    api project(':badgeview')
-    //    api project(':emojilibrary')
-//    api project(':imagepicker')
-//    api project(':mars-core-release')
-//    api project(':pttclient')
     api project(':chat-ui')
     api project(':iMeet')
-//    api project(':uvccamera')
-//    api project(':webrtc')
-
-
+    implementation "${andx.core}"
+    implementation "${andx.appcompat}"
+    implementation "${andx.constraintlayout}"
+    implementation "${andx.activity}"
+    implementation "${andx.fragment}"
+    implementation "${andx.swiperefreshlayout}"
+    implementation "${andx.activity_compose}"
+    implementation "${andx.compose_ui}"
+    implementation "${andx.material3}"
+    implementation "${andx.ui_tooling_preview}"
+    implementation "${andx.constraintlayout_compose}"
+    implementation "${andx.navigation_compose}"
+    implementation "${thirdPartyApis.material}"
+    implementation "${thirdPartyApis.transformations}"
+    implementation "${thirdPartyApis.immersionbar}"
+    implementation "${thirdPartyApis.XXPermissions}"
+    implementation "${thirdPartyApis.okhttp3}"
+    implementation "${thirdPartyApis.okgo}"
+    implementation "${thirdPartyApis.gson}"
+    implementation "${thirdPartyApis.XBanner}"
+    implementation "${thirdPartyApis.PickerView}"
+    implementation "${thirdPartyApis.eventbus}"
+    implementation "${thirdPartyApis.sonic}"
+    implementation "${thirdPartyApis.zxing}"
+    implementation "${thirdPartyApis.ShadowLayout}"
+    implementation "${thirdPartyApis.zxingscanner}"
+    implementation "${thirdPartyApis.roundedimageview}"
+    implementation "${thirdPartyApis.picasso}"
+    implementation "${thirdPartyApis.BigImageViewPager}"
+    implementation "${thirdPartyApis.MNPasswordEditText}"
+    implementation "${thirdPartyApis.LoadingDialog}"
+    implementation "${thirdPartyApis.easypermissions}"
+    implementation "${thirdPartyApis.permissiongen}"
+    implementation "${thirdPartyApis.jiaozivideoplayer}"
+    implementation "${thirdPartyApis.GSYVideoPlayer}"
+    implementation "${thirdPartyApis.rxandroid}"
+    implementation "${thirdPartyApis.rxjava}"
+    implementation "${thirdPartyApis.rxpermissions}"
+    implementation "${thirdPartyApis.SwipeDelMenuLayout}"
+    implementation "${thirdPartyApis.haze}"
+    implementation("${thirdPartyApis.XPopup}") {
+        exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
+    }
+    coreLibraryDesugaring "${thirdPartyApis.desugar_jdk_libs}"
+//    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+//    debugImplementation "androidx.compose.ui:ui-tooling:1.9.4"
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 //    implementation "com.facebook.fresco:fresco:2.4.0"
 //    implementation "com.facebook.fresco:animated-base:2.4.0"
 //    implementation "com.facebook.fresco:animated-drawable:2.4.0"
@@ -190,74 +213,13 @@ dependencies {
 //    implementation "com.facebook.fresco:animated-webp:2.4.0"
 //    implementation "com.facebook.fresco:webpsupport:2.4.0"
 //    implementation "com.facebook.fresco:imagepipeline-okhttp3:2.4.0"
-
-
-    implementation 'jp.wasabeef:glide-transformations:4.3.0'
-
-
-//    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.10'
-    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
-
-    implementation 'com.github.getActivity:XXPermissions:20.0'
-
 //    implementation 'io.github.lucksiege:pictureselector:v3.11.2'
 //    implementation 'io.github.lucksiege:compress:v3.11.2'
 //    implementation 'io.github.lucksiege:ucrop:v3.11.2'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
-    implementation 'com.lzy.net:okgo:3.0.4'
-    implementation 'com.google.code.gson:gson:2.11.0'
-    implementation 'com.github.xiaohaibin:XBanner:1.9.1'
-    implementation 'com.contrarywind:Android-PickerView:4.1.9'
-    implementation 'org.greenrobot:eventbus:3.3.1'
-    implementation 'com.tencent.sonic:sdk:3.1.0'
-
-//    implementation 'com.zhy.base:fileprovider:1.0.0'
-    implementation 'com.google.zxing:core:3.5.3'
-
-
-    implementation 'com.github.lihangleo2:ShadowLayout:3.4.0'
-    implementation 'com.mylhyl:zxingscanner:2.2.0'
-    implementation 'com.makeramen:roundedimageview:2.3.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-
-    //查看大图
-    implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-6.0.1'
-
-    implementation 'com.github.maning0303:MNPasswordEditText:V1.0.4'
-    //仿IOS加载loading
-    implementation 'com.github.gittjy:LoadingDialog:1.0.2'
-    implementation 'pub.devrel:easypermissions:3.0.0'
-    //权限管理
-    implementation 'com.lovedise:permissiongen:0.0.6'
-    //视频播放
-    implementation 'cn.jzvd:jiaozivideoplayer:7.7.0'
-
-    implementation('com.github.li-xiaojun:XPopup:2.10.0') {
-        exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
-    }
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.3.4-release-jitpack'
-
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
-
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-
-    //侧滑
-    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.1'
-
-
-    implementation "androidx.activity:activity-compose:1.10.0"
-    implementation "androidx.compose.ui:ui:1.9.4"
+//    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.10'
 //    implementation "androidx.compose.material3:material3-android:1.4.0"
-    implementation "androidx.compose.material3:material3:1.3.0"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.9.4"
-    debugImplementation "androidx.compose.ui:ui-tooling:1.9.4"
-    implementation("dev.chrisbanes.haze:haze:1.1.1")
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-    implementation "androidx.navigation:navigation-compose:2.8.3"
+//    implementation 'com.zhy.base:fileprovider:1.0.0'
 //    implementation 'com.google.android.flexbox:flexbox:3.0.0'
-    debugImplementation 'io.github.didi.dokit:dokitx:3.5.0'
-    releaseImplementation 'io.github.didi.dokit:dokitx-no-op:3.5.0'
-
+//    debugImplementation 'io.github.didi.dokit:dokitx:3.5.0'
+//    releaseImplementation 'io.github.didi.dokit:dokitx-no-op:3.5.0'
 }

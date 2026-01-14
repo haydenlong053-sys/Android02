@@ -26,7 +26,6 @@ import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.initFireBase
 import com.danikula.videocache.HttpProxyCacheServer
-import com.didichuxing.doraemonkit.DoKit
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
 import com.cboda.intelligent.configuration.AppBroadConsts
@@ -132,8 +131,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         ToastBroadUtils.init(this)
         val cacheDir = File(applicationContext.cacheDir, "http")
         HttpResponseCache.install(cacheDir, 1024 * 1024 * 128)
-//        initDoraemonKit()
-
+        initDoraKit()
         lateInitSdk()
         initMyIm()
         addActivityLifecycleCallbacks(lifeListener)
@@ -185,11 +183,10 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         }
     }
 
-    private fun initDoraemonKit() {
-
-        if (BuildConfig.DEBUG) {
-            DoKit.Builder(this)
-                .build()
+    private fun initDoraKit() {
+        if (getIsDebug()) {
+//            DoKit.Builder(this)
+//                .build()
         }
     }
 
