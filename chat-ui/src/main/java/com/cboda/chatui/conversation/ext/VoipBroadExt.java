@@ -16,12 +16,14 @@ import com.cboda.chatui.WfcUIBroadKit;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
+
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 
-public class VoipBroadExt extends ConversationBroadExt {
+public class VoipBroadExt extends ConversationMidExt {
 
 //    @ExtContextMenuBroadItem(tag = ConversationExtMenuBroadTags.TAG_VOIP_VIDEO)
 //    public void video(View containerView, Conversation conversation) {

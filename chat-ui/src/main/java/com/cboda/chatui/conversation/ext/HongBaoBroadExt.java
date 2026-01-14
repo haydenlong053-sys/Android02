@@ -9,8 +9,9 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import cn.wildfirechat.model.Conversation;
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 
-public class HongBaoBroadExt extends ConversationBroadExt {
+public class HongBaoBroadExt extends ConversationMidExt {
 
     @ExtContextMenuBroadItem
     public void pickHongBao(View containerView, Conversation conversation) {

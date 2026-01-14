@@ -630,6 +630,12 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
                         protoMessage.getContent().setRemoteMediaUrl(result);
                         ProtoLogic.updateMessageContent(protoMessage);
                         ProtoLogic.sendMessageEx(messageId, expireDuration, new SendMessageCallback(callback));
+                        try {
+                            if (callback != null)
+                                callback.onMediaUploaded(result);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override

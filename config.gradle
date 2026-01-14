@@ -12,6 +12,9 @@ ext {
     libsinfo = [
             minSdk    : 29,
             compileSdk: 36,
+            versionCode: 301,
+            versionName: "3.0.1",
+            buildToolsVersion: "33.0.3",
     ]
     thirdPartyApis = [
             junit: "junit:junit:4.13.2",
