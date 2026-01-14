@@ -112,6 +112,7 @@ import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.cboda.baselibrary.common.MyEventCodeEnum;
 
 @SuppressLint("FragmentLiveDataObserve")
 public class ConversationBroadFragment extends Fragment implements
@@ -1095,7 +1096,7 @@ public class ConversationBroadFragment extends Fragment implements
         if (activity != null) {
             activity.setTitle(title);
         }
-        EventBus.getDefault().post(new MyBroadEvent("danliaobiaoti", title, ""));
+        EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.SINGLE_CHAT_TITLE.getValue(), title, ""));
     }
 
     boolean onTouch(View view, MotionEvent event) {

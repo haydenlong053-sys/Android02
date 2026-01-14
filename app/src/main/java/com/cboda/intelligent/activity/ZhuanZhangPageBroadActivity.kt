@@ -13,6 +13,7 @@ import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.bean.ZhuanZhangBroadBiangeng
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import org.greenrobot.eventbus.EventBus
+import com.cboda.baselibrary.common.MyEventCodeEnum
 
 class ZhuanZhangPageBroadActivity:BaseSimpleBroadActivity() {
 
@@ -65,7 +66,7 @@ class ZhuanZhangPageBroadActivity:BaseSimpleBroadActivity() {
             when (it.type) {
                 "shoukuanSuc" -> {
                     viewModel?.zhuanzhangInfo(this,hongbaoId)
-                    EventBus.getDefault().post(MyBroadEvent("fajieshouzhuanzhangxiaoxi",hongbaoId,mprice))
+                    EventBus.getDefault().post(MyBroadEvent(MyEventCodeEnum.SEND_RECEIVE_TRANSFER_MESSAGE.value,hongbaoId,mprice))
 
 //                    val customMsg = SendCustomBroadMsg()
 //                    customMsg.sendMyImZhuanZhangJieShou(

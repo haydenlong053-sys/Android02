@@ -19,6 +19,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.cboda.chatui.R
 import com.cboda.chatui.bridge.MyBroadEvent
+import com.cboda.baselibrary.common.MyEventCodeEnum
 import cn.wildfirechat.message.MeetingInviteMessageContent
 import com.google.gson.Gson
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
@@ -100,7 +101,7 @@ class MeetingCreateBroadActivity : BaseSimpleBroadActivity() {
                                         }
                                 EventBus.getDefault().post(
                                     MyBroadEvent(
-                                        "huiyishi",
+                                        MyEventCodeEnum.MEETING_ROOM.value,
                                         Gson().toJson(meetingMessage),
                                         ""
                                     )

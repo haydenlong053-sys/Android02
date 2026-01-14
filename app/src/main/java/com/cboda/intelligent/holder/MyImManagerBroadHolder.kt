@@ -6,6 +6,7 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import com.cboda.baselibrary.common.BridgeImEnum
+import com.cboda.baselibrary.common.MyEventCodeEnum
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.TextMessageContent
@@ -243,7 +244,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                         "更新文本消息-->onSuccess"
                                                     )
                                                     EventBus.getDefault()
-                                                        .post(MyBroadEvent("reloadMsg", "", ""))
+                                                        .post(MyBroadEvent(MyEventCodeEnum.RELOAD_MESSAGE.value, "", ""))
                                                 }
 
                                                 override fun onFail(errorCode: Int) {
@@ -429,7 +430,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                 data.id?.let {
                                                     EventBus.getDefault().post(
                                                         MyBroadEvent(
-                                                            "qunMeeting",
+                                                            MyEventCodeEnum.GROUP_MEETING.value,
                                                             data.roomId,
                                                             QuickJsonBroadUtils.build(
                                                                 "title" to (data.roomName
@@ -442,7 +443,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                 if (data.id.isNullOrEmpty()) {
                                                     EventBus.getDefault().post(
                                                         MyBroadEvent(
-                                                            "qunMeeting",
+                                                            MyEventCodeEnum.GROUP_MEETING.value,
                                                             "",
                                                             ""
                                                         )
@@ -488,7 +489,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                             bean.data?.apply {
                                                 EventBus.getDefault().post(
                                                     MyBroadEvent(
-                                                        "qunxiangqing",
+                                                        MyEventCodeEnum.GROUP_DETAILS.value,
                                                         gson.toJson(this),
                                                         ""
                                                     )
@@ -499,7 +500,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                                     override fun onFail(bean: BaseBroadResponse?) {
                                         EventBus.getDefault()
-                                            .post(MyBroadEvent("qunxiangqingshibai", "", ""))
+                                            .post(MyBroadEvent(MyEventCodeEnum.GROUP_DETAILS_FAILED.value, "", ""))
                                     }
                                 },
                             )
@@ -517,7 +518,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                         BridgeImEnum.GET_USER_INFO.value -> {
                             MainBroadActivity.currtentLoginUser?.apply {
                                 EventBus.getDefault()
-                                    .post(MyBroadEvent("yonghuxinxi", gson.toJson(this), ""))
+                                    .post(MyBroadEvent(MyEventCodeEnum.USER_INFO.value, gson.toJson(this), ""))
                             }
                         }
 

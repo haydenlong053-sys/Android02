@@ -74,6 +74,7 @@ import cn.wildfirechat.remote.OnSendMessageListener;
 import cn.wildfirechat.remote.SecretMessageBurnStateListener;
 import cn.wildfirechat.remote.SendMessageCallback;
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.cboda.baselibrary.common.MyEventCodeEnum;
 
 public class MessageViewBroadModel extends ViewModel implements OnReceiveMessageListener,
         OnSendMessageListener,
@@ -130,12 +131,12 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                     UnknownMessageContent tongzhiContent = (UnknownMessageContent) msg.content;
                     if (tongzhiContent.getOrignalPayload().type == 1001) {
                         eLogD("野火", "自定义通知--> " + tongzhiContent.getOrignalPayload().content + "  " + tongzhiContent.getOrignalPayload().extra);
-                        EventBus.getDefault().post(new MyBroadEvent("xiugaigongaole", tongzhiContent.getOrignalPayload().content, tongzhiContent.getOrignalPayload().extra));
+                        EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.UPDATE_ANNOUNCEMENT.getValue(), tongzhiContent.getOrignalPayload().content, tongzhiContent.getOrignalPayload().extra));
                     } else if (tongzhiContent.getOrignalPayload().type == 1004) {
-                        EventBus.getDefault().post(new MyBroadEvent("xiugaifayanshijian", tongzhiContent.getOrignalPayload().content, ""));
+                        EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.UPDATE_SEND_TIME.getValue(), tongzhiContent.getOrignalPayload().content, ""));
                     }
 //                    else if (tongzhiContent.getOrignalPayload().type == 1005) {
-//                        EventBus.getDefault().post(new MyBroadEvent("beifeng", tongzhiContent.getOrignalPayload().content, ""));
+//                        EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.BANNED.getValue(), tongzhiContent.getOrignalPayload().content, ""));
 //                    }
                 }
             }
@@ -641,7 +642,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     public void onSendFail(Message message, int errorCode) {
         postMessageUpdate(new UiBroadMessage(message));
         if (errorCode == 248) {
-            EventBus.getDefault().post(new MyBroadEvent("bushihaoyoufaxiaoxi", "", ""));
+            EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.NOT_FRIEND_SEND_MESSAGE.getValue(), "", ""));
         }
     }
 

@@ -34,6 +34,7 @@ import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.UserInfo;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
+import com.cboda.baselibrary.common.MyEventCodeEnum;
 
 public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity {
     private List<Message> messages;
@@ -116,7 +117,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
                             @Override
                             public void onChanged(@Nullable OperateBroadResult<Integer> integerOperateResult) {
                                 if (integerOperateResult.isSuccess()) {
-                                    EventBus.getDefault().post(new MyBroadEvent("reloadMsgZhuanFa","",""));
+                                    EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.RELOAD_FORWARD_MESSAGE.getValue(),"",""));
                                     Toast.makeText(ForwardBroadActivity.this, "转发成功", Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {
@@ -151,7 +152,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
 //                            @Override
 //                            public void onChanged(@Nullable OperateBroadResult<Integer> integerOperateResult) {
 //                                if (integerOperateResult.isSuccess()) {
-//                                    EventBus.getDefault().post(new MyBroadEvent("reloadMsgZhuanFa","",""));
+//                                    EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.RELOAD_FORWARD_MESSAGE.getValue(),"",""));
 //                                    Toast.makeText(ForwardBroadActivity.this, "转发成功", Toast.LENGTH_SHORT).show();
 //                                    finish();
 //                                } else {
