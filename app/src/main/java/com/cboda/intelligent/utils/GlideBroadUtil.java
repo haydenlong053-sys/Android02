@@ -16,27 +16,28 @@ import com.squareup.picasso.Picasso;
  */
 public class GlideBroadUtil {
 
-    public static void setImagOverSize(Context context, String url, ImageView iv,int width,int height) {
+    public static void setImagOverSize(Context context, String url, ImageView iv, int width, int height) {
         if (!StringBroadUtil.isEmpty(url)) {
-            if (url.startsWith("http")){
+            if (url.startsWith("http")) {
                 if (url.endsWith("gif")) {
                     // 使用Glide播放gif图片
                     Glide.with(context)
                             .asGif()
                             .load(url)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                            .override(width,height)
+                            .override(width, height)
                             .into(iv);
                 } else
-                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_defaut).placeholder(R.mipmap.ic_broad_defaut)).override(width,height).into(iv);
-            }else
-                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).override(width,height).into(iv);
+                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_defaut).placeholder(R.mipmap.ic_broad_defaut)).override(width, height).into(iv);
+            } else
+                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).override(width, height).into(iv);
         } else
-            Picasso.with(context).load(R.mipmap.ic_broad_defaut).into(iv);
+            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
     }
+
     public static void setImag(Context context, String url, ImageView iv) {
         if (!StringBroadUtil.isEmpty(url)) {
-            if (url.startsWith("http")){
+            if (url.startsWith("http")) {
                 if (url.endsWith("gif")) {
                     // 使用Glide播放gif图片
                     Glide.with(context)
@@ -46,13 +47,13 @@ public class GlideBroadUtil {
                             .into(iv);
                 } else
                     Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_defaut).placeholder(R.mipmap.ic_broad_defaut)).into(iv);
-            }else
+            } else
                 Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).into(iv);
         } else
-            Picasso.with(context).load(R.mipmap.ic_broad_defaut).into(iv);
+            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
     }
 
-    public static void setImag(Context context,int res, String imageUrl, ImageView iv) {
+    public static void setImag(Context context, int res, String imageUrl, ImageView iv) {
         Glide.with(context)
                 .load(imageUrl)
                 .placeholder(res) // 加载中显示
@@ -70,7 +71,6 @@ public class GlideBroadUtil {
                 .fallback(R.mipmap.ic_broad_head) // 空URL或null时显示
                 .into(iv);
     }
-
 
 
     public static void loadBitmapThumbnail(Context context, Bitmap thumbnail, ImageView imageView) {
