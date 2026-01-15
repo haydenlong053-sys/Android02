@@ -44,43 +44,63 @@ ext {
             ui_tooling_preview      : "androidx.compose.ui:ui-tooling-preview:1.11.0-alpha02",
             constraintlayout_compose: "androidx.constraintlayout:constraintlayout-compose:1.1.1",
             navigation_compose      : "androidx.navigation:navigation-compose:2.9.6",
+            room_ktx                : "androidx.room:room-ktx:2.6.1",
+
     ]
     thirdPartyApis = [
-            jiaozivideoplayer : "cn.jzvd:jiaozivideoplayer:7.7.2.3300",
-            GSYVideoPlayer    : "com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.3.4-release-jitpack",
+            jiaozivideoplayer            : "cn.jzvd:jiaozivideoplayer:7.7.2.3300",
+            GSYVideoPlayer               : "com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.3.4-release-jitpack",
 //            XXPermissions     : "com.github.getActivity:XXPermissions:28.0",
-            XXPermissions     : "com.github.getActivity:XXPermissions:20.0",
-            easypermissions   : "pub.devrel:easypermissions:3.0.0",
-            rxpermissions     : "com.github.tbruyelle:rxpermissions:2.x.v0.9.3",
+            XXPermissions                : "com.github.getActivity:XXPermissions:20.0",
+            easypermissions              : "pub.devrel:easypermissions:3.0.0",
+            rxpermissions                : "com.github.tbruyelle:rxpermissions:2.x.v0.9.3",
 //            rxpermissions     : "com.github.tbruyelle:rxpermissions:0.10.2",
-            permissiongen     : "com.lovedise:permissiongen:0.1.1",
+            permissiongen                : "com.lovedise:permissiongen:0.1.1",
 //            permissiongen     : "com.lovedise:permissiongen:0.0.6",
-            material          : "com.google.android.material:material:1.14.0-alpha08",
-            transformations   : "jp.wasabeef:glide-transformations:4.3.0",
-            immersionbar      : "com.geyifeng.immersionbar:immersionbar:3.2.2",
-            okhttp3           : "com.squareup.okhttp3:okhttp:5.3.2",
-            okgo              : "com.lzy.net:okgo:3.0.4",
+            material                     : "com.google.android.material:material:1.14.0-alpha08",
+            transformations              : "jp.wasabeef:glide-transformations:4.3.0",
+            immersionbar                 : "com.geyifeng.immersionbar:immersionbar:3.2.2",
+            okhttp3                      : "com.squareup.okhttp3:okhttp:5.3.2",
+            okgo                         : "com.lzy.net:okgo:3.0.4",
 //            gson              : "com.google.code.gson:gson:2.11.0",
-            gson              : "com.google.code.gson:gson:2.13.2",
-            XBanner           : "com.github.xiaohaibin:XBanner:1.9.1",
-            PickerView        : "com.contrarywind:Android-PickerView:4.1.9",
-            eventbus          : "org.greenrobot:eventbus:3.3.1",
-            zxing             : "com.google.zxing:core:3.5.4",
-            ShadowLayout      : "com.github.lihangleo2:ShadowLayout:3.4.5",
-            zxingscanner      : "com.mylhyl:zxingscanner:2.2.0",
-            roundedimageview  : "com.makeramen:roundedimageview:2.3.0",
-            picasso           : "com.squareup.picasso:picasso:2.8",
+            gson                         : "com.google.code.gson:gson:2.13.2",
+            XBanner                      : "com.github.xiaohaibin:XBanner:1.9.1",
+            PickerView                   : "com.contrarywind:Android-PickerView:4.1.9",
+            eventbus                     : "org.greenrobot:eventbus:3.3.1",
+            zxing                        : "com.google.zxing:core:3.5.4",
+            ShadowLayout                 : "com.github.lihangleo2:ShadowLayout:3.4.5",
+            zxingscanner                 : "com.mylhyl:zxingscanner:2.2.0",
+            roundedimageview             : "com.makeramen:roundedimageview:2.3.0",
+            picasso                      : "com.squareup.picasso:picasso:2.8",
 //            picasso           : "com.squareup.picasso:picasso:2.5.2",
-            BigImageViewPager : "com.github.SherlockGougou:BigImageViewPager:androidx-6.0.1",    //查看大图
-            MNPasswordEditText: "com.github.maning0303:MNPasswordEditText:V1.0.4",
-            LoadingDialog     : "com.github.gittjy:LoadingDialog:1.0.2",    //仿IOS加载loading
-            XPopup            : "com.github.li-xiaojun:XPopup:2.10.0",
-            rxandroid         : "io.reactivex.rxjava2:rxandroid:2.1.1",
-            rxjava            : "io.reactivex.rxjava2:rxjava:2.2.21",
-            SwipeDelMenuLayout: "com.github.mcxtzhang:SwipeDelMenuLayout:v1.0.0",  //侧滑
-            haze              : "dev.chrisbanes.haze:haze:1.7.1",
-            desugar_jdk_libs  : "com.android.tools:desugar_jdk_libs:2.1.5",//运行时兼容库
-            sonic             : "com.tencent.sonic:sdk:3.1.0",
-
+            BigImageViewPager            : "com.github.SherlockGougou:BigImageViewPager:androidx-6.0.1",    //查看大图
+            MNPasswordEditText           : "com.github.maning0303:MNPasswordEditText:V1.0.4",
+            LoadingDialog                : "com.github.gittjy:LoadingDialog:1.0.2",    //仿IOS加载loading
+            XPopup                       : "com.github.li-xiaojun:XPopup:2.10.0",
+            rxandroid                    : "io.reactivex.rxjava2:rxandroid:2.1.1",
+            rxjava                       : "io.reactivex.rxjava2:rxjava:2.2.21",
+            SwipeDelMenuLayout           : "com.github.mcxtzhang:SwipeDelMenuLayout:v1.0.0",  //侧滑
+            haze                         : "dev.chrisbanes.haze:haze:1.7.1",
+            desugar_jdk_libs             : "com.android.tools:desugar_jdk_libs:2.1.5",//运行时兼容库
+            sonic                        : "com.tencent.sonic:sdk:3.1.0",
+            kotlin_stdlib                : "org.jetbrains.kotlin:kotlin-stdlib:2.0.21",
+            MagicIndicator               : "com.github.hackware1993:MagicIndicator:1.7.0", //可定义大小
+            BasePopup                    : "io.github.razerdp:BasePopup:3.2.1",
+            retrofit2_retrofit           : "com.squareup.retrofit2:retrofit:2.9.0",
+            retrofit2_converter_gson     : "com.squareup.retrofit2:converter-gson:2.9.0",
+            coil_compose                 : "io.coil-kt:coil-compose:2.7.0",
+            lottie                       : "com.airbnb.android:lottie:6.5.0",
+            bugly                        : "com.tencent.bugly:crashreport:4.1.9.3",
+            mmkv                         : "com.tencent:mmkv:2.3.0",
+            ShapeView                    : "com.github.getActivity:ShapeView:8.5",
+            util_codex                   : "com.blankj:utilcodex:1.31.1",
+            glide                        : "com.github.bumptech.glide:glide:5.0.5",
+            lucksiege_compress           : "io.github.lucksiege:compress:v3.0.9",
+            circleprogressbar            : "io.github.dinuscxj:circleprogressbar:1.4.1",
+            BaseRecyclerViewAdapterHelper: "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.10",
+            ucrop                        : "io.github.lucksiege:ucrop:v3.11.2",
+            refresh_layout_kernel        : "io.github.scwang90:refresh-layout-kernel:3.0.0-alpha",//核心必须依赖
+            refresh_header_material      : "io.github.scwang90:refresh-header-material:3.0.0-alpha", //谷歌刷新头
+            refresh_footer_ball          : "io.github.scwang90:refresh-footer-ball:3.0.0-alpha", //球脉冲加载
     ]
 }

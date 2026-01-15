@@ -38,7 +38,6 @@ android {
 
 
     namespace 'com.cboda.intelligent'
-//    compileSdk 32
     compileSdkVersion libsinfo.compileSdk
     buildToolsVersion libsinfo.buildToolsVersion
     defaultConfig {
@@ -58,7 +57,7 @@ android {
         }
 
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {

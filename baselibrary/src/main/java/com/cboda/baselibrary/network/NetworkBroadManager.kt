@@ -6,11 +6,9 @@ import com.cboda.baselibrary.network.interceptor.EncryptionBroadInterceptor
 import com.cboda.baselibrary.network.interceptor.HeaderBroadInterceptor
 import com.cboda.baselibrary.utils.getIsDebug
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import java.util.logging.Level
 
 /**
  * 网络管理类

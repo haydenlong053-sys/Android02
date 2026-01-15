@@ -3,33 +3,24 @@
  */
 
 package com.cboda.chatui.conversation.ext;
-
-import static com.cboda.baselibrary.utils.CrashUtilKt.bgReport;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils;
-//import com.cboda.imgselect.ImagePicker;
-//import com.cboda.imgselect.bean.ImageItem;
 import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import com.cboda.select.picture.basic.PictureSelector;
 import com.cboda.select.picture.config.SelectMimeType;
 import com.cboda.select.picture.entity.LocalMedia;
 import com.cboda.select.picture.interfaces.OnResultCallbackListener;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.bridge.GlideBroadBroadEngine;
-import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import cn.wildfirechat.message.TypingMessageContent;

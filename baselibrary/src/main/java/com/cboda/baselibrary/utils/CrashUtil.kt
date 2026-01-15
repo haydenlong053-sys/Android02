@@ -1,42 +1,38 @@
 package com.cboda.baselibrary.utils
 
 import android.content.Context
-import com.cboda.baselibrary.utils.DeviceBroadUtil.getDeviceBrand
-import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 private const val tAG = "BuGlyUtilClass"
 
-fun bgReport(errorMsg: String?) {
-    bgReport(Throwable(errorMsg ?: ""))
+fun crashReport(errorMsg: String?) {
+    crashReport(Throwable(errorMsg ?: ""))
 }
 
-fun bgReport(throwable: Throwable?) {
-    bgReport(false, throwable)
+fun crashReport(throwable: Throwable?) {
+    crashReport(false, throwable)
 }
 
 
-fun bgReportLog(errorMsg: String?) {
-    bgReportLog(Throwable(errorMsg ?: ""))
+fun crashReportLog(errorMsg: String?) {
+    crashReportLog(Throwable(errorMsg ?: ""))
 }
 
-fun bgReportLog(throwable: Throwable?) {
-    bgReport(true, throwable)
+fun crashReportLog(throwable: Throwable?) {
+    crashReport(true, throwable)
 }
 
 @OptIn(DelicateCoroutinesApi::class)
-fun bgReport(canLog: Boolean, throwable: Throwable?) {
+fun crashReport(canLog: Boolean, throwable: Throwable?) {
     throwable?.also { throwable ->
         try {
             if (canLog) {
                 throwable.toLog(tAG)
             }
-            GlobalScope.launch(Dispatchers.IO) {
-                CrashReport.postCatchedException(throwable)
-            }
+//            kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+//                com.tencent.bugly.crashreport.CrashReport.postCatchedException(throwable)
+//            }
         } catch (e: Exception) {
             e.toLog(tAG, false)
         }
@@ -45,14 +41,14 @@ fun bgReport(canLog: Boolean, throwable: Throwable?) {
 
 fun initFireBase(context: Context, buglyId: String) {
     try {
-        val strategy = CrashReport.UserStrategy(context)
-        strategy.deviceModel = getDeviceBrand()
-        CrashReport.initCrashReport(
-            context,
-            buglyId,
-            getIsDebug(),
-            strategy
-        )
+//        val strategy = com.tencent.bugly.crashreport.CrashReport.UserStrategy(context)
+//        strategy.deviceModel = DeviceBroadUtil.getDeviceBrand()
+//        com.tencent.bugly.crashreport.CrashReport.initCrashReport(
+//            context,
+//            buglyId,
+//            getIsDebug(),
+//            strategy
+//        )
     } catch (e: Exception) {
         e.toLog(tAG, false)
     }
