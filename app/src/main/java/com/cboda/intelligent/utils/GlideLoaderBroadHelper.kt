@@ -16,9 +16,9 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation
  */
 class GlideLoaderBroadHelper {
     companion object {
-        fun loadUrl(context: Context?, url: String, imageView: ImageView,placeId:Int = 0,isCenterCrop:Boolean = true) {
+        fun loadUrl(context: Context?, url: String, imageView: ImageView, placeId: Int = 0, isCenterCrop: Boolean = true) {
             context?.apply {
-                if (isCenterCrop){
+                if (isCenterCrop) {
                     Glide.with(this).load(url).placeholder(placeId).centerCrop().into(imageView)
                 } else {
                     Glide.with(this).load(url).placeholder(placeId).into(imageView)
@@ -29,7 +29,7 @@ class GlideLoaderBroadHelper {
         /**
          * 圆形
          */
-        fun loadCircleUrl(context: Context?, url: String, imageView: ImageView,placeId: Int = 0) {
+        fun loadCircleUrl(context: Context?, url: String, imageView: ImageView, placeId: Int = 0) {
             context?.apply {
                 val trans = RequestOptions.circleCropTransform()
                 Glide.with(this).load(url).apply(trans).placeholder(placeId).into(imageView)
@@ -61,12 +61,19 @@ class GlideLoaderBroadHelper {
             url: String,
             imageView: ImageView,
             radius: Int,
-            placeId:Int = 0
+            placeId: Int = 0,
+            errorId: Int = 0
         ) {
             context?.apply {
                 val trans = MultiTransformation(CenterCrop(), RoundedCorners(radius))
-                Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(trans))
-                    .placeholder(placeId).into(imageView)
+                val glide = Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(trans))
+                if (errorId != 0) {
+                    glide.error(errorId)
+                }
+                if (placeId != 0) {
+                    glide.placeholder(placeId)
+                }
+                glide.into(imageView)
             }
         }
 
