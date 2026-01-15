@@ -81,9 +81,10 @@ public class ConversationExtBroadManager {
 
         registerExt(UserCardBroadExt.class);
 
-        if (type != Conversation.ConversationType.Single) {
-            registerExt(MeetingBroadExt.class);
-        }
+        //暂时隐藏
+//        if (type != Conversation.ConversationType.Single) {
+//            registerExt(MeetingBroadExt.class);
+//        }
     }
 
     public void registerExt(Class<? extends ConversationBroadExt> clazz) {

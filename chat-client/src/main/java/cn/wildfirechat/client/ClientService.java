@@ -627,6 +627,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
                 uploadBigFile(messageId, filePath, MessageContentMediaType.FILE.getValue(), contentType, new UploadMediaCallback() {
                     @Override
                     public void onSuccess(String result) {
+                        ELogUtilKt.eLogD("myTime","文件上传总耗时----"+(System.currentTimeMillis()-getTempTime));
                         protoMessage.getContent().setRemoteMediaUrl(result);
                         ProtoLogic.updateMessageContent(protoMessage);
                         ProtoLogic.sendMessageEx(messageId, expireDuration, new SendMessageCallback(callback));
@@ -4546,15 +4547,18 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         List<T> entries;
         int index;
     }
-
+    private long getTempTime;
     private void uploadBigFile(long messageId, String filePath, int mediaType, String contentType, UploadMediaCallback callback) {
         File file = new File(filePath);
         ELogUtilKt.eLogD("zhanglong","uploadBigFile====="+filePath);
+        getTempTime =System.currentTimeMillis();
+        ELogUtilKt.eLogD("myTime","uploadBigFile文件上传发起时间--"+getTempTime);
         if (HttpsBroadConfig.INSTANCE.getAppBaseUrl().contains("https://api.seekweb4.net/lixin")){
             getMyServerOssInfo(file.getName(), mediaType, contentType, new ProtoLogic.IGetUploadMediaUrlCallback() {
                 @Override
                 public void onSuccess(String uploadUrl, String remoteUrl, String backUploadupUrl, int serverType) {
                     ELogUtilKt.eLogD("zhanglong","https---"+uploadUrl+"---"+remoteUrl+"---"+backUploadupUrl+"---"+serverType);
+                    ELogUtilKt.eLogD("myTime","查询getMyServerOssInfo接口文件上传七牛云还是其他类型耗时----"+(System.currentTimeMillis()-getTempTime));
                     if (serverType == 1) {
                         String[] ss = uploadUrl.split("\\?");
                         uploadQiniu(messageId, ss[0], remoteUrl, ss[1], ss[2], filePath, contentType, callback);
@@ -4577,6 +4581,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
                 @Override
                 public void onSuccess(String uploadUrl, String remoteUrl, String backUploadupUrl, int serverType) {
                     ELogUtilKt.eLogD("zhanglong",uploadUrl+"---"+remoteUrl+"---"+backUploadupUrl+"---"+serverType);
+                    ELogUtilKt.eLogD("myTime","查询getUploadMediaUrl接口文件上传七牛云还是其他类型耗时----"+(System.currentTimeMillis()-getTempTime));
                     if (serverType == 1) {
                         String[] ss = uploadUrl.split("\\?");
                         uploadQiniu(messageId, ss[0], remoteUrl, ss[1], ss[2], filePath, contentType, callback);
