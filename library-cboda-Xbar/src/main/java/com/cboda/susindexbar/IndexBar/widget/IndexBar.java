@@ -36,7 +36,7 @@ public class IndexBar extends View {
     private static final String TAG = "zxt/IndexBar";
 
     //#在最后面（默认的数据源）
-    public static String[] INDEX_STRING = {"A", "B", "C", "D", "BroadE", "F", "G", "H", "I",
+    public static String[] INDEX_STRING = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z", "#"};
     //是否需要根据实际的数据来生成索引数据源（例如 只有 A B C 三种tag，那么索引栏就 A B C 三项）
