@@ -1,16 +1,20 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+//    id 'com.github.ben-manes.versions' version '0.53.0'
+}
+apply from: '../config.gradle'
 
 android {
-    compileSdkVersion 36
-    buildToolsVersion '33.0.3'
+    compileSdkVersion libsinfo.compileSdk
+//    buildToolsVersion '33.0.3'
     namespace 'com.cboda.susindexbar'
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 36
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion libsinfo.minSdk
+//        targetSdkVersion 36
+//        versionCode 1
+//        versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
@@ -22,7 +26,9 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:24.2.1'
-    implementation 'com.android.support:recyclerview-v7:24.2.1'
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation 'com.android.support:appcompat-v7:24.2.1'
+//    implementation 'com.android.support:recyclerview-v7:24.2.1'
+    implementation "${andx.appcompat}"
+    implementation "${andx.recyclerview}"
 }

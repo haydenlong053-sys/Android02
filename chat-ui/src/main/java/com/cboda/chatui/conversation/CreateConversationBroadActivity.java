@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -36,7 +36,7 @@ public class CreateConversationBroadActivity extends PickConversationTargetBroad
     @Override
     protected void afterViews() {
         super.afterViews();
-        groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
     }
 
     @Override

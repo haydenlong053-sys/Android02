@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -125,7 +125,7 @@ public class CreateConferenceBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected void afterViews() {
-        UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         UserInfo userInfo = userViewModel.getUserInfo(ChatManager.Instance().getUserId(), false);
         if (userInfo != null) {
             titleEditText.setText(userInfo.displayName + "的会议");

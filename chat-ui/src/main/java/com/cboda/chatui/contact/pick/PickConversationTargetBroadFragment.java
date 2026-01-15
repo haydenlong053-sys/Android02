@@ -12,7 +12,7 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class PickConversationTargetBroadFragment extends PickUserBroadFragment {
 
     @Override
     protected void setupPickFromUsers() {
-        ContactViewBroadModel contactViewModel = ViewModelProviders.of(getActivity()).get(ContactViewBroadModel.class);
+        ContactViewBroadModel contactViewModel = new ViewModelProvider(getActivity()).get(ContactViewBroadModel.class);
         contactViewModel.contactListLiveData().observe(this, userInfos -> {
             showContent();
             pickUserViewModel.setUsers(userInfos);

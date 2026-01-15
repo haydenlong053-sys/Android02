@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -94,7 +94,7 @@ public class GroupManageBroadFragment extends Fragment {
 
     private void init() {
         setupGroupOptionsView(groupInfo);
-        groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
         groupViewModel.groupInfoUpdateLiveData().observe(getActivity(), new Observer<List<GroupInfo>>() {
             @Override
             public void onChanged(List<GroupInfo> groupInfos) {

@@ -1,14 +1,16 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+//    id 'com.github.ben-manes.versions' version '0.53.0'
+}
 apply from: '../config.gradle'
 
 android {
     compileSdkVersion libsinfo.compileSdk
-
+    namespace 'com.cboda.select.picture'
     defaultConfig {
         minSdk libsinfo.minSdk
-        targetSdk libsinfo.compileSdk
-
-        vectorDrawables.useSupportLibrary = true
+//        targetSdk libsinfo.compileSdk
+//        vectorDrawables.useSupportLibrary = true
     }
 
     compileOptions {
@@ -22,7 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    namespace 'com.cboda.select.picture'
+
     lintOptions {
         abortOnError false
     }
@@ -33,11 +35,11 @@ ext {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:${cfgs.version_appcompat}"
-    implementation "androidx.recyclerview:recyclerview:${cfgs.version_recyclerview}"
-    implementation "androidx.activity:activity:${cfgs.activity_version}"
-    implementation "androidx.fragment:fragment:${cfgs.fragment_version}"
-    implementation "androidx.exifinterface:exifinterface:${cfgs.exifinterface_version}"
-    implementation "androidx.viewpager2:viewpager2:${cfgs.viewpage2}"
-    implementation "androidx.constraintlayout:constraintlayout:${cfgs.constraintlayout}"
+    implementation "${andx.appcompat}"
+    implementation "${andx.recyclerview}"
+    implementation "${andx.activity}"
+    implementation "${andx.fragment}"
+    implementation "${andx.exifinterface}"
+    implementation "${andx.viewpager2}"
+    implementation "${andx.constraintlayout}"
 }

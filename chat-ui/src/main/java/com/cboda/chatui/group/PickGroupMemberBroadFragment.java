@@ -7,7 +7,7 @@ package com.cboda.chatui.group;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.cboda.chatui.contact.pick.PickUserBroadFragment;
 import com.cboda.chatui.contact.pick.PickUserViewBroadModel;
@@ -32,8 +32,8 @@ public class PickGroupMemberBroadFragment extends PickUserBroadFragment {
 
     @Override
     protected void setupPickFromUsers() {
-        PickUserViewBroadModel pickUserViewModel = ViewModelProviders.of(getActivity()).get(PickUserViewBroadModel.class);
-        GroupViewBroadModel groupViewModel = ViewModelProviders.of(getActivity()).get(GroupViewBroadModel.class);
+        PickUserViewBroadModel pickUserViewModel = new ViewModelProvider(getActivity()).get(PickUserViewBroadModel.class);
+        GroupViewBroadModel groupViewModel = new ViewModelProvider(getActivity()).get(GroupViewBroadModel.class);
         groupViewModel.getGroupMemberUIUserInfosLiveData(groupInfo.target, false).observe(this, uiUserInfos -> {
             showContent();
             pickUserViewModel.setUsers(uiUserInfos);

@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -67,7 +67,7 @@ public class MuteGroupMemberBroadActivity extends BasePickGroupMemberBroadActivi
     }
 
     private void muteOrAllowGroupMembers() {
-        GroupViewBroadModel groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        GroupViewBroadModel groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
         List<String> memberIds = new ArrayList<>(checkedGroupMembers.size());
         for (UIUserBroadInfo info : checkedGroupMembers) {
             memberIds.add(info.getUserInfo().uid);

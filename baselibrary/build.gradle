@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-//    id 'com.github.ben-manes.versions' version '0.51.0'
+//    id 'com.github.ben-manes.versions' version '0.53.0'
 }
 apply from: '../config.gradle'
 android {
@@ -72,7 +72,7 @@ dependencies {
     implementation "${thirdPartyApis.kotlin_stdlib}"
     implementation "${andx.appcompat}"
     implementation "${thirdPartyApis.material}"
-//    implementation "${thirdPartyApis.bugly}"
+    implementation "${thirdPartyApis.bugly}"
 //    api 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 //    api 'com.github.getActivity:ShapeDrawable:3.3'
 //    api "${andx.room_ktx}"

@@ -9,7 +9,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public abstract class BasePickGroupMemberBroadActivity extends WfcBaseBroadActiv
             return;
         }
 
-        pickUserViewModel = ViewModelProviders.of(this).get(PickUserViewBroadModel.class);
+        pickUserViewModel = new ViewModelProvider(this).get(PickUserViewBroadModel.class);
         pickUserViewModel.userCheckStatusUpdateLiveData().observeForever(userCheckStatusUpdateLiveDataObserver);
         if (checkedMemberIds != null && !checkedMemberIds.isEmpty()) {
             pickUserViewModel.setInitialCheckedIds(checkedMemberIds);
@@ -73,7 +73,7 @@ public abstract class BasePickGroupMemberBroadActivity extends WfcBaseBroadActiv
         if (unCheckableMemberIds != null && !unCheckableMemberIds.isEmpty()) {
             pickUserViewModel.setUncheckableIds(unCheckableMemberIds);
         } else {
-            UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+            UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
             List<String> list = new ArrayList<>();
             list.add(userViewModel.getUserId());
             pickUserViewModel.setUncheckableIds(list);

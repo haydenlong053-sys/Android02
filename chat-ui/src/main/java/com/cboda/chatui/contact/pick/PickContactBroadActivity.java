@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class PickContactBroadActivity extends WfcBaseBroadActivity {
 
     @Override
     protected void afterViews() {
-        pickUserViewModel = ViewModelProviders.of(this).get(PickUserViewBroadModel.class);
+        pickUserViewModel = new ViewModelProvider(this).get(PickUserViewBroadModel.class);
         pickUserViewModel.userCheckStatusUpdateLiveData().observeForever(contactCheckStatusUpdateLiveDataObserver);
         Intent intent = getIntent();
         int maxCount = intent.getIntExtra(PARAM_MAX_COUNT, 0);

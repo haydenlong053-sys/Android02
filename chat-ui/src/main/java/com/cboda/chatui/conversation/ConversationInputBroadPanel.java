@@ -43,7 +43,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
@@ -324,8 +324,8 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             }
         });
 
-        messageViewModel = ViewModelProviders.of(fragment).get(MessageViewBroadModel.class);
-        conversationViewModel = ViewModelProviders.of(fragment).get(ConversationViewBroadModel.class);
+        messageViewModel = new ViewModelProvider(fragment).get(MessageViewBroadModel.class);
+        conversationViewModel = new ViewModelProvider(fragment).get(ConversationViewBroadModel.class);
 
         if (conversation != null) {
             if (conversation.type == Conversation.ConversationType.Channel) {
@@ -484,7 +484,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
 
     private void mentionGroupMember() {
         Intent intent = new Intent(activity, MentionGroupMemberBroadActivity.class);
-        GroupViewBroadModel groupViewModel = ViewModelProviders.of(fragment).get(GroupViewBroadModel.class);
+        GroupViewBroadModel groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
         GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, true);
         intent.putExtra("groupInfo", groupInfo);
         fragment.startActivityForResult(intent, REQUEST_BROAD_PICK_MENTION_CONTACT);

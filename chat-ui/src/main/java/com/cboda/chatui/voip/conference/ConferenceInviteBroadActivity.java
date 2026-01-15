@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -35,9 +35,9 @@ public class ConferenceInviteBroadActivity extends PickOrCreateConversationBroad
     protected void afterViews() {
         super.afterViews();
         inviteMessage = getIntent().getParcelableExtra("inviteMessage");
-        messageViewModel = ViewModelProviders.of(this).get(MessageViewBroadModel.class);
-        userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
-        groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        messageViewModel = new ViewModelProvider(this).get(MessageViewBroadModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
     }
 
     @Override

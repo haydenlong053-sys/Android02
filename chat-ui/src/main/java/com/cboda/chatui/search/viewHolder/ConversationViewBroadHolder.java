@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -35,8 +35,8 @@ public class ConversationViewBroadHolder extends ResultItemViewBroadHolder<Conve
         super(fragment, itemView);
         bindViews(itemView);
 
-        userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
-        groupViewModel = ViewModelProviders.of(fragment).get(GroupViewBroadModel.class);
+        userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
     }
 
     private void bindViews(View itemView) {

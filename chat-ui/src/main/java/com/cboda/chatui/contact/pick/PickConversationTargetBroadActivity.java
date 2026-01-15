@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public abstract class PickConversationTargetBroadActivity extends WfcBaseBroadAc
         Intent intent = getIntent();
         List<String> initialParticipantsIds = intent.getStringArrayListExtra(CURRENT_PARTICIPANTS);
 
-        pickUserViewModel = ViewModelProviders.of(this).get(PickUserViewBroadModel.class);
+        pickUserViewModel = new ViewModelProvider(this).get(PickUserViewBroadModel.class);
         pickUserViewModel.userCheckStatusUpdateLiveData().observeForever(contactCheckStatusUpdateLiveDataObserver);
         pickUserViewModel.setInitialCheckedIds(initialParticipantsIds);
         pickUserViewModel.setUncheckableIds(initialParticipantsIds);

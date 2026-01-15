@@ -1,16 +1,19 @@
-apply plugin: 'com.android.library'
-
+plugins {
+    id 'com.android.library'
+//    id 'com.github.ben-manes.versions' version '0.53.0'
+}
+apply from: '../config.gradle'
 android {
     namespace 'com.cboda.videocompressor'
-    compileSdk 36
+    compileSdkVersion libsinfo.compileSdk
 
     defaultConfig {
-        minSdk 29
-        targetSdk 36
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdkVersion libsinfo.minSdk
+//        targetSdk 36
+//        versionCode 1
+//        versionName "1.0"
+//
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
@@ -23,11 +26,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    testImplementation 'junit:junit:4.+'
+    implementation "${andx.appcompat}"
     implementation files('libs/broad_isoparser-1.0.6.jar')
     implementation files('libs/broad_aspectjrt-1.7.3.jar')
+//    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
+//    testImplementation 'junit:junit:4.+'
 }

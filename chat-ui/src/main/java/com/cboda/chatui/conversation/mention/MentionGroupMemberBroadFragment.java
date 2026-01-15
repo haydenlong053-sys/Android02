@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.contact.BaseUserListBroadFragment;
@@ -43,7 +43,7 @@ public class MentionGroupMemberBroadFragment extends BaseUserListBroadFragment {
         super.onCreate(savedInstanceState);
         showQuickIndexBar(true);
         groupInfo = getArguments().getParcelable("groupInfo");
-        groupViewModel = ViewModelProviders.of(getActivity()).get(GroupViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(getActivity()).get(GroupViewBroadModel.class);
         groupMember = groupViewModel.getGroupMember(groupInfo.target, ChatManager.Instance().getUserId());
         eLogD("group--", "onCreate");
     }

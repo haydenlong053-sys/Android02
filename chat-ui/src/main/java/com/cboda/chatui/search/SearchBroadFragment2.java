@@ -19,7 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,7 +71,7 @@ public class SearchBroadFragment2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_broad_fragment2, container, false);
         bindViews(view);
-        searchViewModel = ViewModelProviders.of(this).get(SearchViewBroadModel.class);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewBroadModel.class);
         searchViewModel.getResultLiveData().observeForever(searchResultObserver);
         inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

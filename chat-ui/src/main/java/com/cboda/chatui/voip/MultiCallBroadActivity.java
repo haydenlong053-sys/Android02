@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.webrtc.StatsReport;
 
@@ -229,7 +229,7 @@ public class MultiCallBroadActivity extends VoipBaseBroadActivity {
     void addParticipant(int maxNewInviteParticipantCount) {
         preventShowFloatingViewOnStop = true;
         Intent intent = new Intent(this, PickGroupMemberBroadActivity.class);
-        GroupViewBroadModel groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        GroupViewBroadModel groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
         GroupInfo groupInfo = groupViewModel.getGroupInfo(groupId, false);
         intent.putExtra(PickGroupMemberBroadActivity.GROUP_INFO, groupInfo);
         List<String> participants = getEngineKit().getCurrentSession().getParticipantIds();

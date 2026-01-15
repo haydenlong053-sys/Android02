@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -51,7 +51,7 @@ public class GroupMemberMuteOrAllowListBroadFragment extends BaseUserListBroadFr
         groupInfo = getArguments().getParcelable("groupInfo");
         showQuickIndexBar(false);
 
-        groupViewModel = ViewModelProviders.of(getActivity()).get(GroupViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(getActivity()).get(GroupViewBroadModel.class);
         groupMember = groupViewModel.getGroupMember(groupInfo.target, ChatManager.Instance().getUserId());
         observerGroupMemberUpdate();
     }
@@ -78,7 +78,7 @@ public class GroupMemberMuteOrAllowListBroadFragment extends BaseUserListBroadFr
 
     @Override
     public void onUserClick(UIUserBroadInfo userInfo) {
-        UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         GroupMember me = groupViewModel.getGroupMember(groupInfo.target, userViewModel.getUserId());
         if (me == null || me.type != GroupMember.GroupMemberType.Owner) {
             return;
