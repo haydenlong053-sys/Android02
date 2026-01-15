@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,12 +25,14 @@ import com.cboda.chatui.R;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel;
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory;
+
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
 import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetConversationListCallback;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class PickOrCreateConversationBroadFragment extends Fragment implements PickOrCreateConversationBroadAdapter.OnConversationItemClickListener, PickOrCreateConversationBroadAdapter.OnNewConversationItemClickListener {
@@ -58,15 +60,14 @@ public class PickOrCreateConversationBroadFragment extends Fragment implements P
 
 
     private void init() {
-        ConversationListViewBroadModel conversationListViewModel = ViewModelProviders
-            .of(this, new ConversationListViewModelBroadFactory(Arrays.asList(Conversation.ConversationType.Single, Conversation.ConversationType.Group), Arrays.asList(0)))
-            .get(ConversationListViewBroadModel.class);
+        ConversationListViewBroadModel conversationListViewModel = new ViewModelProvider(this, new ConversationListViewModelBroadFactory(Arrays.asList(Conversation.ConversationType.Single, Conversation.ConversationType.Group), Arrays.asList(0)))
+                .get(ConversationListViewBroadModel.class);
         PickOrCreateConversationBroadAdapter adapter = new PickOrCreateConversationBroadAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         List<Conversation.ConversationType> types = Arrays.asList(Conversation.ConversationType.Single,
-            Conversation.ConversationType.Group);
+                Conversation.ConversationType.Group);
         List<Integer> liens = Arrays.asList(0);
         ChatManager.Instance().getConversationListAsync(types, liens, new GetConversationListCallback() {
             @Override
@@ -95,7 +96,7 @@ public class PickOrCreateConversationBroadFragment extends Fragment implements P
     public void onNewConversationItemClick() {
 //        Intent intent = new Intent(getActivity(), PickOrCreateConversationTargetBroadActivity.class);
 //        startActivityForResult(intent, REQUEST_CODE_PICK_CONVERSATION_TARGET);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.CREATE_NEW_CHAT.getValue(),"","",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(getContext(), BridgeImEnum.CREATE_NEW_CHAT.getValue(), "", "", null);
     }
 
     @Override

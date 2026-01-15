@@ -1,14 +1,7 @@
 package com.cboda.baselibrary.view.magicindicator;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
-
-
-import com.blankj.utilcode.util.Utils;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * 简化和ViewPager绑定

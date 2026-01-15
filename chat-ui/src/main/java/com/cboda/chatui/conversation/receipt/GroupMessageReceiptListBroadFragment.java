@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,7 +75,7 @@ public class GroupMessageReceiptListBroadFragment extends ProgressBroadFragment 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(groupMemberListAdapter);
         groupMemberListAdapter.setOnMemberClickListener(this);
-        UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         userViewModel.userInfoLiveData().observe(this, userInfos -> loadAndShowGroupMembers());
         loadAndShowGroupMembers();
     }
@@ -85,7 +85,7 @@ public class GroupMessageReceiptListBroadFragment extends ProgressBroadFragment 
     }
 
     private void loadAndShowGroupMembers() {
-        GroupViewBroadModel groupViewModel = ViewModelProviders.of(getActivity()).get(GroupViewBroadModel.class);
+        GroupViewBroadModel groupViewModel = new ViewModelProvider(getActivity()).get(GroupViewBroadModel.class);
         groupViewModel.getGroupMemberUserInfosLiveData(groupInfo.target, false, this.message.serverTime).observe(this, userInfos -> {
             showContent();
             groupMemberListAdapter.setMembers(filterGroupMember(userInfos, unread));

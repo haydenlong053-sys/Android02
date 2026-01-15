@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 
@@ -368,7 +368,7 @@ public class SingleVideoBroadFragment extends Fragment implements AVEngineKit.Ca
                 descTextView.setText(R.string.av_video_invite);
             }
         }
-        UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         UserInfo userInfo = userViewModel.getUserInfo(targetId, false);
         if (userInfo == null) {
             getActivity().finish();

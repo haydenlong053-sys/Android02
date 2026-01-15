@@ -32,7 +32,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -682,7 +682,7 @@ public class ConversationBroadFragment extends Fragment implements
                 }
             }
         });
-        messageBroadViewModel = ViewModelProviders.of(this).get(MessageViewBroadModel.class);
+        messageBroadViewModel = new ViewModelProvider(this).get(MessageViewBroadModel.class);
 
         messageBroadViewModel.messageLiveData().observeForever(messageBroadLiveDataObserver);
         messageBroadViewModel.messageUpdateLiveData().observeForever(messageUpdateBroadLiveDatObserver);
@@ -698,7 +698,7 @@ public class ConversationBroadFragment extends Fragment implements
             adapterBroad.setReadEntries(convReadEntities);
         });
 
-        userBroadViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        userBroadViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         userBroadViewModel.userInfoLiveData().observeForever(userInfoUpdateLiveDataObserver);
 
         settingUpdateBroadLiveDataObserver = o -> {
@@ -713,10 +713,10 @@ public class ConversationBroadFragment extends Fragment implements
             reloadMessage();
         };
 
-        settingBroadViewModel = ViewModelProviders.of(this).get(SettingViewBroadModel.class);
+        settingBroadViewModel = new ViewModelProvider(this).get(SettingViewBroadModel.class);
         settingBroadViewModel.settingUpdatedLiveData().observeForever(settingUpdateBroadLiveDataObserver);
 
-        userOnlineStateBroadViewModel = ViewModelProviders.of(this).get(UserOnlineStateViewBroadModel.class);
+        userOnlineStateBroadViewModel = new ViewModelProvider(this).get(UserOnlineStateViewBroadModel.class);
         userOnlineStateBroadViewModel.getUserOnlineStateLiveData().observe(getViewLifecycleOwner(), userOnlineStateLiveDataObserver);
 
 
@@ -729,7 +729,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     private void setupConversation(Conversation conversation) {
         if (conversation.type == Conversation.ConversationType.Group) {
-            groupBroadViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+            groupBroadViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
             initGroupObservers();
             groupBroadViewModel.getGroupMembers(conversation.target, true);
             groupInfoBroad = groupBroadViewModel.getGroupInfo(conversation.target, true);
@@ -747,7 +747,7 @@ public class ConversationBroadFragment extends Fragment implements
             loadMessage(initialFocusedBroadMessageId);
         }
         if (conversation.type == Conversation.ConversationType.ChatRoom) {
-            chatRoomBroadViewModel = ViewModelProviders.of(this).get(ChatRoomViewBroadModel.class);
+            chatRoomBroadViewModel = new ViewModelProvider(this).get(ChatRoomViewBroadModel.class);
             if (!isPreJoinedChatRoomBroad) {
                 joinChatRoom();
             } else {
@@ -1044,7 +1044,7 @@ public class ConversationBroadFragment extends Fragment implements
                 conversationBroadTitle = (!TextUtils.isEmpty(groupInfoBroad.remark) ? groupInfoBroad.remark : groupInfoBroad.name) + "(" + (groupInfoBroad.memberCount - 1) + "人)";
             }
         } else if (conversationBroad.type == Conversation.ConversationType.Channel) {
-            ChannelViewBroadModel channelViewModel = ViewModelProviders.of(this).get(ChannelViewBroadModel.class);
+            ChannelViewBroadModel channelViewModel = new ViewModelProvider(this).get(ChannelViewBroadModel.class);
             ChannelInfo channelInfo = channelViewModel.getChannelInfo(conversationBroad.target, false);
             if (channelInfo != null) {
                 conversationBroadTitle = channelInfo.name;

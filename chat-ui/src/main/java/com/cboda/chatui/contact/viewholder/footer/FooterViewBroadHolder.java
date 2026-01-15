@@ -7,7 +7,7 @@ package com.cboda.chatui.contact.viewholder.footer;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.chatui.contact.ContactViewBroadModel;
@@ -23,7 +23,7 @@ public abstract class FooterViewBroadHolder<T extends FooterBroadValue> extends 
         super(itemView);
         this.fragment = fragment;
         this.adapter = adapter;
-        contactViewModel = ViewModelProviders.of(fragment).get(ContactViewBroadModel.class);
+        contactViewModel = new ViewModelProvider(fragment).get(ContactViewBroadModel.class);
     }
 
 

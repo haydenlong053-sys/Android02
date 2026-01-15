@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
@@ -43,8 +43,8 @@ public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
         this.fragment = fragment;
         bindViews(itemView);
 
-        userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
-        groupViewModel = ViewModelProviders.of(fragment).get(GroupViewBroadModel.class);
+        userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
     }
 
     private void bindViews(View itemView) {

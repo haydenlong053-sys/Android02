@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -47,7 +47,7 @@ public class SecretConversationViewBroadHolder extends ConversationViewBroadHold
             return;
         }
         UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(userId, false);
-        UserViewBroadModel userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
         String name = userViewModel.getUserDisplayName(userInfo);
         String portrait;
         portrait = userInfo.portrait;

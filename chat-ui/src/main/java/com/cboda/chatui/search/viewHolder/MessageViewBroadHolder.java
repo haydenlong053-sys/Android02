@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +37,7 @@ public class MessageViewBroadHolder extends RecyclerView.ViewHolder {
     public MessageViewBroadHolder(Fragment fragment, View itemView) {
         super(itemView);
         this.fragment = fragment;
-        this.userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
+        this.userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
         bindViews(itemView);
     }
 

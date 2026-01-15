@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -73,7 +73,7 @@ public class MultiCallIncomingBroadFragment extends Fragment implements AVEngine
         if(session.isAudioOnly()) {
             acceptImageView.setImageResource(R.drawable.av_voice_answer_broad_selector);
         }
-        UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         UserInfo invitor = userViewModel.getUserInfo(session.initiator, false);
         invitorTextView.setText(invitor.displayName);
         Glide.with(this).load(invitor.portrait).placeholder(R.mipmap.avatar_broad_def).into(invitorImageView);
@@ -125,7 +125,7 @@ public class MultiCallIncomingBroadFragment extends Fragment implements AVEngine
             }
         }
         if (!exist) {
-            UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+            UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
             participants.add(userViewModel.getUserInfo(userId, false));
             participantRecyclerView.getAdapter().notifyDataSetChanged();
         }

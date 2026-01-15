@@ -16,7 +16,7 @@ import android.view.View;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -208,7 +208,7 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
 //        ELogUtilKt.eLogD("zhanglong","mList.size===="+GlobalBroadInfo.INSTANCE.getMyFriendListBean().size());
 //        ELogUtilKt.eLogD("zhanglong","mList====="+GlobalBroadInfo.INSTANCE.getMyFriendListBean());
 
-        UserViewBroadModel userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         adapter = new ConversationListBroadAdapter(this,false);
         myHeaderAdapter = new MyHeaderBroadAdapter(globalNoticeBean, new Function1<GlobalNoticeBroadBean, Unit>() {
             @Override
@@ -290,7 +290,7 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
             }
         });
 
-        GroupViewBroadModel groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        GroupViewBroadModel groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
         groupViewModel.groupInfoUpdateLiveData().observe(this, new Observer<List<GroupInfo>>() {
             @Override
             public void onChanged(List<GroupInfo> groupInfos) {

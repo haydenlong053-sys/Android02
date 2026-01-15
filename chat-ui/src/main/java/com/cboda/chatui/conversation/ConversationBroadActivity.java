@@ -13,8 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
-
+import androidx.lifecycle.ViewModelProvider;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
@@ -295,7 +294,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         pageTitle = findViewById(R.id.page_title);
 
 
-        IMServiceStatusViewBroadModel imServiceStatusViewModel = ViewModelProviders.of(this).get(IMServiceStatusViewBroadModel.class);
+        IMServiceStatusViewBroadModel imServiceStatusViewModel = new ViewModelProvider(this).get(IMServiceStatusViewBroadModel.class);
         imServiceStatusViewModel.imServiceStatusLiveData().observe(this, aBoolean -> {
             if (!isInitialized && aBoolean) {
                 init();

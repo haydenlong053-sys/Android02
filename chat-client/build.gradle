@@ -1,15 +1,18 @@
-apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
-
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+//    id 'com.github.ben-manes.versions' version '0.53.0'
+}
+apply from: '../config.gradle'
 group = 'com.github.wildfirechat'
 
 android {
-    compileSdkVersion 36
-    buildToolsVersion "33.0.3"
-
+    compileSdkVersion libsinfo.compileSdk
+//    buildToolsVersion "33.0.3"
+    namespace 'com.cboda.chat.client'
 
     defaultConfig {
-        minSdkVersion 29
+        minSdk libsinfo.minSdk
 
         // testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        ndk {
@@ -42,7 +45,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    namespace 'com.cboda.chat.client'
+
     lint {
         abortOnError false
     }
@@ -57,15 +60,14 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    api "${thirdPartyApis.okhttp3}"
     api files('libs/broad-chat.aar')
 //    api 'com.cboda:broad-chat:1.0.0'
     implementation project(':baselibrary')
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
-    api 'com.squareup.okhttp3:okhttp:4.11.0'
-    implementation 'com.squareup.okio:okio:3.2.0'
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-
+    implementation "${thirdPartyApis.kotlinx_coroutines}"
+    implementation "${thirdPartyApis.okio}"
+    implementation "${andx.core}"
+    implementation "${andx.lifecycle_viewmodel_ktx}"
+    implementation "${andx.lifecycle_livedata_ktx}"
+    implementation "${andx.lifecycle_process}"
 }

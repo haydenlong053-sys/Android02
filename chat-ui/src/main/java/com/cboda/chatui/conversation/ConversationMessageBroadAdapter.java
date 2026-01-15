@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.bean.MsgBroadExtra;
@@ -98,7 +98,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     public ConversationMessageBroadAdapter(ConversationBroadFragment fragment) {
         super();
         this.fragment = fragment;
-        messageViewModel = ViewModelProviders.of(fragment).get(MessageViewBroadModel.class);
+        messageViewModel = new ViewModelProvider(fragment).get(MessageViewBroadModel.class);
     }
 
     public int getMode() {

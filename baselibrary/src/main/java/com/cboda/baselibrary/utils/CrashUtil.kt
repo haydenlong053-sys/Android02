@@ -30,9 +30,9 @@ fun crashReport(canLog: Boolean, throwable: Throwable?) {
             if (canLog) {
                 throwable.toLog(tAG)
             }
-//            kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
-//                com.tencent.bugly.crashreport.CrashReport.postCatchedException(throwable)
-//            }
+            kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                com.tencent.bugly.crashreport.CrashReport.postCatchedException(throwable)
+            }
         } catch (e: Exception) {
             e.toLog(tAG, false)
         }
@@ -41,14 +41,14 @@ fun crashReport(canLog: Boolean, throwable: Throwable?) {
 
 fun initFireBase(context: Context, buglyId: String) {
     try {
-//        val strategy = com.tencent.bugly.crashreport.CrashReport.UserStrategy(context)
-//        strategy.deviceModel = DeviceBroadUtil.getDeviceBrand()
-//        com.tencent.bugly.crashreport.CrashReport.initCrashReport(
-//            context,
-//            buglyId,
-//            getIsDebug(),
-//            strategy
-//        )
+        val strategy = com.tencent.bugly.crashreport.CrashReport.UserStrategy(context)
+        strategy.deviceModel = DeviceBroadUtil.getDeviceBrand()
+        com.tencent.bugly.crashreport.CrashReport.initCrashReport(
+            context,
+            buglyId,
+            getIsDebug(),
+            strategy
+        )
     } catch (e: Exception) {
         e.toLog(tAG, false)
     }

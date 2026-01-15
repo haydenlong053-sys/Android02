@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.chatemoji.MoonBroadUtils;
@@ -74,7 +74,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         bindViews(itemView);
         conversationListViewModel = new ViewModelProvider(fragment.getActivity(), new ConversationListViewModelBroadFactory(Arrays.asList(Conversation.ConversationType.Single, Conversation.ConversationType.Group, Conversation.ConversationType.SecretChat), Arrays.asList(0)))
                 .get(ConversationListViewBroadModel.class);
-        conversationViewModel = ViewModelProviders.of(fragment).get(ConversationViewBroadModel.class);
+        conversationViewModel = new ViewModelProvider(fragment).get(ConversationViewBroadModel.class);
     }
 
     // ConversationViewBroadHolder.java 里加
@@ -176,7 +176,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
                     if (conversationInfo.conversation.type == Conversation.ConversationType.Group
                             && lastMessage.direction == MessageDirection.Receive
                             && !(lastMessage.content instanceof NotificationMessageContent)) {
-                        GroupViewBroadModel groupViewModel = ViewModelProviders.of(fragment).get(GroupViewBroadModel.class);
+                        GroupViewBroadModel groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
                         String senderDisplayName = groupViewModel.getGroupMemberDisplayName(conversationInfo.conversation.target, conversationInfo.lastMessage.sender);
                         content = senderDisplayName + ":" + lastMessage.digest();
                     } else {

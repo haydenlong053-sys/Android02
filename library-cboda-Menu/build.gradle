@@ -1,15 +1,17 @@
-apply plugin: 'com.android.library'
-
+plugins {
+    id 'com.android.library'
+//    id 'com.github.ben-manes.versions' version '0.53.0'
+}
+apply from: '../config.gradle'
 android {
-    compileSdkVersion 36
-    buildToolsVersion '33.0.3'
+    compileSdkVersion libsinfo.compileSdk
+//    buildToolsVersion '33.0.3'
     namespace 'com.cboda.swipemenu'
     defaultConfig {
-        minSdkVersion 29
-        targetSdkVersion 36
-        versionCode 1
-        versionName "1.0"
-
+        minSdkVersion libsinfo.minSdk
+//        targetSdkVersion 36
+//        versionCode 1
+//        versionName "1.0"
     }
     buildTypes {
         release {
@@ -20,6 +22,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:support-core-ui:25.0.0'
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation 'com.android.support:support-core-ui:25.0.0'
+    implementation "${andx.appcompat}"
 }

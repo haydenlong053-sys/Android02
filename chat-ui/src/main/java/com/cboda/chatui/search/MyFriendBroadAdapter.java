@@ -84,7 +84,7 @@ public class MyFriendBroadAdapter extends RecyclerView.Adapter<FriendViewBroadHo
         } else {
             holder.dividerLine.setVisibility(View.VISIBLE);
         }
-//        UserViewBroadModel userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
+//        UserViewBroadModel userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
 //        nameTextView.setText(userViewModel.getUserDisplayName(userInfo.getUserInfo()));
         if (!TextUtils.isEmpty(currentItem.getRemarkName()) && !TextUtils.isEmpty(currentItem.getNickName())) {
 

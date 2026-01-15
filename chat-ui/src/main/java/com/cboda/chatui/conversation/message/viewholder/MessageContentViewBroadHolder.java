@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.chatui.*;
@@ -37,7 +37,7 @@ public abstract class MessageContentViewBroadHolder extends RecyclerView.ViewHol
         this.fragment = fragment;
         this.itemView = itemView;
         this.adapter = adapter;
-        messageViewModel = ViewModelProviders.of(fragment).get(MessageViewBroadModel.class);
+        messageViewModel = new ViewModelProvider(fragment).get(MessageViewBroadModel.class);
         bindViews(itemView);
     }
 

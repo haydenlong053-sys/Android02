@@ -19,7 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewbinding.ViewBinding;
 
 import com.bumptech.glide.Glide;
@@ -124,9 +125,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         mBinding = (ActivityUserBroadInfoBinding) getBinding();
         ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
-
-        userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
-
+        userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         userInfo();
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);        // 横向排列

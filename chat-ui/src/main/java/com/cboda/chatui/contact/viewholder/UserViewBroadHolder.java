@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -55,10 +55,10 @@ public class UserViewBroadHolder extends RecyclerView.ViewHolder {
         } else {
             categoryTextView.setVisibility(View.GONE);
         }
-//        UserViewBroadModel userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
+//        UserViewBroadModel userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
 //        nameTextView.setText(userViewModel.getUserDisplayName(userInfo.getUserInfo()));
         if (TextUtils.isEmpty(userInfo.getUserInfo().lixinUserName)){
-            UserViewBroadModel userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
+            UserViewBroadModel userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
             nameTextView.setText(userViewModel.getUserDisplayName(userInfo.getUserInfo()));
         } else {
             nameTextView.setText(userInfo.getUserInfo().lixinUserName);

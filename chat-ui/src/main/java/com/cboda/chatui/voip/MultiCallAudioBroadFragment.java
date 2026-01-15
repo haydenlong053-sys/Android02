@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 
@@ -74,7 +74,7 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
     }
 
     private void init() {
-        userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         AVEngineKit.CallSession session = AVEngineKit.Instance().getCurrentSession();
         if (session == null) {
             getActivity().finish();

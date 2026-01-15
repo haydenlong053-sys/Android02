@@ -7,7 +7,7 @@ package com.cboda.chatui.group.manage;
 import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -46,7 +46,7 @@ public class GroupMuteOrAllowBroadActivity extends WfcBaseBroadActivity {
     }
 
     private void init() {
-        groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
         groupViewModel.groupInfoUpdateLiveData().observe(this, new Observer<List<GroupInfo>>() {
             @Override
             public void onChanged(List<GroupInfo> groupInfos) {

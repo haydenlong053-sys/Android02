@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -329,7 +329,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 
         if (MessageContextMenuItemBroadTags.TAG_RECALL.equals(tag)) {
             if (message.conversation.type == Conversation.ConversationType.Group) {
-                GroupViewBroadModel groupViewModel = ViewModelProviders.of(fragment).get(GroupViewBroadModel.class);
+                GroupViewBroadModel groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
                 GroupMember groupMember = groupViewModel.getGroupMember(message.conversation.target, ChatManager.Instance().getUserId());
                 GroupMember fromMember = groupViewModel.getGroupMember(message.conversation.target, message.sender);
                 if (groupMember == null || fromMember == null) {
@@ -439,7 +439,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
     }
 
     private void showGroupMemberAlias(Conversation conversation, Message message, String sender) {
-        UserViewBroadModel userViewModel = ViewModelProviders.of(fragment).get(UserViewBroadModel.class);
+        UserViewBroadModel userViewModel = new ViewModelProvider(fragment).get(UserViewBroadModel.class);
         String hideGroupNickName = userViewModel.getUserSetting(UserSettingScope.GroupHideNickname, conversation.target);
         if ((!TextUtils.isEmpty(hideGroupNickName) && !"1".equals(hideGroupNickName)) || message.direction == MessageDirection.Send) {
             nameTextView.setVisibility(View.GONE);

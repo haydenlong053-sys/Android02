@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,9 +56,9 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
         if (messages == null || messages.isEmpty()) {
             finish();
         }
-        forwardViewModel = ViewModelProviders.of(this).get(ForwardViewBroadModel.class);
-        userViewModel = ViewModelProviders.of(this).get(UserViewBroadModel.class);
-        groupViewModel = ViewModelProviders.of(this).get(GroupViewBroadModel.class);
+        forwardViewModel = new ViewModelProvider(this).get(ForwardViewBroadModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
+        groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
     }
 
     @Override
