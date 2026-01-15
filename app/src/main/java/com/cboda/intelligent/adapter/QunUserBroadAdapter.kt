@@ -29,7 +29,8 @@ class QunUserBroadAdapter(layoutResId: Int) :
                     context,
                     item.icon ?: "",
                     holder.getView(R.id.ivTouxiang),
-                    PixelBroadBroadUtils.dip2px(context, 5f)
+                    PixelBroadBroadUtils.dip2px(context, 5f),
+                    com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut
                 )
 
                 if(item.type == "1"){
