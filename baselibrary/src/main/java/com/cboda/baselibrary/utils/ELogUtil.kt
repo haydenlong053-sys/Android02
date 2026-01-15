@@ -10,8 +10,8 @@ import java.io.StringWriter
 private const val eLogTag = "ELogClass"
 
 //private var mIsDebug = false
-//fun getIsDebug(): Boolean = BuildConfig.DEBUG
-fun getIsDebug(): Boolean = true
+fun getIsDebug(): Boolean = BuildConfig.DEBUG
+//fun getIsDebug(): Boolean = true
 //fun setIsDebug(isDebug: Boolean) {
 //    mIsDebug = isDebug
 //}
