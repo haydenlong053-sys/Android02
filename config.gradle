@@ -48,7 +48,7 @@ ext {
 
     ]
     thirdPartyApis = [
-            jiaozivideoplayer            : "cn.jzvd:jiaozivideoplayer:7.7.2.3300",
+//            jiaozivideoplayer            : "cn.jzvd:jiaozivideoplayer:7.7.2.3300",
             GSYVideoPlayer               : "com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.3.4-release-jitpack",
 //            XXPermissions     : "com.github.getActivity:XXPermissions:28.0",
             XXPermissions                : "com.github.getActivity:XXPermissions:20.0",
@@ -71,8 +71,7 @@ ext {
             ShadowLayout                 : "com.github.lihangleo2:ShadowLayout:3.4.5",
             zxingscanner                 : "com.mylhyl:zxingscanner:2.2.0",
             roundedimageview             : "com.makeramen:roundedimageview:2.3.0",
-            picasso                      : "com.squareup.picasso:picasso:2.8",
-//            picasso           : "com.squareup.picasso:picasso:2.5.2",
+//            picasso                      : "com.squareup.picasso:picasso:2.8",
             BigImageViewPager            : "com.github.SherlockGougou:BigImageViewPager:androidx-6.0.1",    //查看大图
             MNPasswordEditText           : "com.github.maning0303:MNPasswordEditText:V1.0.4",
             LoadingDialog                : "com.github.gittjy:LoadingDialog:1.0.2",    //仿IOS加载loading
