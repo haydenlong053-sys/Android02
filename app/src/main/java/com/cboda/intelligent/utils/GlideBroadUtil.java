@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.cboda.intelligent.R;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by kxn on 2018/7/17 0017.
@@ -32,7 +31,8 @@ public class GlideBroadUtil {
             } else
                 Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).override(width, height).into(iv);
         } else
-            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
+            iv.setImageResource(R.mipmap.ic_broad_defaut);
+//            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
     }
 
     public static void setImag(Context context, String url, ImageView iv) {
@@ -50,7 +50,8 @@ public class GlideBroadUtil {
             } else
                 Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).into(iv);
         } else
-            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
+            iv.setImageResource(R.mipmap.ic_broad_defaut);
+//            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
     }
 
     public static void setImag(Context context, int res, String imageUrl, ImageView iv) {

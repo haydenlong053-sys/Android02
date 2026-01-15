@@ -168,13 +168,11 @@ dependencies {
     implementation "${thirdPartyApis.ShadowLayout}"
     implementation "${thirdPartyApis.zxingscanner}"
     implementation "${thirdPartyApis.roundedimageview}"
-    implementation "${thirdPartyApis.picasso}"
     implementation "${thirdPartyApis.BigImageViewPager}"
     implementation "${thirdPartyApis.MNPasswordEditText}"
     implementation "${thirdPartyApis.LoadingDialog}"
     implementation "${thirdPartyApis.easypermissions}"
     implementation "${thirdPartyApis.permissiongen}"
-    implementation "${thirdPartyApis.jiaozivideoplayer}"
     implementation "${thirdPartyApis.GSYVideoPlayer}"
     implementation "${thirdPartyApis.rxandroid}"
     implementation "${thirdPartyApis.rxjava}"
@@ -185,6 +183,8 @@ dependencies {
         exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
     }
     coreLibraryDesugaring "${thirdPartyApis.desugar_jdk_libs}"
+//    implementation "${thirdPartyApis.picasso}"
+//    implementation "${thirdPartyApis.jiaozivideoplayer}"
 //    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 //    debugImplementation "androidx.compose.ui:ui-tooling:1.9.4"
 //    testImplementation 'junit:junit:4.13.2'
