@@ -54,6 +54,22 @@ public class GlideBroadUtil {
 //            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
     }
 
+    public static void setImag3(Context context, String url, ImageView iv) {
+        if (!StringBroadUtil.isEmpty(url)) {
+            if (url.endsWith("gif")) {
+                // 使用Glide播放gif图片
+                Glide.with(context)
+                        .asGif()
+                        .load(url)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(iv);
+            } else{
+                Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_defaut).placeholder(R.mipmap.ic_broad_defaut).diskCacheStrategy(DiskCacheStrategy.ALL)).into(iv);
+            }
+        }
+    }
+
+
     public static void setImag(Context context, int res, String imageUrl, ImageView iv) {
         Glide.with(context)
                 .load(imageUrl)

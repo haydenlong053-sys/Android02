@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 
 fun imageScale(bitmap: Bitmap, dstW: Int, dstH: Int): Bitmap {
     val srcW = bitmap.width
@@ -355,4 +356,41 @@ fun loadMedia(context: Context, thumbnail: Bitmap, imagePath: String?, imageView
         .apply(placeholderOptions)
 
     request.into(imageView)
+}
+
+/**
+ * 通过 Glide 获取网络图片链接的 Bitmap（回调版本）
+ * @param context 上下文
+ * @param imageUrl 图片网络链接
+ * @param width 目标宽度（可选，0 表示不限制）
+ * @param height 目标高度（可选，0 表示不限制）
+ * @param callback 回调函数，成功时返回 Bitmap，失败时返回 null
+ */
+fun getBitmapFromUrl(
+    context: Context,
+    imageUrl: String?,
+    callback: (Bitmap?) -> Unit
+) {
+    if (imageUrl.isNullOrEmpty()) {
+        callback(null)
+        return
+    }
+// 获取 Bitmap
+    Glide.with(context)
+        .asBitmap()
+        .load(imageUrl)
+        .into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(
+                resource: Bitmap,
+                transition: Transition<in Bitmap>?
+            ) {
+                // 在这里使用 Bitmap
+                // resource 就是获取到的 Bitmap
+                callback.invoke(resource)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {
+                // 当清除时调用
+            }
+        })
 }

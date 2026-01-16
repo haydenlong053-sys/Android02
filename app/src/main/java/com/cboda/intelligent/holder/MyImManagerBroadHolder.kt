@@ -577,12 +577,14 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             val intent = Intent(mContext, VideoPlayOnlyBroadActivity::class.java)
                             intent.putExtra("video", params ?: "")
                             intent.putExtra("videoImage", params ?: "")
-                            msg?.let {
-                                if (it.message.content is VideoMessageContent &&(it.message.content as VideoMessageContent).thumbnail !=null){
-                                    intent.putExtra("thumbnail", (it.message.content as VideoMessageContent).thumbnail)
-                                }
+                            msg?.message?.let {
+                                intent.putExtra("messageId",it.messageId)
                             }
-
+//                            msg?.let {
+//                                if (it.message.content is VideoMessageContent &&(it.message.content as VideoMessageContent).thumbnail !=null){
+//                                    intent.putExtra("thumbnail", (it.message.content as VideoMessageContent).thumbnail)
+//                                }
+//                            }
                             mContext?.startActivity(intent)
                         }
 

@@ -57,7 +57,7 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
             case "3"://视频
                 holder.rlVideo.setVisibility(View.VISIBLE);
                 holder.imVideo.setVisibility(View.VISIBLE);
-                GlideBroadUtil.setImag(context,list.get(position).info,holder.riImage);
+                GlideBroadUtil.setImag3(context,list.get(position).info,holder.riImage);
                 break;
             case "4"://音频
                 holder.llVoice.setVisibility(View.VISIBLE);
@@ -72,6 +72,12 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
             @Override
             public void onClick(View view) {
                 onItemClickListener.OnItemClickListener(position);
+            }
+        });
+        holder.mIvShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemChildClickListener(v,position);
             }
         });
     }
@@ -95,6 +101,7 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
         RoundedImageView riImage;
         RoundedImageView riIcon;
         ImageView imVideo;
+        ImageView mIvShare;
         LinearLayout llVoice;
         public MyHolder(View itemView) {
             super(itemView);
@@ -107,6 +114,7 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
             riIcon = itemView.findViewById(R.id.riIcon);
             tvName = itemView.findViewById(R.id.tvName);
             tvTime = itemView.findViewById(R.id.tvTime);
+            mIvShare = itemView.findViewById(R.id.mIvShare);
         }
     }
     private MyCollectBroadAdapter.OnItemClickListener onItemClickListener;
@@ -117,5 +125,6 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
 
     public interface OnItemClickListener {
         void OnItemClickListener(int position);
+        void OnItemChildClickListener(View view,int position);
     }
 }

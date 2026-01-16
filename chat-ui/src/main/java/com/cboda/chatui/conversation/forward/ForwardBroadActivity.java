@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.conversation.forward;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -88,9 +89,20 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
         if (messages.size() == 1) {
             Message message = messages.get(0);
             if (message.content instanceof ImageMessageContent) {
-                view.bind(targetName, targetPortrait, ((ImageMessageContent) message.content).getThumbnail());
+                Bitmap thumbnail = ((ImageMessageContent) message.content).getThumbnail();
+                if (thumbnail==null){
+                    view.bind2(targetName, targetPortrait, ((ImageMessageContent) message.content).remoteUrl,((int) ((ImageMessageContent) message.content).getImageWidth()),((int) ((ImageMessageContent) message.content).getImageHeight()));
+                }else {
+                    view.bind(targetName, targetPortrait, thumbnail);
+                }
+
             } else if (message.content instanceof VideoMessageContent) {
-                view.bind(targetName, targetPortrait, ((VideoMessageContent) message.content).getThumbnail());
+                Bitmap thumbnail = ((VideoMessageContent) message.content).getThumbnail();
+                if (thumbnail==null){
+                    view.bind2(targetName, targetPortrait, ((VideoMessageContent) message.content).remoteUrl,0,0);
+                }else {
+                    view.bind3(targetName, targetPortrait, thumbnail);
+                }
             } else if (message.content instanceof CompositeMessageContent) {
                 view.bind(targetName, targetPortrait, "[聊天记录]: " + ((CompositeMessageContent) message.content).getTitle());
             } else {
