@@ -10,8 +10,8 @@ buildscript {
         mavenCentral()
         maven { url "https://mirrors.tencent.com/nexus/repository/maven-public/" }
         maven { url "https://jitpack.io" }
-        maven { url 'https://maven.aliyun.com/repository/public/'}
-        maven { url 'https://maven.aliyun.com/repository/google/'}
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
     }
 }
 plugins {
@@ -20,6 +20,40 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.android.library) apply false
 }
+
+
+allprojects {
+    configurations.configureEach {
+        resolutionStrategy {
+            force 'androidx.activity:activity:1.13.0-alpha01'
+            force 'androidx.collection:collection-jvm:1.5.0'
+            force 'androidx.compose.animation:animation-android:1.9.4'
+            force 'androidx.compose.runtime:runtime-android:1.11.0-alpha02'
+            force 'androidx.compose.runtime:runtime-annotation-android:1.11.0-alpha02'
+            force 'androidx.customview:customview:1.2.0'
+            force 'androidx.drawerlayout:drawerlayout:1.1.1'
+            force 'androidx.exifinterface:exifinterface:1.4.2'
+            force 'androidx.fragment:fragment:1.8.9'
+            force 'androidx.lifecycle:ifecycle-common-jvm:2.10.0'
+            force 'androidx.compose.ui:ui-android:1.11.0-alpha02'
+            force 'androidx.lifecycle:lifecycle-common-jvm:2.10.0'
+            force 'androidx.lifecycle:lifecycle-livedata:2.10.0'
+            force 'androidx.recyclerview:recyclerview:1.4.0'
+            force 'androidx.startup:startup-runtime:1.2.0'
+            force 'androidx.tracing:tracing:1.2.0'
+            force 'androidx.transition:transition:1.6.0'
+            force 'androidx.viewpager2:viewpager2:1.1.0'
+            force 'com.google.code.gson:gson:2.13.2'
+            force 'com.google.zxing:core:3.5.4'
+            force 'org.jetbrains.kotlin:kotlin-stdlib:2.3.0'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0'
+            force 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
+            force 'com.google.guava:guava:31.0.1-android'
+        }
+    }
+}
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
