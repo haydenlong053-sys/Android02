@@ -22,23 +22,26 @@ public class DeleteMultiMessageBroadAction extends MultiMessageBroadAction {
     @Override
     public void onClick(List<UiBroadMessage> messages) {
         MessageViewBroadModel messageViewModel = new ViewModelProvider(fragment).get(MessageViewBroadModel.class);
-        new MaterialDialog.Builder(fragment.getContext())
-            .items("删除本地消息", "删除远程消息")
-            .itemsCallback(new MaterialDialog.ListCallback() {
-                @Override
-                public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                    if (position == 0) {
-                        for (UiBroadMessage message : messages) {
-                            messageViewModel.deleteMessage(message.message);
-                        }
-                    } else {
-                        for (UiBroadMessage message : messages) {
-                            messageViewModel.deleteRemoteMessage(message.message);
-                        }
-                    }
-                }
-            })
-            .show();
+        for (UiBroadMessage message : messages) {
+            messageViewModel.deleteMessage(message.message);
+        }
+//        new MaterialDialog.Builder(fragment.getContext())
+//            .items("删除本地消息", "删除远程消息")
+//            .itemsCallback(new MaterialDialog.ListCallback() {
+//                @Override
+//                public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+//                    if (position == 0) {
+//                        for (UiBroadMessage message : messages) {
+//                            messageViewModel.deleteMessage(message.message);
+//                        }
+//                    } else {
+//                        for (UiBroadMessage message : messages) {
+//                            messageViewModel.deleteRemoteMessage(message.message);
+//                        }
+//                    }
+//                }
+//            })
+//            .show();
     }
 
     @Override
@@ -51,10 +54,10 @@ public class DeleteMultiMessageBroadAction extends MultiMessageBroadAction {
         return "删除";
     }
 
-    @Override
-    public boolean confirm() {
-        return true;
-    }
+//    @Override
+//    public boolean confirm() {
+//        return true;
+//    }
 
     @Override
     public String confirmPrompt() {

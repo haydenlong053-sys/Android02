@@ -16,6 +16,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,6 +72,7 @@ import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExtension;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
+import com.cboda.chatui.conversation.multimsg.DeleteMultiMessageBroadAction;
 import com.cboda.chatui.conversation.multimsg.MultiMessageBroadAction;
 import com.cboda.chatui.conversation.multimsg.MultiMessageActionBroadManager;
 import com.cboda.chatui.conversation.receipt.GroupMessageReceiptBroadActivity;
@@ -1068,22 +1070,25 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
+        GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
         if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
             return MMKVBroadUtils.Companion.getKeFuName();
+        } else if (friendSmailListBean != null) {
+            if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                return friendSmailListBean.remarkName;
+            } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                return friendSmailListBean.nickName;
+            }else {
+                if (userInfo == null) {
+                    return "";
+                }
+                return "<" + userInfo.uid + ">";
+            }
         } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
             return userInfo.friendAlias;
         } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
             return userInfo.displayName;
         } else {
-            GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
-            if (friendSmailListBean != null) {
-                if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                    return friendSmailListBean.remarkName;
-                } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                    return friendSmailListBean.nickName;
-                }
-            }
-
             if (userInfo == null) {
                 return "";
             }
@@ -1489,19 +1494,30 @@ public class ConversationBroadFragment extends Fragment implements
 
         for (MultiMessageBroadAction action : actions) {
             action.onBind(this, conversationBroad);
-            ImageView imageView = new ImageView(getActivity());
-            imageView.setImageResource(action.iconResId());
+            TextView textView = new TextView(getActivity());
+            textView.setText(action.title(getActivity()));
+            textView.setTextSize(18);
+            if (action instanceof DeleteMultiMessageBroadAction){
+                textView.setTextColor(0xFFEB534B);
+            }else {
+                textView.setTextColor(0xFF9C1FFB);
+            }
 
+            textView.setGravity(Gravity.CENTER);
+            textView.setClickable(true);
+            textView.setEnabled(true);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width / actions.size(), LinearLayout.LayoutParams.WRAP_CONTENT);
-            multiMessageActionContainerLinearLayoutBroad.addView(imageView, layoutParams);
-            ViewGroup.LayoutParams p = imageView.getLayoutParams();
+            multiMessageActionContainerLinearLayoutBroad.addView(textView, layoutParams);
+            ViewGroup.LayoutParams p = textView.getLayoutParams();
             p.height = 70;
-            imageView.requestLayout();
+            textView.requestLayout();
 
-            imageView.setOnClickListener(v -> {
+            textView.setOnClickListener(v -> {
                 List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
-                if (action.confirm()) {
+                if (checkedMessages.isEmpty()){
+                    toggleConversationMode();
+                }else if (action.confirm()) {
                     new MaterialDialog.Builder(getActivity()).content(action.confirmPrompt())
                             .negativeText("取消")
                             .positiveText("确认")
@@ -1522,20 +1538,21 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onMessageCheck(UiBroadMessage message, boolean checked) {
-        List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
-        setAllClickableChildViewState(multiMessageActionContainerLinearLayoutBroad, checkedMessages.size() > 0);
+        //此处逻辑代码没什么用，会导致多选功能没选时无法点击关闭，直接注释
+//        List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
+//        setAllClickableChildViewState(multiMessageActionContainerLinearLayoutBroad, checkedMessages.size() > 0);
     }
 
-    private void setAllClickableChildViewState(View view, boolean enable) {
-        if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                setAllClickableChildViewState(((ViewGroup) view).getChildAt(i), enable);
-            }
-        }
-        if (view.isClickable()) {
-            view.setEnabled(enable);
-        }
-    }
+//    private void setAllClickableChildViewState(View view, boolean enable) {
+//        if (view instanceof ViewGroup) {
+//            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+//                setAllClickableChildViewState(((ViewGroup) view).getChildAt(i), enable);
+//            }
+//        }
+//        if (view.isClickable()) {
+//            view.setEnabled(enable);
+//        }
+//    }
 
     public void pickGroupMemberToVoipChat(boolean isAudioOnly) {
         Intent intent = new Intent(getActivity(), PickGroupMemberBroadActivity.class);

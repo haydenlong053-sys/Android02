@@ -30,6 +30,7 @@ import com.cboda.chatui.conversation.Draft;
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel;
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory;
 import com.cboda.chatui.group.GroupViewBroadModel;
+import com.cboda.chatui.third.utils.MyTimeFormatter;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.chatui.utils.WfcTextBroadUtils;
 import cn.wildfirechat.message.Message;
@@ -128,7 +129,8 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         ivCheckCnv.setVisibility(isSelectMode ? View.VISIBLE : View.GONE);
         ivCheckCnv.setImageResource(conversationInfo.isSelect ? R.mipmap.ic_check_cnv_broad_select : R.mipmap.ic_check_cnv_broad_normal);
 
-        timeTextView.setText(TimeBroadBroadUtils.getMsgFormatTime(conversationInfo.timestamp));
+//        timeTextView.setText(TimeBroadBroadUtils.getMsgFormatTime(conversationInfo.timestamp));
+        timeTextView.setText(MyTimeFormatter.getSessionTimeString(conversationInfo.timestamp,timeTextView.getContext()));
         silentImageView.setVisibility(conversationInfo.isSilent ? View.VISIBLE : View.GONE);
         statusImageView.setVisibility(View.GONE);
 
