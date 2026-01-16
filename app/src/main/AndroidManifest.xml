@@ -532,11 +532,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <!--        <activity-->
-        <!--            android:name="com.cboda.intelligent.activity.MeetingRoomBroadActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:supportsPictureInPicture="true"-->
-        <!--            android:windowSoftInputMode="adjustNothing" />-->
+        <activity
+            android:name="com.cboda.intelligent.activity.MeetingRoomBroadActivity"
+            android:screenOrientation="portrait"
+            android:supportsPictureInPicture="true"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name="com.cboda.intelligent.activity.CircleAndRemarkBroadActivity"
             android:screenOrientation="portrait" />
@@ -565,10 +565,10 @@
         <!--        <service-->
         <!--            android:name="com.car.trojango.AppBroadService"-->
         <!--            android:process="com.car.service.ProxyService" />-->
-        <!--        <service-->
-        <!--            android:name="com.cboda.intelligent.service.MeetingFloatBroadService"-->
-        <!--            android:exported="false"-->
-        <!--            android:foregroundServiceType="mediaPlayback" />-->
+        <service
+            android:name="com.cboda.intelligent.service.MeetingFloatBroadService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
     </application>
 
