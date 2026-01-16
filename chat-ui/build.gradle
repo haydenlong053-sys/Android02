@@ -57,8 +57,8 @@ dependencies {
     api files('libs/broad_chat_pttclient.aar')
     api files('libs/broad_chat_libwebrtc.aar')
 //    api files('libs/broad_chat_client.aar')
-//    api files('libs/broad_chat_emoji.aar')
-    api project(':chat-emoji')
+    api files('libs/broad_chat_emoji.aar')
+//    api project(':chat-emoji')
     api project(':chat-client')
     api project(':baselibrary')
     api "${andx.appcompat}"
