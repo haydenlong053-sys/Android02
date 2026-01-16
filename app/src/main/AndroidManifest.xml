@@ -208,15 +208,7 @@
         <activity
             android:name="com.cboda.intelligent.activity.SetPasswordBroadActivity"
             android:exported="false" />
-        <activity
-            android:name="com.cboda.intelligent.activity.YanzhengBroadActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.cboda.intelligent.activity.SetPhoneBroadActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.cboda.intelligent.activity.AccountBroadActivity"
-            android:exported="false" />
+
         <activity
             android:name="com.cboda.intelligent.activity.UserSetBroadActivity"
             android:exported="false" />
@@ -413,7 +405,7 @@
             android:name="com.cboda.intelligent.activity.ZhuanZhangPageBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cboda.intelligent.activity.YanZhengBroadActivity"
+            android:name="com.cboda.intelligent.activity.VerifyBroadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunInfoBroadActivity"

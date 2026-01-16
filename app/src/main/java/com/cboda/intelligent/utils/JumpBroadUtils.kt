@@ -145,7 +145,7 @@ class JumpBroadUtils {
         }
 
         fun startYanZhengActivity(context: Context?, fromPage: String) {
-            val intent = Intent(context, YanZhengBroadActivity::class.java)
+            val intent = Intent(context, VerifyBroadActivity::class.java)
             intent.putExtra("fromPage", fromPage)
             context?.startActivity(intent)
         }

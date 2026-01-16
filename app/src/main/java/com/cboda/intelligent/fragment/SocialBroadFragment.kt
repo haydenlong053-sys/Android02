@@ -76,7 +76,7 @@ import coil.compose.AsyncImage
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
-import com.cboda.intelligent.activity.YanZhengBroadActivity
+import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -129,11 +129,11 @@ class SocialFragment : Fragment() {
     }
 
     private fun navigateToNewFriends() {
-        JumpBroadUtils.startYanZhengActivity(requireContext(), YanZhengBroadActivity.FRIEND_APPLY)
+        JumpBroadUtils.startYanZhengActivity(requireContext(), VerifyBroadActivity.FRIEND_APPLY)
     }
 
     private fun navigateToNewGroupInvites() {
-        JumpBroadUtils.startYanZhengActivity(requireContext(), YanZhengBroadActivity.GROUP_INVITED)
+        JumpBroadUtils.startYanZhengActivity(requireContext(), VerifyBroadActivity.GROUP_INVITED)
     }
 
     private fun navigateToFriendInfoPage(userId: String) {

@@ -21,7 +21,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 
-class YanZhengBroadActivity : BaseSimpleBroadActivity() {
+class VerifyBroadActivity : BaseSimpleBroadActivity() {
     private var fromPage = ""
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: YanZhengBroadAdapter? = null
@@ -90,9 +90,9 @@ class YanZhengBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.imUserLiveData?.observe(this) {
             it.data?.apply {
                 if (this.isFri == "1") {
-                    JumpBroadUtils.startHaoYouAddActivity(this@YanZhengBroadActivity, this.id ?: "", "4")
+                    JumpBroadUtils.startHaoYouAddActivity(this@VerifyBroadActivity, this.id ?: "", "4")
                 } else {
-                    JumpBroadUtils.startHaoYouAddActivity(this@YanZhengBroadActivity, this.id ?: "", "4")
+                    JumpBroadUtils.startHaoYouAddActivity(this@VerifyBroadActivity, this.id ?: "", "4")
                 }
             }
         }
@@ -114,7 +114,7 @@ class YanZhengBroadActivity : BaseSimpleBroadActivity() {
 //        }
         mAdapter = YanZhengBroadAdapter(R.layout.item_yan_broad_zheng_user_layout, fromPage)
         recyclerView?.apply {
-            layoutManager = WrapContentLinearLayoutBroadManager(this@YanZhengBroadActivity)
+            layoutManager = WrapContentLinearLayoutBroadManager(this@VerifyBroadActivity)
             adapter = mAdapter
         }
         mAdapter?.setList(mDataList)
