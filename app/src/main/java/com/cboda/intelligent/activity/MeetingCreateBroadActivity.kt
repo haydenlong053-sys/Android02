@@ -336,8 +336,8 @@ fun MeetingCreateScreen(
             onDismiss = { viewModel.dismissSetPasswordDialog() },
             onSetPassword = {
                 viewModel.dismissSetPasswordDialog()
-                val intent = Intent(context, SetPasswordBroadActivity::class.java)
-                intent.putExtra("editIndex", 1)
+                val intent = Intent(context, SetPayPasswordBroadActivity::class.java)
+                intent.putExtra("editIndex", "1")
                 context.startActivity(intent)
             }
 //            onSetPassword = { viewModel.navigateToSetPassword() }
