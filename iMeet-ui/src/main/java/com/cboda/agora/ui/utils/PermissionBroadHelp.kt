@@ -29,10 +29,9 @@ class PermissionBroadHelp(val activity: ComponentActivity) {
             }
         }
     private val appSettingLauncher =
-        activity.registerForActivityResult(object : ActivityResultContract<String, Boolean>(){
+        activity.registerForActivityResult(object : ActivityResultContract<String, Boolean>() {
             private var input: String? = null
-
-            override fun createIntent(context: Context, input: String?): Intent {
+            override fun createIntent(context: Context, input: String): Intent {
                 this.input = input
                 return Intent().apply {
                     action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -47,7 +46,7 @@ class PermissionBroadHelp(val activity: ComponentActivity) {
                 ) == PackageManager.PERMISSION_GRANTED
             }
 
-        }){ isGranted ->
+        }) { isGranted ->
             val granted = granted
             val unGranted = unGranted
             this.granted = null
@@ -131,6 +130,7 @@ class PermissionBroadHelp(val activity: ComponentActivity) {
                 // You can use the API that requires the permission.
                 granted.invoke()
             }
+
             activity.shouldShowRequestPermissionRationale(perm) -> {
                 // In an educational UI, explain to the user why your app requires this
                 // permission for a specific feature to behave as expected, and what
@@ -148,6 +148,7 @@ class PermissionBroadHelp(val activity: ComponentActivity) {
                     unGranted.invoke()
                 }
             }
+
             else -> {
                 // You can directly ask for the permission.
                 // The registered ActivityResultCallback gets the result of this request.

@@ -8,14 +8,14 @@ ext {
             buildToolsVersion: "33.0.3",
 
             // //旧版签名
-            storeFile        : "googleplay.jks",
-            storePassword    : "123456",
-            keyAlias         : "lxkj",
+//            storeFile        : "googleplay.jks",
+//            storePassword    : "123456",
+//            keyAlias         : "lxkj",
 
             // //新版签名（旧版us环境）
-//            storeFile        : "google_play_us.jks",
-//            storePassword    : "Aa663366",
-//            keyAlias         : "uscbodabroadintelligent",
+            storeFile        : "google_play_us.jks",
+            storePassword    : "Aa663366",
+            keyAlias         : "uscbodabroadintelligent",
     ]
 
     andx = [
