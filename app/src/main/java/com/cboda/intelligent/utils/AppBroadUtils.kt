@@ -33,7 +33,7 @@ import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
-import com.cboda.intelligent.service.MeetingFloatBroadService
+//import com.cboda.intelligent.service.MeetingFloatBroadService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -286,12 +286,12 @@ class AppBroadUtils {
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "")
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "")
             NetworkBroadConfig.updateAppToken(null)
-            EventBus.getDefault().post(
-                MeetingFloatBroadService.MeetingEvent(
-                    MeetingFloatBroadService.EVENT_BACKGROUND_QUITE,
-                    ""
-                )
-            )
+//            EventBus.getDefault().post(
+//                MeetingFloatBroadService.MeetingEvent(
+//                    MeetingFloatBroadService.EVENT_BACKGROUND_QUITE,
+//                    ""
+//                )
+//            )
             BroadConstant.userId = null
             BroadConstant.realUserId = ""
             MMKVBroadUtils.clearUserId()

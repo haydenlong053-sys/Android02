@@ -137,7 +137,7 @@ configurations.all {
 dependencies {
     api project(':baselibrary')
     api project(':chat-ui')
-    api project(':iMeet')
+//    api project(':iMeet')
     implementation "${andx.core}"
     implementation "${andx.appcompat}"
     implementation "${andx.constraintlayout}"

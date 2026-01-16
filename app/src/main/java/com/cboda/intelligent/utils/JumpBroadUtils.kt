@@ -8,9 +8,9 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.activity.*
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
-import com.cboda.intelligent.service.MeetingFloatBroadService
-import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
-import org.greenrobot.eventbus.EventBus
+//import com.cboda.intelligent.service.MeetingFloatBroadService
+//import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
+//import org.greenrobot.eventbus.EventBus
 
 
 class JumpBroadUtils {
@@ -320,6 +320,7 @@ class JumpBroadUtils {
             context?.startActivity(intent)
         }
 
+        //跳转到会议室（混淆屏蔽）
         fun startQunMeetingActivity(
             context: Context?,
             roomId: String,
@@ -329,43 +330,42 @@ class JumpBroadUtils {
             isMute: Boolean? = false,
             isMic: Boolean? = true
         ) {
-            context?.let { ctx ->
-                if (MeetingFloatBroadService.isServiceRunning && MeetingFloatBroadService.isFloatShow) {
-                    AUIAlertBroadDialog(ctx).apply {
-                        setTitle("已加入其他会议室")
-                        setMessage("您当前正在其他会议室，是否退出当前所在会议室？")
-                        setPositiveButton("确认退出") {
-                            dismiss()
-                            EventBus.getDefault().post(
-                                MeetingFloatBroadService.MeetingEvent(
-                                    MeetingFloatBroadService.EVENT_BACKGROUND_QUITE,
-                                    ownerId
-                                )
-                            )
-//                            MeetingFloatBroadService.stop(ctx)
-                        }
-                        setNegativeButton("取消") {
-                            dismiss()
-                        }
-                        show()
-
-                    }
-
-
-                } else {
-                    eLogD("zhanglong","roomId==$roomId---isCreate==$isCreate---MeetingFloatBroadService==${MeetingFloatBroadService.isFloatShow}")
-                    if (MeetingFloatBroadService.isServiceRunning){
-                        EventBus.getDefault().post(
-                            MeetingFloatBroadService.MeetingEvent(
-                                MeetingFloatBroadService.EVENT_BACKGROUND_QUITE,
-                                ownerId
-                            )
-                        )
-                    }
-                    MeetingRoomBroadActivity.launch(ctx, roomId, ownerId, title, isCreate, isMute, isMic)
-                }
-
-            }
+//            context?.let { ctx ->
+//                if (MeetingFloatBroadService.isServiceRunning && MeetingFloatBroadService.isFloatShow) {
+//                    AUIAlertBroadDialog(ctx).apply {
+//                        setTitle("已加入其他会议室")
+//                        setMessage("您当前正在其他会议室，是否退出当前所在会议室？")
+//                        setPositiveButton("确认退出") {
+//                            dismiss()
+//                            EventBus.getDefault().post(
+//                                MeetingFloatBroadService.MeetingEvent(
+//                                    MeetingFloatBroadService.EVENT_BACKGROUND_QUITE,
+//                                    ownerId
+//                                )
+//                            )
+////                            MeetingFloatBroadService.stop(ctx)
+//                        }
+//                        setNegativeButton("取消") {
+//                            dismiss()
+//                        }
+//                        show()
+//
+//                    }
+//
+//
+//                } else {
+//                    eLogD("zhanglong","roomId==$roomId---isCreate==$isCreate---MeetingFloatBroadService==${MeetingFloatBroadService.isFloatShow}")
+//                    if (MeetingFloatBroadService.isServiceRunning){
+//                        EventBus.getDefault().post(
+//                            MeetingFloatBroadService.MeetingEvent(
+//                                MeetingFloatBroadService.EVENT_BACKGROUND_QUITE,
+//                                ownerId
+//                            )
+//                        )
+//                    }
+//                    MeetingRoomBroadActivity.launch(ctx, roomId, ownerId, title, isCreate, isMute, isMic)
+//                }
+//            }
         }
 
         fun startHaoyouListActivity(context: Context?, uid: String, qunid: String) {
