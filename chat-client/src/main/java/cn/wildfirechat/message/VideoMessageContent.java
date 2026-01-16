@@ -54,6 +54,14 @@ public class VideoMessageContent extends MediaMessageContent {
         }
     }
 
+    public VideoMessageContent(String remoteUrl,long duration,double imageWidth, double imageHeight) {
+        this.remoteUrl = remoteUrl;
+        this.duration = duration;
+//        this.imageWidth = imageWidth;
+//        this.imageHeight = imageHeight;
+        this.mediaType = MessageContentMediaType.VIDEO;
+    }
+
     public Bitmap getThumbnail() {
         if (thumbnail != null) {
             return thumbnail;

@@ -6,7 +6,6 @@
     android:id="@+id/compositeContentLayout"
     android:layout_gravity="right"
     android:background="@drawable/bg_bubble_broad_send"
-    android:backgroundTint="@color/lightColorPrimary"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingTop="12dp"
@@ -19,24 +18,20 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoLink="phone|email|map|web"
-        android:linksClickable="true"
-        android:maxWidth="202dp"
+        android:maxWidth="180dp"
         android:minHeight="40dp"
         android:text="title"
-        android:textColorLink="#ffffff"
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/contentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoLink="phone|email|map|web"
-        android:linksClickable="true"
-        android:maxWidth="202dp"
+        android:maxWidth="180dp"
         android:minHeight="40dp"
         android:text="content"
-        android:textColorLink="#ffffff"
+        android:textColor="@color/white"
         android:textSize="14sp" />
 
     <View style="@style/Line" />
@@ -45,9 +40,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:maxWidth="202dp"
+        android:maxWidth="180dp"
         android:paddingTop="2dp"
         android:text="聊天记录"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:visibility="visible" />
 </LinearLayout>

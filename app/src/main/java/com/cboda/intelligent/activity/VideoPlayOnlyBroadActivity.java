@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
@@ -33,6 +34,10 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import java.io.File;
 
 import com.cboda.chatui.utils.FileBroadUtils;
+
+import cn.wildfirechat.message.Message;
+import cn.wildfirechat.message.VideoMessageContent;
+import cn.wildfirechat.remote.ChatManager;
 
 
 /**
@@ -87,8 +92,29 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
         video = getIntent().getStringExtra("video");
 //        Log.d("zhanglong","video_url==="+video);
         String videoImage = getIntent().getStringExtra("videoImage");
-        Bitmap thumbnail = getIntent().getParcelableExtra("thumbnail");
+
+        long messageId = getIntent().getLongExtra("messageId",0);
+        ELogUtilKt.eLogD("zhanglong","video_url==="+video+"--messageId="+messageId);
         showLoading();
+        if (messageId > 0){
+            try {
+                ThreadUtils.executeByCached(new ThreadUtils.SimpleTask<Message>() {
+                    @Override
+                    public Message doInBackground()  {
+                        return ChatManager.Instance().getMessage(messageId);
+                    }
+                    @Override
+                    public void onSuccess(Message message) {
+                        // 使用 message 更新 UI
+                        if (message!=null && message.content instanceof VideoMessageContent){
+                            GlideBroadUtil.loadBitmapThumbnail(VideoPlayOnlyBroadActivity.this,((VideoMessageContent) message.content).getThumbnail(), mIvTemp);
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 //        if (thumbnail!=null &&thumbnail.getWidth()>0 && thumbnail.getHeight()>0){
 //            ELogUtilKt.eLogD("zhanglong","w=="+thumbnail.getWidth());
 //            ELogUtilKt.eLogD("zhanglong","h=="+thumbnail.getHeight());
@@ -97,7 +123,7 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
 //            mIvTemp.getLayoutParams().height = screenWidth/ thumbnail.getWidth() *thumbnail.getHeight();
 //        }
 
-        GlideBroadUtil.loadBitmapThumbnail(this,thumbnail, mIvTemp);
+
 //        jzVideo.setUp(video, "");
 //        jzVideo.startVideo();
 
@@ -110,8 +136,6 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
 //        jzVideo.setUp(jzDataSource
 //                , 0);
 //        jzVideo.startVideo();
-
-        ELogUtilKt.eLogE("zhanglong", "videoUrl==="+video);
 
         imFinish.setOnClickListener(v -> finish());
 

@@ -48,6 +48,13 @@ public class ImageMessageContent extends MediaMessageContent {
         this.mediaType = MessageContentMediaType.IMAGE;
     }
 
+    public ImageMessageContent(String remoteUrl,double imageWidth, double imageHeight) {
+        this.remoteUrl = remoteUrl;
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
+        this.mediaType = MessageContentMediaType.IMAGE;
+    }
+
     public ImageMessageContent(String path) {
         this.localPath = path;
         this.mediaType = MessageContentMediaType.IMAGE;

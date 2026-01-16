@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.FileUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
@@ -63,17 +64,17 @@ public class VideoMessageContentViewBroadHolder extends MediaMessageContentViewB
         VideoMessageContent videoMessageContent = (VideoMessageContent) message.message.content;
         Bitmap thumbnail = videoMessageContent.getThumbnail();
         time_tv.setText(TimeConvertBroadUtils.formatLongTime(videoMessageContent.getDuration()/1000));
-        int width = 200;
-        int height = 200;
+        int width = 300;
+        int height = 400;
         if(thumbnail != null) {
-            int imageSize[] = WeChatImageUtils.getImageSizeByOrgSizeToWeChat(thumbnail.getWidth(), thumbnail.getHeight());
+            int imageSize[] = WeChatImageUtils.getImageSizeByOrgSizeToWeChat2(thumbnail.getWidth(), thumbnail.getHeight());
             width = imageSize[0] > 0 ? imageSize[0] : 200;
             height = imageSize[1] > 0 ? imageSize[1] : 200;
         }
         imageView.getLayoutParams().width = width;
         imageView.getLayoutParams().height = height;
         playImageView.setVisibility(View.VISIBLE);
-        if(FileBroadUtils.isFileExists(videoMessageContent.localPath)){
+        if(FileUtils.isFileExists(videoMessageContent.localPath)){
             imagePath = videoMessageContent.localPath;
         }else {
             imagePath = videoMessageContent.remoteUrl;

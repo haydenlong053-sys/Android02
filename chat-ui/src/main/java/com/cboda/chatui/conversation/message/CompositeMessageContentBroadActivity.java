@@ -6,6 +6,8 @@ package com.cboda.chatui.conversation.message;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatui.BroadConfig;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcBaseBroadActivity;
@@ -29,13 +32,22 @@ import cn.wildfirechat.message.VideoMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 
-public class CompositeMessageContentBroadActivity extends WfcBaseBroadActivity implements CompositeMessageContentBroadAdapter.OnMessageClickListener {
+//多选聊天记录合成页
+public class CompositeMessageContentBroadActivity extends WfcBaseBroadActivity implements CompositeMessageContentBroadAdapter2.OnMessageClickListener {
     RecyclerView recyclerView;
-    private CompositeMessageContentBroadAdapter adapter;
+    TextView mTvTitle;
+    private CompositeMessageContentBroadAdapter2 adapter;
 
     protected void bindViews() {
         super.bindViews();
         recyclerView = findViewById(R.id.recyclerView);
+        mTvTitle=findViewById(com.cboda.baselibrary.R.id.mTvTitle);
+        findViewById(com.cboda.baselibrary.R.id.mViewBack).setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -84,24 +96,25 @@ public class CompositeMessageContentBroadActivity extends WfcBaseBroadActivity i
                 });
             }
         }
-        adapter = new CompositeMessageContentBroadAdapter(message, this);
+        adapter = new CompositeMessageContentBroadAdapter2(message, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onClickMessage(Message message) {
-        MessageContent content = message.content;
-        if (content instanceof FileMessageContent) {
-            FileBroadUtils.openFile(this, message);
-        } else if (content instanceof VideoMessageContent) {
-            MMPreviewBroadActivity.previewVideo(this, message);
-        } else if (content instanceof ImageMessageContent) {
-            MMPreviewBroadActivity.previewImage(this, message);
-        } else if (content instanceof CompositeMessageContent) {
-            Intent intent = new Intent(this, CompositeMessageContentBroadActivity.class);
-            intent.putExtra("message", message);
-            startActivity(intent);
-        }
+        //暂不启用，跟ios逻辑保持一致
+//        MessageContent content = message.content;
+//        if (content instanceof FileMessageContent) {
+//            FileBroadUtils.openFile(this, message);
+//        } else if (content instanceof VideoMessageContent) {
+//            MMPreviewBroadActivity.previewVideo(this, message);
+//        } else if (content instanceof ImageMessageContent) {
+//            MMPreviewBroadActivity.previewImage(this, message);
+//        } else if (content instanceof CompositeMessageContent) {
+//            Intent intent = new Intent(this, CompositeMessageContentBroadActivity.class);
+//            intent.putExtra("message", message);
+//            startActivity(intent);
+//        }
     }
 }

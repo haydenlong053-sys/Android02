@@ -59,6 +59,9 @@
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/checkbox_broad_style</item>
     </style>
+    <style name="CustomCheckboxThemeLB" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_broad_style_lb</item>
+    </style>
 
     <!--实下滑线样式-->
     <style name="Line">

@@ -20,9 +20,12 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.chatui.R;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import com.cboda.chatui.utils.WfcTextBroadUtils;
+
+import cn.wildfirechat.utils.WeChatImageUtils;
 
 public class ForwardPromptBroadView extends LinearLayout {
     ImageView portraitImageView;
@@ -87,6 +90,36 @@ public class ForwardPromptBroadView extends LinearLayout {
             contentImageView.getLayoutParams().height = UIBroadUtils.dip2Px(contentImage.getHeight());
             contentImageView.setImageBitmap(contentImage);
         }
+        invalidate();
+    }
+
+    public void bind2(String targetName, String targetPortrait, String remoteUrl, int width,int height) {
+        nameTextView.setText(targetName);
+        Glide.with(getContext()).load(targetPortrait).apply(new RequestOptions().placeholder(R.mipmap.ic_group_broad_chat).centerCrop()).into(portraitImageView);
+        contentTextView.setVisibility(GONE);
+        contentImageView.setVisibility(VISIBLE);
+//        contentImageView.getLayoutParams().width = width;
+//        contentImageView.getLayoutParams().height = height;
+        Glide.with(getContext()).load(remoteUrl).apply(new RequestOptions().centerCrop()).into(contentImageView);
+        invalidate();
+    }
+
+    public void bind3(String targetName, String targetPortrait, Bitmap contentImage) {
+        nameTextView.setText(targetName);
+        Glide.with(getContext()).load(targetPortrait).apply(new RequestOptions().placeholder(R.mipmap.ic_group_broad_chat).centerCrop()).into(portraitImageView);
+        contentTextView.setVisibility(GONE);
+        contentImageView.setVisibility(VISIBLE);
+        int width = 300;
+        int height = 400;
+        if(contentImage != null) {
+            int imageSize[] = WeChatImageUtils.getImageSizeByOrgSizeToWeChat2(contentImage.getWidth(), contentImage.getHeight());
+            width = imageSize[0] > 0 ? imageSize[0] : 300;
+            height = imageSize[1] > 0 ? imageSize[1] : 400;
+        }
+        ELogUtilKt.eLogD("zhanglong","w="+width+"-----"+"h"+height);
+        contentImageView.getLayoutParams().width = width;
+        contentImageView.getLayoutParams().height = height;
+        contentImageView.setImageBitmap(contentImage);
         invalidate();
     }
 

@@ -64,6 +64,7 @@ import cn.wildfirechat.message.BiaoQingMessageContent;
 import cn.wildfirechat.message.CallStartMessageContent;
 import cn.wildfirechat.message.ImageMessageContent;
 import cn.wildfirechat.message.LocationMessageContent;
+import cn.wildfirechat.message.MediaMessageContent;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.SoundMessageContent;
 import cn.wildfirechat.message.StickerMessageContent;
@@ -437,7 +438,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
                 try {
                     long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
-                    String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy年MM月dd日");
+                    String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
                     joinTimeTv.setText(joinGroupTimeBefore + "入群");
                 } catch (Exception e) {
                     toLog(e, "joinGroupTime");
@@ -647,6 +648,17 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     mPopActions.add(fuzhi);
                 }
 
+                titles.add("多选");
+                ChatPopBroadMenu.ChatPopMenuAction selectMore = new ChatPopBroadMenu.ChatPopMenuAction();
+                selectMore.setActionName("多选");
+                selectMore.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                    @Override
+                    public void onClick() {
+                        fragment.toggleMultiMessageMode(message);
+                    }
+                });
+                mPopActions.add(selectMore);
+
                 titles.add("删除");
                 ChatPopBroadMenu.ChatPopMenuAction shanchu = new ChatPopBroadMenu.ChatPopMenuAction();
                 shanchu.setActionName("删除");
@@ -722,32 +734,44 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 // MessageContentBroadType MessageContextMenuItemBroadTags
                 if (message1.content.getMessageContentType() == 1
                         || message1.content.getMessageContentType() == 3
-                        || message1.content.getMessageContentType() == 2
+//                        || message1.content.getMessageContentType() == 2
                         || message1.content.getMessageContentType() == 6
-                        || message1.content.getMessageContentType() == 4
+//                        || message1.content.getMessageContentType() == 4
                 ) {
-                    titles.add("收藏");
-                    ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
-                    shoucang.setActionName("收藏");
-                    shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                        @Override
-                        public void onClick() {
-                            String params2 = "";
-                            if (message1.content.getMessageContentType() == 1) {
-                                params2 = ((TextMessageContent) message1.content).getContent() + "|" + "1";
-                            } else if (message1.content.getMessageContentType() == 3) {
-                                params2 = ((ImageMessageContent) message1.content).remoteUrl + "|" + "2";
-                            } else if (message1.content.getMessageContentType() == 2) {
-                                params2 = ((SoundMessageContent) message1.content).remoteUrl + "|" + "4" + "|" + ((SoundMessageContent) message1.content).getDuration();
-                            } else if (message1.content.getMessageContentType() == 6) {
-                                params2 = ((VideoMessageContent) message1.content).remoteUrl + "|" + "3";
-                            } else if (message1.content.getMessageContentType() == 4) {
-                                params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
+                    if ((message1.content.getMessageContentType() == 3 ||message1.content.getMessageContentType() == 6) && !TextUtils.isEmpty(((MediaMessageContent) message1.content).remoteUrl)){
+                        titles.add("收藏");
+                        ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
+                        shoucang.setActionName("收藏");
+                        shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                String params2 = "";
+                                if (message1.content.getMessageContentType() == 3) {
+                                    params2 = ((ImageMessageContent) message1.content).remoteUrl + "|" + "2";
+                                } else if (message1.content.getMessageContentType() == 2) {
+                                    params2 = ((SoundMessageContent) message1.content).remoteUrl + "|" + "4" + "|" + ((SoundMessageContent) message1.content).getDuration();
+                                } else if (message1.content.getMessageContentType() == 6) {
+                                    params2 = ((VideoMessageContent) message1.content).remoteUrl + "|" + "3"+"|" + ((VideoMessageContent) message1.content).getDuration();;
+                                } else if (message1.content.getMessageContentType() == 4) {
+                                    params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
+                                }
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
                             }
-                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
-                        }
-                    });
-                    mPopActions.add(shoucang);
+                        });
+                        mPopActions.add(shoucang);
+                    }else  if (message1.content.getMessageContentType() == 1){
+                        titles.add("收藏");
+                        ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
+                        shoucang.setActionName("收藏");
+                        shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                String params2 = ((TextMessageContent) message1.content).getContent() + "|" + "1";
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
+                            }
+                        });
+                        mPopActions.add(shoucang);
+                    }
                 }
                 if (message1.content.getMessageContentType() == 1
                         && SharePrefBroadBroadUtil.getString(v.getContext(), "isvip", "0").equals("1")) {

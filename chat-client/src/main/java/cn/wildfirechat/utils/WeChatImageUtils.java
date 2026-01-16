@@ -86,6 +86,19 @@ public class WeChatImageUtils {
         return new int[]{imageWidth, imageHeight};
     }
 
+    public static int[] getImageSizeByOrgSizeToWeChat2(int outWidth, int outHeight) {
+        int imageWidth = 300;
+        int imageHeight = 300;
+        if (outWidth == 0 || outHeight == 0) {
+            return new int[]{imageWidth, imageHeight};
+        }
+
+        double scale = (double) 300 / outWidth;
+        imageWidth =300;
+        imageHeight = (int) (scale * outHeight);
+        return new int[]{imageWidth, imageHeight};
+    }
+
     /**
      * 获取图片的尺寸，只获取尺寸，不加载bitmap 不会耗时
      */

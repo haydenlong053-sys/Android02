@@ -62,18 +62,22 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
         if (friendSmailListBean != null) {
             portrait = friendSmailListBean.icon;
         }
-        if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+        if (friendSmailListBean != null) {
+            if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                return friendSmailListBean.remarkName;
+            } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                return friendSmailListBean.nickName;
+            }else {
+                if (userInfo == null) {
+                    return "";
+                }
+                return "<" + userInfo.uid + ">";
+            }
+        }else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
             return userInfo.friendAlias;
         } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
             return userInfo.displayName;
         } else {
-            if (friendSmailListBean != null) {
-                if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                    return friendSmailListBean.remarkName;
-                } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                    return friendSmailListBean.nickName;
-                }
-            }
             if (userInfo == null) {
                 return "";
             }

@@ -37,6 +37,7 @@ import cn.wildfirechat.message.VideoMessageContent;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 
+@Deprecated
 public class CompositeMessageContentBroadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Message message;
