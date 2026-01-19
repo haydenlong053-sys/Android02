@@ -4,11 +4,15 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Parcel;
 import android.text.TextUtils;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -173,7 +177,8 @@ public class ImageMessageContent extends MediaMessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[图片]";
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_img);
+//        return "[图片]";
     }
 
     public double getImageWidth() {

@@ -9,4 +9,5 @@
     <string name="lack">缺少</string>
     <string name="permission_pls_system_set_open_flag">权限，请在系统设置中打开该权限！</string>
     <string name="about_per">相关</string>
+    <string name="base_digest_img">[图片]</string>
 </resources>
