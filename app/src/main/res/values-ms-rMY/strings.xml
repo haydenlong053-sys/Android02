@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Amaun pindahan</string>
     <string name="bianjixiaoxineirong">Edit kandungan mesej</string>
     <string name="mourendehongbao">Angpau daripada %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">Telah diterima %1$s, jumlah %2$s yuan</string>
     <string name="daishoulkuan">Menunggu penerimaan</string>
     <string name="zhuanzhuangshijian">Masa pindahan</string>
@@ -402,5 +402,8 @@
     <string name="user_prefix">Pengguna</string>
     <string name="select_image_permission_request">Menggunakan fungsi pemilihan imej memerlukan kebenaran kamera dan storan. Adakah anda ingin meminta kebenaran?</string>
     <string name="login_success">Log masuk berjaya</string>
+
+    <string name="score_unit">mata</string>
+    <string name="credit_score">Skor Kredit</string>
 
 </resources>

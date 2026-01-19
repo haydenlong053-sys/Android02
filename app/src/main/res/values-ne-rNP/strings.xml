@@ -402,4 +402,7 @@
     <string name="select_image_permission_request">तस्बिर छनोट प्रकार्य प्रयोग गर्न क्यामेरा र भण्डारण अनुमतिहरू चाहिन्छ। के तपाईं अनुमतिहरू अनुरोध गर्न चाहनुहुन्छ?</string>
     <string name="login_success">लगइन सफल</string>
 
+    <string name="score_unit">अंक</string>
+    <string name="credit_score">क्रेडिट स्कोर</string>
+
 </resources>

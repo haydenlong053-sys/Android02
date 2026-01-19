@@ -175,7 +175,7 @@ public class SignInBroadActivity extends BaseSimpleBroadActivity implements View
                 tvMoney.setText(StringBroadUtils.removeDecimalPart(resultBean.data.signMoney));
                 tvDay.setText(String.format(getResources().getString(R.string.已连续签到), resultBean.data.days));
                 if (resultBean.data.isSign.equals("0")) {
-                    tvQiandao.setText(getString(R.string.签到领取红包));
+                    tvQiandao.setText(getString(R.string.签到));
                 } else {
                     tvQiandao.setText(getString(R.string.已签到));
                 }

@@ -402,4 +402,7 @@
     <string name="select_image_permission_request">Використання функції вибору зображень вимагає дозволів на камеру та зберігання. Чи хочете запросити дозволи?</string>
     <string name="login_success">Вхід виконано успішно</string>
 
+    <string name="score_unit">бал</string>
+    <string name="credit_score">Кредитний рейтинг</string>
+
 </resources>

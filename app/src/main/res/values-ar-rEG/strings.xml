@@ -400,4 +400,7 @@
     <string name="select_image_permission_request">يتطلب استخدام وظيفة اختيار الصور أذونات الكاميرا والتخزين. هل تريد طلب الأذونات?</string>
     <string name="login_success">تم تسجيل الدخول بنجاح</string>
 
+    <string name="score_unit">نقطة</string>
+    <string name="credit_score">نقاط الائتمان</string>
+
 </resources>

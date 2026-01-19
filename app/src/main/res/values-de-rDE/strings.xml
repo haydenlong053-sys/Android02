@@ -46,8 +46,8 @@
     <string name="zhuanzhangjine">Überweisungsbetrag</string>
     <string name="bianjixiaoxineirong">Nachrichteninhalt bearbeiten</string>
     <string name="mourendehongbao">Roter Umschlag von %1$s</string>
-    <string name="yuanqian">Yuan</string>
-    <string name="yilingquhongbao">Bereits %1$s empfangen, insgesamt %2$s Yuan</string>
+    <string name="yuanqian">WEBX</string>
+    <string name="yilingquhongbao">Bereits %1$s empfangen, insgesamt %2$s WEBX</string>
     <string name="daishoulkuan">Ausstehende Zahlung</string>
     <string name="zhuanzhuangshijian">Überweisungszeit</string>
     <string name="shoukuan">Empfangen</string>
@@ -399,5 +399,8 @@
     <string name="user_prefix">Benutzer</string>
     <string name="select_image_permission_request">Die Verwendung der Bildauswahlfunktion erfordert Kamera- und Speicherberechtigungen. Möchten Sie die Berechtigungen anfordern?</string>
     <string name="login_success">Anmeldung erfolgreich</string>
+
+    <string name="score_unit">Pkt</string>
+    <string name="credit_score">Kredit-Score</string>
 
 </resources>

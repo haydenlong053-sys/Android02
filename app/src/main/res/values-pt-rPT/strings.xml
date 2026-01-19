@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Kwota przelewu</string>
     <string name="bianjixiaoxineirong">Edytuj treść wiadomości</string>
     <string name="mourendehongbao">Czerwona koperta od %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">Odebrano %1$s, w sumie %2$s yuan</string>
     <string name="daishoulkuan">Oczekujące na odbiór</string>
     <string name="zhuanzhuangshijian">Czas przelewu</string>
@@ -401,5 +401,8 @@
     <string name="user_prefix">Utilizador</string>
     <string name="select_image_permission_request">A utilização da função de seleção de imagens requer permissões de câmara e armazenamento. Deseja solicitar permissões?</string>
     <string name="login_success">Login bem-sucedido</string>
+
+    <string name="score_unit">pts</string>
+    <string name="credit_score">Pontuação de Crédito</string>
 
 </resources>

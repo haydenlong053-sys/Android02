@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Sumă transferată</string>
     <string name="bianjixiaoxineirong">Editează conținutul mesajului</string>
     <string name="mourendehongbao">Plicul roșu al lui %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">Au fost primite %1$s, în total %2$s yuan</string>
     <string name="daishoulkuan">În așteptarea primirii</string>
     <string name="zhuanzhuangshijian">Ora transferului</string>
@@ -401,5 +401,8 @@
     <string name="user_prefix">Utilizator</string>
     <string name="select_image_permission_request">Utilizarea funcției de selecție a imaginilor necesită permisiuni pentru cameră și stocare. Doriți să solicitați permisiunile?</string>
     <string name="login_success">Autentificare reușită</string>
+
+    <string name="score_unit">puncte</string>
+    <string name="credit_score">Scor de Credit</string>
 
 </resources>

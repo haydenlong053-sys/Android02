@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Halaga ng Transfer</string>
     <string name="bianjixiaoxineirong">I-edit ang Nilalaman ng Mensahe</string>
     <string name="mourendehongbao">Red Packet mula kay %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">Natanggap na ang %1$s, kabuuang %2$s yuan</string>
     <string name="daishoulkuan">Naghihintay ng Koleksyon</string>
     <string name="zhuanzhuangshijian">Oras ng Transfer</string>
@@ -402,5 +402,8 @@
     <string name="user_prefix">User</string>
     <string name="select_image_permission_request">Ang paggamit ng function ng pagpili ng larawan ay nangangailangan ng pahintulot sa camera at storage. Nais mo bang humiling ng pahintulot?</string>
     <string name="login_success">Matagumpay na pag-login</string>
+
+    <string name="score_unit">pts</string>
+    <string name="credit_score">Credit Score</string>
 
 </resources>

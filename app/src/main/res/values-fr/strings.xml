@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Montant du transfert</string>
     <string name="bianjixiaoxineirong">Modifier le contenu du message</string>
     <string name="mourendehongbao">Enveloppe rouge de %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">%1$s reçu, pour un total de %2$s yuans</string>
     <string name="daishoulkuan">En attente de réception</string>
     <string name="zhuanzhuangshijian">Heure du transfert</string>
@@ -404,5 +404,8 @@
     <string name="user_prefix">Utilisateur</string>
     <string name="select_image_permission_request">L\'utilisation de la fonction de sélection d\'images nécessite des autorisations d\'appareil photo et de stockage. Souhaitez-vous demander les autorisations?</string>
     <string name="login_success">Connexion réussie</string>
+
+    <string name="score_unit">pts</string>
+    <string name="credit_score">Score de Crédit</string>
 
 </resources>

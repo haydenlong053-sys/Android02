@@ -401,4 +401,7 @@
     <string name="select_image_permission_request">Использование функции выбора изображений требует разрешений на камеру и хранение. Хотите запросить разрешения?</string>
     <string name="login_success">Вход выполнен успешно</string>
 
+    <string name="score_unit">балл</string>
+    <string name="credit_score">Кредитный рейтинг</string>
+
 </resources>

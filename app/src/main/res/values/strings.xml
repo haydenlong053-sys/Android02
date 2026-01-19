@@ -791,5 +791,8 @@
     <string name="select_image_permission_request">使用选择图片功能需要相机、存储权限，是否请求权限？</string>
     <string name="login_success">登录成功</string>
 
+    <string name="score_unit">分</string>
+    <string name="credit_score">信用分</string>
+
 
 </resources>

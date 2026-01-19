@@ -7,4 +7,7 @@
     <string name="select_image_permission_request">Używanie funkcji wyboru obrazów wymaga uprawnień do kamery i przechowywania. Czy chcesz poprosić o uprawnienia?</string>
     <string name="login_success">Logowanie zakończone sukcesem</string>
 
+    <string name="score_unit">pkt</string>
+    <string name="credit_score">Ocena Kredytowa</string>
+
 </resources>

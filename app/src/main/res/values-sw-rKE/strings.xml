@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Kiasi cha Hamisho</string>
     <string name="bianjixiaoxineirong">Hariri maudhui ya ujumbe</string>
     <string name="mourendehongbao">Bahasha nyekundu ya %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">Imepokelewa %1$s, jumla %2$s yuan</string>
     <string name="daishoulkuan">Inasubiri kupokelewa</string>
     <string name="zhuanzhuangshijian">Muda wa Hamisho</string>
@@ -401,5 +401,8 @@
     <string name="user_prefix">Mtumiaji</string>
     <string name="select_image_permission_request">Kutumia utendakazi wa kuchagua picha unahitaji ruhusa za kamera na uhifadhi. Je, ungependa kuomba ruhusa?</string>
     <string name="login_success">Kuingia kwa mafanikio</string>
+
+    <string name="score_unit">alama</string>
+    <string name="credit_score">Alama ya Mkopo</string>
 
 </resources>

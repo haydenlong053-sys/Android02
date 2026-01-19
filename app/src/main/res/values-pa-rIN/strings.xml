@@ -404,4 +404,7 @@
     <string name="select_image_permission_request">ਚਿੱਤਰ ਚੁਣਨ ਦੇ ਫੰਕਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਕੈਮਰਾ ਅਤੇ ਸਟੋਰੇਜ ਇਜਾਜ਼ਤਾਂ ਦੀ ਲੋੜ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਜਾਜ਼ਤਾਂ ਮੰਗਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
     <string name="login_success">ਲਾਗਇਨ ਸਫਲ</string>
 
+    <string name="score_unit">ਪੁਆਇੰਟ</string>
+    <string name="credit_score">ਕ੍ਰੈਡਿਟ ਸਕੋਰ</string>
+
 </resources>

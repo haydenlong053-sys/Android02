@@ -407,4 +407,7 @@
     <string name="select_image_permission_request">تصویر منتخب کرنے کی فعالیت استعمال کرنے کے لیے کیمرہ اور اسٹوریج کی اجازتیں درکار ہیں۔ کیا آپ اجازتیں درخواست کرنا چاہتے ہیں؟</string>
     <string name="login_success">لاگ ان کامیاب</string>
 
+    <string name="score_unit">پوائنٹس</string>
+    <string name="credit_score">کریڈٹ اسکور</string>
+
 </resources>

@@ -400,4 +400,7 @@
     <string name="select_image_permission_request">이미지 선택 기능을 사용하려면 카메라 및 저장소 권한이 필요합니다. 권한을 요청하시겠습니까?</string>
     <string name="login_success">로그인 성공</string>
 
+    <string name="score_unit">점</string>
+    <string name="credit_score">신용 점수</string>
+
 </resources>

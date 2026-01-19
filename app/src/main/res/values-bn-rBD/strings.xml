@@ -400,4 +400,7 @@
     <string name="select_image_permission_request">ছবি নির্বাচন ফাংশন ব্যবহার করতে ক্যামেরা এবং স্টোরেজ অনুমতি প্রয়োজন। আপনি অনুমতি চাইবেন?</string>
     <string name="login_success">লগইন সফল</string>
 
+    <string name="score_unit">পয়েন্ট</string>
+    <string name="credit_score">ক্রেডিট স্কোর</string>
+
 </resources>

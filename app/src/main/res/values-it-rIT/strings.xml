@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Importo del trasferimento</string>
     <string name="bianjixiaoxineirong">Modifica contenuto del messaggio</string>
     <string name="mourendehongbao">La busta rossa di %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">%1$s ricevuti, totale %2$s yuan</string>
     <string name="daishoulkuan">In attesa di ricezione</string>
     <string name="zhuanzhuangshijian">Orario del trasferimento</string>
@@ -399,5 +399,8 @@
     <string name="user_prefix">Utente</string>
     <string name="select_image_permission_request">L\'utilizzo della funzione di selezione immagini richiede autorizzazioni per fotocamera e archiviazione. Vuoi richiedere le autorizzazioni?</string>
     <string name="login_success">Accesso riuscito</string>
+
+    <string name="score_unit">punti</string>
+    <string name="credit_score">Punteggio di Credito</string>
 
 </resources>

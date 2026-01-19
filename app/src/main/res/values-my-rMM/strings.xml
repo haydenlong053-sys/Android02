@@ -403,4 +403,7 @@
     <string name="select_image_permission_request">ပုံရွေးချယ်ရန် လုပ်ဆောင်ချက်ကို အသုံးပြုရန် ကင်မရာ နှင့် သိုလှောင်ခွင့် လိုအပ်သည်။ ခွင့်ပြုချက် တောင်းဆိုလိုပါသလား?</string>
     <string name="login_success">ဝင်ရောက်မှု အောင်မြင်ပါသည်</string>
 
+    <string name="score_unit">အမှတ်</string>
+    <string name="credit_score">အကြွေးအမှတ်</string>
+
 </resources>

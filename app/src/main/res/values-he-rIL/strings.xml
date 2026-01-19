@@ -400,4 +400,7 @@
     <string name="select_image_permission_request">שימוש בפונקציית בחירת תמונות דורש הרשאות מצלמה ואחסון. האם תרצה לבקש הרשאות?</string>
     <string name="login_success">התחברות הצליחה</string>
 
+    <string name="score_unit">נקודות</string>
+    <string name="credit_score">ציון אשראי</string>
+
 </resources>

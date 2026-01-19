@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Jumlah transfer</string>
     <string name="bianjixiaoxineirong">Edit konten pesan</string>
     <string name="mourendehongbao">Angpao dari %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">Telah diterima %1$s, total %2$s yuan</string>
     <string name="daishoulkuan">Menunggu penerimaan</string>
     <string name="zhuanzhuangshijian">Waktu transfer</string>
@@ -400,5 +400,8 @@
     <string name="user_prefix">Pengguna</string>
     <string name="select_image_permission_request">Menggunakan fungsi pemilihan gambar memerlukan izin kamera dan penyimpanan. Apakah Anda ingin meminta izin?</string>
     <string name="login_success">Login berhasil</string>
+
+    <string name="score_unit">poin</string>
+    <string name="credit_score">Skor Kredit</string>
 
 </resources>

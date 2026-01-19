@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Transfer Tutarı</string>
     <string name="bianjixiaoxineirong">Mesaj içeriğini düzenle</string>
     <string name="mourendehongbao">%1$s\'nin kırmızı zarfı</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">%1$s alındı, toplam %2$s yuan</string>
     <string name="daishoulkuan">Ödeme bekleniyor</string>
     <string name="zhuanzhuangshijian">Transfer zamanı</string>
@@ -405,5 +405,8 @@
     <string name="user_prefix">Kullanıcı</string>
     <string name="select_image_permission_request">Resim seçme özelliğini kullanmak kamera ve depolama izinleri gerektirir. İzinleri istemek ister misiniz?</string>
     <string name="login_success">Giriş başarılı</string>
+
+    <string name="score_unit">puan</string>
+    <string name="credit_score">Kredi Skoru</string>
 
 </resources>

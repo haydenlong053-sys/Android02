@@ -400,4 +400,7 @@
     <string name="select_image_permission_request">La función de seleccionar imágenes requiere permisos de cámara y almacenamiento. ¿Desea solicitar permisos?</string>
     <string name="login_success">Inicio de sesión exitoso</string>
 
+    <string name="score_unit">pts</string>
+    <string name="credit_score">Puntuación de Crédito</string>
+
 </resources>

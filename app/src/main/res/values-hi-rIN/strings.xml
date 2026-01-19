@@ -399,4 +399,7 @@
     <string name="select_image_permission_request">छवि चयन सुविधा का उपयोग करने के लिए कैमरा और भंडारण अनुमतियों की आवश्यकता है। क्या आप अनुमतियों का अनुरोध करना चाहते हैं?</string>
     <string name="login_success">लॉगिन सफल</string>
 
+    <string name="score_unit">अंक</string>
+    <string name="credit_score">क्रेडिट स्कोर</string>
+
 </resources>

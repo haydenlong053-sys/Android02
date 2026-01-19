@@ -402,4 +402,7 @@
     <string name="select_image_permission_request">ການໃຊ້ຟັງຊັນເລືອກຮູບພາບຕ້ອງການອະນຸຍາດກ້ອງຖ່າຍຮູບແລະເກັບຮັກສາ. ທ່ານຕ້ອງການຂໍອະນຸຍາດບໍ?</string>
     <string name="login_success">ເຂົ້າສູ່ລະບົບສຳເລັດ</string>
 
+    <string name="score_unit">ຄະແນນ</string>
+    <string name="credit_score">ຄະແນນເຄຣດິດ</string>
+
 </resources>

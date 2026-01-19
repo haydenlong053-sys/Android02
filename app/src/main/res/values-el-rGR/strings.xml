@@ -401,4 +401,7 @@
     <string name="select_image_permission_request">Η χρήση της λειτουργίας επιλογής εικόνων απαιτεί άδειες κάμερας και αποθήκευσης. Θέλετε να ζητήσετε άδειες;</string>
     <string name="login_success">Είσοδος επιτυχής</string>
 
+    <string name="score_unit">βαθμοί</string>
+    <string name="credit_score">Πιστοληπτική Βαθμολογία</string>
+
 </resources>

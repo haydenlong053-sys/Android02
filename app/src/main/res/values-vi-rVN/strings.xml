@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Số tiền chuyển khoản</string>
     <string name="bianjixiaoxineirong">Chỉnh sửa nội dung tin nhắn</string>
     <string name="mourendehongbao">Bao lì xì của %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">Đã nhận %1$s, tổng cộng %2$s yuan</string>
     <string name="daishoulkuan">Chờ nhận thanh toán</string>
     <string name="zhuanzhuangshijian">Thời gian chuyển khoản</string>
@@ -399,5 +399,8 @@
     <string name="user_prefix">Người dùng</string>
     <string name="select_image_permission_request">Sử dụng chức năng chọn hình ảnh yêu cầu quyền camera và lưu trữ. Bạn có muốn yêu cầu quyền không?</string>
     <string name="login_success">Đăng nhập thành công</string>
+
+    <string name="score_unit">điểm</string>
+    <string name="credit_score">Điểm Tín Dụng</string>
 
 </resources>

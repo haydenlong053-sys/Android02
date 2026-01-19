@@ -403,4 +403,7 @@
     <string name="select_image_permission_request">Зургийг сонгох функцийг ашиглахын тулд камер болон хадгалах эрх шаардлагатай. Та эрх авахыг хүсэж байна уу?</string>
     <string name="login_success">Нэвтрэх амжилттай</string>
 
+    <string name="score_unit">оноо</string>
+    <string name="credit_score">Зээлийн Оноо</string>
+
 </resources>

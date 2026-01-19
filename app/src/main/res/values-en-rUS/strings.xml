@@ -81,7 +81,7 @@
     <string name="zhuanzhangjine">Transfer Amount</string>
     <string name="bianjixiaoxineirong">Edit Message Content</string>
     <string name="mourendehongbao">Red Packet from %1$s</string>
-    <string name="yuanqian">Yuan</string>
+    <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">%1$s received, totaling %2$s yuan</string>
     <string name="daishoulkuan">Pending Collection</string>
     <string name="zhuanzhuangshijian">Transfer Time</string>
@@ -743,5 +743,8 @@
     <string name="user_prefix">User</string>
     <string name="select_image_permission_request">Using the image selection feature requires camera and storage permissions. Do you want to request permissions?</string>
     <string name="login_success">Login successful</string>
+
+    <string name="score_unit">pts</string>
+    <string name="credit_score">Credit Score</string>
 
 </resources>

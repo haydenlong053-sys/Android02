@@ -400,4 +400,7 @@
     <string name="select_image_permission_request">画像選択機能を使用するには、カメラとストレージの権限が必要です。権限をリクエストしますか？</string>
     <string name="login_success">ログイン成功</string>
 
+    <string name="score_unit">点</string>
+    <string name="credit_score">信用スコア</string>
+
 </resources>

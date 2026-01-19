@@ -400,4 +400,7 @@
     <string name="select_image_permission_request">การใช้ฟังก์ชันเลือกรูปภาพต้องใช้สิทธิ์กล้องและการจัดเก็บข้อมูล คุณต้องการขอสิทธิ์หรือไม่?</string>
     <string name="login_success">เข้าสู่ระบบสำเร็จ</string>
 
+    <string name="score_unit">คะแนน</string>
+    <string name="credit_score">คะแนนเครดิต</string>
+
 </resources>

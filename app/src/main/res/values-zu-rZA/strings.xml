@@ -402,4 +402,7 @@
     <string name="select_image_permission_request">Ukusebenzisa umsebenzi wokukhetha izithombe kudinga imvume yekhamera nokugcina. Ingabe ufuna ukucela imvume?</string>
     <string name="login_success">Ukungena ngempumelelo</string>
 
+    <string name="score_unit">amaphuzu</string>
+    <string name="credit_score">Isilinganiso Sokukweleta</string>
+
 </resources>
