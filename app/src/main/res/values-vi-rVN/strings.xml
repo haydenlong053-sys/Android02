@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini chương trình</string>
     <string name="faxian">Khám phá</string>
     <string name="wode">Của tôi</string>
+    <string name="bottom_bar_mirror">Gương</string>
+    <string name="bottom_bar_intelligent">Thông minh</string>
+    <string name="bottom_bar_social">Xã hội</string>
+    <string name="bottom_bar_center">Trung tâm</string>
     <string name="wenxintishi">Nhắc nhở ấm áp</string>
     <string name="qitashebeidenglu">Tài khoản đã đăng nhập trên thiết bị khác</string>
     <string name="queding">Xác nhận</string>

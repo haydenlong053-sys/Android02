@@ -5,6 +5,10 @@
     <string name="xiaochengxu">मिनी प्रोग्राम</string>
     <string name="faxian">खोजें</string>
     <string name="wode">मेरा</string>
+    <string name="bottom_bar_mirror">दर्पण</string>
+    <string name="bottom_bar_intelligent">बुद्धिमान</string>
+    <string name="bottom_bar_social">सामाजिक</string>
+    <string name="bottom_bar_center">केंद्र</string>
     <string name="wenxintishi">सौम्य अनुस्मारक</string>
     <string name="qitashebeidenglu">खाता किसी अन्य डिवाइस पर लॉग इन किया गया है</string>
     <string name="queding">पुष्टि करें</string>

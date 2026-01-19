@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini Programlar</string>
     <string name="faxian">Keşfet</string>
     <string name="wode">Benim</string>
+    <string name="bottom_bar_mirror">Ayna</string>
+    <string name="bottom_bar_intelligent">Akıllı</string>
+    <string name="bottom_bar_social">Sosyal</string>
+    <string name="bottom_bar_center">Merkez</string>
     <string name="wenxintishi">Nazik Hatırlatma</string>
     <string name="qitashebeidenglu">Hesap başka bir cihazda oturum açtı</string>
     <string name="queding">Onayla</string>

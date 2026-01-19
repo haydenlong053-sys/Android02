@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini program</string>
     <string name="faxian">Temukan</string>
     <string name="wode">Saya</string>
+    <string name="bottom_bar_mirror">Cermin</string>
+    <string name="bottom_bar_intelligent">Cerdas</string>
+    <string name="bottom_bar_social">Sosial</string>
+    <string name="bottom_bar_center">Pusat</string>
     <string name="wenxintishi">Pengingat hangat</string>
     <string name="qitashebeidenglu">Akun telah masuk di perangkat lain</string>
     <string name="queding">Konfirmasi</string>

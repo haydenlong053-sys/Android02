@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini-programmes</string>
     <string name="faxian">Découvrir</string>
     <string name="wode">Mon profil</string>
+    <string name="bottom_bar_mirror">Miroir</string>
+    <string name="bottom_bar_intelligent">Intelligent</string>
+    <string name="bottom_bar_social">Social</string>
+    <string name="bottom_bar_center">Centre</string>
     <string name="wenxintishi">Conseil amical</string>
     <string name="qitashebeidenglu">Le compte est connecté sur un autre appareil</string>
     <string name="queding">Confirmer</string>

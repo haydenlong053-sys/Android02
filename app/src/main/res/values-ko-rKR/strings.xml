@@ -6,6 +6,10 @@
     <string name="xiaochengxu">미니 프로그램</string>
     <string name="faxian">발견</string>
     <string name="wode">내 정보</string>
+    <string name="bottom_bar_mirror">미러</string>
+    <string name="bottom_bar_intelligent">지능형</string>
+    <string name="bottom_bar_social">소셜</string>
+    <string name="bottom_bar_center">센터</string>
     <string name="wenxintishi">따뜻한 알림</string>
     <string name="qitashebeidenglu">계정이 다른 기기에서 로그인되었습니다</string>
     <string name="queding">확인</string>

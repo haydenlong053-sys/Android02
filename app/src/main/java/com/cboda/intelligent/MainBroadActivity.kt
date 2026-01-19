@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -160,17 +161,17 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         ExpandableBottomBarBroadItem(
                             icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
                             selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
-                            text = "镜像"
+                            text = stringResource(id = R.string.bottom_bar_mirror)
                         ),
                         ExpandableBottomBarBroadItem(
                             icon = painterResource(id = R.drawable.ic_ai_tab_broad_mirror),
                             selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_broad_pre),
-                            text = "智体"
+                            text = stringResource(id = R.string.bottom_bar_intelligent)
                         ),
                         ExpandableBottomBarBroadItem(
                             icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
                             selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
-                            text = "社交",
+                            text = stringResource(id = R.string.bottom_bar_social),
                             badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
                         ),
 //                        ExpandableBottomBarBroadItem(
@@ -182,7 +183,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         ExpandableBottomBarBroadItem(
                             icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
                             selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_broad_pre),
-                            text = "中心"
+                            text = stringResource(id = R.string.bottom_bar_center)
                         )
                     )
                 )

@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Μικροεφαρμογές</string>
     <string name="faxian">Ανακάλυψε</string>
     <string name="wode">Δικό μου</string>
+    <string name="bottom_bar_mirror">Καθρέπτης</string>
+    <string name="bottom_bar_intelligent">Έξυπνο</string>
+    <string name="bottom_bar_social">Κοινωνικό</string>
+    <string name="bottom_bar_center">Κέντρο</string>
     <string name="wenxintishi">Θερμή υπενθύμιση</string>
     <string name="qitashebeidenglu">Ο λογαριασμός έχει συνδεθεί σε άλλη συσκευή</string>
     <string name="queding">Επιβεβαίωση</string>

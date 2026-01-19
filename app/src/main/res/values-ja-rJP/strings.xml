@@ -6,6 +6,10 @@
     <string name="xiaochengxu">ミニプログラム</string>
     <string name="faxian">発見</string>
     <string name="wode">私の</string>
+    <string name="bottom_bar_mirror">ミラー</string>
+    <string name="bottom_bar_intelligent">インテリジェント</string>
+    <string name="bottom_bar_social">ソーシャル</string>
+    <string name="bottom_bar_center">センター</string>
     <string name="wenxintishi">温かいヒント</string>
     <string name="qitashebeidenglu">アカウントが他のデバイスでログインされています</string>
     <string name="queding">確認</string>

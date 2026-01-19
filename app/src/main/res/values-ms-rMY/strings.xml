@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini Program</string>
     <string name="faxian">Terokai</string>
     <string name="wode">Saya</string>
+    <string name="bottom_bar_mirror">Cermin</string>
+    <string name="bottom_bar_intelligent">Bijak</string>
+    <string name="bottom_bar_social">Sosial</string>
+    <string name="bottom_bar_center">Pusat</string>
     <string name="wenxintishi">Peringatan Mesra</string>
     <string name="qitashebeidenglu">Akaun telah log masuk pada peranti lain</string>
     <string name="queding">Sahkan</string>

@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini programy</string>
     <string name="faxian">Odkryj</string>
     <string name="wode">Moje</string>
+    <string name="bottom_bar_mirror">Espelho</string>
+    <string name="bottom_bar_intelligent">Inteligente</string>
+    <string name="bottom_bar_social">Social</string>
+    <string name="bottom_bar_center">Centro</string>
     <string name="wenxintishi">Przypomnienie</string>
     <string name="qitashebeidenglu">Konto zostało zalogowane na innym urządzeniu</string>
     <string name="queding">Potwierdź</string>

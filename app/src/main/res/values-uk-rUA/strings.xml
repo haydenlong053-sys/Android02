@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Мініпрограми</string>
     <string name="faxian">Відкрити</string>
     <string name="wode">Моє</string>
+    <string name="bottom_bar_mirror">Дзеркало</string>
+    <string name="bottom_bar_intelligent">Інтелектуальний</string>
+    <string name="bottom_bar_social">Соціальний</string>
+    <string name="bottom_bar_center">Центр</string>
     <string name="wenxintishi">Тепле нагадування</string>
     <string name="qitashebeidenglu">Обліковий запис увійшов на іншому пристрої</string>
     <string name="queding">Підтвердити</string>

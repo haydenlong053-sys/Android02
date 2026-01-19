@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Мини-программы</string>
     <string name="faxian">Обнаружить</string>
     <string name="wode">Мое</string>
+    <string name="bottom_bar_mirror">Зеркало</string>
+    <string name="bottom_bar_intelligent">Интеллектуальный</string>
+    <string name="bottom_bar_social">Социальный</string>
+    <string name="bottom_bar_center">Центр</string>
     <string name="wenxintishi">Уведомление</string>
     <string name="qitashebeidenglu">Аккаунт вошел с другого устройства</string>
     <string name="queding">Подтвердить</string>

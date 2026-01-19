@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini Program</string>
     <string name="faxian">Nemu</string>
     <string name="wode">Kula</string>
+    <string name="bottom_bar_mirror">Kaca</string>
+    <string name="bottom_bar_intelligent">Pinter</string>
+    <string name="bottom_bar_social">Sosial</string>
+    <string name="bottom_bar_center">Pusat</string>
     <string name="wenxintishi">Pèngetan Anget</string>
     <string name="qitashebeidenglu">Akun wis mlebu ing piranti liyane</string>
     <string name="queding">Konfirmasi</string>

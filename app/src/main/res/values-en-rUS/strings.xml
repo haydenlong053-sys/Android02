@@ -41,6 +41,10 @@
     <string name="xiaochengxu">Mini Programs</string>
     <string name="faxian">Discover</string>
     <string name="wode">Me</string>
+    <string name="bottom_bar_mirror">Mirror</string>
+    <string name="bottom_bar_intelligent">Ai</string>
+    <string name="bottom_bar_social">Social</string>
+    <string name="bottom_bar_center">Center</string>
     <string name="wenxintishi">Friendly Reminder</string>
     <string name="qitashebeidenglu">The account has been logged in on another device</string>
     <string name="queding">Confirm</string>

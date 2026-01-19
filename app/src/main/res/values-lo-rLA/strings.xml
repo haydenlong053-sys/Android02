@@ -6,6 +6,10 @@
     <string name="xiaochengxu">ໂປຣແກຣມນ້ອຍ</string>
     <string name="faxian">ຄົ້ນພົບ</string>
     <string name="wode">ຂອງຂ້ອຍ</string>
+    <string name="bottom_bar_mirror">ແວ່ນ</string>
+    <string name="bottom_bar_intelligent">ສະຫຼາດ</string>
+    <string name="bottom_bar_social">ສັງຄົມ</string>
+    <string name="bottom_bar_center">ສູນກາງ</string>
     <string name="wenxintishi">ຄໍາເຕືອນທີ່ອົບອຸ່ນ</string>
     <string name="qitashebeidenglu">ບັນຊີຖືກເຂົ້າລະບົບໃນອຸປະກອນອື່ນ</string>
     <string name="queding">ຢືນຢັນ</string>

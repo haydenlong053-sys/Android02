@@ -6,6 +6,10 @@
     <string name="xiaochengxu">البرامج الصغيرة</string>
     <string name="faxian">اكتشاف</string>
     <string name="wode">ملفي</string>
+    <string name="bottom_bar_mirror">مرآة</string>
+    <string name="bottom_bar_intelligent">ذكي</string>
+    <string name="bottom_bar_social">اجتماعي</string>
+    <string name="bottom_bar_center">مركز</string>
     <string name="wenxintishi">تنبيه ودّي</string>
     <string name="qitashebeidenglu">تم تسجيل الدخول إلى الحساب على جهاز آخر</string>
     <string name="queding">تأكيد</string>

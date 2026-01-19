@@ -42,6 +42,10 @@
     <string name="xiaochengxu">小程序</string>
     <string name="faxian">发现</string>
     <string name="wode">我的</string>
+    <string name="bottom_bar_mirror">镜像</string>
+    <string name="bottom_bar_intelligent">智体</string>
+    <string name="bottom_bar_social">社交</string>
+    <string name="bottom_bar_center">中心</string>
     <string name="wenxintishi">温馨提示</string>
     <string name="qitashebeidenglu">账号已在其他设备登录</string>
     <string name="queding">确定</string>

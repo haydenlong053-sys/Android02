@@ -6,6 +6,10 @@
     <string name="xiaochengxu">منی پروگرام</string>
     <string name="faxian">دریافت کریں</string>
     <string name="wode">میرا</string>
+    <string name="bottom_bar_mirror">آئینہ</string>
+    <string name="bottom_bar_intelligent">ذہین</string>
+    <string name="bottom_bar_social">سماجی</string>
+    <string name="bottom_bar_center">مرکز</string>
     <string name="wenxintishi">نرمی سے یاد دہانی</string>
     <string name="qitashebeidenglu">اکاؤنٹ کسی دوسرے ڈیوائس پر لاگ ان ہو چکا ہے</string>
     <string name="queding">تصدیق کریں</string>

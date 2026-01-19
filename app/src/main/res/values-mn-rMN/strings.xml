@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Жижиг програмууд</string>
     <string name="faxian">Нээх</string>
     <string name="wode">Миний</string>
+    <string name="bottom_bar_mirror">Толь</string>
+    <string name="bottom_bar_intelligent">Ухаантай</string>
+    <string name="bottom_bar_social">Нийгмийн</string>
+    <string name="bottom_bar_center">Төв</string>
     <string name="wenxintishi">Дулмаар зөвлөгөө</string>
     <string name="qitashebeidenglu">Данс өөр төхөөрөмжид нэвтэрсэн байна</string>
     <string name="queding">Баталгаажуулах</string>

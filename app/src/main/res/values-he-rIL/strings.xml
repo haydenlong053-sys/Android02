@@ -6,6 +6,10 @@
     <string name="xiaochengxu">תוכניות קטנות</string>
     <string name="faxian">גלה</string>
     <string name="wode">שלי</string>
+    <string name="bottom_bar_mirror">מראה</string>
+    <string name="bottom_bar_intelligent">חכם</string>
+    <string name="bottom_bar_social">חברתי</string>
+    <string name="bottom_bar_center">מרכז</string>
     <string name="wenxintishi">תזכורת חמה</string>
     <string name="qitashebeidenglu">החשבון מחובר במכשיר אחר</string>
     <string name="queding">אישור</string>

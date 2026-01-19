@@ -6,6 +6,10 @@
     <string name="xiaochengxu">มินิโปรแกรม</string>
     <string name="faxian">ค้นพบ</string>
     <string name="wode">ของฉัน</string>
+    <string name="bottom_bar_mirror">กระจก</string>
+    <string name="bottom_bar_intelligent">อัจฉริยะ</string>
+    <string name="bottom_bar_social">สังคม</string>
+    <string name="bottom_bar_center">ศูนย์</string>
     <string name="wenxintishi">แจ้งเตือน</string>
     <string name="qitashebeidenglu">บัญชีถูกล็อกอินในอุปกรณ์อื่น</string>
     <string name="queding">ยืนยัน</string>

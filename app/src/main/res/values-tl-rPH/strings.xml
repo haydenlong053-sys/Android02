@@ -6,6 +6,10 @@
     <string name="xiaochengxu">Mini Program</string>
     <string name="faxian">Tuklasin</string>
     <string name="wode">Akin</string>
+    <string name="bottom_bar_mirror">Salamin</string>
+    <string name="bottom_bar_intelligent">Matalino</string>
+    <string name="bottom_bar_social">Sosyal</string>
+    <string name="bottom_bar_center">Sentro</string>
     <string name="wenxintishi">Paalaalang Magiliw</string>
     <string name="qitashebeidenglu">Ang account ay naka-login na sa ibang device</string>
     <string name="queding">Kumpirmahin</string>
