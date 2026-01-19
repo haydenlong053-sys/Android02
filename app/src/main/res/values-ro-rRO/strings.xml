@@ -359,6 +359,9 @@
     <string name="已连续签到">V-ați conectat consecutiv timp de %s zile</string>
     <string name="签到领取红包">Obțineți bonusul de check-in</string>
     <string name="已签到">Check-in realizat cu succes</string>
+    <string name="签到">Check-in</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">zile</string>
     <string name="设置密保问题">Setați întrebarea de securitate</string>
     <string name="密保问题">Întrebarea de securitate</string>
     <string name="密保答案">Răspunsul de securitate</string>

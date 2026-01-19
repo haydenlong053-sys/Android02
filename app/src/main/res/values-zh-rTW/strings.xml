@@ -393,6 +393,9 @@
     <string name="已连续签到">已連續簽到%s天</string>
     <string name="签到领取红包">簽到領取紅包</string>
     <string name="已签到">已簽到</string>
+    <string name="签到">簽到</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">天</string>
     <string name="设置密保问题">設置密保問題</string>
     <string name="密保问题">密保問題</string>
     <string name="密保答案">密保答案</string>

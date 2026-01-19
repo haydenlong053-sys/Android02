@@ -359,6 +359,9 @@
     <string name="已连续签到">သင် %s ရက်ဆက်တိုက် လက်မှတ်ထိုးပြီးဖြစ်သည်</string>
     <string name="签到领取红包">အရောက်ပေးဆောင်လက်ဆောင် ရယူပါ</string>
     <string name="已签到">အရောက်ပေးဆောင်မှု အောင်မြင်သည်</string>
+    <string name="签到">အရောက်ပေးဆောင်</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">ရက်</string>
     <string name="设置密保问题">လုံခြုံမှုမေးခွန်း သတ်မှတ်ပါ</string>
     <string name="密保问题">လုံခြုံမှုမေးခွန်း</string>
     <string name="密保答案">လုံခြုံမှုအဖြေ</string>

@@ -359,6 +359,9 @@
     <string name="已连续签到">Вы входили в систему подряд %s дней</string>
     <string name="签到领取红包">Получить бонус за вход</string>
     <string name="已签到">Вход выполнен</string>
+    <string name="签到">Войти</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">дней</string>
     <string name="设置密保问题">Настроить секретный вопрос</string>
     <string name="密保问题">Секретный вопрос</string>
     <string name="密保答案">Ответ на секретный вопрос</string>

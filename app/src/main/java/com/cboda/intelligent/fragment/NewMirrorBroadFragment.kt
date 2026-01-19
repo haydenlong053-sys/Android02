@@ -59,7 +59,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
     override fun onResume() {
         super.onResume()
         viewModel.getSignInfo().observe(this) {
-            binding.mTvMirrorSign.text =if (it) "已签到" else "签到"
+            binding.mTvMirrorSign.text = if (it) getString(R.string.已签到) else getString(R.string.签到)
         }
         viewModel.getUserInfo().observe(this) {
             it?.let {
@@ -72,7 +72,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             binding.vocationalTv.text = userInfo?.vocational
             val registerDay = userInfo?.registerDayBean?.registDay
             binding.daysTv.isGone = registerDay == null
-            binding.daysTv.text = "${registerDay}天"
+            binding.daysTv.text = "${registerDay}${getString(R.string.days_unit)}"
             val memberInterestList = userInfo?.memberInterestList ?: arrayOf()
             binding.hobbyTv1.isVisible = memberInterestList.isNotEmpty()
             binding.hobbyTv2.isVisible = memberInterestList.size > 1

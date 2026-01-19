@@ -359,6 +359,9 @@
     <string name="已连续签到">آپ نے مسلسل %s دن چیک ان کیا ہے</string>
     <string name="签到领取红包">چیک ان بونس وصول کریں</string>
     <string name="已签到">چیک ان مکمل</string>
+    <string name="签到">چیک ان</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">دن</string>
     <string name="设置密保问题">سیکیورٹی سوال سیٹ کریں</string>
     <string name="密保问题">سیکیورٹی سوال</string>
     <string name="密保答案">سیکیورٹی جواب</string>

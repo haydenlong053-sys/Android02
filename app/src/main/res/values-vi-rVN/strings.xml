@@ -359,6 +359,9 @@
     <string name="已连续签到">Bạn đã check-in liên tiếp trong %s ngày</string>
     <string name="签到领取红包">Nhận thưởng check-in</string>
     <string name="已签到">Đã hoàn tất check-in</string>
+    <string name="签到">Check-in</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">ngày</string>
     <string name="设置密保问题">Đặt câu hỏi bảo mật</string>
     <string name="密保问题">Câu hỏi bảo mật</string>
     <string name="密保答案">Đáp án bảo mật</string>

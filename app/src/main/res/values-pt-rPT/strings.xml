@@ -359,6 +359,9 @@
     <string name="已连续签到">Zameldowałeś się nieprzerwanie przez %s dni</string>
     <string name="签到领取红包">Odbierz bonus za zameldowanie</string>
     <string name="已签到">Zameldowanie zakończone pomyślnie</string>
+    <string name="签到">Zameldowanie</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">dni</string>
     <string name="设置密保问题">Ustaw pytanie zabezpieczające</string>
     <string name="密保问题">Pytanie zabezpieczające</string>
     <string name="密保答案">Odpowiedź zabezpieczająca</string>

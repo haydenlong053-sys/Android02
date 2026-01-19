@@ -359,6 +359,9 @@
     <string name="已连续签到">%s일 연속 체크인 완료</string>
     <string name="签到领取红包">체크인 보너스 받기</string>
     <string name="已签到">체크인 완료</string>
+    <string name="签到">체크인</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">일</string>
     <string name="设置密保问题">보안 질문 설정</string>
     <string name="密保问题">보안 질문</string>
     <string name="密保答案">보안 답변</string>

@@ -359,6 +359,9 @@
     <string name="已连续签到">Sie haben sich %s Tage in Folge angemeldet</string>
     <string name="签到领取红包">Check-in-Bonus abholen</string>
     <string name="已签到">Check-in abgeschlossen</string>
+    <string name="签到">Check-in</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">Tage</string>
     <string name="设置密保问题">Sicherheitsfrage festlegen</string>
     <string name="密保问题">Sicherheitsfrage</string>
     <string name="密保答案">Sicherheitsantwort</string>

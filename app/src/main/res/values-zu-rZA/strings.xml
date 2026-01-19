@@ -360,6 +360,9 @@
     <string name="已连续签到">Usayine izinsuku ezilandelanayo %s</string>
     <string name="签到领取红包">Thola Isipho Sokungena</string>
     <string name="已签到">Ukungena Kuphumelele</string>
+    <string name="签到">Ngena</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">izinsuku</string>
     <string name="设置密保问题">Setha Umbuzo Wokuphepha</string>
     <string name="密保问题">Umbuzo Wokuphepha</string>
     <string name="密保答案">Impendulo Yokuphepha</string>

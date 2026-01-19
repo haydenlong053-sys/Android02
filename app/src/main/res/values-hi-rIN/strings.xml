@@ -358,6 +358,9 @@
     <string name="已连续签到">आपने लगातार %s दिन साइन इन किया है</string>
     <string name="签到领取红包">साइन-इन रेड पैकेट प्राप्त करें</string>
     <string name="已签到">साइन इन किया गया</string>
+    <string name="签到">साइन इन</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">दिन</string>
     <string name="设置密保问题">सुरक्षा प्रश्न सेट करें</string>
     <string name="密保问题">सुरक्षा प्रश्न</string>
     <string name="密保答案">सुरक्षा उत्तर</string>

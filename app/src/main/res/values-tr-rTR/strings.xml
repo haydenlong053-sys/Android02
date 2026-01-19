@@ -359,6 +359,9 @@
     <string name="已连续签到">%s gün üst üste check-in yaptınız</string>
     <string name="签到领取红包">Check-in bonusu al</string>
     <string name="已签到">Check-in tamamlandı</string>
+    <string name="签到">Check-in</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">gün</string>
     <string name="设置密保问题">Güvenlik sorusu ayarla</string>
     <string name="密保问题">Güvenlik sorusu</string>
     <string name="密保答案">Güvenlik cevabı</string>

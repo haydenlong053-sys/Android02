@@ -359,6 +359,9 @@
     <string name="已连续签到">Kun yi rajista na kwanaki %s a jere</string>
     <string name="签到领取红包">Karɓi ragon shiga</string>
     <string name="已签到">Ragon shiga ya yi nasara</string>
+    <string name="签到">Shiga</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">kwana</string>
     <string name="设置密保问题">Saita tambayar tsaro</string>
     <string name="密保问题">Tambayar tsaro</string>
     <string name="密保答案">Amsar tsaro</string>

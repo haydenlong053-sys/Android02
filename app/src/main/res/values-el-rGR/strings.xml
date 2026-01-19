@@ -359,6 +359,9 @@
     <string name="已连续签到">Έχετε συνδεθεί συνεχόμενα για %s ημέρες</string>
     <string name="签到领取红包">Λάβετε μπόνους σύνδεσης</string>
     <string name="已签到">Η σύνδεση ολοκληρώθηκε με επιτυχία</string>
+    <string name="签到">Σύνδεση</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">ημέρες</string>
     <string name="设置密保问题">Ορισμός ερώτησης ασφαλείας</string>
     <string name="密保问题">Ερώτηση ασφαλείας</string>
     <string name="密保答案">Απάντηση ασφαλείας</string>

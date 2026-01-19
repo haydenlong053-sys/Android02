@@ -359,6 +359,9 @@
     <string name="已连续签到">আপনি টানা %s দিন সাইন ইন করেছেন</string>
     <string name="签到领取红包">সাইন-ইন বোনাস পান</string>
     <string name="已签到">সাইন ইন সম্পন্ন</string>
+    <string name="签到">সাইন ইন</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">দিন</string>
     <string name="设置密保问题">নিরাপত্তা প্রশ্ন সেট করুন</string>
     <string name="密保问题">নিরাপত্তা প্রশ্ন</string>
     <string name="密保答案">নিরাপত্তা উত্তর</string>

@@ -359,6 +359,9 @@
     <string name="已连续签到">คุณได้เช็คอินต่อเนื่อง %s วัน</string>
     <string name="签到领取红包">รับโบนัสเช็คอิน</string>
     <string name="已签到">เช็คอินสำเร็จ</string>
+    <string name="签到">เช็คอิน</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">วัน</string>
     <string name="设置密保问题">ตั้งค่าคำถามรักษาความปลอดภัย</string>
     <string name="密保问题">คำถามรักษาความปลอดภัย</string>
     <string name="密保答案">คำตอบรักษาความปลอดภัย</string>

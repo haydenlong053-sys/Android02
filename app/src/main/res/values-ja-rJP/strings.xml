@@ -359,6 +359,9 @@
     <string name="已连续签到">連続して%s日間チェックインしました</string>
     <string name="签到领取红包">チェックインボーナスを受け取る</string>
     <string name="已签到">チェックイン完了</string>
+    <string name="签到">チェックイン</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">日</string>
     <string name="设置密保问题">セキュリティ質問を設定</string>
     <string name="密保问题">セキュリティ質問</string>
     <string name="密保答案">セキュリティ回答</string>

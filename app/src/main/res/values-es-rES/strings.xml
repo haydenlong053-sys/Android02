@@ -359,6 +359,9 @@
     <string name="已连续签到">Ha iniciado sesión durante %s días consecutivos</string>
     <string name="签到领取红包">Reclamar bonificación por registro</string>
     <string name="已签到">Registrado</string>
+    <string name="签到">Registrarse</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">días</string>
     <string name="设置密保问题">Configurar pregunta de seguridad</string>
     <string name="密保问题">Pregunta de seguridad</string>
     <string name="密保答案">Respuesta de seguridad</string>

@@ -359,6 +359,9 @@
     <string name="已连续签到">Na-check-in mo na nang sunud-sunod sa loob ng %s araw</string>
     <string name="签到领取红包">Kunin ang Bonus sa Check-in</string>
     <string name="已签到">Natapos na ang Check-in</string>
+    <string name="签到">Check-in</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">araw</string>
     <string name="设置密保问题">Itakda ang Security Question</string>
     <string name="密保问题">Security Question</string>
     <string name="密保答案">Security Answer</string>

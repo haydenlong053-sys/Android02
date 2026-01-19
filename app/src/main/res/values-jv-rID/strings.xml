@@ -359,6 +359,9 @@
     <string name="已连续签到">Sampeyan wis check-in kanthi berturut-turut %s dina</string>
     <string name="签到领取红包">Entuk Bonus Check-in</string>
     <string name="已签到">Check-in Rampung</string>
+    <string name="签到">Check-in</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">dina</string>
     <string name="设置密保问题">Setel Pitakonan Keamanan</string>
     <string name="密保问题">Pitakonan Keamanan</string>
     <string name="密保答案">Wangsulan Keamanan</string>

@@ -397,6 +397,9 @@
     <string name="已连续签到">You have signed in for %s consecutive days</string>
     <string name="签到领取红包">Redeem Red Packet for Sign-In</string>
     <string name="已签到">Signed In</string>
+    <string name="签到">Sign In</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">days</string>
     <string name="设置密保问题">Set Security Question</string>
     <string name="密保问题">Security Question</string>
     <string name="密保答案">Security Answer</string>

@@ -36,7 +36,7 @@ class UserQrCodeTipBroadPop(val context: Context, val userInfo: UserInfoBroadMod
         GlideBroadUtil.setHeadImag(context, userInfo?.icon, binding.mIvIcon)
         GlideBroadUtil.setImag(context, userInfo?.qrcode, binding.mIvQrCodeAuth)
         binding.mTvName.text = userInfo?.name
-        binding.mTvId.text = "账号ID：${userInfo?.idno ?: userInfo?.id}"
+        binding.mTvId.text = "ID：${userInfo?.idno ?: userInfo?.id}"
         binding.mTvSaveQrcode.setOnClickListener {
             val perms = arrayOf(Permission.READ_MEDIA_IMAGES, Permission.CAMERA)
             if (XXPermissions.isGranted(context, perms)) {

@@ -359,6 +359,9 @@
     <string name="已连续签到">נכנסת ברציפות במשך %s ימים</string>
     <string name="签到领取红包">קבל בונוס התחברות</string>
     <string name="已签到">התחברות הצליחה</string>
+    <string name="签到">התחברות</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">ימים</string>
     <string name="设置密保问题">הגדר שאלה לאבטחה</string>
     <string name="密保问题">שאלה לאבטחה</string>
     <string name="密保答案">תשובה לאבטחה</string>

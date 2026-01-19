@@ -359,6 +359,9 @@
     <string name="已连续签到">ທ່ານໄດ້ເຊັກອິນຕໍ່ເນື່ອງແລ້ວ %s ມື້</string>
     <string name="签到领取红包">ຮັບໂບນັດເຊັກອິນ</string>
     <string name="已签到">ເຊັກອິນສໍາເລັດ</string>
+    <string name="签到">ເຊັກອິນ</string>
+    <string name="user_id_prefix">ID:</string>
+    <string name="days_unit">ມື້</string>
     <string name="设置密保问题">ຕັ້ງຄ່າຄໍາຖາມຄວາມປອດໄພ</string>
     <string name="密保问题">ຄໍາຖາມຄວາມປອດໄພ</string>
     <string name="密保答案">ຄໍາຕອບຄວາມປອດໄພ</string>
