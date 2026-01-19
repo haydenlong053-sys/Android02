@@ -46,6 +46,11 @@ android {
 }
 
 dependencies {
+//    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+//    api files('libs/broad_selector_pic.aar')
+//    api files('libs/broad_video_compressor.aar')
+//    api files('libs/broad_chat_xbar.aar')
+//    api files('libs/broad_chat_menu.aar')
     api project(':selector-piclib')
     api project(':videocompressor')
     api project(':library-cboda-Xbar')

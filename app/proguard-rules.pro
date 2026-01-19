@@ -238,8 +238,17 @@
 -keep class com.cboda.baselibrary.utils.DeviceBroadUtil { *; }
 -keep class com.cboda.baselibrary.utils.AppPermissionBroadUtils { *; }
 -keep class com.cboda.baselibrary.utils.LauncherFragmentBroadHelper { *; }
+-keep class cn.wildfirechat.remote.**{*;}
+-keep class cn.wildfirechat.message.core.**{*;}
+-keep class cn.wildfirechat.client.**{*;}
+-keep class cn.wildfirechat.utils.**{*;}
+-keep class cn.wildfirechat.message.**{*;}
+-keep class cn.wildfirechat.viewmodel.**{*;}
 
-
+-keep class cn.wildfirechat.message.Message { *; }
+-keep class cn.wildfirechat.viewmodel.SocialAction { *; }
+-keep class cn.wildfirechat.uistate.MessagePageUiState { *; }
+-keep class cn.wildfirechat.event.MsgUnReadCountEvent { *; }
 -keep class com.cboda.intelligent.adapter.AIImgBroadAdapter { *; }
 -keep class com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter { *; }
 -keep class com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter$OnIndicatorItemClickListener { *; }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cboda.select.picture">
 
-    <application>
+    <application android:extractNativeLibs="true">
         <provider
             android:name=".basic.PictureFileProvider"
             android:authorities="${applicationId}.luckProvider"

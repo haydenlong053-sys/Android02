@@ -10,16 +10,13 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
-    <application>
-        <service
-            android:name="cn.wildfirechat.client.ClientService"
-            />
-        <receiver
-            android:name="com.tencent.mars.BaseEvent$ConnectionReceiver"
-             />
+    <application android:extractNativeLibs="true">
+        <service android:name="cn.wildfirechat.client.ClientService" />
+        <receiver android:name="com.tencent.mars.BaseEvent$ConnectionReceiver" />
 
         <!--must run in th main process-->
-        <receiver android:name="cn.wildfirechat.remote.RecoverReceiver"
-            android:exported="true"/>
+        <receiver
+            android:name="cn.wildfirechat.remote.RecoverReceiver"
+            android:exported="true" />
     </application>
 </manifest>
