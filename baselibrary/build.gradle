@@ -47,19 +47,17 @@ android {
 }
 
 dependencies {
-//    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    
-    // 使用本地Maven仓库中的AAR依赖
 //    api 'com.cboda.select:picture:1.0.0'
 //    api 'com.cboda.videocompressor:videocompressor:1.0.0'
 //    api 'com.cboda.susindexbar:xbar:1.0.0'
 //    api 'com.cboda.swipemenu:menu:1.0.0'
-    
-    // 旧的直接引用方式（已注释，改用Maven依赖）
-//     api files('libs/broad_selector_pic.aar')
-//     api files('libs/broad_video_compressor.aar')
-//     api files('libs/broad_chat_xbar.aar')
-//     api files('libs/broad_chat_menu.aar')
+
+//    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+//    api files('libs/broad_selector_pic.aar')
+//    api files('libs/broad_video_compressor.aar')
+//    api files('libs/broad_chat_xbar.aar')
+//    api files('libs/broad_chat_menu.aar')
+
     api project(':selector-piclib')
     api project(':videocompressor')
     api project(':library-cboda-Xbar')

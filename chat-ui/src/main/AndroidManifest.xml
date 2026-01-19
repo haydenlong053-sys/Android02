@@ -13,9 +13,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     <!--    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />-->
-    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
-
-
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
 
 
     <uses-feature android:name="android.hardware.camera" />
@@ -40,10 +38,11 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
+        android:extractNativeLibs="true"
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -181,7 +180,6 @@
         <activity android:name="com.cboda.chatui.pc.PCSessionBroadActivity" />
 
 
-
         <!--moment start-->
         <!--        <activity android:name="cn.wildfire.chat.moment.PublishFeedActivity" />-->
         <!--        <activity android:name="cn.wildfire.chat.moment.FeedMessageActivity" />-->
@@ -223,9 +221,9 @@
         </provider>
 
         <service
+            android:name="com.cboda.chatui.voip.VoipCallBroadService"
             android:enabled="true"
             android:exported="true"
-            android:name="com.cboda.chatui.voip.VoipCallBroadService"
             android:foregroundServiceType="microphone" />
     </application>
 </manifest>

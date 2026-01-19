@@ -135,9 +135,7 @@ configurations.all {
 }
 
 dependencies {
-    api project(':baselibrary')
     api project(':chat-ui')
-//    api project(':iMeet')
     implementation "${andx.core}"
     implementation "${andx.appcompat}"
     implementation "${andx.constraintlayout}"
@@ -157,7 +155,6 @@ dependencies {
     implementation "${thirdPartyApis.transformations}"
     implementation "${thirdPartyApis.immersionbar}"
     implementation "${thirdPartyApis.XXPermissions}"
-    implementation "${thirdPartyApis.okhttp3}"
     implementation "${thirdPartyApis.okgo}"
     implementation "${thirdPartyApis.gson}"
     implementation "${thirdPartyApis.XBanner}"
@@ -183,6 +180,9 @@ dependencies {
         exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
     }
     coreLibraryDesugaring "${thirdPartyApis.desugar_jdk_libs}"
+//    api project(':baselibrary')
+//    api project(':iMeet')
+//    implementation "${thirdPartyApis.okhttp3}"
 //    implementation "${thirdPartyApis.picasso}"
 //    implementation "${thirdPartyApis.jiaozivideoplayer}"
 //    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')

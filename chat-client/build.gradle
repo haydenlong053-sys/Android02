@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+//    id 'maven-publish'
 //    id 'com.github.ben-manes.versions' version '0.53.0'
 }
 apply from: '../config.gradle'
@@ -29,7 +30,7 @@ android {
 
 //    buildTypes {
 //        release {
-//            minifyEnabled false
+//            minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //        }
 //        debug {
@@ -65,9 +66,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     api "${thirdPartyApis.okhttp3}"
-    api files('libs/broad-chat.aar')
-//    api 'com.cboda:broad-chat:1.0.0'
-    implementation project(':baselibrary')
+//    api 'com.cboda.chat:broadChat:1.0.0'
+    api files('libs/broad_chat.aar')
+    api project(':baselibrary')
     implementation "${thirdPartyApis.kotlinx_coroutines}"
     implementation "${thirdPartyApis.okio}"
     implementation "${andx.core}"
@@ -75,3 +76,72 @@ dependencies {
     implementation "${andx.lifecycle_livedata_ktx}"
     implementation "${andx.lifecycle_process}"
 }
+
+// ==================== Maven 发布配置：将 AAR 发布到本地 Maven 仓库 ====================
+//
+//// AAR 文件配置
+//def aarFiles = [
+//    [
+//        groupId: 'com.cboda.chat',
+//        artifactId: 'broadChat',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_chat.aar')
+//    ],
+//    [
+//        groupId: 'com.cboda.baselibrary',
+//        artifactId: 'baseLibrary',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_base_library.aar')
+//    ]
+//]
+//
+//// 配置 Maven 发布
+//publishing {
+//    publications {
+//        // 为每个 AAR 创建发布配置
+//        aarFiles.each { aarConfig ->
+//            // 使用不带连字符的名称作为 publication 名称，避免任务名问题
+//            def publicationName = aarConfig.artifactId.replace('-', '')
+//            create(publicationName, MavenPublication) {
+//                groupId = aarConfig.groupId
+//                artifactId = aarConfig.artifactId
+//                version = aarConfig.version
+//
+//                artifact(aarConfig.aarFile) {
+//                    extension 'aar'
+//                }
+//
+//                pom {
+//                    name = aarConfig.artifactId
+//                    description = "Local AAR library: ${aarConfig.artifactId}"
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//// 创建统一发布任务
+//task publishAllAarsToLocalMaven {
+//    group = 'publishing'
+//    description = '发布所有 AAR 文件到本地 Maven 仓库'
+//    dependsOn aarFiles.collect { aarConfig ->
+//        // 使用与 publication 名称一致的命名规则
+//        def publicationName = aarConfig.artifactId.replace('-', '')
+//        def taskName = publicationName.capitalize()
+//        "publish${taskName}PublicationToMavenLocal"
+//    }
+//
+//    doLast {
+//        println ""
+//        println "=========================================="
+//        println "✓ 所有 AAR 已发布到本地 Maven 仓库"
+//        println "位置: ~/.m2/repository"
+//        println ""
+//        println "可以使用以下依赖引用："
+//        aarFiles.each { aarConfig ->
+//            println "  implementation '${aarConfig.groupId}:${aarConfig.artifactId}:${aarConfig.version}'"
+//        }
+//        println "=========================================="
+//        println ""
+//    }
+//}
