@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+//    id 'maven-publish'
 //    id 'com.github.ben-manes.versions' version '0.53.0'
 }
 apply from: '../config.gradle'
@@ -46,6 +47,17 @@ android {
 }
 
 dependencies {
+//    api 'com.cboda.select:picture:1.0.0'
+//    api 'com.cboda.videocompressor:videocompressor:1.0.0'
+//    api 'com.cboda.susindexbar:xbar:1.0.0'
+//    api 'com.cboda.swipemenu:menu:1.0.0'
+
+//    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+//    api files('libs/broad_selector_pic.aar')
+//    api files('libs/broad_video_compressor.aar')
+//    api files('libs/broad_chat_xbar.aar')
+//    api files('libs/broad_chat_menu.aar')
+
     api project(':selector-piclib')
     api project(':videocompressor')
     api project(':library-cboda-Xbar')
@@ -88,3 +100,80 @@ dependencies {
 //    api 'io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.3.2'
 //    implementation 'com.google.android.gms:play-services-wallet:19.5.0'
 }
+
+// ==================== Maven 发布配置：将 AAR 发布到本地 Maven 仓库 ====================
+
+// AAR 文件配置
+//def aarFiles = [
+//    [
+//        groupId: 'com.cboda.select',
+//        artifactId: 'picture',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_selector_pic.aar')
+//    ],
+//    [
+//        groupId: 'com.cboda.videocompressor',
+//        artifactId: 'videocompressor',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_video_compressor.aar')
+//    ],
+//    [
+//        groupId: 'com.cboda.susindexbar',
+//        artifactId: 'xbar',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_chat_xbar.aar')
+//    ],
+//    [
+//        groupId: 'com.cboda.swipemenu',
+//        artifactId: 'menu',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_chat_menu.aar')
+//    ]
+//]
+//
+//// 配置 Maven 发布
+//publishing {
+//    publications {
+//        // 为每个 AAR 创建发布配置
+//        aarFiles.each { aarConfig ->
+//            def aarName = aarConfig.artifactId
+//            create(aarName, MavenPublication) {
+//                groupId = aarConfig.groupId
+//                artifactId = aarConfig.artifactId
+//                version = aarConfig.version
+//
+//                artifact(aarConfig.aarFile) {
+//                    extension 'aar'
+//                }
+//
+//                pom {
+//                    name = aarConfig.artifactId
+//                    description = "Local AAR library: ${aarConfig.artifactId}"
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//// 创建统一发布任务
+//task publishAllAarsToLocalMaven {
+//    group = 'publishing'
+//    description = '发布所有 AAR 文件到本地 Maven 仓库'
+//    dependsOn aarFiles.collect { aarConfig ->
+//        "publish${aarConfig.artifactId.capitalize()}PublicationToMavenLocal"
+//    }
+//
+//    doLast {
+//        println ""
+//        println "=========================================="
+//        println "✓ 所有 AAR 已发布到本地 Maven 仓库"
+//        println "位置: ~/.m2/repository"
+//        println ""
+//        println "可以使用以下依赖引用："
+//        aarFiles.each { aarConfig ->
+//            println "  api '${aarConfig.groupId}:${aarConfig.artifactId}:${aarConfig.version}'"
+//        }
+//        println "=========================================="
+//        println ""
+//    }
+//}

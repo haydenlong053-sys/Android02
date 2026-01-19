@@ -1,3 +1,5 @@
+#-keepattributes InnerClasses,EnclosingMethod,Signature
+
 -keepattributes *Annotation*,InnerClasses
 -dontwarn kotlin.**
 
@@ -238,8 +240,19 @@
 -keep class com.cboda.baselibrary.utils.DeviceBroadUtil { *; }
 -keep class com.cboda.baselibrary.utils.AppPermissionBroadUtils { *; }
 -keep class com.cboda.baselibrary.utils.LauncherFragmentBroadHelper { *; }
+-keep class cn.wildfirechat.remote.**{*;}
+-keep class cn.wildfirechat.message.core.**{*;}
+-keep class cn.wildfirechat.client.**{*;}
+-keep class cn.wildfirechat.utils.**{*;}
+-keep class cn.wildfirechat.message.**{*;}
+-keep class cn.wildfirechat.viewmodel.**{*;}
+-keep class com.tencent.mars.sdt.SdtLogic$ICallBack { *; }
 
 
+-keep class cn.wildfirechat.message.Message { *; }
+-keep class cn.wildfirechat.viewmodel.SocialAction { *; }
+-keep class cn.wildfirechat.uistate.MessagePageUiState { *; }
+-keep class cn.wildfirechat.event.MsgUnReadCountEvent { *; }
 -keep class com.cboda.intelligent.adapter.AIImgBroadAdapter { *; }
 -keep class com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter { *; }
 -keep class com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter$OnIndicatorItemClickListener { *; }
@@ -258,6 +271,31 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+-keep class com.tencent.mars.** { *; }
+-keepclassmembers class com.tencent.mars.** {
+  *;
+}
+-keep class com.tencent.mars.sdt.SdtLogic { *; }
+-keep class com.tencent.mars.sdt.SdtLogic$* { *; }
+-keep interface com.tencent.mars.sdt.SdtLogic$* { *; }
+-keepnames class com.tencent.mars.sdt.SdtLogic$*
+-keepnames interface com.tencent.mars.sdt.SdtLogic$*
+-keepclassmembers class com.tencent.mars.sdt.SdtLogic {
+    public static interface *;
+    public static class *;
+}
 
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}

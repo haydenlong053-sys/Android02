@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -157,7 +156,7 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
         boolean flag = false;//定义一个flag，Canvas是否位移过的标志
         if ((pos + 1) < mDatas.size()) {//防止数组越界（一般情况不会出现）
             if (null != tag && !tag.equals(mDatas.get(pos + 1).getSuspensionTag())) {//当前第一个可见的Item的tag，不等于其后一个item的tag，说明悬浮的View要切换了
-                Log.d("zxt", "onDrawOver() called with: c = [" + child.getTop());//当getTop开始变负，它的绝对值，是第一个可见的Item移出屏幕的距离，
+//                Log.d("zxt", "onDrawOver() called with: c = [" + child.getTop());//当getTop开始变负，它的绝对值，是第一个可见的Item移出屏幕的距离，
                 if (child.getHeight() + child.getTop() < mTitleHeight) {//当第一个可见的item在屏幕中还剩的高度小于title区域的高度时，我们也该开始做悬浮Title的“交换动画”
                     c.save();//每次绘制前 保存当前Canvas状态，
                     flag = true;
@@ -198,7 +197,7 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
         button.setBackgroundColor(Color.RED);
         button.setText("无哈");
         *//*button.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.EXACTLY));
-*//*
+         *//*
         //必须经过 测量 和 布局，View才能被正常的显示出来
         button.measure(View.MeasureSpec.makeMeasureSpec(9999,View.MeasureSpec.UNSPECIFIED),View.MeasureSpec.makeMeasureSpec(9999,View.MeasureSpec.UNSPECIFIED));
         button.layout(parent.getPaddingLeft(),parent.getPaddingTop(),
