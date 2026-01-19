@@ -2,7 +2,6 @@ package com.cboda.chatemoji;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,7 +190,7 @@ public class EmotionViewPagerBroadAdapter extends PagerAdapter {
             List<StickerBroadItem> stickers = category.getStickers();
 
             if (index >= stickers.size()) {
-                Log.i("CSDN_LQR", "index " + index + " larger than size " + stickers.size());
+//                Log.i("CSDN_LQR", "index " + index + " larger than size " + stickers.size());
                 return;
             }
 

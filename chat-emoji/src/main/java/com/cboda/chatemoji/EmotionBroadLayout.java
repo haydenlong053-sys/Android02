@@ -2,7 +2,6 @@ package com.cboda.chatemoji;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +78,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
         if (emotionSelectedListener != null) {
             this.mEmotionSelectedListener = emotionSelectedListener;
         } else {
-            Log.i("CSDN_LQR", "IEmotionSelectedListener is null");
+//            Log.i("CSDN_LQR", "IEmotionSelectedListener is null");
         }
     }
 
@@ -88,7 +87,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
         if (emotionExtClickListener != null) {
             this.mEmotionExtClickListener = emotionExtClickListener;
         } else {
-            Log.i("CSDN_LQR", "IEmotionSettingTabClickListener is null");
+//            Log.i("CSDN_LQR", "IEmotionSettingTabClickListener is null");
         }
     }
 
@@ -233,7 +232,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
     public void onMsgReceive(EmotionBroadEvent emotionBroadEvent) {
         if ("biaoqiangneirong".equals(emotionBroadEvent.type)) {
             EmoBroadBean emoBroadBean = gson.fromJson(emotionBroadEvent.params, EmoBroadBean.class);
-            Log.e("野火", "表情数据--> " + emotionBroadEvent.params + "  " + mLlTabContainer.getChildCount());
+//            Log.e("野火", "表情数据--> " + emotionBroadEvent.params + "  " + mLlTabContainer.getChildCount());
             if (emoBroadBean != null && emoBroadBean.dataList != null && emoBroadBean.dataList.size() > 0) {
                 zidingyibiaoqiang.setVisibility(VISIBLE);
                 myImbiaoqiang.setVisibility(VISIBLE);
