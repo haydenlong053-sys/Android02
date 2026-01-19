@@ -737,4 +737,11 @@
     <string name="ai_pop_tip">Tip</string>
     <string name="ai_pop_tip_des">Are you sure to discard the currently uploaded file?</string>
 
+    <string name="save_image_permission_request">Saving images requires storage permission. Do you want to request permission?</string>
+    <string name="save_success_exclamation">Saved successfully!</string>
+
+    <string name="user_prefix">User</string>
+    <string name="select_image_permission_request">Using the image selection feature requires camera and storage permissions. Do you want to request permissions?</string>
+    <string name="login_success">Login successful</string>
+
 </resources>

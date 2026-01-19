@@ -395,4 +395,11 @@
     <string name="开通">开通</string>
 
 
+    <string name="save_image_permission_request">Umsebenzi wokugcina izithombe udinga imvume yokugcina. Ingabe ufuna ukucela imvume?</string>
+    <string name="save_success_exclamation">Kugcinwe ngempumelelo!</string>
+
+    <string name="user_prefix">Umsebenzisi</string>
+    <string name="select_image_permission_request">Ukusebenzisa umsebenzi wokukhetha izithombe kudinga imvume yekhamera nokugcina. Ingabe ufuna ukucela imvume?</string>
+    <string name="login_success">Ukungena ngempumelelo</string>
+
 </resources>

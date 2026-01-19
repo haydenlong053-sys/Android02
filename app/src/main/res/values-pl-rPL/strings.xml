@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>strings.xml</resources>
+<resources>
+    <string name="save_image_permission_request">Funkcja zapisywania obrazów wymaga uprawnień do przechowywania. Czy chcesz poprosić o uprawnienia?</string>
+    <string name="save_success_exclamation">Zapisano pomyślnie!</string>
+
+    <string name="user_prefix">Użytkownik</string>
+    <string name="select_image_permission_request">Używanie funkcji wyboru obrazów wymaga uprawnień do kamery i przechowywania. Czy chcesz poprosić o uprawnienia?</string>
+    <string name="login_success">Logowanie zakończone sukcesem</string>
+
+</resources>

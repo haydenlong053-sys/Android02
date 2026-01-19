@@ -392,4 +392,12 @@
     <string name="会员专属特权">会员专属特权</string>
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
+
+    <string name="save_image_permission_request">تتطلب وظيفة حفظ الصور إذن التخزين. هل تريد طلب الإذن?</string>
+    <string name="save_success_exclamation">تم الحفظ بنجاح!</string>
+
+    <string name="user_prefix">المستخدم</string>
+    <string name="select_image_permission_request">يتطلب استخدام وظيفة اختيار الصور أذونات الكاميرا والتخزين. هل تريد طلب الأذونات?</string>
+    <string name="login_success">تم تسجيل الدخول بنجاح</string>
+
 </resources>

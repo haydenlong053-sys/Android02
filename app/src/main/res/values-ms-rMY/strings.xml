@@ -396,4 +396,11 @@
 
 
 
+    <string name="save_image_permission_request">Fungsi menyimpan imej memerlukan kebenaran storan. Adakah anda ingin meminta kebenaran?</string>
+    <string name="save_success_exclamation">Berjaya disimpan!</string>
+
+    <string name="user_prefix">Pengguna</string>
+    <string name="select_image_permission_request">Menggunakan fungsi pemilihan imej memerlukan kebenaran kamera dan storan. Adakah anda ingin meminta kebenaran?</string>
+    <string name="login_success">Log masuk berjaya</string>
+
 </resources>

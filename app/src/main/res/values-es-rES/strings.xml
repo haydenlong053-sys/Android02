@@ -392,4 +392,12 @@
     <string name="会员专属特权">会员专属特权</string>
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
+
+    <string name="save_image_permission_request">La función de guardar imágenes requiere permiso de almacenamiento. ¿Desea solicitar permiso?</string>
+    <string name="save_success_exclamation">¡Guardado exitosamente!</string>
+
+    <string name="user_prefix">Usuario</string>
+    <string name="select_image_permission_request">La función de seleccionar imágenes requiere permisos de cámara y almacenamiento. ¿Desea solicitar permisos?</string>
+    <string name="login_success">Inicio de sesión exitoso</string>
+
 </resources>

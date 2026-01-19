@@ -396,4 +396,11 @@
 
 
 
+    <string name="save_image_permission_request">Зургийг хадгалах функц нь хадгалах эрх шаардлагатай. Та эрх авахыг хүсэж байна уу?</string>
+    <string name="save_success_exclamation">Амжилттай хадгаллаа!</string>
+
+    <string name="user_prefix">Хэрэглэгч</string>
+    <string name="select_image_permission_request">Зургийг сонгох функцийг ашиглахын тулд камер болон хадгалах эрх шаардлагатай. Та эрх авахыг хүсэж байна уу?</string>
+    <string name="login_success">Нэвтрэх амжилттай</string>
+
 </resources>

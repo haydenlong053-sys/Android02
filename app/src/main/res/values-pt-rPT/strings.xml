@@ -395,4 +395,11 @@
 
 
 
+    <string name="save_image_permission_request">A função de guardar imagens requer permissão de armazenamento. Deseja solicitar permissão?</string>
+    <string name="save_success_exclamation">Guardado com sucesso!</string>
+
+    <string name="user_prefix">Utilizador</string>
+    <string name="select_image_permission_request">A utilização da função de seleção de imagens requer permissões de câmara e armazenamento. Deseja solicitar permissões?</string>
+    <string name="login_success">Login bem-sucedido</string>
+
 </resources>

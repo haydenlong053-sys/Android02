@@ -114,7 +114,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         etPsw.setText(pwd);
         SharePrefBroadBroadUtil.saveString(PushInfo2BroadActivity.this, AppBroadConsts.APPTOKEN, apptoken);
         GlideBroadUtil.setImag(PushInfo2BroadActivity.this, qrcode, ivQrcode);
-        tvName.setText("用户" + idno);
+        tvName.setText(getString(R.string.user_prefix) + idno);
 //        rlIcon.setOnClickListener(this);
         tvName.setOnClickListener(this);
 //        llUserName.setOnClickListener(this);
@@ -193,7 +193,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
             if (XXPermissions.isGranted(this, perms)) {
                 pmsSuccess();
             } else {
-                new NormalBroadDialog(this, getString(R.string.温馨提示), "使用选择图片功能需要相机、存储权限，是否请求权限？", "取消", "确定", true)
+                new NormalBroadDialog(this, getString(R.string.温馨提示), getString(R.string.select_image_permission_request), getString(R.string.quxiao), getString(R.string.queding), true)
                         .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                             @Override
                             public void OnRightClick() {
@@ -232,7 +232,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                     goNest();
 
                 } else {
-                    new NormalBroadDialog(this, this.getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
+                    new NormalBroadDialog(this, this.getString(R.string.温馨提示), getString(R.string.save_image_permission_request), getString(R.string.quxiao), getString(R.string.queding), true)
                             .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                                 @Override
                                 public void OnRightClick() {
@@ -265,7 +265,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                 if (XXPermissions.isGranted(this, perms1)) {
                    goNest();
                 } else {
-                    new NormalBroadDialog(this, getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
+                    new NormalBroadDialog(this, getString(R.string.温馨提示), getString(R.string.save_image_permission_request), getString(R.string.quxiao), getString(R.string.queding), true)
                             .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                                 @Override
                                 public void OnRightClick() {
@@ -328,10 +328,10 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         mViewDash.setVisibility(View.VISIBLE);
         ivQrcode.setVisibility(View.VISIBLE);
         BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(mViewRootBg), this);
-        ToastBroadUtil.show("保存成功");
+        ToastBroadUtil.show(getString(R.string.tipSaveSuccess));
 
         EventBusBroadBean eventBusBean = new EventBusBroadBean();
-        eventBusBean.msg = "登录成功";
+        eventBusBean.msg = getString(R.string.login_success);
         EventBus.getDefault().post(eventBusBean);
         AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, userSign, uid, imtoken);
 
@@ -369,7 +369,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
 //                            if (isConfim) {
                 SharePrefBroadBroadUtil.saveString(PushInfo2BroadActivity.this, AppBroadConsts.UID, uid);
                 EventBusBroadBean eventBusBean = new EventBusBroadBean();
-                eventBusBean.msg = "登录成功";
+                eventBusBean.msg = getString(R.string.login_success);
                 EventBus.getDefault().post(eventBusBean);
                 AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, userSign, uid, imtoken);
 //                            }

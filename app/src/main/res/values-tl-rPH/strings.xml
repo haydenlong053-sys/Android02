@@ -396,4 +396,11 @@
 
 
 
+    <string name="save_image_permission_request">Ang function ng pag-save ng larawan ay nangangailangan ng pahintulot sa storage. Nais mo bang humiling ng pahintulot?</string>
+    <string name="save_success_exclamation">Matagumpay na na-save!</string>
+
+    <string name="user_prefix">User</string>
+    <string name="select_image_permission_request">Ang paggamit ng function ng pagpili ng larawan ay nangangailangan ng pahintulot sa camera at storage. Nais mo bang humiling ng pahintulot?</string>
+    <string name="login_success">Matagumpay na pag-login</string>
+
 </resources>

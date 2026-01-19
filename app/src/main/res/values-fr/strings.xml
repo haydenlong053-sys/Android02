@@ -398,4 +398,11 @@
     <string name="机器人定时消息">机器人定时消息</string>
     <string name="欢迎成员">欢迎成员</string>
 
+    <string name="save_image_permission_request">La fonction de sauvegarde d\'images nécessite une autorisation de stockage. Souhaitez-vous demander l\'autorisation?</string>
+    <string name="save_success_exclamation">Enregistré avec succès!</string>
+
+    <string name="user_prefix">Utilisateur</string>
+    <string name="select_image_permission_request">L\'utilisation de la fonction de sélection d\'images nécessite des autorisations d\'appareil photo et de stockage. Souhaitez-vous demander les autorisations?</string>
+    <string name="login_success">Connexion réussie</string>
+
 </resources>

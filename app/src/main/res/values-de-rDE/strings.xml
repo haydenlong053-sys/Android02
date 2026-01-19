@@ -393,5 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">Die Funktion zum Speichern von Bildern erfordert Speicherberechtigung. Möchten Sie die Berechtigung anfordern?</string>
+    <string name="save_success_exclamation">Erfolgreich gespeichert!</string>
+
+    <string name="user_prefix">Benutzer</string>
+    <string name="select_image_permission_request">Die Verwendung der Bildauswahlfunktion erfordert Kamera- und Speicherberechtigungen. Möchten Sie die Berechtigungen anfordern?</string>
+    <string name="login_success">Anmeldung erfolgreich</string>
 
 </resources>

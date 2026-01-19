@@ -399,4 +399,11 @@
 
 
 
+    <string name="save_image_permission_request">Resim kaydetme işlevi depolama izni gerektirir. İzin istemek ister misiniz?</string>
+    <string name="save_success_exclamation">Başarıyla kaydedildi!</string>
+
+    <string name="user_prefix">Kullanıcı</string>
+    <string name="select_image_permission_request">Resim seçme özelliğini kullanmak kamera ve depolama izinleri gerektirir. İzinleri istemek ister misiniz?</string>
+    <string name="login_success">Giriş başarılı</string>
+
 </resources>

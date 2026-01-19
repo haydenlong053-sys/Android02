@@ -394,4 +394,11 @@
     <string name="开通">开通</string>
 
 
+    <string name="save_image_permission_request">Η λειτουργία αποθήκευσης εικόνων απαιτεί άδεια αποθήκευσης. Θέλετε να ζητήσετε άδεια;</string>
+    <string name="save_success_exclamation">Αποθηκεύτηκε με επιτυχία!</string>
+
+    <string name="user_prefix">Χρήστης</string>
+    <string name="select_image_permission_request">Η χρήση της λειτουργίας επιλογής εικόνων απαιτεί άδειες κάμερας και αποθήκευσης. Θέλετε να ζητήσετε άδειες;</string>
+    <string name="login_success">Είσοδος επιτυχής</string>
+
 </resources>

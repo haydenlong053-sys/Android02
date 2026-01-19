@@ -393,4 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">פונקציית שמירת תמונות דורשת הרשאות אחסון. האם תרצה לבקש הרשאה?</string>
+    <string name="save_success_exclamation">נשמר בהצלחה!</string>
+
+    <string name="user_prefix">משתמש</string>
+    <string name="select_image_permission_request">שימוש בפונקציית בחירת תמונות דורש הרשאות מצלמה ואחסון. האם תרצה לבקש הרשאות?</string>
+    <string name="login_success">התחברות הצליחה</string>
+
 </resources>

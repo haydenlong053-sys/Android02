@@ -397,4 +397,11 @@
 
 
 
+    <string name="save_image_permission_request">ਚਿੱਤਰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਦੇ ਫੰਕਸ਼ਨ ਨੂੰ ਸਟੋਰੇਜ ਇਜਾਜ਼ਤ ਦੀ ਲੋੜ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਜਾਜ਼ਤ ਮੰਗਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
+    <string name="save_success_exclamation">ਸਫਲਤਾਪੂਰਵਕ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਗਿਆ!</string>
+
+    <string name="user_prefix">ਉਪਭੋਗਤਾ</string>
+    <string name="select_image_permission_request">ਚਿੱਤਰ ਚੁਣਨ ਦੇ ਫੰਕਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਕੈਮਰਾ ਅਤੇ ਸਟੋਰੇਜ ਇਜਾਜ਼ਤਾਂ ਦੀ ਲੋੜ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਜਾਜ਼ਤਾਂ ਮੰਗਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
+    <string name="login_success">ਲਾਗਇਨ ਸਫਲ</string>
+
 </resources>

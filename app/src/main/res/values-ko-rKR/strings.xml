@@ -393,6 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">이미지 저장 기능에는 저장소 권한이 필요합니다. 권한을 요청하시겠습니까?</string>
+    <string name="save_success_exclamation">저장 성공!</string>
 
+    <string name="user_prefix">사용자</string>
+    <string name="select_image_permission_request">이미지 선택 기능을 사용하려면 카메라 및 저장소 권한이 필요합니다. 권한을 요청하시겠습니까?</string>
+    <string name="login_success">로그인 성공</string>
 
 </resources>

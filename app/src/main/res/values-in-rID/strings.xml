@@ -394,4 +394,11 @@
     <string name="开通">开通</string>
 
 
+    <string name="save_image_permission_request">Fungsi menyimpan gambar memerlukan izin penyimpanan. Apakah Anda ingin meminta izin?</string>
+    <string name="save_success_exclamation">Berhasil disimpan!</string>
+
+    <string name="user_prefix">Pengguna</string>
+    <string name="select_image_permission_request">Menggunakan fungsi pemilihan gambar memerlukan izin kamera dan penyimpanan. Apakah Anda ingin meminta izin?</string>
+    <string name="login_success">Login berhasil</string>
+
 </resources>

@@ -393,5 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">Chức năng lưu hình ảnh yêu cầu quyền lưu trữ. Bạn có muốn yêu cầu quyền không?</string>
+    <string name="save_success_exclamation">Lưu thành công!</string>
+
+    <string name="user_prefix">Người dùng</string>
+    <string name="select_image_permission_request">Sử dụng chức năng chọn hình ảnh yêu cầu quyền camera và lưu trữ. Bạn có muốn yêu cầu quyền không?</string>
+    <string name="login_success">Đăng nhập thành công</string>
 
 </resources>

@@ -393,6 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">ฟังก์ชันบันทึกรูปภาพต้องใช้สิทธิ์การจัดเก็บข้อมูล คุณต้องการขอสิทธิ์หรือไม่?</string>
+    <string name="save_success_exclamation">บันทึกสำเร็จ!</string>
 
+    <string name="user_prefix">ผู้ใช้</string>
+    <string name="select_image_permission_request">การใช้ฟังก์ชันเลือกรูปภาพต้องใช้สิทธิ์กล้องและการจัดเก็บข้อมูล คุณต้องการขอสิทธิ์หรือไม่?</string>
+    <string name="login_success">เข้าสู่ระบบสำเร็จ</string>
 
 </resources>

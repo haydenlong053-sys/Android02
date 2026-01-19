@@ -784,5 +784,12 @@
     <string name="ai_pop_tip">提示</string>
     <string name="ai_pop_tip_des">你要放弃当前上传的文件吗</string>
 
+    <string name="save_image_permission_request">保存图片功能需要存储权限，是否请求权限？</string>
+    <string name="save_success_exclamation">保存成功！</string>
+
+    <string name="user_prefix">用户</string>
+    <string name="select_image_permission_request">使用选择图片功能需要相机、存储权限，是否请求权限？</string>
+    <string name="login_success">登录成功</string>
+
 
 </resources>

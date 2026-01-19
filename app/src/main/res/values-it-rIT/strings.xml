@@ -393,6 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">La funzione di salvataggio immagini richiede l\'autorizzazione di archiviazione. Vuoi richiedere l\'autorizzazione?</string>
+    <string name="save_success_exclamation">Salvato con successo!</string>
 
+    <string name="user_prefix">Utente</string>
+    <string name="select_image_permission_request">L\'utilizzo della funzione di selezione immagini richiede autorizzazioni per fotocamera e archiviazione. Vuoi richiedere le autorizzazioni?</string>
+    <string name="login_success">Accesso riuscito</string>
 
 </resources>

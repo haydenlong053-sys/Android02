@@ -394,6 +394,11 @@
     <string name="开通">开通</string>
 
 
+    <string name="save_image_permission_request">Функция сохранения изображений требует разрешения на хранение. Хотите запросить разрешение?</string>
+    <string name="save_success_exclamation">Успешно сохранено!</string>
 
+    <string name="user_prefix">Пользователь</string>
+    <string name="select_image_permission_request">Использование функции выбора изображений требует разрешений на камеру и хранение. Хотите запросить разрешения?</string>
+    <string name="login_success">Вход выполнен успешно</string>
 
 </resources>

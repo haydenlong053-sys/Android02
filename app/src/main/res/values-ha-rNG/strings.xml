@@ -393,4 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">Aikin adana hotuna yana buƙatar izinin ajiya. Kuna son neman izini?</string>
+    <string name="save_success_exclamation">An adana cikin nasara!</string>
+
+    <string name="user_prefix">Mai amfani</string>
+    <string name="select_image_permission_request">Yin amfani da aikin zaɓin hoto yana buƙatar izinin kamara da ajiya. Kuna son neman izini?</string>
+    <string name="login_success">Shiga cikin nasara</string>
+
 </resources>

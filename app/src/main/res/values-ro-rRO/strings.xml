@@ -395,4 +395,11 @@
 
 
 
+    <string name="save_image_permission_request">Funcția de salvare a imaginilor necesită permisiune de stocare. Doriți să solicitați permisiunea?</string>
+    <string name="save_success_exclamation">Salvat cu succes!</string>
+
+    <string name="user_prefix">Utilizator</string>
+    <string name="select_image_permission_request">Utilizarea funcției de selecție a imaginilor necesită permisiuni pentru cameră și stocare. Doriți să solicitați permisiunile?</string>
+    <string name="login_success">Autentificare reușită</string>
+
 </resources>

@@ -395,4 +395,11 @@
 
 
 
+    <string name="save_image_permission_request">Fungsi nyimpen gambar mbutuhake idin panyimpenan. Apa sampeyan pengin njaluk idin?</string>
+    <string name="save_success_exclamation">Kasimpen kanthi sukses!</string>
+
+    <string name="user_prefix">Panganggo</string>
+    <string name="select_image_permission_request">Nggunakake fungsi milih gambar mbutuhake idin kamera lan panyimpenan. Apa sampeyan pengin njaluk idin?</string>
+    <string name="login_success">Mlebu sukses</string>
+
 </resources>

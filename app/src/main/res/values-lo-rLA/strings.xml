@@ -395,4 +395,11 @@
 
 
 
+    <string name="save_image_permission_request">ຟັງຊັນບັນທຶກຮູບພາບຕ້ອງການອະນຸຍາດເກັບຮັກສາ. ທ່ານຕ້ອງການຂໍອະນຸຍາດບໍ?</string>
+    <string name="save_success_exclamation">ບັນທຶກສຳເລັດແລ້ວ!</string>
+
+    <string name="user_prefix">ຜູ້ໃຊ້</string>
+    <string name="select_image_permission_request">ການໃຊ້ຟັງຊັນເລືອກຮູບພາບຕ້ອງການອະນຸຍາດກ້ອງຖ່າຍຮູບແລະເກັບຮັກສາ. ທ່ານຕ້ອງການຂໍອະນຸຍາດບໍ?</string>
+    <string name="login_success">ເຂົ້າສູ່ລະບົບສຳເລັດ</string>
+
 </resources>

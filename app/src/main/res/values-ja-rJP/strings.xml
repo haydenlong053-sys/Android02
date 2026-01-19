@@ -393,5 +393,11 @@
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
 
+    <string name="save_image_permission_request">画像を保存する機能にはストレージ権限が必要です。権限をリクエストしますか？</string>
+    <string name="save_success_exclamation">保存に成功しました！</string>
+
+    <string name="user_prefix">ユーザー</string>
+    <string name="select_image_permission_request">画像選択機能を使用するには、カメラとストレージの権限が必要です。権限をリクエストしますか？</string>
+    <string name="login_success">ログイン成功</string>
 
 </resources>

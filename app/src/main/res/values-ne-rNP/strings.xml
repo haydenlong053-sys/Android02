@@ -395,4 +395,11 @@
 
 
 
+    <string name="save_image_permission_request">तस्बिरहरू बचत गर्ने प्रकार्यलाई भण्डारण अनुमति चाहिन्छ। के तपाईं अनुमति अनुरोध गर्न चाहनुहुन्छ?</string>
+    <string name="save_success_exclamation">सफलतापूर्वक बचत गरियो!</string>
+
+    <string name="user_prefix">प्रयोगकर्ता</string>
+    <string name="select_image_permission_request">तस्बिर छनोट प्रकार्य प्रयोग गर्न क्यामेरा र भण्डारण अनुमतिहरू चाहिन्छ। के तपाईं अनुमतिहरू अनुरोध गर्न चाहनुहुन्छ?</string>
+    <string name="login_success">लगइन सफल</string>
+
 </resources>

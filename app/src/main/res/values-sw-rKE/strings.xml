@@ -395,4 +395,11 @@
 
 
 
+    <string name="save_image_permission_request">Utendakazi wa kuhifadhi picha unahitaji ruhusa ya uhifadhi. Je, ungependa kuomba ruhusa?</string>
+    <string name="save_success_exclamation">Imehifadhiwa kwa mafanikio!</string>
+
+    <string name="user_prefix">Mtumiaji</string>
+    <string name="select_image_permission_request">Kutumia utendakazi wa kuchagua picha unahitaji ruhusa za kamera na uhifadhi. Je, ungependa kuomba ruhusa?</string>
+    <string name="login_success">Kuingia kwa mafanikio</string>
+
 </resources>

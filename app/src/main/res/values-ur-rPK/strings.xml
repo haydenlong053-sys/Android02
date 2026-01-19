@@ -400,4 +400,11 @@
 
 
 
+    <string name="save_image_permission_request">تصاویر محفوظ کرنے کی فعالیت کو اسٹوریج کی اجازت درکار ہے۔ کیا آپ اجازت درخواست کرنا چاہتے ہیں؟</string>
+    <string name="save_success_exclamation">کامیابی سے محفوظ ہو گیا!</string>
+
+    <string name="user_prefix">صارف</string>
+    <string name="select_image_permission_request">تصویر منتخب کرنے کی فعالیت استعمال کرنے کے لیے کیمرہ اور اسٹوریج کی اجازتیں درکار ہیں۔ کیا آپ اجازتیں درخواست کرنا چاہتے ہیں؟</string>
+    <string name="login_success">لاگ ان کامیاب</string>
+
 </resources>

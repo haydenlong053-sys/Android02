@@ -395,4 +395,11 @@
 
 
 
+    <string name="save_image_permission_request">Функція збереження зображень вимагає дозволу на зберігання. Чи хочете запросити дозвіл?</string>
+    <string name="save_success_exclamation">Успішно збережено!</string>
+
+    <string name="user_prefix">Користувач</string>
+    <string name="select_image_permission_request">Використання функції вибору зображень вимагає дозволів на камеру та зберігання. Чи хочете запросити дозволи?</string>
+    <string name="login_success">Вхід виконано успішно</string>
+
 </resources>
