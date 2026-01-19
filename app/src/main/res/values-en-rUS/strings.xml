@@ -29,7 +29,7 @@
     <string name="click_upload_video">Click to upload video</string>
     <string name="supports_mp3_wav">Supports MP3, WAV</string>
     <string name="supports_mp4_mov_avi">Supports MP4, MOV, AVI</string>
-    <string name="ai_document">Document</string>
+    <string name="ai_document">Doc</string>
     <string name="ai_img">Image</string>
     <string name="ai_audio">Audio</string>
     <string name="ai_video">Video</string>

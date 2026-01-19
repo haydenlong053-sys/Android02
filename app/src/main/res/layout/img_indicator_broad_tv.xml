@@ -30,6 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imgIndicatorTitleIv"
         app:layout_constraintTop_toTopOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="发现"
         tools:textColor="@color/black"
         tools:textSize="14sp"
