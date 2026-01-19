@@ -1576,31 +1576,29 @@ class CommViewBroadModel : FriendViewBroadModel() {
         )
     }
 
-    fun versionUpdate(context: Context?) {
-
-        val map = mapOf(
-            "id" to "",
-        )
-
-        okGoHelper.post(
-            context,
-            "/versionUpdate",
-            JSONObject(map).toString(),
-            CommonResultBroadBean(),
-            showLoading = false,
-            showToast = false,
-            callBack = object : OKGoBroadHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseBroadResponse?) {
-                    if (bean is CommonResultBroadBean) {
-                        versionUpdateData.value = bean
-                    }
-                }
-
-                override fun onFail(bean: BaseBroadResponse?) {
-                }
-            },
-        )
-    }
+//    fun versionUpdate(context: Context?) {
+//        val map = mapOf(
+//            "id" to "",
+//        )
+//        okGoHelper.post(
+//            context,
+//            "/versionUpdate",
+//            JSONObject(map).toString(),
+//            CommonResultBroadBean(),
+//            showLoading = false,
+//            showToast = false,
+//            callBack = object : OKGoBroadHelper.RequestCallBack {
+//                override fun onSuccess(bean: BaseBroadResponse?) {
+//                    if (bean is CommonResultBroadBean) {
+//                        versionUpdateData.value = bean
+//                    }
+//                }
+//
+//                override fun onFail(bean: BaseBroadResponse?) {
+//                }
+//            },
+//        )
+//    }
 
     fun chuangjainqun(context: Context?, uid: String) {
         val map = mapOf(

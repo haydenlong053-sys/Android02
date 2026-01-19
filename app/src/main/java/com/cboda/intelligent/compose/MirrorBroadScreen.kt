@@ -221,7 +221,7 @@ fun MirrorScreen(
         }
 
         Image(
-            painter = painterResource(if (!uiState.isSign) R.drawable.bg_sign_broad_false else R.drawable.bg_sign_broad_true),
+            painter = painterResource(if (!uiState.isSign) R.drawable.bg_sign_broad_state else R.drawable.bg_sign_broad_state),
             contentDescription = "sign",
             modifier = Modifier
                 .width(50.dp)

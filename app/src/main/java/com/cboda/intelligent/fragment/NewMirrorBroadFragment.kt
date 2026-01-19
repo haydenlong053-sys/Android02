@@ -59,7 +59,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
     override fun onResume() {
         super.onResume()
         viewModel.getSignInfo().observe(this) {
-            binding.ivMirrorSign.setImageResource(if (it) R.drawable.bg_sign_broad_true else R.drawable.bg_sign_broad_false)
+            binding.mTvMirrorSign.text =if (it) "已签到" else "签到"
         }
         viewModel.getUserInfo().observe(this) {
             it?.let {

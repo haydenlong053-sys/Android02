@@ -359,7 +359,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
         //外包的获取系统公告代码已废弃
 //        getsitonggonggao()
-        //todo 上架google要去掉本地更新
+
 //        viewModel?.versionUpdate(this)
         val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
         if (!hasNotificationPermission) {
