@@ -194,7 +194,7 @@ class MMKVBroadUtils {
 
         fun getYuYan(): String? {
             val kv = MMKV.defaultMMKV()
-            return kv.decodeString(USER_YU_YAN_KEY)
+            return kv.decodeString(USER_YU_YAN_KEY)?:"English"
         }
 
         fun saveZt(yuyan: String) {

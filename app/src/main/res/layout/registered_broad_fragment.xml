@@ -75,6 +75,8 @@
         android:drawableStart="@mipmap/icon_login_broad_account"
         android:drawablePadding="@dimen/dp_12"
         android:hint="@string/please_enter_account"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:paddingStart="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_48"
         android:textColor="@color/white"
