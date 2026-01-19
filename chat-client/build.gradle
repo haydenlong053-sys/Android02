@@ -64,10 +64,10 @@ android {
 
 
 dependencies {
+    //    api 'com.cboda.chat:broadChat:1.0.0'
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    api "${thirdPartyApis.okhttp3}"
-//    api 'com.cboda.chat:broadChat:1.0.0'
     api files('libs/broad_chat.aar')
+    api "${thirdPartyApis.okhttp3}"
     api project(':baselibrary')
     implementation "${thirdPartyApis.kotlinx_coroutines}"
     implementation "${thirdPartyApis.okio}"

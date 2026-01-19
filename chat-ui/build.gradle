@@ -75,12 +75,7 @@ dependencies {
     api files('libs/broad_chat_pttclient.aar')
     api files('libs/broad_chat_libwebrtc.aar')
     api files('libs/broad_chat_emoji.aar')
-//    api project(':chat-emoji')
-//    api files('libs/broad_chat_client.aar')
     api project(':chat-client')
-//    api project(':baselibrary')
-//    api 'com.cboda.baselibrary:baseLibrary:1.0.0'
-//    api 'com.tencent.mars:mars-sdt:2.0.3'
     api "${andx.appcompat}"
     api "${thirdPartyApis.material}"
     api "${thirdPartyApis.glide}"
@@ -101,6 +96,11 @@ dependencies {
     implementation "${thirdPartyApis.kvh_amr}"
     implementation "${thirdPartyApis.viewpagerdotsindicator}"
     coreLibraryDesugaring "${thirdPartyApis.desugar_jdk_libs}"
+//    api project(':chat-emoji')
+//    api files('libs/broad_chat_client.aar')
+//    api project(':baselibrary')
+//    api 'com.cboda.baselibrary:baseLibrary:1.0.0'
+//    api 'com.tencent.mars:mars-sdt:2.0.3'
 //    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 //    annotationProcessor 'androidx.annotation:annotation:1.7.0'
 //    api "androidx.lifecycle:lifecycle-extensions:2.2.0"
