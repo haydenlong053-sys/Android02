@@ -404,4 +404,6 @@
     <string name="score_unit">βαθμοί</string>
     <string name="credit_score">Πιστοληπτική Βαθμολογία</string>
 
+    <string name="sign_in_reward">Σύνδεση και Αναζήτηση Ανταμοιβής</string>
+
 </resources>

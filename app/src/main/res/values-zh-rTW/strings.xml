@@ -754,4 +754,6 @@
     <string name="score_unit">分</string>
     <string name="credit_score">信用分</string>
 
+    <string name="sign_in_reward">簽到領獎</string>
+
 </resources>

@@ -403,4 +403,6 @@
     <string name="score_unit">점</string>
     <string name="credit_score">신용 점수</string>
 
+    <string name="sign_in_reward">출석하고 보상 받기</string>
+
 </resources>

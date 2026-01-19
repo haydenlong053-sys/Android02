@@ -405,4 +405,6 @@
     <string name="score_unit">pts</string>
     <string name="credit_score">Pontuação de Crédito</string>
 
+    <string name="sign_in_reward">Entrar e Reclamar Recompensa</string>
+
 </resources>

@@ -403,4 +403,6 @@
     <string name="score_unit">คะแนน</string>
     <string name="credit_score">คะแนนเครดิต</string>
 
+    <string name="sign_in_reward">เข้าสู่ระบบและรับรางวัล</string>
+
 </resources>

@@ -10,4 +10,6 @@
     <string name="score_unit">pkt</string>
     <string name="credit_score">Ocena Kredytowa</string>
 
+    <string name="sign_in_reward">Zaloguj się i odbierz nagrodę</string>
+
 </resources>

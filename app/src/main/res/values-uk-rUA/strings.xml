@@ -405,4 +405,6 @@
     <string name="score_unit">бал</string>
     <string name="credit_score">Кредитний рейтинг</string>
 
+    <string name="sign_in_reward">Увійти та отримати нагороду</string>
+
 </resources>

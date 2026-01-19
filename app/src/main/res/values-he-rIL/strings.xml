@@ -403,4 +403,6 @@
     <string name="score_unit">נקודות</string>
     <string name="credit_score">ציון אשראי</string>
 
+    <string name="sign_in_reward">התחבר וקבל פרס</string>
+
 </resources>

@@ -409,4 +409,6 @@
     <string name="score_unit">puan</string>
     <string name="credit_score">Kredi Skoru</string>
 
+    <string name="sign_in_reward">Giriş yap ve ödül al</string>
+
 </resources>

@@ -405,4 +405,6 @@
     <string name="score_unit">ຄະແນນ</string>
     <string name="credit_score">ຄະແນນເຄຣດິດ</string>
 
+    <string name="sign_in_reward">ເຂົ້າສູ່ລະບົບແລະຮັບລາງວັນ</string>
+
 </resources>
