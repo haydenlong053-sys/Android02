@@ -407,4 +407,11 @@
 
     <string name="sign_in_reward">Увійти та отримати нагороду</string>
 
+    <string name="agree">Погодитися</string>
+    <string name="camera_permission_request">%1$s вимагає дозволу на камеру. Чи хочете запросити дозвіл?</string>
+    <string name="conversation_tab">Чат</string>
+    <string name="private_group_tab">Приватна Група</string>
+    <string name="public_group_tab">Публічна Група</string>
+    <string name="friend_tab">Друг</string>
+
 </resources>

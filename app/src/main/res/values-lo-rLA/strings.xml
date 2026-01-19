@@ -407,4 +407,11 @@
 
     <string name="sign_in_reward">ເຂົ້າສູ່ລະບົບແລະຮັບລາງວັນ</string>
 
+    <string name="agree">ຕົກລົງ</string>
+    <string name="camera_permission_request">%1$s ຕ້ອງການອະນຸຍາດກ້ອງຖ່າຍຮູບ. ທ່ານຕ້ອງການຂໍອະນຸຍາດບໍ?</string>
+    <string name="conversation_tab">ສົນທະນາ</string>
+    <string name="private_group_tab">ກຸ່ມສ່ວນຕົວ</string>
+    <string name="public_group_tab">ກຸ່ມສາທາລະນະ</string>
+    <string name="friend_tab">ເພື່ອນ</string>
+
 </resources>

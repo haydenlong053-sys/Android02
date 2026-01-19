@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">Anmelden &amp; Belohnung erhalten</string>
 
+    <string name="agree">Zustimmen</string>
+    <string name="camera_permission_request">%1$s benötigt Kameraberechtigung. Möchten Sie die Berechtigung anfordern?</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Private Gruppe</string>
+    <string name="public_group_tab">Öffentliche Gruppe</string>
+    <string name="friend_tab">Freund</string>
+
 </resources>

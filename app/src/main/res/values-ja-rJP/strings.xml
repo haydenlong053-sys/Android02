@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">サインインして報酬を受け取る</string>
 
+    <string name="agree">同意</string>
+    <string name="camera_permission_request">%1$sにはカメラ権限が必要です。権限をリクエストしますか？</string>
+    <string name="conversation_tab">チャット</string>
+    <string name="private_group_tab">プライベートグループ</string>
+    <string name="public_group_tab">公開グループ</string>
+    <string name="friend_tab">友達</string>
+
 </resources>

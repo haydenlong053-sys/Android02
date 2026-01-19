@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">Iniciar Sesión y Reclamar Recompensa</string>
 
+    <string name="agree">Aceptar</string>
+    <string name="camera_permission_request">%1$s requiere permiso de cámara. ¿Desea solicitar permiso?</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Grupo Privado</string>
+    <string name="public_group_tab">Grupo Público</string>
+    <string name="friend_tab">Amigo</string>
+
 </resources>

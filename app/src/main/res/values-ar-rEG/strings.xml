@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">تسجيل الدخول والحصول على المكافأة</string>
 
+    <string name="agree">موافق</string>
+    <string name="camera_permission_request">يتطلب %1$s إذن الكاميرا. هل تريد طلب الإذن؟</string>
+    <string name="conversation_tab">محادثة</string>
+    <string name="private_group_tab">مجموعة خاصة</string>
+    <string name="public_group_tab">مجموعة عامة</string>
+    <string name="friend_tab">صديق</string>
+
 </resources>

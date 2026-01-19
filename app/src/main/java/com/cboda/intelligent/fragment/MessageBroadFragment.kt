@@ -84,10 +84,10 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class XiaoxiBroadFragment : BaseLazyBroadFragment() {
+class MessageBroadFragment : BaseLazyBroadFragment() {
     companion object {
         fun getInstance(): Fragment {
-            return XiaoxiBroadFragment()
+            return MessageBroadFragment()
         }
     }
 
@@ -174,10 +174,10 @@ class XiaoxiBroadFragment : BaseLazyBroadFragment() {
                             } else {
                                 val holder3 = CommanConfimBroadHolder(
                                     activity,
-                                    "温馨提示",
-                                    "${AppBroadUtils.getAppName(activity!!)}需要相机权限,是否请求权限?",
-                                    "同意",
-                                    "拒绝"
+                                    getString(R.string.温馨提示),
+                                    getString(R.string.camera_permission_request, AppBroadUtils.getAppName(activity!!)),
+                                    getString(R.string.agree),
+                                    getString(R.string.jujuele)
                                 )
                                 holder3.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                                     override fun onClickConfim(isConfim: Boolean) {
@@ -536,10 +536,10 @@ class XiaoxiBroadFragment : BaseLazyBroadFragment() {
         magicIndicator.visibility = View.INVISIBLE
 
         //        titles.add("全部")
-        titles.add("对话")
-        titles.add("私群")
-        titles.add("公群")
-        titles.add("好友")
+        titles.add(getString(R.string.conversation_tab))
+        titles.add(getString(R.string.private_group_tab))
+        titles.add(getString(R.string.public_group_tab))
+        titles.add(getString(R.string.friend_tab))
 
         cvTab.setContent {
 //            FloatShadowBar(){}
@@ -648,10 +648,10 @@ class XiaoxiBroadFragment : BaseLazyBroadFragment() {
                             } else {
                                 val holder3 = CommanConfimBroadHolder(
                                     activity,
-                                    "温馨提示",
-                                    "${AppBroadUtils.getAppName(requireContext())}需要相机权限,是否请求权限?",
-                                    "同意",
-                                    "拒绝"
+                                    getString(R.string.温馨提示),
+                                    getString(R.string.camera_permission_request, AppBroadUtils.getAppName(requireContext())),
+                                    getString(R.string.agree),
+                                    getString(R.string.jujuele)
                                 )
                                 holder3.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                                     override fun onClickConfim(isConfim: Boolean) {

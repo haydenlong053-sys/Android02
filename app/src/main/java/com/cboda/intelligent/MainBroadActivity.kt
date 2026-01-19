@@ -56,7 +56,7 @@ import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.fragment.MineBroadFragment
 import com.cboda.intelligent.fragment.TongXunLuBroadFragment
-import com.cboda.intelligent.fragment.XiaoxiBroadFragment
+import com.cboda.intelligent.fragment.MessageBroadFragment
 import com.cboda.intelligent.holder.SingleBtnBroadHolder
 import com.cboda.intelligent.holder.XitonggaonggaoBroadHolder
 import com.cboda.intelligent.holder.MyImManagerBroadHolder
@@ -524,7 +524,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         fragmentList.add(NewMirrorBroadFragment())
         fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
-        fragmentList.add(XiaoxiBroadFragment.getInstance())
+        fragmentList.add(MessageBroadFragment.getInstance())
 //        fragmentList.add(TongXunLuBroadFragment.getInstance())
 //        fragmentNameList.add("xiaoxi")
 //        fragmentNameList.add("tongxunlu")

@@ -407,4 +407,11 @@
 
     <string name="sign_in_reward">Conectează-te și solicită recompensa</string>
 
+    <string name="agree">Accept</string>
+    <string name="camera_permission_request">%1$s necesită permisiunea camerei. Doriți să solicitați permisiunea?</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Grup Privat</string>
+    <string name="public_group_tab">Grup Public</string>
+    <string name="friend_tab">Prieten</string>
+
 </resources>

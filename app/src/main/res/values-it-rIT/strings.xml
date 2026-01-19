@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">Accedi e richiedi ricompensa</string>
 
+    <string name="agree">Accetta</string>
+    <string name="camera_permission_request">%1$s richiede l\'autorizzazione della fotocamera. Vuoi richiedere l\'autorizzazione?</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Gruppo Privato</string>
+    <string name="public_group_tab">Gruppo Pubblico</string>
+    <string name="friend_tab">Amico</string>
+
 </resources>

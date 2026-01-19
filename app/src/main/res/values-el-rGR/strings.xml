@@ -406,4 +406,11 @@
 
     <string name="sign_in_reward">Σύνδεση και Αναζήτηση Ανταμοιβής</string>
 
+    <string name="agree">Συμφωνώ</string>
+    <string name="camera_permission_request">Το %1$s απαιτεί άδεια κάμερας. Θέλετε να ζητήσετε άδεια;</string>
+    <string name="conversation_tab">Συνομιλία</string>
+    <string name="private_group_tab">Ιδιωτική Ομάδα</string>
+    <string name="public_group_tab">Δημόσια Ομάδα</string>
+    <string name="friend_tab">Φίλος</string>
+
 </resources>

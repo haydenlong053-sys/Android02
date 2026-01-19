@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">출석하고 보상 받기</string>
 
+    <string name="agree">동의</string>
+    <string name="camera_permission_request">%1$s에 카메라 권한이 필요합니다. 권한을 요청하시겠습니까?</string>
+    <string name="conversation_tab">채팅</string>
+    <string name="private_group_tab">비공개 그룹</string>
+    <string name="public_group_tab">공개 그룹</string>
+    <string name="friend_tab">친구</string>
+
 </resources>

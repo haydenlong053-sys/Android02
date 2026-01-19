@@ -407,4 +407,11 @@
 
     <string name="sign_in_reward">Ingia na uombe zawadi</string>
 
+    <string name="agree">Kubali</string>
+    <string name="camera_permission_request">%1$s inahitaji ruhusa ya kamera. Je, ungependa kuomba ruhusa?</string>
+    <string name="conversation_tab">Mazungumzo</string>
+    <string name="private_group_tab">Kikundi cha Kibinafsi</string>
+    <string name="public_group_tab">Kikundi cha Umma</string>
+    <string name="friend_tab">Rafiki</string>
+
 </resources>

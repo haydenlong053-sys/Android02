@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">সাইন ইন করুন এবং পুরস্কার গ্রহণ করুন</string>
 
+    <string name="agree">সম্মত</string>
+    <string name="camera_permission_request">%1$s এর ক্যামেরা অনুমতি প্রয়োজন। আপনি অনুমতি চাইবেন?</string>
+    <string name="conversation_tab">চ্যাট</string>
+    <string name="private_group_tab">ব্যক্তিগত গ্রুপ</string>
+    <string name="public_group_tab">পাবলিক গ্রুপ</string>
+    <string name="friend_tab">বন্ধু</string>
+
 </resources>

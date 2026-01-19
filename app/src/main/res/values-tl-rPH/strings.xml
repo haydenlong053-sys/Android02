@@ -408,4 +408,11 @@
 
     <string name="sign_in_reward">Mag-sign in at Kunin ang Gantimpala</string>
 
+    <string name="agree">Sumang-ayon</string>
+    <string name="camera_permission_request">Ang %1$s ay nangangailangan ng pahintulot sa camera. Nais mo bang humiling ng pahintulot?</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Pribadong Grupo</string>
+    <string name="public_group_tab">Pampublikong Grupo</string>
+    <string name="friend_tab">Kaibigan</string>
+
 </resources>

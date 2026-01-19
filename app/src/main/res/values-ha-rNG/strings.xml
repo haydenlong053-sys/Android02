@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">Shiga kuma sami lada</string>
 
+    <string name="agree">Yarda</string>
+    <string name="camera_permission_request">%1$s yana buƙatar izinin kamara. Kuna son neman izini?</string>
+    <string name="conversation_tab">Tattaunawa</string>
+    <string name="private_group_tab">Ƙungiya ta Sirri</string>
+    <string name="public_group_tab">Ƙungiya ta Jama\'a</string>
+    <string name="friend_tab">Aboki</string>
+
 </resources>

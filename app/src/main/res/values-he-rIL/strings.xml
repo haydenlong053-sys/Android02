@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">התחבר וקבל פרס</string>
 
+    <string name="agree">מסכים</string>
+    <string name="camera_permission_request">%1$s דורש הרשאת מצלמה. האם תרצה לבקש הרשאה?</string>
+    <string name="conversation_tab">צ\'אט</string>
+    <string name="private_group_tab">קבוצה פרטית</string>
+    <string name="public_group_tab">קבוצה ציבורית</string>
+    <string name="friend_tab">חבר</string>
+
 </resources>

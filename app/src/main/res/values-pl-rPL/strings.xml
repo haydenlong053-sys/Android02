@@ -12,4 +12,11 @@
 
     <string name="sign_in_reward">Zaloguj się i odbierz nagrodę</string>
 
+    <string name="agree">Zgadzam się</string>
+    <string name="camera_permission_request">%1$s wymaga uprawnień do kamery. Czy chcesz poprosić o uprawnienia?</string>
+    <string name="conversation_tab">Czat</string>
+    <string name="private_group_tab">Grupa Prywatna</string>
+    <string name="public_group_tab">Grupa Publiczna</string>
+    <string name="friend_tab">Przyjaciel</string>
+
 </resources>

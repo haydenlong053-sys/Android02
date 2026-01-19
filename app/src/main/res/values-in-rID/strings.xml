@@ -406,4 +406,11 @@
 
     <string name="sign_in_reward">Masuk dan Klaim Hadiah</string>
 
+    <string name="agree">Setuju</string>
+    <string name="camera_permission_request">%1$s memerlukan izin kamera. Apakah Anda ingin meminta izin?</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Grup Privat</string>
+    <string name="public_group_tab">Grup Publik</string>
+    <string name="friend_tab">Teman</string>
+
 </resources>

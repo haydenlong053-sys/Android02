@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">เข้าสู่ระบบและรับรางวัล</string>
 
+    <string name="agree">ยอมรับ</string>
+    <string name="camera_permission_request">%1$s ต้องใช้สิทธิ์กล้อง คุณต้องการขอสิทธิ์หรือไม่?</string>
+    <string name="conversation_tab">แชท</string>
+    <string name="private_group_tab">กลุ่มส่วนตัว</string>
+    <string name="public_group_tab">กลุ่มสาธารณะ</string>
+    <string name="friend_tab">เพื่อน</string>
+
 </resources>

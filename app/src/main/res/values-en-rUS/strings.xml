@@ -749,4 +749,11 @@
 
     <string name="sign_in_reward">Sign In &amp; Claim Reward</string>
 
+    <string name="agree">Agree</string>
+    <string name="camera_permission_request">%1$s requires camera permission. Do you want to request permission?</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Private</string>
+    <string name="public_group_tab">Public</string>
+    <string name="friend_tab">Friend</string>
+
 </resources>

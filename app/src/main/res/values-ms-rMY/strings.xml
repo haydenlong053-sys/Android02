@@ -408,4 +408,11 @@
 
     <string name="sign_in_reward">Log masuk dan tuntut ganjaran</string>
 
+    <string name="agree">Setuju</string>
+    <string name="camera_permission_request">%1$s memerlukan kebenaran kamera. Adakah anda ingin meminta kebenaran?</string>
+    <string name="conversation_tab">Sembang</string>
+    <string name="private_group_tab">Kumpulan Persendirian</string>
+    <string name="public_group_tab">Kumpulan Awam</string>
+    <string name="friend_tab">Kawan</string>
+
 </resources>

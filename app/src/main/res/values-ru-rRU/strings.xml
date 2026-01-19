@@ -406,4 +406,11 @@
 
     <string name="sign_in_reward">Войти и получить награду</string>
 
+    <string name="agree">Согласиться</string>
+    <string name="camera_permission_request">%1$s требует разрешения на камеру. Хотите запросить разрешение?</string>
+    <string name="conversation_tab">Чат</string>
+    <string name="private_group_tab">Приватная Группа</string>
+    <string name="public_group_tab">Публичная Группа</string>
+    <string name="friend_tab">Друг</string>
+
 </resources>

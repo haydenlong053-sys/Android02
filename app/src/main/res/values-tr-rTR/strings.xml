@@ -411,4 +411,11 @@
 
     <string name="sign_in_reward">Giriş yap ve ödül al</string>
 
+    <string name="agree">Kabul Et</string>
+    <string name="camera_permission_request">%1$s kamera izni gerektirir. İzin istemek ister misiniz?</string>
+    <string name="conversation_tab">Sohbet</string>
+    <string name="private_group_tab">Özel Grup</string>
+    <string name="public_group_tab">Herkese Açık Grup</string>
+    <string name="friend_tab">Arkadaş</string>
+
 </resources>

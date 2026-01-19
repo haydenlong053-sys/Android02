@@ -408,4 +408,11 @@
 
     <string name="sign_in_reward">Нэвтрэх ба шагнал авах</string>
 
+    <string name="agree">Зөвшөөрөх</string>
+    <string name="camera_permission_request">%1$s нь камерын эрх шаардлагатай. Та эрх авахыг хүсэж байна уу?</string>
+    <string name="conversation_tab">Чат</string>
+    <string name="private_group_tab">Хувийн Бүлэг</string>
+    <string name="public_group_tab">Олон Нийтийн Бүлэг</string>
+    <string name="friend_tab">Найз</string>
+
 </resources>

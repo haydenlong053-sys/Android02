@@ -409,4 +409,11 @@
 
     <string name="sign_in_reward">ਸਾਈਨ ਇਨ ਕਰੋ ਅਤੇ ਇਨਾਮ ਪ੍ਰਾਪਤ ਕਰੋ</string>
 
+    <string name="agree">ਸਹਿਮਤ</string>
+    <string name="camera_permission_request">%1$s ਨੂੰ ਕੈਮਰਾ ਇਜਾਜ਼ਤ ਦੀ ਲੋੜ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਜਾਜ਼ਤ ਮੰਗਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
+    <string name="conversation_tab">ਚੈਟ</string>
+    <string name="private_group_tab">ਪ੍ਰਾਈਵੇਟ ਗਰੁੱਪ</string>
+    <string name="public_group_tab">ਪਬਲਿਕ ਗਰੁੱਪ</string>
+    <string name="friend_tab">ਦੋਸਤ</string>
+
 </resources>

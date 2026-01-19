@@ -407,4 +407,11 @@
 
     <string name="sign_in_reward">Ngena bese uthola umvuzo</string>
 
+    <string name="agree">Vuma</string>
+    <string name="camera_permission_request">%1$s idinga imvume yekhamera. Ingabe ufuna ukucela imvume?</string>
+    <string name="conversation_tab">Ingxoxo</string>
+    <string name="private_group_tab">Iqembu Elingasese</string>
+    <string name="public_group_tab">Iqembu Esidlangalaleni</string>
+    <string name="friend_tab">Umngane</string>
+
 </resources>

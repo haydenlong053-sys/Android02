@@ -796,5 +796,12 @@
 
     <string name="sign_in_reward">签到领奖</string>
 
+    <string name="agree">同意</string>
+    <string name="camera_permission_request">%1$s需要相机权限,是否请求权限?</string>
+    <string name="conversation_tab">对话</string>
+    <string name="private_group_tab">私群</string>
+    <string name="public_group_tab">公群</string>
+    <string name="friend_tab">好友</string>
+
 
 </resources>

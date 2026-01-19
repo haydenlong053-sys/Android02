@@ -407,4 +407,11 @@
 
     <string name="sign_in_reward">Mlebu lan klaim ganjaran</string>
 
+    <string name="agree">Setuju</string>
+    <string name="camera_permission_request">%1$s mbutuhake idin kamera. Apa sampeyan pengin njaluk idin?</string>
+    <string name="conversation_tab">Obrolan</string>
+    <string name="private_group_tab">Grup Pribadi</string>
+    <string name="public_group_tab">Grup Umum</string>
+    <string name="friend_tab">Kanca</string>
+
 </resources>

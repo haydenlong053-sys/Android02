@@ -407,4 +407,11 @@
 
     <string name="sign_in_reward">साइन इन गर्नुहोस् र इनाम प्राप्त गर्नुहोस्</string>
 
+    <string name="agree">सहमत</string>
+    <string name="camera_permission_request">%1$s लाई क्यामेरा अनुमति चाहिन्छ। के तपाईं अनुमति अनुरोध गर्न चाहनुहुन्छ?</string>
+    <string name="conversation_tab">च्याट</string>
+    <string name="private_group_tab">निजी समूह</string>
+    <string name="public_group_tab">सार्वजनिक समूह</string>
+    <string name="friend_tab">साथी</string>
+
 </resources>

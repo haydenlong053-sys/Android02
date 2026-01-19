@@ -405,4 +405,11 @@
 
     <string name="sign_in_reward">Đăng nhập và nhận phần thưởng</string>
 
+    <string name="agree">Đồng ý</string>
+    <string name="camera_permission_request">%1$s yêu cầu quyền camera. Bạn có muốn yêu cầu quyền không?</string>
+    <string name="conversation_tab">Trò chuyện</string>
+    <string name="private_group_tab">Nhóm Riêng Tư</string>
+    <string name="public_group_tab">Nhóm Công Khai</string>
+    <string name="friend_tab">Bạn bè</string>
+
 </resources>
