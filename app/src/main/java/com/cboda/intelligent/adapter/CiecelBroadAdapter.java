@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.intelligent.R;
-import com.cboda.baselibrary.bean.DataListBroadBean;
+import com.cboda.select.picture.entity.DataListBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.intelligent.utils.ListBroadUtil;

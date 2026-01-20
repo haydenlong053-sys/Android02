@@ -8,8 +8,8 @@ import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
-import com.cboda.baselibrary.utils.LanguageUtil
-import com.cboda.baselibrary.utils.LanguageUtil.ENGLISH
+import com.cboda.select.picture.utils.LanguageUtil
+import com.cboda.select.picture.utils.LanguageUtil.ENGLISH
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
 
@@ -206,24 +206,24 @@ class MMKVBroadUtils {
         fun getAppLanguageKey(context: Context? = null): String {
 //            val kv = MMKV.defaultMMKV()
 //            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
-            return getSharedPreferences(context).getString(USER_LANGUAGE_KEY, ENGLISH) ?: ENGLISH
-//            return LanguageUtil.getAppLanguageKey(getAppContext(context))
+//            return getSharedPreferences(context).getString(USER_LANGUAGE_KEY, ENGLISH) ?: ENGLISH
+            return LanguageUtil.getAppLanguageKey(getAppContext(context))
         }
 
 
         fun saveAppLanguageKey(languageKey: String, context: Context? = null) {
 //            val kv = MMKV.defaultMMKV()
 //            kv.encode(USER_LANGUAGE_KEY, languageKey)
-            getSharedPreferences(context).edit()
-                .putString(USER_LANGUAGE_KEY, languageKey)
-                .apply()
-//            LanguageUtil.saveAppLanguageKey(languageKey, getAppContext(context))
+//            getSharedPreferences(context).edit()
+//                .putString(USER_LANGUAGE_KEY, languageKey)
+//                .apply()
+            LanguageUtil.saveAppLanguageKey(languageKey, getAppContext(context))
         }
 
 
-        private fun getSharedPreferences(context: Context? = null): SharedPreferences {
-            return getAppContext(context).getSharedPreferences(getAppPackName(), Context.MODE_PRIVATE)
-        }
+//        private fun getSharedPreferences(context: Context? = null): SharedPreferences {
+//            return getAppContext(context).getSharedPreferences(getAppPackName(), Context.MODE_PRIVATE)
+//        }
 
         fun saveZt(yuyan: String) {
             val kv = MMKV.defaultMMKV()

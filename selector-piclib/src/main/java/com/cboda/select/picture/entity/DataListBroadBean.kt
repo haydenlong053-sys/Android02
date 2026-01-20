@@ -1,6 +1,5 @@
-package com.cboda.baselibrary.bean
+package com.cboda.select.picture.entity
 
-import com.cboda.baselibrary.bean.CircleCommListBroadBean
 import java.io.Serializable
 
 /**

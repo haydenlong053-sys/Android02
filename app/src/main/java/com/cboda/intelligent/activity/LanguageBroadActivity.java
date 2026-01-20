@@ -7,13 +7,13 @@ import android.text.TextUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.utils.LanguageUtil;
+import com.cboda.select.picture.utils.LanguageUtil;
 import com.cboda.intelligent.MainBroadActivity;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.app.MyBroadApp;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.LanguageBroadAdapter;
-import com.cboda.baselibrary.bean.DataListBroadBean;
+import com.cboda.select.picture.entity.DataListBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
 import com.cboda.intelligent.utils.AppBroadUtils;
@@ -53,7 +53,7 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
                 languageAdapter.notifyDataSetChanged();
                 String languageKey = listBeans.get(position).sqlKey;
                 MMKVBroadUtils.Companion.saveAppLanguageKey(languageKey, LanguageBroadActivity.this);
-                LanguageUtil.INSTANCE.setAppLanguage(languageKey, LanguageBroadActivity.this);
+                LanguageUtil.INSTANCE.setAppLanguage(languageKey,LanguageBroadActivity.this);
 //                MMKVBroadUtils.Companion.saveYuYan(listBeans.get(position).name);
                 for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
                     AppBroadUtils.Companion.getActivityList().get(i).finish();

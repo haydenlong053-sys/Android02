@@ -1,7 +1,7 @@
 package com.cboda.intelligent.bean;
 
-import com.cboda.baselibrary.bean.CircleCommListBroadBean;
-import com.cboda.baselibrary.bean.DataListBroadBean;
+import com.cboda.select.picture.entity.CircleCommListBroadBean;
+import com.cboda.select.picture.entity.DataListBroadBean;
 
 import java.io.Serializable;
 import java.util.List;

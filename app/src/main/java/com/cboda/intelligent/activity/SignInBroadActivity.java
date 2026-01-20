@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.SignInBroadAdapter;
-import com.cboda.baselibrary.bean.DataListBroadBean;
+import com.cboda.select.picture.entity.DataListBroadBean;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.utils.BaseBroadCallback;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;

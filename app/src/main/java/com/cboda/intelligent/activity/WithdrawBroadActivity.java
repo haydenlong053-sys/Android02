@@ -24,7 +24,7 @@ import com.cboda.select.picture.entity.LocalMedia;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.TixianConfigBroadAdapter;
-import com.cboda.baselibrary.bean.DataListBroadBean;
+import com.cboda.select.picture.entity.DataListBroadBean;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.dialog.NormalBroadDialog;
 import com.cboda.intelligent.dialog.PayPassworDialogBroadFra;

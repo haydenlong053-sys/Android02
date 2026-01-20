@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig.updateAppToken
-import com.cboda.baselibrary.utils.LanguageUtil
+import com.cboda.select.picture.utils.LanguageUtil
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter

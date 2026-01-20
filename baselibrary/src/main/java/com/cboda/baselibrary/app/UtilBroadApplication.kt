@@ -3,8 +3,8 @@ package com.cboda.baselibrary.app
 import android.app.Application
 import android.content.Context
 import com.cboda.baselibrary.utils.getAppContext
-import com.cboda.baselibrary.utils.LanguageUtil.getLanguageContext
-import com.cboda.baselibrary.utils.LanguageUtil.initLanguage
+import com.cboda.select.picture.utils.LanguageUtil.getLanguageContext
+import com.cboda.select.picture.utils.LanguageUtil.initLanguage
 
 open class UtilBroadApplication : Application() {
     companion object {
@@ -18,6 +18,6 @@ open class UtilBroadApplication : Application() {
     }
 
     override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(getLanguageContext(base))
+        super.attachBaseContext(getLanguageContext(getAppContext(base), true))
     }
 }
