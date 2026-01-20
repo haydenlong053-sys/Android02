@@ -39,7 +39,7 @@ android {
 
     namespace 'com.cboda.intelligent'
     compileSdkVersion libsinfo.compileSdk
-    buildToolsVersion libsinfo.buildToolsVersion
+//    buildToolsVersion libsinfo.buildToolsVersion
     defaultConfig {
         applicationId libsinfo.applicationId
         targetSdk libsinfo.compileSdk
