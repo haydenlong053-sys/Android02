@@ -5,6 +5,7 @@
 package cn.wildfirechat.message;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,8 @@ import android.media.ThumbnailUtils;
 import android.os.Parcel;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,7 +135,8 @@ public class VideoMessageContent extends MediaMessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[视频]";
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_video);
+//        return "[视频]";
     }
 
 

@@ -4,9 +4,12 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_SYS_NOTICE;
 
 import android.os.Parcel;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -154,7 +157,8 @@ public class NoticeMessageContent extends MessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[公告]";
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_notice);
+//        return "[公告]";
     }
 
 
