@@ -1,6 +1,9 @@
 package com.cboda.baselibrary.app
 
 import android.app.Application
+import android.content.Context
+import com.cboda.baselibrary.utils.LanguageUtil.getLanguageContext
+import com.cboda.baselibrary.utils.LanguageUtil.initLanguage
 
 open class UtilBroadApplication : Application() {
     companion object {
@@ -10,5 +13,10 @@ open class UtilBroadApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         cxt = this
+        initLanguage(this)
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(getLanguageContext(base))
     }
 }
