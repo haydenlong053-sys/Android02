@@ -4,9 +4,12 @@
 
 package com.cboda.chatui.voip.conference.message;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Conference_Change_Model;
 
 import android.os.Parcel;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,7 +89,8 @@ public class ConferenceChangeModeBroadContent extends MessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[网络电话]";
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_call);
+//        return "[网络电话]";
     }
 
 

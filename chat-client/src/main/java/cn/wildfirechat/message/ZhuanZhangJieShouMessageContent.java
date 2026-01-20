@@ -2,9 +2,12 @@ package cn.wildfirechat.message;
 
 
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_ZHUANGZHANGJIESHOU;
 
 import android.os.Parcel;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +69,8 @@ public class ZhuanZhangJieShouMessageContent extends MessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[转账]";
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_transfer);
+//        return "[转账]";
     }
 
     @Override

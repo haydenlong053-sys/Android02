@@ -9,4 +9,20 @@
     <string name="lack">缺少</string>
     <string name="permission_pls_system_set_open_flag">权限，请在系统设置中打开该权限！</string>
     <string name="about_per">相关</string>
+    <string name="base_digest_img">[图片]</string>
+    <string name="base_digest_call">[网络电话]</string>
+    <string name="base_digest_p2p_card">[个人名片]:</string>
+    <string name="base_digest_group_card">[群组名片]:</string>
+    <string name="base_digest_chat_room_card">[聊天室名片]:</string>
+    <string name="base_digest_channel_card">[频道名片]:</string>
+    <string name="base_digest_card">[名片]:</string>
+    <string name="base_digest_chat_record">[聊天记录]: </string>
+    <string name="base_digest_file">[文件]</string>
+    <string name="base_digest_red_package">[红包]</string>
+    <string name="base_digest_meeting">[会议]</string>
+    <string name="base_digest_notice">[公告]</string>
+    <string name="base_digest_audio">[语音]</string>
+    <string name="base_digest_video">[视频]</string>
+    <string name="base_digest_transfer">[转账]</string>
+
 </resources>

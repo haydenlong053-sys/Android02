@@ -1,9 +1,12 @@
 package cn.wildfirechat.message;
 
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_HONGBAO;
 
 import android.os.Parcel;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -111,7 +114,8 @@ public class HongBaoMessageContent extends MessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[红包]";
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_red_package);
+//        return "[红包]";
     }
 
     @Override

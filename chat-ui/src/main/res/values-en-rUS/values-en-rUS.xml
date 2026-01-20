@@ -1,10 +1,10 @@
 <resources>
 
-    <string name="complete">完成</string>
+    <string name="complete">Complete</string>
 
-    <string name="draft">[草稿]</string>
-    <string name="video">视频</string>
-    <string name="set_conversation_to_top">置顶聊天</string>
+    <string name="draft">[Draft]</string>
+    <string name="video">Video</string>
+    <string name="set_conversation_to_top">Pin chat</string>
 
     <!--联系人-->
     <string name="new_friend">New friends</string>
@@ -12,61 +12,234 @@
     <string name="qunliao">Group chat</string>
 
     <!--新的朋友-->
-    <string name="add_friend">添加朋友</string>
-    <string name="no_recommend_friend">还没有推荐的朋友</string>
+    <string name="add_friend">Add friend</string>
+    <string name="no_recommend_friend">No recommended friends yet</string>
 
     <!--搜索用户-->
-    <string name="user_no_found">该用户不存在</string>
-    <string name="search">搜索</string>
+    <string name="user_no_found">User does not exist</string>
+    <string name="search">Search</string>
 
     <!--用户信息-->
-    <string name="nickname_colon">昵称:%1$s</string>
-    <string name="set_alias_and_tag">设置备注和标签</string>
-    <string name="send_message">发消息</string>
-    <string name="add_to_contact">添加到通讯录</string>
-    <string name="change_my_name_tip">好名字可以让你的朋友 更容易记住你。</string>
+    <string name="nickname_colon">Nickname: %1$s</string>
+    <string name="set_alias_and_tag">Set alias and tag</string>
+    <string name="send_message">Send message</string>
+    <string name="add_to_contact">Add to contacts</string>
+    <string name="change_my_name_tip">A good name makes it easier for your friends to remember you.</string>
 
     <!--修改备注-->
-    <string name="alias">备注名</string>
-    <string name="alias_no_empty">备注名不能为空</string>
+    <string name="alias">Alias</string>
+    <string name="alias_no_empty">Alias cannot be empty</string>
 
     <!--附言界面-->
-    <string name="postscript_tip">你需要发送验证申请，等对方通过</string>
-    <string name="send">发送</string>
+    <string name="postscript_tip">You need to send a verification request and wait for approval</string>
+    <string name="send">Send</string>
 
     <!--会话界面-->
-    <string name="please_to_talk">按住 说话</string>
-    <string name="shot">拍摄</string>
-    <string name="location">位置</string>
-    <string name="file">文件</string>
+    <string name="please_to_talk">Hold to speak</string>
+    <string name="shot">Shoot</string>
+    <string name="location">Location</string>
+    <string name="file">File</string>
 
-    <string name="voice_rec">手指上滑，取消发送</string>
-    <string name="voice_cancel">松开手指，取消发送</string>
-    <string name="voice_short">录音时间太短</string>
+    <string name="voice_rec">Swipe up to cancel sending</string>
+    <string name="voice_cancel">Release finger to cancel sending</string>
+    <string name="voice_short">Recording time too short</string>
 
     <!--创建群-->
-    <string name="create_group_success">创建群成功</string>
-    <string name="create_group_fail">创建群失败</string>
-    <string name="no_group_now">暂无群聊</string>
+    <string name="create_group_success">Group created successfully</string>
+    <string name="create_group_fail">Failed to create group</string>
+    <string name="no_group_now">No group chats yet</string>
 
     <!--群信息-->
-    <string name="group_name">群聊名称</string>
-    <string name="group_portrait">群头像</string>
-    <string name="untitled">未命名</string>
-    <string name="group_announcement">群公告</string>
-    <string name="message_free">消息免打扰</string>
-    <string name="my_nickname_in_this_group">我在本群的昵称</string>
-    <string name="show_group_member_name">显示群成员昵称</string>
-    <string name="clear_chat_log">清空聊天记录</string>
-    <string name="delete_and_exit">删除并退出</string>
-    <string name="delete_and_dismiss">解散并删除</string>
-    <string name="add_member_success">添加群成员成功</string>
-    <string name="add_member_fail">添加群成员失败</string>
-    <string name="del_member_success">删除群成员成功</string>
-    <string name="del_member_fail">删除群成员失败</string>
+    <string name="group_name">Group chat name</string>
+    <string name="group_portrait">Group avatar</string>
+    <string name="untitled">Untitled</string>
+    <string name="group_announcement">Group announcement</string>
+    <string name="message_free">Mute notifications</string>
+    <string name="my_nickname_in_this_group">My nickname in this group</string>
+    <string name="show_group_member_name">Show group member nicknames</string>
+    <string name="clear_chat_log">Clear chat history</string>
+    <string name="delete_and_exit">Delete and exit</string>
+    <string name="delete_and_dismiss">Dismiss and delete</string>
+    <string name="add_member_success">Successfully added group member</string>
+    <string name="add_member_fail">Failed to add group member</string>
+    <string name="del_member_success">Successfully removed group member</string>
+    <string name="del_member_fail">Failed to remove group member</string>
 
-    <string name="unsubscribe">取消订阅</string>
+    <string name="unsubscribe">Unsubscribe</string>
 
-    <string name="close">关闭</string>
-    <string name="confirm">确认</string>
+    <string name="close">Close</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="收藏夹">Favorites</string>
+    <string name="创建会议主题">Create meeting topic</string>
+    <string name="请输入会议主题">Please enter meeting topic</string>
+    <string name="全员开麦">All members unmuted</string>
+    <string name="全员禁言">All members muted</string>
+    <string name="open">Open</string>
+
+    <string name="xiao_xi">Message</string>
+    <string name="tongxunlu">Contacts</string>
+    <string name="xiaochengxu">Mini program</string>
+    <string name="faxian">Discover</string>
+    <string name="wode">Mine</string>
+    <string name="wenxintishi">Warm reminder</string>
+    <string name="qitashebeidenglu">Account logged in on another device</string>
+    <string name="queding">Confirm</string>
+    <string name="dengluguoqi">Login information expired, please log in again</string>
+    <string name="faqiqunliao">Start group chat</string>
+    <string name="tianjiapengyou">Add friend</string>
+    <string name="saoyisao">Scan</string>
+    <string name="gexingqiaming">Personal signature</string>
+    <string name="shezhibeizhu">Set alias</string>
+    <string name="pengyouquan">Moments</string>
+    <string name="qingkongliaotian">Clear chat history</string>
+    <string name="faxiaoxi">Send message</string>
+    <string name="yuyintonghua">Voice call</string>
+    <string name="qingkongtishi">Clear chat history for contact %1$s?</string>
+    <string name="quxiao">Cancel</string>
+    <string name="bveizhu">Alias</string>
+    <string name="bveizhutips">Please enter alias</string>
+    <string name="wancheng">Complete</string>
+    <string name="zhiding">Pin</string>
+    <string name="miaodarao">Do not disturb</string>
+    <string name="jiaruheimingdan">Add to blacklist</string>
+    <string name="shanchu">Delete</string>
+    <string name="shanchulianxiren">Delete contact</string>
+    <string name="shanchulianxirentips">Delete contact %1$s?</string>
+    <string name="dangejine">Single quantity</string>
+    <string name="gongxifacai">Wishing you prosperity and good fortune</string>
+    <string name="querenfahongbao">Confirm send red envelope</string>
+    <string name="querenfahongbaotips">Please enter quantity</string>
+    <string name="querenfahongbaotips1">Please enter correct quantity</string>
+    <string name="hongbaojine">Red envelope quantity</string>
+    <string name="zhuanzhuanggei">Transfer to %1$s</string>
+    <string name="qunliaogesghu">%1$s group chats</string>
+    <string name="shoujihaoshi">Phone number %1$s</string>
+    <string name="zhuanzhangjine">Transfer amount</string>
+    <string name="bianjixiaoxineirong">Edit message content</string>
+    <string name="mourendehongbao">%1$s\'s red envelope</string>
+    <string name="yuanqian">WEBX</string>
+    <string name="yilingquhongbao">Received %1$s, total %2$sWEBX</string>
+    <string name="daishoulkuan">Pending payment</string>
+    <string name="zhuanzhuangshijian">Transfer time</string>
+    <string name="shoukuan">Receive payment</string>
+    <string name="shoukuanshijian">Payment received time</string>
+    <string name="cunruyue">Payment received, funds deposited to balance</string>
+    <string name="xindepengyou">New friends</string>
+    <string name="ruqunyaoqing">Group invitation</string>
+    <string name="sousuonicheng">Search nickname/ID</string>
+    <string name="sousuoqunlibieao">Search group chat name</string>
+    <string name="jujuele">Reject</string>
+    <string name="jieshoule">Accept</string>
+    <string name="yitianjia">Added</string>
+    <string name="yijujue">Rejected</string>
+    <string name="chakanquanbuquncheng">View more group members</string>
+    <string name="shezhiquntouxiang">Set group avatar</string>
+    <string name="qunid">Group chat ID</string>
+    <string name="shewweizhiding">Set as pinned</string>
+    <string name="xiaoximiandarao">Mute notifications</string>
+    <string name="qungonggapo">Group announcement</string>
+    <string name="qubmingcheng">Group chat name</string>
+    <string name="wodequnnicheng">My group nickname</string>
+    <string name="qunguanli">Group management</string>
+    <string name="qunguanliyuan">Group administrator</string>
+    <string name="qunjinyan">Group mute</string>
+    <string name="zhuanrnagquan">Transfer group owner</string>
+    <string name="yaoqinghaoyoujinqn">Group members invite friends to join</string>
+    <string name="qunyuanjinqunjiaoyanb">Group member join invitation verification</string>
+    <string name="qunzhukefahogb">Only group owner and administrators can send red envelopes</string>
+    <string name="qunzhutuisongmingp">Only group owner and administrators can push business cards</string>
+    <string name="qunyuanguanliyanz">Group member join invitation management verification</string>
+    <string name="wufasijiahao">Group members cannot privately add friends</string>
+    <string name="kejianguanliy">Regular members can only see group owner and administrators</string>
+    <string name="jiesanquan">Dismiss group chat</string>
+    <string name="shanchutuichuqun">Delete and exit</string>
+    <string name="tousuqun">Complain</string>
+    <string name="tianjaiuaer">Add</string>
+    <string name="yichuuser">Remove</string>
+    <string name="tousuqunleixing">Complaint type</string>
+    <string name="liantianzhengju">Chat evidence</string>
+    <string name="tupianzhengju">Image evidence</string>
+    <string name="tousuqunneirong">Complaint content</string>
+    <string name="tijiao">Submit</string>
+    <string name="xuanzetousulieixng">Please select the type of complaint</string>
+    <string name="xuanztousuqunleixing">Please select complaint type</string>
+    <string name="uxanzhengjiju">Please select chat evidence</string>
+    <string name="xuanzelianxiren">Select contact</string>
+    <string name="sousuonichengbeizhu">Search nickname/alias</string>
+    <string name="qingxuanzelianxiren">Please select contact</string>
+    <string name="qingshuruqunmning">Please enter group chat name</string>
+    <string name="qingshuruqungonggao">Please enter group announcement</string>
+    <string name="qingkongquntishi">Clear chat history for group chat %1$s?</string>
+    <string name="nichengb">Nickname</string>
+    <string name="shezhinichengb">Set nickname</string>
+    <string name="shuqubveizhutips">Please enter nickname</string>
+    <string name="guanliyuanshuiom">Administrators can assist the group owner in managing group chats, with abilities such as publishing group announcements and removing group members. Only the group owner has the ability to set administrators and dismiss group chats.</string>
+    <string name="tianjaiqunguanli">Add member</string>
+    <string name="hengyuanjinyan">Member mute</string>
+    <string name="yijinyanmingdan">List of muted members</string>
+    <string name="mingancishezhi">Sensitive word settings</string>
+    <string name="zidongjinyan">Auto-mute when sensitive words are triggered</string>
+    <string name="quanyuanjinyanle">All members muted</string>
+    <string name="jinyanshichang">Mute duration</string>
+    <string name="jinyanyitian">Mute for one day</string>
+    <string name="jinyanyizhou">Mute for one week</string>
+    <string name="jinyanyigeyue">Mute for one month</string>
+    <string name="jinyanyongjiu">Permanent mute</string>
+    <string name="xuanquanyuanjinyanle">Select members to mute</string>
+    <string name="jiechujianyan">Unmute</string>
+    <string name="baocunle">Saved</string>
+    <string name="mingancihit">Please enter sensitive words, separate multiple sensitive words with the English symbol &quot; | &quot;</string>
+    <string name="mingancihit2">·Separate multiple sensitive words with the English symbol &quot; | &quot;</string>
+    <string name="qunerweim">Group QR code</string>
+    <string name="xuanxinqunzhu">Select new group owner</string>
+    <string name="shezhijinyan">Set mute</string>
+    <string name="yichubenqun">Remove from group</string>
+    <string name="chehuishifenzhongfayan">Withdraw speech within ten minutes and remove from group</string>
+    <string name="tianjiadaotongxun">Add to contacts</string>
+    <string name="jiangyonghhuyichuquan">Remove user %1$s from this group?</string>
+    <string name="xuanshichangjinyanle">Select mute duration</string>
+    <string name="faqunhongbao">Send red envelope</string>
+    <string name="pinshouqihongboa">Random red envelope</string>
+    <string name="putonghongboa">Regular red envelope</string>
+    <string name="zhuanshuhongboa">Exclusive red envelope</string>
+    <string name="hongboashuliang">Number of red envelopes</string>
+    <string name="hongboashuliangtips">Enter number of red envelopes</string>
+    <string name="hongboashuliangtips2">pcs</string>
+    <string name="qunrenshutis">This group has %1$s members</string>
+    <string name="hongbaojinesu">Number of red envelopes</string>
+    <string name="fageishui">Send to whom</string>
+    <string name="hongboashuliangtips1">Please enter correct number of red envelopes</string>
+    <string name="xuanzefageishui">Please select recipient</string>
+    <string name="xiaochengxuma">Mini program code</string>
+    <string name="shenqingtianjaihaoyou">Request to add friend</string>
+    <string name="fasonghaouyoushenqing">Send friend request</string>
+    <string name="tianjiamiaoshu">Add description</string>
+    <string name="fasongshenqing">Send</string>
+    <string name="fasonghaouyoushenqingtips">Please enter friend request</string>
+    <string name="shezhibneizhutispa">Please set alias</string>
+    <string name="woshishenqing">I am (%1$s)</string>
+    <string name="daozheliqu">Go here</string>
+    <string name="shoucangchengg">Successfully favorited</string>
+    <string name="tianjaichengg">Successfully added</string>
+    <string name="nichengshi">Nickname: %1$s</string>
+    <string name="zhiyouqunzhuguanli">Only group owner or administrators can modify avatar</string>
+    <string name="zhiyouqunzhuguanlimingcheng">Only group owner or administrators can modify group name</string>
+    <string name="qincghujikusuc">Successfully cleared</string>
+    <string name="zhiyouqunzhuguanlimgongao">Only group owner or administrators can modify announcement</string>
+    <string name="querdingjiesanqun">Confirm dismiss this group?</string>
+    <string name="querdingjiesanqunshanchu">Confirm delete and exit this group?</string>
+    <string name="shuidezhuanchuhong">Only %1$s can receive</string>
+    <string name="jiangefayanmiao">Speaking interval (seconds)</string>
+    <string name="chehuishifenzhongfayantips">Confirm withdraw speech within ten minutes and remove from this group?</string>
+    <string name="qunzhushenfen">Group owner</string>
+    <string name="qunguanlishenfen">Administrator</string>
+
+    <string name="sys_notice_info">System announcement</string>
+    <string name="msg_input">Please enter</string>
+    <string name="msg_voice_msg_tip_3s">About to reach voice message duration limit, will automatically send in 3 seconds</string>
+    <string name="msg_search_keyword">Search keyword</string>
+    <string name="msg_linkman">Contact</string>
+    <string name="msg_chat_bibi">Chat history</string>
+
 </resources>
