@@ -30,8 +30,6 @@
     <string name="click_upload_video">点击上传视频</string>
     <string name="supports_mp3_wav">支持MP3、WAV</string>
     <string name="supports_mp4_mov_avi">支持MP4、MOV、AVI</string>
-
-
     <string name="ai_document">文档</string>
     <string name="ai_img">图片</string>
     <string name="ai_audio">语音</string>
@@ -201,7 +199,6 @@
     <string name="qunzhushenfen">群主</string>
     <string name="qunguanlishenfen">管理员</string>
     <string name="set_circle_tags">设置圈子标签</string>
-
     <string name="设备自动注册登录">设备自动注册登录</string>
     <string name="是否根据手机设备号注册账号并登录">是否根据手机设备号注册账号并登录</string>
     <string name="登录">登录</string>
@@ -481,8 +478,6 @@
     <string name="我知道了">我知道了</string>
     <string name="确认登录">确认登录</string>
     <string name="检测到当前登录设备非注册设备请验证后登录">检测到当前登录设备非注册设备，请验证后登录</string>
-
-
     <string name="title_activity_main">TrojanCat</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -490,11 +485,9 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">配置文件</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-
     <string name="home_second">Home Second</string>
     <string name="permissionReason">请授予存储权限，用于读写TrojanGo配置文件</string>
     <string name="action_add">添加</string>
@@ -502,10 +495,7 @@
     <string name="action_add_url">从网址导入</string>
     <string name="action_add_file">从文件导入</string>
     <string name="action_ping">延迟测试</string>
-
     <string name="action_add_scan">扫描二维码</string>
-
-
     <string name="action_save">保存</string>
     <string name="action_template">模板</string>
     <string name="titleInputFileName">请输入文件名称</string>
@@ -526,14 +516,11 @@
     <string name="logcat_delete">删除</string>
     <string name="copySuccess">复制成功</string>
     <string name="titleTemplate">模板文件</string>
-
-
     <string name="common_delete">Delete</string>
     <string name="common_alert">Alert</string>
     <string name="common_confirm">Confirm</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_save_success">Save success</string>
-
     <string name="remote_addr">Remote Address</string>
     <string name="remote_port">Remote Port</string>
     <string name="default_port">443</string>
@@ -555,11 +542,8 @@
     <string name="notification_starting_service">Starting service</string>
     <string name="main_restart_proxy_service_tip">Restart proxy yourself to apply new exempt apps configuration.</string>
     <string name="clipboard_import_tip">Do you want to import the Trojan URL you just copied?</string>
-
-    <!-- App Bar Menu -->
     <string name="action_test_connection">Test Connection</string>
     <string name="action_show_develop_info_logcat">Show develop info in logcat</string>
-
     <string name="server_list_import_file_desc">Import config in file extension (*.txt)</string>
     <string name="server_list_file_chooser_msg">Select a TXT file</string>
     <string name="server_list_menu_import_from_file">Import from file</string>
@@ -567,7 +551,6 @@
     <string name="server_list_lack_of_camera_permission">Lack of camera permission!</string>
     <string name="main_save_success">@string/common_save_success</string>
     <string name="main_save_failed">Save failed</string>
-
     <string name="main_write_external_storage_permission_requirement">
         Igniter needs to read and write external storage for reading or writing exempted app
         list, which is recoverable even when Igniter is uninstalled. Denying the permission
@@ -577,12 +560,10 @@
         Please grant read and write external storage permission in Igniter application settings first.
     </string>
     <string name="main_menu_server_list">Load Server</string>
-
     <string name="scan_qr_code_success">Add server success</string>
     <string name="scan_qr_code_failed">Cannot recognize trojanURL: %s</string>
     <string name="scan_qr_code">Scan QR</string>
     <string name="scan_qr_code_camera_error">Camera Error</string>
-
     <string name="menu_action_exempt_app_save">Save</string>
     <string name="menu_action_exempt_app">Exempt Apps</string>
     <string name="exempt_app_search_title">Search Apps</string>
@@ -593,32 +574,23 @@
     <string name="action_new_profile">New Server</string>
     <string name="action_sharelink">Share Link</string>
     <string name="title_activity_about">About</string>
-
-    <!-- Preference Titles -->
     <string name="about_header">About</string>
     <string name="credits_header">Credits</string>
-
-    <!-- Messages Preferences -->
     <string name="version_title">Version</string>
     <string name="author_title">Developed by</string>
-
-    <!-- Sync Preferences -->
     <string name="credit_item1_title">Dreamacro/clash</string>
     <string name="credit_item2_title">eycorsican/go-tun2socks</string>
     <string name="credit_item3_title">bingoogolapple/BGAQRCode-Android</string>
     <string name="action_about">About</string>
-
     <string name="webX_name">WEBX</string>
     <string name="mine_sys_currency">平台通证(%1$s)</string>
     <string name="mine_sys_point">平台积分(WX)</string>
     <string name="mine_safe_center">安全中心</string>
-
     <string name="mine_double_auth">双重验证</string>
     <string name="mine_double_auth_des">为保障账户安全，请至少设置两种双重身份验证</string>
     <string name="mine_google_auth">谷歌验证</string>
     <string name="mine_pay_password">支付密码</string>
     <string name="mine_security_auth">密保问题验证</string>
-
     <string name="mine_google_auth_des_1">复制16位密钥，或扫描下方二维码。</string>
     <string name="mine_google_auth_des_2">16位密钥</string>
     <string name="mine_google_auth_des_3">打开谷歌验证器，使用您刚刚复制的16位密钥添加新的身份验证器</string>
@@ -629,11 +601,9 @@
     <string name="mine_google_auth_des_8">请输入验证App生成的6位验证码</string>
     <string name="mine_google_auth_copy">粘贴</string>
     <string name="mine_google_auth_submit">提交</string>
-
     <string name="mine_save_des_1">记得截图保存您的密钥和二维码</string>
     <string name="mine_save_des_2">谨防你的谷歌验证丢失，影响账户正常使用</string>
     <string name="mine_ok">好的</string>
-
     <string name="mine_idcard_auth_des_1">身份验证器</string>
     <string name="mine_idcard_auth_des_2">我的身份验证器app</string>
     <string name="mine_idcard_auth_des_3">为保障账号安全，请谨慎删除修改</string>
@@ -642,19 +612,16 @@
     <string name="mine_auth_way">选择验证方式</string>
     <string name="mine_auth_google_code">谷歌验证码验证</string>
     <string name="mine_auth_add">前往添加</string>
-
     <string name="mine_your_name">您的姓名</string>
     <string name="mine_input">请输入</string>
     <string name="mine_sure">确定</string>
     <string name="mine_input_question">请输入您的问题</string>
     <string name="mine_diy_question">自定义密保问题</string>
-
     <string name="mine_password_title_1">请输入支付密码</string>
     <string name="mine_password_title_2">请再次输入支付密码</string>
     <string name="mine_password_title_3">请输入支付密码验证</string>
     <string name="mine_password_title_4">请重置支付密码</string>
     <string name="mine_password_title_5">验证支付密码</string>
-
     <string name="mine_transfer">转账</string>
     <string name="mine_my_money_address">我的%1$s通证地址</string>
     <string name="mine_money_qrcode">二维码收款</string>
@@ -682,7 +649,6 @@
     <string name="mine_t_Withdrawal_numb">订单编号</string>
     <string name="mine_t_add_linkman">添加链桥客服：%1$s</string>
     <string name="mine_t_fail_reason">失败原因</string>
-
     <string name="is_not_yet_available">该功能暂未开放</string>
     <string name="mine_transfer_success">转账成功</string>
     <string name="mine_transfer_address">转账地址</string>
@@ -696,7 +662,6 @@
     <string name="mine_tip_other_title">需完善其他验证方式</string>
     <string name="mine_tip_other_des">请先添加谷歌验证或密保问题验证至少一种</string>
     <string name="mine_withdraw_detail">提现详情</string>
-
     <string name="mine_look_go">前往查看</string>
     <string name="mine_change_google_auth_title">您要更改谷歌验证吗？</string>
     <string name="mine_change_password_auth_title">您要更改支付密码吗？</string>
@@ -707,19 +672,16 @@
     <string name="sys_notice_detail">公告详情</string>
     <string name="sys_notice_detail_publish">发布于：</string>
     <string name="sys_notice_detail_Forward">转发</string>
-
     <string name="mine_bind_machine">绑定当前账号与设备</string>
     <string name="mine_bind_success">绑定成功,请重新登录</string>
     <string name="mine_change_machine_tip">请先退出登录，在登录页扫码换号</string>
     <string name="string_region">地区</string>
     <string name="string_profession">职业</string>
     <string name="string_interest">兴趣标签</string>
-
     <string name="string_hongbao_expired">红包已过期</string>
     <string name="hb_total_numb">总数量</string>
     <string name="hb_good_word">人人皆股东 好运连连</string>
     <string name="hb_send_hongbao">塞进红包</string>
-
     <string name="m_account_info">账号信息</string>
     <string name="m_safe_des_1">抗量子计算机攻击保护</string>
     <string name="m_safe_des_2">采用双重加密技术，即便面对量子计算机攻击也能有效防护。</string>
@@ -727,8 +689,6 @@
     <string name="m_save_login">保存并登录</string>
     <string name="m_eyes_qrcode_show">点击显示二维码</string>
     <string name="m_query_fail">查找失败</string>
-
-    <!-- Login and Registration -->
     <string name="user_agreement">《用户协议》</string>
     <string name="and">和</string>
     <string name="privacy_agreement">《隐私协议》</string>
@@ -753,7 +713,6 @@
     <string name="simplified_chinese">简体中文</string>
     <string name="password_reset_success">密码重置成功！</string>
     <string name="user_qrcode_add_friend">使用SeekWeb4扫一扫，加为好友</string>
-
     <string name="ai_check_result">检测结果</string>
     <string name="high_risk_warning">高风险预警</string>
     <string name="mid_risk_warning">中度风险提醒</string>
@@ -771,7 +730,6 @@
     <string name="abnormal">异常</string>
     <string name="normal">正常</string>
     <string name="return_homepage">返回首页</string>
-
     <string name="key_terms">关键条款</string>
     <string name="hidden_traps">隐藏陷阱</string>
     <string name="liability_allocation">全责分配</string>
@@ -780,30 +738,23 @@
     <string name="voiceprint_analysis">声纹分析</string>
     <string name="environment_consistency">环境一致性</string>
     <string name="metadata">元数据</string>
-
     <string name="ai_check_record">检测记录</string>
     <string name="ai_pop_tip">提示</string>
     <string name="ai_pop_tip_des">你要放弃当前上传的文件吗</string>
-
     <string name="save_image_permission_request">保存图片功能需要存储权限，是否请求权限？</string>
     <string name="save_success_exclamation">保存成功！</string>
-
     <string name="user_prefix">用户</string>
     <string name="select_image_permission_request">使用选择图片功能需要相机、存储权限，是否请求权限？</string>
     <string name="login_success">登录成功</string>
-
     <string name="score_unit">分</string>
     <string name="credit_score">信用分</string>
-
     <string name="sign_in_reward">签到领奖</string>
-
     <string name="agree">同意</string>
     <string name="camera_permission_request">%1$s需要相机权限,是否请求权限?</string>
     <string name="conversation_tab">对话</string>
     <string name="private_group_tab">私群</string>
     <string name="public_group_tab">公群</string>
     <string name="friend_tab">好友</string>
-
     <string name="select_all">全选</string>
     <string name="cancel_select_all">取消全选</string>
     <string name="all_read">全已读</string>
@@ -814,10 +765,8 @@
     <string name="please_complete_your_info">请补充你的信息</string>
     <string name="go_to_personal_info_settings">前往个人信息设置</string>
     <string name="ok">好的</string>
-
     <string name="all">全部</string>
     <string name="new_friend">新增好友</string>
     <string name="new_group_invite">新群邀请</string>
     <string name="contact_avatar">联系人头像</string>
-
 </resources>
