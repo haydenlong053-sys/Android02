@@ -1,4 +1,4 @@
-package com.cboda.baselibrary.utils
+package com.cboda.select.picture.utils
 
 import android.app.Application
 import android.content.Context
@@ -6,38 +6,41 @@ import android.content.SharedPreferences
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getAppLanguageKey
-import com.cboda.baselibrary.bean.DataListBroadBean
+import com.cboda.select.picture.entity.DataListBroadBean
 import java.util.Locale
 
 object LanguageUtil {
-//    fun getAppLanguageKey(context: Context): String {
-////            val kv = MMKV.defaultMMKV()
-////            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
-//        return getSharedPreferences(context).getString("LanguageKey", ENGLISH) ?: ENGLISH
-//    }
-//
-//
-//    fun saveAppLanguageKey(languageKey: String, context: Context) {
-////            val kv = MMKV.defaultMMKV()
-////            kv.encode(USER_LANGUAGE_KEY, languageKey)
-//        getSharedPreferences(context).edit()
-//            .putString("LanguageKey", languageKey)
-//            .apply();
-//    }
-//
-//
-//    private fun getSharedPreferences(context: Context): SharedPreferences {
-//        return context.getSharedPreferences("APP_GOOGLE_PLAY_SQL_NAME", Context.MODE_PRIVATE)
-//    }
+    private var mContext: Context? = null
+    fun getAppLanguageKey(context: Context? = null): String {
+//            val kv = MMKV.defaultMMKV()
+//            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
+        return getSharedPreferences(context)?.getString("LanguageKey", ENGLISH) ?: ENGLISH
+    }
+
+
+    fun saveAppLanguageKey(languageKey: String, context: Context? = null) {
+//            val kv = MMKV.defaultMMKV()
+//            kv.encode(USER_LANGUAGE_KEY, languageKey)
+        getSharedPreferences(context)?.edit()
+            ?.putString("LanguageKey", languageKey)
+            ?.apply()
+    }
+
+
+    private fun getSharedPreferences(context: Context? = null): SharedPreferences? {
+        return context?.getSharedPreferences("APP_GOOGLE_PLAY_SQL_NAME", Context.MODE_PRIVATE)
+    }
 
     fun initLanguage(application: Application) {
+        mContext = application
 //        com.hjq.language.MultiLanguages.init(application)
     }
 
-    fun getLanguageContext(context: Context?): Context {
+    fun getLanguageContext(context: Context?, isAttApp: Boolean = false): Context? {
+        if (null == mContext && null != context && isAttApp) {
+            mContext = context
+        }
 //        return com.hjq.language.MultiLanguages.attach(getAppContext(context))
-        val mContext = getAppContext(context)
         val lanList = getLanList(getAppLanguageKey(mContext))
         return updateResources(mContext, lanList) ?: mContext
 //        return getAppContext(context)
@@ -62,15 +65,14 @@ object LanguageUtil {
     }
 
     private fun updateResources(context: Context?, lanList: String? = "", mLocale: Locale? = null): Context? {
-        return if (TextUtils.isEmpty(lanList) && null == mLocale) {
+        return if (TextUtils.isEmpty(lanList) && null == mLocale || null == context) {
             null
         } else {
             val locale = mLocale ?: Locale(lanList)
-            val mContent = getAppContext(context)
-            val configuration = mContent.resources.configuration
+            val configuration = context.resources.configuration
             configuration.setLocale(locale)
             configuration.setLayoutDirection(locale)
-            mContent.createConfigurationContext(configuration)
+            context.createConfigurationContext(configuration)
         }
     }
 

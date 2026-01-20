@@ -13,7 +13,7 @@ import com.cboda.intelligent.activity.CiecelBroadActivity
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SignInBroadActivity
 import com.cboda.intelligent.adapter.FaxianBroadAdapter
-import com.cboda.baselibrary.bean.DataListBroadBean
+import com.cboda.select.picture.entity.DataListBroadBean
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.utils.BaseBroadCallback

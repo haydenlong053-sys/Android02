@@ -1,4 +1,4 @@
-package com.cboda.baselibrary.bean
+package com.cboda.select.picture.entity
 
 import java.io.Serializable
 

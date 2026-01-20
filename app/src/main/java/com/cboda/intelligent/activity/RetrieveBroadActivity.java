@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.cboda.baselibrary.utils.LanguageUtil;
+import com.cboda.select.picture.utils.LanguageUtil;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.bean.ResultBroadBean;
