@@ -30,7 +30,7 @@
     <string name="click_upload_video">Click to upload video</string>
     <string name="supports_mp3_wav">Supports MP3, WAV</string>
     <string name="supports_mp4_mov_avi">Supports MP4, MOV, AVI</string>
-    <string name="ai_document">Document</string>
+    <string name="ai_document">Doc</string>
     <string name="ai_img">Image</string>
     <string name="ai_audio">Audio</string>
     <string name="ai_video">Video</string>
@@ -399,7 +399,7 @@
     <string name="已签到">Signed In</string>
     <string name="签到">Sign In</string>
     <string name="user_id_prefix">ID:</string>
-    <string name="days_unit">Day</string>
+    <string name="days_unit">days</string>
     <string name="设置密保问题">Set Security Question</string>
     <string name="密保问题">Security Question</string>
     <string name="密保答案">Security Answer</string>
@@ -746,14 +746,14 @@
     <string name="user_prefix">User</string>
     <string name="select_image_permission_request">Using image selection requires camera and storage permissions. Request permissions?</string>
     <string name="login_success">Login Successful</string>
-    <string name="score_unit">Points</string>
+    <string name="score_unit">pts</string>
     <string name="credit_score">Credit Score</string>
     <string name="sign_in_reward">Sign In to Claim Reward</string>
     <string name="agree">Agree</string>
     <string name="camera_permission_request">%1$s requires camera permission. Request permission?</string>
-    <string name="conversation_tab">Conversation</string>
-    <string name="private_group_tab">Private Group</string>
-    <string name="public_group_tab">Public Group</string>
+    <string name="conversation_tab">Chat</string>
+    <string name="private_group_tab">Private</string>
+    <string name="public_group_tab">Public</string>
     <string name="friend_tab">Friend</string>
     <string name="select_all">Select All</string>
     <string name="cancel_select_all">Deselect All</string>
