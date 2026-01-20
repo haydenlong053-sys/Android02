@@ -54,9 +54,9 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val language = MMKVBroadUtils.getYuYan()
+//        val language = MMKVBroadUtils.getYuYan()
 
-        val zhuti = getZt()
+//        val zhuti = getZt()
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //            if (zhuti?.isNotEmpty() == true){
 //                when (zhuti) {
@@ -71,118 +71,118 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
 //
 //        }
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        if (language?.isNotEmpty() == true){
-            val yuyanconfig = resources?.configuration
-            when (language) {
-                "简体中文" -> {//简体中文
-                    yuyanconfig?.locale = Locale.CHINA
-                }
-                "繁體中文" -> {//繁体中文
-//                    yuyanconfig?.locale = Locale.CHINESE
-                    yuyanconfig?.locale = Locale.forLanguageTag("zh-TW")
-                }
-                "English" -> {//英语
-                    yuyanconfig?.locale = Locale.ENGLISH
-                }
-                "हिन्दी" -> {//印地语
-                    yuyanconfig?.locale = Locale.forLanguageTag("hi")
-                }
-                "Español" -> {//西班牙语
-                    yuyanconfig?.locale = Locale.forLanguageTag("es")
-                }
-                "Français" -> {//法语
-                    yuyanconfig?.locale = Locale.FRENCH
-                }
-                "العربية" -> {//阿拉伯语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ar")
-                }
-                "বাংলা" -> {//孟加拉语
-                    yuyanconfig?.locale = Locale.forLanguageTag("bn")
-                }
-                "русский" -> {//俄语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ru")
-                }
-                "Português" -> {//葡萄牙语
-                    yuyanconfig?.locale = Locale.forLanguageTag("pt")
-                }
-                "Indonesia" -> {//印尼语
-                    yuyanconfig?.locale = Locale.forLanguageTag("id")
-                }
-                "اردو" -> {//乌尔都语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ur")
-                }
-                "日本語" -> {//日本語
-                    yuyanconfig?.locale = Locale.forLanguageTag("ja")
-                }
-                "Deutsch" -> {//德语
-                    yuyanconfig?.locale = Locale.forLanguageTag("de")
-                }
-                "ਪੰਜਾਬੀ" -> {//旁遮普语
-                    yuyanconfig?.locale = Locale.forLanguageTag("de")
-                }
-                "Jawa" -> {//爪哇语
-                    yuyanconfig?.locale = Locale.forLanguageTag("jv")
-                }
-                "Filipino" -> {//菲律宾语
-                    yuyanconfig?.locale = Locale.forLanguageTag("in")
-                }
-                "Tiếng Việt" -> {//越南语
-                    yuyanconfig?.locale = Locale.forLanguageTag("vi")
-                }
-                "한국어" -> {//韩语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ko")
-                }
-                "Türkçe" -> {//土耳其语
-                    yuyanconfig?.locale = Locale.forLanguageTag("tr")
-                }
-                "Italiano" -> {//意大利语
-                    yuyanconfig?.locale = Locale.forLanguageTag("it")
-                }
-                "ไทย" -> {//泰语
-                    yuyanconfig?.locale = Locale.forLanguageTag("th-TH")
-                }
-                "Bahasa Melayu" -> {//马来语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ms")
-                }
-                "Polski" -> {//波兰语
-                    yuyanconfig?.locale = Locale.forLanguageTag("pl")
-                }
-                "Română" -> {//罗马尼亚语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ro")
-                }
-                "ລາວ" -> {//老挝语
-                    yuyanconfig?.locale = Locale.forLanguageTag("lo")
-                }
-                "Монгол" -> {//蒙古语
-                    yuyanconfig?.locale = Locale.forLanguageTag("mn")
-                }
-                "Hausa" -> {//豪萨语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ha")
-                }
-                "Kiswahili" -> {//斯瓦希里语
-                    yuyanconfig?.locale = Locale.forLanguageTag("sw")
-                }
-                "မြန်မာ" -> {//缅甸语
-                    yuyanconfig?.locale = Locale.forLanguageTag("my")
-                }
-                "नेपाली" -> {//尼泊尔语
-                    yuyanconfig?.locale = Locale.forLanguageTag("ne")
-                }
-                "isiZulu" -> {//祖鲁语
-                    yuyanconfig?.locale = Locale.forLanguageTag("zu")
-                }
-                "עברית" -> {//希伯来语
-                    yuyanconfig?.locale = Locale.forLanguageTag("he")
-                }
-                "Ελληνικά" -> {//希腊语
-                    yuyanconfig?.locale = Locale.forLanguageTag("el")
-                }
-                "українська" -> {//乌克兰语
-                    yuyanconfig?.locale = Locale.forLanguageTag("uk")
-                }
-            }
-            resources?.updateConfiguration(yuyanconfig,resources.displayMetrics)
-        }
+//        if (language?.isNotEmpty() == true){
+//            val yuyanconfig = resources?.configuration
+//            when (language) {
+//                "简体中文" -> {//简体中文
+//                    yuyanconfig?.locale = Locale.CHINA
+//                }
+//                "繁體中文" -> {//繁体中文
+////                    yuyanconfig?.locale = Locale.CHINESE
+//                    yuyanconfig?.locale = Locale.forLanguageTag("zh-TW")
+//                }
+//                "English" -> {//英语
+//                    yuyanconfig?.locale = Locale.ENGLISH
+//                }
+//                "हिन्दी" -> {//印地语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("hi")
+//                }
+//                "Español" -> {//西班牙语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("es")
+//                }
+//                "Français" -> {//法语
+//                    yuyanconfig?.locale = Locale.FRENCH
+//                }
+//                "العربية" -> {//阿拉伯语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ar")
+//                }
+//                "বাংলা" -> {//孟加拉语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("bn")
+//                }
+//                "русский" -> {//俄语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ru")
+//                }
+//                "Português" -> {//葡萄牙语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("pt")
+//                }
+//                "Indonesia" -> {//印尼语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("id")
+//                }
+//                "اردو" -> {//乌尔都语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ur")
+//                }
+//                "日本語" -> {//日本語
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ja")
+//                }
+//                "Deutsch" -> {//德语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("de")
+//                }
+//                "ਪੰਜਾਬੀ" -> {//旁遮普语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("de")
+//                }
+//                "Jawa" -> {//爪哇语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("jv")
+//                }
+//                "Filipino" -> {//菲律宾语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("in")
+//                }
+//                "Tiếng Việt" -> {//越南语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("vi")
+//                }
+//                "한국어" -> {//韩语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ko")
+//                }
+//                "Türkçe" -> {//土耳其语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("tr")
+//                }
+//                "Italiano" -> {//意大利语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("it")
+//                }
+//                "ไทย" -> {//泰语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("th-TH")
+//                }
+//                "Bahasa Melayu" -> {//马来语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ms")
+//                }
+//                "Polski" -> {//波兰语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("pl")
+//                }
+//                "Română" -> {//罗马尼亚语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ro")
+//                }
+//                "ລາວ" -> {//老挝语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("lo")
+//                }
+//                "Монгол" -> {//蒙古语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("mn")
+//                }
+//                "Hausa" -> {//豪萨语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ha")
+//                }
+//                "Kiswahili" -> {//斯瓦希里语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("sw")
+//                }
+//                "မြန်မာ" -> {//缅甸语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("my")
+//                }
+//                "नेपाली" -> {//尼泊尔语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("ne")
+//                }
+//                "isiZulu" -> {//祖鲁语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("zu")
+//                }
+//                "עברית" -> {//希伯来语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("he")
+//                }
+//                "Ελληνικά" -> {//希腊语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("el")
+//                }
+//                "українська" -> {//乌克兰语
+//                    yuyanconfig?.locale = Locale.forLanguageTag("uk")
+//                }
+//            }
+//            resources?.updateConfiguration(yuyanconfig,resources.displayMetrics)
+//        }
 
         setContentView(R.layout.activity_broad_base)
         initViews()

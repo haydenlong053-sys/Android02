@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.intelligent.R;
-import com.cboda.intelligent.bean.DataListBroadBean;
+import com.cboda.baselibrary.bean.DataListBroadBean;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 
 import java.util.List;

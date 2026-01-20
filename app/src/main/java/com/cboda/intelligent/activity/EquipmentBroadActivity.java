@@ -103,7 +103,7 @@ public class EquipmentBroadActivity extends BaseSimpleBroadActivity implements V
 
         eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        mBinding.tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
+//        mBinding.tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
         mBinding.tvLanguage.setOnClickListener(this);
         mBinding.tvLogin.setOnClickListener(this);
         mBinding.tvZhuce.setOnClickListener(this);

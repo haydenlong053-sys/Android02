@@ -339,9 +339,7 @@
         <activity
             android:name="com.cboda.intelligent.activity.RetrieveBroadActivity"
             android:exported="false" />
-        <activity
-            android:name="com.cboda.intelligent.activity.OldEquipmentBroadActivity"
-            android:exported="false" />
+
         <activity
             android:name="com.cboda.intelligent.activity.EquipmentBroadActivity"
             android:exported="false" />
@@ -360,9 +358,7 @@
         <activity
             android:name="com.cboda.intelligent.activity.FanYiBroadActivity"
             android:exported="false" />
-        <activity
-            android:name="com.cboda.intelligent.activity.LoginBroadActivity"
-            android:exported="false" />
+
         <activity
             android:name="com.cboda.intelligent.activity.SplashBroadActivity"
             android:exported="true"

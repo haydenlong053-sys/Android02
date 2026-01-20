@@ -84,6 +84,7 @@ public class PictureSelectorSupporterActivity extends AppCompatActivity {
         } else {
             super.attachBaseContext(newBase);
         }
+//        super.attachBaseContext(LanguageUtil.INSTANCE.getLanguageContext(newBase));
     }
 
     @Override
@@ -94,4 +95,7 @@ public class PictureSelectorSupporterActivity extends AppCompatActivity {
             overridePendingTransition(0, windowAnimationStyle.activityExitAnimation);
         }
     }
+
+
+
 }

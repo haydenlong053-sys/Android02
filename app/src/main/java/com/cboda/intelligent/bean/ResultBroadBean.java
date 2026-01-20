@@ -1,5 +1,8 @@
 package com.cboda.intelligent.bean;
 
+import com.cboda.baselibrary.bean.CircleCommListBroadBean;
+import com.cboda.baselibrary.bean.DataListBroadBean;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;

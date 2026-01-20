@@ -110,6 +110,11 @@ public class PictureSelectorTransparentActivity extends AppCompatActivity {
         FragmentInjectManager.injectSystemRoomFragment(supportFragmentManager, fragmentTag, targetFragment);
     }
 
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(LanguageUtil.INSTANCE.getLanguageContext(newBase));
+//    }
+
     @SuppressLint("RtlHardcoded")
     private void setActivitySize() {
         Window window = getWindow();

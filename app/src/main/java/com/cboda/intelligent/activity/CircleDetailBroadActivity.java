@@ -23,7 +23,7 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.HuiFuBroadAdapter;
 import com.cboda.intelligent.adapter.ImageBroadAdapter;
-import com.cboda.intelligent.bean.CircleCommListBroadBean;
+import com.cboda.baselibrary.bean.CircleCommListBroadBean;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
 import com.cboda.intelligent.dialog.InputDialogBroadFra;

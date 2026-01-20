@@ -67,7 +67,7 @@ fun chooseMedia(
         pictureSelector.setImageEngine(GlideBroadBroadEngine.createGlideEngine())
             .setCompressEngine(ImageCompressFileBroadEngine())
             .setSandboxFileEngine(MeSandboxFileBroadEngine())
-            .setLanguage(LanguageConfig.SYSTEM_LANGUAGE)
+//            .setLanguage(LanguageConfig.SYSTEM_LANGUAGE)
             .isDisplayTimeAxis(false)//显示资源时间轴
             .isDisplayCamera(canCamera)
             .isWithSelectVideoImage(withSelectVideoImage)//是否支持视频图片同时选择
