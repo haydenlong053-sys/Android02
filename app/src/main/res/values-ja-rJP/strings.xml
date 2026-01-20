@@ -428,4 +428,19 @@
     <string name="new_group_invite">新しいグループ招待</string>
     <string name="contact_avatar">連絡先のアバター</string>
 
+    <string name="vip_member">VIP会員</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP会員</string>
+    <string name="open_vip_privilege">会員を開いて、特別な特権を享受</string>
+    <string name="open_now">今すぐ開通</string>
+    <string name="personal_assets">個人資産</string>
+    <string name="manage_digital_wealth">デジタル資産を管理</string>
+    <string name="security_center">セキュリティセンター</string>
+    <string name="protect_account_safe">アカウントを保護し、安心して使用</string>
+    <string name="inspiration_square">インスピレーション広場</string>
+    <string name="share_moments_see_inspiration">瞬間を共有し、インスピレーションを見る</string>
+    <string name="my_collections_here">私のコレクションはすべてここにあります</string>
+    <string name="quick_answers_about_us">私たちについての迅速な回答</string>
+    <string name="system_settings">システム設定</string>
+    <string name="personalize_experience">使用体験をパーソナライズ</string>
+
 </resources>

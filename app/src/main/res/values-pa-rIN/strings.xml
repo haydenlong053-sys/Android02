@@ -432,4 +432,19 @@
     <string name="new_group_invite">ਨਵਾਂ ਗਰੁੱਪ ਸੱਦਾ</string>
     <string name="contact_avatar">ਸੰਪਰਕ ਅਵਤਾਰ</string>
 
+    <string name="vip_member">VIP ਮੈਂਬਰ</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP ਮੈਂਬਰ</string>
+    <string name="open_vip_privilege">ਮੈਂਬਰਸ਼ਿਪ ਖੋਲ੍ਹੋ ਅਤੇ ਵਿਸ਼ੇਸ਼ ਅਧਿਕਾਰਾਂ ਦਾ ਆਨੰਦ ਲਓ</string>
+    <string name="open_now">ਹੁਣੇ ਖੋਲ੍ਹੋ</string>
+    <string name="personal_assets">ਨਿੱਜੀ ਸੰਪਤੀ</string>
+    <string name="manage_digital_wealth">ਆਪਣੀ ਡਿਜੀਟਲ ਦੌਲਤ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰੋ</string>
+    <string name="security_center">ਸੁਰੱਖਿਆ ਕੇਂਦਰ</string>
+    <string name="protect_account_safe">ਆਪਣੇ ਖਾਤੇ ਦੀ ਸੁਰੱਖਿਆ ਕਰੋ, ਆਰਾਮ ਨਾਲ ਵਰਤੋਂ</string>
+    <string name="inspiration_square">ਪ੍ਰੇਰਣਾ ਚੌਕ</string>
+    <string name="share_moments_see_inspiration">ਪਲ ਸਾਂਝੇ ਕਰੋ, ਪ੍ਰੇਰਣਾ ਦੇਖੋ</string>
+    <string name="my_collections_here">ਮੇਰੇ ਸਾਰੇ ਸੰਗ੍ਰਹਿ ਇੱਥੇ ਹਨ</string>
+    <string name="quick_answers_about_us">ਸਾਡੇ ਬਾਰੇ ਤੇਜ਼ ਜਵਾਬ</string>
+    <string name="system_settings">ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ</string>
+    <string name="personalize_experience">ਆਪਣੇ ਅਨੁਭਵ ਨੂੰ ਨਿੱਜੀਕਰਨ ਕਰੋ</string>
+
 </resources>

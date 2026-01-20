@@ -435,4 +435,19 @@
     <string name="new_group_invite">نیا گروپ دعوت</string>
     <string name="contact_avatar">رابطہ اوتار</string>
 
+    <string name="vip_member">VIP رکن</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP رکن</string>
+    <string name="open_vip_privilege">رکنیت کھولیں اور خصوصی مراعات سے لطف اندوز ہوں</string>
+    <string name="open_now">ابھی کھولیں</string>
+    <string name="personal_assets">ذاتی اثاثے</string>
+    <string name="manage_digital_wealth">اپنے ڈیجیٹل دولت کا انتظام کریں</string>
+    <string name="security_center">سیکیورٹی سینٹر</string>
+    <string name="protect_account_safe">اپنے اکاؤنٹ کی حفاظت کریں، بے فکری سے استعمال کریں</string>
+    <string name="inspiration_square">الہام چوک</string>
+    <string name="share_moments_see_inspiration">لمحات شیئر کریں، الہام دیکھیں</string>
+    <string name="my_collections_here">میری تمام کلیکشنز یہاں ہیں</string>
+    <string name="quick_answers_about_us">ہمارے بارے میں فوری جوابات</string>
+    <string name="system_settings">سسٹم سیٹنگز</string>
+    <string name="personalize_experience">اپنے تجربے کو ذاتی بنائیں</string>
+
 </resources>

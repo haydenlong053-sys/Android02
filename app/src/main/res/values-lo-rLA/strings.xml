@@ -430,4 +430,19 @@
     <string name="new_group_invite">ການເຊີນກຸ່ມໃໝ່</string>
     <string name="contact_avatar">ຮູບພາບຕິດຕໍ່</string>
 
+    <string name="vip_member">ສະມາຊິກ VIP</string>
+    <string name="seekweb4_vip_member">ສະມາຊິກ VIP SeekWeb4</string>
+    <string name="open_vip_privilege">ເປີດສະມາຊິກການແລະສະແດງສິດພິເສດ</string>
+    <string name="open_now">ເປີດດຽວນີ້</string>
+    <string name="personal_assets">ຊັບສິນສ່ວນບຸກຄົນ</string>
+    <string name="manage_digital_wealth">ຈັດການຊັບສິນດິຈິຕອນຂອງທ່ານ</string>
+    <string name="security_center">ສູນຄວາມປອດໄພ</string>
+    <string name="protect_account_safe">ປົກປ້ອງບັນຊີຂອງທ່ານ ໃຊ້ງານຢ່າງສະບາຍໃຈ</string>
+    <string name="inspiration_square">ຈັດຕະວາງແຮງບັນດານໃຈ</string>
+    <string name="share_moments_see_inspiration">ແບ່ງປັນຊ່ວງເວລາ ເບິ່ງແຮງບັນດານໃຈ</string>
+    <string name="my_collections_here">ການລວບລວມທັງໝົດຂອງຂ້ອຍຢູ່ທີ່ນີ້</string>
+    <string name="quick_answers_about_us">ຄຳຕອບດ່ວນກ່ຽວກັບພວກເຮົາ</string>
+    <string name="system_settings">ການຕັ້ງຄ່າລະບົບ</string>
+    <string name="personalize_experience">ປັບແຕ່ງປະສົບການຂອງທ່ານ</string>
+
 </resources>

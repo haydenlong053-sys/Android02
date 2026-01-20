@@ -430,4 +430,19 @@
     <string name="new_group_invite">Mwaliko mpya wa kikundi</string>
     <string name="contact_avatar">Avatar ya mawasiliano</string>
 
+    <string name="vip_member">Mwanachama wa VIP</string>
+    <string name="seekweb4_vip_member">Mwanachama wa VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Fungua uanachama na furahia mapendeleo ya kipekee</string>
+    <string name="open_now">Fungua sasa</string>
+    <string name="personal_assets">Mali za kibinafsi</string>
+    <string name="manage_digital_wealth">Simamia utajiri wako wa dijitali</string>
+    <string name="security_center">Kituo cha Usalama</string>
+    <string name="protect_account_safe">Linda akaunti yako, tumia kwa utulivu</string>
+    <string name="inspiration_square">Uwanja wa Ushawishi</string>
+    <string name="share_moments_see_inspiration">Shiriki muda, ona ushawishi</string>
+    <string name="my_collections_here">Makusanyo yangu yote yako hapa</string>
+    <string name="quick_answers_about_us">Majibu ya haraka kuhusu sisi</string>
+    <string name="system_settings">Mipangilio ya Mfumo</string>
+    <string name="personalize_experience">Binafsi uzoefu wako</string>
+
 </resources>

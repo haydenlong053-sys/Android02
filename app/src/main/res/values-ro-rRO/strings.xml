@@ -430,4 +430,19 @@
     <string name="new_group_invite">Invitație nouă de grup</string>
     <string name="contact_avatar">Avatar contact</string>
 
+    <string name="vip_member">Membru VIP</string>
+    <string name="seekweb4_vip_member">Membru VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Deschideți abonamentul și bucurați-vă de privilegii exclusive</string>
+    <string name="open_now">Deschide acum</string>
+    <string name="personal_assets">Active personale</string>
+    <string name="manage_digital_wealth">Gestionați averea dvs. digitală</string>
+    <string name="security_center">Centru de securitate</string>
+    <string name="protect_account_safe">Protejați-vă contul, folosiți-l cu încredere</string>
+    <string name="inspiration_square">Piața inspirației</string>
+    <string name="share_moments_see_inspiration">Distribuiți momente, vedeți inspirație</string>
+    <string name="my_collections_here">Toate colecțiile mele sunt aici</string>
+    <string name="quick_answers_about_us">Răspunsuri rapide despre noi</string>
+    <string name="system_settings">Setări sistem</string>
+    <string name="personalize_experience">Personalizați-vă experiența</string>
+
 </resources>

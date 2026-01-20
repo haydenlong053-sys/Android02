@@ -430,4 +430,19 @@
     <string name="new_group_invite">Нове запрошення в групу</string>
     <string name="contact_avatar">Аватар контакту</string>
 
+    <string name="vip_member">VIP-член</string>
+    <string name="seekweb4_vip_member">VIP-член SeekWeb4</string>
+    <string name="open_vip_privilege">Відкрийте членство та насолоджуйтесь ексклюзивними привілеями</string>
+    <string name="open_now">Відкрити зараз</string>
+    <string name="personal_assets">Особисті активи</string>
+    <string name="manage_digital_wealth">Керуйте своїм цифровим багатством</string>
+    <string name="security_center">Центр безпеки</string>
+    <string name="protect_account_safe">Захистіть свій обліковий запис, використовуйте спокійно</string>
+    <string name="inspiration_square">Площа натхнення</string>
+    <string name="share_moments_see_inspiration">Діліться моментами, бачте натхнення</string>
+    <string name="my_collections_here">Всі мої колекції тут</string>
+    <string name="quick_answers_about_us">Швидкі відповіді про нас</string>
+    <string name="system_settings">Системні налаштування</string>
+    <string name="personalize_experience">Персоналізуйте свій досвід</string>
+
 </resources>

@@ -772,4 +772,19 @@
     <string name="new_group_invite">New Group Invite</string>
     <string name="contact_avatar">Contact Avatar</string>
 
+    <string name="vip_member">VIP Member</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP Member</string>
+    <string name="open_vip_privilege">Open membership and enjoy exclusive privileges</string>
+    <string name="open_now">Open Now</string>
+    <string name="personal_assets">Personal Assets</string>
+    <string name="manage_digital_wealth">Manage your digital wealth</string>
+    <string name="security_center">Security Center</string>
+    <string name="protect_account_safe">Protect your account, use with peace of mind</string>
+    <string name="inspiration_square">Inspiration Square</string>
+    <string name="share_moments_see_inspiration">Share moments, see inspiration</string>
+    <string name="my_collections_here">All my collections are here</string>
+    <string name="quick_answers_about_us">Quick answers about us</string>
+    <string name="system_settings">System Settings</string>
+    <string name="personalize_experience">Personalize your experience</string>
+
 </resources>

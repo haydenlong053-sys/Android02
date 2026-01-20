@@ -428,4 +428,19 @@
     <string name="new_group_invite">Lời mời nhóm mới</string>
     <string name="contact_avatar">Ảnh đại diện liên hệ</string>
 
+    <string name="vip_member">Thành viên VIP</string>
+    <string name="seekweb4_vip_member">Thành viên VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Mở thành viên và tận hưởng đặc quyền độc quyền</string>
+    <string name="open_now">Mở ngay</string>
+    <string name="personal_assets">Tài sản cá nhân</string>
+    <string name="manage_digital_wealth">Quản lý tài sản kỹ thuật số của bạn</string>
+    <string name="security_center">Trung tâm bảo mật</string>
+    <string name="protect_account_safe">Bảo vệ tài khoản của bạn, sử dụng yên tâm</string>
+    <string name="inspiration_square">Quảng trường cảm hứng</string>
+    <string name="share_moments_see_inspiration">Chia sẻ khoảnh khắc, thấy cảm hứng</string>
+    <string name="my_collections_here">Tất cả bộ sưu tập của tôi ở đây</string>
+    <string name="quick_answers_about_us">Câu trả lời nhanh về chúng tôi</string>
+    <string name="system_settings">Cài đặt hệ thống</string>
+    <string name="personalize_experience">Cá nhân hóa trải nghiệm của bạn</string>
+
 </resources>

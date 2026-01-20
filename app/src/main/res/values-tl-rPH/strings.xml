@@ -431,4 +431,19 @@
     <string name="new_group_invite">Bagong imbitasyon sa grupo</string>
     <string name="contact_avatar">Avatar ng contact</string>
 
+    <string name="vip_member">Miyembro ng VIP</string>
+    <string name="seekweb4_vip_member">Miyembro ng VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Buksan ang membership at tamasahin ang eksklusibong pribilehiyo</string>
+    <string name="open_now">Buksan ngayon</string>
+    <string name="personal_assets">Personal na Assets</string>
+    <string name="manage_digital_wealth">Pamahalaan ang iyong digital na kayamanan</string>
+    <string name="security_center">Security Center</string>
+    <string name="protect_account_safe">Protektahan ang iyong account, gamitin nang may kapanatagan</string>
+    <string name="inspiration_square">Inspiration Square</string>
+    <string name="share_moments_see_inspiration">Ibahagi ang mga sandali, makita ang inspirasyon</string>
+    <string name="my_collections_here">Lahat ng aking koleksyon ay narito</string>
+    <string name="quick_answers_about_us">Mabilis na sagot tungkol sa amin</string>
+    <string name="system_settings">System Settings</string>
+    <string name="personalize_experience">I-personalize ang iyong karanasan</string>
+
 </resources>

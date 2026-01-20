@@ -433,4 +433,19 @@
     <string name="new_group_invite">Nouvelle invitation de groupe</string>
     <string name="contact_avatar">Avatar du contact</string>
 
+    <string name="vip_member">Membre VIP</string>
+    <string name="seekweb4_vip_member">Membre VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Ouvrez l\'adhésion et profitez de privilèges exclusifs</string>
+    <string name="open_now">Ouvrir maintenant</string>
+    <string name="personal_assets">Actifs personnels</string>
+    <string name="manage_digital_wealth">Gérez votre richesse numérique</string>
+    <string name="security_center">Centre de sécurité</string>
+    <string name="protect_account_safe">Protégez votre compte, utilisez en toute tranquillité</string>
+    <string name="inspiration_square">Place de l\'inspiration</string>
+    <string name="share_moments_see_inspiration">Partagez des moments, voyez l\'inspiration</string>
+    <string name="my_collections_here">Toutes mes collections sont ici</string>
+    <string name="quick_answers_about_us">Réponses rapides sur nous</string>
+    <string name="system_settings">Paramètres système</string>
+    <string name="personalize_experience">Personnalisez votre expérience</string>
+
 </resources>

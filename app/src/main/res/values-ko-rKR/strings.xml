@@ -428,4 +428,19 @@
     <string name="new_group_invite">새 그룹 초대</string>
     <string name="contact_avatar">연락처 아바타</string>
 
+    <string name="vip_member">VIP 회원</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP 회원</string>
+    <string name="open_vip_privilege">회원을 열고 특별한 특권을 누리세요</string>
+    <string name="open_now">지금 바로 개통</string>
+    <string name="personal_assets">개인 자산</string>
+    <string name="manage_digital_wealth">디지털 자산 관리</string>
+    <string name="security_center">보안 센터</string>
+    <string name="protect_account_safe">계정을 보호하고 안심하고 사용하세요</string>
+    <string name="inspiration_square">영감 광장</string>
+    <string name="share_moments_see_inspiration">순간을 공유하고 영감을 보세요</string>
+    <string name="my_collections_here">내 컬렉션이 모두 여기에 있습니다</string>
+    <string name="quick_answers_about_us">우리에 대한 빠른 답변</string>
+    <string name="system_settings">시스템 설정</string>
+    <string name="personalize_experience">사용 경험을 개인화하세요</string>
+
 </resources>

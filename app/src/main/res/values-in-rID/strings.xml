@@ -429,4 +429,19 @@
     <string name="new_group_invite">Undangan grup baru</string>
     <string name="contact_avatar">Avatar kontak</string>
 
+    <string name="vip_member">Anggota VIP</string>
+    <string name="seekweb4_vip_member">Anggota VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Buka keanggotaan dan nikmati hak istimewa eksklusif</string>
+    <string name="open_now">Buka sekarang</string>
+    <string name="personal_assets">Aset pribadi</string>
+    <string name="manage_digital_wealth">Kelola kekayaan digital Anda</string>
+    <string name="security_center">Pusat Keamanan</string>
+    <string name="protect_account_safe">Lindungi akun Anda, gunakan dengan tenang</string>
+    <string name="inspiration_square">Alun-alun Inspirasi</string>
+    <string name="share_moments_see_inspiration">Bagikan momen, lihat inspirasi</string>
+    <string name="my_collections_here">Semua koleksi saya ada di sini</string>
+    <string name="quick_answers_about_us">Jawaban cepat tentang kami</string>
+    <string name="system_settings">Pengaturan Sistem</string>
+    <string name="personalize_experience">Personalisasi pengalaman Anda</string>
+
 </resources>

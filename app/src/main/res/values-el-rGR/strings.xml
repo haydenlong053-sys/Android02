@@ -429,4 +429,19 @@
     <string name="new_group_invite">Νέα πρόσκληση ομάδας</string>
     <string name="contact_avatar">Avatar επαφής</string>
 
+    <string name="vip_member">Μέλος VIP</string>
+    <string name="seekweb4_vip_member">Μέλος VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Ανοίξτε τη συνδρομή και απολαύστε αποκλειστικά προνόμια</string>
+    <string name="open_now">Ανοίξτε τώρα</string>
+    <string name="personal_assets">Προσωπικά περιουσιακά στοιχεία</string>
+    <string name="manage_digital_wealth">Διαχειριστείτε τον ψηφιακό σας πλούτο</string>
+    <string name="security_center">Κέντρο ασφαλείας</string>
+    <string name="protect_account_safe">Προστατέψτε τον λογαριασμό σας, χρησιμοποιήστε με ασφάλεια</string>
+    <string name="inspiration_square">Πλατεία έμπνευσης</string>
+    <string name="share_moments_see_inspiration">Μοιραστείτε στιγμές, δείτε έμπνευση</string>
+    <string name="my_collections_here">Όλες οι συλλογές μου είναι εδώ</string>
+    <string name="quick_answers_about_us">Γρήγορες απαντήσεις για εμάς</string>
+    <string name="system_settings">Ρυθμίσεις συστήματος</string>
+    <string name="personalize_experience">Εξατομικεύστε την εμπειρία σας</string>
+
 </resources>

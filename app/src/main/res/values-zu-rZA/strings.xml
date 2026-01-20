@@ -430,4 +430,19 @@
     <string name="new_group_invite">Isimemo esisha seqembu</string>
     <string name="contact_avatar">I-avatar yoxhumana</string>
 
+    <string name="vip_member">Ilungu le-VIP</string>
+    <string name="seekweb4_vip_member">Ilungu le-VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Vula ubulungu bamukele izimfanelo ezikhethekile</string>
+    <string name="open_now">Vula manje</string>
+    <string name="personal_assets">Impahla yomuntu</string>
+    <string name="manage_digital_wealth">Phatha ubuncwane bakho bedijithali</string>
+    <string name="security_center">Isikhungo sezokuphepha</string>
+    <string name="protect_account_safe">Vikela i-akhawunti yakho, sebenzise ngokukhululeka</string>
+    <string name="inspiration_square">Isikwele esiqhuba</string>
+    <string name="share_moments_see_inspiration">Yabelana ngamaphuzu, ubone isikhuthazo</string>
+    <string name="my_collections_here">Zonke iziqoqo zami zikhona lapha</string>
+    <string name="quick_answers_about_us">Izimpendulo ezisheshayo ngathi</string>
+    <string name="system_settings">Izilungiselelo zesistimu</string>
+    <string name="personalize_experience">Zibeke ngokwakho isipiliyoni sakho</string>
+
 </resources>

@@ -434,4 +434,19 @@
     <string name="new_group_invite">Yeni grup daveti</string>
     <string name="contact_avatar">İletişim avatarı</string>
 
+    <string name="vip_member">VIP Üye</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP Üye</string>
+    <string name="open_vip_privilege">Üyeliği açın ve özel ayrıcalıkların tadını çıkarın</string>
+    <string name="open_now">Şimdi aç</string>
+    <string name="personal_assets">Kişisel varlıklar</string>
+    <string name="manage_digital_wealth">Dijital servetinizi yönetin</string>
+    <string name="security_center">Güvenlik Merkezi</string>
+    <string name="protect_account_safe">Hesabınızı koruyun, huzurla kullanın</string>
+    <string name="inspiration_square">İlham Meydanı</string>
+    <string name="share_moments_see_inspiration">Anları paylaşın, ilham görün</string>
+    <string name="my_collections_here">Tüm koleksiyonlarım burada</string>
+    <string name="quick_answers_about_us">Hakkımızda hızlı cevaplar</string>
+    <string name="system_settings">Sistem ayarları</string>
+    <string name="personalize_experience">Deneyiminizi kişiselleştirin</string>
+
 </resources>

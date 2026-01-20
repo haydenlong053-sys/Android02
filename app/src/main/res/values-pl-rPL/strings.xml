@@ -35,4 +35,19 @@
     <string name="new_group_invite">Nowe zaproszenie do grupy</string>
     <string name="contact_avatar">Avatar kontaktu</string>
 
+    <string name="vip_member">Członek VIP</string>
+    <string name="seekweb4_vip_member">Członek VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Otwórz członkostwo i ciesz się ekskluzywnymi przywilejami</string>
+    <string name="open_now">Otwórz teraz</string>
+    <string name="personal_assets">Aktywa osobiste</string>
+    <string name="manage_digital_wealth">Zarządzaj swoim cyfrowym majątkiem</string>
+    <string name="security_center">Centrum bezpieczeństwa</string>
+    <string name="protect_account_safe">Chroń swoje konto, używaj spokojnie</string>
+    <string name="inspiration_square">Plac inspiracji</string>
+    <string name="share_moments_see_inspiration">Udostępniaj chwile, zobacz inspirację</string>
+    <string name="my_collections_here">Wszystkie moje kolekcje są tutaj</string>
+    <string name="quick_answers_about_us">Szybkie odpowiedzi o nas</string>
+    <string name="system_settings">Ustawienia systemu</string>
+    <string name="personalize_experience">Spersonalizuj swoje wrażenia</string>
+
 </resources>

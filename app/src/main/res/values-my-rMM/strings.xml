@@ -431,4 +431,19 @@
     <string name="new_group_invite">အုပ်စုဖိတ်ခေါ်မှုအသစ်</string>
     <string name="contact_avatar">ဆက်သွယ်ရမည့်ပုံ</string>
 
+    <string name="vip_member">VIP အဖွဲ့ဝင်</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP အဖွဲ့ဝင်</string>
+    <string name="open_vip_privilege">အဖွဲ့ဝင်ဖွင့်ပြီး အထူးအခွင့်အရေးများကို ခံစားပါ</string>
+    <string name="open_now">ယခုဖွင့်ပါ</string>
+    <string name="personal_assets">ကိုယ်ပိုင်ပိုင်ဆိုင်မှု</string>
+    <string name="manage_digital_wealth">သင့်ဒစ်ဂျစ်တယ်ပိုင်ဆိုင်မှုကို စီမံပါ</string>
+    <string name="security_center">လုံခြုံရေးစင်တာ</string>
+    <string name="protect_account_safe">သင့်အကောင့်ကို ကာကွယ်ပါ၊ စိတ်ချလက်ချအသုံးပြုပါ</string>
+    <string name="inspiration_square">စိတ်ကူးစင်တာ</string>
+    <string name="share_moments_see_inspiration">အခိုက်အတန့်များကို မျှဝေပါ၊ စိတ်ကူးကို ကြည့်ပါ</string>
+    <string name="my_collections_here">ကျွန်ုပ်၏စုဆောင်းမှုအားလုံး ဤနေရာတွင်ရှိသည်</string>
+    <string name="quick_answers_about_us">ကျွန်ုပ်တို့အကြောင်း အမြန်ဖြေကြားမှုများ</string>
+    <string name="system_settings">စနစ်ဆက်တင်များ</string>
+    <string name="personalize_experience">သင့်အတွေ့အကြုံကို ပုဂ္ဂိုလ်ရေးဆန်စေပါ</string>
+
 </resources>

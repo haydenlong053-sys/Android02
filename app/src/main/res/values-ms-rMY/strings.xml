@@ -431,4 +431,19 @@
     <string name="new_group_invite">Jemputan kumpulan baru</string>
     <string name="contact_avatar">Avatar kenalan</string>
 
+    <string name="vip_member">Ahli VIP</string>
+    <string name="seekweb4_vip_member">Ahli VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Buka keahlian dan nikmati keistimewaan eksklusif</string>
+    <string name="open_now">Buka sekarang</string>
+    <string name="personal_assets">Aset peribadi</string>
+    <string name="manage_digital_wealth">Urus kekayaan digital anda</string>
+    <string name="security_center">Pusat Keselamatan</string>
+    <string name="protect_account_safe">Lindungi akaun anda, gunakan dengan tenang</string>
+    <string name="inspiration_square">Dataran Inspirasi</string>
+    <string name="share_moments_see_inspiration">Kongsi detik, lihat inspirasi</string>
+    <string name="my_collections_here">Semua koleksi saya ada di sini</string>
+    <string name="quick_answers_about_us">Jawapan pantas tentang kami</string>
+    <string name="system_settings">Tetapan Sistem</string>
+    <string name="personalize_experience">Peribadikan pengalaman anda</string>
+
 </resources>

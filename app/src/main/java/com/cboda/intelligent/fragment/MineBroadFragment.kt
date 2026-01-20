@@ -26,7 +26,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
@@ -213,7 +215,7 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
                 )
                 .padding(vertical = 6.dp, horizontal = 12.dp)
         ) {
-            Text(if (isVip) "VIP会员" else "非会员", color = Color(0xffFEECD7), fontSize = 10.sp)
+            Text(if (isVip) stringResource(R.string.vip_member) else stringResource(R.string.非会员), color = Color(0xffFEECD7), fontSize = 10.sp)
         }
 
         Row(
@@ -231,7 +233,7 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
             Spacer(Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = if (isVip) "SeekWeb4 VIP会员" else "开启会员，享受尊贵特权",
+                    text = if (isVip) stringResource(R.string.seekweb4_vip_member) else stringResource(R.string.open_vip_privilege),
                     color = Color(0xFFFFD3A9),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold
@@ -261,7 +263,7 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
                     )
 
                     Text(
-                        text =  "立即开通",
+                        text = stringResource(R.string.open_now),
                         color = Color(0xFF1A1A1C),
                         fontSize = 12.sp
                     )
@@ -284,12 +286,12 @@ private fun MenuContainer(isHasPassword: Boolean) {
                 .padding(vertical = 10.dp)
         ) {
             val items = listOf(
-                MenuItem("个人资产", "管理您的数字财富", R.mipmap.ic_mine_broad_service),
-                MenuItem("安全中心", "保护账户，安心使用", R.mipmap.ic_mine_broad_safe),
-                MenuItem("灵感广场", "分享时刻，看见灵感", R.mipmap.ic_mine_broad_moment),
-                MenuItem("我的收藏", "我收藏的都在这里", R.mipmap.ic_mine_broad_collect),
-                MenuItem("常见问题", "快速解答关于我们", R.mipmap.ic_mine_broad_feedback),
-                MenuItem("系统设置", "个性化您的使用体验", R.mipmap.ic_mine_broad_setting)
+                MenuItem(stringResource(R.string.personal_assets), stringResource(R.string.manage_digital_wealth), R.mipmap.ic_mine_broad_service, R.string.personal_assets),
+                MenuItem(stringResource(R.string.security_center), stringResource(R.string.protect_account_safe), R.mipmap.ic_mine_broad_safe, R.string.security_center),
+                MenuItem(stringResource(R.string.inspiration_square), stringResource(R.string.share_moments_see_inspiration), R.mipmap.ic_mine_broad_moment, R.string.inspiration_square),
+                MenuItem(stringResource(R.string.我的收藏), stringResource(R.string.my_collections_here), R.mipmap.ic_mine_broad_collect, R.string.我的收藏),
+                MenuItem(stringResource(R.string.常见问题), stringResource(R.string.quick_answers_about_us), R.mipmap.ic_mine_broad_feedback, R.string.常见问题),
+                MenuItem(stringResource(R.string.system_settings), stringResource(R.string.personalize_experience), R.mipmap.ic_mine_broad_setting, R.string.system_settings)
             )
 
             // 两列网格：逐行渲染
@@ -299,9 +301,9 @@ private fun MenuContainer(isHasPassword: Boolean) {
                     .padding(horizontal = 12.dp)) {
                     rowItems.forEach { item ->
                         MenuCard(item, modifier = Modifier.weight(1f)) {
-                            when (it.title) {
+                            when (it.titleResId) {
                                 // 服务中心（个人资产）门控：未设置支付密码则弹引导
-                                "个人资产" -> {
+                                R.string.personal_assets -> {
                                     if (isHasPassword) {
                                         context.startActivity(
                                             Intent(
@@ -314,7 +316,7 @@ private fun MenuContainer(isHasPassword: Boolean) {
                                     }
                                 }
                                 // 安全中心同样进行支付密码设置引导
-                                "安全中心" -> {
+                                R.string.security_center -> {
                                     if (isHasPassword) {
                                         context.startActivity(
                                             Intent(
@@ -327,28 +329,28 @@ private fun MenuContainer(isHasPassword: Boolean) {
                                     }
                                 }
 
-                                "灵感广场" -> context.startActivity(
+                                R.string.inspiration_square -> context.startActivity(
                                     Intent(
                                         context,
                                         CiecelBroadActivity::class.java
                                     )
                                 )
 
-                                "我的收藏" -> context.startActivity(
+                                R.string.我的收藏 -> context.startActivity(
                                     Intent(
                                         context,
                                         MyCollectBroadActivity::class.java
                                     )
                                 )
 
-                                "常见问题" -> context.startActivity(
+                                R.string.常见问题 -> context.startActivity(
                                     Intent(
                                         context,
                                         IssueBroadActivity::class.java
                                     )
                                 )
 
-                                "系统设置" -> context.startActivity(
+                                R.string.system_settings -> context.startActivity(
                                     Intent(
                                         context,
                                         UserSetBroadActivity::class.java
@@ -365,14 +367,16 @@ private fun MenuContainer(isHasPassword: Boolean) {
     }
 }
 
-private data class MenuItem(val title: String, val subtitle: String, val iconRes: Int)
+private data class MenuItem(val title: String, val subtitle: String, val iconRes: Int, val titleResId: Int)
 
 @Composable
 private fun MenuCard(item: MenuItem, modifier: Modifier = Modifier, onClick: (MenuItem) -> Unit) {
 
     Card(
         modifier = modifier
-            .height(70.dp)
+            .wrapContentHeight()
+            .heightIn(min = 70.dp)
+//            .height(70.dp)
             .padding(horizontal = 6.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
@@ -389,13 +393,17 @@ private fun MenuCard(item: MenuItem, modifier: Modifier = Modifier, onClick: (Me
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     text = item.title,
                     color = Color.Black.copy(0.9f),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(text = item.subtitle, color = Color.Black.copy(0.65f), fontSize = 10.sp)
+                Text(maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    text = item.subtitle, color = Color.Black.copy(0.65f), fontSize = 10.sp)
             }
             Spacer(modifier = Modifier.width(10.dp))
             Image(

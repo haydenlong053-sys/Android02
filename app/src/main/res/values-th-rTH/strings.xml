@@ -428,4 +428,19 @@
     <string name="new_group_invite">คำเชิญกลุ่มใหม่</string>
     <string name="contact_avatar">อวตารผู้ติดต่อ</string>
 
+    <string name="vip_member">สมาชิก VIP</string>
+    <string name="seekweb4_vip_member">สมาชิก VIP SeekWeb4</string>
+    <string name="open_vip_privilege">เปิดสมาชิกภาพและเพลิดเพลินกับสิทธิพิเศษ</string>
+    <string name="open_now">เปิดทันที</string>
+    <string name="personal_assets">สินทรัพย์ส่วนบุคคล</string>
+    <string name="manage_digital_wealth">จัดการความมั่งคั่งดิจิทัลของคุณ</string>
+    <string name="security_center">ศูนย์ความปลอดภัย</string>
+    <string name="protect_account_safe">ปกป้องบัญชีของคุณ ใช้งานอย่างสบายใจ</string>
+    <string name="inspiration_square">จัตุรัสแรงบันดาลใจ</string>
+    <string name="share_moments_see_inspiration">แบ่งปันช่วงเวลา เห็นแรงบันดาลใจ</string>
+    <string name="my_collections_here">คอลเลกชันทั้งหมดของฉันอยู่ที่นี่</string>
+    <string name="quick_answers_about_us">คำตอบด่วนเกี่ยวกับเรา</string>
+    <string name="system_settings">การตั้งค่าระบบ</string>
+    <string name="personalize_experience">ปรับแต่งประสบการณ์ของคุณ</string>
+
 </resources>

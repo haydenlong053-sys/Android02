@@ -428,4 +428,19 @@
     <string name="new_group_invite">הזמנת קבוצה חדשה</string>
     <string name="contact_avatar">אווטר איש קשר</string>
 
+    <string name="vip_member">חבר VIP</string>
+    <string name="seekweb4_vip_member">חבר VIP SeekWeb4</string>
+    <string name="open_vip_privilege">פתח חברות ותהנה מהרשאות בלעדיות</string>
+    <string name="open_now">פתח עכשיו</string>
+    <string name="personal_assets">נכסים אישיים</string>
+    <string name="manage_digital_wealth">נהל את העושר הדיגיטלי שלך</string>
+    <string name="security_center">מרכז אבטחה</string>
+    <string name="protect_account_safe">הגן על החשבון שלך, השתמש בביטחון</string>
+    <string name="inspiration_square">כיכר ההשראה</string>
+    <string name="share_moments_see_inspiration">שתף רגעים, ראה השראה</string>
+    <string name="my_collections_here">כל האוספים שלי כאן</string>
+    <string name="quick_answers_about_us">תשובות מהירות עלינו</string>
+    <string name="system_settings">הגדרות מערכת</string>
+    <string name="personalize_experience">התאם אישית את החוויה שלך</string>
+
 </resources>

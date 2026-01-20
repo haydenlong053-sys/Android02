@@ -431,4 +431,19 @@
     <string name="new_group_invite">Шинэ бүлгийн урилга</string>
     <string name="contact_avatar">Холбоо барих аватар</string>
 
+    <string name="vip_member">VIP гишүүн</string>
+    <string name="seekweb4_vip_member">SeekWeb4 VIP гишүүн</string>
+    <string name="open_vip_privilege">Гишүүнчлэлийг нээж, онцгой эрх ашиглах</string>
+    <string name="open_now">Одоо нээ</string>
+    <string name="personal_assets">Хувийн хөрөнгө</string>
+    <string name="manage_digital_wealth">Цифр хөрөнгөө удирдах</string>
+    <string name="security_center">Аюулгүй байдлын төв</string>
+    <string name="protect_account_safe">Дансаа хамгаалаад, тайван ашиглах</string>
+    <string name="inspiration_square">Урам зориггоо талбай</string>
+    <string name="share_moments_see_inspiration">Мөчүүдийг хуваалцаж, урам зориггоо харах</string>
+    <string name="my_collections_here">Миний бүх цуглуулга энд байна</string>
+    <string name="quick_answers_about_us">Бидний тухай хурдан хариултууд</string>
+    <string name="system_settings">Системийн тохиргоо</string>
+    <string name="personalize_experience">Туршлагaaа хувийн болгох</string>
+
 </resources>

@@ -428,4 +428,19 @@
     <string name="new_group_invite">Gayyata ƙungiya sabo</string>
     <string name="contact_avatar">Avatar lamba</string>
 
+    <string name="vip_member">Memba VIP</string>
+    <string name="seekweb4_vip_member">Memba VIP SeekWeb4</string>
+    <string name="open_vip_privilege">Buɗe membobci kuma ji daɗin keɓantattu gata</string>
+    <string name="open_now">Buɗe yanzu</string>
+    <string name="personal_assets">Dukiyar mutum</string>
+    <string name="manage_digital_wealth">Sarrafa dukiyar dijital ɗin ku</string>
+    <string name="security_center">Cibiyar Tsaro</string>
+    <string name="protect_account_safe">Kare asusunku, yi amfani da kwanciyar hankali</string>
+    <string name="inspiration_square">Dandalin ƙarfafawa</string>
+    <string name="share_moments_see_inspiration">Raba lokutan, duba ƙarfafawa</string>
+    <string name="my_collections_here">Duk tarin na suna nan</string>
+    <string name="quick_answers_about_us">Amsoshi cikin sauri game da mu</string>
+    <string name="system_settings">Saitunan Tsarin</string>
+    <string name="personalize_experience">Keɓance kwarewar ku</string>
+
 </resources>
