@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="are_you_abandoning_your_current_test">Are you abandoning your current test?</string>
     <string name="upload_completed">Upload completed</string>
@@ -79,7 +80,6 @@
     <string name="shoujihaoshi">Phone number %1$s</string>
     <string name="zhuanzhangjine">Transfer amount</string>
     <string name="bianjixiaoxineirong">Edit message content</string>
-    <!-- 为避免个别环境下 aapt2 对 Unicode 的解析问题，这里使用简单 ASCII 文本 -->
     <string name="mourendehongbao">%1$s red packet</string>
     <string name="yuanqian">WEBX</string>
     <string name="yilingquhongbao">%1$s claimed, total %2$s WEBX</string>
