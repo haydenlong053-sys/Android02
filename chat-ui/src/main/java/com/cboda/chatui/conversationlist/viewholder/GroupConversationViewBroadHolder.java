@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.conversationlist.viewholder;
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         organizationGroupIndicator = itemView.findViewById(R.id.organizationGroupIndicator);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onBindConversationInfo(ConversationInfo conversationInfo) {
         GroupInfo groupInfo = ChatManagerBroadHolder.gChatManager.getGroupInfo(conversationInfo.conversation.target, false);
@@ -71,10 +73,10 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         GlobalSmallGroupBroadBean smallGroupBean = GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target);
         if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
             gradeTv.setVisibility(View.VISIBLE);
-            gradeTv.setText(smallGroupBean.getGroupDays() + "天");
+            gradeTv.setText(smallGroupBean.getGroupDays() + gradeTv.getContext().getString(R.string.msg_days_unit));
         } else {
             gradeTv.setVisibility(View.VISIBLE);
-            gradeTv.setText("0天");
+            gradeTv.setText("0"+gradeTv.getContext().getString(R.string.msg_days_unit));
         }
         if (null != smallGroupBean && null != smallGroupBean.getRenameCount()) {
             nameTimeTv.setVisibility(View.VISIBLE);

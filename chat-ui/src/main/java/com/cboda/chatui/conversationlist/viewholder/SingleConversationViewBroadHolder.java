@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.conversationlist.viewholder;
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,6 +16,7 @@ import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.bumptech.glide.Glide;
 
 import com.cboda.chatui.ChatManagerBroadHolder;
+import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ConversationInfoBroadType;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import cn.wildfirechat.model.Conversation;
@@ -31,6 +33,7 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
         super(fragment, adapter, itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onBindConversationInfo(ConversationInfo conversationInfo) {
         UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversationInfo.conversation.target, false);
@@ -44,16 +47,17 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
         nameTextView.setText(name);
         if (null != friendSmailListBean && null != friendSmailListBean.grade) {
             gradeTv.setVisibility(View.VISIBLE);
-            gradeTv.setText(friendSmailListBean.grade + "分");
+//            gradeTv.setText(friendSmailListBean.grade + "分");
+            gradeTv.setText(friendSmailListBean.grade + gradeTv.getContext().getString(R.string.msg_score_unit));
         } else {
             gradeTv.setVisibility(View.GONE);
         }
         if (null != friendSmailListBean && null != friendSmailListBean.registerDay) {
             nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText(friendSmailListBean.registerDay + "天");
+            nameTimeTv.setText(friendSmailListBean.registerDay + nameTimeTv.getContext().getString(R.string.msg_days_unit));
         } else {
             nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText("0天");
+            nameTimeTv.setText("0"+nameTimeTv.getContext().getString(R.string.msg_days_unit));
         }
     }
 

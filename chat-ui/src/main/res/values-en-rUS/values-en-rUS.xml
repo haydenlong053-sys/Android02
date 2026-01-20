@@ -242,4 +242,8 @@
     <string name="msg_linkman">Contact</string>
     <string name="msg_chat_bibi">Chat history</string>
 
+    <string name="msg_score_unit">pts</string>
+    <string name="msg_days_unit">days</string>
+
+
 </resources>
