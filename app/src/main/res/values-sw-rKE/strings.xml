@@ -414,4 +414,15 @@
     <string name="public_group_tab">Kikundi cha Umma</string>
     <string name="friend_tab">Rafiki</string>
 
+    <string name="select_all">Chagua zote</string>
+    <string name="cancel_select_all">Ghairi uchaguzi wa zote</string>
+    <string name="all_read">Zote zimesomwa</string>
+    <string name="read">Imechezwa</string>
+    <string name="add">Ongeza</string>
+    <string name="create_group_chat">Unda kikundi cha mazungumzo</string>
+    <string name="add_friend">Ongeza rafiki</string>
+    <string name="please_complete_your_info">Tafadhali kamilisha taarifa zako</string>
+    <string name="go_to_personal_info_settings">Nenda kwenye mipangilio ya taarifa za kibinafsi</string>
+    <string name="ok">Sawa</string>
+
 </resources>

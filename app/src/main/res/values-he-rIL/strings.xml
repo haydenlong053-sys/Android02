@@ -412,4 +412,15 @@
     <string name="public_group_tab">קבוצה ציבורית</string>
     <string name="friend_tab">חבר</string>
 
+    <string name="select_all">בחר הכל</string>
+    <string name="cancel_select_all">בטל בחירת הכל</string>
+    <string name="all_read">הכל נקרא</string>
+    <string name="read">נקרא</string>
+    <string name="add">הוסף</string>
+    <string name="create_group_chat">צור צ\'אט קבוצתי</string>
+    <string name="add_friend">הוסף חבר</string>
+    <string name="please_complete_your_info">אנא השלם את המידע שלך</string>
+    <string name="go_to_personal_info_settings">עבור להגדרות מידע אישי</string>
+    <string name="ok">אוקיי</string>
+
 </resources>

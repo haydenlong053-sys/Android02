@@ -412,4 +412,15 @@
     <string name="public_group_tab">กลุ่มสาธารณะ</string>
     <string name="friend_tab">เพื่อน</string>
 
+    <string name="select_all">เลือกทั้งหมด</string>
+    <string name="cancel_select_all">ยกเลิกการเลือกทั้งหมด</string>
+    <string name="all_read">อ่านทั้งหมดแล้ว</string>
+    <string name="read">อ่านแล้ว</string>
+    <string name="add">เพิ่ม</string>
+    <string name="create_group_chat">สร้างกลุ่มแชท</string>
+    <string name="add_friend">เพิ่มเพื่อน</string>
+    <string name="please_complete_your_info">กรุณากรอกข้อมูลของคุณ</string>
+    <string name="go_to_personal_info_settings">ไปที่การตั้งค่าข้อมูลส่วนตัว</string>
+    <string name="ok">ตกลง</string>
+
 </resources>

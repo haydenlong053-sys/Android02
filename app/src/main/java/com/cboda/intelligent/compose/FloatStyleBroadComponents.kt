@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.res.stringResource
 import com.cboda.intelligent.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -134,7 +135,7 @@ fun FloatManagerBar(
 
                 )
             ) {
-                Text(if (showAllSelect) "全选" else "取消全选")
+                Text(if (showAllSelect) stringResource(R.string.select_all) else stringResource(R.string.cancel_select_all))
             }
             TextButton(
                 { toSelectRead(showAllRead) }, colors = ButtonDefaults.textButtonColors(
@@ -142,7 +143,7 @@ fun FloatManagerBar(
 
                 )
             ) {
-                Text(if (showAllRead) "全已读" else "已读")
+                Text(if (showAllRead) stringResource(R.string.all_read) else stringResource(R.string.read))
             }
             TextButton(
                 { toDelete() }, enabled = enableDelete, colors = ButtonDefaults.textButtonColors(
@@ -151,7 +152,7 @@ fun FloatManagerBar(
 
                 )
             ) {
-                Text("删除")
+                Text(stringResource(R.string.删除))
             }
         }
     }
@@ -294,7 +295,7 @@ fun BlurButton(
         // 中心 + 图片（旋转）
         Image(
             painter = iconPainter,
-            contentDescription = "添加",
+            contentDescription = stringResource(R.string.add),
             modifier = Modifier
                 .size(20.dp)
                 .align(Alignment.Center),
@@ -417,7 +418,7 @@ fun BlurFabButton(
         // 中心 + 图片（旋转）
         Image(
             painter = addIconPainter,
-            contentDescription = "添加",
+            contentDescription = stringResource(R.string.add),
             modifier = Modifier
                 .size(20.dp)
                 .align(Alignment.Center)
@@ -492,16 +493,16 @@ data class MorePopBroadItem(val icon: Painter, val label: String)
 @Composable
 private fun rememberDefaultMorePopItems(): List<MorePopBroadItem> {
     return listOf(
-        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_search), label = "搜索"),
+        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_search), label = stringResource(R.string.搜索)),
         MorePopBroadItem(
             icon = painterResource(R.mipmap.ic_pop_add_broad_group),
-            label = "建群聊"
+            label = stringResource(R.string.create_group_chat)
         ),
         MorePopBroadItem(
             icon = painterResource(R.mipmap.ic_pop_add_broad_contact),
-            label = "加好友"
+            label = stringResource(R.string.add_friend)
         ),
-        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_scan), label = "扫一扫")
+        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_scan), label = stringResource(R.string.扫一扫))
     )
 }
 
@@ -619,7 +620,7 @@ fun TipToInfoPopUp(onDismiss: () -> Unit, okClick: () -> Unit) {
 
                     )
                     Text(
-                        "请补充你的信息",
+                        stringResource(R.string.please_complete_your_info),
                         fontWeight = FontWeight.W500,
                         fontSize = 16.sp,
                         color = Color.Black.copy(0.9f),
@@ -638,7 +639,7 @@ fun TipToInfoPopUp(onDismiss: () -> Unit, okClick: () -> Unit) {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Spacer(Modifier.height(14.dp))
-                        Text("前往个人信息设置", color = Color.Black.copy(0.65f))
+                        Text(stringResource(R.string.go_to_personal_info_settings), color = Color.Black.copy(0.65f))
                         Spacer(Modifier.height(40.dp))
                         Row(
                             modifier = Modifier
@@ -657,7 +658,7 @@ fun TipToInfoPopUp(onDismiss: () -> Unit, okClick: () -> Unit) {
                                 ),
                                 border = BorderStroke(1.dp, Color(0xFF3B47DD))
                             ) {
-                                Text("取消")
+                                Text(stringResource(R.string.quxiao))
                             }
                             Spacer(modifier = Modifier.width(16.dp))
                             ElevatedButton(
@@ -672,7 +673,7 @@ fun TipToInfoPopUp(onDismiss: () -> Unit, okClick: () -> Unit) {
                                     .weight(1f),
                                 shape = RoundedCornerShape(16.dp)
                             ) {
-                                Text("好的")
+                                Text(stringResource(R.string.ok))
                             }
                         }
                         Spacer(Modifier.height(24.dp))

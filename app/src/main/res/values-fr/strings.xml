@@ -417,4 +417,15 @@
     <string name="public_group_tab">Groupe Public</string>
     <string name="friend_tab">Ami</string>
 
+    <string name="select_all">Tout sélectionner</string>
+    <string name="cancel_select_all">Tout désélectionner</string>
+    <string name="all_read">Tout lu</string>
+    <string name="read">Lu</string>
+    <string name="add">Ajouter</string>
+    <string name="create_group_chat">Créer un groupe de chat</string>
+    <string name="add_friend">Ajouter un ami</string>
+    <string name="please_complete_your_info">Veuillez compléter vos informations</string>
+    <string name="go_to_personal_info_settings">Aller aux paramètres d\'informations personnelles</string>
+    <string name="ok">D\'accord</string>
+
 </resources>

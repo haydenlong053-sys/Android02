@@ -413,4 +413,15 @@
     <string name="public_group_tab">Δημόσια Ομάδα</string>
     <string name="friend_tab">Φίλος</string>
 
+    <string name="select_all">Επιλογή όλων</string>
+    <string name="cancel_select_all">Ακύρωση επιλογής όλων</string>
+    <string name="all_read">Όλα διαβασμένα</string>
+    <string name="read">Διαβασμένο</string>
+    <string name="add">Προσθήκη</string>
+    <string name="create_group_chat">Δημιουργία ομαδικής συνομιλίας</string>
+    <string name="add_friend">Προσθήκη φίλου</string>
+    <string name="please_complete_your_info">Παρακαλώ συμπληρώστε τις πληροφορίες σας</string>
+    <string name="go_to_personal_info_settings">Μετάβαση στις ρυθμίσεις προσωπικών πληροφοριών</string>
+    <string name="ok">Εντάξει</string>
+
 </resources>

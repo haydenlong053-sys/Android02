@@ -414,4 +414,15 @@
     <string name="public_group_tab">Grup Public</string>
     <string name="friend_tab">Prieten</string>
 
+    <string name="select_all">Selectează tot</string>
+    <string name="cancel_select_all">Deselectează tot</string>
+    <string name="all_read">Tot citit</string>
+    <string name="read">Citit</string>
+    <string name="add">Adaugă</string>
+    <string name="create_group_chat">Creează grup de chat</string>
+    <string name="add_friend">Adaugă prieten</string>
+    <string name="please_complete_your_info">Vă rugăm să completați informațiile</string>
+    <string name="go_to_personal_info_settings">Mergi la setările informațiilor personale</string>
+    <string name="ok">OK</string>
+
 </resources>

@@ -416,4 +416,15 @@
     <string name="public_group_tab">ਪਬਲਿਕ ਗਰੁੱਪ</string>
     <string name="friend_tab">ਦੋਸਤ</string>
 
+    <string name="select_all">ਸਭ ਚੁਣੋ</string>
+    <string name="cancel_select_all">ਸਭ ਚੋਣ ਰੱਦ ਕਰੋ</string>
+    <string name="all_read">ਸਭ ਪੜ੍ਹ ਲਿਆ</string>
+    <string name="read">ਪੜ੍ਹ ਲਿਆ</string>
+    <string name="add">ਜੋੜੋ</string>
+    <string name="create_group_chat">ਗਰੁੱਪ ਚੈਟ ਬਣਾਓ</string>
+    <string name="add_friend">ਦੋਸਤ ਜੋੜੋ</string>
+    <string name="please_complete_your_info">ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਜਾਣਕਾਰੀ ਪੂਰੀ ਕਰੋ</string>
+    <string name="go_to_personal_info_settings">ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸੈਟਿੰਗਾਂ ਤੇ ਜਾਓ</string>
+    <string name="ok">ਠੀਕ ਹੈ</string>
+
 </resources>

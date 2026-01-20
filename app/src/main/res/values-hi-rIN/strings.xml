@@ -411,4 +411,15 @@
     <string name="public_group_tab">सार्वजनिक समूह</string>
     <string name="friend_tab">मित्र</string>
 
+    <string name="select_all">सभी चुनें</string>
+    <string name="cancel_select_all">सभी चयन रद्द करें</string>
+    <string name="all_read">सभी पढ़ा गया</string>
+    <string name="read">पढ़ा गया</string>
+    <string name="add">जोड़ें</string>
+    <string name="create_group_chat">ग्रुप चैट बनाएं</string>
+    <string name="add_friend">मित्र जोड़ें</string>
+    <string name="please_complete_your_info">कृपया अपनी जानकारी पूरी करें</string>
+    <string name="go_to_personal_info_settings">व्यक्तिगत जानकारी सेटिंग्स पर जाएं</string>
+    <string name="ok">ठीक है</string>
+
 </resources>

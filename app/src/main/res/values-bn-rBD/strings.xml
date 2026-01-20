@@ -412,4 +412,15 @@
     <string name="public_group_tab">পাবলিক গ্রুপ</string>
     <string name="friend_tab">বন্ধু</string>
 
+    <string name="select_all">সব নির্বাচন করুন</string>
+    <string name="cancel_select_all">সব নির্বাচন বাতিল করুন</string>
+    <string name="all_read">সব পড়া হয়েছে</string>
+    <string name="read">পড়া হয়েছে</string>
+    <string name="add">যোগ করুন</string>
+    <string name="create_group_chat">গ্রুপ চ্যাট তৈরি করুন</string>
+    <string name="add_friend">বন্ধু যোগ করুন</string>
+    <string name="please_complete_your_info">অনুগ্রহ করে আপনার তথ্য সম্পূর্ণ করুন</string>
+    <string name="go_to_personal_info_settings">ব্যক্তিগত তথ্য সেটিংসে যান</string>
+    <string name="ok">ঠিক আছে</string>
+
 </resources>

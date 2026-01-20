@@ -414,4 +414,15 @@
     <string name="public_group_tab">Grup Umum</string>
     <string name="friend_tab">Kanca</string>
 
+    <string name="select_all">Pilih kabeh</string>
+    <string name="cancel_select_all">Batal pilihan kabeh</string>
+    <string name="all_read">Kabeh wis dibaca</string>
+    <string name="read">Wis dibaca</string>
+    <string name="add">Tambah</string>
+    <string name="create_group_chat">Nggawe grup obrolan</string>
+    <string name="add_friend">Tambah kanca</string>
+    <string name="please_complete_your_info">Mangga lengkapi informasi sampeyan</string>
+    <string name="go_to_personal_info_settings">Pindhah menyang setelan informasi pribadi</string>
+    <string name="ok">OK</string>
+
 </resources>

@@ -419,4 +419,15 @@
     <string name="public_group_tab">عوامی گروپ</string>
     <string name="friend_tab">دوست</string>
 
+    <string name="select_all">سب منتخب کریں</string>
+    <string name="cancel_select_all">سب منتخب کریں منسوخ کریں</string>
+    <string name="all_read">سب پڑھا گیا</string>
+    <string name="read">پڑھا گیا</string>
+    <string name="add">شامل کریں</string>
+    <string name="create_group_chat">گروپ چیٹ بنائیں</string>
+    <string name="add_friend">دوست شامل کریں</string>
+    <string name="please_complete_your_info">براہ کرم اپنی معلومات مکمل کریں</string>
+    <string name="go_to_personal_info_settings">ذاتی معلومات کی ترتیبات پر جائیں</string>
+    <string name="ok">ٹھیک ہے</string>
+
 </resources>

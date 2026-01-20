@@ -756,4 +756,15 @@
     <string name="public_group_tab">Public</string>
     <string name="friend_tab">Friend</string>
 
+    <string name="select_all">Select All</string>
+    <string name="cancel_select_all">Deselect All</string>
+    <string name="all_read">All Read</string>
+    <string name="read">Read</string>
+    <string name="add">Add</string>
+    <string name="create_group_chat">Create Group Chat</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="please_complete_your_info">Please complete your information</string>
+    <string name="go_to_personal_info_settings">Go to personal information settings</string>
+    <string name="ok">OK</string>
+
 </resources>

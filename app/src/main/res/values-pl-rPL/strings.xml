@@ -19,4 +19,15 @@
     <string name="public_group_tab">Grupa Publiczna</string>
     <string name="friend_tab">Przyjaciel</string>
 
+    <string name="select_all">Zaznacz wszystko</string>
+    <string name="cancel_select_all">Odznacz wszystko</string>
+    <string name="all_read">Wszystko przeczytane</string>
+    <string name="read">Przeczytane</string>
+    <string name="add">Dodaj</string>
+    <string name="create_group_chat">Utwórz grupowy czat</string>
+    <string name="add_friend">Dodaj przyjaciela</string>
+    <string name="please_complete_your_info">Proszę uzupełnić swoje dane</string>
+    <string name="go_to_personal_info_settings">Przejdź do ustawień danych osobowych</string>
+    <string name="ok">OK</string>
+
 </resources>

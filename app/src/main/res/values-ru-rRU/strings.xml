@@ -413,4 +413,15 @@
     <string name="public_group_tab">Публичная Группа</string>
     <string name="friend_tab">Друг</string>
 
+    <string name="select_all">Выбрать все</string>
+    <string name="cancel_select_all">Отменить выбор</string>
+    <string name="all_read">Все прочитано</string>
+    <string name="read">Прочитано</string>
+    <string name="add">Добавить</string>
+    <string name="create_group_chat">Создать групповой чат</string>
+    <string name="add_friend">Добавить друга</string>
+    <string name="please_complete_your_info">Пожалуйста, заполните вашу информацию</string>
+    <string name="go_to_personal_info_settings">Перейти к настройкам личной информации</string>
+    <string name="ok">Хорошо</string>
+
 </resources>

@@ -415,4 +415,15 @@
     <string name="public_group_tab">Kumpulan Awam</string>
     <string name="friend_tab">Kawan</string>
 
+    <string name="select_all">Pilih semua</string>
+    <string name="cancel_select_all">Batal pilihan semua</string>
+    <string name="all_read">Semua dibaca</string>
+    <string name="read">Dibaca</string>
+    <string name="add">Tambah</string>
+    <string name="create_group_chat">Buat kumpulan sembang</string>
+    <string name="add_friend">Tambah kawan</string>
+    <string name="please_complete_your_info">Sila lengkapkan maklumat anda</string>
+    <string name="go_to_personal_info_settings">Pergi ke tetapan maklumat peribadi</string>
+    <string name="ok">OK</string>
+
 </resources>

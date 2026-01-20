@@ -415,4 +415,15 @@
     <string name="public_group_tab">Pampublikong Grupo</string>
     <string name="friend_tab">Kaibigan</string>
 
+    <string name="select_all">Piliin lahat</string>
+    <string name="cancel_select_all">Kanselahin ang pagpili ng lahat</string>
+    <string name="all_read">Lahat nabasa</string>
+    <string name="read">Nabasa</string>
+    <string name="add">Magdagdag</string>
+    <string name="create_group_chat">Lumikha ng grupo ng chat</string>
+    <string name="add_friend">Magdagdag ng kaibigan</string>
+    <string name="please_complete_your_info">Mangyaring kumpletuhin ang iyong impormasyon</string>
+    <string name="go_to_personal_info_settings">Pumunta sa mga setting ng personal na impormasyon</string>
+    <string name="ok">OK</string>
+
 </resources>

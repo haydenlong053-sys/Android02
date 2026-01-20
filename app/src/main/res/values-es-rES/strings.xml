@@ -412,4 +412,15 @@
     <string name="public_group_tab">Grupo Público</string>
     <string name="friend_tab">Amigo</string>
 
+    <string name="select_all">Seleccionar todo</string>
+    <string name="cancel_select_all">Deseleccionar todo</string>
+    <string name="all_read">Todo leído</string>
+    <string name="read">Leído</string>
+    <string name="add">Agregar</string>
+    <string name="create_group_chat">Crear grupo de chat</string>
+    <string name="add_friend">Agregar amigo</string>
+    <string name="please_complete_your_info">Por favor complete su información</string>
+    <string name="go_to_personal_info_settings">Ir a la configuración de información personal</string>
+    <string name="ok">De acuerdo</string>
+
 </resources>

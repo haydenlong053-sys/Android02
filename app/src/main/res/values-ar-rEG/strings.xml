@@ -412,4 +412,15 @@
     <string name="public_group_tab">مجموعة عامة</string>
     <string name="friend_tab">صديق</string>
 
+    <string name="select_all">تحديد الكل</string>
+    <string name="cancel_select_all">إلغاء تحديد الكل</string>
+    <string name="all_read">الكل مقروء</string>
+    <string name="read">مقروء</string>
+    <string name="add">إضافة</string>
+    <string name="create_group_chat">إنشاء محادثة جماعية</string>
+    <string name="add_friend">إضافة صديق</string>
+    <string name="please_complete_your_info">يرجى إكمال معلوماتك</string>
+    <string name="go_to_personal_info_settings">الانتقال إلى إعدادات المعلومات الشخصية</string>
+    <string name="ok">حسناً</string>
+
 </resources>

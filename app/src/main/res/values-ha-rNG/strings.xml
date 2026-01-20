@@ -412,4 +412,15 @@
     <string name="public_group_tab">Ƙungiya ta Jama\'a</string>
     <string name="friend_tab">Aboki</string>
 
+    <string name="select_all">Zaɓi duka</string>
+    <string name="cancel_select_all">Soke zaɓin duka</string>
+    <string name="all_read">Duka an karanta</string>
+    <string name="read">An karanta</string>
+    <string name="add">Ƙara</string>
+    <string name="create_group_chat">Ƙirƙiri ƙungiyar tattaunawa</string>
+    <string name="add_friend">Ƙara aboki</string>
+    <string name="please_complete_your_info">Da fatan za a cika bayananka</string>
+    <string name="go_to_personal_info_settings">Je zuwa saitunan bayanan sirri</string>
+    <string name="ok">Yayi</string>
+
 </resources>

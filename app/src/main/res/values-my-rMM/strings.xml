@@ -415,4 +415,15 @@
     <string name="public_group_tab">အများပြည်သူအုပ်စု</string>
     <string name="friend_tab">မိတ်ဆွေ</string>
 
+    <string name="select_all">အားလုံးကို ရွေးချယ်ပါ</string>
+    <string name="cancel_select_all">အားလုံးကို ရွေးချယ်မှု ပယ်ဖျက်ပါ</string>
+    <string name="all_read">အားလုံး ဖတ်ပြီး</string>
+    <string name="read">ဖတ်ပြီး</string>
+    <string name="add">ထည့်ပါ</string>
+    <string name="create_group_chat">အုပ်စု စကားပြောခန်း ဖန်တီးပါ</string>
+    <string name="add_friend">မိတ်ဆွေ ထည့်ပါ</string>
+    <string name="please_complete_your_info">ကျေးဇူးပြု၍ သင့်အချက်အလက်များကို ဖြည့်စွက်ပါ</string>
+    <string name="go_to_personal_info_settings">ကိုယ်ရေးအချက်အလက် ဆက်တင်များသို့ သွားပါ</string>
+    <string name="ok">အိုကေ</string>
+
 </resources>

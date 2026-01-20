@@ -418,4 +418,15 @@
     <string name="public_group_tab">Herkese Açık Grup</string>
     <string name="friend_tab">Arkadaş</string>
 
+    <string name="select_all">Tümünü seç</string>
+    <string name="cancel_select_all">Tümünü kaldır</string>
+    <string name="all_read">Tümü okundu</string>
+    <string name="read">Okundu</string>
+    <string name="add">Ekle</string>
+    <string name="create_group_chat">Grup sohbeti oluştur</string>
+    <string name="add_friend">Arkadaş ekle</string>
+    <string name="please_complete_your_info">Lütfen bilgilerinizi tamamlayın</string>
+    <string name="go_to_personal_info_settings">Kişisel bilgi ayarlarına git</string>
+    <string name="ok">Tamam</string>
+
 </resources>

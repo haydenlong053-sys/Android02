@@ -413,4 +413,15 @@
     <string name="public_group_tab">Grup Publik</string>
     <string name="friend_tab">Teman</string>
 
+    <string name="select_all">Pilih semua</string>
+    <string name="cancel_select_all">Batalkan pilihan semua</string>
+    <string name="all_read">Semua dibaca</string>
+    <string name="read">Dibaca</string>
+    <string name="add">Tambah</string>
+    <string name="create_group_chat">Buat grup chat</string>
+    <string name="add_friend">Tambah teman</string>
+    <string name="please_complete_your_info">Silakan lengkapi informasi Anda</string>
+    <string name="go_to_personal_info_settings">Buka pengaturan informasi pribadi</string>
+    <string name="ok">OK</string>
+
 </resources>

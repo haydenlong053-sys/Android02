@@ -415,4 +415,15 @@
     <string name="public_group_tab">Олон Нийтийн Бүлэг</string>
     <string name="friend_tab">Найз</string>
 
+    <string name="select_all">Бүгдийг сонгох</string>
+    <string name="cancel_select_all">Сонголтыг цуцлах</string>
+    <string name="all_read">Бүгд уншсан</string>
+    <string name="read">Уншсан</string>
+    <string name="add">Нэмэх</string>
+    <string name="create_group_chat">Бүлгийн чат үүсгэх</string>
+    <string name="add_friend">Найз нэмэх</string>
+    <string name="please_complete_your_info">Та мэдээллээ бөглөнө үү</string>
+    <string name="go_to_personal_info_settings">Хувийн мэдээллийн тохиргоонд очих</string>
+    <string name="ok">За</string>
+
 </resources>

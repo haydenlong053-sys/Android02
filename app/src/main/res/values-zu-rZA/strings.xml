@@ -414,4 +414,15 @@
     <string name="public_group_tab">Iqembu Esidlangalaleni</string>
     <string name="friend_tab">Umngane</string>
 
+    <string name="select_all">Khetha konke</string>
+    <string name="cancel_select_all">Khansela ukukhetha konke</string>
+    <string name="all_read">Konke kufundiwe</string>
+    <string name="read">Kufundiwe</string>
+    <string name="add">Engeza</string>
+    <string name="create_group_chat">Dala iqembu lengxoxo</string>
+    <string name="add_friend">Engeza umngane</string>
+    <string name="please_complete_your_info">Sicela ugcwalise ulwazi lwakho</string>
+    <string name="go_to_personal_info_settings">Iya ezilungiselelweni zolwazi lomuntu siqu</string>
+    <string name="ok">Kulungile</string>
+
 </resources>
