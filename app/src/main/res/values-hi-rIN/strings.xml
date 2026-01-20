@@ -422,4 +422,9 @@
     <string name="go_to_personal_info_settings">व्यक्तिगत जानकारी सेटिंग्स पर जाएं</string>
     <string name="ok">ठीक है</string>
 
+    <string name="all">सभी</string>
+    <string name="new_friend">नया मित्र</string>
+    <string name="new_group_invite">नया समूह निमंत्रण</string>
+    <string name="contact_avatar">संपर्क अवतार</string>
+
 </resources>

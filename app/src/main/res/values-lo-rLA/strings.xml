@@ -425,4 +425,9 @@
     <string name="go_to_personal_info_settings">ໄປທີ່ການຕັ້ງຄ່າຂໍ້ມູນສ່ວນຕົວ</string>
     <string name="ok">ຕົກລົງ</string>
 
+    <string name="all">ທັງໝົດ</string>
+    <string name="new_friend">ເພື່ອນໃໝ່</string>
+    <string name="new_group_invite">ການເຊີນກຸ່ມໃໝ່</string>
+    <string name="contact_avatar">ຮູບພາບຕິດຕໍ່</string>
+
 </resources>

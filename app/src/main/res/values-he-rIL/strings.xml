@@ -423,4 +423,9 @@
     <string name="go_to_personal_info_settings">עבור להגדרות מידע אישי</string>
     <string name="ok">אוקיי</string>
 
+    <string name="all">הכל</string>
+    <string name="new_friend">חבר חדש</string>
+    <string name="new_group_invite">הזמנת קבוצה חדשה</string>
+    <string name="contact_avatar">אווטר איש קשר</string>
+
 </resources>

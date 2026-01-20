@@ -423,4 +423,9 @@
     <string name="go_to_personal_info_settings">개인정보 설정으로 이동</string>
     <string name="ok">확인</string>
 
+    <string name="all">전체</string>
+    <string name="new_friend">새 친구</string>
+    <string name="new_group_invite">새 그룹 초대</string>
+    <string name="contact_avatar">연락처 아바타</string>
+
 </resources>

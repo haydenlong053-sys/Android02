@@ -767,4 +767,9 @@
     <string name="go_to_personal_info_settings">Go to personal information settings</string>
     <string name="ok">OK</string>
 
+    <string name="all">All</string>
+    <string name="new_friend">New Friend</string>
+    <string name="new_group_invite">New Group Invite</string>
+    <string name="contact_avatar">Contact Avatar</string>
+
 </resources>

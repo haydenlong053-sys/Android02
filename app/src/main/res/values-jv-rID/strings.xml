@@ -425,4 +425,9 @@
     <string name="go_to_personal_info_settings">Pindhah menyang setelan informasi pribadi</string>
     <string name="ok">OK</string>
 
+    <string name="all">Kabeh</string>
+    <string name="new_friend">Kanca anyar</string>
+    <string name="new_group_invite">Undhangan grup anyar</string>
+    <string name="contact_avatar">Avatar kontak</string>
+
 </resources>

@@ -30,4 +30,9 @@
     <string name="go_to_personal_info_settings">Przejdź do ustawień danych osobowych</string>
     <string name="ok">OK</string>
 
+    <string name="all">Wszystko</string>
+    <string name="new_friend">Nowy przyjaciel</string>
+    <string name="new_group_invite">Nowe zaproszenie do grupy</string>
+    <string name="contact_avatar">Avatar kontaktu</string>
+
 </resources>

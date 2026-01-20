@@ -426,4 +426,9 @@
     <string name="go_to_personal_info_settings">Pumunta sa mga setting ng personal na impormasyon</string>
     <string name="ok">OK</string>
 
+    <string name="all">Lahat</string>
+    <string name="new_friend">Bagong kaibigan</string>
+    <string name="new_group_invite">Bagong imbitasyon sa grupo</string>
+    <string name="contact_avatar">Avatar ng contact</string>
+
 </resources>

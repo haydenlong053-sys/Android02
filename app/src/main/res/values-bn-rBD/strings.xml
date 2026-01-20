@@ -423,4 +423,9 @@
     <string name="go_to_personal_info_settings">ব্যক্তিগত তথ্য সেটিংসে যান</string>
     <string name="ok">ঠিক আছে</string>
 
+    <string name="all">সব</string>
+    <string name="new_friend">নতুন বন্ধু</string>
+    <string name="new_group_invite">নতুন গ্রুপ আমন্ত্রণ</string>
+    <string name="contact_avatar">যোগাযোগের অ্যাভাটার</string>
+
 </resources>

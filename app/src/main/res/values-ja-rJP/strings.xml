@@ -423,4 +423,9 @@
     <string name="go_to_personal_info_settings">個人情報設定に移動</string>
     <string name="ok">了解</string>
 
+    <string name="all">すべて</string>
+    <string name="new_friend">新しい友達</string>
+    <string name="new_group_invite">新しいグループ招待</string>
+    <string name="contact_avatar">連絡先のアバター</string>
+
 </resources>

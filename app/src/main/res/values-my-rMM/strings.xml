@@ -426,4 +426,9 @@
     <string name="go_to_personal_info_settings">ကိုယ်ရေးအချက်အလက် ဆက်တင်များသို့ သွားပါ</string>
     <string name="ok">အိုကေ</string>
 
+    <string name="all">အားလုံး</string>
+    <string name="new_friend">မိတ်ဆွေအသစ်</string>
+    <string name="new_group_invite">အုပ်စုဖိတ်ခေါ်မှုအသစ်</string>
+    <string name="contact_avatar">ဆက်သွယ်ရမည့်ပုံ</string>
+
 </resources>

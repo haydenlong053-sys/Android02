@@ -774,4 +774,9 @@
     <string name="go_to_personal_info_settings">前往個人信息設置</string>
     <string name="ok">好的</string>
 
+    <string name="all">全部</string>
+    <string name="new_friend">新增好友</string>
+    <string name="new_group_invite">新群邀請</string>
+    <string name="contact_avatar">聯繫人頭像</string>
+
 </resources>

@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -199,7 +200,7 @@ fun SocialScreen(
             item {
                 val explanationText = state.selectedCircleTag?.let { tag ->
                     state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
-                } ?: "全部"
+                } ?: stringResource(R.string.all)
                 CharacterExplanation(text = explanationText)
             }
             state.indexLetters.forEach { letter ->
@@ -316,7 +317,7 @@ private fun InviteRow(
     ) {
         InviteCard(
             iconRes = R.mipmap.ic_new_friend_broad_request,
-            title = "新增好友",
+            title = stringResource(R.string.new_friend),
             onClick = onFriendClick,
             badgeCount = friendBadgeCount,
             modifier = Modifier
@@ -325,7 +326,7 @@ private fun InviteRow(
         )
         InviteCard(
             iconRes = R.mipmap.ic_new_group_broad_request,
-            title = "新群邀请",
+            title = stringResource(R.string.new_group_invite),
             onClick = onGroupClick,
             badgeCount = groupBadgeCount,
             modifier = Modifier
@@ -377,10 +378,13 @@ private fun InviteCard(
                 fontSize = 16.sp,
                 color = Color.Black.copy(0.9f),
                 fontWeight = FontWeight.W400,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.constrainAs(titleRef) {
                     start.linkTo(iconRef.end, margin = 8.dp)
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
                     width = Dimension.preferredWrapContent
                 }
             )
@@ -455,7 +459,7 @@ private fun CirclesRow(
         when (mode) {
             CircleInteractionBroadMode.WithAllSingleSelect -> {
                 Chip(
-                    text = "全部",
+                    text = stringResource(R.string.all),
                     selected = selectedTag.isNullOrBlank(),
                     onClick = { onSelect(null) },
                     minWidth = minChipWidth
@@ -584,7 +588,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
             }
             AsyncImage(
                 model = contact.icon,
-                contentDescription = "联系人头像",
+                contentDescription = stringResource(R.string.contact_avatar),
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape),
@@ -615,7 +619,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        text = "${contact.grade ?: 0}分",
+                        text = "${contact.grade ?: 0}${stringResource(R.string.score_unit)}",
                         fontSize = 14.sp,
                         color = Color(0xffEF7B05),
                         fontWeight = FontWeight.W500
@@ -642,7 +646,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
 //                    Text(text = sub, fontSize = 14.sp, color = Color(0xFF0F0F25).copy(0.45f))
 //                }
                 val contactSex =
-                    if (contact.sex.isNullOrEmpty()) "" else (if (contact.sex == "1") "男" else "女")
+                    if (contact.sex.isNullOrEmpty()) "" else (if (contact.sex == "1") stringResource(R.string.男) else stringResource(R.string.女))
 
                 val sub = if (contact.registerDay == null)
                     listOfNotNull(
@@ -653,7 +657,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     contact.city,
                     contactSex,
                     contact.profession,
-                    "${contact.registerDay}天"
+                    "${contact.registerDay}${stringResource(R.string.days_unit)}"
                 ).filter { it.isNotBlank() }
                 if (sub.isNotEmpty()) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

@@ -423,4 +423,9 @@
     <string name="go_to_personal_info_settings">Đi đến cài đặt thông tin cá nhân</string>
     <string name="ok">Đồng ý</string>
 
+    <string name="all">Tất cả</string>
+    <string name="new_friend">Bạn mới</string>
+    <string name="new_group_invite">Lời mời nhóm mới</string>
+    <string name="contact_avatar">Ảnh đại diện liên hệ</string>
+
 </resources>

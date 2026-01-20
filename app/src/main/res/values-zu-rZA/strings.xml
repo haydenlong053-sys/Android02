@@ -425,4 +425,9 @@
     <string name="go_to_personal_info_settings">Iya ezilungiselelweni zolwazi lomuntu siqu</string>
     <string name="ok">Kulungile</string>
 
+    <string name="all">Konke</string>
+    <string name="new_friend">Umngane omusha</string>
+    <string name="new_group_invite">Isimemo esisha seqembu</string>
+    <string name="contact_avatar">I-avatar yoxhumana</string>
+
 </resources>

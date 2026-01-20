@@ -429,4 +429,9 @@
     <string name="go_to_personal_info_settings">Kişisel bilgi ayarlarına git</string>
     <string name="ok">Tamam</string>
 
+    <string name="all">Tümü</string>
+    <string name="new_friend">Yeni arkadaş</string>
+    <string name="new_group_invite">Yeni grup daveti</string>
+    <string name="contact_avatar">İletişim avatarı</string>
+
 </resources>

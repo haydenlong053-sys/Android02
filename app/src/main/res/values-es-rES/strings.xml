@@ -423,4 +423,9 @@
     <string name="go_to_personal_info_settings">Ir a la configuración de información personal</string>
     <string name="ok">De acuerdo</string>
 
+    <string name="all">Todo</string>
+    <string name="new_friend">Nuevo amigo</string>
+    <string name="new_group_invite">Nueva invitación de grupo</string>
+    <string name="contact_avatar">Avatar de contacto</string>
+
 </resources>

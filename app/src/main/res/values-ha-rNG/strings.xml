@@ -423,4 +423,9 @@
     <string name="go_to_personal_info_settings">Je zuwa saitunan bayanan sirri</string>
     <string name="ok">Yayi</string>
 
+    <string name="all">Duka</string>
+    <string name="new_friend">Aboki sabo</string>
+    <string name="new_group_invite">Gayyata ƙungiya sabo</string>
+    <string name="contact_avatar">Avatar lamba</string>
+
 </resources>

@@ -427,4 +427,9 @@
     <string name="go_to_personal_info_settings">ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸੈਟਿੰਗਾਂ ਤੇ ਜਾਓ</string>
     <string name="ok">ਠੀਕ ਹੈ</string>
 
+    <string name="all">ਸਭ</string>
+    <string name="new_friend">ਨਵਾਂ ਦੋਸਤ</string>
+    <string name="new_group_invite">ਨਵਾਂ ਗਰੁੱਪ ਸੱਦਾ</string>
+    <string name="contact_avatar">ਸੰਪਰਕ ਅਵਤਾਰ</string>
+
 </resources>

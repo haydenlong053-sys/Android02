@@ -425,4 +425,9 @@
     <string name="go_to_personal_info_settings">Mergi la setările informațiilor personale</string>
     <string name="ok">OK</string>
 
+    <string name="all">Tot</string>
+    <string name="new_friend">Prieten nou</string>
+    <string name="new_group_invite">Invitație nouă de grup</string>
+    <string name="contact_avatar">Avatar contact</string>
+
 </resources>

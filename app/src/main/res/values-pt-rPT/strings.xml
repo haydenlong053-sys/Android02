@@ -425,4 +425,9 @@
     <string name="go_to_personal_info_settings">Ir para configurações de informações pessoais</string>
     <string name="ok">OK</string>
 
+    <string name="all">Tudo</string>
+    <string name="new_friend">Novo amigo</string>
+    <string name="new_group_invite">Nova convite de grupo</string>
+    <string name="contact_avatar">Avatar do contato</string>
+
 </resources>
