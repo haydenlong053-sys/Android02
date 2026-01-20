@@ -4,6 +4,8 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import android.os.Parcel;
 import android.text.TextUtils;
 
@@ -14,6 +16,8 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
 import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_File;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by heavyrain lee on 2017/12/6.
@@ -78,7 +82,7 @@ public class FileMessageContent extends MediaMessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[文件]" + name;
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_file) + name;
     }
 
     @Override

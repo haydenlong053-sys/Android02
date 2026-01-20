@@ -4,6 +4,8 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import android.os.Parcel;
 
 import org.json.JSONArray;
@@ -18,6 +20,8 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
 import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Call_Start;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by heavyrain lee on 2017/12/6.
@@ -185,7 +189,8 @@ public class CallStartMessageContent extends MessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[网络电话]";
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_call);
+//        return "[网络电话]";
     }
 
 

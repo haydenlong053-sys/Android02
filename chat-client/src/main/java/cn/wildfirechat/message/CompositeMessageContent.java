@@ -4,11 +4,14 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Composite_Message;
 
 import android.os.Parcel;
 import android.text.TextUtils;
 import android.util.Base64;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -302,7 +305,7 @@ public class CompositeMessageContent extends MediaMessageContent {
 
     @Override
     public String digest(Message message) {
-        return "[聊天记录]: " + title;
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_chat_record) + title;
     }
 
     public String compositeDigest() {

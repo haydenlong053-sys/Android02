@@ -8,6 +8,8 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import android.os.Parcel;
 
 import org.json.JSONException;
@@ -18,6 +20,8 @@ import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
 import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Card;
+
+import androidx.core.content.ContextCompat;
 
 
 @ContentTag(type = ContentType_Card, flag = PersistFlag.Persist_And_Count)
@@ -132,15 +136,15 @@ public class CardMessageContent extends MessageContent {
     @Override
     public String digest(Message message) {
         if (type == 0)
-            return "[个人名片]:" + displayName;
+            return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_p2p_card) + displayName;
         else if (type == 1)
-            return "[群组名片]:" + displayName;
+            return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_group_card) + displayName;
         else if (type == 2)
-            return "[聊天室名片]:" + displayName;
+            return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_chat_room_card) + displayName;
         else if (type == 3)
-            return "[频道名片]:" + displayName;
+            return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_channel_card) + displayName;
 
-        return "[名片]:" + displayName;
+        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_card) + displayName;
     }
 
 
