@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.intelligent.R;
-import com.cboda.intelligent.bean.DataListBroadBean;
+import com.cboda.baselibrary.bean.DataListBroadBean;
 
 import java.util.List;
 

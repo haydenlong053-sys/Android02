@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.intelligent.R;
-import com.cboda.intelligent.bean.CircleCommListBroadBean;
+import com.cboda.baselibrary.bean.CircleCommListBroadBean;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.intelligent.utils.StringBroadUtil;
 import com.makeramen.roundedimageview.RoundedImageView;

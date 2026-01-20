@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
-
 import androidx.annotation.NonNull;
-
 import com.cboda.select.picture.utils.SpUtils;
 import java.util.Locale;
 
@@ -32,6 +30,7 @@ public class PictureLanguageUtils {
      * @param defaultLanguageId
      */
     public static void setAppLanguage(Context context, int languageId, int defaultLanguageId) {
+//        updateLanguage(context, new Locale(LanguageUtil.INSTANCE.getLanList(LanguageUtil.INSTANCE.getAppLanguageKey(context))));
         if (languageId >= 0) {
             applyLanguage(context, LocaleTransform.getLanguage(languageId));
         } else {
@@ -64,7 +63,6 @@ public class PictureLanguageUtils {
         }
         updateLanguage(context, locale);
     }
-
 
 
     private static void updateLanguage(@NonNull Context context, Locale locale) {

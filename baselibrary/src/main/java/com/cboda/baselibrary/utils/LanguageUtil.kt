@@ -2,271 +2,34 @@ package com.cboda.baselibrary.utils
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getAppLanguageKey
+import com.cboda.baselibrary.bean.DataListBroadBean
 import java.util.Locale
 
 object LanguageUtil {
-    const val SIMPLIFIED = "SimplifiedChinese"//简体中文
-    const val TRADITIONAL = "TraditionalChinese"//繁体中文
-    const val ENGLISH = "English"//英文
-    const val HINDI = "Hindi"//印地语
-
-    const val SPANISH = "Spanish"//西班牙语
-
-    const val FRENCH = "French"//法语
-    const val ARABIC = "Arabic"//阿拉伯语
-    const val BENGALI = "Bengali"//孟加拉语
-    const val RUSSIAN = "Russian"//俄语
-    const val PORTUGAL = "Portugal"//葡萄牙语
-    const val INDONESIAN = "Indonesian"//印尼语
-    const val JAPANESE = "Japanese"//日語
-    const val URDU_LANGUAGE = "UrduLanguage"//乌尔都语
-    const val GERMAN = "German"//德语
-
-    const val PUNJAB_LANGUAGE = "PunjabLanguage"//旁遮普语
-    const val JAVANESE = "Javanese"//爪哇语
-    const val FILIPINO = "Filipino"//菲律宾语
-    const val VIETNAM = "Vietnam"//越南语
-    const val KOREAN = "Korean"//韩语
-    const val TURKISH = "Turkish"//土耳其语
-    const val ITALIAN = "Italian"//意大利语
-    const val THAI = "thai"//泰语
-    const val MALAY = "Malay"//马来语
-    const val POLISH = "Polish"//波兰语
-    const val ROMANIA = "Romania"//罗马尼亚语
-    const val LAO = "Lao"//老挝语
-    const val MONGOLIAN = "Mongolian"//蒙古语
-    const val HAUSA = "Hausa"//豪萨语
-    const val SWAHILI_LANGUAGE = "SwahiliLanguage"//斯瓦希里语
-    const val BURMESE = "Burmese"//缅甸语
-    const val NEPAL = "Nepal"//尼泊尔语
-    const val ZULU = "Zulu"//祖鲁语
-    const val HEBREW = "Hebrew"//希伯来语
-    const val GREEK     = "Greek"//希腊语
-    const val UKRAINE = "Ukraine"//乌克兰语
-
-
-//    fun getAllLanguage(){
-//        for (i in 0..34) {
-//            val dataListBean = DataListBroadBean()
-//            when (i) {
-//                0 -> {
-//                    dataListBean.name = "简体中文"
-//                    dataListBean.value = "zh-CN"
-//                    dataListBean.sqlKey = SIMPLIFIED
-//                }
-//
-//                1 -> {
-//                    dataListBean.name = "繁體中文"
-//                    dataListBean.value = "zh-TW"
-//                    dataListBean.sqlKey = TRADITIONAL
-//                }
-//
-//                2 -> {
-//                    dataListBean.name = "English"
-//                    dataListBean.value = "en-US"
-//                    dataListBean.sqlKey = ENGLISH
-//                }
-//
-//                3 -> {
-//                    dataListBean.name = "हिन्दी"
-//                    dataListBean.value = "hi-IN"
-//                    dataListBean.sqlKey = HINDI
-//                }
-//
-//                4 -> {
-//                    dataListBean.name = "Español"
-//                    dataListBean.value = "es-ES"
-//                    dataListBean.sqlKey = SPANISH
-//                }
-//
-//                5 -> {
-//                    dataListBean.name = "Français"
-//                    dataListBean.value = "fr-FR"
-//                    dataListBean.sqlKey = FRENCH
-//                }
-//
-//                6 -> {
-//                    dataListBean.name = "العربية"
-//                    dataListBean.value = "ar-EG"
-//                    dataListBean.sqlKey = ARABIC
-//                }
-//
-//                7 -> {
-//                    dataListBean.name = "বাংলা"
-//                    dataListBean.value = "bn-IN"
-//                    dataListBean.sqlKey = BENGALI
-//                }
-//
-//                8 -> {
-//                    dataListBean.name = "русский"
-//                    dataListBean.value = "ru-RU"
-//                    dataListBean.sqlKey = RUSSIAN
-//                }
-//
-//                9 -> {
-//                    dataListBean.name = "Português"
-//                    dataListBean.value = "pt-BR"
-//                    dataListBean.sqlKey = PORTUGAL
-//                }
-//
-//                10 -> {
-//                    dataListBean.name = "Indonesia"
-//                    dataListBean.value = "id-ID"
-//                    dataListBean.sqlKey = INDONESIAN
-//                }
-//
-//                11 -> {
-//                    dataListBean.name = "اردو"
-//                    dataListBean.value = "ur-PK"
-//                    dataListBean.sqlKey = URDU_LANGUAGE
-//                }
-//
-//                12 -> {
-//                    dataListBean.name = "日本語"
-//                    dataListBean.value = "ja-JP"
-//                    dataListBean.sqlKey = JAPANESE
-//                }
-//
-//                13 -> {
-//                    dataListBean.name = "Deutsch"
-//                    dataListBean.value = "de-DE"
-//                    dataListBean.sqlKey = GERMAN
-//                }
-//
-//                14 -> {
-//                    dataListBean.name = "ਪੰਜਾਬੀ"
-//                    dataListBean.value = "pa-IN"
-//                    dataListBean.sqlKey = PUNJAB_LANGUAGE
-//                }
-//
-//                15 -> {
-//                    dataListBean.name = "Jawa"
-//                    dataListBean.value = "jv-ID"
-//                    dataListBean.sqlKey = JAVANESE
-//                }
-//
-//                16 -> {
-//                    dataListBean.name = "Filipino"
-//                    dataListBean.value = "in-ID"
-//                    dataListBean.sqlKey = FILIPINO
-//                }
-//
-//                17 -> {
-//                    dataListBean.name = "Tiếng Việt"
-//                    dataListBean.value = "vi-VN"
-//                    dataListBean.sqlKey = VIETNAM
-//                }
-//
-//                18 -> {
-//                    dataListBean.name = "한국어"
-//                    dataListBean.value = "ko-KR"
-//                    dataListBean.sqlKey = KOREAN
-//                }
-//
-//                19 -> {
-//                    dataListBean.name = "Türkçe"
-//                    dataListBean.value = "tr-TR"
-//                    dataListBean.sqlKey = TURKISH
-//                }
-//
-//                20 -> {
-//                    dataListBean.name = "Italiano"
-//                    dataListBean.value = "it-IT"
-//                    dataListBean.sqlKey = ITALIAN
-//                }
-//
-//                21 -> {
-//                    dataListBean.name = "ไทย"
-//                    dataListBean.value = "th-TH"
-//                    dataListBean.sqlKey = THAI
-//                }
-//
-//                22 -> {
-//                    dataListBean.name = "Bahasa Melayu"
-//                    dataListBean.value = "ms-MY"
-//                    dataListBean.sqlKey = MALAY
-//                }
-//
-//                23 -> {
-//                    dataListBean.name = "Polski"
-//                    dataListBean.value = "pl-PL"
-//                    dataListBean.sqlKey = POLISH
-//                }
-//
-//                24 -> {
-//                    dataListBean.name = "Română"
-//                    dataListBean.value = "ro-RO"
-//                    dataListBean.sqlKey = ROMANIA
-//                }
-//
-//                25 -> {
-//                    dataListBean.name = "ລາວ"
-//                    dataListBean.value = "lo-LA"
-//                    dataListBean.sqlKey = LAO
-//                }
-//
-//                26 -> {
-//                    dataListBean.name = "Монгол"
-//                    dataListBean.value = "mn-MN"
-//                    dataListBean.sqlKey = MONGOLIAN
-//                }
-//
-//                27 -> {
-//                    dataListBean.name = "Hausa"
-//                    dataListBean.value = "ha-NG"
-//                    dataListBean.sqlKey = HAUSA
-//                }
-//
-//                28 -> {
-//                    dataListBean.name = "Kiswahili"
-//                    dataListBean.value = "sw-KE"
-//                    dataListBean.sqlKey = SWAHILI_LANGUAGE
-//                }
-//
-//                29 -> {
-//                    dataListBean.name = "မြန်မာ"
-//                    dataListBean.value = "my-MM"
-//                    dataListBean.sqlKey = BURMESE
-//                }
-//
-//                30 -> {
-//                    dataListBean.name = "नेपाली"
-//                    dataListBean.value = "ne-NP"
-//                    dataListBean.sqlKey = NEPAL
-//                }
-//
-//                31 -> {
-//                    dataListBean.name = "isiZulu"
-//                    dataListBean.value = "zu-ZA"
-//                    dataListBean.sqlKey = ZULU
-//                }
-//
-//                32 -> {
-//                    dataListBean.name = "עברית"
-//                    dataListBean.value = "he-IL"
-//                    dataListBean.sqlKey = HEBREW
-//                }
-//
-//                33 -> {
-//                    dataListBean.name = "Ελληνικά"
-//                    dataListBean.value = "el-GR"
-//                    dataListBean.sqlKey = GREEK
-//                }
-//
-//                34 -> {
-//                    dataListBean.name = "українська"
-//                    dataListBean.value = "uk-UA"
-//                    dataListBean.sqlKey = UKRAINE
-//                }
-//            }
-//            listBeans.add(dataListBean)
-//        }
+//    fun getAppLanguageKey(context: Context): String {
+////            val kv = MMKV.defaultMMKV()
+////            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
+//        return getSharedPreferences(context).getString("LanguageKey", ENGLISH) ?: ENGLISH
 //    }
-
-
+//
+//
+//    fun saveAppLanguageKey(languageKey: String, context: Context) {
+////            val kv = MMKV.defaultMMKV()
+////            kv.encode(USER_LANGUAGE_KEY, languageKey)
+//        getSharedPreferences(context).edit()
+//            .putString("LanguageKey", languageKey)
+//            .apply();
+//    }
+//
+//
+//    private fun getSharedPreferences(context: Context): SharedPreferences {
+//        return context.getSharedPreferences("APP_GOOGLE_PLAY_SQL_NAME", Context.MODE_PRIVATE)
+//    }
 
     fun initLanguage(application: Application) {
 //        com.hjq.language.MultiLanguages.init(application)
@@ -274,9 +37,14 @@ object LanguageUtil {
 
     fun getLanguageContext(context: Context?): Context {
 //        return com.hjq.language.MultiLanguages.attach(getAppContext(context))
-//        val lanList = getLanList(getAppLanguageKey())
-//        return updateResources(getAppContext(context), lanList) ?: getAppContext(context)
-        return getAppContext(context)
+        val mContext = getAppContext(context)
+        val lanList = getLanList(getAppLanguageKey(mContext))
+        return updateResources(mContext, lanList) ?: mContext
+//        return getAppContext(context)
+    }
+
+    fun getAppLanguageName(key: String = "", context: Context): String {
+        return getAllLanguage().find { bean -> bean.sqlKey == if (TextUtils.isEmpty(key)) getAppLanguageKey(context) else key }?.name ?: ENGLISH
     }
 
     fun setAppLanguage(key: String, mContext: Context? = null) {
@@ -289,23 +57,20 @@ object LanguageUtil {
     }
 
 
-    private fun getLanList(key: String): String {
-        return when (key) {
-            TRADITIONAL -> "zh-TW"
-            SIMPLIFIED -> "zh-CN"
-            else -> "en"
-        }
+    fun getLanList(key: String): String {
+        return getAllLanguage().find { bean -> bean.sqlKey == key }?.value ?: "en-US"
     }
 
-    private fun updateResources(context: Context, lanList: String? = "", mLocale: Locale? = null): Context? {
+    private fun updateResources(context: Context?, lanList: String? = "", mLocale: Locale? = null): Context? {
         return if (TextUtils.isEmpty(lanList) && null == mLocale) {
             null
         } else {
             val locale = mLocale ?: Locale(lanList)
-            val configuration = context.resources.configuration
+            val mContent = getAppContext(context)
+            val configuration = mContent.resources.configuration
             configuration.setLocale(locale)
             configuration.setLayoutDirection(locale)
-            context.createConfigurationContext(configuration)
+            mContent.createConfigurationContext(configuration)
         }
     }
 
@@ -358,4 +123,263 @@ object LanguageUtil {
 //            Log.d("MultiLanguages", "监听到系统切换了语种，旧语种：" + oldLocale + "，新语种：" + newLocale + "，是否跟随系统：" + MultiLanguages.isSystemLanguage());
 //        }
 //    });
+
+    @JvmStatic
+    fun getAllLanguage(): ArrayList<DataListBroadBean> {
+        if (languageList.isEmpty()) {
+            for (i in 0..34) {
+                val dataListBean = DataListBroadBean()
+                when (i) {
+                    0 -> {
+                        dataListBean.name = "简体中文"
+                        dataListBean.value = "zh-CN"
+                        dataListBean.sqlKey = SIMPLIFIED
+                    }
+
+                    1 -> {
+                        dataListBean.name = "繁體中文"
+                        dataListBean.value = "zh-TW"
+                        dataListBean.sqlKey = TRADITIONAL
+                    }
+
+                    2 -> {
+                        dataListBean.name = "English"
+                        dataListBean.value = "en-US"
+                        dataListBean.sqlKey = ENGLISH
+                    }
+
+                    3 -> {
+                        dataListBean.name = "हिन्दी"
+                        dataListBean.value = "hi-IN"
+                        dataListBean.sqlKey = HINDI
+                    }
+
+                    4 -> {
+                        dataListBean.name = "Español"
+                        dataListBean.value = "es-ES"
+                        dataListBean.sqlKey = SPANISH
+                    }
+
+                    5 -> {
+                        dataListBean.name = "Français"
+                        dataListBean.value = "fr-FR"
+                        dataListBean.sqlKey = FRENCH
+                    }
+
+                    6 -> {
+                        dataListBean.name = "العربية"
+                        dataListBean.value = "ar-EG"
+                        dataListBean.sqlKey = ARABIC
+                    }
+
+                    7 -> {
+                        dataListBean.name = "বাংলা"
+                        dataListBean.value = "bn-IN"
+                        dataListBean.sqlKey = BENGALI
+                    }
+
+                    8 -> {
+                        dataListBean.name = "русский"
+                        dataListBean.value = "ru-RU"
+                        dataListBean.sqlKey = RUSSIAN
+                    }
+
+                    9 -> {
+                        dataListBean.name = "Português"
+                        dataListBean.value = "pt-BR"
+                        dataListBean.sqlKey = PORTUGAL
+                    }
+
+                    10 -> {
+                        dataListBean.name = "Indonesia"
+                        dataListBean.value = "id-ID"
+                        dataListBean.sqlKey = INDONESIAN
+                    }
+
+                    11 -> {
+                        dataListBean.name = "اردو"
+                        dataListBean.value = "ur-PK"
+                        dataListBean.sqlKey = URDU_LANGUAGE
+                    }
+
+                    12 -> {
+                        dataListBean.name = "日本語"
+                        dataListBean.value = "ja-JP"
+                        dataListBean.sqlKey = JAPANESE
+                    }
+
+                    13 -> {
+                        dataListBean.name = "Deutsch"
+                        dataListBean.value = "de-DE"
+                        dataListBean.sqlKey = GERMAN
+                    }
+
+                    14 -> {
+                        dataListBean.name = "ਪੰਜਾਬੀ"
+                        dataListBean.value = "pa-IN"
+                        dataListBean.sqlKey = PUNJAB_LANGUAGE
+                    }
+
+                    15 -> {
+                        dataListBean.name = "Jawa"
+                        dataListBean.value = "jv-ID"
+                        dataListBean.sqlKey = JAVANESE
+                    }
+
+                    16 -> {
+                        dataListBean.name = "Filipino"
+                        dataListBean.value = "in-ID"
+                        dataListBean.sqlKey = FILIPINO
+                    }
+
+                    17 -> {
+                        dataListBean.name = "Tiếng Việt"
+                        dataListBean.value = "vi-VN"
+                        dataListBean.sqlKey = VIETNAM
+                    }
+
+                    18 -> {
+                        dataListBean.name = "한국어"
+                        dataListBean.value = "ko-KR"
+                        dataListBean.sqlKey = KOREAN
+                    }
+
+                    19 -> {
+                        dataListBean.name = "Türkçe"
+                        dataListBean.value = "tr-TR"
+                        dataListBean.sqlKey = TURKISH
+                    }
+
+                    20 -> {
+                        dataListBean.name = "Italiano"
+                        dataListBean.value = "it-IT"
+                        dataListBean.sqlKey = ITALIAN
+                    }
+
+                    21 -> {
+                        dataListBean.name = "ไทย"
+                        dataListBean.value = "th-TH"
+                        dataListBean.sqlKey = THAI
+                    }
+
+                    22 -> {
+                        dataListBean.name = "Bahasa Melayu"
+                        dataListBean.value = "ms-MY"
+                        dataListBean.sqlKey = MALAY
+                    }
+
+                    23 -> {
+                        dataListBean.name = "Polski"
+                        dataListBean.value = "pl-PL"
+                        dataListBean.sqlKey = POLISH
+                    }
+
+                    24 -> {
+                        dataListBean.name = "Română"
+                        dataListBean.value = "ro-RO"
+                        dataListBean.sqlKey = ROMANIA
+                    }
+
+                    25 -> {
+                        dataListBean.name = "ລາວ"
+                        dataListBean.value = "lo-LA"
+                        dataListBean.sqlKey = LAO
+                    }
+
+                    26 -> {
+                        dataListBean.name = "Монгол"
+                        dataListBean.value = "mn-MN"
+                        dataListBean.sqlKey = MONGOLIAN
+                    }
+
+                    27 -> {
+                        dataListBean.name = "Hausa"
+                        dataListBean.value = "ha-NG"
+                        dataListBean.sqlKey = HAUSA
+                    }
+
+                    28 -> {
+                        dataListBean.name = "Kiswahili"
+                        dataListBean.value = "sw-KE"
+                        dataListBean.sqlKey = SWAHILI_LANGUAGE
+                    }
+
+                    29 -> {
+                        dataListBean.name = "မြန်မာ"
+                        dataListBean.value = "my-MM"
+                        dataListBean.sqlKey = BURMESE
+                    }
+
+                    30 -> {
+                        dataListBean.name = "नेपाली"
+                        dataListBean.value = "ne-NP"
+                        dataListBean.sqlKey = NEPAL
+                    }
+
+                    31 -> {
+                        dataListBean.name = "isiZulu"
+                        dataListBean.value = "zu-ZA"
+                        dataListBean.sqlKey = ZULU
+                    }
+
+                    32 -> {
+                        dataListBean.name = "עברית"
+                        dataListBean.value = "he-IL"
+                        dataListBean.sqlKey = HEBREW
+                    }
+
+                    33 -> {
+                        dataListBean.name = "Ελληνικά"
+                        dataListBean.value = "el-GR"
+                        dataListBean.sqlKey = GREEK
+                    }
+
+                    34 -> {
+                        dataListBean.name = "українська"
+                        dataListBean.value = "uk-UA"
+                        dataListBean.sqlKey = UKRAINE
+                    }
+                }
+                languageList.add(dataListBean)
+            }
+        }
+        return languageList
+    }
+
+    const val ENGLISH = "English"//英文
+    private const val SIMPLIFIED = "SimplifiedChinese"//简体中文
+    private const val TRADITIONAL = "TraditionalChinese"//繁体中文
+    private const val HINDI = "Hindi"//印地语
+    private const val SPANISH = "Spanish"//西班牙语
+    private const val FRENCH = "French"//法语
+    private const val ARABIC = "Arabic"//阿拉伯语
+    private const val BENGALI = "Bengali"//孟加拉语
+    private const val RUSSIAN = "Russian"//俄语
+    private const val PORTUGAL = "Portugal"//葡萄牙语
+    private const val INDONESIAN = "Indonesian"//印尼语
+    private const val JAPANESE = "Japanese"//日語
+    private const val URDU_LANGUAGE = "UrduLanguage"//乌尔都语
+    private const val GERMAN = "German"//德语
+    private const val PUNJAB_LANGUAGE = "PunjabLanguage"//旁遮普语
+    private const val JAVANESE = "Javanese"//爪哇语
+    private const val FILIPINO = "Filipino"//菲律宾语
+    private const val VIETNAM = "Vietnam"//越南语
+    private const val KOREAN = "Korean"//韩语
+    private const val TURKISH = "Turkish"//土耳其语
+    private const val ITALIAN = "Italian"//意大利语
+    private const val THAI = "thai"//泰语
+    private const val MALAY = "Malay"//马来语
+    private const val POLISH = "Polish"//波兰语
+    private const val ROMANIA = "Romania"//罗马尼亚语
+    private const val LAO = "Lao"//老挝语
+    private const val MONGOLIAN = "Mongolian"//蒙古语
+    private const val HAUSA = "Hausa"//豪萨语
+    private const val SWAHILI_LANGUAGE = "SwahiliLanguage"//斯瓦希里语
+    private const val BURMESE = "Burmese"//缅甸语
+    private const val NEPAL = "Nepal"//尼泊尔语
+    private const val ZULU = "Zulu"//祖鲁语
+    private const val HEBREW = "Hebrew"//希伯来语
+    private const val GREEK = "Greek"//希腊语
+    private const val UKRAINE = "Ukraine"//乌克兰语
+    private val languageList = arrayListOf<DataListBroadBean>()
 }

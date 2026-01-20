@@ -12,7 +12,7 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.app.MyBroadApp;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.LanguageBroadAdapter;
-import com.cboda.intelligent.bean.DataListBroadBean;
+import com.cboda.baselibrary.bean.DataListBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
 import com.cboda.intelligent.utils.AppBroadUtils;

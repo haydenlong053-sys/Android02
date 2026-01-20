@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.LanguageUtil;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.bean.ResultBroadBean;
@@ -27,7 +28,6 @@ import com.cboda.intelligent.utils.StringBroadUtil;
 import com.cboda.intelligent.utils.TimerBroadUtil;
 import com.cboda.intelligent.utils.ToastBroadUtil;
 import com.cboda.intelligent.utils.JumpBroadUtils;
-import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -95,9 +95,7 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
         LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) viHead.getLayoutParams(); //取控件textView当前的布局参数
         linearParams.height = result;// 控件的高强制设成20
         viHead.setLayoutParams(linearParams);
-
-        tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
-
+        tvLanguage.setText(LanguageUtil.INSTANCE.getAppLanguageName("", RetrieveBroadActivity.this));
         imFinish.setOnClickListener(this);
         tvLanguage.setOnClickListener(this);
         tvSubmit.setOnClickListener(this);
@@ -117,20 +115,20 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId() ==R.id.imFinish){
+        if (view.getId() == R.id.imFinish) {
             finish();
-        }else if (view.getId()==R.id.tvLanguage){
+        } else if (view.getId() == R.id.tvLanguage) {
             intent = new Intent(this, LanguageBroadActivity.class);
             startActivity(intent);
-        }else  if (view.getId() ==R.id.tvGetCode){
+        } else if (view.getId() == R.id.tvGetCode) {
             if (StringBroadUtil.isEmpty(etPhone.getText().toString())) {
                 ToastBroadUtil.show(getString(R.string.请输入手机号));
                 return;
             }
             sendMsg();
-        }else   if (view.getId() == R.id.ivYzm){
+        } else if (view.getId() == R.id.ivYzm) {
             getCode();
-        }else  if (view.getId() == R.id.tvSubmit){
+        } else if (view.getId() == R.id.tvSubmit) {
             if (loginType.equals("0")) {//验证码找回
                 if (StringBroadUtil.isEmpty(etPhone.getText().toString())) {
                     ToastBroadUtil.show(getString(R.string.请输入手机号));
@@ -188,7 +186,7 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
                 }
                 zhaohui2();
             }
-        }else  if (view.getId() ==R.id.rlYzm){
+        } else if (view.getId() == R.id.rlYzm) {
             loginType = "0";
             tvYzm.setTextColor(Color.parseColor("#222222"));
             tvPassword.setTextColor(Color.parseColor("#515763"));
@@ -196,7 +194,7 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
             imPassword.setVisibility(View.GONE);
             llYzmPhone.setVisibility(View.VISIBLE);
             imYzm.setVisibility(View.VISIBLE);
-        }else  if (view.getId() == R.id.rlPassword){
+        } else if (view.getId() == R.id.rlPassword) {
             loginType = "1";
             tvYzm.setTextColor(Color.parseColor("#515763"));
             tvPassword.setTextColor(Color.parseColor("#222222"));
@@ -204,10 +202,10 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
             imPassword.setVisibility(View.VISIBLE);
             llYzmPhone.setVisibility(View.GONE);
             imYzm.setVisibility(View.GONE);
-        }else  if(view.getId() ==R.id.tvDiqu){
+        } else if (view.getId() == R.id.tvDiqu) {
             intent = new Intent(this, RegionBroadActivity.class);
             startActivityForResult(intent, 333);
-        }else  if (view.getId() == R.id.imNewEyes){
+        } else if (view.getId() == R.id.imNewEyes) {
             if (etNewPassword.getTransformationMethod() == null) {
                 etNewPassword.setTransformationMethod(new PasswordTransformationMethod());
                 imNewEyes.setImageResource(R.mipmap.ic_broad_biyan);
@@ -216,7 +214,7 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
                 imNewEyes.setImageResource(R.mipmap.ic_broad_zhengyan);
             }
             etNewPassword.setSelection(etNewPassword.getText().toString().length());
-        }else  if (view.getId() == R.id.imEnterEyes) {
+        } else if (view.getId() == R.id.imEnterEyes) {
             if (etPassword.getTransformationMethod() == null) {
                 etPassword.setTransformationMethod(new PasswordTransformationMethod());
                 imEnterEyes.setImageResource(R.mipmap.ic_broad_biyan);
@@ -225,9 +223,9 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
                 imEnterEyes.setImageResource(R.mipmap.ic_broad_zhengyan);
             }
             etPassword.setSelection(etPassword.getText().toString().length());
-        }else  if (view.getId() ==R.id.tvXy){
+        } else if (view.getId() == R.id.tvXy) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.YHXY, getString(R.string.用户协议));
-        }else  if (view.getId()==R.id.tvYs){
+        } else if (view.getId() == R.id.tvYs) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.YSXY, getString(R.string.隐私协议));
         }
     }

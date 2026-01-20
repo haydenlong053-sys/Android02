@@ -14,7 +14,7 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.BrandBroadAdapter;
 import com.cboda.intelligent.adapter.LetterBroadAdapter;
-import com.cboda.intelligent.bean.DataListBroadBean;
+import com.cboda.baselibrary.bean.DataListBroadBean;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.utils.SpotsCallBroadBack;

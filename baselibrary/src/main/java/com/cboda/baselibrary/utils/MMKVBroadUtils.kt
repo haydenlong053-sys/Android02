@@ -1,12 +1,14 @@
 package com.cboda.baselibrary.utils
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.text.TextUtils
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
+import com.cboda.baselibrary.utils.LanguageUtil
 import com.cboda.baselibrary.utils.LanguageUtil.ENGLISH
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
@@ -201,9 +203,26 @@ class MMKVBroadUtils {
         }
 
 
-        fun getAppLanguageKey(): String {
-            val kv = MMKV.defaultMMKV()
-            return kv.decodeString(USER_YU_YAN_KEY) ?: ENGLISH
+        fun getAppLanguageKey(context: Context? = null): String {
+//            val kv = MMKV.defaultMMKV()
+//            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
+            return getSharedPreferences(context).getString(USER_LANGUAGE_KEY, ENGLISH) ?: ENGLISH
+//            return LanguageUtil.getAppLanguageKey(getAppContext(context))
+        }
+
+
+        fun saveAppLanguageKey(languageKey: String, context: Context? = null) {
+//            val kv = MMKV.defaultMMKV()
+//            kv.encode(USER_LANGUAGE_KEY, languageKey)
+            getSharedPreferences(context).edit()
+                .putString(USER_LANGUAGE_KEY, languageKey)
+                .apply()
+//            LanguageUtil.saveAppLanguageKey(languageKey, getAppContext(context))
+        }
+
+
+        private fun getSharedPreferences(context: Context? = null): SharedPreferences {
+            return getAppContext(context).getSharedPreferences(getAppPackName(), Context.MODE_PRIVATE)
         }
 
         fun saveZt(yuyan: String) {

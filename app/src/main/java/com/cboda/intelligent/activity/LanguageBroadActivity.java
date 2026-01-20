@@ -13,7 +13,7 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.app.MyBroadApp;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.LanguageBroadAdapter;
-import com.cboda.intelligent.bean.DataListBroadBean;
+import com.cboda.baselibrary.bean.DataListBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
 import com.cboda.intelligent.utils.AppBroadUtils;
@@ -51,8 +51,10 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
                 }
                 listBeans.get(position).isChecked = true;
                 languageAdapter.notifyDataSetChanged();
-
-                MMKVBroadUtils.Companion.saveYuYan(listBeans.get(position).name);
+                String languageKey = listBeans.get(position).sqlKey;
+                MMKVBroadUtils.Companion.saveAppLanguageKey(languageKey, LanguageBroadActivity.this);
+                LanguageUtil.INSTANCE.setAppLanguage(languageKey, LanguageBroadActivity.this);
+//                MMKVBroadUtils.Companion.saveYuYan(listBeans.get(position).name);
                 for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
                     AppBroadUtils.Companion.getActivityList().get(i).finish();
                 }
@@ -67,190 +69,10 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
         });
 
         listBeans.clear();
-        for (int i = 0; i < 35; i++) {
-            DataListBroadBean dataListBean = new DataListBroadBean();
-            switch (i) {
-                case 0://简体中文 values-zh-rCN
-                    dataListBean.name = "简体中文";
-                    dataListBean.value = "zh-CN";
-                    dataListBean.sqlKey = LanguageUtil.SIMPLIFIED;
-                    break;
-                case 1://繁体中文 values-zh-rTW
-                    dataListBean.name = "繁體中文";
-                    dataListBean.value = "zh-TW";
-                    dataListBean.sqlKey = LanguageUtil.TRADITIONAL;
-                    break;
-                case 2://英语 values-en-rUS
-                    dataListBean.name = "English";
-                    dataListBean.value = "en-US";
-                    dataListBean.sqlKey = LanguageUtil.ENGLISH;
-                    break;
-                case 3://印地语 values-hi-rIN
-                    dataListBean.name = "हिन्दी";
-                    dataListBean.value = "hi-IN";
-                    dataListBean.sqlKey = LanguageUtil.HINDI;
-                    break;
-                case 4://西班牙语 values-es-rES
-                    dataListBean.name = "Español";
-                    dataListBean.value = "es-ES";
-                    dataListBean.sqlKey = LanguageUtil.SPANISH;
-                    break;
-                case 5://法语 values-fr-rFR
-                    dataListBean.name = "Français";
-                    dataListBean.value = "fr-FR";
-                    dataListBean.sqlKey = LanguageUtil.FRENCH;
-                    break;
-                case 6://阿拉伯语 values-ar-rEG
-                    dataListBean.name = "العربية";
-                    dataListBean.value = "ar-EG";
-                    dataListBean.sqlKey = LanguageUtil.ARABIC;
-                    break;
-                case 7://孟加拉语 values-bn-rIN
-                    dataListBean.name = "বাংলা";
-                    dataListBean.value = "bn-IN";
-                    dataListBean.sqlKey = LanguageUtil.BENGALI;
-                    break;
-                case 8://俄语 values-ru-rRU
-                    dataListBean.name = "русский";
-                    dataListBean.value = "ru-RU";
-                    dataListBean.sqlKey = LanguageUtil.RUSSIAN;
-                    break;
-                case 9://葡萄牙语 values-pt-rBR
-                    dataListBean.name = "Português";
-                    dataListBean.value = "pt-BR";
-                    dataListBean.sqlKey = LanguageUtil.PORTUGAL;
-                    break;
-                case 10://印尼语 values-id-rID
-                    dataListBean.name = "Indonesia";
-                    dataListBean.value = "id-ID";
-                    dataListBean.sqlKey = LanguageUtil.INDONESIAN;
-                    break;
-                case 11://乌尔都语 values-ur-rPK
-                    dataListBean.name = "اردو";
-                    dataListBean.value = "ur-PK";
-                    dataListBean.sqlKey = LanguageUtil.URDU_LANGUAGE;
-                    break;
-                case 12://日本語 values-ja-rJP
-                    dataListBean.name = "日本語";
-                    dataListBean.value = "ja-JP";
-                    dataListBean.sqlKey = LanguageUtil.JAPANESE;
-                    break;
-                case 13://德语 values-de-rDE
-                    dataListBean.name = "Deutsch";
-                    dataListBean.value = "de-DE";
-                    dataListBean.sqlKey = LanguageUtil.GERMAN;
-                    break;
-                case 14://旁遮普语 values-pa-rIN
-                    dataListBean.name = "ਪੰਜਾਬੀ";
-                    dataListBean.value = "pa-IN";
-                    dataListBean.sqlKey = LanguageUtil.PUNJAB_LANGUAGE;
-                    break;
-                case 15://爪哇语 values-jv-rID
-                    dataListBean.name = "Jawa";
-                    dataListBean.value = "jv-ID";
-                    dataListBean.sqlKey = LanguageUtil.JAVANESE;
-                    break;
-                case 16://菲律宾语 values-in-rID
-                    dataListBean.name = "Filipino";
-                    dataListBean.value = "in-ID";
-                    dataListBean.sqlKey = LanguageUtil.FILIPINO;
-                    break;
-                case 17://越南语 values-vi-rVN
-                    dataListBean.name = "Tiếng Việt";
-                    dataListBean.value = "vi-VN";
-                    dataListBean.sqlKey = LanguageUtil.VIETNAM;
-                    break;
-                case 18://韩语 values-ko-rKR
-                    dataListBean.name = "한국어";
-                    dataListBean.value = "ko-KR";
-                    dataListBean.sqlKey = LanguageUtil.KOREAN;
-                    break;
-                case 19://土耳其语 values-tr-rTR
-                    dataListBean.name = "Türkçe";
-                    dataListBean.value = "tr-TR";
-                    dataListBean.sqlKey = LanguageUtil.TURKISH;
-                    break;
-                case 20://意大利语 values-it-rIT
-                    dataListBean.name = "Italiano";
-                    dataListBean.value = "it-IT";
-                    dataListBean.sqlKey = LanguageUtil.ITALIAN;
-                    break;
-                case 21://泰语 values-th-rTH
-                    dataListBean.name = "ไทย";
-                    dataListBean.value = "th-TH";
-                    dataListBean.sqlKey = LanguageUtil.THAI;
-                    break;
-                case 22://马来语 values-ms-rMY
-                    dataListBean.name = "Bahasa Melayu";
-                    dataListBean.value = "ms-MY";
-                    dataListBean.sqlKey = LanguageUtil.MALAY;
-                    break;
-                case 23://波兰语 values-pl-rPL
-                    dataListBean.name = "Polski";
-                    dataListBean.value = "pl-PL";
-                    dataListBean.sqlKey = LanguageUtil.POLISH;
-                    break;
-                case 24://罗马尼亚语 values-ro-rRO
-                    dataListBean.name = "Română";
-                    dataListBean.value = "ro-RO";
-                    dataListBean.sqlKey = LanguageUtil.ROMANIA;
-                    break;
-                case 25://老挝语 values-lo-rLA
-                    dataListBean.name = "ລາວ";
-                    dataListBean.value = "lo-LA";
-                    dataListBean.sqlKey = LanguageUtil.LAO;
-                    break;
-                case 26://蒙古语 values-mn-rMN
-                    dataListBean.name = "Монгол";
-                    dataListBean.value = "mn-MN";
-                    dataListBean.sqlKey = LanguageUtil.MONGOLIAN;
-                    break;
-                case 27://豪萨语 values-ha-rNG
-                    dataListBean.name = "Hausa";
-                    dataListBean.value = "ha-NG";
-                    dataListBean.sqlKey = LanguageUtil.HAUSA;
-                    break;
-                case 28://斯瓦希里语 values-sw-rKE
-                    dataListBean.name = "Kiswahili";
-                    dataListBean.value = "sw-KE";
-                    dataListBean.sqlKey = LanguageUtil.SWAHILI_LANGUAGE;
-                    break;
-                case 29://缅甸语 values-ms-rMY
-                    dataListBean.name = "မြန်မာ";
-                    dataListBean.value = "my-MM";
-                    dataListBean.sqlKey = LanguageUtil.BURMESE;
-                    break;
-                case 30://尼泊尔语 values-ne-rNP
-                    dataListBean.name = "नेपाली";
-                    dataListBean.value = "ne-NP";
-                    dataListBean.sqlKey = LanguageUtil.NEPAL;
-                    break;
-                case 31://祖鲁语 values-zu-rZA
-                    dataListBean.name = "isiZulu";
-                    dataListBean.value = "zu-ZA";
-                    dataListBean.sqlKey = LanguageUtil.ZULU;
-                    break;
-                case 32://希伯来语 values-he-rIL
-                    dataListBean.name = "עברית";
-                    dataListBean.value = "he-IL";
-                    dataListBean.sqlKey = LanguageUtil.HEBREW;
-                    break;
-                case 33://希腊语 values-el-rGR
-                    dataListBean.name = "Ελληνικά";
-                    dataListBean.value = "el-GR";
-                    dataListBean.sqlKey = LanguageUtil.GREEK;
-                    break;
-                case 34://乌克兰语  values-uk-rUA
-                    dataListBean.name = "українська";
-                    dataListBean.value = "uk-UA";
-                    dataListBean.sqlKey = LanguageUtil.UKRAINE;
-                    break;
-            }
-            listBeans.add(dataListBean);
-        }
+        listBeans.addAll(LanguageUtil.getAllLanguage());
         boolean ischeck = false;
         for (int i = 0; i < listBeans.size(); i++) {
-            if (listBeans.get(i).name.equals(MMKVBroadUtils.Companion.getYuYan())) {
+            if (listBeans.get(i).sqlKey.equals(MMKVBroadUtils.Companion.getAppLanguageKey(LanguageBroadActivity.this))) {
                 listBeans.get(i).isChecked = true;
                 ischeck = true;
             } else {
@@ -258,8 +80,9 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
             }
         }
         if (!ischeck) {
-            listBeans.get(0).isChecked = true;
-            MMKVBroadUtils.Companion.saveYuYan(listBeans.get(0).name);
+            listBeans.getFirst().isChecked = true;
+//            MMKVBroadUtils.Companion.saveYuYan(listBeans.get(0).name);
+            MMKVBroadUtils.Companion.saveAppLanguageKey(listBeans.getFirst().sqlKey, LanguageBroadActivity.this);
         }
 
         languageAdapter.notifyDataSetChanged();

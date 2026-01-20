@@ -70,7 +70,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
 
 //        val language = MMKVBroadUtils.getYuYan()
 
-        val zhuti = getZt()
+//        val zhuti = getZt()
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //            if (zhuti?.isNotEmpty() == true){
