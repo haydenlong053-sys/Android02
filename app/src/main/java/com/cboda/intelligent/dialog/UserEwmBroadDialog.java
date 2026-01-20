@@ -72,12 +72,15 @@ public class UserEwmBroadDialog extends Dialog {
                         @Override
                         public void run() {
                             BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(flSave), context);
-                            ToastBroadUtil.show("保存成功！");
+                            ToastBroadUtil.show(context.getString(R.string.tipSaveSuccess));
                             dismiss();
                         }
                     },1000);
                 } else {
-                    new NormalBroadDialog(context, context.getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
+                    new NormalBroadDialog(context, context.getString(R.string.温馨提示),
+                            context.getString(R.string.save_image_permission_request),
+                            context.getString(R.string.quxiao),
+                            context.getString(R.string.queding), true)
                             .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                                 @Override
                                 public void OnRightClick() {
@@ -90,7 +93,7 @@ public class UserEwmBroadDialog extends Dialog {
                                                 @Override
                                                 public void run() {
                                                     BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(flSave), context);
-                                                    ToastBroadUtil.show("保存成功！");
+                                                    ToastBroadUtil.show(context.getString(R.string.tipSaveSuccess));
                                                     dismiss();
                                                 }
                                             },1000);

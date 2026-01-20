@@ -223,7 +223,7 @@ public class ZhaqBroadActivity extends BaseSimpleBroadActivity implements View.O
                     }
                 }, 1000);
             } else {
-                new NormalBroadDialog(this, this.getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
+                new NormalBroadDialog(this, this.getString(R.string.温馨提示), getString(R.string.save_image_permission_request), getString(R.string.quxiao), getString(R.string.queding),  true)
                         .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                             @Override
                             public void OnRightClick() {
@@ -236,7 +236,7 @@ public class ZhaqBroadActivity extends BaseSimpleBroadActivity implements View.O
                                             @Override
                                             public void run() {
                                                 BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), ZhaqBroadActivity.this);
-                                                ToastBroadUtil.show("保存成功！");
+                                                ToastBroadUtil.show(getString(R.string.tipSaveSuccess));
 
                                             }
                                         }, 1000);

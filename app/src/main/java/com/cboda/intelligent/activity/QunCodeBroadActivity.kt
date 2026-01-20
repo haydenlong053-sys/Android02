@@ -84,9 +84,9 @@ class QunCodeBroadActivity : BaseSimpleBroadActivity() {
                     NormalBroadDialog(
                         this,
                         getString(R.string.温馨提示),
-                        "保存图片功能需要存储权限，是否请求权限？",
-                        "取消",
-                        "确定",
+                        getString(R.string.save_image_permission_request),
+                        getString(R.string.quxiao),
+                        getString(R.string.queding),
                         true
                     )
                         .setOnButtonClickListener(object : OnButtonClick {
@@ -126,9 +126,9 @@ class QunCodeBroadActivity : BaseSimpleBroadActivity() {
                     NormalBroadDialog(
                         this,
                         getString(R.string.温馨提示),
-                        "保存图片功能需要存储权限，是否请求权限？",
-                        "取消",
-                        "确定",
+                        getString(R.string.save_image_permission_request),
+                        getString(R.string.quxiao),
+                        getString(R.string.queding),
                         true
                     )
                         .setOnButtonClickListener(object : OnButtonClick {
@@ -165,7 +165,7 @@ class QunCodeBroadActivity : BaseSimpleBroadActivity() {
 
     private fun goNest() {
         BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llEwm), this@QunCodeBroadActivity)
-        ToastBroadUtil.show("保存成功")
+        ToastBroadUtil.show(getString(R.string.tipSaveSuccess))
     }
 
     override fun getLayoutId(): Int {

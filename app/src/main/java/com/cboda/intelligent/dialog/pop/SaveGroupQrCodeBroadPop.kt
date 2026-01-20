@@ -49,9 +49,9 @@ class SaveGroupQrCodeBroadPop(val context: Context,val qunId: String) : BasePopu
                 NormalBroadDialog(
                     context,
                     context.getString(R.string.温馨提示),
-                    "保存图片功能需要存储权限，是否请求权限？",
-                    "取消",
-                    "确定",
+                    context.getString(R.string.save_image_permission_request),
+                    context.getString(R.string.quxiao),
+                    context.getString(R.string.queding),
                     true
                 )
                     .setOnButtonClickListener(object : NormalBroadDialog.OnButtonClick {
@@ -126,7 +126,7 @@ class SaveGroupQrCodeBroadPop(val context: Context,val qunId: String) : BasePopu
             BitmapBroadUtils1.convertMeasureBitmap(binding.mLlSaveView),
             context
         )
-        ToastBroadUtil.show("保存成功！")
+        ToastBroadUtil.show(context.getString(R.string.tipSaveSuccess))
         dismiss()
     }
 
