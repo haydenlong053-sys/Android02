@@ -7,6 +7,7 @@ import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
+import com.cboda.baselibrary.utils.LanguageUtil.ENGLISH
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
 
@@ -29,6 +30,8 @@ class MMKVBroadUtils {
 
         const val MY_IM_USER_TOKEN = "myImUserToken"
         const val USER_YU_YAN_KEY = "yuyan"
+
+        const val USER_LANGUAGE_KEY = "LanguageKey"
         const val USER_ZHUTI_KEY = "zhuti"
         const val USER_FANYI_KEY = "fanyi"
         const val USER_ZIDONG_FANYI_KEY = "zidongfanyi"
@@ -194,7 +197,13 @@ class MMKVBroadUtils {
 
         fun getYuYan(): String? {
             val kv = MMKV.defaultMMKV()
-            return kv.decodeString(USER_YU_YAN_KEY)?:"English"
+            return kv.decodeString(USER_YU_YAN_KEY) ?: ENGLISH
+        }
+
+
+        fun getAppLanguageKey(): String {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeString(USER_YU_YAN_KEY) ?: ENGLISH
         }
 
         fun saveZt(yuyan: String) {

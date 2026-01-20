@@ -59,4 +59,5 @@ public class DataListBroadBean implements Serializable {
     public List<String> imgs;
     public List<CircleCommListBroadBean> commList;
     public List<CircleCommListBroadBean> likeList;
+    public String sqlKey;
 }
