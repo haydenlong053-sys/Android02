@@ -245,5 +245,8 @@
     <string name="msg_score_unit">pts</string>
     <string name="msg_days_unit">days</string>
 
+    <string name="rename">Rename</string>
+    <string name="times_unit">times</string>
+
 
 </resources>

@@ -62,7 +62,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
                 organizationGroupIndicator.setVisibility(View.GONE);
             }
         } else {
-            name = "群聊";
+            name = nameTextView.getContext().getString(R.string.qunliao);
             portrait = null;
         }
 //        if (portrait.startsWith("http")){
@@ -80,10 +80,10 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         }
         if (null != smallGroupBean && null != smallGroupBean.getRenameCount()) {
             nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText("改名" + smallGroupBean.getRenameCount() + "次");
+            nameTimeTv.setText(nameTimeTv.getContext().getString(R.string.rename) + "\u00A0" +smallGroupBean.getRenameCount() +"\u00A0" + nameTimeTv.getContext().getString(R.string.times_unit));
         } else {
             nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText("改名0次");
+            nameTimeTv.setText(nameTimeTv.getContext().getString(R.string.rename) + "\u00A0" +"0"+ "\u00A0" + nameTimeTv.getContext().getString(R.string.times_unit));
         }
     }
 

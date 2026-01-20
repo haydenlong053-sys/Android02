@@ -69,4 +69,7 @@
 
     <string name="close">关闭</string>
     <string name="confirm">确认</string>
+
+    <string name="rename">नाम परिवर्तन गर्नुहोस्</string>
+    <string name="times_unit">पटक</string>
 </resources>

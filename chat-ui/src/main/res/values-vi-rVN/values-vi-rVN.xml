@@ -376,4 +376,7 @@
     <string name="确认清空记录">Xác nhận xóa hồ sơ?</string>
     <string name="请输入密保问题">Vui lòng nhập câu hỏi bảo mật</string>
 
+    <string name="rename">Đổi tên</string>
+    <string name="times_unit">lần</string>
+
 </resources>

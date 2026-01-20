@@ -69,4 +69,7 @@
 
     <string name="close">关闭</string>
     <string name="confirm">确认</string>
+
+    <string name="rename">Перейменувати</string>
+    <string name="times_unit">разів</string>
 </resources>

@@ -67,6 +67,9 @@
 
     <string name="unsubscribe">取消订阅</string>
 
-    <string name="close">关闭</string>
-    <string name="confirm">确认</string>
+    <string name="close">關閉</string>
+    <string name="confirm">確認</string>
+
+    <string name="rename">改名</string>
+    <string name="times_unit">次</string>
 </resources>
