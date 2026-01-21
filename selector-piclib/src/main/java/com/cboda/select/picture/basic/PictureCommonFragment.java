@@ -1869,7 +1869,7 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
         if (selectorConfig == null) {
             selectorConfig = SelectorProviders.getInstance().getSelectorConfig();
         }
-        if (selectorConfig != null && selectorConfig.language != LanguageConfig.UNKNOWN_LANGUAGE) {
+        if (selectorConfig != null) {
             PictureLanguageUtils.setAppLanguage(getActivity(), selectorConfig.language, selectorConfig.defaultLanguage);
 
         }

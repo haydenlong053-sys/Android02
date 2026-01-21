@@ -34,10 +34,7 @@ import java.lang.reflect.Method
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getZt
 import com.cboda.baselibrary.widge.LoadingBroadDialog
-import java.util.Locale
 
 /**
  * 适配新UI

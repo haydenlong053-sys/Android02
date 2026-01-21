@@ -65,7 +65,7 @@ public class PictureSelectorSupporterActivity extends AppCompatActivity {
      * set app language
      */
     public void initAppLanguage() {
-        if (selectorConfig != null && selectorConfig.language != LanguageConfig.UNKNOWN_LANGUAGE && !selectorConfig.isOnlyCamera) {
+        if (selectorConfig != null && !selectorConfig.isOnlyCamera) {
             PictureLanguageUtils.setAppLanguage(this, selectorConfig.language, selectorConfig.defaultLanguage);
         }
     }
@@ -95,7 +95,6 @@ public class PictureSelectorSupporterActivity extends AppCompatActivity {
             overridePendingTransition(0, windowAnimationStyle.activityExitAnimation);
         }
     }
-
 
 
 }
