@@ -27,6 +27,7 @@ import com.cboda.select.picture.language.LanguageConfig
 import com.cboda.select.picture.permissions.PermissionConfig.READ_MEDIA_AUDIO
 import com.cboda.select.picture.permissions.PermissionConfig.READ_MEDIA_IMAGES
 import com.cboda.select.picture.permissions.PermissionConfig.READ_MEDIA_VIDEO
+import com.cboda.select.picture.utils.LanguageUtil
 import com.cboda.select.picture.utils.SandboxTransformUtils
 import com.cboda.select.picture.utils.SdkVersionUtils
 import com.yalantis.ucrop.UCrop
@@ -67,7 +68,7 @@ fun chooseMedia(
         pictureSelector.setImageEngine(GlideBroadBroadEngine.createGlideEngine())
             .setCompressEngine(ImageCompressFileBroadEngine())
             .setSandboxFileEngine(MeSandboxFileBroadEngine())
-//            .setLanguage(LanguageConfig.SYSTEM_LANGUAGE)
+            .setLanguage(LanguageUtil.getAppLanguageKey(getAppContext(), false))
             .isDisplayTimeAxis(false)//显示资源时间轴
             .isDisplayCamera(canCamera)
             .isWithSelectVideoImage(withSelectVideoImage)//是否支持视频图片同时选择

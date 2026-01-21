@@ -40,6 +40,7 @@ import com.cboda.select.picture.magical.BuildRecycleItemViewParams;
 import com.cboda.select.picture.style.PictureSelectorStyle;
 import com.cboda.select.picture.thread.PictureThreadUtils;
 import com.cboda.select.picture.utils.FileDirMap;
+import com.cboda.select.picture.utils.LanguageUtil;
 import com.cboda.select.picture.utils.SdkVersionUtils;
 
 import java.util.ArrayList;
@@ -79,8 +80,8 @@ public final class SelectorConfig {
     public long filterMinFileSize;
     public long selectMaxFileSize;
     public long selectMinFileSize;
-    public int language;
-    public int defaultLanguage;
+    public String language;
+    public String defaultLanguage;
     public boolean isDisplayCamera;
     public boolean isGif;
     public boolean isWebp;
@@ -161,8 +162,8 @@ public final class SelectorConfig {
         minVideoSelectNum = 0;
         minAudioSelectNum = 0;
         videoQuality = VideoQuality.VIDEO_QUALITY_HIGH;
-        language = LanguageConfig.UNKNOWN_LANGUAGE;
-        defaultLanguage = LanguageConfig.SYSTEM_LANGUAGE;
+        language = "";
+        defaultLanguage = "";
         filterVideoMaxSecond = 0;
         filterVideoMinSecond = 0;
         selectMaxDurationSecond = 0;

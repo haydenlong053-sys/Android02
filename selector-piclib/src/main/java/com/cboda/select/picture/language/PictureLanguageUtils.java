@@ -3,9 +3,15 @@ package com.cboda.select.picture.language;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import com.cboda.select.picture.utils.LanguageUtil;
 import com.cboda.select.picture.utils.SpUtils;
+
 import java.util.Locale;
 
 /**
@@ -29,17 +35,21 @@ public class PictureLanguageUtils {
      * @param languageId
      * @param defaultLanguageId
      */
-    public static void setAppLanguage(Context context, int languageId, int defaultLanguageId) {
+    public static void setAppLanguage(Context context, String languageId, String defaultLanguageId) {
+//        Log.d("setAppLanguage", "languageId:" + languageId + ",defaultLanguageId:" + defaultLanguageId);
 //        updateLanguage(context, new Locale(LanguageUtil.INSTANCE.getLanList(LanguageUtil.INSTANCE.getAppLanguageKey(context))));
-        if (languageId >= 0) {
-            applyLanguage(context, LocaleTransform.getLanguage(languageId));
-        } else {
-            if (defaultLanguageId >= 0) {
-                applyLanguage(context, LocaleTransform.getLanguage(defaultLanguageId));
-            } else {
-                setDefaultLanguage(context);
-            }
-        }
+//        if (!TextUtils.isEmpty(languageId)) {
+////            Locale locale = LocaleTransform.getLanguage(languageId);
+////            Log.d("setAppLanguage", "locale:" + locale.getLanguage());
+//            applyLanguage(context, LocaleTransform.getLanguage(languageId));
+//        } else {
+//            if (!TextUtils.isEmpty(defaultLanguageId)) {
+//                applyLanguage(context, LocaleTransform.getLanguage(defaultLanguageId));
+//            } else {
+//                applyLanguage(context, LocaleTransform.getLanguage(LanguageUtil.INSTANCE.getAppLanguageKey(context, false)));
+////                setDefaultLanguage(context);
+//            }
+//        }
     }
 
     /**
@@ -47,7 +57,7 @@ public class PictureLanguageUtils {
      *
      * @param locale The language of locale.
      */
-    private static void applyLanguage(@NonNull Context context, @NonNull final Locale locale) {
+    public static void applyLanguage(@NonNull Context context, @NonNull final Locale locale) {
         applyLanguage(context, locale, false);
     }
 

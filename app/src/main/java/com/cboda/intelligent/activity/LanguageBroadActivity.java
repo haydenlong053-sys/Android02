@@ -7,6 +7,10 @@ import android.text.TextUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.cboda.baselibrary.app.UtilBroadApplication;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.select.picture.utils.LanguageUtil;
 import com.cboda.intelligent.MainBroadActivity;
 import com.cboda.intelligent.R;
@@ -53,18 +57,22 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
                 languageAdapter.notifyDataSetChanged();
                 String languageKey = listBeans.get(position).sqlKey;
                 MMKVBroadUtils.Companion.saveAppLanguageKey(languageKey, LanguageBroadActivity.this);
-                LanguageUtil.INSTANCE.setAppLanguage(languageKey,LanguageBroadActivity.this);
+                LanguageUtil.INSTANCE.setAppLanguage(languageKey, LanguageBroadActivity.this);
+                ThreadUtils.getMainHandler().postDelayed(() -> {
+                    ActivityUtils.finishAllActivities();
+                    HttpsBroadConfig.INSTANCE.restartApp();
+                }, 500L);
 //                MMKVBroadUtils.Companion.saveYuYan(listBeans.get(position).name);
-                for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
-                    AppBroadUtils.Companion.getActivityList().get(i).finish();
-                }
-                if (TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(MyBroadApp.Companion.getMContext(), AppBroadConsts.UID, ""))) {
-                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), NewEquipmentBroadActivity.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), MainBroadActivity.class);
-                    startActivity(intent);
-                }
+//                for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
+//                    AppBroadUtils.Companion.getActivityList().get(i).finish();
+//                }
+//                if (TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(MyBroadApp.Companion.getMContext(), AppBroadConsts.UID, ""))) {
+//                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), NewEquipmentBroadActivity.class);
+//                    startActivity(intent);
+//                } else {
+//                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), MainBroadActivity.class);
+//                    startActivity(intent);
+//                }
             }
         });
 

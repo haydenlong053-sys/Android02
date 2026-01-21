@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.viewbinding.ViewBinding
-import com.cboda.baselibrary.base.BaseActivity
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.MyBroadApp
@@ -25,10 +24,9 @@ import java.lang.reflect.Method
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getZt
 import com.cboda.baselibrary.widge.LoadingBroadDialog
-import java.util.Locale
+import com.cboda.select.picture.basic.BaseActivity
+
 
 abstract class BaseSimpleBroadActivity : BaseActivity() {
 

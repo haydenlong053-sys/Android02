@@ -69,7 +69,7 @@ public final class PictureSelectionCameraModel {
      * @param language {@link LanguageConfig}
      * @return PictureSelectionModel
      */
-    public PictureSelectionCameraModel setLanguage(int language) {
+    public PictureSelectionCameraModel setLanguage(String language) {
         selectionConfig.language = language;
         return this;
     }
@@ -80,7 +80,7 @@ public final class PictureSelectionCameraModel {
      * @param defaultLanguage default language {@link LanguageConfig}
      * @return PictureSelectionModel
      */
-    public PictureSelectionCameraModel setDefaultLanguage(int defaultLanguage) {
+    public PictureSelectionCameraModel setDefaultLanguage(String defaultLanguage) {
         selectionConfig.defaultLanguage = defaultLanguage;
         return this;
     }

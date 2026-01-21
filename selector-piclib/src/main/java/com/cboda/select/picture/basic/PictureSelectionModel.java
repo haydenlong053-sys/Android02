@@ -106,7 +106,7 @@ public final class PictureSelectionModel {
      * @param language {@link LanguageConfig}
      *  PictureSelectionModel
      */
-    public PictureSelectionModel setLanguage(int language) {
+    public PictureSelectionModel setLanguage(String language) {
         selectionConfig.language = language;
         return this;
     }
@@ -117,7 +117,7 @@ public final class PictureSelectionModel {
      * @param defaultLanguage default language {@link LanguageConfig}
      *  PictureSelectionModel
      */
-    public PictureSelectionModel setDefaultLanguage(int defaultLanguage) {
+    public PictureSelectionModel setDefaultLanguage(String defaultLanguage) {
         selectionConfig.defaultLanguage = defaultLanguage;
         return this;
     }

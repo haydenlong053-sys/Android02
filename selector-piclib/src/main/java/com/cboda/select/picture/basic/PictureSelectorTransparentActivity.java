@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * @date：2022/2/10 6:07 下午
  * @describe：PictureSelectorTransparentActivity
  */
-public class PictureSelectorTransparentActivity extends AppCompatActivity {
+public class PictureSelectorTransparentActivity extends BaseActivity {
     private SelectorConfig selectorConfig;
 
     @Override

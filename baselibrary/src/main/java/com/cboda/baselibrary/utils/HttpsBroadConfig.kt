@@ -138,7 +138,7 @@ object HttpsBroadConfig {
         ThreadUtils.getMainHandler().postDelayed({ restartApp() }, 1000)
     }
 
-    private fun restartApp() {
+    fun restartApp() {
         val intent = UtilBroadApplication.cxt.getOtherAppIntent(getAppPackName())
         intent?.addFlags(
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
