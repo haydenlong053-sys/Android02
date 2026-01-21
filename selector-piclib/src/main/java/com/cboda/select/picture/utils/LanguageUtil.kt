@@ -24,6 +24,14 @@ object LanguageUtil {
     }
 
 
+    fun getSystemLocal(context: Context? = null): Locale {
+        return when (getAppLanguageKey(context, false)) {
+            SIMPLIFIED -> Locale.SIMPLIFIED_CHINESE
+            TRADITIONAL -> Locale.TRADITIONAL_CHINESE
+            else -> Locale.US
+        }
+    }
+
     fun saveAppLanguageKey(languageKey: String, context: Context? = null) {
 //            val kv = MMKV.defaultMMKV()
 //            kv.encode(USER_LANGUAGE_KEY, languageKey)
