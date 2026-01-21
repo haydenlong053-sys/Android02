@@ -94,5 +94,18 @@
     <string name="call_broad_mute">Silenciar</string>
     <string name="call_broad_hang_up">Desligar</string>
     <string name="call_broad_hands_free_mode">Alto-falante</string>
+    <string name="call_duration_with_hours">Duração da chamada %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Duração da chamada %1$02d:%2$02d</string>
+    <string name="call_not_connected">Não conectado</string>
+    <string name="call_line_busy">Linha ocupada</string>
+    <string name="call_network_error">Erro de rede</string>
+    <string name="call_cancelled">Cancelado</string>
+    <string name="call_remote_cancelled">Outra parte cancelou</string>
+    <string name="call_not_answered">Não atendido</string>
+    <string name="call_accepted_by_other_client">Atendido em outro dispositivo</string>
+    <string name="call_ended">Chamada encerrada</string>
+    <string name="call_remote_not_answered">Outra parte não atendeu</string>
+    <string name="call_remote_network_error">Erro de rede da outra parte</string>
+    <string name="call_max_participants_reached">Número máximo de participantes atingido</string>
 
 </resources>

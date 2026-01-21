@@ -99,5 +99,18 @@
     <string name="call_broad_mute">كتم الصوت</string>
     <string name="call_broad_hang_up">إنهاء المكالمة</string>
     <string name="call_broad_hands_free_mode">مكبر الصوت</string>
+    <string name="call_duration_with_hours">مدة المكالمة %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">مدة المكالمة %1$02d:%2$02d</string>
+    <string name="call_not_connected">غير متصل</string>
+    <string name="call_line_busy">الخط مشغول</string>
+    <string name="call_network_error">خطأ في الشبكة</string>
+    <string name="call_cancelled">تم الإلغاء</string>
+    <string name="call_remote_cancelled">الطرف الآخر ألغى</string>
+    <string name="call_not_answered">لم يتم الرد</string>
+    <string name="call_accepted_by_other_client">تم الرد على جهاز آخر</string>
+    <string name="call_ended">انتهت المكالمة</string>
+    <string name="call_remote_not_answered">الطرف الآخر لم يرد</string>
+    <string name="call_remote_network_error">خطأ في شبكة الطرف الآخر</string>
+    <string name="call_max_participants_reached">تم الوصول إلى الحد الأقصى للمشاركين</string>
 
 </resources>

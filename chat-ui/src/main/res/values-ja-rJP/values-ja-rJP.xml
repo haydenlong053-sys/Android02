@@ -99,5 +99,18 @@
     <string name="call_broad_mute">ミュート</string>
     <string name="call_broad_hang_up">切断</string>
     <string name="call_broad_hands_free_mode">スピーカー</string>
+    <string name="call_duration_with_hours">通話時間 %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">通話時間 %1$02d:%2$02d</string>
+    <string name="call_not_connected">接続されていません</string>
+    <string name="call_line_busy">回線が使用中です</string>
+    <string name="call_network_error">ネットワークエラー</string>
+    <string name="call_cancelled">キャンセルされました</string>
+    <string name="call_remote_cancelled">相手がキャンセルしました</string>
+    <string name="call_not_answered">応答がありません</string>
+    <string name="call_accepted_by_other_client">他の端末で応答されました</string>
+    <string name="call_ended">通話が終了しました</string>
+    <string name="call_remote_not_answered">相手が応答しませんでした</string>
+    <string name="call_remote_network_error">相手のネットワークエラー</string>
+    <string name="call_max_participants_reached">最大参加者数に達しました</string>
 
 </resources>

@@ -94,5 +94,18 @@
     <string name="call_broad_mute">Σίγαση</string>
     <string name="call_broad_hang_up">Κλείσιμο</string>
     <string name="call_broad_hands_free_mode">Ηχείο</string>
+    <string name="call_duration_with_hours">Διάρκεια κλήσης %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Διάρκεια κλήσης %1$02d:%2$02d</string>
+    <string name="call_not_connected">Δεν συνδέθηκε</string>
+    <string name="call_line_busy">Γραμμή απασχολημένη</string>
+    <string name="call_network_error">Σφάλμα δικτύου</string>
+    <string name="call_cancelled">Ακυρώθηκε</string>
+    <string name="call_remote_cancelled">Η άλλη πλευρά ακύρωσε</string>
+    <string name="call_not_answered">Δεν απαντήθηκε</string>
+    <string name="call_accepted_by_other_client">Απαντήθηκε σε άλλη συσκευή</string>
+    <string name="call_ended">Η κλήση τερμάτισε</string>
+    <string name="call_remote_not_answered">Η άλλη πλευρά δεν απάντησε</string>
+    <string name="call_remote_network_error">Σφάλμα δικτύου της άλλης πλευράς</string>
+    <string name="call_max_participants_reached">Επιτεύχθηκε ο μέγιστος αριθμός συμμετεχόντων</string>
 
 </resources>

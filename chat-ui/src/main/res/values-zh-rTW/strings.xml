@@ -100,5 +100,18 @@
     <string name="call_broad_mute">靜音</string>
     <string name="call_broad_hang_up">掛斷</string>
     <string name="call_broad_hands_free_mode">免持</string>
+    <string name="call_duration_with_hours">通話時長 %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">通話時長 %1$02d:%2$02d</string>
+    <string name="call_not_connected">未接通</string>
+    <string name="call_line_busy">線路忙</string>
+    <string name="call_network_error">網路錯誤</string>
+    <string name="call_cancelled">已取消</string>
+    <string name="call_remote_cancelled">對方已取消</string>
+    <string name="call_not_answered">未接聽</string>
+    <string name="call_accepted_by_other_client">已在其他端接聽</string>
+    <string name="call_ended">通話已結束</string>
+    <string name="call_remote_not_answered">對方未接聽</string>
+    <string name="call_remote_network_error">對方網路錯誤</string>
+    <string name="call_max_participants_reached">已達到最大通話人數</string>
 
 </resources>

@@ -94,5 +94,18 @@
     <string name="call_broad_mute">Mut</string>
     <string name="call_broad_hang_up">Închide</string>
     <string name="call_broad_hands_free_mode">Difuzor</string>
+    <string name="call_duration_with_hours">Durata apelului %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Durata apelului %1$02d:%2$02d</string>
+    <string name="call_not_connected">Neconectat</string>
+    <string name="call_line_busy">Linie ocupată</string>
+    <string name="call_network_error">Eroare de rețea</string>
+    <string name="call_cancelled">Anulat</string>
+    <string name="call_remote_cancelled">Cealaltă parte a anulat</string>
+    <string name="call_not_answered">Fără răspuns</string>
+    <string name="call_accepted_by_other_client">Răspuns pe alt dispozitiv</string>
+    <string name="call_ended">Apel încheiat</string>
+    <string name="call_remote_not_answered">Cealaltă parte nu a răspuns</string>
+    <string name="call_remote_network_error">Eroare de rețea a celeilalte părți</string>
+    <string name="call_max_participants_reached">Numărul maxim de participanți atins</string>
 
 </resources>

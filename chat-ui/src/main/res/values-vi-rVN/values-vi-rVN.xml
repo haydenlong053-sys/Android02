@@ -405,5 +405,18 @@
     <string name="call_broad_mute">Tắt tiếng</string>
     <string name="call_broad_hang_up">Cúp máy</string>
     <string name="call_broad_hands_free_mode">Loa ngoài</string>
+    <string name="call_duration_with_hours">Thời lượng cuộc gọi %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Thời lượng cuộc gọi %1$02d:%2$02d</string>
+    <string name="call_not_connected">Chưa kết nối</string>
+    <string name="call_line_busy">Đường dây bận</string>
+    <string name="call_network_error">Lỗi mạng</string>
+    <string name="call_cancelled">Đã hủy</string>
+    <string name="call_remote_cancelled">Đối phương đã hủy</string>
+    <string name="call_not_answered">Không trả lời</string>
+    <string name="call_accepted_by_other_client">Đã trả lời trên thiết bị khác</string>
+    <string name="call_ended">Cuộc gọi đã kết thúc</string>
+    <string name="call_remote_not_answered">Đối phương không trả lời</string>
+    <string name="call_remote_network_error">Lỗi mạng của đối phương</string>
+    <string name="call_max_participants_reached">Đã đạt số người tham gia tối đa</string>
 
 </resources>

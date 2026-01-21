@@ -99,5 +99,18 @@
     <string name="call_broad_mute">음소거</string>
     <string name="call_broad_hang_up">전화 끊기</string>
     <string name="call_broad_hands_free_mode">스피커</string>
+    <string name="call_duration_with_hours">통화 시간 %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">통화 시간 %1$02d:%2$02d</string>
+    <string name="call_not_connected">연결되지 않음</string>
+    <string name="call_line_busy">통화 중</string>
+    <string name="call_network_error">네트워크 오류</string>
+    <string name="call_cancelled">취소됨</string>
+    <string name="call_remote_cancelled">상대방이 취소함</string>
+    <string name="call_not_answered">응답 없음</string>
+    <string name="call_accepted_by_other_client">다른 기기에서 응답함</string>
+    <string name="call_ended">통화 종료</string>
+    <string name="call_remote_not_answered">상대방이 응답하지 않음</string>
+    <string name="call_remote_network_error">상대방 네트워크 오류</string>
+    <string name="call_max_participants_reached">최대 참가자 수에 도달함</string>
 
 </resources>

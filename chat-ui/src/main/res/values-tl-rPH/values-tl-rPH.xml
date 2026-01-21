@@ -94,5 +94,18 @@
     <string name="call_broad_mute">I-mute</string>
     <string name="call_broad_hang_up">I-disconnect</string>
     <string name="call_broad_hands_free_mode">Speaker</string>
+    <string name="call_duration_with_hours">Tagal ng tawag %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Tagal ng tawag %1$02d:%2$02d</string>
+    <string name="call_not_connected">Hindi nakakonekta</string>
+    <string name="call_line_busy">Abalang linya</string>
+    <string name="call_network_error">Error sa network</string>
+    <string name="call_cancelled">Nakansela</string>
+    <string name="call_remote_cancelled">Kinansela ng kabilang panig</string>
+    <string name="call_not_answered">Walang sagot</string>
+    <string name="call_accepted_by_other_client">Sinagot sa ibang device</string>
+    <string name="call_ended">Natapos ang tawag</string>
+    <string name="call_remote_not_answered">Hindi sumagot ang kabilang panig</string>
+    <string name="call_remote_network_error">Error sa network ng kabilang panig</string>
+    <string name="call_max_participants_reached">Naabot na ang maximum na bilang ng participants</string>
 
 </resources>

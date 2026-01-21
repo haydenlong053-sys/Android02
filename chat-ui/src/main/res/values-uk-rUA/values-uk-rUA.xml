@@ -94,5 +94,18 @@
     <string name="call_broad_mute">Вимкнути звук</string>
     <string name="call_broad_hang_up">Завершити дзвінок</string>
     <string name="call_broad_hands_free_mode">Гучний зв язок</string>
+    <string name="call_duration_with_hours">Тривалість дзвінка %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Тривалість дзвінка %1$02d:%2$02d</string>
+    <string name="call_not_connected">Не підключено</string>
+    <string name="call_line_busy">Лінія зайнята</string>
+    <string name="call_network_error">Помилка мережі</string>
+    <string name="call_cancelled">Скасовано</string>
+    <string name="call_remote_cancelled">Інша сторона скасувала</string>
+    <string name="call_not_answered">Немає відповіді</string>
+    <string name="call_accepted_by_other_client">Відповіли на іншому пристрої</string>
+    <string name="call_ended">Дзвінок завершено</string>
+    <string name="call_remote_not_answered">Інша сторона не відповіла</string>
+    <string name="call_remote_network_error">Помилка мережі іншої сторони</string>
+    <string name="call_max_participants_reached">Досягнуто максимальну кількість учасників</string>
 
 </resources>

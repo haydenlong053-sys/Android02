@@ -94,5 +94,18 @@
     <string name="call_broad_mute">Bisu</string>
     <string name="call_broad_hang_up">Tutup</string>
     <string name="call_broad_hands_free_mode">Speaker</string>
+    <string name="call_duration_with_hours">Durasi telpon %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Durasi telpon %1$02d:%2$02d</string>
+    <string name="call_not_connected">Ora disambungake</string>
+    <string name="call_line_busy">Saluran sibuk</string>
+    <string name="call_network_error">Kesalahan jaringan</string>
+    <string name="call_cancelled">Dibatalke</string>
+    <string name="call_remote_cancelled">Pihak liyane mbatalake</string>
+    <string name="call_not_answered">Ora dijawab</string>
+    <string name="call_accepted_by_other_client">Dijawab ing piranti liyane</string>
+    <string name="call_ended">Telpon rampung</string>
+    <string name="call_remote_not_answered">Pihak liyane ora njawab</string>
+    <string name="call_remote_network_error">Kesalahan jaringan pihak liyane</string>
+    <string name="call_max_participants_reached">Jumlah peserta maksimum tekan</string>
 
 </resources>

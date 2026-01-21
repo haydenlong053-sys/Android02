@@ -99,5 +99,18 @@
     <string name="call_broad_mute">השתק</string>
     <string name="call_broad_hang_up">נתק</string>
     <string name="call_broad_hands_free_mode">רמקול</string>
+    <string name="call_duration_with_hours">משך שיחה %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">משך שיחה %1$02d:%2$02d</string>
+    <string name="call_not_connected">לא התחבר</string>
+    <string name="call_line_busy">קו תפוס</string>
+    <string name="call_network_error">שגיאת רשת</string>
+    <string name="call_cancelled">בוטל</string>
+    <string name="call_remote_cancelled">הצד השני ביטל</string>
+    <string name="call_not_answered">לא נענה</string>
+    <string name="call_accepted_by_other_client">נענה במכשיר אחר</string>
+    <string name="call_ended">השיחה הסתיימה</string>
+    <string name="call_remote_not_answered">הצד השני לא ענה</string>
+    <string name="call_remote_network_error">שגיאת רשת של הצד השני</string>
+    <string name="call_max_participants_reached">הושג מספר המשתתפים המקסימלי</string>
 
 </resources>

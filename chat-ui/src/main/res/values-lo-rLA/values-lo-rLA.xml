@@ -94,5 +94,18 @@
     <string name="call_broad_mute">ປິດສຽງ</string>
     <string name="call_broad_hang_up">ປິດ</string>
     <string name="call_broad_hands_free_mode">ລຳໂພງ</string>
+    <string name="call_duration_with_hours">ເວລາການໂທ %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">ເວລາການໂທ %1$02d:%2$02d</string>
+    <string name="call_not_connected">ບໍ່ໄດ້ເຊື່ອມຕໍ່</string>
+    <string name="call_line_busy">ເສັ້ນທາງຄຽງ</string>
+    <string name="call_network_error">ຂໍ້ຜິດພາດເຄືອຂ່າຍ</string>
+    <string name="call_cancelled">ຍົກເລີກ</string>
+    <string name="call_remote_cancelled">ຝ່າຍອື່ນຍົກເລີກ</string>
+    <string name="call_not_answered">ບໍ່ມີການຕອບກັບ</string>
+    <string name="call_accepted_by_other_client">ຕອບກັບໃນອຸປະກອນອື່ນ</string>
+    <string name="call_ended">ການໂທສິ້ນສຸດ</string>
+    <string name="call_remote_not_answered">ຝ່າຍອື່ນບໍ່ໄດ້ຕອບກັບ</string>
+    <string name="call_remote_network_error">ຂໍ້ຜິດພາດເຄືອຂ່າຍຂອງຝ່າຍອື່ນ</string>
+    <string name="call_max_participants_reached">ເຖິງຈຳນວນຜູ້ເຂົ້າຮ່ວມສູງສຸດແລ້ວ</string>
 
 </resources>

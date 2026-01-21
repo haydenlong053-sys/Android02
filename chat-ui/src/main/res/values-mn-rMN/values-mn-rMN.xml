@@ -94,5 +94,18 @@
     <string name="call_broad_mute">Дуугүй болгох</string>
     <string name="call_broad_hang_up">Хаах</string>
     <string name="call_broad_hands_free_mode">Чанга яригч</string>
+    <string name="call_duration_with_hours">Дуудлагын хугацаа %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Дуудлагын хугацаа %1$02d:%2$02d</string>
+    <string name="call_not_connected">Холбогдоогүй</string>
+    <string name="call_line_busy">Шугам завгүй</string>
+    <string name="call_network_error">Сүлжээний алдаа</string>
+    <string name="call_cancelled">Цуцлагдсан</string>
+    <string name="call_remote_cancelled">Нөгөө тал цуцласан</string>
+    <string name="call_not_answered">Хариу өгөөгүй</string>
+    <string name="call_accepted_by_other_client">Өөр төхөөрөмж дээр хариулсан</string>
+    <string name="call_ended">Дуудлага дууссан</string>
+    <string name="call_remote_not_answered">Нөгөө тал хариу өгөөгүй</string>
+    <string name="call_remote_network_error">Нөгөө талын сүлжээний алдаа</string>
+    <string name="call_max_participants_reached">Хамгийн их оролцогчдын тоонд хүрсэн</string>
 
 </resources>

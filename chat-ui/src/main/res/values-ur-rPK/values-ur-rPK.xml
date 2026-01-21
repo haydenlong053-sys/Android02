@@ -94,5 +94,18 @@
     <string name="call_broad_mute">خاموش</string>
     <string name="call_broad_hang_up">بند کریں</string>
     <string name="call_broad_hands_free_mode">اسپیکر</string>
+    <string name="call_duration_with_hours">کال کی مدت %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">کال کی مدت %1$02d:%2$02d</string>
+    <string name="call_not_connected">منسلک نہیں</string>
+    <string name="call_line_busy">لائن مصروف</string>
+    <string name="call_network_error">نیٹ ورک خرابی</string>
+    <string name="call_cancelled">منسوخ</string>
+    <string name="call_remote_cancelled">دوسرے فریق نے منسوخ کیا</string>
+    <string name="call_not_answered">جواب نہیں دیا</string>
+    <string name="call_accepted_by_other_client">دوسرے آلے پر جواب دیا</string>
+    <string name="call_ended">کال ختم ہو گئی</string>
+    <string name="call_remote_not_answered">دوسرے فریق نے جواب نہیں دیا</string>
+    <string name="call_remote_network_error">دوسرے فریق کی نیٹ ورک خرابی</string>
+    <string name="call_max_participants_reached">زیادہ سے زیادہ شرکاء کی تعداد پہنچ گئی</string>
 
 </resources>

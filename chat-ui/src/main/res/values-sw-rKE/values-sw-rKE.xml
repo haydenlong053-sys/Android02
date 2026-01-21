@@ -94,5 +94,18 @@
     <string name="call_broad_mute">Zima</string>
     <string name="call_broad_hang_up">Funga</string>
     <string name="call_broad_hands_free_mode">Spika</string>
+    <string name="call_duration_with_hours">Muda wa simu %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Muda wa simu %1$02d:%2$02d</string>
+    <string name="call_not_connected">Haijaunganishwa</string>
+    <string name="call_line_busy">Laini ina kazi</string>
+    <string name="call_network_error">Hitilafu ya mtandao</string>
+    <string name="call_cancelled">Imeghairiwa</string>
+    <string name="call_remote_cancelled">Mwingine ameghairi</string>
+    <string name="call_not_answered">Haijajibiwa</string>
+    <string name="call_accepted_by_other_client">Imejibiwa kwenye kifaa kingine</string>
+    <string name="call_ended">Simu imeisha</string>
+    <string name="call_remote_not_answered">Mwingine hajajibu</string>
+    <string name="call_remote_network_error">Hitilafu ya mtandao wa mwingine</string>
+    <string name="call_max_participants_reached">Idadi ya juu ya washiriki imefikiwa</string>
 
 </resources>

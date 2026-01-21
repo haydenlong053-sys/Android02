@@ -94,5 +94,18 @@
     <string name="call_broad_mute">ပိတ်ထားရန်</string>
     <string name="call_broad_hang_up">ပိတ်ရန်</string>
     <string name="call_broad_hands_free_mode">စပီကာ</string>
+    <string name="call_duration_with_hours">ခေါ်ဆိုမှုကြာချိန် %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">ခေါ်ဆိုမှုကြာချိန် %1$02d:%2$02d</string>
+    <string name="call_not_connected">မချိတ်ဆက်ထားပါ</string>
+    <string name="call_line_busy">လိုင်းအလုပ်ရှုပ်နေသည်</string>
+    <string name="call_network_error">ကွန်ရက်အမှား</string>
+    <string name="call_cancelled">ပယ်ဖျက်လိုက်သည်</string>
+    <string name="call_remote_cancelled">အခြားဖက်က ပယ်ဖျက်လိုက်သည်</string>
+    <string name="call_not_answered">မဖြေကြားပါ</string>
+    <string name="call_accepted_by_other_client">အခြားကိရိယာတွင် ဖြေကြားထားသည်</string>
+    <string name="call_ended">ခေါ်ဆိုမှု ပြီးဆုံးသည်</string>
+    <string name="call_remote_not_answered">အခြားဖက်က မဖြေကြားပါ</string>
+    <string name="call_remote_network_error">အခြားဖက်က ကွန်ရက်အမှား</string>
+    <string name="call_max_participants_reached">အများဆုံး ပါဝင်သူ အရေအတွက်သို့ ရောက်ရှိပြီ</string>
 
 </resources>

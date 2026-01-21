@@ -99,5 +99,18 @@
     <string name="call_broad_mute">Sessiz</string>
     <string name="call_broad_hang_up">Kapat</string>
     <string name="call_broad_hands_free_mode">Hoparlör</string>
+    <string name="call_duration_with_hours">Arama süresi %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">Arama süresi %1$02d:%2$02d</string>
+    <string name="call_not_connected">Bağlanmadı</string>
+    <string name="call_line_busy">Hat meşgul</string>
+    <string name="call_network_error">Ağ hatası</string>
+    <string name="call_cancelled">İptal edildi</string>
+    <string name="call_remote_cancelled">Diğer taraf iptal etti</string>
+    <string name="call_not_answered">Yanıtlanmadı</string>
+    <string name="call_accepted_by_other_client">Başka cihazda yanıtlandı</string>
+    <string name="call_ended">Arama sona erdi</string>
+    <string name="call_remote_not_answered">Diğer taraf yanıtlamadı</string>
+    <string name="call_remote_network_error">Diğer tarafın ağ hatası</string>
+    <string name="call_max_participants_reached">Maksimum katılımcı sayısına ulaşıldı</string>
 
 </resources>

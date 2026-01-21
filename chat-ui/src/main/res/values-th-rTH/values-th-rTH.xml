@@ -99,5 +99,18 @@
     <string name="call_broad_mute">ปิดเสียง</string>
     <string name="call_broad_hang_up">วางสาย</string>
     <string name="call_broad_hands_free_mode">ลำโพง</string>
+    <string name="call_duration_with_hours">ระยะเวลาการโทร %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">ระยะเวลาการโทร %1$02d:%2$02d</string>
+    <string name="call_not_connected">ไม่ได้เชื่อมต่อ</string>
+    <string name="call_line_busy">สายไม่ว่าง</string>
+    <string name="call_network_error">ข้อผิดพลาดเครือข่าย</string>
+    <string name="call_cancelled">ยกเลิกแล้ว</string>
+    <string name="call_remote_cancelled">อีกฝ่ายยกเลิก</string>
+    <string name="call_not_answered">ไม่ได้รับสาย</string>
+    <string name="call_accepted_by_other_client">รับสายบนอุปกรณ์อื่น</string>
+    <string name="call_ended">การโทรสิ้นสุดแล้ว</string>
+    <string name="call_remote_not_answered">อีกฝ่ายไม่ได้รับสาย</string>
+    <string name="call_remote_network_error">ข้อผิดพลาดเครือข่ายของอีกฝ่าย</string>
+    <string name="call_max_participants_reached">ถึงจำนวนผู้เข้าร่วมสูงสุดแล้ว</string>
 
 </resources>

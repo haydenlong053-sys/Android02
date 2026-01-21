@@ -94,5 +94,18 @@
     <string name="call_broad_mute">ਮੂਕ</string>
     <string name="call_broad_hang_up">ਬੰਦ ਕਰੋ</string>
     <string name="call_broad_hands_free_mode">ਸਪੀਕਰ</string>
+    <string name="call_duration_with_hours">ਕਾਲ ਦੀ ਮਿਆਦ %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">ਕਾਲ ਦੀ ਮਿਆਦ %1$02d:%2$02d</string>
+    <string name="call_not_connected">ਜੁੜਿਆ ਨਹੀਂ</string>
+    <string name="call_line_busy">ਲਾਈਨ ਵਿਅਸਤ</string>
+    <string name="call_network_error">ਨੈੱਟਵਰਕ ਗਲਤੀ</string>
+    <string name="call_cancelled">ਰੱਦ ਕੀਤਾ</string>
+    <string name="call_remote_cancelled">ਦੂਜੇ ਪੱਖ ਨੇ ਰੱਦ ਕੀਤਾ</string>
+    <string name="call_not_answered">ਜਵਾਬ ਨਹੀਂ ਦਿੱਤਾ</string>
+    <string name="call_accepted_by_other_client">ਦੂਜੇ ਉਪਕਰਣ ਤੇ ਜਵਾਬ ਦਿੱਤਾ</string>
+    <string name="call_ended">ਕਾਲ ਸਮਾਪਤ</string>
+    <string name="call_remote_not_answered">ਦੂਜੇ ਪੱਖ ਨੇ ਜਵਾਬ ਨਹੀਂ ਦਿੱਤਾ</string>
+    <string name="call_remote_network_error">ਦੂਜੇ ਪੱਖ ਦੀ ਨੈੱਟਵਰਕ ਗਲਤੀ</string>
+    <string name="call_max_participants_reached">ਵੱਧ ਤੋਂ ਵੱਧ ਹਿੱਸਾ ਲੈਣ ਵਾਲਿਆਂ ਦੀ ਸੰਖਿਆ ਪਹੁੰਚ ਗਈ</string>
 
 </resources>

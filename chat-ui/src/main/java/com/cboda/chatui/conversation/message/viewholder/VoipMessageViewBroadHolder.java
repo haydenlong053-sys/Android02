@@ -20,6 +20,8 @@ import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.message.CallStartMessageContent;
 import cn.wildfirechat.model.Conversation;
 
+import android.content.Context;
+
 @MessageContentBroadType(CallStartMessageContent.class)
 @EnableContextBroadMenu
 public class VoipMessageViewBroadHolder extends NormalMessageContentViewBroadHolder {
@@ -45,52 +47,53 @@ public class VoipMessageViewBroadHolder extends NormalMessageContentViewBroadHol
     @Override
     public void onBind(UiBroadMessage message) {
         CallStartMessageContent content = (CallStartMessageContent) message.message.content;
+        Context context = fragment.getContext();
         if (content.getConnectTime() > 0 && content.getEndTime() > 0) {
             String text;
             long duration = (content.getEndTime() - content.getConnectTime()) / 1000;
             if (duration > 3600) {
-                text = String.format("通话时长 %d:%02d:%02d", duration / 3600, (duration % 3600) / 60, (duration % 60));
+                text = context.getString(R.string.call_duration_with_hours, duration / 3600, (duration % 3600) / 60, (duration % 60));
             } else {
-                text = String.format("通话时长 %02d:%02d", duration / 60, (duration % 60));
+                text = context.getString(R.string.call_duration_without_hours, duration / 60, (duration % 60));
             }
             textView.setText(text);
         } else {
-            String text = "未接通";
+            String text = context.getString(R.string.call_not_connected);
             if (message.message.content instanceof CallStartMessageContent) {
                 CallStartMessageContent startMessageContent = (CallStartMessageContent) message.message.content;
                 AVEngineKit.CallEndReason reason = AVEngineKit.CallEndReason.reason(startMessageContent.getStatus());
                 if (reason == AVEngineKit.CallEndReason.UnKnown) {
-                    text = "未接通";
+                    text = context.getString(R.string.call_not_connected);
                 } else if (reason == AVEngineKit.CallEndReason.Busy) {
-                    text = "线路忙";
+                    text = context.getString(R.string.call_line_busy);
                 } else if (reason == AVEngineKit.CallEndReason.SignalError) {
-                    text = "网络错误";
+                    text = context.getString(R.string.call_network_error);
                 } else if (reason == AVEngineKit.CallEndReason.Hangup) {
-                    text = "已取消";
+                    text = context.getString(R.string.call_cancelled);
                 } else if (reason == AVEngineKit.CallEndReason.MediaError) {
-                    text = "网络错误";
+                    text = context.getString(R.string.call_network_error);
                 } else if (reason == AVEngineKit.CallEndReason.RemoteHangup) {
-                    text = "对方已取消";
+                    text = context.getString(R.string.call_remote_cancelled);
                 } else if (reason == AVEngineKit.CallEndReason.OpenCameraFailure) {
-                    text = "网络错误";
+                    text = context.getString(R.string.call_network_error);
                 } else if (reason == AVEngineKit.CallEndReason.Timeout) {
-                    text = "未接听";
+                    text = context.getString(R.string.call_not_answered);
                 } else if (reason == AVEngineKit.CallEndReason.AcceptByOtherClient) {
-                    text = "已在其他端接听";
+                    text = context.getString(R.string.call_accepted_by_other_client);
                 } else if (reason == AVEngineKit.CallEndReason.AllLeft) {
-                    text = "通话已结束";
+                    text = context.getString(R.string.call_ended);
                 } else if (reason == AVEngineKit.CallEndReason.RemoteBusy) {
-                    text = "对方已取消";
+                    text = context.getString(R.string.call_remote_cancelled);
                 } else if (reason == AVEngineKit.CallEndReason.RemoteTimeout) {
-                    text = "对方未接听";
+                    text = context.getString(R.string.call_remote_not_answered);
                 } else if (reason == AVEngineKit.CallEndReason.RemoteNetworkError) {
-                    text = "对方网络错误";
+                    text = context.getString(R.string.call_remote_network_error);
                 } else if (reason == AVEngineKit.CallEndReason.RoomDestroyed) {
-                    text = "通话已结束";
+                    text = context.getString(R.string.call_ended);
                 } else if (reason == AVEngineKit.CallEndReason.RoomNotExist) {
-                    text = "通话已结束";
+                    text = context.getString(R.string.call_ended);
                 } else if (reason == AVEngineKit.CallEndReason.RoomParticipantsFull) {
-                    text = "已达到最大通话人数";
+                    text = context.getString(R.string.call_max_participants_reached);
                 }
             }
             textView.setText(text);
