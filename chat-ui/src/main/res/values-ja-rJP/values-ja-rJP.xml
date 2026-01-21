@@ -132,5 +132,18 @@
     <string name="conference_cancel">キャンセル</string>
     <string name="conference_apply_unmute">ミュート解除を申請</string>
     <string name="conference_connecting">接続中...</string>
+    <string name="message_install_webview">インストールしてください: Android System WebView</string>
+    <string name="message_grade_unit">点</string>
+    <string name="message_joined_group">グループに参加</string>
+    <string name="message_edit">編集</string>
+    <string name="message_add">追加</string>
+    <string name="message_recall">撤回</string>
+    <string name="message_copy">コピー</string>
+    <string name="message_copy_success">コピーに成功しました</string>
+    <string name="message_select_more">複数選択</string>
+    <string name="message_delete">削除</string>
+    <string name="message_forward">転送</string>
+    <string name="message_collect">保存</string>
+    <string name="message_translate">翻訳</string>
 
 </resources>

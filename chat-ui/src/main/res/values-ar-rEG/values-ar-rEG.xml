@@ -132,5 +132,18 @@
     <string name="conference_cancel">إلغاء</string>
     <string name="conference_apply_unmute">طلب إلغاء كتم الصوت</string>
     <string name="conference_connecting">جاري الاتصال...</string>
+    <string name="message_install_webview">يرجى تثبيت: Android System WebView</string>
+    <string name="message_grade_unit">نقطة</string>
+    <string name="message_joined_group">انضم إلى المجموعة</string>
+    <string name="message_edit">تعديل</string>
+    <string name="message_add">إضافة</string>
+    <string name="message_recall">استدعاء</string>
+    <string name="message_copy">نسخ</string>
+    <string name="message_copy_success">تم النسخ بنجاح</string>
+    <string name="message_select_more">تحديد متعدد</string>
+    <string name="message_delete">حذف</string>
+    <string name="message_forward">إعادة توجيه</string>
+    <string name="message_collect">حفظ</string>
+    <string name="message_translate">ترجمة</string>
 
 </resources>

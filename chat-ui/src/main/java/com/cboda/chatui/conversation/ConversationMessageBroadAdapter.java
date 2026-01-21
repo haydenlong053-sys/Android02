@@ -358,7 +358,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             }
         } catch (Exception e) {
             if (e.getMessage() != null && e.getMessage().contains("webview")) {
-                Toast.makeText(fragment.getContext(), "请安装: Android System WebView", Toast.LENGTH_SHORT).show();
+                Toast.makeText(fragment.getContext(), fragment.getString(R.string.message_install_webview), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -421,25 +421,25 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             if (!TextUtils.isEmpty(message.message.content.extra)) {
                 portraitTv.setVisibility(View.VISIBLE);
                 MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
-                portraitTv.setText(msgExtra.getGrade() + "分");
+                portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
             } else if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null) {
                 portraitTv.setVisibility(View.VISIBLE);
-                portraitTv.setText(messageViewModel.getUserGroupData().getGrade() + "分");
+                portraitTv.setText(messageViewModel.getUserGroupData().getGrade() + fragment.getString(R.string.message_grade_unit));
             } else {
                 portraitTv.setVisibility(View.GONE);
             }
         } else {
             TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
-            if (!TextUtils.isEmpty(message.message.content.extra)) {
+                if (!TextUtils.isEmpty(message.message.content.extra)) {
                 portraitTv.setVisibility(View.VISIBLE);
                 MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
                 String joinGroupTime = msgExtra.getJoinGroupTime();
-                portraitTv.setText(msgExtra.getGrade() + "分");
+                portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
                 joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
                 try {
                     long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
                     String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
-                    joinTimeTv.setText(joinGroupTimeBefore + "入群");
+                    joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
                 } catch (Exception e) {
                     toLog(e, "joinGroupTime");
                     joinTimeTv.setVisibility(View.GONE);
@@ -562,9 +562,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     case 1:
                         // 文本
                         if (imCommonResult != null && "1".equals(imCommonResult.getOpenBj()) && message1.direction == MessageDirection.Send) {
-                            titles.add("编辑");
+                            titles.add(fragment.getString(R.string.message_edit));
                             ChatPopBroadMenu.ChatPopMenuAction bianjiAction = new ChatPopBroadMenu.ChatPopMenuAction();
-                            bianjiAction.setActionName("编辑");
+                            bianjiAction.setActionName(fragment.getString(R.string.message_edit));
                             bianjiAction.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                                 @Override
                                 public void onClick() {
@@ -576,9 +576,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         break;
                     case 3:
                         //图片
-                        titles.add("添加");
+                        titles.add(fragment.getString(R.string.message_add));
                         ChatPopBroadMenu.ChatPopMenuAction tianjia = new ChatPopBroadMenu.ChatPopMenuAction();
-                        tianjia.setActionName("添加");
+                        tianjia.setActionName(fragment.getString(R.string.message_add));
                         tianjia.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
@@ -589,9 +589,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         break;
                     case 7:
                         //表情
-                        titles.add("添加");
+                        titles.add(fragment.getString(R.string.message_add));
                         ChatPopBroadMenu.ChatPopMenuAction tianjia2 = new ChatPopBroadMenu.ChatPopMenuAction();
-                        tianjia2.setActionName("添加");
+                        tianjia2.setActionName(fragment.getString(R.string.message_add));
                         tianjia2.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
@@ -602,9 +602,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         break;
                     case 2002:
                         //表情
-                        titles.add("添加");
+                        titles.add(fragment.getString(R.string.message_add));
                         ChatPopBroadMenu.ChatPopMenuAction tianjia3 = new ChatPopBroadMenu.ChatPopMenuAction();
-                        tianjia3.setActionName("添加");
+                        tianjia3.setActionName(fragment.getString(R.string.message_add));
                         tianjia3.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
@@ -616,9 +616,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 }
 
                 if (!canChehui) {
-                    titles.add("撤回");
+                    titles.add(fragment.getString(R.string.message_recall));
                     ChatPopBroadMenu.ChatPopMenuAction cehhui = new ChatPopBroadMenu.ChatPopMenuAction();
-                    cehhui.setActionName("撤回");
+                    cehhui.setActionName(fragment.getString(R.string.message_recall));
                     cehhui.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
@@ -629,9 +629,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 }
 
                 if (message1.content.getMessageContentType() == 1) {
-                    titles.add("复制");
+                    titles.add(fragment.getString(R.string.message_copy));
                     ChatPopBroadMenu.ChatPopMenuAction fuzhi = new ChatPopBroadMenu.ChatPopMenuAction();
-                    fuzhi.setActionName("复制");
+                    fuzhi.setActionName(fragment.getString(R.string.message_copy));
                     fuzhi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
@@ -642,15 +642,15 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             TextMessageContent content = (TextMessageContent) message.message.content;
                             ClipData clipData = ClipData.newPlainText("messageContent", content.getContent());
                             clipboardManager.setPrimaryClip(clipData);
-                            ToastBroadUtils.showToast(fragment.getContext(), "复制成功");
+                            ToastBroadUtils.showToast(fragment.getContext(), fragment.getString(R.string.message_copy_success));
                         }
                     });
                     mPopActions.add(fuzhi);
                 }
 
-                titles.add("多选");
+                titles.add(fragment.getString(R.string.message_select_more));
                 ChatPopBroadMenu.ChatPopMenuAction selectMore = new ChatPopBroadMenu.ChatPopMenuAction();
-                selectMore.setActionName("多选");
+                selectMore.setActionName(fragment.getString(R.string.message_select_more));
                 selectMore.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                     @Override
                     public void onClick() {
@@ -659,9 +659,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 });
                 mPopActions.add(selectMore);
 
-                titles.add("删除");
+                titles.add(fragment.getString(R.string.message_delete));
                 ChatPopBroadMenu.ChatPopMenuAction shanchu = new ChatPopBroadMenu.ChatPopMenuAction();
-                shanchu.setActionName("删除");
+                shanchu.setActionName(fragment.getString(R.string.message_delete));
                 shanchu.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                     @Override
                     public void onClick() {
@@ -716,10 +716,10 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         && message1.content.getMessageContentType() != 2001
                         && message1.content.getMessageContentType() != 2002
                         && !(message1.content instanceof CallStartMessageContent)) {
-                    titles.add("转发");
+                    titles.add(fragment.getString(R.string.message_forward));
 
                     ChatPopBroadMenu.ChatPopMenuAction zhuanfa = new ChatPopBroadMenu.ChatPopMenuAction();
-                    zhuanfa.setActionName("转发");
+                    zhuanfa.setActionName(fragment.getString(R.string.message_forward));
                     zhuanfa.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
@@ -739,9 +739,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //                        || message1.content.getMessageContentType() == 4
                 ) {
                     if ((message1.content.getMessageContentType() == 3 ||message1.content.getMessageContentType() == 6) && !TextUtils.isEmpty(((MediaMessageContent) message1.content).remoteUrl)){
-                        titles.add("收藏");
+                        titles.add(fragment.getString(R.string.message_collect));
                         ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
-                        shoucang.setActionName("收藏");
+                        shoucang.setActionName(fragment.getString(R.string.message_collect));
                         shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
@@ -760,9 +760,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         });
                         mPopActions.add(shoucang);
                     }else  if (message1.content.getMessageContentType() == 1){
-                        titles.add("收藏");
+                        titles.add(fragment.getString(R.string.message_collect));
                         ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
-                        shoucang.setActionName("收藏");
+                        shoucang.setActionName(fragment.getString(R.string.message_collect));
                         shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
@@ -775,9 +775,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 }
                 if (message1.content.getMessageContentType() == 1
                         && SharePrefBroadBroadUtil.getString(v.getContext(), "isvip", "0").equals("1")) {
-                    titles.add("翻译");
+                    titles.add(fragment.getString(R.string.message_translate));
                     ChatPopBroadMenu.ChatPopMenuAction fanyi = new ChatPopBroadMenu.ChatPopMenuAction();
-                    fanyi.setActionName("翻译");
+                    fanyi.setActionName(fragment.getString(R.string.message_translate));
                     fanyi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {

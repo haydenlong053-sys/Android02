@@ -132,5 +132,18 @@
     <string name="conference_cancel">İptal</string>
     <string name="conference_apply_unmute">Sesi açma başvurusu yap</string>
     <string name="conference_connecting">Bağlanıyor...</string>
+    <string name="message_install_webview">Lütfen yükleyin: Android System WebView</string>
+    <string name="message_grade_unit">puan</string>
+    <string name="message_joined_group">Gruba katıldı</string>
+    <string name="message_edit">Düzenle</string>
+    <string name="message_add">Ekle</string>
+    <string name="message_recall">Geri al</string>
+    <string name="message_copy">Kopyala</string>
+    <string name="message_copy_success">Başarıyla kopyalandı</string>
+    <string name="message_select_more">Çoklu seçim</string>
+    <string name="message_delete">Sil</string>
+    <string name="message_forward">İlet</string>
+    <string name="message_collect">Kaydet</string>
+    <string name="message_translate">Çevir</string>
 
 </resources>

@@ -132,5 +132,18 @@
     <string name="conference_cancel">Abbrechen</string>
     <string name="conference_apply_unmute">Antrag auf Aufhebung der Stummschaltung stellen</string>
     <string name="conference_connecting">Verbinden...</string>
+    <string name="message_install_webview">Bitte installieren: Android System WebView</string>
+    <string name="message_grade_unit">Punkte</string>
+    <string name="message_joined_group">Gruppe beigetreten</string>
+    <string name="message_edit">Bearbeiten</string>
+    <string name="message_add">Hinzufügen</string>
+    <string name="message_recall">Widerrufen</string>
+    <string name="message_copy">Kopieren</string>
+    <string name="message_copy_success">Erfolgreich kopiert</string>
+    <string name="message_select_more">Mehrfachauswahl</string>
+    <string name="message_delete">Löschen</string>
+    <string name="message_forward">Weiterleiten</string>
+    <string name="message_collect">Sammeln</string>
+    <string name="message_translate">Übersetzen</string>
 
 </resources>

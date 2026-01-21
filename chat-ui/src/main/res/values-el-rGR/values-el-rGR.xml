@@ -127,5 +127,18 @@
     <string name="conference_cancel">Ακύρωση</string>
     <string name="conference_apply_unmute">Υποβολή αίτησης για απενεργοποίηση σίγασης</string>
     <string name="conference_connecting">Σύνδεση...</string>
+    <string name="message_install_webview">Παρακαλώ εγκαταστήστε: Android System WebView</string>
+    <string name="message_grade_unit">βαθμοί</string>
+    <string name="message_joined_group">Εντάχθηκε στην ομάδα</string>
+    <string name="message_edit">Επεξεργασία</string>
+    <string name="message_add">Προσθήκη</string>
+    <string name="message_recall">Ανάκληση</string>
+    <string name="message_copy">Αντιγραφή</string>
+    <string name="message_copy_success">Αντιγράφηκε με επιτυχία</string>
+    <string name="message_select_more">Πολλαπλή επιλογή</string>
+    <string name="message_delete">Διαγραφή</string>
+    <string name="message_forward">Προώθηση</string>
+    <string name="message_collect">Αποθήκευση</string>
+    <string name="message_translate">Μετάφραση</string>
 
 </resources>

@@ -132,5 +132,18 @@
     <string name="conference_cancel">Annuler</string>
     <string name="conference_apply_unmute">Demander le désassourdissement</string>
     <string name="conference_connecting">Connexion...</string>
+    <string name="message_install_webview">Veuillez installer: Android System WebView</string>
+    <string name="message_grade_unit">points</string>
+    <string name="message_joined_group">Rejoint le groupe</string>
+    <string name="message_edit">Modifier</string>
+    <string name="message_add">Ajouter</string>
+    <string name="message_recall">Rappeler</string>
+    <string name="message_copy">Copier</string>
+    <string name="message_copy_success">Copié avec succès</string>
+    <string name="message_select_more">Sélection multiple</string>
+    <string name="message_delete">Supprimer</string>
+    <string name="message_forward">Transférer</string>
+    <string name="message_collect">Collecter</string>
+    <string name="message_translate">Traduire</string>
 
 </resources>

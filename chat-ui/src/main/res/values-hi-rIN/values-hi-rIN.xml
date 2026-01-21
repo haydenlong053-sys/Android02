@@ -132,5 +132,18 @@
     <string name="conference_cancel">रद्द करें</string>
     <string name="conference_apply_unmute">म्यूट हटाने के लिए आवेदन करें</string>
     <string name="conference_connecting">कनेक्ट हो रहा है...</string>
+    <string name="message_install_webview">कृपया स्थापित करें: Android System WebView</string>
+    <string name="message_grade_unit">अंक</string>
+    <string name="message_joined_group">समूह में शामिल हुए</string>
+    <string name="message_edit">संपादित करें</string>
+    <string name="message_add">जोड़ें</string>
+    <string name="message_recall">वापस लें</string>
+    <string name="message_copy">कॉपी करें</string>
+    <string name="message_copy_success">सफलतापूर्वक कॉपी किया गया</string>
+    <string name="message_select_more">बहुविकल्प</string>
+    <string name="message_delete">हटाएं</string>
+    <string name="message_forward">आगे भेजें</string>
+    <string name="message_collect">सहेजें</string>
+    <string name="message_translate">अनुवाद करें</string>
 
 </resources>

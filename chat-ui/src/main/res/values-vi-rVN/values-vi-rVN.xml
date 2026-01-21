@@ -438,5 +438,18 @@
     <string name="conference_cancel">Hủy</string>
     <string name="conference_apply_unmute">Nộp đơn bỏ tắt tiếng</string>
     <string name="conference_connecting">Đang kết nối...</string>
+    <string name="message_install_webview">Vui lòng cài đặt: Android System WebView</string>
+    <string name="message_grade_unit">điểm</string>
+    <string name="message_joined_group">Tham gia nhóm</string>
+    <string name="message_edit">Chỉnh sửa</string>
+    <string name="message_add">Thêm</string>
+    <string name="message_recall">Thu hồi</string>
+    <string name="message_copy">Sao chép</string>
+    <string name="message_copy_success">Đã sao chép thành công</string>
+    <string name="message_select_more">Chọn nhiều</string>
+    <string name="message_delete">Xóa</string>
+    <string name="message_forward">Chuyển tiếp</string>
+    <string name="message_collect">Lưu</string>
+    <string name="message_translate">Dịch</string>
 
 </resources>

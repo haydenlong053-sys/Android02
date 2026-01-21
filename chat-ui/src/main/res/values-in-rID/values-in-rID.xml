@@ -127,5 +127,18 @@
     <string name="conference_cancel">Batalkan</string>
     <string name="conference_apply_unmute">Ajukan permohonan membatalkan mute</string>
     <string name="conference_connecting">Menghubungkan...</string>
+    <string name="message_install_webview">Silakan instal: Android System WebView</string>
+    <string name="message_grade_unit">poin</string>
+    <string name="message_joined_group">Bergabung dengan grup</string>
+    <string name="message_edit">Edit</string>
+    <string name="message_add">Tambah</string>
+    <string name="message_recall">Tarik kembali</string>
+    <string name="message_copy">Salin</string>
+    <string name="message_copy_success">Berhasil disalin</string>
+    <string name="message_select_more">Pilih banyak</string>
+    <string name="message_delete">Hapus</string>
+    <string name="message_forward">Teruskan</string>
+    <string name="message_collect">Simpan</string>
+    <string name="message_translate">Terjemahkan</string>
 
 </resources>

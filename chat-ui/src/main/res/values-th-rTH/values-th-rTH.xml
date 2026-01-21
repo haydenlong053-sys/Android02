@@ -132,5 +132,18 @@
     <string name="conference_cancel">ยกเลิก</string>
     <string name="conference_apply_unmute">ยื่นคำขอเปิดเสียง</string>
     <string name="conference_connecting">กำลังเชื่อมต่อ...</string>
+    <string name="message_install_webview">กรุณาติดตั้ง: Android System WebView</string>
+    <string name="message_grade_unit">คะแนน</string>
+    <string name="message_joined_group">เข้าร่วมกลุ่ม</string>
+    <string name="message_edit">แก้ไข</string>
+    <string name="message_add">เพิ่ม</string>
+    <string name="message_recall">เรียกคืน</string>
+    <string name="message_copy">คัดลอก</string>
+    <string name="message_copy_success">คัดลอกสำเร็จ</string>
+    <string name="message_select_more">เลือกหลายรายการ</string>
+    <string name="message_delete">ลบ</string>
+    <string name="message_forward">ส่งต่อ</string>
+    <string name="message_collect">บันทึก</string>
+    <string name="message_translate">แปล</string>
 
 </resources>

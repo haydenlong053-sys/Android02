@@ -133,5 +133,18 @@
     <string name="conference_cancel">取消</string>
     <string name="conference_apply_unmute">申請解除靜音</string>
     <string name="conference_connecting">會議連接中</string>
+    <string name="message_install_webview">請安裝: Android System WebView</string>
+    <string name="message_grade_unit">分</string>
+    <string name="message_joined_group">入群</string>
+    <string name="message_edit">編輯</string>
+    <string name="message_add">新增</string>
+    <string name="message_recall">撤回</string>
+    <string name="message_copy">複製</string>
+    <string name="message_copy_success">複製成功</string>
+    <string name="message_select_more">多選</string>
+    <string name="message_delete">刪除</string>
+    <string name="message_forward">轉發</string>
+    <string name="message_collect">收藏</string>
+    <string name="message_translate">翻譯</string>
 
 </resources>

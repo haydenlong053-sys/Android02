@@ -132,5 +132,18 @@
     <string name="conference_cancel">Отменить</string>
     <string name="conference_apply_unmute">Подать заявку на отключение микрофона</string>
     <string name="conference_connecting">Подключение...</string>
+    <string name="message_install_webview">Пожалуйста, установите: Android System WebView</string>
+    <string name="message_grade_unit">баллов</string>
+    <string name="message_joined_group">Присоединился к группе</string>
+    <string name="message_edit">Редактировать</string>
+    <string name="message_add">Добавить</string>
+    <string name="message_recall">Отозвать</string>
+    <string name="message_copy">Копировать</string>
+    <string name="message_copy_success">Скопировано успешно</string>
+    <string name="message_select_more">Множественный выбор</string>
+    <string name="message_delete">Удалить</string>
+    <string name="message_forward">Переслать</string>
+    <string name="message_collect">Сохранить</string>
+    <string name="message_translate">Перевести</string>
 
 </resources>

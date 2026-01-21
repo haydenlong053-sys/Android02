@@ -132,5 +132,18 @@
     <string name="conference_cancel">취소</string>
     <string name="conference_apply_unmute">음소거 해제 신청</string>
     <string name="conference_connecting">연결 중...</string>
+    <string name="message_install_webview">설치해 주세요: Android System WebView</string>
+    <string name="message_grade_unit">점</string>
+    <string name="message_joined_group">그룹 가입</string>
+    <string name="message_edit">편집</string>
+    <string name="message_add">추가</string>
+    <string name="message_recall">취소</string>
+    <string name="message_copy">복사</string>
+    <string name="message_copy_success">복사 성공</string>
+    <string name="message_select_more">다중 선택</string>
+    <string name="message_delete">삭제</string>
+    <string name="message_forward">전달</string>
+    <string name="message_collect">저장</string>
+    <string name="message_translate">번역</string>
 
 </resources>

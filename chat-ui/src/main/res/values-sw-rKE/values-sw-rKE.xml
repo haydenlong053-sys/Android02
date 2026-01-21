@@ -127,5 +127,18 @@
     <string name="conference_cancel">Ghairi</string>
     <string name="conference_apply_unmute">Wasilisha ombi la kufungua kuzima sauti</string>
     <string name="conference_connecting">Inaunganisha...</string>
+    <string name="message_install_webview">Tafadhali sakinisha: Android System WebView</string>
+    <string name="message_grade_unit">alama</string>
+    <string name="message_joined_group">Alijiunga na kikundi</string>
+    <string name="message_edit">Hariri</string>
+    <string name="message_add">Ongeza</string>
+    <string name="message_recall">Rudisha</string>
+    <string name="message_copy">Nakili</string>
+    <string name="message_copy_success">Imenakiliwa kwa mafanikio</string>
+    <string name="message_select_more">Chagua nyingi</string>
+    <string name="message_delete">Futa</string>
+    <string name="message_forward">Tuma mbele</string>
+    <string name="message_collect">Hifadhi</string>
+    <string name="message_translate">Tafsiri</string>
 
 </resources>

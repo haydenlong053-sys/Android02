@@ -127,5 +127,18 @@
     <string name="conference_cancel">বাতিল করুন</string>
     <string name="conference_apply_unmute">মিউট বাতিল করার জন্য আবেদন করুন</string>
     <string name="conference_connecting">সংযোগ করা হচ্ছে...</string>
+    <string name="message_install_webview">অনুগ্রহ করে ইনস্টল করুন: Android System WebView</string>
+    <string name="message_grade_unit">পয়েন্ট</string>
+    <string name="message_joined_group">গ্রুপে যোগদান করেছেন</string>
+    <string name="message_edit">সম্পাদনা করুন</string>
+    <string name="message_add">যোগ করুন</string>
+    <string name="message_recall">প্রত্যাহার করুন</string>
+    <string name="message_copy">কপি করুন</string>
+    <string name="message_copy_success">সফলভাবে কপি করা হয়েছে</string>
+    <string name="message_select_more">একাধিক নির্বাচন</string>
+    <string name="message_delete">মুছুন</string>
+    <string name="message_forward">ফরওয়ার্ড করুন</string>
+    <string name="message_collect">সংরক্ষণ করুন</string>
+    <string name="message_translate">অনুবাদ করুন</string>
 
 </resources>
