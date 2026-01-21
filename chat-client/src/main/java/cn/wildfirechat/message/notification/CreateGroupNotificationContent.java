@@ -4,7 +4,14 @@
 
 package cn.wildfirechat.message.notification;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_CREATE_GROUP;
+
 import android.os.Parcel;
+
+import androidx.core.content.ContextCompat;
+
+import com.blankj.utilcode.util.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,8 +21,6 @@ import cn.wildfirechat.message.core.ContentTag;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 import cn.wildfirechat.remote.ChatManager;
-
-import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_CREATE_GROUP;
 
 /**
  * Created by heavyrainlee on 20/12/2017.
@@ -31,16 +36,19 @@ public class CreateGroupNotificationContent extends GroupNotificationMessageCont
 
     @Override
     public String formatNotification(Message message) {
-        StringBuilder sb = new StringBuilder();
         if (fromSelf) {
-            sb.append("您创建了群组 ");
+            return StringUtils.getString(
+                    com.cboda.baselibrary.R.string.base_group_created_by_self,
+                    groupName
+            );
         } else {
-            sb.append(ChatManager.Instance().getUserDisplayName(creator));
-            sb.append("创建了群组 ");
+            String creatorName = ChatManager.Instance().getUserDisplayName(creator);
+            return StringUtils.getString(
+                    com.cboda.baselibrary.R.string.base_group_created_by_other,
+                    creatorName,
+                    groupName
+            );
         }
-        sb.append(groupName);
-
-        return sb.toString();
     }
 
     @Override

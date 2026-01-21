@@ -77,6 +77,46 @@
     <string name="全员禁言">All members muted</string>
     <string name="open">Open</string>
 
+    <!-- Time formatting -->
+    <string name="time_yesterday">Yesterday %1$s</string>
+    <string name="time_weekday_sun">Sunday %1$s</string>
+    <string name="time_weekday_mon">Monday %1$s</string>
+    <string name="time_weekday_tue">Tuesday %1$s</string>
+    <string name="time_weekday_wed">Wednesday %1$s</string>
+    <string name="time_weekday_thu">Thursday %1$s</string>
+    <string name="time_weekday_fri">Friday %1$s</string>
+    <string name="time_weekday_sat">Saturday %1$s</string>
+    <string name="time_month_day_time_pattern">MM-dd HH:mm</string>
+    <string name="time_year_month_day_time_pattern">yyyy-MM-dd HH:mm</string>
+
+    <!-- Conversation & typing -->
+    <string name="group_all_muted_hint">All members are muted</string>
+    <string name="group_self_muted_hint">You have been muted</string>
+    <string name="unread_messages_count">%1$d messages</string>
+    <string name="unread_mentions_count">%1$d @ messages</string>
+
+    <string name="chatroom_welcome_format">Welcome %1$s to the chatroom</string>
+    <string name="chatroom_join_failed">Failed to join chatroom</string>
+    <string name="chatroom_leave_format">%1$s left the chatroom</string>
+
+    <string name="typing_someone">Someone</string>
+    <string name="typing_group_text">%1$s is typing</string>
+    <string name="typing_group_voice">%1$s is recording</string>
+    <string name="typing_group_camera">%1$s is taking a photo</string>
+    <string name="typing_group_file">%1$s is sending a file</string>
+    <string name="typing_group_location">%1$s is sending a location</string>
+
+    <string name="typing_single_text">The other party is typing</string>
+    <string name="typing_single_voice">The other party is recording</string>
+    <string name="typing_single_camera">The other party is taking a photo</string>
+    <string name="typing_single_file">The other party is sending a file</string>
+    <string name="typing_single_location">The other party is sending a location</string>
+
+    <string name="typing_multi_users">%1$d people are typing</string>
+
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_confirm">Confirm</string>
+
     <string name="xiao_xi">Message</string>
     <string name="tongxunlu">Contacts</string>
     <string name="xiaochengxu">Mini program</string>
@@ -287,5 +327,38 @@
     <string name="call_remote_not_answered">Other party did not answer</string>
     <string name="call_remote_network_error">Other party network error</string>
     <string name="call_max_participants_reached">Maximum participants reached</string>
+    <string name="conference_audio_only_no_camera">Audio conference does not support camera</string>
+    <string name="conference_exit_or_end_dialog">If you want participants to continue the meeting, please choose Exit Meeting</string>
+    <string name="conference_exit_meeting">Exit Meeting</string>
+    <string name="conference_end_meeting">End Meeting</string>
+    <string name="conference_audio_only_no_screen_share">Audio conference does not support screen sharing</string>
+    <string name="conference_screen_share_warning">When enabling screen sharing, the camera will be turned off and the microphone will be turned on</string>
+    <string name="conference_copied_to_clipboard">Copied to clipboard</string>
+    <string name="conference_hand_down">Put Down</string>
+    <string name="conference_hand_up">Raise Hand</string>
+    <string name="conference_contact_host_to_stop_recording">Please contact the host to stop recording</string>
+    <string name="conference_contact_host_to_start_recording">Please contact the host to start recording</string>
+    <string name="conference_unmute_applying_dialog">The host does not allow unmuting. You have already applied for unmuting and are waiting for the host to operate</string>
+    <string name="conference_cancel_application">Cancel Application</string>
+    <string name="conference_application_cancelled">Application cancelled</string>
+    <string name="conference_continue_application">Continue Application</string>
+    <string name="conference_application_resent">Application resent, please wait patiently for the host to operate</string>
+    <string name="conference_unmute_request_dialog">The host does not allow unmuting. You can apply to the host for unmuting</string>
+    <string name="conference_cancel">Cancel</string>
+    <string name="conference_apply_unmute">Apply to Unmute</string>
+    <string name="conference_connecting">Connecting...</string>
+    <string name="message_install_webview">Please install: Android System WebView</string>
+    <string name="message_grade_unit">points</string>
+    <string name="message_joined_group">Joined group</string>
+    <string name="message_edit">Edit</string>
+    <string name="message_add">Add</string>
+    <string name="message_recall">Recall</string>
+    <string name="message_copy">Copy</string>
+    <string name="message_copy_success">Copied successfully</string>
+    <string name="message_select_more">Select More</string>
+    <string name="message_delete">Delete</string>
+    <string name="message_forward">Forward</string>
+    <string name="message_collect">Collect</string>
+    <string name="message_translate">Translate</string>
 
 </resources>

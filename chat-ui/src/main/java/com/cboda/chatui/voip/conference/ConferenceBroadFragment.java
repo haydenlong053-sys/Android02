@@ -275,7 +275,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             return;
         }
         if (session.isAudioOnly()){
-            Toast.makeText(getActivity(), "音频会议不支持开启摄像头", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.conference_audio_only_no_camera), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -310,8 +310,8 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
         if (session != null) {
             if (ChatManager.Instance().getUserId().equals(conferenceInfo.getOwner())) {
                 new MaterialDialog.Builder(getContext())
-                    .content("如果你想让与会人员继续开会，请选择退出会议")
-                    .negativeText("退出会议")
+                    .content(getString(R.string.conference_exit_or_end_dialog))
+                    .negativeText(getString(R.string.conference_exit_meeting))
                     .onNegative((dialogInterface, i) -> {
 
                         conferenceManager.addHistory(conferenceInfo, System.currentTimeMillis() - session.getStartTime());
@@ -319,7 +319,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
                         if (session.getState() != AVEngineKit.CallState.Idle)
                             session.leaveConference(false);
                     })
-                    .positiveText("结束会议")
+                    .positiveText(getString(R.string.conference_end_meeting))
                     .onPositive((dialogInterface, i) -> {
                         conferenceManager.addHistory(conferenceInfo, System.currentTimeMillis() - session.getStartTime());
                         conferenceManager.destroyConference(session.getCallId(), null);
@@ -344,11 +344,11 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
         AVEngineKit.CallSession session = getEngineKit().getCurrentSession();
         if (session != null) {
             if (session.isAudioOnly()) {
-                Toast.makeText(voipBaseActivity, "音频会议不支持屏幕共享", Toast.LENGTH_SHORT).show();
+                Toast.makeText(voipBaseActivity, getString(R.string.conference_audio_only_no_screen_share), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (!session.isScreenSharing()) {
-                Toast.makeText(getContext(), "开启屏幕共享时，将关闭摄像头，并打开麦克风", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.conference_screen_share_warning), Toast.LENGTH_LONG).show();
                 session.muteAudio(false);
                 session.muteVideo(true);
 
@@ -384,7 +384,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             }
             ClipData clipData = ClipData.newPlainText("conferenceId", callSession.getCallId());
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(getContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.conference_copied_to_clipboard), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
@@ -395,7 +395,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             }
             ClipData clipData = ClipData.newPlainText("conferenceLink", conferenceLink);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(getContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.conference_copied_to_clipboard), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
@@ -415,7 +415,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
         ImageView handUpImageView = view.findViewById(R.id.handUpImageView);
         TextView handUpTextView = view.findViewById(R.id.handUpTextView);
         handUpImageView.setSelected(conferenceManager.isHandUp());
-        handUpTextView.setText(conferenceManager.isHandUp() ? "放下" : "举手");
+        handUpTextView.setText(conferenceManager.isHandUp() ? getString(R.string.conference_hand_down) : getString(R.string.conference_hand_up));
 
         view.findViewById(R.id.inviteLinearLayout).setOnClickListener(v -> {
             ConferenceBroadActivity activity = (ConferenceBroadActivity) getContext();
@@ -443,7 +443,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             if (ChatManager.Instance().getUserId().equals(conferenceInfo.getOwner())) {
                 conferenceManager.requestRecord(!conferenceInfo.isRecording());
             } else {
-                Toast.makeText(getActivity(), conferenceInfo.isRecording() ? "请联系主持人关闭录制" : "请联系主持人开启录制", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), conferenceInfo.isRecording() ? getString(R.string.conference_contact_host_to_stop_recording) : getString(R.string.conference_contact_host_to_start_recording), Toast.LENGTH_SHORT).show();
             }
             dialog.dismiss();
         });
@@ -495,15 +495,15 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
     private void requestUnmute(boolean audio) {
         if (ConferenceBroadManager.getManager().isApplyingUnmute()) {
             new MaterialDialog.Builder(getContext())
-                .content("主持人不允许解除静音，您已经申请解除静音，正在等待主持人操作")
-                .negativeText("取消申请")
+                .content(getString(R.string.conference_unmute_applying_dialog))
+                .negativeText(getString(R.string.conference_cancel_application))
                 .onNegative((dialog, which) -> {
-                    Toast.makeText(getContext(), "已取消申请", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.conference_application_cancelled), Toast.LENGTH_SHORT).show();
                     ConferenceBroadManager.getManager().applyUnmute(true);
                 })
-                .positiveText("继续申请")
+                .positiveText(getString(R.string.conference_continue_application))
                 .onPositive((dialog, which) -> {
-                    Toast.makeText(getContext(), "已重新发送申请，请耐心等待主持人操作", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.conference_application_resent), Toast.LENGTH_SHORT).show();
                     ConferenceBroadManager.getManager().applyUnmute(false);
                 })
                 .cancelable(false)
@@ -511,14 +511,14 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
                 .show();
         } else {
             new MaterialDialog.Builder(getContext())
-                .content("主持人不允许解除静音，您可以向主持人申请解除静音")
-                .negativeText("取消")
+                .content(getString(R.string.conference_unmute_request_dialog))
+                .negativeText(getString(R.string.conference_cancel))
                 .onNegative((dialog, which) -> {
 
                 })
-                .positiveText("申请解除静音")
+                .positiveText(getString(R.string.conference_apply_unmute))
                 .onPositive((dialog, which) -> {
-                    Toast.makeText(getContext(), "已重新发送申请，请耐心等待主持人操作", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.conference_application_resent), Toast.LENGTH_SHORT).show();
                     ConferenceBroadManager.getManager().applyUnmute(false);
                 })
                 .cancelable(false)
@@ -590,7 +590,7 @@ public class ConferenceBroadFragment extends BaseConferenceBroadFragment impleme
             if (session != null && session.getState() == AVEngineKit.CallState.Connected) {
                 String text;
                 if (session.getConnectedTime() == 0) {
-                    text = "会议连接中";
+                    text = getString(R.string.conference_connecting);
                 } else {
                     long s = System.currentTimeMillis() - session.getConnectedTime();
                     s = s / 1000;

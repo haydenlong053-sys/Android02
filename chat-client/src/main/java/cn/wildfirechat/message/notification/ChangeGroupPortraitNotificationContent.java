@@ -6,6 +6,8 @@ package cn.wildfirechat.message.notification;
 
 import android.os.Parcel;
 
+import com.blankj.utilcode.util.StringUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,15 +32,17 @@ public class ChangeGroupPortraitNotificationContent extends GroupNotificationMes
 
     @Override
     public String formatNotification(Message message) {
-        StringBuilder sb = new StringBuilder();
         if (fromSelf) {
-            sb.append("您");
+            return StringUtils.getString(
+                    com.cboda.baselibrary.R.string.base_group_portrait_updated_by_self
+            );
         } else {
-            sb.append(ChatManager.Instance().getGroupMemberDisplayName(groupId, operateUser));
+            String operatorName = ChatManager.Instance().getGroupMemberDisplayName(groupId, operateUser);
+            return StringUtils.getString(
+                    com.cboda.baselibrary.R.string.base_group_portrait_updated_by_other,
+                    operatorName
+            );
         }
-        sb.append("更新了群头像");
-
-        return sb.toString();
     }
 
     @Override

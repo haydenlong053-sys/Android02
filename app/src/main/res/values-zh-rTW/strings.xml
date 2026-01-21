@@ -809,4 +809,14 @@
     <string name="system_settings">系統設置</string>
     <string name="personalize_experience">個性化您的使用體驗</string>
 
+    <!-- Meeting creation -->
+    <string name="meeting_room_suffix">會議室</string>
+    <string name="meeting_create_success">會議建立成功</string>
+    <string name="meeting_invite_desc">我在會議室等你，快進來吧</string>
+    <string name="meeting_non_password_renewal">續時免密支付</string>
+    <string name="meeting_participants">會議人數</string>
+    <string name="meeting_please_select">請選擇</string>
+    <string name="meeting_all_mic_on">全員開麥</string>
+    <string name="meeting_all_mute">全員禁言</string>
+
 </resources>

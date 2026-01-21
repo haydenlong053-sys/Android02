@@ -77,6 +77,46 @@
     <string name="全员禁言">全员禁言</string>
     <string name="open">开启</string>
 
+    <!-- Time formatting -->
+    <string name="time_yesterday">昨天 %1$s</string>
+    <string name="time_weekday_sun">周日 %1$s</string>
+    <string name="time_weekday_mon">周一 %1$s</string>
+    <string name="time_weekday_tue">周二 %1$s</string>
+    <string name="time_weekday_wed">周三 %1$s</string>
+    <string name="time_weekday_thu">周四 %1$s</string>
+    <string name="time_weekday_fri">周五 %1$s</string>
+    <string name="time_weekday_sat">周六 %1$s</string>
+    <string name="time_month_day_time_pattern">MM月dd日 HH:mm</string>
+    <string name="time_year_month_day_time_pattern">yyyy年MM月dd日 HH:mm</string>
+
+    <!-- Conversation & typing -->
+    <string name="group_all_muted_hint">全员禁言中</string>
+    <string name="group_self_muted_hint">你已被禁言</string>
+    <string name="unread_messages_count">%1$d条消息</string>
+    <string name="unread_mentions_count">%1$d条@消息</string>
+
+    <string name="chatroom_welcome_format">欢迎 %1$s 加入聊天室</string>
+    <string name="chatroom_join_failed">加入聊天室失败</string>
+    <string name="chatroom_leave_format">%1$s 离开了聊天室</string>
+
+    <string name="typing_someone">有人</string>
+    <string name="typing_group_text">%1$s 正在输入</string>
+    <string name="typing_group_voice">%1$s 正在录音</string>
+    <string name="typing_group_camera">%1$s 正在拍照</string>
+    <string name="typing_group_file">%1$s 正在发送文件</string>
+    <string name="typing_group_location">%1$s 正在发送位置</string>
+
+    <string name="typing_single_text">对方正在输入</string>
+    <string name="typing_single_voice">对方正在录音</string>
+    <string name="typing_single_camera">对方正在拍照</string>
+    <string name="typing_single_file">对方正在发送文件</string>
+    <string name="typing_single_location">对方正在发送位置</string>
+
+    <string name="typing_multi_users">%1$d人正在输入</string>
+
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_confirm">确认</string>
+
     <string name="xiao_xi">消息</string>
     <string name="tongxunlu">通讯录</string>
     <string name="xiaochengxu">小程序</string>
@@ -293,5 +333,38 @@
     <string name="call_remote_not_answered">对方未接听</string>
     <string name="call_remote_network_error">对方网络错误</string>
     <string name="call_max_participants_reached">已达到最大通话人数</string>
+    <string name="conference_audio_only_no_camera">音频会议不支持开启摄像头</string>
+    <string name="conference_exit_or_end_dialog">如果你想让与会人员继续开会，请选择退出会议</string>
+    <string name="conference_exit_meeting">退出会议</string>
+    <string name="conference_end_meeting">结束会议</string>
+    <string name="conference_audio_only_no_screen_share">音频会议不支持屏幕共享</string>
+    <string name="conference_screen_share_warning">开启屏幕共享时，将关闭摄像头，并打开麦克风</string>
+    <string name="conference_copied_to_clipboard">已复制到剪贴板</string>
+    <string name="conference_hand_down">放下</string>
+    <string name="conference_hand_up">举手</string>
+    <string name="conference_contact_host_to_stop_recording">请联系主持人关闭录制</string>
+    <string name="conference_contact_host_to_start_recording">请联系主持人开启录制</string>
+    <string name="conference_unmute_applying_dialog">主持人不允许解除静音，您已经申请解除静音，正在等待主持人操作</string>
+    <string name="conference_cancel_application">取消申请</string>
+    <string name="conference_application_cancelled">已取消申请</string>
+    <string name="conference_continue_application">继续申请</string>
+    <string name="conference_application_resent">已重新发送申请，请耐心等待主持人操作</string>
+    <string name="conference_unmute_request_dialog">主持人不允许解除静音，您可以向主持人申请解除静音</string>
+    <string name="conference_cancel">取消</string>
+    <string name="conference_apply_unmute">申请解除静音</string>
+    <string name="conference_connecting">会议连接中</string>
+    <string name="message_install_webview">请安装: Android System WebView</string>
+    <string name="message_grade_unit">分</string>
+    <string name="message_joined_group">入群</string>
+    <string name="message_edit">编辑</string>
+    <string name="message_add">添加</string>
+    <string name="message_recall">撤回</string>
+    <string name="message_copy">复制</string>
+    <string name="message_copy_success">复制成功</string>
+    <string name="message_select_more">多选</string>
+    <string name="message_delete">删除</string>
+    <string name="message_forward">转发</string>
+    <string name="message_collect">收藏</string>
+    <string name="message_translate">翻译</string>
 
 </resources>

@@ -800,4 +800,14 @@
     <string name="system_settings">系统设置</string>
     <string name="personalize_experience">个性化您的使用体验</string>
 
+    <!-- Meeting creation -->
+    <string name="meeting_room_suffix">会议室</string>
+    <string name="meeting_create_success">会议创建成功</string>
+    <string name="meeting_invite_desc">我在会议室等你，快进来吧</string>
+    <string name="meeting_non_password_renewal">续时免密支付</string>
+    <string name="meeting_participants">会议人数</string>
+    <string name="meeting_please_select">请选择</string>
+    <string name="meeting_all_mic_on">全员开麦</string>
+    <string name="meeting_all_mute">全员禁言</string>
+
 </resources>
