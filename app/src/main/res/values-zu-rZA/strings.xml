@@ -450,5 +450,14 @@
     <string name="your_personal_info_changed">Ulwazi lwakho lomuntu siqu luguquliwe</string>
     <string name="update_and_save_confirm">Buyekeza futhi ugcine?</string>
     <string name="update_info_to_chat_server_failed">Kwehlulekile ukubuyekeza ulwazi kuseva yengxoxo</string>
+    <string name="back">Emuva</string>
+    <string name="region">Isifunda</string>
+    <string name="my_region">Isifunda sami</string>
+    <string name="profession">Umsebenzi</string>
+    <string name="my_profession">Umsebenzi wami</string>
+    <string name="interest_tags">Amathegi entshisekelo</string>
+    <string name="my_hobbies">Izinto engizithandayo</string>
+    <string name="you_can_add_more_hobbies">Ungangena %1$d ezinye izinto ozithandayo.</string>
+    <string name="max_six_hobbies">Okungenani okungu-6 izinto ozithandayo kuvunyelwe</string>
 
 </resources>

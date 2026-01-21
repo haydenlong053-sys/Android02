@@ -448,5 +448,14 @@
     <string name="your_personal_info_changed">Thông tin cá nhân của bạn đã được thay đổi</string>
     <string name="update_and_save_confirm">Cập nhật và lưu?</string>
     <string name="update_info_to_chat_server_failed">Không thể cập nhật thông tin lên máy chủ trò chuyện</string>
+    <string name="back">Quay lại</string>
+    <string name="region">Khu vực</string>
+    <string name="my_region">Khu vực của tôi</string>
+    <string name="profession">Nghề nghiệp</string>
+    <string name="my_profession">Nghề nghiệp của tôi</string>
+    <string name="interest_tags">Thẻ sở thích</string>
+    <string name="my_hobbies">Sở thích của tôi</string>
+    <string name="you_can_add_more_hobbies">Bạn có thể thêm %1$d sở thích nữa.</string>
+    <string name="max_six_hobbies">Tối đa 6 sở thích được phép</string>
 
 </resources>

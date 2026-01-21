@@ -467,6 +467,15 @@
     <string name="your_personal_info_changed">您的个人信息已更改</string>
     <string name="update_and_save_confirm">是否更新并保存</string>
     <string name="update_info_to_chat_server_failed">更新信息到聊天服务器失败</string>
+    <string name="back">返回</string>
+    <string name="region">地区</string>
+    <string name="my_region">我的地区</string>
+    <string name="profession">职业</string>
+    <string name="my_profession">我的职业</string>
+    <string name="interest_tags">兴趣标签</string>
+    <string name="my_hobbies">我的爱好</string>
+    <string name="you_can_add_more_hobbies">您还能添加 %1$d 个爱好。</string>
+    <string name="max_six_hobbies">最多设置6个爱好</string>
     <string name="返回登录">返回登录</string>
     <string name="助记词登录">助记词登录</string>
     <string name="注销账号">注销账号</string>

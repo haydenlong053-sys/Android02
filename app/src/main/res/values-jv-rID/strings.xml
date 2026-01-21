@@ -450,5 +450,14 @@
     <string name="your_personal_info_changed">Informasi pribadi sampeyan wis diowahi</string>
     <string name="update_and_save_confirm">Nganyari lan nyimpen?</string>
     <string name="update_info_to_chat_server_failed">Gagal nganyari informasi menyang server chat</string>
+    <string name="back">Bali</string>
+    <string name="region">Wilayah</string>
+    <string name="my_region">Wilayahku</string>
+    <string name="profession">Profesi</string>
+    <string name="my_profession">Profesiku</string>
+    <string name="interest_tags">Tag kapentingan</string>
+    <string name="my_hobbies">Hobiku</string>
+    <string name="you_can_add_more_hobbies">Sampeyan bisa nambah %1$d hobi liyane.</string>
+    <string name="max_six_hobbies">Maksimal 6 hobi diidini</string>
 
 </resources>

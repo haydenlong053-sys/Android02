@@ -449,5 +449,14 @@
     <string name="your_personal_info_changed">Οι προσωπικές σας πληροφορίες έχουν αλλάξει</string>
     <string name="update_and_save_confirm">Ενημέρωση και αποθήκευση?</string>
     <string name="update_info_to_chat_server_failed">Αποτυχία ενημέρωσης πληροφοριών στον διακομιστή συνομιλίας</string>
+    <string name="back">Πίσω</string>
+    <string name="region">Περιοχή</string>
+    <string name="my_region">Η περιοχή μου</string>
+    <string name="profession">Επάγγελμα</string>
+    <string name="my_profession">Το επάγγελμά μου</string>
+    <string name="interest_tags">Ετικέτες ενδιαφέροντος</string>
+    <string name="my_hobbies">Τα χόμπι μου</string>
+    <string name="you_can_add_more_hobbies">Μπορείτε να προσθέσετε %1$d ακόμη χόμπι.</string>
+    <string name="max_six_hobbies">Μέγιστο 6 χόμπι επιτρέπονται</string>
 
 </resources>

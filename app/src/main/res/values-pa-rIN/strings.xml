@@ -452,5 +452,14 @@
     <string name="your_personal_info_changed">ਤੁਹਾਡੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਬਦਲੀ ਗਈ ਹੈ</string>
     <string name="update_and_save_confirm">ਅੱਪਡੇਟ ਕਰੋ ਅਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ?</string>
     <string name="update_info_to_chat_server_failed">ਚੈਟ ਸਰਵਰ ਨੂੰ ਜਾਣਕਾਰੀ ਅੱਪਡੇਟ ਕਰਨ ਵਿੱਚ ਅਸਫਲ</string>
+    <string name="back">ਵਾਪਸ</string>
+    <string name="region">ਖੇਤਰ</string>
+    <string name="my_region">ਮੇਰਾ ਖੇਤਰ</string>
+    <string name="profession">ਪੇਸ਼ਾ</string>
+    <string name="my_profession">ਮੇਰਾ ਪੇਸ਼ਾ</string>
+    <string name="interest_tags">ਦਿਲਚਸਪੀ ਟੈਗ</string>
+    <string name="my_hobbies">ਮੇਰੇ ਸ਼ੌਕ</string>
+    <string name="you_can_add_more_hobbies">ਤੁਸੀਂ %1$d ਹੋਰ ਸ਼ੌਕ ਜੋੜ ਸਕਦੇ ਹੋ।</string>
+    <string name="max_six_hobbies">ਵੱਧ ਤੋਂ ਵੱਧ 6 ਸ਼ੌਕ ਦੀ ਇਜਾਜ਼ਤ</string>
 
 </resources>

@@ -448,5 +448,14 @@
     <string name="your_personal_info_changed">ข้อมูลส่วนบุคคลของคุณถูกเปลี่ยนแปลง</string>
     <string name="update_and_save_confirm">อัปเดตและบันทึก?</string>
     <string name="update_info_to_chat_server_failed">ล้มเหลวในการอัปเดตข้อมูลไปยังเซิร์ฟเวอร์แชท</string>
+    <string name="back">กลับ</string>
+    <string name="region">ภูมิภาค</string>
+    <string name="my_region">ภูมิภาคของฉัน</string>
+    <string name="profession">อาชีพ</string>
+    <string name="my_profession">อาชีพของฉัน</string>
+    <string name="interest_tags">แท็กความสนใจ</string>
+    <string name="my_hobbies">งานอดิเรกของฉัน</string>
+    <string name="you_can_add_more_hobbies">คุณสามารถเพิ่มงานอดิเรกได้อีก %1$d รายการ</string>
+    <string name="max_six_hobbies">สูงสุด 6 งานอดิเรกที่อนุญาต</string>
 
 </resources>

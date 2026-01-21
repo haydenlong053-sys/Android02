@@ -448,5 +448,14 @@
     <string name="your_personal_info_changed">আপনার ব্যক্তিগত তথ্য পরিবর্তন করা হয়েছে</string>
     <string name="update_and_save_confirm">আপডেট এবং সংরক্ষণ করবেন?</string>
     <string name="update_info_to_chat_server_failed">চ্যাট সার্ভারে তথ্য আপডেট করতে ব্যর্থ</string>
+    <string name="back">পিছনে</string>
+    <string name="region">অঞ্চল</string>
+    <string name="my_region">আমার অঞ্চল</string>
+    <string name="profession">পেশা</string>
+    <string name="my_profession">আমার পেশা</string>
+    <string name="interest_tags">আগ্রহের ট্যাগ</string>
+    <string name="my_hobbies">আমার শখ</string>
+    <string name="you_can_add_more_hobbies">আপনি আরও %1$d টি শখ যোগ করতে পারেন।</string>
+    <string name="max_six_hobbies">সর্বোচ্চ ৬টি শখ অনুমোদিত</string>
 
 </resources>

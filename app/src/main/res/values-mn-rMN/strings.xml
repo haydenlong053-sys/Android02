@@ -451,5 +451,14 @@
     <string name="your_personal_info_changed">Таны хувийн мэдээлэл өөрчлөгдсөн</string>
     <string name="update_and_save_confirm">Шинэчлэх, хадгалах уу?</string>
     <string name="update_info_to_chat_server_failed">Чат серверт мэдээлэл шинэчлэхэд алдаа гарлаа</string>
+    <string name="back">Буцах</string>
+    <string name="region">Бүс</string>
+    <string name="my_region">Миний бүс</string>
+    <string name="profession">Мэргэжил</string>
+    <string name="my_profession">Миний мэргэжил</string>
+    <string name="interest_tags">Сонирхлын шошго</string>
+    <string name="my_hobbies">Миний сонирхол</string>
+    <string name="you_can_add_more_hobbies">Та %1$d сонирхол нэмж болно.</string>
+    <string name="max_six_hobbies">Хамгийн ихдээ 6 сонирхол зөвшөөрөгдөнө</string>
 
 </resources>

@@ -41,8 +41,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.cboda.intelligent.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,14 +84,14 @@ fun EditInterestsScreen(
                                 onBack.invoke()
                             },
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "返回",
+                            contentDescription = stringResource(R.string.back),
                             tint = Color.Black,
                         )
                     }
                 },
                 title = {
                     Text(
-                        text = "兴趣标签",
+                        text = stringResource(R.string.interest_tags),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black
@@ -117,7 +119,7 @@ fun EditInterestsScreen(
 
                             }) {
                         Text(
-                            text = "保存",
+                            text = stringResource(R.string.保存),
                             fontSize = 14.sp,
                             color = Color(0xff3B47DD)
                         )
@@ -134,7 +136,7 @@ fun EditInterestsScreen(
                 .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
             Text(
-                text = "我的爱好",
+                text = stringResource(R.string.my_hobbies),
                 fontSize = 14.sp,
                 color = Color.Black.copy(0.65f)
             )
@@ -166,7 +168,7 @@ fun EditInterestsScreen(
                     onDoneListener = {
 
                     },
-                    hint = "请输入",
+                    hint = stringResource(R.string.请输入),
                 )
 //                OutlinedTextField(
 //                    value = interest,
@@ -220,7 +222,7 @@ fun EditInterestsScreen(
                             newInterestInput = "" // 重置输入框
                         }
                     },
-                    hint = "请输入",
+                    hint = stringResource(R.string.请输入),
                 )
 //                OutlinedTextField(
 //                    value = newInterestInput,
@@ -255,14 +257,14 @@ fun EditInterestsScreen(
 //                    }
 //                )
                 Text(
-                    text = "您还能添加 ${maxInterests - currentInterests.size} 个爱好。",
+                    text = stringResource(R.string.you_can_add_more_hobbies, maxInterests - currentInterests.size),
                     fontSize = 14.sp,
                     color = Color.Black.copy(0.65f),
                     modifier = Modifier.padding(top = 4.dp)
                 )
             } else {
                 Text(
-                    text = "最多设置6个爱好",
+                    text = stringResource(R.string.max_six_hobbies),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error
                 )
@@ -310,7 +312,7 @@ private fun ListInputField(
                 Box(modifier = Modifier.fillMaxWidth()) {
                     if (value.isEmpty()) {
                         Text(
-                            text = hint.ifEmpty { "请输入" },
+                            text = hint.ifEmpty { stringResource(R.string.请输入) },
                             style = fieldTextStyle.copy(color = Color.Black.copy(0.35f))
                         )
                     }

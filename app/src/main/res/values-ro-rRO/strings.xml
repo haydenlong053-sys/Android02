@@ -450,5 +450,14 @@
     <string name="your_personal_info_changed">Informațiile dvs. personale au fost modificate</string>
     <string name="update_and_save_confirm">Actualizare și salvare?</string>
     <string name="update_info_to_chat_server_failed">Nu s-a putut actualiza informațiile pe serverul de chat</string>
+    <string name="back">Înapoi</string>
+    <string name="region">Regiune</string>
+    <string name="my_region">Regiunea mea</string>
+    <string name="profession">Profesie</string>
+    <string name="my_profession">Profesia mea</string>
+    <string name="interest_tags">Etichete de interes</string>
+    <string name="my_hobbies">Hobiurile mele</string>
+    <string name="you_can_add_more_hobbies">Puteți adăuga încă %1$d hobby-uri.</string>
+    <string name="max_six_hobbies">Maximum 6 hobby-uri permise</string>
 
 </resources>

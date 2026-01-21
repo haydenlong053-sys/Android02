@@ -454,5 +454,14 @@
     <string name="your_personal_info_changed">Kişisel bilgileriniz değiştirildi</string>
     <string name="update_and_save_confirm">Güncelle ve kaydet?</string>
     <string name="update_info_to_chat_server_failed">Sohbet sunucusuna bilgi güncelleme başarısız</string>
+    <string name="back">Geri</string>
+    <string name="region">Bölge</string>
+    <string name="my_region">Bölgem</string>
+    <string name="profession">Meslek</string>
+    <string name="my_profession">Mesleğim</string>
+    <string name="interest_tags">İlgi etiketleri</string>
+    <string name="my_hobbies">Hobilerim</string>
+    <string name="you_can_add_more_hobbies">%1$d hobi daha ekleyebilirsiniz.</string>
+    <string name="max_six_hobbies">Maksimum 6 hobi izin verilir</string>
 
 </resources>

@@ -467,6 +467,15 @@
     <string name="your_personal_info_changed">Your personal information has been changed</string>
     <string name="update_and_save_confirm">Update and save?</string>
     <string name="update_info_to_chat_server_failed">Failed to update information to chat server</string>
+    <string name="back">Back</string>
+    <string name="region">Region</string>
+    <string name="my_region">My Region</string>
+    <string name="profession">Profession</string>
+    <string name="my_profession">My Profession</string>
+    <string name="interest_tags">Interest Tags</string>
+    <string name="my_hobbies">My Hobbies</string>
+    <string name="you_can_add_more_hobbies">You can add %1$d more hobbies.</string>
+    <string name="max_six_hobbies">Maximum 6 hobbies allowed</string>
     <string name="返回登录">Back</string>
     <string name="助记词登录">Mnemonic Login</string>
     <string name="注销账号">Delete Account</string>

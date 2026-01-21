@@ -451,5 +451,14 @@
     <string name="your_personal_info_changed">Maklumat peribadi anda telah diubah</string>
     <string name="update_and_save_confirm">Kemas kini dan simpan?</string>
     <string name="update_info_to_chat_server_failed">Gagal mengemas kini maklumat ke pelayan sembang</string>
+    <string name="back">Kembali</string>
+    <string name="region">Wilayah</string>
+    <string name="my_region">Wilayah saya</string>
+    <string name="profession">Profesion</string>
+    <string name="my_profession">Profesion saya</string>
+    <string name="interest_tags">Tag minat</string>
+    <string name="my_hobbies">Hobi saya</string>
+    <string name="you_can_add_more_hobbies">Anda boleh menambah %1$d hobi lagi.</string>
+    <string name="max_six_hobbies">Maksimum 6 hobi dibenarkan</string>
 
 </resources>

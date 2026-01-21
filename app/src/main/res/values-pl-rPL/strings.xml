@@ -55,5 +55,14 @@
     <string name="your_personal_info_changed">Twoje dane osobowe zostały zmienione</string>
     <string name="update_and_save_confirm">Zaktualizować i zapisać?</string>
     <string name="update_info_to_chat_server_failed">Nie udało się zaktualizować informacji na serwerze czatu</string>
+    <string name="back">Wstecz</string>
+    <string name="region">Region</string>
+    <string name="my_region">Mój region</string>
+    <string name="profession">Zawód</string>
+    <string name="my_profession">Mój zawód</string>
+    <string name="interest_tags">Tagi zainteresowań</string>
+    <string name="my_hobbies">Moje hobby</string>
+    <string name="you_can_add_more_hobbies">Możesz dodać jeszcze %1$d hobby.</string>
+    <string name="max_six_hobbies">Maksymalnie 6 hobby dozwolonych</string>
 
 </resources>

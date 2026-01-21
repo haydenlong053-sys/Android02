@@ -448,5 +448,14 @@
     <string name="your_personal_info_changed">Le tue informazioni personali sono state modificate</string>
     <string name="update_and_save_confirm">Aggiornare e salvare?</string>
     <string name="update_info_to_chat_server_failed">Impossibile aggiornare le informazioni sul server di chat</string>
+    <string name="back">Indietro</string>
+    <string name="region">Regione</string>
+    <string name="my_region">La mia regione</string>
+    <string name="profession">Professione</string>
+    <string name="my_profession">La mia professione</string>
+    <string name="interest_tags">Tag di interesse</string>
+    <string name="my_hobbies">I miei hobby</string>
+    <string name="you_can_add_more_hobbies">Puoi aggiungere altri %1$d hobby.</string>
+    <string name="max_six_hobbies">Massimo 6 hobby consentiti</string>
 
 </resources>

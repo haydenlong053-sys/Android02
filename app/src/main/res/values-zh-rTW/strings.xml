@@ -506,6 +506,15 @@
     <string name="your_personal_info_changed">您的個人信息已更改</string>
     <string name="update_and_save_confirm">是否更新並保存</string>
     <string name="update_info_to_chat_server_failed">更新信息到聊天服務器失敗</string>
+    <string name="back">返回</string>
+    <string name="region">地區</string>
+    <string name="my_region">我的地區</string>
+    <string name="profession">職業</string>
+    <string name="my_profession">我的職業</string>
+    <string name="interest_tags">興趣標籤</string>
+    <string name="my_hobbies">我的愛好</string>
+    <string name="you_can_add_more_hobbies">您還能添加 %1$d 個愛好。</string>
+    <string name="max_six_hobbies">最多設置6個愛好</string>
     <string name="m_save_login">保存并登录</string>
     <string name="action_template">模板</string>
     <string name="mine_change_password_auth_title">您要更改支付密码吗？</string>

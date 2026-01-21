@@ -450,5 +450,14 @@
     <string name="your_personal_info_changed">ຂໍ້ມູນສ່ວນຕົວຂອງທ່ານຖືກປ່ຽນແປງແລ້ວ</string>
     <string name="update_and_save_confirm">ອັບເດດແລະບັນທຶກ?</string>
     <string name="update_info_to_chat_server_failed">ລົ້ມເຫລວໃນການອັບເດດຂໍ້ມູນໄປຫາເຊີບເວີການສົນທະນາ</string>
+    <string name="back">ກັບຄືນ</string>
+    <string name="region">ພາກພື້ນ</string>
+    <string name="my_region">ພາກພື້ນຂອງຂ້ອຍ</string>
+    <string name="profession">ອາຊີບ</string>
+    <string name="my_profession">ອາຊີບຂອງຂ້ອຍ</string>
+    <string name="interest_tags">ແທັກຄວາມສົນໃຈ</string>
+    <string name="my_hobbies">ຄວາມຊອບຂອງຂ້ອຍ</string>
+    <string name="you_can_add_more_hobbies">ທ່ານສາມາດເພີ່ມຄວາມຊອບໄດ້ອີກ %1$d ຢ່າງ</string>
+    <string name="max_six_hobbies">ສູງສຸດ 6 ຄວາມຊອບທີ່ອະນຸຍາດ</string>
 
 </resources>

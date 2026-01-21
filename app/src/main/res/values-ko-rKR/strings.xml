@@ -448,5 +448,14 @@
     <string name="your_personal_info_changed">개인 정보가 변경되었습니다</string>
     <string name="update_and_save_confirm">업데이트하고 저장하시겠습니까?</string>
     <string name="update_info_to_chat_server_failed">채팅 서버로 정보 업데이트 실패</string>
+    <string name="back">뒤로</string>
+    <string name="region">지역</string>
+    <string name="my_region">내 지역</string>
+    <string name="profession">직업</string>
+    <string name="my_profession">내 직업</string>
+    <string name="interest_tags">관심 태그</string>
+    <string name="my_hobbies">내 취미</string>
+    <string name="you_can_add_more_hobbies">취미를 %1$d개 더 추가할 수 있습니다.</string>
+    <string name="max_six_hobbies">최대 6개의 취미만 설정 가능</string>
 
 </resources>

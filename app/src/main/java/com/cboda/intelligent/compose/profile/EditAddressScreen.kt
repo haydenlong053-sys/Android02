@@ -37,8 +37,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.cboda.intelligent.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,14 +72,14 @@ fun EditAddressScreen(
                                 onBack.invoke()
                             },
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "返回",
+                            contentDescription = stringResource(R.string.back),
                             tint = Color.Black,
                         )
                     }
                 },
                 title = {
                     Text(
-                        text = "地区",
+                        text = stringResource(R.string.region),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black
@@ -99,7 +101,7 @@ fun EditAddressScreen(
 
                             }) {
                         Text(
-                            text = "保存",
+                            text = stringResource(R.string.保存),
                             fontSize = 14.sp,
                             color = Color(0xff3B47DD)
                         )
@@ -122,7 +124,7 @@ fun EditAddressScreen(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "我的地区",
+                    text = stringResource(R.string.my_region),
                     fontSize = 14.sp,
                     color = Color.Black.copy(0.65f)
                 )
@@ -167,7 +169,7 @@ private fun ProfessionInputField(value: String, onValueChange: (String) -> Unit,
                 Box(modifier = Modifier.fillMaxWidth()) {
                     if (value.isEmpty()) {
                         Text(
-                            text = hint.ifEmpty { "请输入" },
+                            text = hint.ifEmpty { stringResource(R.string.请输入) },
                             style = fieldTextStyle.copy(color = Color.Black.copy(0.35f))
                         )
                     }

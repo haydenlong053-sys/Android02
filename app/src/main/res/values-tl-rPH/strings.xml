@@ -451,5 +451,14 @@
     <string name="your_personal_info_changed">Ang iyong personal na impormasyon ay nabago</string>
     <string name="update_and_save_confirm">I-update at i-save?</string>
     <string name="update_info_to_chat_server_failed">Nabigo ang pag-update ng impormasyon sa chat server</string>
+    <string name="back">Bumalik</string>
+    <string name="region">Rehiyon</string>
+    <string name="my_region">Aking rehiyon</string>
+    <string name="profession">Propesyon</string>
+    <string name="my_profession">Aking propesyon</string>
+    <string name="interest_tags">Mga tag ng interes</string>
+    <string name="my_hobbies">Aking mga libangan</string>
+    <string name="you_can_add_more_hobbies">Maaari kang magdagdag ng %1$d pang libangan.</string>
+    <string name="max_six_hobbies">Pinapayagan ang maximum na 6 na libangan</string>
 
 </resources>

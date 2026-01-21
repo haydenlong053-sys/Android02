@@ -449,5 +449,14 @@
     <string name="your_personal_info_changed">Informasi pribadi Anda telah diubah</string>
     <string name="update_and_save_confirm">Perbarui dan simpan?</string>
     <string name="update_info_to_chat_server_failed">Gagal memperbarui informasi ke server obrolan</string>
+    <string name="back">Kembali</string>
+    <string name="region">Wilayah</string>
+    <string name="my_region">Wilayah saya</string>
+    <string name="profession">Profesi</string>
+    <string name="my_profession">Profesi saya</string>
+    <string name="interest_tags">Tag minat</string>
+    <string name="my_hobbies">Hobi saya</string>
+    <string name="you_can_add_more_hobbies">Anda dapat menambahkan %1$d hobi lagi.</string>
+    <string name="max_six_hobbies">Maksimal 6 hobi diizinkan</string>
 
 </resources>

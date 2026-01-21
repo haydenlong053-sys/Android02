@@ -451,5 +451,14 @@
     <string name="your_personal_info_changed">သင့်ရဲ့ ကိုယ်ရေးကိုယ်တာ အချက်အလက်များ ပြောင်းလဲခဲ့သည်</string>
     <string name="update_and_save_confirm">အပ်ဒိတ်လုပ်ပြီး သိမ်းမလား?</string>
     <string name="update_info_to_chat_server_failed">စကားပြောဆာဗာသို့ အချက်အလက်များ အပ်ဒိတ်လုပ်ခြင်း မအောင်မြင်ပါ</string>
+    <string name="back">ပြန်သွားရန်</string>
+    <string name="region">ဒေသ</string>
+    <string name="my_region">ကျွန်ုပ်၏ဒေသ</string>
+    <string name="profession">အလုပ်အကိုင်</string>
+    <string name="my_profession">ကျွန်ုပ်၏အလုပ်အကိုင်</string>
+    <string name="interest_tags">စိတ်ဝင်စားမှု တဂ်များ</string>
+    <string name="my_hobbies">ကျွန်ုပ်၏ဝါသနာများ</string>
+    <string name="you_can_add_more_hobbies">သင်သည် ဝါသနာ %1$d ခု ထပ်မံ ထည့်နိုင်သည်။</string>
+    <string name="max_six_hobbies">ဝါသနာ ၆ ခု အထိ ခွင့်ပြုထားသည်</string>
 
 </resources>

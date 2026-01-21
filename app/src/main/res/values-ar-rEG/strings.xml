@@ -448,5 +448,14 @@
     <string name="your_personal_info_changed">تم تغيير معلوماتك الشخصية</string>
     <string name="update_and_save_confirm">تحديث وحفظ?</string>
     <string name="update_info_to_chat_server_failed">فشل تحديث المعلومات إلى خادم الدردشة</string>
+    <string name="back">رجوع</string>
+    <string name="region">المنطقة</string>
+    <string name="my_region">منطقتي</string>
+    <string name="profession">المهنة</string>
+    <string name="my_profession">مهنتي</string>
+    <string name="interest_tags">علامات الاهتمام</string>
+    <string name="my_hobbies">هواياتي</string>
+    <string name="you_can_add_more_hobbies">يمكنك إضافة %1$d هوايات أخرى.</string>
+    <string name="max_six_hobbies">الحد الأقصى 6 هوايات مسموح بها</string>
 
 </resources>
