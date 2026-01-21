@@ -787,4 +787,14 @@
     <string name="quick_answers_about_us">Quick answers about us</string>
     <string name="system_settings">System Settings</string>
     <string name="personalize_experience">Personalize your experience</string>
+
+    <!-- Meeting creation -->
+    <string name="meeting_room_suffix">Meeting Room</string>
+    <string name="meeting_create_success">Meeting created successfully</string>
+    <string name="meeting_invite_desc">I am waiting for you in the meeting room, come and join</string>
+    <string name="meeting_non_password_renewal">Auto-renew without password</string>
+    <string name="meeting_participants">Participants</string>
+    <string name="meeting_please_select">Please select</string>
+    <string name="meeting_all_mic_on">All mic on</string>
+    <string name="meeting_all_mute">All mute</string>
 </resources>

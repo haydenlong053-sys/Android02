@@ -3,6 +3,7 @@ package com.cboda.baselibrary.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
+import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
@@ -97,7 +98,7 @@ class MMKVBroadUtils {
 
         fun getKeFuName(): String {
             val kv = MMKV.defaultMMKV()
-            return kv.decodeString(KEFU_NAME_KEY) ?: "X-Bao客服"
+            return kv.decodeString(KEFU_NAME_KEY) ?: getAppContext(null).getString(R.string.base_default_kefu_name)
         }
 
         fun saveRealUserId(realUserId: String) {

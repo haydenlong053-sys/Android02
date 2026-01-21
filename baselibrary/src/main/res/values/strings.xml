@@ -25,4 +25,13 @@
     <string name="base_digest_video">[Video]</string>
     <string name="base_digest_transfer">[Transfer]</string>
 
+    <!-- Group notification texts -->
+    <string name="base_group_created_by_self">You created the group %1$s</string>
+    <string name="base_group_created_by_other">%1$s created the group %2$s</string>
+
+    <string name="base_group_portrait_updated_by_self">You updated the group avatar</string>
+    <string name="base_group_portrait_updated_by_other">%1$s updated the group avatar</string>
+
+    <string name="base_default_kefu_name">X-Bao Support</string>
+
 </resources>

@@ -77,6 +77,46 @@
     <string name="全员禁言">全员禁言</string>
     <string name="open">开启</string>
 
+    <!-- Time formatting -->
+    <string name="time_yesterday">昨天 %1$s</string>
+    <string name="time_weekday_sun">周日 %1$s</string>
+    <string name="time_weekday_mon">周一 %1$s</string>
+    <string name="time_weekday_tue">周二 %1$s</string>
+    <string name="time_weekday_wed">周三 %1$s</string>
+    <string name="time_weekday_thu">周四 %1$s</string>
+    <string name="time_weekday_fri">周五 %1$s</string>
+    <string name="time_weekday_sat">周六 %1$s</string>
+    <string name="time_month_day_time_pattern">MM月dd日 HH:mm</string>
+    <string name="time_year_month_day_time_pattern">yyyy年MM月dd日 HH:mm</string>
+
+    <!-- Conversation & typing -->
+    <string name="group_all_muted_hint">全员禁言中</string>
+    <string name="group_self_muted_hint">你已被禁言</string>
+    <string name="unread_messages_count">%1$d条消息</string>
+    <string name="unread_mentions_count">%1$d条@消息</string>
+
+    <string name="chatroom_welcome_format">欢迎 %1$s 加入聊天室</string>
+    <string name="chatroom_join_failed">加入聊天室失败</string>
+    <string name="chatroom_leave_format">%1$s 离开了聊天室</string>
+
+    <string name="typing_someone">有人</string>
+    <string name="typing_group_text">%1$s 正在输入</string>
+    <string name="typing_group_voice">%1$s 正在录音</string>
+    <string name="typing_group_camera">%1$s 正在拍照</string>
+    <string name="typing_group_file">%1$s 正在发送文件</string>
+    <string name="typing_group_location">%1$s 正在发送位置</string>
+
+    <string name="typing_single_text">对方正在输入</string>
+    <string name="typing_single_voice">对方正在录音</string>
+    <string name="typing_single_camera">对方正在拍照</string>
+    <string name="typing_single_file">对方正在发送文件</string>
+    <string name="typing_single_location">对方正在发送位置</string>
+
+    <string name="typing_multi_users">%1$d人正在输入</string>
+
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_confirm">确认</string>
+
     <string name="xiao_xi">消息</string>
     <string name="tongxunlu">通讯录</string>
     <string name="xiaochengxu">小程序</string>

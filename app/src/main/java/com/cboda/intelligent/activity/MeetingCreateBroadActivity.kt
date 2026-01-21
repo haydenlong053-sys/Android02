@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cboda.chatui.R
 import com.cboda.chatui.bridge.MyBroadEvent
@@ -68,8 +69,11 @@ class MeetingCreateBroadActivity : BaseSimpleBroadActivity() {
         super.onCreate(savedInstanceState)
 
         // 获取传入的群聊名称
-//        val groupName = intent.getStringExtra("group_name") ?: ""
-        val roomName = if (groupName.isNotEmpty()) "$groupName 会议室" else ""
+        val roomName = if (groupName.isNotEmpty()) {
+            "$groupName ${getString(com.cboda.intelligent.R.string.meeting_room_suffix)}"
+        } else {
+            ""
+        }
 
         if (roomName.isNotEmpty()) {
             viewModel.updateRoomName(roomName)
@@ -87,14 +91,14 @@ class MeetingCreateBroadActivity : BaseSimpleBroadActivity() {
                     it?.let {
                         when (it.createout ?: -1) {
                             200 -> {
-                                ToastBroadUtil.show("会议创建成功")
+                                ToastBroadUtil.show(getString(com.cboda.intelligent.R.string.meeting_create_success))
                                 val meetingMessage =
                                     MeetingInviteMessageContent()
                                         .apply {
                                             meetingId = it.meeting?.roomId
                                             idno = it.meeting?.idNo
                                             title = it.meeting?.roomName
-                                            desc = "我在会议室等你，快进来吧"
+                                            desc = getString(com.cboda.intelligent.R.string.meeting_invite_desc)
                                             isAllMic = it.meeting?.allMic ?: true
                                             isAllMute = it.meeting?.allMute ?: false
 
@@ -211,7 +215,7 @@ fun MeetingCreateScreen(
                 // 续时免密支付开关
                 item {
                     SwitchItem(
-                        title = "续时免密支付",
+                        title = stringResource(id = com.cboda.intelligent.R.string.meeting_non_password_renewal),
                         isChecked = uiState.isNonPayPwd,
                         onCheckedChange = { viewModel.toggleNonPayPwd() }
                     )
@@ -220,8 +224,9 @@ fun MeetingCreateScreen(
                 // 会议人数
                 item {
                     OptionItem(
-                        title = "会议人数",
-                        selectedText = uiState.selectedUserTier?.name ?: "请选择",
+                        title = stringResource(id = com.cboda.intelligent.R.string.meeting_participants),
+                        selectedText = uiState.selectedUserTier?.name
+                            ?: stringResource(id = com.cboda.intelligent.R.string.meeting_please_select),
                         onClick = {
                             showUserTierDialog = true
                         }
@@ -231,10 +236,10 @@ fun MeetingCreateScreen(
                 // 全员开麦和全员禁言
                 item {
                     DoubleSwitchItem(
-                        firstTitle = "全员开麦",
+                        firstTitle = stringResource(id = com.cboda.intelligent.R.string.meeting_all_mic_on),
                         firstIsChecked = uiState.allMic,
                         onFirstCheckedChange = { viewModel.toggleAllMic() },
-                        secondTitle = "全员禁言",
+                        secondTitle = stringResource(id = com.cboda.intelligent.R.string.meeting_all_mute),
                         secondIsChecked = uiState.allMute,
                         onSecondCheckedChange = { viewModel.toggleAllMute() }
                     )

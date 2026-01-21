@@ -1,11 +1,15 @@
 package com.cboda.chatui.third.utils;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import androidx.annotation.NonNull;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.Calendar;
+
+import com.cboda.chatui.R;
 
 /**
  * @创建者 CSDN_LQR
@@ -36,34 +40,36 @@ public class TimeBroadBroadUtils {
                 return getTime(msgTime);
             } else if (msgCalendar.get(Calendar.DAY_OF_YEAR) + 1 == nowCalendar.get(Calendar.DAY_OF_YEAR)) {
                 //昨天
-                return "昨天 " + getTime(msgTime);
+                return getAppContext(null).getString(R.string.time_yesterday, getTime(msgTime));
             } else if (nowCalendar.get(Calendar.WEEK_OF_YEAR) == msgCalendar.get(Calendar.WEEK_OF_YEAR)) {
                 //星期
                 switch (msgTime.getDayOfWeek()) {
                     case DateTimeConstants.SUNDAY:
-                        return "周日 " + getTime(msgTime);
+                        return getAppContext(null).getString(R.string.time_weekday_sun, getTime(msgTime));
                     case DateTimeConstants.MONDAY:
-                        return "周一 " + getTime(msgTime);
+                        return getAppContext(null).getString(R.string.time_weekday_mon, getTime(msgTime));
                     case DateTimeConstants.TUESDAY:
-                        return "周二 " + getTime(msgTime);
+                        return getAppContext(null).getString(R.string.time_weekday_tue, getTime(msgTime));
                     case DateTimeConstants.WEDNESDAY:
-                        return "周三 " + getTime(msgTime);
+                        return getAppContext(null).getString(R.string.time_weekday_wed, getTime(msgTime));
                     case DateTimeConstants.THURSDAY:
-                        return "周四 " + getTime(msgTime);
+                        return getAppContext(null).getString(R.string.time_weekday_thu, getTime(msgTime));
                     case DateTimeConstants.FRIDAY:
-                        return "周五 " + getTime(msgTime);
+                        return getAppContext(null).getString(R.string.time_weekday_fri, getTime(msgTime));
                     case DateTimeConstants.SATURDAY:
-                        return "周六 " + getTime(msgTime);
+                        return getAppContext(null).getString(R.string.time_weekday_sat, getTime(msgTime));
                     default:
                         break;
                 }
                 return "";
             } else {
                 //12月22日
-                return msgTime.toString("MM月dd日 HH:mm");
+                String pattern = getAppContext(null).getString(R.string.time_month_day_time_pattern);
+                return msgTime.toString(pattern);
             }
         } else {
-            return msgTime.toString("yyyy年MM月dd日 HH:mm");
+            String pattern = getAppContext(null).getString(R.string.time_year_month_day_time_pattern);
+            return msgTime.toString(pattern);
         }
     }
 

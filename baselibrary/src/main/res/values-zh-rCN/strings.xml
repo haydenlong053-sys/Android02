@@ -25,4 +25,13 @@
     <string name="base_digest_video">[视频]</string>
     <string name="base_digest_transfer">[转账]</string>
 
+    <!-- Group notification texts -->
+    <string name="base_group_created_by_self">您创建了群组 %1$s</string>
+    <string name="base_group_created_by_other">%1$s创建了群组 %2$s</string>
+
+    <string name="base_group_portrait_updated_by_self">您更新了群头像</string>
+    <string name="base_group_portrait_updated_by_other">%1$s更新了群头像</string>
+
+    <string name="base_default_kefu_name">X-Bao客服</string>
+
 </resources>

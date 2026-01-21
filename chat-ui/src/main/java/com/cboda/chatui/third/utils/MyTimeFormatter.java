@@ -18,7 +18,7 @@ public class MyTimeFormatter {
         if (timestamp < 1) {
             return "";
         }
-        String languageKey = LanguageUtil.INSTANCE.getAppLanguageKey(context, false);
+//        String languageKey = LanguageUtil.INSTANCE.getAppLanguageKey(context, false);
 //        String languageValue = LanguageUtil.INSTANCE.getLanList(languageKey);
         Locale locale = LanguageUtil.INSTANCE.getSystemLocal(context);
         // 获取语言设置

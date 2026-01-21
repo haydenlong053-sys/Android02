@@ -147,4 +147,44 @@
     <string name="message_collect">收藏</string>
     <string name="message_translate">翻譯</string>
 
+    <!-- Time formatting -->
+    <string name="time_yesterday">昨天 %1$s</string>
+    <string name="time_weekday_sun">週日 %1$s</string>
+    <string name="time_weekday_mon">週一 %1$s</string>
+    <string name="time_weekday_tue">週二 %1$s</string>
+    <string name="time_weekday_wed">週三 %1$s</string>
+    <string name="time_weekday_thu">週四 %1$s</string>
+    <string name="time_weekday_fri">週五 %1$s</string>
+    <string name="time_weekday_sat">週六 %1$s</string>
+    <string name="time_month_day_time_pattern">MM月dd日 HH:mm</string>
+    <string name="time_year_month_day_time_pattern">yyyy年MM月dd日 HH:mm</string>
+
+    <!-- Conversation & typing -->
+    <string name="group_all_muted_hint">全員禁言中</string>
+    <string name="group_self_muted_hint">你已被禁言</string>
+    <string name="unread_messages_count">%1$d條消息</string>
+    <string name="unread_mentions_count">%1$d條@消息</string>
+
+    <string name="chatroom_welcome_format">歡迎 %1$s 加入聊天室</string>
+    <string name="chatroom_join_failed">加入聊天室失敗</string>
+    <string name="chatroom_leave_format">%1$s 離開了聊天室</string>
+
+    <string name="typing_someone">有人</string>
+    <string name="typing_group_text">%1$s 正在輸入</string>
+    <string name="typing_group_voice">%1$s 正在錄音</string>
+    <string name="typing_group_camera">%1$s 正在拍照</string>
+    <string name="typing_group_file">%1$s 正在發送文件</string>
+    <string name="typing_group_location">%1$s 正在發送位置</string>
+
+    <string name="typing_single_text">對方正在輸入</string>
+    <string name="typing_single_voice">對方正在錄音</string>
+    <string name="typing_single_camera">對方正在拍照</string>
+    <string name="typing_single_file">對方正在發送文件</string>
+    <string name="typing_single_location">對方正在發送位置</string>
+
+    <string name="typing_multi_users">%1$d人正在輸入</string>
+
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_confirm">確認</string>
+
 </resources>

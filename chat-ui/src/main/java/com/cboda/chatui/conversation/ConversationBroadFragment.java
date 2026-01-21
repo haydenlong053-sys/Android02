@@ -909,9 +909,9 @@ public class ConversationBroadFragment extends Fragment implements
                 && groupMemberBroad.type != GroupMember.GroupMemberType.Owner
                 && groupMemberBroad.type != GroupMember.GroupMemberType.Manager
                 && groupMemberBroad.type != GroupMember.GroupMemberType.Allowed) {
-            inputPanelBroad.disableInput("全员禁言中");
+            inputPanelBroad.disableInput(getString(R.string.group_all_muted_hint));
         } else if (groupMemberBroad.type == GroupMember.GroupMemberType.Muted) {
-            inputPanelBroad.disableInput("你已被禁言");
+            inputPanelBroad.disableInput(getString(R.string.group_self_muted_hint));
         } else {
             inputPanelBroad.enableInput();
         }
@@ -952,7 +952,7 @@ public class ConversationBroadFragment extends Fragment implements
     private void showUnreadMessageCountLabel(int count) {
         unreadCountLinearLayoutBroad.setVisibility(View.VISIBLE);
         unreadCountTextViewBroad.setVisibility(View.VISIBLE);
-        unreadCountTextViewBroad.setText(count + "条消息");
+        unreadCountTextViewBroad.setText(getString(R.string.unread_messages_count, count));
     }
 
     private void hideUnreadMessageCountLabel() {
@@ -962,7 +962,7 @@ public class ConversationBroadFragment extends Fragment implements
     private void showUnreadMentionCountLabel(int count) {
         unreadCountLinearLayoutBroad.setVisibility(View.VISIBLE);
         unreadMentionCountTextViewBroad.setVisibility(View.VISIBLE);
-        unreadMentionCountTextViewBroad.setText(count + "条@消息");
+        unreadMentionCountTextViewBroad.setText(getString(R.string.unread_mentions_count, count));
     }
 
     private void hideUnreadMentionCountLabel() {
@@ -975,7 +975,7 @@ public class ConversationBroadFragment extends Fragment implements
                     @Override
                     public void onChanged(@Nullable OperateBroadResult<Boolean> booleanOperateResult) {
                         if (booleanOperateResult.isSuccess()) {
-                            String welcome = "欢迎 %s 加入聊天室";
+                            String welcome = getString(R.string.chatroom_welcome_format);
                             TipNotificationContent content = new TipNotificationContent();
                             String userId = userBroadViewModel.getUserId();
                             UserInfo userInfo = userBroadViewModel.getUserInfo(userId, false);
@@ -990,7 +990,7 @@ public class ConversationBroadFragment extends Fragment implements
                             setChatRoomConversationTitle();
 
                         } else {
-                            Toast.makeText(getActivity(), "加入聊天室失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.chatroom_join_failed, Toast.LENGTH_SHORT).show();
                             getActivity().finish();
                         }
                     }
@@ -998,7 +998,7 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void quitChatRoom() {
-        String welcome = "%s 离开了聊天室";
+        String welcome = getString(R.string.chatroom_leave_format);
         TipNotificationContent content = new TipNotificationContent();
         String userId = userBroadViewModel.getUserId();
         UserInfo userInfo = userBroadViewModel.getUserInfo(userId, false);
@@ -1373,7 +1373,7 @@ public class ConversationBroadFragment extends Fragment implements
             UserInfo userInfo;
             if (conversationBroad.type == Conversation.ConversationType.Group) {
                 userInfo = ChatManager.Instance().getUserInfo(userId, conversationBroad.target, false);
-                String userName = "有人";
+                    String userName = getString(R.string.typing_someone);
                 if (!TextUtils.isEmpty(userInfo.friendAlias)) {
                     userName = userInfo.friendAlias;
                 } else if (!TextUtils.isEmpty(userInfo.groupAlias)) {
@@ -1385,42 +1385,41 @@ public class ConversationBroadFragment extends Fragment implements
                 TypingMessageContent typingMessageContent = (TypingMessageContent) typingMessageBroadMap.get(userId).content;
                 switch (typingMessageContent.getTypingType()) {
                     case TypingMessageContent.TYPING_TEXT:
-                        typingDesc = "正在输入";
+                        typingDesc = getString(R.string.typing_group_text, userName);
                         break;
                     case TypingMessageContent.TYPING_VOICE:
-                        typingDesc = "正在录音";
+                        typingDesc = getString(R.string.typing_group_voice, userName);
                         break;
                     case TypingMessageContent.TYPING_CAMERA:
-                        typingDesc = "正在拍照";
+                        typingDesc = getString(R.string.typing_group_camera, userName);
                         break;
                     case TypingMessageContent.TYPING_FILE:
-                        typingDesc = "正在发送文件";
+                        typingDesc = getString(R.string.typing_group_file, userName);
                         break;
                     case TypingMessageContent.TYPING_LOCATION:
-                        typingDesc = "正在发送位置";
+                        typingDesc = getString(R.string.typing_group_location, userName);
                         break;
                     default:
                         typingDesc = "unknown";
                         break;
                 }
-                typingDesc = userName + " " + typingDesc;
             } else {
                 TypingMessageContent typingMessageContent = (TypingMessageContent) typingMessageBroadMap.get(userId).content;
                 switch (typingMessageContent.getTypingType()) {
                     case TypingMessageContent.TYPING_TEXT:
-                        typingDesc = "对方正在输入";
+                        typingDesc = getString(R.string.typing_single_text);
                         break;
                     case TypingMessageContent.TYPING_VOICE:
-                        typingDesc = "对方正在录音";
+                        typingDesc = getString(R.string.typing_single_voice);
                         break;
                     case TypingMessageContent.TYPING_CAMERA:
-                        typingDesc = "对方正在拍照";
+                        typingDesc = getString(R.string.typing_single_camera);
                         break;
                     case TypingMessageContent.TYPING_FILE:
-                        typingDesc = "对方正在发送文件";
+                        typingDesc = getString(R.string.typing_single_file);
                         break;
                     case TypingMessageContent.TYPING_LOCATION:
-                        typingDesc = "对方正在发送位置";
+                        typingDesc = getString(R.string.typing_single_location);
                         break;
                     default:
                         typingDesc = "unknown";
@@ -1428,7 +1427,7 @@ public class ConversationBroadFragment extends Fragment implements
                 }
             }
         } else {
-            typingDesc = typingMessageBroadMap.size() + "人正在输入";
+            typingDesc = getString(R.string.typing_multi_users, typingMessageBroadMap.size());
         }
         setActivityTitle(typingDesc);
         handlerBroad.postDelayed(this::updateTypingStatusTitle, 5000);
@@ -1519,8 +1518,8 @@ public class ConversationBroadFragment extends Fragment implements
                     toggleConversationMode();
                 }else if (action.confirm()) {
                     new MaterialDialog.Builder(getActivity()).content(action.confirmPrompt())
-                            .negativeText("取消")
-                            .positiveText("确认")
+                            .negativeText(getString(R.string.dialog_cancel))
+                            .positiveText(getString(R.string.dialog_confirm))
                             .onPositive((dialog, which) -> {
                                 action.onClick(checkedMessages);
                                 toggleConversationMode();

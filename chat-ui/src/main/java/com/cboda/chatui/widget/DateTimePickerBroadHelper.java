@@ -7,12 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
+import com.cboda.select.picture.utils.LanguageUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.cboda.chatui.R;
 
@@ -33,8 +36,14 @@ public class DateTimePickerBroadHelper {
             int month = calendar.get(Calendar.MONTH) + 1;
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             calendar.add(Calendar.DAY_OF_YEAR, 1);
-
-            dates.add(month + "月" + day + "日");
+            Locale locale = LanguageUtil.INSTANCE.getSystemLocal(context);
+            if (locale.getLanguage().startsWith("zh")) {
+//                formatter = new SimpleDateFormat("M月d日", locale);
+                dates.add(month + "月" + day + "日");
+            } else {
+                dates.add(month + "Month" + day + "Day");
+            }
+//            dates.add(month + "月" + day + "日");
         }
 
         datePicker.setData(dates);

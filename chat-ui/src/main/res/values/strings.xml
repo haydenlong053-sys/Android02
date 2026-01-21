@@ -77,6 +77,46 @@
     <string name="全员禁言">All members muted</string>
     <string name="open">Open</string>
 
+    <!-- Time formatting -->
+    <string name="time_yesterday">Yesterday %1$s</string>
+    <string name="time_weekday_sun">Sunday %1$s</string>
+    <string name="time_weekday_mon">Monday %1$s</string>
+    <string name="time_weekday_tue">Tuesday %1$s</string>
+    <string name="time_weekday_wed">Wednesday %1$s</string>
+    <string name="time_weekday_thu">Thursday %1$s</string>
+    <string name="time_weekday_fri">Friday %1$s</string>
+    <string name="time_weekday_sat">Saturday %1$s</string>
+    <string name="time_month_day_time_pattern">MM-dd HH:mm</string>
+    <string name="time_year_month_day_time_pattern">yyyy-MM-dd HH:mm</string>
+
+    <!-- Conversation & typing -->
+    <string name="group_all_muted_hint">All members are muted</string>
+    <string name="group_self_muted_hint">You have been muted</string>
+    <string name="unread_messages_count">%1$d messages</string>
+    <string name="unread_mentions_count">%1$d @ messages</string>
+
+    <string name="chatroom_welcome_format">Welcome %1$s to the chatroom</string>
+    <string name="chatroom_join_failed">Failed to join chatroom</string>
+    <string name="chatroom_leave_format">%1$s left the chatroom</string>
+
+    <string name="typing_someone">Someone</string>
+    <string name="typing_group_text">%1$s is typing</string>
+    <string name="typing_group_voice">%1$s is recording</string>
+    <string name="typing_group_camera">%1$s is taking a photo</string>
+    <string name="typing_group_file">%1$s is sending a file</string>
+    <string name="typing_group_location">%1$s is sending a location</string>
+
+    <string name="typing_single_text">The other party is typing</string>
+    <string name="typing_single_voice">The other party is recording</string>
+    <string name="typing_single_camera">The other party is taking a photo</string>
+    <string name="typing_single_file">The other party is sending a file</string>
+    <string name="typing_single_location">The other party is sending a location</string>
+
+    <string name="typing_multi_users">%1$d people are typing</string>
+
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_confirm">Confirm</string>
+
     <string name="xiao_xi">Message</string>
     <string name="tongxunlu">Contacts</string>
     <string name="xiaochengxu">Mini program</string>
