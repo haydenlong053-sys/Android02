@@ -249,5 +249,10 @@
     <string name="rename">改名</string>
     <string name="times_unit">次</string>
 
+    <string name="group_announcement_prefix">群公告：</string>
+    <string name="not_friend_send_message">你还不是他（她)朋友。请先发送朋友验证请求，对方验证通过后，才能聊天</string>
+    <string name="credit_prefix">信誉：</string>
+    <string name="register_time_prefix">注册时间：</string>
+
 
 </resources>

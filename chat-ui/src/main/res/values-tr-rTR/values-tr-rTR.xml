@@ -72,4 +72,9 @@
 
     <string name="rename">Yeniden adlandır</string>
     <string name="times_unit">kez</string>
+
+    <string name="group_announcement_prefix">Grup Duyurusu: </string>
+    <string name="not_friend_send_message">Henüz arkadaş değilsiniz. Lütfen önce bir arkadaş doğrulama isteği gönderin. Diğer taraf doğrulayıp onayladıktan sonra sohbet edebilirsiniz.</string>
+    <string name="credit_prefix">Kredi: </string>
+    <string name="register_time_prefix">Kayıt Zamanı: </string>
 </resources>

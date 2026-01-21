@@ -72,4 +72,9 @@
 
     <string name="rename">Rinomina</string>
     <string name="times_unit">volte</string>
+
+    <string name="group_announcement_prefix">Annuncio del gruppo: </string>
+    <string name="not_friend_send_message">Non siete ancora amici. Si prega di inviare prima una richiesta di verifica dell\'amicizia. Dopo che l\'altra parte verifica e approva, potrete chattare.</string>
+    <string name="credit_prefix">Credito: </string>
+    <string name="register_time_prefix">Tempo di registrazione: </string>
 </resources>

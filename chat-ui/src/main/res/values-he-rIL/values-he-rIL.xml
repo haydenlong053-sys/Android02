@@ -72,4 +72,9 @@
 
     <string name="rename">שנה שם</string>
     <string name="times_unit">פעמים</string>
+
+    <string name="group_announcement_prefix">הודעת קבוצה: </string>
+    <string name="not_friend_send_message">אתם עדיין לא חברים. אנא שלחו תחילה בקשת אימות חברות. לאחר שהצד השני יאמת ויאשר, תוכלו לצ\'אט.</string>
+    <string name="credit_prefix">אשראי: </string>
+    <string name="register_time_prefix">זמן רישום: </string>
 </resources>

@@ -72,4 +72,9 @@
 
     <string name="rename">Переименовать</string>
     <string name="times_unit">раз</string>
+
+    <string name="group_announcement_prefix">Объявление группы: </string>
+    <string name="not_friend_send_message">Вы еще не друзья. Пожалуйста, сначала отправьте запрос на проверку дружбы. После того, как другая сторона проверит и одобрит, вы сможете общаться.</string>
+    <string name="credit_prefix">Кредит: </string>
+    <string name="register_time_prefix">Время регистрации: </string>
 </resources>

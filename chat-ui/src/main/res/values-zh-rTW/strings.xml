@@ -72,4 +72,9 @@
 
     <string name="rename">改名</string>
     <string name="times_unit">次</string>
+
+    <string name="group_announcement_prefix">群公告：</string>
+    <string name="not_friend_send_message">你還不是他（她)朋友。請先發送朋友驗證請求，對方驗證通過後，才能聊天</string>
+    <string name="credit_prefix">信譽：</string>
+    <string name="register_time_prefix">註冊時間：</string>
 </resources>

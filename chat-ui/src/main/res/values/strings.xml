@@ -248,5 +248,10 @@
     <string name="rename">Rename</string>
     <string name="times_unit">times</string>
 
+    <string name="group_announcement_prefix">Group Announcement: </string>
+    <string name="not_friend_send_message">You are not friends yet. Please send a friend verification request first. After the other party verifies and approves, you can chat.</string>
+    <string name="credit_prefix">Credit: </string>
+    <string name="register_time_prefix">Registration Time: </string>
+
 
 </resources>

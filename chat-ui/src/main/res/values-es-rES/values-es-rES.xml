@@ -72,4 +72,9 @@
 
     <string name="rename">Renombrar</string>
     <string name="times_unit">veces</string>
+
+    <string name="group_announcement_prefix">Anuncio del grupo: </string>
+    <string name="not_friend_send_message">Aún no son amigos. Por favor, envíe primero una solicitud de verificación de amistad. Después de que la otra parte verifique y apruebe, podrá chatear.</string>
+    <string name="credit_prefix">Crédito: </string>
+    <string name="register_time_prefix">Tiempo de registro: </string>
 </resources>

@@ -72,4 +72,9 @@
 
     <string name="rename">เปลี่ยนชื่อ</string>
     <string name="times_unit">ครั้ง</string>
+
+    <string name="group_announcement_prefix">ประกาศกลุ่ม: </string>
+    <string name="not_friend_send_message">คุณยังไม่ใช่เพื่อนกัน กรุณาส่งคำขอตรวจสอบความเป็นเพื่อนก่อน หลังจากที่อีกฝ่ายตรวจสอบและอนุมัติแล้ว คุณจึงจะสามารถแชทได้</string>
+    <string name="credit_prefix">เครดิต: </string>
+    <string name="register_time_prefix">เวลาลงทะเบียน: </string>
 </resources>

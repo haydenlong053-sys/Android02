@@ -72,4 +72,9 @@
 
     <string name="rename">名前変更</string>
     <string name="times_unit">回</string>
+
+    <string name="group_announcement_prefix">グループ公告：</string>
+    <string name="not_friend_send_message">まだ友達ではありません。まず友達確認リクエストを送信してください。相手が確認して承認した後、チャットできます。</string>
+    <string name="credit_prefix">信頼度：</string>
+    <string name="register_time_prefix">登録時間：</string>
 </resources>

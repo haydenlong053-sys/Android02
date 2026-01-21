@@ -72,4 +72,9 @@
 
     <string name="rename">Renommer</string>
     <string name="times_unit">fois</string>
+
+    <string name="group_announcement_prefix">Annonce du groupe : </string>
+    <string name="not_friend_send_message">Vous n\'êtes pas encore amis. Veuillez d\'abord envoyer une demande de vérification d\'ami. Après que l\'autre partie vérifie et approuve, vous pourrez discuter.</string>
+    <string name="credit_prefix">Crédit : </string>
+    <string name="register_time_prefix">Date d\'inscription : </string>
 </resources>

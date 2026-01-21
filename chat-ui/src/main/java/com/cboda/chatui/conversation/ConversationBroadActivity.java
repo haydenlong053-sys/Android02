@@ -6,6 +6,7 @@ package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -101,7 +102,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             QunBroadXiangqing qunXiangqing = gson.fromJson(myImEvent.params1, QunBroadXiangqing.class);
             if (qunXiangqing != null && !TextUtils.isEmpty(qunXiangqing.getGonggao())) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
-                conversationBroadFragment.gonggaoxinxiBroad.setText("群公告：" + qunXiangqing.getGonggao());
+                conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + qunXiangqing.getGonggao());
             } else {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.GONE);
             }
@@ -132,7 +133,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         } else if (MyEventCodeEnum.UPDATE_ANNOUNCEMENT.getValue().equals(myImEvent.type)) {
             if (conversationBroad.target.equals(myImEvent.params2)) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
-                conversationBroadFragment.gonggaoxinxiBroad.setText("群公告：" + myImEvent.params1);
+                conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + myImEvent.params1);
                 MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.UPDATE_ANNOUNCEMENT.getValue(), myImEvent.params1, "", null);
             }
 
@@ -171,9 +172,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             });
         } else if (MyEventCodeEnum.NOT_FRIEND_SEND_MESSAGE.getValue().equals(myImEvent.type)) {
             new MaterialDialog.Builder(ConversationBroadActivity.this)
-                    .content("你还不是他（她)朋友。请先发送朋友验证请求，对方验证通过后，才能聊天")
-                    .negativeText("取消")
-                    .positiveText("确认")
+                    .content(getString(R.string.not_friend_send_message))
+                    .negativeText(getString(R.string.quxiao))
+                    .positiveText(getString(R.string.queding))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -234,6 +235,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void getUserData() {
         if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
 //            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "getUserData", conversation.target, "", null);
@@ -246,8 +248,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                 titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
                 TextView titleGrade = findViewById(R.id.titleGrade);
                 TextView titleTime = findViewById(R.id.titleTime);
-                titleGrade.setText("信誉：" + bean.grade + "分");
-                titleTime.setText("注册时间：" + bean.registerDay + "天");
+                titleGrade.setText(getString(R.string.credit_prefix) + bean.grade + getString(R.string.msg_score_unit));
+                titleTime.setText(getString(R.string.register_time_prefix) + bean.registerDay + getString(R.string.msg_days_unit));
             } else {
                 titleGradeAndTimeBroad.setVisibility(View.GONE);
             }

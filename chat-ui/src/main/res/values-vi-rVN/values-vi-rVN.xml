@@ -379,4 +379,9 @@
     <string name="rename">Đổi tên</string>
     <string name="times_unit">lần</string>
 
+    <string name="group_announcement_prefix">Thông báo nhóm: </string>
+    <string name="not_friend_send_message">Bạn chưa phải là bạn bè. Vui lòng gửi yêu cầu xác minh bạn bè trước. Sau khi bên kia xác minh và chấp nhận, bạn mới có thể trò chuyện.</string>
+    <string name="credit_prefix">Tín dụng: </string>
+    <string name="register_time_prefix">Thời gian đăng ký: </string>
+
 </resources>

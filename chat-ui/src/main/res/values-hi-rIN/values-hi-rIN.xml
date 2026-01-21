@@ -72,4 +72,9 @@
 
     <string name="rename">नाम बदलें</string>
     <string name="times_unit">बार</string>
+
+    <string name="group_announcement_prefix">समूह घोषणा: </string>
+    <string name="not_friend_send_message">आप अभी तक दोस्त नहीं हैं। कृपया पहले मित्र सत्यापन अनुरोध भेजें। दूसरे पक्ष के सत्यापन और अनुमोदन के बाद, आप चैट कर सकेंगे।</string>
+    <string name="credit_prefix">क्रेडिट: </string>
+    <string name="register_time_prefix">पंजीकरण समय: </string>
 </resources>
