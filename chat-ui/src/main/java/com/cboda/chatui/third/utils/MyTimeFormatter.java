@@ -37,7 +37,7 @@ public class MyTimeFormatter {
             if (language.startsWith("zh")) {
                 formatter = new SimpleDateFormat("M月d日", Locale.getDefault());
             } else {
-                formatter = new SimpleDateFormat("MMMM d", Locale.getDefault());
+                formatter = new SimpleDateFormat("MM-dd", Locale.getDefault());
             }
         } else if (!isToday(date)) {
             formatter = new SimpleDateFormat("EEE", Locale.getDefault());
