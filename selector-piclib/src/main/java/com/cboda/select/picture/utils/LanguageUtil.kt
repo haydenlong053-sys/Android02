@@ -11,10 +11,16 @@ import java.util.Locale
 
 object LanguageUtil {
     private var mContext: Context? = null
-    fun getAppLanguageKey(context: Context? = null): String {
+    fun getAppLanguageKey(context: Context? = null, isAttApp: Boolean = false): String {
 //            val kv = MMKV.defaultMMKV()
 //            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
-        return getSharedPreferences(context)?.getString("LanguageKey", ENGLISH) ?: ENGLISH
+        val languageKey =
+            if (isAttApp) {
+                getSharedPreferences(context)?.getString("LanguageKey", "") ?: ""
+            } else {
+                getSharedPreferences(context)?.getString("LanguageKey", ENGLISH) ?: ENGLISH
+            }
+        return languageKey
     }
 
 
@@ -42,12 +48,13 @@ object LanguageUtil {
         }
 //        return com.hjq.language.MultiLanguages.attach(getAppContext(context))
         val lanList = getLanList(getAppLanguageKey(mContext))
+//        Log.d("getLanguageContextClass", "lanList:$lanList")
         return updateResources(mContext, lanList) ?: mContext
 //        return getAppContext(context)
     }
 
     fun getAppLanguageName(key: String = "", context: Context): String {
-        return getAllLanguage().find { bean -> bean.sqlKey == if (TextUtils.isEmpty(key)) getAppLanguageKey(context) else key }?.name ?: ENGLISH
+        return getAllLanguage().find { bean -> bean.sqlKey == if (TextUtils.isEmpty(key)) getAppLanguageKey(context, false) else key }?.name ?: ENGLISH
     }
 
     fun setAppLanguage(key: String, mContext: Context? = null) {

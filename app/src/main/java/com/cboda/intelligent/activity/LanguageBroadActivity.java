@@ -55,16 +55,16 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
                 MMKVBroadUtils.Companion.saveAppLanguageKey(languageKey, LanguageBroadActivity.this);
                 LanguageUtil.INSTANCE.setAppLanguage(languageKey,LanguageBroadActivity.this);
 //                MMKVBroadUtils.Companion.saveYuYan(listBeans.get(position).name);
-                for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
-                    AppBroadUtils.Companion.getActivityList().get(i).finish();
-                }
-                if (TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(MyBroadApp.Companion.getMContext(), AppBroadConsts.UID, ""))) {
-                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), NewEquipmentBroadActivity.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), MainBroadActivity.class);
-                    startActivity(intent);
-                }
+//                for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
+//                    AppBroadUtils.Companion.getActivityList().get(i).finish();
+//                }
+//                if (TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(MyBroadApp.Companion.getMContext(), AppBroadConsts.UID, ""))) {
+//                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), NewEquipmentBroadActivity.class);
+//                    startActivity(intent);
+//                } else {
+//                    Intent intent = new Intent(MyBroadApp.Companion.getMContext(), MainBroadActivity.class);
+//                    startActivity(intent);
+//                }
             }
         });
 

@@ -207,7 +207,7 @@ class MMKVBroadUtils {
 //            val kv = MMKV.defaultMMKV()
 //            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
 //            return getSharedPreferences(context).getString(USER_LANGUAGE_KEY, ENGLISH) ?: ENGLISH
-            return LanguageUtil.getAppLanguageKey(getAppContext(context))
+            return LanguageUtil.getAppLanguageKey(getAppContext(context),false)
         }
 
 

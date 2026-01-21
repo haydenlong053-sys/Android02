@@ -26,7 +26,6 @@ import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import com.cboda.baselibrary.base.BaseActivity
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.MyBroadApp
@@ -35,6 +34,7 @@ import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.baselibrary.widge.LoadingBroadDialog
+import com.cboda.select.picture.basic.BaseActivity
 
 /**
  * 适配新UI

@@ -14,7 +14,6 @@ import com.cboda.select.picture.R;
 import com.cboda.select.picture.config.SelectorConfig;
 import com.cboda.select.picture.config.SelectorProviders;
 import com.cboda.select.picture.immersive.ImmersiveManager;
-import com.cboda.select.picture.language.LanguageConfig;
 import com.cboda.select.picture.language.PictureLanguageUtils;
 import com.cboda.select.picture.style.PictureWindowAnimationStyle;
 import com.cboda.select.picture.style.SelectMainStyle;
@@ -25,7 +24,7 @@ import com.cboda.select.picture.utils.StyleUtils;
  * @date：2021/11/17 9:59 上午
  * @describe：PictureSelectorSupporterActivity
  */
-public class PictureSelectorSupporterActivity extends AppCompatActivity {
+public class PictureSelectorSupporterActivity extends BaseActivity {
     private SelectorConfig selectorConfig;
 
     @Override
@@ -76,16 +75,16 @@ public class PictureSelectorSupporterActivity extends AppCompatActivity {
         initAppLanguage();
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        SelectorConfig selectorConfig = SelectorProviders.getInstance().getSelectorConfig();
-        if (selectorConfig != null) {
-            super.attachBaseContext(PictureContextWrapper.wrap(newBase, selectorConfig.language, selectorConfig.defaultLanguage));
-        } else {
-            super.attachBaseContext(newBase);
-        }
-//        super.attachBaseContext(LanguageUtil.INSTANCE.getLanguageContext(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        SelectorConfig selectorConfig = SelectorProviders.getInstance().getSelectorConfig();
+//        if (selectorConfig != null) {
+//            super.attachBaseContext(PictureContextWrapper.wrap(newBase, selectorConfig.language, selectorConfig.defaultLanguage));
+//        } else {
+//            super.attachBaseContext(newBase);
+//        }
+////        super.attachBaseContext(LanguageUtil.INSTANCE.getLanguageContext(newBase));
+//    }
 
     @Override
     public void finish() {
