@@ -87,4 +87,12 @@
     <string name="mark_as_read">ਪੜ੍ਹਿਆ ਹੋਇਆ ਚਿੰਨ੍ਹ ਲਗਾਓ</string>
     <string name="mark_as_unread">ਅਣਪੜ੍ਹਿਆ ਚਿੰਨ੍ਹ ਲਗਾਓ</string>
     <string name="confirm_delete_conversation">ਗੱਲਬਾਤ ਮਿਟਾਉਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ?</string>
+    <string name="call_broad_waiting">ਦੂਜੇ ਪਾਸੇ ਵੱਲੋਂ ਨਿਯੌਤਾ ਮਨਜ਼ੂਰ ਕਰਨ ਦੀ ਉਡੀਕ ਹੈ...</string>
+    <string name="call_broad__invite">ਤੁਹਾਨੂੰ ਵੌਇਸ ਕਾਲ ਲਈ ਬੁਲਾਇਆ ਜਾ ਰਿਹਾ ਹੈ</string>
+    <string name="call_broad_invite">ਤੁਹਾਨੂੰ ਵੀਡੀਓ ਕਾਲ ਲਈ ਬੁਲਾਇਆ ਜਾ ਰਿਹਾ ਹੈ</string>
+    <string name="call_broad_connecting">ਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...</string>
+    <string name="call_broad_mute">ਮੂਕ</string>
+    <string name="call_broad_hang_up">ਬੰਦ ਕਰੋ</string>
+    <string name="call_broad_hands_free_mode">ਸਪੀਕਰ</string>
+
 </resources>

@@ -92,4 +92,12 @@
     <string name="mark_as_read">읽음으로 표시</string>
     <string name="mark_as_unread">읽지 않음으로 표시</string>
     <string name="confirm_delete_conversation">대화를 삭제하시겠습니까?</string>
+    <string name="call_broad_waiting">상대방이 초대를 수락하기를 기다리는 중...</string>
+    <string name="call_broad__invite">음성 통화로 초대합니다</string>
+    <string name="call_broad_invite">영상 통화로 초대합니다</string>
+    <string name="call_broad_connecting">연결 중...</string>
+    <string name="call_broad_mute">음소거</string>
+    <string name="call_broad_hang_up">전화 끊기</string>
+    <string name="call_broad_hands_free_mode">스피커</string>
+
 </resources>

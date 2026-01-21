@@ -92,4 +92,12 @@
     <string name="mark_as_read">סמן כנקרא</string>
     <string name="mark_as_unread">סמן כלא נקרא</string>
     <string name="confirm_delete_conversation">אשר מחיקת שיחה?</string>
+    <string name="call_broad_waiting">ממתין שהצד השני יאשר את ההזמנה...</string>
+    <string name="call_broad__invite">מזמין אותך לשיחת קול</string>
+    <string name="call_broad_invite">מזמין אותך לשיחת וידאו</string>
+    <string name="call_broad_connecting">מתחבר...</string>
+    <string name="call_broad_mute">השתק</string>
+    <string name="call_broad_hang_up">נתק</string>
+    <string name="call_broad_hands_free_mode">רמקול</string>
+
 </resources>

@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:text="静音" />
+                android:text="@string/call_broad_mute" />
 
         </LinearLayout>
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:text="挂断" />
+                android:text="@string/call_broad_hang_up" />
 
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:text="免提" />
+                android:text="@string/call_broad_hands_free_mode" />
 
         </LinearLayout>
     </RelativeLayout>

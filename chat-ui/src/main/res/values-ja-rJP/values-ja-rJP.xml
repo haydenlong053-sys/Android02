@@ -92,4 +92,12 @@
     <string name="mark_as_read">既読にする</string>
     <string name="mark_as_unread">未読にする</string>
     <string name="confirm_delete_conversation">会話を削除してもよろしいですか?</string>
+    <string name="call_broad_waiting">相手が招待を承認するのを待っています...</string>
+    <string name="call_broad__invite">音声通話に招待しています</string>
+    <string name="call_broad_invite">ビデオ通話に招待しています</string>
+    <string name="call_broad_connecting">接続中...</string>
+    <string name="call_broad_mute">ミュート</string>
+    <string name="call_broad_hang_up">切断</string>
+    <string name="call_broad_hands_free_mode">スピーカー</string>
+
 </resources>

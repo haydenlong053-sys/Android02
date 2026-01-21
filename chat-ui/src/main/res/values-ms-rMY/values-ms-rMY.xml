@@ -87,4 +87,12 @@
     <string name="mark_as_read">Tandai sebagai dibaca</string>
     <string name="mark_as_unread">Tandai sebagai tidak dibaca</string>
     <string name="confirm_delete_conversation">Sahkan padam perbualan?</string>
+    <string name="call_broad_waiting">Menunggu pihak satu lagi menerima jemputan...</string>
+    <string name="call_broad__invite">Menjemput anda untuk panggilan suara</string>
+    <string name="call_broad_invite">Menjemput anda untuk panggilan video</string>
+    <string name="call_broad_connecting">Menyambung...</string>
+    <string name="call_broad_mute">Senyap</string>
+    <string name="call_broad_hang_up">Tutup</string>
+    <string name="call_broad_hands_free_mode">Pembesar suara</string>
+
 </resources>

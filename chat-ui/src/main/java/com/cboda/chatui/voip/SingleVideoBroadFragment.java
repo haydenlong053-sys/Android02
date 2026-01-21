@@ -359,13 +359,13 @@ public class SingleVideoBroadFragment extends Fragment implements AVEngineKit.Ca
                 incomingActionContainer.setVisibility(View.GONE);
                 outgoingActionContainer.setVisibility(View.VISIBLE);
                 connectedActionContainer.setVisibility(View.GONE);
-                descTextView.setText(R.string.av_waiting);
+                descTextView.setText(R.string.call_broad_waiting);
                 gEngineKit.getCurrentSession().startPreview();
             } else {
                 incomingActionContainer.setVisibility(View.VISIBLE);
                 outgoingActionContainer.setVisibility(View.GONE);
                 connectedActionContainer.setVisibility(View.GONE);
-                descTextView.setText(R.string.av_video_invite);
+                descTextView.setText(R.string.call_broad_invite);
             }
         }
         UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);

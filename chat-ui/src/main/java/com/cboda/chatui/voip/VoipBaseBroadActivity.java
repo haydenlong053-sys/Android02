@@ -44,6 +44,8 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.List;
 
 import com.cboda.chatui.R;
+import com.cboda.select.picture.basic.BaseActivity;
+
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.client.NotInitializedExecption;
 import cn.wildfirechat.model.UserInfo;
@@ -53,7 +55,7 @@ import cn.wildfirechat.remote.ChatManager;
  * Activity for peer connection call setup, call waiting
  * and call view.
  */
-public abstract class VoipBaseBroadActivity extends FragmentActivity implements AVEngineKit.CallSessionCallback {
+public abstract class VoipBaseBroadActivity extends BaseActivity implements AVEngineKit.CallSessionCallback {
 
     private static final int CAPTURE_PERMISSION_REQUEST_CODE = 101;
 

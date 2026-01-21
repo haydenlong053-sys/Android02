@@ -87,4 +87,12 @@
     <string name="mark_as_read">पढिसकेको रूपमा चिन्ह लगाउनुहोस्</string>
     <string name="mark_as_unread">नपढिएको रूपमा चिन्ह लगाउनुहोस्</string>
     <string name="confirm_delete_conversation">कुराकानी मेटाउने पुष्टि गर्नुहोस्?</string>
+    <string name="call_broad_waiting">अर्को पक्षले निमन्त्रणा स्वीकार गर्ने प्रतिक्षा गर्दै...</string>
+    <string name="call_broad__invite">तपाईंलाई भ्वाइस कलमा आमन्त्रण गर्दैछ</string>
+    <string name="call_broad_invite">तपाईंलाई भिडियो कलमा आमन्त्रण गर्दैछ</string>
+    <string name="call_broad_connecting">जडान हुँदैछ...</string>
+    <string name="call_broad_mute">म्यूट</string>
+    <string name="call_broad_hang_up">बन्द गर्नुहोस्</string>
+    <string name="call_broad_hands_free_mode">स्पिकर</string>
+
 </resources>

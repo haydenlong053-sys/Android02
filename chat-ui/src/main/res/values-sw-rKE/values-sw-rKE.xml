@@ -87,4 +87,12 @@
     <string name="mark_as_read">Weka alama kama imesomwa</string>
     <string name="mark_as_unread">Weka alama kama haijasomwa</string>
     <string name="confirm_delete_conversation">Thibitisha kufuta mazungumzo?</string>
+    <string name="call_broad_waiting">Inasubiri upande mwingine ukubali mwaliko...</string>
+    <string name="call_broad__invite">Inakualika kwenye simu ya sauti</string>
+    <string name="call_broad_invite">Inakualika kwenye simu ya video</string>
+    <string name="call_broad_connecting">Inaunganisha...</string>
+    <string name="call_broad_mute">Zima</string>
+    <string name="call_broad_hang_up">Funga</string>
+    <string name="call_broad_hands_free_mode">Spika</string>
+
 </resources>

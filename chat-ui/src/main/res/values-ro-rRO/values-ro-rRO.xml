@@ -87,4 +87,12 @@
     <string name="mark_as_read">Marchează ca citit</string>
     <string name="mark_as_unread">Marchează ca necitit</string>
     <string name="confirm_delete_conversation">Confirmă ștergerea conversației?</string>
+    <string name="call_broad_waiting">Așteptați ca cealaltă parte să accepte invitația...</string>
+    <string name="call_broad__invite">Vă invită la un apel vocal</string>
+    <string name="call_broad_invite">Vă invită la un apel video</string>
+    <string name="call_broad_connecting">Se conectează...</string>
+    <string name="call_broad_mute">Mut</string>
+    <string name="call_broad_hang_up">Închide</string>
+    <string name="call_broad_hands_free_mode">Difuzor</string>
+
 </resources>

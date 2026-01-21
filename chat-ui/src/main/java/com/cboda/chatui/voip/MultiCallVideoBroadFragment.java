@@ -142,7 +142,7 @@ public class MultiCallVideoBroadFragment extends Fragment implements AVEngineKit
             voipCallItem.setTag(userInfo.uid);
 
             voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(with / 3, with / 3));
-            voipCallItem.getStatusTextView().setText(R.string.connecting);
+            voipCallItem.getStatusTextView().setText(R.string.call_broad_connecting);
             voipCallItem.setOnClickListener(clickListener);
             Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
             participantGridView.addView(voipCallItem);

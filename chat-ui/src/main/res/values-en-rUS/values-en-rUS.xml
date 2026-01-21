@@ -267,6 +267,12 @@
     <string name="mark_as_read">Mark as Read</string>
     <string name="mark_as_unread">Mark as Unread</string>
     <string name="confirm_delete_conversation">Confirm delete conversation?</string>
-
+    <string name="call_broad_waiting">Waiting for the other party to accept the invitation...</string>
+    <string name="call_broad__invite">Inviting you to a voice call</string>
+    <string name="call_broad_invite">Inviting you to a video call</string>
+    <string name="call_broad_connecting">Connecting...</string>
+    <string name="call_broad_mute">Mute</string>
+    <string name="call_broad_hang_up">Hang Up</string>
+    <string name="call_broad_hands_free_mode">Speaker</string>
 
 </resources>

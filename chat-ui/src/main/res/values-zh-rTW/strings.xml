@@ -92,4 +92,13 @@
     <string name="mark_as_read">設為已讀</string>
     <string name="mark_as_unread">標記未讀</string>
     <string name="confirm_delete_conversation">確認刪除會話?</string>
+    <string name="call_broad_waiting">正在等待對方接受邀請...</string>
+    <string name="call_broad__invite">邀請你進行語音通話</string>
+    <string name="call_broad_invite">邀請你進行視訊通話</string>
+    <string name="call_broad_connecting">連線中...</string>
+
+    <string name="call_broad_mute">靜音</string>
+    <string name="call_broad_hang_up">掛斷</string>
+    <string name="call_broad_hands_free_mode">免持</string>
+
 </resources>

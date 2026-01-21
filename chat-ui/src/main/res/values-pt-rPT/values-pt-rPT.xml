@@ -87,4 +87,12 @@
     <string name="mark_as_read">Marcar como lido</string>
     <string name="mark_as_unread">Marcar como não lido</string>
     <string name="confirm_delete_conversation">Confirmar exclusão da conversa?</string>
+    <string name="call_broad_waiting">A aguardar que a outra parte aceite o convite...</string>
+    <string name="call_broad__invite">Convida-o para uma chamada de voz</string>
+    <string name="call_broad_invite">Convida-o para uma videochamada</string>
+    <string name="call_broad_connecting">A ligar...</string>
+    <string name="call_broad_mute">Silenciar</string>
+    <string name="call_broad_hang_up">Desligar</string>
+    <string name="call_broad_hands_free_mode">Alto-falante</string>
+
 </resources>

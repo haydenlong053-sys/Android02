@@ -248,11 +248,11 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
             durationTextView.setVisibility(View.VISIBLE);
         } else {
             if (session.getState() == AVEngineKit.CallState.Outgoing) {
-                descTextView.setText(R.string.av_waiting);
+                descTextView.setText(R.string.call_broad_waiting);
                 outgoingActionContainer.setVisibility(View.VISIBLE);
                 incomingActionContainer.setVisibility(View.GONE);
             } else {
-                descTextView.setText(R.string.av_audio_invite);
+                descTextView.setText(R.string.call_broad__invite);
                 outgoingActionContainer.setVisibility(View.GONE);
                 incomingActionContainer.setVisibility(View.VISIBLE);
             }

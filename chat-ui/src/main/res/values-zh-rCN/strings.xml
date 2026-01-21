@@ -270,4 +270,15 @@
     <string name="confirm_delete_conversation">确认删除会话?</string>
 
 
+
+
+
+    <string name="call_broad_waiting">正在等待对方接受邀请...</string>
+    <string name="call_broad__invite">邀请你进行语音通话</string>
+    <string name="call_broad_invite">邀请你进行视频通话</string>
+    <string name="call_broad_connecting">连接中...</string>
+    <string name="call_broad_mute">静音</string>
+    <string name="call_broad_hang_up">挂断</string>
+    <string name="call_broad_hands_free_mode">免提</string>
+
 </resources>

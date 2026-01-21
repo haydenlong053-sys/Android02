@@ -87,4 +87,12 @@
     <string name="mark_as_read">Уншсан гэж тэмдэглэх</string>
     <string name="mark_as_unread">Уншаагүй гэж тэмдэглэх</string>
     <string name="confirm_delete_conversation">Яриаг устгахыг баталгаажуулах уу?</string>
+    <string name="call_broad_waiting">Нөгөө тал урилгыг хүлээн авахыг хүлээж байна...</string>
+    <string name="call_broad__invite">Таныг дуут дуудлагад урьж байна</string>
+    <string name="call_broad_invite">Таныг видео дуудлагад урьж байна</string>
+    <string name="call_broad_connecting">Холбогдож байна...</string>
+    <string name="call_broad_mute">Дуугүй болгох</string>
+    <string name="call_broad_hang_up">Хаах</string>
+    <string name="call_broad_hands_free_mode">Чанга яригч</string>
+
 </resources>

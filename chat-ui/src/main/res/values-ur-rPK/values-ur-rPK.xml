@@ -87,4 +87,12 @@
     <string name="mark_as_read">پڑھا ہوا نشان زد کریں</string>
     <string name="mark_as_unread">ناپڑھا نشان زد کریں</string>
     <string name="confirm_delete_conversation">بات چیت حذف کرنے کی تصدیق کریں?</string>
+    <string name="call_broad_waiting">دوسرے فریق کے دعوت قبول کرنے کا انتظار ہے...</string>
+    <string name="call_broad__invite">آپ کو وائس کال کی دعوت دے رہا ہے</string>
+    <string name="call_broad_invite">آپ کو ویڈیو کال کی دعوت دے رہا ہے</string>
+    <string name="call_broad_connecting">کنیکٹ ہو رہا ہے...</string>
+    <string name="call_broad_mute">خاموش</string>
+    <string name="call_broad_hang_up">بند کریں</string>
+    <string name="call_broad_hands_free_mode">اسپیکر</string>
+
 </resources>

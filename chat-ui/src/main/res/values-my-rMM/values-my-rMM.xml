@@ -87,4 +87,12 @@
     <string name="mark_as_read">ဖတ်ပြီးဟု အမှတ်အသားပြုပါ</string>
     <string name="mark_as_unread">မဖတ်ရသေးဟု အမှတ်အသားပြုပါ</string>
     <string name="confirm_delete_conversation">စကားပြောခန်းကို ဖျက်ရန် အတည်ပြုပါ?</string>
+    <string name="call_broad_waiting">အခြားဖက်မှ ဖိတ်ကြားမှုကို လက်ခံရန် စောင့်ဆိုင်းနေသည်...</string>
+    <string name="call_broad__invite">အသံဖုန်းခေါ်ဆိုမှုသို့ ဖိတ်ကြားနေသည်</string>
+    <string name="call_broad_invite">ဗီဒီယိုခေါ်ဆိုမှုသို့ ဖိတ်ကြားနေသည်</string>
+    <string name="call_broad_connecting">ချိတ်ဆက်နေသည်...</string>
+    <string name="call_broad_mute">ပိတ်ထားရန်</string>
+    <string name="call_broad_hang_up">ပိတ်ရန်</string>
+    <string name="call_broad_hands_free_mode">စပီကာ</string>
+
 </resources>

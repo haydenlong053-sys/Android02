@@ -92,4 +92,12 @@
     <string name="mark_as_read">وضع علامة كمقروء</string>
     <string name="mark_as_unread">وضع علامة كغير مقروء</string>
     <string name="confirm_delete_conversation">تأكيد حذف المحادثة?</string>
+    <string name="call_broad_waiting">في انتظار قبول الطرف الآخر للدعوة...</string>
+    <string name="call_broad__invite">يدعوك لإجراء مكالمة صوتية</string>
+    <string name="call_broad_invite">يدعوك لإجراء مكالمة فيديو</string>
+    <string name="call_broad_connecting">جارٍ الاتصال...</string>
+    <string name="call_broad_mute">كتم الصوت</string>
+    <string name="call_broad_hang_up">إنهاء المكالمة</string>
+    <string name="call_broad_hands_free_mode">مكبر الصوت</string>
+
 </resources>

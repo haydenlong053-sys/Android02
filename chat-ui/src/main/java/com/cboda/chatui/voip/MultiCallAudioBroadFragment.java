@@ -111,7 +111,7 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
             voipCallItem.setTag(userInfo.uid);
 
             voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(size, size));
-            voipCallItem.getStatusTextView().setText(R.string.connecting);
+            voipCallItem.getStatusTextView().setText(R.string.call_broad_connecting);
             Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
             audioContainerGridLayout.addView(voipCallItem);
         }
@@ -216,7 +216,7 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
 
                 voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(with / 3, with / 3));
 
-                voipCallItem.getStatusTextView().setText(R.string.connecting);
+                voipCallItem.getStatusTextView().setText(R.string.call_broad_connecting);
                 Glide.with(voipCallItem).load(info.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
                 audioContainerGridLayout.addView(voipCallItem, i);
                 break;

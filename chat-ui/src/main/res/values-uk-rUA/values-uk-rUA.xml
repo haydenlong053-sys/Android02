@@ -87,4 +87,12 @@
     <string name="mark_as_read">Позначити як прочитане</string>
     <string name="mark_as_unread">Позначити як непрочитане</string>
     <string name="confirm_delete_conversation">Підтвердити видалення розмови?</string>
+    <string name="call_broad_waiting">Очікування, поки інша сторона прийме запрошення...</string>
+    <string name="call_broad__invite">Запрошує вас на голосовий дзвінок</string>
+    <string name="call_broad_invite">Запрошує вас на відеодзвінок</string>
+    <string name="call_broad_connecting">Підключення...</string>
+    <string name="call_broad_mute">Вимкнути звук</string>
+    <string name="call_broad_hang_up">Завершити дзвінок</string>
+    <string name="call_broad_hands_free_mode">Гучний зв язок</string>
+
 </resources>

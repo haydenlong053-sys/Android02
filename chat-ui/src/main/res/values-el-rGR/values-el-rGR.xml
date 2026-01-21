@@ -87,4 +87,12 @@
     <string name="mark_as_read">Σήμανση ως διαβασμένο</string>
     <string name="mark_as_unread">Σήμανση ως μη διαβασμένο</string>
     <string name="confirm_delete_conversation">Επιβεβαίωση διαγραφής συνομιλίας?</string>
+    <string name="call_broad_waiting">Αναμονή να αποδεχτεί το άλλο μέρος την πρόσκληση...</string>
+    <string name="call_broad__invite">Σας προσκαλεί σε φωνητική κλήση</string>
+    <string name="call_broad_invite">Σας προσκαλεί σε βιντεοκλήση</string>
+    <string name="call_broad_connecting">Σύνδεση...</string>
+    <string name="call_broad_mute">Σίγαση</string>
+    <string name="call_broad_hang_up">Κλείσιμο</string>
+    <string name="call_broad_hands_free_mode">Ηχείο</string>
+
 </resources>

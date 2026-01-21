@@ -92,4 +92,12 @@
     <string name="mark_as_read">Segna come letto</string>
     <string name="mark_as_unread">Segna come non letto</string>
     <string name="confirm_delete_conversation">Confermare l\'eliminazione della conversazione?</string>
+    <string name="call_broad_waiting">In attesa che l’altra parte accetti l’invito...</string>
+    <string name="call_broad__invite">Ti invita a una chiamata vocale</string>
+    <string name="call_broad_invite">Ti invita a una videochiamata</string>
+    <string name="call_broad_connecting">Connessione in corso...</string>
+    <string name="call_broad_mute">Silenzia</string>
+    <string name="call_broad_hang_up">Riaggancia</string>
+    <string name="call_broad_hands_free_mode">Vivavoce</string>
+
 </resources>

@@ -398,5 +398,12 @@
     <string name="mark_as_read">Đánh dấu là đã đọc</string>
     <string name="mark_as_unread">Đánh dấu là chưa đọc</string>
     <string name="confirm_delete_conversation">Xác nhận xóa cuộc trò chuyện?</string>
+    <string name="call_broad_waiting">Đang chờ đối phương chấp nhận lời mời...</string>
+    <string name="call_broad__invite">Mời bạn thực hiện cuộc gọi thoại</string>
+    <string name="call_broad_invite">Mời bạn thực hiện cuộc gọi video</string>
+    <string name="call_broad_connecting">Đang kết nối...</string>
+    <string name="call_broad_mute">Tắt tiếng</string>
+    <string name="call_broad_hang_up">Cúp máy</string>
+    <string name="call_broad_hands_free_mode">Loa ngoài</string>
 
 </resources>

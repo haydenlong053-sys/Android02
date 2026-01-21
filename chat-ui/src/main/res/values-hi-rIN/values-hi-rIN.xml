@@ -92,4 +92,12 @@
     <string name="mark_as_read">पढ़ा हुआ चिह्नित करें</string>
     <string name="mark_as_unread">अपठित चिह्नित करें</string>
     <string name="confirm_delete_conversation">वार्तालाप हटाने की पुष्टि करें?</string>
+    <string name="call_broad_waiting">दूसरे पक्ष के आमंत्रण स्वीकार करने की प्रतीक्षा कर रहे हैं...</string>
+    <string name="call_broad__invite">आपको वॉइस कॉल के लिए आमंत्रित कर रहा है</string>
+    <string name="call_broad_invite">आपको वीडियो कॉल के लिए आमंत्रित कर रहा है</string>
+    <string name="call_broad_connecting">कनेक्ट हो रहा है...</string>
+    <string name="call_broad_mute">म्यूट</string>
+    <string name="call_broad_hang_up">कॉल समाप्त करें</string>
+    <string name="call_broad_hands_free_mode">स्पीकर</string>
+
 </resources>

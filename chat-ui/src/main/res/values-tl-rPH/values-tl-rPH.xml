@@ -87,4 +87,12 @@
     <string name="mark_as_read">Markahan bilang nabasa</string>
     <string name="mark_as_unread">Markahan bilang hindi nabasa</string>
     <string name="confirm_delete_conversation">Kumpirmahin ang pagtanggal ng usapan?</string>
+    <string name="call_broad_waiting">Naghihintay na tanggapin ng kabilang panig ang imbitasyon...</string>
+    <string name="call_broad__invite">Inaanyayahan ka sa voice call</string>
+    <string name="call_broad_invite">Inaanyayahan ka sa video call</string>
+    <string name="call_broad_connecting">Kumokonekta...</string>
+    <string name="call_broad_mute">I-mute</string>
+    <string name="call_broad_hang_up">I-disconnect</string>
+    <string name="call_broad_hands_free_mode">Speaker</string>
+
 </resources>

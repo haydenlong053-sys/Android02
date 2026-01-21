@@ -92,4 +92,12 @@
     <string name="mark_as_read">Okundu olarak işaretle</string>
     <string name="mark_as_unread">Okunmadı olarak işaretle</string>
     <string name="confirm_delete_conversation">Konuşmayı silmeyi onayla?</string>
+    <string name="call_broad_waiting">Diğer tarafın daveti kabul etmesi bekleniyor...</string>
+    <string name="call_broad__invite">Sizi bir sesli aramaya davet ediyor</string>
+    <string name="call_broad_invite">Sizi bir görüntülü aramaya davet ediyor</string>
+    <string name="call_broad_connecting">Bağlanıyor...</string>
+    <string name="call_broad_mute">Sessiz</string>
+    <string name="call_broad_hang_up">Kapat</string>
+    <string name="call_broad_hands_free_mode">Hoparlör</string>
+
 </resources>

@@ -87,4 +87,12 @@
     <string name="mark_as_read">Oznacz jako przeczytane</string>
     <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
     <string name="confirm_delete_conversation">Potwierdź usunięcie rozmowy?</string>
+    <string name="call_broad_waiting">Oczekiwanie na zaakceptowanie zaproszenia przez drugą stronę...</string>
+    <string name="call_broad__invite">Zaprasza Cię na połączenie głosowe</string>
+    <string name="call_broad_invite">Zaprasza Cię na połączenie wideo</string>
+    <string name="call_broad_connecting">Łączenie...</string>
+    <string name="call_broad_mute">Wycisz</string>
+    <string name="call_broad_hang_up">Rozłącz</string>
+    <string name="call_broad_hands_free_mode">Głośnik</string>
+
 </resources>

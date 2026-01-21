@@ -87,4 +87,12 @@
     <string name="mark_as_read">ໝາຍວ່າອ່ານແລ້ວ</string>
     <string name="mark_as_unread">ໝາຍວ່າຍັງບໍ່ໄດ້ອ່ານ</string>
     <string name="confirm_delete_conversation">ຢືນຢັນການລຶບການສົນທະນາ?</string>
+    <string name="call_broad_waiting">ກຳລັງລໍຖ້າອີກຝ່າຍຍອມຮັບຄຳເຊີນ...</string>
+    <string name="call_broad__invite">ເຊີນເຈົ້າໂທສຽງ</string>
+    <string name="call_broad_invite">ເຊີນເຈົ້າໂທວິດີໂອ</string>
+    <string name="call_broad_connecting">ກຳລັງເຊື່ອມຕໍ່...</string>
+    <string name="call_broad_mute">ປິດສຽງ</string>
+    <string name="call_broad_hang_up">ປິດ</string>
+    <string name="call_broad_hands_free_mode">ລຳໂພງ</string>
+
 </resources>
