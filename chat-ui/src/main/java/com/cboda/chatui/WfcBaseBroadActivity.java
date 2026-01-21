@@ -27,8 +27,9 @@ import androidx.core.content.ContextCompat;
 
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.chatui.utils.MyIMActivityBroadUtils;
+import com.cboda.select.picture.basic.BaseActivity;
 
-public abstract class WfcBaseBroadActivity extends AppCompatActivity {
+public abstract class WfcBaseBroadActivity extends BaseActivity {
     Toolbar toolbar;
 
     @Override
