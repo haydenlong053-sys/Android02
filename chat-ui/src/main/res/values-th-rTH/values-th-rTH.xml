@@ -112,5 +112,25 @@
     <string name="call_remote_not_answered">อีกฝ่ายไม่ได้รับสาย</string>
     <string name="call_remote_network_error">ข้อผิดพลาดเครือข่ายของอีกฝ่าย</string>
     <string name="call_max_participants_reached">ถึงจำนวนผู้เข้าร่วมสูงสุดแล้ว</string>
+    <string name="conference_audio_only_no_camera">การประชุมเสียงไม่รองรับกล้อง</string>
+    <string name="conference_exit_or_end_dialog">หากคุณต้องการให้ผู้เข้าร่วมประชุมต่อ กรุณาเลือกออกจากการประชุม</string>
+    <string name="conference_exit_meeting">ออกจากการประชุม</string>
+    <string name="conference_end_meeting">จบการประชุม</string>
+    <string name="conference_audio_only_no_screen_share">การประชุมเสียงไม่รองรับการแชร์หน้าจอ</string>
+    <string name="conference_screen_share_warning">เมื่อเปิดการแชร์หน้าจอ กล้องจะถูกปิดและไมโครโฟนจะถูกเปิด</string>
+    <string name="conference_copied_to_clipboard">คัดลอกไปยังคลิปบอร์ดแล้ว</string>
+    <string name="conference_hand_down">ลดลง</string>
+    <string name="conference_hand_up">ยกมือ</string>
+    <string name="conference_contact_host_to_stop_recording">กรุณาติดต่อเจ้าภาพเพื่อหยุดการบันทึก</string>
+    <string name="conference_contact_host_to_start_recording">กรุณาติดต่อเจ้าภาพเพื่อเริ่มการบันทึก</string>
+    <string name="conference_unmute_applying_dialog">เจ้าภาพไม่อนุญาตให้เปิดเสียง คุณได้ยื่นคำขอเปิดเสียงแล้วและกำลังรอให้เจ้าภาพดำเนินการ</string>
+    <string name="conference_cancel_application">ยกเลิกคำขอ</string>
+    <string name="conference_application_cancelled">คำขอถูกยกเลิกแล้ว</string>
+    <string name="conference_continue_application">ดำเนินการคำขอต่อ</string>
+    <string name="conference_application_resent">ส่งคำขอใหม่แล้ว กรุณารอให้เจ้าภาพดำเนินการ</string>
+    <string name="conference_unmute_request_dialog">เจ้าภาพไม่อนุญาตให้เปิดเสียง คุณสามารถยื่นคำขอให้เจ้าภาพเปิดเสียงได้</string>
+    <string name="conference_cancel">ยกเลิก</string>
+    <string name="conference_apply_unmute">ยื่นคำขอเปิดเสียง</string>
+    <string name="conference_connecting">กำลังเชื่อมต่อ...</string>
 
 </resources>

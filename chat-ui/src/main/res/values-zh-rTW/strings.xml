@@ -113,5 +113,25 @@
     <string name="call_remote_not_answered">對方未接聽</string>
     <string name="call_remote_network_error">對方網路錯誤</string>
     <string name="call_max_participants_reached">已達到最大通話人數</string>
+    <string name="conference_audio_only_no_camera">音訊會議不支援開啟攝影機</string>
+    <string name="conference_exit_or_end_dialog">如果你想讓與會人員繼續開會，請選擇退出會議</string>
+    <string name="conference_exit_meeting">退出會議</string>
+    <string name="conference_end_meeting">結束會議</string>
+    <string name="conference_audio_only_no_screen_share">音訊會議不支援螢幕共享</string>
+    <string name="conference_screen_share_warning">開啟螢幕共享時，將關閉攝影機，並打開麥克風</string>
+    <string name="conference_copied_to_clipboard">已複製到剪貼簿</string>
+    <string name="conference_hand_down">放下</string>
+    <string name="conference_hand_up">舉手</string>
+    <string name="conference_contact_host_to_stop_recording">請聯繫主持人關閉錄製</string>
+    <string name="conference_contact_host_to_start_recording">請聯繫主持人開啟錄製</string>
+    <string name="conference_unmute_applying_dialog">主持人不允許解除靜音，您已經申請解除靜音，正在等待主持人操作</string>
+    <string name="conference_cancel_application">取消申請</string>
+    <string name="conference_application_cancelled">已取消申請</string>
+    <string name="conference_continue_application">繼續申請</string>
+    <string name="conference_application_resent">已重新發送申請，請耐心等待主持人操作</string>
+    <string name="conference_unmute_request_dialog">主持人不允許解除靜音，您可以向主持人申請解除靜音</string>
+    <string name="conference_cancel">取消</string>
+    <string name="conference_apply_unmute">申請解除靜音</string>
+    <string name="conference_connecting">會議連接中</string>
 
 </resources>

@@ -107,5 +107,25 @@
     <string name="call_remote_not_answered">Pihak lain tidak menjawab</string>
     <string name="call_remote_network_error">Ralat rangkaian pihak lain</string>
     <string name="call_max_participants_reached">Bilangan peserta maksimum dicapai</string>
+    <string name="conference_audio_only_no_camera">Persidangan audio tidak menyokong kamera</string>
+    <string name="conference_exit_or_end_dialog">Jika anda ingin peserta meneruskan mesyuarat, pilih Keluar dari mesyuarat</string>
+    <string name="conference_exit_meeting">Keluar dari mesyuarat</string>
+    <string name="conference_end_meeting">Tamatkan mesyuarat</string>
+    <string name="conference_audio_only_no_screen_share">Persidangan audio tidak menyokong perkongsian skrin</string>
+    <string name="conference_screen_share_warning">Apabila mengaktifkan perkongsian skrin, kamera akan dimatikan dan mikrofon akan dihidupkan</string>
+    <string name="conference_copied_to_clipboard">Disalin ke papan klip</string>
+    <string name="conference_hand_down">Turunkan</string>
+    <string name="conference_hand_up">Angkat tangan</string>
+    <string name="conference_contact_host_to_stop_recording">Sila hubungi hos untuk menghentikan rakaman</string>
+    <string name="conference_contact_host_to_start_recording">Sila hubungi hos untuk memulakan rakaman</string>
+    <string name="conference_unmute_applying_dialog">Hos tidak membenarkan membatalkan senyap. Anda telah memohon untuk membatalkan senyap dan menunggu hos beroperasi</string>
+    <string name="conference_cancel_application">Batal permohonan</string>
+    <string name="conference_application_cancelled">Permohonan dibatalkan</string>
+    <string name="conference_continue_application">Teruskan permohonan</string>
+    <string name="conference_application_resent">Permohonan dihantar semula, sila tunggu dengan sabar hos beroperasi</string>
+    <string name="conference_unmute_request_dialog">Hos tidak membenarkan membatalkan senyap. Anda boleh memohon kepada hos untuk membatalkan senyap</string>
+    <string name="conference_cancel">Batal</string>
+    <string name="conference_apply_unmute">Mohon membatalkan senyap</string>
+    <string name="conference_connecting">Menyambung...</string>
 
 </resources>

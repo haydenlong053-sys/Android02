@@ -107,5 +107,25 @@
     <string name="call_remote_not_answered">Інша сторона не відповіла</string>
     <string name="call_remote_network_error">Помилка мережі іншої сторони</string>
     <string name="call_max_participants_reached">Досягнуто максимальну кількість учасників</string>
+    <string name="conference_audio_only_no_camera">Аудіоконференція не підтримує камеру</string>
+    <string name="conference_exit_or_end_dialog">Якщо ви хочете, щоб учасники продовжили зустріч, виберіть Вийти з зустрічі</string>
+    <string name="conference_exit_meeting">Вийти з зустрічі</string>
+    <string name="conference_end_meeting">Завершити зустріч</string>
+    <string name="conference_audio_only_no_screen_share">Аудіоконференція не підтримує демонстрацію екрана</string>
+    <string name="conference_screen_share_warning">При ввімкненні демонстрації екрана камера буде вимкнена, а мікрофон увімкнено</string>
+    <string name="conference_copied_to_clipboard">Скопійовано в буфер обміну</string>
+    <string name="conference_hand_down">Опустити</string>
+    <string name="conference_hand_up">Підняти руку</string>
+    <string name="conference_contact_host_to_stop_recording">Будь ласка, звяжіться з організатором, щоб зупинити запис</string>
+    <string name="conference_contact_host_to_start_recording">Будь ласка, звяжіться з організатором, щоб почати запис</string>
+    <string name="conference_unmute_applying_dialog">Організатор не дозволяє вимкнути мікрофон. Ви вже подали заявку на вимкнення мікрофона і чекаєте дій організатора</string>
+    <string name="conference_cancel_application">Скасувати заявку</string>
+    <string name="conference_application_cancelled">Заявку скасовано</string>
+    <string name="conference_continue_application">Продовжити заявку</string>
+    <string name="conference_application_resent">Заявку відправлено повторно, будь ласка, терпляче чекайте дій організатора</string>
+    <string name="conference_unmute_request_dialog">Організатор не дозволяє вимкнути мікрофон. Ви можете подати заявку організатору на вимкнення мікрофона</string>
+    <string name="conference_cancel">Скасувати</string>
+    <string name="conference_apply_unmute">Подати заявку на вимкнення мікрофона</string>
+    <string name="conference_connecting">Підключення...</string>
 
 </resources>

@@ -287,5 +287,25 @@
     <string name="call_remote_not_answered">Other party did not answer</string>
     <string name="call_remote_network_error">Other party network error</string>
     <string name="call_max_participants_reached">Maximum participants reached</string>
+    <string name="conference_audio_only_no_camera">Audio conference does not support camera</string>
+    <string name="conference_exit_or_end_dialog">If you want participants to continue the meeting, please choose Exit Meeting</string>
+    <string name="conference_exit_meeting">Exit Meeting</string>
+    <string name="conference_end_meeting">End Meeting</string>
+    <string name="conference_audio_only_no_screen_share">Audio conference does not support screen sharing</string>
+    <string name="conference_screen_share_warning">When enabling screen sharing, the camera will be turned off and the microphone will be turned on</string>
+    <string name="conference_copied_to_clipboard">Copied to clipboard</string>
+    <string name="conference_hand_down">Put Down</string>
+    <string name="conference_hand_up">Raise Hand</string>
+    <string name="conference_contact_host_to_stop_recording">Please contact the host to stop recording</string>
+    <string name="conference_contact_host_to_start_recording">Please contact the host to start recording</string>
+    <string name="conference_unmute_applying_dialog">The host does not allow unmuting. You have already applied for unmuting and are waiting for the host to operate</string>
+    <string name="conference_cancel_application">Cancel Application</string>
+    <string name="conference_application_cancelled">Application cancelled</string>
+    <string name="conference_continue_application">Continue Application</string>
+    <string name="conference_application_resent">Application resent, please wait patiently for the host to operate</string>
+    <string name="conference_unmute_request_dialog">The host does not allow unmuting. You can apply to the host for unmuting</string>
+    <string name="conference_cancel">Cancel</string>
+    <string name="conference_apply_unmute">Apply to Unmute</string>
+    <string name="conference_connecting">Connecting...</string>
 
 </resources>

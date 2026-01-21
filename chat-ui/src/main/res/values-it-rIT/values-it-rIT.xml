@@ -112,5 +112,25 @@
     <string name="call_remote_not_answered">L altra parte non ha risposto</string>
     <string name="call_remote_network_error">Errore di rete dell altra parte</string>
     <string name="call_max_participants_reached">Numero massimo di partecipanti raggiunto</string>
+    <string name="conference_audio_only_no_camera">La conferenza audio non supporta la fotocamera</string>
+    <string name="conference_exit_or_end_dialog">Se vuoi che i partecipanti continuino la riunione, scegli Esci dalla riunione</string>
+    <string name="conference_exit_meeting">Esci dalla riunione</string>
+    <string name="conference_end_meeting">Termina riunione</string>
+    <string name="conference_audio_only_no_screen_share">La conferenza audio non supporta la condivisione dello schermo</string>
+    <string name="conference_screen_share_warning">Quando si attiva la condivisione dello schermo, la fotocamera verrà spenta e il microfono verrà acceso</string>
+    <string name="conference_copied_to_clipboard">Copiato negli appunti</string>
+    <string name="conference_hand_down">Abbassa</string>
+    <string name="conference_hand_up">Alza la mano</string>
+    <string name="conference_contact_host_to_stop_recording">Contatta lhost per interrompere la registrazione</string>
+    <string name="conference_contact_host_to_start_recording">Contatta lhost per avviare la registrazione</string>
+    <string name="conference_unmute_applying_dialog">Lhost non consente di disattivare il muto. Hai già richiesto di disattivare il muto e stai aspettando che lhost operi</string>
+    <string name="conference_cancel_application">Annulla richiesta</string>
+    <string name="conference_application_cancelled">Richiesta annullata</string>
+    <string name="conference_continue_application">Continua richiesta</string>
+    <string name="conference_application_resent">Richiesta reinviata, attendi pazientemente che lhost operi</string>
+    <string name="conference_unmute_request_dialog">Lhost non consente di disattivare il muto. Puoi richiedere allhost di disattivare il muto</string>
+    <string name="conference_cancel">Annulla</string>
+    <string name="conference_apply_unmute">Richiedi disattivazione muto</string>
+    <string name="conference_connecting">Connessione...</string>
 
 </resources>

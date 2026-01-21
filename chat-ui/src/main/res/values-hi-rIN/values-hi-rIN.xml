@@ -112,5 +112,25 @@
     <string name="call_remote_not_answered">दूसरे पक्ष ने उत्तर नहीं दिया</string>
     <string name="call_remote_network_error">दूसरे पक्ष की नेटवर्क त्रुटि</string>
     <string name="call_max_participants_reached">अधिकतम प्रतिभागियों की संख्या पहुंच गई</string>
+    <string name="conference_audio_only_no_camera">ऑडियो कॉन्फ्रेंस कैमरा का समर्थन नहीं करता</string>
+    <string name="conference_exit_or_end_dialog">यदि आप चाहते हैं कि प्रतिभागी बैठक जारी रखें, तो बैठक छोड़ें चुनें</string>
+    <string name="conference_exit_meeting">बैठक छोड़ें</string>
+    <string name="conference_end_meeting">बैठक समाप्त करें</string>
+    <string name="conference_audio_only_no_screen_share">ऑडियो कॉन्फ्रेंस स्क्रीन शेयरिंग का समर्थन नहीं करता</string>
+    <string name="conference_screen_share_warning">स्क्रीन शेयरिंग सक्षम करने पर, कैमरा बंद हो जाएगा और माइक्रोफोन चालू हो जाएगा</string>
+    <string name="conference_copied_to_clipboard">क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="conference_hand_down">नीचे रखें</string>
+    <string name="conference_hand_up">हाथ उठाएं</string>
+    <string name="conference_contact_host_to_stop_recording">रिकॉर्डिंग रोकने के लिए होस्ट से संपर्क करें</string>
+    <string name="conference_contact_host_to_start_recording">रिकॉर्डिंग शुरू करने के लिए होस्ट से संपर्क करें</string>
+    <string name="conference_unmute_applying_dialog">होस्ट म्यूट हटाने की अनुमति नहीं देता। आपने पहले से ही म्यूट हटाने के लिए आवेदन किया है और होस्ट के संचालन की प्रतीक्षा कर रहे हैं</string>
+    <string name="conference_cancel_application">आवेदन रद्द करें</string>
+    <string name="conference_application_cancelled">आवेदन रद्द कर दिया गया</string>
+    <string name="conference_continue_application">आवेदन जारी रखें</string>
+    <string name="conference_application_resent">आवेदन पुनः भेजा गया, कृपया होस्ट के संचालन की प्रतीक्षा करें</string>
+    <string name="conference_unmute_request_dialog">होस्ट म्यूट हटाने की अनुमति नहीं देता। आप होस्ट से म्यूट हटाने के लिए आवेदन कर सकते हैं</string>
+    <string name="conference_cancel">रद्द करें</string>
+    <string name="conference_apply_unmute">म्यूट हटाने के लिए आवेदन करें</string>
+    <string name="conference_connecting">कनेक्ट हो रहा है...</string>
 
 </resources>

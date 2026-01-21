@@ -112,5 +112,25 @@
     <string name="call_remote_not_answered">Andere Partei hat nicht geantwortet</string>
     <string name="call_remote_network_error">Netzwerkfehler der anderen Partei</string>
     <string name="call_max_participants_reached">Maximale Teilnehmerzahl erreicht</string>
+    <string name="conference_audio_only_no_camera">Audio-Konferenz unterstützt keine Kamera</string>
+    <string name="conference_exit_or_end_dialog">Wenn Sie möchten, dass die Teilnehmer die Besprechung fortsetzen, wählen Sie Besprechung verlassen</string>
+    <string name="conference_exit_meeting">Besprechung verlassen</string>
+    <string name="conference_end_meeting">Besprechung beenden</string>
+    <string name="conference_audio_only_no_screen_share">Audio-Konferenz unterstützt keine Bildschirmfreigabe</string>
+    <string name="conference_screen_share_warning">Beim Aktivieren der Bildschirmfreigabe wird die Kamera ausgeschaltet und das Mikrofon eingeschaltet</string>
+    <string name="conference_copied_to_clipboard">In Zwischenablage kopiert</string>
+    <string name="conference_hand_down">Senken</string>
+    <string name="conference_hand_up">Hand heben</string>
+    <string name="conference_contact_host_to_stop_recording">Bitte kontaktieren Sie den Moderator, um die Aufnahme zu beenden</string>
+    <string name="conference_contact_host_to_start_recording">Bitte kontaktieren Sie den Moderator, um die Aufnahme zu starten</string>
+    <string name="conference_unmute_applying_dialog">Der Moderator erlaubt das Aufheben der Stummschaltung nicht. Sie haben bereits einen Antrag auf Aufhebung der Stummschaltung gestellt und warten darauf, dass der Moderator handelt</string>
+    <string name="conference_cancel_application">Antrag abbrechen</string>
+    <string name="conference_application_cancelled">Antrag abgebrochen</string>
+    <string name="conference_continue_application">Antrag fortsetzen</string>
+    <string name="conference_application_resent">Antrag erneut gesendet, bitte warten Sie geduldig, bis der Moderator handelt</string>
+    <string name="conference_unmute_request_dialog">Der Moderator erlaubt das Aufheben der Stummschaltung nicht. Sie können beim Moderator einen Antrag auf Aufhebung der Stummschaltung stellen</string>
+    <string name="conference_cancel">Abbrechen</string>
+    <string name="conference_apply_unmute">Antrag auf Aufhebung der Stummschaltung stellen</string>
+    <string name="conference_connecting">Verbinden...</string>
 
 </resources>
