@@ -55,9 +55,9 @@ object LanguageUtil {
             mContext = context
         }
 //        return com.hjq.language.MultiLanguages.attach(getAppContext(context))
-        val lanList = getLanList(getAppLanguageKey(mContext))
+        val lanList = getLanList(getAppLanguageKey(context ?: mContext))
 //        Log.d("getLanguageContextClass", "lanList:$lanList")
-        return updateResources(mContext, lanList) ?: mContext
+        return updateResources(context ?: mContext, lanList) ?: context ?: mContext
 //        return getAppContext(context)
     }
 
