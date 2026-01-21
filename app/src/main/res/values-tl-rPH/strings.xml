@@ -447,5 +447,6 @@
     <string name="personalize_experience">I-personalize ang iyong karanasan</string>
     <string name="clear_chat_history_both_sides">Linisin ang chat history mula sa magkabilang panig</string>
     <string name="nickname_with_prefix">(Palayaw: %1$s)</string>
+    <string name="more_settings">Karagdagang mga setting</string>
 
 </resources>

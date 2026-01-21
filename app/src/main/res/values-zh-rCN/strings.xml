@@ -463,6 +463,7 @@
     <string name="清空双向聊天记录">清空双方聊天记录</string>
     <string name="clear_chat_history_both_sides">清空双方聊天记录</string>
     <string name="nickname_with_prefix">(昵称:%1$s)</string>
+    <string name="more_settings">更多设置</string>
     <string name="返回登录">返回登录</string>
     <string name="助记词登录">助记词登录</string>
     <string name="注销账号">注销账号</string>

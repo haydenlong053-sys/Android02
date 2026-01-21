@@ -444,5 +444,6 @@
     <string name="personalize_experience">使用体験をパーソナライズ</string>
     <string name="clear_chat_history_both_sides">両側のチャット履歴をクリア</string>
     <string name="nickname_with_prefix">(ニックネーム: %1$s)</string>
+    <string name="more_settings">その他の設定</string>
 
 </resources>

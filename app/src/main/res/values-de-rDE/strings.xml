@@ -444,5 +444,6 @@
     <string name="personalize_experience">Personalisieren Sie Ihre Erfahrung</string>
     <string name="clear_chat_history_both_sides">Chat-Verlauf auf beiden Seiten löschen</string>
     <string name="nickname_with_prefix">(Spitzname: %1$s)</string>
+    <string name="more_settings">Weitere Einstellungen</string>
 
 </resources>

@@ -444,5 +444,6 @@
     <string name="personalize_experience">Cá nhân hóa trải nghiệm của bạn</string>
     <string name="clear_chat_history_both_sides">Xóa lịch sử trò chuyện ở cả hai phía</string>
     <string name="nickname_with_prefix">(Biệt danh: %1$s)</string>
+    <string name="more_settings">Cài đặt thêm</string>
 
 </resources>

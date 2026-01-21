@@ -446,5 +446,6 @@
     <string name="personalize_experience">Binafsi uzoefu wako</string>
     <string name="clear_chat_history_both_sides">Futa historia ya mazungumzo kutoka pande zote mbili</string>
     <string name="nickname_with_prefix">(Jina la utani: %1$s)</string>
+    <string name="more_settings">Mipangilio zaidi</string>
 
 </resources>

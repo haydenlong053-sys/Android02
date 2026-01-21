@@ -446,5 +446,6 @@
     <string name="personalize_experience">Персоналізуйте свій досвід</string>
     <string name="clear_chat_history_both_sides">Очистити історію чату з обох сторін</string>
     <string name="nickname_with_prefix">(Псевдонім: %1$s)</string>
+    <string name="more_settings">Більше налаштувань</string>
 
 </resources>

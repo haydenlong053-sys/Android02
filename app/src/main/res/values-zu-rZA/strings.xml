@@ -446,5 +446,6 @@
     <string name="personalize_experience">Zibeke ngokwakho isipiliyoni sakho</string>
     <string name="clear_chat_history_both_sides">Sula umlando we-chat kuzo zombili izinhlangothi</string>
     <string name="nickname_with_prefix">(Igama elingaphansi: %1$s)</string>
+    <string name="more_settings">Izilungiselelo ezengeziwe</string>
 
 </resources>

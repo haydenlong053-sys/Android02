@@ -53,7 +53,7 @@ class HaoYouSetBroadActivity : BaseSimpleBroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViews()
-        getToolbarTitle()?.text = "更多设置"
+        getToolbarTitle()?.text = getString(R.string.more_settings)
         uname = intent?.getStringExtra("uname") ?: ""
         uid = intent?.getStringExtra("uid") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]

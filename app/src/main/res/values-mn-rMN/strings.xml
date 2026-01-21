@@ -447,5 +447,6 @@
     <string name="personalize_experience">Туршлагaaа хувийн болгох</string>
     <string name="clear_chat_history_both_sides">Хоёр талын чатын түүхийг арилгах</string>
     <string name="nickname_with_prefix">(Хоч нэр: %1$s)</string>
+    <string name="more_settings">Нэмэлт тохиргоо</string>
 
 </resources>

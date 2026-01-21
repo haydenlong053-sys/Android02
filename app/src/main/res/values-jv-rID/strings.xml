@@ -446,5 +446,6 @@
     <string name="personalize_experience">Personalisasi pengalaman sampeyan</string>
     <string name="clear_chat_history_both_sides">Busek riwayat obrolan saka loro-lorone</string>
     <string name="nickname_with_prefix">(Jeneng panggilan: %1$s)</string>
+    <string name="more_settings">Setelan liyane</string>
 
 </resources>

@@ -445,5 +445,6 @@
     <string name="personalize_experience">Personalisasi pengalaman Anda</string>
     <string name="clear_chat_history_both_sides">Hapus riwayat chat dari kedua sisi</string>
     <string name="nickname_with_prefix">(Nama panggilan: %1$s)</string>
+    <string name="more_settings">Pengaturan lainnya</string>
 
 </resources>

@@ -451,5 +451,6 @@
     <string name="personalize_experience">اپنے تجربے کو ذاتی بنائیں</string>
     <string name="clear_chat_history_both_sides">دونوں طرف سے چیٹ ہسٹری صاف کریں</string>
     <string name="nickname_with_prefix">(عرفی نام: %1$s)</string>
+    <string name="more_settings">مزید ترتیبات</string>
 
 </resources>

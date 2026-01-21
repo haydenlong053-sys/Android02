@@ -444,5 +444,6 @@
     <string name="personalize_experience">ปรับแต่งประสบการณ์ของคุณ</string>
     <string name="clear_chat_history_both_sides">ล้างประวัติแชททั้งสองฝ่าย</string>
     <string name="nickname_with_prefix">(ชื่อเล่น: %1$s)</string>
+    <string name="more_settings">การตั้งค่าเพิ่มเติม</string>
 
 </resources>

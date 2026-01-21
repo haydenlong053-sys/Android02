@@ -444,5 +444,6 @@
     <string name="personalize_experience">사용 경험을 개인화하세요</string>
     <string name="clear_chat_history_both_sides">양쪽 채팅 기록 지우기</string>
     <string name="nickname_with_prefix">(닉네임: %1$s)</string>
+    <string name="more_settings">더 많은 설정</string>
 
 </resources>

@@ -444,5 +444,6 @@
     <string name="personalize_experience">আপনার অভিজ্ঞতা ব্যক্তিগতকৃত করুন</string>
     <string name="clear_chat_history_both_sides">উভয় পক্ষ থেকে চ্যাট ইতিহাস সাফ করুন</string>
     <string name="nickname_with_prefix">(ডাকনাম: %1$s)</string>
+    <string name="more_settings">আরও সেটিংস</string>
 
 </resources>

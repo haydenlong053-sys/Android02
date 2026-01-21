@@ -450,5 +450,6 @@
     <string name="personalize_experience">Deneyiminizi kişiselleştirin</string>
     <string name="clear_chat_history_both_sides">Her iki taraftan da sohbet geçmişini temizle</string>
     <string name="nickname_with_prefix">(Takma ad: %1$s)</string>
+    <string name="more_settings">Daha fazla ayar</string>
 
 </resources>

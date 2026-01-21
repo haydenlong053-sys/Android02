@@ -446,5 +446,6 @@
     <string name="personalize_experience">Personalizați-vă experiența</string>
     <string name="clear_chat_history_both_sides">Șterge istoricul de chat de pe ambele părți</string>
     <string name="nickname_with_prefix">(Poreclă: %1$s)</string>
+    <string name="more_settings">Mai multe setări</string>
 
 </resources>

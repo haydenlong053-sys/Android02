@@ -51,5 +51,6 @@
     <string name="personalize_experience">Spersonalizuj swoje wrażenia</string>
     <string name="clear_chat_history_both_sides">Wyczyść historię czatu z obu stron</string>
     <string name="nickname_with_prefix">(Pseudonim: %1$s)</string>
+    <string name="more_settings">Więcej ustawień</string>
 
 </resources>

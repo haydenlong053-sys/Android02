@@ -445,5 +445,6 @@
     <string name="personalize_experience">Εξατομικεύστε την εμπειρία σας</string>
     <string name="clear_chat_history_both_sides">Εκκαθάριση ιστορικού συνομιλίας και από τις δύο πλευρές</string>
     <string name="nickname_with_prefix">(Ψευδώνυμο: %1$s)</string>
+    <string name="more_settings">Περισσότερες ρυθμίσεις</string>
 
 </resources>

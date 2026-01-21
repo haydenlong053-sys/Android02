@@ -447,5 +447,6 @@
     <string name="personalize_experience">Peribadikan pengalaman anda</string>
     <string name="clear_chat_history_both_sides">Kosongkan sejarah sembang dari kedua-dua belah</string>
     <string name="nickname_with_prefix">(Nama panggilan: %1$s)</string>
+    <string name="more_settings">Tetapan tambahan</string>
 
 </resources>
