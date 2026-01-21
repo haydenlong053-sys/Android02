@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.view.AppBarStateChangeListener;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.CiecelBroadAdapter;
@@ -29,6 +31,7 @@ import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
 import com.cboda.intelligent.utils.StringBroadUtil;
 import com.cboda.intelligent.widge.MyScrollBroadView;
+import com.google.android.material.appbar.AppBarLayout;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -60,9 +63,9 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
     private LinearLayout llMessage;
     private ImageView ivNoData;
     private TextView tvNoData;
-    private LinearLayout llNoData;
+    private View llNoData;
     private RecyclerView ryCircle;
-    private MyScrollBroadView ns;
+    private AppBarLayout ns;
     private SmartRefreshLayout smart;
     private View viHead;
     private ImageView imFinish;
@@ -101,19 +104,21 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
 
         EventBus.getDefault().register(this);
 
-        ns.setOnScrollChanged(new MyScrollBroadView.OnScrollChanged() {
+        ns.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
-            public void onScroll(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > 600) {
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.COLLAPSED){
                     llTool.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                } else {
+                }else {
                     llTool.setBackgroundColor(Color.parseColor("#00000000"));
                 }
-
-                for (int j = 0; j < listBeans.size(); j++) {
-                    listBeans.get(j).isChecked = false;
+                if (state == State.IDLING){
+                    ELogUtilKt.eLogD("zhanglong","========State.IDLING");
+                    for (int j = 0; j < listBeans.size(); j++) {
+                        listBeans.get(j).isChecked = false;
+                    }
+                    ciecelAdapter.notifyDataSetChanged();
                 }
-                ciecelAdapter.notifyDataSetChanged();
             }
         });
 
@@ -433,7 +438,7 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
                 if (listBeans.size() == 0) {
                     llNoData.setVisibility(View.VISIBLE);
                 } else {
-                    llNoData.setVisibility(View.INVISIBLE);
+                    llNoData.setVisibility(View.GONE);
                 }
             }
 

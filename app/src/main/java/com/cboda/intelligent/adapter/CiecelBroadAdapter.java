@@ -90,6 +90,7 @@ public class CiecelBroadAdapter extends RecyclerView.Adapter<CiecelBroadAdapter.
                 imageAdapter = new ImageBroadAdapter(context, list.get(position).imgs, 147, 3);
                 holder.ryImage.setLayoutManager(new GridLayoutManager(context, 3));
                 holder.ryImage.setAdapter(imageAdapter);
+                holder.ryImage.setNestedScrollingEnabled(false);
                 imageAdapter.setOnItemClickListener(new ImageBroadAdapter.OnItemClickListener() {
                     @Override
                     public void OnItemClick(int firstposition) {
@@ -163,6 +164,7 @@ public class CiecelBroadAdapter extends RecyclerView.Adapter<CiecelBroadAdapter.
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             holder.ryHuifu.setLayoutManager(linearLayoutManager);
             holder.ryHuifu.setAdapter(huiFuAdapter);
+            holder.ryHuifu.setNestedScrollingEnabled(false);
             huiFuAdapter.setOnItemClickListener(new HuiFuBroadAdapter.OnItemClickListener() {
                 @Override
                 public void OnItemClickListener(int fposition, String content) {

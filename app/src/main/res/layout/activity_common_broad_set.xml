@@ -8,7 +8,7 @@
     android:paddingHorizontal="10dp"
     android:orientation="vertical"
     android:background="@color/bg_main_space"
-    tools:context=".lj.CommonSetBroadActivity">
+    >
     <LinearLayout
         android:paddingHorizontal="20dp"
         android:layout_marginTop="8dp"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp">
         <TextView
-            android:text="禁止添加我为好友"
+            android:text="@string/禁止添加我为好友"
             android:textSize="15sp"
             android:textColor="@color/color_text0"
             android:textStyle="bold"
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <TextView
-                android:text="消息提示音"
+                android:text="@string/消息提示音"
                 android:textSize="15sp"
                 android:textColor="@color/color_text0"
                 android:textStyle="bold"

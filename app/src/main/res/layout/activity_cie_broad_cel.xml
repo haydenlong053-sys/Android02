@@ -1,158 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main">
+    android:background="@color/bg_main"
+    >
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/smart"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.cboda.intelligent.widge.MyScrollBroadView
-            android:id="@+id/ns"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <RelativeLayout
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/ns"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/imBg"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:orientation="vertical"
+                app:elevation="0dp"
+                tools:ignore="MissingConstraints">
+                <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
-                    android:layout_height="310dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_broad_logo"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="67dp"
-                        android:layout_marginTop="267dp">
-
-                        <View
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/imBg"
                             android:layout_width="match_parent"
-                            android:layout_height="22dp"
-                            android:layout_alignParentBottom="true"
-                             />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/tvName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="17dp"
-                                android:layout_marginRight="10dp"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                tools:text="亚历克斯" />
-
-                            <com.makeramen.roundedimageview.RoundedImageView
-                                android:id="@+id/riIcon"
-                                android:layout_width="67dp"
-                                android:layout_height="67dp"
-                                android:layout_marginRight="15dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/ic_broad_head"
-                                app:riv_corner_radius="10dp" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llMessage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="11dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="14dp"
-                        android:visibility="gone">
-
-                        <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/riIcon1"
-                            android:layout_width="33dp"
-                            android:layout_height="33dp"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_broad_head"
-                            app:riv_corner_radius="5dp" />
-
-                        <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/riIcon2"
-                            android:layout_width="33dp"
-                            android:layout_height="33dp"
-                            android:layout_marginLeft="5dp"
+                            android:layout_height="310dp"
                             android:scaleType="centerCrop"
                             android:src="@mipmap/ic_broad_logo"
-                            android:visibility="gone"
-                            app:riv_corner_radius="5dp" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+                        <RelativeLayout
+                            android:id="@+id/mViewInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="67dp"
+                            android:layout_marginTop="267dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            >
 
-                        <TextView
-                            android:id="@+id/tvHint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginRight="12dp"
-                            android:textColor="@color/color_text0"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            tools:text="@string/等人点赞了你" />
-                    </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="22dp"
+                                android:layout_alignParentBottom="true"
+                                />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <LinearLayout
-                            android:id="@+id/llNoData"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="140dp"
-                            android:orientation="vertical"
-                            android:visibility="gone">
-
-                            <ImageView
-                                android:id="@+id/ivNoData"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/ic_empty_broad_bg" />
+                                android:gravity="right"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="17dp"
+                                    android:layout_marginRight="10dp"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    tools:text="亚历克斯" />
+
+                                <com.makeramen.roundedimageview.RoundedImageView
+                                    android:id="@+id/riIcon"
+                                    android:layout_width="67dp"
+                                    android:layout_height="67dp"
+                                    android:layout_marginRight="15dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@mipmap/ic_broad_head"
+                                    app:riv_corner_radius="10dp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+                        <LinearLayout
+                            android:id="@+id/llMessage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="11dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="14dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/mViewInfo"
+                            android:visibility="gone"
+                            tools:visibility="visible"
+
+                            >
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/riIcon1"
+                                android:layout_width="33dp"
+                                android:layout_height="33dp"
+                                android:scaleType="centerCrop"
+                                android:src="@mipmap/ic_broad_head"
+                                app:riv_corner_radius="5dp" />
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/riIcon2"
+                                android:layout_width="33dp"
+                                android:layout_height="33dp"
+                                android:layout_marginLeft="5dp"
+                                android:scaleType="centerCrop"
+                                android:src="@mipmap/ic_broad_logo"
+                                android:visibility="gone"
+                                app:riv_corner_radius="5dp" />
 
                             <TextView
-                                android:id="@+id/tvNoData"
+                                android:id="@+id/tvHint"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="10dp"
-                                android:gravity="center"
-                                android:text="暂时没有数据"
-                                android:textColor="#ff989898"
-                                android:textSize="13sp"
-                                android:visibility="visible" />
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginRight="12dp"
+                                android:textColor="@color/color_text0"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="@string/等人点赞了你" />
                         </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/ryCircle"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </FrameLayout>
-                </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </RelativeLayout>
-        </com.cboda.intelligent.widge.MyScrollBroadView>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ryCircle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/llNoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="120dp"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/ivNoData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_empty_broad_bg" />
+
+            <TextView
+                android:id="@+id/tvNoData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/no_data"
+                android:textColor="#ff989898"
+                android:textSize="13sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+
+    </FrameLayout>
     <LinearLayout
         android:id="@+id/llTool"
         android:orientation="vertical"
@@ -197,4 +225,4 @@
 
         </FrameLayout>
     </LinearLayout>
-</RelativeLayout>
+</FrameLayout>

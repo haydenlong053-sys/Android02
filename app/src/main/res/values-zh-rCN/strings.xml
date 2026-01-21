@@ -476,6 +476,8 @@
     <string name="my_hobbies">我的爱好</string>
     <string name="you_can_add_more_hobbies">您还能添加 %1$d 个爱好。</string>
     <string name="max_six_hobbies">最多设置6个爱好</string>
+    <string name="禁止添加我为好友">禁止添加我为好友</string>
+    <string name="消息提示音">消息提示音</string>
     <string name="返回登录">返回登录</string>
     <string name="助记词登录">助记词登录</string>
     <string name="注销账号">注销账号</string>
