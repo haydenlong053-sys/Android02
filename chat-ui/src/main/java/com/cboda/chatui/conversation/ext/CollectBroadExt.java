@@ -65,7 +65,7 @@ public class CollectBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return activity.getString(R.string.收藏夹);
+        return context.getString(R.string.收藏夹);
     }
 
     @Override

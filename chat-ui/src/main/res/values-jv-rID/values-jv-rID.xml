@@ -72,4 +72,10 @@
 
     <string name="rename">Ganti jeneng</string>
     <string name="times_unit">kaping</string>
+
+    <string name="msg_album">Album</string>
+    <string name="msg_red_envelope">Amplop abang</string>
+    <string name="msg_business_card">Kartu nama</string>
+    <string name="msg_meeting_room">Ruang rapat</string>
+    <string name="msg_transfer">Transfer</string>
 </resources>

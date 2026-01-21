@@ -77,4 +77,10 @@
     <string name="not_friend_send_message">आप अभी तक दोस्त नहीं हैं। कृपया पहले मित्र सत्यापन अनुरोध भेजें। दूसरे पक्ष के सत्यापन और अनुमोदन के बाद, आप चैट कर सकेंगे।</string>
     <string name="credit_prefix">क्रेडिट: </string>
     <string name="register_time_prefix">पंजीकरण समय: </string>
+
+    <string name="msg_album">एल्बम</string>
+    <string name="msg_red_envelope">लाल लिफाफा</string>
+    <string name="msg_business_card">व्यवसाय कार्ड</string>
+    <string name="msg_meeting_room">बैठक कक्ष</string>
+    <string name="msg_transfer">ट्रांसफर</string>
 </resources>

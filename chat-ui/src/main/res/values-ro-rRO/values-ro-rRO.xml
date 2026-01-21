@@ -72,4 +72,10 @@
 
     <string name="rename">Redenumește</string>
     <string name="times_unit">ori</string>
+
+    <string name="msg_album">Album</string>
+    <string name="msg_red_envelope">Plic roșu</string>
+    <string name="msg_business_card">Carte de vizită</string>
+    <string name="msg_meeting_room">Sală de întâlniri</string>
+    <string name="msg_transfer">Transfer</string>
 </resources>

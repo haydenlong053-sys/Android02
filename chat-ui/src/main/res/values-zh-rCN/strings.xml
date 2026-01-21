@@ -254,5 +254,11 @@
     <string name="credit_prefix">信誉：</string>
     <string name="register_time_prefix">注册时间：</string>
 
+    <string name="msg_album">相册</string>
+    <string name="msg_red_envelope">红包</string>
+    <string name="msg_business_card">名片</string>
+    <string name="msg_meeting_room">会议室</string>
+    <string name="msg_transfer">转账</string>
+
 
 </resources>

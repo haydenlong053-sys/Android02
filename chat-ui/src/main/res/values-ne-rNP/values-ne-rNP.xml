@@ -72,4 +72,10 @@
 
     <string name="rename">नाम परिवर्तन गर्नुहोस्</string>
     <string name="times_unit">पटक</string>
+
+    <string name="msg_album">एल्बम</string>
+    <string name="msg_red_envelope">रातो लिफाफा</string>
+    <string name="msg_business_card">व्यवसाय कार्ड</string>
+    <string name="msg_meeting_room">बैठक कोठा</string>
+    <string name="msg_transfer">साराइ</string>
 </resources>

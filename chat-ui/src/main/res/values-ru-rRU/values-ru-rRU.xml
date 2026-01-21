@@ -77,4 +77,10 @@
     <string name="not_friend_send_message">Вы еще не друзья. Пожалуйста, сначала отправьте запрос на проверку дружбы. После того, как другая сторона проверит и одобрит, вы сможете общаться.</string>
     <string name="credit_prefix">Кредит: </string>
     <string name="register_time_prefix">Время регистрации: </string>
+
+    <string name="msg_album">Альбом</string>
+    <string name="msg_red_envelope">Красный конверт</string>
+    <string name="msg_business_card">Визитная карточка</string>
+    <string name="msg_meeting_room">Конференц-зал</string>
+    <string name="msg_transfer">Перевод</string>
 </resources>

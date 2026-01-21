@@ -103,7 +103,7 @@ public class ShootBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "拍摄";
+        return context.getString(R.string.shot);
     }
 
     @Override

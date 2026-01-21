@@ -72,4 +72,10 @@
 
     <string name="rename">ਨਾਮ ਬਦਲੋ</string>
     <string name="times_unit">ਵਾਰ</string>
+
+    <string name="msg_album">ਐਲਬਮ</string>
+    <string name="msg_red_envelope">ਲਾਲ ਲਿਫਾਫਾ</string>
+    <string name="msg_business_card">ਵਪਾਰਕ ਕਾਰਡ</string>
+    <string name="msg_meeting_room">ਮੀਟਿੰਗ ਰੂਮ</string>
+    <string name="msg_transfer">ਟ੍ਰਾਂਸਫਰ</string>
 </resources>

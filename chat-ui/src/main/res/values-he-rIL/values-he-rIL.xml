@@ -77,4 +77,10 @@
     <string name="not_friend_send_message">אתם עדיין לא חברים. אנא שלחו תחילה בקשת אימות חברות. לאחר שהצד השני יאמת ויאשר, תוכלו לצ\'אט.</string>
     <string name="credit_prefix">אשראי: </string>
     <string name="register_time_prefix">זמן רישום: </string>
+
+    <string name="msg_album">אלבום</string>
+    <string name="msg_red_envelope">מעטפה אדומה</string>
+    <string name="msg_business_card">כרטיס ביקור</string>
+    <string name="msg_meeting_room">חדר ישיבות</string>
+    <string name="msg_transfer">העברה</string>
 </resources>

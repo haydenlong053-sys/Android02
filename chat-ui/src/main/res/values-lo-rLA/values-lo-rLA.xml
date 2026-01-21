@@ -72,4 +72,10 @@
 
     <string name="rename">ປ່ຽນຊື່</string>
     <string name="times_unit">ຄັ້ງ</string>
+
+    <string name="msg_album">ອັນບັມ</string>
+    <string name="msg_red_envelope">ຊອງແດງ</string>
+    <string name="msg_business_card">ບັດທຸລະກິດ</string>
+    <string name="msg_meeting_room">ຫ້ອງປະຊຸມ</string>
+    <string name="msg_transfer">ໂອນຍ້າຍ</string>
 </resources>

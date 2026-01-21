@@ -77,4 +77,10 @@
     <string name="not_friend_send_message">Sie sind noch keine Freunde. Bitte senden Sie zuerst eine Freundschaftsverifizierungsanfrage. Nachdem die andere Partei verifiziert und genehmigt hat, können Sie chatten.</string>
     <string name="credit_prefix">Kredit: </string>
     <string name="register_time_prefix">Registrierungszeit: </string>
+
+    <string name="msg_album">Album</string>
+    <string name="msg_red_envelope">Rotes Umschlag</string>
+    <string name="msg_business_card">Visitenkarte</string>
+    <string name="msg_meeting_room">Besprechungsraum</string>
+    <string name="msg_transfer">Überweisung</string>
 </resources>

@@ -72,4 +72,10 @@
 
     <string name="rename">নাম পরিবর্তন করুন</string>
     <string name="times_unit">বার</string>
+
+    <string name="msg_album">অ্যালবাম</string>
+    <string name="msg_red_envelope">লাল খাম</string>
+    <string name="msg_business_card">বিজনেস কার্ড</string>
+    <string name="msg_meeting_room">মিটিং রুম</string>
+    <string name="msg_transfer">স্থানান্তর</string>
 </resources>

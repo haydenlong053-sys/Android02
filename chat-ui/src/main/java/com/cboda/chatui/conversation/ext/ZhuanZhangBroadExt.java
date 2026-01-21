@@ -28,7 +28,7 @@ public class ZhuanZhangBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "转账";
+        return context.getString(R.string.msg_transfer);
     }
 
     @Override

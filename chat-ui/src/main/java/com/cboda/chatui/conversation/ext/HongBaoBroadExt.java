@@ -36,7 +36,7 @@ public class HongBaoBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "红包";
+        return context.getString(R.string.msg_red_envelope);
     }
 
     @Override

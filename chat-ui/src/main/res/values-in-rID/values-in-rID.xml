@@ -72,4 +72,10 @@
 
     <string name="rename">Ubah nama</string>
     <string name="times_unit">kali</string>
+
+    <string name="msg_album">Album</string>
+    <string name="msg_red_envelope">Amplop merah</string>
+    <string name="msg_business_card">Kartu nama</string>
+    <string name="msg_meeting_room">Ruang rapat</string>
+    <string name="msg_transfer">Transfer</string>
 </resources>

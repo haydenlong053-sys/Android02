@@ -77,4 +77,10 @@
     <string name="not_friend_send_message">Vous n\'êtes pas encore amis. Veuillez d\'abord envoyer une demande de vérification d\'ami. Après que l\'autre partie vérifie et approuve, vous pourrez discuter.</string>
     <string name="credit_prefix">Crédit : </string>
     <string name="register_time_prefix">Date d\'inscription : </string>
+
+    <string name="msg_album">Album</string>
+    <string name="msg_red_envelope">Enveloppe rouge</string>
+    <string name="msg_business_card">Carte de visite</string>
+    <string name="msg_meeting_room">Salle de réunion</string>
+    <string name="msg_transfer">Transfert</string>
 </resources>

@@ -131,7 +131,7 @@ public class VoipBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "语音通话";
+        return context.getString(R.string.yuyintonghua);
     }
 
 

@@ -72,4 +72,10 @@
 
     <string name="rename">Μετονομασία</string>
     <string name="times_unit">φορές</string>
+
+    <string name="msg_album">Άλμπουμ</string>
+    <string name="msg_red_envelope">Κόκκινος φάκελος</string>
+    <string name="msg_business_card">Επιστολή επαγγελματική</string>
+    <string name="msg_meeting_room">Αίθουσα συνεδριάσεων</string>
+    <string name="msg_transfer">Μεταφορά</string>
 </resources>

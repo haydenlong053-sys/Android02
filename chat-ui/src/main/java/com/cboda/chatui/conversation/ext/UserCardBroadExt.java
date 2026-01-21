@@ -140,7 +140,7 @@ public class UserCardBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "名片";
+        return context.getString(R.string.msg_business_card);
     }
 
     @Override

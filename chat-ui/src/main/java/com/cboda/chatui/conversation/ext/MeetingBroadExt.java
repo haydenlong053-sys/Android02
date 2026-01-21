@@ -72,7 +72,7 @@ public class MeetingBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "会议室";
+        return context.getString(R.string.msg_meeting_room);
     }
 
     @Override

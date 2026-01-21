@@ -198,7 +198,7 @@ public class ImageBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "相册";
+        return context.getString(R.string.msg_album);
     }
 
     @Override

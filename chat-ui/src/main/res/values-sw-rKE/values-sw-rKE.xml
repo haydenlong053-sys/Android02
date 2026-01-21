@@ -72,4 +72,10 @@
 
     <string name="rename">Badilisha jina</string>
     <string name="times_unit">mara</string>
+
+    <string name="msg_album">Albamu</string>
+    <string name="msg_red_envelope">Bahasha nyekundu</string>
+    <string name="msg_business_card">Kadi ya biashara</string>
+    <string name="msg_meeting_room">Chumba cha mkutano</string>
+    <string name="msg_transfer">Uhamisho</string>
 </resources>

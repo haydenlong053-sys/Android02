@@ -77,4 +77,10 @@
     <string name="not_friend_send_message">你還不是他（她)朋友。請先發送朋友驗證請求，對方驗證通過後，才能聊天</string>
     <string name="credit_prefix">信譽：</string>
     <string name="register_time_prefix">註冊時間：</string>
+
+    <string name="msg_album">相冊</string>
+    <string name="msg_red_envelope">紅包</string>
+    <string name="msg_business_card">名片</string>
+    <string name="msg_meeting_room">會議室</string>
+    <string name="msg_transfer">轉賬</string>
 </resources>

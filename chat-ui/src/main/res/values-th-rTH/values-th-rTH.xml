@@ -77,4 +77,10 @@
     <string name="not_friend_send_message">คุณยังไม่ใช่เพื่อนกัน กรุณาส่งคำขอตรวจสอบความเป็นเพื่อนก่อน หลังจากที่อีกฝ่ายตรวจสอบและอนุมัติแล้ว คุณจึงจะสามารถแชทได้</string>
     <string name="credit_prefix">เครดิต: </string>
     <string name="register_time_prefix">เวลาลงทะเบียน: </string>
+
+    <string name="msg_album">อัลบั้ม</string>
+    <string name="msg_red_envelope">ซองแดง</string>
+    <string name="msg_business_card">นามบัตร</string>
+    <string name="msg_meeting_room">ห้องประชุม</string>
+    <string name="msg_transfer">โอนเงิน</string>
 </resources>

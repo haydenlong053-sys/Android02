@@ -253,5 +253,11 @@
     <string name="credit_prefix">Credit: </string>
     <string name="register_time_prefix">Registration Time: </string>
 
+    <string name="msg_album">Album</string>
+    <string name="msg_red_envelope">Red Envelope</string>
+    <string name="msg_business_card">Business Card</string>
+    <string name="msg_meeting_room">Meeting Room</string>
+    <string name="msg_transfer">Transfer</string>
+
 
 </resources>

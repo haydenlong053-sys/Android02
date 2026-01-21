@@ -17,6 +17,7 @@ import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import cn.wildfirechat.model.Conversation;
 
 //用来演示类似微信语音输入那种扩展
+@Deprecated
 public class ExampleAudioInputBroadExt extends ConversationMidExt {
 
     /**

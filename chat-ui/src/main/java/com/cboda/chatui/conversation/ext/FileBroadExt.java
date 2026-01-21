@@ -90,7 +90,7 @@ public class FileBroadExt extends ConversationMidExt {
 
     @Override
     public String title(Context context) {
-        return "文件";
+        return context.getString(R.string.file);
     }
 
     @Override
