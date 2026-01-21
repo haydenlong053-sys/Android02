@@ -448,5 +448,7 @@
     <string name="quick_answers_about_us">Hakkımızda hızlı cevaplar</string>
     <string name="system_settings">Sistem ayarları</string>
     <string name="personalize_experience">Deneyiminizi kişiselleştirin</string>
+    <string name="clear_chat_history_both_sides">Her iki taraftan da sohbet geçmişini temizle</string>
+    <string name="nickname_with_prefix">(Takma ad: %1$s)</string>
 
 </resources>

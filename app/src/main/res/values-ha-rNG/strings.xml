@@ -442,5 +442,7 @@
     <string name="quick_answers_about_us">Amsoshi cikin sauri game da mu</string>
     <string name="system_settings">Saitunan Tsarin</string>
     <string name="personalize_experience">Keɓance kwarewar ku</string>
+    <string name="clear_chat_history_both_sides">Share tarihin tattaunawa daga bangarorin biyu</string>
+    <string name="nickname_with_prefix">(Sunan barkwanci: %1$s)</string>
 
 </resources>

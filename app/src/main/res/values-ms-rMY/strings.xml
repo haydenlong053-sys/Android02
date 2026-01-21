@@ -445,5 +445,7 @@
     <string name="quick_answers_about_us">Jawapan pantas tentang kami</string>
     <string name="system_settings">Tetapan Sistem</string>
     <string name="personalize_experience">Peribadikan pengalaman anda</string>
+    <string name="clear_chat_history_both_sides">Kosongkan sejarah sembang dari kedua-dua belah</string>
+    <string name="nickname_with_prefix">(Nama panggilan: %1$s)</string>
 
 </resources>

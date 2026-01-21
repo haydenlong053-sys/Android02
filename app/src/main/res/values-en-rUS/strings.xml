@@ -461,6 +461,8 @@
     <string name="自动翻译">Auto Translate</string>
     <string name="边写边译">Translate While Typing</string>
     <string name="清空双向聊天记录">Clear Both Chat History</string>
+    <string name="clear_chat_history_both_sides">Clear Chat History for Both Sides</string>
+    <string name="nickname_with_prefix">(Nickname: %1$s)</string>
     <string name="返回登录">Back</string>
     <string name="助记词登录">Mnemonic Login</string>
     <string name="注销账号">Delete Account</string>

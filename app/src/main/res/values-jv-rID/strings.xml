@@ -444,5 +444,7 @@
     <string name="quick_answers_about_us">Jawaban cepet babagan kita</string>
     <string name="system_settings">Setelan Sistem</string>
     <string name="personalize_experience">Personalisasi pengalaman sampeyan</string>
+    <string name="clear_chat_history_both_sides">Busek riwayat obrolan saka loro-lorone</string>
+    <string name="nickname_with_prefix">(Jeneng panggilan: %1$s)</string>
 
 </resources>

@@ -449,5 +449,7 @@
     <string name="quick_answers_about_us">ہمارے بارے میں فوری جوابات</string>
     <string name="system_settings">سسٹم سیٹنگز</string>
     <string name="personalize_experience">اپنے تجربے کو ذاتی بنائیں</string>
+    <string name="clear_chat_history_both_sides">دونوں طرف سے چیٹ ہسٹری صاف کریں</string>
+    <string name="nickname_with_prefix">(عرفی نام: %1$s)</string>
 
 </resources>

@@ -444,5 +444,7 @@
     <string name="quick_answers_about_us">ຄຳຕອບດ່ວນກ່ຽວກັບພວກເຮົາ</string>
     <string name="system_settings">ການຕັ້ງຄ່າລະບົບ</string>
     <string name="personalize_experience">ປັບແຕ່ງປະສົບການຂອງທ່ານ</string>
+    <string name="clear_chat_history_both_sides">ລຶບປະຫວັດການສົນທະນາຈາກທັງສອງດ້ານ</string>
+    <string name="nickname_with_prefix">(ຊື່ຫຼິ້ນ: %1$s)</string>
 
 </resources>

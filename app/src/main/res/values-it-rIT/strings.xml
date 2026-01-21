@@ -442,5 +442,7 @@
     <string name="quick_answers_about_us">Risposte rapide su di noi</string>
     <string name="system_settings">Impostazioni di sistema</string>
     <string name="personalize_experience">Personalizza la tua esperienza</string>
+    <string name="clear_chat_history_both_sides">Cancella cronologia chat da entrambi i lati</string>
+    <string name="nickname_with_prefix">(Soprannome: %1$s)</string>
 
 </resources>

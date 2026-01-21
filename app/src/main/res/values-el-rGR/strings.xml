@@ -443,5 +443,7 @@
     <string name="quick_answers_about_us">Γρήγορες απαντήσεις για εμάς</string>
     <string name="system_settings">Ρυθμίσεις συστήματος</string>
     <string name="personalize_experience">Εξατομικεύστε την εμπειρία σας</string>
+    <string name="clear_chat_history_both_sides">Εκκαθάριση ιστορικού συνομιλίας και από τις δύο πλευρές</string>
+    <string name="nickname_with_prefix">(Ψευδώνυμο: %1$s)</string>
 
 </resources>

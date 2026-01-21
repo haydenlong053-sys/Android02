@@ -443,5 +443,7 @@
     <string name="quick_answers_about_us">Jawaban cepat tentang kami</string>
     <string name="system_settings">Pengaturan Sistem</string>
     <string name="personalize_experience">Personalisasi pengalaman Anda</string>
+    <string name="clear_chat_history_both_sides">Hapus riwayat chat dari kedua sisi</string>
+    <string name="nickname_with_prefix">(Nama panggilan: %1$s)</string>
 
 </resources>

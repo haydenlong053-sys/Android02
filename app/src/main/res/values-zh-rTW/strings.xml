@@ -500,6 +500,8 @@
     <string name="mine_auth_way">选择验证方式</string>
     <string name="mine_t_detail">转账详情</string>
     <string name="清空双向聊天记录">清空双方聊天记录</string>
+    <string name="clear_chat_history_both_sides">清空双方聊天记录</string>
+    <string name="nickname_with_prefix">(暱稱:%1$s)</string>
     <string name="m_save_login">保存并登录</string>
     <string name="action_template">模板</string>
     <string name="mine_change_password_auth_title">您要更改支付密码吗？</string>

@@ -162,7 +162,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 val daysTv = findViewById<TextView>(R.id.daysTv)
                 val registerDay = it.data?.registerDayBean?.registDay
                 daysTv.isGone = registerDay == null
-                daysTv.text = "${registerDay}天"
+                daysTv.text = "${registerDay}${getString(R.string.days_unit)}"
                 val vocationalTv = findViewById<TextView>(R.id.vocationalTv)
                 vocationalTv.isGone = TextUtils.isEmpty(it.data?.profession)
                 vocationalTv.text = it.data?.profession ?: ""
@@ -195,22 +195,21 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
 //                eLogD("zhanglong","otherUid-->$otherUid======getRealUserId==${MMKVBroadUtils.getRealUserId()}")
                 var showName = ""
-                tvTagName.text = "ID:${idno}"
+                tvTagName.text = "${getString(R.string.user_id_prefix)}${idno}"
                 if (bei.isNullOrEmpty()) {
                     showName = name ?: ""
                     friendNickName.isGone = true
                 } else {
                     showName = bei ?: ""
-                    friendNickName.text = "(昵称:${name})"
+                    friendNickName.text = getString(R.string.nickname_with_prefix, name ?: "")
                     friendNickName.isGone = false
                 }
                 tvTagName.isGone = false
                 friendName.text = showName
                 findViewById<LinearLayout>(R.id.ll_grade).visibility = View.VISIBLE
                 val tvGrade = findViewById<TextView>(R.id.tv_grade)
-                tvGrade.text = "100分"
-                val fullGradeString = "${grade}分"
-                tvGrade.text = SpanBroadUtils.small(fullGradeString, "分", 12f, "#031256".toColorInt())
+                val fullGradeString = "${grade}${getString(R.string.score_unit)}"
+                tvGrade.text = SpanBroadUtils.small(fullGradeString, getString(R.string.score_unit), 12f, "#031256".toColorInt())
 
 
                 if (isLiang != null && isLiang == "1") {
@@ -220,7 +219,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     ivLiang?.visibility = View.GONE
                 }
 
-                tvID?.text = "ID:${this.idno}"
+                tvID?.text = "${getString(R.string.user_id_prefix)}${this.idno}"
                 tvname?.text = this.bei ?: ""
                 tvnicheng?.text = StringBroadUtils.format(getString(R.string.nichengshi), "${this.name}")
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
@@ -353,7 +352,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         qingkongSx?.setOnClickListener {
             val holder = CommanConfimBroadHolder(
                 this,
-                getString(R.string.清空双向聊天记录),
+                getString(R.string.clear_chat_history_both_sides),
                 StringBroadUtils.format(getString(R.string.qingkongtishi, yonghubena?.name ?: "")),
                 getString(R.string.queding),
                 getString(R.string.quxiao)

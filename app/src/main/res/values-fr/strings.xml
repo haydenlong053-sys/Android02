@@ -447,5 +447,7 @@
     <string name="quick_answers_about_us">Réponses rapides sur nous</string>
     <string name="system_settings">Paramètres système</string>
     <string name="personalize_experience">Personnalisez votre expérience</string>
+    <string name="clear_chat_history_both_sides">Effacer l\'historique de chat des deux côtés</string>
+    <string name="nickname_with_prefix">(Surnom: %1$s)</string>
 
 </resources>

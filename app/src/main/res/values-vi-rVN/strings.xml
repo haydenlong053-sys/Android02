@@ -442,5 +442,7 @@
     <string name="quick_answers_about_us">Câu trả lời nhanh về chúng tôi</string>
     <string name="system_settings">Cài đặt hệ thống</string>
     <string name="personalize_experience">Cá nhân hóa trải nghiệm của bạn</string>
+    <string name="clear_chat_history_both_sides">Xóa lịch sử trò chuyện ở cả hai phía</string>
+    <string name="nickname_with_prefix">(Biệt danh: %1$s)</string>
 
 </resources>

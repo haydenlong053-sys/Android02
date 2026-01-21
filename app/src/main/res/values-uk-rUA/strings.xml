@@ -444,5 +444,7 @@
     <string name="quick_answers_about_us">Швидкі відповіді про нас</string>
     <string name="system_settings">Системні налаштування</string>
     <string name="personalize_experience">Персоналізуйте свій досвід</string>
+    <string name="clear_chat_history_both_sides">Очистити історію чату з обох сторін</string>
+    <string name="nickname_with_prefix">(Псевдонім: %1$s)</string>
 
 </resources>

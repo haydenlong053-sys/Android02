@@ -442,5 +442,7 @@
     <string name="quick_answers_about_us">우리에 대한 빠른 답변</string>
     <string name="system_settings">시스템 설정</string>
     <string name="personalize_experience">사용 경험을 개인화하세요</string>
+    <string name="clear_chat_history_both_sides">양쪽 채팅 기록 지우기</string>
+    <string name="nickname_with_prefix">(닉네임: %1$s)</string>
 
 </resources>

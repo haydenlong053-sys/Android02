@@ -442,5 +442,7 @@
     <string name="quick_answers_about_us">תשובות מהירות עלינו</string>
     <string name="system_settings">הגדרות מערכת</string>
     <string name="personalize_experience">התאם אישית את החוויה שלך</string>
+    <string name="clear_chat_history_both_sides">נקה היסטוריית צ\'אט משני הצדדים</string>
+    <string name="nickname_with_prefix">(כינוי: %1$s)</string>
 
 </resources>

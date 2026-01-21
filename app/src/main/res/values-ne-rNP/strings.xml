@@ -444,5 +444,7 @@
     <string name="quick_answers_about_us">हाम्रो बारेमा छिटो जवाफहरू</string>
     <string name="system_settings">प्रणाली सेटिङहरू</string>
     <string name="personalize_experience">आफ्नो अनुभव व्यक्तिगत बनाउनुहोस्</string>
+    <string name="clear_chat_history_both_sides">दुवै तर्फबाट च्याट इतिहास मेटाउनुहोस्</string>
+    <string name="nickname_with_prefix">(उपनाम: %1$s)</string>
 
 </resources>

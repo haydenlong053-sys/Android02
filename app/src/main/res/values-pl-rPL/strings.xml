@@ -49,5 +49,7 @@
     <string name="quick_answers_about_us">Szybkie odpowiedzi o nas</string>
     <string name="system_settings">Ustawienia systemu</string>
     <string name="personalize_experience">Spersonalizuj swoje wrażenia</string>
+    <string name="clear_chat_history_both_sides">Wyczyść historię czatu z obu stron</string>
+    <string name="nickname_with_prefix">(Pseudonim: %1$s)</string>
 
 </resources>

@@ -445,5 +445,7 @@
     <string name="quick_answers_about_us">Mabilis na sagot tungkol sa amin</string>
     <string name="system_settings">System Settings</string>
     <string name="personalize_experience">I-personalize ang iyong karanasan</string>
+    <string name="clear_chat_history_both_sides">Linisin ang chat history mula sa magkabilang panig</string>
+    <string name="nickname_with_prefix">(Palayaw: %1$s)</string>
 
 </resources>

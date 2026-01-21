@@ -441,5 +441,7 @@
     <string name="quick_answers_about_us">हमारे बारे में त्वरित उत्तर</string>
     <string name="system_settings">सिस्टम सेटिंग्स</string>
     <string name="personalize_experience">अपने अनुभव को व्यक्तिगत बनाएं</string>
+    <string name="clear_chat_history_both_sides">दोनों तरफ से चैट इतिहास साफ करें</string>
+    <string name="nickname_with_prefix">(उपनाम: %1$s)</string>
 
 </resources>

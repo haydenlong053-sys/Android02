@@ -445,5 +445,7 @@
     <string name="quick_answers_about_us">ကျွန်ုပ်တို့အကြောင်း အမြန်ဖြေကြားမှုများ</string>
     <string name="system_settings">စနစ်ဆက်တင်များ</string>
     <string name="personalize_experience">သင့်အတွေ့အကြုံကို ပုဂ္ဂိုလ်ရေးဆန်စေပါ</string>
+    <string name="clear_chat_history_both_sides">နှစ်ဖက်စလုံးမှ ချက်တင်မှတ်တမ်းကို ရှင်းလင်းပါ</string>
+    <string name="nickname_with_prefix">(အမည်ပြောင်: %1$s)</string>
 
 </resources>

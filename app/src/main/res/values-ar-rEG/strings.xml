@@ -442,5 +442,7 @@
     <string name="quick_answers_about_us">إجابات سريعة عنا</string>
     <string name="system_settings">إعدادات النظام</string>
     <string name="personalize_experience">خصص تجربتك</string>
+    <string name="clear_chat_history_both_sides">مسح سجل الدردشة من كلا الجانبين</string>
+    <string name="nickname_with_prefix">(الاسم المستعار: %1$s)</string>
 
 </resources>
