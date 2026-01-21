@@ -464,6 +464,9 @@
     <string name="clear_chat_history_both_sides">Clear Chat History for Both Sides</string>
     <string name="nickname_with_prefix">(Nickname:%1$s)</string>
     <string name="more_settings">More Settings</string>
+    <string name="your_personal_info_changed">Your personal information has been changed</string>
+    <string name="update_and_save_confirm">Update and save?</string>
+    <string name="update_info_to_chat_server_failed">Failed to update information to chat server</string>
     <string name="返回登录">Back to Login</string>
     <string name="助记词登录">Mnemonic Login</string>
     <string name="注销账号">Delete Account</string>

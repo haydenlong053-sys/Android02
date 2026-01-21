@@ -445,5 +445,8 @@
     <string name="clear_chat_history_both_sides">Share tarihin tattaunawa daga bangarorin biyu</string>
     <string name="nickname_with_prefix">(Sunan barkwanci: %1$s)</string>
     <string name="more_settings">Ƙarin saituna</string>
+    <string name="your_personal_info_changed">An canza bayanan ku na sirri</string>
+    <string name="update_and_save_confirm">Sabunta da adanawa?</string>
+    <string name="update_info_to_chat_server_failed">An kasa sabunta bayanai zuwa sabar tattaunawa</string>
 
 </resources>

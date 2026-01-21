@@ -445,5 +445,8 @@
     <string name="clear_chat_history_both_sides">Chat-Verlauf auf beiden Seiten löschen</string>
     <string name="nickname_with_prefix">(Spitzname: %1$s)</string>
     <string name="more_settings">Weitere Einstellungen</string>
+    <string name="your_personal_info_changed">Ihre persönlichen Informationen wurden geändert</string>
+    <string name="update_and_save_confirm">Aktualisieren und speichern?</string>
+    <string name="update_info_to_chat_server_failed">Fehler beim Aktualisieren der Informationen auf dem Chat-Server</string>
 
 </resources>

@@ -448,5 +448,8 @@
     <string name="clear_chat_history_both_sides">Linisin ang chat history mula sa magkabilang panig</string>
     <string name="nickname_with_prefix">(Palayaw: %1$s)</string>
     <string name="more_settings">Karagdagang mga setting</string>
+    <string name="your_personal_info_changed">Ang iyong personal na impormasyon ay nabago</string>
+    <string name="update_and_save_confirm">I-update at i-save?</string>
+    <string name="update_info_to_chat_server_failed">Nabigo ang pag-update ng impormasyon sa chat server</string>
 
 </resources>

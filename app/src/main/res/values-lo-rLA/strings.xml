@@ -447,5 +447,8 @@
     <string name="clear_chat_history_both_sides">ລຶບປະຫວັດການສົນທະນາຈາກທັງສອງດ້ານ</string>
     <string name="nickname_with_prefix">(ຊື່ຫຼິ້ນ: %1$s)</string>
     <string name="more_settings">ການຕັ້ງຄ່າເພີ່ມເຕີມ</string>
+    <string name="your_personal_info_changed">ຂໍ້ມູນສ່ວນຕົວຂອງທ່ານຖືກປ່ຽນແປງແລ້ວ</string>
+    <string name="update_and_save_confirm">ອັບເດດແລະບັນທຶກ?</string>
+    <string name="update_info_to_chat_server_failed">ລົ້ມເຫລວໃນການອັບເດດຂໍ້ມູນໄປຫາເຊີບເວີການສົນທະນາ</string>
 
 </resources>

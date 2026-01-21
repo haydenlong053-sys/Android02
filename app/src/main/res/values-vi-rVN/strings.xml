@@ -445,5 +445,8 @@
     <string name="clear_chat_history_both_sides">Xóa lịch sử trò chuyện ở cả hai phía</string>
     <string name="nickname_with_prefix">(Biệt danh: %1$s)</string>
     <string name="more_settings">Cài đặt thêm</string>
+    <string name="your_personal_info_changed">Thông tin cá nhân của bạn đã được thay đổi</string>
+    <string name="update_and_save_confirm">Cập nhật và lưu?</string>
+    <string name="update_info_to_chat_server_failed">Không thể cập nhật thông tin lên máy chủ trò chuyện</string>
 
 </resources>

@@ -445,5 +445,8 @@
     <string name="clear_chat_history_both_sides">양쪽 채팅 기록 지우기</string>
     <string name="nickname_with_prefix">(닉네임: %1$s)</string>
     <string name="more_settings">더 많은 설정</string>
+    <string name="your_personal_info_changed">개인 정보가 변경되었습니다</string>
+    <string name="update_and_save_confirm">업데이트하고 저장하시겠습니까?</string>
+    <string name="update_info_to_chat_server_failed">채팅 서버로 정보 업데이트 실패</string>
 
 </resources>

@@ -464,6 +464,9 @@
     <string name="clear_chat_history_both_sides">清空双方聊天记录</string>
     <string name="nickname_with_prefix">(昵称:%1$s)</string>
     <string name="more_settings">更多设置</string>
+    <string name="your_personal_info_changed">您的个人信息已更改</string>
+    <string name="update_and_save_confirm">是否更新并保存</string>
+    <string name="update_info_to_chat_server_failed">更新信息到聊天服务器失败</string>
     <string name="返回登录">返回登录</string>
     <string name="助记词登录">助记词登录</string>
     <string name="注销账号">注销账号</string>

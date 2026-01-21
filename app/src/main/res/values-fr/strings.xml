@@ -450,5 +450,8 @@
     <string name="clear_chat_history_both_sides">Effacer l\'historique de chat des deux côtés</string>
     <string name="nickname_with_prefix">(Surnom: %1$s)</string>
     <string name="more_settings">Plus de paramètres</string>
+    <string name="your_personal_info_changed">Vos informations personnelles ont été modifiées</string>
+    <string name="update_and_save_confirm">Mettre à jour et enregistrer?</string>
+    <string name="update_info_to_chat_server_failed">Échec de la mise à jour des informations vers le serveur de chat</string>
 
 </resources>

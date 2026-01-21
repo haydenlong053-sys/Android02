@@ -445,5 +445,8 @@
     <string name="clear_chat_history_both_sides">Borrar historial de chat de ambos lados</string>
     <string name="nickname_with_prefix">(Apodo: %1$s)</string>
     <string name="more_settings">Más configuraciones</string>
+    <string name="your_personal_info_changed">Su información personal ha sido modificada</string>
+    <string name="update_and_save_confirm">¿Actualizar y guardar?</string>
+    <string name="update_info_to_chat_server_failed">Error al actualizar la información al servidor de chat</string>
 
 </resources>

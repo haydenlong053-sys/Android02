@@ -52,5 +52,8 @@
     <string name="clear_chat_history_both_sides">Wyczyść historię czatu z obu stron</string>
     <string name="nickname_with_prefix">(Pseudonim: %1$s)</string>
     <string name="more_settings">Więcej ustawień</string>
+    <string name="your_personal_info_changed">Twoje dane osobowe zostały zmienione</string>
+    <string name="update_and_save_confirm">Zaktualizować i zapisać?</string>
+    <string name="update_info_to_chat_server_failed">Nie udało się zaktualizować informacji na serwerze czatu</string>
 
 </resources>

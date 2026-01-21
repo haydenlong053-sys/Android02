@@ -452,5 +452,8 @@
     <string name="clear_chat_history_both_sides">دونوں طرف سے چیٹ ہسٹری صاف کریں</string>
     <string name="nickname_with_prefix">(عرفی نام: %1$s)</string>
     <string name="more_settings">مزید ترتیبات</string>
+    <string name="your_personal_info_changed">آپ کی ذاتی معلومات تبدیل کر دی گئی ہیں</string>
+    <string name="update_and_save_confirm">اپ ڈیٹ اور محفوظ کریں?</string>
+    <string name="update_info_to_chat_server_failed">چیٹ سرور پر معلومات اپ ڈیٹ کرنے میں ناکام</string>
 
 </resources>

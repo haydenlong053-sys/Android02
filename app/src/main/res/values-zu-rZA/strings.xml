@@ -447,5 +447,8 @@
     <string name="clear_chat_history_both_sides">Sula umlando we-chat kuzo zombili izinhlangothi</string>
     <string name="nickname_with_prefix">(Igama elingaphansi: %1$s)</string>
     <string name="more_settings">Izilungiselelo ezengeziwe</string>
+    <string name="your_personal_info_changed">Ulwazi lwakho lomuntu siqu luguquliwe</string>
+    <string name="update_and_save_confirm">Buyekeza futhi ugcine?</string>
+    <string name="update_info_to_chat_server_failed">Kwehlulekile ukubuyekeza ulwazi kuseva yengxoxo</string>
 
 </resources>

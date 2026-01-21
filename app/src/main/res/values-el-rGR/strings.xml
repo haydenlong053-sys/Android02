@@ -446,5 +446,8 @@
     <string name="clear_chat_history_both_sides">Εκκαθάριση ιστορικού συνομιλίας και από τις δύο πλευρές</string>
     <string name="nickname_with_prefix">(Ψευδώνυμο: %1$s)</string>
     <string name="more_settings">Περισσότερες ρυθμίσεις</string>
+    <string name="your_personal_info_changed">Οι προσωπικές σας πληροφορίες έχουν αλλάξει</string>
+    <string name="update_and_save_confirm">Ενημέρωση και αποθήκευση?</string>
+    <string name="update_info_to_chat_server_failed">Αποτυχία ενημέρωσης πληροφοριών στον διακομιστή συνομιλίας</string>
 
 </resources>

@@ -445,5 +445,8 @@
     <string name="clear_chat_history_both_sides">נקה היסטוריית צ\'אט משני הצדדים</string>
     <string name="nickname_with_prefix">(כינוי: %1$s)</string>
     <string name="more_settings">הגדרות נוספות</string>
+    <string name="your_personal_info_changed">המידע האישי שלך שונה</string>
+    <string name="update_and_save_confirm">לעדכן ולשמור?</string>
+    <string name="update_info_to_chat_server_failed">נכשל בעדכון המידע לשרת הצ\'אט</string>
 
 </resources>

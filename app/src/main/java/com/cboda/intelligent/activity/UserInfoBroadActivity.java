@@ -317,7 +317,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             if (booleanOperateResult.isSuccess()) {
                 finish();
             } else {
-                ToastBroadUtil.show("更新信息到聊天服务器失败" + booleanOperateResult.getErrorCode());
+                ToastBroadUtil.show(getString(R.string.update_info_to_chat_server_failed) + booleanOperateResult.getErrorCode());
             }
 
 
@@ -592,9 +592,9 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         mBinding.tvUserName.setText(bean.data.name);
         if (!StringBroadUtil.isEmpty(bean.data.sex)) {
             if (bean.data.sex.equals("1")) {
-                mBinding.tvSex.setText("男");
+                mBinding.tvSex.setText(getString(R.string.男));
             } else {
-                mBinding.tvSex.setText("女");
+                mBinding.tvSex.setText(getString(R.string.女));
             }
         }
         mBinding.tvAccountId.setText(getString(R.string.账户ID) + ":" + (!TextUtils.isEmpty(bean.data.idno) ? bean.data.idno : bean.data.mId));
@@ -625,8 +625,8 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     private void showGuideTip() {
         CommonTipBroadPop commonTipPop = new CommonTipBroadPop(
                 this,
-                "您的个人信息已更改",
-                "是否更新并保存"
+                getString(R.string.your_personal_info_changed),
+                getString(R.string.update_and_save_confirm)
         );
         commonTipPop.setCancelBtn(getString(R.string.cancel));
         commonTipPop.setSureBtn(getString(R.string.action_save));

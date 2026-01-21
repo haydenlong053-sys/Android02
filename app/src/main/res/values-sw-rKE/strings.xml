@@ -447,5 +447,8 @@
     <string name="clear_chat_history_both_sides">Futa historia ya mazungumzo kutoka pande zote mbili</string>
     <string name="nickname_with_prefix">(Jina la utani: %1$s)</string>
     <string name="more_settings">Mipangilio zaidi</string>
+    <string name="your_personal_info_changed">Maelezo yako ya kibinafsi yamebadilishwa</string>
+    <string name="update_and_save_confirm">Sasisha na uhifadhi?</string>
+    <string name="update_info_to_chat_server_failed">Imeshindwa kusasisha maelezo kwa seva ya mazungumzo</string>
 
 </resources>

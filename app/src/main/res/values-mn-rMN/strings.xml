@@ -448,5 +448,8 @@
     <string name="clear_chat_history_both_sides">Хоёр талын чатын түүхийг арилгах</string>
     <string name="nickname_with_prefix">(Хоч нэр: %1$s)</string>
     <string name="more_settings">Нэмэлт тохиргоо</string>
+    <string name="your_personal_info_changed">Таны хувийн мэдээлэл өөрчлөгдсөн</string>
+    <string name="update_and_save_confirm">Шинэчлэх, хадгалах уу?</string>
+    <string name="update_info_to_chat_server_failed">Чат серверт мэдээлэл шинэчлэхэд алдаа гарлаа</string>
 
 </resources>

@@ -447,5 +447,8 @@
     <string name="clear_chat_history_both_sides">Limpar histórico de chat de ambos os lados</string>
     <string name="nickname_with_prefix">(Apelido: %1$s)</string>
     <string name="more_settings">Mais configurações</string>
+    <string name="your_personal_info_changed">Suas informações pessoais foram alteradas</string>
+    <string name="update_and_save_confirm">Atualizar e salvar?</string>
+    <string name="update_info_to_chat_server_failed">Falha ao atualizar informações para o servidor de chat</string>
 
 </resources>

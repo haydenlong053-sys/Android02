@@ -503,6 +503,9 @@
     <string name="clear_chat_history_both_sides">清空双方聊天记录</string>
     <string name="nickname_with_prefix">(暱稱:%1$s)</string>
     <string name="more_settings">更多設置</string>
+    <string name="your_personal_info_changed">您的個人信息已更改</string>
+    <string name="update_and_save_confirm">是否更新並保存</string>
+    <string name="update_info_to_chat_server_failed">更新信息到聊天服務器失敗</string>
     <string name="m_save_login">保存并登录</string>
     <string name="action_template">模板</string>
     <string name="mine_change_password_auth_title">您要更改支付密码吗？</string>

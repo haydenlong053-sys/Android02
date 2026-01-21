@@ -445,5 +445,8 @@
     <string name="clear_chat_history_both_sides">مسح سجل الدردشة من كلا الجانبين</string>
     <string name="nickname_with_prefix">(الاسم المستعار: %1$s)</string>
     <string name="more_settings">إعدادات إضافية</string>
+    <string name="your_personal_info_changed">تم تغيير معلوماتك الشخصية</string>
+    <string name="update_and_save_confirm">تحديث وحفظ?</string>
+    <string name="update_info_to_chat_server_failed">فشل تحديث المعلومات إلى خادم الدردشة</string>
 
 </resources>

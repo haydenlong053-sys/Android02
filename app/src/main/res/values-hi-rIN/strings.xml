@@ -444,5 +444,8 @@
     <string name="clear_chat_history_both_sides">दोनों तरफ से चैट इतिहास साफ करें</string>
     <string name="nickname_with_prefix">(उपनाम: %1$s)</string>
     <string name="more_settings">अधिक सेटिंग्स</string>
+    <string name="your_personal_info_changed">आपकी व्यक्तिगत जानकारी बदल दी गई है</string>
+    <string name="update_and_save_confirm">अपडेट और सहेजें?</string>
+    <string name="update_info_to_chat_server_failed">चैट सर्वर पर जानकारी अपडेट करने में विफल</string>
 
 </resources>

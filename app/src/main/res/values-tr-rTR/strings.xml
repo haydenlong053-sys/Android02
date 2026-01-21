@@ -451,5 +451,8 @@
     <string name="clear_chat_history_both_sides">Her iki taraftan da sohbet geçmişini temizle</string>
     <string name="nickname_with_prefix">(Takma ad: %1$s)</string>
     <string name="more_settings">Daha fazla ayar</string>
+    <string name="your_personal_info_changed">Kişisel bilgileriniz değiştirildi</string>
+    <string name="update_and_save_confirm">Güncelle ve kaydet?</string>
+    <string name="update_info_to_chat_server_failed">Sohbet sunucusuna bilgi güncelleme başarısız</string>
 
 </resources>
