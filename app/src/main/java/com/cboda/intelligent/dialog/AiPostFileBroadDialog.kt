@@ -66,56 +66,56 @@ class AiPostFileBroadDialog(context: Context, val riskType: String, val resource
             DOCUMENT_TYPE -> {
                 if (riskType == PROJECT_RISK_TYPE) {
                     listOf(
-                        "团队背景真实性（学历、头像、过往经历）",
-                        "商业模式是否可持续",
-                        "是否具有资金盘特征",
-                        "盈利模式是否合理",
-                        "是否使用夸大承诺、保底收益",
-                        "是否存在伪造证书、虚构资质",
-                        "不合理条款或高危表述"
+                        context.getString(R.string.ai_team_background_authenticity),
+                        context.getString(R.string.ai_business_model_sustainable),
+                        context.getString(R.string.ai_ponzi_like_features),
+                        context.getString(R.string.ai_profit_model_reasonable),
+                        context.getString(R.string.ai_exaggerated_promises),
+                        context.getString(R.string.ai_fake_certificates),
+                        context.getString(R.string.ai_unfair_or_high_risk_terms)
                     )
                 } else {
                     listOf(
-                        "单方免责",
-                        "单方终止权",
-                        "过度权利授予",
-                        "数据隐私问题",
-                        "违约金不合理",
-                        "缺失关键条款",
-                        "模糊条款"
+                        context.getString(R.string.ai_unilateral_exemption),
+                        context.getString(R.string.ai_unilateral_termination),
+                        context.getString(R.string.ai_excessive_rights_grant),
+                        context.getString(R.string.ai_data_privacy_issues),
+                        context.getString(R.string.ai_unreasonable_liquidated_damages),
+                        context.getString(R.string.ai_missing_key_terms),
+                        context.getString(R.string.ai_ambiguous_terms)
                     )
                 }
             }
 
             IMAGE_TYPE -> {
                 listOf(
-                    "AI生成特征（指纹、光影、结构异常）",
-                    "Deepfake 特征",
-                    "拼接痕迹",
-                    "伪造身份证/证书",
-                    "图像与背景是否一致",
-                    "元信息（exif）缺失或异常"
+                    context.getString(R.string.ai_generation_features),
+                    context.getString(R.string.ai_deepfake_features),
+                    context.getString(R.string.ai_splicing_traces),
+                    context.getString(R.string.ai_fake_id_cert),
+                    context.getString(R.string.ai_image_background_consistency),
+                    context.getString(R.string.ai_missing_or_abnormal_exif)
                 )
             }
 
             VOICE_TYPE -> {
                 listOf(
-                    "AI伪造",
-                    "声线克隆",
-                    "节奏/频谱异常",
-                    "混音剪辑"
+                    context.getString(R.string.ai_voice_forgery),
+                    context.getString(R.string.ai_voice_clone),
+                    context.getString(R.string.ai_rhythm_spectrum_anomaly),
+                    context.getString(R.string.ai_audio_editing)
                 )
             }
 
             else -> {
                 listOf(
-                    "人脸替换痕迹",
-                    "帧间闪烁",
-                    "口型不一致",
-                    "AI生成纹理",
-                    "背景合成",
-                    "缺失关键条款",
-                    "音频与视频是否一致"
+                    context.getString(R.string.ai_face_replacement_traces),
+                    context.getString(R.string.ai_frame_flicker),
+                    context.getString(R.string.ai_lip_sync_mismatch),
+                    context.getString(R.string.ai_generated_texture),
+                    context.getString(R.string.ai_background_composite),
+                    context.getString(R.string.ai_missing_key_terms),
+                    context.getString(R.string.ai_audio_video_consistency)
                 )
             }
         }
@@ -125,7 +125,9 @@ class AiPostFileBroadDialog(context: Context, val riskType: String, val resource
             recyclerView.setOnTouchListener { _, _ ->
                 true
             }
-            val texts = listBeforeString.map { "正在分析$it" }
+            val texts = listBeforeString.map { item ->
+                context.getString(R.string.ai_analyzing_item, item)
+            }
             adapter = VerticalTextBroadAdapter(texts)
             recyclerView.adapter = adapter
             startAutoSlide()
@@ -161,7 +163,7 @@ class AiPostFileBroadDialog(context: Context, val riskType: String, val resource
                     1 -> ".."
                     else -> "..."
                 }
-                contentTv.text = "正在深度分析$afterStr"
+                contentTv.text = context.getString(R.string.正在深度分析) + afterStr
             }
             recyclerView?.let { recyclerView ->
                 if (null != recyclerView.layoutManager && recyclerView.layoutManager is LinearLayoutManager) {
