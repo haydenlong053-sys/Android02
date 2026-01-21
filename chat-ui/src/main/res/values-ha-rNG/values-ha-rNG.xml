@@ -78,4 +78,13 @@
     <string name="msg_business_card">Katin kasuwanci</string>
     <string name="msg_meeting_room">Dakin taro</string>
     <string name="msg_transfer">Canja</string>
+    <string name="draft_text">[Draft]</string>
+    <string name="someone_mentioned_me">[Wani ya ambaci ni]</string>
+    <string name="not_set">Ba a saita ba</string>
+    <string name="delete_conversation">Share tattaunawa</string>
+    <string name="pin_to_top">Fingura a sama</string>
+    <string name="cancel_pin_to_top">Cire fingura</string>
+    <string name="mark_as_read">Yi alama kamar an karanta</string>
+    <string name="mark_as_unread">Yi alama kamar ba a karanta ba</string>
+    <string name="confirm_delete_conversation">Tabbatar share tattaunawa?</string>
 </resources>

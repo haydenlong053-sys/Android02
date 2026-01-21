@@ -83,4 +83,13 @@
     <string name="msg_business_card">Tarjeta de visita</string>
     <string name="msg_meeting_room">Sala de reuniones</string>
     <string name="msg_transfer">Transferencia</string>
+    <string name="draft_text">[Borrador]</string>
+    <string name="someone_mentioned_me">[Alguien me mencionó]</string>
+    <string name="not_set">No establecido</string>
+    <string name="delete_conversation">Eliminar conversación</string>
+    <string name="pin_to_top">Fijar arriba</string>
+    <string name="cancel_pin_to_top">Desfijar</string>
+    <string name="mark_as_read">Marcar como leído</string>
+    <string name="mark_as_unread">Marcar como no leído</string>
+    <string name="confirm_delete_conversation">¿Confirmar eliminar conversación?</string>
 </resources>

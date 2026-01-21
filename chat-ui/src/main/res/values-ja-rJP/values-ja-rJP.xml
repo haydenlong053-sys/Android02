@@ -83,4 +83,13 @@
     <string name="msg_business_card">名刺</string>
     <string name="msg_meeting_room">会議室</string>
     <string name="msg_transfer">振込</string>
+    <string name="draft_text">[下書き]</string>
+    <string name="someone_mentioned_me">[誰かが私をメンションしました]</string>
+    <string name="not_set">未設定</string>
+    <string name="delete_conversation">会話を削除</string>
+    <string name="pin_to_top">ピン留め</string>
+    <string name="cancel_pin_to_top">ピン留めを解除</string>
+    <string name="mark_as_read">既読にする</string>
+    <string name="mark_as_unread">未読にする</string>
+    <string name="confirm_delete_conversation">会話を削除してもよろしいですか?</string>
 </resources>

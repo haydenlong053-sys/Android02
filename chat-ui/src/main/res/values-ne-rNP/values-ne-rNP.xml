@@ -78,4 +78,13 @@
     <string name="msg_business_card">व्यवसाय कार्ड</string>
     <string name="msg_meeting_room">बैठक कोठा</string>
     <string name="msg_transfer">साराइ</string>
+    <string name="draft_text">[मस्यौदा]</string>
+    <string name="someone_mentioned_me">[कसैले मलाई उल्लेख गर्यो]</string>
+    <string name="not_set">सेट गरिएको छैन</string>
+    <string name="delete_conversation">कुराकानी मेटाउनुहोस्</string>
+    <string name="pin_to_top">माथि पिन गर्नुहोस्</string>
+    <string name="cancel_pin_to_top">पिन रद्द गर्नुहोस्</string>
+    <string name="mark_as_read">पढिसकेको रूपमा चिन्ह लगाउनुहोस्</string>
+    <string name="mark_as_unread">नपढिएको रूपमा चिन्ह लगाउनुहोस्</string>
+    <string name="confirm_delete_conversation">कुराकानी मेटाउने पुष्टि गर्नुहोस्?</string>
 </resources>

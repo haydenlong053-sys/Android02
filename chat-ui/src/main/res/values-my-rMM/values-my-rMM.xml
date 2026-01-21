@@ -78,4 +78,13 @@
     <string name="msg_business_card">လုပ်ငန်းကတ်</string>
     <string name="msg_meeting_room">အစည်းအဝေးခန်းမ</string>
     <string name="msg_transfer">လွှဲပြောင်း</string>
+    <string name="draft_text">[မူကြမ်း]</string>
+    <string name="someone_mentioned_me">[တစ်စုံတစ်ယောက်က ကျွန်ုပ်ကို ဖော်ပြခဲ့သည်]</string>
+    <string name="not_set">မသတ်မှတ်ထား</string>
+    <string name="delete_conversation">စကားပြောခန်းကို ဖျက်ပါ</string>
+    <string name="pin_to_top">ထိပ်တွင် ပင်ထိုးပါ</string>
+    <string name="cancel_pin_to_top">ပင်ထိုးမှုကို ပယ်ဖျက်ပါ</string>
+    <string name="mark_as_read">ဖတ်ပြီးဟု အမှတ်အသားပြုပါ</string>
+    <string name="mark_as_unread">မဖတ်ရသေးဟု အမှတ်အသားပြုပါ</string>
+    <string name="confirm_delete_conversation">စကားပြောခန်းကို ဖျက်ရန် အတည်ပြုပါ?</string>
 </resources>

@@ -78,4 +78,13 @@
     <string name="msg_business_card">Kadi ya biashara</string>
     <string name="msg_meeting_room">Chumba cha mkutano</string>
     <string name="msg_transfer">Uhamisho</string>
+    <string name="draft_text">[Rasimu]</string>
+    <string name="someone_mentioned_me">[Mtu amenitaja]</string>
+    <string name="not_set">Haijawekwa</string>
+    <string name="delete_conversation">Futa mazungumzo</string>
+    <string name="pin_to_top">Songa juu</string>
+    <string name="cancel_pin_to_top">Ondoa pini</string>
+    <string name="mark_as_read">Weka alama kama imesomwa</string>
+    <string name="mark_as_unread">Weka alama kama haijasomwa</string>
+    <string name="confirm_delete_conversation">Thibitisha kufuta mazungumzo?</string>
 </resources>

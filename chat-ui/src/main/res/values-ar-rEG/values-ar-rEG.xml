@@ -83,4 +83,13 @@
     <string name="msg_business_card">بطاقة العمل</string>
     <string name="msg_meeting_room">قاعة الاجتماعات</string>
     <string name="msg_transfer">تحويل</string>
+    <string name="draft_text">[مسودة]</string>
+    <string name="someone_mentioned_me">[شخص ما ذكرني]</string>
+    <string name="not_set">غير مضبوط</string>
+    <string name="delete_conversation">حذف المحادثة</string>
+    <string name="pin_to_top">تثبيت في الأعلى</string>
+    <string name="cancel_pin_to_top">إلغاء التثبيت</string>
+    <string name="mark_as_read">وضع علامة كمقروء</string>
+    <string name="mark_as_unread">وضع علامة كغير مقروء</string>
+    <string name="confirm_delete_conversation">تأكيد حذف المحادثة?</string>
 </resources>

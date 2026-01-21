@@ -83,4 +83,13 @@
     <string name="msg_business_card">명함</string>
     <string name="msg_meeting_room">회의실</string>
     <string name="msg_transfer">이체</string>
+    <string name="draft_text">[초안]</string>
+    <string name="someone_mentioned_me">[누군가 나를 언급했습니다]</string>
+    <string name="not_set">설정 안 됨</string>
+    <string name="delete_conversation">대화 삭제</string>
+    <string name="pin_to_top">상단에 고정</string>
+    <string name="cancel_pin_to_top">고정 해제</string>
+    <string name="mark_as_read">읽음으로 표시</string>
+    <string name="mark_as_unread">읽지 않음으로 표시</string>
+    <string name="confirm_delete_conversation">대화를 삭제하시겠습니까?</string>
 </resources>

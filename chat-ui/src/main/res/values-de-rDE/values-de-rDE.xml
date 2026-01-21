@@ -83,4 +83,13 @@
     <string name="msg_business_card">Visitenkarte</string>
     <string name="msg_meeting_room">Besprechungsraum</string>
     <string name="msg_transfer">Überweisung</string>
+    <string name="draft_text">[Entwurf]</string>
+    <string name="someone_mentioned_me">[Jemand hat mich erwähnt]</string>
+    <string name="not_set">Nicht festgelegt</string>
+    <string name="delete_conversation">Unterhaltung löschen</string>
+    <string name="pin_to_top">Anheften</string>
+    <string name="cancel_pin_to_top">Lösen</string>
+    <string name="mark_as_read">Als gelesen markieren</string>
+    <string name="mark_as_unread">Als ungelesen markieren</string>
+    <string name="confirm_delete_conversation">Unterhaltung wirklich löschen?</string>
 </resources>

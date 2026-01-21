@@ -83,4 +83,13 @@
     <string name="msg_business_card">Biglietto da visita</string>
     <string name="msg_meeting_room">Sala riunioni</string>
     <string name="msg_transfer">Bonifico</string>
+    <string name="draft_text">[Bozza]</string>
+    <string name="someone_mentioned_me">[Qualcuno mi ha menzionato]</string>
+    <string name="not_set">Non impostato</string>
+    <string name="delete_conversation">Elimina conversazione</string>
+    <string name="pin_to_top">Fissa in alto</string>
+    <string name="cancel_pin_to_top">Rimuovi fissaggio</string>
+    <string name="mark_as_read">Segna come letto</string>
+    <string name="mark_as_unread">Segna come non letto</string>
+    <string name="confirm_delete_conversation">Confermare l\'eliminazione della conversazione?</string>
 </resources>

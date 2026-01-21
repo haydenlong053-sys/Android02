@@ -83,4 +83,13 @@
     <string name="msg_business_card">นามบัตร</string>
     <string name="msg_meeting_room">ห้องประชุม</string>
     <string name="msg_transfer">โอนเงิน</string>
+    <string name="draft_text">[ร่าง]</string>
+    <string name="someone_mentioned_me">[มีคนกล่าวถึงฉัน]</string>
+    <string name="not_set">ไม่ได้ตั้งค่า</string>
+    <string name="delete_conversation">ลบการสนทนา</string>
+    <string name="pin_to_top">ปักหมุดด้านบน</string>
+    <string name="cancel_pin_to_top">ยกเลิกการปักหมุด</string>
+    <string name="mark_as_read">ทำเครื่องหมายว่าอ่านแล้ว</string>
+    <string name="mark_as_unread">ทำเครื่องหมายว่ายังไม่อ่าน</string>
+    <string name="confirm_delete_conversation">ยืนยันการลบการสนทนา?</string>
 </resources>

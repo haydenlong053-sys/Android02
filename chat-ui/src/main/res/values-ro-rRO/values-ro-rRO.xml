@@ -78,4 +78,13 @@
     <string name="msg_business_card">Carte de vizită</string>
     <string name="msg_meeting_room">Sală de întâlniri</string>
     <string name="msg_transfer">Transfer</string>
+    <string name="draft_text">[Ciornă]</string>
+    <string name="someone_mentioned_me">[Cineva m-a menționat]</string>
+    <string name="not_set">Nu este setat</string>
+    <string name="delete_conversation">Șterge conversația</string>
+    <string name="pin_to_top">Fixează în partea de sus</string>
+    <string name="cancel_pin_to_top">Anulează fixarea</string>
+    <string name="mark_as_read">Marchează ca citit</string>
+    <string name="mark_as_unread">Marchează ca necitit</string>
+    <string name="confirm_delete_conversation">Confirmă ștergerea conversației?</string>
 </resources>

@@ -259,6 +259,15 @@
     <string name="msg_business_card">名片</string>
     <string name="msg_meeting_room">会议室</string>
     <string name="msg_transfer">转账</string>
+    <string name="draft_text">[草稿]</string>
+    <string name="someone_mentioned_me">[有人@我]</string>
+    <string name="not_set">未设置</string>
+    <string name="delete_conversation">删除会话</string>
+    <string name="pin_to_top">置顶</string>
+    <string name="cancel_pin_to_top">取消置顶</string>
+    <string name="mark_as_read">设为已读</string>
+    <string name="mark_as_unread">标记未读</string>
+    <string name="confirm_delete_conversation">确认删除会话?</string>
 
 
 </resources>

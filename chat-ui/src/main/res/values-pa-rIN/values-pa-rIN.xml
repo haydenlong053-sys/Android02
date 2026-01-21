@@ -78,4 +78,13 @@
     <string name="msg_business_card">ਵਪਾਰਕ ਕਾਰਡ</string>
     <string name="msg_meeting_room">ਮੀਟਿੰਗ ਰੂਮ</string>
     <string name="msg_transfer">ਟ੍ਰਾਂਸਫਰ</string>
+    <string name="draft_text">[ਮਸੌਦਾ]</string>
+    <string name="someone_mentioned_me">[ਕਿਸੇ ਨੇ ਮੈਨੂੰ ਜ਼ਿਕਰ ਕੀਤਾ]</string>
+    <string name="not_set">ਸੈੱਟ ਨਹੀਂ</string>
+    <string name="delete_conversation">ਗੱਲਬਾਤ ਮਿਟਾਓ</string>
+    <string name="pin_to_top">ਉੱਪਰ ਪਿੰਨ ਕਰੋ</string>
+    <string name="cancel_pin_to_top">ਪਿੰਨ ਹਟਾਓ</string>
+    <string name="mark_as_read">ਪੜ੍ਹਿਆ ਹੋਇਆ ਚਿੰਨ੍ਹ ਲਗਾਓ</string>
+    <string name="mark_as_unread">ਅਣਪੜ੍ਹਿਆ ਚਿੰਨ੍ਹ ਲਗਾਓ</string>
+    <string name="confirm_delete_conversation">ਗੱਲਬਾਤ ਮਿਟਾਉਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ?</string>
 </resources>

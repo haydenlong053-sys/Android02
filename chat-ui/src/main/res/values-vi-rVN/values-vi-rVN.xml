@@ -389,5 +389,14 @@
     <string name="msg_business_card">Danh thiếp</string>
     <string name="msg_meeting_room">Phòng họp</string>
     <string name="msg_transfer">Chuyển khoản</string>
+    <string name="draft_text">[Bản nháp]</string>
+    <string name="someone_mentioned_me">[Ai đó đã đề cập đến tôi]</string>
+    <string name="not_set">Chưa thiết lập</string>
+    <string name="delete_conversation">Xóa cuộc trò chuyện</string>
+    <string name="pin_to_top">Ghim lên đầu</string>
+    <string name="cancel_pin_to_top">Bỏ ghim</string>
+    <string name="mark_as_read">Đánh dấu là đã đọc</string>
+    <string name="mark_as_unread">Đánh dấu là chưa đọc</string>
+    <string name="confirm_delete_conversation">Xác nhận xóa cuộc trò chuyện?</string>
 
 </resources>

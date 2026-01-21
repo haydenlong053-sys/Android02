@@ -83,4 +83,13 @@
     <string name="msg_business_card">व्यवसाय कार्ड</string>
     <string name="msg_meeting_room">बैठक कक्ष</string>
     <string name="msg_transfer">ट्रांसफर</string>
+    <string name="draft_text">[ड्राफ्ट]</string>
+    <string name="someone_mentioned_me">[किसी ने मुझे उल्लेख किया]</string>
+    <string name="not_set">सेट नहीं</string>
+    <string name="delete_conversation">वार्तालाप हटाएं</string>
+    <string name="pin_to_top">शीर्ष पर पिन करें</string>
+    <string name="cancel_pin_to_top">पिन हटाएं</string>
+    <string name="mark_as_read">पढ़ा हुआ चिह्नित करें</string>
+    <string name="mark_as_unread">अपठित चिह्नित करें</string>
+    <string name="confirm_delete_conversation">वार्तालाप हटाने की पुष्टि करें?</string>
 </resources>

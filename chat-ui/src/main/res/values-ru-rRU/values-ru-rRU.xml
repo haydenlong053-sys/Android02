@@ -83,4 +83,13 @@
     <string name="msg_business_card">Визитная карточка</string>
     <string name="msg_meeting_room">Конференц-зал</string>
     <string name="msg_transfer">Перевод</string>
+    <string name="draft_text">[Черновик]</string>
+    <string name="someone_mentioned_me">[Кто-то упомянул меня]</string>
+    <string name="not_set">Не установлено</string>
+    <string name="delete_conversation">Удалить разговор</string>
+    <string name="pin_to_top">Закрепить сверху</string>
+    <string name="cancel_pin_to_top">Открепить</string>
+    <string name="mark_as_read">Отметить как прочитанное</string>
+    <string name="mark_as_unread">Отметить как непрочитанное</string>
+    <string name="confirm_delete_conversation">Подтвердить удаление разговора?</string>
 </resources>

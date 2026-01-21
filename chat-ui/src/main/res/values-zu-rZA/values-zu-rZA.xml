@@ -78,4 +78,13 @@
     <string name="msg_business_card">Ikhadi lebhizinisi</string>
     <string name="msg_meeting_room">Igumbi lokuhlanganisa</string>
     <string name="msg_transfer">Ukudlulisa</string>
+    <string name="draft_text">[Isifinyezo]</string>
+    <string name="someone_mentioned_me">[Othile ungibale]</string>
+    <string name="not_set">Ayikasetiwe</string>
+    <string name="delete_conversation">Susa ingxoxo</string>
+    <string name="pin_to_top">Phina phezulu</string>
+    <string name="cancel_pin_to_top">Khipha iphini</string>
+    <string name="mark_as_read">Phawula njengokufundiwe</string>
+    <string name="mark_as_unread">Phawula njengokungafundwanga</string>
+    <string name="confirm_delete_conversation">Qinisekisa ukususa ingxoxo?</string>
 </resources>

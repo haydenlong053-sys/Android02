@@ -78,4 +78,13 @@
     <string name="msg_business_card">Wizytówka</string>
     <string name="msg_meeting_room">Sala konferencyjna</string>
     <string name="msg_transfer">Przelew</string>
+    <string name="draft_text">[Szkic]</string>
+    <string name="someone_mentioned_me">[Ktoś mnie wspomniał]</string>
+    <string name="not_set">Nie ustawiono</string>
+    <string name="delete_conversation">Usuń rozmowę</string>
+    <string name="pin_to_top">Przypnij u góry</string>
+    <string name="cancel_pin_to_top">Odepnij</string>
+    <string name="mark_as_read">Oznacz jako przeczytane</string>
+    <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
+    <string name="confirm_delete_conversation">Potwierdź usunięcie rozmowy?</string>
 </resources>

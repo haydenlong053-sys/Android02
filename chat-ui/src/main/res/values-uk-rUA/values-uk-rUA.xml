@@ -78,4 +78,13 @@
     <string name="msg_business_card">Візитна картка</string>
     <string name="msg_meeting_room">Конференц-зал</string>
     <string name="msg_transfer">Переказ</string>
+    <string name="draft_text">[Чернетка]</string>
+    <string name="someone_mentioned_me">[Хтось згадав мене]</string>
+    <string name="not_set">Не встановлено</string>
+    <string name="delete_conversation">Видалити розмову</string>
+    <string name="pin_to_top">Закріпити зверху</string>
+    <string name="cancel_pin_to_top">Відкріпити</string>
+    <string name="mark_as_read">Позначити як прочитане</string>
+    <string name="mark_as_unread">Позначити як непрочитане</string>
+    <string name="confirm_delete_conversation">Підтвердити видалення розмови?</string>
 </resources>

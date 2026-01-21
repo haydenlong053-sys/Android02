@@ -282,8 +282,8 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
                                 content = viewHolder.contextConfirmPrompt(fragment.getContext(), menuItem.contextMenuItem.tag());
                                 new MaterialDialog.Builder(fragment.getActivity())
                                     .content(content)
-                                    .negativeText("取消")
-                                    .positiveText("确认")
+                                    .negativeText(fragment.getString(R.string.quxiao))
+                                    .positiveText(fragment.getString(R.string.confirm))
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

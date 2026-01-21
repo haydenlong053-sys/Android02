@@ -78,4 +78,13 @@
     <string name="msg_business_card">Business card</string>
     <string name="msg_meeting_room">Meeting room</string>
     <string name="msg_transfer">Transfer</string>
+    <string name="draft_text">[Draft]</string>
+    <string name="someone_mentioned_me">[May nagbanggit sa akin]</string>
+    <string name="not_set">Hindi nakatakda</string>
+    <string name="delete_conversation">Tanggalin ang usapan</string>
+    <string name="pin_to_top">I-pin sa taas</string>
+    <string name="cancel_pin_to_top">Alisin ang pin</string>
+    <string name="mark_as_read">Markahan bilang nabasa</string>
+    <string name="mark_as_unread">Markahan bilang hindi nabasa</string>
+    <string name="confirm_delete_conversation">Kumpirmahin ang pagtanggal ng usapan?</string>
 </resources>

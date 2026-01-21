@@ -83,4 +83,13 @@
     <string name="msg_business_card">כרטיס ביקור</string>
     <string name="msg_meeting_room">חדר ישיבות</string>
     <string name="msg_transfer">העברה</string>
+    <string name="draft_text">[טיוטה]</string>
+    <string name="someone_mentioned_me">[מישהו הזכיר אותי]</string>
+    <string name="not_set">לא הוגדר</string>
+    <string name="delete_conversation">מחק שיחה</string>
+    <string name="pin_to_top">הצמד למעלה</string>
+    <string name="cancel_pin_to_top">הסר הצמדה</string>
+    <string name="mark_as_read">סמן כנקרא</string>
+    <string name="mark_as_unread">סמן כלא נקרא</string>
+    <string name="confirm_delete_conversation">אשר מחיקת שיחה?</string>
 </resources>

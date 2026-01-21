@@ -78,4 +78,13 @@
     <string name="msg_business_card">ບັດທຸລະກິດ</string>
     <string name="msg_meeting_room">ຫ້ອງປະຊຸມ</string>
     <string name="msg_transfer">ໂອນຍ້າຍ</string>
+    <string name="draft_text">[ຮ່າງ]</string>
+    <string name="someone_mentioned_me">[ມີຄົນເວົ້າເຖິງຂ້ອຍ]</string>
+    <string name="not_set">ບໍ່ໄດ້ຕັ້ງຄ່າ</string>
+    <string name="delete_conversation">ລຶບການສົນທະນາ</string>
+    <string name="pin_to_top">ປັກຫມຸດຢູ່ດ້ານເທິງ</string>
+    <string name="cancel_pin_to_top">ຍົກເລີກການປັກຫມຸດ</string>
+    <string name="mark_as_read">ໝາຍວ່າອ່ານແລ້ວ</string>
+    <string name="mark_as_unread">ໝາຍວ່າຍັງບໍ່ໄດ້ອ່ານ</string>
+    <string name="confirm_delete_conversation">ຢືນຢັນການລຶບການສົນທະນາ?</string>
 </resources>

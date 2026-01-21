@@ -78,4 +78,13 @@
     <string name="msg_business_card">Kartu nama</string>
     <string name="msg_meeting_room">Ruang rapat</string>
     <string name="msg_transfer">Transfer</string>
+    <string name="draft_text">[Draft]</string>
+    <string name="someone_mentioned_me">[Seseorang menyebutkan saya]</string>
+    <string name="not_set">Tidak diatur</string>
+    <string name="delete_conversation">Hapus percakapan</string>
+    <string name="pin_to_top">Sematkan di atas</string>
+    <string name="cancel_pin_to_top">Lepas sematan</string>
+    <string name="mark_as_read">Tandai sebagai dibaca</string>
+    <string name="mark_as_unread">Tandai sebagai belum dibaca</string>
+    <string name="confirm_delete_conversation">Konfirmasi hapus percakapan?</string>
 </resources>

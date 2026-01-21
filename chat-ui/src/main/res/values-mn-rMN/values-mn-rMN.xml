@@ -78,4 +78,13 @@
     <string name="msg_business_card">Бизнес карт</string>
     <string name="msg_meeting_room">Уулзалтын өрөө</string>
     <string name="msg_transfer">Шилжүүлэг</string>
+    <string name="draft_text">[Ноорог]</string>
+    <string name="someone_mentioned_me">[Хэн нэгэн намайг дурдсан]</string>
+    <string name="not_set">Тохируулаагүй</string>
+    <string name="delete_conversation">Яриа устгах</string>
+    <string name="pin_to_top">Дээр бэхлэх</string>
+    <string name="cancel_pin_to_top">Бэхлэлтийг цуцлах</string>
+    <string name="mark_as_read">Уншсан гэж тэмдэглэх</string>
+    <string name="mark_as_unread">Уншаагүй гэж тэмдэглэх</string>
+    <string name="confirm_delete_conversation">Яриаг устгахыг баталгаажуулах уу?</string>
 </resources>

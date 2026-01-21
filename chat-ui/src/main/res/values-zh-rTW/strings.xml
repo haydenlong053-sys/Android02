@@ -83,4 +83,13 @@
     <string name="msg_business_card">名片</string>
     <string name="msg_meeting_room">會議室</string>
     <string name="msg_transfer">轉賬</string>
+    <string name="draft_text">[草稿]</string>
+    <string name="someone_mentioned_me">[有人@我]</string>
+    <string name="not_set">未設置</string>
+    <string name="delete_conversation">刪除會話</string>
+    <string name="pin_to_top">置頂</string>
+    <string name="cancel_pin_to_top">取消置頂</string>
+    <string name="mark_as_read">設為已讀</string>
+    <string name="mark_as_unread">標記未讀</string>
+    <string name="confirm_delete_conversation">確認刪除會話?</string>
 </resources>

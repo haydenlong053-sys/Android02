@@ -78,4 +78,13 @@
     <string name="msg_business_card">Επιστολή επαγγελματική</string>
     <string name="msg_meeting_room">Αίθουσα συνεδριάσεων</string>
     <string name="msg_transfer">Μεταφορά</string>
+    <string name="draft_text">[Προσχέδιο]</string>
+    <string name="someone_mentioned_me">[Κάποιος με ανέφερε]</string>
+    <string name="not_set">Δεν έχει οριστεί</string>
+    <string name="delete_conversation">Διαγραφή συνομιλίας</string>
+    <string name="pin_to_top">Καρφίτσωμα στην κορυφή</string>
+    <string name="cancel_pin_to_top">Αποκαρφίτσωμα</string>
+    <string name="mark_as_read">Σήμανση ως διαβασμένο</string>
+    <string name="mark_as_unread">Σήμανση ως μη διαβασμένο</string>
+    <string name="confirm_delete_conversation">Επιβεβαίωση διαγραφής συνομιλίας?</string>
 </resources>

@@ -78,4 +78,13 @@
     <string name="msg_business_card">Kartu nama</string>
     <string name="msg_meeting_room">Ruang rapat</string>
     <string name="msg_transfer">Transfer</string>
+    <string name="draft_text">[Draft]</string>
+    <string name="someone_mentioned_me">[Sawijine nyebutake aku]</string>
+    <string name="not_set">Ora disetel</string>
+    <string name="delete_conversation">Busek obrolan</string>
+    <string name="pin_to_top">Pin ing ndhuwur</string>
+    <string name="cancel_pin_to_top">Busek pin</string>
+    <string name="mark_as_read">Tandhani minangka wis diwaca</string>
+    <string name="mark_as_unread">Tandhani minangka durung diwaca</string>
+    <string name="confirm_delete_conversation">Konfirmasi busek obrolan?</string>
 </resources>
