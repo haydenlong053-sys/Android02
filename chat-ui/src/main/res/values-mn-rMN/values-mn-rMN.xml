@@ -78,6 +78,10 @@
     <string name="msg_business_card">Бизнес карт</string>
     <string name="msg_meeting_room">Уулзалтын өрөө</string>
     <string name="msg_transfer">Шилжүүлэг</string>
+    <string name="msg_personal_card">[Хувийн карт]</string>
+    <string name="msg_group">[Бүлэг]</string>
+    <string name="msg_chat_room">[Чат өрөө]</string>
+    <string name="msg_channel">[Суваг]</string>
     <string name="draft_text">[Ноорог]</string>
     <string name="someone_mentioned_me">[Хэн нэгэн намайг дурдсан]</string>
     <string name="not_set">Тохируулаагүй</string>

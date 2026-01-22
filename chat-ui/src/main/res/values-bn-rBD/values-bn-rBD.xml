@@ -78,6 +78,10 @@
     <string name="msg_business_card">বিজনেস কার্ড</string>
     <string name="msg_meeting_room">মিটিং রুম</string>
     <string name="msg_transfer">স্থানান্তর</string>
+    <string name="msg_personal_card">[ব্যক্তিগত কার্ড]</string>
+    <string name="msg_group">[গ্রুপ]</string>
+    <string name="msg_chat_room">[চ্যাট রুম]</string>
+    <string name="msg_channel">[চ্যানেল]</string>
     <string name="draft_text">[খসড়া]</string>
     <string name="someone_mentioned_me">[কেউ আমাকে উল্লেখ করেছে]</string>
     <string name="not_set">সেট করা নেই</string>

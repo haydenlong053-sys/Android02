@@ -83,16 +83,16 @@ public class UserCardBroadExt extends ConversationMidExt {
         String desc = "";
         switch (type) {
             case 0:
-                desc = "[个人名片]";
+                desc = fragment.getString(R.string.msg_personal_card);
                 break;
             case 1:
-                desc = "[群组]";
+                desc = fragment.getString(R.string.msg_group);
                 break;
             case 2:
-                desc = "[聊天室]";
+                desc = fragment.getString(R.string.msg_chat_room);
                 break;
             case 3:
-                desc = "[频道]";
+                desc = fragment.getString(R.string.msg_channel);
                 break;
             default:
                 break;
@@ -109,8 +109,8 @@ public class UserCardBroadExt extends ConversationMidExt {
         }
         MaterialDialog dialog = new MaterialDialog.Builder(fragment.getActivity())
             .customView(view, false)
-            .negativeText("取消")
-            .positiveText("发送")
+            .negativeText(fragment.getString(R.string.quxiao))
+            .positiveText(fragment.getString(R.string.send))
             .onPositive(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

@@ -83,6 +83,10 @@
     <string name="msg_business_card">Carte de visite</string>
     <string name="msg_meeting_room">Salle de réunion</string>
     <string name="msg_transfer">Transfert</string>
+    <string name="msg_personal_card">[Carte personnelle]</string>
+    <string name="msg_group">[Groupe]</string>
+    <string name="msg_chat_room">[Salon de discussion]</string>
+    <string name="msg_channel">[Canal]</string>
     <string name="draft_text">[Brouillon]</string>
     <string name="someone_mentioned_me">[Quelqu\'un m\'a mentionné]</string>
     <string name="not_set">Non défini</string>

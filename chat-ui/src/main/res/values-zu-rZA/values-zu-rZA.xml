@@ -78,6 +78,10 @@
     <string name="msg_business_card">Ikhadi lebhizinisi</string>
     <string name="msg_meeting_room">Igumbi lokuhlanganisa</string>
     <string name="msg_transfer">Ukudlulisa</string>
+    <string name="msg_personal_card">[Ikhadi lomuntu siqu]</string>
+    <string name="msg_group">[Iqembu]</string>
+    <string name="msg_chat_room">[Igumbi lokuxoxa]</string>
+    <string name="msg_channel">[Isiteshi]</string>
     <string name="draft_text">[Isifinyezo]</string>
     <string name="someone_mentioned_me">[Othile ungibale]</string>
     <string name="not_set">Ayikasetiwe</string>

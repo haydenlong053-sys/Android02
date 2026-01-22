@@ -83,6 +83,10 @@
     <string name="msg_business_card">Biglietto da visita</string>
     <string name="msg_meeting_room">Sala riunioni</string>
     <string name="msg_transfer">Bonifico</string>
+    <string name="msg_personal_card">[Biglietto da visita personale]</string>
+    <string name="msg_group">[Gruppo]</string>
+    <string name="msg_chat_room">[Sala chat]</string>
+    <string name="msg_channel">[Canale]</string>
     <string name="draft_text">[Bozza]</string>
     <string name="someone_mentioned_me">[Qualcuno mi ha menzionato]</string>
     <string name="not_set">Non impostato</string>

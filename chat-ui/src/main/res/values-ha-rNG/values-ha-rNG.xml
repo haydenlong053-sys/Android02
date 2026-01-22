@@ -78,6 +78,10 @@
     <string name="msg_business_card">Katin kasuwanci</string>
     <string name="msg_meeting_room">Dakin taro</string>
     <string name="msg_transfer">Canja</string>
+    <string name="msg_personal_card">[Personal Card]</string>
+    <string name="msg_group">[Group]</string>
+    <string name="msg_chat_room">[Chat Room]</string>
+    <string name="msg_channel">[Channel]</string>
     <string name="draft_text">[Draft]</string>
     <string name="someone_mentioned_me">[Wani ya ambaci ni]</string>
     <string name="not_set">Ba a saita ba</string>

@@ -78,6 +78,10 @@
     <string name="msg_business_card">Kad perniagaan</string>
     <string name="msg_meeting_room">Bilik mesyuarat</string>
     <string name="msg_transfer">Pindahan</string>
+    <string name="msg_personal_card">[Kad peribadi]</string>
+    <string name="msg_group">[Kumpulan]</string>
+    <string name="msg_chat_room">[Bilik sembang]</string>
+    <string name="msg_channel">[Saluran]</string>
     <string name="draft_text">[Draf]</string>
     <string name="someone_mentioned_me">[Seseorang menyebut saya]</string>
     <string name="not_set">Tidak ditetapkan</string>

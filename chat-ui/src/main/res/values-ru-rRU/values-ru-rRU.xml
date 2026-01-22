@@ -83,6 +83,10 @@
     <string name="msg_business_card">Визитная карточка</string>
     <string name="msg_meeting_room">Конференц-зал</string>
     <string name="msg_transfer">Перевод</string>
+    <string name="msg_personal_card">[Личная карточка]</string>
+    <string name="msg_group">[Группа]</string>
+    <string name="msg_chat_room">[Чат-комната]</string>
+    <string name="msg_channel">[Канал]</string>
     <string name="draft_text">[Черновик]</string>
     <string name="someone_mentioned_me">[Кто-то упомянул меня]</string>
     <string name="not_set">Не установлено</string>

@@ -78,6 +78,10 @@
     <string name="msg_business_card">Kadi ya biashara</string>
     <string name="msg_meeting_room">Chumba cha mkutano</string>
     <string name="msg_transfer">Uhamisho</string>
+    <string name="msg_personal_card">[Kadi ya kibinafsi]</string>
+    <string name="msg_group">[Kikundi]</string>
+    <string name="msg_chat_room">[Chumba cha mazungumzo]</string>
+    <string name="msg_channel">[Kituo]</string>
     <string name="draft_text">[Rasimu]</string>
     <string name="someone_mentioned_me">[Mtu amenitaja]</string>
     <string name="not_set">Haijawekwa</string>

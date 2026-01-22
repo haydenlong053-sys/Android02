@@ -83,6 +83,10 @@
     <string name="msg_business_card">名片</string>
     <string name="msg_meeting_room">會議室</string>
     <string name="msg_transfer">轉賬</string>
+    <string name="msg_personal_card">[個人名片]</string>
+    <string name="msg_group">[群組]</string>
+    <string name="msg_chat_room">[聊天室]</string>
+    <string name="msg_channel">[頻道]</string>
     <string name="draft_text">[草稿]</string>
     <string name="someone_mentioned_me">[有人@我]</string>
     <string name="not_set">未設置</string>

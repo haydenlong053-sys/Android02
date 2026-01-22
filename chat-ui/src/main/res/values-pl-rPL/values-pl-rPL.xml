@@ -78,6 +78,10 @@
     <string name="msg_business_card">Wizytówka</string>
     <string name="msg_meeting_room">Sala konferencyjna</string>
     <string name="msg_transfer">Przelew</string>
+    <string name="msg_personal_card">[Wizytówka osobista]</string>
+    <string name="msg_group">[Grupa]</string>
+    <string name="msg_chat_room">[Pokój czatu]</string>
+    <string name="msg_channel">[Kanał]</string>
     <string name="draft_text">[Szkic]</string>
     <string name="someone_mentioned_me">[Ktoś mnie wspomniał]</string>
     <string name="not_set">Nie ustawiono</string>

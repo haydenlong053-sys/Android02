@@ -78,6 +78,10 @@
     <string name="msg_business_card">Business card</string>
     <string name="msg_meeting_room">Meeting room</string>
     <string name="msg_transfer">Transfer</string>
+    <string name="msg_personal_card">[Personal Card]</string>
+    <string name="msg_group">[Group]</string>
+    <string name="msg_chat_room">[Chat Room]</string>
+    <string name="msg_channel">[Channel]</string>
     <string name="draft_text">[Draft]</string>
     <string name="someone_mentioned_me">[May nagbanggit sa akin]</string>
     <string name="not_set">Hindi nakatakda</string>

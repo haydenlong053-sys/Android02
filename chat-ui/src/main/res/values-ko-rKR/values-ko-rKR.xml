@@ -83,6 +83,10 @@
     <string name="msg_business_card">명함</string>
     <string name="msg_meeting_room">회의실</string>
     <string name="msg_transfer">이체</string>
+    <string name="msg_personal_card">[개인 명함]</string>
+    <string name="msg_group">[그룹]</string>
+    <string name="msg_chat_room">[채팅방]</string>
+    <string name="msg_channel">[채널]</string>
     <string name="draft_text">[초안]</string>
     <string name="someone_mentioned_me">[누군가 나를 언급했습니다]</string>
     <string name="not_set">설정 안 됨</string>

@@ -78,6 +78,10 @@
     <string name="msg_business_card">کاروباری کارڈ</string>
     <string name="msg_meeting_room">میٹنگ روم</string>
     <string name="msg_transfer">منتقل</string>
+    <string name="msg_personal_card">[ذاتی کارڈ]</string>
+    <string name="msg_group">[گروپ]</string>
+    <string name="msg_chat_room">[چیٹ روم]</string>
+    <string name="msg_channel">[چینل]</string>
     <string name="draft_text">[مسودہ]</string>
     <string name="someone_mentioned_me">[کسی نے میرا ذکر کیا]</string>
     <string name="not_set">سیٹ نہیں</string>

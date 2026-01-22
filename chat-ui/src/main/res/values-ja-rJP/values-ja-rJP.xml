@@ -83,6 +83,10 @@
     <string name="msg_business_card">名刺</string>
     <string name="msg_meeting_room">会議室</string>
     <string name="msg_transfer">振込</string>
+    <string name="msg_personal_card">[個人名刺]</string>
+    <string name="msg_group">[グループ]</string>
+    <string name="msg_chat_room">[チャットルーム]</string>
+    <string name="msg_channel">[チャンネル]</string>
     <string name="draft_text">[下書き]</string>
     <string name="someone_mentioned_me">[誰かが私をメンションしました]</string>
     <string name="not_set">未設定</string>

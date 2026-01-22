@@ -78,6 +78,10 @@
     <string name="msg_business_card">ບັດທຸລະກິດ</string>
     <string name="msg_meeting_room">ຫ້ອງປະຊຸມ</string>
     <string name="msg_transfer">ໂອນຍ້າຍ</string>
+    <string name="msg_personal_card">[ບັດສ່ວນຕົວ]</string>
+    <string name="msg_group">[ກຸ່ມ]</string>
+    <string name="msg_chat_room">[ຫ້ອງສົນທະນາ]</string>
+    <string name="msg_channel">[ຊ່ອງທາງ]</string>
     <string name="draft_text">[ຮ່າງ]</string>
     <string name="someone_mentioned_me">[ມີຄົນເວົ້າເຖິງຂ້ອຍ]</string>
     <string name="not_set">ບໍ່ໄດ້ຕັ້ງຄ່າ</string>

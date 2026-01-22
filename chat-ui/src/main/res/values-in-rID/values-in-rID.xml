@@ -78,6 +78,10 @@
     <string name="msg_business_card">Kartu nama</string>
     <string name="msg_meeting_room">Ruang rapat</string>
     <string name="msg_transfer">Transfer</string>
+    <string name="msg_personal_card">[Personal Card]</string>
+    <string name="msg_group">[Group]</string>
+    <string name="msg_chat_room">[Chat Room]</string>
+    <string name="msg_channel">[Channel]</string>
     <string name="draft_text">[Draft]</string>
     <string name="someone_mentioned_me">[Seseorang menyebutkan saya]</string>
     <string name="not_set">Tidak diatur</string>

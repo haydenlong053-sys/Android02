@@ -78,6 +78,10 @@
     <string name="msg_business_card">व्यवसाय कार्ड</string>
     <string name="msg_meeting_room">बैठक कोठा</string>
     <string name="msg_transfer">साराइ</string>
+    <string name="msg_personal_card">[व्यक्तिगत कार्ड]</string>
+    <string name="msg_group">[समूह]</string>
+    <string name="msg_chat_room">[च्याट कोठा]</string>
+    <string name="msg_channel">[च्यानल]</string>
     <string name="draft_text">[मस्यौदा]</string>
     <string name="someone_mentioned_me">[कसैले मलाई उल्लेख गर्यो]</string>
     <string name="not_set">सेट गरिएको छैन</string>
