@@ -364,8 +364,8 @@ object LanguageUtil {
     }
 
     const val ENGLISH = "English"//英文
-    private const val SIMPLIFIED = "SimplifiedChinese"//简体中文
-    private const val TRADITIONAL = "TraditionalChinese"//繁体中文
+    const val SIMPLIFIED = "SimplifiedChinese"//简体中文
+    const val TRADITIONAL = "TraditionalChinese"//繁体中文
     private const val HINDI = "Hindi"//印地语
     private const val SPANISH = "Spanish"//西班牙语
     private const val FRENCH = "French"//法语

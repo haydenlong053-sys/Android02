@@ -27,19 +27,22 @@ object HttpsBroadConfig {
     var appGroupAvatarHost = "http://119.45.9.228:8888"
     const val appIceServer = "turn:turn.seekweb4.net:3478"
     const val appIceUserName = "seekweb4"
-    const val appWebHost = "https://static.seekweb4.net"
+    @JvmField
+    var appWebHost = "https://app.seekweb4.net" //协议默认用美区
     private val netItems = arrayListOf(
         "82\nhttp://119.45.9.228:82",
         "https\nhttps://api.seekweb4.net",
         "fat\nhttps://api-fat.seekweb4.net",
         "自定义",
-        "US\nhttps://app.seekweb4.net"
+        "US\nhttps://app.seekweb4.net",
+        "HongKong\nhttps://api.seekweb4.net",
     )
     private const val RELEASE_TYPE = 0
     private const val HTTP_TYPE = 1
     private const val FAT_TYPE = 2
     private const val INPUT_TYPE = 3
     private const val US_TYPE = 4
+    private const val HONGKONG_TYPE = 5
 
     private fun setServer(type: Int) {
         when (type) {
@@ -50,6 +53,15 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
+            }
+            HONGKONG_TYPE -> {
+                appHost = "https://api.seekweb4.net"
+                appHost2 = appHost
+                appImServerHost = "ws.seekweb4.net"
+                appIcePassword = "aT3BxjPy4MRdC6@"
+                appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appAesPwd = "f81q30ryiacasda1"
+                appWebHost=appHost
             }
 
             FAT_TYPE -> {

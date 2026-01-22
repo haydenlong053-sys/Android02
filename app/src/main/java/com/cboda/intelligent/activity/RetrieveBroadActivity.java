@@ -224,9 +224,9 @@ public class RetrieveBroadActivity extends BaseSimpleBroadActivity implements Vi
             }
             etPassword.setSelection(etPassword.getText().toString().length());
         } else if (view.getId() == R.id.tvXy) {
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.YHXY, getString(R.string.用户协议));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议));
         } else if (view.getId() == R.id.tvYs) {
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.YSXY, getString(R.string.隐私协议));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议));
         }
     }
 

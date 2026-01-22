@@ -2,7 +2,6 @@ package com.cboda.intelligent.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
@@ -10,25 +9,24 @@ import androidx.fragment.app.Fragment
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig.updateAppToken
-import com.cboda.select.picture.utils.LanguageUtil
-import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
+import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.dialog.pop.AuthWayBroadPop
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
-import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
+import com.cboda.intelligent.databinding.ActivityNewBroadEquipmentBinding
+import com.cboda.intelligent.dialog.pop.AuthWayBroadPop
 import com.cboda.intelligent.net.BroadUrl
-import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.imLogin
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startH5Activity
+import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
+import com.cboda.intelligent.utils.click
+import com.cboda.select.picture.utils.LanguageUtil
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startH5Activity
-import com.cboda.intelligent.R
-import com.cboda.intelligent.databinding.ActivityNewBroadEquipmentBinding
 
 class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     private val loginIndex = 1
@@ -68,10 +66,10 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         mBinding?.languageTv?.setOnClickListener(switchLanguageClick)
         mBinding?.languageIv2?.setOnClickListener(switchLanguageClick)
         mBinding?.bottomTv2?.click {
-            startH5Activity(this, BroadUrl.YHXY, getString(R.string.用户协议))
+            startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议))
         }
         mBinding?.bottomTv5?.click {
-            startH5Activity(this, BroadUrl.YSXY, getString(R.string.隐私协议))
+            startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议))
         }
 
     }

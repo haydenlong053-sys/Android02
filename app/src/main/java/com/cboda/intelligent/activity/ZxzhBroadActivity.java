@@ -108,7 +108,7 @@ public class ZxzhBroadActivity extends BaseSimpleBroadActivity implements View.O
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
 
-        webView.loadUrl(BroadUrl.ZXXY);
+        webView.loadUrl(BroadUrl.getAccountDeletionUrl());
     }
 
 
@@ -193,7 +193,7 @@ public class ZxzhBroadActivity extends BaseSimpleBroadActivity implements View.O
             }
             zhuxiao();
         }else  if (view.getId() == R.id.tvXy){
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.ZXXY, getString(R.string.注销协议));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getAccountDeletionUrl(), getString(R.string.注销协议));
         }
     }
 

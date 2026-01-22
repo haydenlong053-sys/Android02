@@ -151,14 +151,14 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
             regist();
         }
         if (view.getId() == R.id.tvXy){
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.YHXY, getString(R.string.用户协议));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议));
         }
         if (view.getId()==R.id.tvThrid){
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.thirdContent, getString(R.string.第三方信息共享清单));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getThirdContentUrl(), getString(R.string.第三方信息共享清单));
         }
 
         if (view.getId() == R.id.tvYs){
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.YSXY, getString(R.string.隐私协议));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议));
         }
 
     }

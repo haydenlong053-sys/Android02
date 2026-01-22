@@ -125,7 +125,7 @@ public class SignInBroadActivity extends BaseSimpleBroadActivity implements View
         if (view.getId() == R.id.imFinish) {
             finish();
         } else if (view.getId() == R.id.imIssue) {
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.QDGZ, getString(R.string.签到规则));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getCheckinRewardsUrl(), getString(R.string.签到规则));
         } else if (view.getId() == R.id.tvQiandao) {
             sign();
         }

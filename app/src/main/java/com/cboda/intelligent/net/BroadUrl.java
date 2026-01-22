@@ -1,20 +1,21 @@
 package com.cboda.intelligent.net;
 
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
+import com.cboda.select.picture.utils.LanguageUtil;
 
 public class BroadUrl {
 
     //2025/9/22  后端说全部从82改成84端口  数据自己建,然后再迁移，所以后期有数据问题就找他。
     public static String IP = HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/";
-    public static String WebIP = HttpsBroadConfig.appWebHost;
+//    public static String WebIP = HttpsBroadConfig.appWebHost;
 
-
-    public static String YHXY = WebIP + "/static/policy/user-agreement.html";//用户协议
-    public static String YSXY = WebIP + "/static/policy/privacy-policy.html";//隐私协议
-    public static String QDGZ = WebIP + "/static/policy/checkin-rewards.html";//签到规则
-    public static String GYWM = WebIP + "/static/policy/about-seekweb4.html";//关于我们
-    public static String ZXXY = WebIP + "/static/policy/account-deletion.html";//注销协议
-    public static String thirdContent = WebIP + "/static/policy/third-party-sharing.html"; //第三方共享清单
+    private static String YHXY = "/user-agreement.html";//用户协议
+    private static String YSXY = "/privacy-policy.html";//隐私协议
+    private static String QDGZ = "/checkin-rewards.html";//签到规则
+    private static String GYWM = "/about-seekweb4.html";//关于我们
+    private static String ZXXY = "/account-deletion.html";//注销协议
+    private static String thirdContent = "/third-party-sharing.html"; //第三方共享清单
 
     //获取验证码
     public static String sendMsg = IP + "sendMsg";
@@ -146,5 +147,37 @@ public class BroadUrl {
     //绑定设备
     public static String DEVICE_BIND = IP + "device/bind";
 
+    public static String getWebLanguageType() {
+        if (LanguageUtil.SIMPLIFIED.equals(MMKVBroadUtils.Companion.getAppLanguageKey(null))) {
+            //简体中文
+            return "/zh";
+        } else {
+            return "/en";
+        }
+    }
+
+    public static String getUserAgreementUrl() {
+        return HttpsBroadConfig.appWebHost + getWebLanguageType() + YHXY;
+    }
+
+    public static String getPrivacyPolicyUrl() {
+        return HttpsBroadConfig.appWebHost + getWebLanguageType() + YSXY;
+    }
+
+    public static String getCheckinRewardsUrl() {
+        return HttpsBroadConfig.appWebHost + getWebLanguageType() + QDGZ;
+    }
+
+    public static String getAboutUrl() {
+        return HttpsBroadConfig.appWebHost + getWebLanguageType() + GYWM;
+    }
+
+    public static String getAccountDeletionUrl() {
+        return HttpsBroadConfig.appWebHost + getWebLanguageType() + ZXXY;
+    }
+
+    public static String getThirdContentUrl() {
+        return HttpsBroadConfig.appWebHost + getWebLanguageType() + thirdContent;
+    }
 
 }
