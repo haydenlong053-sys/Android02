@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">Уулзалтын өрөө</string>
     <string name="msg_transfer">Шилжүүлэг</string>
     <string name="msg_personal_card">[Хувийн карт]</string>
+    <string name="msg_personal_card_name">Хувийн карт</string>
     <string name="msg_group">[Бүлэг]</string>
     <string name="msg_chat_room">[Чат өрөө]</string>
     <string name="msg_channel">[Суваг]</string>

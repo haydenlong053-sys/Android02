@@ -300,6 +300,7 @@
     <string name="msg_meeting_room">会议室</string>
     <string name="msg_transfer">转账</string>
     <string name="msg_personal_card">[个人名片]</string>
+    <string name="msg_personal_card_name">个人名片</string>
     <string name="msg_group">[群组]</string>
     <string name="msg_chat_room">[聊天室]</string>
     <string name="msg_channel">[频道]</string>

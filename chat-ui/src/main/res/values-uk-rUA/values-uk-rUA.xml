@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">Конференц-зал</string>
     <string name="msg_transfer">Переказ</string>
     <string name="msg_personal_card">[Особиста картка]</string>
+    <string name="msg_personal_card_name">Особиста картка</string>
     <string name="msg_group">[Група]</string>
     <string name="msg_chat_room">[Кімната чату]</string>
     <string name="msg_channel">[Канал]</string>

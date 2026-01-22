@@ -84,6 +84,7 @@
     <string name="msg_meeting_room">회의실</string>
     <string name="msg_transfer">이체</string>
     <string name="msg_personal_card">[개인 명함]</string>
+    <string name="msg_personal_card_name">개인 명함</string>
     <string name="msg_group">[그룹]</string>
     <string name="msg_chat_room">[채팅방]</string>
     <string name="msg_channel">[채널]</string>

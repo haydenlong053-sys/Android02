@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">میٹنگ روم</string>
     <string name="msg_transfer">منتقل</string>
     <string name="msg_personal_card">[ذاتی کارڈ]</string>
+    <string name="msg_personal_card_name">ذاتی کارڈ</string>
     <string name="msg_group">[گروپ]</string>
     <string name="msg_chat_room">[چیٹ روم]</string>
     <string name="msg_channel">[چینل]</string>

@@ -84,6 +84,7 @@
     <string name="msg_meeting_room">会議室</string>
     <string name="msg_transfer">振込</string>
     <string name="msg_personal_card">[個人名刺]</string>
+    <string name="msg_personal_card_name">個人名刺</string>
     <string name="msg_group">[グループ]</string>
     <string name="msg_chat_room">[チャットルーム]</string>
     <string name="msg_channel">[チャンネル]</string>

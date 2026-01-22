@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">Sala konferencyjna</string>
     <string name="msg_transfer">Przelew</string>
     <string name="msg_personal_card">[Wizytówka osobista]</string>
+    <string name="msg_personal_card_name">Wizytówka osobista</string>
     <string name="msg_group">[Grupa]</string>
     <string name="msg_chat_room">[Pokój czatu]</string>
     <string name="msg_channel">[Kanał]</string>

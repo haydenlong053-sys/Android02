@@ -84,6 +84,7 @@
     <string name="msg_meeting_room">Toplantı odası</string>
     <string name="msg_transfer">Transfer</string>
     <string name="msg_personal_card">[Kişisel kart]</string>
+    <string name="msg_personal_card_name">Kişisel kart</string>
     <string name="msg_group">[Grup]</string>
     <string name="msg_chat_room">[Sohbet odası]</string>
     <string name="msg_channel">[Kanal]</string>

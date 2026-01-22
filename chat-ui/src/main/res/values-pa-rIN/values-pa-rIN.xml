@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">ਮੀਟਿੰਗ ਰੂਮ</string>
     <string name="msg_transfer">ਟ੍ਰਾਂਸਫਰ</string>
     <string name="msg_personal_card">[ਵਿਅਕਤੀਗਤ ਕਾਰਡ]</string>
+    <string name="msg_personal_card_name">ਵਿਅਕਤੀਗਤ ਕਾਰਡ</string>
     <string name="msg_group">[ਗਰੁੱਪ]</string>
     <string name="msg_chat_room">[ਚੈਟ ਰੂਮ]</string>
     <string name="msg_channel">[ਚੈਨਲ]</string>

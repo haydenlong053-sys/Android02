@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">Chumba cha mkutano</string>
     <string name="msg_transfer">Uhamisho</string>
     <string name="msg_personal_card">[Kadi ya kibinafsi]</string>
+    <string name="msg_personal_card_name">Kadi ya kibinafsi</string>
     <string name="msg_group">[Kikundi]</string>
     <string name="msg_chat_room">[Chumba cha mazungumzo]</string>
     <string name="msg_channel">[Kituo]</string>

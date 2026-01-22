@@ -84,6 +84,7 @@
     <string name="msg_meeting_room">Sala riunioni</string>
     <string name="msg_transfer">Bonifico</string>
     <string name="msg_personal_card">[Biglietto da visita personale]</string>
+    <string name="msg_personal_card_name">Biglietto da visita personale</string>
     <string name="msg_group">[Gruppo]</string>
     <string name="msg_chat_room">[Sala chat]</string>
     <string name="msg_channel">[Canale]</string>

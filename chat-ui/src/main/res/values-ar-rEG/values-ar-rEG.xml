@@ -84,6 +84,7 @@
     <string name="msg_meeting_room">قاعة الاجتماعات</string>
     <string name="msg_transfer">تحويل</string>
     <string name="msg_personal_card">[بطاقة شخصية]</string>
+    <string name="msg_personal_card_name">بطاقة شخصية</string>
     <string name="msg_group">[مجموعة]</string>
     <string name="msg_chat_room">[غرفة الدردشة]</string>
     <string name="msg_channel">[قناة]</string>

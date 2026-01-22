@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">Sală de întâlniri</string>
     <string name="msg_transfer">Transfer</string>
     <string name="msg_personal_card">[Card personal]</string>
+    <string name="msg_personal_card_name">Card personal</string>
     <string name="msg_group">[Grup]</string>
     <string name="msg_chat_room">[Sala de chat]</string>
     <string name="msg_channel">[Canal]</string>

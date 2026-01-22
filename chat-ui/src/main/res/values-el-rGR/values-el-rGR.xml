@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">Αίθουσα συνεδριάσεων</string>
     <string name="msg_transfer">Μεταφορά</string>
     <string name="msg_personal_card">[Προσωπική κάρτα]</string>
+    <string name="msg_personal_card_name">Προσωπική κάρτα</string>
     <string name="msg_group">[Ομάδα]</string>
     <string name="msg_chat_room">[Αίθουσα συνομιλίας]</string>
     <string name="msg_channel">[Κανάλι]</string>

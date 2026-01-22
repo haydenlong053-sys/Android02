@@ -84,6 +84,7 @@
     <string name="msg_meeting_room">Besprechungsraum</string>
     <string name="msg_transfer">Überweisung</string>
     <string name="msg_personal_card">[Persönliche Karte]</string>
+    <string name="msg_personal_card_name">Persönliche Karte</string>
     <string name="msg_group">[Gruppe]</string>
     <string name="msg_chat_room">[Chatraum]</string>
     <string name="msg_channel">[Kanal]</string>

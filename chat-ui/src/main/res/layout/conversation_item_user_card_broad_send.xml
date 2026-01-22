@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/dividerLine"
             android:maxLines="1"
-            android:text="个人名片"
+            android:text="@string/msg_personal_card_name"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 

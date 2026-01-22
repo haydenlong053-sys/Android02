@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">Igumbi lokuhlanganisa</string>
     <string name="msg_transfer">Ukudlulisa</string>
     <string name="msg_personal_card">[Ikhadi lomuntu siqu]</string>
+    <string name="msg_personal_card_name">Ikhadi lomuntu siqu</string>
     <string name="msg_group">[Iqembu]</string>
     <string name="msg_chat_room">[Igumbi lokuxoxa]</string>
     <string name="msg_channel">[Isiteshi]</string>

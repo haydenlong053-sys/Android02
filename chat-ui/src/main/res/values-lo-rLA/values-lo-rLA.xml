@@ -79,6 +79,7 @@
     <string name="msg_meeting_room">ຫ້ອງປະຊຸມ</string>
     <string name="msg_transfer">ໂອນຍ້າຍ</string>
     <string name="msg_personal_card">[ບັດສ່ວນຕົວ]</string>
+    <string name="msg_personal_card_name">ບັດສ່ວນຕົວ</string>
     <string name="msg_group">[ກຸ່ມ]</string>
     <string name="msg_chat_room">[ຫ້ອງສົນທະນາ]</string>
     <string name="msg_channel">[ຊ່ອງທາງ]</string>

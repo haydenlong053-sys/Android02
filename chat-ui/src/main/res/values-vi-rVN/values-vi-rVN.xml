@@ -390,6 +390,7 @@
     <string name="msg_meeting_room">Phòng họp</string>
     <string name="msg_transfer">Chuyển khoản</string>
     <string name="msg_personal_card">[Danh thiếp cá nhân]</string>
+    <string name="msg_personal_card_name">Danh thiếp cá nhân</string>
     <string name="msg_group">[Nhóm]</string>
     <string name="msg_chat_room">[Phòng trò chuyện]</string>
     <string name="msg_channel">[Kênh]</string>
