@@ -84,6 +84,9 @@
     <string name="msg_forward_merge">ပေါင်းစပ်ပို့ပါ</string>
     <string name="msg_forward_one_by_one_with_count">[တစ်ခုချင်းစီ ပို့ပါ] %1$d စာတို</string>
     <string name="msg_confirm_delete">ဖျက်ရန် အတည်ပြုပါ?</string>
+    <string name="msg_recent_chat">လတ်တလော စကားပြောဆို</string>
+    <string name="msg_create_new_chat">စကားပြောဆိုအသစ် ဖန်တီးရန်</string>
+    <string name="msg_select_a_chat">စကားပြောဆို တစ်ခု ရွေးချယ်ရန်</string>
     <string name="msg_group">[အုပ်စု]</string>
     <string name="msg_chat_room">[စကားပြောခန်း]</string>
     <string name="msg_channel">[ရုပ်သံလိုင်း]</string>

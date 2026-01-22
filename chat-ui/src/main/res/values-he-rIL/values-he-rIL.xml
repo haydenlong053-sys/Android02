@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">העבר מאוחד</string>
     <string name="msg_forward_one_by_one_with_count">[העבר אחד אחד] %1$d הודעות</string>
     <string name="msg_confirm_delete">אשר מחיקה?</string>
+    <string name="msg_recent_chat">צ\'אט אחרון</string>
+    <string name="msg_create_new_chat">צור צ\'אט חדש</string>
+    <string name="msg_select_a_chat">בחר צ\'אט</string>
     <string name="msg_group">[קבוצה]</string>
     <string name="msg_chat_room">[חדר צ\'אט]</string>
     <string name="msg_channel">[ערוץ]</string>

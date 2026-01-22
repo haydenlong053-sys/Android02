@@ -84,6 +84,9 @@
     <string name="msg_forward_merge">Przekaż scalone</string>
     <string name="msg_forward_one_by_one_with_count">[Przekaż pojedynczo] %1$d wiadomości</string>
     <string name="msg_confirm_delete">Potwierdzić usunięcie?</string>
+    <string name="msg_recent_chat">Ostatnia rozmowa</string>
+    <string name="msg_create_new_chat">Utwórz nową rozmowę</string>
+    <string name="msg_select_a_chat">Wybierz rozmowę</string>
     <string name="msg_group">[Grupa]</string>
     <string name="msg_chat_room">[Pokój czatu]</string>
     <string name="msg_channel">[Kanał]</string>

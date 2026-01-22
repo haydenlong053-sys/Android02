@@ -13,7 +13,7 @@
         android:paddingRight="@dimen/item_margin_left_and_right"
         android:background="@drawable/selector_common_broad_item"
         android:gravity="center_vertical"
-        android:text="创建新聊天"
+        android:text="@string/msg_create_new_chat"
         android:textColor="@color/color_text_content"
         android:textSize="13sp"
         android:visibility="visible" />

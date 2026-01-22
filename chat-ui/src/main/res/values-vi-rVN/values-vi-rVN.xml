@@ -395,6 +395,9 @@
     <string name="msg_forward_merge">Chuyển tiếp gộp</string>
     <string name="msg_forward_one_by_one_with_count">[Chuyển tiếp từng cái] %1$d tin nhắn</string>
     <string name="msg_confirm_delete">Xác nhận xóa?</string>
+    <string name="msg_recent_chat">Trò chuyện gần đây</string>
+    <string name="msg_create_new_chat">Tạo trò chuyện mới</string>
+    <string name="msg_select_a_chat">Chọn một trò chuyện</string>
     <string name="msg_group">[Nhóm]</string>
     <string name="msg_chat_room">[Phòng trò chuyện]</string>
     <string name="msg_channel">[Kênh]</string>

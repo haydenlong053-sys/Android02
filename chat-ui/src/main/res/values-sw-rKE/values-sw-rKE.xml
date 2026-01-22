@@ -84,6 +84,9 @@
     <string name="msg_forward_merge">Tuma zilizounganishwa</string>
     <string name="msg_forward_one_by_one_with_count">[Tuma moja kwa moja] %1$d ujumbe</string>
     <string name="msg_confirm_delete">Thibitisha kufuta?</string>
+    <string name="msg_recent_chat">Mazungumzo ya hivi karibuni</string>
+    <string name="msg_create_new_chat">Unda mazungumzo mapya</string>
+    <string name="msg_select_a_chat">Chagua mazungumzo</string>
     <string name="msg_group">[Kikundi]</string>
     <string name="msg_chat_room">[Chumba cha mazungumzo]</string>
     <string name="msg_channel">[Kituo]</string>

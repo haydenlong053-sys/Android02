@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">Переслать объединённо</string>
     <string name="msg_forward_one_by_one_with_count">[Переслать по одному] %1$d сообщений</string>
     <string name="msg_confirm_delete">Подтвердить удаление?</string>
+    <string name="msg_recent_chat">Недавний чат</string>
+    <string name="msg_create_new_chat">Создать новый чат</string>
+    <string name="msg_select_a_chat">Выбрать чат</string>
     <string name="msg_group">[Группа]</string>
     <string name="msg_chat_room">[Чат-комната]</string>
     <string name="msg_channel">[Канал]</string>

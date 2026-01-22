@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">合併轉發</string>
     <string name="msg_forward_one_by_one_with_count">[逐條轉發]共%1$d條消息</string>
     <string name="msg_confirm_delete">確認刪除?</string>
+    <string name="msg_recent_chat">最近聊天</string>
+    <string name="msg_create_new_chat">創建新聊天</string>
+    <string name="msg_select_a_chat">選擇一個聊天</string>
     <string name="msg_group">[群組]</string>
     <string name="msg_chat_room">[聊天室]</string>
     <string name="msg_channel">[頻道]</string>

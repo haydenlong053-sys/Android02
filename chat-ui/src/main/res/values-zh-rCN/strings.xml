@@ -305,6 +305,9 @@
     <string name="msg_forward_merge">合并转发</string>
     <string name="msg_forward_one_by_one_with_count">[逐条转发]共%1$d条消息</string>
     <string name="msg_confirm_delete">确认删除?</string>
+    <string name="msg_recent_chat">最近聊天</string>
+    <string name="msg_create_new_chat">创建新聊天</string>
+    <string name="msg_select_a_chat">选择一个聊天</string>
     <string name="msg_group">[群组]</string>
     <string name="msg_chat_room">[聊天室]</string>
     <string name="msg_channel">[频道]</string>

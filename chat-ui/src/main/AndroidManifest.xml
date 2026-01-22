@@ -93,7 +93,7 @@
             android:label="搜索中心" />
         <activity
             android:name="com.cboda.chatui.conversation.forward.ForwardBroadActivity"
-            android:label="选择一个聊天" />
+            android:label="@string/msg_select_a_chat" />
         <activity
             android:name="com.cboda.chatui.conversation.pick.PickOrCreateConversationTargetBroadActivity"
             android:label="选择联系人" />

@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">إعادة توجيه مدمجة</string>
     <string name="msg_forward_one_by_one_with_count">[إعادة توجيه واحد تلو الآخر] %1$d رسالة</string>
     <string name="msg_confirm_delete">تأكيد الحذف?</string>
+    <string name="msg_recent_chat">الدردشة الأخيرة</string>
+    <string name="msg_create_new_chat">إنشاء دردشة جديدة</string>
+    <string name="msg_select_a_chat">اختر دردشة</string>
     <string name="msg_group">[مجموعة]</string>
     <string name="msg_chat_room">[غرفة الدردشة]</string>
     <string name="msg_channel">[قناة]</string>

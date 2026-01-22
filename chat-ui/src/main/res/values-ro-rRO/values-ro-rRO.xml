@@ -84,6 +84,9 @@
     <string name="msg_forward_merge">Trimite combinat</string>
     <string name="msg_forward_one_by_one_with_count">[Trimite unul câte unul] %1$d mesaje</string>
     <string name="msg_confirm_delete">Confirmă ștergerea?</string>
+    <string name="msg_recent_chat">Chat recent</string>
+    <string name="msg_create_new_chat">Creează chat nou</string>
+    <string name="msg_select_a_chat">Selectează un chat</string>
     <string name="msg_group">[Grup]</string>
     <string name="msg_chat_room">[Sala de chat]</string>
     <string name="msg_channel">[Canal]</string>

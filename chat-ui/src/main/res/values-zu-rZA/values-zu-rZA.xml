@@ -84,6 +84,9 @@
     <string name="msg_forward_merge">Thumela ngokuhlanganisiwe</string>
     <string name="msg_forward_one_by_one_with_count">[Thumela ngamunye ngamunye] %1$d imiyalezo</string>
     <string name="msg_confirm_delete">Qinisekisa ukususa?</string>
+    <string name="msg_recent_chat">Ingxoxo Yakamuva</string>
+    <string name="msg_create_new_chat">Dala Ingxoxo Entsha</string>
+    <string name="msg_select_a_chat">Khetha Ingxoxo</string>
     <string name="msg_group">[Iqembu]</string>
     <string name="msg_chat_room">[Igumbi lokuxoxa]</string>
     <string name="msg_channel">[Isiteshi]</string>

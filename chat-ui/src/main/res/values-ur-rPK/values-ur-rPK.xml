@@ -84,6 +84,9 @@
     <string name="msg_forward_merge">ملا کر فارورڈ کریں</string>
     <string name="msg_forward_one_by_one_with_count">[ایک ایک کر کے فارورڈ کریں] %1$d پیغامات</string>
     <string name="msg_confirm_delete">حذف کی تصدیق کریں?</string>
+    <string name="msg_recent_chat">حالیہ چیٹ</string>
+    <string name="msg_create_new_chat">نیا چیٹ بنائیں</string>
+    <string name="msg_select_a_chat">ایک چیٹ منتخب کریں</string>
     <string name="msg_group">[گروپ]</string>
     <string name="msg_chat_room">[چیٹ روم]</string>
     <string name="msg_channel">[چینل]</string>

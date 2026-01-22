@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">मर्ज करके अग्रेषित करें</string>
     <string name="msg_forward_one_by_one_with_count">[एक-एक करके अग्रेषित करें] %1$d संदेश</string>
     <string name="msg_confirm_delete">हटाने की पुष्टि करें?</string>
+    <string name="msg_recent_chat">हाल की चैट</string>
+    <string name="msg_create_new_chat">नई चैट बनाएं</string>
+    <string name="msg_select_a_chat">एक चैट चुनें</string>
     <string name="msg_group">[समूह]</string>
     <string name="msg_chat_room">[चैट रूम]</string>
     <string name="msg_channel">[चैनल]</string>

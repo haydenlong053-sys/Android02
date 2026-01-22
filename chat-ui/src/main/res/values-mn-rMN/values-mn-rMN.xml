@@ -84,6 +84,9 @@
     <string name="msg_forward_merge">Нэгтгэж дамжуулах</string>
     <string name="msg_forward_one_by_one_with_count">[Нэг нэгээр дамжуулах] %1$d мессеж</string>
     <string name="msg_confirm_delete">Устгахыг баталгаажуулах уу?</string>
+    <string name="msg_recent_chat">Сүүлийн чат</string>
+    <string name="msg_create_new_chat">Шинэ чат үүсгэх</string>
+    <string name="msg_select_a_chat">Чат сонгох</string>
     <string name="msg_group">[Бүлэг]</string>
     <string name="msg_chat_room">[Чат өрөө]</string>
     <string name="msg_channel">[Суваг]</string>

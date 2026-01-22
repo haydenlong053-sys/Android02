@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">ส่งต่อแบบรวม</string>
     <string name="msg_forward_one_by_one_with_count">[ส่งต่อทีละรายการ] %1$d ข้อความ</string>
     <string name="msg_confirm_delete">ยืนยันการลบ?</string>
+    <string name="msg_recent_chat">แชทล่าสุด</string>
+    <string name="msg_create_new_chat">สร้างแชทใหม่</string>
+    <string name="msg_select_a_chat">เลือกแชท</string>
     <string name="msg_group">[กลุ่ม]</string>
     <string name="msg_chat_room">[ห้องแชท]</string>
     <string name="msg_channel">[ช่อง]</string>

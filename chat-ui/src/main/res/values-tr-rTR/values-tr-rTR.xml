@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">Birleştirerek ilet</string>
     <string name="msg_forward_one_by_one_with_count">[Tek tek ilet] %1$d mesaj</string>
     <string name="msg_confirm_delete">Silme işlemini onayla?</string>
+    <string name="msg_recent_chat">Son Sohbet</string>
+    <string name="msg_create_new_chat">Yeni Sohbet Oluştur</string>
+    <string name="msg_select_a_chat">Bir Sohbet Seç</string>
     <string name="msg_group">[Grup]</string>
     <string name="msg_chat_room">[Sohbet odası]</string>
     <string name="msg_channel">[Kanal]</string>

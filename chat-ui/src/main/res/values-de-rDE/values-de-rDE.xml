@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">Zusammenführen und weiterleiten</string>
     <string name="msg_forward_one_by_one_with_count">[Einzeln weiterleiten] %1$d Nachrichten</string>
     <string name="msg_confirm_delete">Löschen bestätigen?</string>
+    <string name="msg_recent_chat">Letzter Chat</string>
+    <string name="msg_create_new_chat">Neuen Chat erstellen</string>
+    <string name="msg_select_a_chat">Chat auswählen</string>
     <string name="msg_group">[Gruppe]</string>
     <string name="msg_chat_room">[Chatraum]</string>
     <string name="msg_channel">[Kanal]</string>

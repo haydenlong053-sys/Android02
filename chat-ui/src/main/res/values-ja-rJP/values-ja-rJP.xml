@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">統合転送</string>
     <string name="msg_forward_one_by_one_with_count">[個別転送] %1$d件のメッセージ</string>
     <string name="msg_confirm_delete">削除してもよろしいですか?</string>
+    <string name="msg_recent_chat">最近のチャット</string>
+    <string name="msg_create_new_chat">新しいチャットを作成</string>
+    <string name="msg_select_a_chat">チャットを選択</string>
     <string name="msg_group">[グループ]</string>
     <string name="msg_chat_room">[チャットルーム]</string>
     <string name="msg_channel">[チャンネル]</string>

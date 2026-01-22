@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">병합 전달</string>
     <string name="msg_forward_one_by_one_with_count">[개별 전달] %1$d개 메시지</string>
     <string name="msg_confirm_delete">삭제하시겠습니까?</string>
+    <string name="msg_recent_chat">최근 채팅</string>
+    <string name="msg_create_new_chat">새 채팅 만들기</string>
+    <string name="msg_select_a_chat">채팅 선택</string>
     <string name="msg_group">[그룹]</string>
     <string name="msg_chat_room">[채팅방]</string>
     <string name="msg_channel">[채널]</string>

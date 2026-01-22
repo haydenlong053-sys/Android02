@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">Reenviar combinado</string>
     <string name="msg_forward_one_by_one_with_count">[Reenviar uno por uno] %1$d mensajes</string>
     <string name="msg_confirm_delete">¿Confirmar eliminar?</string>
+    <string name="msg_recent_chat">Chat reciente</string>
+    <string name="msg_create_new_chat">Crear nuevo chat</string>
+    <string name="msg_select_a_chat">Seleccionar un chat</string>
     <string name="msg_group">[Grupo]</string>
     <string name="msg_chat_room">[Sala de chat]</string>
     <string name="msg_channel">[Canal]</string>

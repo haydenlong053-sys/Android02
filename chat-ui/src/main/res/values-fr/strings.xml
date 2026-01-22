@@ -89,6 +89,9 @@
     <string name="msg_forward_merge">Transférer en fusionnant</string>
     <string name="msg_forward_one_by_one_with_count">[Transférer un par un] %1$d messages</string>
     <string name="msg_confirm_delete">Confirmer la suppression?</string>
+    <string name="msg_recent_chat">Chat récent</string>
+    <string name="msg_create_new_chat">Créer un nouveau chat</string>
+    <string name="msg_select_a_chat">Sélectionner un chat</string>
     <string name="msg_group">[Groupe]</string>
     <string name="msg_chat_room">[Salon de discussion]</string>
     <string name="msg_channel">[Canal]</string>
