@@ -87,7 +87,7 @@ public class ForwardMessageBroadAction extends MultiMessageBroadAction {
 
     @Override
     public String title(Context context) {
-        return "转发";
+        return context.getString(R.string.message_forward);
     }
 
     @Override

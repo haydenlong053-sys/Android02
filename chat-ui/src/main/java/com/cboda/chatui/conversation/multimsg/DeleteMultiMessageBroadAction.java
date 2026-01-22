@@ -51,7 +51,7 @@ public class DeleteMultiMessageBroadAction extends MultiMessageBroadAction {
 
     @Override
     public String title(Context context) {
-        return "删除";
+        return context.getString(R.string.message_delete);
     }
 
 //    @Override
