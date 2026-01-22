@@ -85,6 +85,10 @@
     <string name="msg_transfer">Überweisung</string>
     <string name="msg_personal_card">[Persönliche Karte]</string>
     <string name="msg_personal_card_name">Persönliche Karte</string>
+    <string name="msg_forward_one_by_one">Einzeln weiterleiten</string>
+    <string name="msg_forward_merge">Zusammenführen und weiterleiten</string>
+    <string name="msg_forward_one_by_one_with_count">[Einzeln weiterleiten] %1$d Nachrichten</string>
+    <string name="msg_confirm_delete">Löschen bestätigen?</string>
     <string name="msg_group">[Gruppe]</string>
     <string name="msg_chat_room">[Chatraum]</string>
     <string name="msg_channel">[Kanal]</string>

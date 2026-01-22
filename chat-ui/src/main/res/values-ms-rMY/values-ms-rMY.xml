@@ -80,6 +80,10 @@
     <string name="msg_transfer">Pindahan</string>
     <string name="msg_personal_card">[Kad peribadi]</string>
     <string name="msg_personal_card_name">Kad peribadi</string>
+    <string name="msg_forward_one_by_one">Hantar satu demi satu</string>
+    <string name="msg_forward_merge">Hantar gabungan</string>
+    <string name="msg_forward_one_by_one_with_count">[Hantar satu demi satu] %1$d mesej</string>
+    <string name="msg_confirm_delete">Sahkan padam?</string>
     <string name="msg_group">[Kumpulan]</string>
     <string name="msg_chat_room">[Bilik sembang]</string>
     <string name="msg_channel">[Saluran]</string>

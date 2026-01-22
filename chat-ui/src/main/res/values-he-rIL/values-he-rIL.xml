@@ -85,6 +85,10 @@
     <string name="msg_transfer">העברה</string>
     <string name="msg_personal_card">[כרטיס אישי]</string>
     <string name="msg_personal_card_name">כרטיס אישי</string>
+    <string name="msg_forward_one_by_one">העבר אחד אחד</string>
+    <string name="msg_forward_merge">העבר מאוחד</string>
+    <string name="msg_forward_one_by_one_with_count">[העבר אחד אחד] %1$d הודעות</string>
+    <string name="msg_confirm_delete">אשר מחיקה?</string>
     <string name="msg_group">[קבוצה]</string>
     <string name="msg_chat_room">[חדר צ\'אט]</string>
     <string name="msg_channel">[ערוץ]</string>

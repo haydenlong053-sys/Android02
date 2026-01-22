@@ -80,6 +80,10 @@
     <string name="msg_transfer">স্থানান্তর</string>
     <string name="msg_personal_card">[ব্যক্তিগত কার্ড]</string>
     <string name="msg_personal_card_name">ব্যক্তিগত কার্ড</string>
+    <string name="msg_forward_one_by_one">একটি করে ফরওয়ার্ড করুন</string>
+    <string name="msg_forward_merge">মার্জ করে ফরওয়ার্ড করুন</string>
+    <string name="msg_forward_one_by_one_with_count">[একটি করে ফরওয়ার্ড করুন] %1$d বার্তা</string>
+    <string name="msg_confirm_delete">মুছে ফেলার নিশ্চিত করুন?</string>
     <string name="msg_group">[গ্রুপ]</string>
     <string name="msg_chat_room">[চ্যাট রুম]</string>
     <string name="msg_channel">[চ্যানেল]</string>

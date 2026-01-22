@@ -85,6 +85,10 @@
     <string name="msg_transfer">Перевод</string>
     <string name="msg_personal_card">[Личная карточка]</string>
     <string name="msg_personal_card_name">Личная карточка</string>
+    <string name="msg_forward_one_by_one">Переслать по одному</string>
+    <string name="msg_forward_merge">Переслать объединённо</string>
+    <string name="msg_forward_one_by_one_with_count">[Переслать по одному] %1$d сообщений</string>
+    <string name="msg_confirm_delete">Подтвердить удаление?</string>
     <string name="msg_group">[Группа]</string>
     <string name="msg_chat_room">[Чат-комната]</string>
     <string name="msg_channel">[Канал]</string>

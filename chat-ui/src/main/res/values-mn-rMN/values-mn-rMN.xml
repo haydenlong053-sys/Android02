@@ -80,6 +80,10 @@
     <string name="msg_transfer">Шилжүүлэг</string>
     <string name="msg_personal_card">[Хувийн карт]</string>
     <string name="msg_personal_card_name">Хувийн карт</string>
+    <string name="msg_forward_one_by_one">Нэг нэгээр дамжуулах</string>
+    <string name="msg_forward_merge">Нэгтгэж дамжуулах</string>
+    <string name="msg_forward_one_by_one_with_count">[Нэг нэгээр дамжуулах] %1$d мессеж</string>
+    <string name="msg_confirm_delete">Устгахыг баталгаажуулах уу?</string>
     <string name="msg_group">[Бүлэг]</string>
     <string name="msg_chat_room">[Чат өрөө]</string>
     <string name="msg_channel">[Суваг]</string>

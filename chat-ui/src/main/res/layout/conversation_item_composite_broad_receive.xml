@@ -41,7 +41,7 @@
         android:maxWidth="180dp"
         android:maxLines="2"
         android:paddingTop="2dp"
-        android:text="聊天记录"
+        android:text="@string/msg_chat_bibi"
         android:textColor="@color/black"
         android:textSize="12sp"
         android:visibility="visible" />

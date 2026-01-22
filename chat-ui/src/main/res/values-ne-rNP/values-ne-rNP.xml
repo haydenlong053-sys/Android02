@@ -80,6 +80,10 @@
     <string name="msg_transfer">साराइ</string>
     <string name="msg_personal_card">[व्यक्तिगत कार्ड]</string>
     <string name="msg_personal_card_name">व्यक्तिगत कार्ड</string>
+    <string name="msg_forward_one_by_one">एक-एक गरेर अगाडि पठाउनुहोस्</string>
+    <string name="msg_forward_merge">मर्ज गरेर अगाडि पठाउनुहोस्</string>
+    <string name="msg_forward_one_by_one_with_count">[एक-एक गरेर अगाडि पठाउनुहोस्] %1$d सन्देश</string>
+    <string name="msg_confirm_delete">मेटाउन निश्चित गर्नुहुन्छ?</string>
     <string name="msg_group">[समूह]</string>
     <string name="msg_chat_room">[च्याट कोठा]</string>
     <string name="msg_channel">[च्यानल]</string>

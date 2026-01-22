@@ -80,6 +80,10 @@
     <string name="msg_transfer">Uhamisho</string>
     <string name="msg_personal_card">[Kadi ya kibinafsi]</string>
     <string name="msg_personal_card_name">Kadi ya kibinafsi</string>
+    <string name="msg_forward_one_by_one">Tuma moja kwa moja</string>
+    <string name="msg_forward_merge">Tuma zilizounganishwa</string>
+    <string name="msg_forward_one_by_one_with_count">[Tuma moja kwa moja] %1$d ujumbe</string>
+    <string name="msg_confirm_delete">Thibitisha kufuta?</string>
     <string name="msg_group">[Kikundi]</string>
     <string name="msg_chat_room">[Chumba cha mazungumzo]</string>
     <string name="msg_channel">[Kituo]</string>

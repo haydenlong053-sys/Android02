@@ -26,7 +26,7 @@ public class ForwardMessageBroadAction extends MultiMessageBroadAction {
     @Override
     public void onClick(List<UiBroadMessage> messages) {
         new MaterialDialog.Builder(fragment.getActivity())
-            .items("逐条转发", "合并转发")
+            .items(fragment.getString(R.string.msg_forward_one_by_one), fragment.getString(R.string.msg_forward_merge))
             .itemsCallback((dialog, itemView, position, text) -> {
                 switch (position) {
                     case 0:
@@ -55,7 +55,7 @@ public class ForwardMessageBroadAction extends MultiMessageBroadAction {
     }
 
     private void forward(List<UiBroadMessage> messages) {
-        Toast.makeText(fragment.getActivity(), "合并转发", Toast.LENGTH_SHORT).show();
+        Toast.makeText(fragment.getActivity(), fragment.getString(R.string.msg_forward_merge), Toast.LENGTH_SHORT).show();
         CompositeMessageContent content = new CompositeMessageContent();
         String title;
         if (conversation.type == Conversation.ConversationType.Single) {

@@ -61,6 +61,6 @@ public class DeleteMultiMessageBroadAction extends MultiMessageBroadAction {
 
     @Override
     public String confirmPrompt() {
-        return "确认删除?";
+        return fragment.getString(R.string.msg_confirm_delete);
     }
 }

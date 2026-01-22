@@ -85,6 +85,10 @@
     <string name="msg_transfer">تحويل</string>
     <string name="msg_personal_card">[بطاقة شخصية]</string>
     <string name="msg_personal_card_name">بطاقة شخصية</string>
+    <string name="msg_forward_one_by_one">إعادة توجيه واحد تلو الآخر</string>
+    <string name="msg_forward_merge">إعادة توجيه مدمجة</string>
+    <string name="msg_forward_one_by_one_with_count">[إعادة توجيه واحد تلو الآخر] %1$d رسالة</string>
+    <string name="msg_confirm_delete">تأكيد الحذف?</string>
     <string name="msg_group">[مجموعة]</string>
     <string name="msg_chat_room">[غرفة الدردشة]</string>
     <string name="msg_channel">[قناة]</string>

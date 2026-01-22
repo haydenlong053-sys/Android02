@@ -85,6 +85,10 @@
     <string name="msg_transfer">이체</string>
     <string name="msg_personal_card">[개인 명함]</string>
     <string name="msg_personal_card_name">개인 명함</string>
+    <string name="msg_forward_one_by_one">개별 전달</string>
+    <string name="msg_forward_merge">병합 전달</string>
+    <string name="msg_forward_one_by_one_with_count">[개별 전달] %1$d개 메시지</string>
+    <string name="msg_confirm_delete">삭제하시겠습니까?</string>
     <string name="msg_group">[그룹]</string>
     <string name="msg_chat_room">[채팅방]</string>
     <string name="msg_channel">[채널]</string>

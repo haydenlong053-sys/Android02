@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cboda.chatui.R;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.conversation.pick.PickOrCreateConversationBroadActivity;
@@ -109,7 +110,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
                 view.bind(targetName, targetPortrait, WfcTextBroadUtils.htmlToText(message.digest()));
             }
         } else {
-            view.bind(targetName, targetPortrait, "[逐条转发]共" + messages.size() + "条消息");
+            view.bind(targetName, targetPortrait, getString(R.string.msg_forward_one_by_one_with_count, messages.size()));
         }
         ShareBroadPop sharePop =new ShareBroadPop(this,view);
         sharePop.setSureInvoke(new Function0<Unit>() {

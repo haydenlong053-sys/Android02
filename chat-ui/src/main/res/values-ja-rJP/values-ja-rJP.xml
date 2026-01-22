@@ -85,6 +85,10 @@
     <string name="msg_transfer">振込</string>
     <string name="msg_personal_card">[個人名刺]</string>
     <string name="msg_personal_card_name">個人名刺</string>
+    <string name="msg_forward_one_by_one">個別転送</string>
+    <string name="msg_forward_merge">統合転送</string>
+    <string name="msg_forward_one_by_one_with_count">[個別転送] %1$d件のメッセージ</string>
+    <string name="msg_confirm_delete">削除してもよろしいですか?</string>
     <string name="msg_group">[グループ]</string>
     <string name="msg_chat_room">[チャットルーム]</string>
     <string name="msg_channel">[チャンネル]</string>

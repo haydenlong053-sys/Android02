@@ -301,6 +301,10 @@
     <string name="msg_transfer">转账</string>
     <string name="msg_personal_card">[个人名片]</string>
     <string name="msg_personal_card_name">个人名片</string>
+    <string name="msg_forward_one_by_one">逐条转发</string>
+    <string name="msg_forward_merge">合并转发</string>
+    <string name="msg_forward_one_by_one_with_count">[逐条转发]共%1$d条消息</string>
+    <string name="msg_confirm_delete">确认删除?</string>
     <string name="msg_group">[群组]</string>
     <string name="msg_chat_room">[聊天室]</string>
     <string name="msg_channel">[频道]</string>

@@ -80,6 +80,10 @@
     <string name="msg_transfer">Ukudlulisa</string>
     <string name="msg_personal_card">[Ikhadi lomuntu siqu]</string>
     <string name="msg_personal_card_name">Ikhadi lomuntu siqu</string>
+    <string name="msg_forward_one_by_one">Thumela ngamunye ngamunye</string>
+    <string name="msg_forward_merge">Thumela ngokuhlanganisiwe</string>
+    <string name="msg_forward_one_by_one_with_count">[Thumela ngamunye ngamunye] %1$d imiyalezo</string>
+    <string name="msg_confirm_delete">Qinisekisa ukususa?</string>
     <string name="msg_group">[Iqembu]</string>
     <string name="msg_chat_room">[Igumbi lokuxoxa]</string>
     <string name="msg_channel">[Isiteshi]</string>

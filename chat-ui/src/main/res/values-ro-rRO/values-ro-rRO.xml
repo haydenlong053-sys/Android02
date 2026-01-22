@@ -80,6 +80,10 @@
     <string name="msg_transfer">Transfer</string>
     <string name="msg_personal_card">[Card personal]</string>
     <string name="msg_personal_card_name">Card personal</string>
+    <string name="msg_forward_one_by_one">Trimite unul câte unul</string>
+    <string name="msg_forward_merge">Trimite combinat</string>
+    <string name="msg_forward_one_by_one_with_count">[Trimite unul câte unul] %1$d mesaje</string>
+    <string name="msg_confirm_delete">Confirmă ștergerea?</string>
     <string name="msg_group">[Grup]</string>
     <string name="msg_chat_room">[Sala de chat]</string>
     <string name="msg_channel">[Canal]</string>

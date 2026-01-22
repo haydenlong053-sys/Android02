@@ -80,6 +80,10 @@
     <string name="msg_transfer">Canja</string>
     <string name="msg_personal_card">[Personal Card]</string>
     <string name="msg_personal_card_name">Personal Card</string>
+    <string name="msg_forward_one_by_one">Forward One by One</string>
+    <string name="msg_forward_merge">Forward Merge</string>
+    <string name="msg_forward_one_by_one_with_count">[Forward One by One] %1$d messages</string>
+    <string name="msg_confirm_delete">Confirm delete?</string>
     <string name="msg_group">[Group]</string>
     <string name="msg_chat_room">[Chat Room]</string>
     <string name="msg_channel">[Channel]</string>

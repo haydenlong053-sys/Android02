@@ -80,6 +80,10 @@
     <string name="msg_transfer">Μεταφορά</string>
     <string name="msg_personal_card">[Προσωπική κάρτα]</string>
     <string name="msg_personal_card_name">Προσωπική κάρτα</string>
+    <string name="msg_forward_one_by_one">Προώθηση ένα προς ένα</string>
+    <string name="msg_forward_merge">Προώθηση συγχωνευμένη</string>
+    <string name="msg_forward_one_by_one_with_count">[Προώθηση ένα προς ένα] %1$d μηνύματα</string>
+    <string name="msg_confirm_delete">Επιβεβαιώστε τη διαγραφή?</string>
     <string name="msg_group">[Ομάδα]</string>
     <string name="msg_chat_room">[Αίθουσα συνομιλίας]</string>
     <string name="msg_channel">[Κανάλι]</string>

@@ -85,6 +85,10 @@
     <string name="msg_transfer">Transfer</string>
     <string name="msg_personal_card">[Kişisel kart]</string>
     <string name="msg_personal_card_name">Kişisel kart</string>
+    <string name="msg_forward_one_by_one">Tek tek ilet</string>
+    <string name="msg_forward_merge">Birleştirerek ilet</string>
+    <string name="msg_forward_one_by_one_with_count">[Tek tek ilet] %1$d mesaj</string>
+    <string name="msg_confirm_delete">Silme işlemini onayla?</string>
     <string name="msg_group">[Grup]</string>
     <string name="msg_chat_room">[Sohbet odası]</string>
     <string name="msg_channel">[Kanal]</string>

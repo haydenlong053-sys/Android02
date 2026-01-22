@@ -85,6 +85,10 @@
     <string name="msg_transfer">Transfert</string>
     <string name="msg_personal_card">[Carte personnelle]</string>
     <string name="msg_personal_card_name">Carte personnelle</string>
+    <string name="msg_forward_one_by_one">Transférer un par un</string>
+    <string name="msg_forward_merge">Transférer en fusionnant</string>
+    <string name="msg_forward_one_by_one_with_count">[Transférer un par un] %1$d messages</string>
+    <string name="msg_confirm_delete">Confirmer la suppression?</string>
     <string name="msg_group">[Groupe]</string>
     <string name="msg_chat_room">[Salon de discussion]</string>
     <string name="msg_channel">[Canal]</string>

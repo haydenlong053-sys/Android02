@@ -80,6 +80,10 @@
     <string name="msg_transfer">ਟ੍ਰਾਂਸਫਰ</string>
     <string name="msg_personal_card">[ਵਿਅਕਤੀਗਤ ਕਾਰਡ]</string>
     <string name="msg_personal_card_name">ਵਿਅਕਤੀਗਤ ਕਾਰਡ</string>
+    <string name="msg_forward_one_by_one">ਇੱਕ-ਇੱਕ ਕਰਕੇ ਅੱਗੇ ਭੇਜੋ</string>
+    <string name="msg_forward_merge">ਮਿਲਾ ਕੇ ਅੱਗੇ ਭੇਜੋ</string>
+    <string name="msg_forward_one_by_one_with_count">[ਇੱਕ-ਇੱਕ ਕਰਕੇ ਅੱਗੇ ਭੇਜੋ] %1$d ਸੁਨੇਹੇ</string>
+    <string name="msg_confirm_delete">ਮਿਟਾਉਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ?</string>
     <string name="msg_group">[ਗਰੁੱਪ]</string>
     <string name="msg_chat_room">[ਚੈਟ ਰੂਮ]</string>
     <string name="msg_channel">[ਚੈਨਲ]</string>
