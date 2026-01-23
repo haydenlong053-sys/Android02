@@ -26,6 +26,7 @@ import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.cboda.baselibrary.utils.getAppColor
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.MyBroadApp
@@ -233,18 +234,18 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
         setContentView(R.layout.activity_broad_base2)
         initViews()
         initContentView()
-        var result = 0
-        val resourceId = resources.getIdentifier(
-            "status_bar_height",
-            "dimen", "android"
-        )
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        val linearParams = vitool?.layoutParams
-        linearParams?.height = result
-        vitool?.layoutParams = linearParams
-
+//        var result = 0
+//        val resourceId = resources.getIdentifier(
+//            "status_bar_height",
+//            "dimen", "android"
+//        )
+//        if (resourceId > 0) {
+//            result = resources.getDimensionPixelSize(resourceId)
+//        }
+//        val linearParams = vitool?.layoutParams
+//        linearParams?.height = result
+//        vitool?.layoutParams = linearParams
+        llContentLayout.fitsSystemWindows = !fitsSystemWindows()
         mFlTitleLayout?.visibility = if (showOrHideTitleLayout()) View.VISIBLE else View.GONE
 
         mIvBgTop?.visibility =
@@ -271,6 +272,12 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
 
     }
 
+    /**
+     * 页面是否向状态栏扩展
+     */
+    protected open fun fitsSystemWindows(): Boolean {
+        return false
+    }
 
     private fun initContentView() {
         if (useViewBinding()) {
@@ -331,11 +338,11 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
         ImmersionBar.with(this)
             .statusBarColor(if (transparentStatus()) R.color.transparent else getStatusBarColor())
             .statusBarDarkFont(useStatusBarDarkFont()).keyboardEnable(isEnableKeyboard()).init()
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                )
+//        window.decorView.systemUiVisibility = (
+//                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+////                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+//                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                )
     }
 
     open fun isEnableKeyboard(): Boolean {
@@ -366,8 +373,9 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
     open fun getToolbarTitle(): TextView? {
         return tvTitle
     }
+
     open fun setRootBgColor(@ColorInt int: Int) {
-        mViewRootBg.setBackgroundColor(int)
+        mViewRootBg.setBackgroundColor(getAppColor(this, int))
     }
 
 

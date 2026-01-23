@@ -47,4 +47,5 @@ dependencies {
     implementation "${andx.exifinterface}"
     implementation "${andx.viewpager2}"
     implementation "${andx.constraintlayout}"
+    implementation "${thirdPartyApis.util_codex}"
 }

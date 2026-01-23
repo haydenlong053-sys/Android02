@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/mViewRootBg"
     android:layout_height="match_parent"
     android:background="@color/bg_main2"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:fitsSystemWindows="false">
 
     <ImageView
+        android:id="@+id/mIvBgTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:background="@mipmap/ic_bg_top_broad_main"/>
+        android:background="@mipmap/ic_bg_top_broad_main"
+        android:scaleType="fitXY" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llContentLayout"
         android:layout_width="match_parent"
@@ -23,10 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <View
                 android:id="@+id/vitool"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
@@ -37,8 +43,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:padding="18dp"
-                    android:tint="@color/white"
-                    android:src="@mipmap/ic_broad_back" />
+                    android:src="@mipmap/ic_broad_back"
+                    android:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -61,11 +67,11 @@
                     android:textSize="14sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:padding="15dp"
                     android:id="@+id/rightIcon"
-                    android:layout_gravity="end|center_vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:padding="15dp" />
 
             </FrameLayout>
 
@@ -73,7 +79,6 @@
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 
 </RelativeLayout>

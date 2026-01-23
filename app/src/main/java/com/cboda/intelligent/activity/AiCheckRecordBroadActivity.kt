@@ -39,7 +39,7 @@ class AiCheckRecordBroadActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBind = binding as? ActivityCheckResultRecordBinding
-        setRootBgColor(getColor(com.cboda.baselibrary.R.color.color_F4F8FD))
+        setRootBgColor(com.cboda.baselibrary.R.color.color_F4F8FD)
         mBind?.toolbar?.mTvTitle?.text = getString(R.string.ai_check_record)
         mBind?.toolbar?.mViewBack?.setOnClickListener {
             finish()

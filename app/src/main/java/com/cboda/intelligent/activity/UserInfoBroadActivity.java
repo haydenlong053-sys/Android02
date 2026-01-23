@@ -72,6 +72,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.chatui.user.UserViewBroadModel;
+
 import cn.wildfirechat.model.ModifyMyInfoEntry;
 import cn.wildfirechat.model.ModifyMyInfoType;
 import kotlin.Unit;
@@ -88,6 +89,11 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     private UserViewBroadModel userViewModel;
     private ActivityUserBroadInfoBinding mBinding;
     private InterestBroadAdapter interestAdapter;
+
+//    @Override
+//    protected boolean fitsSystemWindows() {
+//        return true;
+//    }
 
     @Override
     public boolean showOrHideTitleLayout() {
@@ -123,7 +129,8 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = (ActivityUserBroadInfoBinding) getBinding();
-        ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
+        setRootBgColor(com.cboda.baselibrary.R.color.white);
+//        ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
         userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         userInfo();
@@ -647,4 +654,8 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         commonTipPop.showPopupWindow();
     }
 
+    @Override
+    public boolean showBgTopTitleLayout() {
+        return true;
+    }
 }

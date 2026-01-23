@@ -5,14 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorF7F8FA"
-    android:orientation="vertical"
-    tools:context=".lj.UserInfoBroadActivity">
+    android:orientation="vertical">
 
-    <View
-        android:id="@+id/view_status"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
 
     <include
         android:id="@+id/toolbar"

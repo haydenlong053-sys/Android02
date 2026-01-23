@@ -412,6 +412,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.shezhibeizhu(this, otherUid, remarkName, circleId)
     }
 
+    override fun fitsSystemWindows() = true
 }
 
 

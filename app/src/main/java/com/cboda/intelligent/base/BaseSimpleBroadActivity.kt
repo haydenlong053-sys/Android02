@@ -11,12 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.view.isGone
 import androidx.viewbinding.ViewBinding
+import com.cboda.baselibrary.utils.getAppColor
 import com.gyf.immersionbar.ImmersionBar
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.MyBroadApp
@@ -186,18 +190,19 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
         initViews()
         initContentView()
 
-        var result = 0
-        val resourceId = resources.getIdentifier(
-            "status_bar_height",
-            "dimen", "android"
-        )
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        val linearParams = vitool?.layoutParams
-        linearParams?.height = result
-        vitool?.layoutParams = linearParams
-
+//        var result = 0
+//        val resourceId = resources.getIdentifier(
+//            "status_bar_height",
+//            "dimen", "android"
+//        )
+//        if (resourceId > 0) {
+//            result = resources.getDimensionPixelSize(resourceId)
+//        }
+//        val linearParams = vitool?.layoutParams
+//        linearParams?.height = result
+//        vitool?.layoutParams = linearParams
+        mIvBgTop.isGone = showBgTopTitleLayout()
+        llContentLayout.fitsSystemWindows = !fitsSystemWindows()
         llTitleLayout?.visibility = if (showOrHideTitleLayout()) View.VISIBLE else View.GONE
         AppBroadUtils.activityList.add(this)
         backIcon?.setOnClickListener {
@@ -221,8 +226,10 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
             try {
                 binding = createViewBinding()
                 binding?.let { vb ->
-                    findViewById<LinearLayoutCompat>(R.id.llContentLayout).addView(vb.root,
-                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
+                    findViewById<LinearLayoutCompat>(R.id.llContentLayout).addView(
+                        vb.root,
+                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    )
                 }
             } catch (e: Exception) {
                 // ViewBinding创建失败，回退到传统方式
@@ -245,7 +252,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
             // 首先尝试从getViewBindingClass()获取类型
             val clazz = getViewBindingClass()
                 ?: throw IllegalStateException("请重写getViewBindingClass()方法或createViewBinding()方法")
-            
+
             val inflateMethod: Method = clazz.getMethod("inflate", LayoutInflater::class.java)
             inflateMethod.invoke(null, layoutInflater) as ViewBinding
         } catch (e: Exception) {
@@ -263,21 +270,26 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
     }
 
 
-
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         ImmersionBar.with(this)
             .statusBarColor(if (transparentStatus()) R.color.transparent else getStatusBarColor())
             .statusBarDarkFont(useStatusBarDarkFont()).keyboardEnable(isEnableKeyboard()).init()
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                )
+//        window.decorView.systemUiVisibility = (
+//                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+////                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+//                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                )
     }
 
-    open  fun isEnableKeyboard():Boolean{
+    open fun isEnableKeyboard(): Boolean {
+        return false
+    }
+
+    /**
+     * 页面是否向状态栏扩展
+     */
+    protected open fun fitsSystemWindows(): Boolean {
         return false
     }
 
@@ -310,7 +322,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
         return tvRight
     }
 
-    open fun getRightImg(): AppCompatImageView?{
+    open fun getRightImg(): AppCompatImageView? {
         return rightIcon
     }
 
@@ -322,7 +334,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
-        if (dialogHelper?.isShowing == true){
+        if (dialogHelper?.isShowing == true) {
             dismissLoading()
         }
         AppBroadUtils.activityList.remove(this)
@@ -373,12 +385,13 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
     }
+
     override fun startActivity(intent: Intent?) {
         super.startActivity(intent)
         overridePendingTransition(R.anim.anim_right_broad_in, R.anim.anim_left_broad_out)
     }
 
-    open fun getContentView():View{
+    open fun getContentView(): View {
         return llContentLayout
     }
 
@@ -391,7 +404,8 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
     private lateinit var backIcon: AppCompatImageView
     private lateinit var vitool:
             View
-
+    lateinit var mIvBgTop: ImageView
+    private lateinit var mViewRootBg: View
     private fun initViews() {
         vitool = findViewById(R.id.vitool)
         backIcon = findViewById(R.id.backIcon)
@@ -400,9 +414,11 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
         rightIcon = findViewById(R.id.rightIcon)
         llTitleLayout = findViewById(R.id.llTitleLayout)
         llContentLayout = findViewById(R.id.llContentLayout)
+        mIvBgTop = findViewById(R.id.mIvBgTop)
+        mViewRootBg = findViewById(R.id.mViewRootBg)
     }
 
-     fun showLoading() {
+    fun showLoading() {
         if (this.isFinishing || this.isDestroyed) {
             return
         }
@@ -422,6 +438,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
     fun dismissLoading() {
         dialogHelper?.dismiss()
     }
+
     override fun getResources(): Resources {
         val res = super.getResources()
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
@@ -448,5 +465,13 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
     protected fun getTextSize(newBase: Context?): Float {
         val fontScale: Float = SharePrefBroadBroadUtil.getString(newBase, AppBroadConsts.FontScale, "1").toFloat()
         return fontScale
+    }
+
+    open fun setRootBgColor(@ColorInt int: Int) {
+        mViewRootBg.setBackgroundColor(getAppColor(this, int))
+    }
+
+    open fun showBgTopTitleLayout(): Boolean {
+        return false
     }
 }

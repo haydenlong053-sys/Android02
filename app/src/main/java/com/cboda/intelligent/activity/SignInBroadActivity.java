@@ -53,6 +53,11 @@ public class SignInBroadActivity extends BaseSimpleBroadActivity implements View
     private SmartRefreshLayout smart;
 
     @Override
+    protected boolean fitsSystemWindows() {
+        return true;
+    }
+
+    @Override
     public boolean showOrHideTitleLayout() {
         return false;
     }

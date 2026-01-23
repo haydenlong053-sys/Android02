@@ -42,7 +42,9 @@ import cn.wildfirechat.model.ModifyMyInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnReceiveMessageListener
 import cn.wildfirechat.viewmodel.HomeUIViewModel
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.DoubleMessageBroadEvent
@@ -375,7 +377,13 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //                    1001)
 //            }
 //        }
-
+        setNavBarHeightListener {
+            val bottomView = findViewById<View>(R.id.bottomView)
+            val layoutParams = bottomView.layoutParams
+            layoutParams.height = dp2px(12f) + it
+            bottomView.layoutParams = layoutParams
+            (messageFragment as MessageBroadFragment).setBottomHeight(it)
+        }
     }
 
 
@@ -517,6 +525,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         bottomLayout = findViewById(R.id.bottomLayout)
     }
 
+
+    private val messageFragment = MessageBroadFragment.getInstance()
     private fun initMyIm() {
 
 //        fragmentList.add(MirrorBroadFragment.getInstance())
@@ -524,7 +534,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         fragmentList.add(NewMirrorBroadFragment())
         fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
-        fragmentList.add(MessageBroadFragment.getInstance())
+        fragmentList.add(messageFragment)
 //        fragmentList.add(TongXunLuBroadFragment.getInstance())
 //        fragmentNameList.add("xiaoxi")
 //        fragmentNameList.add("tongxunlu")
@@ -705,4 +715,6 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        }
     }
 
+
+    override fun fitsSystemWindows() = true
 }
