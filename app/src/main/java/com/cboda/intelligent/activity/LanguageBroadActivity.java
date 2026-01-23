@@ -58,10 +58,10 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
                 String languageKey = listBeans.get(position).sqlKey;
                 MMKVBroadUtils.Companion.saveAppLanguageKey(languageKey, LanguageBroadActivity.this);
                 LanguageUtil.INSTANCE.setAppLanguage(languageKey, LanguageBroadActivity.this);
-                ThreadUtils.getMainHandler().postDelayed(() -> {
-                    ActivityUtils.finishAllActivities();
-                    HttpsBroadConfig.INSTANCE.restartApp();
-                }, 500L);
+//                ThreadUtils.getMainHandler().postDelayed(() -> {
+//                    ActivityUtils.finishAllActivities();
+//                    HttpsBroadConfig.INSTANCE.restartApp();
+//                }, 500L);
 //                MMKVBroadUtils.Companion.saveYuYan(listBeans.get(position).name);
 //                for (int i = 0; i < AppBroadUtils.Companion.getActivityList().size(); i++) {
 //                    AppBroadUtils.Companion.getActivityList().get(i).finish();

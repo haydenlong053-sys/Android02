@@ -1,9 +1,9 @@
 package com.cboda.intelligent.utils;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.dismissLoadingDialog;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showLoadingDialog;
+
 import android.content.Context;
-
-
-import com.android.tu.loadingdialog.LoadingDailog;
 
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,23 +11,22 @@ import okhttp3.Response;
 
 public abstract class SpotsCallBroadBack<T> extends BaseBroadCallback<T> {
     private Context mContext;
-    private LoadingDailog mDialog;
-    LoadingDailog.Builder loadBuilder;
+//    private LoadingDailog mDialog;
+//    LoadingDailog.Builder loadBuilder;
 
     public SpotsCallBroadBack(Context context) {
         mContext = context;
-        loadBuilder = new LoadingDailog.Builder(mContext)
-                .setMessage("加载中...")
-                .setCancelable(true)
-                .setCancelOutside(true);
-        mDialog = loadBuilder.create();
+//        loadBuilder = new LoadingDailog.Builder(mContext)
+//                .setMessage("加载中...")
+//                .setCancelable(true)
+//                .setCancelOutside(true);
+//        mDialog = loadBuilder.create();
     }
 
 
     public void showDialog() {
         try {
-            if (!mDialog.isShowing())
-                mDialog.show();
+            showLoadingDialog(mContext);
         } catch (Exception e) {
 
         }
@@ -35,7 +34,7 @@ public abstract class SpotsCallBroadBack<T> extends BaseBroadCallback<T> {
 
     public void dismissDialog() {
         try {
-            mDialog.dismiss();
+            dismissLoadingDialog();
         } catch (Exception e) {
 
         }

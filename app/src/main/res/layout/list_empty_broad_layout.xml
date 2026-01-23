@@ -18,9 +18,9 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivEmptyTips"
             android:src="@mipmap/ic_empty_broad_bg"
-            android:scaleType="centerInside"
-            android:layout_width="66dp"
-            android:layout_height="60dp"/>
+            android:scaleType="centerCrop"
+            android:layout_width="140dp"
+            android:layout_height="140dp"/>
 
         <TextView
             android:layout_marginTop="14dp"

@@ -1,5 +1,7 @@
 package com.cboda.intelligent.net;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.select.picture.utils.LanguageUtil;
@@ -148,7 +150,7 @@ public class BroadUrl {
     public static String DEVICE_BIND = IP + "device/bind";
 
     public static String getWebLanguageType() {
-        if (LanguageUtil.SIMPLIFIED.equals(MMKVBroadUtils.Companion.getAppLanguageKey(null))) {
+        if (LanguageUtil.INSTANCE.getSystemLocal(getAppContext(null)).getLanguage().startsWith("zh")) {
             //简体中文
             return "/zh";
         } else {

@@ -41,6 +41,7 @@ class AiRecordFragment(val index: Int) :
             it.layoutManager = LinearLayoutManager(requireContext())
             it.adapter = mAdapter
         }
+
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val noticeInfoBean = mAdapter.data[position]
             JumpBroadUtils.jumpAiCheckResultActivity(requireContext(),noticeInfoBean.id)
