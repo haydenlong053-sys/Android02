@@ -87,10 +87,10 @@ public class LanguageBroadActivity extends BaseSimpleBroadActivity {
                 listBeans.get(i).isChecked = false;
             }
         }
-        if (!ischeck) {
-            listBeans.getFirst().isChecked = true;
+        if (!ischeck && !listBeans.isEmpty()) {
+            listBeans.get(0).isChecked = true;
 //            MMKVBroadUtils.Companion.saveYuYan(listBeans.get(0).name);
-            MMKVBroadUtils.Companion.saveAppLanguageKey(listBeans.getFirst().sqlKey, LanguageBroadActivity.this);
+            MMKVBroadUtils.Companion.saveAppLanguageKey(listBeans.get(0).sqlKey, LanguageBroadActivity.this);
         }
 
         languageAdapter.notifyDataSetChanged();
