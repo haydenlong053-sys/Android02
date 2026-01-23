@@ -458,5 +458,15 @@
     <string name="you_can_add_more_hobbies">คุณสามารถเพิ่มงานอดิเรกได้อีก %1$d รายการ</string>
     <string name="max_six_hobbies">สูงสุด 6 งานอดิเรกที่อนุญาต</string>
     <string name="greeting_label">คำอวยพร</string>
+    <string name="bind_device_warning">หลังจากผูกอุปกรณ์ปัจจุบัน กระเป๋าเงินการซื้อขายใน &quot;กระเป๋าเงินบล็อก&quot; จะกลายเป็นกระเป๋าเงินสังเกตการณ์ กรุณาผูกอย่างระมัดระวัง</string>
+    <string name="got_it">เข้าใจแล้ว</string>
+    <string name="scan_camera_permission_request">การใช้ฟังก์ชันสแกนต้องใช้สิทธิ์กล้อง คุณต้องการขอสิทธิ์หรือไม่?</string>
+    <string name="scan_storage_permission_request">การใช้ฟังก์ชันเลือกที่เก็บข้อมูลต้องใช้สิทธิ์ที่เก็บข้อมูล คุณต้องการขอสิทธิ์หรือไม่?</string>
+    <string name="scan_image_qr_code_unrecognizable">รูปภาพนี้ไม่สามารถจดจำ QR code ได้</string>
+    <string name="scan_invalid_qr_code">QR code ไม่ถูกต้อง</string>
+    <string name="scan_network_request_failed">คำขอเครือข่ายล้มเหลว กรุณาลองอีกครั้ง</string>
+    <string name="scan_applied_waiting_group_owner">ส่งคำขอแล้ว กำลังรอการอนุมัติจากเจ้าของกลุ่ม</string>
+    <string name="scan_invalid_qr_code_type">ประเภท QR code ไม่ถูกต้อง</string>
+    <string name="scan_login_request_failed">คำขอเข้าสู่ระบบล้มเหลว กรุณาลองอีกครั้ง</string>
 
 </resources>

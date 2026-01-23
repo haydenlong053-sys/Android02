@@ -154,5 +154,7 @@
     <string name="message_translate">ဘာသာပြန်ရန်</string>
     <string name="msg_mention_all">အားလုံး </string>
     <string name="msg_person_unit">ဦး</string>
+    <string name="msg_share_to">မျှဝေရန်:</string>
+    <string name="msg_send_message">မက်ဆေ့ချ်ပို့ရန်</string>
 
 </resources>

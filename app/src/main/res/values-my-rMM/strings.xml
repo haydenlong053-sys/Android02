@@ -461,5 +461,15 @@
     <string name="you_can_add_more_hobbies">သင်သည် ဝါသနာ %1$d ခု ထပ်မံ ထည့်နိုင်သည်။</string>
     <string name="max_six_hobbies">ဝါသနာ ၆ ခု အထိ ခွင့်ပြုထားသည်</string>
     <string name="greeting_label">ဂုဏ်ယူစကား</string>
+    <string name="bind_device_warning">လက်ရှိစက်ကို ချည်နှောင်ပြီးနောက် &quot;Block Wallet&quot; ရှိ ကုန်သွယ်ရေးပိုက်ဆံအိတ်သည် စောင့်ကြည့်ရေးပိုက်ဆံအိတ်ဖြစ်လာလိမ့်မည်။ ကျေးဇူးပြု၍ သတိထားပြီး ချည်နှောင်ပါ။</string>
+    <string name="got_it">နားလည်ပါပြီ</string>
+    <string name="scan_camera_permission_request">စကန်လုပ်ဆောင်ချက်ကို အသုံးပြုရန် ကင်မရာ ခွင့်ပြုချက် လိုအပ်သည်။ ခွင့်ပြုချက် တောင်းဆိုလိုပါသလား?</string>
+    <string name="scan_storage_permission_request">သိုလှောင်မှု ရွေးချယ်မှု လုပ်ဆောင်ချက်ကို အသုံးပြုရန် သိုလှောင်မှု ခွင့်ပြုချက် လိုအပ်သည်။ ခွင့်ပြုချက် တောင်းဆိုလိုပါသလား?</string>
+    <string name="scan_image_qr_code_unrecognizable">ဤပုံသည် QR code ကို မှတ်မိနိုင်မည် မဟုတ်ပါ</string>
+    <string name="scan_invalid_qr_code">မမှန်ကန်သော QR code</string>
+    <string name="scan_network_request_failed">ကွန်ရက်တောင်းဆိုမှု မအောင်မြင်ပါ၊ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ</string>
+    <string name="scan_applied_waiting_group_owner">လျှောက်ထားပြီးပါပြီ၊ အုပ်စုပိုင်ရှင်၏ ခွင့်ပြုချက်ကို စောင့်ဆိုင်းနေပါသည်</string>
+    <string name="scan_invalid_qr_code_type">မမှန်ကန်သော QR code အမျိုးအစား</string>
+    <string name="scan_login_request_failed">လော့ဂ်အင်တောင်းဆိုမှု မအောင်မြင်ပါ၊ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ</string>
 
 </resources>

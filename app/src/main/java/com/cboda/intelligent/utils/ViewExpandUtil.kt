@@ -166,6 +166,21 @@ fun showGuidePasswordTip(context: Context): CommonTipBroadPop {
     return commonTipPop
 }
 
+fun showSetTipDialog(context: Context,goBack:()-> Unit={}): CommonTipBroadPop {
+    val commonTipPop = CommonTipBroadPop(
+        context,
+        context.getString(R.string.ai_pop_tip),
+        context.getString(R.string.bind_device_warning)
+    )
+    commonTipPop.setCancelBtn(context.getString(R.string.quxiao))
+    commonTipPop.setSureBtn(context.getString(R.string.got_it))
+    commonTipPop.sureInvoke = {
+        goBack.invoke()
+    }
+    commonTipPop.showPopupWindow()
+    return commonTipPop
+}
+
 // 把这 10 行放进项目，以后所有点击都不用再担心重复
 fun View.click(debounceTime: Long = 800, action: () -> Unit) {
     setOnClickListener {

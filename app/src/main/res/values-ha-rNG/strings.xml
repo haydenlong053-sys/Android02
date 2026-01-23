@@ -458,5 +458,15 @@
     <string name="you_can_add_more_hobbies">Kuna iya ƙara %1$d ƙarin abubuwan sha\'awa.</string>
     <string name="max_six_hobbies">Matsakaicin abubuwan sha\'awa 6 an yarda</string>
     <string name="greeting_label">Taya murna</string>
+    <string name="bind_device_warning">Bayan haɗa na\'urar yanzu, walat ciniki a cikin &quot;Block Wallet&quot; zai zama walat kallo. Da fatan za a haɗa a hankali.</string>
+    <string name="got_it">Na gane</string>
+    <string name="scan_camera_permission_request">Yin amfani da aikin bincike yana buƙatar izinin kamara. Kuna son neman izini?</string>
+    <string name="scan_storage_permission_request">Yin amfani da aikin zaɓin ajiya yana buƙatar izinin ajiya. Kuna son neman izini?</string>
+    <string name="scan_image_qr_code_unrecognizable">Wannan hoton ba zai iya gane lambar QR ba</string>
+    <string name="scan_invalid_qr_code">Lambar QR mara inganci</string>
+    <string name="scan_network_request_failed">Bukatar hanyar sadarwa ta gaza, da fatan za a sake gwadawa</string>
+    <string name="scan_applied_waiting_group_owner">An yi amfani, ana jiran amincewar mai rukunin</string>
+    <string name="scan_invalid_qr_code_type">Nau\'in lambar QR mara inganci</string>
+    <string name="scan_login_request_failed">Bukatar shiga ta gaza, da fatan za a sake gwadawa</string>
 
 </resources>

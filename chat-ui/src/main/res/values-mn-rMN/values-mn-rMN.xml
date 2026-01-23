@@ -154,5 +154,7 @@
     <string name="message_translate">Орчуулах</string>
     <string name="msg_mention_all">Бүгд </string>
     <string name="msg_person_unit">хүн</string>
+    <string name="msg_share_to">Хуваалцах:</string>
+    <string name="msg_send_message">Зурвас илгээх</string>
 
 </resources>

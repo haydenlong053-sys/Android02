@@ -154,5 +154,7 @@
     <string name="message_translate">Traduzir</string>
     <string name="msg_mention_all">Todos </string>
     <string name="msg_person_unit">pessoas</string>
+    <string name="msg_share_to">Compartilhar com:</string>
+    <string name="msg_send_message">Enviar mensagem</string>
 
 </resources>

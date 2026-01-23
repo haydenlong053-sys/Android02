@@ -458,5 +458,15 @@
     <string name="you_can_add_more_hobbies">Puede agregar %1$d aficiones más.</string>
     <string name="max_six_hobbies">Máximo 6 aficiones permitidas</string>
     <string name="greeting_label">Saludo</string>
+    <string name="bind_device_warning">Después de vincular el dispositivo actual, la billetera comercial en &quot;Billetera de Bloques&quot; se convertirá en una billetera de observación. Por favor, vincule con cuidado.</string>
+    <string name="got_it">Entendido</string>
+    <string name="scan_camera_permission_request">El uso de la función de escaneo requiere permiso de cámara. ¿Desea solicitar permiso?</string>
+    <string name="scan_storage_permission_request">El uso de la función de selección de almacenamiento requiere permiso de almacenamiento. ¿Desea solicitar permiso?</string>
+    <string name="scan_image_qr_code_unrecognizable">Esta imagen no puede reconocer el código QR</string>
+    <string name="scan_invalid_qr_code">Código QR inválido</string>
+    <string name="scan_network_request_failed">La solicitud de red falló, por favor intente nuevamente</string>
+    <string name="scan_applied_waiting_group_owner">Aplicado, esperando aprobación del propietario del grupo</string>
+    <string name="scan_invalid_qr_code_type">Tipo de código QR inválido</string>
+    <string name="scan_login_request_failed">La solicitud de inicio de sesión falló, por favor intente nuevamente</string>
 
 </resources>

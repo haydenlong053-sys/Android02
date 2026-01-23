@@ -462,5 +462,15 @@
     <string name="you_can_add_more_hobbies">ਤੁਸੀਂ %1$d ਹੋਰ ਸ਼ੌਕ ਜੋੜ ਸਕਦੇ ਹੋ।</string>
     <string name="max_six_hobbies">ਵੱਧ ਤੋਂ ਵੱਧ 6 ਸ਼ੌਕ ਦੀ ਇਜਾਜ਼ਤ</string>
     <string name="greeting_label">ਸ਼ੁਭਕਾਮਨਾਵਾਂ</string>
+    <string name="bind_device_warning">ਮੌਜੂਦਾ ਡਿਵਾਈਸ ਨੂੰ ਬਾਈਂਡ ਕਰਨ ਤੋਂ ਬਾਅਦ &quot;ਬਲਾਕ ਵਾਲੇਟ&quot; ਵਿੱਚ ਟ੍ਰੇਡਿੰਗ ਵਾਲੇਟ ਇੱਕ ਨਿਰੀਖਣ ਵਾਲੇਟ ਬਣ ਜਾਵੇਗਾ। ਕਿਰਪਾ ਕਰਕੇ ਸਾਵਧਾਨੀ ਨਾਲ ਬਾਈਂਡ ਕਰੋ।</string>
+    <string name="got_it">ਸਮਝ ਗਿਆ</string>
+    <string name="scan_camera_permission_request">ਸਕੈਨ ਫੰਕਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਕੈਮਰਾ ਇਜਾਜ਼ਤ ਦੀ ਲੋੜ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਜਾਜ਼ਤ ਮੰਗਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
+    <string name="scan_storage_permission_request">ਸਟੋਰੇਜ ਚੋਣ ਫੰਕਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਸਟੋਰੇਜ ਇਜਾਜ਼ਤ ਦੀ ਲੋੜ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਜਾਜ਼ਤ ਮੰਗਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
+    <string name="scan_image_qr_code_unrecognizable">ਇਹ ਚਿੱਤਰ QR ਕੋਡ ਨੂੰ ਪਛਾਣ ਨਹੀਂ ਸਕਦਾ</string>
+    <string name="scan_invalid_qr_code">ਅਵੈਧ QR ਕੋਡ</string>
+    <string name="scan_network_request_failed">ਨੈੱਟਵਰਕ ਬੇਨਤੀ ਅਸਫਲ, ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="scan_applied_waiting_group_owner">ਅਰਜ਼ੀ ਦਿੱਤੀ ਗਈ, ਗਰੁੱਪ ਮਾਲਕ ਦੀ ਮਨਜ਼ੂਰੀ ਦਾ ਇੰਤਜ਼ਾਰ ਹੈ</string>
+    <string name="scan_invalid_qr_code_type">ਅਵੈਧ QR ਕੋਡ ਕਿਸਮ</string>
+    <string name="scan_login_request_failed">ਲਾਗਇਨ ਬੇਨਤੀ ਅਸਫਲ, ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
 
 </resources>

@@ -154,5 +154,7 @@
     <string name="message_translate">Terjemah</string>
     <string name="msg_mention_all">Semua </string>
     <string name="msg_person_unit">orang</string>
+    <string name="msg_share_to">Kongsi kepada:</string>
+    <string name="msg_send_message">Hantar mesej</string>
 
 </resources>

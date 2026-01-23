@@ -154,5 +154,7 @@
     <string name="message_translate">Перекласти</string>
     <string name="msg_mention_all">Всі </string>
     <string name="msg_person_unit">осіб</string>
+    <string name="msg_share_to">Поділитися з:</string>
+    <string name="msg_send_message">Надіслати повідомлення</string>
 
 </resources>

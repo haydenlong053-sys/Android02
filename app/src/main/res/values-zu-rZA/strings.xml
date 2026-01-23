@@ -460,5 +460,15 @@
     <string name="you_can_add_more_hobbies">Ungangena %1$d ezinye izinto ozithandayo.</string>
     <string name="max_six_hobbies">Okungenani okungu-6 izinto ozithandayo kuvunyelwe</string>
     <string name="greeting_label">Ukuphawula</string>
+    <string name="bind_device_warning">Ngemva kokubopha idivayisi yamanje, isikhwama sokuhweba ku-&quot;Block Wallet&quot; sizoba yisikhwama sokubuka. Sicela ubophe ngokucophelela.</string>
+    <string name="got_it">Ngiyabona</string>
+    <string name="scan_camera_permission_request">Ukusebenzisa umsebenzi wokuklama kudinga imvume yekhamera. Ingabe ufuna ukucela imvume?</string>
+    <string name="scan_storage_permission_request">Ukusebenzisa umsebenzi wokukhetha okugcinwayo kudinga imvume yokugcinwayo. Ingabe ufuna ukucela imvume?</string>
+    <string name="scan_image_qr_code_unrecognizable">Lesi sithombe asikwazi ukubona ikhodi ye-QR</string>
+    <string name="scan_invalid_qr_code">Ikhodi ye-QR engavumelekile</string>
+    <string name="scan_network_request_failed">Isicelo senethwekhi asiphumelele, sicela uzame futhi</string>
+    <string name="scan_applied_waiting_group_owner">Kufakiwe, kulinde ukuvunywa komnikazi weqembu</string>
+    <string name="scan_invalid_qr_code_type">Uhlobo lwekhodi ye-QR olungavumelekile</string>
+    <string name="scan_login_request_failed">Isicelo sokungena asiphumelele, sicela uzame futhi</string>
 
 </resources>

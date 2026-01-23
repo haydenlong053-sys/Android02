@@ -852,5 +852,15 @@
     <string name="meeting_all_mic_on">全員開麥</string>
     <string name="meeting_all_mute">全員禁言</string>
     <string name="greeting_label">祝福語</string>
+    <string name="bind_device_warning">綁定當前設備後「區塊錢包」中的交易錢包將變為觀察錢包，請謹慎綁定</string>
+    <string name="got_it">知道了</string>
+    <string name="scan_camera_permission_request">使用掃一掃功能需要相機權限，是否請求權限？</string>
+    <string name="scan_storage_permission_request">使用選擇存儲權限，是否請求權限？</string>
+    <string name="scan_image_qr_code_unrecognizable">該圖片無法識別二維碼</string>
+    <string name="scan_invalid_qr_code">無效的二維碼</string>
+    <string name="scan_network_request_failed">網絡請求失敗，請重試</string>
+    <string name="scan_applied_waiting_group_owner">已申請，等待群主同意</string>
+    <string name="scan_invalid_qr_code_type">無效的二維碼類型</string>
+    <string name="scan_login_request_failed">登錄請求失敗，請重試</string>
 
 </resources>

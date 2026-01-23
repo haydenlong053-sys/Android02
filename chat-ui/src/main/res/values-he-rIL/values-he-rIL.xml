@@ -159,5 +159,7 @@
     <string name="message_translate">תרגם</string>
     <string name="msg_mention_all">כולם </string>
     <string name="msg_person_unit">אנשים</string>
+    <string name="msg_share_to">שתף עם:</string>
+    <string name="msg_send_message">שלח הודעה</string>
 
 </resources>

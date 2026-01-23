@@ -458,5 +458,15 @@
     <string name="you_can_add_more_hobbies">আপনি আরও %1$d টি শখ যোগ করতে পারেন।</string>
     <string name="max_six_hobbies">সর্বোচ্চ ৬টি শখ অনুমোদিত</string>
     <string name="greeting_label">শুভেচ্ছা বার্তা</string>
+    <string name="bind_device_warning">বর্তমান ডিভাইস বাইন্ড করার পর &quot;ব্লক ওয়ালেট&quot; এর ট্রেডিং ওয়ালেট একটি পর্যবেক্ষণ ওয়ালেটে পরিণত হবে। অনুগ্রহ করে সাবধানে বাইন্ড করুন।</string>
+    <string name="got_it">জানতে পারলাম</string>
+    <string name="scan_camera_permission_request">স্ক্যান ফাংশন ব্যবহার করতে ক্যামেরা অনুমতি প্রয়োজন। আপনি অনুমতি চাইতে চান?</string>
+    <string name="scan_storage_permission_request">স্টোরেজ নির্বাচন ফাংশন ব্যবহার করতে স্টোরেজ অনুমতি প্রয়োজন। আপনি অনুমতি চাইতে চান?</string>
+    <string name="scan_image_qr_code_unrecognizable">এই ছবিটি QR কোড চিনতে পারে না</string>
+    <string name="scan_invalid_qr_code">অবৈধ QR কোড</string>
+    <string name="scan_network_request_failed">নেটওয়ার্ক অনুরোধ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন</string>
+    <string name="scan_applied_waiting_group_owner">আবেদন করা হয়েছে, গ্রুপ মালিকের অনুমোদনের জন্য অপেক্ষা করছে</string>
+    <string name="scan_invalid_qr_code_type">অবৈধ QR কোড টাইপ</string>
+    <string name="scan_login_request_failed">লগইন অনুরোধ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন</string>
 
 </resources>

@@ -458,5 +458,15 @@
     <string name="you_can_add_more_hobbies">يمكنك إضافة %1$d هوايات أخرى.</string>
     <string name="max_six_hobbies">الحد الأقصى 6 هوايات مسموح بها</string>
     <string name="greeting_label">تهنئة</string>
+    <string name="bind_device_warning">بعد ربط الجهاز الحالي، ستصبح محفظة التداول في &quot;محفظة البلوك&quot; محفظة مراقبة. يرجى الربط بحذر.</string>
+    <string name="got_it">فهمت</string>
+    <string name="scan_camera_permission_request">استخدام وظيفة المسح يتطلب إذن الكاميرا. هل تريد طلب الإذن؟</string>
+    <string name="scan_storage_permission_request">استخدام وظيفة اختيار التخزين يتطلب إذن التخزين. هل تريد طلب الإذن؟</string>
+    <string name="scan_image_qr_code_unrecognizable">لا يمكن لهذه الصورة التعرف على رمز QR</string>
+    <string name="scan_invalid_qr_code">رمز QR غير صالح</string>
+    <string name="scan_network_request_failed">فشل طلب الشبكة، يرجى المحاولة مرة أخرى</string>
+    <string name="scan_applied_waiting_group_owner">تم التقديم، في انتظار موافقة مالك المجموعة</string>
+    <string name="scan_invalid_qr_code_type">نوع رمز QR غير صالح</string>
+    <string name="scan_login_request_failed">فشل طلب تسجيل الدخول، يرجى المحاولة مرة أخرى</string>
 
 </resources>

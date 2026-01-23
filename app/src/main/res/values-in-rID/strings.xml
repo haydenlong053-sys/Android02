@@ -459,5 +459,15 @@
     <string name="you_can_add_more_hobbies">Anda dapat menambahkan %1$d hobi lagi.</string>
     <string name="max_six_hobbies">Maksimal 6 hobi diizinkan</string>
     <string name="greeting_label">Ucapan Selamat</string>
+    <string name="bind_device_warning">Setelah mengikat perangkat saat ini, dompet perdagangan di &quot;Dompet Blok&quot; akan menjadi dompet observasi. Harap ikat dengan hati-hati.</string>
+    <string name="got_it">Mengerti</string>
+    <string name="scan_camera_permission_request">Menggunakan fungsi pindai memerlukan izin kamera. Apakah Anda ingin meminta izin?</string>
+    <string name="scan_storage_permission_request">Menggunakan fungsi pemilihan penyimpanan memerlukan izin penyimpanan. Apakah Anda ingin meminta izin?</string>
+    <string name="scan_image_qr_code_unrecognizable">Gambar ini tidak dapat mengenali kode QR</string>
+    <string name="scan_invalid_qr_code">Kode QR tidak valid</string>
+    <string name="scan_network_request_failed">Permintaan jaringan gagal, silakan coba lagi</string>
+    <string name="scan_applied_waiting_group_owner">Diajukan, menunggu persetujuan pemilik grup</string>
+    <string name="scan_invalid_qr_code_type">Jenis kode QR tidak valid</string>
+    <string name="scan_login_request_failed">Permintaan login gagal, silakan coba lagi</string>
 
 </resources>

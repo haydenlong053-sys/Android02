@@ -24,7 +24,7 @@
 
         <TextView
             android:layout_marginTop="14dp"
-            android:text="暂无数据"
+            android:text="@string/no_data"
             android:id="@+id/tvEmptyTips"
             android:textColor="#9A9A9A"
             android:layout_width="wrap_content"

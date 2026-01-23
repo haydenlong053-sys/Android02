@@ -154,5 +154,7 @@
     <string name="message_translate">अनुवाद गर्नुहोस्</string>
     <string name="msg_mention_all">सबै </string>
     <string name="msg_person_unit">जना</string>
+    <string name="msg_share_to">साझेदारी गर्नुहोस्:</string>
+    <string name="msg_send_message">सन्देश पठाउनुहोस्</string>
 
 </resources>

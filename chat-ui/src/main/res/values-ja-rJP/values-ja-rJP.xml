@@ -159,5 +159,7 @@
     <string name="message_translate">翻訳</string>
     <string name="msg_mention_all">全員 </string>
     <string name="msg_person_unit">人</string>
+    <string name="msg_share_to">共有先:</string>
+    <string name="msg_send_message">メッセージを送信</string>
 
 </resources>

@@ -460,5 +460,15 @@
     <string name="you_can_add_more_hobbies">Unaweza kuongeza shughuli %1$d zaidi za burudani.</string>
     <string name="max_six_hobbies">Shughuli zaidi ya 6 za burudani zinaruhusiwa</string>
     <string name="greeting_label">Maneno ya pongezi</string>
+    <string name="bind_device_warning">Baada ya kuunganisha kifaa cha sasa, mkoba wa biashara katika &quot;Mkoba wa Block&quot; utakuwa mkoba wa uchunguzi. Tafadhali unganisha kwa uangalifu.</string>
+    <string name="got_it">Nimeelewa</string>
+    <string name="scan_camera_permission_request">Kutumia kazi ya kuchanganua inahitaji ruhusa ya kamera. Je, ungependa kuomba ruhusa?</string>
+    <string name="scan_storage_permission_request">Kutumia kazi ya kuchagua uhifadhi inahitaji ruhusa ya uhifadhi. Je, ungependa kuomba ruhusa?</string>
+    <string name="scan_image_qr_code_unrecognizable">Picha hii haiwezi kutambua msimbo wa QR</string>
+    <string name="scan_invalid_qr_code">Msimbo wa QR si halali</string>
+    <string name="scan_network_request_failed">Ombi la mtandao limeshindwa, tafadhali jaribu tena</string>
+    <string name="scan_applied_waiting_group_owner">Imeombwa, inasubiri idhini ya mmiliki wa kikundi</string>
+    <string name="scan_invalid_qr_code_type">Aina ya msimbo wa QR si halali</string>
+    <string name="scan_login_request_failed">Ombi la kuingia limeshindwa, tafadhali jaribu tena</string>
 
 </resources>

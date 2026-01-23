@@ -154,5 +154,7 @@
     <string name="message_translate">Terjemahake</string>
     <string name="msg_mention_all">Kabeh </string>
     <string name="msg_person_unit">wong</string>
+    <string name="msg_share_to">Bagikan menyang:</string>
+    <string name="msg_send_message">Kirim pesen</string>
 
 </resources>

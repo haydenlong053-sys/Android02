@@ -847,5 +847,15 @@
     <string name="meeting_all_mic_on">All mic on</string>
     <string name="meeting_all_mute">All mute</string>
     <string name="greeting_label">Greeting</string>
+    <string name="bind_device_warning">After binding the current device, the trading wallet in &quot;Block Wallet&quot; will become an observation wallet. Please bind carefully.</string>
+    <string name="got_it">Got it</string>
+    <string name="scan_camera_permission_request">Using the scan function requires camera permission. Do you want to request permission?</string>
+    <string name="scan_storage_permission_request">Using the storage selection function requires storage permission. Do you want to request permission?</string>
+    <string name="scan_image_qr_code_unrecognizable">This image cannot recognize QR code</string>
+    <string name="scan_invalid_qr_code">Invalid QR code</string>
+    <string name="scan_network_request_failed">Network request failed, please try again</string>
+    <string name="scan_applied_waiting_group_owner">Applied, waiting for group owner approval</string>
+    <string name="scan_invalid_qr_code_type">Invalid QR code type</string>
+    <string name="scan_login_request_failed">Login request failed, please try again</string>
 
 </resources>

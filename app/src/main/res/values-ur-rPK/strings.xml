@@ -465,5 +465,15 @@
     <string name="you_can_add_more_hobbies">آپ %1$d مزید شوق شامل کر سکتے ہیں۔</string>
     <string name="max_six_hobbies">زیادہ سے زیادہ 6 شوق کی اجازت</string>
     <string name="greeting_label">مبارکباد</string>
+    <string name="bind_device_warning">موجودہ ڈیوائس کو بائنڈ کرنے کے بعد &quot;بلاک والیٹ&quot; میں ٹریڈنگ والیٹ ایک مشاہداتی والیٹ بن جائے گا۔ براہ کرم احتیاط سے بائنڈ کریں۔</string>
+    <string name="got_it">سمجھ گیا</string>
+    <string name="scan_camera_permission_request">اسکین فنکشن استعمال کرنے کے لیے کیمرہ کی اجازت درکار ہے۔ کیا آپ اجازت طلب کرنا چاہتے ہیں؟</string>
+    <string name="scan_storage_permission_request">اسٹوریج سلیکشن فنکشن استعمال کرنے کے لیے اسٹوریج کی اجازت درکار ہے۔ کیا آپ اجازت طلب کرنا چاہتے ہیں؟</string>
+    <string name="scan_image_qr_code_unrecognizable">یہ تصویر QR کوڈ کو پہچان نہیں سکتی</string>
+    <string name="scan_invalid_qr_code">غلط QR کوڈ</string>
+    <string name="scan_network_request_failed">نیٹ ورک کی درخواست ناکام ہو گئی، براہ کرم دوبارہ کوشش کریں</string>
+    <string name="scan_applied_waiting_group_owner">درخواست دی گئی، گروپ مالک کی منظوری کا انتظار ہے</string>
+    <string name="scan_invalid_qr_code_type">غلط QR کوڈ کی قسم</string>
+    <string name="scan_login_request_failed">لاگ ان کی درخواست ناکام ہو گئی، براہ کرم دوبارہ کوشش کریں</string>
 
 </resources>

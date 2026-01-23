@@ -159,5 +159,7 @@
     <string name="message_translate">ترجمة</string>
     <string name="msg_mention_all">الجميع </string>
     <string name="msg_person_unit">شخص</string>
+    <string name="msg_share_to">مشاركة مع:</string>
+    <string name="msg_send_message">إرسال رسالة</string>
 
 </resources>

@@ -458,5 +458,15 @@
     <string name="you_can_add_more_hobbies">אתה יכול להוסיף עוד %1$d תחביבים.</string>
     <string name="max_six_hobbies">מקסימום 6 תחביבים מותרים</string>
     <string name="greeting_label">ברכה</string>
+    <string name="bind_device_warning">לאחר קשירת המכשיר הנוכחי, ארנק המסחר ב-&quot;ארנק בלוקים&quot; יהפוך לארנק תצפית. אנא קשר בזהירות.</string>
+    <string name="got_it">הבנתי</string>
+    <string name="scan_camera_permission_request">שימוש בפונקציית הסריקה דורש הרשאות מצלמה. האם תרצה לבקש הרשאה?</string>
+    <string name="scan_storage_permission_request">שימוש בפונקציית בחירת האחסון דורש הרשאות אחסון. האם תרצה לבקש הרשאה?</string>
+    <string name="scan_image_qr_code_unrecognizable">תמונה זו לא יכולה לזהות קוד QR</string>
+    <string name="scan_invalid_qr_code">קוד QR לא תקין</string>
+    <string name="scan_network_request_failed">בקשת הרשת נכשלה, אנא נסה שוב</string>
+    <string name="scan_applied_waiting_group_owner">הוגש, ממתין לאישור בעל הקבוצה</string>
+    <string name="scan_invalid_qr_code_type">סוג קוד QR לא תקין</string>
+    <string name="scan_login_request_failed">בקשת ההתחברות נכשלה, אנא נסה שוב</string>
 
 </resources>

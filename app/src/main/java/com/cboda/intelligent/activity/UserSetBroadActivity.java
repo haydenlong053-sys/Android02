@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showGuidePasswordTip;
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.showSetTipDialog;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 
 import android.annotation.SuppressLint;
@@ -171,7 +172,13 @@ public class UserSetBroadActivity extends BaseSimpleBroadActivity implements Vie
             if (!isHasPassword) {
                 showGuidePasswordTip(this);
             } else {
-                changBindMachine();
+                showSetTipDialog(this, new Function0<Unit>() {
+                    @Override
+                    public Unit invoke() {
+                        changBindMachine();
+                        return null;
+                    }
+                });
             }
         } else if (view.getId() == R.id.tvSwitch) {
             HttpsBroadConfig.INSTANCE.showSwitchDialog();

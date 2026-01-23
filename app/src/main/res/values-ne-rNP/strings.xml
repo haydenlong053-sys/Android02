@@ -460,5 +460,15 @@
     <string name="you_can_add_more_hobbies">तपाईं %1$d वटा थप शौकहरू थप्न सक्नुहुन्छ।</string>
     <string name="max_six_hobbies">अधिकतम ६ वटा शौकहरू अनुमति छ</string>
     <string name="greeting_label">शुभकामना</string>
+    <string name="bind_device_warning">हालको उपकरण बाइन्ड गरेपछि &quot;ब्लक वालेट&quot; मा व्यापार वालेट अवलोकन वालेटमा परिणत हुनेछ। कृपया सावधानीपूर्वक बाइन्ड गर्नुहोस्।</string>
+    <string name="got_it">बुझे</string>
+    <string name="scan_camera_permission_request">स्क्यान प्रकार्य प्रयोग गर्न क्यामेरा अनुमति चाहिन्छ। के तपाईं अनुमति माग्न चाहनुहुन्छ?</string>
+    <string name="scan_storage_permission_request">भण्डारण छनोट प्रकार्य प्रयोग गर्न भण्डारण अनुमति चाहिन्छ। के तपाईं अनुमति माग्न चाहनुहुन्छ?</string>
+    <string name="scan_image_qr_code_unrecognizable">यो छवि QR कोड पहिचान गर्न सक्दैन</string>
+    <string name="scan_invalid_qr_code">अवैध QR कोड</string>
+    <string name="scan_network_request_failed">नेटवर्क अनुरोध असफल भयो, कृपया पुनः प्रयास गर्नुहोस्</string>
+    <string name="scan_applied_waiting_group_owner">आवेदन गरियो, समूह मालिकको स्वीकृतिको लागि प्रतीक्षा गरिरहेको छ</string>
+    <string name="scan_invalid_qr_code_type">अवैध QR कोड प्रकार</string>
+    <string name="scan_login_request_failed">लगइन अनुरोध असफल भयो, कृपया पुनः प्रयास गर्नुहोस्</string>
 
 </resources>
