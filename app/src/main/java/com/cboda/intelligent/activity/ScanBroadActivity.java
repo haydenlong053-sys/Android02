@@ -105,7 +105,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         if (XXPermissions.isGranted(this, perms)) {
             initData();
         } else {
-            new NormalBroadDialog(this, getString(R.string.温馨提示), "使用扫一扫功能需要相机权限，是否请求权限？", "取消", "确定", true)
+            new NormalBroadDialog(this, getString(R.string.温馨提示), getString(R.string.scan_camera_permission_request), getString(R.string.取消), getString(R.string.确定), true)
                     .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                         @Override
                         public void OnRightClick() {
@@ -157,7 +157,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                 if (XXPermissions.isGranted(ScanBroadActivity.this, perms)) {
                     pmsSuccess();
                 } else {
-                    new NormalBroadDialog(ScanBroadActivity.this, getString(R.string.温馨提示), "使用选择存储权限，是否请求权限？", "取消", "确定", true)
+                    new NormalBroadDialog(ScanBroadActivity.this, getString(R.string.温馨提示), getString(R.string.scan_storage_permission_request), getString(R.string.取消), getString(R.string.确定), true)
                             .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                                 @Override
                                 public void OnRightClick() {
@@ -298,7 +298,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
      */
     public void handleQrCode(String s) {
         if (null == s) {
-            ToastBroadUtil.show("该图片无法识别二维码");
+            ToastBroadUtil.show(getString(R.string.scan_image_qr_code_unrecognizable));
             restartScan();
         } else {
             if (jumpSource != ScanJumpBroadEnum.None.getSourceType() && jumpSource != ScanJumpBroadEnum.Login.getSourceType() && isTransferLinkQrCode(s)) {
@@ -317,7 +317,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         try {
             String[] result = con.split("-");
             if (result.length < 2) {
-                ToastBroadUtil.show("无效的二维码");
+                ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
                 restartScan();
                 return;
             }
@@ -340,7 +340,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
                         @Override
                         public void onError(Response response, int code, Exception e) {
-                            ToastBroadUtil.show("网络请求失败，请重试");
+                            ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
                             restartScan();
                         }
                     });
@@ -363,14 +363,14 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                                 AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1");
                                 finish();
                             } else {
-                                ToastBroadUtil.show("已申请，等待群主同意");
+                                ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner));
                                 finish();
                             }
                         }
 
                         @Override
                         public void onError(Response response, int code, Exception e) {
-                            ToastBroadUtil.show("网络请求失败，请重试");
+                            ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
                             restartScan();
                         }
                     });
@@ -379,12 +379,12 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                     idLogin(linkId);
                     break;
                 default:
-                    ToastBroadUtil.show("无效的二维码类型");
+                    ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
                     restartScan();
                     break;
             }
         } catch (Exception e) {
-            ToastBroadUtil.show("无效的二维码");
+            ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
             restartScan();
         }
 
@@ -426,7 +426,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
             @Override
             public void onError(Response response, int code, Exception e) {
-                ToastBroadUtil.show("登录请求失败，请重试");
+                ToastBroadUtil.show(getString(R.string.scan_login_request_failed));
                 restartScan();
             }
         });
@@ -443,7 +443,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                 if (!TextUtils.isEmpty(rawResult.getText()) && rawResult.getText().contains("-")) {
                     String[] result = rawResult.getText().split("-");
                     if (result.length < 2) {
-                        ToastBroadUtil.show("无效的二维码");
+                        ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
                         restartScan();
                         return;
                     }
@@ -467,7 +467,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
                                 @Override
                                 public void onError(Response response, int code, Exception e) {
-                                    ToastBroadUtil.show("网络请求失败，请重试");
+                                    ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
                                     restartScan();
                                 }
                             });
@@ -490,14 +490,14 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                                         AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1");
                                         finish();
                                     } else {
-                                        ToastBroadUtil.show("已申请，等待群主同意");
+                                        ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner));
                                         finish();
                                     }
                                 }
 
                                 @Override
                                 public void onError(Response response, int code, Exception e) {
-                                    ToastBroadUtil.show("网络请求失败，请重试");
+                                    ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
                                     restartScan();
                                 }
                             });
@@ -506,7 +506,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                             idLogin(linkId);
                             break;
                         default:
-                            ToastBroadUtil.show("无效的二维码类型");
+                            ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
                             restartScan();
                             break;
                     }

@@ -847,5 +847,13 @@
     <string name="greeting_label">祝福语</string>
     <string name="bind_device_warning">绑定当前设备后「区块钱包」中的交易钱包将变为观察钱包，请谨慎绑定</string>
     <string name="got_it">知道了</string>
+    <string name="scan_camera_permission_request">使用扫一扫功能需要相机权限，是否请求权限？</string>
+    <string name="scan_storage_permission_request">使用选择存储权限，是否请求权限？</string>
+    <string name="scan_image_qr_code_unrecognizable">该图片无法识别二维码</string>
+    <string name="scan_invalid_qr_code">无效的二维码</string>
+    <string name="scan_network_request_failed">网络请求失败，请重试</string>
+    <string name="scan_applied_waiting_group_owner">已申请，等待群主同意</string>
+    <string name="scan_invalid_qr_code_type">无效的二维码类型</string>
+    <string name="scan_login_request_failed">登录请求失败，请重试</string>
 
 </resources>

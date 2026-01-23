@@ -461,5 +461,13 @@
     <string name="greeting_label">Поздравление</string>
     <string name="bind_device_warning">После привязки текущего устройства торговый кошелек в &quot;Блочном кошельке&quot; станет кошельком для наблюдения. Пожалуйста, привязывайте осторожно.</string>
     <string name="got_it">Понятно</string>
+    <string name="scan_camera_permission_request">Использование функции сканирования требует разрешения камеры. Хотите запросить разрешение?</string>
+    <string name="scan_storage_permission_request">Использование функции выбора хранилища требует разрешения на хранилище. Хотите запросить разрешение?</string>
+    <string name="scan_image_qr_code_unrecognizable">Это изображение не может распознать QR-код</string>
+    <string name="scan_invalid_qr_code">Недействительный QR-код</string>
+    <string name="scan_network_request_failed">Сетевой запрос не удался, пожалуйста, попробуйте снова</string>
+    <string name="scan_applied_waiting_group_owner">Подано заявление, ожидание одобрения владельца группы</string>
+    <string name="scan_invalid_qr_code_type">Недействительный тип QR-кода</string>
+    <string name="scan_login_request_failed">Запрос на вход не удался, пожалуйста, попробуйте снова</string>
 
 </resources>

@@ -462,5 +462,13 @@
     <string name="greeting_label">Felicitare</string>
     <string name="bind_device_warning">După legarea dispozitivului curent, portofelul de tranzacționare din &quot;Portofelul de blocuri&quot; va deveni un portofel de observare. Vă rugăm să legați cu atenție.</string>
     <string name="got_it">Am înțeles</string>
+    <string name="scan_camera_permission_request">Utilizarea funcției de scanare necesită permisiunea camerei. Doriți să solicitați permisiunea?</string>
+    <string name="scan_storage_permission_request">Utilizarea funcției de selecție a stocării necesită permisiunea de stocare. Doriți să solicitați permisiunea?</string>
+    <string name="scan_image_qr_code_unrecognizable">Această imagine nu poate recunoaște codul QR</string>
+    <string name="scan_invalid_qr_code">Cod QR nevalid</string>
+    <string name="scan_network_request_failed">Cererea de rețea a eșuat, vă rugăm să încercați din nou</string>
+    <string name="scan_applied_waiting_group_owner">Aplicat, așteptând aprobarea proprietarului grupului</string>
+    <string name="scan_invalid_qr_code_type">Tip de cod QR nevalid</string>
+    <string name="scan_login_request_failed">Cererea de conectare a eșuat, vă rugăm să încercați din nou</string>
 
 </resources>

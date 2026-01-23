@@ -463,5 +463,13 @@
     <string name="greeting_label">Мэндчилгээ</string>
     <string name="bind_device_warning">Одоогийн төхөөрөмжийг холбосны дараа &quot;Блок хэтэвч&quot; доторх арилжааны хэтэвч ажиглалтын хэтэвч болно. Анхааралтай холбоно уу.</string>
     <string name="got_it">Ойлголоо</string>
+    <string name="scan_camera_permission_request">Скан хийх функцийг ашиглахын тулд камерын зөвшөөрөл шаардлагатай. Та зөвшөөрөл авахыг хүсч байна уу?</string>
+    <string name="scan_storage_permission_request">Хадгалах сонголтын функцийг ашиглахын тулд хадгалах зөвшөөрөл шаардлагатай. Та зөвшөөрөл авахыг хүсч байна уу?</string>
+    <string name="scan_image_qr_code_unrecognizable">Энэ зураг QR кодыг танихгүй байна</string>
+    <string name="scan_invalid_qr_code">Хүчингүй QR код</string>
+    <string name="scan_network_request_failed">Сүлжээний хүсэлт амжилтгүй боллоо, дахин оролдоно уу</string>
+    <string name="scan_applied_waiting_group_owner">Хүсэлт илгээсэн, бүлгийн эзэмшлийн зөвшөөрлийг хүлээж байна</string>
+    <string name="scan_invalid_qr_code_type">Хүчингүй QR кодын төрөл</string>
+    <string name="scan_login_request_failed">Нэвтрэх хүсэлт амжилтгүй боллоо, дахин оролдоно уу</string>
 
 </resources>

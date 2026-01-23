@@ -459,5 +459,13 @@
     <string name="greeting_label">शुभकामना</string>
     <string name="bind_device_warning">वर्तमान डिवाइस को बाइंड करने के बाद &quot;ब्लॉक वॉलेट&quot; में ट्रेडिंग वॉलेट एक अवलोकन वॉलेट बन जाएगा। कृपया सावधानी से बाइंड करें।</string>
     <string name="got_it">समझ गया</string>
+    <string name="scan_camera_permission_request">स्कैन फ़ंक्शन का उपयोग करने के लिए कैमरा अनुमति की आवश्यकता है। क्या आप अनुमति मांगना चाहते हैं?</string>
+    <string name="scan_storage_permission_request">स्टोरेज चयन फ़ंक्शन का उपयोग करने के लिए स्टोरेज अनुमति की आवश्यकता है। क्या आप अनुमति मांगना चाहते हैं?</string>
+    <string name="scan_image_qr_code_unrecognizable">यह छवि QR कोड को पहचान नहीं सकती</string>
+    <string name="scan_invalid_qr_code">अमान्य QR कोड</string>
+    <string name="scan_network_request_failed">नेटवर्क अनुरोध विफल, कृपया पुनः प्रयास करें</string>
+    <string name="scan_applied_waiting_group_owner">आवेदन किया गया, समूह मालिक की स्वीकृति की प्रतीक्षा कर रहा है</string>
+    <string name="scan_invalid_qr_code_type">अमान्य QR कोड प्रकार</string>
+    <string name="scan_login_request_failed">लॉगिन अनुरोध विफल, कृपया पुनः प्रयास करें</string>
 
 </resources>
