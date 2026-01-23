@@ -167,7 +167,6 @@ dependencies {
     implementation "${thirdPartyApis.roundedimageview}"
     implementation "${thirdPartyApis.BigImageViewPager}"
     implementation "${thirdPartyApis.MNPasswordEditText}"
-    implementation "${thirdPartyApis.LoadingDialog}"
     implementation "${thirdPartyApis.easypermissions}"
     implementation "${thirdPartyApis.permissiongen}"
     implementation "${thirdPartyApis.GSYVideoPlayer}"
@@ -180,6 +179,7 @@ dependencies {
         exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
     }
     coreLibraryDesugaring "${thirdPartyApis.desugar_jdk_libs}"
+//    implementation "${thirdPartyApis.LoadingDialog}"
 //    api project(':baselibrary')
 //    api project(':iMeet')
 //    implementation "${thirdPartyApis.okhttp3}"

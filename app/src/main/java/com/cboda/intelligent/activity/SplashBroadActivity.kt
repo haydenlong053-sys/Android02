@@ -7,8 +7,11 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
-import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startMainActivity
+import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
+import com.cboda.select.picture.utils.LanguageUtil
+import com.cboda.select.picture.utils.LanguageUtil.saveAppLanguageKey
+import com.cboda.select.picture.utils.LanguageUtil.setAppLanguage
 
 class SplashBroadActivity : BaseSimpleBroadActivity() {
     override fun getLayoutId(): Int {
@@ -62,6 +65,12 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
      * 平台参数
      * */
     private fun ptConfig() {
+        val language = LanguageUtil.getAppLanguageKey(this, true)
+        if (TextUtils.isEmpty(language)) {
+            saveAppLanguageKey(LanguageUtil.ENGLISH, this)
+            setAppLanguage(LanguageUtil.ENGLISH, this@SplashBroadActivity)
+        }
+
 //        val param: MutableMap<String, Any> = HashMap()
 //        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, object : BaseBroadCallback<ResultBroadBean?>() {
 //                override fun onError(response: Response, code: Int, e: Exception) {}
