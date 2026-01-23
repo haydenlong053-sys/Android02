@@ -154,5 +154,7 @@
     <string name="message_translate">Tafsiri</string>
     <string name="msg_mention_all">Wote </string>
     <string name="msg_person_unit">watu</string>
+    <string name="msg_share_to">Shiriki kwa:</string>
+    <string name="msg_send_message">Tuma ujumbe</string>
 
 </resources>

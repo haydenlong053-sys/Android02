@@ -159,5 +159,7 @@
     <string name="message_translate">अनुवाद करें</string>
     <string name="msg_mention_all">सभी </string>
     <string name="msg_person_unit">लोग</string>
+    <string name="msg_share_to">साझा करें:</string>
+    <string name="msg_send_message">संदेश भेजें</string>
 
 </resources>

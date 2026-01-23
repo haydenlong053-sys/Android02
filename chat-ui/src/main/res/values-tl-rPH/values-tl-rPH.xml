@@ -154,5 +154,7 @@
     <string name="message_translate">I-translate</string>
     <string name="msg_mention_all">Lahat </string>
     <string name="msg_person_unit">tao</string>
+    <string name="msg_share_to">Ibahagi sa:</string>
+    <string name="msg_send_message">Magpadala ng mensahe</string>
 
 </resources>

@@ -154,5 +154,7 @@
     <string name="message_translate">Fassara</string>
     <string name="msg_mention_all">Kowa </string>
     <string name="msg_person_unit">mutane</string>
+    <string name="msg_share_to">Raba zuwa:</string>
+    <string name="msg_send_message">Aika saƙo</string>
 
 </resources>

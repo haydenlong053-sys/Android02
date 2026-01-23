@@ -159,5 +159,7 @@
     <string name="message_translate">Çevir</string>
     <string name="msg_mention_all">Herkes </string>
     <string name="msg_person_unit">kişi</string>
+    <string name="msg_share_to">Paylaş:</string>
+    <string name="msg_send_message">Mesaj gönder</string>
 
 </resources>

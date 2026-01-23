@@ -380,5 +380,7 @@
     <string name="message_translate">翻译</string>
     <string name="msg_mention_all">所有人 </string>
     <string name="msg_person_unit">人</string>
+    <string name="msg_share_to">分享给:</string>
+    <string name="msg_send_message">发消息</string>
 
 </resources>

@@ -465,5 +465,7 @@
     <string name="message_translate">Dịch</string>
     <string name="msg_mention_all">Mọi người </string>
     <string name="msg_person_unit">người</string>
+    <string name="msg_share_to">Chia sẻ cho:</string>
+    <string name="msg_send_message">Gửi tin nhắn</string>
 
 </resources>

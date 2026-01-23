@@ -105,7 +105,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
                     view.bind3(targetName, targetPortrait, thumbnail);
                 }
             } else if (message.content instanceof CompositeMessageContent) {
-                view.bind(targetName, targetPortrait, "[聊天记录]: " + ((CompositeMessageContent) message.content).getTitle());
+                view.bind(targetName, targetPortrait, getString(com.cboda.baselibrary.R.string.base_digest_chat_record) + ((CompositeMessageContent) message.content).getTitle());
             } else {
                 view.bind(targetName, targetPortrait, WfcTextBroadUtils.htmlToText(message.digest()));
             }

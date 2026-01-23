@@ -159,5 +159,7 @@
     <string name="message_translate">แปล</string>
     <string name="msg_mention_all">ทุกคน </string>
     <string name="msg_person_unit">คน</string>
+    <string name="msg_share_to">แชร์ให้:</string>
+    <string name="msg_send_message">ส่งข้อความ</string>
 
 </resources>

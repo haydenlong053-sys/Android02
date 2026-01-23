@@ -154,5 +154,7 @@
     <string name="message_translate">Μετάφραση</string>
     <string name="msg_mention_all">Όλοι </string>
     <string name="msg_person_unit">άτομα</string>
+    <string name="msg_share_to">Κοινοποίηση σε:</string>
+    <string name="msg_send_message">Αποστολή μηνύματος</string>
 
 </resources>

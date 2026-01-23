@@ -154,5 +154,7 @@
     <string name="message_translate">Tradu</string>
     <string name="msg_mention_all">Toți </string>
     <string name="msg_person_unit">persoane</string>
+    <string name="msg_share_to">Distribuie către:</string>
+    <string name="msg_send_message">Trimite mesaj</string>
 
 </resources>

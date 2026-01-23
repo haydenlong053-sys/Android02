@@ -154,5 +154,7 @@
     <string name="message_translate">ແປ</string>
     <string name="msg_mention_all">ທຸກຄົນ </string>
     <string name="msg_person_unit">ຄົນ</string>
+    <string name="msg_share_to">ແບ່ງປັນໃຫ້:</string>
+    <string name="msg_send_message">ສົ່ງຂໍ້ຄວາມ</string>
 
 </resources>
