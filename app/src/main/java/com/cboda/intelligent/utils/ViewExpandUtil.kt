@@ -166,7 +166,7 @@ fun showGuidePasswordTip(context: Context): CommonTipBroadPop {
     return commonTipPop
 }
 
-fun showTipDialog(context: Context,goBack:()-> Unit={}): CommonTipBroadPop {
+fun showSetTipDialog(context: Context,goBack:()-> Unit={}): CommonTipBroadPop {
     val commonTipPop = CommonTipBroadPop(
         context,
         context.getString(R.string.ai_pop_tip),
