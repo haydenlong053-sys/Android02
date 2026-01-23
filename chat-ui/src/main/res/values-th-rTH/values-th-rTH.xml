@@ -157,5 +157,7 @@
     <string name="message_forward">ส่งต่อ</string>
     <string name="message_collect">บันทึก</string>
     <string name="message_translate">แปล</string>
+    <string name="msg_mention_all">ทุกคน </string>
+    <string name="msg_person_unit">คน</string>
 
 </resources>

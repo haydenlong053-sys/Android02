@@ -152,5 +152,7 @@
     <string name="message_forward">Tura gaba</string>
     <string name="message_collect">Ajiye</string>
     <string name="message_translate">Fassara</string>
+    <string name="msg_mention_all">Kowa </string>
+    <string name="msg_person_unit">mutane</string>
 
 </resources>

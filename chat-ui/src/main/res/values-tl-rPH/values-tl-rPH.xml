@@ -152,5 +152,7 @@
     <string name="message_forward">I-forward</string>
     <string name="message_collect">I-save</string>
     <string name="message_translate">I-translate</string>
+    <string name="msg_mention_all">Lahat </string>
+    <string name="msg_person_unit">tao</string>
 
 </resources>

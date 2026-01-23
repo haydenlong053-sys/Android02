@@ -459,5 +459,6 @@
     <string name="my_hobbies">Hobiurile mele</string>
     <string name="you_can_add_more_hobbies">Puteți adăuga încă %1$d hobby-uri.</string>
     <string name="max_six_hobbies">Maximum 6 hobby-uri permise</string>
+    <string name="greeting_label">Felicitare</string>
 
 </resources>

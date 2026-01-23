@@ -157,5 +157,7 @@
     <string name="message_forward">Переслать</string>
     <string name="message_collect">Сохранить</string>
     <string name="message_translate">Перевести</string>
+    <string name="msg_mention_all">Все </string>
+    <string name="msg_person_unit">чел.</string>
 
 </resources>

@@ -457,5 +457,6 @@
     <string name="my_hobbies">هواياتي</string>
     <string name="you_can_add_more_hobbies">يمكنك إضافة %1$d هوايات أخرى.</string>
     <string name="max_six_hobbies">الحد الأقصى 6 هوايات مسموح بها</string>
+    <string name="greeting_label">تهنئة</string>
 
 </resources>

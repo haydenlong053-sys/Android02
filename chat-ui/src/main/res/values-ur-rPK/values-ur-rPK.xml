@@ -152,5 +152,7 @@
     <string name="message_forward">فارورڈ کریں</string>
     <string name="message_collect">محفوظ کریں</string>
     <string name="message_translate">ترجمہ کریں</string>
+    <string name="msg_mention_all">سب </string>
+    <string name="msg_person_unit">افراد</string>
 
 </resources>

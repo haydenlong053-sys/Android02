@@ -458,5 +458,6 @@
     <string name="my_hobbies">Τα χόμπι μου</string>
     <string name="you_can_add_more_hobbies">Μπορείτε να προσθέσετε %1$d ακόμη χόμπι.</string>
     <string name="max_six_hobbies">Μέγιστο 6 χόμπι επιτρέπονται</string>
+    <string name="greeting_label">Ευχή</string>
 
 </resources>

@@ -157,5 +157,7 @@
     <string name="message_forward">העבר</string>
     <string name="message_collect">שמור</string>
     <string name="message_translate">תרגם</string>
+    <string name="msg_mention_all">כולם </string>
+    <string name="msg_person_unit">אנשים</string>
 
 </resources>

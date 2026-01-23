@@ -157,5 +157,7 @@
     <string name="message_forward">Weiterleiten</string>
     <string name="message_collect">Sammeln</string>
     <string name="message_translate">Übersetzen</string>
+    <string name="msg_mention_all">Alle </string>
+    <string name="msg_person_unit">Personen</string>
 
 </resources>

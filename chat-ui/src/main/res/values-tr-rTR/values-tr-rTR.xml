@@ -157,5 +157,7 @@
     <string name="message_forward">İlet</string>
     <string name="message_collect">Kaydet</string>
     <string name="message_translate">Çevir</string>
+    <string name="msg_mention_all">Herkes </string>
+    <string name="msg_person_unit">kişi</string>
 
 </resources>

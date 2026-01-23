@@ -152,5 +152,7 @@
     <string name="message_forward">Teruskan</string>
     <string name="message_collect">Simpan</string>
     <string name="message_translate">Terjemahkan</string>
+    <string name="msg_mention_all">Semua </string>
+    <string name="msg_person_unit">orang</string>
 
 </resources>

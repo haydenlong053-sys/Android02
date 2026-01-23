@@ -64,5 +64,6 @@
     <string name="my_hobbies">Moje hobby</string>
     <string name="you_can_add_more_hobbies">Możesz dodać jeszcze %1$d hobby.</string>
     <string name="max_six_hobbies">Maksymalnie 6 hobby dozwolonych</string>
+    <string name="greeting_label">Pozdrowienia</string>
 
 </resources>

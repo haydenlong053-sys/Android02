@@ -157,5 +157,7 @@
     <string name="message_forward">転送</string>
     <string name="message_collect">保存</string>
     <string name="message_translate">翻訳</string>
+    <string name="msg_mention_all">全員 </string>
+    <string name="msg_person_unit">人</string>
 
 </resources>

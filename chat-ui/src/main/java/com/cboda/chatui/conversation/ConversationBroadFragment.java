@@ -1043,7 +1043,7 @@ public class ConversationBroadFragment extends Fragment implements
             }
         } else if (conversationBroad.type == Conversation.ConversationType.Group) {
             if (groupInfoBroad != null) {
-                conversationBroadTitle = (!TextUtils.isEmpty(groupInfoBroad.remark) ? groupInfoBroad.remark : groupInfoBroad.name) + "(" + (groupInfoBroad.memberCount - 1) + "人)";
+                conversationBroadTitle = (!TextUtils.isEmpty(groupInfoBroad.remark) ? groupInfoBroad.remark : groupInfoBroad.name) + "(" + (groupInfoBroad.memberCount - 1) + getString(R.string.msg_person_unit) + ")";
             }
         } else if (conversationBroad.type == Conversation.ConversationType.Channel) {
             ChannelViewBroadModel channelViewModel = new ViewModelProvider(this).get(ChannelViewBroadModel.class);
@@ -1197,7 +1197,7 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private SpannableString mentionAllSpannable() {
-        String text = "@所有人 ";
+        String text = "@" +getString(R.string.msg_mention_all);
         SpannableString spannableString = new SpannableString(text);
         spannableString.setSpan(new MentionBroadSpan(true), 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannableString;

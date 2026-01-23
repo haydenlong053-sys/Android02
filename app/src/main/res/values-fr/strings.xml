@@ -462,5 +462,6 @@
     <string name="my_hobbies">Mes passe-temps</string>
     <string name="you_can_add_more_hobbies">Vous pouvez ajouter %1$d passe-temps de plus.</string>
     <string name="max_six_hobbies">Maximum 6 passe-temps autorisés</string>
+    <string name="greeting_label">Message de félicitations</string>
 
 </resources>

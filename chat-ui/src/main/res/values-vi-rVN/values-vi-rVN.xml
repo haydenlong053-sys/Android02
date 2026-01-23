@@ -463,5 +463,7 @@
     <string name="message_forward">Chuyển tiếp</string>
     <string name="message_collect">Lưu</string>
     <string name="message_translate">Dịch</string>
+    <string name="msg_mention_all">Mọi người </string>
+    <string name="msg_person_unit">người</string>
 
 </resources>

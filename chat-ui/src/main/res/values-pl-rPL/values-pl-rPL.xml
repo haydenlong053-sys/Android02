@@ -152,5 +152,7 @@
     <string name="message_forward">Przekaż</string>
     <string name="message_collect">Zbierz</string>
     <string name="message_translate">Tłumacz</string>
+    <string name="msg_mention_all">Wszyscy </string>
+    <string name="msg_person_unit">osób</string>
 
 </resources>

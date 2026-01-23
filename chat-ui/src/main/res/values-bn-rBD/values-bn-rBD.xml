@@ -152,5 +152,7 @@
     <string name="message_forward">ফরওয়ার্ড করুন</string>
     <string name="message_collect">সংরক্ষণ করুন</string>
     <string name="message_translate">অনুবাদ করুন</string>
+    <string name="msg_mention_all">সবাই </string>
+    <string name="msg_person_unit">জন</string>
 
 </resources>

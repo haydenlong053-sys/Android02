@@ -459,5 +459,6 @@
     <string name="my_hobbies">ຄວາມຊອບຂອງຂ້ອຍ</string>
     <string name="you_can_add_more_hobbies">ທ່ານສາມາດເພີ່ມຄວາມຊອບໄດ້ອີກ %1$d ຢ່າງ</string>
     <string name="max_six_hobbies">ສູງສຸດ 6 ຄວາມຊອບທີ່ອະນຸຍາດ</string>
+    <string name="greeting_label">ຄຳອວຍພອນ</string>
 
 </resources>

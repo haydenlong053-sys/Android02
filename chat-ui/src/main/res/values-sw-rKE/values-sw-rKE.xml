@@ -152,5 +152,7 @@
     <string name="message_forward">Tuma mbele</string>
     <string name="message_collect">Hifadhi</string>
     <string name="message_translate">Tafsiri</string>
+    <string name="msg_mention_all">Wote </string>
+    <string name="msg_person_unit">watu</string>
 
 </resources>

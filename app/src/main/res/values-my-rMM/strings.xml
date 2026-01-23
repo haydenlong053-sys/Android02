@@ -460,5 +460,6 @@
     <string name="my_hobbies">ကျွန်ုပ်၏ဝါသနာများ</string>
     <string name="you_can_add_more_hobbies">သင်သည် ဝါသနာ %1$d ခု ထပ်မံ ထည့်နိုင်သည်။</string>
     <string name="max_six_hobbies">ဝါသနာ ၆ ခု အထိ ခွင့်ပြုထားသည်</string>
+    <string name="greeting_label">ဂုဏ်ယူစကား</string>
 
 </resources>

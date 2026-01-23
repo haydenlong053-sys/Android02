@@ -457,5 +457,6 @@
     <string name="my_hobbies">내 취미</string>
     <string name="you_can_add_more_hobbies">취미를 %1$d개 더 추가할 수 있습니다.</string>
     <string name="max_six_hobbies">최대 6개의 취미만 설정 가능</string>
+    <string name="greeting_label">축하 인사</string>
 
 </resources>

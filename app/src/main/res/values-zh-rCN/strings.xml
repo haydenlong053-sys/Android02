@@ -844,5 +844,6 @@
     <string name="meeting_please_select">请选择</string>
     <string name="meeting_all_mic_on">全员开麦</string>
     <string name="meeting_all_mute">全员禁言</string>
+    <string name="greeting_label">祝福语</string>
 
 </resources>

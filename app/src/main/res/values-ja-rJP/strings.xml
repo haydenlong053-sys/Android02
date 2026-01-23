@@ -457,5 +457,6 @@
     <string name="my_hobbies">私の趣味</string>
     <string name="you_can_add_more_hobbies">あと %1$d 個の趣味を追加できます。</string>
     <string name="max_six_hobbies">最大6つの趣味まで設定可能</string>
+    <string name="greeting_label">祝福の言葉</string>
 
 </resources>

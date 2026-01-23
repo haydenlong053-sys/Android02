@@ -457,5 +457,6 @@
     <string name="my_hobbies">Abubuwan sha\'awata</string>
     <string name="you_can_add_more_hobbies">Kuna iya ƙara %1$d ƙarin abubuwan sha\'awa.</string>
     <string name="max_six_hobbies">Matsakaicin abubuwan sha\'awa 6 an yarda</string>
+    <string name="greeting_label">Taya murna</string>
 
 </resources>

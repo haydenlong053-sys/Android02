@@ -457,5 +457,6 @@
     <string name="my_hobbies">Meine Hobbys</string>
     <string name="you_can_add_more_hobbies">Sie können noch %1$d Hobbys hinzufügen.</string>
     <string name="max_six_hobbies">Maximal 6 Hobbys erlaubt</string>
+    <string name="greeting_label">Glückwunsch</string>
 
 </resources>

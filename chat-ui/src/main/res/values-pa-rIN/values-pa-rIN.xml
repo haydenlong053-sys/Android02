@@ -152,5 +152,7 @@
     <string name="message_forward">ਅੱਗੇ ਭੇਜੋ</string>
     <string name="message_collect">ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="message_translate">ਅਨੁਵਾਦ ਕਰੋ</string>
+    <string name="msg_mention_all">ਸਾਰੇ </string>
+    <string name="msg_person_unit">ਲੋਕ</string>
 
 </resources>

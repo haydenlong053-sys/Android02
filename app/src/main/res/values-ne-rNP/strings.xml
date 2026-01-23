@@ -459,5 +459,6 @@
     <string name="my_hobbies">मेरा शौकहरू</string>
     <string name="you_can_add_more_hobbies">तपाईं %1$d वटा थप शौकहरू थप्न सक्नुहुन्छ।</string>
     <string name="max_six_hobbies">अधिकतम ६ वटा शौकहरू अनुमति छ</string>
+    <string name="greeting_label">शुभकामना</string>
 
 </resources>

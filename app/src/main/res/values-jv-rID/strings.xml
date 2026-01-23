@@ -459,5 +459,6 @@
     <string name="my_hobbies">Hobiku</string>
     <string name="you_can_add_more_hobbies">Sampeyan bisa nambah %1$d hobi liyane.</string>
     <string name="max_six_hobbies">Maksimal 6 hobi diidini</string>
+    <string name="greeting_label">Ucapan Selamat</string>
 
 </resources>

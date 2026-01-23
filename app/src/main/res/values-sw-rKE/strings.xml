@@ -459,5 +459,6 @@
     <string name="my_hobbies">Shughuli zangu za burudani</string>
     <string name="you_can_add_more_hobbies">Unaweza kuongeza shughuli %1$d zaidi za burudani.</string>
     <string name="max_six_hobbies">Shughuli zaidi ya 6 za burudani zinaruhusiwa</string>
+    <string name="greeting_label">Maneno ya pongezi</string>
 
 </resources>

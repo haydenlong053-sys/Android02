@@ -157,5 +157,7 @@
     <string name="message_forward">전달</string>
     <string name="message_collect">저장</string>
     <string name="message_translate">번역</string>
+    <string name="msg_mention_all">모두 </string>
+    <string name="msg_person_unit">명</string>
 
 </resources>

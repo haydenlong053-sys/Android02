@@ -457,5 +457,6 @@
     <string name="my_hobbies">Sở thích của tôi</string>
     <string name="you_can_add_more_hobbies">Bạn có thể thêm %1$d sở thích nữa.</string>
     <string name="max_six_hobbies">Tối đa 6 sở thích được phép</string>
+    <string name="greeting_label">Lời chúc</string>
 
 </resources>

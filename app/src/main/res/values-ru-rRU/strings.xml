@@ -458,5 +458,6 @@
     <string name="my_hobbies">Мои хобби</string>
     <string name="you_can_add_more_hobbies">Вы можете добавить еще %1$d хобби.</string>
     <string name="max_six_hobbies">Максимум 6 хобби разрешено</string>
+    <string name="greeting_label">Поздравление</string>
 
 </resources>

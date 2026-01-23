@@ -457,5 +457,6 @@
     <string name="my_hobbies">งานอดิเรกของฉัน</string>
     <string name="you_can_add_more_hobbies">คุณสามารถเพิ่มงานอดิเรกได้อีก %1$d รายการ</string>
     <string name="max_six_hobbies">สูงสุด 6 งานอดิเรกที่อนุญาต</string>
+    <string name="greeting_label">คำอวยพร</string>
 
 </resources>

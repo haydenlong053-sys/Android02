@@ -459,5 +459,6 @@
     <string name="my_hobbies">Izinto engizithandayo</string>
     <string name="you_can_add_more_hobbies">Ungangena %1$d ezinye izinto ozithandayo.</string>
     <string name="max_six_hobbies">Okungenani okungu-6 izinto ozithandayo kuvunyelwe</string>
+    <string name="greeting_label">Ukuphawula</string>
 
 </resources>

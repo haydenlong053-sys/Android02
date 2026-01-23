@@ -152,5 +152,7 @@
     <string name="message_forward">Дамжуулах</string>
     <string name="message_collect">Хадгалах</string>
     <string name="message_translate">Орчуулах</string>
+    <string name="msg_mention_all">Бүгд </string>
+    <string name="msg_person_unit">хүн</string>
 
 </resources>

@@ -152,5 +152,7 @@
     <string name="message_forward">ပို့ဆောင်ရန်</string>
     <string name="message_collect">သိမ်းဆည်းရန်</string>
     <string name="message_translate">ဘာသာပြန်ရန်</string>
+    <string name="msg_mention_all">အားလုံး </string>
+    <string name="msg_person_unit">ဦး</string>
 
 </resources>

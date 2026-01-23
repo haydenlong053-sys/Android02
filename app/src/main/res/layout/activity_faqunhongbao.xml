@@ -150,7 +150,12 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+
+            />
 
         <EditText
             android:paddingEnd="8dp"
@@ -166,6 +171,8 @@
             android:hint="@string/mine_input"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:maxLines="1"
+            android:ellipsize="end"
             />
 
         <TextView
@@ -256,7 +263,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="祝福语"
+        android:text="@string/greeting_label"
         android:textColor="@color/black_65"
         android:textSize="14sp"
         />
@@ -279,6 +286,8 @@
             android:textSize="16sp"
             android:textColorHint="@color/color_text_content_hint"
             android:text="@string/hb_good_word"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             />
 

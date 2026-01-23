@@ -152,5 +152,7 @@
     <string name="message_forward">ສົ່ງຕໍ່</string>
     <string name="message_collect">ບັນທຶກ</string>
     <string name="message_translate">ແປ</string>
+    <string name="msg_mention_all">ທຸກຄົນ </string>
+    <string name="msg_person_unit">ຄົນ</string>
 
 </resources>

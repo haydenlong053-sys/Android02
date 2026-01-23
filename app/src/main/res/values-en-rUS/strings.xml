@@ -846,5 +846,6 @@
     <string name="meeting_please_select">Please select</string>
     <string name="meeting_all_mic_on">All mic on</string>
     <string name="meeting_all_mute">All mute</string>
+    <string name="greeting_label">Greeting</string>
 
 </resources>

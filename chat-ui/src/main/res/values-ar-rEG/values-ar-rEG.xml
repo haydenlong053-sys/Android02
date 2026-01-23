@@ -157,5 +157,7 @@
     <string name="message_forward">إعادة توجيه</string>
     <string name="message_collect">حفظ</string>
     <string name="message_translate">ترجمة</string>
+    <string name="msg_mention_all">الجميع </string>
+    <string name="msg_person_unit">شخص</string>
 
 </resources>

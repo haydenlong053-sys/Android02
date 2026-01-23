@@ -460,5 +460,6 @@
     <string name="my_hobbies">Миний сонирхол</string>
     <string name="you_can_add_more_hobbies">Та %1$d сонирхол нэмж болно.</string>
     <string name="max_six_hobbies">Хамгийн ихдээ 6 сонирхол зөвшөөрөгдөнө</string>
+    <string name="greeting_label">Мэндчилгээ</string>
 
 </resources>
