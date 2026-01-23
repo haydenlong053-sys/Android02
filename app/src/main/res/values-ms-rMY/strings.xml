@@ -461,5 +461,7 @@
     <string name="you_can_add_more_hobbies">Anda boleh menambah %1$d hobi lagi.</string>
     <string name="max_six_hobbies">Maksimum 6 hobi dibenarkan</string>
     <string name="greeting_label">Ucapan</string>
+    <string name="bind_device_warning">Selepas mengikat peranti semasa, dompet dagangan dalam &quot;Dompet Blok&quot; akan menjadi dompet pemerhatian. Sila ikat dengan berhati-hati.</string>
+    <string name="got_it">Faham</string>
 
 </resources>

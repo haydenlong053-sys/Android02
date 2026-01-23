@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">Puoi aggiungere altri %1$d hobby.</string>
     <string name="max_six_hobbies">Massimo 6 hobby consentiti</string>
     <string name="greeting_label">Augurio</string>
+    <string name="bind_device_warning">Dopo aver collegato il dispositivo corrente, il portafoglio di trading in &quot;Portafoglio a blocchi&quot; diventerà un portafoglio di osservazione. Si prega di collegare con cautela.</string>
+    <string name="got_it">Capito</string>
 
 </resources>

@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">يمكنك إضافة %1$d هوايات أخرى.</string>
     <string name="max_six_hobbies">الحد الأقصى 6 هوايات مسموح بها</string>
     <string name="greeting_label">تهنئة</string>
+    <string name="bind_device_warning">بعد ربط الجهاز الحالي، ستصبح محفظة التداول في &quot;محفظة البلوك&quot; محفظة مراقبة. يرجى الربط بحذر.</string>
+    <string name="got_it">فهمت</string>
 
 </resources>

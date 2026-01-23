@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">Puteți adăuga încă %1$d hobby-uri.</string>
     <string name="max_six_hobbies">Maximum 6 hobby-uri permise</string>
     <string name="greeting_label">Felicitare</string>
+    <string name="bind_device_warning">După legarea dispozitivului curent, portofelul de tranzacționare din &quot;Portofelul de blocuri&quot; va deveni un portofel de observare. Vă rugăm să legați cu atenție.</string>
+    <string name="got_it">Am înțeles</string>
 
 </resources>

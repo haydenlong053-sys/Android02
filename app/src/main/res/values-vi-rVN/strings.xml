@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">Bạn có thể thêm %1$d sở thích nữa.</string>
     <string name="max_six_hobbies">Tối đa 6 sở thích được phép</string>
     <string name="greeting_label">Lời chúc</string>
+    <string name="bind_device_warning">Sau khi liên kết thiết bị hiện tại, ví giao dịch trong &quot;Ví khối&quot; sẽ trở thành ví quan sát. Vui lòng liên kết cẩn thận.</string>
+    <string name="got_it">Đã hiểu</string>
 
 </resources>

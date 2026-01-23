@@ -459,5 +459,7 @@
     <string name="you_can_add_more_hobbies">Μπορείτε να προσθέσετε %1$d ακόμη χόμπι.</string>
     <string name="max_six_hobbies">Μέγιστο 6 χόμπι επιτρέπονται</string>
     <string name="greeting_label">Ευχή</string>
+    <string name="bind_device_warning">Μετά τη σύνδεση της τρέχουσας συσκευής, το πορτοφόλι συναλλαγών στο &quot;Πορτοφόλι Μπλοκ&quot; θα γίνει πορτοφόλι παρατήρησης. Παρακαλώ συνδέστε προσεκτικά.</string>
+    <string name="got_it">Κατάλαβα</string>
 
 </resources>

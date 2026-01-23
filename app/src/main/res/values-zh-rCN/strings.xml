@@ -845,5 +845,7 @@
     <string name="meeting_all_mic_on">全员开麦</string>
     <string name="meeting_all_mute">全员禁言</string>
     <string name="greeting_label">祝福语</string>
+    <string name="bind_device_warning">绑定当前设备后「区块钱包」中的交易钱包将变为观察钱包，请谨慎绑定</string>
+    <string name="got_it">知道了</string>
 
 </resources>

@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">Kuna iya ƙara %1$d ƙarin abubuwan sha\'awa.</string>
     <string name="max_six_hobbies">Matsakaicin abubuwan sha\'awa 6 an yarda</string>
     <string name="greeting_label">Taya murna</string>
+    <string name="bind_device_warning">Bayan haɗa na\'urar yanzu, walat ciniki a cikin &quot;Block Wallet&quot; zai zama walat kallo. Da fatan za a haɗa a hankali.</string>
+    <string name="got_it">Na gane</string>
 
 </resources>

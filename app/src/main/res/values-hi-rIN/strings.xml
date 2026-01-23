@@ -457,5 +457,7 @@
     <string name="you_can_add_more_hobbies">आप %1$d और शौक जोड़ सकते हैं।</string>
     <string name="max_six_hobbies">अधिकतम 6 शौक की अनुमति</string>
     <string name="greeting_label">शुभकामना</string>
+    <string name="bind_device_warning">वर्तमान डिवाइस को बाइंड करने के बाद &quot;ब्लॉक वॉलेट&quot; में ट्रेडिंग वॉलेट एक अवलोकन वॉलेट बन जाएगा। कृपया सावधानी से बाइंड करें।</string>
+    <string name="got_it">समझ गया</string>
 
 </resources>

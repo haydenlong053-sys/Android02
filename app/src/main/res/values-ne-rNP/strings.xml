@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">तपाईं %1$d वटा थप शौकहरू थप्न सक्नुहुन्छ।</string>
     <string name="max_six_hobbies">अधिकतम ६ वटा शौकहरू अनुमति छ</string>
     <string name="greeting_label">शुभकामना</string>
+    <string name="bind_device_warning">हालको उपकरण बाइन्ड गरेपछि &quot;ब्लक वालेट&quot; मा व्यापार वालेट अवलोकन वालेटमा परिणत हुनेछ। कृपया सावधानीपूर्वक बाइन्ड गर्नुहोस्।</string>
+    <string name="got_it">बुझे</string>
 
 </resources>

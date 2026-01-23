@@ -852,5 +852,7 @@
     <string name="meeting_all_mic_on">全員開麥</string>
     <string name="meeting_all_mute">全員禁言</string>
     <string name="greeting_label">祝福語</string>
+    <string name="bind_device_warning">綁定當前設備後「區塊錢包」中的交易錢包將變為觀察錢包，請謹慎綁定</string>
+    <string name="got_it">知道了</string>
 
 </resources>

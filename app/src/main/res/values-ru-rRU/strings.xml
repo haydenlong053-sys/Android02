@@ -459,5 +459,7 @@
     <string name="you_can_add_more_hobbies">Вы можете добавить еще %1$d хобби.</string>
     <string name="max_six_hobbies">Максимум 6 хобби разрешено</string>
     <string name="greeting_label">Поздравление</string>
+    <string name="bind_device_warning">После привязки текущего устройства торговый кошелек в &quot;Блочном кошельке&quot; станет кошельком для наблюдения. Пожалуйста, привязывайте осторожно.</string>
+    <string name="got_it">Понятно</string>
 
 </resources>

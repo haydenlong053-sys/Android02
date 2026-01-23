@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">אתה יכול להוסיף עוד %1$d תחביבים.</string>
     <string name="max_six_hobbies">מקסימום 6 תחביבים מותרים</string>
     <string name="greeting_label">ברכה</string>
+    <string name="bind_device_warning">לאחר קשירת המכשיר הנוכחי, ארנק המסחר ב-&quot;ארנק בלוקים&quot; יהפוך לארנק תצפית. אנא קשר בזהירות.</string>
+    <string name="got_it">הבנתי</string>
 
 </resources>

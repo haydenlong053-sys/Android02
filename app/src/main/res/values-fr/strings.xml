@@ -463,5 +463,7 @@
     <string name="you_can_add_more_hobbies">Vous pouvez ajouter %1$d passe-temps de plus.</string>
     <string name="max_six_hobbies">Maximum 6 passe-temps autorisés</string>
     <string name="greeting_label">Message de félicitations</string>
+    <string name="bind_device_warning">Après avoir lié l\'appareil actuel, le portefeuille de trading dans &quot;Portefeuille de blocs&quot; deviendra un portefeuille d\'observation. Veuillez lier avec précaution.</string>
+    <string name="got_it">Compris</string>
 
 </resources>

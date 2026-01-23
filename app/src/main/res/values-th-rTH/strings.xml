@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">คุณสามารถเพิ่มงานอดิเรกได้อีก %1$d รายการ</string>
     <string name="max_six_hobbies">สูงสุด 6 งานอดิเรกที่อนุญาต</string>
     <string name="greeting_label">คำอวยพร</string>
+    <string name="bind_device_warning">หลังจากผูกอุปกรณ์ปัจจุบัน กระเป๋าเงินการซื้อขายใน &quot;กระเป๋าเงินบล็อก&quot; จะกลายเป็นกระเป๋าเงินสังเกตการณ์ กรุณาผูกอย่างระมัดระวัง</string>
+    <string name="got_it">เข้าใจแล้ว</string>
 
 </resources>

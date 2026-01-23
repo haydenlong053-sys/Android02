@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">Ungangena %1$d ezinye izinto ozithandayo.</string>
     <string name="max_six_hobbies">Okungenani okungu-6 izinto ozithandayo kuvunyelwe</string>
     <string name="greeting_label">Ukuphawula</string>
+    <string name="bind_device_warning">Ngemva kokubopha idivayisi yamanje, isikhwama sokuhweba ku-&quot;Block Wallet&quot; sizoba yisikhwama sokubuka. Sicela ubophe ngokucophelela.</string>
+    <string name="got_it">Ngiyabona</string>
 
 </resources>

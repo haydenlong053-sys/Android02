@@ -464,5 +464,7 @@
     <string name="you_can_add_more_hobbies">%1$d hobi daha ekleyebilirsiniz.</string>
     <string name="max_six_hobbies">Maksimum 6 hobi izin verilir</string>
     <string name="greeting_label">Tebrik Mesajı</string>
+    <string name="bind_device_warning">Mevcut cihazı bağladıktan sonra &quot;Blok Cüzdan&quot; içindeki işlem cüzdanı gözlem cüzdanına dönüşecektir. Lütfen dikkatli bağlayın.</string>
+    <string name="got_it">Anladım</string>
 
 </resources>

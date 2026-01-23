@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">আপনি আরও %1$d টি শখ যোগ করতে পারেন।</string>
     <string name="max_six_hobbies">সর্বোচ্চ ৬টি শখ অনুমোদিত</string>
     <string name="greeting_label">শুভেচ্ছা বার্তা</string>
+    <string name="bind_device_warning">বর্তমান ডিভাইস বাইন্ড করার পর &quot;ব্লক ওয়ালেট&quot; এর ট্রেডিং ওয়ালেট একটি পর্যবেক্ষণ ওয়ালেটে পরিণত হবে। অনুগ্রহ করে সাবধানে বাইন্ড করুন।</string>
+    <string name="got_it">জানতে পারলাম</string>
 
 </resources>

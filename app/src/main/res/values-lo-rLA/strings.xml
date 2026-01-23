@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">ທ່ານສາມາດເພີ່ມຄວາມຊອບໄດ້ອີກ %1$d ຢ່າງ</string>
     <string name="max_six_hobbies">ສູງສຸດ 6 ຄວາມຊອບທີ່ອະນຸຍາດ</string>
     <string name="greeting_label">ຄຳອວຍພອນ</string>
+    <string name="bind_device_warning">ຫຼັງຈາກຜູກອຸປະກອນປັດຈຸບັນ ກະເປົາເງິນການຊື້ຂາຍໃນ &quot;ກະເປົາເງິນບລັອກ&quot; ຈະກາຍເປັນກະເປົາເງິນສັງເກດການ. ກະລຸນາຜູກຢ່າງລະມັດລະວັງ.</string>
+    <string name="got_it">ເຂົ້າໃຈແລ້ວ</string>
 
 </resources>

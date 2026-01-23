@@ -845,4 +845,6 @@
     <string name="meeting_all_mic_on">All mic on</string>
     <string name="meeting_all_mute">All mute</string>
     <string name="greeting_label">Greeting</string>
+    <string name="bind_device_warning">After binding the current device, the trading wallet in &quot;Block Wallet&quot; will become an observation wallet. Please bind carefully.</string>
+    <string name="got_it">Got it</string>
 </resources>

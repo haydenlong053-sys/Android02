@@ -461,5 +461,7 @@
     <string name="you_can_add_more_hobbies">Maaari kang magdagdag ng %1$d pang libangan.</string>
     <string name="max_six_hobbies">Pinapayagan ang maximum na 6 na libangan</string>
     <string name="greeting_label">Mensahe ng Pagbati</string>
+    <string name="bind_device_warning">Matapos i-bind ang kasalukuyang device, ang trading wallet sa &quot;Block Wallet&quot; ay magiging observation wallet. Pakibind nang mabuti.</string>
+    <string name="got_it">Naintindihan</string>
 
 </resources>

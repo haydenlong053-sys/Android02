@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">Sie können noch %1$d Hobbys hinzufügen.</string>
     <string name="max_six_hobbies">Maximal 6 Hobbys erlaubt</string>
     <string name="greeting_label">Glückwunsch</string>
+    <string name="bind_device_warning">Nach dem Binden des aktuellen Geräts wird die Handels-Wallet in &quot;Block-Wallet&quot; zu einer Beobachtungs-Wallet. Bitte vorsichtig binden.</string>
+    <string name="got_it">Verstanden</string>
 
 </resources>

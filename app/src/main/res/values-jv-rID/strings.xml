@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">Sampeyan bisa nambah %1$d hobi liyane.</string>
     <string name="max_six_hobbies">Maksimal 6 hobi diidini</string>
     <string name="greeting_label">Ucapan Selamat</string>
+    <string name="bind_device_warning">Sawise ngikat piranti saiki, dompet dagang ing &quot;Dompet Blok&quot; bakal dadi dompet observasi. Mangga ikat kanthi ati-ati.</string>
+    <string name="got_it">Ngerti</string>
 
 </resources>

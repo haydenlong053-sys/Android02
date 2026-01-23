@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">あと %1$d 個の趣味を追加できます。</string>
     <string name="max_six_hobbies">最大6つの趣味まで設定可能</string>
     <string name="greeting_label">祝福の言葉</string>
+    <string name="bind_device_warning">現在のデバイスをバインドすると、「ブロックウォレット」内の取引ウォレットが観察ウォレットに変わります。慎重にバインドしてください。</string>
+    <string name="got_it">了解しました</string>
 
 </resources>

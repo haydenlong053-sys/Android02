@@ -461,5 +461,7 @@
     <string name="you_can_add_more_hobbies">သင်သည် ဝါသနာ %1$d ခု ထပ်မံ ထည့်နိုင်သည်။</string>
     <string name="max_six_hobbies">ဝါသနာ ၆ ခု အထိ ခွင့်ပြုထားသည်</string>
     <string name="greeting_label">ဂုဏ်ယူစကား</string>
+    <string name="bind_device_warning">လက်ရှိစက်ကို ချည်နှောင်ပြီးနောက် &quot;Block Wallet&quot; ရှိ ကုန်သွယ်ရေးပိုက်ဆံအိတ်သည် စောင့်ကြည့်ရေးပိုက်ဆံအိတ်ဖြစ်လာလိမ့်မည်။ ကျေးဇူးပြု၍ သတိထားပြီး ချည်နှောင်ပါ။</string>
+    <string name="got_it">နားလည်ပါပြီ</string>
 
 </resources>

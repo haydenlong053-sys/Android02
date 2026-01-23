@@ -465,5 +465,7 @@
     <string name="you_can_add_more_hobbies">آپ %1$d مزید شوق شامل کر سکتے ہیں۔</string>
     <string name="max_six_hobbies">زیادہ سے زیادہ 6 شوق کی اجازت</string>
     <string name="greeting_label">مبارکباد</string>
+    <string name="bind_device_warning">موجودہ ڈیوائس کو بائنڈ کرنے کے بعد &quot;بلاک والیٹ&quot; میں ٹریڈنگ والیٹ ایک مشاہداتی والیٹ بن جائے گا۔ براہ کرم احتیاط سے بائنڈ کریں۔</string>
+    <string name="got_it">سمجھ گیا</string>
 
 </resources>

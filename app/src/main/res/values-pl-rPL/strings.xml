@@ -65,5 +65,7 @@
     <string name="you_can_add_more_hobbies">Możesz dodać jeszcze %1$d hobby.</string>
     <string name="max_six_hobbies">Maksymalnie 6 hobby dozwolonych</string>
     <string name="greeting_label">Pozdrowienia</string>
+    <string name="bind_device_warning">Po powiązaniu bieżącego urządzenia portfel handlowy w &quot;Portfelu blokowym&quot; stanie się portfelem obserwacyjnym. Proszę powiązać ostrożnie.</string>
+    <string name="got_it">Rozumiem</string>
 
 </resources>

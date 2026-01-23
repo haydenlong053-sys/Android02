@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">Ви можете додати ще %1$d хобі.</string>
     <string name="max_six_hobbies">Максимум 6 хобі дозволено</string>
     <string name="greeting_label">Привітання</string>
+    <string name="bind_device_warning">Після прив\'язки поточного пристрою торговий гаманець у &quot;Блочному гаманці&quot; стане гаманцем для спостереження. Будь ласка, прив\'язуйте обережно.</string>
+    <string name="got_it">Зрозуміло</string>
 
 </resources>

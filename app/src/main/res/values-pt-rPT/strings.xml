@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">Você pode adicionar mais %1$d hobbies.</string>
     <string name="max_six_hobbies">Máximo de 6 hobbies permitidos</string>
     <string name="greeting_label">Mensagem de parabéns</string>
+    <string name="bind_device_warning">Após vincular o dispositivo atual, a carteira de negociação em &quot;Carteira de Blocos&quot; se tornará uma carteira de observação. Por favor, vincule com cuidado.</string>
+    <string name="got_it">Entendi</string>
 
 </resources>

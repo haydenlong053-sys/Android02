@@ -460,5 +460,7 @@
     <string name="you_can_add_more_hobbies">Unaweza kuongeza shughuli %1$d zaidi za burudani.</string>
     <string name="max_six_hobbies">Shughuli zaidi ya 6 za burudani zinaruhusiwa</string>
     <string name="greeting_label">Maneno ya pongezi</string>
+    <string name="bind_device_warning">Baada ya kuunganisha kifaa cha sasa, mkoba wa biashara katika &quot;Mkoba wa Block&quot; utakuwa mkoba wa uchunguzi. Tafadhali unganisha kwa uangalifu.</string>
+    <string name="got_it">Nimeelewa</string>
 
 </resources>

@@ -458,5 +458,7 @@
     <string name="you_can_add_more_hobbies">Puede agregar %1$d aficiones más.</string>
     <string name="max_six_hobbies">Máximo 6 aficiones permitidas</string>
     <string name="greeting_label">Saludo</string>
+    <string name="bind_device_warning">Después de vincular el dispositivo actual, la billetera comercial en &quot;Billetera de Bloques&quot; se convertirá en una billetera de observación. Por favor, vincule con cuidado.</string>
+    <string name="got_it">Entendido</string>
 
 </resources>
