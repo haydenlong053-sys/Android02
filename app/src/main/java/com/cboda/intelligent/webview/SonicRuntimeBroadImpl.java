@@ -1,10 +1,11 @@
 package com.cboda.intelligent.webview;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceResponse;
 
@@ -48,16 +49,17 @@ public class SonicRuntimeBroadImpl extends SonicRuntime {
 
     @Override
     public void log(String tag, int level, String message) {
-        switch (level) {
-            case Log.ERROR:
-                Log.e(tag, message);
-                break;
-            case Log.INFO:
-                Log.i(tag, message);
-                break;
-            default:
-                Log.d(tag, message);
-        }
+//        switch (level) {
+//            case Log.ERROR:
+//                Log.e(tag, message);
+//                break;
+//            case Log.INFO:
+//                Log.i(tag, message);
+//                break;
+//            default:
+//                Log.d(tag, message);
+//        }
+        eLogD(tag, message);
     }
 
     @Override

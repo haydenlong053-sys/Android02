@@ -2,7 +2,6 @@ package com.cboda.baselibrary.network
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.cboda.baselibrary.network.api.BaseBroadApi
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.network.model.NetworkListBroadResponse
@@ -590,7 +589,7 @@ object NetworkBroadUtils {
                                 null
                             )
                         } catch (e: Exception) {
-                            Log.e("NetworkBroadUtils", "解析错误响应失败: $errorBody", e)
+                            eLogD("NetworkBroadUtils", "解析错误响应失败: $errorBody", e)
                             callback.onFailure(response.code(), "API 错误", null)
                         }
 

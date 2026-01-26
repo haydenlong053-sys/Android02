@@ -1,9 +1,8 @@
 package com.cboda.intelligent.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.model.SocialContact
 import com.cboda.intelligent.model.SocialUiState
 import com.cboda.chatui.utils.PinyinBroadUtils
@@ -53,7 +52,7 @@ class SocialViewBroadModel(
                 )
             } catch (t: Throwable) {
                 t.printStackTrace()
-                Log.e("SocialViewBroadModel","错误:${t.message}")
+                eLogD("SocialViewBroadModel","错误:${t.message}")
                 _uiState.value = _uiState.value.copy(isLoading = false, error = t.message)
             }
         }
