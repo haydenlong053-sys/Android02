@@ -479,5 +479,11 @@
     <string name="拒绝">Refuser</string>
     <string name="需要相机权限是否请求权限">%1$s nécessite l\'autorisation de la caméra. Demander l\'autorisation?</string>
     <string name="需要存储权限是否请求权限">%1$s nécessite l\'autorisation de stockage. Demander l\'autorisation?</string>
+    <string name="social_back">Retour</string>
+    <string name="social_friend_verification">Vérification d\'ami</string>
+    <string name="social_persona_tag">Tag de personnage</string>
+    <string name="social_select_circle">Veuillez sélectionner un cercle à ajouter</string>
+    <string name="social_set_remark_name">Définir le nom de remarque</string>
+    <string name="social_set_circle_tag">Définir le tag de cercle</string>
 
 </resources>

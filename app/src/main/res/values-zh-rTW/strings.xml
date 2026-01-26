@@ -868,5 +868,11 @@
     <string name="拒绝">拒絕</string>
     <string name="需要相机权限是否请求权限">%1$s需要相機權限，是否請求權限？</string>
     <string name="需要存储权限是否请求权限">%1$s需要存儲權限，是否請求權限？</string>
+    <string name="social_back">返回</string>
+    <string name="social_friend_verification">通過好友驗證</string>
+    <string name="social_persona_tag">人設標籤</string>
+    <string name="social_select_circle">請選擇放入的圈子</string>
+    <string name="social_set_remark_name">設置備註名</string>
+    <string name="social_set_circle_tag">設置圈子標籤</string>
 
 </resources>
