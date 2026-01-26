@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+//    id 'maven-publish'
 //    id 'com.github.ben-manes.versions' version '0.53.0'
 }
 apply from: '../config.gradle'
@@ -29,12 +30,80 @@ android {
 }
 
 dependencies {
+//    implementation "com.cboda.video.compressor:isoparser:1.0.0"
+//    implementation "com.cboda.video.compressor:aspectjrt:1.0.0"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "${andx.appcompat}"
     implementation files('libs/broad_isoparser-1.0.6.jar')
     implementation files('libs/broad_aspectjrt-1.7.3.jar')
+    implementation "${andx.appcompat}"
 //    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    })
 //    testImplementation 'junit:junit:4.+'
 }
+
+
+
+//def aarFiles = [
+//    [
+//        groupId: 'com.cboda.video.compressor',
+//        artifactId: 'isoparser',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_isoparser-1.0.6.jar')
+//    ],
+//    [
+//        groupId: 'com.cboda.video.compressor',
+//        artifactId: 'aspectjrt',
+//        version: '1.0.0',
+//        aarFile: file('libs/broad_aspectjrt-1.7.3.jar')
+//    ]
+//]
+//
+//// 配置 Maven 发布
+//publishing {
+//    publications {
+//        // 为每个 AAR 创建发布配置
+//        aarFiles.each { aarConfig ->
+//            def aarName = aarConfig.artifactId
+//            create(aarName, MavenPublication) {
+//                groupId = aarConfig.groupId
+//                artifactId = aarConfig.artifactId
+//                version = aarConfig.version
+//
+//                artifact(aarConfig.aarFile) {
+//                    // 根据文件后缀设置正确的扩展名（jar 或 aar）
+//                    extension aarConfig.aarFile.name.endsWith('.jar') ? 'jar' : 'aar'
+//                }
+//
+//                pom {
+//                    name = aarConfig.artifactId
+//                    description = "Local AAR library: ${aarConfig.artifactId}"
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//// 创建统一发布任务
+//task publishAllAarsToLocalMaven {
+//    group = 'publishing'
+//    description = '发布所有 AAR 文件到本地 Maven 仓库'
+//    dependsOn aarFiles.collect { aarConfig ->
+//        "publish${aarConfig.artifactId.capitalize()}PublicationToMavenLocal"
+//    }
+//
+//    doLast {
+//        println ""
+//        println "=========================================="
+//        println "✓ 所有 AAR 已发布到本地 Maven 仓库"
+//        println "位置: ~/.m2/repository"
+//        println ""
+//        println "可以使用以下依赖引用："
+//        aarFiles.each { aarConfig ->
+//            println "  api '${aarConfig.groupId}:${aarConfig.artifactId}:${aarConfig.version}'"
+//        }
+//        println "=========================================="
+//        println ""
+//    }
+//}
+

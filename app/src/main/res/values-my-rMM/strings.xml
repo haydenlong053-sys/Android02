@@ -471,5 +471,11 @@
     <string name="scan_applied_waiting_group_owner">လျှောက်ထားပြီးပါပြီ၊ အုပ်စုပိုင်ရှင်၏ ခွင့်ပြုချက်ကို စောင့်ဆိုင်းနေပါသည်</string>
     <string name="scan_invalid_qr_code_type">မမှန်ကန်သော QR code အမျိုးအစား</string>
     <string name="scan_login_request_failed">လော့ဂ်အင်တောင်းဆိုမှု မအောင်မြင်ပါ၊ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ</string>
+    <string name="拍摄">ဓာတ်ပုံရိုက်ပါ</string>
+    <string name="从相册中选取">အယ်ဘမ်မှ ရွေးချယ်ပါ</string>
+    <string name="同意">သဘောတူ</string>
+    <string name="拒绝">ငြင်းဆို</string>
+    <string name="需要相机权限是否请求权限">%1$s သည် ကင်မရာ ခွင့်ပြုချက် လိုအပ်သည်။ ခွင့်ပြုချက် တောင်းဆိုမည်လား?</string>
+    <string name="需要存储权限是否请求权限">%1$s သည် သိုလှောင်မှု ခွင့်ပြုချက် လိုအပ်သည်။ ခွင့်ပြုချက် တောင်းဆိုမည်လား?</string>
 
 </resources>

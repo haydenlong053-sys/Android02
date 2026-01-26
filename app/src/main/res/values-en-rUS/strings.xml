@@ -857,5 +857,11 @@
     <string name="scan_applied_waiting_group_owner">Applied, waiting for group owner approval</string>
     <string name="scan_invalid_qr_code_type">Invalid QR code type</string>
     <string name="scan_login_request_failed">Login request failed, please try again</string>
+    <string name="拍摄">Take Photo</string>
+    <string name="从相册中选取">Select from Album</string>
+    <string name="同意">Agree</string>
+    <string name="拒绝">Reject</string>
+    <string name="需要相机权限是否请求权限">%1$s requires camera permission. Request permission?</string>
+    <string name="需要存储权限是否请求权限">%1$s requires storage permission. Request permission?</string>
 
 </resources>

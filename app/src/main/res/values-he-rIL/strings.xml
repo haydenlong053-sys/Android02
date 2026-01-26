@@ -468,5 +468,11 @@
     <string name="scan_applied_waiting_group_owner">הוגש, ממתין לאישור בעל הקבוצה</string>
     <string name="scan_invalid_qr_code_type">סוג קוד QR לא תקין</string>
     <string name="scan_login_request_failed">בקשת ההתחברות נכשלה, אנא נסה שוב</string>
+    <string name="拍摄">צלם תמונה</string>
+    <string name="从相册中选取">בחר מאלבום</string>
+    <string name="同意">הסכמה</string>
+    <string name="拒绝">דחייה</string>
+    <string name="需要相机权限是否请求权限">%1$s דורש הרשאת מצלמה. לבקש הרשאה?</string>
+    <string name="需要存储权限是否请求权限">%1$s דורש הרשאת אחסון. לבקש הרשאה?</string>
 
 </resources>

@@ -474,5 +474,11 @@
     <string name="scan_applied_waiting_group_owner">Başvuruldu, grup sahibinin onayı bekleniyor</string>
     <string name="scan_invalid_qr_code_type">Geçersiz QR kodu türü</string>
     <string name="scan_login_request_failed">Giriş isteği başarısız oldu, lütfen tekrar deneyin</string>
+    <string name="拍摄">Fotoğraf Çek</string>
+    <string name="从相册中选取">Albümden Seç</string>
+    <string name="同意">Kabul Et</string>
+    <string name="拒绝">Reddet</string>
+    <string name="需要相机权限是否请求权限">%1$s kamera izni gerektirir. İzin iste?</string>
+    <string name="需要存储权限是否请求权限">%1$s depolama izni gerektirir. İzin iste?</string>
 
 </resources>

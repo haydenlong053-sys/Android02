@@ -469,5 +469,11 @@
     <string name="scan_applied_waiting_group_owner">Подано заявление, ожидание одобрения владельца группы</string>
     <string name="scan_invalid_qr_code_type">Недействительный тип QR-кода</string>
     <string name="scan_login_request_failed">Запрос на вход не удался, пожалуйста, попробуйте снова</string>
+    <string name="拍摄">Сделать фото</string>
+    <string name="从相册中选取">Выбрать из альбома</string>
+    <string name="同意">Согласиться</string>
+    <string name="拒绝">Отклонить</string>
+    <string name="需要相机权限是否请求权限">%1$s требуется разрешение на камеру. Запросить разрешение?</string>
+    <string name="需要存储权限是否请求权限">%1$s требуется разрешение на хранилище. Запросить разрешение?</string>
 
 </resources>

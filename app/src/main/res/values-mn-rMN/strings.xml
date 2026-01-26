@@ -471,5 +471,11 @@
     <string name="scan_applied_waiting_group_owner">Хүсэлт илгээсэн, бүлгийн эзэмшлийн зөвшөөрлийг хүлээж байна</string>
     <string name="scan_invalid_qr_code_type">Хүчингүй QR кодын төрөл</string>
     <string name="scan_login_request_failed">Нэвтрэх хүсэлт амжилтгүй боллоо, дахин оролдоно уу</string>
+    <string name="拍摄">Зураг авах</string>
+    <string name="从相册中选取">Альбомаас сонгох</string>
+    <string name="同意">Зөвшөөрөх</string>
+    <string name="拒绝">Татгалзах</string>
+    <string name="需要相机权限是否请求权限">%1$s камерын эрх шаардлагатай. Эрх хүсэх үү?</string>
+    <string name="需要存储权限是否请求权限">%1$s хадгалах эрх шаардлагатай. Эрх хүсэх үү?</string>
 
 </resources>

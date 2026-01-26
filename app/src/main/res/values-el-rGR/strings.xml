@@ -469,5 +469,11 @@
     <string name="scan_applied_waiting_group_owner">Υποβλήθηκε, αναμονή έγκρισης από τον ιδιοκτήτη της ομάδας</string>
     <string name="scan_invalid_qr_code_type">Μη έγκυρος τύπος κωδικού QR</string>
     <string name="scan_login_request_failed">Το αίτημα σύνδεσης απέτυχε, παρακαλώ δοκιμάστε ξανά</string>
+    <string name="拍摄">Τραβήξτε Φωτογραφία</string>
+    <string name="从相册中选取">Επιλέξτε από το Άλμπουμ</string>
+    <string name="同意">Συμφωνώ</string>
+    <string name="拒绝">Αρνούμαι</string>
+    <string name="需要相机权限是否请求权限">Το %1$s απαιτεί άδεια κάμερας. Να ζητηθεί άδεια;</string>
+    <string name="需要存储权限是否请求权限">Το %1$s απαιτεί άδεια αποθήκευσης. Να ζητηθεί άδεια;</string>
 
 </resources>

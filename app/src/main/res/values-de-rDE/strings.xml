@@ -468,5 +468,11 @@
     <string name="scan_applied_waiting_group_owner">Beworben, warte auf Genehmigung des Gruppenbesitzers</string>
     <string name="scan_invalid_qr_code_type">Ungültiger QR-Code-Typ</string>
     <string name="scan_login_request_failed">Anmeldeanfrage fehlgeschlagen, bitte versuchen Sie es erneut</string>
+    <string name="拍摄">Foto aufnehmen</string>
+    <string name="从相册中选取">Aus Album auswählen</string>
+    <string name="同意">Zustimmen</string>
+    <string name="拒绝">Ablehnen</string>
+    <string name="需要相机权限是否请求权限">%1$s benötigt Kameraberechtigung. Berechtigung anfordern?</string>
+    <string name="需要存储权限是否请求权限">%1$s benötigt Speicherberechtigung. Berechtigung anfordern?</string>
 
 </resources>

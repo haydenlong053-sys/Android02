@@ -468,5 +468,11 @@
     <string name="scan_applied_waiting_group_owner">ส่งคำขอแล้ว กำลังรอการอนุมัติจากเจ้าของกลุ่ม</string>
     <string name="scan_invalid_qr_code_type">ประเภท QR code ไม่ถูกต้อง</string>
     <string name="scan_login_request_failed">คำขอเข้าสู่ระบบล้มเหลว กรุณาลองอีกครั้ง</string>
+    <string name="拍摄">ถ่ายรูป</string>
+    <string name="从相册中选取">เลือกจากอัลบั้ม</string>
+    <string name="同意">ยอมรับ</string>
+    <string name="拒绝">ปฏิเสธ</string>
+    <string name="需要相机权限是否请求权限">%1$s ต้องการสิทธิ์กล้อง ต้องการขอสิทธิ์หรือไม่?</string>
+    <string name="需要存储权限是否请求权限">%1$s ต้องการสิทธิ์การจัดเก็บ ต้องการขอสิทธิ์หรือไม่?</string>
 
 </resources>

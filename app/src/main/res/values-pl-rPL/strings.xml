@@ -75,5 +75,11 @@
     <string name="scan_applied_waiting_group_owner">Złożono wniosek, oczekiwanie na zatwierdzenie przez właściciela grupy</string>
     <string name="scan_invalid_qr_code_type">Nieprawidłowy typ kodu QR</string>
     <string name="scan_login_request_failed">Żądanie logowania nie powiodło się, spróbuj ponownie</string>
+    <string name="拍摄">Zrób zdjęcie</string>
+    <string name="从相册中选取">Wybierz z albumu</string>
+    <string name="同意">Zgadzam się</string>
+    <string name="拒绝">Odrzuć</string>
+    <string name="需要相机权限是否请求权限">%1$s wymaga uprawnień do kamery. Czy chcesz poprosić o uprawnienia?</string>
+    <string name="需要存储权限是否请求权限">%1$s wymaga uprawnień do przechowywania. Czy chcesz poprosić o uprawnienia?</string>
 
 </resources>

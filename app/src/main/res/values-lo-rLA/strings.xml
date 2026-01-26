@@ -470,5 +470,11 @@
     <string name="scan_applied_waiting_group_owner">ສົ່ງຄຳຮ້ອງຂໍແລ້ວ, ລໍຖ້າການອະນຸມັດຈາກເຈົ້າຂອງກຸ່ມ</string>
     <string name="scan_invalid_qr_code_type">ປະເພດ QR code ບໍ່ຖືກຕ້ອງ</string>
     <string name="scan_login_request_failed">ຄຳຮ້ອງຂໍເຂົ້າສູ່ລະບົບລົ້ມເຫລວ, ກະລຸນາລອງອີກຄັ້ງ</string>
+    <string name="拍摄">ຖ່າຍຮູບ</string>
+    <string name="从相册中选取">ເລືອກຈາກອັລບັມ</string>
+    <string name="同意">ຕົກລົງ</string>
+    <string name="拒绝">ປະຕິເສດ</string>
+    <string name="需要相机权限是否请求权限">%1$s ຕ້ອງການອະນຸຍາດກ້ອງຖ່າຍຮູບ. ຂໍອະນຸຍາດ?</string>
+    <string name="需要存储权限是否请求权限">%1$s ຕ້ອງການອະນຸຍາດການເກັບຮັກສາ. ຂໍອະນຸຍາດ?</string>
 
 </resources>
