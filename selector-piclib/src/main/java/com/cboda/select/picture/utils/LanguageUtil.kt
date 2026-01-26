@@ -1,14 +1,20 @@
+@file:Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+
 package com.cboda.select.picture.utils
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.os.Build
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.cboda.select.picture.entity.DataListBroadBean
 import java.util.Locale
 
+@SuppressLint("StaticFieldLeak")
 object LanguageUtil {
     private var mContext: Context? = null
     fun getAppLanguageKey(context: Context? = null, isAttApp: Boolean = false): String {
@@ -32,6 +38,7 @@ object LanguageUtil {
         }
     }
 
+    @SuppressLint("UseKtx")
     fun saveAppLanguageKey(languageKey: String, context: Context? = null) {
 //            val kv = MMKV.defaultMMKV()
 //            kv.encode(USER_LANGUAGE_KEY, languageKey)
@@ -65,15 +72,27 @@ object LanguageUtil {
         return getAllLanguage().find { bean -> bean.sqlKey == if (TextUtils.isEmpty(key)) getAppLanguageKey(context, false) else key }?.name ?: ENGLISH
     }
 
-    fun setAppLanguage(key: String, mContext: Context? = null) {
+    fun setAppLanguage(key: String, context: Context? = null) {
         val lanList = getLanList(key)
-        val locale = LocaleListCompat.forLanguageTags(lanList)
-        AppCompatDelegate.setApplicationLocales(locale)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            val locale = Locale.forLanguageTag(lanList)
+            applyLocaleToContext(context, locale)
+        } else {
+            val locale = LocaleListCompat.forLanguageTags(lanList)
+            AppCompatDelegate.setApplicationLocales(locale)
+        }
 //        val local = Locale(lanList)
 //        com.hjq.language.MultiLanguages.setAppLanguage(getAppContext(mContext), local)
-
     }
 
+    private fun applyLocaleToContext(context: Context?, locale: Locale) {
+        context?.let {
+            val configuration = Configuration(context.resources.configuration)
+            configuration.setLocale(locale)
+            context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
+        }
+
+    }
 
     fun getLanList(key: String): String {
         return getAllLanguage().find { bean -> bean.sqlKey == key }?.value ?: "en-US"

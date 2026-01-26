@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import com.cboda.intelligent.R
@@ -69,7 +70,10 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
         if (TextUtils.isEmpty(language)) {
             saveAppLanguageKey(LanguageUtil.ENGLISH, this)
             setAppLanguage(LanguageUtil.ENGLISH, this@SplashBroadActivity)
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            setAppLanguage(language, this@SplashBroadActivity)
         }
+
 
 //        val param: MutableMap<String, Any> = HashMap()
 //        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, object : BaseBroadCallback<ResultBroadBean?>() {

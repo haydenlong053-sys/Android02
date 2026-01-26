@@ -64,7 +64,7 @@ android {
 
 
 dependencies {
-    //    api 'com.cboda.chat:broadChat:1.0.0'
+//    api 'com.cboda.chat:broadChat:1.0.0'
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     api files('libs/broad_chat.aar')
     api "${thirdPartyApis.okhttp3}"
