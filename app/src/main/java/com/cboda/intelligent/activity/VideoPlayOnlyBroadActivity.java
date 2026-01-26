@@ -1,13 +1,13 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -170,7 +170,7 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
                 super.onPrepared(url, objects);
                 // 视频已准备就绪，可以在这里添加开始播放后的逻辑
                 // 例如：隐藏封面图、开始记录播放时间等
-                Log.d("GSYVideoPlayer", "视频准备完成，开始播放");
+                eLogD("GSYVideoPlayer", "视频准备完成，开始播放");
                 dismissLoading();
                 mIvTemp.setVisibility(View.GONE);
             }
@@ -235,7 +235,7 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
                             new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
                                 public void onScanCompleted(String path, Uri uri) {
-                                    Log.e("野火", "媒体扫描完成: " + path);
+                                    eLogD("野火", "媒体扫描完成: " + path);
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -253,7 +253,7 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
             @Override
             public void downloadProgress(Progress progress) {
                 super.downloadProgress(progress);
-                Log.e("野火", "下载" + progress.toString());
+                eLogD("野火", "下载" + progress.toString());
             }
 
             @Override

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -252,7 +251,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
             noticeViewModel.getNoticeInfoList(1, CommonBroadConfig.pageSize_100)
                 .observe(viewLifecycleOwner) { mList ->
                     if (mList.list?.isNotEmpty() == true) {
-                        Log.d(
+                        eLogD(
                             "zhanglong",
                             "mList.list!![0].noticeTitle==" + mList.list!![0].noticeTitle
                         )
@@ -262,7 +261,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                             mList.list!![0].noticeTitle
                         )
 
-                        Log.d(
+                        eLogD(
                             "zhanglong",
                             "mNoticeBean==" + noticeBean.noticeTitle
                         )
@@ -370,7 +369,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                     }
 
                     3 -> {
-                        Log.e("看看未读", "$socialCount")
+                        eLogD("看看未读", "$socialCount")
                         if (socialCount != "0") {
                             badgeTextView.text = socialCount
                             badgePagerTitleView.badgeView = badgeTextView

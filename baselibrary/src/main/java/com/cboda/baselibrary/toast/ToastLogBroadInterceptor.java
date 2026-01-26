@@ -1,7 +1,9 @@
 package com.cboda.baselibrary.toast;
 
-import android.util.Log;
 
+
+
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogI;
 
 import com.cboda.baselibrary.toast.config.IToastInterceptor;
 
@@ -55,7 +57,7 @@ public class ToastLogBroadInterceptor implements IToastInterceptor {
 
     protected void printLog(String msg) {
         // 这里解释一下，为什么不用 Log.d，而用 Log.i，因为 Log.d 在魅族 16th 手机上面无法输出日志
-        Log.i("ToastBroadUtils", msg);
+        eLogI("ToastBroadUtils", msg);
     }
 
     protected boolean filterClass(Class<?> clazz) {

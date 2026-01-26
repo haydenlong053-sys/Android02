@@ -1,12 +1,13 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -263,7 +264,7 @@ public class EquipmentBroadActivity extends BaseSimpleBroadActivity implements V
         param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
         param.put("type", "2");
         param.put("model", Build.BRAND + " " + Build.MODEL);
-        Log.d("设备嘛",eqno +"  \n"+ChatManagerBroadHolder.gChatManager.getClientId());
+        eLogD("设备嘛",eqno +"  \n"+ChatManagerBroadHolder.gChatManager.getClientId());
         UserServerBroadManager.INSTANCE.qeLogin(this, param, BroadUrl.eqLogin, new SpotsCallBroadBack<ResultBroadBean>(this) {
 
             @Override

@@ -3,12 +3,12 @@ package com.cboda.intelligent.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
@@ -130,7 +130,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
                                 .observe(this@TransferBroadActivity) { bean ->
                                     bean.amount = inputMoneyString
                                     EventBus.getDefault().postSticky(bean)
-                                    val mPop = TransferSureTipBroadPop(this@TransferBroadActivity,mBind?.mTvActualAmount?.text?.toString()?:"")
+                                    val mPop = TransferSureTipBroadPop(this@TransferBroadActivity, mBind?.mTvActualAmount?.text?.toString() ?: "")
                                     mPop.sureInvoke = {
                                         goNest()
                                     }
@@ -227,7 +227,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
             } else {
                 1
             }
-            viewModel.getRateInfo(query, typeTransfer,mBind?.mEtInputAddress?.text?.trim()?.toString()?:"").observe(this@TransferBroadActivity) {
+            viewModel.getRateInfo(query, typeTransfer, mBind?.mEtInputAddress?.text?.trim()?.toString() ?: "").observe(this@TransferBroadActivity) {
                 mBind?.mTvActualAmount?.text =
                     (it.actualAmount.toString() + getString(R.string.webX_name))
                 mBind?.mTvHandlingFee?.text =
@@ -273,9 +273,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
                 safeCenterBean = bean
             }
             viewModel.checkSecurityFirst().observe(this@TransferBroadActivity) { bean ->
-                if (BuildConfig.DEBUG){
-                    Log.d("zhanglong", "bean.result--${bean.result}")
-                }
+                eLogD("zhanglong", "bean.result--${bean.result}")
                 isFirst = bean.result
             }
         }
