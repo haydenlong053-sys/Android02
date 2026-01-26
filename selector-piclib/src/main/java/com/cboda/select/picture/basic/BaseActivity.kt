@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.blankj.utilcode.util.BarUtils
 import com.cboda.select.picture.utils.LanguageUtil
+import com.cboda.select.picture.utils.LanguageUtil.setAppLanguage
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -38,6 +39,9 @@ open class BaseActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            setAppLanguage(LanguageUtil.getAppLanguageKey(this, false), this)
+        }
         val rootView = findViewById<View>(android.R.id.content)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
             val navBarHeight = insets.systemWindowInsetBottom
