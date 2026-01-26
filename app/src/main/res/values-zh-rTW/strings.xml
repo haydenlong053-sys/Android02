@@ -874,5 +874,6 @@
     <string name="social_select_circle">請選擇放入的圈子</string>
     <string name="social_set_remark_name">設置備註名</string>
     <string name="social_set_circle_tag">設置圈子標籤</string>
+    <string name="ai_detection_failed_retry_later">檢測失敗，請稍後重試!</string>
 
 </resources>
