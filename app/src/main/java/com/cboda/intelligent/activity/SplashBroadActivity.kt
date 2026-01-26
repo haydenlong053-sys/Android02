@@ -70,8 +70,6 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
         if (TextUtils.isEmpty(language)) {
             saveAppLanguageKey(LanguageUtil.ENGLISH, this)
             setAppLanguage(LanguageUtil.ENGLISH, this@SplashBroadActivity)
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            setAppLanguage(language, this@SplashBroadActivity)
         }
 
 
