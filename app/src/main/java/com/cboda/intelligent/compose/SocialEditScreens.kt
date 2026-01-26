@@ -44,12 +44,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.model.SocialBroadCircle
 import com.cboda.intelligent.viewmodel.SocialViewBroadModel
@@ -97,14 +99,14 @@ fun RemarkAndCirclePage(
                                 onBack.invoke(if (fromType==1) "" else remark)
                             },
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "返回",
+                            contentDescription = stringResource(R.string.social_back),
                             tint = Color.Black,
                         )
                     }
                 },
                 title = {
                     Text(
-                        text = if (fromType==1) "通过好友验证" else "人设标签",
+                        text = if (fromType==1) stringResource(R.string.social_friend_verification) else stringResource(R.string.social_persona_tag),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black
@@ -125,7 +127,7 @@ fun RemarkAndCirclePage(
                           onClick = {
                               val circle = uiState.circles.firstOrNull { it.characterTags == selectedTag }
                               if (circle == null) {
-                                  ToastBroadUtil.show("请选择放入的圈子")
+                                  ToastBroadUtil.show(ctx.getString(R.string.social_select_circle))
                               } else {
                                   onConfirm(remark.ifEmpty { initialRemark }, circle)
                               }
@@ -136,7 +138,7 @@ fun RemarkAndCirclePage(
                               .fillMaxWidth()
                               .height(46.dp),
                       ) {
-                          Text(text = "确定", color = Color.White, fontSize = 16.sp)
+                          Text(text = stringResource(R.string.queding), color = Color.White, fontSize = 16.sp)
                       }
                    if (fromType==1){
                       Spacer(modifier = Modifier.height(24.dp))
@@ -148,7 +150,7 @@ fun RemarkAndCirclePage(
                               contentColor = Color(0xFF3B47DD),
                           ),
                           border = BorderStroke(1.dp, Color(0xFF3B47DD))) {
-                          Text(text = "取消", color = Color(0xFF3B47DD), fontSize = 16.sp)
+                          Text(text = stringResource(R.string.quxiao), color = Color(0xFF3B47DD), fontSize = 16.sp)
                       }
                   }
                }
@@ -169,7 +171,7 @@ fun RemarkAndCirclePage(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "设置备注名",
+                    text = stringResource(R.string.social_set_remark_name),
                     fontSize = 14.sp,
                     color = Color.Black.copy(0.65f)
                 )
@@ -189,7 +191,7 @@ fun RemarkAndCirclePage(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "设置圈子标签",
+                    text = stringResource(R.string.social_set_circle_tag),
                     fontSize = 14.sp,
                     color = Color.Black.copy(0.65f)
                 )

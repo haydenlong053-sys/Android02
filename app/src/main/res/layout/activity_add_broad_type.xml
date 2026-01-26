@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_main_space"
-    tools:context=".lj.AddtypeBroadActivity">
+    >
     <TextView
         android:text="@string/可以通过以下方式搜索到我"
         android:layout_marginLeft="20dp"

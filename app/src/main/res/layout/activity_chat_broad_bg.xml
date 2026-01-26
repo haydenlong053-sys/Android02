@@ -8,7 +8,7 @@
     android:paddingHorizontal="10dp"
     android:orientation="vertical"
     android:background="@color/bg_main_space"
-    tools:context=".lj.ChatBgBroadActivity">
+    >
     <LinearLayout
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_rect_broad_main"

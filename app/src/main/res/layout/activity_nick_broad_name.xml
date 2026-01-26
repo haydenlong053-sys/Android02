@@ -7,7 +7,7 @@
     android:background="@color/bg_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lj.NickNameBroadActivity">
+    >
     <TextView
         android:id="@+id/tvTitle1"
         android:text="@string/昵称"

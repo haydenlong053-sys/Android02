@@ -474,5 +474,11 @@
     <string name="拒绝">拒否</string>
     <string name="需要相机权限是否请求权限">%1$sにはカメラの権限が必要です。権限をリクエストしますか？</string>
     <string name="需要存储权限是否请求权限">%1$sにはストレージの権限が必要です。権限をリクエストしますか？</string>
+    <string name="social_back">戻る</string>
+    <string name="social_friend_verification">友達認証</string>
+    <string name="social_persona_tag">ペルソナタグ</string>
+    <string name="social_select_circle">追加するサークルを選択してください</string>
+    <string name="social_set_remark_name">備考名を設定</string>
+    <string name="social_set_circle_tag">サークルタグを設定</string>
 
 </resources>

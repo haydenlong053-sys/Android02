@@ -477,4 +477,11 @@
     <string name="需要相机权限是否请求权限">%1$s ຕ້ອງການອະນຸຍາດກ້ອງຖ່າຍຮູບ. ຂໍອະນຸຍາດ?</string>
     <string name="需要存储权限是否请求权限">%1$s ຕ້ອງການອະນຸຍາດການເກັບຮັກສາ. ຂໍອະນຸຍາດ?</string>
 
+    <string name="social_back">Back</string>
+    <string name="social_friend_verification">Friend Verification</string>
+    <string name="social_persona_tag">Persona Tag</string>
+    <string name="social_select_circle">Please select a circle to add</string>
+    <string name="social_set_remark_name">Set Remark Name</string>
+    <string name="social_set_circle_tag">Set Circle Tag</string>
+
 </resources>

@@ -474,5 +474,11 @@
     <string name="拒绝">Ablehnen</string>
     <string name="需要相机权限是否请求权限">%1$s benötigt Kameraberechtigung. Berechtigung anfordern?</string>
     <string name="需要存储权限是否请求权限">%1$s benötigt Speicherberechtigung. Berechtigung anfordern?</string>
+    <string name="social_back">Zurück</string>
+    <string name="social_friend_verification">Freundschaftsverifizierung</string>
+    <string name="social_persona_tag">Persona-Tag</string>
+    <string name="social_select_circle">Bitte wählen Sie einen Kreis zum Hinzufügen</string>
+    <string name="social_set_remark_name">Bemerkungsname festlegen</string>
+    <string name="social_set_circle_tag">Kreis-Tag festlegen</string>
 
 </resources>

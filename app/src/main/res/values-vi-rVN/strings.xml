@@ -474,5 +474,11 @@
     <string name="拒绝">Từ chối</string>
     <string name="需要相机权限是否请求权限">%1$s yêu cầu quyền truy cập camera. Yêu cầu quyền?</string>
     <string name="需要存储权限是否请求权限">%1$s yêu cầu quyền truy cập lưu trữ. Yêu cầu quyền?</string>
+    <string name="social_back">Quay lại</string>
+    <string name="social_friend_verification">Xác minh bạn bè</string>
+    <string name="social_persona_tag">Thẻ nhân vật</string>
+    <string name="social_select_circle">Vui lòng chọn vòng tròn để thêm</string>
+    <string name="social_set_remark_name">Đặt tên ghi chú</string>
+    <string name="social_set_circle_tag">Đặt thẻ vòng tròn</string>
 
 </resources>

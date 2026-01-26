@@ -7,7 +7,7 @@
     android:background="@color/bg_main_space"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lj.FeedbackBroadActivity">
+    >
     <LinearLayout
         android:padding="25dp"
         android:background="@drawable/bg_rect_broad_main"

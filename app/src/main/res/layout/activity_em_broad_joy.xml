@@ -7,7 +7,7 @@
     android:background="@color/bg_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lj.EmjoyBroadActivity">
+    >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -56,8 +56,8 @@
 
                 <ImageView
                     android:id="@+id/ivNoData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     android:src="@mipmap/ic_empty_broad_bg" />
 
                 <TextView

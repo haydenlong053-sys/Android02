@@ -474,5 +474,11 @@
     <string name="拒绝">거부</string>
     <string name="需要相机权限是否请求权限">%1$s에 카메라 권한이 필요합니다. 권한을 요청하시겠습니까?</string>
     <string name="需要存储权限是否请求权限">%1$s에 저장소 권한이 필요합니다. 권한을 요청하시겠습니까?</string>
+    <string name="social_back">뒤로</string>
+    <string name="social_friend_verification">친구 인증</string>
+    <string name="social_persona_tag">페르소나 태그</string>
+    <string name="social_select_circle">추가할 서클을 선택하세요</string>
+    <string name="social_set_remark_name">비고 이름 설정</string>
+    <string name="social_set_circle_tag">서클 태그 설정</string>
 
 </resources>
