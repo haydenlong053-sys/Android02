@@ -1,7 +1,6 @@
 package com.cboda.intelligent.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,6 +75,7 @@ import com.cboda.chatui.contact.ContactViewBroadModel
 import coil.compose.AsyncImage
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -123,7 +123,7 @@ class SocialFragment : Fragment() {
     fun onAppEventReceiver(event: AppBroadEvent<*>?) {
         val eventCode = event?.eventCode
         if (eventCode == AppEventBroadCode.EVENT_REFRESH_CONTACT) {
-            Log.e("SocialFragment", "收到刷新列表的事件通知")
+            eLogD("SocialFragment", "收到刷新列表的事件通知")
             viewModel.refresh()
         }
 

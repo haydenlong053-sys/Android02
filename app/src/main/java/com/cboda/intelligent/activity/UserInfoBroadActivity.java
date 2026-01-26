@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.annotation.SuppressLint;
@@ -10,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -283,9 +283,9 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                     } else if (oldBean.data.sex.isEmpty()) {
                         isChange = true;
                     } else {
-                        Log.e("看看值", "新的值:" + bean.data.sex);
-                        Log.e("看看老值", "老的值:" + oldBean.data.sex);
-                        Log.e("看看值相等", "相等:" + oldBean.data.sex.equals(bean.data.sex));
+                        eLogD("看看值", "新的值:" + bean.data.sex);
+                        eLogD("看看老值", "老的值:" + oldBean.data.sex);
+                        eLogD("看看值相等", "相等:" + oldBean.data.sex.equals(bean.data.sex));
                         if (!bean.data.sex.equals(oldBean.data.sex)) {
                             isChange = true;
                         }

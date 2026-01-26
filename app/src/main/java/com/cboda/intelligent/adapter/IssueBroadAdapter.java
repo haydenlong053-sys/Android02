@@ -1,7 +1,8 @@
 package com.cboda.intelligent.adapter;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class IssueBroadAdapter extends RecyclerView.Adapter<IssueBroadAdapter.My
 
 
         String htmlContent = "<html><head><style type=\"text/css\">body { background-color: "+colorBgCode+"; color: +"+colorContentCode+"; }</style></head><body>"+list.get(position).context+"</body></html>";
-        Log.e("html", htmlContent);
+        eLogD("html", htmlContent);
 //        holder.webView.loadData(htmlContent, "text/html", "UTF-8");
         holder.webView.loadData(list.get(position).context, "text/html", "UTF-8");
         holder.webView.setWebViewClient(new WebViewClient() {
@@ -60,7 +61,7 @@ public class IssueBroadAdapter extends RecyclerView.Adapter<IssueBroadAdapter.My
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 // 这里可以检查是否有错误日志或尝试重新加载等操作
-                Log.e("html","onPageFinished");
+                eLogD("html","onPageFinished");
 
                 view.evaluateJavascript(
                         "(function() {" +

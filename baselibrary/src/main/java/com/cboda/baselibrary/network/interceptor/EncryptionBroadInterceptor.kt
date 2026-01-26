@@ -1,6 +1,5 @@
 package com.cboda.baselibrary.network.interceptor
 
-import android.util.Log
 import com.cboda.baselibrary.utils.AESBroadUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug

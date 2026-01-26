@@ -3,7 +3,6 @@ package com.cboda.intelligent
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -269,7 +268,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 tongxunluUnreadCount = zongshu.toString()
 //                ChatManager.Instance().haoyoushenqing = this.fris
                 ChatManager.Instance().qunshenqing = this.gros
-                Log.e("看看未读", "main$tongxunluUnreadCount")
+                eLogD("看看未读", "main$tongxunluUnreadCount")
                 EventBus.getDefault().post(
                     UnreadCountBroadEvent(
                         null,

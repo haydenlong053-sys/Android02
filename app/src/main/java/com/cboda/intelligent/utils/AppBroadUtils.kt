@@ -10,7 +10,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.telephony.TelephonyManager
-import android.util.Log
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import cn.wildfirechat.model.Conversation
@@ -21,6 +20,7 @@ import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.eLogD
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -130,9 +130,7 @@ class AppBroadUtils {
         }
 
         fun debug(tag: String, exception: String) {
-            if (BuildConfig.DEBUG) {
-                Log.e(tag, exception)
-            }
+            eLogD(tag, exception)
         }
 
         fun createQRImage(

@@ -1,13 +1,12 @@
 package com.cboda.intelligent.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.model.CreateMeetingRequest
 import com.cboda.intelligent.model.CreateMeetingResponse
 import com.cboda.intelligent.model.MeetingCreateUiState
@@ -67,19 +66,19 @@ class MeetingCreateViewBroadModel(
                             allMute = config.allMute,
                             isNonPayPwd = config.isNonPayPwd
                         )
-                        
-                        Log.d("MeetingCreateViewBroadModel", "Processed TimeOptions: ${processedTimeOptions.map { "${it.name}(id=${it.id})" }}")
+
+                        eLogD("MeetingCreateViewBroadModel", "Processed TimeOptions: ${processedTimeOptions.map { "${it.name}(id=${it.id})" }}")
                     }
                 }
                 .onFailure { code, message, data ->
-                    Log.e("MeetingCreateViewBroadModel", "加载会议配置失败onFailure: $message, data: $data")
+                    eLogD("MeetingCreateViewBroadModel", "加载会议配置失败onFailure: $message, data: $data")
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         error = message ?: "加载配置失败"
                     )
                 }
                 .onError { error ->
-                    Log.e("MeetingCreateViewBroadModel", "加载会议配置失败onError: ${error.message}")
+                    eLogD("MeetingCreateViewBroadModel", "加载会议配置失败onError: ${error.message}")
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         error = error.message ?: "加载配置失败"
@@ -209,7 +208,7 @@ class MeetingCreateViewBroadModel(
                     }
                 }
                 .onFailure { code, msg, data ->
-                    Log.e("MeetingCreateViewBroadModel", "价格查询失败onFailure: code=$code, msg=$msg, data=$data")
+                    eLogD("MeetingCreateViewBroadModel", "价格查询失败onFailure: code=$code, msg=$msg, data=$data")
                     // 价格查询失败，保持原有价格，只取消加载状态
                     _uiState.value = _uiState.value.copy(isPriceLoading = false)
                     // 可以选择是否显示错误提示，这里暂时不显示
@@ -412,7 +411,7 @@ class MeetingCreateViewBroadModel(
                 val date = dateFormat.parse(dateTimeString)
                 date?.time ?: 0L // 直接使用毫秒级时间戳
             } catch (e: Exception) {
-                Log.e("MeetingCreateViewBroadModel", "Failed to parse date time: ${currentState.selectedDate} ${currentState.selectedTime}", e)
+                eLogD("MeetingCreateViewBroadModel", "Failed to parse date time: ${currentState.selectedDate} ${currentState.selectedTime}", e)
                 0L
             }
             
@@ -427,8 +426,8 @@ class MeetingCreateViewBroadModel(
                 allMute = currentState.allMute,
                 isNonPayPwd = currentState.isNonPayPwd
             )
-            
-            Log.d("MeetingCreateViewBroadModel", "Creating meeting with timestamp: $startTimeTimestamp ms (${currentState.selectedDate} ${currentState.selectedTime})")
+
+            eLogD("MeetingCreateViewBroadModel", "Creating meeting with timestamp: $startTimeTimestamp ms (${currentState.selectedDate} ${currentState.selectedTime})")
             
             repository.createMeeting(request)
                 .onSuccess {
@@ -440,7 +439,7 @@ class MeetingCreateViewBroadModel(
                     onError(it.message ?: "创建会议失败",-1)
                 }
                 .onFailure { code, message, data ->
-                    Log.e("MeetingCreateViewBroadModel", "创建会议失败onFailure: code=$code, message=$message, data=$data")
+                    eLogD("MeetingCreateViewBroadModel", "创建会议失败onFailure: code=$code, message=$message, data=$data")
                     _uiState.value = _uiState.value.copy(isLoading = false)
                     if (data!=null){
                         onError(message?:"创建失败",code)
