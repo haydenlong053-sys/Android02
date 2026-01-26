@@ -468,5 +468,11 @@
     <string name="scan_applied_waiting_group_owner">Richiesta inviata, in attesa dell\'approvazione del proprietario del gruppo</string>
     <string name="scan_invalid_qr_code_type">Tipo di codice QR non valido</string>
     <string name="scan_login_request_failed">Richiesta di accesso fallita, riprova</string>
+    <string name="拍摄">Scatta Foto</string>
+    <string name="从相册中选取">Seleziona dall\'Album</string>
+    <string name="同意">Accetta</string>
+    <string name="拒绝">Rifiuta</string>
+    <string name="需要相机权限是否请求权限">%1$s richiede l\'autorizzazione della fotocamera. Richiedere l\'autorizzazione?</string>
+    <string name="需要存储权限是否请求权限">%1$s richiede l\'autorizzazione di archiviazione. Richiedere l\'autorizzazione?</string>
 
 </resources>

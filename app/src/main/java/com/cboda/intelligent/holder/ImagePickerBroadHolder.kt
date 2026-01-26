@@ -12,6 +12,7 @@ import com.cboda.select.picture.config.SelectModeConfig
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.select.picture.interfaces.OnResultCallbackListener
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.R
 
 /**
  * 简述： <功能描述>
@@ -28,7 +29,7 @@ class ImagePickerBroadHolder(private val activity: Context?) {
         isGif: Boolean? = false
     ) {
         if (bottomHoder == null) {
-            bottomHoder = BottomDialogBroadHolder(activity, contentList = arrayListOf("拍摄", "从相册中选取"))
+            bottomHoder = BottomDialogBroadHolder(activity, contentList = arrayListOf(activity?.getString(R.string.拍摄) ?: "拍摄", activity?.getString(R.string.从相册中选取) ?: "从相册中选取"))
         }
         bottomHoder?.callBack = object : BottomDialogBroadHolder.BottomDialogClickCallBack {
             override fun clickItem(position: Int) {
@@ -41,10 +42,10 @@ class ImagePickerBroadHolder(private val activity: Context?) {
                         } else {
                             val holder3 = CommanConfimBroadHolder(
                                 activity,
-                                "温馨提示",
-                                "${AppBroadUtils.getAppName(activity)}需要相机权限,是否请求权限?",
-                                "同意",
-                                "拒绝"
+                                activity?.getString(R.string.温馨提示) ?: "温馨提示",
+                                activity?.getString(R.string.需要相机权限是否请求权限, AppBroadUtils.getAppName(activity)) ?: "${AppBroadUtils.getAppName(activity)}需要相机权限,是否请求权限?",
+                                activity?.getString(R.string.同意) ?: "同意",
+                                activity?.getString(R.string.拒绝) ?: "拒绝"
                             )
                             holder3.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                                 override fun onClickConfim(isConfim: Boolean) {
@@ -71,10 +72,10 @@ class ImagePickerBroadHolder(private val activity: Context?) {
                         } else {
                             val holder3 = CommanConfimBroadHolder(
                                 activity,
-                                "温馨提示",
-                                "${AppBroadUtils.getAppName(activity)}需要存储权限,是否请求权限?",
-                                "同意",
-                                "拒绝"
+                                activity?.getString(R.string.温馨提示) ?: "温馨提示",
+                                activity?.getString(R.string.需要存储权限是否请求权限, AppBroadUtils.getAppName(activity)) ?: "${AppBroadUtils.getAppName(activity)}需要存储权限,是否请求权限?",
+                                activity?.getString(R.string.同意) ?: "同意",
+                                activity?.getString(R.string.拒绝) ?: "拒绝"
                             )
                             holder3.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                                 override fun onClickConfim(isConfim: Boolean) {

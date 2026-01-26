@@ -468,5 +468,11 @@
     <string name="scan_applied_waiting_group_owner">An yi amfani, ana jiran amincewar mai rukunin</string>
     <string name="scan_invalid_qr_code_type">Nau\'in lambar QR mara inganci</string>
     <string name="scan_login_request_failed">Bukatar shiga ta gaza, da fatan za a sake gwadawa</string>
+    <string name="拍摄">Dauki Hoto</string>
+    <string name="从相册中选取">Zaɓi daga Album</string>
+    <string name="同意">Yarda</string>
+    <string name="拒绝">Ƙi</string>
+    <string name="需要相机权限是否请求权限">%1$s yana buƙatar izinin kamara. Nemi izini?</string>
+    <string name="需要存储权限是否请求权限">%1$s yana buƙatar izinin ajiya. Nemi izini?</string>
 
 </resources>

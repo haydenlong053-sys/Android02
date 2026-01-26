@@ -468,5 +468,11 @@
     <string name="scan_applied_waiting_group_owner">Đã nộp đơn, đang chờ chủ nhóm phê duyệt</string>
     <string name="scan_invalid_qr_code_type">Loại mã QR không hợp lệ</string>
     <string name="scan_login_request_failed">Yêu cầu đăng nhập thất bại, vui lòng thử lại</string>
+    <string name="拍摄">Chụp Ảnh</string>
+    <string name="从相册中选取">Chọn từ Album</string>
+    <string name="同意">Đồng ý</string>
+    <string name="拒绝">Từ chối</string>
+    <string name="需要相机权限是否请求权限">%1$s yêu cầu quyền truy cập camera. Yêu cầu quyền?</string>
+    <string name="需要存储权限是否请求权限">%1$s yêu cầu quyền truy cập lưu trữ. Yêu cầu quyền?</string>
 
 </resources>

@@ -470,5 +470,11 @@
     <string name="scan_applied_waiting_group_owner">Aplicat, așteptând aprobarea proprietarului grupului</string>
     <string name="scan_invalid_qr_code_type">Tip de cod QR nevalid</string>
     <string name="scan_login_request_failed">Cererea de conectare a eșuat, vă rugăm să încercați din nou</string>
+    <string name="拍摄">Faceți o fotografie</string>
+    <string name="从相册中选取">Selectați din Album</string>
+    <string name="同意">Acceptați</string>
+    <string name="拒绝">Respingeți</string>
+    <string name="需要相机权限是否请求权限">%1$s necesită permisiunea camerei. Solicitați permisiunea?</string>
+    <string name="需要存储权限是否请求权限">%1$s necesită permisiunea de stocare. Solicitați permisiunea?</string>
 
 </resources>

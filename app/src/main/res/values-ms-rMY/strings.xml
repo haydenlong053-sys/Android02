@@ -471,5 +471,11 @@
     <string name="scan_applied_waiting_group_owner">Telah memohon, menunggu kelulusan pemilik kumpulan</string>
     <string name="scan_invalid_qr_code_type">Jenis kod QR tidak sah</string>
     <string name="scan_login_request_failed">Permintaan log masuk gagal, sila cuba lagi</string>
+    <string name="拍摄">Ambil Foto</string>
+    <string name="从相册中选取">Pilih dari Album</string>
+    <string name="同意">Setuju</string>
+    <string name="拒绝">Tolak</string>
+    <string name="需要相机权限是否请求权限">%1$s memerlukan kebenaran kamera. Minta kebenaran?</string>
+    <string name="需要存储权限是否请求权限">%1$s memerlukan kebenaran storan. Minta kebenaran?</string>
 
 </resources>

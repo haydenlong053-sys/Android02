@@ -105,7 +105,7 @@ public class RechargeBroadActivity extends BaseSimpleBroadActivity implements Vi
             if (XXPermissions.isGranted(this, perms)) {
                 pmsSuccess();
             } else {
-                new NormalBroadDialog(this, getString(R.string.温馨提示), "使用选择图片功能需要相机、存储权限，是否请求权限？", "取消", "确定", true)
+                new NormalBroadDialog(this, getString(R.string.温馨提示), getString(R.string.select_image_permission_request), getString(R.string.quxiao), getString(R.string.queding), true)
                         .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
                             @Override
                             public void OnRightClick() {

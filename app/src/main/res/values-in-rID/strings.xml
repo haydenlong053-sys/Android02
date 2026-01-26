@@ -469,5 +469,11 @@
     <string name="scan_applied_waiting_group_owner">Diajukan, menunggu persetujuan pemilik grup</string>
     <string name="scan_invalid_qr_code_type">Jenis kode QR tidak valid</string>
     <string name="scan_login_request_failed">Permintaan login gagal, silakan coba lagi</string>
+    <string name="拍摄">Ambil Foto</string>
+    <string name="从相册中选取">Pilih dari Album</string>
+    <string name="同意">Setuju</string>
+    <string name="拒绝">Tolak</string>
+    <string name="需要相机权限是否请求权限">%1$s memerlukan izin kamera. Minta izin?</string>
+    <string name="需要存储权限是否请求权限">%1$s memerlukan izin penyimpanan. Minta izin?</string>
 
 </resources>

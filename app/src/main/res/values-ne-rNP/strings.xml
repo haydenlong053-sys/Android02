@@ -470,5 +470,11 @@
     <string name="scan_applied_waiting_group_owner">आवेदन गरियो, समूह मालिकको स्वीकृतिको लागि प्रतीक्षा गरिरहेको छ</string>
     <string name="scan_invalid_qr_code_type">अवैध QR कोड प्रकार</string>
     <string name="scan_login_request_failed">लगइन अनुरोध असफल भयो, कृपया पुनः प्रयास गर्नुहोस्</string>
+    <string name="拍摄">फोटो लिनुहोस्</string>
+    <string name="从相册中选取">एल्बमबाट छान्नुहोस्</string>
+    <string name="同意">सहमत</string>
+    <string name="拒绝">अस्वीकार</string>
+    <string name="需要相机权限是否请求权限">%1$s लाई क्यामेरा अनुमति चाहिन्छ। अनुमति अनुरोध गर्नुहुन्छ?</string>
+    <string name="需要存储权限是否请求权限">%1$s लाई भण्डारण अनुमति चाहिन्छ। अनुमति अनुरोध गर्नुहुन्छ?</string>
 
 </resources>

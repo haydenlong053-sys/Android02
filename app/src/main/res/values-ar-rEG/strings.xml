@@ -468,5 +468,11 @@
     <string name="scan_applied_waiting_group_owner">تم التقديم، في انتظار موافقة مالك المجموعة</string>
     <string name="scan_invalid_qr_code_type">نوع رمز QR غير صالح</string>
     <string name="scan_login_request_failed">فشل طلب تسجيل الدخول، يرجى المحاولة مرة أخرى</string>
+    <string name="拍摄">التقاط صورة</string>
+    <string name="从相册中选取">اختر من الألبوم</string>
+    <string name="同意">موافق</string>
+    <string name="拒绝">رفض</string>
+    <string name="需要相机权限是否请求权限">يتطلب %1$s إذن الكاميرا. طلب الإذن؟</string>
+    <string name="需要存储权限是否请求权限">يتطلب %1$s إذن التخزين. طلب الإذن؟</string>
 
 </resources>

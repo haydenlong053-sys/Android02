@@ -471,5 +471,11 @@
     <string name="scan_applied_waiting_group_owner">Na-apply na, naghihintay ng pag-apruba ng may-ari ng grupo</string>
     <string name="scan_invalid_qr_code_type">Hindi wasto na uri ng QR code</string>
     <string name="scan_login_request_failed">Nabigo ang login request, pakisubukan ulit</string>
+    <string name="拍摄">Kumuha ng Larawan</string>
+    <string name="从相册中选取">Pumili mula sa Album</string>
+    <string name="同意">Sumang-ayon</string>
+    <string name="拒绝">Tanggihan</string>
+    <string name="需要相机权限是否请求权限">Nangangailangan ang %1$s ng pahintulot sa camera. Humingi ng pahintulot?</string>
+    <string name="需要存储权限是否请求权限">Nangangailangan ang %1$s ng pahintulot sa storage. Humingi ng pahintulot?</string>
 
 </resources>
