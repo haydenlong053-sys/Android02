@@ -30,13 +30,12 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "${andx.appcompat}"
 //    implementation "com.cboda.video.compressor:isoparser:1.0.0"
 //    implementation "com.cboda.video.compressor:aspectjrt:1.0.0"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/broad_isoparser-1.0.6.jar')
     implementation files('libs/broad_aspectjrt-1.7.3.jar')
-
+    implementation "${andx.appcompat}"
 //    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    })
