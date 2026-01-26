@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_main"
     android:orientation="vertical"
-    tools:context=".lj.LanguageBroadActivity">
+    >
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ryLangeuage"
         android:layout_width="match_parent"
