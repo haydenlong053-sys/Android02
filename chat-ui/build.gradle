@@ -76,26 +76,26 @@ dependencies {
     api files('libs/broad_chat_libwebrtc.aar')
     api files('libs/broad_chat_emoji.aar')
     api project(':chat-client')
-    api "${andx.appcompat}"
-    api "${thirdPartyApis.material}"
-    api "${thirdPartyApis.glide}"
-    api "${andx.lifecycle_process}"
-    api "${thirdPartyApis.flexbox}"
-    api "${thirdPartyApis.afollestad_core}"
-    api "${thirdPartyApis.king_zxing}"
-    api "${thirdPartyApis.WheelPicker}"
-    implementation "${andx.swiperefreshlayout}"
-    implementation "${thirdPartyApis.eventbus}"
-    implementation "${thirdPartyApis.ucrop}"
-    implementation "${thirdPartyApis.gson}"
-    implementation "${thirdPartyApis.lqr_adapter_library}"
-    implementation "${thirdPartyApis.statusbaruitl}"
-    implementation "${thirdPartyApis.wheel_camera}"
-    implementation "${thirdPartyApis.PhotoView}"
-    implementation "${andx.gridlayout}"
-    implementation "${thirdPartyApis.kvh_amr}"
-    implementation "${thirdPartyApis.viewpagerdotsindicator}"
-    coreLibraryDesugaring "${thirdPartyApis.desugar_jdk_libs}"
+    api libs.androidx.appcompat
+    api libs.material
+    api libs.glide
+    api libs.androidx.lifecycle.process
+    api libs.flexbox
+    api libs.afollestad.core
+    api libs.king.zxing
+    api libs.wheelpicker
+    implementation libs.androidx.swiperefreshlayout
+    implementation libs.eventbus
+    implementation libs.ucrop
+    implementation libs.gson
+    implementation libs.lqr.adapter.library
+    implementation libs.statusbaruitl
+    implementation libs.wheel.camera
+    implementation libs.photoview
+    implementation libs.androidx.gridlayout
+    implementation libs.kvh.amr
+    implementation libs.viewpagerdotsindicator
+    coreLibraryDesugaring libs.desugar.jdk.libs
 //    api project(':chat-emoji')
 //    api files('libs/broad_chat_client.aar')
 //    api project(':baselibrary')

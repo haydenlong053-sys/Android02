@@ -1,41 +1,173 @@
 [versions]
 agp = "8.12.3"
 kotlin = "2.2.0"
-
-
-
-
 coreKtx = "1.17.0"
-junit = "4.14-SNAPSHOT"
-junitVersion = "1.3.0"
-espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.12.2"
-composeBom = "2024.09.00"
 appcompat = "1.7.1"
-material = "1.13.0"
-
+constraintlayout = "2.2.1"
+ax_activity = "1.13.0-alpha01"
+ax_fragment = "1.8.9"
+ax_compose = "1.12.2"
+swiperefreshlayout = "1.2.0"
+compose_ui = "1.11.0-alpha02"
+material3 = "1.5.0-alpha11"
+ui_tooling_preview = "1.11.0-alpha02"
+constraintlayout_compose = "1.1.1"
+navigation_compose = "2.9.6"
+material_icons_core = "1.7.8"
+material_icons_extended = "1.7.8"
+compose_material = "1.11.0-alpha02"
+material = "1.14.0-alpha08"
+transformations = "4.3.0"
+immersionbar = "3.2.2"
+xxpermissions = "20.0"
+okgo = "3.0.4"
+gson = "2.13.2"
+xbanner = "1.9.1"
+pickerview = "4.1.9"
+eventbus = "3.3.1"
+sonic = "3.1.0"
+zxing = "3.5.4"
+shadowlayout = "3.4.5"
+zxingscanner = "2.2.0"
+roundedimageview = "2.3.0"
+bigimageviewpager = "androidx-6.0.1"
+mnpasswordedittext = "V1.0.4"
+easypermissions = "3.0.0"
+permissiongen = "0.1.1"
+gsyvideoplayer = "v8.3.4-release-jitpack"
+rxandroid = "2.1.1"
+rxjava = "2.2.21"
+rxpermissions = "2.x.v0.9.3"
+swipedelmenulayout = "v1.0.0"
+haze = "1.7.1"
+xpopup = "2.10.0"
+desugar_jdk_libs = "2.1.5"
+magicindicator = "1.7.0"
+basepopup = "3.2.1"
+retrofit2_retrofit = "3.0.0"
+retrofit2_converter_gson = "3.0.0"
+coil_compose = "2.7.0"
+lottie = "6.7.1"
+bugly = "4.1.9.3"
+mmkv = "2.3.0"
+shapeview = "8.5"
+util_codex = "1.31.1"
+glide = "5.0.5"
+lucksiege_compress = "v3.11.3"
+circleprogressbar = "1.4.1"
+baserecyclerviewadapterhelper = "3.0.10"
+ucrop = "v3.11.2"
+refresh_layout_kernel = "3.0.0-alpha"
+refresh_header_material = "3.0.0-alpha"
+refresh_footer_ball = "3.0.0-alpha"
+okhttp3 = "5.3.2"
+kotlin_stdlib = "2.3.0"
+kotlinx_coroutines = "1.10.2"
+okio = "3.16.4"
+lifecycle_viewmodel_ktx = "2.10.0"
+lifecycle_livedata_ktx = "2.10.0"
+lifecycle_process = "2.10.0"
+gridlayout = "1.1.0"
+flexbox = "2.0.1"
+afollestad_core = "0.9.6.0"
+king_zxing = "2.0.3"
+wheelpicker = "1.1.3"
+lqr_adapter_library = "1.0.2"
+statusbaruitl = "1.5.0"
+wheel_camera = "1.1.9"
+photoview = "2.3.0"
+kvh_amr = "1.1.1"
+viewpagerdotsindicator = "4.1.2"
+recyclerview = "1.4.0"
+exifinterface = "1.4.2"
+viewpager2 = "1.1.0"
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx_core = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx_appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx_constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx_activity = { group = "androidx.activity", name = "activity", version.ref = "ax_activity" }
+androidx_fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "ax_fragment" }
+androidx_compose = { group = "androidx.activity", name = "activity-compose", version.ref = "ax_compose" }
+androidx_swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+androidx_compose_ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose_ui" }
+androidx_material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx_ui_tooling_preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "ui_tooling_preview" }
+androidx_constraintlayout_compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout_compose" }
+androidx_navigation_compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation_compose" }
+androidx_material_icons_core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "material_icons_core" }
+androidx_material_icons_extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "material_icons_extended" }
+androidx_compose_material = { group = "androidx.compose.material", name = "material", version.ref = "compose_material" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-
+transformations = { group = "jp.wasabeef", name = "glide-transformations", version.ref = "transformations" }
+immersionbar = { group = "com.geyifeng.immersionbar", name = "immersionbar", version.ref = "immersionbar" }
+xxpermissions = { group = "com.github.getActivity", name = "XXPermissions", version.ref = "xxpermissions" }
+okgo = { group = "com.lzy.net", name = "okgo", version.ref = "okgo" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+xbanner = { group = "com.github.xiaohaibin", name = "XBanner", version.ref = "xbanner" }
+pickerview = { group = "com.contrarywind", name = "Android-PickerView", version.ref = "pickerview" }
+eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
+sonic = { group = "com.tencent.sonic", name = "sdk", version.ref = "sonic" }
+zxing = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
+shadowlayout = { group = "com.github.lihangleo2", name = "ShadowLayout", version.ref = "shadowlayout" }
+zxingscanner = { group = "com.mylhyl", name = "zxingscanner", version.ref = "zxingscanner" }
+roundedimageview = { group = "com.makeramen", name = "roundedimageview", version.ref = "roundedimageview" }
+bigimageviewpager = { group = "com.github.SherlockGougou", name = "BigImageViewPager", version.ref = "bigimageviewpager" }
+mnpasswordedittext = { group = "com.github.maning0303", name = "MNPasswordEditText", version.ref = "mnpasswordedittext" }
+easypermissions = { group = "pub.devrel", name = "easypermissions", version.ref = "easypermissions" }
+permissiongen = { group = "com.lovedise", name = "permissiongen", version.ref = "permissiongen" }
+gsyvideoplayer = { group = "com.github.CarGuo.GSYVideoPlayer", name = "GSYVideoPlayer", version.ref = "gsyvideoplayer" }
+rxandroid = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxandroid" }
+rxjava = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxjava" }
+rxpermissions = { group = "com.github.tbruyelle", name = "rxpermissions", version.ref = "rxpermissions" }
+swipedelmenulayout = { group = "com.github.mcxtzhang", name = "SwipeDelMenuLayout", version.ref = "swipedelmenulayout" }
+haze = { group = "dev.chrisbanes.haze", name = "haze", version.ref = "haze" }
+xpopup = { group = "com.github.li-xiaojun", name = "XPopup", version.ref = "xpopup" }
+desugar_jdk_libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
+magicindicator = { group = "com.github.hackware1993", name = "MagicIndicator", version.ref = "magicindicator" }
+basepopup = { group = "io.github.razerdp", name = "BasePopup", version.ref = "basepopup" }
+retrofit2_retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2_retrofit" }
+retrofit2_converter_gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2_converter_gson" }
+coil_compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil_compose" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+bugly = { group = "com.tencent.bugly", name = "crashreport", version.ref = "bugly" }
+mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
+shapeview = { group = "com.github.getActivity", name = "ShapeView", version.ref = "shapeview" }
+util_codex = { group = "com.blankj", name = "utilcodex", version.ref = "util_codex" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+lucksiege_compress = { group = "io.github.lucksiege", name = "compress", version.ref = "lucksiege_compress" }
+circleprogressbar = { group = "io.github.dinuscxj", name = "circleprogressbar", version.ref = "circleprogressbar" }
+baserecyclerviewadapterhelper = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "baserecyclerviewadapterhelper" }
+ucrop = { group = "io.github.lucksiege", name = "ucrop", version.ref = "ucrop" }
+refresh_layout_kernel = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "refresh_layout_kernel" }
+refresh_header_material = { group = "io.github.scwang90", name = "refresh-header-material", version.ref = "refresh_header_material" }
+refresh_footer_ball = { group = "io.github.scwang90", name = "refresh-footer-ball", version.ref = "refresh_footer_ball" }
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
+kotlin_stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin_stdlib" }
+kotlinx_coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx_coroutines" }
+okio = { group = "com.squareup.okio", name = "okio", version.ref = "okio" }
+androidx_lifecycle_viewmodel_ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle_viewmodel_ktx" }
+androidx_lifecycle_livedata_ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle_livedata_ktx" }
+androidx_lifecycle_process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycle_process" }
+androidx_gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
+flexbox = { group = "com.google.android", name = "flexbox", version.ref = "flexbox" }
+afollestad_core = { group = "com.afollestad.material-dialogs", name = "core", version.ref = "afollestad_core" }
+king_zxing = { group = "com.king.zxing", name = "zxing-lite", version.ref = "king_zxing" }
+wheelpicker = { group = "cn.aigestudio.wheelpicker", name = "WheelPicker", version.ref = "wheelpicker" }
+lqr_adapter_library = { group = "com.lqr.adapter", name = "library", version.ref = "lqr_adapter_library" }
+statusbaruitl = { group = "com.jaeger.statusbaruitl", name = "library", version.ref = "statusbaruitl" }
+wheel_camera = { group = "cjt.library.wheel", name = "camera", version.ref = "wheel_camera" }
+photoview = { group = "com.github.chrisbanes", name = "PhotoView", version.ref = "photoview" }
+kvh_amr = { group = "io.kvh", name = "amr", version.ref = "kvh_amr" }
+viewpagerdotsindicator = { group = "com.tbuonomo.andrui", name = "viewpagerdotsindicator", version.ref = "viewpagerdotsindicator" }
+androidx_recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+androidx_exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }
+androidx_viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewpager2" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+
+
+
 

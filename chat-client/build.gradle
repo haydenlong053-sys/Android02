@@ -67,14 +67,14 @@ dependencies {
 //    api 'com.cboda.chat:broadChat:1.0.0'
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     api files('libs/broad_chat.aar')
-    api "${thirdPartyApis.okhttp3}"
+    api libs.okhttp3
     api project(':baselibrary')
-    implementation "${thirdPartyApis.kotlinx_coroutines}"
-    implementation "${thirdPartyApis.okio}"
-    implementation "${andx.core}"
-    implementation "${andx.lifecycle_viewmodel_ktx}"
-    implementation "${andx.lifecycle_livedata_ktx}"
-    implementation "${andx.lifecycle_process}"
+    implementation libs.kotlinx.coroutines
+    implementation libs.okio
+    implementation libs.androidx.core
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.lifecycle.livedata.ktx
+    implementation libs.androidx.lifecycle.process
 }
 
 // ==================== Maven 发布配置：将 AAR 发布到本地 Maven 仓库 ====================
