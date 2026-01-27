@@ -47,5 +47,5 @@ dependencies {
     implementation libs.androidx.exifinterface
     implementation libs.androidx.viewpager2
     implementation libs.androidx.constraintlayout
-    implementation "${thirdPartyApis.util_codex}"
+    implementation libs.util.codex
 }
