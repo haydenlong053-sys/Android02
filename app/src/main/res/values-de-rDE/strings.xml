@@ -481,4 +481,10 @@
     <string name="social_set_remark_name">Bemerkungsname festlegen</string>
     <string name="social_set_circle_tag">Kreis-Tag festlegen</string>
 
+    <string name="ai_detection_failed_retry_later">Erkennung fehlgeschlagen, bitte versuchen Sie es später erneut!</string>
+    <string name="circle_intimate">Intimer Kreis</string>
+    <string name="circle_social">Sozialer Kreis</string>
+    <string name="circle_work">Arbeitskreis</string>
+    <string name="circle_public_relations">PR-Kreis</string>
+
 </resources>

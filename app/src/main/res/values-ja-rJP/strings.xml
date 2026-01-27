@@ -481,4 +481,10 @@
     <string name="social_set_remark_name">備考名を設定</string>
     <string name="social_set_circle_tag">サークルタグを設定</string>
 
+    <string name="ai_detection_failed_retry_later">検出に失敗しました。後でもう一度お試しください!</string>
+    <string name="circle_intimate">親密なサークル</string>
+    <string name="circle_social">ソーシャルサークル</string>
+    <string name="circle_work">仕事のサークル</string>
+    <string name="circle_public_relations">PRサークル</string>
+
 </resources>

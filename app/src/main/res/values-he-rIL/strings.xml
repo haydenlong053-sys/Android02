@@ -482,4 +482,10 @@
     <string name="social_set_remark_name">Set Remark Name</string>
     <string name="social_set_circle_tag">Set Circle Tag</string>
 
+    <string name="ai_detection_failed_retry_later">Detection failed, please try again later!</string>
+    <string name="circle_intimate">מעגל אינטימי</string>
+    <string name="circle_social">מעגל חברתי</string>
+    <string name="circle_work">מעגל עבודה</string>
+    <string name="circle_public_relations">מעגל יחסי ציבור</string>
+
 </resources>

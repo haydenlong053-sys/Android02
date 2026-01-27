@@ -867,5 +867,16 @@
     <string name="social_select_circle">请选择放入的圈子</string>
     <string name="social_set_remark_name">设置备注名</string>
     <string name="social_set_circle_tag">设置圈子标签</string>
+    <string name="ai_detection_failed_retry_later">检测失败，请稍后重试!</string>
+
+    <string name="circle_intimate">亲密圈</string>
+    <string name="circle_social">社交圈</string>
+    <string name="circle_work">工作圈</string>
+    <string name="circle_public_relations">公关圈</string>
+
+    <string name="circle_intimate_des">家人,恋人,最好的朋友</string>
+    <string name="circle_social_des">朋友,同学,校友,网友</string>
+    <string name="circle_work_des">同事,客户，合作伙伴</string>
+    <string name="circle_public_relations_des">陌生人,临时联系</string>
 
 </resources>

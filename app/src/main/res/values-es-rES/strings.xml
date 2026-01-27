@@ -481,4 +481,10 @@
     <string name="social_set_remark_name">Establecer nombre de nota</string>
     <string name="social_set_circle_tag">Establecer etiqueta de círculo</string>
 
+    <string name="ai_detection_failed_retry_later">La detección falló, por favor intente nuevamente más tarde!</string>
+    <string name="circle_intimate">Círculo Íntimo</string>
+    <string name="circle_social">Círculo Social</string>
+    <string name="circle_work">Círculo de Trabajo</string>
+    <string name="circle_public_relations">Círculo de Relaciones Públicas</string>
+
 </resources>

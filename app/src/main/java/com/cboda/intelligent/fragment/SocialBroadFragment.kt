@@ -52,6 +52,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -79,6 +80,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
+import com.cboda.intelligent.utils.goTempTranslateString
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -477,8 +479,10 @@ private fun CirclesRow(
             CircleInteractionBroadMode.ToggleSingleNoAll -> {
                 circles.forEach { c ->
                     val isSelected = selectedTag == c.characterTags
+                    //此处文案翻译临时处理，后端接口文案一直是中文
                     Chip(
-                        text = c.characterTags,
+//                        text = c.characterTags,
+                        text = goTempTranslateString(LocalContext.current,c.characterTags),
                         selected = isSelected,
                         onClick = { onSelect(if (isSelected) null else c.characterTags) },
                         minWidth = minChipWidth
@@ -499,7 +503,7 @@ private fun CharacterExplanation(text: String) {
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
-            text = text,
+            text =  goTempTranslateString(LocalContext.current,text),
             fontSize = 14.sp,
             color = Color.Black.copy(0.65f),
             lineHeight = TextUnit(19.6f, TextUnitType.Sp),
@@ -632,9 +636,12 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                                 .padding(horizontal = 4.dp, vertical = 2.dp)
                         ) {
                             Text(
-                                text = contact.characterTags,
+//                                text = contact.characterTags,
+                                text = goTempTranslateString(LocalContext.current,contact.characterTags),
                                 fontSize = 11.sp,
-                                color = Color(0xFF3B47DD)
+                                color = Color(0xFF3B47DD),
+                                overflow= TextOverflow.Ellipsis,
+                                maxLines = 1,
                             )
                         }
                     }

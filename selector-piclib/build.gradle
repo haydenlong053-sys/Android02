@@ -40,12 +40,12 @@ ext {
 }
 
 dependencies {
-    implementation "${andx.appcompat}"
-    implementation "${andx.recyclerview}"
-    implementation "${andx.activity}"
-    implementation "${andx.fragment}"
-    implementation "${andx.exifinterface}"
-    implementation "${andx.viewpager2}"
-    implementation "${andx.constraintlayout}"
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.activity
+    implementation libs.androidx.fragment
+    implementation libs.androidx.exifinterface
+    implementation libs.androidx.viewpager2
+    implementation libs.androidx.constraintlayout
     implementation "${thirdPartyApis.util_codex}"
 }

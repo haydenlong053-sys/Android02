@@ -481,4 +481,10 @@
     <string name="social_set_remark_name">Đặt tên ghi chú</string>
     <string name="social_set_circle_tag">Đặt thẻ vòng tròn</string>
 
+    <string name="ai_detection_failed_retry_later">Phát hiện thất bại, vui lòng thử lại sau!</string>
+    <string name="circle_intimate">Vòng tròn thân mật</string>
+    <string name="circle_social">Vòng tròn xã hội</string>
+    <string name="circle_work">Vòng tròn công việc</string>
+    <string name="circle_public_relations">Vòng tròn quan hệ công chúng</string>
+
 </resources>

@@ -273,7 +273,7 @@ class AiAllFragment :
             viewModel.postFiles(riskType, resourceType, selectData).observe(this) { pair ->
                 if (null != aiPostFileDialog) {
                     if (pair.first == null) {
-                        showToastMain(pair.second ?: "检测失败，请稍后重试!")
+                        showToastMain(pair.second ?: getString(R.string.ai_detection_failed_retry_later))
                     } else {
                         clearChooseData()
                         jumpAiCheckResultActivity(requireContext(), pair.first)

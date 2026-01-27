@@ -481,4 +481,10 @@
     <string name="social_set_remark_name">Imposta nome nota</string>
     <string name="social_set_circle_tag">Imposta tag cerchio</string>
 
+    <string name="ai_detection_failed_retry_later">Rilevamento fallito, riprova più tardi!</string>
+    <string name="circle_intimate">Cerchio Intimo</string>
+    <string name="circle_social">Cerchio Sociale</string>
+    <string name="circle_work">Cerchio Lavorativo</string>
+    <string name="circle_public_relations">Cerchio delle Pubbliche Relazioni</string>
+
 </resources>

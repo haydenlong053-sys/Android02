@@ -482,4 +482,10 @@
     <string name="social_set_remark_name">Установить имя заметки</string>
     <string name="social_set_circle_tag">Установить тег круга</string>
 
+    <string name="ai_detection_failed_retry_later">Обнаружение не удалось, пожалуйста, попробуйте позже!</string>
+    <string name="circle_intimate">Близкий круг</string>
+    <string name="circle_social">Социальный круг</string>
+    <string name="circle_work">Рабочий круг</string>
+    <string name="circle_public_relations">PR круг</string>
+
 </resources>

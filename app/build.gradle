@@ -96,7 +96,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all {
-            def fileName = "MyApp_" + "${variant.buildType.name}_" + defaultConfig.versionName + "_" + releaseTime() + ".apk"
+            def fileName = "SeekeWeb4X_" + "${variant.buildType.name}_" + defaultConfig.versionName + "_" + releaseTime() + ".apk"
             outputFileName = fileName
         }
     }
@@ -136,49 +136,49 @@ configurations.all {
 
 dependencies {
     api project(':chat-ui')
-    implementation "${andx.core}"
-    implementation "${andx.appcompat}"
-    implementation "${andx.constraintlayout}"
-    implementation "${andx.activity}"
-    implementation "${andx.fragment}"
-    implementation "${andx.swiperefreshlayout}"
-    implementation "${andx.activity_compose}"
-    implementation "${andx.compose_ui}"
-    implementation "${andx.material3}"
-    implementation "${andx.ui_tooling_preview}"
-    implementation "${andx.constraintlayout_compose}"
-    implementation "${andx.navigation_compose}"
-    implementation "${andx.material_icons_core}"
-    implementation "${andx.material_icons_extended}"
-    implementation "${andx.material}"
-    implementation "${thirdPartyApis.material}"
-    implementation "${thirdPartyApis.transformations}"
-    implementation "${thirdPartyApis.immersionbar}"
-    implementation "${thirdPartyApis.XXPermissions}"
-    implementation "${thirdPartyApis.okgo}"
-    implementation "${thirdPartyApis.gson}"
-    implementation "${thirdPartyApis.XBanner}"
-    implementation "${thirdPartyApis.PickerView}"
-    implementation "${thirdPartyApis.eventbus}"
-    implementation "${thirdPartyApis.sonic}"
-    implementation "${thirdPartyApis.zxing}"
-    implementation "${thirdPartyApis.ShadowLayout}"
-    implementation "${thirdPartyApis.zxingscanner}"
-    implementation "${thirdPartyApis.roundedimageview}"
-    implementation "${thirdPartyApis.BigImageViewPager}"
-    implementation "${thirdPartyApis.MNPasswordEditText}"
-    implementation "${thirdPartyApis.easypermissions}"
-    implementation "${thirdPartyApis.permissiongen}"
-    implementation "${thirdPartyApis.GSYVideoPlayer}"
-    implementation "${thirdPartyApis.rxandroid}"
-    implementation "${thirdPartyApis.rxjava}"
-    implementation "${thirdPartyApis.rxpermissions}"
-    implementation "${thirdPartyApis.SwipeDelMenuLayout}"
-    implementation "${thirdPartyApis.haze}"
-    implementation("${thirdPartyApis.XPopup}") {
+    implementation libs.androidx.core
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.activity
+    implementation libs.androidx.fragment
+    implementation libs.androidx.swiperefreshlayout
+    implementation libs.androidx.compose
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.material3
+    implementation libs.androidx.ui.tooling.preview
+    implementation libs.androidx.constraintlayout.compose
+    implementation libs.androidx.navigation.compose
+    implementation libs.androidx.material.icons.core
+    implementation libs.androidx.material.icons.extended
+    implementation libs.androidx.compose.material
+    implementation libs.material
+    implementation libs.transformations
+    implementation libs.immersionbar
+    implementation libs.xxpermissions
+    implementation libs.okgo
+    implementation libs.gson
+    implementation libs.xbanner
+    implementation libs.pickerview
+    implementation libs.eventbus
+    implementation libs.sonic
+    implementation libs.zxing
+    implementation libs.shadowlayout
+    implementation libs.zxingscanner
+    implementation libs.roundedimageview
+    implementation libs.bigimageviewpager
+    implementation libs.mnpasswordedittext
+    implementation libs.easypermissions
+    implementation libs.permissiongen
+    implementation libs.gsyvideoplayer
+    implementation libs.rxandroid
+    implementation libs.rxjava
+    implementation libs.rxpermissions
+    implementation libs.swipedelmenulayout
+    implementation libs.haze
+    implementation(libs.xpopup) {
         exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
     }
-    coreLibraryDesugaring "${thirdPartyApis.desugar_jdk_libs}"
+    coreLibraryDesugaring libs.desugar.jdk.libs
 //    implementation "${thirdPartyApis.LoadingDialog}"
 //    api project(':baselibrary')
 //    api project(':iMeet')
