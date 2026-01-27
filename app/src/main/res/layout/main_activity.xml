@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main2"
-    tools:context=".MainBroadActivity">
+    android:background="@color/bg_main2">
 
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_bg_top_broad_main"
+        android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        android:adjustViewBounds="true"/>
+        android:src="@mipmap/ic_bg_top_broad_main"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.cboda.intelligent.widge.MyViewBroadPager
         android:id="@+id/viewPager"
@@ -23,27 +21,28 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/touch_intercept_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00000000"
-        android:visibility="gone"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
     <!-- 嵌入 Compose 的底部栏 -->
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_bottom_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="12dp"
-        android:layout_gravity="bottom" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -100,7 +99,7 @@
             <com.cboda.intelligent.widge.CustomClickBroadView
                 android:id="@+id/clickView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,11 +152,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/xiaochengxuLayout"
-            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -217,6 +216,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/wodeLayout"
             android:layout_width="0dp"
