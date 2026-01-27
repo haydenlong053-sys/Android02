@@ -487,5 +487,9 @@
     <string name="social_set_circle_tag">Définir le tag de cercle</string>
 
     <string name="ai_detection_failed_retry_later">La détection a échoué, veuillez réessayer plus tard!</string>
+    <string name="circle_intimate">Cercle Intime</string>
+    <string name="circle_social">Cercle Social</string>
+    <string name="circle_work">Cercle Professionnel</string>
+    <string name="circle_public_relations">Cercle des Relations Publiques</string>
 
 </resources>

@@ -486,5 +486,9 @@
     <string name="social_set_circle_tag">Set Circle Tag</string>
 
     <string name="ai_detection_failed_retry_later">Detection failed, please try again later!</string>
+    <string name="circle_intimate">Malapit na Bilog</string>
+    <string name="circle_social">Sosyal na Bilog</string>
+    <string name="circle_work">Bilog ng Trabaho</string>
+    <string name="circle_public_relations">Bilog ng Relasyong Pampubliko</string>
 
 </resources>

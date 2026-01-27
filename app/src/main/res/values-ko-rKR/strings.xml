@@ -482,5 +482,9 @@
     <string name="social_set_circle_tag">서클 태그 설정</string>
 
     <string name="ai_detection_failed_retry_later">감지 실패, 나중에 다시 시도해주세요!</string>
+    <string name="circle_intimate">친밀한 서클</string>
+    <string name="circle_social">소셜 서클</string>
+    <string name="circle_work">직장 서클</string>
+    <string name="circle_public_relations">PR 서클</string>
 
 </resources>

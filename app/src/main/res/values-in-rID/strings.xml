@@ -484,5 +484,9 @@
     <string name="social_set_circle_tag">Set Circle Tag</string>
 
     <string name="ai_detection_failed_retry_later">Detection failed, please try again later!</string>
+    <string name="circle_intimate">Lingkaran Intim</string>
+    <string name="circle_social">Lingkaran Sosial</string>
+    <string name="circle_work">Lingkaran Kerja</string>
+    <string name="circle_public_relations">Lingkaran Hubungan Masyarakat</string>
 
 </resources>

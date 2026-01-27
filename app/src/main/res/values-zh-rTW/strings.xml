@@ -875,5 +875,9 @@
     <string name="social_set_remark_name">設置備註名</string>
     <string name="social_set_circle_tag">設置圈子標籤</string>
     <string name="ai_detection_failed_retry_later">檢測失敗，請稍後重試!</string>
+    <string name="circle_intimate">親密圈</string>
+    <string name="circle_social">社交圈</string>
+    <string name="circle_work">工作圈</string>
+    <string name="circle_public_relations">公關圈</string>
 
 </resources>

@@ -868,4 +868,16 @@
     <string name="social_set_remark_name">Set Remark Name</string>
     <string name="social_set_circle_tag">Set Circle Tag</string>
     <string name="ai_detection_failed_retry_later">Detection failed, please try again later!</string>
+
+    <string name="circle_intimate">Bosom</string>
+    <string name="circle_social">Social</string>
+    <string name="circle_work">Work</string>
+    <string name="circle_public_relations">PR</string>
+
+    <string name="circle_intimate_des">Family, lover, best friends</string>
+    <string name="circle_social_des">Friends, classmates, alumni, online friends</string>
+    <string name="circle_work_des">Colleagues, clients, partners</string>
+    <string name="circle_public_relations_des">Strangers, temporary contacts</string>
+
+
 </resources>
