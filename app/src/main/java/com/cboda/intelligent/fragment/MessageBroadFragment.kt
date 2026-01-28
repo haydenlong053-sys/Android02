@@ -79,6 +79,7 @@ import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.widge.BadgeIndicatorAdapter
 import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
+import com.cboda.select.picture.utils.LanguageUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -299,17 +300,17 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
             intArrayOf(R.string.conversation_tab, R.string.private_group_tab, R.string.public_group_tab, R.string.friend_tab)
         magicIndicator.setBackgroundColor(Color.TRANSPARENT)
         val commonNavigator = CommonBroadNavigator(requireContext())
-        commonNavigator.isAdjustMode = true
+        commonNavigator.isAdjustMode = LanguageUtil.getLanList(MMKVBroadUtils.getAppLanguageKey(requireContext())).startsWith("zh")
         commonNavigator.isSkimOver = true
         indicatorAdapt = BadgeIndicatorAdapter(requireContext(), mResIds, badgeCounts)
         commonNavigator.adapter = indicatorAdapt
         magicIndicator.navigator = commonNavigator
-        
+
         // 绑定 ViewPager 和 MagicIndicator，确保双向同步
         bindIndicatorAndViewPager(
-            magicIndicator, 
-            viewPager, 
-            indicatorAdapt, 
+            magicIndicator,
+            viewPager,
+            indicatorAdapt,
             smoothScroll = false,  // 点击时立即切换，无动画
             commonNavigatorAdapterCanResult = true
         ) { type, position, _, _, _ ->
@@ -322,7 +323,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                 }
             }
         }
-        
+
         // 初始化当前选中页面，确保指示器显示正确状态
         // 需要在布局完成后初始化，以确保位置数据已准备好
 //        magicIndicator.post {
