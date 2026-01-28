@@ -304,10 +304,32 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         indicatorAdapt = BadgeIndicatorAdapter(requireContext(), mResIds, badgeCounts)
         commonNavigator.adapter = indicatorAdapt
         magicIndicator.navigator = commonNavigator
-        bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapt)
-//        magicIndicator.navigator = commonNavigator
-
-//        bindTab(viewPager)
+        
+        // 绑定 ViewPager 和 MagicIndicator，确保双向同步
+        bindIndicatorAndViewPager(
+            magicIndicator, 
+            viewPager, 
+            indicatorAdapt, 
+            smoothScroll = false,  // 点击时立即切换，无动画
+            commonNavigatorAdapterCanResult = true
+        ) { type, position, _, _, _ ->
+            // 当点击 title 切换页面时，如果 smoothScroll = false，可能不会触发 onPageScrolled
+            // 需要在 onPageSelected 后手动触发指示器更新
+            if (type == 1 && position != null) {
+                // onPageSelected 回调，手动触发指示器位置更新
+                magicIndicator.post {
+                    magicIndicator.onPageScrolled(position, 0f, 0)
+                }
+            }
+        }
+        
+        // 初始化当前选中页面，确保指示器显示正确状态
+        // 需要在布局完成后初始化，以确保位置数据已准备好
+//        magicIndicator.post {
+//            val currentItem = viewPager.currentItem
+//            magicIndicator.onPageSelected(currentItem)
+//            magicIndicator.onPageScrolled(currentItem, 0f, 0)
+//        }
 
     }
 
@@ -629,20 +651,16 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-
+                magicIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels)
             }
 
             override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                tabSelectedIndex = position
+                magicIndicator.onPageSelected(position)
             }
 
             override fun onPageScrollStateChanged(state: Int) {
-//                super.onPageScrollStateChanged(state)
-
+                magicIndicator.onPageScrollStateChanged(state)
             }
-        });
-
+        })
     }
 }
