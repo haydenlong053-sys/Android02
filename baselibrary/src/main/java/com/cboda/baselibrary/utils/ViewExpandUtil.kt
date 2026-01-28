@@ -861,3 +861,12 @@ fun dismissLoadingDialog() {
 fun TextView.setTxt(res: Int) {
     this.text = this.context.getString(res)
 }
+
+
+fun anyToInt(any: Any): Int {
+    return try {
+        any.toString().toFloat().toInt()
+    } catch (e: Exception) {
+        0
+    }
+}

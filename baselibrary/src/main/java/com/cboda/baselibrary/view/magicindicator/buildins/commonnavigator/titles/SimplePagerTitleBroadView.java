@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 import com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil;
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IMeasurablePagerTitleView;
 
@@ -16,7 +18,7 @@ import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IM
  * 博客: http://hackware.lucode.net
  * Created by hackware on 2016/6/26.
  */
-public class SimplePagerTitleBroadView extends TextView implements IMeasurablePagerTitleView {
+public class SimplePagerTitleBroadView extends AppCompatTextView implements IMeasurablePagerTitleView {
     protected int mSelectedColor;
     protected int mNormalColor;
 

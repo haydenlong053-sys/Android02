@@ -2,6 +2,7 @@ package com.cboda.intelligent.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,14 +11,11 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.core.content.ContextCompat
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -46,7 +44,6 @@ import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.intelligent.compose.BlurButton
 import com.cboda.intelligent.compose.BlurFabButton
-import com.cboda.intelligent.compose.DynamicFloatTabBar
 import com.cboda.intelligent.compose.FloatManagerBar
 import com.cboda.intelligent.compose.MorePopUp
 import com.cboda.intelligent.dialog.pop.SysNoticeBroadPop
@@ -57,28 +54,32 @@ import com.cboda.intelligent.activity.NoticeListBroadActivity
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
-import com.cboda.intelligent.utils.ScreenBroadBroadUtil
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
+import com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerBroadIndicator
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleBroadView
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.badge.BadgeAnchor
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.badge.BadgeBroadRule
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleBroadView
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.FriendViewBroadModel
 import com.cboda.intelligent.viewmodel.NoticeViewBroadModel
-import com.cboda.intelligent.widge.ColorFlipPagerTitleBroadView
 import kotlinx.coroutines.launch
-import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.buildins.UIUtil
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgeAnchor
+import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
+import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
+import com.cboda.intelligent.widge.BadgeIndicatorAdapter
+import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgeRule
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -101,7 +102,8 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     private var socialCount = "0"
     private var bean: CommonResultBroadBean.CommonResult? = null
     private val fragments = ArrayList<Fragment>()
-    var titles: ArrayList<String> = ArrayList()
+
+    //    var titles: ArrayList<String> = ArrayList()
     private val noticeViewModel: NoticeViewBroadModel by viewModels()
     private val friendViewModel: FriendViewBroadModel by viewModels()
     private var conversationSingleFragment: ConversationSingleBroadFragment? = null
@@ -148,7 +150,6 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         }
 
     }
-
 
 
     override fun loadData() {
@@ -219,8 +220,14 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         fragments.add(ConversationOtherGroupBroadFragment())
         fragments.add(SocialFragment())
 
-
+        val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
+        vp2FragmentAdapter.setData(fragments)
+        viewPager.adapter = vp2FragmentAdapter
+        viewPager.offscreenPageLimit = fragments.size
+        viewPager.isUserInputEnabled = true
         initMagicIndicator()
+
+
         initNoticeMsg()
 
     }
@@ -285,120 +292,63 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         }
     }
 
-    var commonNavigator: CommonNavigator? = null
-
+    private val badgeCounts = intArrayOf(anyToInt(singleCount), anyToInt(myGroupCount), anyToInt(otherGroupCount), anyToInt(socialCount))
+    private var indicatorAdapt: BadgeIndicatorAdapter? = null
     private fun initMagicIndicator() {
-        val pagerAdapter: MyPagerBroadAdapter = MyPagerBroadAdapter(this)
-        pagerAdapter.setFragments(fragments)
-        viewPager.adapter = pagerAdapter
-        commonNavigator = CommonNavigator(context)
-        commonNavigator?.isAdjustMode = true
-        commonNavigator!!.scrollPivotX = 0.65f
-//        commonNavigator!!.isAdjustMode = true
-        commonNavigator!!.adapter = object : CommonNavigatorAdapter() {
-            override fun getCount(): Int {
-                return if (titles == null) 0 else titles.size
-            }
+        val mResIds =
+            intArrayOf(R.string.conversation_tab, R.string.private_group_tab, R.string.public_group_tab, R.string.friend_tab)
+        magicIndicator.setBackgroundColor(Color.TRANSPARENT)
+        val commonNavigator = CommonBroadNavigator(requireContext())
+        commonNavigator.isAdjustMode = true
+        commonNavigator.isSkimOver = true
+        indicatorAdapt = BadgeIndicatorAdapter(requireContext(), mResIds, badgeCounts)
+        commonNavigator.adapter = indicatorAdapt
+        magicIndicator.navigator = commonNavigator
+        bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapt)
+//        magicIndicator.navigator = commonNavigator
 
-            override fun getTitleView(context: Context, index: Int): IPagerTitleView {
-                val badgePagerTitleView = BadgePagerTitleView(context)
+//        bindTab(viewPager)
 
-                val simplePagerTitleView: SimplePagerTitleView = ColorFlipPagerTitleBroadView(context)
-                simplePagerTitleView.setText(titles.get(index))
-                simplePagerTitleView.normalColor = resources.getColor(R.color.color_text0)
-                simplePagerTitleView.selectedColor = resources.getColor(R.color.color_indicator)
-                simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
-                simplePagerTitleView.setOnClickListener {
-                    // 管理模式下拦截标签点击，不切换页面
-                    if (isManagerClick) return@setOnClickListener
-                    viewPager.currentItem = index
-                }
-                badgePagerTitleView.innerPagerTitleView = simplePagerTitleView
+    }
 
-                // set badge position
-                badgePagerTitleView.xBadgeRule =
-                    BadgeRule(BadgeAnchor.CONTENT_RIGHT, 0)
-                badgePagerTitleView.yBadgeRule = BadgeRule(BadgeAnchor.CONTENT_TOP, 0)
-                // don't cancel badge when tab selected
-                badgePagerTitleView.isAutoCancelBadge = false
-                // setup badge
-                val badgeTextView = LayoutInflater.from(context)
-                    .inflate(R.layout.simple_count_badge_broad_layout, null) as TextView
-//                when (index) {
-//                    0 -> if (count0 != "0") {
-//                        badgeTextView.text = count0
-//                        badgePagerTitleView.badgeView = badgeTextView
-//                    }
-//
-//                    1 -> if (count1 != "0") {
-//                        badgeTextView.text = count1
-//                        badgePagerTitleView.badgeView = badgeTextView
-//                    }
-//
-//                    2 -> if (count2 != "0") {
-//                        badgeTextView.text = count2
-//                        badgePagerTitleView.badgeView = badgeTextView
-//                    }
-//
-//                    3 -> if (count3 != "0") {
-//                        badgeTextView.text = count3
-//                        badgePagerTitleView.badgeView = badgeTextView
-//                    }
-//                }
-                when (index) {
-                    0 -> if (singleCount != "0") {
-                        badgeTextView.text = singleCount
-                        badgePagerTitleView.badgeView = badgeTextView
-                    }
-
-//                    1 -> if (atMeCount != "0") {
-//                        badgeTextView.text = atMeCount
-//                        badgePagerTitleView.badgeView = badgeTextView
-//                    }
-
-                    1 -> if (myGroupCount != "0") {
-                        badgeTextView.text = myGroupCount
-                        badgePagerTitleView.badgeView = badgeTextView
-                    }
-
-                    2 -> if (otherGroupCount != "0") {
-                        badgeTextView.text = otherGroupCount
-                        badgePagerTitleView.badgeView = badgeTextView
-                    }
-
-                    3 -> {
-                        eLogD("看看未读", "$socialCount")
-                        if (socialCount != "0") {
-                            badgeTextView.text = socialCount
-                            badgePagerTitleView.badgeView = badgeTextView
-                        } else {
-                            badgeTextView.text = socialCount
-                            badgeTextView.visibility = View.INVISIBLE
-                            badgePagerTitleView.badgeView = badgeTextView
-                        }
-                    }
-
-                }
-                simplePagerTitleView.setWidth(ScreenBroadBroadUtil.getScreenWidth(context) / 6);
-                return badgePagerTitleView
-            }
-
-            override fun getIndicator(context: Context): IPagerIndicator {
-                val indicator = LinePagerIndicator(context)
-                indicator.mode = LinePagerIndicator.MODE_EXACTLY
-                indicator.lineHeight = UIUtil.dip2px(context, 2.0).toFloat()
-                indicator.lineWidth = UIUtil.dip2px(context, 16.0).toFloat()
-                indicator.roundRadius = UIUtil.dip2px(context, 2.0).toFloat()
-                indicator.startInterpolator = AccelerateInterpolator()
-                indicator.endInterpolator = DecelerateInterpolator(2.0f)
-                indicator.setColors(resources.getColor(R.color.color_indicator))
-                return indicator
-            }
-        }
-        magicIndicator.setNavigator(commonNavigator)
-
-        bindTab(viewPager)
-        viewPager.offscreenPageLimit = fragments.size
+    private fun updateBadges() {
+        badgeCounts[0] = anyToInt(singleCount)
+        badgeCounts[1] = anyToInt(myGroupCount)
+        badgeCounts[2] = anyToInt(otherGroupCount)
+        badgeCounts[3] = anyToInt(socialCount)
+        indicatorAdapt?.notifyDataSetChanged()
+//        badgeViews[0]?.let {
+//            if (singleCount != "0") {
+//                it.text = singleCount
+//                it.visibility = View.VISIBLE
+//            } else {
+//                it.visibility = View.INVISIBLE
+//            }
+//        }
+//        badgeViews[1]?.let {
+//            if (myGroupCount != "0") {
+//                it.text = myGroupCount
+//                it.visibility = View.VISIBLE
+//            } else {
+//                it.visibility = View.INVISIBLE
+//            }
+//        }
+//        badgeViews[2]?.let {
+//            if (otherGroupCount != "0") {
+//                it.text = otherGroupCount
+//                it.visibility = View.VISIBLE
+//            } else {
+//                it.visibility = View.INVISIBLE
+//            }
+//        }
+//        badgeViews[3]?.let {
+//            if (socialCount != "0") {
+//                it.text = socialCount
+//                it.visibility = View.VISIBLE
+//            } else {
+//                it.visibility = View.INVISIBLE
+//            }
+//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -469,7 +419,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
             }
         }
 
-        tabUnreadCounts = listOf(singleCount, myGroupCount, otherGroupCount, socialCount)
+        updateBadges()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -508,17 +458,16 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     private lateinit var ivkefu: AppCompatImageView
     private lateinit var ivsudu: AppCompatImageView
     private lateinit var viewPager: ViewPager2
-    private lateinit var magicIndicator: MagicIndicator
+    private lateinit var magicIndicator: MagicBroadIndicator
     private lateinit var ivsousuo: AppCompatImageView
     private lateinit var ivAdd: AppCompatImageView
     private lateinit var hometool: View
     private lateinit var ivMore: ComposeView
-    private lateinit var cvTab: ComposeView
     private lateinit var ivManager: ComposeView
     private lateinit var managerBar: ComposeView
     private var isManagerClick by mutableStateOf(false)
-    private var tabSelectedIndex by mutableStateOf(0)
-    private var tabUnreadCounts by mutableStateOf(listOf("0", "0", "0", "0"))
+    private var commonNavigator: CommonBroadNavigator? = null
+//    private val badgeViews = mutableMapOf<Int, TextView>()
 
     private fun initViews(view: View) {
         hometool = view.findViewById(R.id.hometool)
@@ -531,36 +480,13 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         ivMore = view.findViewById(R.id.ivMore)
         ivManager = view.findViewById(R.id.ivManager)
         managerBar = view.findViewById(R.id.compose_manager_bar)
-        cvTab = view.findViewById(R.id.cv_bg_tab)
-        magicIndicator.visibility = View.INVISIBLE
+        magicIndicator.visibility = View.VISIBLE
 
         //        titles.add("全部")
-        titles.add(getString(R.string.conversation_tab))
-        titles.add(getString(R.string.private_group_tab))
-        titles.add(getString(R.string.public_group_tab))
-        titles.add(getString(R.string.friend_tab))
-
-        cvTab.setContent {
-//            FloatShadowBar(){}
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                DynamicFloatTabBar(
-                    tabs = titles,
-                    selectedIndex = tabSelectedIndex,
-                    indicatorFixedWidth = 16.dp,
-                    unreadCounts = tabUnreadCounts,
-                    contentPaddingStart = 0.dp,
-                    contentPaddingEnd = 0.dp,
-                    onTabSelected = { index ->
-                        viewPager.currentItem = index
-                    }
-                )
-            }
-
-        }
+//        titles.add(getString(R.string.conversation_tab))
+//        titles.add(getString(R.string.private_group_tab))
+//        titles.add(getString(R.string.public_group_tab))
+//        titles.add(getString(R.string.friend_tab))
         managerBar.setContent {
             val asState = uiViewModel.uiState.collectAsState()
             FloatManagerBar(
@@ -709,7 +635,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 
             override fun onPageSelected(position: Int) {
 //                super.onPageSelected(position)
-                tabSelectedIndex = position
+//                tabSelectedIndex = position
             }
 
             override fun onPageScrollStateChanged(state: Int) {
