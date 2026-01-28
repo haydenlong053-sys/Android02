@@ -58,9 +58,9 @@ class MMKVBroadUtils {
             kv.remove(SEARCH_KEY + BroadConstant.getAppToken())
         }
 
-        fun saveUserAppToken(userId: String) {
+        fun saveUserAppToken(appToken: String) {
             val kv = MMKV.defaultMMKV()
-            kv.encode(USER_ID_KEY, userId)
+            kv.encode(USER_ID_KEY, appToken)
         }
 
         fun saveUserName(userName: String) {
