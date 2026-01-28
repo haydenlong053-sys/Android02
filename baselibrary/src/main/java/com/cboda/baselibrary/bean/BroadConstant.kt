@@ -33,12 +33,12 @@ class BroadConstant {
 
         const val RESULT_OK = "200"
 
-        var userId: String? = null
-        fun getUid(): String? {
-            if (userId.isNullOrEmpty()) {
-                userId = MMKVBroadUtils.getUserId()
+        var userAppToken: String? = null
+        fun getAppToken(): String? {
+            if (userAppToken.isNullOrEmpty()) {
+                userAppToken = MMKVBroadUtils.getUserAppToken()
             }
-            return userId
+            return userAppToken
         }
 
         var realUserId: String? = null

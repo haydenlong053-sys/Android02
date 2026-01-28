@@ -89,7 +89,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
             builder.connectTimeout(180000, TimeUnit.MILLISECONDS)
             builder.readTimeout(180000, TimeUnit.MILLISECONDS)
             val headers = HttpHeaders()
-            headers.put("apptoken", BroadConstant.getUid() ?: "")
+            headers.put("apptoken", BroadConstant.getAppToken() ?: "")
             headers.put("sensorNo", DeviceBroadUtils.getDeviceId(mContext!!))
             if (getIsDebug()) {
 //                val loggingInterceptor = LiXinMyHttpLoggingBroadInterceptor("OKGO")

@@ -28,7 +28,6 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.gyf.immersionbar.ImmersionBar
-import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
@@ -213,7 +212,7 @@ class AppBroadUtils {
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
 
-            MMKVBroadUtils.saveUserId(apptoken ?: "")
+            MMKVBroadUtils.saveUserAppToken(apptoken ?: "")
             MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
             MMKVBroadUtils.saveRealUserId(uid ?: "")
             MMKVBroadUtils.saveMyImToken(myImUserToken ?: "")
@@ -290,7 +289,7 @@ class AppBroadUtils {
 //                    ""
 //                )
 //            )
-            BroadConstant.userId = null
+            BroadConstant.userAppToken = null
             BroadConstant.realUserId = ""
             MMKVBroadUtils.clearUserId()
             MMKVBroadUtils.clearRealUserId()

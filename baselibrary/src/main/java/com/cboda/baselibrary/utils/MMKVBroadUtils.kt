@@ -1,7 +1,6 @@
 package com.cboda.baselibrary.utils
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.text.TextUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.CommonResultBroadBean
@@ -46,20 +45,20 @@ class MMKVBroadUtils {
 
         fun saveSearchHistory(searchHistory: String?) {
             val kv = MMKV.defaultMMKV()
-            kv.encode(SEARCH_KEY + BroadConstant.getUid(), searchHistory)
+            kv.encode(SEARCH_KEY + BroadConstant.getAppToken(), searchHistory)
         }
 
         fun getSearchHistory(): String? {
             val kv = MMKV.defaultMMKV()
-            return kv.decodeString(SEARCH_KEY + BroadConstant.getUid())
+            return kv.decodeString(SEARCH_KEY + BroadConstant.getAppToken())
         }
 
         fun clearHistory() {
             val kv = MMKV.defaultMMKV()
-            kv.remove(SEARCH_KEY + BroadConstant.getUid())
+            kv.remove(SEARCH_KEY + BroadConstant.getAppToken())
         }
 
-        fun saveUserId(userId: String) {
+        fun saveUserAppToken(userId: String) {
             val kv = MMKV.defaultMMKV()
             kv.encode(USER_ID_KEY, userId)
         }
@@ -75,7 +74,7 @@ class MMKVBroadUtils {
         }
 
 
-        fun getUserId(): String? {
+        fun getUserAppToken(): String? {
             val kv = MMKV.defaultMMKV()
             return kv.decodeString(USER_ID_KEY)
         }
