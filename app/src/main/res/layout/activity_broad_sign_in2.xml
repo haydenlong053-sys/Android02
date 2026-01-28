@@ -130,17 +130,19 @@
                     </FrameLayout>
 
                     <LinearLayout
-                        android:background="@mipmap/ic_sign_rv_bg"
                         android:layout_marginVertical="15dp"
                         android:layout_marginHorizontal="32dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <LinearLayout
-                            android:layout_margin="10dp"
+                        <com.hjq.shape.layout.ShapeLinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="6dp"
+                            app:shape_topLeftRadius="8dp"
+                            app:shape_topRightRadius="@dimen/dp_8"
+                            app:shape_solidColor="#FDF8F5">
                             <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
@@ -179,7 +181,13 @@
                                     android:layout_height="wrap_content"/>
                             </FrameLayout>
 
-                        </LinearLayout>
+                        </com.hjq.shape.layout.ShapeLinearLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_sign_rv_bg_bottom"
+                            android:scaleType="fitXY"
+                            />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
