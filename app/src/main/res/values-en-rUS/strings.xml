@@ -44,7 +44,7 @@
     <string name="bottom_bar_mirror">Mirror</string>
     <string name="bottom_bar_intelligent">Ai</string>
     <string name="bottom_bar_social">Social</string>
-    <string name="bottom_bar_center">Center</string>
+    <string name="bottom_bar_center">Me</string>
     <string name="wenxintishi">Friendly Reminder</string>
     <string name="qitashebeidenglu">The account has been logged in on another device</string>
     <string name="queding">Confirm</string>
@@ -263,7 +263,7 @@
     <string name="点击查看">Click to view</string>
     <string name="我的朋友圈">My Moments</string>
     <string name="表情">Emojis</string>
-    <string name="我的收藏">My Favorites</string>
+    <string name="我的收藏">Favorites</string>
     <string name="常见问题">FAQ</string>
     <string name="用户设置">User Settings</string>
     <string name="个人信息">Personal Information</string>
@@ -818,24 +818,24 @@
     <string name="ok">OK</string>
 
     <string name="all">All</string>
-    <string name="new_friend">New Friend</string>
-    <string name="new_group_invite">New Group Invite</string>
+    <string name="new_friend">Add Friend</string>
+    <string name="new_group_invite">Group Invite</string>
     <string name="contact_avatar">Contact Avatar</string>
 
     <string name="vip_member">VIP Member</string>
     <string name="seekweb4_vip_member">SeekWeb4 VIP Member</string>
     <string name="open_vip_privilege">Open membership and enjoy exclusive privileges</string>
     <string name="open_now">Open Now</string>
-    <string name="personal_assets">Personal Assets</string>
-    <string name="manage_digital_wealth">Manage your digital wealth</string>
-    <string name="security_center">Security Center</string>
-    <string name="protect_account_safe">Protect your account, use with peace of mind</string>
-    <string name="inspiration_square">Inspiration Square</string>
-    <string name="share_moments_see_inspiration">Share moments, see inspiration</string>
-    <string name="my_collections_here">All my collections are here</string>
-    <string name="quick_answers_about_us">Quick answers about us</string>
-    <string name="system_settings">System Settings</string>
-    <string name="personalize_experience">Personalize your experience</string>
+    <string name="personal_assets">My Wallet</string>
+    <string name="manage_digital_wealth">Manage wealth</string>
+    <string name="security_center">Security</string>
+    <string name="protect_account_safe">Account protection</string>
+    <string name="inspiration_square">Inspiration</string>
+    <string name="share_moments_see_inspiration">Share , Discover</string>
+    <string name="my_collections_here">Saved items</string>
+    <string name="quick_answers_about_us">Quick answers</string>
+    <string name="system_settings">Settings</string>
+    <string name="personalize_experience">Personalize</string>
 
     <!-- Meeting creation -->
     <string name="meeting_room_suffix">Meeting Room</string>
@@ -870,7 +870,7 @@
     <string name="social_set_remark_name">Set Remark Name</string>
     <string name="social_set_circle_tag">Set Circle Tag</string>
     <string name="ai_detection_failed_retry_later">Detection failed, please try again later!</string>
-    <string name="circle_intimate">Bosom</string>
+    <string name="circle_intimate">Close</string>
     <string name="circle_social">Social</string>
     <string name="circle_work">Work</string>
     <string name="circle_public_relations">PR</string>
@@ -880,5 +880,8 @@
     <string name="circle_work_des">Colleagues, clients, partners</string>
     <string name="circle_public_relations_des">Strangers, temporary contacts</string>
     <string name="累计获得">Total Earned</string>
+    <string name="女2">W</string>
+    <string name="男2">M</string>
+    <string name="day2">d</string>
 
 </resources>

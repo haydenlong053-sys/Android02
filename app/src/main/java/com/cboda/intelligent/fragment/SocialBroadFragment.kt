@@ -377,7 +377,7 @@ private fun InviteCard(
             // 标题文本：与图标右间距 8dp，垂直居中，内容自适应宽度
             Text(
                 text = title,
-                fontSize = 16.sp,
+                fontSize = 15.sp,
                 color = Color.Black.copy(0.9f),
                 fontWeight = FontWeight.W400,
                 maxLines = 1,
@@ -386,7 +386,7 @@ private fun InviteCard(
                     start.linkTo(iconRef.end, margin = 8.dp)
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
+//                    end.linkTo(parent.end)
                     width = Dimension.preferredWrapContent
                 }
             )
@@ -397,7 +397,7 @@ private fun InviteCard(
                     count = badgeCount,
                     modifier = Modifier.constrainAs(badgeRef) {
                         // 水平方向：从文本右侧向右贴合少许间隙
-                        start.linkTo(titleRef.end, margin = 4.dp)
+                        start.linkTo(titleRef.end, margin = (-6).dp)
                         // 垂直方向：角标底部与文本的顶部对齐，使其落在文本上方
                         bottom.linkTo(titleRef.top)
                         top.linkTo(titleRef.top)
@@ -653,7 +653,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
 //                    Text(text = sub, fontSize = 14.sp, color = Color(0xFF0F0F25).copy(0.45f))
 //                }
                 val contactSex =
-                    if (contact.sex.isNullOrEmpty()) "" else (if (contact.sex == "1") stringResource(R.string.男) else stringResource(R.string.女))
+                    if (contact.sex.isNullOrEmpty()) "" else (if (contact.sex == "1") stringResource(R.string.男2) else stringResource(R.string.女2))
 
                 val sub = if (contact.registerDay == null)
                     listOfNotNull(
@@ -664,7 +664,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     contact.city,
                     contactSex,
                     contact.profession,
-                    "${contact.registerDay}${stringResource(R.string.days_unit)}"
+                    "${contact.registerDay}${stringResource(R.string.day2)}"
                 ).filter { it.isNotBlank() }
                 if (sub.isNotEmpty()) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

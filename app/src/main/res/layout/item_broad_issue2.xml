@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginTop="10dp"
+    android:padding="22dp"
+    android:background="@drawable/bg_rect_broad_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:id="@+id/tvTitle"
+        tools:text="问题1：1这个软件怎么去更换手机号"
+        android:textSize="15sp"
+        android:textColor="@color/color_text0"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvDes"
+        tools:text="问题1：1这个软件怎么去更换手机号1这个软件怎么去更换手机号1这个软件怎么去更换手机号1这个软件怎么去更换手机号"
+        android:textSize="14sp"
+        android:textColor="@color/black_65"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

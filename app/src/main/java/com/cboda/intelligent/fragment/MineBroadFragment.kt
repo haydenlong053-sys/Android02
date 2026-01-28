@@ -375,8 +375,8 @@ private fun MenuCard(item: MenuItem, modifier: Modifier = Modifier, onClick: (Me
     Card(
         modifier = modifier
             .wrapContentHeight()
-            .heightIn(min = 70.dp)
-//            .height(70.dp)
+//            .heightIn(min = 70.dp)
+            .height(70.dp)
             .padding(horizontal = 6.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
@@ -401,7 +401,7 @@ private fun MenuCard(item: MenuItem, modifier: Modifier = Modifier, onClick: (Me
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(maxLines = 2,
+                Text(maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     text = item.subtitle, color = Color.Black.copy(0.65f), fontSize = 10.sp)
             }

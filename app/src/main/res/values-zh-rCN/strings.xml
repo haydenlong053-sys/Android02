@@ -879,5 +879,8 @@
     <string name="circle_work_des">同事,客户，合作伙伴</string>
     <string name="circle_public_relations_des">陌生人,临时联系</string>
     <string name="累计获得">累计获得</string>
+    <string name="女2">女</string>
+    <string name="男2">男</string>
+    <string name="day2">天</string>
 
 </resources>
