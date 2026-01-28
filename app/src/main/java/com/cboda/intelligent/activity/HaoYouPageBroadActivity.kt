@@ -43,6 +43,7 @@ import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.intelligent.utils.goTempTranslateString
 
 
 class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
@@ -224,7 +225,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 tvnicheng?.text = StringBroadUtils.format(getString(R.string.nichengshi), "${this.name}")
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
                 qianmingname?.text = this.sign ?: ""
-                beizhuname?.text = this.characterTags ?: ""
+                beizhuname?.text = goTempTranslateString(this@HaoYouPageBroadActivity,this.characterTags?: "")
                 pengyouquanlay?.isVisible = this.isOpenQuan == "1"
 
                 if (BroadConstant.getRealUid() == this.id) {

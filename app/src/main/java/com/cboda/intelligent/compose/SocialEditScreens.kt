@@ -54,6 +54,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.model.SocialBroadCircle
+import com.cboda.intelligent.utils.goTempTranslateString
 import com.cboda.intelligent.viewmodel.SocialViewBroadModel
 
 /**
@@ -125,7 +126,8 @@ fun RemarkAndCirclePage(
 
                       Button(
                           onClick = {
-                              val circle = uiState.circles.firstOrNull { it.characterTags == selectedTag }
+//                              val circle = uiState.circles.firstOrNull { it.characterTags == selectedTag }
+                              val circle = uiState.circles.firstOrNull { goTempTranslateString(ctx,it.characterTags) == selectedTag }
                               if (circle == null) {
                                   ToastBroadUtil.show(ctx.getString(R.string.social_select_circle))
                               } else {
@@ -285,8 +287,10 @@ private fun CircleChipsRow(
             ) {
                 val left = pair.getOrNull(0)
                 val right = pair.getOrNull(1)
+                val context =LocalContext.current
                 if (left != null) {
-                    val isSelected = selectedTag == left.characterTags
+//                    val isSelected = selectedTag == left.characterTags
+                    val isSelected = selectedTag == goTempTranslateString(context,left.characterTags)
                     Box(
                         modifier = Modifier.weight(1f),
                         contentAlignment = Alignment.Center
@@ -295,14 +299,16 @@ private fun CircleChipsRow(
                             text = left.characterTags,
                             desc = left.characterExplanation,
                             selected = isSelected,
-                            onClick = { onSelect(if (isSelected) null else left.characterTags) }
+//                            onClick = { onSelect(if (isSelected) null else left.characterTags) }
+                            onClick = { onSelect(if (isSelected) null else goTempTranslateString(context,left.characterTags)) }
                         )
                     }
                 } else {
                     Spacer(modifier = Modifier.weight(1f))
                 }
                 if (right != null) {
-                    val isSelected = selectedTag == right.characterTags
+//                    val isSelected = selectedTag == right.characterTags
+                    val isSelected = selectedTag == goTempTranslateString(context,right.characterTags)
                     Box(
                         modifier = Modifier.weight(1f),
                         contentAlignment = Alignment.Center
@@ -311,7 +317,8 @@ private fun CircleChipsRow(
                             text = right.characterTags,
                             desc = right.characterExplanation,
                             selected = isSelected,
-                            onClick = { onSelect(if (isSelected) null else right.characterTags) }
+//                            onClick = { onSelect(if (isSelected) null else right.characterTags) }
+                            onClick = { onSelect(if (isSelected) null else goTempTranslateString(context,right.characterTags)) }
                         )
                     }
                 } else {
@@ -349,7 +356,7 @@ private fun SelectableChip(text: String, desc:String,selected: Boolean, onClick:
     ) {
        Column(horizontalAlignment = Alignment.CenterHorizontally) {
            Text(
-               text = text,
+               text = goTempTranslateString(LocalContext.current,text),
                fontSize = 16.sp,
                fontWeight = FontWeight.W400,
                color = fg,
@@ -357,7 +364,7 @@ private fun SelectableChip(text: String, desc:String,selected: Boolean, onClick:
            )
            Spacer(modifier = Modifier.height(8.dp))
            Text(
-               text = desc,
+               text = goTempTranslateString(LocalContext.current,desc),
                fontSize = 12.sp,
                fontWeight = FontWeight.W400,
                color = fg,
