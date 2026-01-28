@@ -486,5 +486,6 @@
     <string name="circle_social">ソーシャルサークル</string>
     <string name="circle_work">仕事のサークル</string>
     <string name="circle_public_relations">PRサークル</string>
+    <string name="累计获得">累計獲得</string>
 
 </resources>

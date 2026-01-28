@@ -490,5 +490,6 @@
     <string name="circle_social">Bulatan Sosial</string>
     <string name="circle_work">Bulatan Kerja</string>
     <string name="circle_public_relations">Bulatan Hubungan Awam</string>
+    <string name="累计获得">Jumlah Diperoleh</string>
 
 </resources>

@@ -486,5 +486,6 @@
     <string name="circle_social">Cerchio Sociale</string>
     <string name="circle_work">Cerchio Lavorativo</string>
     <string name="circle_public_relations">Cerchio delle Pubbliche Relazioni</string>
+    <string name="累计获得">Totale Ottenuto</string>
 
 </resources>

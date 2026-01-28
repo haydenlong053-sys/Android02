@@ -486,5 +486,6 @@
     <string name="circle_social">소셜 서클</string>
     <string name="circle_work">직장 서클</string>
     <string name="circle_public_relations">PR 서클</string>
+    <string name="累计获得">누적 획득</string>
 
 </resources>

@@ -488,5 +488,6 @@
     <string name="circle_social">Κοινωνικός Κύκλος</string>
     <string name="circle_work">Επαγγελματικός Κύκλος</string>
     <string name="circle_public_relations">Κύκλος Δημοσίων Σχέσεων</string>
+    <string name="累计获得">Σύνολο Κερδισμένο</string>
 
 </resources>

@@ -486,5 +486,6 @@
     <string name="circle_social">Sozialer Kreis</string>
     <string name="circle_work">Arbeitskreis</string>
     <string name="circle_public_relations">PR-Kreis</string>
+    <string name="累计获得">Gesamt Erhalten</string>
 
 </resources>

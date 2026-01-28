@@ -64,7 +64,7 @@ public class SignInBroadActivity extends BaseSimpleBroadActivity implements View
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_broad_sign_in;
+        return R.layout.activity_broad_sign_in2;
     }
 
     @Override

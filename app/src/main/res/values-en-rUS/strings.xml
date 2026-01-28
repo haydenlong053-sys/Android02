@@ -797,7 +797,7 @@
     <string name="score_unit">pts</string>
     <string name="credit_score">Credit Score</string>
 
-    <string name="sign_in_reward">Sign In &amp; Claim Reward</string>
+    <string name="sign_in_reward">Daily Bonus</string>
 
     <string name="agree">Agree</string>
     <string name="camera_permission_request">%1$s requires camera permission. Do you want to request permission?</string>
@@ -879,5 +879,6 @@
     <string name="circle_social_des">Friends, classmates, alumni, online friends</string>
     <string name="circle_work_des">Colleagues, clients, partners</string>
     <string name="circle_public_relations_des">Strangers, temporary contacts</string>
+    <string name="累计获得">Total Earned</string>
 
 </resources>

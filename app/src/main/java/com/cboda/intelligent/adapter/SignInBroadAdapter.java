@@ -28,7 +28,7 @@ public class SignInBroadAdapter extends RecyclerView.Adapter<SignInBroadAdapter.
    }
    @Override
    public SignInBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(context).inflate(R.layout.item_sign_broad_in, parent, false);
+      View view = LayoutInflater.from(context).inflate(R.layout.item_sign_broad_in2, parent, false);
       return new SignInBroadAdapter.MyHolder(view);
    }
 
@@ -36,7 +36,7 @@ public class SignInBroadAdapter extends RecyclerView.Adapter<SignInBroadAdapter.
    public void onBindViewHolder(SignInBroadAdapter.MyHolder holder, final int position) {
 //      holder.tvTitle.setText(list.get(position).title);
       holder.tvTime.setText(list.get(position).time);
-      holder.tvMoney.setText("+"+ StringBroadUtils.removeDecimalPart(list.get(position).money));
+      holder.tvMoney.setText("+"+ StringBroadUtils.removeDecimalPart(list.get(position).money)+" WEBX");
       holder.itemView.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {

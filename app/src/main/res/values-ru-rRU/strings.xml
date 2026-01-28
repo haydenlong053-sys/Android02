@@ -487,5 +487,6 @@
     <string name="circle_social">Социальный круг</string>
     <string name="circle_work">Рабочий круг</string>
     <string name="circle_public_relations">PR круг</string>
+    <string name="累计获得">Всего Получено</string>
 
 </resources>
