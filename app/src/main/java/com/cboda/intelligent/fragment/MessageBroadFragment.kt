@@ -452,7 +452,6 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         ivMore = view.findViewById(R.id.ivMore)
         ivManager = view.findViewById(R.id.ivManager)
         managerBar = view.findViewById(R.id.compose_manager_bar)
-        cvTab = view.findViewById(R.id.cv_bg_tab)
         bottomView = view.findViewById(R.id.bottomView)
         magicIndicator.visibility = View.VISIBLE
 
