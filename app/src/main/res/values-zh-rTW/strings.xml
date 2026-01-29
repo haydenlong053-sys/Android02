@@ -255,7 +255,7 @@
     <string name="搜索附近位置">搜索附近位置</string>
     <string name="消息">消息</string>
     <string name="签到规则">簽到規則</string>
-    <string name="我的钱包">WEBX服務中心</string>
+    <string name="我的钱包">私有資產</string>
     <string name="账户ID1">賬戶ID：</string>
     <string name="点击查看">點擊查看</string>
     <string name="我的朋友圈">我的朋友圈</string>
@@ -487,7 +487,7 @@
     <string name="mine_look_go">前往查看</string>
     <string name="mine_change_auth_des2">使用已绑定方式验证+支付密码</string>
     <string name="保存二维码">保存二维码</string>
-    <string name="webX_name">WEBX</string>
+    <string name="webX_name">TRAI</string>
     <string name="获取设备验证码">获取设备验证码</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="action_save">保存</string>

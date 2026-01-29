@@ -258,7 +258,7 @@
     <string name="搜索附近位置">Search Nearby Location</string>
     <string name="消息">Messages</string>
     <string name="签到规则">Sign-in Rules</string>
-    <string name="我的钱包">WEBX Service Center</string>
+    <string name="我的钱包">Private Assets</string>
     <string name="账户ID1">Account ID:</string>
     <string name="点击查看">Click to View</string>
     <string name="我的朋友圈">My Moments</string>
@@ -632,7 +632,7 @@
     <string name="credit_item2_title">eycorsican/go-tun2socks</string>
     <string name="credit_item3_title">bingoogolapple/BGAQRCode-Android</string>
     <string name="action_about">About</string>
-    <string name="webX_name">WEBX</string>
+    <string name="webX_name">TRAI</string>
     <string name="mine_sys_currency">Platform Token (%1$s)</string>
     <string name="mine_sys_point">Platform Points (WX)</string>
     <string name="mine_safe_center">Security Center</string>

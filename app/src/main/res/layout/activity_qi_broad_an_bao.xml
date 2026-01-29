@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,92 +14,91 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="16dp">
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_0"
-                app:layout_constraintDimensionRatio="H,343:160"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_qianbao_broad_bg1"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintDimensionRatio="H,343:160"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_margin="16dp"
                 android:text="@string/我的钱包"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/mLlWallet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="57dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <TextView
                     android:id="@+id/mTvSysCurrency"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/mine_sys_currency"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:layout_weight="1"
-                    />
+                    android:textSize="12sp" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/mine_sys_point"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:layout_weight="1"
-                    />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mLlWallet"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mLlWallet">
+
                 <TextView
                     android:id="@+id/tvMoney"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    tools:text="8999899.66"
                     android:textColor="@color/white"
                     android:textSize="24sp"
-                    android:layout_weight="1"
                     android:textStyle="bold"
-                    />
+                    tools:text="8999899.66" />
 
                 <TextView
                     android:id="@+id/mTvPoint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    tools:text="8999899.66"
                     android:textColor="@color/white"
                     android:textSize="24sp"
-                    android:layout_weight="1"
                     android:textStyle="bold"
-                    />
+                    tools:text="8999899.66" />
 
             </LinearLayout>
 
@@ -112,30 +109,33 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="-20dp"
-            android:orientation="vertical"
             android:background="@drawable/bg_rect_white_broad_16dp"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/llChongzhi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:padding="16dp"
                 android:paddingHorizontal="15dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_broad_zhongzhi" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:drawableStart="@mipmap/ic_broad_zhongzhi"
-                    android:drawablePadding="8dp"
                     android:gravity="center_vertical"
                     android:text="@string/充值"
                     android:textColor="@color/black_or_white"
-                    android:textSize="15sp"
-                     />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -147,30 +147,33 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#1E000000"
                 android:layout_marginHorizontal="16dp"
-                />
+                android:background="#1E000000" />
 
             <LinearLayout
                 android:id="@+id/llTixian"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:padding="16dp"
                 android:paddingHorizontal="15dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_broad_tixian" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:drawableStart="@mipmap/ic_broad_tixian"
-                    android:drawablePadding="8dp"
                     android:gravity="center_vertical"
                     android:text="@string/提现"
                     android:textColor="@color/black_or_white"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -182,30 +185,34 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#1E000000"
                 android:layout_marginHorizontal="16dp"
-                />
+                android:background="#1E000000" />
 
             <LinearLayout
                 android:id="@+id/mLlTransfer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="15dp">
+                android:padding="16dp"
+                android:paddingHorizontal="15dp"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_mine_broad_transfer" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:drawableStart="@mipmap/ic_mine_broad_transfer"
-                    android:drawablePadding="8dp"
                     android:gravity="center_vertical"
                     android:text="@string/mine_transfer"
                     android:textColor="@color/black_or_white"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -217,29 +224,34 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#1E000000"
                 android:layout_marginHorizontal="16dp"
-                />
+                android:background="#1E000000"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/llMingxi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:padding="16dp"
                 android:paddingHorizontal="15dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_broad_zdmx" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_8"
                     android:layout_weight="1"
-                    android:drawableStart="@mipmap/ic_broad_zdmx"
-                    android:drawablePadding="8dp"
                     android:gravity="center_vertical"
                     android:text="@string/账单明细"
                     android:textColor="@color/black_or_white"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -257,8 +269,8 @@
                 android:background="@drawable/bg_rect_broad_main"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                android:paddingHorizontal="15dp">
+                android:paddingHorizontal="15dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
