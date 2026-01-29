@@ -51,7 +51,7 @@ object HttpsBroadConfig {
                 appHost2 = appHost
                 appImServerHost = "us.seekweb4.net"
                 appIcePassword = "aT3BxjPy4MRdC6@"
-                appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appGroupAvatarHost = "https://app.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
             }
             HONGKONG_TYPE -> {
@@ -59,18 +59,18 @@ object HttpsBroadConfig {
                 appHost2 = appHost
                 appImServerHost = "ws.seekweb4.net"
                 appIcePassword = "aT3BxjPy4MRdC6@"
-                appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appGroupAvatarHost = "https://api.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
                 appWebHost=appHost
             }
 
             FAT_TYPE -> {
                 appHost = "https://api-fat.seekweb4.net"
-                appHost2 = "$appHost/lixin"
+                appHost2 = appHost
                 appImServerHost = "fat.seekweb4.net"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
-                appAesPwd = "1q30vqwerf8yiac3"
+                appAesPwd = "f81q30ryiacasda1"
             }
 
             HTTP_TYPE -> {
