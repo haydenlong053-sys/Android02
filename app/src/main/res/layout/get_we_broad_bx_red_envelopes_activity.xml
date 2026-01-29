@@ -12,9 +12,9 @@
         android:layout_height="@dimen/dp_44"
         android:layout_marginStart="16dp"
         android:layout_marginTop="2dp"
+        android:alpha="0.5"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_back2_broad_bg"
-        android:alpha="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,15 +71,19 @@
         app:layout_constraintTop_toBottomOf="@id/userName"
         tools:text="人人皆股东 好运连连" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationImg"
         android:layout_width="@dimen/dp_394"
         android:layout_height="@dimen/dp_394"
-        android:layout_marginTop="@dimen/dp_33"
-        android:src="@mipmap/ic_bg_broad_test"
+        android:layout_marginTop="@dimen/dp_55"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/backIcon" />
+        app:layout_constraintTop_toBottomOf="@id/userImg"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="blue_pack.json"
+        app:lottie_loop="true" />
+
 
     <com.hjq.shape.view.ShapeView
         android:id="@+id/collectionBtn"
