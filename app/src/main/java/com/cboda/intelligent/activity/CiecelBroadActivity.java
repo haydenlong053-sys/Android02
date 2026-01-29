@@ -74,6 +74,11 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
     private LinearLayout llTool;
 
     @Override
+    protected boolean fitsSystemWindows() {
+        return true;
+    }
+
+    @Override
     public boolean showOrHideTitleLayout() {
         return false;
     }
@@ -107,13 +112,13 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
         ns.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if (state == State.COLLAPSED){
+                if (state == State.COLLAPSED) {
                     llTool.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                }else {
+                } else {
                     llTool.setBackgroundColor(Color.parseColor("#00000000"));
                 }
-                if (state == State.IDLING){
-                    ELogUtilKt.eLogD("zhanglong","========State.IDLING");
+                if (state == State.IDLING) {
+                    ELogUtilKt.eLogD("zhanglong", "========State.IDLING");
                     for (int j = 0; j < listBeans.size(); j++) {
                         listBeans.get(j).isChecked = false;
                     }
@@ -262,19 +267,19 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId()==R.id.imFinish){
+        if (view.getId() == R.id.imFinish) {
             finish();
-        }else  if (view.getId() == R.id.llAdd){
+        } else if (view.getId() == R.id.llAdd) {
             intent = new Intent(this, PushBroadActivity.class);
             startActivity(intent);
-        }else  if (view.getId() ==R.id.llMessage){
+        } else if (view.getId() == R.id.llMessage) {
             intent = new Intent(this, CircelMessageBroadActivity.class);
             startActivity(intent);
-        }else  if (view.getId() ==R.id.riIcon){
+        } else if (view.getId() == R.id.riIcon) {
             intent = new Intent(this, MyCircleBroadActivity.class);
             intent.putExtra("id", SharePrefBroadBroadUtil.getString(this, AppBroadConsts.UID, ""));
             startActivity(intent);
-        }else  if (view.getId() ==R.id.imBg){
+        } else if (view.getId() == R.id.imBg) {
             intent = new Intent(this, ChatBgBroadActivity.class);
             intent.putExtra("type", "0");
             startActivity(intent);

@@ -54,7 +54,7 @@ class AiCheckResultBroadActivity : BaseSimple2BroadActivity() {
         mBind = binding as? ActivityCheckResultBinding
         aiBean = intent.getSerializableExtra("ai_data") as? AiCheckResultBroadBean
         id = intent.getIntExtra("id", 0)
-        setRootBgColor(getColor(com.cboda.baselibrary.R.color.color_F4F8FD))
+        setRootBgColor(com.cboda.baselibrary.R.color.color_F4F8FD)
         mBind?.toolbar?.mTvTitle?.text = getString(R.string.ai_check_result)
         mBind?.toolbar?.mViewBack?.setOnClickListener {
             finish()

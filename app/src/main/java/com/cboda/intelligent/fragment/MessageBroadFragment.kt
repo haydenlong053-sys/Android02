@@ -33,6 +33,8 @@ import com.cboda.chatui.conversationlist.ConversationOtherGroupBroadFragment
 import com.cboda.chatui.conversationlist.ConversationSingleBroadFragment
 import com.cboda.chatui.widget.ProgressBroadFragment
 import cn.wildfirechat.viewmodel.HomeUIViewModel
+import com.blankj.utilcode.util.ConvertUtils.dp2px
+import com.blankj.utilcode.util.SizeUtils
 import com.cboda.baselibrary.bean.GlobalNoticeBroadBean
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.hjq.permissions.Permission
@@ -112,6 +114,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
+        setBottomViewHeight()
         var result = 0
         val resourceId = resources.getIdentifier(
             "status_bar_height",
@@ -406,6 +409,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     }
 
     private var viewModel: CommViewBroadModel? = null
+    private var bottomView: View? = null
     private lateinit var ivkefu: AppCompatImageView
     private lateinit var ivsudu: AppCompatImageView
     private lateinit var viewPager: ViewPager2
@@ -420,6 +424,23 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     private var commonNavigator: CommonBroadNavigator? = null
 //    private val badgeViews = mutableMapOf<Int, TextView>()
 
+    private var marginBottom = 0
+
+    fun setBottomHeight(height: Int) {
+        marginBottom = dp2px(80f) + height
+        setBottomViewHeight()
+    }
+
+
+    private fun setBottomViewHeight() {
+        bottomView?.let {
+            val layoutParams = it.layoutParams
+            layoutParams.height = marginBottom
+            it.layoutParams = layoutParams
+        }
+
+    }
+
     private fun initViews(view: View) {
         hometool = view.findViewById(R.id.hometool)
         ivAdd = view.findViewById(R.id.ivAdd)
@@ -431,6 +452,8 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         ivMore = view.findViewById(R.id.ivMore)
         ivManager = view.findViewById(R.id.ivManager)
         managerBar = view.findViewById(R.id.compose_manager_bar)
+        cvTab = view.findViewById(R.id.cv_bg_tab)
+        bottomView = view.findViewById(R.id.bottomView)
         magicIndicator.visibility = View.VISIBLE
 
         //        titles.add("全部")
