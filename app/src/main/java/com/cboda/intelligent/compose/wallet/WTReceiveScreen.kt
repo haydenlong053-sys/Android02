@@ -248,8 +248,8 @@ fun WTReceiveScreen(
                     .padding(horizontal = 40.dp)
             ) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
+                    horizontalAlignment = Alignment.Start
                 ) {
                     Text(
                         text = "钱包地址",
@@ -261,7 +261,7 @@ fun WTReceiveScreen(
                         text = address,
                         fontSize = 16.sp,
                         color = Color.Black,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Start,
                         fontWeight = FontWeight.W400,
                         lineHeight = 18.sp
                     )

@@ -49,6 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 import coil.compose.SubcomposeAsyncImage
+import com.cboda.intelligent.compose.getFormattedAmount
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.model.AssetItem
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -505,7 +506,7 @@ fun TokenList(hideAssets: Boolean, onTokenClick: (String) -> Unit, assetList: Li
                     onClick = { onTokenClick(item.symbol) }, 
                     symbol = item.symbol, 
                     name = item.name, 
-                    amount = item.balance, 
+                    amount = getFormattedAmount(item.balance,item.decimals),
                     value = "≈$${item.value_usd}",
                     change = item.change_24h,
                     logoUrl = item.logo_url
