@@ -305,33 +305,12 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         indicatorAdapt = BadgeIndicatorAdapter(requireContext(), mResIds, badgeCounts)
         commonNavigator.adapter = indicatorAdapt
         magicIndicator.navigator = commonNavigator
-
-        // 绑定 ViewPager 和 MagicIndicator，确保双向同步
         bindIndicatorAndViewPager(
             magicIndicator,
             viewPager,
             indicatorAdapt,
-            smoothScroll = false,  // 点击时立即切换，无动画
-            commonNavigatorAdapterCanResult = true
-        ) { type, position, _, _, _ ->
-            // 当点击 title 切换页面时，如果 smoothScroll = false，可能不会触发 onPageScrolled
-            // 需要在 onPageSelected 后手动触发指示器更新
-            if (type == 1 && position != null) {
-                // onPageSelected 回调，手动触发指示器位置更新
-                magicIndicator.post {
-                    magicIndicator.onPageScrolled(position, 0f, 0)
-                }
-            }
-        }
-
-        // 初始化当前选中页面，确保指示器显示正确状态
-        // 需要在布局完成后初始化，以确保位置数据已准备好
-//        magicIndicator.post {
-//            val currentItem = viewPager.currentItem
-//            magicIndicator.onPageSelected(currentItem)
-//            magicIndicator.onPageScrolled(currentItem, 0f, 0)
-//        }
-
+            magicIndicatorNeedOnPageScrolled = true
+        )
     }
 
     private fun updateBadges() {
@@ -340,38 +319,6 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         badgeCounts[2] = anyToInt(otherGroupCount)
         badgeCounts[3] = anyToInt(socialCount)
         indicatorAdapt?.notifyDataSetChanged()
-//        badgeViews[0]?.let {
-//            if (singleCount != "0") {
-//                it.text = singleCount
-//                it.visibility = View.VISIBLE
-//            } else {
-//                it.visibility = View.INVISIBLE
-//            }
-//        }
-//        badgeViews[1]?.let {
-//            if (myGroupCount != "0") {
-//                it.text = myGroupCount
-//                it.visibility = View.VISIBLE
-//            } else {
-//                it.visibility = View.INVISIBLE
-//            }
-//        }
-//        badgeViews[2]?.let {
-//            if (otherGroupCount != "0") {
-//                it.text = otherGroupCount
-//                it.visibility = View.VISIBLE
-//            } else {
-//                it.visibility = View.INVISIBLE
-//            }
-//        }
-//        badgeViews[3]?.let {
-//            if (socialCount != "0") {
-//                it.text = socialCount
-//                it.visibility = View.VISIBLE
-//            } else {
-//                it.visibility = View.INVISIBLE
-//            }
-//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -380,12 +327,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 //            count0 = event?.count0.toString()
         if (null != event?.singleCount) {
             event.singleCount.toIntOrNull()?.let {
-                singleCount = if (it > 99) {
-                    "99+"
-                } else {
-                    event.singleCount.toString()
-                }
-
+                singleCount = event.singleCount.toString()
             }
 
         }
@@ -413,32 +355,18 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         }
         if (null != event?.myGroupCount) {
             event.myGroupCount.toIntOrNull()?.let {
-                myGroupCount = if (it > 99) {
-                    "99+"
-                } else {
-                    event.myGroupCount.toString()
-                }
-
+                myGroupCount = event.myGroupCount.toString()
             }
         }
         if (null != event?.otherGroupCount) {
             event.otherGroupCount.toIntOrNull()?.let {
-                otherGroupCount = if (it > 99) {
-                    "99+"
-                } else {
-                    event.otherGroupCount.toString()
-                }
+                otherGroupCount = event.otherGroupCount.toString()
 
             }
         }
         if (null != event?.socialCount) {
             event.socialCount.toIntOrNull()?.let {
-                socialCount = if (it > 99) {
-                    "99+"
-                } else {
-                    event.socialCount.toString()
-                }
-
+                socialCount = event.socialCount.toString()
             }
         }
 
@@ -645,23 +573,23 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         return R.layout.fragment_xiao_broad_xi
     }
 
-    private fun bindTab(viewPager: ViewPager2) {
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                magicIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels)
-            }
-
-            override fun onPageSelected(position: Int) {
-                magicIndicator.onPageSelected(position)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-                magicIndicator.onPageScrollStateChanged(state)
-            }
-        })
-    }
+//    private fun bindTab(viewPager: ViewPager2) {
+//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageScrolled(
+//                position: Int,
+//                positionOffset: Float,
+//                positionOffsetPixels: Int
+//            ) {
+//                magicIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels)
+//            }
+//
+//            override fun onPageSelected(position: Int) {
+//                magicIndicator.onPageSelected(position)
+//            }
+//
+//            override fun onPageScrollStateChanged(state: Int) {
+//                magicIndicator.onPageScrollStateChanged(state)
+//            }
+//        })
+//    }
 }

@@ -10,6 +10,7 @@ fun bindIndicatorAndViewPager(
     commonNavigatorAdapter: CommonNavigatorBroadAdapter? = null,
     smoothScroll: Boolean = false,
     commonNavigatorAdapterCanResult: Boolean = true,
+    magicIndicatorNeedOnPageScrolled: Boolean = false,
     callBack: (Int?, Int?, Float?, Int?, Int?) -> Unit = { _, _, _, _, _ -> }
 ) {
     viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
@@ -24,6 +25,9 @@ fun bindIndicatorAndViewPager(
 
         override fun onPageSelected(position: Int) {
             magicIndicator.onPageSelected(position)
+            if (magicIndicatorNeedOnPageScrolled) {
+                magicIndicator.onPageScrolled(position, 0f, 0)
+            }
             callBack.invoke(1, position, 0f, 0, null)
         }
 
