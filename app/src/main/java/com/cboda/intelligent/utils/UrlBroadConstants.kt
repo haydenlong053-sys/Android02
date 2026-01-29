@@ -95,4 +95,29 @@ object UrlBroadBroadConstants {
     const val AI_PAGE = "api/AI/page"
 
     const val AI_RESULT = "api/AI/result"
+
+    //WT相关
+    // 钱包地址
+    const val WT_WALLETS = "v1/wallets" // 创建/导入(POST), 列表(GET)
+    const val WT_WALLETS_DETAIL = "v1/wallets/detail" // 详情(GET)
+    const val WT_WALLETS_UPDATE = "v1/wallets/update" // 更新(POST)
+    const val WT_WALLETS_SOURCE = "v1/wallets/source" // 更新钱包来源地址(POST)
+    const val WT_WALLETS_DELETE = "v1/wallets/delete" // 删除(POST)
+    const val WT_WALLETS_SORT = "v1/wallets/sort" // 排序(POST)
+
+    // 用户代币
+    const val WT_TOKENS_PREVIEW = "v1/tokens/preview" // 代币预览(POST)
+    const val WT_TOKENS = "v1/tokens" // 添加代币(POST), 列表(GET)
+    const val WT_TOKENS_DELETE = "v1/tokens/delete" // 移除代币(POST)
+
+    // 资产与价格
+    const val WT_ASSETS = "v1/assets" // 资产列表(GET)
+    const val WT_PRICES = "v1/prices" // 价格批量查询(POST)
+
+    // 交易与账本
+    const val WT_TX_GAS = "v1/tx/gas" // Gas 预估(POST)
+    const val WT_TX_VALIDATE = "v1/tx/validate" // 转账校验(POST)
+    const val WT_TX_BROADCAST = "v1/tx/broadcast" // 交易广播(POST)
+    const val WT_TX_STATUS = "v1/txs" // 交易状态查询(GET)
+    const val WT_LEDGER = "v1/ledger" // 账本流水查询(GET)
 }

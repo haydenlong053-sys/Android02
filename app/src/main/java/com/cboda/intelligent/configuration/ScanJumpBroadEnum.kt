@@ -7,5 +7,6 @@ enum class ScanJumpBroadEnum(val sourceType: Int) {
     Find(3),
     Login(4),
 
+    ETH_TRANSFER(5)
 
 }

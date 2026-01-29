@@ -883,4 +883,151 @@
     <string name="男2">男</string>
     <string name="day2">天</string>
 
+    <string name="wallet_eth">区块钱包</string>
+
+    <!-- Wallet Transfer -->
+    <string name="wt_transfer_title">转账</string>
+    <string name="wt_transfer_asset">转账币种</string>
+    <string name="wt_transfer_to_address">收款地址</string>
+    <string name="wt_transfer_to_address_hint">请输入或粘贴收款地址</string>
+    <string name="wt_transfer_amount">转账数量</string>
+    <string name="wt_transfer_amount_hint">请输入拟转金额</string>
+    <string name="wt_balance">余额</string>
+    <string name="wt_max">最大</string>
+    <string name="wt_network_fee">网络费</string>
+    <string name="wt_estimated_fee">预估费用</string>
+    <string name="wt_confirm_send">确认发送</string>
+    <string name="wt_toast_enter_address">请输入收款地址</string>
+    <string name="wt_toast_enter_amount">请输入转账金额</string>
+    <string name="wt_toast_select_asset">请选择转账币种</string>
+    <string name="wt_toast_password_error">密码错误</string>
+    <string name="wt_select_token_title">选择转账代币</string>
+    <string name="wt_password_dialog_title">请输入钱包密码</string>
+    <string name="wt_password_label">密码</string>
+    <string name="wt_confirm">确定</string>
+    <string name="wt_cancel">取消</string>
+
+    <!-- Wallet Receive -->
+    <string name="wt_receive_title">收款</string>
+    <string name="wt_receive_warning_bsc">该地址仅支持BSC相关资产</string>
+    <string name="wt_receive_asset_label">收款资产</string>
+    <string name="wt_wallet_address">钱包地址</string>
+    <string name="wt_toast_address_copied">地址已复制</string>
+    <string name="wt_copy_address">复制地址</string>
+    <string name="wt_set_amount">设置数额</string>
+    <string name="wt_set_amount_title">设置收款数额</string>
+    <string name="wt_enter_amount_hint">请输入收款金额</string>
+
+    <!-- Wallet Token Detail -->
+    <string name="wt_toast_unavailable">暂时无法使用</string>
+    <string name="wt_current_price">当前价格</string>
+    <string name="wt_tab_all">全部</string>
+    <string name="wt_tab_in">转入</string>
+    <string name="wt_tab_out">转出</string>
+    <string name="wt_received_format">收到 %1$s</string>
+    <string name="wt_sent_format">转出 %1$s</string>
+
+    <!-- Wallet Transaction Detail -->
+    <string name="wt_transaction_detail_title">交易详情</string>
+    <string name="wt_transaction_success">交易成功</string>
+    <string name="wt_payer_address">付款地址</string>
+    <string name="wt_tx_hash">哈希值</string>
+    <string name="wt_network">网络</string>
+    <string name="wt_time">时间</string>
+    <!-- Wallet Transfer Processing -->
+    <string name="wt_processing_title">交易中</string>
+    <string name="wt_processing_redirect_hint">3秒后返回钱包首页</string>
+
+    <!-- Wallet Detail -->
+    <string name="wt_wallet_detail_title">钱包详情</string>
+    <string name="wt_watch_wallet_tag">观察钱包</string>
+    <string name="wt_export_mnemonic">导出助记词</string>
+    <string name="wt_export_private_key">导出私钥</string>
+    <string name="wt_convert_to_transaction_wallet">转为交易钱包</string>
+    <string name="wt_delete_wallet">删除钱包</string>
+    <string name="wt_input_remark_name">请输入备注名</string>
+    <string name="wt_input_remark_hint">最多输入20个字符</string>
+    <string name="wt_delete_watch_wallet_confirm">确定要删除该观察钱包地址吗？</string>
+    <string name="wt_delete_wallet_confirm">确定要删除该钱包吗？\n请确保您已备份助记词或私钥！</string>
+    <string name="wt_convert_need_import_hint">需要导入助记词或私钥</string>
+
+    <!-- Wallet Import -->
+    <string name="wt_importing_wallet">正在导入钱包...</string>
+    <string name="wt_import_failed">导入失败</string>
+    <string name="wt_import_wallet_title">导入钱包</string>
+    <string name="wt_import_mnemonic_or_private_key">导入助记词或私钥</string>
+    <string name="wt_import_hint">助记词之间用空格隔开,支持12/24位助记词或私钥导入</string>
+    <string name="wt_input_mnemonic_or_private_key">请输入助记词或私钥</string>
+    <string name="wt_wallet_remark">钱包备注</string>
+    <string name="wt_confirm_import">确认导入</string>
+    <string name="wt_input_placeholder">请输入</string>
+    <string name="wt_clear">清空</string>
+    <string name="wt_paste">粘贴</string>
+
+    <!-- Wallet Export Private Key -->
+    <string name="wt_export_private_key_title">导出私钥</string>
+    <string name="wt_export_private_key_warning">私钥未加密，请谨慎导出，做好安全备份！做私钥备份时，请确保周边没有其他人！</string>
+    <string name="wt_copy_private_key">复制私钥</string>
+    <string name="wt_backed_up">我已备份好</string>
+
+    <!-- Security Tip Dialog -->
+    <string name="wt_security_tip_title">安全提示</string>
+    <string name="wt_security_tip_content">复制后，务必对助记词（私钥）进行妥善保管，否则会造成资产丢失</string>
+    <string name="wt_security_tip_1_prefix">复制后，</string>
+    <string name="wt_security_tip_1_highlight">不打开其他应用</string>
+    <string name="wt_security_tip_1_suffix">，避免被读取粘贴板。</string>
+    <string name="wt_security_tip_2_highlight">不在任何联网的应用中进行粘贴</string>
+    <string name="wt_security_tip_2_suffix">，不用任何网盘、聊天工具进行备份</string>
+    <string name="wt_security_tip_3_highlight">不将助记词（私钥）分享给任何人</string>
+    <string name="wt_security_tip_3_middle">，请注意，</string>
+    <string name="wt_security_tip_3_highlight2">我们永远不会向您索要</string>
+
+    <!-- Common -->
+    <string name="wt_back">返回</string>
+    <string name="wt_tip">提示</string>
+    <string name="wt_creating_wallet">正在创建钱包...</string>
+    <string name="wt_adding">正在添加...</string>
+    <string name="wt_create_new_wallet">创建新钱包</string>
+    <string name="wt_add_new_multi_chain_account">添加新的多链账户</string>
+    <string name="wt_import_wallet">导入钱包</string>
+    <string name="wt_import_mnemonic_private_key">导入助记词/私钥账户</string>
+    <string name="wt_add_watch_wallet">添加观察钱包</string>
+    <string name="wt_track_assets_via_address">通过钱包地址追踪资产动态</string>
+    <string name="wt_add_wallet">添加钱包</string>
+    <string name="wt_add_watch_address">添加观察地址</string>
+    <string name="wt_watch_address">观察地址</string>
+    <string name="wt_input_address">请输入地址</string>
+    <string name="wt_wallet_note">钱包备注</string>
+    <string name="wt_input_wallet_note">请输入钱包备注</string>
+    <string name="wt_max_20_chars">最多输入20个字符</string>
+    <string name="wt_backup_mnemonic_title">抄写备份助记词</string>
+    <string name="wt_view_mnemonic_title">查看助记词</string>
+    <string name="wt_finish">完成</string>
+    <string name="wt_backup_mnemonic_desc_1">请按顺序抄写以下单词，并妥善保管。</string>
+    <string name="wt_backup_mnemonic_desc_2">切记不要向任何人提供助记词，否则资产无法找回。</string>
+    <string name="wt_backup_mnemonic_desc_3">官方客服也不会向您索要助记词</string>
+    <string name="wt_copy_mnemonic">复制助记词</string>
+    <string name="wt_my_wallet">我的钱包</string>
+    <string name="wt_total_asset_value">总资产估值</string>
+    <string name="wt_scan">扫一扫</string>
+    <string name="wt_watch_wallet_not_supported">观察钱包暂不支持该功能</string>
+    <string name="wt_receive">收款</string>
+    <string name="wt_transfer">转账</string>
+    <string name="wt_assets">资产</string>
+    <string name="wt_switch_wallet">切换钱包</string>
+    <string name="wt_toggle_visibility">切换可见性</string>
+    <string name="wt_copied">已复制</string>
+    <string name="wt_copy">复制</string>
+    <string name="wt_input_address_placeholder">请输入地址</string>
+
+    <string name="wt_create_new_wallet_subtitle">添加新的多链账户</string>
+
+    <string name="wt_input_limit_20">最多输入20个字符</string>
+
+    <string name="wt_token_bnb">币安币</string>
+    <string name="wt_edit">编辑</string>
+    <string name="wt_address_copied">已复制</string>
+    <string name="wt_transaction_failed">失败</string>
+    <string name="wt_no_data">暂无数据</string>
+
 </resources>

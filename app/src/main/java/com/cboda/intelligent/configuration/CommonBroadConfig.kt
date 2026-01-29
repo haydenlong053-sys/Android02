@@ -5,4 +5,5 @@ object CommonBroadConfig {
     const val pageSize_20 =20
     const val pageSize_100 =100
     const val seekWeb4="seekWeb4://"
+    const val sw4bc="sw4bc://"
 }

@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.isEthWalletLinkQrCode;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.isTransferLinkQrCode;
 
@@ -301,7 +302,12 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             ToastBroadUtil.show(getString(R.string.scan_image_qr_code_unrecognizable));
             restartScan();
         } else {
-            if (jumpSource != ScanJumpBroadEnum.None.getSourceType() && jumpSource != ScanJumpBroadEnum.Login.getSourceType() && isTransferLinkQrCode(s)) {
+            if (jumpSource == ScanJumpBroadEnum.ETH_TRANSFER.getSourceType() && isEthWalletLinkQrCode(s)) {
+                Intent intent = new Intent();
+                intent.putExtra("scan_result", s);
+                setResult(RESULT_OK, intent);
+                finish();
+            }else if (jumpSource != ScanJumpBroadEnum.None.getSourceType() && jumpSource != ScanJumpBroadEnum.Login.getSourceType() && isTransferLinkQrCode(s)) {
                 Intent intent = new Intent(this, TransferBroadActivity.class);
                 intent.putExtra("data", s);
                 startActivity(intent);
@@ -440,6 +446,20 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         scanner.setOnScannerCompletionListener(new OnScannerCompletionListener() {
             @Override
             public void onScannerCompletion(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
+                if (jumpSource == ScanJumpBroadEnum.ETH_TRANSFER.getSourceType() && isEthWalletLinkQrCode(rawResult.getText())) {
+                    Intent intent = new Intent();
+                    intent.putExtra("scan_result", rawResult.getText());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    return;
+                }
+                if (jumpSource != ScanJumpBroadEnum.None.getSourceType() && jumpSource != ScanJumpBroadEnum.Login.getSourceType() && isTransferLinkQrCode(rawResult.getText())) {
+                    Intent intent = new Intent(ScanBroadActivity.this, TransferBroadActivity.class);
+                    intent.putExtra("data", rawResult.getText());
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
                 if (!TextUtils.isEmpty(rawResult.getText()) && rawResult.getText().contains("-")) {
                     String[] result = rawResult.getText().split("-");
                     if (result.length < 2) {

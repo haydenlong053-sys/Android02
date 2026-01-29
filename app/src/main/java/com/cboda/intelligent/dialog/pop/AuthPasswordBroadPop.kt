@@ -53,7 +53,7 @@ class AuthPasswordBroadPop(
     private lateinit var mTvTitle: TextView
     private lateinit var mTvMoney: TextView
     private lateinit var mViewRoot: ViewGroup
-
+    var backPwdInvoke:(String)-> Unit ={}
 
     init {
         if (isDeepColor) {
@@ -180,6 +180,11 @@ class AuthPasswordBroadPop(
                                             })
 
                                         }
+                                        SafeJumpBroadEnum.EthPasswordAuth.sourceType->{
+                                            //钱包模块的验证需要传递密码，所以用不同的回调
+                                            backPwdInvoke.invoke(text)
+
+                                        }
 
                                     }
 
@@ -226,7 +231,7 @@ class AuthPasswordBroadPop(
                 context.getString(R.string.mine_password_title_4)
             }
 
-            SafeJumpBroadEnum.PasswordChangeSure.sourceType -> {
+            SafeJumpBroadEnum.PasswordChangeSure.sourceType ,SafeJumpBroadEnum.EthPasswordAuth.sourceType-> {
                 context.getString(R.string.mine_password_title_5)
             }
 

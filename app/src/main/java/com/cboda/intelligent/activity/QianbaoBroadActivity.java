@@ -1,5 +1,7 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,8 +9,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
+
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
+import com.cboda.intelligent.compose.navgraph.WTRoute;
 import com.cboda.intelligent.dialog.pop.CommonTipBroadPop;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.dialog.NormalBroadDialog;
@@ -17,6 +23,7 @@ import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.net.BroadUrl;
 import com.cboda.intelligent.utils.StringBroadUtil;
 import com.cboda.intelligent.utils.StringBroadUtils;
+import com.cboda.intelligent.viewmodel.WTViewModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +44,7 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
     private LinearLayout llShezhi;
     private LinearLayout mLlTransfer;
     private TextView mTvSysCurrency;
+    private LinearLayout llWallet;
     private boolean isHasSecurity = false;
     private boolean isGoogleAuth = false;
 
@@ -62,6 +70,7 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
         llMingxi.setOnClickListener(this);
         llShezhi.setOnClickListener(this);
         mLlTransfer.setOnClickListener(this);
+        llWallet.setOnClickListener(this);
     }
 
     @Override
@@ -104,6 +113,29 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
                 showGuideTip();
             }
 
+        }
+        if (view.getId() == R.id.ll_wallet){
+//            NetworkManager.INSTANCE.updateConfig("http://47.118.18.244:8080/", NetworkConfig.INSTANCE.getConnectTimeout(), NetworkConfig.INSTANCE.getReadTimeout(), NetworkConfig.INSTANCE.getWriteTimeout(),true);
+            WTViewModel viewModel = new ViewModelProvider(this).get(WTViewModel.class);
+            viewModel.checkWalletList(97, new WTViewModel.CheckWalletCallback() {
+                @Override
+                public void onSuccess(boolean isEmpty) {
+                    ELogUtilKt.eLogD("列表","isEmpty"+isEmpty);
+                    if (isEmpty) {
+                        Intent intent = new Intent(QianbaoBroadActivity.this, WTEmptyActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(QianbaoBroadActivity.this, WalletActivity.class);
+                        intent.putExtra("start_route", WTRoute.ASSET_WT);
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onError(String msg) {
+                    showToastMain(getString(R.string.httperror));
+                }
+            });
         }
 
 
@@ -243,5 +275,6 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
         llShezhi = findViewById(R.id.llShezhi);
         mLlTransfer = findViewById(R.id.mLlTransfer);
         mTvSysCurrency = findViewById(R.id.mTvSysCurrency);
+        llWallet = findViewById(R.id.ll_wallet);
     }
 }

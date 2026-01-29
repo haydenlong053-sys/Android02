@@ -136,6 +136,9 @@ configurations.all {
 
 dependencies {
     api project(':chat-ui')
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.32.0"
+    // Wallet
+    implementation 'org.web3j:core:4.8.8-android'
     implementation libs.androidx.core
     implementation libs.androidx.appcompat
     implementation libs.androidx.constraintlayout

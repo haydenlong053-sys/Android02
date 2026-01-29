@@ -15,5 +15,7 @@ enum class SafeJumpBroadEnum(val sourceType: Int) {
     LoginNewMachine(10),
     LoginForgetPassword(11),
 
+    //钱包模块的密码验证，用于返回一个用户输入的密码来生成密钥的回调
+    EthPasswordAuth(12),
 
 }

@@ -258,11 +258,28 @@ public class AEBroadS {
         return Base64.encodeToString(encrypted, Base64.DEFAULT);
     }
 
+    public static String encryptETH(String input) throws Exception {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+        byte[] encrypted = cipher.doFinal(input.getBytes());
+        return Base64.encodeToString(encrypted, Base64.NO_WRAP);
+    }
+
+
     public static String decrypt(String encrypted) throws Exception {
         SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
         byte[] original = cipher.doFinal(Base64.decode(encrypted, Base64.DEFAULT));
+        return new String(original);
+    }
+
+    public static String decryptEth(String encrypted) throws Exception {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+        byte[] original = cipher.doFinal(Base64.decode(encrypted, Base64.NO_WRAP));
         return new String(original);
     }
 }

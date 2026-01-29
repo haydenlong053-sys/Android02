@@ -1,6 +1,7 @@
 package com.cboda.baselibrary.network.interceptor
 
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -20,6 +21,8 @@ class HeaderBroadInterceptor : Interceptor {
         NetworkBroadConfig.appToken?.let { token ->
             requestBuilder.addHeader("apptoken", token)
             requestBuilder.addHeader("token", token)
+            //测试钱包专用 到时候要去掉
+            requestBuilder.addHeader("x-user-id", MMKVBroadUtils.getRealUserId()?:"")
         }
         
         // 添加其他通用header

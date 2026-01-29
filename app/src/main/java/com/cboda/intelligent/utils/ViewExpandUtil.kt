@@ -111,6 +111,11 @@ fun isTransferLinkQrCode(str: String?): Boolean {
     return str?.contains(CommonBroadConfig.seekWeb4) ?: false
 }
 
+//是否为区块钱包的code
+fun isEthWalletLinkQrCode(str: String?): Boolean{
+    return  str?.startsWith(CommonBroadConfig.sw4bc)?:false
+}
+
 fun View.isCanGo(boolean: Boolean) {
     this.isEnabled = boolean
     this.isSelected = boolean

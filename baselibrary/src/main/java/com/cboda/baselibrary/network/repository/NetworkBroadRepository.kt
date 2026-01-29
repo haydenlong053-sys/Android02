@@ -296,19 +296,33 @@ object NetworkBroadRepository {
     suspend fun <T> get(
         url: String,
         baseUrl: String,
+        clazz: Class<T>,
         params: Map<String, String> = emptyMap()
     ): NetworkBroadResult<T> = suspendCancellableCoroutine { continuation ->
-        NetworkBroadUtils.getWithBaseUrl<T>(
+        NetworkBroadUtils.getAnyWithBaseUrl(
             url = url,
-            baseUrl = baseUrl,
+            baseUrl,
             params = params,
-            callback = object : NetworkBroadUtils.NetworkCallback<T> {
-                override fun onSuccess(data: T?) {
-                    continuation.resume(NetworkBroadResult.BroadSuccess(data))
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
+                override fun onSuccess(data: Any?) {
+                    try {
+                        val result = if (data != null) {
+                            // 使用 Gson 进行类型安全的转换
+                            val gson = GsonUtils.getGson()
+                            val json = gson.toJson(data)
+                            gson.fromJson(json, clazz)
+                        } else {
+                            null
+                        }
+                        continuation.resume(NetworkBroadResult.BroadSuccess(result))
+                    } catch (e: Exception) {
+                        continuation.resume(NetworkBroadResult.BroadError(e))
+                    }
                 }
 
-                override fun onFailure(code: Int, message: String, data: T?) {
-                    continuation.resume(NetworkBroadResult.BroadFailure(code, message, data))
+                override fun onFailure(code: Int, message: String, data: Any?) {
+                    val convertedData = convertFailureData(data, clazz)
+                    continuation.resume(NetworkBroadResult.BroadFailure(code, message, convertedData))
                 }
 
                 override fun onError(throwable: Throwable) {
@@ -317,7 +331,6 @@ object NetworkBroadRepository {
             }
         )
     }
-
     /**
      * 协程版本的加密 GET 请求
      *
@@ -430,19 +443,28 @@ object NetworkBroadRepository {
     suspend fun <T> post(
         url: String,
         baseUrl: String,
+        clazz: Class<T>,
         body: Any
     ): NetworkBroadResult<T> = suspendCancellableCoroutine { continuation ->
-        NetworkBroadUtils.postWithBaseUrl<T>(
+        NetworkBroadUtils.postWithBaseUrl<Any>(
             url = url,
             baseUrl = baseUrl,
             body = body,
-            callback = object : NetworkBroadUtils.NetworkCallback<T> {
-                override fun onSuccess(data: T?) {
-                    continuation.resume(NetworkBroadResult.BroadSuccess(data))
+            callback = object : NetworkBroadUtils.NetworkCallback<Any> {
+                override fun onSuccess(data: Any?) {
+                    try {
+                        val gson = GsonUtils.getGson()
+                        val json = gson.toJson(data)
+                        val result = gson.fromJson(json, clazz)
+                        continuation.resume(NetworkBroadResult.BroadSuccess(result))
+                    } catch (e: Exception) {
+                        continuation.resume(NetworkBroadResult.BroadError(e))
+                    }
                 }
 
-                override fun onFailure(code: Int, message: String, data: T?) {
-                    continuation.resume(NetworkBroadResult.BroadFailure(code, message, data))
+                override fun onFailure(code: Int, message: String, data: Any?) {
+                    val convertedData = convertFailureData(data, clazz)
+                    continuation.resume(NetworkBroadResult.BroadFailure(code, message, convertedData))
                 }
 
                 override fun onError(throwable: Throwable) {
