@@ -124,7 +124,8 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
         if ("1".equals(zhuanzhangMessage.lingquStatus)) {
 //            hongbaoTopBg.setVisibility(View.VISIBLE);
 //            hongbaoBg.setAlpha(0.5f);
-            allGroup.setAlpha(0.45f);
+//            allGroup.setAlpha(0.45f);
+            allGroup.setAlpha(1f);
 //            if (!"3".equals(zhuanzhangMessage.hongbaoLeixing)) {
 //                tvhoongbaotips.setText("已解锁");
 //            }
@@ -151,7 +152,8 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
             if (zhuanzhangMessage.lqUsers != null && zhuanzhangMessage.lqUsers.contains(ChatManager.Instance().getUserId())) {
 //                hongbaoTopBg.setVisibility(View.VISIBLE);
 //                hongbaoBg.setAlpha(0.5f);
-                allGroup.setAlpha(0.45f);
+//                allGroup.setAlpha(0.45f);
+                allGroup.setAlpha(1f);
 //                if (!"3".equals(zhuanzhangMessage.hongbaoLeixing)) {
                 if (message.message.direction == MessageDirection.Send) {
                     statusTv.setVisibility(View.GONE);
@@ -164,7 +166,8 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
                 }
 //                }
             } else if ("2".equals(zhuanzhangMessage.lingquStatus) && message.message.conversation.type == Conversation.ConversationType.Single) {
-                allGroup.setAlpha(0.45f);
+//                allGroup.setAlpha(0.45f);
+                allGroup.setAlpha(1f);
 //                if (!"3".equals(zhuanzhangMessage.hongbaoLeixing)) {
                 if (message.message.direction == MessageDirection.Send) {
                     statusTv.setVisibility(View.GONE);
