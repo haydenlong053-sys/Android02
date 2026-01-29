@@ -50,8 +50,8 @@ fun WTExportPrivateKeyScreen(
                     Text(
                         text = stringResource(R.string.wt_export_private_key_title), 
                         color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W500
                     ) 
                 },
                 navigationIcon = {
@@ -84,11 +84,11 @@ fun WTExportPrivateKeyScreen(
                 fontSize = 14.sp,
                 color = Color(0xFFFF5252),
                 lineHeight = 20.sp,
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = 44.dp)
             )
 
             Surface(
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(10.dp),
                 color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -96,11 +96,11 @@ fun WTExportPrivateKeyScreen(
             ) {
                 Text(
                     text = privateKey,
-                    color = Color(0xFF5B6CFF),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    lineHeight = 22.sp,
-                    modifier = Modifier.padding(16.dp)
+                    color = Color(0xFF3B47DD),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 16.41.sp,
+                    modifier = Modifier.padding(12.dp)
                 )
             }
             
@@ -112,9 +112,9 @@ fun WTExportPrivateKeyScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp),
+                    .height(46.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF5B6CFF))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B47DD))
             ) {
                 Icon(
                     painter = painterResource(id = R.mipmap.ic_wt_backup_copy),
@@ -136,16 +136,16 @@ fun WTExportPrivateKeyScreen(
                 onClick = onBack,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp),
+                    .height(46.dp),
                 shape = RoundedCornerShape(16.dp),
-                border = BorderStroke(1.dp, Color(0xFF5B6CFF)),
+                border = BorderStroke(1.dp, Color(0xFF3B47DD)),
                 colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White)
             ) {
                 Text(
                     text = stringResource(R.string.wt_backed_up),
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF5B6CFF)
+                    fontWeight = FontWeight.W500,
+                    color = Color(0xFF3B47DD)
                 )
             }
         }

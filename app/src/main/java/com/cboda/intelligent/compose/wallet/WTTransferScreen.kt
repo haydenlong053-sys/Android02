@@ -146,11 +146,11 @@ fun WTTransferScreen(
         val amt = amount.toDoubleOrNull() ?: 0.0
         val usd = if (asset != null && amt > 0) {
             val balance = asset.balance.toDoubleOrNull() ?: 0.0
-            val totalUsd = asset.value_usd.toDoubleOrNull()
+            val totalUsd = asset.value_usd?.toDoubleOrNull()
             val price = if (balance > 0 && totalUsd != null) {
                 totalUsd / balance
             } else {
-                asset.price_usd.toDoubleOrNull() ?: 0.0
+                asset.price_usd?.toDoubleOrNull() ?: 0.0
             }
             amt * price
         } else {
@@ -204,7 +204,7 @@ fun WTTransferScreen(
         containerColor = Color(0xFFF7F8FA),
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(stringResource(R.string.wt_transfer_title), fontSize = 18.sp, fontWeight = FontWeight.W500) },
+                title = { Text(stringResource(R.string.wt_transfer_title), fontSize = 16.sp, fontWeight = FontWeight.W500) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
@@ -573,11 +573,11 @@ fun TokenSelectionItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = item.symbol, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.Black)
                 Spacer(modifier = Modifier.width(8.dp))
-                if (item.price_usd.isNotEmpty()) {
+                if ((item.price_usd?:"0").isNotEmpty()) {
                     Text(text = "$${item.price_usd}", fontSize = 12.sp, color = Color(0xFF999999))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                val change = item.change_24h
+                val change = item.change_24h?:""
                 if (change.isNotEmpty()) {
                     val changeColor = if (change.startsWith("-")) Color(0xFFEB534B) else Color(0xFF52C41A)
                     Text(text = change, fontSize = 12.sp, color = changeColor)
@@ -587,7 +587,7 @@ fun TokenSelectionItem(
             // Row 2: Quantity | Value
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "数量: ${item.balance}", fontSize = 12.sp, color = Color(0xFF999999))
-                if (item.value_usd.isNotEmpty()) {
+                if ((item.value_usd?:"0").isNotEmpty()) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(text = "|", fontSize = 10.sp, color = Color(0xFFE5E5E5))
                     Spacer(modifier = Modifier.width(8.dp))

@@ -65,7 +65,7 @@ fun WTReceiveScreen(
                     Text(
                         text = stringResource(R.string.wt_receive_title),
                         color = Color.White,
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.W500
                     )
                 },

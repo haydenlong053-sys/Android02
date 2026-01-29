@@ -134,9 +134,9 @@ data class AssetItem(
     val name: String,
     val decimals: Int,
     val balance: String,
-    val price_usd: String,
-    val value_usd: String,
-    val change_24h: String,
+    val price_usd: String?,
+    val value_usd: String?="0",
+    val change_24h: String?="+0.0%",
     val logo_url: String?
 )
 

@@ -1014,7 +1014,15 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, isActionSuccess = false, actionError = null)
             repository.removeToken(req).onSuccess {
-                _uiState.value = _uiState.value.copy(isLoading = false, isActionSuccess = true)
+                // Remove token locally to update UI immediately
+                val currentList = _uiState.value.assetList
+                val newList = currentList.filter { !it.token_address.equals(req.token_address, ignoreCase = true) }
+                
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false, 
+                    isActionSuccess = true,
+                    assetList = newList
+                )
             }.onError {
                 _uiState.value = _uiState.value.copy(isLoading = false, actionError = it.message)
             }

@@ -147,8 +147,8 @@ fun WTImportContent(
                     Text(
                         text = stringResource(R.string.wt_import_wallet_title), 
                         color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W500
                     ) 
                 },
                 navigationIcon = {

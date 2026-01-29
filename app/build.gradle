@@ -182,6 +182,7 @@ dependencies {
         exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
     }
     coreLibraryDesugaring libs.desugar.jdk.libs
+    debugImplementation libs.ui.tooling
 //    implementation "${thirdPartyApis.LoadingDialog}"
 //    api project(':baselibrary')
 //    api project(':iMeet')

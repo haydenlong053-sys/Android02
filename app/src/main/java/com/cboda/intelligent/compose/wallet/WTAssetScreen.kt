@@ -1,7 +1,6 @@
 package com.cboda.intelligent.compose.wallet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.Image
 import androidx.compose.ui.layout.ContentScale
@@ -14,22 +13,18 @@ import androidx.compose.ui.zIndex
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.ui.composed
-import androidx.compose.foundation.interaction.MutableInteractionSource
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,7 +39,6 @@ import androidx.compose.runtime.collectAsState
 
 import androidx.compose.ui.platform.LocalContext
 import android.widget.Toast
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -53,6 +47,17 @@ import com.cboda.intelligent.compose.getFormattedAmount
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.model.AssetItem
 import com.cboda.intelligent.utils.ToastBroadUtil
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.ui.unit.IntOffset
+import kotlin.math.roundToInt
+import androidx.compose.foundation.layout.offset
+import com.cboda.intelligent.model.RemoveTokenRequest
+import kotlinx.coroutines.launch
 
 
 @Preview
@@ -64,6 +69,7 @@ fun PreviewWTAssetScreen() {
         onTransferClick = {},
         onReceiveClick = {},
         onAddWalletClick = {},
+        onAddTokenClick = {},
         onWalletDetailClick = { _, _, _ -> },
         onTokenClick = { _,_ -> }
     )
@@ -79,6 +85,7 @@ fun WTAssetScreen(
     onTransferClick: () -> Unit,
     onReceiveClick: (AssetItem?) -> Unit,
     onAddWalletClick: () -> Unit,
+    onAddTokenClick: () -> Unit,
     onWalletDetailClick: (String, String, Boolean) -> Unit,
     onTokenClick: (Boolean, String) -> Unit,
     viewModel: WTViewModel = viewModel()
@@ -122,6 +129,7 @@ fun WTAssetScreen(
         onTransferClick = onTransferClick,
         onReceiveClick = onReceiveClick,
         onAddWalletClick = onAddWalletClick,
+        onAddTokenClick = onAddTokenClick,
         onWalletDetailClick = onWalletDetailClick,
         showWalletSelect = showWalletSelect,
         onWalletTitleClick = { showWalletSelect = true },
@@ -150,6 +158,12 @@ fun WTAssetScreen(
         },
         onFetchBalances = {
             viewModel.fetchAllWalletBalances()
+        },
+        onRemoveToken = { asset ->
+             val chainId = currentWallet?.chain_id ?: 97
+             if (!asset.token_address.isNullOrEmpty()) {
+                 viewModel.removeToken(RemoveTokenRequest(chainId, asset.token_address))
+             }
         }
     )
 }
@@ -162,6 +176,7 @@ fun WTAssetContent(
     onTransferClick: () -> Unit,
     onReceiveClick: (AssetItem?) -> Unit,
     onAddWalletClick: () -> Unit,
+    onAddTokenClick: () -> Unit,
     onWalletDetailClick: (String, String, Boolean) -> Unit,
     showWalletSelect: Boolean,
     onWalletTitleClick: () -> Unit,
@@ -179,9 +194,10 @@ fun WTAssetContent(
     isSuccess: Boolean = false,
     onWalletSelected: (WalletItemData) -> Unit,
     onWalletsReordered: (List<WalletItemData>) -> Unit,
-    onFetchBalances: () -> Unit
+    onFetchBalances: () -> Unit,
+    onRemoveToken: (AssetItem) -> Unit
 ) {
-    val context = LocalContext.current
+    val mContext = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -338,10 +354,10 @@ fun WTAssetContent(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.noRippleClickable { 
                         // Copy logic should be handled by caller or added here
-                         val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                         val clipboard = mContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                          val clip = android.content.ClipData.newPlainText("Address", currentWallet?.address ?: "")
                          clipboard.setPrimaryClip(clip)
-                        ToastBroadUtil.show(context.getString(R.string.wt_address_copied))
+                        ToastBroadUtil.show(mContext.getString(R.string.wt_address_copied))
                     }
                 ) {
                     Text(
@@ -377,7 +393,7 @@ fun WTAssetContent(
                     backgroundColor = Color(0xFFFCEDD8),
                     onClick = {
                         if (isWatch) {
-                            ToastBroadUtil.show(context.getString(R.string.wt_watch_wallet_not_supported))
+                            ToastBroadUtil.show(mContext.getString(R.string.wt_watch_wallet_not_supported))
                         } else {
                             onScanClick()
                         }
@@ -392,7 +408,7 @@ fun WTAssetContent(
                     backgroundColor = Color(0xFFE2FBE8),
                     onClick = {
                         if (isWatch) {
-                            ToastBroadUtil.show(context.getString(R.string.wt_watch_wallet_not_supported))
+                            ToastBroadUtil.show(mContext.getString(R.string.wt_watch_wallet_not_supported))
                         } else {
                             onReceiveClick(assetList.firstOrNull())
                         }
@@ -407,7 +423,7 @@ fun WTAssetContent(
                     backgroundColor = Color(0xFFDEEAFC),
                     onClick = {
                         if (isWatch) {
-                            ToastBroadUtil.show(context.getString(R.string.wt_watch_wallet_not_supported))
+                            ToastBroadUtil.show(mContext.getString(R.string.wt_watch_wallet_not_supported))
                         } else {
                             onTransferClick()
                         }
@@ -416,17 +432,31 @@ fun WTAssetContent(
             }
 
 //            Spacer(modifier = Modifier.height(20.dp))
+            Row( modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    text = stringResource(R.string.wt_assets),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 20.27.sp,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
+                )
+                Icon(
+                    painter = painterResource(id = R.mipmap.ic_wt_token_add),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(16.dp).noRippleClickable(onClick = onAddTokenClick)
+                )
+
+            }
             
-            Text(
-                text = stringResource(R.string.wt_assets),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.W400,
-                lineHeight = 20.27.sp,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
-            )
+
 
             // 代币列表
-            TokenList(hideAssets, onTokenClick, assetList)
+            TokenList(hideAssets, onTokenClick, assetList, onRemoveToken)
         }
     }
 
@@ -491,7 +521,7 @@ fun FunctionButton(
 }
 
 @Composable
-fun TokenList(hideAssets: Boolean, onTokenClick: (String) -> Unit, assetList: List<AssetItem>) {
+fun TokenList(hideAssets: Boolean, onTokenClick: (String) -> Unit, assetList: List<AssetItem>, onRemoveToken: (AssetItem) -> Unit) {
     if (assetList.isEmpty()) {
         WTEmptyStateView()
     } else {
@@ -504,11 +534,13 @@ fun TokenList(hideAssets: Boolean, onTokenClick: (String) -> Unit, assetList: Li
                 TokenItem(
                     hideAssets = hideAssets, 
                     onClick = { onTokenClick(item.symbol) }, 
-                    symbol = item.symbol, 
+                    onDelete = { onRemoveToken(item) },
+                    canDelete = !item.token_address.isNullOrEmpty() && item.symbol != "BNB",
+                    symbol = item.symbol,
                     name = item.name, 
                     amount = getFormattedAmount(item.balance,item.decimals),
-                    value = "≈$${item.value_usd}",
-                    change = item.change_24h,
+                    value = "≈$${item.value_usd?:"0"}",
+                    change = item.change_24h?:"+0.0%",
                     logoUrl = item.logo_url
                 )
             }
@@ -542,6 +574,8 @@ fun WTEmptyStateView() {
 fun TokenItem(
     hideAssets: Boolean, 
     onClick: () -> Unit,
+    onDelete: () -> Unit,
+    canDelete: Boolean = false,
     symbol: String,
     name: String,
     amount: String,
@@ -549,86 +583,146 @@ fun TokenItem(
     change: String = "+0.0%",
     logoUrl: String? = null
 ) {
+    val deleteButtonWidth = 80.dp
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    val deleteButtonWidthPx = with(density) { deleteButtonWidth.toPx() }
+    val offsetX = remember { Animatable(0f) }
+    val scope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .noRippleClickable(onClick = onClick)
     ) {
-        Image(
-            painter = painterResource(id = R.mipmap.bg_detail_asset_item),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.matchParentSize()
-        )
-
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            SubcomposeAsyncImage(
-                model = logoUrl,
-                contentDescription = null,
+        // Background (Delete Button)
+        if (canDelete) {
+            Box(
                 modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape),
-                loading = {
-                    Image(
-                        painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-                },
-                error = {
-                    if (symbol == "BNB") {
+                    .matchParentSize()
+                    .background(Color.Red)
+                    .clickable { 
+                        scope.launch { 
+                            offsetX.animateTo(0f) 
+                            onDelete() 
+                        } 
+                    },
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Text(
+                    text = stringResource(R.string.shanchu),
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(end = 24.dp)
+                )
+            }
+        }
+
+        // Foreground (Content)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset { IntOffset(offsetX.value.roundToInt(), 0) }
+                .background(Color.Transparent)
+                .draggable(
+                    state = rememberDraggableState { delta ->
+                        if (canDelete) {
+                            val newValue = (offsetX.value + delta).coerceIn(-deleteButtonWidthPx, 0f)
+                            scope.launch { offsetX.snapTo(newValue) }
+                        }
+                    },
+                    orientation = Orientation.Horizontal,
+                    onDragStopped = {
+                        if (offsetX.value < -deleteButtonWidthPx / 2) {
+                            scope.launch { offsetX.animateTo(-deleteButtonWidthPx, animationSpec = tween(300)) }
+                        } else {
+                            scope.launch { offsetX.animateTo(0f, animationSpec = tween(300)) }
+                        }
+                    }
+                )
+                .noRippleClickable {
+                     if (offsetX.value < -10f) {
+                         scope.launch { offsetX.animateTo(0f) }
+                     } else {
+                         onClick()
+                     }
+                }
+        ) {
+            Image(
+                painter = painterResource(id = R.mipmap.bg_detail_asset_item),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.matchParentSize()
+            )
+
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SubcomposeAsyncImage(
+                    model = logoUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape),
+                    loading = {
                         Image(
                             painter = painterResource(id = R.mipmap.ic_wt_bsc),
                             contentDescription = null,
                             contentScale = ContentScale.Crop
                         )
-                    } else {
-                        Surface(
-                            shape = CircleShape,
-                            color = Color(0xFF26A17B),
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Text(
-                                    symbol.take(1),
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold
-                                )
+                    },
+                    error = {
+                        if (symbol == "BNB") {
+                            Image(
+                                painter = painterResource(id = R.mipmap.ic_wt_bsc),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Surface(
+                                shape = CircleShape,
+                                color = Color(0xFF26A17B),
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Text(
+                                        symbol.take(1),
+                                        color = Color.White,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                             }
                         }
                     }
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = symbol, fontSize = 16.sp, fontWeight = FontWeight.W600, color = Color.Black)
+                    Text(text = name, fontSize = 14.sp, color = Color.Black.copy(0.65f))
                 }
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = symbol, fontSize = 16.sp, fontWeight = FontWeight.W600, color = Color.Black)
-                Text(text = name, fontSize = 14.sp, color = Color.Black.copy(0.65f))
-            }
-            Column(horizontalAlignment = Alignment.End) {
-                Text(
-                    text = if (hideAssets) "****" else amount, 
-                    fontSize = 16.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.W600
-                )
-                Text(
-                    text = if (hideAssets) "****" else value, 
-                    fontSize = 12.sp,
-                    color = Color.Black.copy(0.65f),
-                    fontWeight = FontWeight.W400
-                )
-                Text(
-                    text = change,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.W400,
-                    color = if (change.startsWith("-")) Color(0xFFEB534B) else Color(0xFF52C41A)
-                )
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        text = if (hideAssets) "****" else amount, 
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.W600
+                    )
+                    Text(
+                        text = if (hideAssets) "****" else value, 
+                        fontSize = 12.sp,
+                        color = Color.Black.copy(0.65f),
+                        fontWeight = FontWeight.W400
+                    )
+                    Text(
+                        text = change,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
+                        color = if (change.startsWith("-")) Color(0xFFEB534B) else Color(0xFF52C41A)
+                    )
+                }
             }
         }
     }
@@ -847,7 +941,7 @@ fun WalletSelectBottomSheet(
             ) {
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = if (!isManageMode && !isLoading) Color(0xFF3B47DD) else Color.Gray,
+                    color = if (!isManageMode && !isLoading) Color(0xFF3B47DD) else Color(0xffEB534B),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(46.dp)
@@ -860,13 +954,13 @@ fun WalletSelectBottomSheet(
                         Icon(
                             painter = painterResource(id = R.mipmap.ic_wt_btn_add),
                             contentDescription = null,
-                            tint = Color.White,
+                            tint = if (!isManageMode) Color.White else Color(0xffEB534B),
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "添加钱包",
-                            color = Color.White,
+                            color = if (!isManageMode) Color.White else Color(0xffEB534B),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.W600
                         )

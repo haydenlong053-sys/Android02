@@ -157,13 +157,13 @@ class WTRepository {
 
     suspend fun addToken(req: AddTokenRequest): NetworkBroadResult<Any> {
         return withContext(Dispatchers.IO) {
-            NetworkBroadRepository.post(UrlBroadBroadConstants.WT_TOKENS, req)
+            NetworkBroadRepository.post(UrlBroadBroadConstants.WT_TOKENS, wtBaseUrl,Any::class.java,req)
         }
     }
 
     suspend fun removeToken(req: RemoveTokenRequest): NetworkBroadResult<Any> {
         return withContext(Dispatchers.IO) {
-            NetworkBroadRepository.post(UrlBroadBroadConstants.WT_TOKENS_DELETE, req)
+            NetworkBroadRepository.post(UrlBroadBroadConstants.WT_TOKENS_DELETE, wtBaseUrl,Any::class.java,req)
         }
     }
 

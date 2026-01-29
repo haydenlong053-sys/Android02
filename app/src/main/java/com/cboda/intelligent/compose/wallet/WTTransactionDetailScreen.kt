@@ -1,6 +1,7 @@
 package com.cboda.intelligent.compose.wallet
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cboda.intelligent.model.LedgerItem
 import com.cboda.intelligent.R
+import com.cboda.intelligent.compose.noRippleClickable
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -74,18 +76,18 @@ fun WTTransactionDetailScreen(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color(0xFFF9F9F9))
             )
         },
-        containerColor = Color(0xFFF9F9F9)
+        containerColor = Color(0xFFF7F8FA)
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Status Card
             Surface(
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(10.dp),
                 color = Color.White,
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -93,36 +95,36 @@ fun WTTransactionDetailScreen(
                     modifier = Modifier.padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val isSuccess = transaction.status.equals("1") || transaction.status.equals("confirmed", ignoreCase = true)
-                    Surface(
-                        shape = CircleShape,
-                        color = if (isSuccess) Color(0xFF4CD964) else Color(0xFFFF3B30),
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(
-                            imageVector = if (isSuccess) Icons.Default.Check else Icons.Default.Close, 
-                            contentDescription = null, 
-                            tint = Color.White, 
-                            modifier = Modifier.padding(8.dp)
-                        )
+                    val status = transaction.status?.lowercase() ?: "failed"
+                    val (iconRes, textRes) = when {
+                        status == "pending" -> R.mipmap.ic_icon_state_broad_ing to R.string.wt_processing_title
+                       status == "confirmed" -> R.mipmap.ic_icon_state_broad_success to R.string.wt_transaction_success
+                        else -> R.mipmap.ic_icon_state_broad_fail to R.string.wt_transaction_failed
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
+                    
+                    Image(
+                        painter = painterResource(id = iconRes),
+                        contentDescription = null,
+                        modifier = Modifier.size(35.dp)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        if (isSuccess) stringResource(R.string.wt_transaction_success) else stringResource(R.string.wt_transaction_failed), 
-                        fontSize = 14.sp, 
+                        stringResource(textRes),
+                        fontSize = 14.sp,
                         color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "${if (transaction.direction == "in") "+" else "-"}$amount ${transaction.token_symbol}", 
-                        fontSize = 28.sp, 
-                        fontWeight = FontWeight.Bold,
-                        color = if (transaction.direction == "in") Color(0xFF4CD964) else Color(0xFF4B68FF)
+                        "${if (transaction.direction == "in") "+" else "-"}$amount ",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.W700,
+                        color = Color.Black.copy(0.9f)
                     )
+                    Text(transaction.token_symbol ?: "BNB", fontSize = 20.sp, color = Color.Black.copy(0.65f), fontWeight = FontWeight.W600)
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Details List
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -184,10 +186,10 @@ fun WTTransactionDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(stringResource(R.string.wt_network), color = Color.Gray)
+                        Text(stringResource(R.string.wt_network), color = Color.Black.copy(0.65f), fontSize = 16.sp)
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 painter = painterResource(id = R.mipmap.ic_wt_bsc),
@@ -207,11 +209,11 @@ fun WTTransactionDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(stringResource(R.string.wt_time), color = Color.Gray)
-                        Text(dateStr, fontWeight = FontWeight.Medium)
+                        Text(stringResource(R.string.wt_time), color = Color.Black.copy(0.65f), fontSize = 16.sp)
+                        Text(dateStr, color = Color.Black.copy(0.65f), fontSize = 16.sp)
                     }
                 }
             }
@@ -222,16 +224,16 @@ fun WTTransactionDetailScreen(
 @Composable
 fun DetailRow(label: String, value: String, onCopy: () -> Unit) {
     Surface(
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(10.dp),
         color = Color.White,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top
         ) {
-            Text(label, color = Color.Gray, modifier = Modifier.width(80.dp))
+            Text(label, color = Color.Black.copy(0.65f), fontSize = 16.sp, modifier = Modifier.width(68.dp))
             Row(
                 modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.End,
@@ -239,17 +241,19 @@ fun DetailRow(label: String, value: String, onCopy: () -> Unit) {
             ) {
                 val displayValue = if (value.length > 20) "${value.take(10)}...${value.takeLast(10)}" else value
                 Text(
+
                     displayValue, 
-                    fontWeight = FontWeight.Medium, 
-                    maxLines = 1,
+                    fontWeight = FontWeight.W400,
+                    maxLines = 3,
+                    fontSize = 16.sp,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(10.dp))
                 Icon(
-                    painter = painterResource(id = R.mipmap.ic_broad_copy),
+                    painter = painterResource(id = R.mipmap.ic_transfer_detail_copy),
                     contentDescription = null,
                     tint = Color.Unspecified,
-                    modifier = Modifier.size(16.dp).clickable(onClick = onCopy)
+                    modifier = Modifier.size(24.dp).noRippleClickable(onClick = onCopy)
                 )
             }
         }

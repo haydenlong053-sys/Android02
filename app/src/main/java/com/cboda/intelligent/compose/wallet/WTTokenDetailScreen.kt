@@ -41,7 +41,9 @@ import java.util.TimeZone
 
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.SubcomposeAsyncImage
+import com.cboda.intelligent.compose.getFormattedAmount
 import com.cboda.intelligent.model.AssetItem
+import com.cboda.intelligent.utils.ToastBroadUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -151,7 +153,7 @@ fun WTTokenDetailScreen(
                 Button(
                     onClick = {
                         if (isWatch) {
-                            Toast.makeText(context, context.getString(R.string.wt_toast_unavailable), Toast.LENGTH_SHORT).show()
+                            ToastBroadUtil.show( context.getString(R.string.wt_toast_unavailable))
                         } else {
                             asset?.let { onReceiveClick(it) }
                         }
@@ -160,10 +162,10 @@ fun WTTokenDetailScreen(
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier
                         .weight(1f)
-                        .height(50.dp)
+                        .height(46.dp)
                 ) {
                     // Icon
-                    Icon(painter = painterResource(id = R.mipmap.ic_wt_import), contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp))
+                    Icon(painter = painterResource(id = R.mipmap.ic_wt_detail_get), contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(stringResource(R.string.wt_receive_title), fontSize = 16.sp)
                 }
@@ -171,7 +173,7 @@ fun WTTokenDetailScreen(
                 Button(
                     onClick = {
                         if (isWatch) {
-                            Toast.makeText(context, context.getString(R.string.wt_toast_unavailable), Toast.LENGTH_SHORT).show()
+                            ToastBroadUtil.show( context.getString(R.string.wt_toast_unavailable))
                         } else {
                             // Handle Transfer
                         }
@@ -180,10 +182,10 @@ fun WTTokenDetailScreen(
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier
                         .weight(1f)
-                        .height(50.dp)
+                        .height(46.dp)
                 ) {
                     // Icon
-                    Icon(painter = painterResource(id = R.mipmap.ic_wt_import), contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp)) // Using import icon as placeholder for transfer
+                    Icon(painter = painterResource(id = R.mipmap.ic_wt_tran), contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp)) // Using import icon as placeholder for transfer
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(stringResource(R.string.wt_transfer_title), fontSize = 16.sp)
                 }
@@ -198,11 +200,11 @@ fun WTTokenDetailScreen(
         ) {
             // Header Info
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.background(Color(0xffECEDEF), shape = RoundedCornerShape(8.dp)).padding(horizontal = 12.dp, vertical = 2.dp)) {
                     val displayAddress = currentWallet?.address?.let { 
                         if (it.length > 12) "${it.take(6)}...${it.takeLast(4)}" else it 
                     } ?: ""
-                    Text(displayAddress, color = Color.Gray, fontSize = 14.sp)
+                    Text(displayAddress, color = Color.Black.copy(0.65f), fontSize = 12.sp)
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
                         painter = painterResource(id = R.mipmap.ic_broad_copy),
@@ -212,8 +214,9 @@ fun WTTokenDetailScreen(
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("${asset?.balance ?: "0"} ${asset?.symbol ?: "BNB"}", fontSize = 32.sp, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(4.dp))
+                Text(getFormattedAmount(asset?.balance ?: "0",asset?.decimals?:18), fontSize = 24.sp, fontWeight = FontWeight.W700, color = Color.Black.copy(0.9f))
+                Text(asset?.symbol ?: "BNB", fontSize = 20.sp, color = Color.Black.copy(0.65f), fontWeight = FontWeight.W600)
+                Spacer(modifier = Modifier.height(8.dp))
                 Text("≈$${asset?.value_usd ?: "0.00"}", fontSize = 14.sp, color = Color.Gray)
             }
 
@@ -261,15 +264,15 @@ fun WTTokenDetailScreen(
                         Text(
                             text = title,
                             fontSize = 16.sp,
-                            fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal,
-                            color = if (selectedTab == index) Color(0xFF4B68FF) else Color.Gray
+                            fontWeight = if (selectedTab == index) FontWeight.Normal else FontWeight.Normal,
+                            color = if (selectedTab == index) Color(0xFF3B47DD) else Color.Black.copy(0.45f)
                         )
                         if (selectedTab == index) {
                             Box(
                                 modifier = Modifier
-                                    .padding(top = 4.dp)
-                                    .size(width = 20.dp, height = 3.dp)
-                                    .background(Color(0xFF4B68FF), RoundedCornerShape(1.5.dp))
+                                    .padding(top = 8.dp)
+                                    .size(width = 24.dp, height = 2.dp)
+                                    .background(Color(0xFF3B47DD), RoundedCornerShape(1.dp))
                             )
                         }
                     }
@@ -295,14 +298,28 @@ fun WTTokenDetailScreen(
                     WTEmptyStateView()
                 } else {
                     LazyColumn(
-                        contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(0.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(transactions.size) { index ->
+                            val isFirst = index == 0
+                            val isLast = index == transactions.size - 1
+                            val shape = if (transactions.size == 1) {
+                                RoundedCornerShape(10.dp)
+                            } else if (isFirst) {
+                                RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+                            } else if (isLast) {
+                                RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)
+                            } else {
+                                androidx.compose.ui.graphics.RectangleShape
+                            }
+
                             TransactionItem(
                                 item = transactions[index],
                                 logoUrl = asset?.logo_url,
+                                shape = shape,
+                                showDivider = !isLast,
                                 onClick = { onTransactionClick(transactions[index].tx_hash) }
                             )
                         }
@@ -318,104 +335,122 @@ fun TransactionItem(
     item: LedgerItem,
     logoUrl: String?,
     modifier: Modifier = Modifier,
+    shape: androidx.compose.ui.graphics.Shape,
+    showDivider: Boolean,
     onClick: () -> Unit
 ) {
     Surface(
-        shape = RoundedCornerShape(12.dp),
+        shape = shape,
         color = Color.White,
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Icon
-            SubcomposeAsyncImage(
-                model = logoUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape),
-                loading = {
-                    Image(
-                        painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-                },
-                error = {
-                    if (item.token_symbol.equals("BNB", ignoreCase = true)) {
-                        Image(
-                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop
+        Column {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Icon
+//            SubcomposeAsyncImage(
+//                model = logoUrl,
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .size(40.dp)
+//                    .clip(CircleShape),
+//                loading = {
+//                    Image(
+//                        painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                        contentDescription = null,
+//                        contentScale = ContentScale.Crop
+//                    )
+//                },
+//                error = {
+//                    if (item.token_symbol.equals("BNB", ignoreCase = true)) {
+//                        Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+//                    } else {
+//                        Surface(
+//                            shape = CircleShape,
+//                            color = Color(0xFF26A17B),
+//                            modifier = Modifier.size(40.dp)
+//                        ) {
+//                            Box(contentAlignment = Alignment.Center) {
+//                                Text(
+//                                    text = item.token_symbol.take(1),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Bold,
+//                                    fontSize = 18.sp
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+//            )
+                Image(
+                    painter = if (item.direction == "in") painterResource(id = R.mipmap.ic_wt_detail_in) else painterResource(id = R.mipmap.ic_wt_detail_out)  ,
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        val displayHash = item.tx_hash.let { if (it.length > 10) "${it.take(3)}...${it.takeLast(4)}" else it }
+                        Text(
+                            text = displayHash,
+                            fontWeight = FontWeight.W400,
+                            fontSize = 16.sp
                         )
-                    } else {
-                        Surface(
-                            shape = CircleShape,
-                            color = Color(0xFF26A17B),
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Text(
-                                    text = item.token_symbol.take(1),
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 18.sp
-                                )
-                            }
-                        }
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Icon(
+                            painter = painterResource(id = R.mipmap.ic_broad_copy),
+                            contentDescription = null,
+                            modifier = Modifier.size(12.dp),
+                            tint = Color.Unspecified
+                        )
                     }
-                }
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    val displayHash = item.tx_hash.let { if (it.length > 10) "${it.take(6)}...${it.takeLast(4)}" else it }
                     Text(
-                        text = displayHash,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Icon(
-                        painter = painterResource(id = R.mipmap.ic_broad_copy),
-                        contentDescription = null,
-                        modifier = Modifier.size(12.dp),
-                        tint = Color.Unspecified
+                        text = if (item.direction == "in") stringResource(R.string.wt_received_format, item.token_symbol) else stringResource(R.string.wt_sent_format, item.token_symbol),
+                        fontSize = 12.sp,
+                        color = Color.Black.copy(0.45f), fontWeight = FontWeight.W400
                     )
                 }
-                Text(
-                    text = if (item.direction == "in") stringResource(R.string.wt_received_format, item.token_symbol) else stringResource(R.string.wt_sent_format, item.token_symbol),
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
+                Column(horizontalAlignment = Alignment.End) {
+                    // Convert amount from Wei
+                    val amount = item.amount
+                    Text(
+                        text = "${if (item.direction == "in") "+" else "-"}$amount ${item.token_symbol}",
+                        color = if (item.direction == "in")  Color(0xFF3B47DD) else  Color(0xFF3FAC0A),
+                        fontWeight = FontWeight.W600,
+                        fontSize = 16.sp,
+                        lineHeight = 18.75.sp
+                    )
+                    
+                    // Format Date
+                    val dateStr = item.block_time?.let { time ->
+                        try {
+                            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+                            val date = inputFormat.parse(time)
+                            val outputFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+                            date?.let { outputFormat.format(it) }
+                        } catch (e: Exception) {
+                            null
+                        }
+                    } ?: ""
+                    
+                    Text(dateStr, fontSize = 12.sp, color = Color.Black.copy(0.45f), fontWeight = FontWeight.W400)
+                }
             }
-            Column(horizontalAlignment = Alignment.End) {
-                // Convert amount from Wei
-                val amount = item.amount
-                Text(
-                    text = "${if (item.direction == "in") "+" else "-"}$amount ${item.token_symbol}",
-                    color = if (item.direction == "in") Color(0xFF4CD964) else Color(0xFF4B68FF),
-                    fontWeight = FontWeight.Bold
+            if (showDivider) {
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    thickness = 0.5.dp,
+                    color = Color.Black.copy(alpha = 0.12f)
                 )
-                
-                // Format Date
-                val dateStr = item.block_time?.let { time ->
-                    try {
-                        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-                        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
-                        val date = inputFormat.parse(time)
-                        val outputFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
-                        date?.let { outputFormat.format(it) }
-                    } catch (e: Exception) {
-                        null
-                    }
-                } ?: ""
-                
-                Text(dateStr, fontSize = 10.sp, color = Color.Gray)
             }
         }
     }

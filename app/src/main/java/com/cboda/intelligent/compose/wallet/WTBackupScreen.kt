@@ -66,8 +66,8 @@ fun WTBackupScreen(
                     Text(
                         text = title, 
                         color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W500
                     ) 
                 },
                 navigationIcon = {
@@ -100,13 +100,13 @@ fun WTBackupScreen(
             Text(
                 text = buildAnnotatedString {
                     append(stringResource(R.string.wt_backup_mnemonic_desc_1))
-                    withStyle(style = SpanStyle(color = Color(0xFFFF5252))) {
+                    withStyle(style = SpanStyle(color = Color(0xFFEB534B))) {
                         append(stringResource(R.string.wt_backup_mnemonic_desc_2))
                     }
                     append(stringResource(R.string.wt_backup_mnemonic_desc_3))
                 },
                 fontSize = 14.sp,
-                color = Color(0xFF333333),
+                color = Color.Black.copy(0.65f),
                 lineHeight = 20.sp,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
@@ -124,8 +124,8 @@ fun WTBackupScreen(
                     Box(
                         contentAlignment = Alignment.CenterStart,
                         modifier = Modifier
-                            .background(Color.White, RoundedCornerShape(8.dp))
-                            .padding(vertical = 12.dp, horizontal = 12.dp)
+                            .background(Color.White, RoundedCornerShape(10.dp))
+                            .padding(vertical = 12.dp, horizontal = 10.dp)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -133,21 +133,22 @@ fun WTBackupScreen(
                         ) {
                             Text(
                                 text = String.format("%02d", index + 1),
-                                color = Color(0xFFCCCCCC),
-                                fontSize = 12.sp
+                                fontSize = 14.sp,
+                                color = Color.Black.copy(0.35f),
+
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = "|",
-                                color = Color(0xFFCCCCCC),
-                                fontSize = 10.sp
+                                color  = Color.Black.copy(0.12f),
+                                fontSize = 12.sp
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = word,
-                                color = Color(0xFF5B6CFF),
                                 fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold
+                                color = Color(0xFF3B47DD),
+                                fontWeight = FontWeight.W400,
                             )
                         }
                     }
@@ -157,11 +158,11 @@ fun WTBackupScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Surface(
-                color = Color(0xFF5B6CFF),
+                color = Color(0xFF3B47DD),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .height(46.dp)
                     .noRippleClickable { 
                         showSecurityTipDialog = true
                     }
@@ -180,7 +181,8 @@ fun WTBackupScreen(
                     Text(
                         text = stringResource(R.string.wt_copy_mnemonic),
                         fontSize = 16.sp,
-                        color = Color.White
+                        color = Color.White,
+                        fontWeight = FontWeight.W500,
                     )
                 }
             }
@@ -190,18 +192,18 @@ fun WTBackupScreen(
             Surface(
                 color = Color.White,
                 shape = RoundedCornerShape(16.dp),
-                border = BorderStroke(1.dp, Color(0xFF5B6CFF)),
+                border = BorderStroke(1.dp, Color(0xFF3B47DD)),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .height(46.dp)
                     .noRippleClickable(onClick = onBackupConfirmed)
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
                         text = buttonText,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF5B6CFF)
+                        fontWeight = FontWeight.W500,
+                        color = Color(0xFF3B47DD)
                     )
                 }
             }

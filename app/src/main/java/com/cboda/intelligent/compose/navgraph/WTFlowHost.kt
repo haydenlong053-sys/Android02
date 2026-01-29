@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import com.cboda.intelligent.activity.PaySuccessBroadActivity
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.compose.wallet.WTAssetScreen
+import com.cboda.intelligent.compose.wallet.WTAddTokenScreen
 import com.cboda.intelligent.compose.wallet.WTBackupScreen
 import com.cboda.intelligent.compose.wallet.WTCreateScreen
 import com.cboda.intelligent.compose.wallet.WTEmptyScreen
@@ -213,6 +214,17 @@ fun WTFlowHost(
                 onTokenClick = { isWatch, symbol ->
                     navController.navigate(WTRoute.tokenDetail(isWatch, symbol))
                 },
+                onAddTokenClick = {
+                    navController.navigate(WTRoute.ADD_TOKEN)
+                },
+                viewModel = viewModel
+            )
+        }
+        composable(WTRoute.ADD_TOKEN) {
+            WTAddTokenScreen(
+                onBack = {
+                    navController.popBackStack()
+                         },
                 viewModel = viewModel
             )
         }
@@ -514,6 +526,8 @@ class WTRoute {
         const val TRANSFER_WT = "transfer_wt?address={address}&amount={amount}&symbol={symbol}"
         //处理中
         const val TRANSFER_PROCESSING = "transfer_processing"
+        //添加代币
+        const val ADD_TOKEN = "add_token"
 
         fun backupMnemonic(wallet: Bip39Wallet, name: String, address: String) = "backup_mnemonic/${wallet.mnemonic}/$name/$address/${wallet.filename}"
         fun viewMnemonic(mnemonic: String) = "view_mnemonic/$mnemonic"

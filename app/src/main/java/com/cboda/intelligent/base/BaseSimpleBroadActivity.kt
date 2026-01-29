@@ -282,6 +282,14 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
 //                )
     }
 
+    /**
+     * 设置是否需要支持ImmersionBar
+     *  true代表需要初始化 false代表不需要
+     */
+    protected  open  fun isEnableImmerBar(): Boolean{
+        return true
+    }
+
     open fun isEnableKeyboard(): Boolean {
         return false
     }

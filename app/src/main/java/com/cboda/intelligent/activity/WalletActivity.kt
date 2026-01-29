@@ -21,6 +21,14 @@ class WalletActivity: BaseSimpleBroadActivity() {
     }
 
     override fun transparentStatus(): Boolean {
+        return false
+    }
+
+    override fun isEnableImmerBar(): Boolean {
+        return false
+    }
+
+    override fun fitsSystemWindows(): Boolean {
         return true
     }
 
