@@ -3,6 +3,9 @@ package com.cboda.select.picture.basic;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +22,9 @@ import com.cboda.select.picture.style.PictureWindowAnimationStyle;
 import com.cboda.select.picture.style.SelectMainStyle;
 import com.cboda.select.picture.utils.StyleUtils;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 /**
  * @author：luck
  * @date：2021/11/17 9:59 上午
@@ -34,6 +40,19 @@ public class PictureSelectorSupporterActivity extends BaseActivity {
         immersive();
         setContentView(R.layout.ps_activity_broad_container);
         setupFragment();
+        View viewBottom = findViewById(R.id.viewBottom);
+        setNavBarHeightListener(new Function1<Integer, Unit>() {
+            @Override
+            public Unit invoke(Integer integer) {
+                if (integer!=null && integer > 0){
+                    ViewGroup.LayoutParams params = viewBottom.getLayoutParams();
+                    params.height =integer;
+                    viewBottom.setLayoutParams(params);
+                    viewBottom.setVisibility(View.VISIBLE);
+                }
+                return null;
+            }
+        });
     }
 
     private void initSelectorConfig() {
