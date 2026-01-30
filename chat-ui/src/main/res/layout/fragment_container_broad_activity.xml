@@ -89,7 +89,7 @@
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:maxWidth="250dp"
+                android:maxWidth="200dp"
                 android:singleLine="true"
                 android:textAlignment="gravity"
                 android:textColor="@color/color_text0"
