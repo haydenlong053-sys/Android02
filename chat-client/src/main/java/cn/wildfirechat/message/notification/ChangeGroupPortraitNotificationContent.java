@@ -4,6 +4,8 @@
 
 package cn.wildfirechat.message.notification;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import android.os.Parcel;
 
 import com.blankj.utilcode.util.StringUtils;
@@ -33,15 +35,17 @@ public class ChangeGroupPortraitNotificationContent extends GroupNotificationMes
     @Override
     public String formatNotification(Message message) {
         if (fromSelf) {
-            return StringUtils.getString(
-                    com.cboda.baselibrary.R.string.base_group_portrait_updated_by_self
-            );
+           return getAppContext(null).getString(com.cboda.baselibrary.R.string.base_group_portrait_updated_by_self);
+//            return StringUtils.getString(
+//                    com.cboda.baselibrary.R.string.base_group_portrait_updated_by_self
+//            );
         } else {
             String operatorName = ChatManager.Instance().getGroupMemberDisplayName(groupId, operateUser);
-            return StringUtils.getString(
-                    com.cboda.baselibrary.R.string.base_group_portrait_updated_by_other,
-                    operatorName
-            );
+            return String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.base_group_portrait_updated_by_other),operatorName);
+//            return StringUtils.getString(
+//                    com.cboda.baselibrary.R.string.base_group_portrait_updated_by_other,
+//                    operatorName
+//            );
         }
     }
 

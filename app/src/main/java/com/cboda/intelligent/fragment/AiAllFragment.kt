@@ -156,8 +156,7 @@ class AiAllFragment :
                 chooseImgData.addAll(list)
                 selectData.addAll(list.filter { it.first.isNotEmpty() && FileUtils.isFileExists(it.first) }
                     .map { it.first })
-                binding.aiUploadTitle5.text =
-                    StringUtils.getString(R.string.picture_has_been_selected, list.size.toString())
+                binding.aiUploadTitle5.text = String.format(getString(R.string.picture_has_been_selected),list.size.toString())
                 if (chooseImgData.isNotEmpty() && chooseImgData.size <= imgMaxNum - 1) {
                     chooseImgData.add(Pair("", null))
                 }
