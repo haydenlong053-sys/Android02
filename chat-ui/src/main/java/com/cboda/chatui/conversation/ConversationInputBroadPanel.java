@@ -72,6 +72,7 @@ import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.viewmodel.MessageViewBroadModel;
 import com.cboda.chatui.widget.InputAwareBroadLayout;
 import com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout;
+import com.cboda.chatui.widget.ShapeKeyboardHeightFrameBroadLayout;
 import com.cboda.chatui.widget.SimpleTextBroadWatcher;
 import com.cboda.chatui.widget.ViewPagerBroadFixed;
 import cn.wildfirechat.message.ChannelMenuEventMessageContent;
@@ -107,9 +108,9 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
 
     LinearLayout channelMenuContainerLinearLayout;
 
-    KeyboardHeightFrameBroadLayout emotionContainerFrameLayout;
+    ShapeKeyboardHeightFrameBroadLayout emotionContainerFrameLayout;
     EmotionBroadLayout emotionBroadLayout;
-    KeyboardHeightFrameBroadLayout extContainerFrameLayout;
+    ShapeKeyboardHeightFrameBroadLayout extContainerFrameLayout;
 
     ViewPagerBroadFixed extViewPager;
 

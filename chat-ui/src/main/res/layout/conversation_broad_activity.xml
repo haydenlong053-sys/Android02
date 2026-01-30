@@ -103,6 +103,7 @@
 
 
             <com.cboda.chatui.conversation.ConversationInputBroadPanel
+                android:layout_marginBottom="@dimen/dp_28"
                 android:id="@+id/inputPanelFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
