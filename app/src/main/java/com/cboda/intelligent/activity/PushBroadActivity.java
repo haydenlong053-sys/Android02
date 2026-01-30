@@ -79,6 +79,11 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
     }
 
     @Override
+    protected boolean fitsSystemWindows() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
