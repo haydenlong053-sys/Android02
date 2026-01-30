@@ -98,7 +98,7 @@ fun WTTransactionDetailScreen(
                     val status = transaction.status?.lowercase() ?: "failed"
                     val (iconRes, textRes) = when {
                         status == "pending" -> R.mipmap.ic_icon_state_broad_ing to R.string.wt_processing_title
-                       status == "confirmed" -> R.mipmap.ic_icon_state_broad_success to R.string.wt_transaction_success
+                        status == "1" || status == "confirmed" -> R.mipmap.ic_icon_state_broad_success to R.string.wt_transaction_success
                         else -> R.mipmap.ic_icon_state_broad_fail to R.string.wt_transaction_failed
                     }
                     

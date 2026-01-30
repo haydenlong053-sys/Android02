@@ -85,6 +85,10 @@ fun WTTransferScreen(
     var showTokenSheet by remember { mutableStateOf(false) }
     var showPasswordDialog by remember { mutableStateOf(false) }
 
+    LaunchedEffect(Unit) {
+        viewModel.getSafeCenterInfo()
+    }
+
     val defaultAsset = remember(assetList, initialSymbol) {
         if (!initialSymbol.isNullOrEmpty()) {
             assetList.find { it.symbol.equals(initialSymbol, ignoreCase = true) } ?: assetList.firstOrNull()
@@ -402,20 +406,7 @@ fun WTTransferScreen(
                             ToastBroadUtil.show(context.getString(R.string.wt_toast_select_asset))
                             return@Button
                         }
-                        viewModel.sendTransaction(
-                            toAddress = toAddress,
-                            amount = amount,
-                            symbol = symbol,
-                            password = ""
-                        ) { success, msg ->
-                            scope.launch {
-                                if (success) {
-                                    onConfirmSend()
-                                } else if (msg == "Password Error") {
-                                    showPasswordDialog = true
-                                }
-                            }
-                        }
+                        showPasswordDialog = true
                     },
                     enabled = !uiState.isEstimatingGas,
                     modifier = Modifier
@@ -450,26 +441,27 @@ fun WTTransferScreen(
     }
 
     if (showPasswordDialog) {
-        TransactionPasswordDialog(
+        WTSecurityVerification(
+            showDialog = showPasswordDialog,
             onDismiss = { showPasswordDialog = false },
-            onConfirm = { pwd ->
-                showPasswordDialog = false
+            onPassWordVerifySuccess = { pwd ->
                 val symbol = selectedAsset?.symbol ?: ""
                 viewModel.sendTransaction(
                     toAddress = toAddress,
                     amount = amount,
                     symbol = symbol,
-                    password = ""
+                    password = pwd
                 ) { success, msg ->
                     scope.launch {
                         if (success) {
                             onConfirmSend()
-                        } else if (msg == "Password Error") {
-                            ToastBroadUtil.show(context.getString(R.string.wt_toast_password_error))
+                        } else {
+                            ToastBroadUtil.show(msg)
                         }
                     }
                 }
-            }
+            },
+            viewModel = viewModel
         )
     }
 }

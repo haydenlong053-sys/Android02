@@ -33,7 +33,9 @@ import org.web3j.crypto.Bip39Wallet
 import razerdp.basepopup.BasePopupWindow
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
+import com.cboda.intelligent.dialog.pop.AuthQuestionBroadPop
 import com.cboda.intelligent.utils.ToastBroadUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,6 +54,14 @@ fun WTEmptyScreen(
     val createWalletState by viewModel.createWalletState.collectAsState()
     val watchWalletState by viewModel.watchWalletState.collectAsState()
     var wtPassword by remember { mutableStateOf("") }
+    var jumpType by remember { mutableStateOf(0) }
+
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getSafeCenterInfo()
+    }
+
 
     when (val state = createWalletState) {
         is WalletCreationState.Loading -> {
@@ -122,24 +132,20 @@ fun WTEmptyScreen(
         }
         else -> {}
     }
-    if (showPasswordDialog){
-        val mPop = AuthPasswordBroadPop(
-            mContext,
-            SafeJumpBroadEnum.EthPasswordAuth.sourceType
-        )
-        mPop.backPwdInvoke={ pwd->
-            showPasswordDialog=false
-            showDialog=true
-            wtPassword=pwd
-        }
-        mPop.onDismissListener = object : BasePopupWindow.OnDismissListener(){
-            override fun onDismiss() {
-                showPasswordDialog=false
-            }
 
-        }
-        mPop.showPopupWindow()
-    }
+    WTSecurityVerification(
+        showDialog = showPasswordDialog,
+        onDismiss = { showPasswordDialog = false },
+        onPassWordVerifySuccess = { pwd ->
+            wtPassword = pwd
+            when (jumpType) {
+                0 -> showDialog = true
+                1 -> showWatchDialog = true
+                2 -> onImportClick()
+            }
+        },
+        viewModel = viewModel
+    )
 
     if (showDialog) {
         CreateWalletDialog(
@@ -216,7 +222,10 @@ fun WTEmptyScreen(
                 iconRes = R.mipmap.ic_wt_create,
                 title = stringResource(R.string.wt_create_new_wallet),
                 description = stringResource(R.string.wt_add_new_multi_chain_account),
-                onClick = { showPasswordDialog = true }
+                onClick = { 
+                    jumpType = 0
+                    showPasswordDialog = true 
+                }
             )
             
             Spacer(modifier = Modifier.height(16.dp))
@@ -225,7 +234,10 @@ fun WTEmptyScreen(
                 iconRes = R.mipmap.ic_wt_import,
                 title = stringResource(R.string.wt_import_wallet),
                 description = stringResource(R.string.wt_import_mnemonic_private_key),
-                onClick = onImportClick
+                onClick = {
+                    jumpType = 2
+                    showPasswordDialog = true
+                }
             )
             
             Spacer(modifier = Modifier.height(16.dp))
@@ -234,7 +246,10 @@ fun WTEmptyScreen(
                 iconRes = R.mipmap.ic_wt_watch,
                 title = stringResource(R.string.wt_add_watch_wallet),
                 description = stringResource(R.string.wt_track_assets_via_address),
-                onClick = { showWatchDialog = true }
+                onClick = { 
+                    jumpType = 1
+                    showPasswordDialog = true 
+                }
             )
         }
     }

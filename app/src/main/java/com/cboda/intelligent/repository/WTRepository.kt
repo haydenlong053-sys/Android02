@@ -64,11 +64,11 @@ class WTRepository {
         }
     }
 
-    suspend fun getAssets(chainId: Int, address: String, showAll: Boolean = false): NetworkBroadResult<AssetListResponse> {
+    suspend fun getAssets(chainId: Int, address: String, showAll: Boolean = true): NetworkBroadResult<AssetListResponse> {
         val params = mapOf(
             "chain_id" to chainId.toString(),
             "address" to address,
-//            "show_all" to (if (showAll) "1" else "0")
+            "show_all" to (if (showAll) "true" else "false")
         )
         return withContext(Dispatchers.IO) {
             NetworkBroadRepository.get(UrlBroadBroadConstants.WT_ASSETS, wtBaseUrl,AssetListResponse::class.java, params)
@@ -151,7 +151,7 @@ class WTRepository {
 
     suspend fun previewToken(req: TokenPreviewRequest): NetworkBroadResult<TokenPreviewResponse> {
         return withContext(Dispatchers.IO) {
-            NetworkBroadRepository.post(UrlBroadBroadConstants.WT_TOKENS_PREVIEW, TokenPreviewResponse::class.java, req)
+            NetworkBroadRepository.post(UrlBroadBroadConstants.WT_TOKENS_PREVIEW, wtBaseUrl,TokenPreviewResponse::class.java, req)
         }
     }
 

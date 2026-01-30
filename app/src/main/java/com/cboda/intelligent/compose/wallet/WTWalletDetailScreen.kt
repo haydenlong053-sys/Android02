@@ -24,8 +24,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cboda.intelligent.R
 import com.cboda.intelligent.compose.noRippleClickable
+import com.cboda.intelligent.viewmodel.WTViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,12 +40,18 @@ fun WTWalletDetailScreen(
     onDelete: () -> Unit,
     onExportMnemonic: () -> Unit,
     onExportPrivateKey: () -> Unit,
-    onConvert: () -> Unit
+    onConvert: () -> Unit,
+    viewModel: WTViewModel = viewModel()
 ) {
     var showRenameDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showConvertDialog by remember { mutableStateOf(false) }
+    var showPasswordDialog by remember { mutableStateOf(false) }
     var currentName by remember { mutableStateOf(name) }
+
+    LaunchedEffect(Unit) {
+        viewModel.getSafeCenterInfo()
+    }
 
     Scaffold(
         topBar = {
@@ -225,10 +233,19 @@ fun WTWalletDetailScreen(
             onDismiss = { showDeleteDialog = false },
             onConfirm = {
                 showDeleteDialog = false
-                onDelete()
+                showPasswordDialog = true
             }
         )
     }
+
+    WTSecurityVerification(
+        showDialog = showPasswordDialog,
+        onDismiss = { showPasswordDialog = false },
+        onPassWordVerifySuccess = { _ ->
+            onDelete()
+        },
+        viewModel = viewModel
+    )
 
     // Convert Dialog
     if (showConvertDialog) {

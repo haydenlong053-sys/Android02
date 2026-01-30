@@ -941,7 +941,7 @@ fun WalletSelectBottomSheet(
             ) {
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = if (!isManageMode && !isLoading) Color(0xFF3B47DD) else Color(0xffEB534B),
+                    color = if (!isManageMode && !isLoading) Color(0xFF3B47DD) else Color(0xFF3B47DD).copy(0.45f),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(46.dp)
@@ -954,13 +954,13 @@ fun WalletSelectBottomSheet(
                         Icon(
                             painter = painterResource(id = R.mipmap.ic_wt_btn_add),
                             contentDescription = null,
-                            tint = if (!isManageMode) Color.White else Color(0xffEB534B),
+                            tint = if (!isManageMode) Color.White else Color.White,
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "添加钱包",
-                            color = if (!isManageMode) Color.White else Color(0xffEB534B),
+                            color = if (!isManageMode) Color.White else Color.White ,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.W600
                         )

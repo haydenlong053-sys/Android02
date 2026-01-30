@@ -37,7 +37,9 @@ import androidx.compose.ui.window.DialogProperties
 import org.web3j.crypto.Bip39Wallet
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
+import com.cboda.intelligent.dialog.pop.AuthQuestionBroadPop
 import razerdp.basepopup.BasePopupWindow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,9 +55,15 @@ fun WTCreateScreen(
     var showDialog by remember { mutableStateOf(false) }
     var showPasswordDialog by remember { mutableStateOf(false) }
     var showWatchDialog by remember { mutableStateOf(false) }
+    var jumpType by remember { mutableStateOf(0) }
     val createWalletState by viewModel.createWalletState.collectAsState()
     val watchWalletState by viewModel.watchWalletState.collectAsState()
     var wtPassword by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getSafeCenterInfo()
+    }
 
     when (val state = createWalletState) {
         is WalletCreationState.Loading -> {
@@ -126,24 +134,19 @@ fun WTCreateScreen(
         }
         else -> {}
     }
-    if (showPasswordDialog){
-        val mPop = AuthPasswordBroadPop(
-            mContext,
-            SafeJumpBroadEnum.EthPasswordAuth.sourceType
-        )
-        mPop.backPwdInvoke={ pwd->
-            showPasswordDialog=false
-            showDialog=true
-            wtPassword=pwd
-        }
-        mPop.onDismissListener = object : BasePopupWindow.OnDismissListener(){
-            override fun onDismiss() {
-                showPasswordDialog=false
+    WTSecurityVerification(
+        showDialog = showPasswordDialog,
+        onDismiss = { showPasswordDialog = false },
+        onPassWordVerifySuccess = { pwd ->
+            wtPassword = pwd
+            when (jumpType) {
+                0 -> showDialog = true
+                1 -> showWatchDialog = true
+                2 -> onImportClick()
             }
-
-        }
-        mPop.showPopupWindow()
-    }
+        },
+        viewModel = viewModel
+    )
 
     if (showDialog) {
         CreateWalletDialog(
@@ -166,9 +169,18 @@ fun WTCreateScreen(
 
     WTCreateContent(
         onBack = onBack,
-        onImportClick = onImportClick,
-        onWatchClick = { showWatchDialog = true },
-        onCreateClick = { showDialog = true }
+        onImportClick = {
+            jumpType = 2
+            showPasswordDialog = true
+        },
+        onWatchClick = {
+            jumpType = 1
+            showPasswordDialog = true
+        },
+        onCreateClick = {
+            jumpType = 0
+            showPasswordDialog = true
+        }
     )
 }
 

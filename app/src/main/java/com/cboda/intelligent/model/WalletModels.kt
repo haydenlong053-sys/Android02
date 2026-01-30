@@ -93,7 +93,10 @@ data class TokenMetadata(
 data class AddTokenRequest(
     val chain_id: Int,
     val chain: String? = null, // 代币不存在时必填
-    val token_address: String
+    val token_address: String,
+    val address: String,
+
+
 )
 
 /**
