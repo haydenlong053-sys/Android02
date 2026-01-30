@@ -30,6 +30,8 @@ import com.cboda.intelligent.repository.WTRepository
 import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.WalletManager
+import com.cboda.intelligent.utils.dismissLoading
+import com.cboda.intelligent.utils.showLoading
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.joinAll
@@ -1039,13 +1041,17 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
 
     fun checkWalletList(chainId: Int, callback: CheckWalletCallback) {
         viewModelScope.launch {
+            showLoading()
             repository.getWalletList(chainId).onSuccess {
+                dismissLoading()
                 callback.onSuccess(it?.items.isNullOrEmpty())
             }.onError {
+                dismissLoading()
                 it.printStackTrace()
                 ToastBroadUtil.show(it.message)
                 callback.onError(it.message)
             }.onFailure { code,message ->
+                dismissLoading()
                 ToastBroadUtil.show("xxxx")
 
             }
