@@ -16,7 +16,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Pair;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,6 +58,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.MarqueeTextBroadView;
 import com.cboda.chatui.R;
@@ -72,7 +72,6 @@ import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExtension;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
-import com.cboda.chatui.conversation.multimsg.DeleteMultiMessageBroadAction;
 import com.cboda.chatui.conversation.multimsg.MultiMessageBroadAction;
 import com.cboda.chatui.conversation.multimsg.MultiMessageActionBroadManager;
 import com.cboda.chatui.conversation.receipt.GroupMessageReceiptBroadActivity;
@@ -1489,49 +1488,46 @@ public class ConversationBroadFragment extends Fragment implements
     private void setupMultiMessageAction() {
         multiMessageActionContainerLinearLayoutBroad.removeAllViews();
         List<MultiMessageBroadAction> actions = MultiMessageActionBroadManager.getInstance().getConversationActions(conversationBroad);
-        int width = getResources().getDisplayMetrics().widthPixels;
-
-        for (MultiMessageBroadAction action : actions) {
-            action.onBind(this, conversationBroad);
-            TextView textView = new TextView(getActivity());
-            textView.setText(action.title(getActivity()));
-            textView.setTextSize(18);
-            if (action instanceof DeleteMultiMessageBroadAction){
-                textView.setTextColor(0xFFEB534B);
-            }else {
-                textView.setTextColor(0xFF9C1FFB);
-            }
-
-            textView.setGravity(Gravity.CENTER);
-            textView.setClickable(true);
-            textView.setEnabled(true);
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width / actions.size(), LinearLayout.LayoutParams.WRAP_CONTENT);
-            multiMessageActionContainerLinearLayoutBroad.addView(textView, layoutParams);
-            ViewGroup.LayoutParams p = textView.getLayoutParams();
-            p.height = 70;
-            textView.requestLayout();
-
-            textView.setOnClickListener(v -> {
-                List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
-                if (checkedMessages.isEmpty()){
-                    toggleConversationMode();
-                }else if (action.confirm()) {
-                    new MaterialDialog.Builder(getActivity()).content(action.confirmPrompt())
-                            .negativeText(getString(R.string.dialog_cancel))
-                            .positiveText(getString(R.string.dialog_confirm))
-                            .onPositive((dialog, which) -> {
-                                action.onClick(checkedMessages);
-                                toggleConversationMode();
-                            })
-                            .build()
-                            .show();
-
-                } else {
-                    action.onClick(checkedMessages);
-                    toggleConversationMode();
+        View inflateView = getLayoutInflater().inflate(R.layout.conversation_layout_select_more, multiMessageActionContainerLinearLayoutBroad, false);
+        inflateView.findViewById(R.id.mLLShare).setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if (!actions.isEmpty() &&actions.size() >1){
+                    goSelectMoreAction(actions.get(1));
                 }
-            });
+            }
+        });
+
+        inflateView.findViewById(R.id.mLLDelete).setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if (!actions.isEmpty()){
+                    goSelectMoreAction(actions.get(0));
+                }
+            }
+        });
+        multiMessageActionContainerLinearLayoutBroad.addView(inflateView);
+    }
+
+    private void goSelectMoreAction(MultiMessageBroadAction action) {
+        action.onBind(ConversationBroadFragment.this, conversationBroad);
+        List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
+        if (checkedMessages.isEmpty()){
+            toggleConversationMode();
+        }else if (action.confirm()) {
+            new MaterialDialog.Builder(getActivity()).content(action.confirmPrompt())
+                    .negativeText(getString(R.string.dialog_cancel))
+                    .positiveText(getString(R.string.dialog_confirm))
+                    .onPositive((dialog, which) -> {
+                        action.onClick(checkedMessages);
+                        toggleConversationMode();
+                    })
+                    .build()
+                    .show();
+
+        } else {
+            action.onClick(checkedMessages);
+            toggleConversationMode();
         }
     }
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_58"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:shape_radius="100dp"
+    app:shape_solidColor="@color/white65"
+    app:shape_strokeWidth="0.5dp"
+    app:shape_strokeColor="@color/white"
+    android:layout_marginHorizontal="@dimen/dp_38"
+    >
+    <LinearLayout
+        android:id="@+id/mLLShare"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/mLLDelete"
+        android:gravity="center"
+        >
+        <ImageView
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:src="@mipmap/ic_msg_c_share" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/message_forward"
+            android:textColor="@color/black_65"
+            android:textSize="12sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mLLDelete"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mLLShare"
+        android:gravity="center"
+        >
+        <ImageView
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:src="@mipmap/ic_msg_c_delete" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/message_delete"
+            android:textColor="@color/black_65"
+            android:textSize="12sp"
+            />
+
+    </LinearLayout>
+
+
+</com.hjq.shape.layout.ShapeConstraintLayout>
