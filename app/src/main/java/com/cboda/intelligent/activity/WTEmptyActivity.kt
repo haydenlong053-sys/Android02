@@ -1,6 +1,8 @@
 package com.cboda.intelligent.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.compose.material3.MaterialTheme
@@ -24,9 +26,13 @@ class WTEmptyActivity : BaseSimpleBroadActivity() {
         return true
     }
 
+
+    override fun showBgTopTitleLayout() = true
+
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setRootBgColor(R.color.white)
         val container = findViewById<FrameLayout>(R.id.compose_container)
         container.addView(ComposeView(this).apply {
             setContent {
