@@ -72,6 +72,11 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
 
 
     @Override
+    protected boolean fitsSystemWindows() {
+        return true;
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_broad_video;
     }
