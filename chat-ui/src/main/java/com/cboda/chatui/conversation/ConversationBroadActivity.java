@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
@@ -43,6 +44,7 @@ import cn.wildfirechat.message.ZhuanZhangMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.SendMessageCallback;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
 
@@ -51,7 +53,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private ConversationBroadFragment conversationBroadFragment;
     private Conversation conversationBroad;
     private View pageTitleLeftIcon;
-    private View pageTitleRightIcon,mIvBack2;
+    private View pageTitleRightIcon, mIvBack2, rightView;
     private View titleGradeAndTimeBroad;
     private TextView pageTitle;
     private String fromPageBroad;
@@ -145,6 +147,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         } else if (MyEventCodeEnum.GROUP_DETAILS_FAILED.getValue().equals(myImEvent.type)) {
             pageTitleRightIcon.setVisibility(View.GONE);
             mIvBack2.setVisibility(View.GONE);
+            rightView.setVisibility(View.VISIBLE);
         } else if (MyEventCodeEnum.UPDATE_SEND_TIME.getValue().equals(myImEvent.type)) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
         } else if (MyEventCodeEnum.BANNED.getValue().equals(myImEvent.type)) {
@@ -243,6 +246,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             titleGradeAndTimeBroad.setVisibility(View.GONE);
             pageTitleRightIcon.setVisibility(View.GONE);
             mIvBack2.setVisibility(View.GONE);
+            rightView.setVisibility(View.VISIBLE);
         } else {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), conversationBroad.target, "", null);
             GlobalFriendBroadBean bean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target);
@@ -279,6 +283,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         pageTitleLeftIcon.setOnClickListener(v -> finish());
         pageTitleRightIcon = findViewById(R.id.page_title_right_icon);
         mIvBack2 = findViewById(R.id.mIvBack2);
+        rightView = findViewById(R.id.rightView);
         pageTitleRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -315,6 +320,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         if (MyEventCodeEnum.COMPLAINT.getValue().equals(fromPageBroad)) {
             pageTitleRightIcon.setVisibility(View.GONE);
             mIvBack2.setVisibility(View.GONE);
+            rightView.setVisibility(View.VISIBLE);
             conversationBroadFragment.fromPage = fromPageBroad;
 
         }

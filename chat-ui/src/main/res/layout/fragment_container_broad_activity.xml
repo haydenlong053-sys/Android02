@@ -41,12 +41,20 @@
             app:layout_constraintTop_toTopOf="@id/page_title_left_icon" />
 
 
+        <Space
+            android:id="@+id/rightView"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/page_title_left_icon" />
+
         <com.hjq.shape.view.ShapeView
             android:id="@+id/page_title_right_icon"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
             app:layout_constraintBottom_toBottomOf="@id/page_title_left_icon"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rightView"
             app:layout_constraintTop_toTopOf="@id/page_title_left_icon"
             app:shape_radius="@dimen/dp_30"
             app:shape_shadowColor="#739e9e9e"
