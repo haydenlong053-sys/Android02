@@ -174,4 +174,9 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
         tvKt = findViewById(R.id.tvKt);
         tvDh = findViewById(R.id.tvDh);
     }
+
+    @Override
+    protected boolean useStatusBarDarkFont() {
+        return false;
+    }
 }
