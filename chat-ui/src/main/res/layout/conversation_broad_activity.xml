@@ -125,9 +125,10 @@
             <LinearLayout
                 android:id="@+id/multiMessageActionContainerLinearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="58dp"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/dp_20"
                 android:visibility="gone" />
         </LinearLayout>
 
