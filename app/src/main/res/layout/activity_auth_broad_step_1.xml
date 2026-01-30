@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@color/bg_main2">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/mTvNumb1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
             android:text="01"
             android:textColor="#3B47DD"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
@@ -28,61 +28,59 @@
             android:id="@+id/mTvDes1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="13dp"
             android:text="@string/mine_google_auth_des_1"
             android:textColor="@color/black_or_white"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginStart="8dp"
-            tools:ignore="MissingConstraints"
             app:layout_constraintBottom_toBottomOf="@id/mTvNumb1"
             app:layout_constraintStart_toEndOf="@id/mTvNumb1"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="13dp"
-            />
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/mTvDes2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:text="@string/mine_google_auth_des_2"
             android:textColor="@color/black_or_white_65"
             android:textSize="14sp"
-            android:layout_marginTop="12dp"
-            tools:ignore="MissingConstraints"
             app:layout_constraintStart_toStartOf="@id/mTvDes1"
             app:layout_constraintTop_toBottomOf="@id/mTvDes1"
-            />
+            tools:ignore="MissingConstraints" />
+
         <LinearLayout
             android:id="@+id/mLlGoogleAuthCopy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="44dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
             android:background="@drawable/bg_rect_mine_broad_10dp"
             android:gravity="center"
-            app:layout_constraintStart_toStartOf="@id/mTvDes1"
+            android:minHeight="44dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mTvDes2"
-            android:layout_marginEnd="40dp"
-            >
+            app:layout_constraintStart_toStartOf="@id/mTvDes1"
+            app:layout_constraintTop_toBottomOf="@id/mTvDes2">
+
             <TextView
                 android:id="@+id/mTvRandomSecretKey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="16dp"
-                tools:text="GHFSHSGDJDFYDY"
+                android:layout_weight="1"
                 android:gravity="center|start"
                 android:textColor="@color/black_or_white_65"
                 android:textSize="14sp"
-                />
+                tools:text="GHFSHSGDJDFYDY" />
 
             <ImageView
                 android:id="@+id/mIvCopy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_broad_copy"
                 android:layout_marginEnd="13dp"
+                android:src="@mipmap/ic_broad_copy"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
@@ -90,23 +88,22 @@
             android:id="@+id/mIvQrCodeAuth"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            tools:src="@mipmap/ic_security_broad_auth"
-            app:layout_constraintStart_toStartOf="@id/mTvDes1"
-            app:layout_constraintTop_toBottomOf="@id/mLlGoogleAuthCopy"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            />
+            app:layout_constraintStart_toStartOf="@id/mTvDes1"
+            app:layout_constraintTop_toBottomOf="@id/mLlGoogleAuthCopy"
+            tools:src="@mipmap/ic_security_broad_auth" />
 
         <TextView
             android:id="@+id/mTvNumb2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:text="02"
             android:textColor="#3B47DD"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mIvQrCodeAuth"
             tools:ignore="MissingConstraints" />
@@ -115,17 +112,17 @@
             android:id="@+id/mTvDes3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="19dp"
             android:text="@string/mine_google_auth_des_3"
             android:textColor="@color/black_or_white"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginStart="8dp"
-            tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toTopOf="@id/mTvNumb2"
-            app:layout_constraintStart_toEndOf="@id/mTvNumb2"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="19dp"
+            app:layout_constraintStart_toEndOf="@id/mTvNumb2"
+            app:layout_constraintTop_toTopOf="@id/mTvNumb2"
+            tools:ignore="MissingConstraints"
 
             />
 
@@ -133,24 +130,23 @@
             android:id="@+id/mIvQrCodeAuth2"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@mipmap/ic_auth_step_broad_1"
-            app:layout_constraintStart_toStartOf="@id/mTvDes1"
-            app:layout_constraintTop_toBottomOf="@id/mTvDes3"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            />
+            android:src="@mipmap/ic_auth_step_broad_1"
+            app:layout_constraintStart_toStartOf="@id/mTvDes1"
+            app:layout_constraintTop_toBottomOf="@id/mTvDes3" />
 
 
         <TextView
             android:id="@+id/mTvNumb3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:text="03"
             android:textColor="#3B47DD"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mIvQrCodeAuth2"
             tools:ignore="MissingConstraints" />
@@ -159,17 +155,17 @@
             android:id="@+id/mTvDes4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="19dp"
             android:text="@string/mine_google_auth_des_4"
             android:textColor="@color/black_or_white"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginStart="8dp"
-            tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toTopOf="@id/mTvNumb3"
-            app:layout_constraintStart_toEndOf="@id/mTvNumb3"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="19dp"
+            app:layout_constraintStart_toEndOf="@id/mTvNumb3"
+            app:layout_constraintTop_toTopOf="@id/mTvNumb3"
+            tools:ignore="MissingConstraints"
 
             />
 
@@ -177,19 +173,18 @@
             android:id="@+id/mTvNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="77dp"
             android:background="@drawable/bg_rect_submit_broad_16dp"
+            android:gravity="center"
+            android:padding="12dp"
             android:text="@string/mine_google_auth_des_5"
             android:textColor="@color/white_or_black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:padding="12dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mTvDes4"
-            android:layout_marginTop="77dp"
-            android:layout_marginHorizontal="24dp"
-            android:gravity="center"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mTvDes4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

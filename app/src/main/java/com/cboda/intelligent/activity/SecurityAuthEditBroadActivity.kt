@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -35,8 +36,10 @@ class SecurityAuthEditBroadActivity : BaseSimple2BroadActivity() {
         return ActivitySecurityAuthBroadEditBinding::class.java
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRootBgColor(R.color.white)
         mBind = binding as? ActivitySecurityAuthBroadEditBinding
         getToolbarTitle()?.text = getResources().getString(R.string.设置密保问题)
         initListener()

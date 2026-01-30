@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -32,8 +33,10 @@ class GoogleAuthStep1BroadActivity : BaseSimple2BroadActivity() {
         return ActivityAuthBroadStep1Binding::class.java
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRootBgColor(R.color.white)
         EventBus.getDefault().register(this)
         getToolbarTitle()?.text = getResources().getString(R.string.mine_google_auth)
         initListener()
