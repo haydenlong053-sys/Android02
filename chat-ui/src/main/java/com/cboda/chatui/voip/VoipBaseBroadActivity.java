@@ -15,6 +15,7 @@
 package com.cboda.chatui.voip;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.select.picture.language.PictureLanguageUtils.setAppLanguage;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -45,6 +46,7 @@ import java.util.List;
 
 import com.cboda.chatui.R;
 import com.cboda.select.picture.basic.BaseActivity;
+import com.cboda.select.picture.utils.LanguageUtil;
 
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.client.NotInitializedExecption;
@@ -55,7 +57,7 @@ import cn.wildfirechat.remote.ChatManager;
  * Activity for peer connection call setup, call waiting
  * and call view.
  */
-public abstract class VoipBaseBroadActivity extends BaseActivity implements AVEngineKit.CallSessionCallback {
+public abstract class VoipBaseBroadActivity extends FragmentActivity implements AVEngineKit.CallSessionCallback {
 
     private static final int CAPTURE_PERMISSION_REQUEST_CODE = 101;
 
@@ -135,6 +137,9 @@ public abstract class VoipBaseBroadActivity extends BaseActivity implements AVEn
             return;
         }
         session.setCallback(this);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            LanguageUtil.INSTANCE.setAppLanguage(LanguageUtil.INSTANCE.getAppLanguageKey(this, false), this);
+        }
     }
 
     @SuppressLint("MissingSuperCall")
