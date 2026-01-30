@@ -59,7 +59,7 @@ public abstract class WfcBaseBroadActivity extends BaseActivity {
 //            toolbar.getContext().setTheme(R.style.AppTheme_LightAppbar);
 //            customToolbarAndStatusBarBackgroundColor(false);
 //        }
-        setTitleBackgroundResource(R.color.bg_main, false);
+        setTitleBackgroundResource(R.color.color_F2F3F5, false);
         afterViews();
     }
 
