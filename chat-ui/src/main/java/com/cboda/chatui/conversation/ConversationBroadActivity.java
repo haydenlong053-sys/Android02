@@ -51,7 +51,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private ConversationBroadFragment conversationBroadFragment;
     private Conversation conversationBroad;
     private View pageTitleLeftIcon;
-    private View pageTitleRightIcon;
+    private View pageTitleRightIcon,mIvBack2;
     private View titleGradeAndTimeBroad;
     private TextView pageTitle;
     private String fromPageBroad;
@@ -144,6 +144,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             }
         } else if (MyEventCodeEnum.GROUP_DETAILS_FAILED.getValue().equals(myImEvent.type)) {
             pageTitleRightIcon.setVisibility(View.GONE);
+            mIvBack2.setVisibility(View.GONE);
         } else if (MyEventCodeEnum.UPDATE_SEND_TIME.getValue().equals(myImEvent.type)) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
         } else if (MyEventCodeEnum.BANNED.getValue().equals(myImEvent.type)) {
@@ -241,6 +242,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 //            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "getUserData", conversation.target, "", null);
             titleGradeAndTimeBroad.setVisibility(View.GONE);
             pageTitleRightIcon.setVisibility(View.GONE);
+            mIvBack2.setVisibility(View.GONE);
         } else {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), conversationBroad.target, "", null);
             GlobalFriendBroadBean bean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target);
@@ -276,6 +278,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         pageTitleLeftIcon = findViewById(R.id.page_title_left_icon);
         pageTitleLeftIcon.setOnClickListener(v -> finish());
         pageTitleRightIcon = findViewById(R.id.page_title_right_icon);
+        mIvBack2 = findViewById(R.id.mIvBack2);
         pageTitleRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,7 +314,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         setConversationBackground();
         if (MyEventCodeEnum.COMPLAINT.getValue().equals(fromPageBroad)) {
             pageTitleRightIcon.setVisibility(View.GONE);
-
+            mIvBack2.setVisibility(View.GONE);
             conversationBroadFragment.fromPage = fromPageBroad;
 
         }
