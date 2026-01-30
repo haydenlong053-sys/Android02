@@ -36,7 +36,7 @@ public class SignInBroadAdapter extends RecyclerView.Adapter<SignInBroadAdapter.
    public void onBindViewHolder(SignInBroadAdapter.MyHolder holder, final int position) {
 //      holder.tvTitle.setText(list.get(position).title);
       holder.tvTime.setText(list.get(position).time);
-      holder.tvMoney.setText("+"+ StringBroadUtils.removeDecimalPart(list.get(position).money)+" WEBX");
+      holder.tvMoney.setText("+"+ StringBroadUtils.removeDecimalPart(list.get(position).money)+" TRAI");
       holder.itemView.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {

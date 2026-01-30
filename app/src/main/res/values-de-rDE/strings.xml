@@ -46,8 +46,8 @@
     <string name="zhuanzhangjine">Überweisungsbetrag</string>
     <string name="bianjixiaoxineirong">Nachrichteninhalt bearbeiten</string>
     <string name="mourendehongbao">Roter Umschlag von %1$s</string>
-    <string name="yuanqian">WEBX</string>
-    <string name="yilingquhongbao">Bereits %1$s empfangen, insgesamt %2$s WEBX</string>
+    <string name="yuanqian">TRAI</string>
+    <string name="yilingquhongbao">Bereits %1$s empfangen, insgesamt %2$s TRAI</string>
     <string name="daishoulkuan">Ausstehende Zahlung</string>
     <string name="zhuanzhuangshijian">Überweisungszeit</string>
     <string name="shoukuan">Empfangen</string>

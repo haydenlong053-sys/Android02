@@ -81,7 +81,7 @@
     <string name="zhuanzhangjine">Transfer Amount</string>
     <string name="bianjixiaoxineirong">Edit Message Content</string>
     <string name="mourendehongbao">Red Packet from %1$s</string>
-    <string name="yuanqian">WEBX</string>
+    <string name="yuanqian">TRAI</string>
     <string name="yilingquhongbao">%1$s received, totaling %2$s yuan</string>
     <string name="daishoulkuan">Pending Collection</string>
     <string name="zhuanzhuangshijian">Transfer Time</string>
@@ -283,7 +283,7 @@
     <string name="确定">Confirm</string>
     <string name="点击保存图片">Click to save image</string>
     <string name="设置签名">Set Signature</string>
-    <string name="人民币">WEBX</string>
+    <string name="人民币">TRAI</string>
     <string name="当前余额">Current Balance</string>
     <string name="充值">Top-Up</string>
     <string name="提现">Withdraw</string>

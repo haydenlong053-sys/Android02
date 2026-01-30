@@ -18,7 +18,7 @@
         android:padding="8dp"
         >
 
-        <!-- WEBX 标签（选中状态） -->
+        <!-- TRAI 标签（选中状态） -->
         <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
             android:id="@+id/tvCurrencyWebx"
             android:layout_width="0dp"

@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Số tiền chuyển khoản</string>
     <string name="bianjixiaoxineirong">Chỉnh sửa nội dung tin nhắn</string>
     <string name="mourendehongbao">Bao lì xì của %1$s</string>
-    <string name="yuanqian">WEBX</string>
+    <string name="yuanqian">TRAI</string>
     <string name="yilingquhongbao">Đã nhận %1$s, tổng cộng %2$s yuan</string>
     <string name="daishoulkuan">Chờ nhận thanh toán</string>
     <string name="zhuanzhuangshijian">Thời gian chuyển khoản</string>
@@ -246,7 +246,7 @@
     <string name="确定">Xác nhận</string>
     <string name="点击保存图片">Nhấn để lưu hình ảnh</string>
     <string name="设置签名">Đặt chữ ký</string>
-    <string name="人民币">WebX</string>
+    <string name="人民币">TRAI</string>
     <string name="当前余额">Số dư hiện tại</string>
     <string name="充值">Nạp tiền</string>
     <string name="提现">Rút tiền</string>

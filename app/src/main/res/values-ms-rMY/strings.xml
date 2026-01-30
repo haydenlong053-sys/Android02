@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Amaun pindahan</string>
     <string name="bianjixiaoxineirong">Edit kandungan mesej</string>
     <string name="mourendehongbao">Angpau daripada %1$s</string>
-    <string name="yuanqian">WEBX</string>
+    <string name="yuanqian">TRAI</string>
     <string name="yilingquhongbao">Telah diterima %1$s, jumlah %2$s yuan</string>
     <string name="daishoulkuan">Menunggu penerimaan</string>
     <string name="zhuanzhuangshijian">Masa pindahan</string>
@@ -246,7 +246,7 @@
     <string name="确定">Sahkan</string>
     <string name="点击保存图片">Klik untuk menyimpan gambar</string>
     <string name="设置签名">Tetapkan Tandatangan</string>
-    <string name="人民币">WebX</string>
+    <string name="人民币">TRAI</string>
     <string name="当前余额">Baki Semasa</string>
     <string name="充值">Tambah Nilai</string>
     <string name="提现">Pengeluaran</string>

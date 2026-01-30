@@ -854,7 +854,7 @@ fun BottomSection(
                         )
                         
                         Text(
-                            text = "WebX",
+                            text = "TRAI",
                             color = Color(0xFF25A6FF),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Normal
@@ -864,7 +864,7 @@ fun BottomSection(
                         originalPrice?.let { original ->
                             if (original > totalPrice) {
                                 Text(
-                                    text = "原价${original}WebX",
+                                    text = "原价${original}TRAI",
                                     color = Color(0xFF9CA1A5),
                                     fontSize = 12.sp,
                                     style = androidx.compose.ui.text.TextStyle(

@@ -81,7 +81,7 @@
     <string name="zhuanzhangjine">转账数量</string>
     <string name="bianjixiaoxineirong">编辑消息内容</string>
     <string name="mourendehongbao">%1$s的红包</string>
-    <string name="yuanqian">WEBX</string>
+    <string name="yuanqian">TRAI</string>
     <string name="yilingquhongbao">已领%1$s个，共%2$sWEBX</string>
     <string name="daishoulkuan">待收款</string>
     <string name="zhuanzhuangshijian">转账时间</string>
@@ -283,7 +283,7 @@
     <string name="确定">确定</string>
     <string name="点击保存图片">点击保存图片</string>
     <string name="设置签名">设置签名</string>
-    <string name="人民币">WebX</string>
+    <string name="人民币">TRAI</string>
     <string name="当前余额">当前余额</string>
     <string name="充值">充值</string>
     <string name="提现">提现</string>
