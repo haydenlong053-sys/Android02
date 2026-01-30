@@ -37,17 +37,19 @@ public class CreateGroupNotificationContent extends GroupNotificationMessageCont
     @Override
     public String formatNotification(Message message) {
         if (fromSelf) {
-            return StringUtils.getString(
-                    com.cboda.baselibrary.R.string.base_group_created_by_self,
-                    groupName
-            );
+            return String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.base_group_created_by_self),groupName);
+//            return StringUtils.getString(
+//                    com.cboda.baselibrary.R.string.base_group_created_by_self,
+//                    groupName
+//            );
         } else {
             String creatorName = ChatManager.Instance().getUserDisplayName(creator);
-            return StringUtils.getString(
-                    com.cboda.baselibrary.R.string.base_group_created_by_other,
-                    creatorName,
-                    groupName
-            );
+            return String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.base_group_created_by_other),creatorName,groupName);
+//            return StringUtils.getString(
+//                    com.cboda.baselibrary.R.string.base_group_created_by_other,
+//                    creatorName,
+//                    groupName
+//            );
         }
     }
 
