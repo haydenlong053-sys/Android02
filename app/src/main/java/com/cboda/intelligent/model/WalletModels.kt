@@ -331,7 +331,8 @@ data class TokenPreviewResponse(
  */
 data class RemoveTokenRequest(
     val chain_id: Int,
-    val token_address: String
+    val token_address: String,
+    val address: String
 )
 
 /**

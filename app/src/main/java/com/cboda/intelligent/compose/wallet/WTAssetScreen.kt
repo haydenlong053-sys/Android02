@@ -161,8 +161,9 @@ fun WTAssetScreen(
         },
         onRemoveToken = { asset ->
              val chainId = currentWallet?.chain_id ?: 97
-             if (!asset.token_address.isNullOrEmpty()) {
-                 viewModel.removeToken(RemoveTokenRequest(chainId, asset.token_address))
+             val address = currentWallet?.address ?: ""
+             if (!asset.token_address.isNullOrEmpty() && address.isNotEmpty()) {
+                 viewModel.removeToken(RemoveTokenRequest(chainId, asset.token_address, address))
              }
         }
     )
