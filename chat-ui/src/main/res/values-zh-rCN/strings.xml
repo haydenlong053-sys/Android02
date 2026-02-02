@@ -284,7 +284,9 @@
     <string name="msg_chat_bibi">聊天记录</string>
 
     <string name="msg_score_unit">分</string>
+    <string name="msg_score_unit2">分</string>
     <string name="msg_days_unit">天</string>
+    <string name="msg_days_unit2">天</string>
 
     <string name="rename">改名</string>
     <string name="times_unit">次</string>

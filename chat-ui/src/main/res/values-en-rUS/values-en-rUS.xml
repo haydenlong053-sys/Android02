@@ -243,15 +243,17 @@
     <string name="msg_chat_bibi">Chat history</string>
 
     <string name="msg_score_unit">pts</string>
+    <string name="msg_score_unit2"></string>
     <string name="msg_days_unit">days</string>
+    <string name="msg_days_unit2">d</string>
 
-    <string name="rename">Rename</string>
-    <string name="times_unit">times</string>
+    <string name="rename">Renamed</string>
+    <string name="times_unit"></string>
 
     <string name="group_announcement_prefix">Group Announcement: </string>
     <string name="not_friend_send_message">You are not friends yet. Please send a friend verification request first. After the other party verifies and approves, you can chat.</string>
     <string name="credit_prefix">Credit: </string>
-    <string name="register_time_prefix">Registration Time: </string>
+    <string name="register_time_prefix">Age: </string>
 
     <string name="msg_album">Album</string>
     <string name="msg_red_envelope">Red Envelope</string>
@@ -320,8 +322,8 @@
     <string name="conference_apply_unmute">Apply to Unmute</string>
     <string name="conference_connecting">Connecting...</string>
     <string name="message_install_webview">Please install: Android System WebView</string>
-    <string name="message_grade_unit">points</string>
-    <string name="message_joined_group">Joined group</string>
+    <string name="message_grade_unit">pts</string>
+    <string name="message_joined_group"> Joined</string>
     <string name="message_edit">Edit</string>
     <string name="message_add">Add</string>
     <string name="message_recall">Recall</string>

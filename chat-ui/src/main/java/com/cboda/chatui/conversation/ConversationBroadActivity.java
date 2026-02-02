@@ -254,8 +254,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                 titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
                 TextView titleGrade = findViewById(R.id.titleGrade);
                 TextView titleTime = findViewById(R.id.titleTime);
-                titleGrade.setText(getString(R.string.credit_prefix) + bean.grade + getString(R.string.msg_score_unit));
-                titleTime.setText(getString(R.string.register_time_prefix) + bean.registerDay + getString(R.string.msg_days_unit));
+                titleGrade.setText(getString(R.string.credit_prefix) + bean.grade + getString(R.string.msg_score_unit2));
+                titleTime.setText(getString(R.string.register_time_prefix) + bean.registerDay + getString(R.string.msg_days_unit2));
             } else {
                 titleGradeAndTimeBroad.setVisibility(View.GONE);
             }
