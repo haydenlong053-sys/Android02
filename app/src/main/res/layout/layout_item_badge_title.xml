@@ -14,6 +14,7 @@
         android:minWidth="@dimen/dp_13"
         android:minHeight="@dimen/dp_13"
         android:paddingHorizontal="@dimen/dp_2"
+        android:text="5"
         android:textColor="@color/white"
         android:textSize="8sp"
         android:visibility="invisible"
@@ -21,7 +22,6 @@
         app:layout_constraintTop_toTopOf="@id/tvTitle"
         app:shape_radius="@dimen/dp_60"
         app:shape_solidColor="#FF2E2E"
-        tools:text="5"
         tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
