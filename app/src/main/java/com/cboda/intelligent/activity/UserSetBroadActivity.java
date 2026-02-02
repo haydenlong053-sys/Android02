@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.intelligent.R;
-import com.cboda.intelligent.base.BaseSimpleBroadActivity;
+import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.dialog.pop.AuthWayBroadPop;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum;
@@ -43,7 +43,7 @@ import kotlin.jvm.functions.Function0;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class UserSetBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
+public class UserSetBroadActivity extends BaseSimple2BroadActivity implements View.OnClickListener {
 
     private String eqno;
     private ResultBroadBean bean;
@@ -74,6 +74,7 @@ public class UserSetBroadActivity extends BaseSimpleBroadActivity implements Vie
         super.onCreate(savedInstanceState);
         initViews();
         getToolbarTitle().setText(getResources().getString(R.string.设置));
+        setRootBgColor(R.color.white);
         tvSwitch.setVisibility(getIsDebug() ? View.VISIBLE : View.GONE);
         tvSwitch.setText("切换环境（" + HttpsBroadConfig.INSTANCE.getDevType() + "）");
         tvSwitch.setOnClickListener(this);
@@ -377,6 +378,11 @@ public class UserSetBroadActivity extends BaseSimpleBroadActivity implements Vie
     public void onAppEventReceiver(ActionRefreshBroadEvent event) {
         userInfo();
 
+    }
+
+    @Override
+    public boolean showBgTopTitleLayout() {
+        return true;
     }
 
     @Override
