@@ -115,6 +115,7 @@
             android:maxLines="1"
             android:text="@string/zidongjinyan"
             android:textColor="@color/color_text0"
+            app:layout_constraintEnd_toStartOf="@id/zidongjinyan"
             android:textSize="15sp" />
 
         <androidx.appcompat.widget.SwitchCompat

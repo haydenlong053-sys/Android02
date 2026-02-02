@@ -333,7 +333,7 @@
     <string name="message_collect">Collect</string>
     <string name="message_translate">Translate</string>
     <string name="msg_mention_all">Everyone</string>
-    <string name="msg_person_unit">people</string>
+    <string name="msg_person_unit">p</string>
     <string name="msg_share_to">Share to:</string>
     <string name="msg_send_message">Send message</string>
 
