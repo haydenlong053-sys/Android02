@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,6 +52,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import okhttp3.Request;
 import okhttp3.Response;
 import top.zibin.luban.Luban;
@@ -58,7 +61,7 @@ import top.zibin.luban.Luban;
 public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
 
     private View mIvMyBack;
-    private View myToolView;
+    private View myToolView,space;
     private TextView tvMyTitle;
     private String icon;
     private String apptoken;
@@ -146,6 +149,18 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         });
 
         ptConfig();
+        setNavBarHeightListener(new Function1<Integer, Unit>() {
+            @Override
+            public Unit invoke(Integer integer) {
+                if (integer!=null && integer > 0){
+                    ViewGroup.LayoutParams params = space.getLayoutParams();
+                    params.height =integer;
+                    space.setLayoutParams(params);
+                    space.setVisibility(View.VISIBLE);
+                }
+                return null;
+            }
+        });
     }
 
     private void ptConfig() {
@@ -457,6 +472,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
     }
 
     private void initViews() {
+        space= findViewById(R.id.space);
         myToolView = findViewById(R.id.myToolView);
         mIvMyBack = findViewById(R.id.mIvMyBack);
         tvMyTitle = findViewById(R.id.tvMyTitle);
@@ -477,5 +493,10 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         mViewDash = findViewById(R.id.mViewDash);
         mIvBlur = findViewById(R.id.mIvBlur);
         mViewRootBg = findViewById(R.id.mViewRootBg);
+    }
+
+    @Override
+    protected boolean fitsSystemWindows() {
+        return true;
     }
 }
