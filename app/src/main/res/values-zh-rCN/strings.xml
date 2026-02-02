@@ -430,14 +430,14 @@
     <string name="会员专属特权">会员专属特权</string>
     <string name="立即兑换">立即兑换</string>
     <string name="开通">开通</string>
-    <string name="开通5000人群">开通5000人群</string>
+    <string name="开通10000人群">开通10000人群</string>
     <string name="输入激活码">输入激活码</string>
     <string name="升级群聊">升级群聊</string>
     <string name="机器人定时消息">机器人定时消息</string>
     <string name="欢迎成员">欢迎成员</string>
     <string name="立即升级">立即升级</string>
     <string name="群成员上限为1000人">群成员上限为1000人</string>
-    <string name="群成员上限为5000人">群成员上限为5000人</string>
+    <string name="群成员上限为10000人">群成员上限为10000人</string>
     <string name="您已升级成为最高群聊">您已升级成为最高群聊</string>
     <string name="是否升级该群聊">是否升级该群聊</string>
     <string name="欢迎语">欢迎语</string>

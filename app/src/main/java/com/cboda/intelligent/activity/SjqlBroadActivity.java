@@ -162,7 +162,7 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
                         tvGsize.setText(getString(R.string.群成员上限为1000人));
                         tvKt.setText(getString(R.string.立即升级));
                     } else {
-                        tvGsize.setText(getString(R.string.群成员上限为5000人));
+                        tvGsize.setText(getString(R.string.群成员上限为10000人));
                         tvKt.setText(getString(R.string.您已升级成为最高群聊));
                     }
                 }

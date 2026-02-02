@@ -426,7 +426,7 @@
     <string name="会员专属特权">會員專屬特權</string>
     <string name="立即兑换">立即兌換</string>
     <string name="开通">開通</string>
-    <string name="开通5000人群">开通5000人群</string>
+    <string name="开通10000人群">开通10000人群</string>
     <string name="输入激活码">输入激活码</string>
     <string name="升级群聊">升级群聊</string>
     <string name="机器人定时消息">机器人定时消息</string>
@@ -538,7 +538,7 @@
     <string name="mine_idcard_auth_des_2">我的身份验证器app</string>
     <string name="server_list_delete_btn">@string/common_delete</string>
     <string name="mine_withdraw_detail">提现详情</string>
-    <string name="群成员上限为5000人">群成员上限为5000人</string>
+    <string name="群成员上限为10000人">群成员上限为10000人</string>
     <string name="mine_Transfer_records">转账记录</string>
     <string name="shezhibneizhutispb">设置备注名 </string>
     <string name="action_add">添加</string>

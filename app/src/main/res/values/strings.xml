@@ -430,14 +430,14 @@
     <string name="会员专属特权">Member Exclusive Privileges</string>
     <string name="立即兑换">Redeem Now</string>
     <string name="开通">Activate</string>
-    <string name="开通5000人群">Activate 5000-member Group</string>
+    <string name="开通10000人群">Activate 10000-member Group</string>
     <string name="输入激活码">Enter Activation Code</string>
     <string name="升级群聊">Upgrade Group Chat</string>
     <string name="机器人定时消息">Bot Scheduled Messages</string>
     <string name="欢迎成员">Welcome Members</string>
     <string name="立即升级">Upgrade Now</string>
     <string name="群成员上限为1000人">Group member limit is 1000</string>
-    <string name="群成员上限为5000人">Group member limit is 5000</string>
+    <string name="群成员上限为10000人">Group member limit is 10000</string>
     <string name="您已升级成为最高群聊">You have upgraded to the highest group chat</string>
     <string name="是否升级该群聊">Upgrade this group chat?</string>
     <string name="欢迎语">Welcome Message</string>
