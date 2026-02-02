@@ -369,7 +369,7 @@
     <string name="message_recall">Recall</string>
     <string name="message_copy">Copy</string>
     <string name="message_copy_success">Copied successfully</string>
-    <string name="message_select_more">Select More</string>
+    <string name="message_select_more">Select</string>
     <string name="message_delete">Delete</string>
     <string name="message_forward">Forward</string>
     <string name="message_collect">Collect</string>

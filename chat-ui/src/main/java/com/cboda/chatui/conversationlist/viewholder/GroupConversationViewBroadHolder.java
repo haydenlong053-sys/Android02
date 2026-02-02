@@ -73,10 +73,10 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         GlobalSmallGroupBroadBean smallGroupBean = GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target);
         if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
             gradeTv.setVisibility(View.VISIBLE);
-            gradeTv.setText(smallGroupBean.getGroupDays() + gradeTv.getContext().getString(R.string.msg_days_unit));
+            gradeTv.setText(smallGroupBean.getGroupDays() + gradeTv.getContext().getString(R.string.msg_days_unit2));
         } else {
             gradeTv.setVisibility(View.VISIBLE);
-            gradeTv.setText("0"+gradeTv.getContext().getString(R.string.msg_days_unit));
+            gradeTv.setText("0"+gradeTv.getContext().getString(R.string.msg_days_unit2));
         }
         if (null != smallGroupBean && null != smallGroupBean.getRenameCount()) {
             nameTimeTv.setVisibility(View.VISIBLE);
