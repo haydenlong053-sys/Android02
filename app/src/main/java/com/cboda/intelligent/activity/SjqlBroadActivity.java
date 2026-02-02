@@ -23,6 +23,7 @@ import java.util.Map;
 
 import okhttp3.Response;
 
+//升级群聊页
 public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
 
 
@@ -43,6 +44,11 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     @Override
     protected boolean transparentStatus() {
+        return true;
+    }
+
+    @Override
+    protected boolean fitsSystemWindows() {
         return true;
     }
 
