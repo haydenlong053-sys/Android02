@@ -157,4 +157,13 @@
     <string name="msg_share_to">Хуваалцах:</string>
     <string name="msg_send_message">Зурвас илгээх</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Бусад хүмүүсээр түгжигдсэн</string>
+    <string name="hongbao_unlocked">Түгжигдсэн</string>
+    <string name="hongbao_received">Хүлээн авсан</string>
+    <string name="hongbao_expired">Хугацаа дууссан</string>
+    <string name="hongbao_unlock_digital_future">Цифр ирээдүйгээ түгжих</string>
+    <string name="hongbao_rejected_by_others">Бусад хүмүүсээр татгалзсан</string>
+    <string name="hongbao_rejected">Татгалзсан</string>
+
 </resources>

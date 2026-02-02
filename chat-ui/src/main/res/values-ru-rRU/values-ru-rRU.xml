@@ -162,4 +162,13 @@
     <string name="msg_share_to">Поделиться с:</string>
     <string name="msg_send_message">Отправить сообщение</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Разблокировано другими</string>
+    <string name="hongbao_unlocked">Разблокировано</string>
+    <string name="hongbao_received">Получено</string>
+    <string name="hongbao_expired">Истек срок действия</string>
+    <string name="hongbao_unlock_digital_future">Разблокируйте свое цифровое будущее</string>
+    <string name="hongbao_rejected_by_others">Отклонено другими</string>
+    <string name="hongbao_rejected">Отклонено</string>
+
 </resources>

@@ -157,4 +157,13 @@
     <string name="msg_share_to">শেয়ার করুন:</string>
     <string name="msg_send_message">বার্তা পাঠান</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">অন্যদের দ্বারা আনলক করা হয়েছে</string>
+    <string name="hongbao_unlocked">আনলক করা হয়েছে</string>
+    <string name="hongbao_received">গ্রহণ করা হয়েছে</string>
+    <string name="hongbao_expired">মেয়াদ শেষ</string>
+    <string name="hongbao_unlock_digital_future">আপনার ডিজিটাল ভবিষ্যত আনলক করুন</string>
+    <string name="hongbao_rejected_by_others">অন্যদের দ্বারা প্রত্যাখ্যান করা হয়েছে</string>
+    <string name="hongbao_rejected">প্রত্যাখ্যান করা হয়েছে</string>
+
 </resources>

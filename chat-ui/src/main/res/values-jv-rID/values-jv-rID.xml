@@ -157,4 +157,13 @@
     <string name="msg_share_to">Bagikan menyang:</string>
     <string name="msg_send_message">Kirim pesen</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Dibuka kunci dening wong liya</string>
+    <string name="hongbao_unlocked">Ora dikunci</string>
+    <string name="hongbao_received">Ditampa</string>
+    <string name="hongbao_expired">Kadaluwarsa</string>
+    <string name="hongbao_unlock_digital_future">Buka kunci masa depan digital sampeyan</string>
+    <string name="hongbao_rejected_by_others">Ditolak dening wong liya</string>
+    <string name="hongbao_rejected">Ditolak</string>
+
 </resources>

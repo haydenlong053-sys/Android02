@@ -99,4 +99,13 @@
     <string name="mark_as_read">Phawula njengokufundiwe</string>
     <string name="mark_as_unread">Phawula njengokungafundwanga</string>
     <string name="confirm_delete_conversation">Qinisekisa ukususa ingxoxo?</string>
+
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Kuvuliwe abanye</string>
+    <string name="hongbao_unlocked">Kuvuliwe</string>
+    <string name="hongbao_received">Kutholwe</string>
+    <string name="hongbao_expired">Siphelelwe yisikhathi</string>
+    <string name="hongbao_unlock_digital_future">Vula ikusasa lakho le-digital</string>
+    <string name="hongbao_rejected_by_others">Kwenqatshwe abanye</string>
+    <string name="hongbao_rejected">Kwenqatshwe</string>
 </resources>

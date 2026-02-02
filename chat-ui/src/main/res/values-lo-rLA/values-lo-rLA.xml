@@ -157,4 +157,13 @@
     <string name="msg_share_to">ແບ່ງປັນໃຫ້:</string>
     <string name="msg_send_message">ສົ່ງຂໍ້ຄວາມ</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">ຖືກເປີດລ໋ອກໂດຍຄົນອື່ນ</string>
+    <string name="hongbao_unlocked">ເປີດລ໋ອກແລ້ວ</string>
+    <string name="hongbao_received">ໄດ້ຮັບແລ້ວ</string>
+    <string name="hongbao_expired">ໝົດອາຍຸແລ້ວ</string>
+    <string name="hongbao_unlock_digital_future">ເປີດລ໋ອກອະນາຄົດດິຈິຕອລຂອງທ່ານ</string>
+    <string name="hongbao_rejected_by_others">ຖືກປະຕິເສດໂດຍຄົນອື່ນ</string>
+    <string name="hongbao_rejected">ຖືກປະຕິເສດ</string>
+
 </resources>

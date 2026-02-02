@@ -157,4 +157,13 @@
     <string name="msg_share_to">Κοινοποίηση σε:</string>
     <string name="msg_send_message">Αποστολή μηνύματος</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Ξεκλειδώθηκε από άλλους</string>
+    <string name="hongbao_unlocked">Ξεκλειδωμένο</string>
+    <string name="hongbao_received">Λήφθηκε</string>
+    <string name="hongbao_expired">Έληξε</string>
+    <string name="hongbao_unlock_digital_future">Ξεκλειδώστε το ψηφιακό σας μέλλον</string>
+    <string name="hongbao_rejected_by_others">Απορρίφθηκε από άλλους</string>
+    <string name="hongbao_rejected">Απορρίφθηκε</string>
+
 </resources>

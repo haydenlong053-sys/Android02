@@ -157,4 +157,13 @@
     <string name="msg_share_to">Raba zuwa:</string>
     <string name="msg_send_message">Aika saƙo</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">An buɗe ta wasu</string>
+    <string name="hongbao_unlocked">An buɗe</string>
+    <string name="hongbao_received">An karɓa</string>
+    <string name="hongbao_expired">Ya ƙare</string>
+    <string name="hongbao_unlock_digital_future">Buɗe makomarku ta dijital</string>
+    <string name="hongbao_rejected_by_others">An ƙi ta wasu</string>
+    <string name="hongbao_rejected">An ƙi</string>
+
 </resources>

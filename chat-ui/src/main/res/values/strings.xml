@@ -378,4 +378,13 @@
     <string name="msg_person_unit">p</string>
     <string name="msg_share_to">Share to:</string>
     <string name="msg_send_message">Send message</string>
+
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">已被解锁</string>
+    <string name="hongbao_unlocked">已解锁</string>
+    <string name="hongbao_received">已领取</string>
+    <string name="hongbao_expired">已过期</string>
+    <string name="hongbao_unlock_digital_future">解锁你的数字未来</string>
+    <string name="hongbao_rejected_by_others">已被拒绝</string>
+    <string name="hongbao_rejected">已拒绝</string>
 </resources>

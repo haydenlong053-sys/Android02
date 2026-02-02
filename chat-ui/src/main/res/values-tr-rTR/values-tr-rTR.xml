@@ -162,4 +162,13 @@
     <string name="msg_share_to">Paylaş:</string>
     <string name="msg_send_message">Mesaj gönder</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Başkaları tarafından kilit açıldı</string>
+    <string name="hongbao_unlocked">Kilit açıldı</string>
+    <string name="hongbao_received">Alındı</string>
+    <string name="hongbao_expired">Süresi doldu</string>
+    <string name="hongbao_unlock_digital_future">Dijital geleceğinizi kilitten çıkarın</string>
+    <string name="hongbao_rejected_by_others">Başkaları tarafından reddedildi</string>
+    <string name="hongbao_rejected">Reddedildi</string>
+
 </resources>

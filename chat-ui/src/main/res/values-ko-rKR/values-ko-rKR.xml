@@ -162,4 +162,13 @@
     <string name="msg_share_to">공유 대상:</string>
     <string name="msg_send_message">메시지 보내기</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">다른 사람에 의해 잠금 해제됨</string>
+    <string name="hongbao_unlocked">잠금 해제됨</string>
+    <string name="hongbao_received">수령 완료</string>
+    <string name="hongbao_expired">만료됨</string>
+    <string name="hongbao_unlock_digital_future">디지털 미래를 잠금 해제하세요</string>
+    <string name="hongbao_rejected_by_others">다른 사람에 의해 거부됨</string>
+    <string name="hongbao_rejected">거부됨</string>
+
 </resources>

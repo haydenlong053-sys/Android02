@@ -162,4 +162,13 @@
     <string name="msg_share_to">साझा करें:</string>
     <string name="msg_send_message">संदेश भेजें</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">दूसरों द्वारा अनलॉक किया गया</string>
+    <string name="hongbao_unlocked">अनलॉक किया गया</string>
+    <string name="hongbao_received">प्राप्त किया गया</string>
+    <string name="hongbao_expired">समाप्त हो गया</string>
+    <string name="hongbao_unlock_digital_future">अपने डिजिटल भविष्य को अनलॉक करें</string>
+    <string name="hongbao_rejected_by_others">दूसरों द्वारा अस्वीकार किया गया</string>
+    <string name="hongbao_rejected">अस्वीकार किया गया</string>
+
 </resources>

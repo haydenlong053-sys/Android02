@@ -162,4 +162,13 @@
     <string name="msg_share_to">مشاركة مع:</string>
     <string name="msg_send_message">إرسال رسالة</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">تم إلغاء القفل بواسطة آخرين</string>
+    <string name="hongbao_unlocked">تم إلغاء القفل</string>
+    <string name="hongbao_received">تم الاستلام</string>
+    <string name="hongbao_expired">منتهي الصلاحية</string>
+    <string name="hongbao_unlock_digital_future">افتح مستقبلك الرقمي</string>
+    <string name="hongbao_rejected_by_others">تم الرفض بواسطة آخرين</string>
+    <string name="hongbao_rejected">تم الرفض</string>
+
 </resources>

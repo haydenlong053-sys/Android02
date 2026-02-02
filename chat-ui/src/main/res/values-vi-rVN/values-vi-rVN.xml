@@ -468,4 +468,13 @@
     <string name="msg_share_to">Chia sẻ cho:</string>
     <string name="msg_send_message">Gửi tin nhắn</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Đã được mở khóa bởi người khác</string>
+    <string name="hongbao_unlocked">Đã mở khóa</string>
+    <string name="hongbao_received">Đã nhận</string>
+    <string name="hongbao_expired">Đã hết hạn</string>
+    <string name="hongbao_unlock_digital_future">Mở khóa tương lai số của bạn</string>
+    <string name="hongbao_rejected_by_others">Đã bị từ chối bởi người khác</string>
+    <string name="hongbao_rejected">Đã từ chối</string>
+
 </resources>

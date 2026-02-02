@@ -157,4 +157,13 @@
     <string name="msg_share_to">شیئر کریں:</string>
     <string name="msg_send_message">پیغام بھیجیں</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">دوسروں کے ذریعہ کھولا گیا</string>
+    <string name="hongbao_unlocked">کھولا گیا</string>
+    <string name="hongbao_received">موصول ہوا</string>
+    <string name="hongbao_expired">ختم ہو گیا</string>
+    <string name="hongbao_unlock_digital_future">اپنے ڈیجیٹل مستقبل کو کھولیں</string>
+    <string name="hongbao_rejected_by_others">دوسروں کے ذریعہ مسترد کیا گیا</string>
+    <string name="hongbao_rejected">مسترد کیا گیا</string>
+
 </resources>

@@ -157,4 +157,13 @@
     <string name="msg_share_to">Distribuie către:</string>
     <string name="msg_send_message">Trimite mesaj</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Deblocat de alții</string>
+    <string name="hongbao_unlocked">Deblocat</string>
+    <string name="hongbao_received">Primit</string>
+    <string name="hongbao_expired">Expirat</string>
+    <string name="hongbao_unlock_digital_future">Deblochează-ți viitorul digital</string>
+    <string name="hongbao_rejected_by_others">Respins de alții</string>
+    <string name="hongbao_rejected">Respins</string>
+
 </resources>

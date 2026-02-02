@@ -157,4 +157,13 @@
     <string name="msg_share_to">Bagikan ke:</string>
     <string name="msg_send_message">Kirim pesan</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Dibuka kunci oleh orang lain</string>
+    <string name="hongbao_unlocked">Tidak terkunci</string>
+    <string name="hongbao_received">Diterima</string>
+    <string name="hongbao_expired">Kedaluwarsa</string>
+    <string name="hongbao_unlock_digital_future">Buka kunci masa depan digital Anda</string>
+    <string name="hongbao_rejected_by_others">Ditolak oleh orang lain</string>
+    <string name="hongbao_rejected">Ditolak</string>
+
 </resources>

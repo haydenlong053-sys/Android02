@@ -157,4 +157,13 @@
     <string name="msg_share_to">Ibahagi sa:</string>
     <string name="msg_send_message">Magpadala ng mensahe</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Na-unlock ng iba</string>
+    <string name="hongbao_unlocked">Na-unlock</string>
+    <string name="hongbao_received">Natanggap</string>
+    <string name="hongbao_expired">Nag-expire</string>
+    <string name="hongbao_unlock_digital_future">I-unlock ang iyong digital na hinaharap</string>
+    <string name="hongbao_rejected_by_others">Tinanggihan ng iba</string>
+    <string name="hongbao_rejected">Tinanggihan</string>
+
 </resources>

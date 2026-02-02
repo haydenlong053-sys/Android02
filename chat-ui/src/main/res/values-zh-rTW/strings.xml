@@ -163,6 +163,15 @@
     <string name="msg_share_to">分享給:</string>
     <string name="msg_send_message">發消息</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">已被解鎖</string>
+    <string name="hongbao_unlocked">已解鎖</string>
+    <string name="hongbao_received">已領取</string>
+    <string name="hongbao_expired">已過期</string>
+    <string name="hongbao_unlock_digital_future">解鎖你的數字未來</string>
+    <string name="hongbao_rejected_by_others">已被拒絕</string>
+    <string name="hongbao_rejected">已拒絕</string>
+
     <!-- Time formatting -->
     <string name="time_yesterday">昨天 %1$s</string>
     <string name="time_weekday_sun">週日 %1$s</string>

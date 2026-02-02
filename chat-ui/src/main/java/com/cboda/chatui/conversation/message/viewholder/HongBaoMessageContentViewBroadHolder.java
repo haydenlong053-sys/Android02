@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.chatui.R;
+
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.view.RoundedImageBroadView;
 import com.hjq.shape.view.ShapeTextView;
@@ -131,23 +133,23 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
 //            }
             if (message.message.direction == MessageDirection.Send) {
                 statusTv.setVisibility(View.GONE);
-                tvhoongbaotips.setText("已被解锁");
+                tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlocked_by_others));
             } else {
                 statusTv.setVisibility(View.VISIBLE);
                 setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_E9A94F, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
-                tvhoongbaotips.setText("已解锁");
-                statusTv.setText("已领取");
+                tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlocked));
+                statusTv.setText(itemView.getContext().getString(R.string.hongbao_received));
             }
         } else if ("3".equals(zhuanzhangMessage.lingquStatus)) {
             allGroup.setAlpha(1f);
             statusTv.setVisibility(View.VISIBLE);
-            statusTv.setText("已过期");
+            statusTv.setText(itemView.getContext().getString(R.string.hongbao_expired));
             if (message.message.direction == MessageDirection.Send) {
                 setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_777777, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0);
             } else {
                 setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_777777, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
             }
-            tvhoongbaotips.setText("解锁你的数字未来");
+            tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlock_digital_future));
         } else {
             if (zhuanzhangMessage.lqUsers != null && zhuanzhangMessage.lqUsers.contains(ChatManager.Instance().getUserId())) {
 //                hongbaoTopBg.setVisibility(View.VISIBLE);
@@ -157,12 +159,12 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
 //                if (!"3".equals(zhuanzhangMessage.hongbaoLeixing)) {
                 if (message.message.direction == MessageDirection.Send) {
                     statusTv.setVisibility(View.GONE);
-                    tvhoongbaotips.setText("已被解锁");
+                    tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlocked_by_others));
                 } else {
-                    tvhoongbaotips.setText("已解锁");
+                    tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlocked));
                     statusTv.setVisibility(View.VISIBLE);
                     setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_E9A94F, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
-                    statusTv.setText("已领取");
+                    statusTv.setText(itemView.getContext().getString(R.string.hongbao_received));
                 }
 //                }
             } else if ("2".equals(zhuanzhangMessage.lingquStatus) && message.message.conversation.type == Conversation.ConversationType.Single) {
@@ -171,18 +173,18 @@ public class HongBaoMessageContentViewBroadHolder extends NormalMessageContentVi
 //                if (!"3".equals(zhuanzhangMessage.hongbaoLeixing)) {
                 if (message.message.direction == MessageDirection.Send) {
                     statusTv.setVisibility(View.GONE);
-                    tvhoongbaotips.setText("已被拒绝");
+                    tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_rejected_by_others));
                 } else {
-                    tvhoongbaotips.setText("已拒绝");
+                    tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_rejected));
                     statusTv.setVisibility(View.VISIBLE);
                     setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_44A7C8, com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
-                    statusTv.setText("已拒绝");
+                    statusTv.setText(itemView.getContext().getString(R.string.hongbao_rejected));
                 }
 
             } else {
 //                hongbaoBg.setAlpha(1f);
                 allGroup.setAlpha(1f);
-                tvhoongbaotips.setText("解锁你的数字未来");
+                tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlock_digital_future));
                 statusTv.setVisibility(View.GONE);
 //                if (!"3".equals(zhuanzhangMessage.hongbaoLeixing)) {
 //                    tvhoongbaotips.setText("解锁你的数字未来");

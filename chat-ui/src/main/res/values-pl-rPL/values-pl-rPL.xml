@@ -157,4 +157,13 @@
     <string name="msg_share_to">Udostępnij:</string>
     <string name="msg_send_message">Wyślij wiadomość</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Odblokowane przez innych</string>
+    <string name="hongbao_unlocked">Odblokowane</string>
+    <string name="hongbao_received">Otrzymane</string>
+    <string name="hongbao_expired">Wygasło</string>
+    <string name="hongbao_unlock_digital_future">Odblokuj swoją cyfrową przyszłość</string>
+    <string name="hongbao_rejected_by_others">Odrzucone przez innych</string>
+    <string name="hongbao_rejected">Odrzucone</string>
+
 </resources>

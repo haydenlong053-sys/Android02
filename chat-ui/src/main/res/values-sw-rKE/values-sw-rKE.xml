@@ -157,4 +157,13 @@
     <string name="msg_share_to">Shiriki kwa:</string>
     <string name="msg_send_message">Tuma ujumbe</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Imefunguliwa na wengine</string>
+    <string name="hongbao_unlocked">Imefunguliwa</string>
+    <string name="hongbao_received">Imepokelewa</string>
+    <string name="hongbao_expired">Imeisha</string>
+    <string name="hongbao_unlock_digital_future">Fungua mustakabali wako wa kidijitali</string>
+    <string name="hongbao_rejected_by_others">Imekataliwa na wengine</string>
+    <string name="hongbao_rejected">Imekataliwa</string>
+
 </resources>

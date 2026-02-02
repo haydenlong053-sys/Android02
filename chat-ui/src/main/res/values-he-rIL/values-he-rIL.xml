@@ -162,4 +162,13 @@
     <string name="msg_share_to">שתף עם:</string>
     <string name="msg_send_message">שלח הודעה</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">נפתח על ידי אחרים</string>
+    <string name="hongbao_unlocked">נפתח</string>
+    <string name="hongbao_received">התקבל</string>
+    <string name="hongbao_expired">פג תוקף</string>
+    <string name="hongbao_unlock_digital_future">פתח את העתיד הדיגיטלי שלך</string>
+    <string name="hongbao_rejected_by_others">נדחה על ידי אחרים</string>
+    <string name="hongbao_rejected">נדחה</string>
+
 </resources>

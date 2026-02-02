@@ -162,4 +162,13 @@
     <string name="msg_share_to">共有先:</string>
     <string name="msg_send_message">メッセージを送信</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">他の人によってロック解除されました</string>
+    <string name="hongbao_unlocked">ロック解除済み</string>
+    <string name="hongbao_received">受領済み</string>
+    <string name="hongbao_expired">期限切れ</string>
+    <string name="hongbao_unlock_digital_future">デジタル未来をロック解除</string>
+    <string name="hongbao_rejected_by_others">他の人によって拒否されました</string>
+    <string name="hongbao_rejected">拒否済み</string>
+
 </resources>

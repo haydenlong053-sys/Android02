@@ -162,4 +162,13 @@
     <string name="msg_share_to">แชร์ให้:</string>
     <string name="msg_send_message">ส่งข้อความ</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">ถูกปลดล็อกโดยผู้อื่น</string>
+    <string name="hongbao_unlocked">ปลดล็อกแล้ว</string>
+    <string name="hongbao_received">รับแล้ว</string>
+    <string name="hongbao_expired">หมดอายุ</string>
+    <string name="hongbao_unlock_digital_future">ปลดล็อกอนาคตดิจิทัลของคุณ</string>
+    <string name="hongbao_rejected_by_others">ถูกปฏิเสธโดยผู้อื่น</string>
+    <string name="hongbao_rejected">ปฏิเสธแล้ว</string>
+
 </resources>

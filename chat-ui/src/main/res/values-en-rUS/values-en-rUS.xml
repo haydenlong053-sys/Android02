@@ -339,4 +339,13 @@
     <string name="msg_share_to">Share to:</string>
     <string name="msg_send_message">Send message</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">Unlocked by others</string>
+    <string name="hongbao_unlocked">Unlocked</string>
+    <string name="hongbao_received">Received</string>
+    <string name="hongbao_expired">Expired</string>
+    <string name="hongbao_unlock_digital_future">Unlock your digital future</string>
+    <string name="hongbao_rejected_by_others">Rejected by others</string>
+    <string name="hongbao_rejected">Rejected</string>
+
 </resources>

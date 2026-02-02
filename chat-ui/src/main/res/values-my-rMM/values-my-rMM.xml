@@ -157,4 +157,13 @@
     <string name="msg_share_to">မျှဝေရန်:</string>
     <string name="msg_send_message">မက်ဆေ့ချ်ပို့ရန်</string>
 
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">အခြားသူများမှ ဖွင့်လှစ်ထားသည်</string>
+    <string name="hongbao_unlocked">ဖွင့်လှစ်ထားသည်</string>
+    <string name="hongbao_received">လက်ခံရရှိပြီး</string>
+    <string name="hongbao_expired">သက်တမ်းကုန်ဆုံးပြီး</string>
+    <string name="hongbao_unlock_digital_future">သင်၏ ဒစ်ဂျစ်တယ် အနာဂတ္တိကို ဖွင့်လှစ်ပါ</string>
+    <string name="hongbao_rejected_by_others">အခြားသူများမှ ငြင်းဆိုထားသည်</string>
+    <string name="hongbao_rejected">ငြင်းဆိုထားသည်</string>
+
 </resources>
