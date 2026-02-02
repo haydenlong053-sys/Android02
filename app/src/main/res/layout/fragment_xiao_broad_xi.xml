@@ -47,8 +47,8 @@
                 android:id="@+id/magicIndicator"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_42"
-                android:layout_marginEnd="@dimen/dp_15"
                 android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginEnd="@dimen/dp_15"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:gravity="center"
@@ -112,14 +112,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Space
+        android:id="@+id/bottomView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivkefu"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="19dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="@dimen/dp_80"
         android:src="@mipmap/ic_broad_kefu"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomView3"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.compose.ui.platform.ComposeView

@@ -427,7 +427,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     private var marginBottom = 0
 
     fun setBottomHeight(height: Int) {
-        marginBottom = dp2px(80f) + height
+        marginBottom = height
         setBottomViewHeight()
     }
 
@@ -452,7 +452,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         ivMore = view.findViewById(R.id.ivMore)
         ivManager = view.findViewById(R.id.ivManager)
         managerBar = view.findViewById(R.id.compose_manager_bar)
-        bottomView = view.findViewById(R.id.bottomView)
+        bottomView = view.findViewById(R.id.bottomView3)
         magicIndicator.visibility = View.VISIBLE
 
         //        titles.add("全部")
