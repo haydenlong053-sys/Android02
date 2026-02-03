@@ -238,7 +238,7 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
                 myImbiaoqiang.setVisibility(VISIBLE);
                 emiList.clear();
                 emiList.addAll(emoBroadBean.dataList);
-                List<List<EmoBroadBean.EmoItemBean>> newList = splitList(emiList,8);
+                List<List<EmoBroadBean.EmoItemBean>> newList = splitList(emiList, 8);
 //                for (int i = 0; i < newList.size(); i++) {
 //                    List<EmoBean.EmoItemBean> innerList = new ArrayList<>();
 //                    for (int j = 0; j < newList.get(i).size(); j++) {
@@ -256,8 +256,8 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
     }
 
     private List<List<EmoBroadBean.EmoItemBean>> splitList(
-             List<EmoBroadBean.EmoItemBean> sourceList,
-             int groupSize
+            List<EmoBroadBean.EmoItemBean> sourceList,
+            int groupSize
     ) {
         int length = sourceList.size();
         // 计算可以分成多少组
@@ -291,8 +291,9 @@ public class EmotionBroadLayout extends LinearLayout implements View.OnClickList
                 mTabCount++;
             }
         }
-        EventBus.getDefault().register(this);
-
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         EventBus.getDefault().post(new EmotionBroadEvent("addEmotion", ""));
 
         //最后添加一个表情设置Tab

@@ -57,6 +57,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
+        tvDh.setVisibility(View.GONE);
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",
                 "dimen", "android");

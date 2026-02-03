@@ -561,4 +561,8 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         super.onPause();
     }
 
+    @Override
+    protected boolean fitsSystemWindows() {
+        return true;
+    }
 }

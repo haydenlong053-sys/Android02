@@ -20,7 +20,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 
-class SearchUserBroadActivity:BaseSimpleBroadActivity() {
+class SearchUserBroadActivity : BaseSimpleBroadActivity() {
 
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: SearchUserBroadAdapter? = null
@@ -48,6 +48,7 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
     override fun getStatusBarColor(): Int {
         return R.color.white
     }
+
     override fun showOrHideTitleLayout(): Boolean {
         return false
     }
@@ -72,7 +73,7 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
         hometool?.layoutParams = linearParams
 
         quxiao?.setOnClickListener {
-            if (edtSousuo?.text.isNullOrEmpty()){
+            if (edtSousuo?.text.isNullOrEmpty()) {
                 finish()
             } else {
                 pageNo = 1
@@ -81,12 +82,12 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
             }
 
         }
-        edtSousuo?.addTextChangedListener(object :TextWatcher{
+        edtSousuo?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                quxiao?.text = if (edtSousuo?.text.isNullOrEmpty())getString(R.string.quxiao) else getString(R.string.搜索)
+                quxiao?.text = if (edtSousuo?.text.isNullOrEmpty()) getString(R.string.quxiao) else getString(R.string.搜索)
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -137,7 +138,7 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
         mAdapter?.setList(mDataList)
         mAdapter?.setOnItemClickListener { _, _, position ->
             if (mDataList.isEmpty()) return@setOnItemClickListener
-            JumpBroadUtils.startHaoYouAddActivity( this, mDataList[position].userId?:"","4")
+            JumpBroadUtils.startHaoYouAddActivity(this, mDataList[position].userId ?: "", "4")
         }
 
         smartLayout?.setEnableLoadMore(false)
@@ -159,8 +160,11 @@ class SearchUserBroadActivity:BaseSimpleBroadActivity() {
     private fun request() {
         viewModel?.sousuoUser(
             this,
-            edtSousuo?.text?.trim()?.toString()?:""
+            edtSousuo?.text?.trim()?.toString() ?: ""
         )
     }
 
+    override fun fitsSystemWindows(): Boolean {
+        return true
+    }
 }

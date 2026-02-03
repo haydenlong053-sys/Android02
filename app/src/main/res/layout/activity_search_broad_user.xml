@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main_space"
+
+    android:background="@color/bg_main"
     android:orientation="vertical">
 
 
@@ -11,6 +12,7 @@
         android:id="@+id/hometool"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -19,9 +21,9 @@
 
         <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="40dp"
             android:layout_marginStart="23dp"
+            android:layout_weight="1"
             app:shapeCornersRadius="10dp"
             app:shapeSolidColor="@color/color_input_bg">
 
@@ -43,15 +45,15 @@
                 android:textSize="13sp" />
 
         </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
-        
+
         <TextView
             android:id="@+id/quxiao"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:gravity="center"
             android:text="@string/quxiao"
             android:textColor="@color/color_text0"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:layout_width="56dp"
-            android:layout_height="40dp"/>
+            android:textSize="14sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -62,7 +64,8 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/bg_main_space">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
