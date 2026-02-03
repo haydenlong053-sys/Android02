@@ -46,9 +46,9 @@ public class ShootBroadExt extends ConversationMidExt {
             messageViewModel.sendMessage(conversation, content);
         } else {
             new PermissionExplainBroadPopup.BroadBuilder(activity)
-                    .setTitle("温馨提示")
-                    .addPermissionExplain("为了让你可以拍摄头像或分享照片，我们需要访问你的相机")
-                    .addPermissionExplain("为了让你可以录像时录制声音，我们需要访问你的麦克风")
+                    .setTitle(activity.getString(R.string.shoot_warm_reminder))
+                    .addPermissionExplain(activity.getString(R.string.shoot_camera_permission_explain))
+                    .addPermissionExplain(activity.getString(R.string.shoot_microphone_permission_explain))
                     .setOnConfirm(new Runnable() {
                         @Override
                         public void run() {
@@ -74,7 +74,7 @@ public class ShootBroadExt extends ConversationMidExt {
         if (resultCode == RESULT_OK) {
             String path = data.getStringExtra("path");
             if (TextUtils.isEmpty(path)) {
-                Toast.makeText(activity, "拍照错误, 请向我们反馈", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getString(R.string.shoot_error_feedback), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (data.getBooleanExtra("take_photo", true)) {

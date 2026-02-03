@@ -171,4 +171,13 @@
     <string name="hongbao_rejected_by_others">تم الرفض بواسطة آخرين</string>
     <string name="hongbao_rejected">تم الرفض</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">تذكير</string>
+    <string name="shoot_camera_permission_explain">للسماح لك بالتقاط صور الملف الشخصي أو مشاركة الصور، نحتاج إلى الوصول إلى الكاميرا الخاصة بك</string>
+    <string name="shoot_microphone_permission_explain">للسماح لك بتسجيل الصوت عند تسجيل مقاطع الفيديو، نحتاج إلى الوصول إلى الميكروفون الخاص بك</string>
+    <string name="shoot_error_feedback">خطأ في الصورة، يرجى إرسال ملاحظاتك</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">يرجى منح أذونات الصوت وBluetooth أولاً!</string>
+
 </resources>

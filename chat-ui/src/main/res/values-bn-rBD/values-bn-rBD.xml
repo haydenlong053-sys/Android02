@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">অন্যদের দ্বারা প্রত্যাখ্যান করা হয়েছে</string>
     <string name="hongbao_rejected">প্রত্যাখ্যান করা হয়েছে</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">স্মারক</string>
+    <string name="shoot_camera_permission_explain">আপনাকে প্রোফাইল ছবি তোলা বা ছবি শেয়ার করার অনুমতি দেওয়ার জন্য, আমাদের আপনার ক্যামেরা অ্যাক্সেস করার প্রয়োজন</string>
+    <string name="shoot_microphone_permission_explain">ভিডিও রেকর্ড করার সময় অডিও রেকর্ড করার অনুমতি দেওয়ার জন্য, আমাদের আপনার মাইক্রোফোন অ্যাক্সেস করার প্রয়োজন</string>
+    <string name="shoot_error_feedback">ছবি ত্রুটি, অনুগ্রহ করে আমাদের প্রতিক্রিয়া পাঠান</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">অনুগ্রহ করে প্রথমে অডিও এবং Bluetooth অনুমতি প্রদান করুন!</string>
+
 </resources>

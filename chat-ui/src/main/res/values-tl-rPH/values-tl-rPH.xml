@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">Tinanggihan ng iba</string>
     <string name="hongbao_rejected">Tinanggihan</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Paalala</string>
+    <string name="shoot_camera_permission_explain">Upang payagan kang kumuha ng mga larawan sa profile o magbahagi ng mga larawan, kailangan naming ma-access ang iyong camera</string>
+    <string name="shoot_microphone_permission_explain">Upang payagan kang mag-record ng audio kapag nagre-record ng video, kailangan naming ma-access ang iyong microphone</string>
+    <string name="shoot_error_feedback">Error sa larawan, mangyaring magpadala ng feedback</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Mangyaring magbigay muna ng mga pahintulot sa audio at Bluetooth!</string>
+
 </resources>

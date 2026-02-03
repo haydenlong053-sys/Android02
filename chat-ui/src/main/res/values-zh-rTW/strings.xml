@@ -172,6 +172,15 @@
     <string name="hongbao_rejected_by_others">已被拒絕</string>
     <string name="hongbao_rejected">已拒絕</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">溫馨提示</string>
+    <string name="shoot_camera_permission_explain">為了讓你可以拍攝頭像或分享照片，我們需要訪問你的相機</string>
+    <string name="shoot_microphone_permission_explain">為了讓你可以錄像時錄製聲音，我們需要訪問你的麥克風</string>
+    <string name="shoot_error_feedback">拍照錯誤, 請向我們反饋</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">請先授權語音和藍牙權限!</string>
+
     <!-- Time formatting -->
     <string name="time_yesterday">昨天 %1$s</string>
     <string name="time_weekday_sun">週日 %1$s</string>

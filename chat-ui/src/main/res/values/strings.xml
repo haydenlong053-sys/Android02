@@ -387,4 +387,13 @@
     <string name="hongbao_unlock_digital_future">解锁你的数字未来</string>
     <string name="hongbao_rejected_by_others">已被拒绝</string>
     <string name="hongbao_rejected">已拒绝</string>
+
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">温馨提示</string>
+    <string name="shoot_camera_permission_explain">为了让你可以拍摄头像或分享照片，我们需要访问你的相机</string>
+    <string name="shoot_microphone_permission_explain">为了让你可以录像时录制声音，我们需要访问你的麦克风</string>
+    <string name="shoot_error_feedback">拍照错误, 请向我们反馈</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">请先授权语音和蓝牙权限!</string>
 </resources>

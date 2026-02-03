@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">Respins de alții</string>
     <string name="hongbao_rejected">Respins</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Reminder</string>
+    <string name="shoot_camera_permission_explain">Pentru a vă permite să faceți fotografii de profil sau să partajați fotografii, trebuie să accesăm camera dvs.</string>
+    <string name="shoot_microphone_permission_explain">Pentru a vă permite să înregistrați sunet la înregistrarea videoclipurilor, trebuie să accesăm microfonul dvs.</string>
+    <string name="shoot_error_feedback">Eroare foto, vă rugăm să ne trimiteți feedback</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Vă rugăm să acordați mai întâi permisiunile audio și Bluetooth!</string>
+
 </resources>

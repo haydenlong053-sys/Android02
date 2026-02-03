@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">An ƙi ta wasu</string>
     <string name="hongbao_rejected">An ƙi</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Tunatarwa</string>
+    <string name="shoot_camera_permission_explain">Don ba ku damar ɗaukar hotunan bayani ko raba hotuna, muna buƙatar samun damar kyamarar ku</string>
+    <string name="shoot_microphone_permission_explain">Don ba ku damar yin rikodin sauti yayin yin rikodin bidiyo, muna buƙatar samun damar makirufon ku</string>
+    <string name="shoot_error_feedback">Kuskuren hoto, da fatan za a aiko mana raayi</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Da fatan za a ba da izinin sauti da Bluetooth da farko!</string>
+
 </resources>

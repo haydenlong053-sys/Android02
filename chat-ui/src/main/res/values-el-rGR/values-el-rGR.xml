@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">Απορρίφθηκε από άλλους</string>
     <string name="hongbao_rejected">Απορρίφθηκε</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Υπενθύμιση</string>
+    <string name="shoot_camera_permission_explain">Για να σας επιτρέψουμε να τραβήξετε φωτογραφίες προφίλ ή να μοιραστείτε φωτογραφίες, χρειαζόμαστε πρόσβαση στην κάμερά σας</string>
+    <string name="shoot_microphone_permission_explain">Για να σας επιτρέψουμε να ηχογραφείτε ήχο κατά την εγγραφή βίντεο, χρειαζόμαστε πρόσβαση στο μικρόφωνό σας</string>
+    <string name="shoot_error_feedback">Σφάλμα φωτογραφίας, παρακαλώ στείλτε μας σχόλια</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Παρακαλώ δώστε πρώτα τα δικαιώματα ήχου και Bluetooth!</string>
+
 </resources>

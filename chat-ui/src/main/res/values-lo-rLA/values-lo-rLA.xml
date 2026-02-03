@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">ຖືກປະຕິເສດໂດຍຄົນອື່ນ</string>
     <string name="hongbao_rejected">ຖືກປະຕິເສດ</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">ແຈ້ງເຕືອນ</string>
+    <string name="shoot_camera_permission_explain">ເພື່ອໃຫ້ທ່ານສາມາດຖ່າຍຮູບໂປຣຟາຍ ຫຼື ແບ່ງປັນຮູບພາບ, ພວກເຮົາຕ້ອງການເຂົ້າເຖິງກ້ອງຖ່າຍຮູບຂອງທ່ານ</string>
+    <string name="shoot_microphone_permission_explain">ເພື່ອໃຫ້ທ່ານສາມາດບັນທຶກສຽງໃນຂະນະບັນທຶກວິດີໂອ, ພວກເຮົາຕ້ອງການເຂົ້າເຖິງໄມໂຄຣໂຟນຂອງທ່ານ</string>
+    <string name="shoot_error_feedback">ຂໍ້ຜິດພາດການຖ່າຍຮູບ, ກະລຸນາສົ່ງຄຳຕິຊົມ</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">ກະລຸນາອະນຸຍາດສຽງແລະ Bluetooth ກ່ອນ!</string>
+
 </resources>

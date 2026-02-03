@@ -76,7 +76,7 @@ public class VoipBroadExt extends ConversationMidExt {
         String[] notGrantedPermissions = checkPermissions(permissions);
         if (notGrantedPermissions.length > 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ToastBroadUtils.show("请先授权语音和蓝牙权限!");
+                ToastBroadUtils.show(activity.getString(R.string.voip_permission_request));
                 activity.requestPermissions(notGrantedPermissions, 100);
                 return;
             }

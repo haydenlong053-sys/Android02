@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">Ditolak oleh orang lain</string>
     <string name="hongbao_rejected">Ditolak</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Pengingat</string>
+    <string name="shoot_camera_permission_explain">Untuk memungkinkan Anda mengambil foto profil atau berbagi foto, kami perlu mengakses kamera Anda</string>
+    <string name="shoot_microphone_permission_explain">Untuk memungkinkan Anda merekam suara saat merekam video, kami perlu mengakses mikrofon Anda</string>
+    <string name="shoot_error_feedback">Kesalahan foto, silakan kirimkan umpan balik</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Silakan berikan izin audio dan Bluetooth terlebih dahulu!</string>
+
 </resources>

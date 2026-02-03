@@ -108,4 +108,13 @@
     <string name="hongbao_unlock_digital_future">Vula ikusasa lakho le-digital</string>
     <string name="hongbao_rejected_by_others">Kwenqatshwe abanye</string>
     <string name="hongbao_rejected">Kwenqatshwe</string>
+
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Isikhumbuzo</string>
+    <string name="shoot_camera_permission_explain">Ukuze ukuvumele ukuthatha izithombe zephrofayili noma wabelane ngezithombe, sidinga ukufinyelela kukhamera yakho</string>
+    <string name="shoot_microphone_permission_explain">Ukuze ukuvumele ukurekhoda umsindo uma urekhoda amavidiyo, sidinga ukufinyelela kumakrofoni yakho</string>
+    <string name="shoot_error_feedback">Iphutha lesithombe, sicela usithumele impendulo</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Sicela uqale unikeze izimvume zomsindo ne-Bluetooth!</string>
 </resources>

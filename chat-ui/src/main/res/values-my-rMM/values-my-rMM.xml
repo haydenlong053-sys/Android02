@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">အခြားသူများမှ ငြင်းဆိုထားသည်</string>
     <string name="hongbao_rejected">ငြင်းဆိုထားသည်</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">သတိပေးချက်</string>
+    <string name="shoot_camera_permission_explain">သင့်အား ပရိုဖိုင်ဓာတ်ပုံများ ရိုက်ကူးရန် သို့မဟုတ် ဓာတ်ပုံများ မျှဝေရန် ခွင့်ပြုရန်၊ ကျွန်ုပ်တို့သည် သင့်ကင်မရာသို့ ဝင်ရောက်ခွင့် လိုအပ်ပါသည်</string>
+    <string name="shoot_microphone_permission_explain">ဗီဒီယိုများ ရိုက်ကူးစဉ် အသံများ ဖမ်းယူရန် ခွင့်ပြုရန်၊ ကျွန်ုပ်တို့သည် သင့်မိုက်ခရိုဖုန်းသို့ ဝင်ရောက်ခွင့် လိုအပ်ပါသည်</string>
+    <string name="shoot_error_feedback">ဓာတ်ပုံအမှား၊ ကျေးဇူးပြု၍ ပြန်လည်သုံးသပ်ချက် ပေးပို့ပါ</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">ကျေးဇူးပြု၍ ပထမဆုံး အသံနှင့် Bluetooth ခွင့်ပြုချက်များကို ပေးပါ!</string>
+
 </resources>

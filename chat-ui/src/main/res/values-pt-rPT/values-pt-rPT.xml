@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">Rejeitado por outros</string>
     <string name="hongbao_rejected">Rejeitado</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Lembrete</string>
+    <string name="shoot_camera_permission_explain">Para permitir que você tire fotos de perfil ou compartilhe fotos, precisamos acessar sua câmera</string>
+    <string name="shoot_microphone_permission_explain">Para permitir que você grave áudio ao gravar vídeos, precisamos acessar seu microfone</string>
+    <string name="shoot_error_feedback">Erro de foto, por favor nos envie feedback</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Por favor, conceda primeiro as permissões de áudio e Bluetooth!</string>
+
 </resources>

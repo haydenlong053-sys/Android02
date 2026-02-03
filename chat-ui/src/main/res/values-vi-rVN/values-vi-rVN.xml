@@ -477,4 +477,13 @@
     <string name="hongbao_rejected_by_others">Đã bị từ chối bởi người khác</string>
     <string name="hongbao_rejected">Đã từ chối</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Nhắc nhở ấm áp</string>
+    <string name="shoot_camera_permission_explain">Để bạn có thể chụp ảnh đại diện hoặc chia sẻ ảnh, chúng tôi cần truy cập camera của bạn</string>
+    <string name="shoot_microphone_permission_explain">Để bạn có thể ghi âm khi quay video, chúng tôi cần truy cập microphone của bạn</string>
+    <string name="shoot_error_feedback">Lỗi chụp ảnh, vui lòng phản hồi cho chúng tôi</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Vui lòng cấp quyền âm thanh và Bluetooth trước!</string>
+
 </resources>

@@ -166,4 +166,13 @@
     <string name="hongbao_rejected_by_others">Imekataliwa na wengine</string>
     <string name="hongbao_rejected">Imekataliwa</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Ukumbusho</string>
+    <string name="shoot_camera_permission_explain">Ili kukuruhusu kuchukua picha za wasifu au kushiriki picha, tunahitaji kufikia kamera yako</string>
+    <string name="shoot_microphone_permission_explain">Ili kukuruhusu kurekodi sauti unaporekodi video, tunahitaji kufikia mikrofoni yako</string>
+    <string name="shoot_error_feedback">Hitilafu ya picha, tafadhali tutumie maoni</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Tafadhali kwanza toa ruhusa za sauti na Bluetooth!</string>
+
 </resources>

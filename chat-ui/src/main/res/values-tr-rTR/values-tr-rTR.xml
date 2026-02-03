@@ -171,4 +171,13 @@
     <string name="hongbao_rejected_by_others">Başkaları tarafından reddedildi</string>
     <string name="hongbao_rejected">Reddedildi</string>
 
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">Bilgilendirme</string>
+    <string name="shoot_camera_permission_explain">Profil fotoğrafı çekmenize veya fotoğraf paylaşmanıza izin vermek için kameranıza erişmemiz gerekiyor</string>
+    <string name="shoot_microphone_permission_explain">Video çekerken ses kaydetmenize izin vermek için mikrofonunuza erişmemiz gerekiyor</string>
+    <string name="shoot_error_feedback">Fotoğraf hatası, lütfen bize geri bildirim gönderin</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">Lütfen önce ses ve Bluetooth izinlerini verin!</string>
+
 </resources>
