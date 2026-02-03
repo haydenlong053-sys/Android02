@@ -1,5 +1,7 @@
 package com.cboda.baselibrary.toast;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Resources;
@@ -159,7 +161,7 @@ public final class ToastBroadUtils {
     private static void show(int id, long delayMillis) {
         try {
             // 如果这是一个资源 id
-            show(sApplication.getResources().getText(id));
+            show(getAppContext(null).getText(id));
         } catch (Resources.NotFoundException ignored) {
             // 如果这是一个 int 整数
             show(String.valueOf(id));
