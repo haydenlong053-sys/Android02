@@ -878,7 +878,7 @@ fun TextView.initBold(style: Int) {
     try {
         when (style) {
             1 -> {
-                typeface = Typeface.createFromAsset(context.assets, "broad_num_bold.ttf")
+                typeface = Typeface.createFromAsset(context.assets, "font/broad_num_bold.ttf")
             }
         }
     } catch (e: Exception) {
