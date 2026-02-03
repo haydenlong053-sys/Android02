@@ -89,19 +89,19 @@
         app:shape_strokeColor="@color/white"
         app:shape_strokeWidth="@dimen/dp_1" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.cboda.baselibrary.view.MyTextView
         android:id="@+id/tvMirrorCreditScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#031256"
         android:textSize="28sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tv_mirror_credit_label"
         app:layout_constraintEnd_toStartOf="@id/tvMirrorCreditScoreValue"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/layoutMirrorCredit"
         app:layout_constraintTop_toTopOf="@id/layoutMirrorCredit"
         app:layout_constraintVertical_chainStyle="packed"
+        app:tv_style="num_bold"
         tools:text="100" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -136,21 +136,21 @@
         android:layout_height="64dp"
         android:layout_marginTop="@dimen/dp_12"
         android:scaleType="centerCrop"
+        android:src="@drawable/bg_sign_broad_state"
         app:layout_constraintEnd_toEndOf="@id/layoutMirrorCredit"
-        app:layout_constraintTop_toBottomOf="@id/layoutMirrorCredit"
-        android:src="@drawable/bg_sign_broad_state" />
+        app:layout_constraintTop_toBottomOf="@id/layoutMirrorCredit" />
+
     <TextView
         android:id="@+id/mTvMirrorSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/ivMirrorSign"
-        app:layout_constraintEnd_toEndOf="@id/ivMirrorSign"
-        app:layout_constraintTop_toTopOf="@id/ivMirrorSign"
-        tools:text="@string/签到红包"
+        android:layout_marginTop="16dp"
         android:textColor="@color/white"
         android:textSize="8sp"
-        android:layout_marginTop="16dp"
-        />
+        app:layout_constraintEnd_toEndOf="@id/ivMirrorSign"
+        app:layout_constraintStart_toStartOf="@id/ivMirrorSign"
+        app:layout_constraintTop_toTopOf="@id/ivMirrorSign"
+        tools:text="@string/签到红包" />
 
 
     <androidx.appcompat.widget.AppCompatTextView

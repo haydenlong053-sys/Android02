@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.os.Build
 import android.os.SystemClock
 import android.text.Editable
@@ -869,4 +870,16 @@ fun anyToInt(any: Any): Int {
     } catch (e: Exception) {
         0
     }
+}
+
+fun TextView.initBold(style: Int) {
+   try {
+       when (style) {
+           1 -> {
+               typeface = Typeface.createFromAsset(context.assets, "broad_num_bold.ttf")
+           }
+       }
+   }catch (e: Exception){
+       e.toLog(tAG)
+   }
 }

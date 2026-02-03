@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="MyTextView">
+        <attr name="tv_style" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="num_bold" value="1" />
+        </attr>
+    </declare-styleable>
     <declare-styleable name="RoundedImageView">
         <attr name="riv_corner_radius" format="dimension" />
         <attr name="riv_corner_radius_top_left" format="dimension" />

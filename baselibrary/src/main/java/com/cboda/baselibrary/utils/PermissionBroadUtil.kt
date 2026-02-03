@@ -26,8 +26,8 @@ fun requestPermission(callback: OnPermissionCallback? = null, vararg permissions
         if (isAll) {
             callback?.onAllPermissionGranted()
         } else {
-//            showTipDialog(permissionList) { callback?.onPermissionRefuse() }
-            callback?.onPermissionRefuse()
+            showTipDialog(permissionList) { callback?.onPermissionRefuse() }
+//            callback?.onPermissionRefuse()
         }
     }.rationale { _, shouldRequest ->
         shouldRequest.again(true)
@@ -55,14 +55,18 @@ fun requestPermission2(callback: OnPermissionCallback2? = null, vararg permissio
         if (isAll) {
             callback?.onAllPermissionGranted()
         } else {
-//            showTipDialog(permissionList) { callback?.onPermissionRefuse() }
-            callback?.onRationale()
+            showTipDialog(permissionList) { callback?.onPermissionRefuse() }
+//            callback?.onRationale()
         }
     }.rationale { _, _ ->
         callback?.onRationale()
     }.request()
 }
 
+
+private inline fun showTipDialog(list: ArrayList<String>, crossinline cancelCallBack: () -> Unit = {}) {
+
+}
 
 fun requestPermission(permissions: Array<String>, callBack: () -> Unit) {
     requestPermission(object : OnPermissionCallback {
