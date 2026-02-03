@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -33,6 +34,7 @@ import com.blankj.utilcode.util.EncryptUtils.encryptMD5ToString
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.TimeUtils
+import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.hjq.shape.layout.ShapeLinearLayout
 import com.hjq.shape.layout.ShapeRelativeLayout
 import com.hjq.shape.view.ShapeEditText
@@ -873,13 +875,48 @@ fun anyToInt(any: Any): Int {
 }
 
 fun TextView.initBold(style: Int) {
-   try {
-       when (style) {
-           1 -> {
-               typeface = Typeface.createFromAsset(context.assets, "broad_num_bold.ttf")
-           }
-       }
-   }catch (e: Exception){
-       e.toLog(tAG)
-   }
+    try {
+        when (style) {
+            1 -> {
+                typeface = Typeface.createFromAsset(context.assets, "broad_num_bold.ttf")
+            }
+        }
+    } catch (e: Exception) {
+        e.toLog(tAG)
+    }
+}
+
+
+fun getAppStr(@StringRes res: Int, context: Context? = null): String = getAppContext(context).getString(res)
+
+fun showCommonTip(
+    @StringRes title: Int = R.string.wenxintishi,
+    @StringRes content: Int,
+    @StringRes cancelBtn: Int = R.string.bs_quxiao,
+    @StringRes sureBtn: Int = R.string.bs_mine_sure,
+    context: Context? = null,
+    block: (Boolean) -> Unit
+): CommonTipBroadPop {
+    val mContext = getAppContext(context)
+    return showCommonStrTip(getAppStr(title, mContext), getAppStr(content, mContext), getAppStr(cancelBtn, mContext), getAppStr(sureBtn, mContext), mContext, block)
+}
+
+
+fun showCommonStrTip(title: String, content: String, cancelBtn: String, sureBtn: String, context: Context? = null, block: (Boolean) -> Unit): CommonTipBroadPop {
+    val mContext = getAppContext(context)
+    val commonTipPop = CommonTipBroadPop(
+        mContext,
+        title,
+        content
+    )
+    commonTipPop.setCancelBtn(cancelBtn)
+    commonTipPop.setSureBtn(sureBtn)
+    commonTipPop.sureInvoke = {
+        block.invoke(true)
+    }
+    commonTipPop.cancelInvoke = {
+        block.invoke(false)
+    }
+    commonTipPop.showPopupWindow()
+    return commonTipPop
 }

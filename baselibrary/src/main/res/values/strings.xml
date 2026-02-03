@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="camera">Camera</string>
     <string name="storage">Storage</string>
     <string name="read">Read</string>
@@ -35,4 +35,7 @@
     <string name="base_default_kefu_name">X-Bao Support</string>
     <string name="wenxintishi">Warm reminder</string>
     <string name="select_image_permission_request">Using the image selection feature requires camera and storage permissions. Do you want to request permissions?</string>
+    <string name="bs_quxiao">Cancel</string>
+    <string name="bs_mine_sure">Sure</string>
+    <string name="permissions_missing">The corresponding permissions are missing. Please turn on the corresponding permissions in system settings!</string>
 </resources>

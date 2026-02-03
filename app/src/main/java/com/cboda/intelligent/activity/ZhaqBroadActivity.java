@@ -18,7 +18,7 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.dialog.pop.CommonTipBroadPop;
+import com.cboda.baselibrary.popup.CommonTipBroadPop;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.dialog.NormalBroadDialog;
 import com.cboda.intelligent.utils.BaseBroadCallback;

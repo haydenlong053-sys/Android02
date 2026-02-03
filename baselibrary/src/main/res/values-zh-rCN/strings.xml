@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
     <string name="camera">相机</string>
     <string name="storage">存储</string>
     <string name="read">读取</string>
@@ -35,4 +35,7 @@
     <string name="base_default_kefu_name">X-Bao客服</string>
     <string name="wenxintishi">温馨提示</string>
     <string name="select_image_permission_request">使用选择图片功能需要相机、存储权限，是否请求权限？</string>
+    <string name="bs_quxiao">取消</string>
+    <string name="bs_mine_sure">确定</string>
+    <string name="permissions_missing">缺少相应权限，请在系统设置中打开相应权限！</string>
 </resources>

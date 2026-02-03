@@ -1,10 +1,10 @@
-package com.cboda.intelligent.dialog.pop
+package com.cboda.baselibrary.popup
 
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import com.cboda.intelligent.databinding.DialogPopCommonBroadTipBinding
+import com.cboda.baselibrary.databinding.CommonTipBroadPopBinding
 import razerdp.basepopup.BasePopupWindow
 
 //简单基础提示pop
@@ -15,7 +15,7 @@ class CommonTipBroadPop(val context: Context, val title: String = "", val des: S
     var sureInvoke:()-> Unit ={}
     //添加取消回調
     var cancelInvoke:()-> Unit ={}
-    private var binding = DialogPopCommonBroadTipBinding.inflate(
+    private var binding = CommonTipBroadPopBinding.inflate(
         LayoutInflater.from(context)
     )
 
@@ -40,12 +40,12 @@ class CommonTipBroadPop(val context: Context, val title: String = "", val des: S
 
     }
 
-     fun setSureBtn(strName: String ="") :BasePopupWindow {
+     fun setSureBtn(strName: String ="") : BasePopupWindow {
          binding.mTvSure.text =strName
         return this
     }
 
-    fun setCancelBtn(strName: String ="") :BasePopupWindow {
+    fun setCancelBtn(strName: String ="") : BasePopupWindow {
         binding.mTvCancel.text =strName
         return this
     }

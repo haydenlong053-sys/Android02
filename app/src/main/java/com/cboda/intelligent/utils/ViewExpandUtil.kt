@@ -17,7 +17,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
-import com.cboda.intelligent.dialog.pop.CommonTipBroadPop
+import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.activityList

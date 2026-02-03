@@ -4,7 +4,9 @@ import android.Manifest
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.cboda.select.picture.permissions.PermissionConfig
+import com.cboda.select.picture.thread.PictureThreadUtils.runOnUiThread
 
 fun requestPermission(callback: OnPermissionCallback? = null, vararg permissions: String) {
     val permissionList = ArrayList<String>()
@@ -65,7 +67,20 @@ fun requestPermission2(callback: OnPermissionCallback2? = null, vararg permissio
 
 
 private inline fun showTipDialog(list: ArrayList<String>, crossinline cancelCallBack: () -> Unit = {}) {
-
+//    showCommonTip(content = R.string.permissions_missing) {
+//        if (it) {
+//            PermissionUtils.launchAppDetailsSettings()
+//        } else {
+//            cancelCallBack.invoke()
+//        }
+//    }
+    try {
+        runOnUiThread { ToastUtils.showShort(R.string.permissions_missing) }
+        PermissionUtils.launchAppDetailsSettings()
+    } catch (e: Exception) {
+        e.toLog("PermissionBroadUtilClass")
+        cancelCallBack.invoke()
+    }
 }
 
 fun requestPermission(permissions: Array<String>, callBack: () -> Unit) {
