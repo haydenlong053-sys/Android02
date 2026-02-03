@@ -55,11 +55,11 @@ object HttpsBroadConfig {
                 appAesPwd = "f81q30ryiacasda1"
             }
             HONGKONG_TYPE -> {
-                appHost = "https://api.seekweb4.net"
+                appHost = "https://api.seekweb4.ai"
                 appHost2 = appHost
-                appImServerHost = "ws.seekweb4.net"
+                appImServerHost = "im.seekweb4.ai"
                 appIcePassword = "aT3BxjPy4MRdC6@"
-                appGroupAvatarHost = "https://api.seekweb4.net"
+                appGroupAvatarHost = "https://api.seekweb4.ai"
                 appAesPwd = "f81q30ryiacasda1"
                 appWebHost=appHost
             }
@@ -119,7 +119,8 @@ object HttpsBroadConfig {
         if (getIsDebug()) {
             setServer(getNetType())
         } else {
-            setServer(RELEASE_TYPE)
+//            setServer(RELEASE_TYPE)
+            setServer(HONGKONG_TYPE)
         }
     }
 
