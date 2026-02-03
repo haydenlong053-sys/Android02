@@ -157,11 +157,11 @@ public class ConversationListBroadFragment extends ProgressBroadFragment {
             ConnectionStatusBroadNotification connectionStatusNotification = new ConnectionStatusBroadNotification();
             switch (status) {
                 case ConnectionStatus.ConnectionStatusConnecting:
-                    connectionStatusNotification.setValue("正在连接...");
+                    connectionStatusNotification.setValue(getString(R.string.connection_status_connecting));
                     statusNotificationViewModel.showStatusNotification(connectionStatusNotification);
                     break;
                 case ConnectionStatus.ConnectionStatusReceiveing:
-                    connectionStatusNotification.setValue("正在同步...");
+                    connectionStatusNotification.setValue(getString(R.string.connection_status_syncing));
                     statusNotificationViewModel.showStatusNotification(connectionStatusNotification);
                     break;
                 case ConnectionStatus.ConnectionStatusConnected:
@@ -169,7 +169,7 @@ public class ConversationListBroadFragment extends ProgressBroadFragment {
                     loadAndShowPCOnlineNotification();
                     break;
                 case ConnectionStatus.ConnectionStatusUnconnected:
-                    connectionStatusNotification.setValue("连接失败");
+                    connectionStatusNotification.setValue(getString(R.string.connection_status_failed));
                     statusNotificationViewModel.showStatusNotification(connectionStatusNotification);
                     break;
                 default:

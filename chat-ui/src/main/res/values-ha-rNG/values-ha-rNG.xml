@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Da fatan za a ba da izinin sauti da Bluetooth da farko!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Ana haɗawa...</string>
+    <string name="connection_status_syncing">Ana daidaitawa...</string>
+    <string name="connection_status_failed">Haɗin ya gaza</string>
+
 </resources>

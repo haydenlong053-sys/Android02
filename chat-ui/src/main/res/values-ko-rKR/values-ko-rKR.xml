@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">먼저 오디오 및 Bluetooth 권한을 부여해주세요!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">연결 중...</string>
+    <string name="connection_status_syncing">동기화 중...</string>
+    <string name="connection_status_failed">연결 실패</string>
+
 </resources>

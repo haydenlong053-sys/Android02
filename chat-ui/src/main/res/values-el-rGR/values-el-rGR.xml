@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Παρακαλώ δώστε πρώτα τα δικαιώματα ήχου και Bluetooth!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Σύνδεση...</string>
+    <string name="connection_status_syncing">Συγχρονισμός...</string>
+    <string name="connection_status_failed">Αποτυχία σύνδεσης</string>
+
 </resources>

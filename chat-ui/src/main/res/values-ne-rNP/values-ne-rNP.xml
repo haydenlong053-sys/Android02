@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">कृपया पहिले अडियो र Bluetooth अनुमतिहरू प्रदान गर्नुहोस्!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">जडान हुँदै...</string>
+    <string name="connection_status_syncing">सिङ्क्रोनाइज हुँदै...</string>
+    <string name="connection_status_failed">जडान असफल</string>
+
 </resources>

@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">कृपया पहले ऑडियो और Bluetooth अनुमतियां प्रदान करें!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">कनेक्ट हो रहा है...</string>
+    <string name="connection_status_syncing">सिंक हो रहा है...</string>
+    <string name="connection_status_failed">कनेक्शन विफल</string>
+
 </resources>

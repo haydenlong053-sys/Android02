@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">ကျေးဇူးပြု၍ ပထမဆုံး အသံနှင့် Bluetooth ခွင့်ပြုချက်များကို ပေးပါ!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">ချိတ်ဆက်နေသည်...</string>
+    <string name="connection_status_syncing">ထပ်တူပြုနေသည်...</string>
+    <string name="connection_status_failed">ချိတ်ဆက်မှု မအောင်မြင်ပါ</string>
+
 </resources>

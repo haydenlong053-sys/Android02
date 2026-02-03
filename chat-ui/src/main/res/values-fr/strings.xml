@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Veuillez dabord accorder les autorisations audio et Bluetooth!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Connexion en cours...</string>
+    <string name="connection_status_syncing">Synchronisation en cours...</string>
+    <string name="connection_status_failed">Échec de la connexion</string>
+
 </resources>

@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Пожалуйста, сначала предоставьте разрешения на аудио и Bluetooth!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Подключение...</string>
+    <string name="connection_status_syncing">Синхронизация...</string>
+    <string name="connection_status_failed">Ошибка подключения</string>
+
 </resources>

@@ -403,4 +403,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">请先授权语音和蓝牙权限!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">正在连接...</string>
+    <string name="connection_status_syncing">正在同步...</string>
+    <string name="connection_status_failed">连接失败</string>
+
 </resources>

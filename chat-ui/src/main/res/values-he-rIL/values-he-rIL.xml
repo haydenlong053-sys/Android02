@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">אנא הענק תחילה הרשאות שמע ו-Bluetooth!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">מתחבר...</string>
+    <string name="connection_status_syncing">מסנכרן...</string>
+    <string name="connection_status_failed">החיבור נכשל</string>
+
 </resources>

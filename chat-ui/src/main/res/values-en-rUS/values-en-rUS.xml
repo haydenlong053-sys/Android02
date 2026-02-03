@@ -357,4 +357,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Please grant audio and Bluetooth permissions first!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Connecting...</string>
+    <string name="connection_status_syncing">Syncing...</string>
+    <string name="connection_status_failed">Connection failed</string>
+
 </resources>

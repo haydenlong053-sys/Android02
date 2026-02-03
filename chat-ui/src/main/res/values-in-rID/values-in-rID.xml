@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Silakan berikan izin audio dan Bluetooth terlebih dahulu!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Menghubungkan...</string>
+    <string name="connection_status_syncing">Menyinkronkan...</string>
+    <string name="connection_status_failed">Koneksi gagal</string>
+
 </resources>

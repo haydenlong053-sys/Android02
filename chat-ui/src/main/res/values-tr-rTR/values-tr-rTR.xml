@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Lütfen önce ses ve Bluetooth izinlerini verin!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Bağlanıyor...</string>
+    <string name="connection_status_syncing">Senkronize ediliyor...</string>
+    <string name="connection_status_failed">Bağlantı başarısız</string>
+
 </resources>

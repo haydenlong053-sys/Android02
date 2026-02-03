@@ -117,4 +117,9 @@
 
     <!-- Voip Extension -->
     <string name="voip_permission_request">Sicela uqale unikeze izimvume zomsindo ne-Bluetooth!</string>
+
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Ixhuma...</string>
+    <string name="connection_status_syncing">I-sync...</string>
+    <string name="connection_status_failed">Ukuxhuma akuphumelelanga</string>
 </resources>

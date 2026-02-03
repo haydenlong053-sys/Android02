@@ -457,6 +457,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         scanner.setOnScannerCompletionListener(new OnScannerCompletionListener() {
             @Override
             public void onScannerCompletion(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
+//                handleQrCode(rawResult.getText());
                 if (jumpSource == ScanJumpBroadEnum.ETH_TRANSFER.getSourceType() && isEthWalletLinkQrCode(rawResult.getText())) {
                     Intent intent = new Intent();
                     intent.putExtra("scan_result", rawResult.getText());

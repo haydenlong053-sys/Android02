@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Эхлээд аудио болон Bluetooth эрх олгоно уу!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Холбогдож байна...</string>
+    <string name="connection_status_syncing">Синхрончлож байна...</string>
+    <string name="connection_status_failed">Холболт амжилтгүй</string>
+
 </resources>

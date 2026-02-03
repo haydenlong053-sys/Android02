@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">يرجى منح أذونات الصوت وBluetooth أولاً!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">جاري الاتصال...</string>
+    <string name="connection_status_syncing">جاري المزامنة...</string>
+    <string name="connection_status_failed">فشل الاتصال</string>
+
 </resources>

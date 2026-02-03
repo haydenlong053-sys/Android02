@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Vă rugăm să acordați mai întâi permisiunile audio și Bluetooth!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Se conectează...</string>
+    <string name="connection_status_syncing">Se sincronizează...</string>
+    <string name="connection_status_failed">Conexiune eșuată</string>
+
 </resources>

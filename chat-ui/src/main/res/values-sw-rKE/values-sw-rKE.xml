@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Tafadhali kwanza toa ruhusa za sauti na Bluetooth!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Inaunganisha...</string>
+    <string name="connection_status_syncing">Inasawazisha...</string>
+    <string name="connection_status_failed">Muunganisho umeshindwa</string>
+
 </resources>

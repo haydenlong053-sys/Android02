@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਆਡੀਓ ਅਤੇ Bluetooth ਅਨੁਮਤੀਆਂ ਦਿਓ!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">ਜੁੜ ਰਿਹਾ ਹੈ...</string>
+    <string name="connection_status_syncing">ਸਿੰਕ ਹੋ ਰਿਹਾ ਹੈ...</string>
+    <string name="connection_status_failed">ਕਨੈਕਸ਼ਨ ਅਸਫਲ</string>
+
 </resources>

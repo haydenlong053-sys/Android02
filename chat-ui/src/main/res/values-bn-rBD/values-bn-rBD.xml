@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">অনুগ্রহ করে প্রথমে অডিও এবং Bluetooth অনুমতি প্রদান করুন!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">সংযুক্ত হচ্ছে...</string>
+    <string name="connection_status_syncing">সিঙ্ক্রোনাইজ হচ্ছে...</string>
+    <string name="connection_status_failed">সংযোগ ব্যর্থ</string>
+
 </resources>

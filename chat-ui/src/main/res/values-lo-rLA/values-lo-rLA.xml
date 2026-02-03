@@ -175,4 +175,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">ກະລຸນາອະນຸຍາດສຽງແລະ Bluetooth ກ່ອນ!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">ກຳລັງເຊື່ອມຕໍ່...</string>
+    <string name="connection_status_syncing">ກຳລັງຊິງຄ໌...</string>
+    <string name="connection_status_failed">ການເຊື່ອມຕໍ່ລົ້ມເຫລວ</string>
+
 </resources>

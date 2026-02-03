@@ -486,4 +486,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">Vui lòng cấp quyền âm thanh và Bluetooth trước!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">Đang kết nối...</string>
+    <string name="connection_status_syncing">Đang đồng bộ...</string>
+    <string name="connection_status_failed">Kết nối thất bại</string>
+
 </resources>

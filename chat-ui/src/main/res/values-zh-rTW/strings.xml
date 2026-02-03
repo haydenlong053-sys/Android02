@@ -181,6 +181,11 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">請先授權語音和藍牙權限!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">正在連接...</string>
+    <string name="connection_status_syncing">正在同步...</string>
+    <string name="connection_status_failed">連接失敗</string>
+
     <!-- Time formatting -->
     <string name="time_yesterday">昨天 %1$s</string>
     <string name="time_weekday_sun">週日 %1$s</string>

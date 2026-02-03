@@ -180,4 +180,9 @@
     <!-- Voip Extension -->
     <string name="voip_permission_request">まず音声とBluetoothの権限を付与してください!</string>
 
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">接続中...</string>
+    <string name="connection_status_syncing">同期中...</string>
+    <string name="connection_status_failed">接続失敗</string>
+
 </resources>
