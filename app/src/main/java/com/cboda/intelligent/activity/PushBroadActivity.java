@@ -1,5 +1,7 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.choosePicture;
+import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseVideo;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.content.Intent;
@@ -14,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.bean.BroadConstant;
+import com.cboda.baselibrary.utils.CropBroadBean;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -43,9 +47,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import kotlin.Pair;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import okhttp3.Response;
 import top.zibin.luban.Luban;
 
@@ -110,37 +118,37 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
 
             @Override
             public void OnAddClick() {
-                String[] perms = {
-                        Permission.READ_MEDIA_IMAGES,
-                        Permission.READ_MEDIA_VIDEO,
-                        Permission.CAMERA};
-                if (XXPermissions.isGranted(PushBroadActivity.this, perms)) {
-                    pmsSuccess();
-                } else {
-                    new NormalBroadDialog(PushBroadActivity.this, getString(R.string.温馨提示), "使用选择图片功能需要相机、存储权限，是否请求权限？", "取消", "确定", true)
-                            .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
-                                @Override
-                                public void OnRightClick() {
-                                    XXPermissions permission = XXPermissions.with(PushBroadActivity.this).permission(perms);
-                                    permission.request(new OnPermissionCallback() {
-                                        @Override
-                                        public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                            pmsSuccess();
-                                        }
-
-                                        @Override
-                                        public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                            OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
-                                            ToastBroadUtil.show(getString(R.string.权限被拒绝));
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void OnLeftClick() {
-                                }
-                            }).show();
-                }
+//                String[] perms = {
+//                        Permission.READ_MEDIA_IMAGES,
+//                        Permission.READ_MEDIA_VIDEO,
+//                        Permission.CAMERA};
+//                if (XXPermissions.isGranted(PushBroadActivity.this, perms)) {
+                pmsSuccess();
+//                } else {
+//                    new NormalBroadDialog(PushBroadActivity.this, getString(R.string.温馨提示), getString(R.string.select_image_permission_request), getString(R.string.cancel), getString(R.string.select_image_permission_request), true)
+//                            .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
+//                                @Override
+//                                public void OnRightClick() {
+//                                    XXPermissions permission = XXPermissions.with(PushBroadActivity.this).permission(perms);
+//                                    permission.request(new OnPermissionCallback() {
+//                                        @Override
+//                                        public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+//                                            pmsSuccess();
+//                                        }
+//
+//                                        @Override
+//                                        public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+//                                            OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+//                                            ToastBroadUtil.show(getString(R.string.权限被拒绝));
+//                                        }
+//                                    });
+//                                }
+//
+//                                @Override
+//                                public void OnLeftClick() {
+//                                }
+//                            }).show();
+//                }
             }
         });
 
@@ -152,14 +160,14 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId() == R.id.tvFinish){
+        if (view.getId() == R.id.tvFinish) {
             finish();
         }
-        if (view.getId()== R.id.llSite){
+        if (view.getId() == R.id.llSite) {
 //            intent = new Intent(this, SiteActivity.class);
 //            startActivityForResult(intent,555);
         }
-        if (view.getId() == R.id.tvPush){
+        if (view.getId() == R.id.tvPush) {
             if (StringBroadUtil.isEmpty(etContent.getText().toString())) {
                 ToastBroadUtil.show(getString(R.string.请输入发表内容));
                 return;
@@ -308,18 +316,44 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
             }
         }
         if (!isHaveVideo && images.size() != 0) {
-            chooseMode = SelectMimeType.ofImage();
+            choosePicture(true, false, BroadConstant.TYPE_PIC, 9 - images.size(), 1, 9 - images.size(), 1, 30, 3, 31, null, false, false, new CropBroadBean(), null, new Function1<LinkedList<Pair<String, LocalMedia>>, Unit>() {
+                @Override
+                public Unit invoke(LinkedList<Pair<String, LocalMedia>> pairs) {
+                    requestPath(pairs);
+                    return null;
+                }
+            });
         } else {
-            chooseMode = SelectMimeType.ofAll();
+            chooseVideo(true, false, BroadConstant.TYPE_VIDEO, 1, 1, 1, 1, 30, 3, 31, null, false, false, new CropBroadBean(), null, new Function1<LinkedList<Pair<String, LocalMedia>>, Unit>() {
+                @Override
+                public Unit invoke(LinkedList<Pair<String, LocalMedia>> pairs) {
+                    requestPath(pairs);
+                    return null;
+                }
+            });
         }
-        PictureSelector.create(this)//在Fragment中使用则是 fragment.this
-                .openGallery(chooseMode)//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .setImageEngine(GlideBroadBroadEngine.createGlideEngine())
-                .setMaxSelectNum(9 - images.size())
-                .setMinSelectNum(1)
-                .setImageSpanCount(3)// 每行显示个数 int
-                .isDisplayCamera(true)// 是否显示拍照按钮 true or false
-                .forResult(CHOOSE_REQUEST);//结果回调onActivityResult code
+    }
+
+
+    private void requestPath(LinkedList<Pair<String, LocalMedia>> pairs) {
+        if (pairs != null && !pairs.isEmpty()) {
+            File file = new File(pairs.get(0).getFirst());//获取第一张图片
+            if (file.exists()) {
+                LocalMedia media = pairs.get(0).getSecond();
+                String pictureType = media.getMimeType();
+                int mediaType = PictureMimeType.getMimeType(pictureType);
+                if (mediaType == 2) {
+                    uploadVideo(pairs.get(0).getFirst());
+                } else {
+                    ArrayList<String> photoLists = new ArrayList<>();
+                    for (int i = 0; i < pairs.size(); i++) {
+                        photoLists.add(pairs.get(i).getFirst());
+                    }
+                    uploadFiles(photoLists);
+                }
+
+            }
+        }
     }
 
     private void initViews() {
