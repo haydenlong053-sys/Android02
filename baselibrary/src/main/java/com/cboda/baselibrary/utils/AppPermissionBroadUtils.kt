@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.appcompat.R
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -897,8 +898,8 @@ object AppPermissionBroadUtils {
     //申请相册权限
     fun applyReadStoragePermission(context: Context, callBack: () -> Unit) {
         PermissionExplainBroadPopup.BroadBuilder(context)
-            .setTitle("温馨提示")
-            .addPermissionExplain("使用选择图片功能需要相机、存储权限，是否请求权限？")
+            .setTitle(context.getString(com.cboda.baselibrary.R.string.wenxintishi))
+            .addPermissionExplain(context.getString(com.cboda.baselibrary.R.string.select_image_permission_request))
             .setOnConfirm {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     PermissionUtils.permission(

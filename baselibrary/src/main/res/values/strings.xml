@@ -33,5 +33,6 @@
     <string name="base_group_portrait_updated_by_other">%1$s updated the group avatar</string>
 
     <string name="base_default_kefu_name">X-Bao Support</string>
-
+    <string name="wenxintishi">Warm reminder</string>
+    <string name="select_image_permission_request">Using the image selection feature requires camera and storage permissions. Do you want to request permissions?</string>
 </resources>

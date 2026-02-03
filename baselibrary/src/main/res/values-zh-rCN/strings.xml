@@ -33,5 +33,6 @@
     <string name="base_group_portrait_updated_by_other">%1$s更新了群头像</string>
 
     <string name="base_default_kefu_name">X-Bao客服</string>
-
+    <string name="wenxintishi">温馨提示</string>
+    <string name="select_image_permission_request">使用选择图片功能需要相机、存储权限，是否请求权限？</string>
 </resources>
