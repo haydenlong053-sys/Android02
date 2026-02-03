@@ -76,7 +76,7 @@ private inline fun showTipDialog(list: ArrayList<String>, crossinline cancelCall
 //        }
 //    }
     try {
-        runOnUiThread { ToastBroadUtils.show(R.string.permissions_missing) }
+        runOnUiThread { ToastBroadUtils.show(getAppStr(R.string.permissions_missing)) }
         PermissionUtils.launchAppDetailsSettings()
     } catch (e: Exception) {
         e.toLog("PermissionBroadUtilClass")
