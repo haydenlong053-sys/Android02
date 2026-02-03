@@ -39,6 +39,61 @@ import java.io.Serializable
 import java.util.LinkedList
 
 
+fun chooseVideoAndImg(
+    canCamera: Boolean = true,
+    canChooseGif: Boolean = false,
+    chooseType: Int = BroadConstant.TYPE_ALL_INT,
+    imgMaxNum: Int = 1,
+    imgMinNum: Int = 1,
+    videoMaxNum: Int = 1,
+    videoMinNum: Int = 1,
+    recordVideoMaxSecond: Int = 30,
+    recordVideoMinSecond: Int = 3,
+    filterVideoMaxSecond: Int = 31,
+    maxFileSize: Long? = null,
+    withSelectVideoImage: Boolean = false,
+    needCrop: Boolean = false,
+    cropBean: CropBroadBean = CropBroadBean(),
+    selectList: ArrayList<Pair<String, LocalMedia?>>? = null,
+    block: (result: LinkedList<Pair<String, LocalMedia>>?) -> Unit
+) {
+    val mSelectList = selectList?.let {
+        LinkedList(selectList.mapNotNull { it.second })
+    }
+    chooseMedia(
+        canCamera,
+        canChooseGif,
+        chooseType,
+        imgMaxNum,
+        imgMinNum,
+        videoMaxNum,
+        videoMinNum,
+        recordVideoMaxSecond,
+        recordVideoMinSecond,
+        filterVideoMaxSecond,
+        maxFileSize,
+        withSelectVideoImage,
+        needCrop,
+        cropBean,
+        mSelectList
+    ) { list ->
+        val resultList = LinkedList<Pair<String, LocalMedia>>()
+        list?.forEach { item ->
+            val imgPath = when {
+                FileUtils.isFileExists(item.compressPath) -> item.compressPath
+                FileUtils.isFileExists(item.sandboxPath) -> item.sandboxPath
+                FileUtils.isFileExists(item.realPath) -> item.realPath
+                else -> ""
+            }
+            if (!TextUtils.isEmpty(imgPath) && FileUtils.isFileExists(imgPath)) {
+                resultList.add(Pair(imgPath, item))
+            }
+        }
+        block.invoke(if (null == list) null else resultList)
+    }
+
+}
+
 fun chooseMedia(
     canCamera: Boolean = true,
     canChooseGif: Boolean = false,

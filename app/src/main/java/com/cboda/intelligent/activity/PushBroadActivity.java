@@ -1,7 +1,9 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMedia;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.choosePicture;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseVideo;
+import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseVideoAndImg;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.content.Intent;
@@ -309,29 +311,23 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     public void pmsSuccess() {
         isHaveVideo = false;
-//        int chooseMode = SelectMimeType.ofAll();
         for (int i = 0; i < images.size(); i++) {
             if (MediaBroadFile.isVideoFileType(images.get(i))) {
                 isHaveVideo = true;
             }
         }
+        int chooseType = BroadConstant.TYPE_ALL_INT;
         if (!isHaveVideo && images.size() != 0) {
-            choosePicture(true, false, BroadConstant.TYPE_PIC, 9 - images.size(), 1, 9 - images.size(), 1, 30, 3, 31, null, false, false, new CropBroadBean(), null, new Function1<LinkedList<Pair<String, LocalMedia>>, Unit>() {
-                @Override
-                public Unit invoke(LinkedList<Pair<String, LocalMedia>> pairs) {
-                    requestPath(pairs);
-                    return null;
-                }
-            });
-        } else {
-            chooseVideo(true, false, BroadConstant.TYPE_VIDEO, 1, 1, 1, 1, 30, 3, 31, null, false, false, new CropBroadBean(), null, new Function1<LinkedList<Pair<String, LocalMedia>>, Unit>() {
-                @Override
-                public Unit invoke(LinkedList<Pair<String, LocalMedia>> pairs) {
-                    requestPath(pairs);
-                    return null;
-                }
-            });
+            chooseType = BroadConstant.TYPE_PIC;
         }
+        chooseVideoAndImg(true, false, chooseType, 9 - images.size(), 1, 1, 1, 30, 3, 31, null, false, false, new CropBroadBean(), null, new Function1<LinkedList<Pair<String, LocalMedia>>, Unit>() {
+            @Override
+            public Unit invoke(LinkedList<Pair<String, LocalMedia>> pairs) {
+
+                requestPath(pairs);
+                return null;
+            }
+        });
     }
 
 
