@@ -1,5 +1,9 @@
 package com.cboda.intelligent.compose.navgraph
 
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -156,7 +160,34 @@ fun WTFlowHost(
         }
     }
 
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        enterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { it },
+                animationSpec = tween(300)
+            )
+        },
+        exitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { -it },
+                animationSpec = tween(300)
+            )
+        },
+        popEnterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { -it },
+                animationSpec = tween(300)
+            )
+        },
+        popExitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { 0 },
+                animationSpec = tween(300)
+            )
+        }
+    ) {
         composable(WTRoute.CREATE_WT) {
             WTEmptyScreen(
                 onBack = { 
@@ -211,8 +242,8 @@ fun WTFlowHost(
                 onWalletDetailClick = { name, address, isWatch ->
                     navController.navigate(WTRoute.walletDetail(name, address, isWatch))
                 },
-                onTokenClick = { isWatch, symbol ->
-                    navController.navigate(WTRoute.tokenDetail(isWatch, symbol))
+                onTokenClick = { isWatch, symbol,tokenAddress ->
+                    navController.navigate(WTRoute.tokenDetail(isWatch, symbol,tokenAddress))
                 },
                 onAddTokenClick = {
                     navController.navigate(WTRoute.ADD_TOKEN)
@@ -410,14 +441,17 @@ fun WTFlowHost(
             route = WTRoute.TOKEN_DETAIL,
             arguments = listOf(
                 navArgument("isWatch") { type = NavType.BoolType },
-                navArgument("symbol") { type = NavType.StringType }
+                navArgument("symbol") { type = NavType.StringType },
+                navArgument("tokenAddress") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val isWatch = backStackEntry.arguments?.getBoolean("isWatch") ?: false
             val symbol = backStackEntry.arguments?.getString("symbol") ?: "BNB"
+            val tokenAddress = backStackEntry.arguments?.getString("tokenAddress") ?: ""
             WTTokenDetailScreen(
                 isWatch = isWatch,
                 symbol = symbol,
+                tokenAddress=tokenAddress,
                 onBack = { navController.popBackStack() },
                 onTransactionClick = { txHash -> navController.navigate(WTRoute.transactionDetail(txHash)) },
                 onReceiveClick = { asset ->
@@ -432,6 +466,9 @@ fun WTFlowHost(
                             chain = "BSC"
                         ))
                     }
+                },
+                onTransferClick = {
+                    navController.navigate(WTRoute.transferWt(null, null, symbol))
                 },
                 viewModel = viewModel
             )
@@ -517,7 +554,7 @@ class WTRoute {
         //钱包详情
         const val WALLET_DETAIL = "wallet_detail/{name}/{address}/{isWatch}"
         //代币详情
-        const val TOKEN_DETAIL = "token_detail/{isWatch}/{symbol}"
+        const val TOKEN_DETAIL = "token_detail/{isWatch}/{symbol}/{tokenAddress}"
         //交易详情
         const val TRANSACTION_DETAIL = "transaction_detail/{tx_hash}"
         //收款
@@ -533,7 +570,7 @@ class WTRoute {
         fun viewMnemonic(mnemonic: String) = "view_mnemonic/$mnemonic"
         fun exportPrivateKey(privateKey: String) = "export_private_key/$privateKey"
         fun walletDetail(name: String, address: String, isWatch: Boolean) = "wallet_detail/$name/$address/$isWatch"
-        fun tokenDetail(isWatch: Boolean, symbol: String) = "token_detail/$isWatch/$symbol"
+        fun tokenDetail(isWatch: Boolean, symbol: String,tokenAddress:String) = "token_detail/$isWatch/$symbol/$tokenAddress"
         fun transactionDetail(txHash: String) = "transaction_detail/$txHash"
         fun receiveWt(address: String, symbol: String?, logoUrl: String?, chainId: Int?, chain: String?): String {
             val base = StringBuilder("receive_wt/$address")

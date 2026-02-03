@@ -62,10 +62,17 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material.TextField
 import com.cboda.intelligent.activity.ScanBroadActivity
+import com.cboda.intelligent.compose.getFormattedAmount
+import com.cboda.intelligent.compose.getOriginalAmount
+import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.ToastBroadUtil
+import com.cboda.intelligent.utils.WalletManager
+import org.web3j.utils.Convert
+import java.math.BigInteger
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -151,15 +158,17 @@ fun WTTransferScreen(
         val usd = if (asset != null && amt > 0) {
             val balance = asset.balance.toDoubleOrNull() ?: 0.0
             val totalUsd = asset.value_usd?.toDoubleOrNull()
-            val price = if (balance > 0 && totalUsd != null) {
-                totalUsd / balance
-            } else {
-                asset.price_usd?.toDoubleOrNull() ?: 0.0
-            }
+//            val price = if (balance > 0 && totalUsd != null) {
+//                totalUsd / balance
+//            } else {
+//                asset.price_usd?.toDoubleOrNull() ?: 0.0
+//            }
+            val price = asset.price_usd?.toDoubleOrNull() ?: 0.0
             amt * price
         } else {
             0.0
         }
+//        val usd =asset?.price_usd?.toDoubleOrNull()?:0.0
         amountUsd = if (usd > 0) "≈$${String.format("%.2f", usd)}" else ""
     }
 
@@ -169,7 +178,14 @@ fun WTTransferScreen(
         val asset = selectedAsset
         if (wallet != null && asset != null && toAddress.isNotBlank() && amount.isNotBlank()) {
             delay(500) // Debounce 500ms
-            viewModel.estimateGasFee(toAddress, amount, asset.symbol)
+            val maxAmount= BigInteger(selectedAsset?.balance?:"0")
+            val inputAmount=WalletManager.convertToWei(amount)?: BigInteger("0")
+           val requestAmount= if (inputAmount>=maxAmount){
+                 ""
+            }else{
+                inputAmount.toString()
+           }
+            viewModel.estimateGasFee(toAddress, requestAmount, asset.symbol,asset.token_address)
         }
     }
 
@@ -311,7 +327,14 @@ fun WTTransferScreen(
                 Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
                     TextField(
                         value = amount,
-                        onValueChange = { amount = it },
+                        onValueChange = {
+                            if ((it.toDoubleOrNull()?:0.0 )>(getFormattedAmount(selectedAsset?.balance ?: "",selectedAsset?.decimals?:18).toDoubleOrNull()?:0.0) ){
+                                amount=(getFormattedAmount(selectedAsset?.balance ?: "",selectedAsset?.decimals?:18).toDoubleOrNull()?:0.0).toString()
+                            }else{
+                                amount = it
+                            }
+
+                                        },
                         modifier = Modifier.fillMaxWidth(),
                         placeholder = { Text(stringResource(R.string.wt_transfer_amount_hint), color = Color(0x61000000)) },
                         singleLine = true,
@@ -336,13 +359,13 @@ fun WTTransferScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "${stringResource(R.string.wt_balance)}：${selectedAsset?.balance ?: ""} ${selectedAsset?.symbol ?: ""}", fontSize = 12.sp, color = Color.Black.copy(alpha = 0.65f))
+                        Text(text = "${stringResource(R.string.wt_balance)}：${getFormattedAmount(selectedAsset?.balance ?: "",selectedAsset?.decimals?:18)} ${selectedAsset?.symbol ?: ""}", fontSize = 12.sp, color = Color.Black.copy(alpha = 0.65f))
                         Text(
                             text = stringResource(R.string.wt_max),
                             fontSize = 12.sp,
                             color = Color(0xFF3B47DD),
-                            modifier = Modifier.clickable {
-                                amount = selectedAsset?.balance ?: ""
+                            modifier = Modifier.noRippleClickable() {
+                                amount = getFormattedAmount(selectedAsset?.balance ?: "",selectedAsset?.decimals?:18)
                             }
                         )
                     }
@@ -408,7 +431,7 @@ fun WTTransferScreen(
                         }
                         showPasswordDialog = true
                     },
-                    enabled = !uiState.isEstimatingGas,
+                    enabled = !uiState.isEstimatingGas&&!uiState.isSending,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
@@ -418,7 +441,7 @@ fun WTTransferScreen(
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    if (uiState.isEstimatingGas) {
+                    if (uiState.isEstimatingGas||uiState.isSending) {
                         CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = Color.White)
                     } else {
                         Text(text = stringResource(R.string.wt_confirm_send), color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.W600)
@@ -450,7 +473,8 @@ fun WTTransferScreen(
                     toAddress = toAddress,
                     amount = amount,
                     symbol = symbol,
-                    password = pwd
+                    password = pwd,
+                    selectedAsset?.token_address?:""
                 ) { success, msg ->
                     scope.launch {
                         if (success) {
@@ -515,7 +539,7 @@ fun TokenSelectBottomSheet(
                 items(assetList) { item ->
                     TokenSelectionItem(
                         item = item,
-                        isSelected = item.symbol == selectedAsset?.symbol,
+                        isSelected = item.symbol == selectedAsset?.symbol &&item.token_address == selectedAsset?.token_address,
                         onClick = { onSelect(item) }
                     )
                 }

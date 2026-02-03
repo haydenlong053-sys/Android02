@@ -41,18 +41,24 @@ import java.util.TimeZone
 
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.SubcomposeAsyncImage
+import com.cboda.intelligent.compose.formatSixDecimalValue
 import com.cboda.intelligent.compose.getFormattedAmount
 import com.cboda.intelligent.model.AssetItem
+import com.cboda.intelligent.repository.WTRepository
 import com.cboda.intelligent.utils.ToastBroadUtil
+import android.content.ClipData
+import com.cboda.intelligent.compose.noRippleClickable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WTTokenDetailScreen(
     isWatch: Boolean,
     symbol: String,
+    tokenAddress:String,
     onBack: () -> Unit,
     onTransactionClick: (String) -> Unit,
     onReceiveClick: (AssetItem) -> Unit,
+    onTransferClick: () -> Unit,
     viewModel: WTViewModel
 ) {
     val context = LocalContext.current
@@ -63,7 +69,7 @@ fun WTTokenDetailScreen(
     val uiState by viewModel.uiState.collectAsState()
     val currentWallet = uiState.currentWallet
     
-    val asset = uiState.assetList.find { it.symbol.equals(symbol, ignoreCase = true) } 
+    val asset = uiState.assetList.find { it.symbol.equals(symbol, ignoreCase = true) && it.token_address.equals(tokenAddress,true)}
         ?: uiState.assetList.find { it.symbol.equals("BNB", ignoreCase = true) }
 
     LaunchedEffect(currentWallet?.address, symbol) {
@@ -75,11 +81,11 @@ fun WTTokenDetailScreen(
             // Actually, without asset list, we don't know the contract address for a symbol.
             // So we rely on asset being found.
             if (asset != null) {
-                val tokenAddress = if (asset.symbol.equals("BNB", ignoreCase = true)) null else asset.token_address
+                val tokenAddress = asset.token_address
                 viewModel.fetchLedger(address, tokenAddress)
             } else {
                  // Try to fetch wallet list if empty?
-                 viewModel.getWalletList(97)
+                 viewModel.getWalletList(WTRepository.wtDefaultChanId)
             }
         }
     }
@@ -175,7 +181,7 @@ fun WTTokenDetailScreen(
                         if (isWatch) {
                             ToastBroadUtil.show( context.getString(R.string.wt_toast_unavailable))
                         } else {
-                            // Handle Transfer
+                            onTransferClick()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4B68FF)),
@@ -200,7 +206,17 @@ fun WTTokenDetailScreen(
         ) {
             // Header Info
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.background(Color(0xffECEDEF), shape = RoundedCornerShape(8.dp)).padding(horizontal = 12.dp, vertical = 2.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                    .background(Color(0xffECEDEF), shape = RoundedCornerShape(8.dp))
+                    .noRippleClickable() {
+                        val fullAddress = currentWallet?.address ?: ""
+                        if (fullAddress.isNotEmpty()) {
+                            val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                            clipboard.setPrimaryClip(ClipData.newPlainText("walletAddress", fullAddress))
+                            ToastBroadUtil.show("已复制")
+                        }
+                    }
+                    .padding(horizontal = 12.dp, vertical = 2.dp)) {
                     val displayAddress = currentWallet?.address?.let { 
                         if (it.length > 12) "${it.take(6)}...${it.takeLast(4)}" else it 
                     } ?: ""
@@ -217,7 +233,7 @@ fun WTTokenDetailScreen(
                 Text(getFormattedAmount(asset?.balance ?: "0",asset?.decimals?:18), fontSize = 24.sp, fontWeight = FontWeight.W700, color = Color.Black.copy(0.9f))
                 Text(asset?.symbol ?: "BNB", fontSize = 20.sp, color = Color.Black.copy(0.65f), fontWeight = FontWeight.W600)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("≈$${asset?.value_usd ?: "0.00"}", fontSize = 14.sp, color = Color.Gray)
+                Text("≈$${formatSixDecimalValue(asset?.value_usd ?: "0.00")}", fontSize = 14.sp, color = Color.Gray)
             }
 
             // Price Card
@@ -233,11 +249,11 @@ fun WTTokenDetailScreen(
                 ) {
                     Text(stringResource(R.string.wt_current_price), fontSize = 14.sp)
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("$${asset?.price_usd ?: "0.00"}", fontSize = 14.sp)
+                        Text("$${formatSixDecimalValue(asset?.price_usd ?: "0.00")}", fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         val change = asset?.change_24h ?: "0"
                         val changeColor = if (change.startsWith("-")) Color.Red else Color(0xFF4CD964)
-                        Text("${if (!change.startsWith("-") && change != "0") "+" else ""}$change%", fontSize = 14.sp, color = changeColor)
+                        Text("${if (!change.startsWith("-") && change != "0") "+" else ""}${formatSixDecimalValue(change)}%", fontSize = 14.sp, color = changeColor)
                     }
                 }
             }
@@ -254,7 +270,7 @@ fun WTTokenDetailScreen(
                     Column(
                         modifier = Modifier
                             .padding(end = 24.dp)
-                            .clickable {
+                            .noRippleClickable() {
                                 scope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
@@ -344,7 +360,7 @@ fun TransactionItem(
         color = Color.White,
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .noRippleClickable(onClick = onClick)
     ) {
         Column {
             Row(
@@ -420,7 +436,7 @@ fun TransactionItem(
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     // Convert amount from Wei
-                    val amount = item.amount
+                    val amount = getFormattedAmount(item.amount,18)
                     Text(
                         text = "${if (item.direction == "in") "+" else "-"}$amount ${item.token_symbol}",
                         color = if (item.direction == "in")  Color(0xFF3B47DD) else  Color(0xFF3FAC0A),

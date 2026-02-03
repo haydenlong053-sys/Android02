@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cboda.intelligent.model.LedgerItem
 import com.cboda.intelligent.R
+import com.cboda.intelligent.compose.getFormattedAmount
 import com.cboda.intelligent.compose.noRippleClickable
+import com.cboda.intelligent.utils.WalletManager
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -43,7 +45,8 @@ fun WTTransactionDetailScreen(
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
 
-    val amount = transaction.amount
+//    val amount = WalletManager.convertFromWei(transaction.amount)
+    val amount = getFormattedAmount(transaction.amount,18)
 
     val fee = transaction.gas_fee?:"0"
 

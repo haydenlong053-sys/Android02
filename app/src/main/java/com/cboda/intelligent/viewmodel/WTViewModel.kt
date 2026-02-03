@@ -7,6 +7,7 @@ import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.model.AddTokenRequest
 import com.cboda.intelligent.model.AssetItem
 import com.cboda.intelligent.model.BroadcastTxRequest
@@ -49,6 +50,7 @@ import org.web3j.abi.datatypes.Function
 import org.web3j.abi.datatypes.Address
 import org.web3j.abi.datatypes.generated.Uint256
 import org.web3j.crypto.CipherException
+import org.web3j.protocol.core.methods.response.EthSendTransaction
 import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -81,6 +83,7 @@ data class WTUiState(
     
     // Gas Estimation State
     val isEstimatingGas: Boolean = false,
+    val isSending: Boolean = false,
     val gasEstimateResponse: GasEstimateResponse? = null,
     
     // Wallet Balances (Address -> Balance)
@@ -147,7 +150,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getUserWalletDir(): File {
-        val userId = MMKVBroadUtils.getUserAppToken() ?: "unknown"
+        val userId = MMKVBroadUtils.getRealUserId() ?: "unknown"
         // Use noBackupFilesDir to prevent cloud backup leaks and ensure it's strictly internal
         val dir = File(getApplication<Application>().noBackupFilesDir, "wallets/$userId")
         if (!dir.exists()) {
@@ -352,12 +355,11 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun estimateGasFee(toAddress: String, amount: String, symbol: String) {
+    fun estimateGasFee(toAddress: String, amount: String, symbol: String,token_address:String) {
         val wallet = _uiState.value.currentWallet ?: return
-        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true) } ?: return
+        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true)&&it.token_address.equals(token_address,true) } ?: return
+//        if ((amount.toDoubleOrNull() ?: 0.0) <= 0.0) return
 
-        if ((amount.toDoubleOrNull() ?: 0.0) <= 0.0) return
-        
         // Reset previous estimate
         _uiState.value = _uiState.value.copy(isEstimatingGas = true, gasEstimateResponse = null)
 
@@ -365,13 +367,11 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val decimals = asset.decimals
                 val amt = amount.toDoubleOrNull() ?: 0.0
-                if (amt <= 0.0) {
-                     _uiState.value = _uiState.value.copy(isEstimatingGas = false)
-                    return@launch
-                }
+//                if (amt <= 0.0) {
+//                     _uiState.value = _uiState.value.copy(isEstimatingGas = false)
+//                    return@launch
+//                }
                 
-                val base = BigDecimal.TEN.pow(decimals)
-                val minimal = BigDecimal(amount).multiply(base).toBigInteger().toString()
                 val isNative = asset.token_type.equals("native", true)
                 val txType = "transfer"
                 
@@ -403,19 +403,22 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun sendTransaction(toAddress: String, amount: String, symbol: String, password: String, onResult: (Boolean, String?) -> Unit) {
+    fun sendTransaction(toAddress: String, amount: String, symbol: String, password: String,token_address:String, onResult: (Boolean, String?) -> Unit) {
         val wallet = _uiState.value.currentWallet
-        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true) }
+        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true)&&it.token_address.equals(token_address,true) }
         val gasResponse = _uiState.value.gasEstimateResponse
+        _uiState.value = _uiState.value.copy(isSending = true)
         
         if (wallet == null || asset == null) {
             ToastBroadUtil.show("当前钱包或资产信息异常")
             onResult(false, "Wallet/Asset Error")
+            _uiState.value=_uiState.value.copy(isSending = false)
             return
         }
         
         if (gasResponse == null) {
             ToastBroadUtil.show("请等待Gas预估完成")
+            _uiState.value=_uiState.value.copy(isSending = false)
             onResult(false, "Gas Not Estimated")
             return
         }
@@ -432,6 +435,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 if (walletFile == null) {
                     ToastBroadUtil.show("未找到钱包文件")
                     onResult(false, "File Not Found")
+                    _uiState.value=_uiState.value.copy(isSending = false)
                     return@launch
                 }
 
@@ -441,6 +445,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                     }
                 } catch (e: Exception) {
                     onResult(false, "Password Error")
+                    _uiState.value=_uiState.value.copy(isSending = false)
                     return@launch
                 }
 
@@ -461,13 +466,16 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 )
                 
                 repository.validateTx(validateReq).onSuccess { res ->
+
                     if (res == null || !res.valid) {
                         ToastBroadUtil.show(res?.reason ?: "转账校验未通过")
+                        _uiState.value=_uiState.value.copy(isSending = false)
                         onResult(false, res?.reason)
                         return@onSuccess
                     }
                     if (!res.balance_enough) {
                         ToastBroadUtil.show("余额不足")
+                        _uiState.value=_uiState.value.copy(isSending = false)
                         onResult(false, "Balance Not Enough")
                         return@onSuccess
                     }
@@ -479,7 +487,8 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                     val maxFeePerGas = BigInteger(gasResponse.standard.max_fee_per_gas)
                     val maxPriorityFeePerGas = BigInteger(gasResponse.standard.max_priority_fee_per_gas)
                     
-                    val amountVal = BigInteger(amount)
+//                    val amountVal = BigInteger(amount)
+                    val amountVal = WalletManager.convertToWei(amount)
 
                     // Note: Assuming EIP-1559 support if max_fee_per_gas is present.
                     // If Web3j version is old, we might need to fallback to legacy using maxFeePerGas as gasPrice.
@@ -498,22 +507,22 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
 //                            amountVal
 //                        )
                     } else {
-                        RawTransaction.createTransaction(WTRepository.wtDefaultChanId.toLong(),nonce,gasLimit,toAddress,
-                            BigInteger("0"),"",
-                            maxPriorityFeePerGas,maxFeePerGas)
-//                        val function = Function(
-//                            "transfer",
-//                            listOf(Address(toAddress), Uint256(0.toBigInteger())),
-//                            emptyList()
-//                        )
-//                        val encodedFunction = FunctionEncoder.encode(function)
-//                        RawTransaction.createTransaction(
-//                            nonce,
-//                            maxFeePerGas, // Using maxFeePerGas as gasPrice
-//                            gasLimit,
-//                            asset.token_address ?: "",
-//                            encodedFunction
-//                        )
+//                        RawTransaction.createTransaction(WTRepository.wtDefaultChanId.toLong(),nonce,gasLimit,toAddress,
+//                            BigInteger("0"),"",
+//                            maxPriorityFeePerGas,maxFeePerGas)
+                        val function = Function(
+                            "transfer",
+                            listOf(Address(toAddress), Uint256(amountVal)),
+                            emptyList()
+                        )
+                        val encodedFunction = FunctionEncoder.encode(function)
+                        RawTransaction.createTransaction(
+                            nonce,
+                            maxFeePerGas, // Using maxFeePerGas as gasPrice
+                            gasLimit,
+                            asset.token_address ?: "",
+                            encodedFunction
+                        )
                     }
 
                     // 3. Sign Transaction
@@ -522,31 +531,59 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                     if (!hexValue.startsWith("0x")) {
                         hexValue = "0x" + hexValue
                     }
+                    val txHash = withContext(Dispatchers.IO) {
+                        val web3j = repository.getWorkingWeb3j(WTRepository.bnbTestnetRpcs)
+                        if (web3j == null) {
+                            _uiState.value=_uiState.value.copy(isSending = false)
+                            onResult(false, "连接节点网络失败")
+                            ""
+                        }else{
+                            val response: EthSendTransaction = web3j.ethSendRawTransaction(hexValue).send()
 
-                    val broadcastReq = BroadcastTxRequest(
-                        request_id = "req_" + UUID.randomUUID().toString(),
-                        chain_id = wallet.chain_id,
-                        raw_tx = hexValue,
-                        from_address = wallet.address,
-                        to_address = toAddress,
-                        tx_type = txType,
-                        token_address = asset.token_address,
-                        amount = amount,
-                        memo = null
-                    )
-                    
-                    repository.broadcastTx(broadcastReq).onSuccess { br ->
-                        if (br?.status.isNullOrEmpty()) {
-                            ToastBroadUtil.show("交易已提交")
+                            if (response.hasError()) {
+                                _uiState.value=_uiState.value.copy(isSending = false)
+                                onResult(false, response.error.message)
+                            }
+
+                            val txHash = response.transactionHash
+                                ?: ""
+
+                            txHash
                         }
-                        onResult(true, null)
-                    }.onError {
-                        ToastBroadUtil.show(it.message ?: "交易广播失败")
-                        onResult(false, it.message)
-                    }.onFailure { _, message ->
-                        ToastBroadUtil.show(message ?: "交易广播失败")
-                        onResult(false, message)
+
+
+
                     }
+                    _uiState.value=_uiState.value.copy(isSending = false)
+                    if (txHash.isNotEmpty()){
+                        val broadcastReq = BroadcastTxRequest(
+                            request_id = "req_" + UUID.randomUUID().toString(),
+                            chain_id = wallet.chain_id,
+                            raw_tx = hexValue,
+                            from_address = wallet.address,
+                            to_address = toAddress,
+                            tx_type = txType,
+                            token_address = asset.token_address,
+                            amount = amount,
+                            memo = null,
+                            tx_hash=txHash
+                        )
+1
+                        repository.broadcastTx(broadcastReq).onSuccess { br ->
+                            if (br?.status.isNullOrEmpty()) {
+                                ToastBroadUtil.show("交易已提交")
+                            }
+                            onResult(true, null)
+                        }.onError {
+                            ToastBroadUtil.show(it.message ?: "交易广播失败")
+                            onResult(false, it.message)
+                        }.onFailure { _, message ->
+                            ToastBroadUtil.show(message ?: "交易广播失败")
+                            onResult(false, message)
+                        }
+                    }
+
+
 
                 }.onError {
                     ToastBroadUtil.show(it.message ?: "转账校验失败")

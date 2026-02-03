@@ -247,8 +247,9 @@ fun WTEmptyScreen(
                 title = stringResource(R.string.wt_add_watch_wallet),
                 description = stringResource(R.string.wt_track_assets_via_address),
                 onClick = { 
-                    jumpType = 1
-                    showPasswordDialog = true 
+//                    jumpType = 1
+//                    showPasswordDialog = true
+                    showWatchDialog = true
                 }
             )
         }

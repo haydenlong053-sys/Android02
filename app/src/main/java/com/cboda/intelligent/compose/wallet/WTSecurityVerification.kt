@@ -37,6 +37,8 @@ fun WTSecurityVerification(
                 .first()
 
             val codePop = AuthCodeBroadPop(context, SafeJumpBroadEnum.TransferAuthSure.sourceType)
+            codePop.setBackPressEnable(true)
+            codePop.setOutSideDismiss(true)
             codePop.onDismissListener = object : BasePopupWindow.OnDismissListener() {
                 override fun onDismiss() {
                     onDismiss()
@@ -45,6 +47,8 @@ fun WTSecurityVerification(
 
             codePop.transferInvoke = {
                 val questionPop = AuthQuestionBroadPop(context, SafeJumpBroadEnum.QuestionAuth.sourceType)
+                questionPop.setBackPressEnable(true)
+                questionPop.setOutSideDismiss(true)
                 questionPop.onDismissListener = object : BasePopupWindow.OnDismissListener() {
                     override fun onDismiss() {
                         onDismiss()
@@ -52,6 +56,8 @@ fun WTSecurityVerification(
                 }
                 questionPop.backInvoke = {
                     val passwordPop = AuthPasswordBroadPop(context, SafeJumpBroadEnum.EthPasswordAuth.sourceType)
+                    passwordPop.setBackPressEnable(true)
+                    passwordPop.setOutSideDismiss(true)
                     passwordPop.onDismissListener = object : BasePopupWindow.OnDismissListener() {
                         override fun onDismiss() {
                             onDismiss()

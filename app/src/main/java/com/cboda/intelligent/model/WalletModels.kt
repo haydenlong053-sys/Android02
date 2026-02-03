@@ -225,7 +225,9 @@ data class BroadcastTxRequest(
     val tx_type: String,
     val token_address: String? = null,
     val amount: String? = null,
-    val memo: String? = null
+    val memo: String? = null,
+    val tx_hash: String? = null,
+
 )
 
 /**
