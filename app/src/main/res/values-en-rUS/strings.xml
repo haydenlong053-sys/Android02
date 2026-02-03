@@ -196,8 +196,8 @@
     <string name="shuidezhuanchuhong">Only %1$s can claim</string>
     <string name="jiangefayanmiao">Message Interval (seconds)</string>
     <string name="chehuishifenzhongfayantips">Are you sure you want to withdraw messages sent within ten minutes and remove from the group?</string>
-    <string name="qunzhushenfen">Group Owner</string>
-    <string name="qunguanlishenfen">Administrator</string>
+    <string name="qunzhushenfen">Owner</string>
+    <string name="qunguanlishenfen">Admin</string>
     <string name="set_circle_tags">Set Circle Tags</string>
     <string name="设备自动注册登录">Device Auto-Registration and Login</string>
     <string name="是否根据手机设备号注册账号并登录">Do you want to register an account and log in using the device ID?</string>

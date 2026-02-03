@@ -232,8 +232,8 @@
     <string name="shuidezhuanchuhong">Only %1$s can receive</string>
     <string name="jiangefayanmiao">Speaking interval (seconds)</string>
     <string name="chehuishifenzhongfayantips">Confirm withdraw speech within ten minutes and remove from this group?</string>
-    <string name="qunzhushenfen">Group owner</string>
-    <string name="qunguanlishenfen">Administrator</string>
+    <string name="qunzhushenfen">Owner</string>
+    <string name="qunguanlishenfen">Admin</string>
 
     <string name="sys_notice_info">System Notice</string>
     <string name="msg_input">Please enter</string>
