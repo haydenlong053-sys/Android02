@@ -309,7 +309,7 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     public void pmsSuccess() {
         isHaveVideo = false;
-        int chooseMode = SelectMimeType.ofAll();
+//        int chooseMode = SelectMimeType.ofAll();
         for (int i = 0; i < images.size(); i++) {
             if (MediaBroadFile.isVideoFileType(images.get(i))) {
                 isHaveVideo = true;
