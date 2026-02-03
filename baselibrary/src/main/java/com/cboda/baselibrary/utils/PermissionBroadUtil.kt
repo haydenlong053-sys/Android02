@@ -5,6 +5,7 @@ import com.cboda.baselibrary.R
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.select.picture.permissions.PermissionConfig
 import com.cboda.select.picture.thread.PictureThreadUtils.runOnUiThread
 
@@ -75,7 +76,7 @@ private inline fun showTipDialog(list: ArrayList<String>, crossinline cancelCall
 //        }
 //    }
     try {
-        runOnUiThread { ToastUtils.showShort(R.string.permissions_missing) }
+        runOnUiThread { ToastBroadUtils.show(R.string.permissions_missing) }
         PermissionUtils.launchAppDetailsSettings()
     } catch (e: Exception) {
         e.toLog("PermissionBroadUtilClass")
