@@ -58,6 +58,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.chatui.ChatManagerBroadHolder;
+
 import okhttp3.Response;
 
 public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
@@ -307,7 +308,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                 intent.putExtra("scan_result", s);
                 setResult(RESULT_OK, intent);
                 finish();
-            }else if (jumpSource != ScanJumpBroadEnum.None.getSourceType() && jumpSource != ScanJumpBroadEnum.Login.getSourceType() && isTransferLinkQrCode(s)) {
+            } else if (jumpSource != ScanJumpBroadEnum.None.getSourceType() && jumpSource != ScanJumpBroadEnum.Login.getSourceType() && isTransferLinkQrCode(s)) {
                 Intent intent = new Intent(this, TransferBroadActivity.class);
                 intent.putExtra("data", s);
                 startActivity(intent);
@@ -330,6 +331,11 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             String linkId = result[1];//用户id or 群id
             switch (result[0]) {
                 case "1"://用户
+                    if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
+                        ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
+                        finish();
+                        return;
+                    }
                     Map<String, Object> param = new HashMap<>();
                     param.put("id", linkId);
                     OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/duiInfo", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
@@ -352,6 +358,11 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                     });
                     break;
                 case "2"://群
+                    if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
+                        ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
+                        finish();
+                        return;
+                    }
                     Map<String, Object> param1 = new HashMap<>();
                     param1.put("id", linkId);
                     OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupScan", param1, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
@@ -470,6 +481,11 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                     String linkId = result[1];//用户id or 群id
                     switch (result[0]) {
                         case "1"://用户
+                            if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
+                                ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
+                                finish();
+                                return;
+                            }
                             Map<String, Object> param = new HashMap<>();
                             param.put("id", linkId);
                             OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/duiInfo", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
@@ -493,6 +509,11 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                             });
                             break;
                         case "2"://群
+                            if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
+                                ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
+                                finish();
+                                return;
+                            }
                             Map<String, Object> param1 = new HashMap<>();
                             param1.put("id", linkId);
                             OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupScan", param1, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
