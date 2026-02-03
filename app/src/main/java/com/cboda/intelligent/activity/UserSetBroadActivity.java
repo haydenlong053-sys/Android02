@@ -173,13 +173,15 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
             if (!isHasPassword) {
                 showGuidePasswordTip(this);
             } else {
-                showSetTipDialog(this, new Function0<Unit>() {
-                    @Override
-                    public Unit invoke() {
-                        changBindMachine();
-                        return null;
-                    }
-                });
+                //需要等区块钱包功能完善后，才能打开
+//                showSetTipDialog(this, new Function0<Unit>() {
+//                    @Override
+//                    public Unit invoke() {
+//                        changBindMachine();
+//                        return null;
+//                    }
+//                });
+                changBindMachine();
             }
         } else if (view.getId() == R.id.tvSwitch) {
             HttpsBroadConfig.INSTANCE.showSwitchDialog();
