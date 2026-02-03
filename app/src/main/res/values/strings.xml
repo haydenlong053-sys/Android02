@@ -1034,6 +1034,8 @@
     <string name="wt_token_symbol">Token Symbol</string>
     <string name="wt_token_decimals">Token Decimals</string>
     <string name="wt_input_contract_address">Please enter token contract address</string>
+    <string name="wt_click_to_show_mnemonic">Click to show mnemonic</string>
+    <string name="wt_click_to_show_private_key">Click to show private key</string>
     <string name="wt_input_token_symbol">Please enter token symbol</string>
     <string name="wt_input_token_decimals">Please enter token decimals</string>
     <string name="wt_add_token_title">Add Token</string>

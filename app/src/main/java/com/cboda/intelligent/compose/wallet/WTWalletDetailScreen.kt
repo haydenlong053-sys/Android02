@@ -48,6 +48,7 @@ fun WTWalletDetailScreen(
     var showConvertDialog by remember { mutableStateOf(false) }
     var showPasswordDialog by remember { mutableStateOf(false) }
     var currentName by remember { mutableStateOf(name) }
+    var verificationAction by remember { mutableStateOf(0) }  // 1: memory, 2: private 3:delete
 
     LaunchedEffect(Unit) {
         viewModel.getSafeCenterInfo()
@@ -157,9 +158,15 @@ fun WTWalletDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column {
-                        DetailActionItem(text = stringResource(R.string.wt_export_mnemonic), onClick = onExportMnemonic)
+                        DetailActionItem(text = stringResource(R.string.wt_export_mnemonic), onClick = {
+                            verificationAction=1
+                            showPasswordDialog=true
+                        })
                         Divider(color = Color.Black.copy(0.16f), thickness = 0.5.dp, modifier = Modifier.padding(horizontal = 0.dp))
-                        DetailActionItem(text = stringResource(R.string.wt_export_private_key), onClick = onExportPrivateKey)
+                        DetailActionItem(text = stringResource(R.string.wt_export_private_key), onClick = {
+                            verificationAction=2
+                            showPasswordDialog=true
+                        })
                     }
                 }
             }
@@ -233,6 +240,7 @@ fun WTWalletDetailScreen(
             onDismiss = { showDeleteDialog = false },
             onConfirm = {
                 showDeleteDialog = false
+                verificationAction=3
                 showPasswordDialog = true
             }
         )
@@ -242,7 +250,11 @@ fun WTWalletDetailScreen(
         showDialog = showPasswordDialog,
         onDismiss = { showPasswordDialog = false },
         onPassWordVerifySuccess = { _ ->
-            onDelete()
+            when (verificationAction) {
+                1 -> onExportMnemonic.invoke()
+                2 -> onExportPrivateKey.invoke()
+                3-> onDelete.invoke()
+            }
         },
         viewModel = viewModel
     )

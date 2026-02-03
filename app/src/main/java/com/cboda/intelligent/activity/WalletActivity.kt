@@ -44,7 +44,7 @@ class WalletActivity: BaseSimpleBroadActivity() {
                     Surface {
                         WTFlowHost(
                             startDestination = startRoute,
-                            userId = MMKVBroadUtils.getUserAppToken() ?: "",
+                            userId = MMKVBroadUtils.getRealUserId() ?: "",
                             onBack = { finish() }
                         )
                     }

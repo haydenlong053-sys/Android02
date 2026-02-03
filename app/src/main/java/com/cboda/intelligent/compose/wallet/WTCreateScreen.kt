@@ -174,8 +174,9 @@ fun WTCreateScreen(
             showPasswordDialog = true
         },
         onWatchClick = {
-            jumpType = 1
-            showPasswordDialog = true
+//            jumpType = 1
+//            showPasswordDialog = true
+            showWatchDialog = true
         },
         onCreateClick = {
             jumpType = 0

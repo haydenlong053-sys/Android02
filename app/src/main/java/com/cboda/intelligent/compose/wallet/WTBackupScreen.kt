@@ -33,8 +33,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.cboda.intelligent.R
 
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.tooling.preview.Preview
 import com.cboda.intelligent.compose.noRippleClickable
+
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cboda.intelligent.viewmodel.WTViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,11 +47,27 @@ fun WTBackupScreen(
     title: String = stringResource(R.string.wt_backup_mnemonic_title),
     buttonText: String = stringResource(R.string.wt_backed_up),
     onBack: () -> Unit,
-    onBackupConfirmed: () -> Unit
+    onBackupConfirmed: () -> Unit,
+    viewModel: WTViewModel = viewModel()
 ) {
     val words = mnemonic.split(" ")
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     var showSecurityTipDialog by remember { mutableStateOf(false) }
+    var isRevealed by remember { mutableStateOf(false) }
+    var showPasswordDialog by remember { mutableStateOf(false) }
+    var verificationAction by remember { mutableStateOf(0) } // 1: Reveal, 2: Copy
+
+    WTSecurityVerification(
+        showDialog = showPasswordDialog,
+        onDismiss = { showPasswordDialog = false },
+        onPassWordVerifySuccess = {
+            when (verificationAction) {
+                1 -> isRevealed = true
+                2 -> showSecurityTipDialog = true
+            }
+        },
+        viewModel = viewModel
+    )
 
     if (showSecurityTipDialog) {
         SecurityTipDialog(
@@ -114,48 +134,101 @@ fun WTBackupScreen(
                     .padding(bottom = 24.dp)
             )
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.weight(1f)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
-                itemsIndexed(words) { index, word ->
-                    Box(
-                        contentAlignment = Alignment.CenterStart,
-                        modifier = Modifier
-                            .background(Color.White, RoundedCornerShape(10.dp))
-                            .padding(vertical = 12.dp, horizontal = 10.dp)
-                    ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier.fillMaxWidth().blur(if (isRevealed) 0.dp else 12.dp)
+                ) {
+                    words.chunked(3).forEachIndexed { rowIndex, rowWords ->
                         Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(
-                                text = String.format("%02d", index + 1),
-                                fontSize = 14.sp,
-                                color = Color.Black.copy(0.35f),
+                            for (i in 0 until 3) {
+                                if (i < rowWords.size) {
+                                    val word = rowWords[i]
+                                    val index = rowIndex * 3 + i
+                                    Box(
+                                        contentAlignment = Alignment.CenterStart,
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .background(Color.White, RoundedCornerShape(10.dp))
+                                            .padding(vertical = 12.dp, horizontal = 10.dp)
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Start
+                                        ) {
+                                            Text(
+                                                text = String.format("%02d", index + 1),
+                                                fontSize = 14.sp,
+                                                color = Color.Black.copy(0.35f),
 
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = "|",
-                                color  = Color.Black.copy(0.12f),
-                                fontSize = 12.sp
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = word,
-                                fontSize = 14.sp,
-                                color = Color(0xFF3B47DD),
-                                fontWeight = FontWeight.W400,
-                            )
+                                            )
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = "|",
+                                                color  = Color.Black.copy(0.12f),
+                                                fontSize = 12.sp
+                                            )
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = word,
+                                                fontSize = 14.sp,
+                                                color = Color(0xFF3B47DD),
+                                                fontWeight = FontWeight.W400,
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    Spacer(modifier = Modifier.weight(1f))
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!isRevealed) {
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .noRippleClickable {
+//                                verificationAction = 1
+//                                showPasswordDialog = true
+                                isRevealed=true
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Surface(
+                            color = Color(0xFF101B3A).copy(alpha = 0.8f),
+                            shape = RoundedCornerShape(16.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.mipmap.ic_wt_eye_open),
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Text(
+                                    text = stringResource(R.string.wt_click_to_show_mnemonic),
+                                    color = Color.White,
+                                    fontSize = 16.sp
+                                )
+                            }
                         }
                     }
                 }
             }
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
             Surface(
                 color = Color(0xFF3B47DD),
@@ -164,7 +237,9 @@ fun WTBackupScreen(
                     .fillMaxWidth()
                     .height(46.dp)
                     .noRippleClickable { 
-                        showSecurityTipDialog = true
+//                        verificationAction = 2
+//                        showPasswordDialog = true
+                          showSecurityTipDialog=true
                     }
             ) {
                 Row(

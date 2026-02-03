@@ -30,6 +30,9 @@ import com.cboda.intelligent.model.WalletSourceRequest
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.web3j.protocol.Web3j
+import org.web3j.protocol.core.methods.response.EthSendTransaction
+import org.web3j.protocol.http.HttpService
 
 class WTRepository {
 //    private  val wtBaseUrl="http://47.118.18.244:8080/"
@@ -40,7 +43,33 @@ class WTRepository {
 
       const val wtDefaultChanId=97
         const val wtDefaultWalletPwd=""
+        val bnbTestnetRpcs = listOf(
+            "https://data-seed-prebsc-1-s1.bnbchain.org:8545",  // 官方
+            "https://bsc-testnet-rpc.publicnode.com",           // 公共高可用
+            "https://bsc-testnet.drpc.org"
+        )
+
+        val bnbMainnetRpcs = listOf(
+            "https://bsc-dataseed.bnbchain.org",  // 官方
+            "https://bsc-rpc.publicnode.com",
+            "https://binance.llamarpc.com"
+        )
     }
+
+    // 示例：获取第一个可用的 Web3j
+    suspend fun getWorkingWeb3j(rpcList: List<String>): Web3j? {
+        for (url in rpcList) {
+            try {
+                val web3j = Web3j.build(HttpService(url))
+                val blockNumber = web3j.ethBlockNumber().send()
+                if (!blockNumber.hasError()) return web3j
+            } catch (_: Exception) {}
+        }
+        return null
+    }
+
+
+
 
     suspend fun  getSafeCenterInfo(): NetworkBroadResult<SafeCenterBroadBean> {
         val params = hashMapOf("code" to "")

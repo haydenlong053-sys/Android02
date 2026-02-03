@@ -7,8 +7,13 @@ import org.web3j.crypto.Credentials
 import org.web3j.crypto.Hash
 import org.web3j.crypto.MnemonicUtils
 import org.web3j.crypto.WalletUtils
+import org.web3j.protocol.Web3j
+import org.web3j.protocol.http.HttpService
+import org.web3j.utils.Convert
 import org.web3j.utils.Numeric
 import java.io.File
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.security.SecureRandom
 
 object WalletManager {
@@ -22,6 +27,15 @@ object WalletManager {
         0,
         0
     )
+
+
+    fun convertToWei(amount:String): BigInteger? {
+        return Convert.toWei(amount, Convert.Unit.ETHER).toBigInteger()
+    }
+
+    fun convertFromWei(weiAmount:String): BigInteger? {
+       return Convert.fromWei(weiAmount, Convert.Unit.ETHER).toBigInteger()
+    }
 
     /**
      * 创建新的 BIP39 钱包

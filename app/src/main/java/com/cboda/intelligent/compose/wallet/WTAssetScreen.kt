@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 import coil.compose.SubcomposeAsyncImage
 import com.cboda.intelligent.compose.getFormattedAmount
+import com.cboda.intelligent.compose.formatSixDecimalChange
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.model.AssetItem
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -56,7 +57,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import com.cboda.intelligent.compose.MyFontNumBoldFamily
+import com.cboda.intelligent.compose.formatSixDecimalValue
 import com.cboda.intelligent.model.RemoveTokenRequest
+import com.cboda.intelligent.utils.WalletManager
 import kotlinx.coroutines.launch
 
 
@@ -71,7 +77,7 @@ fun PreviewWTAssetScreen() {
         onAddWalletClick = {},
         onAddTokenClick = {},
         onWalletDetailClick = { _, _, _ -> },
-        onTokenClick = { _,_ -> }
+        onTokenClick = { _,_ ,_-> }
     )
 }
 
@@ -87,10 +93,11 @@ fun WTAssetScreen(
     onAddWalletClick: () -> Unit,
     onAddTokenClick: () -> Unit,
     onWalletDetailClick: (String, String, Boolean) -> Unit,
-    onTokenClick: (Boolean, String) -> Unit,
+    onTokenClick: (Boolean, String,String) -> Unit,
     viewModel: WTViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
     
     LaunchedEffect(Unit) {
         viewModel.getWalletList(97)
@@ -136,7 +143,7 @@ fun WTAssetScreen(
         onWalletSelectDismiss = { showWalletSelect = false },
         hideAssets = hideAssets,
         onToggleHideAssets = { hideAssets = !hideAssets },
-        onTokenClick = { symbol -> onTokenClick(isWatch, symbol) },
+        onTokenClick = { symbol,tokenAddress -> onTokenClick(isWatch, symbol,tokenAddress) },
         currentWallet = currentWallet,
         isWatch = isWatch,
         totalUsd = totalUsd,
@@ -184,7 +191,7 @@ fun WTAssetContent(
     onWalletSelectDismiss: () -> Unit,
     hideAssets: Boolean,
     onToggleHideAssets: () -> Unit,
-    onTokenClick: (String) -> Unit,
+    onTokenClick: (String,String) -> Unit,
     currentWallet: WalletItem?,
     isWatch: Boolean,
     totalUsd: String,
@@ -327,8 +334,9 @@ fun WTAssetContent(
                 ) {
                     Text(
                         text = if (hideAssets) "****" else "$$totalUsd",
-                        fontSize = 38.sp,
+                        fontSize = 34.sp,
                         lineHeight = 44.23.sp,
+                        fontFamily = MyFontNumBoldFamily,
                         fontWeight = FontWeight.W700,
                         color = Color(0xFF3B47DD) // Blue color
                     )
@@ -522,7 +530,7 @@ fun FunctionButton(
 }
 
 @Composable
-fun TokenList(hideAssets: Boolean, onTokenClick: (String) -> Unit, assetList: List<AssetItem>, onRemoveToken: (AssetItem) -> Unit) {
+fun TokenList(hideAssets: Boolean, onTokenClick: (String,String) -> Unit, assetList: List<AssetItem>, onRemoveToken: (AssetItem) -> Unit) {
     if (assetList.isEmpty()) {
         WTEmptyStateView()
     } else {
@@ -534,20 +542,22 @@ fun TokenList(hideAssets: Boolean, onTokenClick: (String) -> Unit, assetList: Li
                 val item = assetList[index]
                 TokenItem(
                     hideAssets = hideAssets, 
-                    onClick = { onTokenClick(item.symbol) }, 
+                    onClick = { onTokenClick(item.symbol,item.token_address) },
                     onDelete = { onRemoveToken(item) },
                     canDelete = !item.token_address.isNullOrEmpty() && item.symbol != "BNB",
                     symbol = item.symbol,
                     name = item.name, 
                     amount = getFormattedAmount(item.balance,item.decimals),
-                    value = "≈$${item.value_usd?:"0"}",
-                    change = item.change_24h?:"+0.0%",
+//                    amount = (WalletManager.convertFromWei(item.balance)?:0).toString(),
+                    value = "≈$${formatSixDecimalValue(item.value_usd)}",
+                    change = formatSixDecimalChange(item.change_24h),
                     logoUrl = item.logo_url
                 )
             }
         }
     }
 }
+
 
 @Composable
 fun WTEmptyStateView() {
@@ -669,20 +679,33 @@ fun TokenItem(
                         .size(40.dp)
                         .clip(CircleShape),
                     loading = {
-                        Image(
-                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop
-                        )
+//                        Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+                        Surface(
+                            shape = CircleShape,
+                            color = Color(0xFF26A17B),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+//                            Box(contentAlignment = Alignment.Center) {
+//                                Text(
+//                                    symbol.take(1),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Bold
+//                                )
+//                            }
+                        }
                     },
                     error = {
-                        if (symbol == "BNB") {
-                            Image(
-                                painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop
-                            )
-                        } else {
+//                        if (symbol == "BNB") {
+//                            Image(
+//                                painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
+//                                contentDescription = null,
+//                                contentScale = ContentScale.Fit
+//                            )
+//                        } else {
                             Surface(
                                 shape = CircleShape,
                                 color = Color(0xFF26A17B),
@@ -696,7 +719,7 @@ fun TokenItem(
                                     )
                                 }
                             }
-                        }
+//                        }
                     }
                 )
                 Spacer(modifier = Modifier.width(12.dp))

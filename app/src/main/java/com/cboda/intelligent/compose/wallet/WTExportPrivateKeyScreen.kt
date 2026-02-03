@@ -24,14 +24,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cboda.intelligent.R
 
+import androidx.compose.ui.draw.blur
+import com.cboda.intelligent.compose.noRippleClickable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cboda.intelligent.viewmodel.WTViewModel
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WTExportPrivateKeyScreen(
     privateKey: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: WTViewModel = viewModel()
 ) {
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     var showSecurityTipDialog by remember { mutableStateOf(false) }
+    var isRevealed by remember { mutableStateOf(false) }
+    var showPasswordDialog by remember { mutableStateOf(false) }
+    var verificationAction by remember { mutableStateOf(0) } // 1: Reveal, 2: Copy
+
+    WTSecurityVerification(
+        showDialog = showPasswordDialog,
+        onDismiss = { showPasswordDialog = false },
+        onPassWordVerifySuccess = {
+            when (verificationAction) {
+                1 -> isRevealed = true
+                2 -> showSecurityTipDialog = true
+            }
+        },
+        viewModel = viewModel
+    )
 
     if (showSecurityTipDialog) {
         SecurityTipDialog(
@@ -94,21 +115,61 @@ fun WTExportPrivateKeyScreen(
                     .fillMaxWidth()
                     .heightIn(min = 100.dp)
             ) {
-                Text(
-                    text = privateKey,
-                    color = Color(0xFF3B47DD),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.W400,
-                    lineHeight = 16.41.sp,
-                    modifier = Modifier.padding(12.dp)
-                )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = privateKey,
+                        color = Color(0xFF3B47DD),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W400,
+                        lineHeight = 16.41.sp,
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .blur(if (isRevealed) 0.dp else 12.dp)
+                    )
+
+                    if (!isRevealed) {
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .noRippleClickable {
+                                    verificationAction = 1
+                                    showPasswordDialog = true
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Surface(
+                                color = Color(0xFF1D2129).copy(alpha = 0.8f),
+                                shape = RoundedCornerShape(20.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.mipmap.ic_wt_eye_open),
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = stringResource(R.string.wt_click_to_show_private_key),
+                                        color = Color.White,
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
             
             Spacer(modifier = Modifier.weight(1f))
 
             Button(
                 onClick = { 
-                    showSecurityTipDialog = true
+                    verificationAction = 2
+                    showPasswordDialog = true
                 },
                 modifier = Modifier
                     .fillMaxWidth()
