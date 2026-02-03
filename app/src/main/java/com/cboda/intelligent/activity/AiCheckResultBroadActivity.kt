@@ -228,7 +228,8 @@ class AiCheckResultBroadActivity : BaseSimple2BroadActivity() {
      */
     private fun initRiskWarning(text: Double) {
         // 设置风险百分比（可以从 Intent 或数据中获取，这里使用默认值 92%）
-        mBind?.tvRiskPercentage?.text = (text * 100).toString().removeTrailingZeros()
+//        mBind?.tvRiskPercentage?.text = (text * 100).toString().removeTrailingZeros()
+        mBind?.tvRiskPercentage?.text = ((text * 100).toInt()).toString()
         mBind?.tvRiskPercentage?.text?.toString()?.toIntOrNull()?.let {
             mBind?.viewCircleBg?.setProgress(it)
         }
