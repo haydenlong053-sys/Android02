@@ -35,7 +35,7 @@ object HttpsBroadConfig {
         "fat\nhttps://api-fat.seekweb4.net",
         "自定义",
         "US\nhttps://app.seekweb4.net",
-        "HongKong\nhttps://api.seekweb4.net",
+        "HongKong\nhttps://api.seekweb4.ai",
     )
     private const val RELEASE_TYPE = 0
     private const val HTTP_TYPE = 1
