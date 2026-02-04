@@ -132,8 +132,9 @@ fun WTExportPrivateKeyScreen(
                             modifier = Modifier
                                 .matchParentSize()
                                 .noRippleClickable {
-                                    verificationAction = 1
-                                    showPasswordDialog = true
+//                                    verificationAction = 1
+//                                    showPasswordDialog = true
+                                    isRevealed = true
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -168,8 +169,9 @@ fun WTExportPrivateKeyScreen(
 
             Button(
                 onClick = { 
-                    verificationAction = 2
-                    showPasswordDialog = true
+//                    verificationAction = 2
+//                    showPasswordDialog = true
+                    showSecurityTipDialog = true
                 },
                 modifier = Modifier
                     .fillMaxWidth()
