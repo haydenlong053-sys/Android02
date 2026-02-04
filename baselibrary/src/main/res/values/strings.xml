@@ -38,4 +38,6 @@
     <string name="bs_quxiao">Cancel</string>
     <string name="bs_mine_sure">Sure</string>
     <string name="permissions_missing">The corresponding permissions are missing. Please turn on the corresponding permissions in system settings!</string>
+    <string name="in_compressed_video1">Compressing the video</string>
+    <string name="in_compressed_video2">Compressing the video...</string>
 </resources>

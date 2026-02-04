@@ -2,34 +2,41 @@ package com.cboda.baselibrary.widge;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.cboda.baselibrary.R;
 
 public class LoadingBroadDialog extends Dialog {
     private Context context;      // 上下文
-    private static LoadingBroadDialog mInstance;
+    private String title = "";
+//    private static LoadingBroadDialog mInstance;
 
-    /**
-     * 获取单例引用
-     * @param context
-     * @return
-     */
-    public static LoadingBroadDialog getInstance(Context context) {
-        if (mInstance == null) {
-            if (mInstance == null) {
-                mInstance = new LoadingBroadDialog(context);
-            }
-        }
-        return mInstance;
-    }
+//    /**
+//     * 获取单例引用
+//     *
+//     * @param context
+//     * @return
+//     */
+//    public static LoadingBroadDialog getInstance(Context context) {
+//        if (mInstance == null) {
+//            if (mInstance == null) {
+//                mInstance = new LoadingBroadDialog(context, 0);
+//            }
+//        }
+//        return mInstance;
+//    }
 
 
-    public LoadingBroadDialog(final Context context) {
+    public LoadingBroadDialog(final Context context, final String title) {
         super(context, R.style.Theme_dialog); //dialog的样式
         this.context = context;
+        this.title = title;
         Window window = getWindow();
         window.setGravity(Gravity.CENTER); // 此处可以设置dialog显示的位置为居中
         setContentView(R.layout.layout_dialog_broad_loading);
@@ -41,4 +48,31 @@ public class LoadingBroadDialog extends Dialog {
         setCanceledOnTouchOutside(true);// 点击Dialog外部消失
         setCancelable(true);
     }
+
+    public TextView titleTv;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        titleTv = findViewById(R.id.loadingTv);
+        checkTitle();
+    }
+
+
+    private void checkTitle() {
+        if (null != titleTv) {
+            if (TextUtils.isEmpty(title)) {
+                titleTv.setVisibility(View.GONE);
+            } else {
+                titleTv.setText(title);
+                titleTv.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public void updateTitle(String mTitle) {
+        title = mTitle;
+        checkTitle();
+    }
+
 }

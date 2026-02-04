@@ -68,10 +68,12 @@ class CheckAiViewModel : BaseViewBroadModel() {
             withContext(Dispatchers.IO) {
                 eLogD(tAG, "compressVideo_removeSize2:${postFilePathAfter.size}")
                 if (postFilePathBefore.isNotEmpty()) {
-                    videoCompress(postFilePathBefore[0], viewModelScope) { path, _ ->
-                        postFilePathAfter.add(if (!TextUtils.isEmpty(path)) path else postFilePathBefore[0])
-                        postFilePathBefore.removeAt(0)
-                        compressVideo(postFilePathBefore, postFilePathAfter, callBack)
+                    videoCompress(postFilePathBefore[0], viewModelScope) { path, _, _ ->
+                        if (path != null) {
+                            postFilePathAfter.add(if (!TextUtils.isEmpty(path)) path else postFilePathBefore[0])
+                            postFilePathBefore.removeAt(0)
+                            compressVideo(postFilePathBefore, postFilePathAfter, callBack)
+                        }
                     }
                 } else {
                     callBack.invoke(postFilePathAfter)

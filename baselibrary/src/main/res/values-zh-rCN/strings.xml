@@ -38,4 +38,6 @@
     <string name="bs_quxiao">取消</string>
     <string name="bs_mine_sure">确定</string>
     <string name="permissions_missing">缺少相应权限，请在系统设置中打开相应权限！</string>
+    <string name="in_compressed_video1">压缩视频中</string>
+    <string name="in_compressed_video2">压缩视频中...</string>
 </resources>

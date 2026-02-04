@@ -4,10 +4,13 @@ import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMedia;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.choosePicture;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseVideo;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseVideoAndImg;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.dismissLoadingDialog;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showLoadingDialog;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.bean.BroadConstant;
+import com.cboda.baselibrary.utils.CompressionBroadUtil;
 import com.cboda.baselibrary.utils.CropBroadBean;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
@@ -56,6 +60,8 @@ import java.util.Map;
 import kotlin.Pair;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
+import kotlin.jvm.functions.Function3;
 import okhttp3.Response;
 import top.zibin.luban.Luban;
 
@@ -260,24 +266,37 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
      * 上传视频
      */
     private void uploadVideo(String path) {
-        List<File> file = new ArrayList<>();
-        file.add(new File(path));
-        Map<String, List<File>> files = new HashMap<>();
-        if (!ListBroadUtil.isEmpty(file))
-            files.put("file", file);
-        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFile, files, new SpotsCallBroadBack<ResultBroadBean>(this) {
+        showLoadingDialog(this,"");
+        CompressionBroadUtil.INSTANCE.videoCompress(path, null, new Function3<String, String, Float, Unit>() {
             @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                images.clear();
-                images.add(resultBean.url);
-                imageAdapter.setMaxNum(1);
-                imageAdapter.notifyDataSetChanged();
-            }
+            public Unit invoke(String path2, String s2, Float aFloat) {
+                if (!TextUtils.isEmpty(path2)) {
+                    dismissLoadingDialog();
+                    List<File> file = new ArrayList<>();
+                    file.add(new File(path2));
 
-            @Override
-            public void onError(Response response, int code, Exception e) {
+                    Map<String, List<File>> files = new HashMap<>();
+                    if (!ListBroadUtil.isEmpty(file)) {
+                        files.put("file", file);
+                    }
+                    OkHttpBroadHelper.getInstance().post_file(PushBroadActivity.this, BroadUrl.uploadFile, files, new SpotsCallBroadBack<ResultBroadBean>(PushBroadActivity.this) {
+                        @Override
+                        public void onSuccess(Response response, ResultBroadBean resultBean) {
+                            images.clear();
+                            images.add(resultBean.url);
+                            imageAdapter.setMaxNum(1);
+                            imageAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onError(Response response, int code, Exception e) {
+                        }
+                    });
+                }
+                return null;
             }
         });
+
     }
 
     /**
@@ -323,7 +342,6 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
         chooseVideoAndImg(true, false, chooseType, 9 - images.size(), 1, 1, 1, 30, 3, 31, null, false, false, new CropBroadBean(), null, new Function1<LinkedList<Pair<String, LocalMedia>>, Unit>() {
             @Override
             public Unit invoke(LinkedList<Pair<String, LocalMedia>> pairs) {
-
                 requestPath(pairs);
                 return null;
             }

@@ -53,7 +53,7 @@ abstract class BaseLazyBroadFragment : BaseFragment() {
                 return
             }
             if (dialogHelper == null) {
-                dialogHelper = LoadingBroadDialog(this)
+                dialogHelper = LoadingBroadDialog(this, "")
             }
             dialogHelper?.show()
             dialogHelper?.setCanceledOnTouchOutside(true)

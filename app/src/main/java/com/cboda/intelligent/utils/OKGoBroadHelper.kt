@@ -379,7 +379,7 @@ class OKGoBroadHelper {
         try {
             context?.apply {
                 if (dialogHelper == null) {
-                    dialogHelper = LoadingBroadDialog(context)
+                    dialogHelper = LoadingBroadDialog(context,"")
                 }
                 dialogHelper?.show()
                 dialogHelper?.setCanceledOnTouchOutside(canDis)

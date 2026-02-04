@@ -2,25 +2,26 @@
 <com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/dp_80"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/dp_80"
+    android:minWidth="@dimen/dp_120"
+    android:minHeight="@dimen/dp_120"
+    android:paddingHorizontal="@dimen/dp_10"
     app:shape_radius="@dimen/dp_16"
     app:shape_solidColor="#29000000">
 
 
     <androidx.appcompat.widget.AppCompatTextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/loadingTv"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:gravity="center_horizontal"
         android:textColor="@color/white"
-        android:textSize="@dimen/dp_10"
+        android:textSize="14sp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="压缩视频中"
         tools:visibility="visible" />

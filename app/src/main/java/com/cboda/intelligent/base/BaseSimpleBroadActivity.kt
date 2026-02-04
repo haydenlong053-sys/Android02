@@ -431,7 +431,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
             return
         }
         if (dialogHelper == null) {
-            dialogHelper = LoadingBroadDialog(this)
+            dialogHelper = LoadingBroadDialog(this,"")
         }
         dialogHelper?.show()
         dialogHelper?.setCanceledOnTouchOutside(true)
