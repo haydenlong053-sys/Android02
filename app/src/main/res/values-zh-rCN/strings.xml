@@ -874,10 +874,10 @@
     <string name="circle_work">工作圈</string>
     <string name="circle_public_relations">公关圈</string>
 
-    <string name="circle_intimate_des">家人,恋人,最好的朋友</string>
-    <string name="circle_social_des">朋友,同学,校友,网友</string>
-    <string name="circle_work_des">同事,客户，合作伙伴</string>
-    <string name="circle_public_relations_des">陌生人,临时联系</string>
+    <string name="circle_intimate_des">家人 | 恋人 | 最好的朋友</string>
+    <string name="circle_social_des">朋友 | 同学 | 校友 | 网友</string>
+    <string name="circle_work_des">同事 | 客户 | 合作伙伴</string>
+    <string name="circle_public_relations_des">陌生人 | 临时联系</string>
     <string name="累计获得">累计获得</string>
     <string name="女2">女</string>
     <string name="男2">男</string>

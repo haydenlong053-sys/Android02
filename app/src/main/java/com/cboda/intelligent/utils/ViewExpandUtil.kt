@@ -112,8 +112,8 @@ fun isTransferLinkQrCode(str: String?): Boolean {
 }
 
 //是否为区块钱包的code
-fun isEthWalletLinkQrCode(str: String?): Boolean{
-    return  str?.startsWith(CommonBroadConfig.sw4bc)?:false
+fun isEthWalletLinkQrCode(str: String?): Boolean {
+    return str?.startsWith(CommonBroadConfig.sw4bc) ?: false
 }
 
 fun View.isCanGo(boolean: Boolean) {
@@ -171,7 +171,7 @@ fun showGuidePasswordTip(context: Context): CommonTipBroadPop {
     return commonTipPop
 }
 
-fun showSetTipDialog(context: Context,goBack:()-> Unit={}): CommonTipBroadPop {
+fun showSetTipDialog(context: Context, goBack: () -> Unit = {}): CommonTipBroadPop {
     val commonTipPop = CommonTipBroadPop(
         context,
         context.getString(R.string.ai_pop_tip),
@@ -200,30 +200,37 @@ fun View.click(debounceTime: Long = 800, action: () -> Unit) {
 }
 
 //一级页面接口数据临时翻译处理
-fun goTempTranslateString(context: Context,oldString: String): String{
-    when(oldString){
-        "亲密圈"->{
+fun goTempTranslateString(context: Context, oldString: String): String {
+    when (oldString) {
+        "亲密圈" -> {
             return context.getString(R.string.circle_intimate)
         }
-        "社交圈"->{
+
+        "社交圈" -> {
             return context.getString(R.string.circle_social)
         }
-        "工作圈"->{
+
+        "工作圈" -> {
             return context.getString(R.string.circle_work)
         }
-        "公关圈"->{
+
+        "公关圈" -> {
             return context.getString(R.string.circle_public_relations)
         }
-        "家人,恋人,最好的朋友"->{
+
+        "家人,恋人,最好的朋友", "家人 | 恋人 | 最好的朋友" -> {
             return context.getString(R.string.circle_intimate_des)
         }
-        "朋友,同学,校友,网友"->{
+
+        "朋友,同学,校友,网友", "朋友 | 同学 | 校友 | 网友" -> {
             return context.getString(R.string.circle_social_des)
         }
-        "同事,客户，合作伙伴"->{
+
+        "同事,客户，合作伙伴", "同事 | 客户 | 合作伙伴" -> {
             return context.getString(R.string.circle_work_des)
         }
-        "陌生人,临时联系"->{
+
+        "陌生人,临时联系", "陌生人 | 临时联系" -> {
             return context.getString(R.string.circle_public_relations_des)
         }
     }

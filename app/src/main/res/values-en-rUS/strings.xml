@@ -875,10 +875,10 @@
     <string name="circle_work">Work</string>
     <string name="circle_public_relations">PR</string>
 
-    <string name="circle_intimate_des">Family, lover, best friends</string>
-    <string name="circle_social_des">Friends, classmates, alumni, online friends</string>
-    <string name="circle_work_des">Colleagues, clients, partners</string>
-    <string name="circle_public_relations_des">Strangers, temporary contacts</string>
+    <string name="circle_intimate_des">Family | lover | best friends</string>
+    <string name="circle_social_des">Friends | classmates | alumni | online friends</string>
+    <string name="circle_work_des">Colleagues | clients | partners</string>
+    <string name="circle_public_relations_des">Strangers | temporary contacts</string>
     <string name="累计获得">Total Earned</string>
     <string name="女2">W</string>
     <string name="男2">M</string>
