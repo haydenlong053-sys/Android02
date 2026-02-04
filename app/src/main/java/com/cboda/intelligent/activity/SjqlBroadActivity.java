@@ -174,7 +174,7 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
                         avatarUrls.add(broadBean.icon);
                     }
                 }
-                if (TextUtils.isEmpty(bean.data.icon) && !TextUtils.isEmpty(groupInfo.portrait)) {
+                if (TextUtils.isEmpty(bean.data.icon) && groupInfo!=null && !TextUtils.isEmpty(groupInfo.portrait)) {
                     GlideBroadUtil.setImag(SjqlBroadActivity.this, groupInfo.portrait, ivIcon);
                 } else if (TextUtils.isEmpty(bean.data.icon)  && !avatarUrls.isEmpty()){
                     GroupAvatarBroadLoader.INSTANCE.loadToImageView(

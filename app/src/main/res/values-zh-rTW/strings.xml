@@ -519,7 +519,7 @@
     <string name="action_template">模板</string>
     <string name="mine_change_password_auth_title">您要更改支付密码吗？</string>
     <string name="深色模式">深色模式</string>
-    <string name="mine_transfer">转账</string>
+    <string name="mine_transfer">互转</string>
     <string name="credit_item3_title">bingoogolapple/BGAQRCode-Android</string>
     <string name="set_circle_tags">设置圈子标签</string>
     <string name="actionDeleteFailed"> 删除失败</string>

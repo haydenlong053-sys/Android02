@@ -672,7 +672,7 @@
     <string name="mine_password_title_3">请输入支付密码验证</string>
     <string name="mine_password_title_4">请重置支付密码</string>
     <string name="mine_password_title_5">验证支付密码</string>
-    <string name="mine_transfer">转账</string>
+    <string name="mine_transfer">互转</string>
     <string name="mine_my_money_address">我的%1$s通证地址</string>
     <string name="mine_money_qrcode">二维码收款</string>
     <string name="mine_input_money_address">请输入收款地址</string>
@@ -1039,5 +1039,8 @@
     <string name="wt_input_token_symbol">请输入代币符号</string>
     <string name="wt_input_token_decimals">请输入代币精度</string>
     <string name="wt_add_token_title">添加代币</string>
+    <string name="wt_total">数量: </string>
+    <string name="wt_select_wallet">选择钱包</string>
+    <string name="wt_transfer_address_no_same_tip">收款地址和钱包地址不可一样</string>
     <string name="welcome_to_seekweb4">欢迎来到SeekWeb4</string>
 </resources>

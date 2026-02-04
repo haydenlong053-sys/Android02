@@ -158,7 +158,7 @@ fun WTReceiveScreen(
                     val finalChainId = chainId ?: 97
                     val finalChain = chain ?: "BSC"
                     // Format: seekWeb4://transfer?amount=0.123&toAddress=...&symbol=USDT&logo_url=...&chan_id=...&chan=...&version=1.0
-                    "sw4bc://transfer?amount=$finalAmount&toAddress=$encryptedAddress&symbol=${finalSymbol}&logo_url=$finalLogo&chainId=$finalChainId&chain=${finalChain.lowercase(getDefault())}&version=1.0"
+                    "sw4bc://transfer?amount=$finalAmount&toAddress=$encryptedAddress&symbol=$finalSymbol&version=1.0"
                 }
                 
                 val qrBitmap = remember(qrContent) {
