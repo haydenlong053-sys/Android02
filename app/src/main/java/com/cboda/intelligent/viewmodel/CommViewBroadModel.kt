@@ -1078,7 +1078,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBroadBean) {
-                        // 本地移除该群会话，触发 OnRemoveConversationListener，会话列表会刷新（逻辑待定）
+                        // 本地移除该群会话，触发 OnRemoveConversationListener，会话列表会刷新
                         val conversation = Conversation().apply {
                             type = Conversation.ConversationType.Group
                             line = 0
