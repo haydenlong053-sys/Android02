@@ -519,10 +519,10 @@ private fun Chip(text: String, selected: Boolean, onClick: () -> Unit, minWidth:
     Box(
         modifier = Modifier
             .widthIn(min = minWidth)
-            .background(bg, RoundedCornerShape(16.dp))
+            .background(bg, RoundedCornerShape(10.dp))
             .then(
                 if (selected)
-                    Modifier.border(1.dp, Color(0xFF3B47DD), RoundedCornerShape(16.dp))
+                    Modifier.border(1.dp, Color(0xFFE2E3FF), RoundedCornerShape(10.dp))
                 else Modifier
             )
             .clickable(
