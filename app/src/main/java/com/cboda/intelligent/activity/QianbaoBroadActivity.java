@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 
 import android.content.Intent;
@@ -45,6 +46,7 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
     private LinearLayout mLlTransfer;
     private TextView mTvSysCurrency;
     private LinearLayout llWallet;
+    private View walletView;
     private boolean isHasSecurity = false;
     private boolean isGoogleAuth = false;
 
@@ -57,6 +59,13 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
+        if (getIsDebug()) {
+            llWallet.setVisibility(View.VISIBLE);
+            walletView.setVisibility(View.VISIBLE);
+        } else {
+            llWallet.setVisibility(View.GONE);
+            walletView.setVisibility(View.GONE);
+        }
         mTvSysCurrency.setText(String.format(getString(R.string.mine_sys_currency), getString(R.string.webX_name)));
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",
@@ -87,10 +96,10 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
         if (view.getId() == R.id.llTixian) {
             if (isGoogleAuth || isHasSecurity) {
                 intent = new Intent(this, TransferBroadActivity.class);
-                intent.putExtra("type",1);
+                intent.putExtra("type", 1);
                 startActivity(intent);
             } else {
-               showGuideTip();
+                showGuideTip();
             }
 
         }
@@ -106,7 +115,7 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
         if (view.getId() == R.id.mLlTransfer) {
             if (isGoogleAuth || isHasSecurity) {
                 intent = new Intent(this, TransferBroadActivity.class);
-                intent.putExtra("type",0);
+                intent.putExtra("type", 0);
                 startActivity(intent);
 
             } else {
@@ -114,13 +123,13 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
             }
 
         }
-        if (view.getId() == R.id.ll_wallet){
+        if (view.getId() == R.id.ll_wallet) {
 //            NetworkManager.INSTANCE.updateConfig("http://47.118.18.244:8080/", NetworkConfig.INSTANCE.getConnectTimeout(), NetworkConfig.INSTANCE.getReadTimeout(), NetworkConfig.INSTANCE.getWriteTimeout(),true);
             WTViewModel viewModel = new ViewModelProvider(this).get(WTViewModel.class);
             viewModel.checkWalletList(97, new WTViewModel.CheckWalletCallback() {
                 @Override
                 public void onSuccess(boolean isEmpty) {
-                    ELogUtilKt.eLogD("列表","isEmpty"+isEmpty);
+                    ELogUtilKt.eLogD("列表", "isEmpty" + isEmpty);
                     if (isEmpty) {
                         Intent intent = new Intent(QianbaoBroadActivity.this, WTEmptyActivity.class);
                         startActivity(intent);
@@ -153,7 +162,7 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
         commonTipPop.setSureInvoke(new Function0<Unit>() {
             @Override
             public Unit invoke() {
-                Intent  intent = new Intent(getBaseContext(), SafeCenterBroadActivity.class);
+                Intent intent = new Intent(getBaseContext(), SafeCenterBroadActivity.class);
                 startActivity(intent);
                 return null;
             }
@@ -276,5 +285,6 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
         mLlTransfer = findViewById(R.id.mLlTransfer);
         mTvSysCurrency = findViewById(R.id.mTvSysCurrency);
         llWallet = findViewById(R.id.ll_wallet);
+        walletView = findViewById(R.id.walletView);
     }
 }
