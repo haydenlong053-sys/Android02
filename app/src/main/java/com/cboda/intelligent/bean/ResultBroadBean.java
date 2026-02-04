@@ -127,6 +127,7 @@ public class ResultBroadBean extends BaseBroadBean implements Serializable {
         public List<CircleCommListBroadBean> commList;
         public List<CircleCommListBroadBean> likeList;
         public List<String> memberInterestList;
+        public List<CircleCommListBroadBean> userList;
         public String city;
         public String profession;
         public String mId;

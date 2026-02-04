@@ -558,6 +558,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             override fun onReceiveMessage(messages: MutableList<Message>?, hasMore: Boolean) {
                 try {
                     messages?.forEachIndexed { index, message ->
+                         eLogD("zhanglong","MessageContent==="+message.content+"--messageContentType=="+message.content.messageContentType)
                         if (message.sender == "admin" && message.content is NoticeInformMessageContent) {
                             val bean = message.content as NoticeInformMessageContent
 //                            Log.d("zhanglong","NoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")

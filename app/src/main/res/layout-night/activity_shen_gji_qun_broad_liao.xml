@@ -61,12 +61,12 @@
                 android:orientation="horizontal">
 
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <com.cboda.baselibrary.view.AppRoundBroadImage
                     android:id="@+id/ivIcon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    app:app_round_round_type="0"
                     android:src="@mipmap/ic_broad_head"
-                    android:scaleType="centerCrop"
                     android:layout_marginRight="10dp"
                     app:riv_corner_radius="5dp"/>
 

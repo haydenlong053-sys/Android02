@@ -2,12 +2,18 @@ package com.cboda.intelligent.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
+import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.chatui.utils.GroupAvatarBroadLoader;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.holder.CommanConfimBroadHolder;
@@ -16,11 +22,17 @@ import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.utils.SpotsCallBroadBack;
 import com.cboda.intelligent.net.BroadUrl;
 import com.cboda.intelligent.utils.GlideBroadUtil;
+import com.cboda.select.picture.entity.CircleCommListBroadBean;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import cn.wildfirechat.model.GroupInfo;
+import cn.wildfirechat.model.UserInfo;
+import cn.wildfirechat.remote.ChatManager;
 import okhttp3.Response;
 
 //升级群聊页
@@ -31,7 +43,7 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
     private String id, isvip = "0";
     private View viHead;
     private AppCompatImageView fanhui;
-    private RoundedImageView ivIcon;
+    private ImageView ivIcon;
     private TextView tvName;
     private TextView tvGsize;
     private TextView tvGroupinfo;
@@ -152,7 +164,30 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 bean = resultBean;
                 tvName.setText(bean.data.name);
-                GlideBroadUtil.setImag(SjqlBroadActivity.this, bean.data.icon, ivIcon);
+                GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(id, false);
+//                ELogUtilKt.eLogD("zhanglong","groupInfo.portrait==="+groupInfo.portrait);
+
+                // 提取头像URL列表
+                List<String> avatarUrls = new ArrayList<>();
+                if (bean.data.userList!=null && !bean.data.userList.isEmpty()){
+                    for (CircleCommListBroadBean broadBean : bean.data.userList) {
+                        avatarUrls.add(broadBean.icon);
+                    }
+                }
+                if (TextUtils.isEmpty(bean.data.icon) && !TextUtils.isEmpty(groupInfo.portrait)) {
+                    GlideBroadUtil.setImag(SjqlBroadActivity.this, groupInfo.portrait, ivIcon);
+                } else if (TextUtils.isEmpty(bean.data.icon)  && !avatarUrls.isEmpty()){
+                    GroupAvatarBroadLoader.INSTANCE.loadToImageView(
+                            SjqlBroadActivity.this,
+                            avatarUrls,
+                            ivIcon,
+                            id
+                    );
+                }else {
+                    GlideBroadUtil.setImag(SjqlBroadActivity.this, bean.data.icon, ivIcon);
+                }
+
+
 
                 if (isvip.equals("0")) {
                     tvKt.setText(getString(R.string.群主还未成为会员));

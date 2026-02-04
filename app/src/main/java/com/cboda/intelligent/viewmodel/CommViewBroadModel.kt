@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import cn.wildfirechat.message.HongBaoMessageContent
+import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
@@ -1077,6 +1078,13 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBroadBean) {
+                        // 本地移除该群会话，触发 OnRemoveConversationListener，会话列表会刷新（逻辑待定）
+//                        val conversation = Conversation().apply {
+//                            type = Conversation.ConversationType.Group
+//                            line = 0
+//                            target = uid
+//                        }
+//                        ChatManager.Instance().removeConversation(conversation, true)
                         errorLiveData.value = ErrorBroadBean(type = "jiesanqunsuc")
                     }
                 }
