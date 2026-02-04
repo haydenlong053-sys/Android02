@@ -672,7 +672,7 @@
     <string name="mine_password_title_3">请输入支付密码验证</string>
     <string name="mine_password_title_4">请重置支付密码</string>
     <string name="mine_password_title_5">验证支付密码</string>
-    <string name="mine_transfer">转账</string>
+    <string name="mine_transfer">互转</string>
     <string name="mine_my_money_address">我的%1$s通证地址</string>
     <string name="mine_money_qrcode">二维码收款</string>
     <string name="mine_input_money_address">请输入收款地址</string>
