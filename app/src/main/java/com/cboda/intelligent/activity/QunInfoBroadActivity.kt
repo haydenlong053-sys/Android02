@@ -549,7 +549,7 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
             val holder = CommanConfimBroadHolder(
                 this,
                 getString(R.string.wenxintishi),
-                getString(R.string.是否升级该群聊),
+                getString(R.string.jiesanquan),
                 getString(R.string.queding),
                 getString(R.string.quxiao)
             )
