@@ -168,7 +168,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
 
                     // 如果有头像URL，使用GroupAvatarLoader加载组合头像
                     if (!avatarUrls.isEmpty() && fragment.getActivity() != null) {
-                        GroupAvatarBroadLoader.INSTANCE.loadToImageView(
+                        GroupAvatarBroadLoader.INSTANCE.loadGroupImageView(
                                 fragment.getActivity(),
                                 avatarUrls,
                                 portraitImageView,

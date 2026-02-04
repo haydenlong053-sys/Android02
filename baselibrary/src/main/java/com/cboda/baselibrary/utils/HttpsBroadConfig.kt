@@ -27,6 +27,7 @@ object HttpsBroadConfig {
     var appGroupAvatarHost = "http://119.45.9.228:8888"
     const val appIceServer = "turn:turn.seekweb4.net:3478"
     const val appIceUserName = "seekweb4"
+
     @JvmField
     var appWebHost = "https://app.seekweb4.net" //协议默认用美区
     private val netItems = arrayListOf(
@@ -36,6 +37,7 @@ object HttpsBroadConfig {
         "自定义",
         "US\nhttps://app.seekweb4.net",
         "HongKong\nhttps://api.seekweb4.ai",
+        "84\nhttp://119.45.9.228:84",
     )
     private const val RELEASE_TYPE = 0
     private const val HTTP_TYPE = 1
@@ -44,6 +46,7 @@ object HttpsBroadConfig {
     private const val US_TYPE = 4
     private const val HONGKONG_TYPE = 5
 
+    private const val EIGHT_FOUR = 6
     private fun setServer(type: Int) {
         when (type) {
             US_TYPE -> {
@@ -54,6 +57,7 @@ object HttpsBroadConfig {
                 appGroupAvatarHost = "https://app.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
             }
+
             HONGKONG_TYPE -> {
                 appHost = "https://api.seekweb4.ai"
                 appHost2 = appHost
@@ -61,7 +65,7 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api.seekweb4.ai"
                 appAesPwd = "f81q30ryiacasda1"
-                appWebHost=appHost
+                appWebHost = appHost
             }
 
             FAT_TYPE -> {
@@ -95,6 +99,15 @@ object HttpsBroadConfig {
 
             RELEASE_TYPE -> {
                 appHost = "http://119.45.9.228:82"
+                appHost2 = "$appHost/lixin"
+                appImServerHost = "119.45.9.228"
+                appIcePassword = "aT3BxjPy4MRdC6@"
+                appGroupAvatarHost = "http://119.45.9.228:8888"
+                appAesPwd = "1q30vqwerf8yiac3"
+            }
+
+            EIGHT_FOUR -> {
+                appHost = "http://119.45.9.228:84"
                 appHost2 = "$appHost/lixin"
                 appImServerHost = "119.45.9.228"
                 appIcePassword = "aT3BxjPy4MRdC6@"

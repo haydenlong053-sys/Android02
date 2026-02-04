@@ -4,25 +4,52 @@ import android.content.Context
 import android.graphics.*
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils
 import android.widget.ImageView
-import com.cboda.chatui.R
+import cn.wildfirechat.remote.ChatManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import com.cboda.baselibrary.utils.imgs.load.util.JImageLoader
+import com.cboda.baselibrary.utils.imgs.load.web.WebMerge
+import com.cboda.baselibrary.utils.loadImg
+import com.cboda.chatui.R
 import java.util.concurrent.Executors
 
 object GroupAvatarBroadLoader {
 
     private val executor = Executors.newFixedThreadPool(4)
     private val mainHandler = Handler(Looper.getMainLooper())
-    
-    fun  loadToImageView( context: Context,
-                          urls: List<String>,
-                          imageView: ImageView,
-                          groupId: String,){
-        load(context,urls,imageView,groupId)
+
+    fun loadToImageView(
+        context: Context,
+        urls: List<String>,
+        imageView: ImageView,
+        groupId: String,
+    ) {
+        val imageLoader = JImageLoader(context)
+        imageLoader.configDefaultPic(com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut)
+//        val kkMerge = KkMerge()
+        val kkMerge = WebMerge()
+        imageLoader.displayImages(urls, imageView, kkMerge)
+//        load(context,urls,imageView,groupId)
+    }
+
+
+    fun loadGroupImageView(
+        context: Context,
+        urls: List<String>,
+        imageView: ImageView,
+        groupId: String
+    ) {
+        val groupInfo = ChatManager.Instance().getGroupInfo(groupId, false)
+        if (groupInfo != null && !TextUtils.isEmpty(groupInfo.portrait)) {
+            imageView.loadImg(groupInfo.portrait)
+        } else {
+            loadToImageView(context, urls, imageView, groupId)
+        }
     }
 
     /**

@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.cboda.baselibrary.R
 
 fun imageScale(bitmap: Bitmap, dstW: Int, dstH: Int): Bitmap {
     val srcW = bitmap.width
@@ -262,6 +263,24 @@ fun ImageView.loadGifImage(any: Any?, width: Int, height: Int) {
             .into(this)
     } catch (e: Exception) {
 //        e.toLog(tAG)
+    }
+}
+
+
+fun ImageView.loadImg(url: String?) {
+    if (!TextUtils.isEmpty(url)) {
+        if (url!!.endsWith("gif")) {
+            // 使用Glide播放gif图片
+            Glide.with(context)
+                .asGif()
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(this)
+        } else {
+            Glide.with(context).load(url).apply(RequestOptions().error(R.mipmap.ic_head_broad_defaut).placeholder(R.mipmap.ic_head_broad_defaut)).into(this)
+        }
+    } else {
+        this.setImageResource(R.mipmap.ic_head_broad_defaut)
     }
 }
 
