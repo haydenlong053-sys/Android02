@@ -69,7 +69,7 @@ public class FileBroadExt extends ConversationMidExt {
                 case ".mpe":
                 case ".mp4":
                 case ".avi":
-                    messageViewModel.sendVideoMsg(conversation, file);
+                    messageViewModel.sendVideoMsg(conversation, file,activity);
                     break;
                 default:
                     messageViewModel.sendFileMsg(conversation, file);

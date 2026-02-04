@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.FileUtils.getFileExtension
+import com.blankj.utilcode.util.ThreadUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -106,10 +107,11 @@ object CompressionBroadUtil {
 
 
     private fun compressVideo(path: String, block: (String, String?) -> Unit) {
-
+        eLogD(tAG, "开始压缩视频3")
         try {
             val targetPath = getSaveImgFilePath()
             if (FileUtils.createOrExistsDir(targetPath)) {
+                eLogD(tAG, "开始压缩视频5")
                 val desPath =
                     targetPath + File.separator + getUuIdMd5() + "." + getFileExtension(path)
                 val quality =
@@ -125,6 +127,7 @@ object CompressionBroadUtil {
                     object :
                         com.cboda.videocompressor.VideoCompress.CompressListener {
                         override fun onStart() {
+                            eLogD(tAG, "开始压缩视频6")
                         }
 
                         override fun onSuccess() {
@@ -165,16 +168,19 @@ object CompressionBroadUtil {
     ) {
 //        block.invoke(path ?: "", "")
 //        showLoadingDialog()
-        eLogD(tAG, "videoCompressionSize:${FileUtils.getSize(path)} , $path")
+        eLogD(tAG, "原视频videoCompressionSize:${FileUtils.getSize(path)} , $path")
         if (path != null) {
             if (FileUtils.isFileExists(path)) {
                 try {
+
                     viewModelScope?.launch {
+                        eLogD(tAG, "开始压缩视频1")
                         withContext(Dispatchers.IO) {
                             compressVideo(path, block)
                         }
                     } ?: let {
-                        GlobalScope.launch(Dispatchers.IO) {
+                        eLogD(tAG, "开始压缩视频2")
+                        ThreadUtils.getIoPool().execute {
                             compressVideo(path, block)
                         }
                     }
@@ -195,13 +201,14 @@ object CompressionBroadUtil {
     @JvmStatic
     fun sendVideoCompress(
         path: String?,
+        context: Context?,
         block: (String, String?) -> Unit
     ) {
-        block.invoke(path ?: "", "")
-//        showLoadingDialog()
-//        videoCompress(path) { resultPath, errorMsg ->
-//            dismissLoadingDialog()
-//            block.invoke(resultPath, errorMsg)
-//        }
+//        block.invoke(path ?: "", "")
+        showLoadingDialog(context)
+        videoCompress(path) { resultPath, errorMsg ->
+            dismissLoadingDialog()
+            block.invoke(resultPath, errorMsg)
+        }
     }
 }

@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/dp_80"
-    android:layout_height="@dimen/dp_80"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dp_80"
     app:shape_radius="@dimen/dp_16"
     app:shape_solidColor="#29000000">
 
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loadingTv"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_10"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="压缩视频中"
+        tools:visibility="visible" />
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -15,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loadingTv"
         app:lottie_autoPlay="true"
         app:lottie_fileName="seek_loading.json"
         app:lottie_loop="true" />

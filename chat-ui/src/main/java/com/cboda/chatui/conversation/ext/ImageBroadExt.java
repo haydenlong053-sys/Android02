@@ -77,7 +77,7 @@ public class ImageBroadExt extends ConversationMidExt {
                             for (LocalMedia imageItem : result) {
 //                                Log.e("野火","选择相册路径---> "+imageItem.getRealPath());
                                 if (imageItem.getRealPath().endsWith(".mp4")) {
-                                    messageViewModel.sendVideoMsg(conversation, new File(imageItem.getRealPath()));
+                                    messageViewModel.sendVideoMsg(conversation, new File(imageItem.getRealPath()),activity);
                                 } else {
                                     boolean isGif = isGifFile(imageItem.getRealPath());
                                     if (isGif) {

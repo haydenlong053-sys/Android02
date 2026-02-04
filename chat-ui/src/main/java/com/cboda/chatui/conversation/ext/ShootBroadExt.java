@@ -85,7 +85,7 @@ public class ShootBroadExt extends ConversationMidExt {
             } else {
                 //小视频
                 File file = new File(path);
-                messageViewModel.sendVideoMsg(conversation, new File(path));
+                messageViewModel.sendVideoMsg(conversation, new File(path),activity);
                 ImageBroadUtils.saveMedia2Album(fragment.getContext(), file, false);
             }
         }

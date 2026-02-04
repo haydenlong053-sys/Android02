@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -44,6 +45,7 @@ import com.cboda.chatui.third.utils.UIBroadUtils;
 import com.cboda.chatui.utils.DownloadBroadManager;
 import com.cboda.chatui.utils.E;
 import com.cboda.chatui.utils.FileBroadUtils;
+
 import cn.wildfirechat.message.FileMessageContent;
 import cn.wildfirechat.message.ImageMessageContent;
 import cn.wildfirechat.message.LocationMessageContent;
@@ -73,6 +75,7 @@ import cn.wildfirechat.remote.OnReceiveMessageListener;
 import cn.wildfirechat.remote.OnSendMessageListener;
 import cn.wildfirechat.remote.SecretMessageBurnStateListener;
 import cn.wildfirechat.remote.SendMessageCallback;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
 
@@ -484,8 +487,8 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
 //        Uri imageFileSourceUri = Uri.fromFile(imageFileSource);
     }
 
-    public void sendVideoMsg(Conversation conversation, File file) {
-        CompressionBroadUtil.sendVideoCompress(file.getPath(), (s, s2) -> {
+    public void sendVideoMsg(Conversation conversation, File file, FragmentActivity activity) {
+        CompressionBroadUtil.sendVideoCompress(file.getPath(), activity, (s, s2) -> {
             VideoMessageContent videoMessageContent = new VideoMessageContent(s);
             sendMessage(conversation, videoMessageContent);
             return null;
