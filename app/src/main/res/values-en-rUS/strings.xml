@@ -914,7 +914,7 @@
     <string name="wt_receive_asset_label">Receiving Asset</string>
     <string name="wt_wallet_address">Wallet Address</string>
     <string name="wt_toast_address_copied">Address copied</string>
-    <string name="wt_copy_address">Copy Address</string>
+    <string name="wt_copy_address">Copy</string>
     <string name="wt_set_amount">Set Amount</string>
     <string name="wt_set_amount_title">Set Receiving Amount</string>
     <string name="wt_enter_amount_hint">Please enter receiving amount</string>
@@ -1040,6 +1040,9 @@
     <string name="wt_input_token_symbol">Please enter token symbol</string>
     <string name="wt_input_token_decimals">Please enter token decimals</string>
     <string name="wt_add_token_title">Add Token</string>
+    <string name="wt_total">Amount: </string>
+    <string name="wt_select_wallet">Select Wallet</string>
+    <string name="wt_transfer_address_no_same_tip">The receiving address cannot be the same as the wallet address</string>
     <string name="welcome_to_seekweb4">Welcome to SeekWeb4</string>
 
 </resources>

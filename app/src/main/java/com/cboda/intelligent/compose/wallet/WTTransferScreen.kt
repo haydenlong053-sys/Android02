@@ -32,6 +32,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -63,7 +66,13 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.ui.draw.clip
+import coil.compose.SubcomposeAsyncImage
 import com.cboda.intelligent.activity.ScanBroadActivity
+import com.cboda.intelligent.compose.formatSixDecimalChange
+import com.cboda.intelligent.compose.formatSixDecimalValue
 import com.cboda.intelligent.compose.getFormattedAmount
 import com.cboda.intelligent.compose.getOriginalAmount
 import com.cboda.intelligent.compose.noRippleClickable
@@ -97,11 +106,11 @@ fun WTTransferScreen(
     }
 
     val defaultAsset = remember(assetList, initialSymbol) {
-        if (!initialSymbol.isNullOrEmpty()) {
-            assetList.find { it.symbol.equals(initialSymbol, ignoreCase = true) } ?: assetList.firstOrNull()
-        } else {
+//        if (!initialSymbol.isNullOrEmpty()) {
+//            assetList.find { it.symbol.equals(initialSymbol, ignoreCase = true) } ?: assetList.firstOrNull()
+//        } else {
             assetList.firstOrNull()
-        }
+//        }
     }
 
     var selectedAsset by remember { mutableStateOf<AssetItem?>(defaultAsset) }
@@ -261,16 +270,68 @@ fun WTTransferScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
-                        .clickable { showTokenSheet = true },
+                        .noRippleClickable() { showTokenSheet = true },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.ic_wt_bsc),
+                    SubcomposeAsyncImage(
+                        model = selectedAsset?.logo_url?:"",
                         contentDescription = null,
-                        modifier = Modifier.size(28.dp)
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clip(CircleShape),
+                        loading = {
+//                        Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+                            Surface(
+                                shape = CircleShape,
+                                color = Color(0xFF26A17B),
+                                modifier = Modifier.size(40.dp)
+                            ) {
+//                            Box(contentAlignment = Alignment.Center) {
+//                                Text(
+//                                    symbol.take(1),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Bold
+//                                )
+//                            }
+                            }
+                        },
+                        error = {
+//                        if (symbol == "BNB") {
+//                            Image(
+//                                painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
+//                                contentDescription = null,
+//                                contentScale = ContentScale.Fit
+//                            )
+//                        } else {
+                            Surface(
+                                shape = CircleShape,
+                                color = Color(0xFF26A17B),
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Text(
+                                        (selectedAsset?.symbol?:"BNB").take(1),
+                                        color = Color.White,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            }
+//                        }
+                        }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(text = selectedAsset?.symbol ?: "", fontSize = 16.sp, fontWeight = FontWeight.W600, color = Color.Black)
+                    Spacer(modifier = Modifier.weight(1f,true))
+                    Icon(
+                        imageVector = Icons.Filled.KeyboardArrowDown,
+                        contentDescription = "down",
+                        tint = Color.Black,
+                        modifier = Modifier.size(16.dp)
+                    )
                 }
             }
 
@@ -288,7 +349,15 @@ fun WTTransferScreen(
                 ) {
                     TextField(
                         value = toAddress,
-                        onValueChange = { toAddress = it },
+                        onValueChange = {
+                            if (it == (uiState.currentWallet?.address ?: "0xeeeeeeee")){
+                                ToastBroadUtil.show(context.getString(R.string.wt_transfer_address_no_same_tip))
+                                toAddress=""
+                            }else{
+                                toAddress = it
+                            }
+
+                                        },
                         modifier = Modifier.weight(1f),
                         placeholder = { Text(stringResource(R.string.wt_transfer_to_address_hint), color = Color(0x61000000)) },
                         singleLine = true,
@@ -324,7 +393,9 @@ fun WTTransferScreen(
                 color = Color.White,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)) {
                     TextField(
                         value = amount,
                         onValueChange = {
@@ -526,7 +597,8 @@ fun TokenSelectBottomSheet(
                 )
                 Text(
                     text = stringResource(R.string.wt_select_token_title),
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
+                    color = Color.Black.copy(0.9f),
                     fontWeight = FontWeight.W600,
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -534,7 +606,9 @@ fun TokenSelectBottomSheet(
 
             // List
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().heightIn(max = 400.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 400.dp)
             ) {
                 items(assetList) { item ->
                     TokenSelectionItem(
@@ -568,17 +642,56 @@ fun TokenSelectionItem(
             color = if (item.symbol == "BNB") Color(0xFFF0B90B) else Color(0xFF26A17B),
             modifier = Modifier.size(40.dp)
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                if (item.symbol == "BNB") {
-                    Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                } else {
-                    Text(item.symbol.take(1), color = Color.White, fontWeight = FontWeight.Bold)
+            SubcomposeAsyncImage(
+                model = item.logo_url?:"",
+                contentDescription = null,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape),
+                loading = {
+//                        Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+                    Surface(
+                        shape = CircleShape,
+                        color = Color(0xFF26A17B),
+                        modifier = Modifier.size(40.dp)
+                    ) {
+//                            Box(contentAlignment = Alignment.Center) {
+//                                Text(
+//                                    symbol.take(1),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Bold
+//                                )
+//                            }
+                    }
+                },
+                error = {
+//                        if (symbol == "BNB") {
+//                            Image(
+//                                painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
+//                                contentDescription = null,
+//                                contentScale = ContentScale.Fit
+//                            )
+//                        } else {
+                    Surface(
+                        shape = CircleShape,
+                        color = Color(0xFF26A17B),
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(
+                                item.symbol.take(1),
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+//                        }
                 }
-            }
+            )
         }
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -587,27 +700,45 @@ fun TokenSelectionItem(
         Column(modifier = Modifier.weight(1f)) {
             // Row 1: Symbol Price Change
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = item.symbol, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text(text = item.symbol, fontSize = 16.sp, fontWeight = FontWeight.W400, color = Color.Black)
                 Spacer(modifier = Modifier.width(8.dp))
                 if ((item.price_usd?:"0").isNotEmpty()) {
-                    Text(text = "$${item.price_usd}", fontSize = 12.sp, color = Color(0xFF999999))
+                    Text(text = "$${formatSixDecimalValue(item.price_usd)}", fontSize = 12.sp, color = Color.Black.copy(0.45f))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 val change = item.change_24h?:""
                 if (change.isNotEmpty()) {
                     val changeColor = if (change.startsWith("-")) Color(0xFFEB534B) else Color(0xFF52C41A)
-                    Text(text = change, fontSize = 12.sp, color = changeColor)
+                    Text(text = formatSixDecimalChange(item.change_24h?:""), fontSize = 12.sp, color = changeColor)
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))
             // Row 2: Quantity | Value
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "数量: ${item.balance}", fontSize = 12.sp, color = Color(0xFF999999))
+                Text(
+                    text = buildAnnotatedString {
+                        append(stringResource(R.string.wt_total))
+                        withStyle(SpanStyle(color = Color.Black)) {
+                            append(getFormattedAmount(item.balance ?: "",item.decimals?:18))
+                        }
+                    },
+                    fontSize = 12.sp,
+                    color = Color.Black.copy(0.45f)
+                )
                 if ((item.value_usd?:"0").isNotEmpty()) {
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "|", fontSize = 10.sp, color = Color(0xFFE5E5E5))
+                    Text(text = "|", fontSize = 12.sp, color = Color.Black.copy(0.16f))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "≈$${item.value_usd}", fontSize = 12.sp, color = Color(0xFF999999))
+                    Text(
+                        text = buildAnnotatedString {
+                            append("≈$")
+                            withStyle(SpanStyle(color = Color.Black)) {
+                                append("${item.value_usd}")
+                            }
+                        },
+                        fontSize = 12.sp,
+                        color = Color.Black.copy(0.45f)
+                    )
                 }
             }
         }

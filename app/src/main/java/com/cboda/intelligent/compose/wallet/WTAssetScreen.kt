@@ -819,7 +819,7 @@ fun WalletSelectBottomSheet(
                         modifier = Modifier.noRippleClickable { onDismiss() }
                     )
                     Text(
-                        text = "选择钱包",
+                        text = stringResource(R.string.wt_select_wallet),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500
                     )
@@ -831,7 +831,7 @@ fun WalletSelectBottomSheet(
                         )
                     } else {
                         Text(
-                            text = if (isManageMode) "完成" else "管理",
+                            text = if (isManageMode) stringResource(R.string.wt_finish) else stringResource(R.string.管理),
                             color = if (isManageMode) Color(0xFF3B47DD) else Color.Black,
                             fontSize = 14.sp,
                             lineHeight = 20.27.sp,
@@ -983,7 +983,7 @@ fun WalletSelectBottomSheet(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "添加钱包",
+                            text = stringResource(R.string.wt_add_wallet),
                             color = if (!isManageMode) Color.White else Color.White ,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.W600
