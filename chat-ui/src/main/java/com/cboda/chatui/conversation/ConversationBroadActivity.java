@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.Gson;
@@ -105,8 +106,12 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (qunXiangqing != null && !TextUtils.isEmpty(qunXiangqing.getGonggao())) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
                 conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + qunXiangqing.getGonggao());
+                MMKVBroadUtils.Companion.saveGroupNotice(qunXiangqing.getId(),qunXiangqing.getGonggao());
             } else {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.GONE);
+                if (qunXiangqing != null){
+                    MMKVBroadUtils.Companion.saveGroupNotice(qunXiangqing.getId(),"");
+                }
             }
 
             if (conversationBroad.type == Conversation.ConversationType.Group) {
@@ -136,6 +141,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (conversationBroad.target.equals(myImEvent.params2)) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
                 conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + myImEvent.params1);
+                MMKVBroadUtils.Companion.saveGroupNotice(conversationBroad.target,myImEvent.params1);
                 MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.UPDATE_ANNOUNCEMENT.getValue(), myImEvent.params1, "", null);
             }
 
@@ -309,6 +315,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (!isInitialized && aBoolean) {
                 init();
                 isInitialized = true;
+                showCacheGroupNoticeData();
             }
         });
         conversationBroadFragment = new ConversationBroadFragment();
@@ -325,7 +332,20 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
         }
 
+    }
 
+    //群聊页先取本地缓存的群公告数据
+    private void showCacheGroupNoticeData() {
+        if (conversationBroad!=null &&conversationBroad.type == Conversation.ConversationType.Group){
+            String groupNotice = MMKVBroadUtils.Companion.getGroupNotice(conversationBroad.target);
+            if (!TextUtils.isEmpty(groupNotice)) {
+                conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
+                conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + groupNotice);
+
+            } else {
+                conversationBroadFragment.qungonggaoBroad.setVisibility(View.GONE);
+            }
+        }
     }
 
 

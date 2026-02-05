@@ -42,6 +42,17 @@ class MMKVBroadUtils {
         const val KEY_FRIEND_LIST_DATA = "key_friend_list_data"
 
         const val KEY_GROUP_LIST_DATA = "key_group_list_data"
+        const val KEY_GROUP_NOTICE = "keyGroupNotice_"
+
+        fun saveGroupNotice(groupId: String?,desNotice: String?) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(KEY_GROUP_NOTICE + groupId, desNotice)
+        }
+
+        fun getGroupNotice(groupId: String?): String? {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeString(KEY_GROUP_NOTICE + groupId)
+        }
 
         fun saveSearchHistory(searchHistory: String?) {
             val kv = MMKV.defaultMMKV()
