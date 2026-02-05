@@ -35,26 +35,28 @@ fun Modifier.noRippleClickable(
 fun getFormattedAmount(
     balance: String,
     decimals: Int,
-    showDecimals: Int = 3,           // 顯示幾位小數
+    showDecimals: Int = 6,           // 顯示幾位小數
     minShowDecimals: Int = 2
 ): String {
-    if (balance.isEmpty()) return "0"
+    if (balance == "0" || balance.isEmpty()) return "0"
+
     return try {
-        val raw = BigDecimal(balance)
-        val shifted = if (decimals > 0) raw.movePointLeft(decimals) else raw
-        shifted
-            .setScale(showDecimals, RoundingMode.HALF_UP)
-            .stripTrailingZeros()
+        val amount = BigDecimal(balance)
+            .divide(
+                BigDecimal.TEN.pow(decimals),
+                decimals + 10,           // 足夠的精度避免截斷
+                RoundingMode.DOWN
+            )
+
+        // 格式化顯示（去掉不必要的尾0）
+        amount.stripTrailingZeros()
+            .setScale(
+                amount.scale().coerceAtMost(showDecimals).coerceAtLeast(minShowDecimals),
+                RoundingMode.DOWN
+            )
             .toPlainString()
-    } catch (_: Exception) {
-        try {
-            BigDecimal(balance)
-                .setScale(showDecimals, RoundingMode.HALF_UP)
-                .stripTrailingZeros()
-                .toPlainString()
-        } catch (_: Exception) {
-            "0"
-        }
+    } catch (e: Exception) {
+        "0"
     }
 }
 

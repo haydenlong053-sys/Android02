@@ -429,7 +429,7 @@ fun TransactionItem(
                         )
                     }
                     Text(
-                        text = if (item.direction == "in") stringResource(R.string.wt_received_format, item.token_symbol) else stringResource(R.string.wt_sent_format, item.token_symbol),
+                        text = if (item.direction == "in") stringResource(R.string.wt_tab_in, item.token_symbol) else stringResource(R.string.wt_sent_format, item.token_symbol),
                         fontSize = 12.sp,
                         color = Color.Black.copy(0.45f), fontWeight = FontWeight.W400
                     )
