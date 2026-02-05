@@ -58,7 +58,6 @@
                 android:text="@string/bs_quxiao"
                 android:textColor="@color/color_3B47DDk"
                 android:textSize="16sp"
-
                 app:shape_radius="@dimen/dp_10"
                 app:shape_solidColor="@color/white"
                 app:shape_strokeColor="#3B47DD"
