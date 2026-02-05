@@ -2,6 +2,7 @@ package com.cboda.baselibrary.utils
 
 import android.content.Context
 import android.text.TextUtils
+import com.blankj.utilcode.util.FileUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
@@ -43,8 +44,8 @@ class MMKVBroadUtils {
 
         const val KEY_GROUP_LIST_DATA = "key_group_list_data"
         const val KEY_GROUP_NOTICE = "keyGroupNotice_"
-
-        fun saveGroupNotice(groupId: String?,desNotice: String?) {
+        const val KEY_SAVE_COMPRESS_VIDEO = "keySaveCompressVideo"
+        fun saveGroupNotice(groupId: String?, desNotice: String?) {
             val kv = MMKV.defaultMMKV()
             kv.encode(KEY_GROUP_NOTICE + groupId, desNotice)
         }
@@ -218,7 +219,7 @@ class MMKVBroadUtils {
 //            val kv = MMKV.defaultMMKV()
 //            return kv.decodeString(USER_LANGUAGE_KEY) ?: ENGLISH
 //            return getSharedPreferences(context).getString(USER_LANGUAGE_KEY, ENGLISH) ?: ENGLISH
-            return LanguageUtil.getAppLanguageKey(getAppContext(context),false)
+            return LanguageUtil.getAppLanguageKey(getAppContext(context), false)
         }
 
 
@@ -364,6 +365,37 @@ class MMKVBroadUtils {
                 HashMap()
             }
         }
+
+
+        //保存压缩视频
+        fun saveCompressionVideo(originalPath: String, compressionPath: String): HashMap<String, String> {
+            val map = getSaveCompressionVideoData()
+            map[originalPath] = compressionPath
+            MMKV.defaultMMKV().encode(KEY_SAVE_COMPRESS_VIDEO, toJson2(map))
+            return map
+        }
+
+        //获取压缩视频
+        fun getSaveCompressionVideo(originalPath: String): String? {
+            val map = getSaveCompressionVideoData()
+            val comVideoPath = map[originalPath]
+            return if (null != comVideoPath && FileUtils.isFileExists(comVideoPath)) {
+                comVideoPath
+            } else {
+                null
+            }
+        }
+
+        fun getSaveCompressionVideoData(): HashMap<String, String> {
+            val decodeString = MMKV.defaultMMKV().decodeString(KEY_SAVE_COMPRESS_VIDEO)
+            return if (decodeString?.isNotEmpty() == true) {
+                val type = object : TypeToken<HashMap<String, String>>() {}
+                return fromJsonTypeToken(decodeString, type)
+            } else {
+                HashMap()
+            }
+        }
+
 
         fun clearFriendListData() {
             val kv = MMKV.defaultMMKV()

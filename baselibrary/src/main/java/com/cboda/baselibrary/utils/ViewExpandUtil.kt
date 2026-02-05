@@ -847,16 +847,19 @@ class AmountInputFilter(
 }
 
 private var dialogHelper: LoadingBroadDialog? = null
-fun showLoadingDialog(context: Context? = null, title: Int = 0): LoadingBroadDialog? {
-    return showLoadingDialog(context, if (title != 0) getAppContext(context).getString(title) else "")
+fun showLoadingDialog(context: Context? = null, title: Int = 0, canReturn: Boolean = false, dismissCallback: () -> Unit = {}): LoadingBroadDialog? {
+    return showLoadingDialog(context, if (title != 0) getAppContext(context).getString(title) else "", canReturn, dismissCallback)
 }
 
-fun showLoadingDialog(context: Context? = null, title: String = ""): LoadingBroadDialog? {
+fun showLoadingDialog(context: Context? = null, title: String = "", canReturn: Boolean = false, dismissCallback: () -> Unit = {}): LoadingBroadDialog? {
     dismissLoadingDialog()
     dialogHelper = LoadingBroadDialog(getAppContext(context), title)
     dialogHelper?.show()
     dialogHelper?.setCanceledOnTouchOutside(false)
-    dialogHelper?.setCancelable(false)
+    dialogHelper?.setCancelable(canReturn)
+    dialogHelper?.setOnDismissListener {
+        dismissCallback.invoke()
+    }
     return dialogHelper
 }
 

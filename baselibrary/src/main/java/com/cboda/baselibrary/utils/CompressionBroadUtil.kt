@@ -5,6 +5,8 @@ import android.text.TextUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.FileUtils.getFileExtension
 import com.cboda.baselibrary.R
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSaveCompressionVideo
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveCompressionVideo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -131,10 +133,8 @@ object CompressionBroadUtil {
                         }
 
                         override fun onSuccess() {
-                            eLogD(
-                                tAG,
-                                "压缩视频成功path1Size:${FileUtils.getSize(desPath)} ,$desPath"
-                            )
+                            eLogD(tAG, "压缩视频成功path1Size:${FileUtils.getSize(desPath)} ,$desPath")
+                            saveCompressionVideo(path, desPath)
                             block.invoke(
                                 if (FileUtils.isFileExists(desPath)) desPath else path,
                                 null, 100f
@@ -169,40 +169,45 @@ object CompressionBroadUtil {
     ) {
 //        block.invoke(path ?: "", "")
 //        showLoadingDialog()
-        if (path != null) {
-            if (FileUtils.isFileExists(path)) {
-                val videoSize = FileUtils.getFileByPath(path).length()
-                val videoSize2 = videoSize / 1048576
-                eLogD(tAG, "原视频videoCompressionSize:$videoSize ,videoSize2:$videoSize2 , $path")
-                //视频小于10M不压缩(包含10M)
-                if (videoSize2 <= 10L) {
-                    block.invoke(path, "", 100f)
-                } else {
-                    try {
-                        viewModelScope?.launch {
+        try {
+            if (path != null) {
+                if (FileUtils.isFileExists(path)) {
+                    val saveCompressionVideoPath = getSaveCompressionVideo(path)
+                    if (null != saveCompressionVideoPath) {
+                        block.invoke(saveCompressionVideoPath, null, 100f)
+                    } else {
+                        val videoSize = FileUtils.getFileByPath(path).length()
+                        val videoSize2 = videoSize / 1048576
+                        eLogD(tAG, "原视频videoCompressionSize:$videoSize ,videoSize2:$videoSize2 , $path")
+                        //视频小于10M不压缩(包含10M)
+                        if (videoSize2 <= 10L) {
+                            block.invoke(path, "", 100f)
+                        } else {
+                            viewModelScope?.launch {
 //                        eLogD(tAG, "开始压缩视频1")
-                            withContext(Dispatchers.IO) {
-                                compressVideo(path, block)
-                            }
-                        } ?: let {
+                                withContext(Dispatchers.IO) {
+                                    compressVideo(path, block)
+                                }
+                            } ?: let {
 //                        eLogD(tAG, "开始压缩视频2")
 //                        ThreadUtils.getIoPool().execute {
-                            GlobalScope.launch(Dispatchers.IO) {
-                                compressVideo(path, block)
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    compressVideo(path, block)
+                                }
                             }
                         }
-                    } catch (e: Exception) {
-                        eLogD(tAG, "videoCompression异常2：${e.message}")
-                        block.invoke(path, e.toLog(tAG), 100f)
                     }
+                } else {
+                    eLogD(tAG, "videoCompression原视频文件不存在")
+                    block.invoke(path, "原视频文件不存在", 100f)
                 }
-            }else{
-                eLogD(tAG, "videoCompression原视频文件不存在")
-                block.invoke(path, "原视频文件不存在", 100f)
+            } else {
+                eLogD(tAG, "videoCompression原视频路径为null")
+                block.invoke(path ?: "", "原视频路径为null", 100f)
             }
-        }else{
-            eLogD(tAG, "videoCompression原视频路径为null")
-            block.invoke(path ?: "", "原视频路径为null", 100f)
+        } catch (e: Exception) {
+            eLogD(tAG, "videoCompression异常2：${e.message}")
+            block.invoke(path, e.toLog(tAG), 100f)
         }
     }
 
@@ -213,12 +218,21 @@ object CompressionBroadUtil {
         block: (String?, String?) -> Unit
     ) {
 //        block.invoke(path ?: "", "")
+        var percentFloat = 0f
+        var canReturn = true
         val inCompressedVideo = getAppContext(context).getString(R.string.in_compressed_video1)
-        val loadingBroadDialog = showLoadingDialog(context, R.string.in_compressed_video2)
+        val loadingBroadDialog = showLoadingDialog(context, R.string.in_compressed_video2, true) {
+            if (percentFloat != 100f) {
+                canReturn = false
+            }
+        }
         videoCompress(path) { resultPath, errorMsg, percent ->
+            percentFloat = percent
             if (!TextUtils.isEmpty(resultPath)) {
-                dismissLoadingDialog()
-                block.invoke(resultPath, errorMsg)
+                if (canReturn) {
+                    dismissLoadingDialog()
+                    block.invoke(resultPath, errorMsg)
+                }
             } else {
                 loadingBroadDialog?.updateTitle(inCompressedVideo + "(" + percent.toInt() + "%)...")
             }

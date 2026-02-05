@@ -59,6 +59,7 @@ import java.util.Map;
 
 import kotlin.Pair;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 import kotlin.jvm.functions.Function3;
@@ -266,32 +267,45 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
      * 上传视频
      */
     private void uploadVideo(String path) {
-        showLoadingDialog(this,"");
+        final Float[] percentFloat = {0f};
+        final Boolean[] canReturn = {true};
+        showLoadingDialog(this, "", true, new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                if (percentFloat[0] != 100f) {
+                    canReturn[0] = false;
+                }
+                return null;
+            }
+        });
         CompressionBroadUtil.INSTANCE.videoCompress(path, null, new Function3<String, String, Float, Unit>() {
             @Override
             public Unit invoke(String path2, String s2, Float aFloat) {
-                if (!TextUtils.isEmpty(path2)) {
-                    dismissLoadingDialog();
-                    List<File> file = new ArrayList<>();
-                    file.add(new File(path2));
+                percentFloat[0] = aFloat;
+                if (canReturn[0]) {
+                    if (!TextUtils.isEmpty(path2)) {
+                        dismissLoadingDialog();
+                        List<File> file = new ArrayList<>();
+                        file.add(new File(path2));
 
-                    Map<String, List<File>> files = new HashMap<>();
-                    if (!ListBroadUtil.isEmpty(file)) {
-                        files.put("file", file);
+                        Map<String, List<File>> files = new HashMap<>();
+                        if (!ListBroadUtil.isEmpty(file)) {
+                            files.put("file", file);
+                        }
+                        OkHttpBroadHelper.getInstance().post_file(PushBroadActivity.this, BroadUrl.uploadFile, files, new SpotsCallBroadBack<ResultBroadBean>(PushBroadActivity.this) {
+                            @Override
+                            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                                images.clear();
+                                images.add(resultBean.url);
+                                imageAdapter.setMaxNum(1);
+                                imageAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onError(Response response, int code, Exception e) {
+                            }
+                        });
                     }
-                    OkHttpBroadHelper.getInstance().post_file(PushBroadActivity.this, BroadUrl.uploadFile, files, new SpotsCallBroadBack<ResultBroadBean>(PushBroadActivity.this) {
-                        @Override
-                        public void onSuccess(Response response, ResultBroadBean resultBean) {
-                            images.clear();
-                            images.add(resultBean.url);
-                            imageAdapter.setMaxNum(1);
-                            imageAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onError(Response response, int code, Exception e) {
-                        }
-                    });
                 }
                 return null;
             }

@@ -26,7 +26,7 @@ public abstract class SpotsCallBroadBack<T> extends BaseBroadCallback<T> {
 
     public void showDialog() {
         try {
-            showLoadingDialog(mContext, "");
+            showLoadingDialog(mContext, "", false, () -> null);
         } catch (Exception e) {
 
         }
