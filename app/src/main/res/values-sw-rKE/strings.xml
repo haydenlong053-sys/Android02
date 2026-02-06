@@ -491,5 +491,8 @@
     <string name="circle_public_relations">Mzunguko wa Uhusiano wa Umma</string>
     <string name="累计获得">Jumla Ilipatikana</string>
     <string name="welcome_to_seekweb4">Karibu SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Huwezi kuhamisha kwa wewe mwenyewe!</string>
+    <string name="app_transfer_address_format_error">Muundo wa anwani ya uhamisho si sahihi!</string>
+    <string name="app_withdraw_address_format_error">Muundo wa anwani ya kutowa si sahihi!</string>
 
 </resources>

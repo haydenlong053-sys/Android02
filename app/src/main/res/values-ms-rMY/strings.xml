@@ -492,5 +492,8 @@
     <string name="circle_public_relations">Bulatan Hubungan Awam</string>
     <string name="累计获得">Jumlah Diperoleh</string>
     <string name="welcome_to_seekweb4">Selamat datang ke SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Anda tidak boleh pindah wang kepada diri sendiri!</string>
+    <string name="app_transfer_address_format_error">Format alamat pindahan tidak sah!</string>
+    <string name="app_withdraw_address_format_error">Format alamat pengeluaran tidak sah!</string>
 
 </resources>

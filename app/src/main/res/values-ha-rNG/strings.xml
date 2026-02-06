@@ -489,5 +489,8 @@
     <string name="circle_public_relations">Dairar Huldar Jama</string>
     <string name="累计获得">Jimlar da aka Samu</string>
     <string name="welcome_to_seekweb4">Barka da zuwa SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Ba zaku iya canja wurin zuwa kanku ba!</string>
+    <string name="app_transfer_address_format_error">Tsarin adireshin canja wuri ba daidai bane!</string>
+    <string name="app_withdraw_address_format_error">Tsarin adireshin cirewa ba daidai bane!</string>
 
 </resources>

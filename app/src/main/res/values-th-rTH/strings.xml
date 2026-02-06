@@ -489,5 +489,8 @@
     <string name="circle_public_relations">วงประชาสัมพันธ์</string>
     <string name="累计获得">รวมที่ได้รับ</string>
     <string name="welcome_to_seekweb4">ยินดีต้อนรับสู่ SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">คุณไม่สามารถโอนให้ตัวเองได้!</string>
+    <string name="app_transfer_address_format_error">รูปแบบที่อยู่โอนเงินไม่ถูกต้อง!</string>
+    <string name="app_withdraw_address_format_error">รูปแบบที่อยู่ถอนเงินไม่ถูกต้อง!</string>
 
 </resources>

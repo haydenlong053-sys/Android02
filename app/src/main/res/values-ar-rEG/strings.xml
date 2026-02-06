@@ -488,5 +488,8 @@
     <string name="circle_public_relations">دائرة العلاقات العامة</string>
     <string name="累计获得">إجمالي المكتسب</string>
     <string name="welcome_to_seekweb4">مرحباً بك في SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">لا يمكنك التحويل إلى نفسك!</string>
+    <string name="app_transfer_address_format_error">تنسيق عنوان التحويل غير صحيح!</string>
+    <string name="app_withdraw_address_format_error">تنسيق عنوان السحب غير صحيح!</string>
 
 </resources>

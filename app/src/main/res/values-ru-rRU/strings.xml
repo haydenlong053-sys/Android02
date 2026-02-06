@@ -489,5 +489,8 @@
     <string name="circle_public_relations">PR круг</string>
     <string name="累计获得">Всего Получено</string>
     <string name="welcome_to_seekweb4">Добро пожаловать в SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Нельзя переводить себе!</string>
+    <string name="app_transfer_address_format_error">Неверный формат адреса перевода!</string>
+    <string name="app_withdraw_address_format_error">Неверный формат адреса вывода!</string>
 
 </resources>

@@ -491,5 +491,8 @@
     <string name="circle_public_relations">ວົງການສາຍພົວພັນສາທາລະນະ</string>
     <string name="累计获得">ລວມທີ່ໄດ້ຮັບ</string>
     <string name="welcome_to_seekweb4">ຍິນດີຕ້ອນຮັບສູ່ SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">ທ່ານບໍ່ສາມາດໂອນໃຫ້ຕົວເອງໄດ້!</string>
+    <string name="app_transfer_address_format_error">ຮູບແບບທີ່ຢູ່ໂອນເງິນບໍ່ຖືກຕ້ອງ!</string>
+    <string name="app_withdraw_address_format_error">ຮູບແບບທີ່ຢູ່ຖອນເງິນບໍ່ຖືກຕ້ອງ!</string>
 
 </resources>

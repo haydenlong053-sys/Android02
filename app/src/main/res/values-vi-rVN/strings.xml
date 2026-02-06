@@ -488,5 +488,8 @@
     <string name="circle_public_relations">Vòng tròn quan hệ công chúng</string>
     <string name="累计获得">Tổng Đã Nhận</string>
     <string name="welcome_to_seekweb4">Chào mừng đến với SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Bạn không thể chuyển cho chính mình!</string>
+    <string name="app_transfer_address_format_error">Định dạng địa chỉ chuyển khoản không đúng!</string>
+    <string name="app_withdraw_address_format_error">Định dạng địa chỉ rút tiền không đúng!</string>
 
 </resources>

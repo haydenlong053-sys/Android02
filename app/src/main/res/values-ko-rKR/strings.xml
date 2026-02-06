@@ -488,5 +488,8 @@
     <string name="circle_public_relations">PR 서클</string>
     <string name="累计获得">누적 획득</string>
     <string name="welcome_to_seekweb4">SeekWeb4에 오신 것을 환영합니다</string>
+    <string name="app_cannot_transfer_to_self">자기 자신에게 송금할 수 없습니다!</string>
+    <string name="app_transfer_address_format_error">송금 주소 형식이 잘못되었습니다!</string>
+    <string name="app_withdraw_address_format_error">출금 주소 형식이 잘못되었습니다!</string>
 
 </resources>

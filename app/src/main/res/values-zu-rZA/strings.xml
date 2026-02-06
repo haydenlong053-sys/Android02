@@ -491,5 +491,8 @@
     <string name="circle_public_relations">Isiyingi Sobudlelwano Bomphakathi</string>
     <string name="累计获得">Isamba Esitholakele</string>
     <string name="welcome_to_seekweb4">Siyakwamukela ku-SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Awukwazi ukudlulisa kuwe ngokwakho!</string>
+    <string name="app_transfer_address_format_error">Ifomathi yekheli lokudlulisa ayilungile!</string>
+    <string name="app_withdraw_address_format_error">Ifomathi yekheli lokukhipha ayilungile!</string>
 
 </resources>

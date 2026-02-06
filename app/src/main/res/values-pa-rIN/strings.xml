@@ -493,5 +493,8 @@
     <string name="circle_public_relations">ਜਨਤਕ ਸੰਬੰਧ ਚੱਕਰ</string>
     <string name="累计获得">ਕੁੱਲ ਪ੍ਰਾਪਤ</string>
     <string name="welcome_to_seekweb4">SeekWeb4 ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ</string>
+    <string name="app_cannot_transfer_to_self">ਤੁਸੀਂ ਆਪਣੇ ਆਪ ਨੂੰ ਟ੍ਰਾਂਸਫਰ ਨਹੀਂ ਕਰ ਸਕਦੇ!</string>
+    <string name="app_transfer_address_format_error">ਟ੍ਰਾਂਸਫਰ ਪਤਾ ਫਾਰਮੈਟ ਗਲਤ!</string>
+    <string name="app_withdraw_address_format_error">ਨਿਕਾਸੀ ਪਤਾ ਫਾਰਮੈਟ ਗਲਤ!</string>
 
 </resources>

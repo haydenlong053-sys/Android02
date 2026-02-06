@@ -884,6 +884,10 @@
     <string name="男2">M</string>
     <string name="day2">d</string>
 
+    <string name="app_cannot_transfer_to_self">You cannot transfer to yourself</string>
+    <string name="app_transfer_address_format_error">Invalid transfer address format</string>
+    <string name="app_withdraw_address_format_error">Invalid withdrawal address format</string>
+
     <string name="wallet_eth">Blockchain Wallet</string>
 
     <!-- Wallet Transfer -->

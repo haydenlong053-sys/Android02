@@ -490,5 +490,8 @@
     <string name="circle_public_relations">Lingkaran Hubungan Masyarakat</string>
     <string name="累计获得">Total Diperoleh</string>
     <string name="welcome_to_seekweb4">Selamat datang di SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Anda tidak dapat transfer ke diri sendiri!</string>
+    <string name="app_transfer_address_format_error">Format alamat transfer salah!</string>
+    <string name="app_withdraw_address_format_error">Format alamat penarikan salah!</string>
 
 </resources>

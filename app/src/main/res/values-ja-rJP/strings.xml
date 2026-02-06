@@ -488,5 +488,8 @@
     <string name="circle_public_relations">PRサークル</string>
     <string name="累计获得">累計獲得</string>
     <string name="welcome_to_seekweb4">SeekWeb4へようこそ</string>
+    <string name="app_cannot_transfer_to_self">自分宛に送金できません!</string>
+    <string name="app_transfer_address_format_error">送金アドレス形式が正しくありません!</string>
+    <string name="app_withdraw_address_format_error">出金アドレス形式が正しくありません!</string>
 
 </resources>

@@ -881,5 +881,8 @@
     <string name="circle_public_relations">公關圈</string>
     <string name="累计获得">累計獲得</string>
     <string name="welcome_to_seekweb4">歡迎來到SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">不能給自己轉賬!</string>
+    <string name="app_transfer_address_format_error">轉賬地址格式錯誤!</string>
+    <string name="app_withdraw_address_format_error">提現地址格式錯誤!</string>
 
 </resources>

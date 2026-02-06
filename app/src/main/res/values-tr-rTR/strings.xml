@@ -495,5 +495,8 @@
     <string name="circle_public_relations">Halkla İlişkiler Çevresi</string>
     <string name="累计获得">Toplam Kazanılan</string>
     <string name="welcome_to_seekweb4">SeekWeb4 e Hoş Geldiniz</string>
+    <string name="app_cannot_transfer_to_self">Kendinize transfer yapamazsınız!</string>
+    <string name="app_transfer_address_format_error">Transfer adresi formatı hatalı!</string>
+    <string name="app_withdraw_address_format_error">Çekim adresi formatı hatalı!</string>
 
 </resources>

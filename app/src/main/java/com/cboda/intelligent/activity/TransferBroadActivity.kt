@@ -124,13 +124,13 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
             val inputMoneyString =
                 mBind?.mEtInputMoney?.text?.trim().toString()
             if (flag==0 && inputAddressString == mBind?.mTvMoneyAddressKey?.text.toString()){
-                ToastBroadUtils.show("不能给自己转账!")
+                ToastBroadUtils.show(getString(R.string.app_cannot_transfer_to_self))
                 return@setOnClickListener
             }else if (flag==0 && !inputAddressString.startsWith("w",true)){
-                ToastBroadUtils.show("转账地址格式错误!")
+                ToastBroadUtils.show(getString(R.string.app_transfer_address_format_error))
                 return@setOnClickListener
             }else if (flag==1 && !inputAddressString.startsWith("0x",true)){
-                ToastBroadUtils.show("提现地址格式错误!")
+                ToastBroadUtils.show(getString(R.string.app_withdraw_address_format_error))
                 return@setOnClickListener
             }
             if (inputAddressString.isNotEmpty() && inputMoneyString.isNotEmpty()) {

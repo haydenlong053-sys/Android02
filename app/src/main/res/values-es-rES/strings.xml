@@ -488,5 +488,8 @@
     <string name="circle_public_relations">Círculo de Relaciones Públicas</string>
     <string name="累计获得">Total Obtenido</string>
     <string name="welcome_to_seekweb4">Bienvenido a SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">¡No puede transferir a sí mismo!</string>
+    <string name="app_transfer_address_format_error">¡Formato de dirección de transferencia inválido!</string>
+    <string name="app_withdraw_address_format_error">¡Formato de dirección de retiro inválido!</string>
 
 </resources>

@@ -489,5 +489,8 @@
     <string name="circle_public_relations">জনসংযোগ বৃত্ত</string>
     <string name="累计获得">মোট অর্জিত</string>
     <string name="welcome_to_seekweb4">SeekWeb4-এ স্বাগতম</string>
+    <string name="app_cannot_transfer_to_self">আপনি নিজেকে ট্রান্সফার করতে পারবেন না!</string>
+    <string name="app_transfer_address_format_error">ট্রান্সফার ঠিকানা ফরম্যাট ভুল!</string>
+    <string name="app_withdraw_address_format_error">উত্তোলন ঠিকানা ফরম্যাট ভুল!</string>
 
 </resources>

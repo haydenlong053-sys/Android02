@@ -490,5 +490,8 @@
     <string name="circle_public_relations">Κύκλος Δημοσίων Σχέσεων</string>
     <string name="累计获得">Σύνολο Κερδισμένο</string>
     <string name="welcome_to_seekweb4">Καλώς ήρθατε στο SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Δεν μπορείτε να μεταφέρετε στον εαυτό σας!</string>
+    <string name="app_transfer_address_format_error">Μη έγκυρη μορφή διεύθυνσης μεταφοράς!</string>
+    <string name="app_withdraw_address_format_error">Μη έγκυρη μορφή διεύθυνσης ανάληψης!</string>
 
 </resources>

@@ -488,5 +488,8 @@
     <string name="circle_public_relations">जनसंपर्क वृत्त</string>
     <string name="累计获得">कुल प्राप्त</string>
     <string name="welcome_to_seekweb4">SeekWeb4 में आपका स्वागत है</string>
+    <string name="app_cannot_transfer_to_self">आप स्वयं को ट्रांसफर नहीं कर सकते!</string>
+    <string name="app_transfer_address_format_error">ट्रांसफर पता प्रारूप गलत है!</string>
+    <string name="app_withdraw_address_format_error">निकासी पता प्रारूप गलत है!</string>
 
 </resources>

@@ -492,5 +492,8 @@
     <string name="circle_public_relations">Bilog ng Relasyong Pampubliko</string>
     <string name="累计获得">Kabuuang Nakuha</string>
     <string name="welcome_to_seekweb4">Maligayang pagdating sa SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Hindi ka maaaring mag-transfer sa sarili mo!</string>
+    <string name="app_transfer_address_format_error">Maling format ng address ng transfer!</string>
+    <string name="app_withdraw_address_format_error">Maling format ng address ng withdrawal!</string>
 
 </resources>

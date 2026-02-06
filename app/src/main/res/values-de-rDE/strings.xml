@@ -488,5 +488,8 @@
     <string name="circle_public_relations">PR-Kreis</string>
     <string name="累计获得">Gesamt Erhalten</string>
     <string name="welcome_to_seekweb4">Willkommen bei SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Sie können nicht an sich selbst überweisen!</string>
+    <string name="app_transfer_address_format_error">Ungültiges Überweisungsadressformat!</string>
+    <string name="app_withdraw_address_format_error">Ungültiges Auszahlungsadressformat!</string>
 
 </resources>

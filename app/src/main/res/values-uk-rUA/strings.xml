@@ -491,5 +491,8 @@
     <string name="circle_public_relations">Коло зв язків з громадськістю</string>
     <string name="累计获得">Всього Отримано</string>
     <string name="welcome_to_seekweb4">Ласкаво просимо до SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">Не можна переказувати собі!</string>
+    <string name="app_transfer_address_format_error">Невірний формат адреси переказу!</string>
+    <string name="app_withdraw_address_format_error">Невірний формат адреси виведення!</string>
 
 </resources>

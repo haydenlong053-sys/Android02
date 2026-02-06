@@ -492,5 +492,8 @@
     <string name="circle_public_relations">Олон нийтийн харилцааны тойрог</string>
     <string name="累计获得">Нийт Олсон</string>
     <string name="welcome_to_seekweb4">SeekWeb4-д тавтай морилно уу</string>
+    <string name="app_cannot_transfer_to_self">Та өөртөө шилжүүлэг хийж болохгүй!</string>
+    <string name="app_transfer_address_format_error">Шилжүүлэг хаягийн формат буруу!</string>
+    <string name="app_withdraw_address_format_error">Татан авалтын хаягийн формат буруу!</string>
 
 </resources>

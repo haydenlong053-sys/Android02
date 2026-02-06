@@ -489,5 +489,8 @@
     <string name="circle_public_relations">מעגל יחסי ציבור</string>
     <string name="累计获得">סה&quot;כ שהושג</string>
     <string name="welcome_to_seekweb4">ברוכים הבאים ל-SeekWeb4</string>
+    <string name="app_cannot_transfer_to_self">לא ניתן להעביר לעצמך!</string>
+    <string name="app_transfer_address_format_error">פורמט כתובת ההעברה שגוי!</string>
+    <string name="app_withdraw_address_format_error">פורמט כתובת המשיכה שגוי!</string>
 
 </resources>

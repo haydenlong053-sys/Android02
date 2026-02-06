@@ -883,6 +883,10 @@
     <string name="男2">男</string>
     <string name="day2">天</string>
 
+    <string name="app_cannot_transfer_to_self">不能给自己转账!</string>
+    <string name="app_transfer_address_format_error">转账地址格式错误!</string>
+    <string name="app_withdraw_address_format_error">提现地址格式错误!</string>
+
     <string name="wallet_eth">区块钱包</string>
 
     <!-- Wallet Transfer -->
