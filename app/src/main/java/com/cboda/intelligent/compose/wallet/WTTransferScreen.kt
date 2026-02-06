@@ -89,6 +89,7 @@ fun WTTransferScreen(
     initialAddress: String?,
     initialAmount: String?,
     initialSymbol: String?,
+    initialTokenAddress: String?,
     onBack: () -> Unit,
     onConfirmSend: () -> Unit,
     viewModel: WTViewModel = viewModel()
@@ -106,11 +107,11 @@ fun WTTransferScreen(
     }
 
     val defaultAsset = remember(assetList, initialSymbol) {
-//        if (!initialSymbol.isNullOrEmpty()) {
-//            assetList.find { it.symbol.equals(initialSymbol, ignoreCase = true) } ?: assetList.firstOrNull()
-//        } else {
+        if (!initialSymbol.isNullOrEmpty()) {
+            assetList.find { it.symbol.equals(initialSymbol, ignoreCase = true)&&it.token_address.equals(initialTokenAddress,ignoreCase = true)} ?: assetList.firstOrNull()
+        } else {
             assetList.firstOrNull()
-//        }
+        }
     }
 
     var selectedAsset by remember { mutableStateOf<AssetItem?>(defaultAsset) }
@@ -131,6 +132,7 @@ fun WTTransferScreen(
                     val encryptedAddress = uri.getQueryParameter("toAddress")
                     val scanAmount = uri.getQueryParameter("amount")
                     val scanSymbol = uri.getQueryParameter("symbol")
+                    val scanTokenAddress = uri.getQueryParameter("tokenAddress")
 
                     val parsedAddress = if (!encryptedAddress.isNullOrEmpty()) {
                         val fixedEncryptedAddress = encryptedAddress.replace(" ", "+")
@@ -148,7 +150,7 @@ fun WTTransferScreen(
                         amount = scanAmount
                     }
                     if (!scanSymbol.isNullOrEmpty()) {
-                        val matchedAsset = assetList.find { it.symbol.equals(scanSymbol, ignoreCase = true) }
+                        val matchedAsset = assetList.find { it.symbol.equals(scanSymbol, ignoreCase = true) && it.token_address.equals(scanTokenAddress,ignoreCase = true) }
                         if (matchedAsset != null) {
                             selectedAsset = matchedAsset
                         }
@@ -796,6 +798,7 @@ fun PreviewWTTransferScreen() {
         initialAddress = "0x1234567890abcdef",
         initialAmount = "0.034",
         initialSymbol = "BTC",
+        initialTokenAddress = "0xeeeeee",
         onBack = {},
         onConfirmSend = {}
     )

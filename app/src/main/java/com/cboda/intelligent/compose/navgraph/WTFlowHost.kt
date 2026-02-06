@@ -112,7 +112,8 @@ fun WTFlowHost(
                     val encryptedAddress = uri.getQueryParameter("toAddress")
                     val amount = uri.getQueryParameter("amount")
                     val symbol = uri.getQueryParameter("symbol")
-                    
+                    val tokenAddress = uri.getQueryParameter("tokenAddress")
+
                     // URL encoded string needs to be decoded before AEBroadS decryption if it was encoded
                     // But here getQueryParameter usually handles basic decoding.
                     // However, AEBroadS encrypted string might contain characters that are special in URL (+, /, =)
@@ -131,7 +132,7 @@ fun WTFlowHost(
                     } else ""
                     
                     if (!toAddress.isNullOrEmpty()) {
-                        navController.navigate(WTRoute.transferWt(toAddress, amount, symbol))
+                        navController.navigate(WTRoute.transferWt(toAddress, amount, symbol,tokenAddress))
                     } else {
                         ToastBroadUtil.show("二维码解析失败: 地址无效")
                     }
@@ -234,7 +235,8 @@ fun WTFlowHost(
                             symbol = asset?.symbol,
                             logoUrl = asset?.logo_url,
                             chainId = currentWallet?.chain_id,
-                            chain = "BSC"
+                            chain = "BSC",
+                            tokenAddress = asset?.token_address?:""
                         ))
                     }
                 },
@@ -264,16 +266,19 @@ fun WTFlowHost(
             arguments = listOf(
                 navArgument("address") { type = NavType.StringType; defaultValue = "" },
                 navArgument("amount") { type = NavType.StringType; defaultValue = "" },
-                navArgument("symbol") { type = NavType.StringType; defaultValue = "" }
+                navArgument("symbol") { type = NavType.StringType; defaultValue = "" },
+                navArgument("tokenAddress") { type = NavType.StringType; defaultValue = "" }
             )
         ) { backStackEntry ->
             val address = backStackEntry.arguments?.getString("address") ?: ""
             val amount = backStackEntry.arguments?.getString("amount") ?: ""
             val symbol = backStackEntry.arguments?.getString("symbol") ?: ""
+            val tokenAddress = backStackEntry.arguments?.getString("tokenAddress") ?: ""
             WTTransferScreen(
                 initialAddress = address.ifEmpty { null },
                 initialAmount = amount.ifEmpty { null },
                 initialSymbol = symbol.ifEmpty { null },
+                initialTokenAddress = tokenAddress.ifEmpty { null },
                 onBack = { navController.popBackStack() },
                 onConfirmSend = {
                     //跳转支付成功页面
@@ -464,12 +469,13 @@ fun WTFlowHost(
                             symbol = asset.symbol,
                             logoUrl = asset.logo_url,
                             chainId = currentWallet?.chain_id,
-                            chain = "BSC"
+                            chain = "BSC",
+                            tokenAddress = tokenAddress
                         ))
                     }
                 },
                 onTransferClick = {
-                    navController.navigate(WTRoute.transferWt(null, null, symbol))
+                    navController.navigate(WTRoute.transferWt(null, null, symbol,tokenAddress))
                 },
                 viewModel = viewModel
             )
@@ -503,7 +509,8 @@ fun WTFlowHost(
                 navArgument("symbol") { type = NavType.StringType; nullable = true },
                 navArgument("logo_url") { type = NavType.StringType; nullable = true },
                 navArgument("chain_id") { type = NavType.StringType; nullable = true },
-                navArgument("chain") { type = NavType.StringType; nullable = true }
+                navArgument("chain") { type = NavType.StringType; nullable = true },
+                navArgument("tokenAddress") { type = NavType.StringType; nullable = true }
             )
         ) { backStackEntry ->
             val address = backStackEntry.arguments?.getString("address") ?: ""
@@ -511,12 +518,14 @@ fun WTFlowHost(
             val logoUrl = backStackEntry.arguments?.getString("logo_url")
             val chainId = backStackEntry.arguments?.getString("chain_id")?.toIntOrNull()
             val chain = backStackEntry.arguments?.getString("chain")
+            val tokenAddress = backStackEntry.arguments?.getString("tokenAddress")
             WTReceiveScreen(
                 address = address,
                 symbol = symbol,
                 logoUrl = logoUrl,
                 chainId = chainId,
                 chain = chain,
+                tokenAddress,
                 onBack = { navController.popBackStack() },
                 viewModel = viewModel
             )
@@ -564,9 +573,9 @@ class WTRoute {
         //交易详情
         const val TRANSACTION_DETAIL = "transaction_detail/{tx_hash}?logoUrl={logoUrl}"
         //收款
-        const val RECEIVE_WT = "receive_wt/{address}?symbol={symbol}&logo_url={logo_url}&chain_id={chain_id}&chain={chain}"
+        const val RECEIVE_WT = "receive_wt/{address}?symbol={symbol}&logo_url={logo_url}&chain_id={chain_id}&chain={chain}&tokenAddress={tokenAddress}"
         //转账
-        const val TRANSFER_WT = "transfer_wt?address={address}&amount={amount}&symbol={symbol}"
+        const val TRANSFER_WT = "transfer_wt?address={address}&amount={amount}&symbol={symbol}&tokenAddress={tokenAddress}"
         //处理中
         const val TRANSFER_PROCESSING = "transfer_processing"
         //添加代币
@@ -584,7 +593,7 @@ class WTRoute {
                 "transaction_detail/$txHash?logoUrl=${Uri.encode(logoUrl)}"
             }
         }
-        fun receiveWt(address: String, symbol: String?, logoUrl: String?, chainId: Int?, chain: String?): String {
+        fun receiveWt(address: String, symbol: String?, logoUrl: String?, chainId: Int?, chain: String?,tokenAddress: String): String {
             val base = StringBuilder("receive_wt/$address")
             var first = true
             fun appendParam(key: String, value: String?) {
@@ -598,12 +607,13 @@ class WTRoute {
             appendParam("logo_url", logoUrl)
             appendParam("chain_id", chainId?.toString())
             appendParam("chain", chain)
+            appendParam("tokenAddress", tokenAddress)
             return base.toString()
         }
         fun importWt(expectedAddress: String? = null): String {
             return if (expectedAddress.isNullOrEmpty()) "import_wt" else "import_wt?expectedAddress=$expectedAddress"
         }
-        fun transferWt(address: String?, amount: String?, symbol: String?): String {
+        fun transferWt(address: String?, amount: String?, symbol: String?,tokenAddress: String?=""): String {
             val base = StringBuilder("transfer_wt")
             var first = true
             fun appendParam(key: String, value: String?) {
@@ -616,6 +626,7 @@ class WTRoute {
             appendParam("address", address)
             appendParam("amount", amount)
             appendParam("symbol", symbol)
+            appendParam("tokenAddress", tokenAddress)
             return base.toString()
         }
     }
