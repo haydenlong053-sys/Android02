@@ -81,8 +81,8 @@
     <string name="zhuanzhangjine">Transfer amount</string>
     <string name="bianjixiaoxineirong">Edit message content</string>
     <string name="mourendehongbao">%1$s red packet</string>
-    <string name="yuanqian">TRAI</string>
-    <string name="yilingquhongbao">%1$s claimed, total %2$s TRAI</string>
+    <string name="yuanqian">ODIC</string>
+    <string name="yilingquhongbao">%1$s claimed, total %2$s ODIC</string>
     <string name="daishoulkuan">Pending payment</string>
     <string name="zhuanzhuangshijian">Transfer time</string>
     <string name="shoukuan">Receive payment</string>
@@ -283,7 +283,7 @@
     <string name="确定">Confirm</string>
     <string name="点击保存图片">Click to Save Image</string>
     <string name="设置签名">Set Signature</string>
-    <string name="人民币">TRAI</string>
+    <string name="人民币">ODIC</string>
     <string name="当前余额">Current Balance</string>
     <string name="充值">Recharge</string>
     <string name="提现">Withdraw</string>
@@ -395,7 +395,7 @@
     <string name="请输入内容">Please enter content</string>
     <string name="回复">Reply:</string>
     <string name="已连续签到">Signed in for %s consecutive days</string>
-    <string name="签到领取红包">Sign in to Claim TRAI</string>
+    <string name="签到领取红包">Sign in to Claim ODIC</string>
     <string name="已签到">Signed In</string>
     <string name="签到">Sign In</string>
     <string name="user_id_prefix">ID:</string>
@@ -632,7 +632,7 @@
     <string name="credit_item2_title">eycorsican/go-tun2socks</string>
     <string name="credit_item3_title">bingoogolapple/BGAQRCode-Android</string>
     <string name="action_about">About</string>
-    <string name="webX_name">TRAI</string>
+    <string name="webX_name">ODIC</string>
     <string name="mine_sys_currency">Platform Token (%1$s)</string>
     <string name="mine_sys_point">Platform Points (WX)</string>
     <string name="mine_safe_center">Security Center</string>

@@ -42,7 +42,7 @@
     <string name="zhuanzhangjine">Kwota przelewu</string>
     <string name="bianjixiaoxineirong">Edytuj treść wiadomości</string>
     <string name="mourendehongbao">Czerwona koperta od %1$s</string>
-    <string name="yuanqian">TRAI</string>
+    <string name="yuanqian">ODIC</string>
     <string name="yilingquhongbao">Odebrano %1$s, w sumie %2$s yuan</string>
     <string name="daishoulkuan">Oczekujące na odbiór</string>
     <string name="zhuanzhuangshijian">Czas przelewu</string>
@@ -242,7 +242,7 @@
     <string name="确定">Potwierdź</string>
     <string name="点击保存图片">Kliknij, aby zapisać obraz</string>
     <string name="设置签名">Ustaw podpis</string>
-    <string name="人民币">TRAI</string>
+    <string name="人民币">ODIC</string>
     <string name="当前余额">Aktualne saldo</string>
     <string name="充值">Doładuj</string>
     <string name="提现">Wypłać</string>

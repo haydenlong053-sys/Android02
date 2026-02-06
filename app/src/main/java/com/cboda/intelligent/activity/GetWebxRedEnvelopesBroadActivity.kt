@@ -133,7 +133,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                     moneyNum.text = it1.money
                     if (isGroup) {
                         getTheTitle.text =
-                            "已领取 ${it1.ylq?.toInt()}/${it1.count?.toInt()}个，共${it1.money}TRAI"
+                            "已领取 ${it1.ylq?.toInt()}/${it1.count?.toInt()}个，共${it1.money}ODIC"
                     }
                 }
                 mAdapter?.setList(it.dataList ?: arrayListOf())

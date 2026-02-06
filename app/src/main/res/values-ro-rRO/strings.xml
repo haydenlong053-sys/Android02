@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Sumă transferată</string>
     <string name="bianjixiaoxineirong">Editează conținutul mesajului</string>
     <string name="mourendehongbao">Plicul roșu al lui %1$s</string>
-    <string name="yuanqian">TRAI</string>
+    <string name="yuanqian">ODIC</string>
     <string name="yilingquhongbao">Au fost primite %1$s, în total %2$s yuan</string>
     <string name="daishoulkuan">În așteptarea primirii</string>
     <string name="zhuanzhuangshijian">Ora transferului</string>
@@ -246,7 +246,7 @@
     <string name="确定">Confirmați</string>
     <string name="点击保存图片">Faceți clic pentru a salva imaginea</string>
     <string name="设置签名">Setați semnătura</string>
-    <string name="人民币">TRAI</string>
+    <string name="人民币">ODIC</string>
     <string name="当前余额">Sold curent</string>
     <string name="充值">Reîncărcați</string>
     <string name="提现">Retragere</string>

@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Kiasi cha Hamisho</string>
     <string name="bianjixiaoxineirong">Hariri maudhui ya ujumbe</string>
     <string name="mourendehongbao">Bahasha nyekundu ya %1$s</string>
-    <string name="yuanqian">TRAI</string>
+    <string name="yuanqian">ODIC</string>
     <string name="yilingquhongbao">Imepokelewa %1$s, jumla %2$s yuan</string>
     <string name="daishoulkuan">Inasubiri kupokelewa</string>
     <string name="zhuanzhuangshijian">Muda wa Hamisho</string>
@@ -246,7 +246,7 @@
     <string name="确定">Thibitisha</string>
     <string name="点击保存图片">Bofya kuhifadhi picha</string>
     <string name="设置签名">Weka saini</string>
-    <string name="人民币">TRAI</string>
+    <string name="人民币">ODIC</string>
     <string name="当前余额">Salio la Sasa</string>
     <string name="充值">Ongeza salio</string>
     <string name="提现">Toa pesa</string>
