@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 /**
  * 转账
+ * flag = 1 提现，0 转账
  */
 class TransferBroadActivity : BaseSimple2BroadActivity() {
     private val viewModel: TransferViewBroadModel by viewModels()
@@ -121,6 +123,16 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
                 mBind?.mEtInputAddress?.text?.trim().toString()
             val inputMoneyString =
                 mBind?.mEtInputMoney?.text?.trim().toString()
+            if (flag==0 && inputAddressString == mBind?.mTvMoneyAddressKey?.text.toString()){
+                ToastBroadUtils.show("不能给自己转账!")
+                return@setOnClickListener
+            }else if (flag==0 && !inputAddressString.startsWith("w",true)){
+                ToastBroadUtils.show("转账地址格式错误!")
+                return@setOnClickListener
+            }else if (flag==1 && !inputAddressString.startsWith("0x",true)){
+                ToastBroadUtils.show("提现地址格式错误!")
+                return@setOnClickListener
+            }
             if (inputAddressString.isNotEmpty() && inputMoneyString.isNotEmpty()) {
                 performNetworkRequest(inputMoneyString)
                 inputAddressString.let {
