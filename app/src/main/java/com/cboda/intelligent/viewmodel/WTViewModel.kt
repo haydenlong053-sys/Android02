@@ -81,6 +81,12 @@ data class WTUiState(
     // Safe Center
     val safeCenterInfo: SafeCenterBroadBean? = null,
     
+    // Ledger Pagination
+    val isLedgerRefreshing: Boolean = false,
+    val isLedgerLoadingMore: Boolean = false,
+    val hasMoreLedger: Boolean = true,
+    val ledgerFilter: String = "all",
+
     // Gas Estimation State
     val isEstimatingGas: Boolean = false,
     val isSending: Boolean = false,
@@ -342,15 +348,69 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     
-    fun fetchLedger(address: String, tokenAddress: String? = null) {
+    companion object {
+        private const val PAGE_LIMIT = 20
+    }
+
+    fun fetchLedger(address: String, tokenAddress: String? = null, isRefresh: Boolean = false, isLoadMore: Boolean = false, direction: String = "all") {
         viewModelScope.launch {
-            val result = repository.getLedger(WTRepository.wtDefaultChanId, address, tokenAddress)
+            val currentFilter = _uiState.value.ledgerFilter
+            val isFilterChanged = currentFilter != direction
+            val isReset = isRefresh || isFilterChanged || (!isLoadMore && !isRefresh)
+
+            if (isReset) {
+                if (isRefresh) {
+                    _uiState.value = _uiState.value.copy(isLedgerRefreshing = true, ledgerFilter = direction)
+                } else {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = true,
+                        ledgerList = emptyList(),
+                        ledgerFilter = direction,
+                        hasMoreLedger = true
+                    )
+                }
+            } else if (isLoadMore) {
+                if (!_uiState.value.hasMoreLedger || _uiState.value.isLedgerLoadingMore) return@launch
+                _uiState.value = _uiState.value.copy(isLedgerLoadingMore = true)
+            }
+
+            val limit = PAGE_LIMIT
+            // Offset calculation: (page - 1) * limit
+            // Since ledgerList contains all items from previous pages, its size is exactly (page - 1) * limit
+            // Page 1: size=0 -> offset=0
+            // Page 2: size=20 -> offset=20
+            // Page 3: size=40 -> offset=40
+            val currentList = if (isReset) emptyList() else _uiState.value.ledgerList
+            val offset = currentList.size
+
+            val result = repository.getLedger(WTRepository.wtDefaultChanId, address, tokenAddress, limit, offset, direction)
             result.onSuccess { response ->
+                val newItems = response?.items ?: emptyList()
+                val hasMore = newItems.size >= limit
+                
+                val finalList = currentList + newItems
+                
                 _uiState.value = _uiState.value.copy(
-                    ledgerList = response?.items ?: emptyList()
+                    isLoading = false,
+                    isLedgerRefreshing = false,
+                    isLedgerLoadingMore = false,
+                    ledgerList = finalList,
+                    hasMoreLedger = hasMore
                 )
             }.onError {
-                // Handle error silently or show toast
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    isLedgerRefreshing = false,
+                    isLedgerLoadingMore = false
+                )
+                 ToastBroadUtil.show(it.message) 
+            }.onFailure { _, msg ->
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    isLedgerRefreshing = false,
+                    isLedgerLoadingMore = false
+                )
+                ToastBroadUtil.show(msg)
             }
         }
     }
@@ -658,6 +718,8 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }.onError {
                 _uiState.value = _uiState.value.copy(isLoading = false, error = it.message)
+            }.onFailure { _, msg ->
+                _uiState.value = _uiState.value.copy(isLoading = false, error = msg)
             }
         }
     }
@@ -708,6 +770,8 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 getWalletList(req.chain_id)
             }.onError {
                 _uiState.value = _uiState.value.copy(isLoading = false, error = it.message)
+            }.onFailure { _, msg ->
+                _uiState.value = _uiState.value.copy(isLoading = false, error = msg)
             }
         }
     }

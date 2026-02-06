@@ -1,6 +1,5 @@
 package com.cboda.intelligent.compose.wallet
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,7 +26,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import com.cboda.intelligent.R
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import com.cboda.intelligent.model.LedgerItem
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cboda.intelligent.viewmodel.WTViewModel
@@ -56,7 +65,7 @@ fun WTTokenDetailScreen(
     symbol: String,
     tokenAddress:String,
     onBack: () -> Unit,
-    onTransactionClick: (String) -> Unit,
+    onTransactionClick: (String,String) -> Unit,
     onReceiveClick: (AssetItem) -> Unit,
     onTransferClick: () -> Unit,
     viewModel: WTViewModel
@@ -72,18 +81,22 @@ fun WTTokenDetailScreen(
     val asset = uiState.assetList.find { it.symbol.equals(symbol, ignoreCase = true) && it.token_address.equals(tokenAddress,true)}
         ?: uiState.assetList.find { it.symbol.equals("BNB", ignoreCase = true) }
 
+    LaunchedEffect(pagerState.currentPage) {
+        val direction = when(pagerState.currentPage) {
+            1 -> "in"
+            2 -> "out"
+            else -> "all"
+        }
+        currentWallet?.address?.let { address ->
+            if (asset != null) {
+                viewModel.fetchLedger(address, asset.token_address, direction = direction)
+            }
+        }
+    }
+
     LaunchedEffect(currentWallet?.address, symbol) {
         currentWallet?.address?.let { address ->
-            // If asset is found and is not native, use its contract address
-            // We need to find the asset from list to get contract address
-            // If assetList is empty (initial load), this might run with asset=null.
-            // But we can try to fetch ledger if we know it's not BNB? 
-            // Actually, without asset list, we don't know the contract address for a symbol.
-            // So we rely on asset being found.
-            if (asset != null) {
-                val tokenAddress = asset.token_address
-                viewModel.fetchLedger(address, tokenAddress)
-            } else {
+            if (asset == null) {
                  // Try to fetch wallet list if empty?
                  viewModel.getWalletList(WTRepository.wtDefaultChanId)
             }
@@ -104,16 +117,21 @@ fun WTTokenDetailScreen(
                                 .size(24.dp)
                                 .clip(CircleShape),
                             loading = {
-                                Image(
-                                    painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop
-                                )
+//                                Image(
+//                                    painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                                    contentDescription = null,
+//                                    contentScale = ContentScale.Crop
+//                                )
+                                Surface(
+                                    shape = CircleShape,
+                                    color = Color(0xFF26A17B),
+                                    modifier = Modifier.size(24.dp)
+                                ){}
                             },
                             error = {
                                 if (asset?.symbol == "BNB" || asset?.symbol == null) {
                                     Image(
-                                        painter = painterResource(id = R.mipmap.ic_wt_bsc),
+                                        painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
                                         contentDescription = null,
                                         contentScale = ContentScale.Crop
                                     )
@@ -302,42 +320,87 @@ fun WTTokenDetailScreen(
                 state = pagerState,
                 modifier = Modifier.weight(1f)
             ) { page ->
-                val transactions = remember(page, allTransactions) {
-                    when (page) {
-                        1 -> allTransactions.filter { it.direction == "in" }
-                        2 -> allTransactions.filter { it.direction == "out" }
-                        else -> allTransactions
-                    }
+                val pageDirection = when(page) {
+                    1 -> "in"
+                    2 -> "out"
+                    else -> "all"
                 }
+                
+                // Only show transactions if the loaded data matches this page's direction
+                val transactions = if (uiState.ledgerFilter == pageDirection) uiState.ledgerList else emptyList()
 
-                if (transactions.isEmpty()) {
-                    WTEmptyStateView()
-                } else {
-                    LazyColumn(
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(0.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(transactions.size) { index ->
-                            val isFirst = index == 0
-                            val isLast = index == transactions.size - 1
-                            val shape = if (transactions.size == 1) {
-                                RoundedCornerShape(10.dp)
-                            } else if (isFirst) {
-                                RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
-                            } else if (isLast) {
-                                RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)
-                            } else {
-                                androidx.compose.ui.graphics.RectangleShape
+                val pullToRefreshState = rememberPullToRefreshState()
+                
+                PullToRefreshBox(
+                    isRefreshing = uiState.isLedgerRefreshing && uiState.ledgerFilter == pageDirection,
+                    onRefresh = {
+                        currentWallet?.address?.let { address ->
+                            viewModel.fetchLedger(address, asset?.token_address, isRefresh = true, direction = pageDirection)
+                        }
+                    },
+                    state = pullToRefreshState,
+                    modifier = Modifier.fillMaxSize(),
+                    indicator = {
+                        PullToRefreshDefaults.Indicator(
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            isRefreshing = uiState.isLedgerRefreshing && uiState.ledgerFilter == pageDirection,
+                            state = pullToRefreshState,
+                            containerColor = Color.White,
+                            color = Color(0xFF3B47DD)
+                        )
+                    }
+                ) {
+                    if (transactions.isEmpty()) {
+                        Box(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+                            WTEmptyStateView()
+                        }
+                    } else {
+                        LazyColumn(
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(0.dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(transactions.size) { index ->
+                                val isFirst = index == 0
+                                val isLast = index == transactions.size - 1
+                                val shape = if (transactions.size == 1) {
+                                    RoundedCornerShape(10.dp)
+                                } else if (isFirst) {
+                                    RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+                                } else if (isLast) {
+                                    RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)
+                                } else {
+                                    androidx.compose.ui.graphics.RectangleShape
+                                }
+
+                                TransactionItem(
+                                    item = transactions[index],
+                                    logoUrl = asset?.logo_url,
+                                    shape = shape,
+                                    showDivider = !isLast,
+                                    onClick = { onTransactionClick(transactions[index].tx_hash,asset?.logo_url?:"") }
+                                )
+
+                                if (index == transactions.size - 1 && uiState.hasMoreLedger && !uiState.isLedgerLoadingMore && !uiState.isLedgerRefreshing) {
+                                    LaunchedEffect(Unit) {
+                                        currentWallet?.address?.let { address ->
+                                            viewModel.fetchLedger(address, asset?.token_address, isLoadMore = true, direction = pageDirection)
+                                        }
+                                    }
+                                }
                             }
 
-                            TransactionItem(
-                                item = transactions[index],
-                                logoUrl = asset?.logo_url,
-                                shape = shape,
-                                showDivider = !isLast,
-                                onClick = { onTransactionClick(transactions[index].tx_hash) }
-                            )
+                            if (uiState.isLedgerLoadingMore && uiState.ledgerFilter == pageDirection) {
+                                item {
+                                    Box(modifier = Modifier.fillMaxWidth().padding(8.dp), contentAlignment = Alignment.Center) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(20.dp), 
+                                            strokeWidth = 2.dp,
+                                            color = Color(0xFF3B47DD)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -355,6 +418,8 @@ fun TransactionItem(
     showDivider: Boolean,
     onClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
     Surface(
         shape = shape,
         color = Color.White,
@@ -413,7 +478,13 @@ fun TransactionItem(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable {
+                            clipboardManager.setText(AnnotatedString(item.tx_hash))
+                            ToastBroadUtil.show( context.getString(R.string.wt_copied))
+                        }
+                    ) {
                         val displayHash = item.tx_hash.let { if (it.length > 10) "${it.take(3)}...${it.takeLast(4)}" else it }
                         Text(
                             text = displayHash,

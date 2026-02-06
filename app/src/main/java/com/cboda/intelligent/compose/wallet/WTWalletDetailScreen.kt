@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cboda.intelligent.R
+import com.cboda.intelligent.compose.TextAvatar
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.viewmodel.WTViewModel
 
@@ -103,11 +104,16 @@ fun WTWalletDetailScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Icon
-                    Icon(
-                        painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                        contentDescription = null,
-                        tint = Color.Unspecified,
-                        modifier = Modifier.size(48.dp)
+//                    Icon(
+//                        painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                        contentDescription = null,
+//                        tint = Color.Unspecified,
+//                        modifier = Modifier.size(48.dp)
+//                    )
+                    TextAvatar(
+                        name = currentName,
+                        backgroundColor = if (isWatch) Color(0xFF5B6CFF) else Color(0xFFFF9500),
+                        modifier = Modifier.size(40.dp)
                     )
 
                     Spacer(modifier = Modifier.width(16.dp))

@@ -139,7 +139,7 @@ class WTRepository {
         }
     }
 
-    suspend fun getLedger(chainId: Int, address: String, tokenAddress: String? = null, limit: Int = 20, offset: Int = 0): NetworkBroadResult<LedgerListResponse> {
+    suspend fun getLedger(chainId: Int, address: String, tokenAddress: String? = null, limit: Int = 20, offset: Int = 0, direction: String? = null): NetworkBroadResult<LedgerListResponse> {
         val params = mutableMapOf(
             "chain_id" to chainId.toString(),
             "address" to address,
@@ -148,6 +148,9 @@ class WTRepository {
         )
         if (!tokenAddress.isNullOrEmpty()) {
             params["token_address"] = tokenAddress
+        }
+        if (!direction.isNullOrEmpty() && direction != "all") {
+            params["direction"] = direction
         }
         return withContext(Dispatchers.IO) {
             NetworkBroadRepository.get(UrlBroadBroadConstants.WT_LEDGER, wtBaseUrl,LedgerListResponse::class.java, params)

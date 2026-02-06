@@ -15,7 +15,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -25,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.SubcomposeAsyncImage
 import com.cboda.intelligent.model.LedgerItem
 import com.cboda.intelligent.R
 import com.cboda.intelligent.compose.getFormattedAmount
@@ -39,6 +42,7 @@ import java.util.TimeZone
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WTTransactionDetailScreen(
+    iconUrl:String,
     transaction: LedgerItem,
     onBack: () -> Unit
 ) {
@@ -48,7 +52,11 @@ fun WTTransactionDetailScreen(
 //    val amount = WalletManager.convertFromWei(transaction.amount)
     val amount = getFormattedAmount(transaction.amount,18)
 
-    val fee = transaction.gas_fee?:"0"
+    val fee = if (transaction.gas_fee.isNullOrEmpty()){
+        "0"
+    }else{
+        transaction.gas_fee
+    }
 
     val dateStr = transaction.block_time?.let { time ->
         try {
@@ -179,7 +187,8 @@ fun WTTransactionDetailScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(stringResource(R.string.wt_network_fee), color = Color.Gray)
-                        Text("$fee ${transaction.token_symbol}", fontWeight = FontWeight.Medium) // Assuming fee in same token or native? Usually native (BNB). But keeping logic simple.
+//                        Text("$fee ${transaction.token_symbol}", fontWeight = FontWeight.Medium) // Assuming fee in same token or native? Usually native (BNB). But keeping logic simple.
+                        Text("$fee BNB", fontWeight = FontWeight.Medium) // Assuming fee in same token or native? Usually native (BNB). But keeping logic simple.
                     }
                 }
 
@@ -194,8 +203,58 @@ fun WTTransactionDetailScreen(
                     ) {
                         Text(stringResource(R.string.wt_network), color = Color.Black.copy(0.65f), fontSize = 16.sp)
                         Row(verticalAlignment = Alignment.CenterVertically) {
+//                            SubcomposeAsyncImage(
+//                                model = iconUrl,
+//                                contentDescription = null,
+//                                modifier = Modifier
+//                                    .size(16.dp)
+//                                    .clip(CircleShape),
+//                                loading = {
+////                        Image(
+////                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+////                            contentDescription = null,
+////                            contentScale = ContentScale.Crop
+////                        )
+//                                    Surface(
+//                                        shape = CircleShape,
+//                                        color = Color(0xFF26A17B),
+//                                        modifier = Modifier.size(40.dp)
+//                                    ) {
+////                            Box(contentAlignment = Alignment.Center) {
+////                                Text(
+////                                    symbol.take(1),
+////                                    color = Color.White,
+////                                    fontWeight = FontWeight.Bold
+////                                )
+////                            }
+//                                    }
+//                                },
+//                                error = {
+////                        if (symbol == "BNB") {
+////                            Image(
+////                                painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
+////                                contentDescription = null,
+////                                contentScale = ContentScale.Fit
+////                            )
+////                        } else {
+//                                    Surface(
+//                                        shape = CircleShape,
+//                                        color = Color(0xFF26A17B),
+//                                        modifier = Modifier.size(40.dp)
+//                                    ) {
+//                                        Box(contentAlignment = Alignment.Center) {
+//                                            Text(
+//                                                transaction.token_symbol.take(1),
+//                                                color = Color.White,
+//                                                fontWeight = FontWeight.Bold
+//                                            )
+//                                        }
+//                                    }
+////                        }
+//                                }
+//                            )
                             Icon(
-                                painter = painterResource(id = R.mipmap.ic_wt_bsc),
+                                painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
                                 contentDescription = null,
                                 tint = Color.Unspecified,
                                 modifier = Modifier.size(16.dp)

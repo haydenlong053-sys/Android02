@@ -29,6 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.BorderStroke
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cboda.intelligent.R
 import com.cboda.intelligent.viewmodel.WTViewModel
@@ -41,6 +47,7 @@ import androidx.compose.ui.platform.LocalContext
 import android.widget.Toast
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.cboda.intelligent.compose.TextAvatar
 
 import coil.compose.SubcomposeAsyncImage
 import com.cboda.intelligent.compose.getFormattedAmount
@@ -61,6 +68,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.cboda.intelligent.compose.MyFontNumBoldFamily
 import com.cboda.intelligent.compose.formatSixDecimalValue
+import com.cboda.intelligent.compose.formatTextEllipsize
 import com.cboda.intelligent.model.RemoveTokenRequest
 import com.cboda.intelligent.utils.WalletManager
 import kotlinx.coroutines.launch
@@ -69,7 +77,7 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun PreviewWTAssetScreen() {
-    WTAssetScreen(
+    WTAssetContent(
         onBack = {},
         onScanClick = {},
         onTransferClick = {},
@@ -77,7 +85,21 @@ fun PreviewWTAssetScreen() {
         onAddWalletClick = {},
         onAddTokenClick = {},
         onWalletDetailClick = { _, _, _ -> },
-        onTokenClick = { _,_ ,_-> }
+        showWalletSelect = false,
+        onWalletTitleClick = {},
+        onWalletSelectDismiss = {},
+        hideAssets = false,
+        onToggleHideAssets = {},
+        onTokenClick = { _,_ -> },
+        currentWallet = null,
+        isWatch = false,
+        totalUsd = "100.00",
+        bscBalance = "1.00",
+        wallets = emptyList(),
+        onWalletSelected = {},
+        onWalletsReordered = {},
+        onFetchBalances = {},
+        onRemoveToken = {}
     )
 }
 
@@ -206,6 +228,7 @@ fun WTAssetContent(
     onRemoveToken: (AssetItem) -> Unit
 ) {
     val mContext = LocalContext.current
+    var showWatchWalletDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -258,7 +281,7 @@ fun WTAssetContent(
                     modifier = Modifier.noRippleClickable { onWalletTitleClick() }
                 ) {
                     Text(
-                        text = currentWallet?.label ?: "My wallet",
+                        text = formatTextEllipsize(currentWallet?.label ?: "My wallet",9),
                         fontSize = 16.sp,
                         lineHeight =18.75.sp ,
                         fontWeight = FontWeight.W400,
@@ -278,7 +301,7 @@ fun WTAssetContent(
                             shape = RoundedCornerShape(8.dp)
                         ) {
                             Text(
-                                text = "观察钱包",
+                                text = stringResource(R.string.wt_watch_wallet_tag),
                                 fontSize = 10.sp,
                                 color = Color(0xFF3B47DD),
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 0.dp)
@@ -402,7 +425,7 @@ fun WTAssetContent(
                     backgroundColor = Color(0xFFFCEDD8),
                     onClick = {
                         if (isWatch) {
-                            ToastBroadUtil.show(mContext.getString(R.string.wt_watch_wallet_not_supported))
+                            showWatchWalletDialog = true
                         } else {
                             onScanClick()
                         }
@@ -416,11 +439,11 @@ fun WTAssetContent(
                     color = Color(0xFF4CA154),
                     backgroundColor = Color(0xFFE2FBE8),
                     onClick = {
-                        if (isWatch) {
-                            ToastBroadUtil.show(mContext.getString(R.string.wt_watch_wallet_not_supported))
-                        } else {
+//                        if (isWatch) {
+//                            showWatchWalletDialog = true
+//                        } else {
                             onReceiveClick(assetList.firstOrNull())
-                        }
+//                        }
                     }
                 )
                 
@@ -432,7 +455,7 @@ fun WTAssetContent(
                     backgroundColor = Color(0xFFDEEAFC),
                     onClick = {
                         if (isWatch) {
-                            ToastBroadUtil.show(mContext.getString(R.string.wt_watch_wallet_not_supported))
+                            showWatchWalletDialog = true
                         } else {
                             onTransferClick()
                         }
@@ -486,6 +509,92 @@ fun WTAssetContent(
             onWalletSelected = onWalletSelected,
             onWalletsReordered = onWalletsReordered
         )
+    }
+
+    if (showWatchWalletDialog) {
+        WatchWalletDialog(
+            onDismiss = { showWatchWalletDialog = false },
+            onConfirm = {
+                showWatchWalletDialog = false
+                currentWallet?.let { wallet ->
+                    onWalletDetailClick(wallet.label ?: "", wallet.address, isWatch)
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun WatchWalletDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = Color.White,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(24.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.wt_tip),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W500,
+                    color = Color.Black.copy(0.9f)
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                Text(
+                    text = buildAnnotatedString {
+                        append(stringResource(R.string.wt_watch_wallet_tips_content))
+                        withStyle(SpanStyle(color = Color.Red)) {
+                            append(stringResource(R.string.wt_watch_wallet_tips_content_manager))
+                        }
+                        append(stringResource(R.string.wt_convert_to_transaction_wallet))
+                    },
+                    fontSize = 14.sp,
+                    color = Color.Black.copy(0.65f),
+                    textAlign = TextAlign.Center,
+                    lineHeight = 20.sp
+                )
+                Spacer(modifier = Modifier.height(22.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    // Cancel Button (知道了)
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color.White,
+                        border = BorderStroke(1.dp, Color(0xFF3B47DD)),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(46.dp)
+                            .clickable(onClick = onDismiss)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(text = stringResource(R.string.got_it), color = Color(0xFF3B47DD), fontSize = 16.sp)
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    // Confirm Button (前往)
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color(0xFF3B47DD),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(46.dp)
+                            .clickable(onClick = onConfirm)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(text = stringResource(R.string.wt_go_it), color = Color.White, fontSize = 16.sp)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1016,42 +1125,37 @@ fun WalletItemRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Icon
-        Surface(
-            shape = CircleShape,
-            color = if (wallet.isWatch) Color(0xFF5B6CFF) else Color(0xFFFF9500),
+        TextAvatar(
+            name = wallet.name,
+            backgroundColor = if (wallet.isWatch) Color(0xFF5B6CFF) else Color(0xFFFF9500),
             modifier = Modifier.size(40.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                val initial = if (wallet.name.isNotEmpty()) wallet.name.take(1).uppercase() else "?"
-                Text(
-                    text = initial,
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
+        )
         
         Spacer(modifier = Modifier.width(12.dp))
         
         // Info
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = wallet.name, fontSize = 16.sp, fontWeight = FontWeight.W400, color = Color.Black)
-                if (wallet.isWatch) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Surface(
-                        color = Color(0xFF3B47DD).copy(0.16f),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Text(
-                            text = "观察钱包",
-                            color = Color(0xFF3B47DD),
-                            fontSize = 10.sp,
-                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                        )
-                    }
-                }
+                Text(
+                    text = formatTextEllipsize(wallet.name),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                    color = Color.Black
+                )
+//                if (wallet.isWatch) {
+//                    Spacer(modifier = Modifier.width(8.dp))
+//                    Surface(
+//                        color = Color(0xFF3B47DD).copy(0.16f),
+//                        shape = RoundedCornerShape(8.dp)
+//                    ) {
+//                        Text(
+//                            text = stringResource(R.string.wt_watch_wallet_tag),
+//                            color = Color(0xFF3B47DD),
+//                            fontSize = 10.sp,
+//                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+//                        )
+//                    }
+//                }
                 Spacer(modifier = Modifier.width(8.dp))
                 
                 // Address Row with Copy Icon
@@ -1076,7 +1180,7 @@ fun WalletItemRow(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Row {
-                Text(text = "BSC: ${wallet.bscBalance}", fontSize = 12.sp, color = Color.Gray)
+                Text(text = "BSC: ${getFormattedAmount(wallet.bscBalance,18)}", fontSize = 12.sp, color = Color.Gray)
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(text = "余额: $${wallet.usdBalance}", fontSize = 12.sp, color = Color.Gray)
             }

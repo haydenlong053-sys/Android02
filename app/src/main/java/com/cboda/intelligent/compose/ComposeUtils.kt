@@ -8,6 +8,16 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.runtime.Composable
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -31,6 +41,13 @@ fun Modifier.noRippleClickable(
     )
 }
 
+/**
+ * 设置文本省略号
+ */
+fun  formatTextEllipsize(oldStr:String,maxShowCount:Int=6) :String{
+    return if (oldStr.length > maxShowCount) oldStr.take(maxShowCount) + "..." else oldStr
+}
+
 // 在 composable 外或在 viewModel 裡計算好
 fun getFormattedAmount(
     balance: String,
@@ -48,13 +65,11 @@ fun getFormattedAmount(
                 RoundingMode.DOWN
             )
 
-        // 格式化顯示（去掉不必要的尾0）
-        amount.stripTrailingZeros()
-            .setScale(
-                amount.scale().coerceAtMost(showDecimals).coerceAtLeast(minShowDecimals),
-                RoundingMode.DOWN
-            )
-            .toPlainString()
+        // 1. 截断到最大显示位数 (showDecimals)
+        val truncated = amount.setScale(showDecimals, RoundingMode.DOWN)
+
+        // 2. 去除尾部零并转为普通字符串 (避免科学计数法)
+        truncated.stripTrailingZeros().toPlainString()
     } catch (e: Exception) {
         "0"
     }
@@ -104,5 +119,32 @@ fun formatSixDecimalChange(value: String?, decimals: Int = 6): String {
         }
     } catch (e: Exception) {
         "+0%"
+    }
+}
+
+@Composable
+fun TextAvatar(
+    name: String,
+    modifier: Modifier = Modifier,
+    shape: Shape = CircleShape,
+    backgroundColor: Color = Color(0xFFFF9500),
+    textColor: Color = Color.White,
+    fontSize: TextUnit = 20.sp,
+    fontWeight: FontWeight = FontWeight.Bold
+) {
+    Surface(
+        shape = shape,
+        color = backgroundColor,
+        modifier = modifier
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            val initial = if (name.isNotEmpty()) name.take(1).uppercase() else "?"
+            Text(
+                text = initial,
+                color = textColor,
+                fontSize = fontSize,
+                fontWeight = fontWeight
+            )
+        }
     }
 }

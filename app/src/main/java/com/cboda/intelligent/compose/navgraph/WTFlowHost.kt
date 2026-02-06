@@ -453,7 +453,8 @@ fun WTFlowHost(
                 symbol = symbol,
                 tokenAddress=tokenAddress,
                 onBack = { navController.popBackStack() },
-                onTransactionClick = { txHash -> navController.navigate(WTRoute.transactionDetail(txHash)) },
+                onTransactionClick = { txHash,logoUrl ->
+                    navController.navigate(WTRoute.transactionDetail(txHash,logoUrl)) },
                 onReceiveClick = { asset ->
                     val currentWallet = viewModel.uiState.value.currentWallet
                     val address = currentWallet?.address ?: ""
@@ -475,14 +476,18 @@ fun WTFlowHost(
         }
         composable(
             route = WTRoute.TRANSACTION_DETAIL,
-            arguments = listOf(navArgument("tx_hash") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("tx_hash") { type = NavType.StringType },
+                navArgument("logoUrl") { type = NavType.StringType; nullable = true; defaultValue = null }
+            )
         ) { backStackEntry ->
             val txHash = backStackEntry.arguments?.getString("tx_hash") ?: ""
+            val logoUrl = backStackEntry.arguments?.getString("logoUrl") ?: ""
             val uiState by viewModel.uiState.collectAsState()
             val transaction = uiState.ledgerList.find { it.tx_hash == txHash }
-            
             if (transaction != null) {
                 WTTransactionDetailScreen(
+                    iconUrl = logoUrl,
                     transaction = transaction,
                     onBack = { navController.popBackStack() }
                 )
@@ -512,7 +517,8 @@ fun WTFlowHost(
                 logoUrl = logoUrl,
                 chainId = chainId,
                 chain = chain,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                viewModel = viewModel
             )
         }
         composable(WTRoute.TRANSFER_PROCESSING) {
@@ -556,7 +562,7 @@ class WTRoute {
         //代币详情
         const val TOKEN_DETAIL = "token_detail/{isWatch}/{symbol}/{tokenAddress}"
         //交易详情
-        const val TRANSACTION_DETAIL = "transaction_detail/{tx_hash}"
+        const val TRANSACTION_DETAIL = "transaction_detail/{tx_hash}?logoUrl={logoUrl}"
         //收款
         const val RECEIVE_WT = "receive_wt/{address}?symbol={symbol}&logo_url={logo_url}&chain_id={chain_id}&chain={chain}"
         //转账
@@ -571,7 +577,13 @@ class WTRoute {
         fun exportPrivateKey(privateKey: String) = "export_private_key/$privateKey"
         fun walletDetail(name: String, address: String, isWatch: Boolean) = "wallet_detail/$name/$address/$isWatch"
         fun tokenDetail(isWatch: Boolean, symbol: String,tokenAddress:String) = "token_detail/$isWatch/$symbol/$tokenAddress"
-        fun transactionDetail(txHash: String) = "transaction_detail/$txHash"
+        fun transactionDetail(txHash: String, logoUrl: String?): String {
+            return if (logoUrl.isNullOrEmpty()) {
+                "transaction_detail/$txHash"
+            } else {
+                "transaction_detail/$txHash?logoUrl=${Uri.encode(logoUrl)}"
+            }
+        }
         fun receiveWt(address: String, symbol: String?, logoUrl: String?, chainId: Int?, chain: String?): String {
             val base = StringBuilder("receive_wt/$address")
             var first = true

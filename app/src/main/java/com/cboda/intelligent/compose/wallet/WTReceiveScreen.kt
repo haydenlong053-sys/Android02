@@ -33,10 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cboda.intelligent.viewmodel.WTViewModel
 import com.cboda.intelligent.R
 import coil.compose.SubcomposeAsyncImage
 import android.net.Uri
 import androidx.compose.ui.text.toLowerCase
+import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -51,8 +54,10 @@ fun WTReceiveScreen(
     logoUrl: String?,
     chainId: Int?,
     chain: String?,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: WTViewModel = viewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     var amount by remember { mutableStateOf<String?>(null) }
     var showSetAmountDialog by remember { mutableStateOf(false) }
     val clipboardManager = LocalClipboardManager.current
@@ -121,20 +126,51 @@ fun WTReceiveScreen(
                 SubcomposeAsyncImage(
                     model = logoUrl,
                     contentDescription = null,
-                    modifier = Modifier.size(32.dp).clip(CircleShape),
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape),
                     loading = {
-                        Image(
-                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop
-                        )
+//                        Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+                        Surface(
+                            shape = CircleShape,
+                            color = Color(0xFF26A17B),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+//                            Box(contentAlignment = Alignment.Center) {
+//                                Text(
+//                                    symbol.take(1),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Bold
+//                                )
+//                            }
+                        }
                     },
                     error = {
-                         Image(
-                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop
-                        )
+//                        if (symbol == "BNB") {
+//                            Image(
+//                                painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
+//                                contentDescription = null,
+//                                contentScale = ContentScale.Fit
+//                            )
+//                        } else {
+                        Surface(
+                            shape = CircleShape,
+                            color = Color(0xFF26A17B),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text(
+                                    symbol?:"BNB".take(1),
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+//                        }
                     }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -174,8 +210,6 @@ fun WTReceiveScreen(
                 } else {
                     Box(modifier = Modifier.size(240.dp).background(Color.Gray))
                 }
-
-                // Center Icon
                 SubcomposeAsyncImage(
                     model = logoUrl,
                     contentDescription = null,
@@ -185,20 +219,74 @@ fun WTReceiveScreen(
                         .padding(5.dp)
                         .clip(CircleShape),
                     loading = {
-                         Image(
-                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop
-                        )
+//                        Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+                        Surface(
+                            shape = CircleShape,
+                            color = Color(0xFF26A17B),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+//                            Box(contentAlignment = Alignment.Center) {
+//                                Text(
+//                                    symbol.take(1),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Bold
+//                                )
+//                            }
+                        }
                     },
                     error = {
-                        Image(
-                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop
-                        )
+//                        if (symbol == "BNB") {
+//                            Image(
+//                                painter = painterResource(id = R.mipmap.ic_wt_bsc_small),
+//                                contentDescription = null,
+//                                contentScale = ContentScale.Fit
+//                            )
+//                        } else {
+                        Surface(
+                            shape = CircleShape,
+                            color = Color(0xFF26A17B),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text(
+                                    symbol?:"BNB".take(1),
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+//                        }
                     }
                 )
+
+                // Center Icon
+//                SubcomposeAsyncImage(
+//                    model = logoUrl,
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .size(50.dp)
+//                        .background(Color.White, CircleShape)
+//                        .padding(5.dp)
+//                        .clip(CircleShape),
+//                    loading = {
+//                         Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+//                    },
+//                    error = {
+//                        Image(
+//                            painter = painterResource(id = R.mipmap.ic_wt_bsc),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Crop
+//                        )
+//                    }
+//                )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -216,18 +304,21 @@ fun WTReceiveScreen(
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "Clear Amount",
-                        tint = Color.Gray,
-                        modifier = Modifier
-                            .size(16.dp)
-                            .clickable { amount = null }
+                    Image(
+                        painter = painterResource(id = R.mipmap.ic_wt_receive_close),
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp)
+                            .noRippleClickable{
+                                amount = null
+                            }
                     )
+
                 }
                 Spacer(modifier = Modifier.height(4.dp))
-                // Mock USD conversion: 1 BNB ≈ $300 (just a placeholder logic or use passed price)
-                val usdPrice = 300.0 // You might want to get this from ViewModel
+                // Calculate USD value based on current asset price
+                val targetSymbol = symbol ?: "BNB"
+                val asset = uiState.assetList.find { it.symbol.equals(targetSymbol, ignoreCase = true) }
+                val usdPrice = asset?.price_usd?.toDoubleOrNull() ?: 0.0
                 val totalUsd = (amount!!.toDoubleOrNull() ?: 0.0) * usdPrice
                 Text(
                     text = "≈ $${String.format("%.2f", totalUsd)}",
