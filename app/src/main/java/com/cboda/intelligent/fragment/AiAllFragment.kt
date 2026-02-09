@@ -36,6 +36,14 @@ class AiAllFragment :
 
         const val PROJECT_RISK_TYPE = "projectRisk"
         const val CONTRACT_RISK_TYPE = "contractRisk"
+
+        fun newInstance(param: String): AiAllFragment {
+            val fragment = AiAllFragment()
+            val args = Bundle()
+            args.putString("resourceType", param)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     private var resourceType = ""
@@ -166,12 +174,13 @@ class AiAllFragment :
         }
     }
 
-    fun updateResourceType(mResourceType: String) {
-        resourceType = mResourceType
-    }
+//    fun updateResourceType(mResourceType: String) {
+//        resourceType = mResourceType
+//    }
 
     override fun initView() {
         super.initView()
+        resourceType =arguments?.getString("resourceType")?:DOCUMENT_TYPE
         setBtnAlpha(0.4f)
         binding.aiUploadImg.setImageResource(R.mipmap.icon_ai_upload_broad_document)
         binding.aiImgListView.layoutManager =
