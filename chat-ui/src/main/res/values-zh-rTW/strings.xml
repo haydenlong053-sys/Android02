@@ -3,188 +3,79 @@
     <string name="complete">完成</string>
 
     <string name="draft">[草稿]</string>
-    <string name="video">视频</string>
-    <string name="set_conversation_to_top">置顶聊天</string>
+    <string name="video">影片</string>
+    <string name="set_conversation_to_top">置頂聊天</string>
 
-    <!--联系人-->
+    <!--聯絡人-->
     <string name="new_friend">新的朋友</string>
     <string name="group_chat">入群邀請</string>
     <string name="qunliao">群聊</string>
 
     <!--新的朋友-->
-    <string name="add_friend">添加朋友</string>
-    <string name="no_recommend_friend">还没有推荐的朋友</string>
+    <string name="add_friend">新增朋友</string>
+    <string name="no_recommend_friend">還沒有推薦的朋友</string>
 
-    <!--搜索用户-->
-    <string name="user_no_found">该用户不存在</string>
-    <string name="search">搜索</string>
+    <!--搜尋用戶-->
+    <string name="user_no_found">該用戶不存在</string>
+    <string name="search">搜尋</string>
 
-    <!--用户信息-->
-    <string name="nickname_colon">昵称:%1$s</string>
-    <string name="set_alias_and_tag">设置备注和标签</string>
-    <string name="send_message">发消息</string>
-    <string name="add_to_contact">添加到通讯录</string>
-    <string name="change_my_name_tip">好名字可以让你的朋友 更容易记住你。</string>
+    <!--用戶資訊-->
+    <string name="nickname_colon">暱稱：%1$s</string>
+    <string name="set_alias_and_tag">設定備註與標籤</string>
+    <string name="send_message">發訊息</string>
+    <string name="add_to_contact">加入通訊錄</string>
+    <string name="change_my_name_tip">好名字可以讓你的朋友更容易記住你。</string>
 
-    <!--修改备注-->
-    <string name="alias">备注名</string>
-    <string name="alias_no_empty">备注名不能为空</string>
+    <!--修改備註-->
+    <string name="alias">備註名稱</string>
+    <string name="alias_no_empty">備註名稱不可為空</string>
 
-    <!--附言界面-->
-    <string name="postscript_tip">你需要发送验证申请，等对方通过</string>
-    <string name="send">发送</string>
+    <!--附言介面-->
+    <string name="postscript_tip">你需要發送驗證申請，等對方通過</string>
+    <string name="send">發送</string>
 
-    <!--会话界面-->
-    <string name="please_to_talk">按住 说话</string>
-    <string name="shot">拍摄</string>
+    <!--會話介面-->
+    <string name="please_to_talk">按住 說話</string>
+    <string name="shot">拍攝</string>
     <string name="location">位置</string>
-    <string name="file">文件</string>
+    <string name="file">檔案</string>
 
-    <string name="voice_rec">手指上滑，取消发送</string>
-    <string name="voice_cancel">松开手指，取消发送</string>
-    <string name="voice_short">录音时间太短</string>
+    <string name="voice_rec">手指上滑，取消發送</string>
+    <string name="voice_cancel">鬆開手指，取消發送</string>
+    <string name="voice_short">錄音時間太短</string>
 
-    <!--创建群-->
-    <string name="create_group_success">创建群成功</string>
-    <string name="create_group_fail">创建群失败</string>
-    <string name="no_group_now">暂无群聊</string>
+    <!--建立群組-->
+    <string name="create_group_success">建立群組成功</string>
+    <string name="create_group_fail">建立群組失敗</string>
+    <string name="no_group_now">暫無群聊</string>
 
-    <!--群信息-->
-    <string name="group_name">群聊名称</string>
-    <string name="group_portrait">群头像</string>
+    <!--群組資訊-->
+    <string name="group_name">群聊名稱</string>
+    <string name="group_portrait">群組頭像</string>
     <string name="untitled">未命名</string>
     <string name="group_announcement">群公告</string>
-    <string name="message_free">消息免打扰</string>
-    <string name="my_nickname_in_this_group">我在本群的昵称</string>
-    <string name="show_group_member_name">显示群成员昵称</string>
-    <string name="clear_chat_log">清空聊天记录</string>
-    <string name="delete_and_exit">删除并退出</string>
-    <string name="delete_and_dismiss">解散并删除</string>
-    <string name="add_member_success">添加群成员成功</string>
-    <string name="add_member_fail">添加群成员失败</string>
-    <string name="del_member_success">删除群成员成功</string>
-    <string name="del_member_fail">删除群成员失败</string>
+    <string name="message_free">訊息免打擾</string>
+    <string name="my_nickname_in_this_group">我在本群的暱稱</string>
+    <string name="show_group_member_name">顯示群成員暱稱</string>
+    <string name="clear_chat_log">清空聊天記錄</string>
+    <string name="delete_and_exit">刪除並退出</string>
+    <string name="delete_and_dismiss">解散並刪除</string>
+    <string name="add_member_success">新增群成員成功</string>
+    <string name="add_member_fail">新增群成員失敗</string>
+    <string name="del_member_success">刪除群成員成功</string>
+    <string name="del_member_fail">刪除群成員失敗</string>
 
-    <string name="unsubscribe">取消订阅</string>
+    <string name="unsubscribe">取消訂閱</string>
 
     <string name="close">關閉</string>
     <string name="confirm">確認</string>
 
-    <string name="rename">改名</string>
-    <string name="times_unit">次</string>
-
-    <string name="group_announcement_prefix">群公告：</string>
-    <string name="not_friend_send_message">你還不是他（她)朋友。請先發送朋友驗證請求，對方驗證通過後，才能聊天</string>
-    <string name="credit_prefix">信譽：</string>
-    <string name="register_time_prefix">註冊時間：</string>
-
-    <string name="msg_album">相冊</string>
-    <string name="msg_red_envelope">紅包</string>
-    <string name="msg_business_card">名片</string>
-    <string name="msg_meeting_room">會議室</string>
-    <string name="msg_transfer">轉賬</string>
-    <string name="msg_personal_card">[個人名片]</string>
-    <string name="msg_personal_card_name">個人名片</string>
-    <string name="msg_forward_one_by_one">逐條轉發</string>
-    <string name="msg_forward_merge">合併轉發</string>
-    <string name="msg_forward_one_by_one_with_count">[逐條轉發]共%1$d條消息</string>
-    <string name="msg_confirm_delete">確認刪除?</string>
-    <string name="msg_recent_chat">最近聊天</string>
-    <string name="msg_create_new_chat">創建新聊天</string>
-    <string name="msg_select_a_chat">選擇一個聊天</string>
-    <string name="msg_group">[群組]</string>
-    <string name="msg_chat_room">[聊天室]</string>
-    <string name="msg_channel">[頻道]</string>
-    <string name="draft_text">[草稿]</string>
-    <string name="someone_mentioned_me">[有人@我]</string>
-    <string name="not_set">未設置</string>
-    <string name="delete_conversation">刪除會話</string>
-    <string name="pin_to_top">置頂</string>
-    <string name="cancel_pin_to_top">取消置頂</string>
-    <string name="mark_as_read">設為已讀</string>
-    <string name="mark_as_unread">標記未讀</string>
-    <string name="confirm_delete_conversation">確認刪除會話?</string>
-    <string name="call_broad_waiting">正在等待對方接受邀請...</string>
-    <string name="call_broad__invite">邀請你進行語音通話</string>
-    <string name="call_broad_invite">邀請你進行視訊通話</string>
-    <string name="call_broad_connecting">連線中...</string>
-
-    <string name="call_broad_mute">靜音</string>
-    <string name="call_broad_hang_up">掛斷</string>
-    <string name="call_broad_hands_free_mode">免持</string>
-    <string name="call_duration_with_hours">通話時長 %1$d:%2$02d:%3$02d</string>
-    <string name="call_duration_without_hours">通話時長 %1$02d:%2$02d</string>
-    <string name="call_not_connected">未接通</string>
-    <string name="call_line_busy">線路忙</string>
-    <string name="call_network_error">網路錯誤</string>
-    <string name="call_cancelled">已取消</string>
-    <string name="call_remote_cancelled">對方已取消</string>
-    <string name="call_not_answered">未接聽</string>
-    <string name="call_accepted_by_other_client">已在其他端接聽</string>
-    <string name="call_ended">通話已結束</string>
-    <string name="call_remote_not_answered">對方未接聽</string>
-    <string name="call_remote_network_error">對方網路錯誤</string>
-    <string name="call_max_participants_reached">已達到最大通話人數</string>
-    <string name="conference_audio_only_no_camera">音訊會議不支援開啟攝影機</string>
-    <string name="conference_exit_or_end_dialog">如果你想讓與會人員繼續開會，請選擇退出會議</string>
-    <string name="conference_exit_meeting">退出會議</string>
-    <string name="conference_end_meeting">結束會議</string>
-    <string name="conference_audio_only_no_screen_share">音訊會議不支援螢幕共享</string>
-    <string name="conference_screen_share_warning">開啟螢幕共享時，將關閉攝影機，並打開麥克風</string>
-    <string name="conference_copied_to_clipboard">已複製到剪貼簿</string>
-    <string name="conference_hand_down">放下</string>
-    <string name="conference_hand_up">舉手</string>
-    <string name="conference_contact_host_to_stop_recording">請聯繫主持人關閉錄製</string>
-    <string name="conference_contact_host_to_start_recording">請聯繫主持人開啟錄製</string>
-    <string name="conference_unmute_applying_dialog">主持人不允許解除靜音，您已經申請解除靜音，正在等待主持人操作</string>
-    <string name="conference_cancel_application">取消申請</string>
-    <string name="conference_application_cancelled">已取消申請</string>
-    <string name="conference_continue_application">繼續申請</string>
-    <string name="conference_application_resent">已重新發送申請，請耐心等待主持人操作</string>
-    <string name="conference_unmute_request_dialog">主持人不允許解除靜音，您可以向主持人申請解除靜音</string>
-    <string name="conference_cancel">取消</string>
-    <string name="conference_apply_unmute">申請解除靜音</string>
-    <string name="conference_connecting">會議連接中</string>
-    <string name="message_install_webview">請安裝: Android System WebView</string>
-    <string name="message_grade_unit">分</string>
-    <string name="message_joined_group">入群</string>
-    <string name="message_edit">編輯</string>
-    <string name="message_add">新增</string>
-    <string name="message_recall">撤回</string>
-    <string name="message_copy">複製</string>
-    <string name="message_copy_success">複製成功</string>
-    <string name="message_select_more">多選</string>
-    <string name="message_delete">刪除</string>
-    <string name="message_forward">轉發</string>
-    <string name="message_collect">收藏</string>
-    <string name="message_translate">翻譯</string>
-    <string name="msg_mention_all">所有人 </string>
-    <string name="msg_person_unit">人</string>
-    <string name="msg_share_to">分享給:</string>
-    <string name="msg_send_message">發消息</string>
-
-    <!-- HongBao Message Content -->
-    <string name="hongbao_unlocked_by_others">已被解鎖</string>
-    <string name="hongbao_unlocked">已解鎖</string>
-    <string name="hongbao_received">已領取</string>
-    <string name="hongbao_expired">已過期</string>
-    <string name="hongbao_unlock_digital_future">解鎖你的數字未來</string>
-    <string name="hongbao_rejected_by_others">已被拒絕</string>
-    <string name="hongbao_rejected">已拒絕</string>
-
-    <!-- Shoot Extension -->
-    <string name="shoot_warm_reminder">溫馨提示</string>
-    <string name="shoot_camera_permission_explain">為了讓你可以拍攝頭像或分享照片，我們需要訪問你的相機</string>
-    <string name="shoot_microphone_permission_explain">為了讓你可以錄像時錄製聲音，我們需要訪問你的麥克風</string>
-    <string name="shoot_error_feedback">拍照錯誤, 請向我們反饋</string>
-
-    <!-- Voip Extension -->
-    <string name="voip_permission_request">請先授權語音和藍牙權限!</string>
-
-    <!-- Conversation Group Fragment -->
-    <string name="connection_status_connecting">正在連接...</string>
-    <string name="connection_status_syncing">正在同步...</string>
-    <string name="connection_status_failed">連接失敗</string>
+    <string name="收藏夹">收藏夾</string>
+    <string name="创建会议主题">建立會議主題</string>
+    <string name="请输入会议主题">請輸入會議主題</string>
+    <string name="全员开麦">全員開麥</string>
+    <string name="全员禁言">全員禁言</string>
+    <string name="open">開啟</string>
 
     <!-- Time formatting -->
     <string name="time_yesterday">昨天 %1$s</string>
@@ -201,8 +92,8 @@
     <!-- Conversation & typing -->
     <string name="group_all_muted_hint">全員禁言中</string>
     <string name="group_self_muted_hint">你已被禁言</string>
-    <string name="unread_messages_count">%1$d條消息</string>
-    <string name="unread_mentions_count">%1$d條@消息</string>
+    <string name="unread_messages_count">%1$d 則訊息</string>
+    <string name="unread_mentions_count">%1$d 則 @ 訊息</string>
 
     <string name="chatroom_welcome_format">歡迎 %1$s 加入聊天室</string>
     <string name="chatroom_join_failed">加入聊天室失敗</string>
@@ -212,18 +103,309 @@
     <string name="typing_group_text">%1$s 正在輸入</string>
     <string name="typing_group_voice">%1$s 正在錄音</string>
     <string name="typing_group_camera">%1$s 正在拍照</string>
-    <string name="typing_group_file">%1$s 正在發送文件</string>
+    <string name="typing_group_file">%1$s 正在發送檔案</string>
     <string name="typing_group_location">%1$s 正在發送位置</string>
 
     <string name="typing_single_text">對方正在輸入</string>
     <string name="typing_single_voice">對方正在錄音</string>
     <string name="typing_single_camera">對方正在拍照</string>
-    <string name="typing_single_file">對方正在發送文件</string>
+    <string name="typing_single_file">對方正在發送檔案</string>
     <string name="typing_single_location">對方正在發送位置</string>
 
-    <string name="typing_multi_users">%1$d人正在輸入</string>
+    <string name="typing_multi_users">%1$d 人正在輸入</string>
 
     <string name="dialog_cancel">取消</string>
-    <string name="dialog_confirm">確認</string>
+    <string name="dialog_confirm">确认</string>
+
+    <string name="xiao_xi">訊息</string>
+    <string name="tongxunlu">通訊錄</string>
+    <string name="xiaochengxu">小程式</string>
+    <string name="faxian">發現</string>
+    <string name="wode">我的</string>
+    <string name="wenxintishi">溫馨提示</string>
+    <string name="qitashebeidenglu">帳號已在其他裝置登入</string>
+    <string name="queding">確定</string>
+    <string name="dengluguoqi">登入資訊已過期，請重新登入</string>
+    <string name="faqiqunliao">發起群聊</string>
+    <string name="tianjiapengyou">新增朋友</string>
+    <string name="saoyisao">掃一掃</string>
+    <string name="gexingqiaming">個性簽名</string>
+    <string name="shezhibeizhu">設定備註</string>
+    <string name="pengyouquan">朋友圈</string>
+    <string name="qingkongliaotian">清空聊天記錄</string>
+    <string name="faxiaoxi">發訊息</string>
+    <string name="yuyintonghua">語音通話</string>
+    <string name="qingkongtishi">是否將聯絡人 %1$s 的聊天記錄清空？</string>
+    <string name="quxiao">取消</string>
+    <string name="bveizhu">備註</string>
+    <string name="bveizhutips">請輸入備註</string>
+    <string name="wancheng">完成</string>
+    <string name="zhiding">置頂</string>
+    <string name="miaodarao">免打擾</string>
+    <string name="jiaruheimingdan">加入黑名單</string>
+    <string name="shanchu">刪除</string>
+    <string name="shanchulianxiren">刪除聯絡人</string>
+    <string name="shanchulianxirentips">是否將聯絡人 %1$s 刪除？</string>
+    <string name="dangejine">單個數量</string>
+    <string name="gongxifacai">恭喜發財，大吉大利</string>
+    <string name="querenfahongbao">確認發紅包</string>
+    <string name="querenfahongbaotips">請輸入數量</string>
+    <string name="querenfahongbaotips1">請輸入正確數量</string>
+    <string name="hongbaojine">紅包數量</string>
+    <string name="zhuanzhuanggei">轉帳給  %1$s</string>
+    <string name="qunliaogesghu">%1$s 個群聊</string>
+    <string name="shoujihaoshi">手機號碼  %1$s</string>
+    <string name="zhuanzhangjine">轉帳數量</string>
+    <string name="bianjixiaoxineirong">編輯訊息內容</string>
+    <!-- 為避免個別環境下 aapt2 對 Unicode 的解析問題，這裡使用簡單 ASCII 文字 -->
+    <string name="mourendehongbao">%1$s 的紅包</string>
+    <string name="yuanqian">ODIC</string>
+    <string name="yilingquhongbao">已領 %1$s 個，共 %2$s WEBX</string>
+    <string name="daishoulkuan">待收款</string>
+    <string name="zhuanzhuangshijian">轉帳時間</string>
+    <string name="shoukuan">收款</string>
+    <string name="shoukuanshijian">收款時間</string>
+    <string name="cunruyue">已收款，資金已存入餘額</string>
+    <string name="xindepengyou">新的朋友</string>
+    <string name="ruqunyaoqing">入群邀請</string>
+    <string name="sousuonicheng">搜尋暱稱/ID</string>
+    <string name="sousuoqunlibieao">搜尋群聊名稱</string>
+    <string name="jujuele">拒絕</string>
+    <string name="jieshoule">接受</string>
+    <string name="yitianjia">已新增</string>
+    <string name="yijujue">已拒絕</string>
+    <string name="chakanquanbuquncheng">查看更多群成員</string>
+    <string name="shezhiquntouxiang">設定群組頭像</string>
+    <string name="qunid">群聊 ID</string>
+    <string name="shewweizhiding">設為置頂</string>
+    <string name="xiaoximiandarao">訊息免打擾</string>
+    <string name="qungonggapo">群公告</string>
+    <string name="qubmingcheng">群聊名稱</string>
+    <string name="wodequnnicheng">我的群暱稱</string>
+    <string name="qunguanli">群組管理</string>
+    <string name="qunguanliyuan">群組管理員</string>
+    <string name="qunjinyan">群組禁言</string>
+    <string name="zhuanrnagquan">轉讓群主</string>
+    <string name="yaoqinghaoyoujinqn">群員邀請好友進群</string>
+    <string name="qunyuanjinqunjiaoyanb">群員進群邀請校驗</string>
+    <string name="qunzhukefahogb">僅群主和管理員可發紅包</string>
+    <string name="qunzhutuisongmingp">僅群主及管理員可推送名片</string>
+    <string name="qunyuanguanliyanz">群員入群邀請管理驗證</string>
+    <string name="wufasijiahao">群內成員無法私加好友</string>
+    <string name="kejianguanliy">普通成員僅可見群主及管理員</string>
+    <string name="jiesanquan">解散群聊 </string>
+    <string name="shanchutuichuqun">刪除並退出 </string>
+    <string name="tousuqun">投訴 </string>
+    <string name="tianjaiuaer">新增 </string>
+    <string name="yichuuser">移除 </string>
+    <string name="tousuqunleixing">投訴類型 </string>
+    <string name="liantianzhengju">聊天證據 </string>
+    <string name="tupianzhengju">圖片證據 </string>
+    <string name="tousuqunneirong">投訴內容 </string>
+    <string name="tijiao">提交 </string>
+    <string name="xuanzetousulieixng">請選擇你要投訴的類型 </string>
+    <string name="xuanztousuqunleixing">請選擇投訴類型 </string>
+    <string name="uxanzhengjiju">請選擇聊天證據 </string>
+    <string name="xuanzelianxiren">選擇聯絡人 </string>
+    <string name="sousuonichengbeizhu">搜尋暱稱/備註</string>
+    <string name="qingxuanzelianxiren">請選擇聯絡人 </string>
+    <string name="qingshuruqunmning">請輸入群聊名稱 </string>
+    <string name="qingshuruqungonggao">請輸入群公告 </string>
+    <string name="qingkongquntishi">是否將群聊 %1$s 的聊天記錄清空？</string>
+    <string name="nichengb">暱稱 </string>
+    <string name="shezhinichengb">設定暱稱 </string>
+    <string name="shuqubveizhutips">請輸入暱稱</string>
+    <string name="guanliyuanshuiom">管理員可協助群主管理群聊，擁有發布群公告、移除群成員等權限。僅群主可設定管理員、解散群聊。</string>
+    <string name="tianjaiqunguanli">新增成員</string>
+    <string name="hengyuanjinyan">成員禁言</string>
+    <string name="yijinyanmingdan">已被禁言成員名單</string>
+    <string name="mingancishezhi">敏感詞設定</string>
+    <string name="zidongjinyan">觸發敏感詞自動禁言</string>
+    <string name="quanyuanjinyanle">全員禁言</string>
+    <string name="jinyanshichang">禁言時長</string>
+    <string name="jinyanyitian">禁言一天</string>
+    <string name="jinyanyizhou">禁言一週</string>
+    <string name="jinyanyigeyue">禁言一個月</string>
+    <string name="jinyanyongjiu">永久禁言</string>
+    <string name="xuanquanyuanjinyanle">選擇禁言成員</string>
+    <string name="jiechujianyan">解除禁言</string>
+    <string name="baocunle">儲存</string>
+    <string name="mingancihit">請輸入敏感詞，多個敏感詞請用英文符號 「 | 」 分隔</string>
+    <string name="mingancihit2">·多個敏感詞請用英文符號 「 | 」 隔開</string>
+    <string name="qunerweim">群組 QR Code</string>
+    <string name="xuanxinqunzhu">選擇新群主</string>
+    <string name="shezhijinyan">設定禁言</string>
+    <string name="yichubenqun">移出本群</string>
+    <string name="chehuishifenzhongfayan">撤回十分鐘內發言並移出本群</string>
+    <string name="tianjiadaotongxun">加入通訊錄</string>
+    <string name="jiangyonghhuyichuquan">是否將用戶 %1$s 移出本群？</string>
+    <string name="xuanshichangjinyanle">選擇禁言時長</string>
+    <string name="faqunhongbao">發紅包</string>
+    <string name="pinshouqihongboa">拼手氣紅包</string>
+    <string name="putonghongboa">普通紅包</string>
+    <string name="zhuanshuhongboa">專屬紅包</string>
+    <string name="hongboashuliang">紅包個數</string>
+    <string name="hongboashuliangtips">填寫紅包個數 </string>
+    <string name="hongboashuliangtips2">個</string>
+    <string name="qunrenshutis">本群人數共 %1$s 人 </string>
+    <string name="hongbaojinesu">紅包數量</string>
+    <string name="fageishui">發給誰</string>
+    <string name="hongboashuliangtips1">請填寫正確紅包個數 </string>
+    <string name="xuanzefageishui">請選擇發給誰 </string>
+    <string name="xiaochengxuma">小程式碼 </string>
+    <string name="shenqingtianjaihaoyou">申請新增好友 </string>
+    <string name="fasonghaouyoushenqing">發送好友申請 </string>
+    <string name="tianjiamiaoshu">新增描述 </string>
+    <string name="fasongshenqing">發送 </string>
+    <string name="fasonghaouyoushenqingtips">請輸入好友申請 </string>
+    <string name="shezhibneizhutispa">請設定備註 </string>
+    <string name="woshishenqing">我是（%1$s） </string>
+    <string name="daozheliqu">到這裡去</string>
+    <string name="shoucangchengg">收藏成功</string>
+    <string name="tianjaichengg">新增成功</string>
+    <string name="nichengshi">暱稱：%1$s </string>
+    <string name="zhiyouqunzhuguanli">僅群主或管理員可修改頭像</string>
+    <string name="zhiyouqunzhuguanlimingcheng">僅群主或管理員可修改群組名稱</string>
+    <string name="qincghujikusuc">清除成功</string>
+    <string name="zhiyouqunzhuguanlimgongao">僅群主或管理員可修改公告</string>
+    <string name="querdingjiesanqun">確定解散該群嗎？</string>
+    <string name="querdingjiesanqunshanchu">確定刪除並退出該群嗎？</string>
+    <string name="shuidezhuanchuhong">僅 %1$s 可領取</string>
+    <string name="jiangefayanmiao">間隔發言（秒）</string>
+    <string name="chehuishifenzhongfayantips">確定撤回十分鐘內發言並移出本群嗎？</string>
+    <string name="qunzhushenfen">群主</string>
+    <string name="qunguanlishenfen">管理員</string>
+
+    <string name="sys_notice_info">系統公告</string>
+    <string name="msg_input">請輸入</string>
+    <string name="msg_voice_msg_tip_3s">即將達到語音訊息時長上限，3 秒後自動發送</string>
+    <string name="msg_search_keyword">搜尋關鍵字</string>
+    <string name="msg_linkman">聯絡人</string>
+    <string name="msg_chat_bibi">聊天記錄</string>
+
+    <string name="msg_score_unit">分</string>
+    <string name="msg_score_unit2">分</string>
+    <string name="msg_days_unit">天</string>
+    <string name="msg_days_unit2">天</string>
+
+    <string name="rename">改名</string>
+    <string name="times_unit">次</string>
+
+    <string name="group_announcement_prefix">群公告：</string>
+    <string name="not_friend_send_message">你還不是他（她）的朋友。請先發送朋友驗證請求，對方驗證通過後才能聊天</string>
+    <string name="credit_prefix">信譽：</string>
+    <string name="register_time_prefix">註冊時間：</string>
+
+    <string name="msg_album">相簿</string>
+    <string name="msg_red_envelope">紅包</string>
+    <string name="msg_business_card">名片</string>
+    <string name="msg_meeting_room">會議室</string>
+    <string name="msg_transfer">轉帳</string>
+    <string name="msg_personal_card">[個人名片]</string>
+    <string name="msg_personal_card_name">個人名片</string>
+    <string name="msg_forward_one_by_one">逐則轉發</string>
+    <string name="msg_forward_merge">合併轉發</string>
+    <string name="msg_forward_one_by_one_with_count">[逐則轉發] 共 %1$d 則訊息</string>
+    <string name="msg_confirm_delete">確認刪除？</string>
+    <string name="msg_recent_chat">最近聊天</string>
+    <string name="msg_create_new_chat">建立新聊天</string>
+    <string name="msg_select_a_chat">選擇一個聊天</string>
+    <string name="msg_group">[群組]</string>
+    <string name="msg_chat_room">[聊天室]</string>
+    <string name="msg_channel">[頻道]</string>
+    <string name="draft_text">[草稿]</string>
+    <string name="someone_mentioned_me">[有人 @ 我]</string>
+    <string name="not_set">未設定</string>
+    <string name="delete_conversation">刪除會話</string>
+    <string name="pin_to_top">置頂</string>
+    <string name="cancel_pin_to_top">取消置頂</string>
+    <string name="mark_as_read">設為已讀</string>
+    <string name="mark_as_unread">標記未讀</string>
+    <string name="confirm_delete_conversation">確認刪除會話？</string>
+
+
+
+
+
+    <string name="call_broad_waiting">正在等待對方接受邀請…</string>
+    <string name="call_broad__invite">邀請你進行語音通話</string>
+    <string name="call_broad_invite">邀請你進行視訊通話</string>
+    <string name="call_broad_connecting">連線中...</string>
+    <string name="call_broad_mute">靜音</string>
+    <string name="call_broad_hang_up">掛斷</string>
+    <string name="call_broad_hands_free_mode">免持</string>
+    <string name="call_duration_with_hours">通話時長 %1$d:%2$02d:%3$02d</string>
+    <string name="call_duration_without_hours">通話時長 %1$02d:%2$02d</string>
+    <string name="call_not_connected">未接通</string>
+    <string name="call_line_busy">線路忙</string>
+    <string name="call_network_error">網路錯誤</string>
+    <string name="call_cancelled">已取消</string>
+    <string name="call_remote_cancelled">對方已取消</string>
+    <string name="call_not_answered">未接聽</string>
+    <string name="call_accepted_by_other_client">已在其他裝置接聽</string>
+    <string name="call_ended">通話已結束</string>
+    <string name="call_remote_not_answered">對方未接聽</string>
+    <string name="call_remote_network_error">對方網路錯誤</string>
+    <string name="call_max_participants_reached">已達最大通話人數</string>
+    <string name="conference_audio_only_no_camera">語音會議不支援開啟攝影機</string>
+    <string name="conference_exit_or_end_dialog">若想讓與會人員繼續開會，請選擇退出會議</string>
+    <string name="conference_exit_meeting">退出會議</string>
+    <string name="conference_end_meeting">結束會議</string>
+    <string name="conference_audio_only_no_screen_share">語音會議不支援螢幕共享</string>
+    <string name="conference_screen_share_warning">開啟螢幕共享時，將關閉攝影機並開啟麥克風</string>
+    <string name="conference_copied_to_clipboard">已複製到剪貼簿</string>
+    <string name="conference_hand_down">放下</string>
+    <string name="conference_hand_up">舉手</string>
+    <string name="conference_contact_host_to_stop_recording">請聯絡主持人關閉錄製</string>
+    <string name="conference_contact_host_to_start_recording">請聯絡主持人開啟錄製</string>
+    <string name="conference_unmute_applying_dialog">主持人不允許解除靜音，您已申請解除靜音，正在等待主持人操作</string>
+    <string name="conference_cancel_application">取消申請</string>
+    <string name="conference_application_cancelled">已取消申請</string>
+    <string name="conference_continue_application">繼續申請</string>
+    <string name="conference_application_resent">已重新發送申請，請耐心等待主持人操作</string>
+    <string name="conference_unmute_request_dialog">主持人不允許解除靜音，您可以向主持人申請解除靜音</string>
+    <string name="conference_cancel">取消</string>
+    <string name="conference_apply_unmute">申請解除靜音</string>
+    <string name="conference_connecting">會議連線中</string>
+    <string name="message_install_webview">請安裝：Android System WebView</string>
+    <string name="message_grade_unit">分</string>
+    <string name="message_joined_group">入群</string>
+    <string name="message_edit">編輯</string>
+    <string name="message_add">新增</string>
+    <string name="message_recall">撤回</string>
+    <string name="message_copy">複製</string>
+    <string name="message_copy_success">複製成功</string>
+    <string name="message_select_more">多選</string>
+    <string name="message_delete">刪除</string>
+    <string name="message_forward">轉發</string>
+    <string name="message_collect">收藏</string>
+    <string name="message_translate">翻譯</string>
+    <string name="msg_mention_all">所有人 </string>
+    <string name="msg_person_unit">人</string>
+    <string name="msg_share_to">分享給：</string>
+    <string name="msg_send_message">發訊息</string>
+
+    <!-- HongBao Message Content -->
+    <string name="hongbao_unlocked_by_others">已被解鎖</string>
+    <string name="hongbao_unlocked">已解鎖</string>
+    <string name="hongbao_received">已領取</string>
+    <string name="hongbao_expired">已過期</string>
+    <string name="hongbao_unlock_digital_future">解鎖你的數位未來</string>
+    <string name="hongbao_rejected_by_others">已被拒絕</string>
+    <string name="hongbao_rejected">已拒絕</string>
+
+    <!-- Shoot Extension -->
+    <string name="shoot_warm_reminder">溫馨提示</string>
+    <string name="shoot_camera_permission_explain">為了讓你拍攝頭像或分享照片，我們需要存取你的相機</string>
+    <string name="shoot_microphone_permission_explain">為了讓你在錄影時錄製聲音，我們需要存取你的麥克風</string>
+    <string name="shoot_error_feedback">拍照錯誤，請向我們回報</string>
+
+    <!-- Voip Extension -->
+    <string name="voip_permission_request">請先授權語音和藍牙權限！</string>
+
+    <!-- Conversation Group Fragment -->
+    <string name="connection_status_connecting">正在連線…</string>
+    <string name="connection_status_syncing">正在同步…</string>
+    <string name="connection_status_failed">連線失敗</string>
 
 </resources>

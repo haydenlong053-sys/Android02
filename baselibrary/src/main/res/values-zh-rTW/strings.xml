@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="camera">相機</string>
+    <string name="storage">儲存</string>
+    <string name="read">讀取</string>
+    <string name="microphone">麥克風</string>
+    <string name="phone">電話</string>
+    <string name="location_p">定位</string>
+    <string name="lack">缺少</string>
+    <string name="permission_pls_system_set_open_flag">權限，請在系統設定中開啟該權限！</string>
+    <string name="about_per">相關</string>
+    <string name="base_digest_img">[圖片]</string>
+    <string name="base_digest_call">[網路電話]</string>
+    <string name="base_digest_p2p_card">[個人名片]:</string>
+    <string name="base_digest_group_card">[群組名片]:</string>
+    <string name="base_digest_chat_room_card">[聊天室名片]:</string>
+    <string name="base_digest_channel_card">[頻道名片]:</string>
+    <string name="base_digest_card">[名片]:</string>
+    <string name="base_digest_chat_record">[聊天記錄]: </string>
+    <string name="base_digest_file">[檔案]</string>
+    <string name="base_digest_red_package">[紅包]</string>
+    <string name="base_digest_meeting">[會議]</string>
+    <string name="base_digest_notice">[公告]</string>
+    <string name="base_digest_audio">[語音]</string>
+    <string name="base_digest_video">[影片]</string>
+    <string name="base_digest_transfer">[轉帳]</string>
+
+    <!-- Group notification texts -->
+    <string name="base_group_created_by_self">您建立了群組 %1$s</string>
+    <string name="base_group_created_by_other">%1$s 建立了群組 %2$s</string>
+
+    <string name="base_group_portrait_updated_by_self">您更新了群組頭像</string>
+    <string name="base_group_portrait_updated_by_other">%1$s 更新了群組頭像</string>
+
+    <string name="base_default_kefu_name">X-Bao 客服</string>
+    <string name="wenxintishi">溫馨提示</string>
+    <string name="select_image_permission_request">使用選擇圖片功能需要相機、儲存權限，是否請求權限？</string>
+    <string name="bs_quxiao">取消</string>
+    <string name="bs_mine_sure">確定</string>
+    <string name="permissions_missing">缺少相應權限，請在系統設定中開啟相應權限！</string>
+    <string name="in_compressed_video1">壓縮影片中</string>
+    <string name="in_compressed_video2">壓縮影片中…</string>
+</resources>
