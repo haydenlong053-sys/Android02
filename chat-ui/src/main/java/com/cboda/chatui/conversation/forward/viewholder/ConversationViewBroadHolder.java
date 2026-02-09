@@ -63,8 +63,37 @@ public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
             if (userInfo != null) {
                 portrait = userInfo.portrait;
 //                eLogD("MessageViewHolderClass", "用户头像：" + portrait);
-                nameTextView.setText(getMyUserDisplayName(conversation, userInfo));
-                Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
+                final String[] displayName = {"<" + userInfo.uid + ">"};
+                if (conversation.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+                    displayName[0] = MMKVBroadUtils.Companion.getKeFuName();
+                    nameTextView.setText(displayName[0]);
+                    Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
+                } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+                    displayName[0] = userInfo.friendAlias;
+                    nameTextView.setText(displayName[0]);
+                    Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
+                } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
+                    displayName[0] = userInfo.displayName;
+                    nameTextView.setText(displayName[0]);
+                    Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
+                } else {
+                    GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversation.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
+                        @Override
+                        public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
+                            if (friendSmailListBean != null) {
+                                portrait = friendSmailListBean.icon;
+                                if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                                    displayName[0] = friendSmailListBean.remarkName;
+                                } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                                    displayName[0] = friendSmailListBean.nickName;
+                                }
+                            }
+                            nameTextView.setText(displayName[0]);
+                            Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
+                            return null;
+                        }
+                    });
+                }
             }
         } else {
             GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, false);
@@ -73,34 +102,6 @@ public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
                 nameTextView.setText(!TextUtils.isEmpty(groupInfo.remark) ? groupInfo.remark : groupInfo.name);
             }
         }
-    }
-
-    private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
-        final String[] displayName = {"<" + userInfo.uid + ">"};
-        if (conversationInfo.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-            displayName[0]= MMKVBroadUtils.Companion.getKeFuName();
-        } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
-            displayName[0]= userInfo.friendAlias;
-        } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
-            displayName[0]= userInfo.displayName;
-        } else {
-
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                @Override
-                public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
-                    if (friendSmailListBean != null) {
-                        portrait = friendSmailListBean.icon;
-                        if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                            displayName[0] = friendSmailListBean.remarkName;
-                        } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                            displayName[0] = friendSmailListBean.nickName;
-                        }
-                    }
-                    return null;
-                }
-            });
-        }
-        return displayName[0];
     }
 
 }

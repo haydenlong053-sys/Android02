@@ -1033,20 +1033,47 @@ public class ConversationBroadFragment extends Fragment implements
 
         if (conversationBroad.type == Conversation.ConversationType.Single) {
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversationBroad.target, false);
-//            conversationTitle = userViewModel.getUserDisplayName(userInfo);
-            conversationBroadTitle = getMyUserDisplayName(conversationBroad, userInfo);
-            ELogUtilKt.eLogD("zhanglong", "conversationTitle===" + conversationBroadTitle);
-            UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
-            if (userOnlineState != null) {
-                String onlineDesc = userOnlineState.desc();
-                if (!TextUtils.isEmpty(onlineDesc)) {
-                    conversationBroadTitle += " (" + onlineDesc + ")";
+            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
+                @Override
+                public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
+                    if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+                        conversationBroadTitle = MMKVBroadUtils.Companion.getKeFuName();
+                    } else if (friendSmailListBean != null) {
+                        if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                            conversationBroadTitle = friendSmailListBean.remarkName;
+                        } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                            conversationBroadTitle = friendSmailListBean.nickName;
+                        } else {
+                            if (userInfo == null) {
+                                conversationBroadTitle = "";
+                            }
+                        }
+                    } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+                        conversationBroadTitle = userInfo.friendAlias;
+                    } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
+                        conversationBroadTitle = userInfo.displayName;
+                    } else {
+                        if (userInfo == null) {
+                            conversationBroadTitle = "";
+                        }
+                    }
+                    ELogUtilKt.eLogD("zhanglong", "conversationTitle===" + conversationBroadTitle);
+                    UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
+                    if (userOnlineState != null) {
+                        String onlineDesc = userOnlineState.desc();
+                        if (!TextUtils.isEmpty(onlineDesc)) {
+                            conversationBroadTitle += " (" + onlineDesc + ")";
+                        }
+                    }
+                    setActivityTitle(conversationBroadTitle);
+                    return null;
                 }
-            }
+            });
         } else if (conversationBroad.type == Conversation.ConversationType.Group) {
             if (groupInfoBroad != null) {
                 conversationBroadTitle = (!TextUtils.isEmpty(groupInfoBroad.remark) ? groupInfoBroad.remark : groupInfoBroad.name) + "(" + (groupInfoBroad.memberCount - 1) + getString(R.string.msg_person_unit) + ")";
             }
+            setActivityTitle(conversationBroadTitle);
         } else if (conversationBroad.type == Conversation.ConversationType.Channel) {
             ChannelViewBroadModel channelViewModel = new ViewModelProvider(this).get(ChannelViewBroadModel.class);
             ChannelInfo channelInfo = channelViewModel.getChannelInfo(conversationBroad.target, false);
@@ -1062,45 +1089,15 @@ public class ConversationBroadFragment extends Fragment implements
                     conversationBroadTitle += "@<" + channelPrivateBroadChatUser + ">";
                 }
             }
+            setActivityTitle(conversationBroadTitle);
         } else if (conversationBroad.type == Conversation.ConversationType.SecretChat) {
             String userId = ChatManager.Instance().getSecretChatInfo(conversationBroad.target).getUserId();
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(userId, false);
             conversationBroadTitle = userBroadViewModel.getUserDisplayName(userInfo);
+            setActivityTitle(conversationBroadTitle);
         }
 
-        setActivityTitle(conversationBroadTitle);
-    }
 
-    private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
-        final String[] displayName = {"<" + userInfo.uid + ">"};
-        GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-            @Override
-            public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
-                if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-                    displayName[0] = MMKVBroadUtils.Companion.getKeFuName();
-                } else if (friendSmailListBean != null) {
-                    if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                        displayName[0] = friendSmailListBean.remarkName;
-                    } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                        displayName[0] = friendSmailListBean.nickName;
-                    } else {
-                        if (userInfo == null) {
-                            displayName[0] = "";
-                        }
-                    }
-                } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
-                    displayName[0] = userInfo.friendAlias;
-                } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
-                    displayName[0] = userInfo.displayName;
-                } else {
-                    if (userInfo == null) {
-                        displayName[0] = "";
-                    }
-                }
-                return null;
-            }
-        });
-        return displayName[0];
     }
 
     private void setActivityTitle(String title) {

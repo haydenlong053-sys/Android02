@@ -28,33 +28,6 @@ public class Util {
         return Math.min(Math.max(value, min), max);
     }
 
-    public static UserInfo getMyUserDisplayName(String target, UserInfo userInfo) {
-        if (userInfo == null) {
-            userInfo = new UserInfo();
-        }
-        UserInfo finalUserInfo = userInfo;
-        if (target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-            finalUserInfo.displayName = MMKVBroadUtils.Companion.getKeFuName();
-        } else if (!TextUtils.isEmpty(finalUserInfo.friendAlias)) {
-            finalUserInfo.displayName = finalUserInfo.friendAlias;
-        } else if (!(finalUserInfo instanceof NullUserInfo) && !TextUtils.isEmpty(finalUserInfo.displayName)) {
-        } else {
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(target, null, friendSmailListBean -> {
-                if (friendSmailListBean != null) {
-                    finalUserInfo.portrait = friendSmailListBean.icon;
-                    if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                        finalUserInfo.displayName = friendSmailListBean.remarkName;
-                    } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                        finalUserInfo.displayName = friendSmailListBean.nickName;
-                    }
-                } else {
-                    finalUserInfo.displayName = "<" + finalUserInfo.uid + ">";
-                }
-                return null;
-            });
 
-        }
-        return finalUserInfo;
-    }
 
 }

@@ -409,11 +409,13 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
             if (channelInfo != null) {
                 portraitUrl[0] = channelInfo.portrait;
             }
+            setImgData(portraitUrl[0]);
         } else {
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(item.sender, false);
             if (userInfo != null) {
                 portraitUrl[0] = userInfo.portrait;
             }
+            setImgData(portraitUrl[0]);
         }
 
         if (portraitUrl[0] == null) {
@@ -421,15 +423,21 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
                 @Override
                 public Unit invoke(GlobalFriendBroadBean bean) {
                     portraitUrl[0] = bean.icon;
+                    setImgData(portraitUrl[0]);
                     return null;
                 }
             });
 
         }
+
+    }
+
+
+    private void setImgData(String portraitUrl) {
         if (portraitImageView != null) {
             //默认头像
             Glide.with(fragment)
-                    .load(portraitUrl[0] == null ? "" : portraitUrl[0])
+                    .load(portraitUrl == null ? "" : portraitUrl)
                     .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
                     .into(portraitImageView);
         }
@@ -457,33 +465,34 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 //        if (Conversation.equals(nameTextView.getTag(), sender)) {
 //            return;
 //        }
-        nameTextView.setText(getMyGroupMemberDisplayName(conversation.target, sender));
-        nameTextView.setTag(sender);
-    }
-
-    public String getMyGroupMemberDisplayName(String groupId, String memberId) {
-        UserInfo userInfo = ChatManager.Instance().getUserInfo(memberId, groupId, false);
+        final String[] displayName = {""};
+        UserInfo userInfo = ChatManager.Instance().getUserInfo(sender, conversation.target, false);
         if (userInfo != null) {
             if (!TextUtils.isEmpty(userInfo.groupAlias)) {
-                return userInfo.groupAlias;
+                displayName[0] = userInfo.groupAlias;
             } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
-                return userInfo.friendAlias;
+                displayName[0] = userInfo.friendAlias;
             } else if (!TextUtils.isEmpty(userInfo.displayName)) {
-                return userInfo.displayName;
+                displayName[0] = userInfo.displayName;
             }
         }
-        final String[] displayName = {"<" + memberId + ">"};
-        GlobalBroadInfo.INSTANCE.queryMyFriendInfo(memberId, null, globalFriendBean -> {
-            if (null != globalFriendBean) {
-                if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
-                    displayName[0] = globalFriendBean.remarkName;
-                } else if (!TextUtils.isEmpty(globalFriendBean.nickName)) {
-                    displayName[0] = globalFriendBean.nickName;
+        if (TextUtils.isEmpty(displayName[0])) {
+            displayName[0] = "<" + sender + ">";
+            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(sender, null, globalFriendBean -> {
+                if (null != globalFriendBean) {
+                    if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
+                        displayName[0] = globalFriendBean.remarkName;
+                    } else if (!TextUtils.isEmpty(globalFriendBean.nickName)) {
+                        displayName[0] = globalFriendBean.nickName;
+                    }
                 }
-            }
-            return null;
-        });
-        return displayName[0];
+                nameTextView.setText(displayName[0]);
+                return null;
+            });
+        }else{
+            nameTextView.setText(displayName[0]);
+        }
+        nameTextView.setTag(sender);
     }
 
     protected boolean showMessageReceipt(Message message) {

@@ -17,6 +17,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.common.OperateBroadResult;
@@ -33,6 +35,7 @@ import cn.wildfirechat.message.TextMessageContent;
 import cn.wildfirechat.message.VideoMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.GroupInfo;
+import cn.wildfirechat.model.NullUserInfo;
 import cn.wildfirechat.model.UserInfo;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
@@ -72,8 +75,37 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
         switch (conversation.type) {
             case Single:
                 UserInfo userInfo = userViewModel.getUserInfo(conversation.target, false);
-                UserInfo myUserInfo = Util.getMyUserDisplayName(conversation.target, userInfo);
-                forward(myUserInfo.displayName, myUserInfo.portrait, conversation);
+//                UserInfo myUserInfo = Util.getMyUserDisplayName(conversation.target, userInfo);
+                if (userInfo == null) {
+                    userInfo = new UserInfo();
+                }
+                UserInfo finalUserInfo = userInfo;
+                if (conversation.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+                    finalUserInfo.displayName = MMKVBroadUtils.Companion.getKeFuName();
+                    forward(finalUserInfo.displayName, finalUserInfo.portrait, conversation);
+                } else if (!TextUtils.isEmpty(finalUserInfo.friendAlias)) {
+                    finalUserInfo.displayName = finalUserInfo.friendAlias;
+                    forward(finalUserInfo.displayName, finalUserInfo.portrait, conversation);
+                } else if (!(finalUserInfo instanceof NullUserInfo) && !TextUtils.isEmpty(finalUserInfo.displayName)) {
+                    forward(finalUserInfo.displayName, finalUserInfo.portrait, conversation);
+                } else {
+                    GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversation.target, null, friendSmailListBean -> {
+                        if (friendSmailListBean != null) {
+                            finalUserInfo.portrait = friendSmailListBean.icon;
+                            if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                                finalUserInfo.displayName = friendSmailListBean.remarkName;
+                            } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                                finalUserInfo.displayName = friendSmailListBean.nickName;
+                            }
+                        } else {
+                            finalUserInfo.displayName = "<" + finalUserInfo.uid + ">";
+                        }
+                        forward(finalUserInfo.displayName, finalUserInfo.portrait, conversation);
+                        return null;
+                    });
+
+                }
+
                 break;
             case Group:
                 GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, false);
