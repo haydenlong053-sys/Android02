@@ -1363,6 +1363,9 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void updateTypingStatusTitle() {
+        if (!isAdded()){
+            return;
+        }
         if (this.typingMessageBroadMap == null || this.conversationBroad.type == Conversation.ConversationType.Channel || this.conversationBroad.type == Conversation.ConversationType.ChatRoom) {
             return;
         }
