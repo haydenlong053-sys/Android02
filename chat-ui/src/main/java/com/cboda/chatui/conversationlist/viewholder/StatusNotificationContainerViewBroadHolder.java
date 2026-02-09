@@ -34,29 +34,31 @@ public class StatusNotificationContainerViewBroadHolder extends RecyclerView.Vie
     }
 
     public void onBind(Fragment fragment, View itemView, List<StatusBroadNotification> statusNotifications) {
-        LayoutInflater layoutInflater = LayoutInflater.from(fragment.getContext());
+        if (null != statusNotifications) {
+            LayoutInflater layoutInflater = LayoutInflater.from(fragment.getContext());
 
-        containerLayout.removeAllViews();
-        StatusNotificationViewBroadHolder statusNotificationViewHolder;
-        View view;
-        for (StatusBroadNotification notification : statusNotifications) {
-            try {
-                Class<? extends StatusNotificationViewBroadHolder> holderClass = StatusNotificationBroadManager.getInstance().getNotificationViewHolder(notification);
-                Constructor constructor = holderClass.getConstructor(Fragment.class);
-                statusNotificationViewHolder = (StatusNotificationViewBroadHolder) constructor.newInstance(fragment);
-                view = layoutInflater.inflate(StatusNotificationBroadManager.getInstance().getNotificationViewHolderLayoutResId(notification), (ViewGroup) itemView, false);
+            containerLayout.removeAllViews();
+            StatusNotificationViewBroadHolder statusNotificationViewHolder;
+            View view;
+            for (StatusBroadNotification notification : statusNotifications) {
+                try {
+                    Class<? extends StatusNotificationViewBroadHolder> holderClass = StatusNotificationBroadManager.getInstance().getNotificationViewHolder(notification);
+                    Constructor constructor = holderClass.getConstructor(Fragment.class);
+                    statusNotificationViewHolder = (StatusNotificationViewBroadHolder) constructor.newInstance(fragment);
+                    view = layoutInflater.inflate(StatusNotificationBroadManager.getInstance().getNotificationViewHolderLayoutResId(notification), (ViewGroup) itemView, false);
 
-                statusNotificationViewHolder.onBind(view, notification);
-                containerLayout.addView(view);
-                // TODO add divider
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                    statusNotificationViewHolder.onBind(view, notification);
+                    containerLayout.addView(view);
+                    // TODO add divider
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

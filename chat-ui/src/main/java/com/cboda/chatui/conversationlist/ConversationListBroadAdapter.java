@@ -34,6 +34,7 @@ import com.cboda.chatui.conversationlist.notification.StatusBroadNotification;
 import com.cboda.chatui.conversationlist.viewholder.ConversationViewBroadHolder;
 import com.cboda.chatui.conversationlist.viewholder.ConversationViewHolderBroadManager;
 import com.cboda.chatui.conversationlist.viewholder.StatusNotificationContainerViewBroadHolder;
+
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
 
@@ -42,30 +43,31 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
 
     private List<ConversationInfo> conversationInfos = new ArrayList<>();
     private List<StatusBroadNotification> statusNotifications;
-    private boolean isSelectMode=false;
+    private boolean isSelectMode = false;
     private final Set<String> selectedTargetIds = new HashSet<>();
-    public ConversationListBroadAdapter(Fragment context,boolean isSelectMode) {
+
+    public ConversationListBroadAdapter(Fragment context, boolean isSelectMode) {
         super();
         this.fragment = context;
-        this.isSelectMode=isSelectMode;
+        this.isSelectMode = isSelectMode;
     }
 
 
-    public  void updateSelectMode(boolean isSelectMode) {
+    public void updateSelectMode(boolean isSelectMode) {
         this.isSelectMode = isSelectMode;
-        eLogD("xxxx","isSelectMode"+isSelectMode);
+        eLogD("xxxx", "isSelectMode" + isSelectMode);
         notifyDataSetChanged();
     }
 
-    public  void selectConversationByList(List<ConversationInfo> infos){
+    public void selectConversationByList(List<ConversationInfo> infos) {
         selectedTargetIds.clear();
         for (int i = 0; i < infos.size(); i++) {
-            selectConversation(infos.get(i),i);
+            selectConversation(infos.get(i), i);
         }
 
     }
 
-    public  void selectConversation(ConversationInfo conversationInfo,int position) {
+    public void selectConversation(ConversationInfo conversationInfo, int position) {
         String targetId = conversationInfo.conversation.target;
 
 
@@ -84,17 +86,17 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
         notifyItemChanged(position);
     }
 
-    public  void cancelSelectAll(){
+    public void cancelSelectAll() {
         closeSelect();
     }
 
-    public  void closeSelect(){
+    public void closeSelect() {
         //关闭选择 清空选择
         selectedTargetIds.clear();
         for (ConversationInfo conversationInfo : conversationInfos) {
-             conversationInfo.isSelect=false;
+            conversationInfo.isSelect = false;
         }
-        notifyItemRangeChanged(0,conversationInfos.size());
+        notifyItemRangeChanged(0, conversationInfos.size());
     }
 
     // 新增：获取选中列表
@@ -125,26 +127,28 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
     public void setConversationInfos(List<ConversationInfo> conversationInfos) {
         submit(this.statusNotifications, conversationInfos);
     }
-    public  List<ConversationInfo> getData(){
-        return  conversationInfos;
+
+    public List<ConversationInfo> getData() {
+        return conversationInfos;
     }
 
-    public  List<String> getConversationUserInfos(){
-        List<String> userIds= new ArrayList<>();
-        if (!conversationInfos.isEmpty()){
+    public List<String> getConversationUserInfos() {
+        List<String> userIds = new ArrayList<>();
+        if (!conversationInfos.isEmpty()) {
             for (int i = 0; i < conversationInfos.size(); i++) {
                 userIds.add(conversationInfos.get(i).conversation.target);
 
             }
         }
 
-        return  userIds;
+        return userIds;
 
     }
+
     // 辅助方法：根据 userId 找 position
     public int findPositionByUserId(String userId) {
         for (int i = 0; i < conversationInfos.size(); i++) {
-            if (conversationInfos.get(i).conversation.target.equals(userId) ) {
+            if (conversationInfos.get(i).conversation.target.equals(userId)) {
                 return i;
             }
         }
@@ -153,16 +157,16 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
 
     public void setOnClickConversationItemListener(OnClickConversationItemBroadListener onClickConversationItemListener) {
         this.onClickConversationItemListener = onClickConversationItemListener;
-        if (!isSelectMode){
+        if (!isSelectMode) {
 
-        notifyDataSetChanged();
+            notifyDataSetChanged();
         }
     }
 
     private void submit(List<StatusBroadNotification> notifications, List<ConversationInfo> conversationInfos) {
         this.statusNotifications = notifications;
         this.conversationInfos = conversationInfos;
-        if (!isSelectMode){
+        if (!isSelectMode) {
             notifyDataSetChanged();
         }
     }
@@ -203,15 +207,18 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
                 @Override
                 public void onClick(View v) {
                     int position = viewHolder.getAdapterPosition();
-                    ConversationInfo conversationInfo = conversationInfos.get(position - headerCount());
+                    if (position - headerCount() < conversationInfos.size() && position - headerCount() >= 0) {
+                        ConversationInfo conversationInfo = conversationInfos.get(position - headerCount());
 //                    onClickConversationItemListener.onClickConversationItem(conversationInfo);
-                    onClickConversationItemListener.onClickConversationItemNew(conversationInfo,position-headerCount());
+                        onClickConversationItemListener.onClickConversationItemNew(conversationInfo, position - headerCount());
+
+                    }
                 }
             });
         } else {
 
-                itemView.setOnClickListener(viewHolder::onClick);
-            }
+            itemView.setOnClickListener(viewHolder::onClick);
+        }
 
     }
 
@@ -233,7 +240,7 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
         View.OnLongClickListener listener = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (isSelectMode) return  false;
+                if (isSelectMode) return false;
                 Method[] allMethods = viewHolderClazz.getDeclaredMethods();
                 List<ContextMenuItemWrapper> contextMenus = new ArrayList<>();
                 for (final Method method : allMethods) {
@@ -254,62 +261,64 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
                 }
 
                 int position = viewHolder.getAdapterPosition();
-                ConversationInfo conversationInfo = conversationInfos.get(position - headerCount());
-                Iterator<ContextMenuItemWrapper> iterator = contextMenus.iterator();
-                ConversationContextMenuBroadItem item;
-                while (iterator.hasNext()) {
-                    item = iterator.next().contextMenuItem;
-                    if (viewHolder.contextMenuItemFilter(conversationInfo, item.tag())) {
-                        iterator.remove();
-                    }
-                }
-
-                if (contextMenus.isEmpty()) {
-                    return false;
-                }
-                Collections.sort(contextMenus, (o1, o2) -> o1.contextMenuItem.priority() - o2.contextMenuItem.priority());
-                List<String> titles = new ArrayList<>(contextMenus.size());
-                for (ContextMenuItemWrapper itemWrapper : contextMenus) {
-                    titles.add(viewHolder.contextMenuTitle(fragment.getContext(), itemWrapper.contextMenuItem.tag()));
-                }
-                new MaterialDialog.Builder(fragment.getContext()).items(titles).itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View v, int position, CharSequence text) {
-                        try {
-                            ContextMenuItemWrapper menuItem = contextMenus.get(position);
-                            if (menuItem.contextMenuItem.confirm()) {
-                                String content;
-                                content = viewHolder.contextConfirmPrompt(fragment.getContext(), menuItem.contextMenuItem.tag());
-                                new MaterialDialog.Builder(fragment.getActivity())
-                                    .content(content)
-                                    .negativeText(fragment.getString(R.string.quxiao))
-                                    .positiveText(fragment.getString(R.string.confirm))
-                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                        @Override
-                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            try {
-                                                menuItem.method.invoke(viewHolder, itemView, conversationInfo);
-                                            } catch (IllegalAccessException e) {
-                                                e.printStackTrace();
-                                            } catch (InvocationTargetException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    })
-                                    .build()
-                                    .show();
-
-                            } else {
-                                contextMenus.get(position).method.invoke(viewHolder, itemView, conversationInfo);
-                            }
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
+                if (position - headerCount() < conversationInfos.size() && position - headerCount() >= 0) {
+                    ConversationInfo conversationInfo = conversationInfos.get(position - headerCount());
+                    Iterator<ContextMenuItemWrapper> iterator = contextMenus.iterator();
+                    ConversationContextMenuBroadItem item;
+                    while (iterator.hasNext()) {
+                        item = iterator.next().contextMenuItem;
+                        if (viewHolder.contextMenuItemFilter(conversationInfo, item.tag())) {
+                            iterator.remove();
                         }
-
                     }
-                }).show();
+
+                    if (contextMenus.isEmpty()) {
+                        return false;
+                    }
+                    Collections.sort(contextMenus, (o1, o2) -> o1.contextMenuItem.priority() - o2.contextMenuItem.priority());
+                    List<String> titles = new ArrayList<>(contextMenus.size());
+                    for (ContextMenuItemWrapper itemWrapper : contextMenus) {
+                        titles.add(viewHolder.contextMenuTitle(fragment.getContext(), itemWrapper.contextMenuItem.tag()));
+                    }
+                    new MaterialDialog.Builder(fragment.getContext()).items(titles).itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View v, int position, CharSequence text) {
+                            try {
+                                ContextMenuItemWrapper menuItem = contextMenus.get(position);
+                                if (menuItem.contextMenuItem.confirm()) {
+                                    String content;
+                                    content = viewHolder.contextConfirmPrompt(fragment.getContext(), menuItem.contextMenuItem.tag());
+                                    new MaterialDialog.Builder(fragment.getActivity())
+                                            .content(content)
+                                            .negativeText(fragment.getString(R.string.quxiao))
+                                            .positiveText(fragment.getString(R.string.confirm))
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    try {
+                                                        menuItem.method.invoke(viewHolder, itemView, conversationInfo);
+                                                    } catch (IllegalAccessException e) {
+                                                        e.printStackTrace();
+                                                    } catch (InvocationTargetException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            })
+                                            .build()
+                                            .show();
+
+                                } else {
+                                    contextMenus.get(position).method.invoke(viewHolder, itemView, conversationInfo);
+                                }
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            } catch (InvocationTargetException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }).show();
+                }
                 return true;
             }
         };
