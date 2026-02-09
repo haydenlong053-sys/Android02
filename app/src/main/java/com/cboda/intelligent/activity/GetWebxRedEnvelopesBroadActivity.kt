@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isGone
+import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.fromJson2
@@ -120,11 +121,13 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                         sendUserId = it1.uid ?: ""
                         sendUserName = it1.name ?: ""
                     }
-                    val remarkName = GlobalBroadInfo.queryMyFriendInfo(sender)?.remarkName
-                    if (!TextUtils.isEmpty(remarkName)) {
-                        userName.text = "${remarkName}发出的红包"
-                    } else if (!TextUtils.isEmpty(it1.name)) {
-                        userName.text = "${it1.name}发出的红包"
+                    GlobalBroadInfo.queryMyFriendInfo(sender, lifecycleScope) { it2 ->
+                        val remarkName = it2?.remarkName
+                        if (!TextUtils.isEmpty(remarkName)) {
+                            userName.text = "${remarkName}发出的红包"
+                        } else if (!TextUtils.isEmpty(it1.name)) {
+                            userName.text = "${it1.name}发出的红包"
+                        }
                     }
                     Glide.with(this@GetWebxRedEnvelopesBroadActivity)
                         .load(it1.icon)

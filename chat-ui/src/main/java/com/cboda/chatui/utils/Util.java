@@ -12,6 +12,8 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import cn.wildfirechat.model.NullUserInfo;
 import cn.wildfirechat.model.UserInfo;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class Util {
     public static int clamp(int value, int min, int max) {
@@ -28,28 +30,31 @@ public class Util {
 
     public static UserInfo getMyUserDisplayName(String target, UserInfo userInfo) {
         if (userInfo == null) {
-            userInfo=new UserInfo();
+            userInfo = new UserInfo();
         }
+        UserInfo finalUserInfo = userInfo;
         if (target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-            userInfo.displayName = MMKVBroadUtils.Companion.getKeFuName();
-        } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
-            userInfo.displayName = userInfo.friendAlias;
-        } else if (!(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
+            finalUserInfo.displayName = MMKVBroadUtils.Companion.getKeFuName();
+        } else if (!TextUtils.isEmpty(finalUserInfo.friendAlias)) {
+            finalUserInfo.displayName = finalUserInfo.friendAlias;
+        } else if (!(finalUserInfo instanceof NullUserInfo) && !TextUtils.isEmpty(finalUserInfo.displayName)) {
         } else {
-            GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(target);
-            if (friendSmailListBean != null) {
-                userInfo.portrait = friendSmailListBean.icon;
-                if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                    userInfo.displayName =  friendSmailListBean.remarkName;
-                } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                    userInfo.displayName =  friendSmailListBean.nickName;
+            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(target, null, friendSmailListBean -> {
+                if (friendSmailListBean != null) {
+                    finalUserInfo.portrait = friendSmailListBean.icon;
+                    if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                        finalUserInfo.displayName = friendSmailListBean.remarkName;
+                    } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                        finalUserInfo.displayName = friendSmailListBean.nickName;
+                    }
+                } else {
+                    finalUserInfo.displayName = "<" + finalUserInfo.uid + ">";
                 }
-            }else {
-                userInfo.displayName =  "<" + userInfo.uid + ">";
-            }
-        }
+                return null;
+            });
 
-        return  userInfo;
+        }
+        return finalUserInfo;
     }
 
 }

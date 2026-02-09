@@ -25,12 +25,15 @@ import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ConversationInfoBroadType;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.utils.GroupAvatarBroadLoader;
+
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
 import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.GroupMember;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.GetGroupMembersCallback;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 @ConversationInfoBroadType(type = Conversation.ConversationType.Group, line = 0)
 @EnableContextBroadMenu
@@ -70,21 +73,23 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
 
         // 加载群头像
         loadGroupPortrait(groupInfo, conversationInfo.conversation.target, portrait);
-        GlobalSmallGroupBroadBean smallGroupBean = GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target);
-        if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
-            gradeTv.setVisibility(View.VISIBLE);
-            gradeTv.setText(smallGroupBean.getGroupDays() + gradeTv.getContext().getString(R.string.msg_days_unit2));
-        } else {
-            gradeTv.setVisibility(View.VISIBLE);
-            gradeTv.setText("0"+gradeTv.getContext().getString(R.string.msg_days_unit2));
-        }
-        if (null != smallGroupBean && null != smallGroupBean.getRenameCount()) {
-            nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText(nameTimeTv.getContext().getString(R.string.rename) + "\u00A0" +smallGroupBean.getRenameCount() +"\u00A0" + nameTimeTv.getContext().getString(R.string.times_unit));
-        } else {
-            nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText(nameTimeTv.getContext().getString(R.string.rename) + "\u00A0" +"0"+ "\u00A0" + nameTimeTv.getContext().getString(R.string.times_unit));
-        }
+        GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target, null, smallGroupBean -> {
+            if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
+                gradeTv.setVisibility(View.VISIBLE);
+                gradeTv.setText(smallGroupBean.getGroupDays() + gradeTv.getContext().getString(R.string.msg_days_unit2));
+            } else {
+                gradeTv.setVisibility(View.VISIBLE);
+                gradeTv.setText("0" + gradeTv.getContext().getString(R.string.msg_days_unit2));
+            }
+            if (null != smallGroupBean && null != smallGroupBean.getRenameCount()) {
+                nameTimeTv.setVisibility(View.VISIBLE);
+                nameTimeTv.setText(nameTimeTv.getContext().getString(R.string.rename) + "\u00A0" + smallGroupBean.getRenameCount() + "\u00A0" + nameTimeTv.getContext().getString(R.string.times_unit));
+            } else {
+                nameTimeTv.setVisibility(View.VISIBLE);
+                nameTimeTv.setText(nameTimeTv.getContext().getString(R.string.rename) + "\u00A0" + "0" + "\u00A0" + nameTimeTv.getContext().getString(R.string.times_unit));
+            }
+            return null;
+        });
     }
 
     private void loadGroupPortrait(GroupInfo groupInfo, String groupId, String portrait) {
@@ -159,10 +164,13 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
                         if (userInfo != null && !TextUtils.isEmpty(userInfo.portrait)) {
                             avatarUrls.add(userInfo.portrait);
                         } else if (userInfo != null) {
-                            GlobalFriendBroadBean globalFriendBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(userInfo.uid);
-                            if (globalFriendBean != null) {
-                                avatarUrls.add(globalFriendBean.icon);
-                            }
+                            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(userInfo.uid, null, globalFriendBean -> {
+                                if (globalFriendBean != null) {
+                                    avatarUrls.add(globalFriendBean.icon);
+                                }
+                                return null;
+                            });
+
                         }
                     }
 

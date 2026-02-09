@@ -244,23 +244,13 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
             friendViewModel.fetchFriendShipList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        val result = MMKVBroadUtils.saveUserListData(mList)
-                        withContext(Dispatchers.Main) {
-                            GlobalBroadInfo.myFriendListBean = result
-                        }
-                    }
+                    MMKVBroadUtils.saveUserListData(mList, lifecycleScope)
                 }
             }
             friendViewModel.fetchGroupList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchGroupList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        val result = MMKVBroadUtils.saveGroupList(mList)
-                        withContext(Dispatchers.Main) {
-                            GlobalBroadInfo.myGroupListData = result
-                        }
-                    }
+                   MMKVBroadUtils.saveGroupList(mList,lifecycleScope)
                 }
             }
         }

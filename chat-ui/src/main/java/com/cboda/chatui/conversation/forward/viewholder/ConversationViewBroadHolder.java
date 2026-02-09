@@ -24,11 +24,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.cboda.chatui.R;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.user.UserViewBroadModel;
+
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
 import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.NullUserInfo;
 import cn.wildfirechat.model.UserInfo;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
     private Fragment fragment;
@@ -60,7 +63,7 @@ public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
             if (userInfo != null) {
                 portrait = userInfo.portrait;
 //                eLogD("MessageViewHolderClass", "用户头像：" + portrait);
-                nameTextView.setText(getMyUserDisplayName(conversation,userInfo));
+                nameTextView.setText(getMyUserDisplayName(conversation, userInfo));
                 Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
             }
         } else {
@@ -73,28 +76,31 @@ public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
     }
 
     private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
+        final String[] displayName = {"<" + userInfo.uid + ">"};
         if (conversationInfo.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-            return MMKVBroadUtils.Companion.getKeFuName();
+            displayName[0]= MMKVBroadUtils.Companion.getKeFuName();
         } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
-            return userInfo.friendAlias;
+            displayName[0]= userInfo.friendAlias;
         } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
-            return userInfo.displayName;
+            displayName[0]= userInfo.displayName;
         } else {
-            GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
-            if (friendSmailListBean != null) {
-                portrait = friendSmailListBean.icon;
-                if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                    return friendSmailListBean.remarkName;
-                } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                    return friendSmailListBean.nickName;
-                }
-            }
 
-            if (userInfo == null) {
-                return "";
-            }
-            return "<" + userInfo.uid + ">";
+            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
+                @Override
+                public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
+                    if (friendSmailListBean != null) {
+                        portrait = friendSmailListBean.icon;
+                        if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                            displayName[0] = friendSmailListBean.remarkName;
+                        } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                            displayName[0] = friendSmailListBean.nickName;
+                        }
+                    }
+                    return null;
+                }
+            });
         }
+        return displayName[0];
     }
 
 }

@@ -10,11 +10,18 @@ import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.bean.GlobalBroadInfo.getFriendData
 import com.cboda.baselibrary.bean.GlobalBroadInfo.getGroupData
+import com.cboda.baselibrary.bean.GlobalBroadInfo.myGroupListData
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
 import com.cboda.select.picture.utils.LanguageUtil
 import com.cboda.select.picture.utils.LanguageUtil.ENGLISH
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.collections.get
 
 /**
  * 简述： mmkv本地存储
@@ -296,8 +303,22 @@ class MMKVBroadUtils {
             }
         }
 
-        fun saveUserListData(list: List<GlobalFriendBroadBean>): HashMap<String, GlobalFriendBroadBean> {
-            val map = getFriendData()
+        fun saveUserListData(list: List<GlobalFriendBroadBean>, viewModelScope: CoroutineScope? = null) {
+            getFriendData(viewModelScope) { map ->
+                viewModelScope?.launch {
+                    withContext(Dispatchers.IO) {
+                        saveUserData(list, map)
+                    }
+                } ?: let {
+                    GlobalScope.launch(Dispatchers.IO) {
+                        saveUserData(list, map)
+                    }
+                }
+            }
+        }
+
+
+        fun saveUserData(list: List<GlobalFriendBroadBean>, map: HashMap<String, GlobalFriendBroadBean>) {
             list.forEach { item ->
                 if (!TextUtils.isEmpty(item.userId)) {
                     val bean = GlobalFriendBroadBean()
@@ -311,11 +332,10 @@ class MMKVBroadUtils {
             }
             MMKV.defaultMMKV().encode(KEY_FRIEND_LIST_DATA, toJson2(map))
             GlobalBroadInfo.myFriendListBean = map
-            return map
         }
 
-
         fun getFriendListData(): HashMap<String, GlobalFriendBroadBean> {
+
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_FRIEND_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
                 val type = object : TypeToken<HashMap<String, GlobalFriendBroadBean>>() {}
@@ -325,39 +345,68 @@ class MMKVBroadUtils {
             }
         }
 
-        fun updateGroupNameAndRenameCount(id: String?, name: String?, renameCount: Int?) {
+        fun updateGroupNameAndRenameCount(id: String?, name: String?, renameCount: Int?, viewModelScope: CoroutineScope? = null) {
             if (!TextUtils.isEmpty(id) && (!TextUtils.isEmpty(name) || null != renameCount)) {
-                val map = getGroupData()
-                val bean = map[id]
-                if (bean != null) {
-                    if (!TextUtils.isEmpty(name)) {
-                        bean.name = name ?: ""
+                getGroupData(viewModelScope) { map ->
+                    viewModelScope?.launch {
+                        withContext(Dispatchers.IO) {
+                            saveGroupData(map, id, name, renameCount)
+                        }
+                    } ?: let {
+                        GlobalScope.launch(Dispatchers.IO) {
+                            saveGroupData(map, id, name, renameCount)
+                        }
                     }
-                    if (null != renameCount) {
-                        bean.renameCount = renameCount
-                    }
-                    map[id ?: ""] = bean
-                } else {
-                    val globalSmallGroupBean = GlobalSmallGroupBroadBean()
-                    globalSmallGroupBean.id = id ?: ""
-                    globalSmallGroupBean.name = name ?: ""
-                    globalSmallGroupBean.renameCount = renameCount
-                    map[id ?: ""] = globalSmallGroupBean
                 }
-                GlobalBroadInfo.myGroupListData = map
-                MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
             }
         }
 
-        fun saveGroupList(list: List<GlobalSmallGroupBroadBean>): HashMap<String, GlobalSmallGroupBroadBean> {
-            val map = getGroupData()
-            list.forEach { item ->
-                if (!TextUtils.isEmpty(item.id)) {
-                    map[item.id] = item
+
+        private fun saveGroupData(map: HashMap<String, GlobalSmallGroupBroadBean>, id: String?, name: String?, renameCount: Int?) {
+            val bean = map[id]
+            if (bean != null) {
+                if (!TextUtils.isEmpty(name)) {
+                    bean.name = name ?: ""
+                }
+                if (null != renameCount) {
+                    bean.renameCount = renameCount
+                }
+                map[id ?: ""] = bean
+            } else {
+                val globalSmallGroupBean = GlobalSmallGroupBroadBean()
+                globalSmallGroupBean.id = id ?: ""
+                globalSmallGroupBean.name = name ?: ""
+                globalSmallGroupBean.renameCount = renameCount
+                map[id ?: ""] = globalSmallGroupBean
+            }
+            myGroupListData = map
+            MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
+        }
+
+        fun saveGroupList(list: List<GlobalSmallGroupBroadBean>, viewModelScope: CoroutineScope? = null) {
+            getGroupData(viewModelScope) { map ->
+                viewModelScope?.launch {
+                    withContext(Dispatchers.IO) {
+                        list.forEach { item ->
+                            if (!TextUtils.isEmpty(item.id)) {
+                                map[item.id] = item
+                            }
+                        }
+                        MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
+                        GlobalBroadInfo.myGroupListData = map
+                    }
+                } ?: let {
+                    GlobalScope.launch(Dispatchers.IO) {
+                        list.forEach { item ->
+                            if (!TextUtils.isEmpty(item.id)) {
+                                map[item.id] = item
+                            }
+                        }
+                        MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
+                        GlobalBroadInfo.myGroupListData = map
+                    }
                 }
             }
-            MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
-            return map
         }
 
         fun getGroupListData(): HashMap<String, GlobalSmallGroupBroadBean> {

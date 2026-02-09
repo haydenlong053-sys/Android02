@@ -112,6 +112,9 @@ import cn.wildfirechat.model.UserOnlineState;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
 
@@ -300,7 +303,7 @@ public class ConversationBroadFragment extends Fragment implements
                 }
                 if (uiMessage.progress == 100 && uiMessage.message.direction == MessageDirection.Receive) {
                     uiMessage.progress = 0;
-                    eLogD("zhanglong","---接收方语音消息完成，准备播放语音气泡");
+                    eLogD("zhanglong", "---接收方语音消息完成，准备播放语音气泡");
                     messageBroadViewModel.playAudioMessage(uiMessage);
                 }
                 if (uiMessage.audioPlayCompleted) {
@@ -340,7 +343,7 @@ public class ConversationBroadFragment extends Fragment implements
             }
             toPlayAudioMessage.continuousPlayAudio = true;
             if (file.exists()) {
-                eLogD("zhanglong","---2");
+                eLogD("zhanglong", "---2");
                 messageBroadViewModel.playAudioMessage(toPlayAudioMessage);
             } else {
                 messageBroadViewModel.downloadMedia(toPlayAudioMessage, file);
@@ -1069,30 +1072,35 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private String getMyUserDisplayName(Conversation conversationInfo, UserInfo userInfo) {
-        GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target);
-        if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-            return MMKVBroadUtils.Companion.getKeFuName();
-        } else if (friendSmailListBean != null) {
-            if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                return friendSmailListBean.remarkName;
-            } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                return friendSmailListBean.nickName;
-            }else {
-                if (userInfo == null) {
-                    return "";
+        final String[] displayName = {"<" + userInfo.uid + ">"};
+        GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
+            @Override
+            public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
+                if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+                    displayName[0] = MMKVBroadUtils.Companion.getKeFuName();
+                } else if (friendSmailListBean != null) {
+                    if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                        displayName[0] = friendSmailListBean.remarkName;
+                    } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                        displayName[0] = friendSmailListBean.nickName;
+                    } else {
+                        if (userInfo == null) {
+                            displayName[0] = "";
+                        }
+                    }
+                } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+                    displayName[0] = userInfo.friendAlias;
+                } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
+                    displayName[0] = userInfo.displayName;
+                } else {
+                    if (userInfo == null) {
+                        displayName[0] = "";
+                    }
                 }
-                return "<" + userInfo.uid + ">";
+                return null;
             }
-        } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
-            return userInfo.friendAlias;
-        } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
-            return userInfo.displayName;
-        } else {
-            if (userInfo == null) {
-                return "";
-            }
-            return "<" + userInfo.uid + ">";
-        }
+        });
+        return displayName[0];
     }
 
     private void setActivityTitle(String title) {
@@ -1196,7 +1204,7 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private SpannableString mentionAllSpannable() {
-        String text = "@" +getString(R.string.msg_mention_all);
+        String text = "@" + getString(R.string.msg_mention_all);
         SpannableString spannableString = new SpannableString(text);
         spannableString.setSpan(new MentionBroadSpan(true), 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannableString;
@@ -1372,7 +1380,7 @@ public class ConversationBroadFragment extends Fragment implements
             UserInfo userInfo;
             if (conversationBroad.type == Conversation.ConversationType.Group) {
                 userInfo = ChatManager.Instance().getUserInfo(userId, conversationBroad.target, false);
-                    String userName = getString(R.string.typing_someone);
+                String userName = getString(R.string.typing_someone);
                 if (!TextUtils.isEmpty(userInfo.friendAlias)) {
                     userName = userInfo.friendAlias;
                 } else if (!TextUtils.isEmpty(userInfo.groupAlias)) {
@@ -1492,7 +1500,7 @@ public class ConversationBroadFragment extends Fragment implements
         inflateView.findViewById(R.id.mLLShare).setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
-                if (!actions.isEmpty() &&actions.size() >1){
+                if (!actions.isEmpty() && actions.size() > 1) {
                     goSelectMoreAction(actions.get(1));
                 }
             }
@@ -1501,7 +1509,7 @@ public class ConversationBroadFragment extends Fragment implements
         inflateView.findViewById(R.id.mLLDelete).setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
-                if (!actions.isEmpty()){
+                if (!actions.isEmpty()) {
                     goSelectMoreAction(actions.get(0));
                 }
             }
@@ -1512,9 +1520,9 @@ public class ConversationBroadFragment extends Fragment implements
     private void goSelectMoreAction(MultiMessageBroadAction action) {
         action.onBind(ConversationBroadFragment.this, conversationBroad);
         List<UiBroadMessage> checkedMessages = adapterBroad.getCheckedMessages();
-        if (checkedMessages.isEmpty()){
+        if (checkedMessages.isEmpty()) {
             toggleConversationMode();
-        }else if (action.confirm()) {
+        } else if (action.confirm()) {
             new MaterialDialog.Builder(getActivity()).content(action.confirmPrompt())
                     .negativeText(getString(R.string.dialog_cancel))
                     .positiveText(getString(R.string.dialog_confirm))

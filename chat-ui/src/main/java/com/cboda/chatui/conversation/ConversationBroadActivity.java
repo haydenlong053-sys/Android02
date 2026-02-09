@@ -45,6 +45,8 @@ import cn.wildfirechat.message.ZhuanZhangMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.SendMessageCallback;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
@@ -255,16 +257,22 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             rightView.setVisibility(View.VISIBLE);
         } else {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), conversationBroad.target, "", null);
-            GlobalFriendBroadBean bean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target);
-            if (null != bean && null != bean.grade && null != bean.registerDay) {
-                titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
-                TextView titleGrade = findViewById(R.id.titleGrade);
-                TextView titleTime = findViewById(R.id.titleTime);
-                titleGrade.setText(getString(R.string.credit_prefix) + bean.grade + getString(R.string.msg_score_unit2));
-                titleTime.setText(getString(R.string.register_time_prefix) + bean.registerDay + getString(R.string.msg_days_unit2));
-            } else {
-                titleGradeAndTimeBroad.setVisibility(View.GONE);
-            }
+             GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
+                 @Override
+                 public Unit invoke(GlobalFriendBroadBean bean) {
+                     if (null != bean && null != bean.grade && null != bean.registerDay) {
+                         titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
+                         TextView titleGrade = findViewById(R.id.titleGrade);
+                         TextView titleTime = findViewById(R.id.titleTime);
+                         titleGrade.setText(getString(R.string.credit_prefix) + bean.grade + getString(R.string.msg_score_unit2));
+                         titleTime.setText(getString(R.string.register_time_prefix) + bean.registerDay + getString(R.string.msg_days_unit2));
+                     } else {
+                         titleGradeAndTimeBroad.setVisibility(View.GONE);
+                     }
+                     return null;
+                 }
+             });
+
         }
     }
 

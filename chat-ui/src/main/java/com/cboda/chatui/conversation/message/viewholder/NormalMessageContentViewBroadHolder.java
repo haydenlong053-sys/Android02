@@ -48,6 +48,7 @@ import com.cboda.chatui.favorite.FavoriteBroadItem;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.net.SimpleCallback;
 import com.cboda.chatui.user.UserViewBroadModel;
+
 import cn.wildfirechat.message.ArticlesMessageContent;
 import cn.wildfirechat.message.CallStartMessageContent;
 import cn.wildfirechat.message.CompositeMessageContent;
@@ -70,6 +71,8 @@ import cn.wildfirechat.model.GroupMember;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.UserSettingScope;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 /**
  * 普通消息
@@ -400,29 +403,33 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 
     private void setSenderAvatar(Message item) {
         // TODO get user info from viewModel
-        String portraitUrl = null;
+        final String[] portraitUrl = {null};
         if (item.conversation.type == Conversation.ConversationType.Channel && item.direction == MessageDirection.Receive) {
             ChannelInfo channelInfo = ChatManager.Instance().getChannelInfo(item.conversation.target, false);
             if (channelInfo != null) {
-                portraitUrl = channelInfo.portrait;
+                portraitUrl[0] = channelInfo.portrait;
             }
         } else {
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(item.sender, false);
             if (userInfo != null) {
-                portraitUrl = userInfo.portrait;
+                portraitUrl[0] = userInfo.portrait;
             }
         }
 
-        if (portraitUrl == null) {
-            GlobalFriendBroadBean bean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(item.sender);
-            if (bean != null) {
-                portraitUrl = bean.icon;
-            }
+        if (portraitUrl[0] == null) {
+            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(item.sender, null, new Function1<GlobalFriendBroadBean, Unit>() {
+                @Override
+                public Unit invoke(GlobalFriendBroadBean bean) {
+                    portraitUrl[0] = bean.icon;
+                    return null;
+                }
+            });
+
         }
         if (portraitImageView != null) {
             //默认头像
             Glide.with(fragment)
-                    .load(portraitUrl == null ? "" : portraitUrl)
+                    .load(portraitUrl[0] == null ? "" : portraitUrl[0])
                     .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
                     .into(portraitImageView);
         }
@@ -465,15 +472,18 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
                 return userInfo.displayName;
             }
         }
-        GlobalFriendBroadBean globalFriendBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(memberId);
-        if (null != globalFriendBean) {
-            if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
-                return globalFriendBean.remarkName;
-            } else if (!TextUtils.isEmpty(globalFriendBean.nickName)) {
-                return globalFriendBean.nickName;
+        final String[] displayName = {"<" + memberId + ">"};
+        GlobalBroadInfo.INSTANCE.queryMyFriendInfo(memberId, null, globalFriendBean -> {
+            if (null != globalFriendBean) {
+                if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
+                    displayName[0] = globalFriendBean.remarkName;
+                } else if (!TextUtils.isEmpty(globalFriendBean.nickName)) {
+                    displayName[0] = globalFriendBean.nickName;
+                }
             }
-        }
-        return "<" + memberId + ">";
+            return null;
+        });
+        return displayName[0];
     }
 
     protected boolean showMessageReceipt(Message message) {

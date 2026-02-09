@@ -19,10 +19,13 @@ import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ConversationInfoBroadType;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
+
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
 import cn.wildfirechat.model.NullUserInfo;
 import cn.wildfirechat.model.UserInfo;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 @ConversationInfoBroadType(type = Conversation.ConversationType.Single, line = 0)
 @EnableContextBroadMenu
@@ -38,27 +41,29 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
     protected void onBindConversationInfo(ConversationInfo conversationInfo) {
         UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversationInfo.conversation.target, false);
         this.portrait = userInfo.portrait;
-        GlobalFriendBroadBean friendSmailListBean = GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.conversation.target);
-        String name = getMyUserDisplayName(userInfo, friendSmailListBean);
-        Glide.with(fragment)
-                .load(portrait)
-                .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
-                .into(portraitImageView);
-        nameTextView.setText(name);
-        if (null != friendSmailListBean && null != friendSmailListBean.grade) {
-            gradeTv.setVisibility(View.VISIBLE);
+        GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationInfo.conversation.target, null, friendSmailListBean -> {
+            String name = getMyUserDisplayName(userInfo, friendSmailListBean);
+            Glide.with(fragment)
+                    .load(portrait)
+                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
+                    .into(portraitImageView);
+            nameTextView.setText(name);
+            if (null != friendSmailListBean && null != friendSmailListBean.grade) {
+                gradeTv.setVisibility(View.VISIBLE);
 //            gradeTv.setText(friendSmailListBean.grade + "分");
-            gradeTv.setText(friendSmailListBean.grade + gradeTv.getContext().getString(R.string.msg_score_unit));
-        } else {
-            gradeTv.setVisibility(View.GONE);
-        }
-        if (null != friendSmailListBean && null != friendSmailListBean.registerDay) {
-            nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText(friendSmailListBean.registerDay + nameTimeTv.getContext().getString(R.string.msg_days_unit));
-        } else {
-            nameTimeTv.setVisibility(View.VISIBLE);
-            nameTimeTv.setText("0"+nameTimeTv.getContext().getString(R.string.msg_days_unit));
-        }
+                gradeTv.setText(friendSmailListBean.grade + gradeTv.getContext().getString(R.string.msg_score_unit));
+            } else {
+                gradeTv.setVisibility(View.GONE);
+            }
+            if (null != friendSmailListBean && null != friendSmailListBean.registerDay) {
+                nameTimeTv.setVisibility(View.VISIBLE);
+                nameTimeTv.setText(friendSmailListBean.registerDay + nameTimeTv.getContext().getString(R.string.msg_days_unit));
+            } else {
+                nameTimeTv.setVisibility(View.VISIBLE);
+                nameTimeTv.setText("0" + nameTimeTv.getContext().getString(R.string.msg_days_unit));
+            }
+            return null;
+        });
     }
 
 
@@ -71,13 +76,13 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
                 return friendSmailListBean.remarkName;
             } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
                 return friendSmailListBean.nickName;
-            }else {
+            } else {
                 if (userInfo == null) {
                     return "";
                 }
                 return "<" + userInfo.uid + ">";
             }
-        }else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+        } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
             return userInfo.friendAlias;
         } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
             return userInfo.displayName;
