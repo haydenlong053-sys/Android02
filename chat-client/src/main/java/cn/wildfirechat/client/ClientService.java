@@ -4552,8 +4552,9 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         File file = new File(filePath);
         ELogUtilKt.eLogD("zhanglong","uploadBigFile====="+filePath);
         getTempTime =System.currentTimeMillis();
-        ELogUtilKt.eLogD("myTime","uploadBigFile文件上传发起时间--"+getTempTime);
-        if (HttpsBroadConfig.INSTANCE.getAppBaseUrl().contains("https://api.seekweb4.net/lixin")){
+        ELogUtilKt.eLogD("myTime","HttpsBroadConfig.currentHostHttpUrlType=="+HttpsBroadConfig.currentHostHttpUrlType+"---uploadBigFile文件上传发起时间--"+getTempTime);
+        if (HttpsBroadConfig.currentHostHttpUrlType != HttpsBroadConfig.RELEASE_TYPE){
+            //非82环境，文件上传的预签名走我们自己业务服务器接口
             getMyServerOssInfo(file.getName(), mediaType, contentType, new ProtoLogic.IGetUploadMediaUrlCallback() {
                 @Override
                 public void onSuccess(String uploadUrl, String remoteUrl, String backUploadupUrl, int serverType) {

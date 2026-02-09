@@ -39,7 +39,7 @@ object HttpsBroadConfig {
         "HongKong\nhttps://api.seekweb4.ai",
         "84\nhttp://119.45.9.228:84",
     )
-    private const val RELEASE_TYPE = 0
+    const val RELEASE_TYPE = 0
     private const val HTTP_TYPE = 1
     private const val FAT_TYPE = 2
     private const val INPUT_TYPE = 3
@@ -47,7 +47,12 @@ object HttpsBroadConfig {
     private const val HONGKONG_TYPE = 5
 
     private const val EIGHT_FOUR = 6
+
+    @JvmField
+    var currentHostHttpUrlType = RELEASE_TYPE
+
     private fun setServer(type: Int) {
+        currentHostHttpUrlType =type
         when (type) {
             US_TYPE -> {
                 appHost = "https://app.seekweb4.net"
