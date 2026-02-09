@@ -7,17 +7,25 @@ object GlobalBroadInfo {
     var myFriendListBean = HashMap<String, GlobalFriendBroadBean>()
     var myGroupListData = HashMap<String, GlobalSmallGroupBroadBean>()
 
-    fun queryMyFriendInfo(targetId: String): GlobalFriendBroadBean? {
+    fun getFriendData(): HashMap<String, GlobalFriendBroadBean> {
         if (myFriendListBean.isEmpty()) {
             myFriendListBean = MMKVBroadUtils.getFriendListData()
         }
-        return myFriendListBean[targetId]
+        return myFriendListBean
     }
 
-    fun queryGroupInfo(targetId: String): GlobalSmallGroupBroadBean? {
+    fun getGroupData(): HashMap<String, GlobalSmallGroupBroadBean> {
         if (myGroupListData.isEmpty()) {
             myGroupListData = MMKVBroadUtils.getGroupListData()
         }
-        return myGroupListData[targetId]
+        return myGroupListData
+    }
+
+    fun queryMyFriendInfo(targetId: String): GlobalFriendBroadBean? {
+        return getFriendData()[targetId]
+    }
+
+    fun queryGroupInfo(targetId: String): GlobalSmallGroupBroadBean? {
+        return getGroupData()[targetId]
     }
 }
