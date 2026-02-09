@@ -76,7 +76,9 @@ import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.FriendViewBroadModel
 import com.cboda.intelligent.viewmodel.NoticeViewBroadModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.widge.BadgeIndicatorAdapter
@@ -242,13 +244,23 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
             friendViewModel.fetchFriendShipList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                    GlobalBroadInfo.myFriendListBean = MMKVBroadUtils.saveUserListData(mList)
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val result = MMKVBroadUtils.saveUserListData(mList)
+                        withContext(Dispatchers.Main) {
+                            GlobalBroadInfo.myFriendListBean = result
+                        }
+                    }
                 }
             }
             friendViewModel.fetchGroupList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchGroupList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                    GlobalBroadInfo.myGroupListData = MMKVBroadUtils.saveGroupList(mList)
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val result = MMKVBroadUtils.saveGroupList(mList)
+                        withContext(Dispatchers.Main) {
+                            GlobalBroadInfo.myGroupListData = result
+                        }
+                    }
                 }
             }
         }
