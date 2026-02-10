@@ -69,7 +69,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
         mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
         isReceived = getIsReceived
         mBind?.apply {
-            animationImg.imageAssetsFolder = "bluepackimg"
+            animationImg.imageAssetsFolder = "bluepackimg"//233X226
             listView.adapter = mAdapter
             noCollection.isGone = isReceived
             haveCollection.isGone = !isReceived
