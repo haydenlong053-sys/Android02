@@ -82,7 +82,7 @@
     <string name="bianjixiaoxineirong">编辑消息内容</string>
     <string name="mourendehongbao">%1$s的红包</string>
     <string name="yuanqian">ODIC</string>
-    <string name="yilingquhongbao">已领%1$s个，共%2$sWEBX</string>
+    <string name="yilingquhongbao">已领%1$s个，共%2$sODIC</string>
     <string name="daishoulkuan">待收款</string>
     <string name="zhuanzhuangshijian">转账时间</string>
     <string name="shoukuan">收款</string>
@@ -395,7 +395,7 @@
     <string name="请输入内容">请输入内容</string>
     <string name="回复">回复：</string>
     <string name="已连续签到">已连续签到%s天</string>
-    <string name="签到领取红包">签到领取WEBX</string>
+    <string name="签到领取红包">签到领取ODIC</string>
     <string name="已签到">已签到</string>
     <string name="签到">签到</string>
     <string name="user_id_prefix">ID:</string>

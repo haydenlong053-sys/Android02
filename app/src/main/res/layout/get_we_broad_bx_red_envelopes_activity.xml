@@ -215,7 +215,7 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/moneyNum"
-        tools:text="已领取 2/10个，共1000WEBX" />
+        tools:text="已领取 2/10个，共1000ODIC" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listView"
