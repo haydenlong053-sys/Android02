@@ -4,6 +4,7 @@ import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import okhttp3.Interceptor
 import okhttp3.Response
+import java.util.Locale
 
 /**
  * Header拦截器
@@ -38,6 +39,11 @@ class HeaderBroadInterceptor : Interceptor {
         // 添加默认Accept（如果没有设置）
         if (originalRequest.header("Accept") == null) {
             requestBuilder.addHeader("Accept", "application/json")
+        }
+
+        // 添加多语言头（如果没有设置）
+        if (originalRequest.header("Accept-Language") == null) {
+            requestBuilder.addHeader("Accept-Language", NetworkBroadConfig.getNetAppLanguage())
         }
         
         val newRequest = requestBuilder.build()

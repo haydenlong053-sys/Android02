@@ -228,6 +228,7 @@ public class OkHttpBroadHelper {
         eLogD(TAG, "buildRequest: " + url);
         Request.Builder builder = new Request.Builder()
                 .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
+                .addHeader("Accept-Language", getAcceptLanguage())
                 .url(url);
         String json = GsonUtils.getGson().toJson(params);
         eLogD(TAG, "http--json", json);
@@ -250,6 +251,7 @@ public class OkHttpBroadHelper {
         eLogD(TAG, "buildFiles: " + url);
         Request.Builder builder = new Request.Builder()
                 .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
+                .addHeader("Accept-Language", getAcceptLanguage())
                 .url(url);
         RequestBody body = builderFiles(fileParams);
         builder.post(body);
@@ -523,6 +525,10 @@ public class OkHttpBroadHelper {
             e.printStackTrace();
         }
         return pi;
+    }
+
+    private String getAcceptLanguage() {
+        return NetworkBroadConfig.INSTANCE.getNetAppLanguage();
     }
 
 }

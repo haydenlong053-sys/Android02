@@ -91,6 +91,8 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
             val headers = HttpHeaders()
             headers.put("apptoken", BroadConstant.getAppToken() ?: "")
             headers.put("sensorNo", DeviceBroadUtils.getDeviceId(mContext!!))
+            // 多语言头
+            headers.put("Accept-Language", NetworkBroadConfig.getNetAppLanguage())
             if (getIsDebug()) {
 //                val loggingInterceptor = LiXinMyHttpLoggingBroadInterceptor("OKGO")
 //                //log打印级别，决定了log显示的详细程度

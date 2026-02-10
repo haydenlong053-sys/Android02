@@ -1,5 +1,6 @@
 package com.cboda.baselibrary.network.config
 
+
 /**
  * 网络配置类
  * 管理网络请求的全局配置
@@ -144,5 +145,13 @@ object NetworkBroadConfig {
     fun updateCommonHeaders(headers: Map<String, String>) {
         this.commonHeaders.clear()
         this.commonHeaders.putAll(headers)
+    }
+
+    //获取app当前多语言
+    var appLanguage =""
+
+    //此处转换成app业务接口的多语言参数
+    fun getNetAppLanguage(): String {
+        return this.appLanguage
     }
 }
