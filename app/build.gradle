@@ -178,6 +178,7 @@ dependencies {
     implementation libs.rxpermissions
     implementation libs.swipedelmenulayout
     implementation libs.haze
+    implementation libs.datastore.preferences
     implementation(libs.xpopup) {
         exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
     }

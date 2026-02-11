@@ -1,11 +1,25 @@
 package com.cboda.intelligent.utils
 
+import android.content.Context
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Base64
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import org.web3j.abi.datatypes.Address
 import org.web3j.crypto.Bip32ECKeyPair
 import org.web3j.crypto.Bip39Wallet
 import org.web3j.crypto.Credentials
 import org.web3j.crypto.Hash
 import org.web3j.crypto.MnemonicUtils
+import org.web3j.crypto.Wallet
+import org.web3j.crypto.WalletFile
 import org.web3j.crypto.WalletUtils
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
@@ -14,10 +28,18 @@ import org.web3j.utils.Numeric
 import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.security.KeyStore
 import java.security.SecureRandom
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.GCMParameterSpec
 
 object WalletManager {
 
+    // DataStore 定义（Preferences 模式）
+    private  val Context.walletDataStore: DataStore<Preferences> by preferencesDataStore(name = "secure_wallet_data")
+    private  val WALLET_KEY="wallet_master_key"
     // 标准以太坊路径: m/44'/60'/0'/0/0
     private val HARDENED_BIT = Bip32ECKeyPair.HARDENED_BIT
     private val DERIVATION_PATH = intArrayOf(
@@ -56,6 +78,102 @@ object WalletManager {
         val filename = WalletUtils.generateWalletFile(password, keyPair, directory, false)
 
         return Bip39Wallet(filename, mnemonic)
+    }
+
+    suspend fun createSecureWallet(context: Context,userPassword:String,directory: File,userId:String): Pair<String, String> {
+        // 1. 生成助记词
+        val initialEntropy = ByteArray(16)
+        SecureRandom().nextBytes(initialEntropy)
+        val mnemonic = MnemonicUtils.generateMnemonic(initialEntropy)
+
+        // 2. 推导密钥对 (使用密码作为 Passphrase)
+        val keyPair = deriveKeyPair(mnemonic, userPassword)
+        val credentials = Credentials.create(keyPair)
+        val address =credentials.address
+
+        // 3. 保存 Keystore 文件
+        val filename = WalletUtils.generateWalletFile(userPassword, keyPair, directory, false)
+        val keystoreFile = File(directory, filename)
+        val keystoreJson = keystoreFile.readText()
+
+        // 立即删除临时文件
+        keystoreFile.delete()
+        directory.delete()
+        // 4. 用 Android Keystore 生成/获取加密密钥
+        val encryptionKey = getOrCreateEncryptionKey(WALLET_KEY)
+        // 5. 加密 keystore JSON
+        val encryptedKeystore = encryptString(keystoreJson, encryptionKey)
+        // 额外：加密助记词（仅用于导出功能）
+        val encryptedMnemonic = encryptString(mnemonic, encryptionKey)
+
+        context.walletDataStore.edit { prefs->
+            prefs[stringPreferencesKey("keystore_${userId}_$address")] = encryptedKeystore
+            prefs[stringPreferencesKey("mnemonic_${userId}_$address")] = encryptedMnemonic
+        }
+
+         return address to mnemonic
+
+    }
+
+    suspend fun  loadWalletInfoByAddress(context: Context,address: String,userPassword: String,userId: String): Credentials?{
+        val encryptedKeystore = context.walletDataStore.data
+            .map { prefs -> prefs[stringPreferencesKey("keystore_${userId}_$address")] }
+            .first() ?: return null
+        val encryptionKey = getOrCreateEncryptionKey(WALLET_KEY)
+        val keystoreJson = decryptString(encryptedKeystore, encryptionKey) ?: return null
+
+        return try {
+            val loadCredentials = loadCredentialsFromJsonString(userPassword,keystoreJson)
+            loadCredentials
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null  // 密码错或解密失败
+        }
+
+
+    }
+
+
+
+    // 全局或单例的 ObjectMapper（性能更好）
+    private val objectMapper = ObjectMapper()
+
+    private fun loadCredentialsFromJsonString(
+        password: String,
+        keystoreJson: String
+    ): Credentials? {
+        return try {
+            // 1. JSON → WalletFile 对象
+            val walletFile: WalletFile = objectMapper.readValue(keystoreJson, WalletFile::class.java)
+
+            // 2. 用密码解密 WalletFile → ECKeyPair
+            val ecKeyPair = Wallet.decrypt(password, walletFile)
+
+            // 3. 创建 Credentials
+            Credentials.create(ecKeyPair)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null  // 密码错、格式错或解密失败
+        }
+    }
+
+    suspend fun exportMnemonic(
+        context: Context,
+        address: String,
+        userId: String
+    ): String? {
+        try {
+            val encryptionKey = getOrCreateEncryptionKey(WALLET_KEY)
+
+            val encryptedMnemonic = context.walletDataStore.data
+                .map { prefs -> prefs[stringPreferencesKey("mnemonic_${userId}_$address")] }
+                .first() ?: return null
+
+            return decryptString(encryptedMnemonic, encryptionKey)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
     }
 
     /**
@@ -167,5 +285,52 @@ object WalletManager {
             sb.append(if (hashDigit >= 8) c.uppercaseChar() else c)
         }
         return sb.toString()
+    }
+
+    // ====================
+// Android Keystore 生成/获取密钥（AES-256-GCM）
+    private fun getOrCreateEncryptionKey(alias: String): SecretKey {
+        val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+
+        if (!keyStore.containsAlias(alias)) {
+            val keyGenerator = KeyGenerator.getInstance("AES", "AndroidKeyStore")
+            val spec = KeyGenParameterSpec.Builder(
+                alias,
+                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            )
+                .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                .setKeySize(256)
+                .build()
+            keyGenerator.init(spec)
+            keyGenerator.generateKey()
+        }
+
+        return keyStore.getKey(alias, null) as SecretKey
+    }
+    // 加密函数
+    private fun encryptString(data: String, key: SecretKey): String {
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        cipher.init(Cipher.ENCRYPT_MODE, key)
+        val iv = cipher.iv  // 随机 IV
+        val encrypted = cipher.doFinal(data.toByteArray())
+        val combined = iv + encrypted
+        return Base64.encodeToString(combined, Base64.DEFAULT)
+    }
+
+    // 解密函数
+    private fun decryptString(encryptedBase64: String, key: SecretKey): String? {
+        return try {
+            val combined = Base64.decode(encryptedBase64, Base64.DEFAULT)
+            val iv = combined.copyOfRange(0, 12)  // GCM IV 通常 12 字节
+            val encrypted = combined.copyOfRange(12, combined.size)
+
+            val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+            val spec = GCMParameterSpec(128, iv)  // 128-bit tag
+            cipher.init(Cipher.DECRYPT_MODE, key, spec)
+            String(cipher.doFinal(encrypted))
+        } catch (e: Exception) {
+            null
+        }
     }
 }
