@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.intelligent.R
@@ -68,7 +69,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             binding.ivMirrorAvatar.setImageResource(if (userInfo?.sex == "2") R.drawable.ic_mirror_broad_female else R.drawable.ic_mirror_broad_male)
             binding.tvMirrorCreditScore.text = "${userInfo?.grade}"
             binding.mTvPremiumNumber.isVisible =(userInfo?.isLiang == "1")
-            binding.idTv.isVisible = !binding.mTvPremiumNumber.isVisible
+            binding.idTv.isInvisible = binding.mTvPremiumNumber.isVisible
             if (userInfo?.isLiang == "1"){
                 binding.mTvPremiumNumber.text = "ID:${userInfo?.lianghao}"
             }else{

@@ -50,6 +50,8 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var benrenMoney: String? = null
         var canLing: String? = null
         var isLing: String? = null
+        var lianghao: String? = null
+
         var tuiStatus: Int = 0
         var tuiTime: String? = ""
         var count: String? = null
