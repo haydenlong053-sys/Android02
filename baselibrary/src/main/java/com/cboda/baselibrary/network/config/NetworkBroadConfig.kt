@@ -1,5 +1,8 @@
 package com.cboda.baselibrary.network.config
 
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.select.picture.utils.LanguageUtil.getSystemLocal
+
 
 /**
  * 网络配置类
@@ -147,11 +150,14 @@ object NetworkBroadConfig {
         this.commonHeaders.putAll(headers)
     }
 
-    //获取app当前多语言
-    var appLanguage =""
 
     //此处转换成app业务接口的多语言参数
     fun getNetAppLanguage(): String {
-        return this.appLanguage
+        if (getSystemLocal(getAppContext(null)).language.startsWith("zh")) {
+            //中文
+            return "zh-CN"
+        } else {
+            return "en"
+        }
     }
 }
