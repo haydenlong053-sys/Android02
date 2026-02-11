@@ -93,7 +93,7 @@
                     tools:text="ID:123456"
                     android:textColor="@color/color_FAE77C"
                     android:textSize="14sp"
-                    app:shape_radius="12dp"
+                    app:shape_radius="20dp"
                     app:shape_solidColor="@color/black"
                     android:paddingVertical="4dp"
                     android:paddingHorizontal="12dp"

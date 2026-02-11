@@ -48,6 +48,8 @@ data class UserInfoBroadModel(
     val isAddYz: String? = "",
     @SerializedName("isLiang")
     val isLiang: String? = "",
+    @SerializedName("lianghao")
+    val lianghao: String? = "",
     @SerializedName("isMsgtx")
     val isMsgtx: String? = "",
     @SerializedName("isQuantx")
