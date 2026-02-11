@@ -429,6 +429,9 @@
     <string name="到期">Expired</string>
     <string name="会员专属特权">Member Exclusive Privileges</string>
     <string name="立即兑换">Redeem Now</string>
+    <string name="bind_lianghao">Bind Premium Number</string>
+    <string name="lianghao_redeem_code_hint">Please enter premium number redeem code</string>
+    <string name="lianghao_redeem_success">Congratulations, redemption successful!</string>
     <string name="开通">Activate</string>
     <string name="开通10000人群">Activate 10000-member Group</string>
     <string name="输入激活码">Enter Activation Code</string>
