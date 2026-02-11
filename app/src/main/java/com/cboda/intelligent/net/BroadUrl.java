@@ -148,6 +148,8 @@ public class BroadUrl {
     public static String DEVICE_GET_AUTH = IP + "device/get/auth";
     //绑定设备
     public static String DEVICE_BIND = IP + "device/bind";
+    //申请兑换靓号
+    public static String EXCHANGE_APPLY = IP + "exchange/apply";
 
     public static String getWebLanguageType() {
         if (LanguageUtil.INSTANCE.getSystemLocal(getAppContext(null)).getLanguage().startsWith("zh")) {

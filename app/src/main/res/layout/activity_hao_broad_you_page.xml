@@ -60,6 +60,27 @@
                     app:layout_constraintTop_toTopOf="@id/iv_mirror_sex"
                     tools:text="ID:66465456"
                     tools:visibility="visible" />
+
+                <com.hjq.shape.view.ShapeTextView
+                    android:id="@+id/mTvPremiumNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_mirror_sex"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    tools:text="ID:123456"
+                    android:textColor="@color/color_FAE77C"
+                    android:textSize="14sp"
+                    app:shape_radius="20dp"
+                    app:shape_solidColor="@color/black"
+                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="12dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/vocationalTv"
                     android:layout_width="wrap_content"

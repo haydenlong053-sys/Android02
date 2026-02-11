@@ -391,6 +391,9 @@
     <string name="到期">到期</string>
     <string name="会员专属特权">会员专属特权</string>
     <string name="立即兑换">立即兑换</string>
+    <string name="bind_lianghao">پریمیم نمبر منسلک کریں</string>
+    <string name="lianghao_redeem_code_hint">براہ کرم پریمیم نمبر ریڈیم کوڈ درج کریں</string>
+    <string name="lianghao_redeem_success">مبارک ہو، ریڈیمپشن کامیاب!</string>
     <string name="开通">开通</string>
 
 

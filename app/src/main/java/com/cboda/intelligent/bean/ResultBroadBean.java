@@ -131,6 +131,9 @@ public class ResultBroadBean extends BaseBroadBean implements Serializable {
         public String city;
         public String profession;
         public String mId;
+        public String isLiang;
+        public String lianghao;
+        public String prettyNumber;
 
         // 只需要比较部分字段
         public boolean partialEquals(ResultBroadBean.Data other) {

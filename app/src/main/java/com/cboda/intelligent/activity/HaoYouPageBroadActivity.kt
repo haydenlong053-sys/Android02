@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -42,6 +43,7 @@ import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
 
@@ -79,6 +81,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
     //    private lateinit var rlTagName: RelativeLayout
     private lateinit var tvTagName: TextView
+    private lateinit var mTvPremiumNumber: TextView
     private lateinit var friendNickName: TextView
     private lateinit var friendName: TextView
 
@@ -118,11 +121,13 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //        rlTagName = findViewById(R.id.rl_tag_name)
         ivMirrorSex = findViewById(R.id.iv_mirror_sex)
         tvTagName = findViewById(R.id.tv_tag_name)
+        mTvPremiumNumber = findViewById(R.id.mTvPremiumNumber)
         friendName = findViewById(R.id.friendName)
         friendNickName = findViewById(R.id.friendNickName)
         otherLayout = findViewById(R.id.otherLayout)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         otherUid = intent?.getStringExtra("uid") ?: ""
@@ -205,7 +210,16 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     friendNickName.text = getString(R.string.nickname_with_prefix, name ?: "")
                     friendNickName.isGone = false
                 }
-                tvTagName.isGone = false
+                if (this.isLiang=="1"){
+                    tvTagName.isInvisible=true
+                    mTvPremiumNumber.isVisible =true
+                    mTvPremiumNumber.text= "${getString(R.string.user_id_prefix)}${this.lianghao}"
+
+                }else{
+                    tvTagName.isVisible = true
+                    mTvPremiumNumber.isVisible =false
+                }
+
                 friendName.text = showName
                 findViewById<LinearLayout>(R.id.ll_grade).visibility = View.VISIBLE
                 val tvGrade = findViewById<TextView>(R.id.tv_grade)

@@ -391,6 +391,9 @@
     <string name="到期">到期</string>
     <string name="会员专属特权">会员专属特权</string>
     <string name="立即兑换">立即兑换</string>
+    <string name="bind_lianghao">Premium numarayı bağla</string>
+    <string name="lianghao_redeem_code_hint">Lütfen premium numara kullanım kodunu girin</string>
+    <string name="lianghao_redeem_success">Tebrikler, kullanım başarılı!</string>
     <string name="开通">开通</string>
 
 

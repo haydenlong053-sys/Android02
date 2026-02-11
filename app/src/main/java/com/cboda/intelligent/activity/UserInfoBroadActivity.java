@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.annotation.SuppressLint;
@@ -26,7 +27,9 @@ import androidx.viewbinding.ViewBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.intelligent.databinding.ActivityUserBroadInfoBinding;
+import com.cboda.intelligent.dialog.pop.OpenBeautifulNumbPop;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.flexbox.AlignItems;
@@ -76,6 +79,7 @@ import cn.wildfirechat.model.ModifyMyInfoEntry;
 import cn.wildfirechat.model.ModifyMyInfoType;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
 import okhttp3.Request;
 import okhttp3.Response;
 import top.zibin.luban.Luban;
@@ -123,7 +127,9 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     public final static int EDIT_PROFESSION = 10003;
     public final static int EDIT_INTEREST = 10004;
     public final static int EDIT_ADDRESS = 10005;
+    private OpenBeautifulNumbPop openBeautifulNumbPop=null;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,6 +225,21 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                 EditInterestBroadActivity.Companion.toPage(UserInfoBroadActivity.this, list);
             }
         });
+        mBinding.mTvBindPremiumNumber.setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if (openBeautifulNumbPop == null){
+                    openBeautifulNumbPop = new OpenBeautifulNumbPop(UserInfoBroadActivity.this, new Function1<String, Unit>() {
+                        @Override
+                        public Unit invoke(String s) {
+                            goBindBeautifulNumb(s);
+                            return null;
+                        }
+                    });
+                }
+                openBeautifulNumbPop.showPopupWindow();
+            }
+        });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -234,6 +255,45 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                     onBackPressed();    // 或者 getOnBackPressedDispatcher().onBackPressed();
                     // 也可以直接 finish();
                 }
+            }
+        });
+    }
+
+    private void goBindBeautifulNumb(String beautifulNumb) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("bridgeVoucher", beautifulNumb);
+        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.EXCHANGE_APPLY, param, new BaseBroadCallback<ResultBroadBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                if (openBeautifulNumbPop != null && openBeautifulNumbPop.isShowing()){
+                    openBeautifulNumbPop.dismiss();
+                }
+                if (bean!=null &&bean.data!=null && resultBean!=null && resultBean.data!=null){
+                    bean.data.isLiang ="1";
+                    bean.data.lianghao = resultBean.data.prettyNumber;
+                    showBeautifulId();
+                }
+                showToastMain(getString(R.string.lianghao_redeem_success));
+
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
             }
         });
     }
@@ -592,6 +652,44 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         });
     }
 
+    /**
+     * 靓号兑换后刷新
+     * 暂不使用
+     */
+//    private void goBeautifulIdRefresh() {
+//        Map<String, Object> param = new HashMap<>();
+//        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, new BaseBroadCallback<ResultBroadBean>() {
+//            @Override
+//            public void onBeforeRequest(Request request) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Response response) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//                if (bean!=null &&bean.data!=null &&resultBean!=null &&resultBean.data!=null){
+//                    bean.data.isLiang =resultBean.data.isLiang;
+//                    bean.data.lianghao = resultBean.data.lianghao;
+//                    showBeautifulId();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//            }
+//        });
+//    }
+
     @SuppressLint("SetTextI18n")
     private void setInfo() {
         GlideBroadUtil.setHeadImag(UserInfoBroadActivity.this, bean.data.icon, mBinding.ivUserAvatar);
@@ -608,6 +706,26 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         mBinding.tvRegion.setText(bean.data.city);
         mBinding.tvProfession.setText(bean.data.profession);
         showInterestLayout();
+
+        showBeautifulId();
+    }
+
+    //展示是否为靓号
+    private void showBeautifulId() {
+        if (bean !=null && bean.data!=null && TextUtils.equals(bean.data.isLiang,"1")){
+            //靓号
+            mBinding.tvAccountId.setVisibility(View.GONE);
+            mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
+            mBinding.mTvPremiumNumber.setVisibility(View.VISIBLE);
+            mBinding.mTvPremiumNumber.setText("ID:"+bean.data.lianghao);
+
+        }else {
+            //非靓号
+            mBinding.tvAccountId.setVisibility(View.VISIBLE);
+            mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);
+            mBinding.mTvPremiumNumber.setVisibility(View.GONE);
+        }
+
     }
 
     private void showSaveButtonUI(boolean isModify) {
