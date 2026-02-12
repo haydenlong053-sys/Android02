@@ -10,12 +10,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.web3j.abi.datatypes.Address
 import org.web3j.crypto.Bip32ECKeyPair
 import org.web3j.crypto.Bip39Wallet
+import org.web3j.crypto.CipherException
 import org.web3j.crypto.Credentials
+import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Hash
 import org.web3j.crypto.MnemonicUtils
 import org.web3j.crypto.Wallet
@@ -59,12 +62,14 @@ object WalletManager {
        return Convert.fromWei(weiAmount, Convert.Unit.ETHER).toBigInteger()
     }
 
+
     /**
      * 创建新的 BIP39 钱包
      * @param password 钱包密码 (同时作为 BIP39 Passphrase 使用)
      * @param directory 钱包文件保存目录
      * @return 包含文件名和助记词的 Bip39Wallet 对象
      */
+    @Deprecated("此为初版方法已废弃")
     fun createWallet(password: String, directory: File): Bip39Wallet {
         // 1. 生成助记词
         val initialEntropy = ByteArray(16)
@@ -87,7 +92,7 @@ object WalletManager {
         val mnemonic = MnemonicUtils.generateMnemonic(initialEntropy)
 
         // 2. 推导密钥对 (使用密码作为 Passphrase)
-        val keyPair = deriveKeyPair(mnemonic, userPassword)
+        val keyPair = deriveKeyPair(mnemonic, "")
         val credentials = Credentials.create(keyPair)
         val address =credentials.address
 
@@ -151,12 +156,86 @@ object WalletManager {
 
             // 3. 创建 Credentials
             Credentials.create(ecKeyPair)
+
         } catch (e: Exception) {
             e.printStackTrace()
             null  // 密码错、格式错或解密失败
         }
     }
 
+    /**
+     * 导入助记词
+     */
+    suspend fun  importSecureWalletByMnemonic(context: Context,mnemonic: String,userPassword: String,userId: String,directory: File):String?{
+
+       try {
+           // 2. 推导密钥对 (使用密码作为 Passphrase)
+           val keyPair = deriveKeyPair(mnemonic, "")
+           val credentials = Credentials.create(keyPair)
+           val address =credentials.address
+           // 3. 保存 Keystore 文件
+           val filename = WalletUtils.generateWalletFile(userPassword, keyPair, directory, false)
+           val keystoreFile = File(directory, filename)
+           val keystoreJson = keystoreFile.readText()
+
+           // 立即删除临时文件
+           keystoreFile.delete()
+           directory.delete()
+           // 4. 用 Android Keystore 生成/获取加密密钥
+           val encryptionKey = getOrCreateEncryptionKey(WALLET_KEY)
+           // 5. 加密 keystore JSON
+           val encryptedKeystore = encryptString(keystoreJson, encryptionKey)
+           // 额外：加密助记词（仅用于导出功能）
+           val encryptedMnemonic = encryptString(mnemonic, encryptionKey)
+
+           context.walletDataStore.edit { prefs->
+               prefs[stringPreferencesKey("keystore_${userId}_$address")] = encryptedKeystore
+               prefs[stringPreferencesKey("mnemonic_${userId}_$address")] = encryptedMnemonic
+           }
+           return  address
+       }catch (e: Exception){
+           e.printStackTrace()
+           return null
+       }
+
+
+    }
+
+    /**
+     * 导入私钥
+     */
+    suspend fun  importWalletByPrivateKey(context: Context,privateKey: String, userPassword: String,userId: String,directory: File):String?{
+       try {
+           val credentials = Credentials.create(privateKey)
+           val address =credentials.address
+           val filename = WalletUtils.generateWalletFile(userPassword, credentials.ecKeyPair, directory, false)
+           val keystoreFile = File(directory, filename)
+           val keystoreJson = keystoreFile.readText()
+
+           // 立即删除临时文件
+           keystoreFile.delete()
+           directory.delete()
+           // 4. 用 Android Keystore 生成/获取加密密钥
+           val encryptionKey = getOrCreateEncryptionKey(WALLET_KEY)
+           // 5. 加密 keystore JSON
+           val encryptedKeystore = encryptString(keystoreJson, encryptionKey)
+
+
+           context.walletDataStore.edit { prefs->
+               prefs[stringPreferencesKey("keystore_${userId}_$address")] = encryptedKeystore
+           }
+           return  address
+       }catch (e: Exception){
+           e.printStackTrace()
+           return null
+       }
+
+
+    }
+
+    /**
+     * 导出助记词
+     */
     suspend fun exportMnemonic(
         context: Context,
         address: String,
@@ -176,12 +255,35 @@ object WalletManager {
         }
     }
 
+
+    /**
+     * 导出私钥
+     */
+    suspend fun  exportPrivateKey(context: Context,address: String,userPassword: String,userId: String):String{
+        val credentials =loadWalletInfoByAddress(context,address,userPassword,userId)
+        return  credentials?.ecKeyPair?.privateKey?.toString(16) ?: ""
+
+    }
+
+    /**
+     * 删除本地存储的助记词和钱包地址等信息
+     */
+    suspend fun  deleteLocalWalletByAddress(context: Context,address: String,userPassword: String,userId: String){
+        context.walletDataStore.edit {prefs ->
+            prefs.remove(stringPreferencesKey("keystore_${userId}_$address"))
+            prefs.remove(stringPreferencesKey("mnemonic_${userId}_$address"))
+        }
+
+    }
+
+
     /**
      * 通过助记词获取钱包凭证
      * @param password 钱包密码 (用于 BIP39 Passphrase)
      * @param mnemonic 助记词
      * @return Credentials 凭证对象，如果失败返回 null
      */
+    @Deprecated("此为初版方法已废弃")
     fun getWalletAddressByMnemonic(password: String, mnemonic: String): Credentials? {
         return try {
             val keyPair = deriveKeyPair(mnemonic, password)
@@ -199,6 +301,7 @@ object WalletManager {
      * @param directory 钱包文件保存目录
      * @return 包含文件名和助记词的 Bip39Wallet 对象
      */
+    @Deprecated("此为初版方法已废弃")
     fun importWallet(password: String, mnemonic: String, directory: File): Bip39Wallet {
         val keyPair = deriveKeyPair(mnemonic, password)
         val filename = WalletUtils.generateWalletFile(password, keyPair, directory, false)
@@ -212,6 +315,7 @@ object WalletManager {
      * @param directory 钱包文件保存目录
      * @return 钱包文件名
      */
+    @Deprecated("此为初版方法已废弃")
     fun importPrivateKey(password: String, privateKey: String, directory: File): String {
         val credentials = Credentials.create(privateKey)
         return WalletUtils.generateWalletFile(password, credentials.ecKeyPair, directory, false)
@@ -223,6 +327,7 @@ object WalletManager {
      * @param file 钱包文件
      * @return Credentials 凭证对象
      */
+    @Deprecated("此为初版方法已废弃")
     fun loadCredentials(password: String, file: File): Credentials {
         return WalletUtils.loadCredentials(password, file)
     }
@@ -332,5 +437,16 @@ object WalletManager {
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun isDeviceRooted(context: Context): Boolean {
+        val rootBeer = RootBeer(context)
+
+        // RootBeer 内置多种检测方式（su 二进制、busybox、Magisk 等）
+        return rootBeer.isRooted() || rootBeer.detectRootManagementApps() ||
+                rootBeer.detectPotentiallyDangerousApps() || rootBeer.checkForSuBinary() ||
+                rootBeer.checkForDangerousProps() || rootBeer.checkForRWPaths() ||
+                rootBeer.detectTestKeys() || rootBeer.checkSuExists() ||
+                rootBeer.checkForRootNative() || rootBeer.checkForMagiskBinary()
     }
 }

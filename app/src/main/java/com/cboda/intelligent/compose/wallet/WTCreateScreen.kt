@@ -2,28 +2,21 @@ package com.cboda.intelligent.compose.wallet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -36,11 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.DialogProperties
 import org.web3j.crypto.Bip39Wallet
 import com.cboda.intelligent.compose.noRippleClickable
-import com.cboda.intelligent.configuration.SafeJumpBroadEnum
-import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
-import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
-import com.cboda.intelligent.dialog.pop.AuthQuestionBroadPop
-import razerdp.basepopup.BasePopupWindow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +36,7 @@ fun WTCreateScreen(
     onBack: () -> Unit,
     onImportClick: () -> Unit,
     onWatchClick: () -> Unit,
-    onCreateSuccess: (Bip39Wallet, String, String) -> Unit,
+    onCreateSuccess: (String, String, String) -> Unit,
     viewModel: WTViewModel = viewModel()
 ) {
     val  mContext= LocalContext.current
@@ -88,7 +76,7 @@ fun WTCreateScreen(
             LaunchedEffect(state) {
                 showDialog = false
                 viewModel.resetLocalState()
-                onCreateSuccess(state.wallet, state.name, state.address)
+                onCreateSuccess(state.mnemonic, state.name, state.address)
             }
         }
         is WalletCreationState.Error -> {
@@ -152,7 +140,7 @@ fun WTCreateScreen(
         CreateWalletDialog(
             onDismiss = { showDialog = false },
             onConfirm = { name ->
-                viewModel.createLocalWallet(name, wtPassword) // Use default password as UI doesn't provide it
+                viewModel.createLocalWallet(mContext,name, wtPassword) // Use default password as UI doesn't provide it
             }
         )
     }
@@ -195,7 +183,6 @@ fun WatchWalletDialog(
     var note by remember { mutableStateOf("") }
     val clipboardManager = androidx.compose.ui.platform.LocalClipboardManager.current
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,

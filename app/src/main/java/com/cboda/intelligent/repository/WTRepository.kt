@@ -42,7 +42,7 @@ class WTRepository {
     companion object{
 
       const val wtDefaultChanId=97
-        const val wtDefaultWalletPwd=""
+        const val wtDefaultWalletPwd="123456"
         val bnbTestnetRpcs = listOf(
             "https://data-seed-prebsc-1-s1.bnbchain.org:8545",  // 官方
             "https://bsc-testnet-rpc.publicnode.com",           // 公共高可用

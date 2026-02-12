@@ -543,6 +543,7 @@ fun WTTransferScreen(
             onPassWordVerifySuccess = { pwd ->
                 val symbol = selectedAsset?.symbol ?: ""
                 viewModel.sendTransaction(
+                    context,
                     toAddress = toAddress,
                     amount = amount,
                     symbol = symbol,
