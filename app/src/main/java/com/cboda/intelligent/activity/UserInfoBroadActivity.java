@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.clipViewOutlineRound;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
@@ -138,6 +139,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         setRootBgColor(com.cboda.baselibrary.R.color.white);
 //        ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
+        clipViewOutlineRound(mBinding.mViewPremiumNumber,20);
         userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         userInfo();
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
