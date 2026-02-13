@@ -1,15 +1,11 @@
 package com.cboda.intelligent.compose.wallet
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,12 +26,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.window.Dialog
 import org.web3j.crypto.Bip39Wallet
-import razerdp.basepopup.BasePopupWindow
 import com.cboda.intelligent.compose.noRippleClickable
-import com.cboda.intelligent.configuration.SafeJumpBroadEnum
-import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
-import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
-import com.cboda.intelligent.dialog.pop.AuthQuestionBroadPop
 import com.cboda.intelligent.utils.ToastBroadUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +35,7 @@ fun WTEmptyScreen(
     onBack: () -> Unit,
     onImportClick: () -> Unit,
     onWatchClick: () -> Unit,
-    onCreateSuccess: (Bip39Wallet, String, String) -> Unit,
+    onCreateSuccess: (String, String, String) -> Unit,
     viewModel: WTViewModel = viewModel()
 ) {
     val  mContext= LocalContext.current
@@ -86,7 +77,7 @@ fun WTEmptyScreen(
             LaunchedEffect(state) {
                 showDialog = false
                 viewModel.resetLocalState()
-                onCreateSuccess(state.wallet, state.name, state.address)
+                onCreateSuccess(state.mnemonic, state.name, state.address)
             }
         }
         is WalletCreationState.Error -> {
@@ -151,7 +142,7 @@ fun WTEmptyScreen(
         CreateWalletDialog(
             onDismiss = { showDialog = false },
             onConfirm = { name ->
-                viewModel.createLocalWallet(name, wtPassword)
+                viewModel.createLocalWallet(mContext,name, wtPassword)
             }
         )
     }

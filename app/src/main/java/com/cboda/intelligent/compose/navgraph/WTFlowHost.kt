@@ -49,6 +49,7 @@ import com.cboda.intelligent.compose.wallet.WTWatchScreen
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.model.CreateWalletRequest
 import com.cboda.intelligent.model.DeleteWalletRequest
+import com.cboda.intelligent.repository.WTRepository
 import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.WTViewModel
@@ -200,8 +201,8 @@ fun WTFlowHost(
                 },
                 onImportClick = { navController.navigate(WTRoute.importWt()) },
                 onWatchClick = { navController.navigate(WTRoute.WATCH_WT) },
-                onCreateSuccess = { wallet, name, address ->
-                    navController.navigate(WTRoute.backupMnemonic(wallet, name, address))
+                onCreateSuccess = { mnemonic, name, address ->
+                    navController.navigate(WTRoute.backupMnemonic(mnemonic, name, address))
                 }
             )
         }
@@ -210,8 +211,8 @@ fun WTFlowHost(
                 onBack = { navController.popBackStack() },
                 onImportClick = { navController.navigate(WTRoute.importWt()) },
                 onWatchClick = { navController.navigate(WTRoute.WATCH_WT) },
-                onCreateSuccess = { wallet, name, address ->
-                    navController.navigate(WTRoute.backupMnemonic(wallet, name, address))
+                onCreateSuccess = { mnemonic, name, address ->
+                    navController.navigate(WTRoute.backupMnemonic(mnemonic, name, address))
                 }
             )
         }
@@ -330,13 +331,13 @@ fun WTFlowHost(
                 navArgument("mnemonic") { type = NavType.StringType },
                 navArgument("name") { type = NavType.StringType },
                 navArgument("address") { type = NavType.StringType },
-                navArgument("filename") { type = NavType.StringType }
+//                navArgument("filename") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val mnemonic = backStackEntry.arguments?.getString("mnemonic") ?: ""
             val name = backStackEntry.arguments?.getString("name") ?: ""
             val address = backStackEntry.arguments?.getString("address") ?: ""
-            val filename = backStackEntry.arguments?.getString("filename") ?: ""
+//            val filename = backStackEntry.arguments?.getString("filename") ?: ""
             
             val uiState by viewModel.uiState.collectAsState()
 
@@ -357,11 +358,11 @@ fun WTFlowHost(
                     viewModel.createWallet(
                         CreateWalletRequest(
                             source = "create",
-                            chain_id = 97,
+                            chain_id = WTRepository.wtDefaultChanId,
                             address = address,
                             label = name,
                         ),
-                        filename
+                        null
                     )
                 }
             )
@@ -428,13 +429,13 @@ fun WTFlowHost(
                     viewModel.updateWalletName(address, newName, 97)
                 },
                 onDelete = {
-                    viewModel.deleteWallet(DeleteWalletRequest(chain_id = 97, address = address))
+                    viewModel.deleteWallet(context,DeleteWalletRequest(chain_id = 97, address = address))
                 },
                 onExportMnemonic = {
-                    viewModel.exportMnemonic(address)
+                    viewModel.exportMnemonic(context,address)
                 },
                 onExportPrivateKey = {
-                    viewModel.exportPrivateKey(address)
+                    viewModel.exportPrivateKey(context,address)
                 },
                 onConvert = {
                     // Navigate to Import screen with expected address
@@ -561,7 +562,7 @@ class WTRoute {
         //观察
         const val WATCH_WT = "watch_wt"
         //备份助记词
-        const val BACKUP_MNEMONIC = "backup_mnemonic/{mnemonic}/{name}/{address}/{filename}"
+        const val BACKUP_MNEMONIC = "backup_mnemonic/{mnemonic}/{name}/{address}"
         //查看助记词
         const val VIEW_MNEMONIC = "view_mnemonic/{mnemonic}"
         //导出私钥
@@ -581,7 +582,7 @@ class WTRoute {
         //添加代币
         const val ADD_TOKEN = "add_token"
 
-        fun backupMnemonic(wallet: Bip39Wallet, name: String, address: String) = "backup_mnemonic/${wallet.mnemonic}/$name/$address/${wallet.filename}"
+        fun backupMnemonic(mnemonic: String, name: String, address: String) = "backup_mnemonic/${mnemonic}/$name/$address"
         fun viewMnemonic(mnemonic: String) = "view_mnemonic/$mnemonic"
         fun exportPrivateKey(privateKey: String) = "export_private_key/$privateKey"
         fun walletDetail(name: String, address: String, isWatch: Boolean) = "wallet_detail/$name/$address/$isWatch"

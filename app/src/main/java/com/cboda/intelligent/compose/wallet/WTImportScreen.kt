@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -72,6 +73,7 @@ fun WTImportScreen(
     val importWalletState by viewModel.importWalletState.collectAsState()
     var showLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val mContext= LocalContext.current
 
     LaunchedEffect(importWalletState) {
         when (val state = importWalletState) {
@@ -123,7 +125,7 @@ fun WTImportScreen(
         onBack = onBack,
         isConvert = expectedAddress != null,
         onConfirm = { mnemonic, name ->
-            viewModel.importLocalWallet(mnemonic, name, expectedAddress)
+            viewModel.importLocalWallet(mContext,mnemonic, name, expectedAddress)
         }
     )
 }

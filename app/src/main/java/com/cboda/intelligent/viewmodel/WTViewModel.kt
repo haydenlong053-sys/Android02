@@ -1,13 +1,13 @@
 package com.cboda.intelligent.viewmodel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.model.AddTokenRequest
 import com.cboda.intelligent.model.AssetItem
 import com.cboda.intelligent.model.BroadcastTxRequest
@@ -40,8 +40,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.web3j.crypto.Credentials
-import org.web3j.crypto.Bip39Wallet
 import org.web3j.crypto.RawTransaction
 import org.web3j.crypto.TransactionEncoder
 import org.web3j.utils.Numeric
@@ -49,7 +47,6 @@ import org.web3j.abi.FunctionEncoder
 import org.web3j.abi.datatypes.Function
 import org.web3j.abi.datatypes.Address
 import org.web3j.abi.datatypes.generated.Uint256
-import org.web3j.crypto.CipherException
 import org.web3j.protocol.core.methods.response.EthSendTransaction
 import java.io.File
 import java.math.BigDecimal
@@ -110,7 +107,7 @@ data class ExportResult(
 sealed class WalletCreationState {
     object Idle : WalletCreationState()
     object Loading : WalletCreationState()
-    data class Success(val wallet: Bip39Wallet, val name: String, val address: String) : WalletCreationState()
+    data class Success(val mnemonic: String, val name: String, val address: String) : WalletCreationState()
     data class Error(val message: String) : WalletCreationState()
 }
 
@@ -189,27 +186,43 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Local Wallet Creation
-    fun createLocalWallet(name: String, password: String) {
+    fun createLocalWallet(context: Context,name: String, password: String) {
         _createWalletState.value = WalletCreationState.Loading
         viewModelScope.launch {
             try {
+                val userId= MMKVBroadUtils.getRealUserId()?:""
                 // Clear old temp files
                 val tempDir = getTempWalletDir()
                 tempDir.deleteRecursively()
                 tempDir.mkdirs()
-                
-                // Run on IO thread
-                val wallet = withContext(Dispatchers.IO) {
-                    WalletManager.createWallet(WTRepository.wtDefaultWalletPwd, tempDir)
+
+                val walletAddress:String?
+                val walletMnemonic:String?
+
+                val secureWallet =withContext(Dispatchers.IO){
+                    WalletManager.createSecureWallet(context, WTRepository.wtDefaultWalletPwd,tempDir,userId)
+                }
+                secureWallet.let {
+                    walletMnemonic=it.second
+                    walletAddress=it.first
+                }
+                if (walletMnemonic.isNullOrEmpty()||walletAddress.isNullOrEmpty()){
+                    _createWalletState.value = WalletCreationState.Error( "创建钱包失败")
+                    return@launch
                 }
 
-                val credentials = WalletManager.getWalletAddressByMnemonic(WTRepository.wtDefaultWalletPwd, wallet.mnemonic)
-                val address = credentials?.address ?: ""
+//                // Run on IO thread
+//                val wallet = withContext(Dispatchers.IO) {
+//                    WalletManager.createWallet(WTRepository.wtDefaultWalletPwd, tempDir)
+//                }
+//
+//                val credentials = WalletManager.getWalletAddressByMnemonic(WTRepository.wtDefaultWalletPwd, wallet.mnemonic)
+//                val address = credentials?.address ?: ""
+//
+//                // 保存助记词到本地加密文件，以便后续导出
+//                saveEncryptedMnemonic(address, wallet.mnemonic, tempDir)
                 
-                // 保存助记词到本地加密文件，以便后续导出
-                saveEncryptedMnemonic(address, wallet.mnemonic, tempDir)
-                
-                _createWalletState.value = WalletCreationState.Success(wallet, name, address)
+                _createWalletState.value = WalletCreationState.Success(walletMnemonic, name, walletAddress)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _createWalletState.value = WalletCreationState.Error(e.message ?: "创建钱包失败")
@@ -222,10 +235,11 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Local Wallet Import
-    fun importLocalWallet(input: String, name: String, expectedAddress: String? = null) {
+    fun importLocalWallet(context: Context,input: String, name: String, expectedAddress: String? = null) {
         _importWalletState.value = WalletCreationState.Loading
         viewModelScope.launch {
             try {
+                val userId= MMKVBroadUtils.getRealUserId()?:""
                 // Use temp dir first to avoid storing invalid/unconfirmed wallets in secure storage
                 val tempDir = getTempWalletDir()
                 if (!tempDir.exists()) tempDir.mkdirs()
@@ -237,39 +251,54 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 val isMnemonic = cleanInput.contains(" ") || !cleanInput.startsWith("0x") && cleanInput.length != 64
 
                 val walletFilename: String
-                val address: String
+                val address: String?
                 val mnemonic: String
-
-                // 1. Generate Wallet Locally (Temp)
-                if (isMnemonic) {
-                    val wallet = withContext(Dispatchers.IO) {
-                        WalletManager.importWallet(WTRepository.wtDefaultWalletPwd, input, tempDir)
+                if (isMnemonic){
+                    address= withContext(Dispatchers.IO){
+                        WalletManager.importSecureWalletByMnemonic(context,input, WTRepository.wtDefaultWalletPwd,userId,tempDir)
                     }
-                    walletFilename = wallet.filename
-                    mnemonic = wallet.mnemonic
-                    val credentials = WalletManager.getWalletAddressByMnemonic(WTRepository.wtDefaultWalletPwd, mnemonic)
-                    address = credentials?.address ?: ""
-
-                    // 保存助记词到本地加密文件
-                    saveEncryptedMnemonic(address, mnemonic, tempDir)
-                } else {
-                    // Private Key Import
-                    mnemonic = "" // No mnemonic for private key import
-                    walletFilename = withContext(Dispatchers.IO) {
-                        WalletManager.importPrivateKey(WTRepository.wtDefaultWalletPwd, input, tempDir)
+                    mnemonic=input
+                }else{
+                    address= withContext(Dispatchers.IO){
+                        WalletManager.importWalletByPrivateKey(context,input,WTRepository.wtDefaultWalletPwd,userId,tempDir)
                     }
-                    val credentials = Credentials.create(input)
-                    address = credentials.address
+                    mnemonic=""
                 }
+                if (address.isNullOrEmpty()){
+                    _importWalletState.value = WalletCreationState.Error("导入的助记词/私钥未能正确获取钱包地址,请检查")
+                    return@launch
+                }
+
+//                // 1. Generate Wallet Locally (Temp)
+//                if (isMnemonic) {
+//                    val wallet = withContext(Dispatchers.IO) {
+//                        WalletManager.importWallet(WTRepository.wtDefaultWalletPwd, input, tempDir)
+//                    }
+//                    walletFilename = wallet.filename
+//                    mnemonic = wallet.mnemonic
+//                    val credentials = WalletManager.getWalletAddressByMnemonic(WTRepository.wtDefaultWalletPwd, mnemonic)
+//                    address = credentials?.address ?: ""
+//
+//                    // 保存助记词到本地加密文件
+//                    saveEncryptedMnemonic(address, mnemonic, tempDir)
+//                } else {
+//                    // Private Key Import
+//                    mnemonic = "" // No mnemonic for private key import
+//                    walletFilename = withContext(Dispatchers.IO) {
+//                        WalletManager.importPrivateKey(WTRepository.wtDefaultWalletPwd, input, tempDir)
+//                    }
+//                    val credentials = Credentials.create(input)
+//                    address = credentials.address
+//                }
 
                 // Check address match if expectedAddress is provided
                 if (!expectedAddress.isNullOrEmpty() && !address.equals(expectedAddress, ignoreCase = true)) {
                     _importWalletState.value = WalletCreationState.Error("导入的钱包地址与当前钱包不一致，请检查")
                     // Cleanup temp file
-                    val tempFile = File(tempDir, walletFilename)
-                    if (tempFile.exists()) {
-                        tempFile.delete()
-                    }
+//                    val tempFile = File(tempDir, walletFilename)
+//                    if (tempFile.exists()) {
+//                        tempFile.delete()
+//                    }
                     return@launch
                 }
 
@@ -294,34 +323,34 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 apiResult.onSuccess {
-                    // 3. Move to Secure Storage (noBackupFilesDir)
-                    val targetDir = getUserWalletDir()
-                    val tempFile = File(tempDir, walletFilename)
-                    val targetFile = File(targetDir, walletFilename)
-                    
-                    if (tempFile.exists()) {
-                        withContext(Dispatchers.IO) {
-                            tempFile.copyTo(targetFile, overwrite = true)
-                            tempFile.delete()
-
-                            // 如果存在助记词文件，也一并移动
-                            try {
-                                val mnemonicFilename = getMnemonicFilename(address)
-                                val tempMnemonicFile = File(tempDir, mnemonicFilename)
-                                if (tempMnemonicFile.exists()) {
-                                    val targetMnemonicFile = File(targetDir, mnemonicFilename)
-                                    tempMnemonicFile.copyTo(targetMnemonicFile, overwrite = true)
-                                    tempMnemonicFile.delete()
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-                    }
+//                     3. Move to Secure Storage (noBackupFilesDir)
+//                    val targetDir = getUserWalletDir()
+//                    val tempFile = File(tempDir, walletFilename)
+//                    val targetFile = File(targetDir, walletFilename)
+//
+//                    if (tempFile.exists()) {
+//                        withContext(Dispatchers.IO) {
+//                            tempFile.copyTo(targetFile, overwrite = true)
+//                            tempFile.delete()
+//
+//                            // 如果存在助记词文件，也一并移动
+//                            try {
+//                                val mnemonicFilename = getMnemonicFilename(address)
+//                                val tempMnemonicFile = File(tempDir, mnemonicFilename)
+//                                if (tempMnemonicFile.exists()) {
+//                                    val targetMnemonicFile = File(targetDir, mnemonicFilename)
+//                                    tempMnemonicFile.copyTo(targetMnemonicFile, overwrite = true)
+//                                    tempMnemonicFile.delete()
+//                                }
+//                            } catch (e: Exception) {
+//                                e.printStackTrace()
+//                            }
+//                        }
+//                    }
 
                     // 4. Update State
-                    val walletObj = Bip39Wallet(walletFilename, mnemonic)
-                    _importWalletState.value = WalletCreationState.Success(walletObj, name, address)
+//                    val walletObj = Bip39Wallet(walletFilename, mnemonic)
+                    _importWalletState.value = WalletCreationState.Success(mnemonic, name, address)
                     _hasWallet.value = true
                     
                     // Refresh wallet list
@@ -329,17 +358,17 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 }.onError {
                     _importWalletState.value = WalletCreationState.Error(it.message ?: "导入失败: 接口错误")
                     // Cleanup temp file on failure
-                    val tempFile = File(tempDir, walletFilename)
-                    if (tempFile.exists()) {
-                        tempFile.delete()
-                    }
+//                    val tempFile = File(tempDir, walletFilename)
+//                    if (tempFile.exists()) {
+//                        tempFile.delete()
+//                    }
                 }.onFailure { code, message ->
                     _importWalletState.value = WalletCreationState.Error(message ?: "导入失败: 接口错误")
-                    // Cleanup temp file on failure
-                    val tempFile = File(tempDir, walletFilename)
-                    if (tempFile.exists()) {
-                        tempFile.delete()
-                    }
+//                    // Cleanup temp file on failure
+//                    val tempFile = File(tempDir, walletFilename)
+//                    if (tempFile.exists()) {
+//                        tempFile.delete()
+//                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -463,7 +492,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun sendTransaction(toAddress: String, amount: String, symbol: String, password: String,token_address:String, onResult: (Boolean, String?) -> Unit) {
+    fun sendTransaction(context: Context,toAddress: String, amount: String, symbol: String, password: String,token_address:String, onResult: (Boolean, String?) -> Unit) {
         val wallet = _uiState.value.currentWallet
         val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true)&&it.token_address.equals(token_address,true) }
         val gasResponse = _uiState.value.gasEstimateResponse
@@ -485,29 +514,47 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch {
             try {
-                // 1. Load Credentials
-                val walletDir = getUserWalletDir()
-                val walletFile = walletDir.listFiles()?.find { file ->
-                    val cleanAddress = wallet.address.removePrefix("0x")
-                    file.name.contains(cleanAddress, ignoreCase = true)
+                val userId= MMKVBroadUtils.getRealUserId()?:""
+                val isRoot=isRootDevice(context)
+                if (isRoot){
+                    ToastBroadUtil.show("Root设置不支持此操作")
+                    onResult(false, "File Not Found")
+                    _uiState.value=_uiState.value.copy(isSending = false)
+                    return@launch
                 }
-
-                if (walletFile == null) {
+                val localCredentials = withContext(Dispatchers.IO) {
+                    WalletManager.loadWalletInfoByAddress(context, wallet.address, WTRepository.wtDefaultWalletPwd, userId)
+                }
+                if (localCredentials==null){
                     ToastBroadUtil.show("未找到钱包文件")
                     onResult(false, "File Not Found")
                     _uiState.value=_uiState.value.copy(isSending = false)
                     return@launch
                 }
 
-                val credentials = try {
-                    withContext(Dispatchers.IO) {
-                        WalletManager.loadCredentials(WTRepository.wtDefaultWalletPwd, walletFile)
-                    }
-                } catch (e: Exception) {
-                    onResult(false, "Password Error")
-                    _uiState.value=_uiState.value.copy(isSending = false)
-                    return@launch
-                }
+//                // 1. Load Credentials
+//                val walletDir = getUserWalletDir()
+//                val walletFile = walletDir.listFiles()?.find { file ->
+//                    val cleanAddress = wallet.address.removePrefix("0x")
+//                    file.name.contains(cleanAddress, ignoreCase = true)
+//                }
+//
+//                if (walletFile == null) {
+//                    ToastBroadUtil.show("未找到钱包文件")
+//                    onResult(false, "File Not Found")
+//                    _uiState.value=_uiState.value.copy(isSending = false)
+//                    return@launch
+//                }
+//
+//                val credentials = try {
+//                    withContext(Dispatchers.IO) {
+//                        WalletManager.loadCredentials(WTRepository.wtDefaultWalletPwd, walletFile)
+//                    }
+//                } catch (e: Exception) {
+//                    onResult(false, "Password Error")
+//                    _uiState.value=_uiState.value.copy(isSending = false)
+//                    return@launch
+//                }
 
                 val decimals = asset.decimals
                 val base = BigDecimal.TEN.pow(decimals)
@@ -586,7 +633,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                     }
 
                     // 3. Sign Transaction
-                    val signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials)
+                    val signedMessage = TransactionEncoder.signMessage(rawTransaction, localCredentials)
                     var hexValue = Numeric.toHexString(signedMessage)
                     if (!hexValue.startsWith("0x")) {
                         hexValue = "0x" + hexValue
@@ -628,7 +675,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                             memo = null,
                             tx_hash=txHash
                         )
-1
+
                         repository.broadcastTx(broadcastReq).onSuccess { br ->
                             if (br?.status.isNullOrEmpty()) {
                                 ToastBroadUtil.show("交易已提交")
@@ -648,13 +695,16 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 }.onError {
                     ToastBroadUtil.show(it.message ?: "转账校验失败")
                     onResult(false, it.message)
+                    _uiState.value=_uiState.value.copy(isSending = false)
                 }.onFailure { _, message ->
                     ToastBroadUtil.show(message ?: "转账校验失败")
                     onResult(false, message)
+                    _uiState.value=_uiState.value.copy(isSending = false)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 ToastBroadUtil.show("发送交易失败：${e.message}")
+                _uiState.value=_uiState.value.copy(isSending = false)
                 onResult(false, e.message)
             }
         }
@@ -673,7 +723,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 // No local file needed for watch wallet
                 // We use a dummy Bip39Wallet object as the success state payload requires it, 
                 // but for watch wallet only address and name matter.
-                _watchWalletState.value = WalletCreationState.Success(Bip39Wallet("", ""), note, address)
+                _watchWalletState.value = WalletCreationState.Success("", note, address)
                 _hasWallet.value = true
                 getWalletList(WTRepository.wtDefaultChanId)
             }.onError {
@@ -736,34 +786,34 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null, isCreateSuccess = false)
             repository.createWallet(req).onSuccess {
                 
-                if (tempWalletFilename != null) {
-                    try {
-                        val tempFile = File(getTempWalletDir(), tempWalletFilename)
-                        if (tempFile.exists()) {
-                            val targetDir = getUserWalletDir()
-                            val targetFile = File(targetDir, tempWalletFilename)
-                            tempFile.copyTo(targetFile, overwrite = true)
-                            tempFile.delete() // Cleanup
-
-                            // 如果存在助记词文件，也一并移动
-                            try {
-                                val mnemonicFilename = getMnemonicFilename(req.address)
-                                val tempMnemonicFile = File(getTempWalletDir(), mnemonicFilename)
-                                if (tempMnemonicFile.exists()) {
-                                    val targetMnemonicFile = File(targetDir, mnemonicFilename)
-                                    tempMnemonicFile.copyTo(targetMnemonicFile, overwrite = true)
-                                    tempMnemonicFile.delete()
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        // Even if file move fails, we might want to continue or show error?
-                        // But API success is already done.
-                    }
-                }
+//                if (tempWalletFilename != null) {
+//                    try {
+//                        val tempFile = File(getTempWalletDir(), tempWalletFilename)
+//                        if (tempFile.exists()) {
+//                            val targetDir = getUserWalletDir()
+//                            val targetFile = File(targetDir, tempWalletFilename)
+//                            tempFile.copyTo(targetFile, overwrite = true)
+//                            tempFile.delete() // Cleanup
+//
+//                            // 如果存在助记词文件，也一并移动
+//                            try {
+//                                val mnemonicFilename = getMnemonicFilename(req.address)
+//                                val tempMnemonicFile = File(getTempWalletDir(), mnemonicFilename)
+//                                if (tempMnemonicFile.exists()) {
+//                                    val targetMnemonicFile = File(targetDir, mnemonicFilename)
+//                                    tempMnemonicFile.copyTo(targetMnemonicFile, overwrite = true)
+//                                    tempMnemonicFile.delete()
+//                                }
+//                            } catch (e: Exception) {
+//                                e.printStackTrace()
+//                            }
+//                        }
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                        // Even if file move fails, we might want to continue or show error?
+//                        // But API success is already done.
+//                    }
+//                }
 
                 _uiState.value = _uiState.value.copy(isLoading = false, isCreateSuccess = true)
                 // Optionally refresh list
@@ -935,111 +985,162 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
         return null
     }
 
-    fun exportPrivateKey(address: String) {
+    fun exportPrivateKey(context: Context,address: String) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, exportResult = null)
-            try {
-                val dir = getUserWalletDir()
-                val cleanAddress = address.removePrefix("0x").lowercase()
-                val file = dir.listFiles()?.find { it.name.lowercase().contains(cleanAddress) }
-                
-                var privateKey = ""
-                
-                // 优先尝试从助记词文件恢复私钥（如果存在）
-                // 这样即使 Keystore 文件损坏或丢失（但助记词文件还在），也能导出
-                val storedMnemonic = getStoredMnemonic(address)
-                if (!storedMnemonic.isNullOrEmpty()) {
-                    val credentials = WalletManager.getWalletAddressByMnemonic(WTRepository.wtDefaultWalletPwd, storedMnemonic)
-                    privateKey = credentials?.ecKeyPair?.privateKey?.toString(16) ?: ""
-                }
-
-                if (privateKey.isEmpty() && file != null && file.exists()) {
-                    // Try to load with empty password (for imported wallets)
-                    // TODO: If this fails, we need to prompt for password
-                    val credentials = withContext(Dispatchers.IO) {
-                        WalletManager.loadCredentials(WTRepository.wtDefaultWalletPwd, file)
-                    }
-                    privateKey = credentials.ecKeyPair.privateKey.toString(16)
-                }
-                
-                if (privateKey.isNotEmpty()) {
-                    // Add 0x prefix as requested
-                    val finalPrivateKey = if (privateKey.startsWith("0x")) privateKey else "0x$privateKey"
-                    
-                    _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        exportResult = ExportResult("private_key", finalPrivateKey)
-                    )
-                } else {
-                    _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        exportResult = ExportResult("private_key", "", "未找到该钱包文件，无法导出私钥")
-                    )
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                // Check if it's a password error
-                val msg = if (e.message?.contains("Invalid password") == true || e is CipherException) {
-                    "导出失败：钱包受密码保护，无法直接导出"
-                } else {
-                    "导出私钥失败: ${e.message}"
-                }
-                
+            val userId= MMKVBroadUtils.getRealUserId()
+            val isRoot=isRootDevice(context)
+            if (isRoot){
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    exportResult = ExportResult("private_key", "", msg)
-                )
-            }
-        }
-    }
-    
-    fun exportMnemonic(address: String) {
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, exportResult = null)
-            
-            // 1. 尝试从本地加密文件读取助记词
-            val storedMnemonic = getStoredMnemonic(address)
-            if (!storedMnemonic.isNullOrEmpty()) {
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    exportResult = ExportResult("mnemonic", storedMnemonic)
+                    exportResult = ExportResult("private_key", "", "Root设备不支持此操作")
                 )
                 return@launch
             }
+            val exportPrivateKey = WalletManager.exportPrivateKey(context, address, WTRepository.wtDefaultWalletPwd, userId ?: "")
+            if (exportPrivateKey.isEmpty()){
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    exportResult = ExportResult("private_key", "", "未找到该钱包文件，无法导出私钥")
+                )
+                return@launch
+            }
+            val finalPrivateKey = if (exportPrivateKey.startsWith("0x")) exportPrivateKey else "0x$exportPrivateKey"
 
-            val dir = getUserWalletDir()
-            val cleanAddress = address.removePrefix("0x").lowercase()
-            val file = dir.listFiles()?.find { it.name.lowercase().contains(cleanAddress) }
-            
-            if (file == null || !file.exists()) {
+            _uiState.value = _uiState.value.copy(
+                isLoading = false,
+                exportResult = ExportResult("private_key", finalPrivateKey)
+            )
+
+
+
+//            try {
+//                val dir = getUserWalletDir()
+//                val cleanAddress = address.removePrefix("0x").lowercase()
+//                val file = dir.listFiles()?.find { it.name.lowercase().contains(cleanAddress) }
+//
+//                var privateKey = ""
+//
+//                // 优先尝试从助记词文件恢复私钥（如果存在）
+//                // 这样即使 Keystore 文件损坏或丢失（但助记词文件还在），也能导出
+//                val storedMnemonic = getStoredMnemonic(address)
+//                if (!storedMnemonic.isNullOrEmpty()) {
+//                    val credentials = WalletManager.getWalletAddressByMnemonic(WTRepository.wtDefaultWalletPwd, storedMnemonic)
+//                    privateKey = credentials?.ecKeyPair?.privateKey?.toString(16) ?: ""
+//                }
+//
+//                if (privateKey.isEmpty() && file != null && file.exists()) {
+//                    // Try to load with empty password (for imported wallets)
+//                    // TODO: If this fails, we need to prompt for password
+//                    val credentials = withContext(Dispatchers.IO) {
+//                        WalletManager.loadCredentials(WTRepository.wtDefaultWalletPwd, file)
+//                    }
+//                    privateKey = credentials.ecKeyPair.privateKey.toString(16)
+//                }
+//
+//                if (privateKey.isNotEmpty()) {
+//                    // Add 0x prefix as requested
+//                    val finalPrivateKey = if (privateKey.startsWith("0x")) privateKey else "0x$privateKey"
+//
+//                    _uiState.value = _uiState.value.copy(
+//                        isLoading = false,
+//                        exportResult = ExportResult("private_key", finalPrivateKey)
+//                    )
+//                } else {
+//                    _uiState.value = _uiState.value.copy(
+//                        isLoading = false,
+//                        exportResult = ExportResult("private_key", "", "未找到该钱包文件，无法导出私钥")
+//                    )
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                // Check if it's a password error
+//                val msg = if (e.message?.contains("Invalid password") == true || e is CipherException) {
+//                    "导出失败：钱包受密码保护，无法直接导出"
+//                } else {
+//                    "导出私钥失败: ${e.message}"
+//                }
+//
+//                _uiState.value = _uiState.value.copy(
+//                    isLoading = false,
+//                    exportResult = ExportResult("private_key", "", msg)
+//                )
+//            }
+        }
+    }
+    
+    fun exportMnemonic(context: Context,address: String) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, exportResult = null)
+
+            val userId= MMKVBroadUtils.getRealUserId()
+            val isRoot=isRootDevice(context)
+            if (isRoot){
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    exportResult = ExportResult("mnemonic", "", "Root设备不支持此操作")
+                )
+                return@launch
+            }
+            val exportMnemonic = WalletManager.exportMnemonic(context, address, userId ?: "")
+            if (exportMnemonic.isNullOrEmpty()){
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     exportResult = ExportResult("mnemonic", "", "未找到该钱包文件")
                 )
                 return@launch
-            }
-            
-            // 尝试读取文件以验证其有效性，但已知 Keystore 文件不包含助记词
-            try {
-                // 验证文件是否是有效的 Keystore 文件（这里不需要密码，只是为了确认文件格式可读）
-                // 如果文件损坏，这里会抛出异常
-                val fileContent = file.readText()
-                if (!fileContent.contains("\"crypto\"") && !fileContent.contains("\"Crypto\"")) {
-                     throw Exception("无效的钱包文件格式")
-                }
-                
-                // 文件存在且格式正确，但 Web3j 生成的 Keystore 文件标准上不包含助记词
-                // 助记词只在创建时的内存中短暂存在，若当时未备份，后续无法从 Keystore 恢复
+            }else{
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    exportResult = ExportResult("mnemonic", "", "无法导出：当前钱包文件（Keystore）仅包含私钥信息，不包含助记词。助记词仅在创建/导入时显示，请使用您的物理备份。")
+                    exportResult = ExportResult("mnemonic", exportMnemonic)
                 )
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    exportResult = ExportResult("mnemonic", "", "钱包文件读取失败：${e.message}")
-                )
+                return@launch
             }
+
+
+//            // 1. 尝试从本地加密文件读取助记词
+//            val storedMnemonic = getStoredMnemonic(address)
+//            if (!storedMnemonic.isNullOrEmpty()) {
+//                _uiState.value = _uiState.value.copy(
+//                    isLoading = false,
+//                    exportResult = ExportResult("mnemonic", storedMnemonic)
+//                )
+//                return@launch
+//            }
+//
+//            val dir = getUserWalletDir()
+//            val cleanAddress = address.removePrefix("0x").lowercase()
+//            val file = dir.listFiles()?.find { it.name.lowercase().contains(cleanAddress) }
+//
+//            if (file == null || !file.exists()) {
+//                _uiState.value = _uiState.value.copy(
+//                    isLoading = false,
+//                    exportResult = ExportResult("mnemonic", "", "未找到该钱包文件")
+//                )
+//                return@launch
+//            }
+//
+//            // 尝试读取文件以验证其有效性，但已知 Keystore 文件不包含助记词
+//            try {
+//                // 验证文件是否是有效的 Keystore 文件（这里不需要密码，只是为了确认文件格式可读）
+//                // 如果文件损坏，这里会抛出异常
+//                val fileContent = file.readText()
+//                if (!fileContent.contains("\"crypto\"") && !fileContent.contains("\"Crypto\"")) {
+//                     throw Exception("无效的钱包文件格式")
+//                }
+//
+//                // 文件存在且格式正确，但 Web3j 生成的 Keystore 文件标准上不包含助记词
+//                // 助记词只在创建时的内存中短暂存在，若当时未备份，后续无法从 Keystore 恢复
+//                _uiState.value = _uiState.value.copy(
+//                    isLoading = false,
+//                    exportResult = ExportResult("mnemonic", "", "无法导出：当前钱包文件（Keystore）仅包含私钥信息，不包含助记词。助记词仅在创建/导入时显示，请使用您的物理备份。")
+//                )
+//            } catch (e: Exception) {
+//                _uiState.value = _uiState.value.copy(
+//                    isLoading = false,
+//                    exportResult = ExportResult("mnemonic", "", "钱包文件读取失败：${e.message}")
+//                )
+//            }
         }
     }
     
@@ -1047,12 +1148,17 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.value = _uiState.value.copy(exportResult = null)
     }
 
-    fun deleteWallet(req: DeleteWalletRequest) {
+    fun deleteWallet(context: Context,req: DeleteWalletRequest) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, isActionSuccess = false, actionError = null)
+            val isRoot=isRootDevice(context)
+            if (isRoot){
+                _uiState.value = _uiState.value.copy(isLoading = false, actionError = "Root设备不支持此操作")
+                return@launch
+            }
             repository.deleteWallet(req).onSuccess {
                 // Delete local file if exists
-                deleteLocalWallet(req.address)
+                deleteLocalWallet(context,req.address)
                 
                 // Update list locally first to ensure UI reacts correctly immediately
                 val newList = _uiState.value.walletList.filter { !it.address.equals(req.address, ignoreCase = true) }
@@ -1071,24 +1177,28 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 getWalletList(req.chain_id) // Refresh list from server to be sure
             }.onError {
                 _uiState.value = _uiState.value.copy(isLoading = false, actionError = it.message)
+            }.onFailure { code, message ->
+                _uiState.value = _uiState.value.copy(isLoading = false, actionError = message)
             }
         }
     }
 
-    private fun deleteLocalWallet(address: String) {
-        try {
-            val dir = getUserWalletDir()
-            val files = dir.listFiles()
-            val cleanAddress = address.removePrefix("0x").lowercase()
-            files?.forEach { file ->
-                // Web3j wallet filenames contain the address (lowercase, no 0x)
-                if (file.name.lowercase().contains(cleanAddress)) {
-                    file.delete()
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    private suspend fun deleteLocalWallet(context: Context, address: String) {
+        val userId= MMKVBroadUtils.getRealUserId()?:""
+        WalletManager.deleteLocalWalletByAddress(context,address, WTRepository.wtDefaultWalletPwd,userId)
+//        try {
+//            val dir = getUserWalletDir()
+//            val files = dir.listFiles()
+//            val cleanAddress = address.removePrefix("0x").lowercase()
+//            files?.forEach { file ->
+//                // Web3j wallet filenames contain the address (lowercase, no 0x)
+//                if (file.name.lowercase().contains(cleanAddress)) {
+//                    file.delete()
+//                }
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
     }
 
     fun previewToken(req: TokenPreviewRequest) {
@@ -1173,5 +1283,8 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                 _uiState.value = _uiState.value.copy(isLoading = false, error = it.message)
             }
         }
+    }
+    private suspend fun  isRootDevice(context: Context): Boolean{
+        return WalletManager.isDeviceRooted(context)
     }
 }
