@@ -27,6 +27,7 @@ import androidx.viewbinding.ViewBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.intelligent.databinding.ActivityUserBroadInfoBinding;
 import com.cboda.intelligent.dialog.pop.OpenBeautifulNumbPop;
@@ -716,14 +717,21 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             //靓号
             mBinding.tvAccountId.setVisibility(View.GONE);
             mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
-            mBinding.mTvPremiumNumber.setVisibility(View.VISIBLE);
+            mBinding.mViewPremiumNumber.setVisibility(View.VISIBLE);
             mBinding.mTvPremiumNumber.setText("ID:"+bean.data.lianghao);
+            if (!mBinding.mViewAnimateNumb.isAnimating()){
+                mBinding.mViewAnimateNumb.playAnimation();
+            }
+
 
         }else {
             //非靓号
             mBinding.tvAccountId.setVisibility(View.VISIBLE);
             mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);
-            mBinding.mTvPremiumNumber.setVisibility(View.GONE);
+            mBinding.mViewPremiumNumber.setVisibility(View.GONE);
+            if (mBinding.mViewAnimateNumb.isAnimating()){
+                mBinding.mViewAnimateNumb.pauseAnimation();
+            }
         }
 
     }
@@ -774,5 +782,27 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     public boolean showBgTopTitleLayout() {
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mBinding.mViewPremiumNumber.getVisibility() ==View.VISIBLE && !mBinding.mViewAnimateNumb.isAnimating()){
+            mBinding.mViewAnimateNumb.playAnimation();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mBinding.mViewAnimateNumb.isAnimating()){
+            mBinding.mViewAnimateNumb.pauseAnimation();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mBinding.mViewAnimateNumb.cancelAnimation();
+        super.onDestroy();
     }
 }
