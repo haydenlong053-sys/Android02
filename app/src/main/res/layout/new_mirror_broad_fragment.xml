@@ -171,27 +171,50 @@
         app:layout_constraintTop_toBottomOf="@id/qrCodeLayout"
         tools:text="ID:66465456"
         tools:visibility="visible" />
-    <com.hjq.shape.view.ShapeTextView
-        android:id="@+id/mTvPremiumNumber"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mViewPremiumNumber"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="35dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        tools:text="ID:123456"
-        android:textColor="@color/color_FAE77C"
-        android:textSize="14sp"
-        app:shape_radius="20dp"
-        app:shape_solidColor="@color/black"
-        android:paddingVertical="4dp"
-        android:paddingHorizontal="12dp"
-        android:visibility="gone"
-        tools:visibility="visible"
+        android:layout_height="26dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/qrCodeLayout"
-        />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        >
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/mViewAnimateNumb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="beautiful_id_bg.json"
+            app:lottie_imageAssetsFolder="id_bg_animate_img"
+            app:layout_constraintStart_toStartOf="@id/mTvPremiumNumber"
+            app:layout_constraintEnd_toEndOf="@id/mTvPremiumNumber"
+            app:layout_constraintTop_toTopOf="@id/mTvPremiumNumber"
+            app:layout_constraintBottom_toBottomOf="@id/mTvPremiumNumber"
+            app:lottie_loop="true" />
+        <TextView
+            android:id="@+id/mTvPremiumNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            tools:text="ID:123456"
+            android:textColor="@color/color_FAE77C"
+            android:textSize="14sp"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/vocationalTv"

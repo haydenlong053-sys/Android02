@@ -10,14 +10,15 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
+import com.cboda.baselibrary.utils.clipViewOutlineRound
 import com.cboda.intelligent.R
-import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.intelligent.activity.SignInBroadActivity
 import com.cboda.intelligent.activity.UserInfoBroadActivity
+import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.NewMirrorBroadFragmentBinding
-import com.cboda.intelligent.utils.click
+import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 
 class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, NewMirrorViewBroadModel>() {
@@ -31,6 +32,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 
     override fun initListener() {
         super.initListener()
+        clipViewOutlineRound(binding.mViewPremiumNumber, 20)
         binding.ivMirrorSign.click {
             viewModel.startAct<SignInBroadActivity>()
         }
@@ -59,6 +61,9 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
     @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
+        if (binding.mViewPremiumNumber.isVisible && !binding.mViewAnimateNumb.isAnimating) {
+            binding.mViewAnimateNumb.playAnimation()
+        }
         viewModel.getSignInfo().observe(this) {
             binding.mTvMirrorSign.text = if (it) getString(R.string.已签到) else getString(R.string.签到)
         }
@@ -68,12 +73,18 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             }
             binding.ivMirrorAvatar.setImageResource(if (userInfo?.sex == "2") R.drawable.ic_mirror_broad_female else R.drawable.ic_mirror_broad_male)
             binding.tvMirrorCreditScore.text = "${userInfo?.grade}"
-            binding.mTvPremiumNumber.isVisible =(userInfo?.isLiang == "1")
-            binding.idTv.isInvisible = binding.mTvPremiumNumber.isVisible
+            binding.mViewPremiumNumber.isVisible =(userInfo?.isLiang == "1")
+            binding.idTv.isInvisible = binding.mViewPremiumNumber.isVisible
             if (userInfo?.isLiang == "1"){
                 binding.mTvPremiumNumber.text = "ID:${userInfo?.lianghao}"
+                if (!binding.mViewAnimateNumb.isAnimating){
+                    binding.mViewAnimateNumb.playAnimation()
+                }
             }else{
                 binding.idTv.text = "ID:${if(!TextUtils.isEmpty(userInfo?.idno)) userInfo?.idno else userInfo?.mId}"
+                if (binding.mViewAnimateNumb.isAnimating){
+                    binding.mViewAnimateNumb.pauseAnimation()
+                }
             }
             binding.vocationalTv.isGone = TextUtils.isEmpty(userInfo?.vocational)
             binding.vocationalTv.text = userInfo?.vocational
@@ -101,4 +112,15 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (binding.mViewAnimateNumb.isAnimating){
+            binding.mViewAnimateNumb.pauseAnimation()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.mViewAnimateNumb.cancelAnimation()
+    }
 }

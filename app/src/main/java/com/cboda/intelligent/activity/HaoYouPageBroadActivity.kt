@@ -44,7 +44,9 @@ import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
+import com.airbnb.lottie.LottieAnimationView
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.clipViewOutlineRound
 import com.cboda.intelligent.utils.goTempTranslateString
 
 
@@ -84,6 +86,8 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var mTvPremiumNumber: TextView
     private lateinit var friendNickName: TextView
     private lateinit var friendName: TextView
+    private lateinit var mViewPremiumNumber: View
+    private lateinit var mViewAnimateNumb: LottieAnimationView
 
 
     private lateinit var otherLayout: LinearLayoutCompat
@@ -122,6 +126,8 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         ivMirrorSex = findViewById(R.id.iv_mirror_sex)
         tvTagName = findViewById(R.id.tv_tag_name)
         mTvPremiumNumber = findViewById(R.id.mTvPremiumNumber)
+        mViewAnimateNumb = findViewById(R.id.mViewAnimateNumb)
+        mViewPremiumNumber = findViewById(R.id.mViewPremiumNumber)
         friendName = findViewById(R.id.friendName)
         friendNickName = findViewById(R.id.friendNickName)
         otherLayout = findViewById(R.id.otherLayout)
@@ -139,6 +145,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         getRightImg()?.setOnClickListener {
             JumpBroadUtils.startHaoYouSetActivity(this, otherUid, "")
         }
+        clipViewOutlineRound(mViewPremiumNumber, 20)
         conversationViewModel = WfcUIBroadKit.getAppScopeViewModel(
             ConversationViewBroadModel::class.java
         )
@@ -212,12 +219,18 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 }
                 if (this.isLiang=="1"){
                     tvTagName.isInvisible=true
-                    mTvPremiumNumber.isVisible =true
+                    mViewPremiumNumber.isVisible =true
                     mTvPremiumNumber.text= "${getString(R.string.user_id_prefix)}${this.lianghao}"
+                    if (!mViewAnimateNumb.isAnimating){
+                        mViewAnimateNumb.playAnimation()
+                    }
 
                 }else{
                     tvTagName.isVisible = true
-                    mTvPremiumNumber.isVisible =false
+                    mViewPremiumNumber.isVisible =false
+                    if (mViewAnimateNumb.isAnimating){
+                        mViewAnimateNumb.pauseAnimation()
+                    }
                 }
 
                 friendName.text = showName
@@ -406,6 +419,21 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
     override fun onResume() {
         super.onResume()
         viewModel?.imUser(this, otherUid)
+        if (mViewPremiumNumber.isVisible && !mViewAnimateNumb.isAnimating) {
+            mViewAnimateNumb.playAnimation()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (mViewAnimateNumb.isAnimating){
+            mViewAnimateNumb.pauseAnimation()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mViewAnimateNumb.cancelAnimation()
     }
 
     private val startForResult =

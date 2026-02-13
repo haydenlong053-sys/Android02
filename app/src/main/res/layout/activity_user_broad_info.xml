@@ -97,7 +97,7 @@
                         android:id="@+id/mViewAnimateNumb"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         app:lottie_autoPlay="false"
                         app:lottie_fileName="beautiful_id_bg.json"
                         app:lottie_imageAssetsFolder="id_bg_animate_img"
