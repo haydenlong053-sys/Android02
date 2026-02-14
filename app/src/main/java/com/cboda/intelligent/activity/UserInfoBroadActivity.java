@@ -622,6 +622,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
      * 用户信息
      */
     private void userInfo() {
+        showLoading();
         Map<String, Object> param = new HashMap<>();
         OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, new BaseBroadCallback<ResultBroadBean>() {
             @Override
@@ -631,7 +632,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 
             @Override
             public void onFailure(Request request, Exception e) {
-
+                dismissLoading();
             }
 
             @Override
@@ -641,7 +642,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
-
+                dismissLoading();
                 bean = resultBean;
                 if (mGson == null) {
                     mGson = new Gson();
@@ -653,6 +654,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 
             @Override
             public void onError(Response response, int code, Exception e) {
+                dismissLoading();
             }
         });
     }
