@@ -120,10 +120,12 @@ public class SearchResultBroadAdapter2 extends RecyclerView.Adapter<RecyclerView
         view.setOnClickListener(v -> {
             int position = holder.getAdapterPosition();
             InternalSearchResult ir = getInternalResultAtPosition(position);
-            if (holder instanceof ExpandViewBroadHolder) {
-                expandModuleResult(ir.module);
-            } else {
-                ir.module.onClickInternal(fragment, holder, v, getResultItemAtPosition(position));
+            if (ir!=null && ir.module!=null){
+                if (holder instanceof ExpandViewBroadHolder) {
+                    expandModuleResult(ir.module);
+                } else {
+                    ir.module.onClickInternal(fragment, holder, v, getResultItemAtPosition(position));
+                }
             }
         });
     }
