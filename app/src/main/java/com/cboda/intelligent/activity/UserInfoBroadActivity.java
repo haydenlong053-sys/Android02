@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.intelligent.databinding.ActivityUserBroadInfoBinding;
 import com.cboda.intelligent.dialog.pop.OpenBeautifulNumbPop;
@@ -140,6 +141,9 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 //        ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
         clipViewOutlineRound(mBinding.mViewPremiumNumber,20);
+        if (HttpsBroadConfig.INSTANCE.isReviewEnv()){
+            mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
+        }
         userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         userInfo();
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
@@ -733,7 +737,11 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         }else {
             //非靓号
             mBinding.tvAccountId.setVisibility(View.VISIBLE);
-            mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);
+            if (HttpsBroadConfig.INSTANCE.isReviewEnv()){
+                mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
+            }else {
+                mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);
+            }
             mBinding.mViewPremiumNumber.setVisibility(View.GONE);
             if (mBinding.mViewAnimateNumb.isAnimating()){
                 mBinding.mViewAnimateNumb.pauseAnimation();

@@ -12,7 +12,8 @@ import com.tencent.mmkv.MMKV
 import kotlin.system.exitProcess
 
 object HttpsBroadConfig {
-
+    //todo 此处提审的时候改成true
+    val isReviewEnv= false
     val appBaseUrl
         get():String {
             return "$appHost2/api"
