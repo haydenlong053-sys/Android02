@@ -49,6 +49,7 @@ import com.cboda.intelligent.utils.WalletManager
 import com.cboda.intelligent.viewmodel.WTViewModel
 import kotlinx.coroutines.delay
 import com.cboda.intelligent.R
+import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -119,23 +120,12 @@ fun WTAddTokenScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(R.string.wt_add_token_title),  fontSize = 16.sp,
-                    fontWeight = FontWeight.W500) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = stringResource(R.string.wt_back),
-                            tint = Color.Black,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFFF7F8FA)
-                )
+            ComposeNormalScreenToolBar(
+                stringResource(R.string.wt_add_token_title),
+                onBack=onBack,
+                backgroundColor = Color(0xFFF7F8FA)
             )
+        
         },
         containerColor = Color(0xFFF7F8FA)
     ) { padding ->

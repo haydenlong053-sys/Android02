@@ -3,7 +3,9 @@ package com.cboda.intelligent.viewmodel
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
@@ -111,7 +113,7 @@ sealed class WalletCreationState {
     data class Error(val message: String) : WalletCreationState()
 }
 
-class WTViewModel(application: Application) : AndroidViewModel(application) {
+class WTViewModel() : ViewModel() {
     
     private val repository = WTRepository()
     
@@ -155,7 +157,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
     private fun getUserWalletDir(): File {
         val userId = MMKVBroadUtils.getRealUserId() ?: "unknown"
         // Use noBackupFilesDir to prevent cloud backup leaks and ensure it's strictly internal
-        val dir = File(getApplication<Application>().noBackupFilesDir, "wallets/$userId")
+        val dir = File(UtilBroadApplication.cxt.noBackupFilesDir, "wallets/$userId")
         if (!dir.exists()) {
             dir.mkdirs()
         }
@@ -163,7 +165,7 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getTempWalletDir(): File {
-        val dir = File(getApplication<Application>().cacheDir, "wallets_temp")
+        val dir = File(UtilBroadApplication.cxt.cacheDir, "wallets_temp")
         if (!dir.exists()) {
             dir.mkdirs()
         }
@@ -568,8 +570,8 @@ class WTViewModel(application: Application) : AndroidViewModel(application) {
                     to_address = toAddress,
                     tx_type = txType,
                     token_address = asset.token_address,
-                    amount = amount,
-                    value = if (isNative) amount else "0"
+                    amount = (WalletManager.convertToWei(amount)?:BigInteger("0")).toString(),
+                    value = if (isNative) ((WalletManager.convertToWei(amount)?:BigInteger("0")).toString()) else "0"
                 )
                 
                 repository.validateTx(validateReq).onSuccess { res ->

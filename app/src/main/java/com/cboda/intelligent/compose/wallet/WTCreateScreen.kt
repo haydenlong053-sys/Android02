@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.DialogProperties
 import org.web3j.crypto.Bip39Wallet
 import com.cboda.intelligent.compose.noRippleClickable
+import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -359,34 +360,12 @@ fun WTCreateContent(
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { 
-                    Text(
-                        text = stringResource(R.string.wt_add_wallet), 
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    ) 
-                },
-                navigationIcon = {
-                    Box(
-                        modifier = Modifier.size(48.dp).noRippleClickable(onClick = onBack),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft, 
-                            contentDescription = stringResource(R.string.wt_back), 
-                            tint = Color.Black,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFFF5F5F5)
-                )
-            )
+            ComposeNormalScreenToolBar(stringResource(R.string.wt_add_wallet),
+                onBack=onBack,
+                backgroundColor = Color(0xFFF7F8FA))
+
         },
-        containerColor = Color(0xFFF5F5F5)
+        containerColor = Color(0xFFF7F8FA)
     ) { paddingValues ->
         Column(
             modifier = Modifier

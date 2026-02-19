@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity
 
 import android.os.Bundle
 import android.widget.FrameLayout
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,6 +11,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.navgraph.WTFlowHost
 import com.cboda.intelligent.compose.navgraph.WTRoute
+import com.cboda.intelligent.compose.theme.AppTheme
 
 class WalletActivity: BaseSimpleBroadActivity() {
     override fun getLayoutId(): Int {
@@ -40,7 +42,7 @@ class WalletActivity: BaseSimpleBroadActivity() {
         val container = findViewById<FrameLayout>(R.id.compose_container)
         container.addView(ComposeView(this).apply {
             setContent {
-                MaterialTheme {
+                AppTheme {
                     Surface {
                         WTFlowHost(
                             startDestination = startRoute,

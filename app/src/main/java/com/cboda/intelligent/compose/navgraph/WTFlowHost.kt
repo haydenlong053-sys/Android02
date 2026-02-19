@@ -72,7 +72,7 @@ fun WTFlowHost(
 
     val (statusBarColor, useDarkIcons) = remember(currentRoute) {
         when (currentRoute) {
-            WTRoute.TRANSFER_WT, WTRoute.WALLET_DETAIL -> Color(0xFFF7F8FA) to true
+            WTRoute.TRANSFER_WT, WTRoute.WALLET_DETAIL, WTRoute.ADD_TOKEN , WTRoute.ADD_WT -> Color(0xFFF7F8FA) to true
             WTRoute.TOKEN_DETAIL, WTRoute.TRANSACTION_DETAIL, WTRoute.EXPORT_PRIVATE_KEY -> Color(0xFFF9F9F9) to true
             WTRoute.RECEIVE_WT -> Color(0xFF3B47DD) to false
             else -> Color.White to true
@@ -500,7 +500,7 @@ fun WTFlowHost(
                 )
             } else {
                 // Should not happen if flow is correct, but handle gracefully
-                LaunchedEffect(Unit) { navController.popBackStack() }
+//                LaunchedEffect(Unit) { navController.popBackStack() }
             }
         }
         composable(

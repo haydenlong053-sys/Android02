@@ -38,8 +38,10 @@ import com.cboda.intelligent.viewmodel.WTViewModel
 import com.cboda.intelligent.R
 import coil.compose.SubcomposeAsyncImage
 import android.net.Uri
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.toLowerCase
 import com.cboda.intelligent.compose.noRippleClickable
+import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -66,28 +68,14 @@ fun WTReceiveScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.wt_receive_title),
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W500
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "Back",
-                            tint = Color.White
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFF3B47DD)
-                )
+            ComposeNormalScreenToolBar(
+                stringResource(R.string.wt_receive_title),
+                onBack = onBack,
+                titleColor = Color.White,
+                navigationColor = Color.White,
+                backgroundColor = colorResource(R.color.color_3B47DD)
             )
+            
         },
         containerColor = Color(0xFF3B47DD)
     ) { paddingValues ->

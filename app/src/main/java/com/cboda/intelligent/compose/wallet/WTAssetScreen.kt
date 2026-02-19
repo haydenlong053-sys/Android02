@@ -64,11 +64,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.cboda.intelligent.compose.MyFontNumBoldFamily
 import com.cboda.intelligent.compose.formatSixDecimalValue
 import com.cboda.intelligent.compose.formatTextEllipsize
+import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
+import com.cboda.intelligent.compose.widget.IconPosition
+import com.cboda.intelligent.compose.widget.IconTextButton
 import com.cboda.intelligent.model.RemoveTokenRequest
 import com.cboda.intelligent.utils.WalletManager
 import kotlinx.coroutines.launch
@@ -232,32 +236,9 @@ fun WTAssetContent(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.wallet_eth),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W500,
-                        color = Color.Black
-                    )
-                },
-                navigationIcon = {
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .noRippleClickable(onClick = onBack),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = stringResource(R.string.wt_back),
-                            tint = Color.Black
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
-                )
+            ComposeNormalScreenToolBar(
+                stringResource(R.string.wallet_eth),
+                 onBack=onBack
             )
         },
         containerColor = Color.White
@@ -312,8 +293,8 @@ fun WTAssetContent(
 
                 // BSC Icon
                 Surface(
-//                    shape = RoundedCornerShape(16.dp),
-//                    color = Color(0xFFF7F8FA)
+                    shape = RoundedCornerShape(0.dp),
+                    color = Color.White
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -419,7 +400,8 @@ fun WTAssetContent(
             ) {
                 // 扫一扫 (Orange)
                 FunctionButton(
-                    iconPainter = painterResource(id = R.mipmap.ic_wt_detail_scan),
+//                    iconPainter = painterResource(id = R.mipmap.ic_wt_detail_scan),
+                    iconResId = R.mipmap.ic_wt_detail_scan,
                     text = stringResource(R.string.wt_scan),
                     color = Color(0xFFD9622C),
                     backgroundColor = Color(0xFFFCEDD8),
@@ -434,7 +416,8 @@ fun WTAssetContent(
 
                 // 收款 (Green)
                 FunctionButton(
-                    iconPainter = painterResource(id = R.mipmap.ic_wt_detail_get),
+//                    iconPainter = painterResource(id = R.mipmap.ic_wt_detail_get),
+                    iconResId = R.mipmap.ic_wt_detail_get,
                     text = stringResource(R.string.wt_receive),
                     color = Color(0xFF4CA154),
                     backgroundColor = Color(0xFFE2FBE8),
@@ -449,7 +432,8 @@ fun WTAssetContent(
                 
                 // 转账 (Blue)
                 FunctionButton(
-                    iconPainter = painterResource(id = R.mipmap.ic_wt_tran),
+//                    iconPainter = painterResource(id = R.mipmap.ic_wt_tran),
+                    iconResId = R.mipmap.ic_wt_tran,
                     text = stringResource(R.string.wt_transfer),
                     color = Color(0xFF3B47DD),
                     backgroundColor = Color(0xFFDEEAFC),
@@ -602,40 +586,55 @@ private fun WatchWalletDialog(
 
 @Composable
 fun FunctionButton(
-    iconPainter: androidx.compose.ui.graphics.painter.Painter,
+    iconResId: Int? = null,
     text: String,
     color: Color,
     backgroundColor: Color,
     onClick: () -> Unit
 ) {
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = backgroundColor,
-        modifier = Modifier
-            .width(100.dp)
-            .height(80.dp)
-            .noRippleClickable(onClick = onClick)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(modifier = Modifier.height(15.dp))
-            Icon(
-                painter = iconPainter,
-                contentDescription = null,
-                tint = Color.Unspecified,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = text,
-                fontSize = 12.sp,
-                color = color,
-                fontWeight = FontWeight.W500
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-    }
+    IconTextButton(text, onClick = onClick,iconResId=iconResId, iconPosition = IconPosition.Top,
+        backgroundColor = backgroundColor,
+        contentColor = color,
+        iconTextSpacing = 8.dp,
+        width = 100.dp,
+        height = 80.dp,
+        cornerRadius = 16.dp,
+        textStyle = TextStyle(
+            fontSize = 12.sp,
+            fontWeight = FontWeight.W500
+
+        ),
+        contentPadding = PaddingValues(top = 15.dp, bottom = 10.dp, start = 12.dp, end = 12.dp)
+
+        )
+//    Surface(
+//        shape = RoundedCornerShape(16.dp),
+//        color = backgroundColor,
+//        modifier = Modifier
+//            .width(100.dp)
+//            .height(80.dp)
+//            .noRippleClickable(onClick = onClick)
+//    ) {
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//        ) {
+//            Spacer(modifier = Modifier.height(15.dp))
+//            Icon(
+//                painter = iconPainter,
+//                contentDescription = null,
+//                tint = Color.Unspecified,
+//                modifier = Modifier.size(24.dp)
+//            )
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(
+//                text = text,
+//                fontSize = 12.sp,
+//                color = color,
+//                fontWeight = FontWeight.W500
+//            )
+//            Spacer(modifier = Modifier.height(10.dp))
+//        }
+//    }
 }
 
 @Composable
