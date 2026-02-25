@@ -28,6 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cboda.intelligent.R
 import com.cboda.intelligent.compose.TextAvatar
 import com.cboda.intelligent.compose.noRippleClickable
+import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 import com.cboda.intelligent.viewmodel.WTViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,32 +58,11 @@ fun WTWalletDetailScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.wt_wallet_detail_title),
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W500
-                    )
-                },
-                navigationIcon = {
-                    Box(
-                        modifier = Modifier.size(48.dp).noRippleClickable(onClick = onBack),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = stringResource(R.string.wt_back),
-                            tint = Color.Black,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFFF7F8FA)
+            ComposeNormalScreenToolBar(stringResource(R.string.wt_wallet_detail_title),
+                onBack=onBack,
+                backgroundColor = Color(0xFFF7F8FA)
                 )
-            )
+
         },
         containerColor = Color(0xFFF7F8FA)
     ) { paddingValues ->

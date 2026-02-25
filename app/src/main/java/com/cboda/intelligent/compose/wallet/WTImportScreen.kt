@@ -60,6 +60,7 @@ import com.cboda.intelligent.viewmodel.WalletCreationState
 import com.cboda.intelligent.R
 
 import androidx.compose.ui.tooling.preview.Preview
+import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 import com.cboda.intelligent.utils.ToastBroadUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -144,29 +145,11 @@ fun WTImportContent(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { 
-                    Text(
-                        text = stringResource(R.string.wt_import_wallet_title), 
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W500
-                    ) 
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = stringResource(R.string.wt_back), 
-                            tint = Color.Black,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
-                )
+            ComposeNormalScreenToolBar(
+                stringResource(R.string.wt_import_wallet_title),
+                onBack=onBack,
             )
+
         },
         containerColor = Color.White
     ) { paddingValues ->

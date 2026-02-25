@@ -69,6 +69,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.colorResource
 import coil.compose.SubcomposeAsyncImage
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.compose.formatSixDecimalChange
@@ -76,6 +77,7 @@ import com.cboda.intelligent.compose.formatSixDecimalValue
 import com.cboda.intelligent.compose.getFormattedAmount
 import com.cboda.intelligent.compose.getOriginalAmount
 import com.cboda.intelligent.compose.noRippleClickable
+import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -234,14 +236,10 @@ fun WTTransferScreen(
     Scaffold(
         containerColor = Color(0xFFF7F8FA),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(stringResource(R.string.wt_transfer_title), fontSize = 16.sp, fontWeight = FontWeight.W500) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color(0xFFF7F8FA))
+            ComposeNormalScreenToolBar(
+                stringResource(R.string.wt_transfer_title),
+                onBack=onBack,
+                backgroundColor = Color(0xFFF7F8FA)
             )
         }
     ) { paddingValues ->

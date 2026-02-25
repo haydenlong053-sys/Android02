@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.ComposeView
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.compose.navgraph.WTRoute
+import com.cboda.intelligent.compose.theme.AppTheme
 import com.cboda.intelligent.compose.wallet.WTEmptyScreen
 
 class WTEmptyActivity : BaseSimpleBroadActivity() {
@@ -36,7 +37,7 @@ class WTEmptyActivity : BaseSimpleBroadActivity() {
         val container = findViewById<FrameLayout>(R.id.compose_container)
         container.addView(ComposeView(this).apply {
             setContent {
-                MaterialTheme {
+                AppTheme() {
                     Surface {
                         WTEmptyScreen(
                             onBack = { finish() },
