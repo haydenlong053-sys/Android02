@@ -81,7 +81,7 @@
     <string name="zhuanzhangjine">Transfer Amount</string>
     <string name="bianjixiaoxineirong">Edit Message Content</string>
     <string name="mourendehongbao">Red Packet from %1$s</string>
-    <string name="yuanqian">ODIC</string>
+    <string name="yuanqian">ODIK</string>
     <string name="yilingquhongbao">%1$s received, totaling %2$s yuan</string>
     <string name="daishoulkuan">Pending Collection</string>
     <string name="zhuanzhuangshijian">Transfer Time</string>
@@ -283,7 +283,7 @@
     <string name="确定">Confirm</string>
     <string name="点击保存图片">Click to save image</string>
     <string name="设置签名">Set Signature</string>
-    <string name="人民币">ODIC</string>
+    <string name="人民币">ODIK</string>
     <string name="当前余额">Current Balance</string>
     <string name="充值">Top-Up</string>
     <string name="提现">Withdraw</string>
@@ -629,7 +629,7 @@
     <string name="credit_item2_title">eycorsican/go-tun2socks</string>
     <string name="credit_item3_title">bingoogolapple/BGAQRCode-Android</string>
     <string name="action_about">About</string>
-    <string name="webX_name">ODIC</string>
+    <string name="webX_name">ODIK</string>
     <string name="mine_sys_currency">Platform Token(%1$s)</string>
     <string name="mine_sys_point">Platform Points(WX)</string>
     <string name="mine_safe_center">Security Center</string>

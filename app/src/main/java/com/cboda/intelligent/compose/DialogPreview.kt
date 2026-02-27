@@ -31,7 +31,7 @@ fun DialogPreviewScreen() {
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text("显示ODIC不足弹窗")
+            Text("显示ODIK不足弹窗")
         }
 
         Button(
