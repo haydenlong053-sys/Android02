@@ -76,7 +76,7 @@ object HttpsBroadConfig {
             FAT_TYPE -> {
                 appHost = "https://api-fat.seekweb4.net"
                 appHost2 = appHost
-                appImServerHost = "fat.seekweb4.net"
+                appImServerHost = "testim.seekweb4.ai"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
