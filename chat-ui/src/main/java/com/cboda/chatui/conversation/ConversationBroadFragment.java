@@ -5,6 +5,7 @@
 package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,6 +40,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
@@ -59,6 +61,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.widge.VerticalDanmakuView;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.MarqueeTextBroadView;
 import com.cboda.chatui.R;
@@ -114,6 +117,7 @@ import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
@@ -144,6 +148,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     InputAwareBroadLayout rootLinearLayoutBroad;
     SwipeRefreshLayout swipeRefreshLayoutBroad;
+    VerticalDanmakuView verticalDanmakuView;
     RecyclerView recyclerViewBroad;
 
     RecyclerView ongoingCallRecyclerViewBroad;
@@ -169,7 +174,7 @@ public class ConversationBroadFragment extends Fragment implements
     private GroupViewBroadModel groupBroadViewModel;
     private ChatRoomViewBroadModel chatRoomBroadViewModel;
 
-    private Handler handlerBroad;
+    private Handler handlerBroad=ThreadUtils.getMainHandler();;
     private long initialFocusedBroadMessageId;
     private long firstUnreadBroadMessageId;
     // 用户channel主发起，针对某个用户的会话
@@ -517,6 +522,7 @@ public class ConversationBroadFragment extends Fragment implements
         qunMeetingNoticeBroad = view.findViewById(R.id.qunMeetingNotice);
         rootLinearLayoutBroad = view.findViewById(R.id.rootLinearLayout);
         swipeRefreshLayoutBroad = view.findViewById(R.id.swipeRefreshLayout);
+        verticalDanmakuView = view.findViewById(R.id.verticalDanmakuView);
         recyclerViewBroad = view.findViewById(R.id.msgRecyclerView);
         ongoingCallRecyclerViewBroad = view.findViewById(R.id.ongoingCallRecyclerView);
         tvPhoneLoginBroad = view.findViewById(R.id.tvPhoneLogin);
@@ -627,9 +633,12 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void initView() {
-        handlerBroad = new Handler();
         rootLinearLayoutBroad.addOnKeyboardShownListener(this);
-
+        verticalDanmakuView.setImageLoader((imageView, s) -> {
+            imageView.setVisibility(View.VISIBLE);
+            loadImg(imageView, s);
+            return null;
+        });
         swipeRefreshLayoutBroad.setOnRefreshListener(() -> {
             if (adapterBroad.getMessages() == null || adapterBroad.getMessages().isEmpty()) {
                 swipeRefreshLayoutBroad.setRefreshing(false);
@@ -1363,7 +1372,7 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void updateTypingStatusTitle() {
-        if (!isAdded()){
+        if (!isAdded()) {
             return;
         }
         if (this.typingMessageBroadMap == null || this.conversationBroad.type == Conversation.ConversationType.Channel || this.conversationBroad.type == Conversation.ConversationType.ChatRoom) {

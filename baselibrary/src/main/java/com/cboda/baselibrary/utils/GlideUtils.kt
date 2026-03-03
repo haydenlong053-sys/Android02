@@ -276,8 +276,7 @@ fun ImageView.loadImg(url: String?) {
             if (mContext.isFinishing || mContext.isDestroyed) {
                 return
             }
-        }
-        if (windowToken == null) {
+        }else if (windowToken == null) {
             return
         }
 
