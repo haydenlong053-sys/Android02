@@ -391,6 +391,9 @@
     <string name="到期">到期</string>
     <string name="会员专属特权">会员专属特权</string>
     <string name="立即兑换">立即兑换</string>
+    <string name="bind_lianghao">Haɗa lambar premium</string>
+    <string name="lianghao_redeem_code_hint">Don Allah shigar da lambar fansar lambar premium</string>
+    <string name="lianghao_redeem_success">Taya murna, fansa ta yi nasara!</string>
     <string name="开通">开通</string>
 
     <string name="save_image_permission_request">Aikin adana hotuna yana buƙatar izinin ajiya. Kuna son neman izini?</string>

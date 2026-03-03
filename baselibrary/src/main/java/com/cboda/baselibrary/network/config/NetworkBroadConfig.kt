@@ -1,5 +1,9 @@
 package com.cboda.baselibrary.network.config
 
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.select.picture.utils.LanguageUtil.getSystemLocal
+
+
 /**
  * 网络配置类
  * 管理网络请求的全局配置
@@ -144,5 +148,16 @@ object NetworkBroadConfig {
     fun updateCommonHeaders(headers: Map<String, String>) {
         this.commonHeaders.clear()
         this.commonHeaders.putAll(headers)
+    }
+
+
+    //此处转换成app业务接口的多语言参数
+    fun getNetAppLanguage(): String {
+        if (getSystemLocal(getAppContext(null)).language.startsWith("zh")) {
+            //中文
+            return "zh-CN"
+        } else {
+            return "en"
+        }
     }
 }

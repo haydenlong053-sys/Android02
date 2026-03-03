@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Outline
 import android.graphics.Typeface
 import android.os.Build
 import android.os.SystemClock
@@ -14,6 +15,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewOutlineProvider
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
@@ -22,6 +24,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.compose.ui.unit.Dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -927,4 +930,19 @@ fun showCommonStrTip(title: String, content: String, cancelBtn: String, sureBtn:
     }
     commonTipPop.showPopupWindow()
     return commonTipPop
+}
+
+
+//裁视图轮廓圆角
+fun clipViewOutlineRound(view: View,radiusDp: Int){
+    val radius = radiusDp * view.resources.displayMetrics.density
+    view.post {
+        view.clipToOutline = true
+        view.outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline?) {
+                outline?.setRoundRect(0, 0, view.width, view.height, radius)
+            }
+        }
+    }
+
 }

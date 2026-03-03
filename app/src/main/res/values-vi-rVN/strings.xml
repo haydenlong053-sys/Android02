@@ -391,6 +391,9 @@
     <string name="到期">到期</string>
     <string name="会员专属特权">会员专属特权</string>
     <string name="立即兑换">立即兑换</string>
+    <string name="bind_lianghao">Liên kết số đẹp</string>
+    <string name="lianghao_redeem_code_hint">Vui lòng nhập mã đổi số đẹp</string>
+    <string name="lianghao_redeem_success">Chúc mừng, đổi thành công!</string>
     <string name="开通">开通</string>
 
     <string name="save_image_permission_request">Chức năng lưu hình ảnh yêu cầu quyền lưu trữ. Bạn có muốn yêu cầu quyền không?</string>
