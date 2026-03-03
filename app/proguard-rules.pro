@@ -1147,3 +1147,14 @@
 }
 #===============================R类资源补充 end==============================
 
+
+# 保留 web3j keystore 相关类，防止 Jackson 反序列化失败
+-keep class org.web3j.crypto. { *; }
+-keepclassmembers class org.web3j.crypto. { *; }
+-keepnames class org.web3j.crypto.**
+
+# 如果你只想精确保留 WalletFile 及其内部类
+-keep class org.web3j.crypto.WalletFile { *; }
+-keep class org.web3j.crypto.WalletFile$* { *; }
+-keepclassmembers class org.web3j.crypto.WalletFile { *; }
+
