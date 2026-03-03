@@ -27,7 +27,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
     // 弹幕显示数量
     private var maxLines = 6
     // 弹幕存活时间（毫秒）
-    private var danmakuLifetime = 3000L
+    private var danmakuLifetime = 8000L
     private val itemHeightPx: Int = dp2px(44f)
     private val viewQueue = LinkedList<View>()
     private val viewPool = LinkedList<DanmakuViewHolder>()
