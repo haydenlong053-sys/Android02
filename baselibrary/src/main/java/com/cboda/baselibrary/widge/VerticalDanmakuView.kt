@@ -58,8 +58,6 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
         val rootView = holder.rootView
         rootView.alpha = 1f
-        // 初始位置在容器底部下方，确保滑入动画
-        rootView.y = (height + itemHeightPx).toFloat()
 
         addView(rootView)
         viewQueue.addLast(rootView)
@@ -67,7 +65,11 @@ class VerticalDanmakuView @JvmOverloads constructor(
         // 【新增】设置 3 秒后自动移除
         scheduleRemove(rootView)
 
-        animateItems()
+        // 延迟到布局完成后再设置位置并执行动画，避免首条弹幕时 height 仍为 0 导致 targetY 为负不显示
+        post {
+            rootView.y = (height + itemHeightPx).toFloat()
+            animateItems()
+        }
 
         // 如果超过最大行数，立即移除最旧的（不受 3 秒限制）
         if (viewQueue.size > maxLines) {
