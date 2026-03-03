@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:id="@+id/tag_remove_task"
     android:paddingStart="8dp"
     android:paddingTop="6dp"
     android:paddingEnd="12dp"

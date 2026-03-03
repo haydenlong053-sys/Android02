@@ -12,6 +12,7 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.DanmakuItem
 import java.util.LinkedList
@@ -23,10 +24,17 @@ class VerticalDanmakuView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    // 弹幕显示数量
     private var maxLines = 6
+    // 弹幕存活时间（毫秒）
+    private var danmakuLifetime = 3000L
     private val itemHeightPx: Int = dp2px(44f)
     private val viewQueue = LinkedList<View>()
     private val viewPool = LinkedList<DanmakuViewHolder>()
+    // 主线程 Handler
+    private val mainHandler = ThreadUtils.getMainHandler()
+    // 跟踪所有待执行的移除任务，便于清理
+    private val pendingRemoveTasks = LinkedList<RemoveTask>()
 
     var imageLoader: ((ImageView, String?) -> Unit)? = null
 
@@ -37,7 +45,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
     /**
      * 添加一条弹幕
-     * 所有弹幕都从底部下方滑入
+     * 所有弹幕都从底部下方滑入，3 秒后自动移除
      */
     fun addDanmaku(item: DanmakuItem) {
         val holder = if (viewPool.isNotEmpty()) {
@@ -50,24 +58,42 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
         val rootView = holder.rootView
         rootView.alpha = 1f
-        // 【关键】初始位置在容器底部下方，确保滑入动画
+        // 初始位置在容器底部下方，确保滑入动画
         rootView.y = (height + itemHeightPx).toFloat()
 
         addView(rootView)
         viewQueue.addLast(rootView)
 
-        // 首条弹幕时 View 可能尚未完成 layout，height 为 0 会导致 targetY 为负、第一条不显示，延后到布局完成后再执行
-        if (height > 0) {
-            animateItems()
-        } else {
-            post {
-                rootView.y = (height + itemHeightPx).toFloat()
-                animateItems()
-            }
-        }
+        // 【新增】设置 3 秒后自动移除
+        scheduleRemove(rootView)
 
+        animateItems()
+
+        // 如果超过最大行数，立即移除最旧的（不受 3 秒限制）
         if (viewQueue.size > maxLines) {
             removeOldestItem()
+        }
+    }
+
+    /**
+     * 为 View 安排移除任务
+     */
+    private fun scheduleRemove(view: View) {
+        val removeTask = RemoveTask(view)
+        mainHandler.postDelayed(removeTask, danmakuLifetime)
+        pendingRemoveTasks.add(removeTask)
+        // 将任务绑定到 View 上，便于单独取消
+        view.setTag(R.id.tag_remove_task, removeTask)
+    }
+
+    /**
+     * 取消 View 的移除任务
+     */
+    private fun cancelRemoveTask(view: View) {
+        val task = view.getTag(R.id.tag_remove_task) as? RemoveTask
+        task?.let {
+            mainHandler.removeCallbacks(it)
+            pendingRemoveTasks.remove(it)
         }
     }
 
@@ -78,7 +104,6 @@ class VerticalDanmakuView @JvmOverloads constructor(
         val queueSize = viewQueue.size
 
         viewQueue.forEachIndexed { index, view ->
-            // 目标位置：最早在最上，最新在最下
             val targetY = (height - (queueSize - index) * itemHeightPx).toFloat()
 
             if (kotlin.math.abs(view.y - targetY) > 1f) {
@@ -96,7 +121,13 @@ class VerticalDanmakuView @JvmOverloads constructor(
      * 动画：向上移动 + 透明度渐变消失
      */
     private fun removeOldestItem() {
+        if (viewQueue.isEmpty()) return
+
         val oldestView = viewQueue.removeFirst()
+
+        // 【重要】取消该 View 的自动移除任务，避免重复执行
+        cancelRemoveTask(oldestView)
+
         val currentY = oldestView.y
         val removeY = currentY - itemHeightPx
 
@@ -127,11 +158,54 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
         animatorSet.start()
 
+        // 剩余弹幕重新计算位置
         postDelayed({
             if (viewQueue.isNotEmpty()) {
                 animateItems()
             }
         }, 50)
+    }
+
+    /**
+     * 移除指定弹幕（可用于手动删除）
+     */
+    fun removeDanmaku(view: View) {
+        if (viewQueue.contains(view)) {
+            // 从队列中移除
+            viewQueue.remove(view)
+            // 取消定时任务
+            cancelRemoveTask(view)
+            // 执行移除动画
+            val currentY = view.y
+            val removeY = currentY - itemHeightPx
+
+            val animatorSet = AnimatorSet()
+            val translateYAnim = ObjectAnimator.ofFloat(view, "y", currentY, removeY).apply {
+                duration = 300
+                interpolator = AccelerateInterpolator()
+            }
+            val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).apply {
+                duration = 300
+                interpolator = AccelerateInterpolator()
+            }
+            animatorSet.playTogether(translateYAnim, alphaAnim)
+            animatorSet.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    removeView(view)
+                    val holder = view.tag as? DanmakuViewHolder
+                    holder?.reset()
+                    holder?.let { viewPool.addLast(it) }
+                }
+            })
+            animatorSet.start()
+
+            // 剩余弹幕重新计算位置
+            postDelayed({
+                if (viewQueue.isNotEmpty()) {
+                    animateItems()
+                }
+            }, 50)
+        }
     }
 
     private fun createViewHolder(): DanmakuViewHolder {
@@ -146,7 +220,15 @@ class VerticalDanmakuView @JvmOverloads constructor(
         return (dp * resources.displayMetrics.density + 0.5f).toInt()
     }
 
+    /**
+     * 清空所有弹幕
+     */
     fun clearAll() {
+        // 取消所有待执行的移除任务
+        pendingRemoveTasks.forEach { mainHandler.removeCallbacks(it) }
+        pendingRemoveTasks.clear()
+
+        // 移除所有 View
         viewQueue.forEach { removeView(it) }
         viewQueue.clear()
         viewPool.clear()
@@ -156,9 +238,33 @@ class VerticalDanmakuView @JvmOverloads constructor(
         maxLines = max
     }
 
+    /**
+     * 设置弹幕存活时间（毫秒）
+     */
+    fun setDanmakuLifetime(millis: Long) {
+        danmakuLifetime = millis
+    }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
+        // 【重要】清理所有 pending 任务，防止内存泄漏
+        pendingRemoveTasks.forEach { mainHandler.removeCallbacks(it) }
+        pendingRemoveTasks.clear()
         clearAll()
+    }
+
+    /**
+     * 移除任务类
+     */
+    private inner class RemoveTask(private val targetView: View) : Runnable {
+        override fun run() {
+            // 检查 View 是否仍在队列中
+            if (viewQueue.contains(targetView)) {
+                removeOldestItem()
+            }
+            // 从待执行任务列表中移除
+            pendingRemoveTasks.remove(this)
+        }
     }
 
     class DanmakuViewHolder(val rootView: View) {
