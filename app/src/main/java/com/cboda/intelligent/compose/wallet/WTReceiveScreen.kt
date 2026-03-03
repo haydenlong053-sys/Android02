@@ -287,7 +287,7 @@ fun WTReceiveScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "$amount BNB",
+                        text = "$amount ${symbol?:"BNB"}",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black

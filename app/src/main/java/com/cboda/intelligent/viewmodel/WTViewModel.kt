@@ -742,7 +742,7 @@ class WTViewModel() : ViewModel() {
         _watchWalletState.value = WalletCreationState.Idle
     }
 
-    fun getWalletList(chainId: Int) {
+    fun getWalletList(chainId: Int, onSuccess: (() -> Unit)? = null) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             repository.getWalletList(chainId).onSuccess {
@@ -768,6 +768,7 @@ class WTViewModel() : ViewModel() {
                 current?.let { wallet ->
                     getAssets(chainId, wallet.address)
                 }
+                onSuccess?.invoke()
             }.onError {
                 _uiState.value = _uiState.value.copy(isLoading = false, error = it.message)
             }.onFailure { _, msg ->
@@ -1286,6 +1287,61 @@ class WTViewModel() : ViewModel() {
             }
         }
     }
+    // Check and convert local wallets: 
+    // 1. If 'import'/'create' but no local file -> convert to 'watch'
+    // 2. If 'watch' but has local file -> convert to 'import'
+    fun checkAndConvertWallets(context: Context) {
+        viewModelScope.launch {
+            val userId= MMKVBroadUtils.getRealUserId()?:""
+            val walletList = _uiState.value.walletList
+            walletList.forEach { wallet ->
+                val localCredentials = withContext(Dispatchers.IO) {
+                    WalletManager.loadWalletInfoByAddress(context, wallet.address, WTRepository.wtDefaultWalletPwd, userId)
+                }
+                
+                var targetSource: String? = null
+                
+                if (wallet.source != "watch" && localCredentials == null) {
+                    // Case 1: Regular wallet missing local file -> convert to watch
+                    targetSource = "watch"
+                } else if (wallet.source == "watch" && localCredentials != null) {
+                    // Case 2: Watch wallet has local file -> convert to import
+                    targetSource = "import"
+                }
+                
+                if (targetSource != null) {
+                    repository.updateWalletSource(
+                        WalletSourceRequest(
+                            chain_id = wallet.chain_id,
+                            address = wallet.address,
+                            new_source = targetSource
+                        )
+                    ).onSuccess {
+                        // Update local list state
+                        val currentList = _uiState.value.walletList.map { 
+                            if (it.address.equals(wallet.address, ignoreCase = true)) {
+                                it.copy(source = targetSource)
+                            } else {
+                                it
+                            }
+                        }
+                        // Update current wallet if it matches
+                        val currentWallet = _uiState.value.currentWallet
+                        val newCurrentWallet = if (currentWallet?.address.equals(wallet.address, ignoreCase = true)) {
+                            currentWallet?.copy(source = targetSource)
+                        } else {
+                            currentWallet
+                        }
+                        _uiState.value = _uiState.value.copy(
+                            walletList = currentList,
+                            currentWallet = newCurrentWallet
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun  isRootDevice(context: Context): Boolean{
         return WalletManager.isDeviceRooted(context)
     }
