@@ -56,7 +56,15 @@ class VerticalDanmakuView @JvmOverloads constructor(
         addView(rootView)
         viewQueue.addLast(rootView)
 
-        animateItems()
+        // 首条弹幕时 View 可能尚未完成 layout，height 为 0 会导致 targetY 为负、第一条不显示，延后到布局完成后再执行
+        if (height > 0) {
+            animateItems()
+        } else {
+            post {
+                rootView.y = (height + itemHeightPx).toFloat()
+                animateItems()
+            }
+        }
 
         if (viewQueue.size > maxLines) {
             removeOldestItem()
