@@ -58,6 +58,8 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
         val rootView = holder.rootView
         rootView.alpha = 1f
+        // 先放到屏幕外下方，避免 addView 后到 post 执行前以默认 y=0 在顶部闪一下
+        rootView.y = (resources.displayMetrics.heightPixels + itemHeightPx).toFloat()
 
         addView(rootView)
         viewQueue.addLast(rootView)

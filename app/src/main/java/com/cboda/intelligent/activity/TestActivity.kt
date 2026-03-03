@@ -58,8 +58,8 @@ class TestActivity : BaseSimple2BroadActivity() {
                             }
                         ))
                 }
-                if (count <= 1) {
-                    handler.postDelayed(this, 1500)
+                if (count <= 12) {
+                    handler.postDelayed(this, 500)
                 }
             }
         })
