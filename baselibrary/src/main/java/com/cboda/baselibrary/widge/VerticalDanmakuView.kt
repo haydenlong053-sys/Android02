@@ -15,6 +15,7 @@ import android.widget.TextView
 import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.DanmakuItem
+import com.cboda.baselibrary.utils.eLogD
 import java.util.LinkedList
 
 
@@ -26,13 +27,16 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
     // 弹幕显示数量
     private var maxLines = 6
+
     // 弹幕存活时间（毫秒）
     private var danmakuLifetime = 8000L
     private val itemHeightPx: Int = dp2px(44f)
     private val viewQueue = LinkedList<View>()
     private val viewPool = LinkedList<DanmakuViewHolder>()
+
     // 主线程 Handler
     private val mainHandler = ThreadUtils.getMainHandler()
+
     // 跟踪所有待执行的移除任务，便于清理
     private val pendingRemoveTasks = LinkedList<RemoveTask>()
 
@@ -107,17 +111,37 @@ class VerticalDanmakuView @JvmOverloads constructor(
     private fun animateItems() {
         val queueSize = viewQueue.size
 
-        viewQueue.forEachIndexed { index, view ->
-            val targetY = (height - (queueSize - index) * itemHeightPx).toFloat()
 
-            if (kotlin.math.abs(view.y - targetY) > 1f) {
-                ObjectAnimator.ofFloat(view, "y", view.y, targetY).apply {
-                    duration = 300
+//
+
+        viewQueue.forEachIndexed { index, view ->
+            if (index == queueSize - 1) {
+                val animatorSet = AnimatorSet()
+                val viewY = view.y
+//                val targetY = (height - (queueSize - index - 1) * itemHeightPx).toFloat()
+//                eLogD("VerticalDanmakuViewClass", "viewY:$viewY ,targetY:$targetY ,index:$index")
+                val translateYAnim = ObjectAnimator.ofFloat(view, "y", viewY, 0f).apply {
+                    duration = 5000
                     interpolator = AccelerateInterpolator()
-                    start()
                 }
+                val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).apply {
+                    duration = 5000
+                    interpolator = AccelerateInterpolator()
+                }
+                animatorSet.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        removeView(view)
+                        viewQueue.removeFirst()
+                        val holder = view.tag as? DanmakuViewHolder
+                        holder?.reset()
+                        holder?.let { viewPool.addLast(it) }
+                    }
+                })
+                animatorSet.playTogether(translateYAnim, alphaAnim)
+                animatorSet.start()
             }
         }
+
     }
 
     /**
@@ -125,6 +149,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
      * 动画：向上移动 + 透明度渐变消失
      */
     private fun removeOldestItem() {
+        return
         if (viewQueue.isEmpty()) return
 
         val oldestView = viewQueue.removeFirst()
@@ -132,24 +157,24 @@ class VerticalDanmakuView @JvmOverloads constructor(
         // 【重要】取消该 View 的自动移除任务，避免重复执行
         cancelRemoveTask(oldestView)
 
-        val currentY = oldestView.y
-        val removeY = currentY - itemHeightPx
+//        val currentY = oldestView.y
+//        val removeY = currentY - itemHeightPx
 
         val animatorSet = AnimatorSet()
 
         // Y 轴向上移动
-        val translateYAnim = ObjectAnimator.ofFloat(oldestView, "y", currentY, removeY).apply {
-            duration = 300
-            interpolator = AccelerateInterpolator()
-        }
+//        val translateYAnim = ObjectAnimator.ofFloat(oldestView, "y", currentY, removeY).apply {
+//            duration = 300
+//            interpolator = AccelerateInterpolator()
+//        }
 
         // 透明度渐变 (1.0 -> 0.0)
-        val alphaAnim = ObjectAnimator.ofFloat(oldestView, "alpha", 1f, 0f).apply {
-            duration = 300
-            interpolator = AccelerateInterpolator()
-        }
-
-        animatorSet.playTogether(translateYAnim, alphaAnim)
+//        val alphaAnim = ObjectAnimator.ofFloat(oldestView, "alpha", 1f, 0f).apply {
+//            duration = 300
+//            interpolator = AccelerateInterpolator()
+//        }
+//
+//        animatorSet.playTogether(alphaAnim)
 
         animatorSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
@@ -173,44 +198,44 @@ class VerticalDanmakuView @JvmOverloads constructor(
     /**
      * 移除指定弹幕（可用于手动删除）
      */
-    fun removeDanmaku(view: View) {
-        if (viewQueue.contains(view)) {
-            // 从队列中移除
-            viewQueue.remove(view)
-            // 取消定时任务
-            cancelRemoveTask(view)
-            // 执行移除动画
-            val currentY = view.y
-            val removeY = currentY - itemHeightPx
-
-            val animatorSet = AnimatorSet()
-            val translateYAnim = ObjectAnimator.ofFloat(view, "y", currentY, removeY).apply {
-                duration = 300
-                interpolator = AccelerateInterpolator()
-            }
-            val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).apply {
-                duration = 300
-                interpolator = AccelerateInterpolator()
-            }
-            animatorSet.playTogether(translateYAnim, alphaAnim)
-            animatorSet.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    removeView(view)
-                    val holder = view.tag as? DanmakuViewHolder
-                    holder?.reset()
-                    holder?.let { viewPool.addLast(it) }
-                }
-            })
-            animatorSet.start()
-
-            // 剩余弹幕重新计算位置
-            postDelayed({
-                if (viewQueue.isNotEmpty()) {
-                    animateItems()
-                }
-            }, 50)
-        }
-    }
+//    fun removeDanmaku(view: View) {
+//        if (viewQueue.contains(view)) {
+//            // 从队列中移除
+//            viewQueue.remove(view)
+//            // 取消定时任务
+//            cancelRemoveTask(view)
+//            // 执行移除动画
+//            val currentY = view.y
+//            val removeY = currentY - itemHeightPx
+//
+//            val animatorSet = AnimatorSet()
+////            val translateYAnim = ObjectAnimator.ofFloat(view, "y", currentY, removeY).apply {
+////                duration = 300
+////                interpolator = AccelerateInterpolator()
+////            }
+//            val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).apply {
+//                duration = 300
+//                interpolator = AccelerateInterpolator()
+//            }
+//            animatorSet.playTogether(alphaAnim)
+//            animatorSet.addListener(object : AnimatorListenerAdapter() {
+//                override fun onAnimationEnd(animation: Animator) {
+//                    removeView(view)
+//                    val holder = view.tag as? DanmakuViewHolder
+//                    holder?.reset()
+//                    holder?.let { viewPool.addLast(it) }
+//                }
+//            })
+//            animatorSet.start()
+//
+//            // 剩余弹幕重新计算位置
+//            postDelayed({
+//                if (viewQueue.isNotEmpty()) {
+//                    animateItems()
+//                }
+//            }, 50)
+//        }
+//    }
 
     private fun createViewHolder(): DanmakuViewHolder {
         val rootView = LayoutInflater.from(context)
