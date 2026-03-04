@@ -154,6 +154,7 @@ class CallManager private constructor() {
     }
 
     private fun initRtcEngine(context: Context, channelName: String, token: String) {
+
         try {
             // 创建 RtcEngineConfig 对象，并进行配置
             // Create and configure the RtcEngineConfig object

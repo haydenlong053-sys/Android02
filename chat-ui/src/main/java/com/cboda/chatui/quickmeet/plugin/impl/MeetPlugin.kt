@@ -17,6 +17,7 @@ import com.cboda.baselibrary.utils.BusLiveBroadData
 import com.cboda.baselibrary.utils.LiveDataBroadBroadBus
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
 import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.CallManager
@@ -38,6 +39,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var touchHandle: ViewTouchHandle? = null
     private var coverAvatarIv: ImageView? = null
     private var mTvMeetEnd: TextView? = null
+    private var mVoiceWaveView: MeetVoiceWaveBroadView? = null
 
     private var mIsRegister = false
 
@@ -100,6 +102,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         durationTv = mView?.findViewById(R.id.chat_voice_call_duration_tv)
         coverAvatarIv = mView?.findViewById(R.id.chat_call_zoom_avatar_iv)
         mTvMeetEnd = mView?.findViewById(R.id.mTvMeetEnd)
+        mVoiceWaveView = mView?.findViewById(R.id.mVoiceWaveView)
 
         showUI()
         
@@ -263,6 +266,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
 //            setupPanel(activity)
         }
+        mVoiceWaveView?.startLoopAnim()
     }
 
     override fun onPermissionDenied(){
@@ -281,6 +285,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 animationDrawable?.stop()
             }
             mView?.visibility = View.INVISIBLE
+            mVoiceWaveView?.stopLoopAnim()
         }
     }
 
