@@ -8,8 +8,8 @@
     android:orientation="horizontal"
     android:id="@+id/tag_remove_task"
     android:paddingStart="8dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="12dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="24dp"
     android:paddingBottom="6dp"
     app:shape_radius="@dimen/dp_12"
     app:shape_solidColor="#B0000000">

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import com.cboda.baselibrary.bean.DanmakuItem
+import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.TestActivityBinding
@@ -11,6 +12,7 @@ import com.cboda.intelligent.utils.showToastMain
 
 class TestActivity : BaseSimple2BroadActivity() {
     private var mBinding: TestActivityBinding? = null
+    private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = (binding as? TestActivityBinding)
@@ -22,45 +24,38 @@ class TestActivity : BaseSimple2BroadActivity() {
                 imageView.loadImg(url)
             }
         }
-        testDanmaku()
+//        testDanmaku()
+        mBinding?.addData?.setOnClickListener {
+            count++
+            mBinding?.verticalDanmakuView?.addDanmaku(
+                DanmakuItem(
+                    text = "用户 ${count}: 这条弹幕带头像",
+                    avatarUrl = "https://img0.baidu.com/it/u=3582218749,1515921929&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750",
+                    showAvatar = true,
+                    textColor = if (count % 5 == 0) Color.YELLOW else Color.WHITE,
+                    onClick = {
+                        showToastMain("点击了第 $count 条弹幕")
+                    }
+                ))
+        }
     }
 
-    private fun testDanmaku() {
-        val handler = android.os.Handler()
-        var count = 0
+//    private fun testDanmaku() {
+////        val handler = android.os.Handler()
+//        // 传统for循环
+//        for (count in 1..1000) { // 包含结束值
+//
+//        }
+//    }
 
-        handler.post(object : Runnable {
-            override fun run() {
-                count++
+    override fun onResume() {
+        super.onResume()
+        mBinding?.verticalDanmakuView?.danMaResume()
+    }
 
-
-                // 模拟礼物图标弹幕
-//                if (count % 3 == 0) {
-//                    mBinding?.verticalDanmakuView?.addDanmaku(
-//                        DanmakuItem(
-//                            avatarUrl = "",
-//                            text = "送出 🎁 礼物！",
-//                            iconResId = com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut, // 本地礼物图标
-//                            textColor = Color.CYAN
-//                        )
-//                    )
-//                } else {
-                    mBinding?.verticalDanmakuView?.addDanmaku(
-                        DanmakuItem(
-                            text = "用户 ${count}: 这条弹幕带头像",
-                            avatarUrl = "https://img0.baidu.com/it/u=3582218749,1515921929&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750",
-                            showAvatar = true,
-                            textColor = if (count % 5 == 0) Color.YELLOW else Color.WHITE,
-                            onClick = {
-                                showToastMain("点击了第 $count 条弹幕")
-                            }
-                        ))
-//                }
-                if (count <= 16) {
-                    handler.postDelayed(this, 500)
-                }
-            }
-        })
+    override fun onPause() {
+        super.onPause()
+        mBinding?.verticalDanmakuView?.danMaPause()
     }
 
     override fun getViewBindingClass() = TestActivityBinding::class.java
