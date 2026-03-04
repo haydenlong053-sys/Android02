@@ -1158,3 +1158,57 @@
 -keep class org.web3j.crypto.WalletFile$* { *; }
 -keepclassmembers class org.web3j.crypto.WalletFile { *; }
 
+
+
+
+
+
+
+# ---------------- Web3j 核心保留 ----------------
+# 保留 Web3j 所有类及其成员
+-keep class org.web3j.** { *; }
+-keepclassmembers class org.web3j.** { *; }
+
+# 保留协议层（JSON 映射关键）
+-keep class org.web3j.protocol.** { *; }
+-keepclassmembers class org.web3j.protocol.** { *; }
+
+# 保留加密层（交易签名关键，不可混淆）
+-keep class org.web3j.crypto.** { *; }
+-keepclassmembers class org.web3j.crypto.** { *; }
+
+# 保留合约相关
+-keep class org.web3j.contracts.** { *; }
+-keepclassmembers class org.web3j.contracts.** { *; }
+
+# 保留异常类
+-keep class org.web3j.utils.** { *; }
+-keep class org.web3j.tx.** { *; }
+
+# ---------------- 依赖库保留 (关键) ----------------
+
+# Bouncy Castle (加密底层依赖，必须保留)
+-dontwarn org.bouncycastle.**
+-keep class org.bouncycastle.** { *; }
+-keepclassmembers class org.bouncycastle.** { *; }
+
+# RxJava (Web3j 异步回调依赖)
+-dontwarn rx.**
+-dontwarn rxjava.**
+-keep class rx.** { *; }
+-keep class io.reactivex.** { *; }
+-keepclassmembers class rx.** { *; }
+-keepclassmembers class io.reactivex.** { *; }
+
+# Jackson/Gson (JSON 序列化，防止字段名被混淆)
+-keep class com.fasterxml.jackson.** { *; }
+-keepclassmembers class com.fasterxml.jackson.** { *; }
+# 如果使用 Gson
+-keep class com.google.gson.** { *; }
+-keepclassmembers class com.google.gson.** { *; }
+
+# ---------------- 你自己的合约类 (重要) ----------------
+# 假设你的合约生成在 com.example.contracts 包下
+#-keep class com.example.contracts.** { *; }
+#-keepclassmembers class com.example.contracts.** { *; }
+

@@ -1,5 +1,6 @@
 package com.cboda.baselibrary.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.provider.Settings
@@ -16,6 +17,7 @@ object DeviceBroadUtil {
         return Build.MODEL
     }
 
+    @SuppressLint("HardwareIds")
     fun getAndroidId(context: Context? = null): String {
         return Settings.Secure.getString(
             getAppContext(context).contentResolver,
