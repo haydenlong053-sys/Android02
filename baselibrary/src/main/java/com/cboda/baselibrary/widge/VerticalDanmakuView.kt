@@ -108,10 +108,13 @@ class VerticalDanmakuView @JvmOverloads constructor(
             // 【新增】设置 3 秒后自动移除
 //        scheduleRemove(rootView)
 
-            // 延迟到布局完成后再设置位置并执行动画，避免首条弹幕时 height 仍为 0 导致 targetY 为负不显示
+            // 延迟到布局完成后再设置位置并执行动画，避免首条弹幕时 height 仍为 0 导致位置计算错误
             post {
-                eLogD("VerticalDanmakuViewClass", "height:$height ,itemHeightPx:$itemHeightPx")
-                rootView.y = (height + itemHeightPx).toFloat()
+                // 初始 Y 放在「容器底部的下面一点」，保证从容器底部滑上来而不是直接出现在容器内部
+                val containerHeight = height
+                // 往下偏移 0.5 个弹幕高度，可按需要微调
+                val startY = containerHeight
+                rootView.y = startY.toFloat()
                 animateItems()
             }
 
@@ -136,7 +139,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
     private val mainRun = Runnable {
 //        eLogD("VerticalDanmakuViewClass", "addViewQueueSize2:${addViewQueue.size}")
-        if(addViewQueue.isNotEmpty()){
+        if (addViewQueue.isNotEmpty()) {
             addViewQueue.removeFirst()
         }
 //        eLogD("VerticalDanmakuViewClass", "addViewQueueSize3:${addViewQueue.size}")
