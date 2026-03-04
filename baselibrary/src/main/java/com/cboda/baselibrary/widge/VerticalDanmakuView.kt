@@ -175,48 +175,34 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
 
 //
-        this.doOnLayout { view ->
-            viewQueue.forEachIndexed { index, view ->
+        this.doOnLayout {
+            viewQueue.forEachIndexed { index, childView ->
                 if (index == queueSize - 1) {
                     val animatorSet = AnimatorSet()
-                    val viewY = view.y
-                    val viewH = view.height
-//                val targetY = (height - (queueSize - index - 1) * itemHeightPx).toFloat()
-                    val targetY = this.top
-                    val targetY2 = this.bottom
+                    val viewY = childView.y
+                    val targetTop = this.top
+                    val targetBottom = this.bottom
+                    // 整个容器高度，保证每条弹幕移动距离一致，间距不被拉伸
+                    val viewY2 = viewY - (targetBottom - targetTop)
 
-//                    val location = IntArray(2)
-//                    view.getLocationOnScreen(location)
-//                    val topY = location[1]
-//                    val bottomY = topY + viewH
-//                    val topY2 = px2dp(topY.toFloat())
-//                    val bottomY2 = px2dp(bottomY.toFloat())
-//                    eLogD("VerticalDanmakuViewClass", "viewY:$viewY ,targetY:$targetY ,targetY2:$targetY2 topY:$topY ,bottomY:$bottomY ,viewH:$viewH ,index:$index")
-//                    eLogD("VerticalDanmakuViewClass", "topY:$topY ,bottomY:$bottomY ,topY2:$topY2 ,bottomY2:$bottomY2")
-                    val viewY2 = viewY - (targetY2 - targetY)
-                    val translateYAnim = ObjectAnimator.ofFloat(view, "y", viewY, viewY2).apply {
+                    val translateYAnim = ObjectAnimator.ofFloat(childView, "y", viewY, viewY2).apply {
                         duration = danMaAnimateTime
                         interpolator = AccelerateInterpolator()
                     }
-//                    val translateYAnim = ObjectAnimator.ofFloat(view, "y", viewY, 0f).apply {
-//                        duration = 5000
-//                        interpolator = AccelerateInterpolator()
-//                    }
-                    val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).apply {
+
+                    val alphaAnim = ObjectAnimator.ofFloat(childView, "alpha", 1f, 0f).apply {
                         duration = danMaAnimateTime
                         interpolator = AccelerateInterpolator()
                     }
-//                    mainHandler.postDelayed({
-//                        val viewH2 = view.height
-//                        eLogD("VerticalDanmakuViewClass", "viewH2:$viewH2")
-//                    }, 2000L)
+
                     animatorSet.addListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            removeView(view)
+                            removeView(childView)
+                            // 精确移除当前动画对应的 View，避免错删导致间距异常
                             if (!viewQueue.isEmpty()) {
-                                viewQueue.removeFirst()
+                                viewQueue.remove(childView)
                             }
-                            val holder = view.tag as? DanmakuViewHolder
+                            val holder = childView.tag as? DanmakuViewHolder
                             holder?.reset()
                             holder?.let { viewPool.addLast(it) }
                         }
