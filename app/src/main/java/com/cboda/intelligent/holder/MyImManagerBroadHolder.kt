@@ -17,6 +17,7 @@ import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.common.PlatformParams
 import com.cboda.baselibrary.event.FanYiBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
@@ -27,6 +28,8 @@ import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.chatemoji.EmotionBroadEvent
+import com.cboda.chatui.quickmeet.CallManager
+import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.MeetingDetailBroadBean
@@ -667,14 +670,16 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                         if (bean is CommonResultBroadBean) {
                                                             if (bean.data?.userType == "1" || bean.data?.userType == "2") {
 
-                                                                MeetingBroadHolder.openMeetingDialog(
-                                                                    mContext,
-                                                                    it.data?.mId ?: "",
-                                                                    params2 ?: "",
-                                                                    okGoHelper,
-                                                                    context
-                                                                )
+//                                                                MeetingBroadHolder.openMeetingDialog(
+//                                                                    mContext,
+//                                                                    it.data?.mId ?: "",
+//                                                                    params2 ?: "",
+//                                                                    okGoHelper,
+//                                                                    context
+//                                                                )
+                                                                CallManager.getInstance().callMeetAction(CallDirect.CALLER, PlatformParams.channelName, PlatformParams.token)
                                                             } else {
+                                                                CallManager.getInstance().callMeetAction(CallDirect.ANSWER, PlatformParams.channelName, PlatformParams.token)
                                                                 ToastBroadUtils.show("只有群主/管理员可以开启会议室")
                                                             }
                                                         }

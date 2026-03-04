@@ -86,6 +86,7 @@ web3j_version = "4.8.8-android"
 accompanist_systemuicontroller_version = "0.32.0"
 datastore ="1.1.1"
 rootbeer="0.1.1"
+agora_verson="4.6.3"
 
 [libraries]
 androidx_core = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -173,6 +174,7 @@ web3j_core = { group = "org.web3j", name = "core", version.ref = "web3j_version"
 accompanist_systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist_systemuicontroller_version" }
 datastore_preferences = { group ="androidx.datastore",name = "datastore-preferences", version.ref ="datastore"}
 rootbeer = { group = "com.scottyab" , name = "rootbeer-lib", version.ref = "rootbeer"}
+agora_meet = { group = "io.agora.rtc" , name = "full-sdk", version.ref = "agora_verson"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -23,6 +23,8 @@ import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
+import com.cboda.chatui.quickmeet.plugin.PluginLayout;
+import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.google.gson.Gson;
 import com.cboda.chatemoji.EmotionBroadEvent;
 
@@ -399,6 +401,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         if (conversationBroad.type == Conversation.ConversationType.Group) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
+            PluginLayout meetPlugin = new MeetPlugin(this);
+            getLifecycle().addObserver(meetPlugin);
         }
 
 

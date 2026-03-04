@@ -84,6 +84,7 @@ dependencies {
     api libs.afollestad.core
     api libs.king.zxing
     api libs.wheelpicker
+    api libs.agora.meet
     implementation libs.androidx.swiperefreshlayout
     implementation libs.eventbus
     implementation libs.ucrop
