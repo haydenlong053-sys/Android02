@@ -19,7 +19,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
 import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.CallEventCallback
-import com.cboda.chatui.quickmeet.CallManager
+import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
@@ -55,7 +55,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         callingStateHeight = activity.resources.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_144)
         waitingStateHeight = activity.resources.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_96)
         viewWidth = waitingStateHeight
-        CallManager.getInstance().registerEngineEvent(this)
+        MeetCallManager.getInstance().registerEngineEvent(this)
 //        CallManager.getInstance().getCallTimerObserver().observe(lifecycleOwner) { time ->
 //            time?.let {
 //                if (!isVideoCall()) {
@@ -187,11 +187,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //            waitingStateFl?.visibility = View.VISIBLE
 //        }
         mTvMeetEnd?.click {
-            CallManager.getInstance().leaveAndRelease()
+            MeetCallManager.getInstance().leaveAndRelease()
         }
         mLlNameView?.click {
             mIvIconMic?.let { mivView ->
-                val muteLocalAudio = CallManager.getInstance().muteLocalAudio(!mivView.isSelected)
+                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
                 if (muteLocalAudio == 0) {
                     mivView.isSelected = !mivView.isSelected
                 }
@@ -206,7 +206,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
      * @return Boolean
      */
     private fun isCalling(): Boolean {
-        return CallManager.getInstance().isCallingState()
+        return MeetCallManager.getInstance().isCallingState()
     }
 
     private fun showOrHideCover(show: Boolean, cameraChange: Boolean = false) {
@@ -284,7 +284,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         if (mIsLayout) {
             mView?.visibility = View.VISIBLE
         } else {
-            if (!CallManager.getInstance().isIdleState()) {
+            if (!MeetCallManager.getInstance().isIdleState()) {
                 //当前处于会议通话状态
                 setupPanel(activity)
             }
@@ -300,7 +300,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onPause() {
         super.onPause()
         if (mIsLayout
-            && !CallManager.getInstance().isIdleState()
+            && !MeetCallManager.getInstance().isIdleState()
         ) {
             mView?.visibility = View.INVISIBLE
         }
@@ -310,8 +310,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         super.onDestroy()
         unregisterListener()
         eLogD("onDestroy==========>")
-        CallManager.getInstance().unregisterEngineEvent(this)
-        CallManager.getInstance().leaveAndRelease()
+        MeetCallManager.getInstance().unregisterEngineEvent(this)
+        MeetCallManager.getInstance().leaveAndRelease()
         removePanel()
         touchHandle = null
     }

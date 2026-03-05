@@ -40,4 +40,6 @@
     <string name="permissions_missing">The corresponding permissions are missing. Please turn on the corresponding permissions in system settings!</string>
     <string name="in_compressed_video1">Compressing the video</string>
     <string name="in_compressed_video2">Compressing the video...</string>
+
+    <string name="chat_meet_leave_tip">确定要离开当前会议吗？</string>
 </resources>

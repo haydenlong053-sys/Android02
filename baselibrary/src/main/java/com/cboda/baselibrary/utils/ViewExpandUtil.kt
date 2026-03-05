@@ -24,20 +24,19 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.compose.ui.unit.Dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.cboda.baselibrary.R
-import com.cboda.baselibrary.app.UtilBroadApplication
-import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.EncryptUtils.encryptMD5ToString
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.TimeUtils
+import com.cboda.baselibrary.R
+import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.popup.CommonTipBroadPop
+import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.hjq.shape.layout.ShapeLinearLayout
 import com.hjq.shape.layout.ShapeRelativeLayout
 import com.hjq.shape.view.ShapeEditText
@@ -932,6 +931,21 @@ fun showCommonStrTip(title: String, content: String, cancelBtn: String, sureBtn:
     return commonTipPop
 }
 
+
+fun showMeetLeaveTip(context: Context? = null,block:()-> Unit={}) {
+    val mContext = getAppContext(context)
+    val commonTipPop = CommonTipBroadPop(
+        mContext,
+        mContext.getString(R.string.wenxintishi),
+        mContext.getString(R.string.chat_meet_leave_tip)
+    )
+    commonTipPop.setCancelBtn(mContext.getString(R.string.bs_quxiao))
+    commonTipPop.setSureBtn(mContext.getString(R.string.bs_mine_sure))
+    commonTipPop.sureInvoke = {
+        block.invoke()
+    }
+    commonTipPop.showPopupWindow()
+}
 
 //裁视图轮廓圆角
 fun clipViewOutlineRound(view: View,radiusDp: Int){

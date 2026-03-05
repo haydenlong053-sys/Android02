@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.chatui.R
 
-class CallService : Service() {
+class MeetCallService : Service() {
     private val notificationId = android.os.Process.myPid()
     override fun onBind(intent: Intent?): IBinder? {
         return null

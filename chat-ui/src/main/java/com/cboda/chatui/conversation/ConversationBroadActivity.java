@@ -5,6 +5,7 @@
 package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showMeetLeaveTip;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,6 +24,8 @@ import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.plugin.PluginLayout;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.google.gson.Gson;
@@ -48,6 +51,7 @@ import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.SendMessageCallback;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
@@ -296,7 +300,12 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         fromPageBroad = getIntent().getStringExtra("frompage");
         EventBus.getDefault().register(this);
         pageTitleLeftIcon = findViewById(R.id.page_title_left_icon);
-        pageTitleLeftIcon.setOnClickListener(v -> finish());
+        pageTitleLeftIcon.setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                checkMeeting();
+            }
+        });
         pageTitleRightIcon = findViewById(R.id.page_title_right_icon);
         mIvBack2 = findViewById(R.id.mIvBack2);
         rightView = findViewById(R.id.rightView);
@@ -344,6 +353,26 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
     }
 
+    //检查是否当前有会议存在
+    private void checkMeeting() {
+        if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallingState()) {
+            showMyMeetLeaveTip();
+        }else {
+            finish();
+        }
+    }
+
+    //会议离开提示
+    private void showMyMeetLeaveTip() {
+        showMeetLeaveTip(this, new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                finish();
+                return null;
+            }
+        });
+    }
+
     //群聊页先取本地缓存的群公告数据
     private void showCacheGroupNoticeData() {
         if (conversationBroad!=null &&conversationBroad.type == Conversation.ConversationType.Group){
@@ -367,7 +396,11 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     @Override
     public void onBackPressed() {
         if (!conversationBroadFragment.onBackPressed()) {
-            super.onBackPressed();
+            if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallingState()) {
+                showMyMeetLeaveTip();
+            }else {
+                super.onBackPressed();
+            }
         }
     }
 

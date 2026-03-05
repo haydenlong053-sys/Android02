@@ -405,4 +405,5 @@
     <!-- 新会议相关-->
     <string name="chat_meet_service_notification">会议前台服务通知</string>
     <string name="chat_meet_service_tip">点击回到app</string>
+
 </resources>

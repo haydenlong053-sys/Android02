@@ -227,7 +227,7 @@
             android:foregroundServiceType="microphone" />
 
         <service
-            android:name=".quickmeet.CallService"
+            android:name=".quickmeet.MeetCallService"
             android:exported="false"
             android:foregroundServiceType="microphone" />
     </application>

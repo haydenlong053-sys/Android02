@@ -32,7 +32,7 @@ import io.agora.rtc2.RtcEngineConfig
 /**
  * 会议管理类
  */
-class CallManager private constructor() {
+class MeetCallManager private constructor() {
     private val PERMISSION_REQ_ID: Int = 22
     private val mCallEvents = ArrayList<CallEventCallback>(1)
     val mCallData: CallData = CallData()
@@ -41,7 +41,7 @@ class CallManager private constructor() {
 
     companion object {
         const val KEY_CALL_TIMER = "call_timer"
-        private var instance = CallManager()
+        private var instance = MeetCallManager()
 
         /**
          * 是否启用最小化功能
@@ -49,7 +49,7 @@ class CallManager private constructor() {
         var isEnabledZoomMode: Boolean = true
 
         @JvmStatic
-        fun getInstance(): CallManager {
+        fun getInstance(): MeetCallManager {
             return instance
         }
     }
@@ -198,7 +198,6 @@ class CallManager private constructor() {
             options.audienceLatencyLevel = Constants.AUDIENCE_LATENCY_LEVEL_LOW_LATENCY
 
         }
-
 
         // 直播场景下，设置频道场景为 BROADCASTING (直播场景)
         // In the live broadcast scenario, set the channel profile as BROADCASTING
@@ -379,7 +378,7 @@ class CallManager private constructor() {
     }
 
     /**
-     * 通话中
+     * 会议通话中
      * @return Boolean
      */
     fun isCallingState(): Boolean {
@@ -395,7 +394,7 @@ class CallManager private constructor() {
     }
 
     /**
-     * 通话拨打方
+     * 会议发言方
      * @return Boolean
      */
     fun isCallDirect(): Boolean {
@@ -403,7 +402,7 @@ class CallManager private constructor() {
     }
 
     /**
-     * 拨打等待状态
+     * 会议等待状态
      * @return Boolean
      */
     fun isWaitingState(): Boolean {
@@ -458,7 +457,7 @@ class CallManager private constructor() {
         if (!isCallServiceStart) {
             isCallServiceStart = true
             try {
-                val intent = Intent(UtilBroadApplication.cxt, CallService::class.java)
+                val intent = Intent(UtilBroadApplication.cxt, MeetCallService::class.java)
                 UtilBroadApplication.cxt.startForegroundService(intent)
             } catch (ignore: Exception) {
             }
@@ -470,7 +469,7 @@ class CallManager private constructor() {
         try {
             if (isCallServiceStart) {
                 isCallServiceStart = false
-                UtilBroadApplication.cxt.stopService(Intent(UtilBroadApplication.cxt, CallService::class.java))
+                UtilBroadApplication.cxt.stopService(Intent(UtilBroadApplication.cxt, MeetCallService::class.java))
             }
         } catch (ignore: Exception) {
         }

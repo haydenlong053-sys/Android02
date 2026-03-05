@@ -10,7 +10,6 @@ import com.cboda.baselibrary.common.MyEventCodeEnum
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.TextMessageContent
-import cn.wildfirechat.message.VideoMessageContent
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
 import com.cboda.baselibrary.bean.BaseBroadResponse
@@ -28,7 +27,7 @@ import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.chatemoji.EmotionBroadEvent
-import com.cboda.chatui.quickmeet.CallManager
+import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
@@ -677,9 +676,9 @@ class MyImManagerBroadHolder(private val context: Context?) {
 //                                                                    okGoHelper,
 //                                                                    context
 //                                                                )
-                                                                CallManager.getInstance().callMeetAction(CallDirect.CALLER, PlatformParams.channelName, PlatformParams.token)
+                                                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, PlatformParams.channelName, PlatformParams.token)
                                                             } else {
-                                                                CallManager.getInstance().callMeetAction(CallDirect.ANSWER, PlatformParams.channelName, PlatformParams.token)
+                                                                MeetCallManager.getInstance().callMeetAction(CallDirect.ANSWER, PlatformParams.channelName, PlatformParams.token)
                                                                 ToastBroadUtils.show("只有群主/管理员可以开启会议室")
                                                             }
                                                         }
