@@ -75,8 +75,13 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
             haveCollection.isGone = !isReceived
             refusedGroup.isGone = isGroup || isReceived
             if (messageTime != 0L) {
-                createTime.text =
-                    "转账时间：${TimeUtils.millis2String(messageTime, "yyyy年MM月dd日 HH:mm:ss")}"
+                createTime.text = getString(
+                    R.string.webx_transfer_time_format,
+                    TimeUtils.millis2String(
+                        messageTime,
+                        getString(R.string.webx_transfer_time_pattern)
+                    )
+                )
             }
             backIcon.setOnClickListener(object : OnSingleClickBroadListener() {
                 override fun onSingleClick(v: View?) {
@@ -124,9 +129,15 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                     GlobalBroadInfo.queryMyFriendInfo(sender, lifecycleScope) { it2 ->
                         val remarkName = it2?.remarkName
                         if (!TextUtils.isEmpty(remarkName)) {
-                            userName.text = "${remarkName}发出的红包"
+                            userName.text = getString(
+                                R.string.webx_red_envelope_from_user,
+                                remarkName
+                            )
                         } else if (!TextUtils.isEmpty(it1.name)) {
-                            userName.text = "${it1.name}发出的红包"
+                            userName.text = getString(
+                                R.string.webx_red_envelope_from_user,
+                                it1.name
+                            )
                         }
                     }
                     Glide.with(this@GetWebxRedEnvelopesBroadActivity)
@@ -135,8 +146,12 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                         .into(userImg)
                     moneyNum.text = it1.money
                     if (isGroup) {
-                        getTheTitle.text =
-                            "已领取 ${it1.ylq?.toInt()}/${it1.count?.toInt()}个，共${it1.money}ODIK"
+                        getTheTitle.text = getString(
+                            R.string.webx_group_received_summary,
+                            it1.ylq?.toInt() ?: 0,
+                            it1.count?.toInt() ?: 0,
+                            it1.money
+                        )
                     }
                 }
                 mAdapter?.setList(it.dataList ?: arrayListOf())

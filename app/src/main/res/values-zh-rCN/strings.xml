@@ -258,6 +258,11 @@
     <string name="搜索附近位置">搜索附近位置</string>
     <string name="消息">消息</string>
     <string name="签到规则">签到规则</string>
+    <!-- WebX 红包详情页 -->
+    <string name="webx_transfer_time_pattern">yyyy年MM月dd日 HH:mm:ss</string>
+    <string name="webx_transfer_time_format">转账时间：%1$s</string>
+    <string name="webx_red_envelope_from_user">%1$s发出的红包</string>
+    <string name="webx_group_received_summary">已领取 %1$d/%2$d个，共%3$sODIK</string>
     <string name="我的钱包">私有资产</string>
     <string name="账户ID1">账户ID：</string>
     <string name="点击查看">点击查看</string>
