@@ -77,7 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_78"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,9 +91,10 @@
 
                 />
             <ImageView
+                android:id="@+id/mIvIconMic"
                 android:layout_width="@dimen/dp_10"
                 android:layout_height="@dimen/dp_10"
-                android:src="@drawable/meet_mic_open"
+                android:src="@drawable/bg_mic_icon"
                 android:layout_marginStart="@dimen/dp_2"
                 tools:ignore="ContentDescription" />
 

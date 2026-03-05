@@ -2,6 +2,7 @@ package com.cboda.chatui.quickmeet
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
@@ -23,22 +24,23 @@ import io.agora.rtc2.ClientRoleOptions
 import io.agora.rtc2.Constants
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_LEAVE_CHANNEL
 import io.agora.rtc2.Constants.CONNECTION_STATE_DISCONNECTED
+import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
 import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.RtcEngine
 import io.agora.rtc2.RtcEngineConfig
 
+/**
+ * 会议管理类
+ */
 class CallManager private constructor() {
     private val PERMISSION_REQ_ID: Int = 22
     private val mCallEvents = ArrayList<CallEventCallback>(1)
-
     val mCallData: CallData = CallData()
-
     private var callEngine: RtcEngine? = null
-
+    private var isCallServiceStart = false
 
     companion object {
         const val KEY_CALL_TIMER = "call_timer"
-
         private var instance = CallManager()
 
         /**
@@ -52,15 +54,22 @@ class CallManager private constructor() {
         }
     }
 
-    fun muteRemoteAudio(streamId: String, mute: Boolean): Int {
-//        return callEngine?.muteRemoteAudio(streamId, mute) ?: -1
-        return -1
+    fun muteRemoteAudio(uid: Int, mute: Boolean): Int {
+        return callEngine?.muteRemoteAudioStream(uid, mute) ?: -1
     }
 
-
+    /**
+     * muted
+     * 是否停止发布本地音频流：
+     * true：停止发布本地音频流。
+     * false：（默认）恢复发布本地音频流。
+     * 返回值
+     * 0：方法调用成功。
+     * < 0：方法调用失败。详见错误码了解详情和解决建议。
+     *
+     */
     fun muteLocalAudio(mute: Boolean): Int {
-//        return callEngine?.muteLocalAudio(mute) ?: -1
-        return -1
+        return callEngine?.muteLocalAudioStream(mute) ?: -1
     }
 
     private fun checkMeetPermissions(): Boolean {
@@ -154,7 +163,7 @@ class CallManager private constructor() {
     }
 
     private fun initRtcEngine(context: Context, channelName: String, token: String) {
-
+        notifyEngineSetup()
         try {
             // 创建 RtcEngineConfig 对象，并进行配置
             // Create and configure the RtcEngineConfig object
@@ -165,6 +174,9 @@ class CallManager private constructor() {
             // 创建并初始化 RtcEngine
             // Create and initialize the RtcEngine
             callEngine = RtcEngine.create(config)
+            // 启用 onAudioVolumeIndication 回调
+            callEngine?.enableAudioVolumeIndication(1000, 3, true);
+
         } catch (e: Exception) {
             throw RuntimeException("Check the error.")
         }
@@ -203,6 +215,7 @@ class CallManager private constructor() {
         override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
             super.onJoinChannelSuccess(channel, uid, elapsed)
             runOnUiThread(Runnable {
+                startCallService()
                 mCallData.callStatus = CallStatus.CALLING
                 notifyRtcJoinChannelSuccess()
             })
@@ -215,14 +228,16 @@ class CallManager private constructor() {
         //        }
         override fun onConnectionStateChanged(state: Int, reason: Int) {
             super.onConnectionStateChanged(state, reason)
-            Log.d("zhanglong", "声网连接状态==" + state + "----------reason=" + reason)
-            if (state == CONNECTION_STATE_DISCONNECTED && reason == CONNECTION_CHANGED_LEAVE_CHANNEL) {
-                //正常退出会议频道
-                runOnUiThread(Runnable {
+            eLogD("zhanglong", "声网连接状态==" + state + "----------reason=" + reason)
+            runOnUiThread(Runnable {
+                if (state == CONNECTION_STATE_DISCONNECTED && reason == CONNECTION_CHANGED_LEAVE_CHANNEL) {
+                    //正常退出会议频道
                     notifyEngineDestroy(mCallData)
-                })
+                } else if (state == CONNECTION_STATE_FAILED) {
+                    tokenError()
+                }
+            })
 
-            }
         }
 
         // 监听频道内的远端用户，获取用户的 uid 信息
@@ -257,13 +272,23 @@ class CallManager private constructor() {
 //                }
 //            })
         }
+
+        // 获取瞬时说话音量最高的三个用户（即说话者）的用户 ID、他们的音量及本地用户是否在说话
+        override fun onAudioVolumeIndication(speakers: Array<out AudioVolumeInfo?>?, totalVolume: Int) {
+            super.onAudioVolumeIndication(speakers, totalVolume)
+            runOnUiThread {
+                notifyRtcAudioVolumeChange(totalVolume)
+            }
+        }
+
+        //远端用户或主播停止或恢复发送音频流的回调
+        override fun onUserMuteAudio(uid: Int, muted: Boolean) {
+            super.onUserMuteAudio(uid, muted)
+            runOnUiThread {
+                notifyRtcUserMuteAudioChange(uid, muted)
+            }
+        }
     }
-
-
-    fun parseErrorStatus(s: String?, errorMsg: String? = null) {
-
-    }
-
 
     /**
      * 扬声器是否已开启
@@ -290,14 +315,10 @@ class CallManager private constructor() {
 
     }
 
-    fun rtcConnectFail(tips: Boolean = false) {
-
-    }
-
-    fun tokenError() {
+    private fun tokenError() {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
-            callEvent.onRtcTokenExpired()
+            callEvent.onRtcTokenFail()
         }
     }
 
@@ -315,7 +336,7 @@ class CallManager private constructor() {
         mCallEvents.remove(event)
     }
 
-    fun notifyEngineSetup() {
+    private fun notifyEngineSetup() {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
             callEvent.onEngineSetup()
@@ -329,20 +350,33 @@ class CallManager private constructor() {
         }
     }
 
-    fun notifyRtcUserJoined(uid: Int) {
+    private fun notifyRtcUserJoined(uid: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
             callEvent.onRtcUserJoined(uid)
         }
     }
 
-    fun notifyRtcJoinChannelSuccess() {
+    private fun notifyRtcJoinChannelSuccess() {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
             callEvent.onRtcJoinChannelSuccess()
         }
     }
 
+    private fun notifyRtcAudioVolumeChange(totalVolume: Int) {
+        val list = ArrayList<CallEventCallback>(mCallEvents)
+        for (callEvent in list) {
+            callEvent.onRoomAudioVolumeIndication(totalVolume)
+        }
+    }
+
+    private fun notifyRtcUserMuteAudioChange(uid: Int, muted: Boolean) {
+        val list = ArrayList<CallEventCallback>(mCallEvents)
+        for (callEvent in list) {
+            callEvent.onRoomUserMuteAudio(uid, muted)
+        }
+    }
 
     /**
      * 通话中
@@ -407,6 +441,7 @@ class CallManager private constructor() {
             // 销毁引擎
             RtcEngine.destroy()
         }
+        stopCallService()
     }
 
 
@@ -416,5 +451,28 @@ class CallManager private constructor() {
      */
     fun getCallDuration(): Long {
         return 0L
+    }
+
+    //开启前台服务
+    private fun startCallService() {
+        if (!isCallServiceStart) {
+            isCallServiceStart = true
+            try {
+                val intent = Intent(UtilBroadApplication.cxt, CallService::class.java)
+                UtilBroadApplication.cxt.startForegroundService(intent)
+            } catch (ignore: Exception) {
+            }
+        }
+    }
+
+    //停止前台服务
+    private fun stopCallService() {
+        try {
+            if (isCallServiceStart) {
+                isCallServiceStart = false
+                UtilBroadApplication.cxt.stopService(Intent(UtilBroadApplication.cxt, CallService::class.java))
+            }
+        } catch (ignore: Exception) {
+        }
     }
 }

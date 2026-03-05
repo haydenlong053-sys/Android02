@@ -225,5 +225,10 @@
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="microphone" />
+
+        <service
+            android:name=".quickmeet.CallService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
     </application>
 </manifest>

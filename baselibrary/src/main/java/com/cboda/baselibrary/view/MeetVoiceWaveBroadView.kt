@@ -23,8 +23,9 @@ class MeetVoiceWaveBroadView @JvmOverloads constructor(
     private var centerX = 0f
     private var centerY = 0f
 
-    private val baseRadii = floatArrayOf((dp2px(56f)/2).toFloat(), (dp2px(68f)/2).toFloat(), (dp2px(80f)/2).toFloat()) // 三个圆的基础半径
+    private val baseRadii = floatArrayOf((dp2px(56f) / 2).toFloat(), (dp2px(68f) / 2).toFloat(), (dp2px(80f) / 2).toFloat()) // 三个圆的基础半径
     private val scaleFactors = floatArrayOf(1f, 1f, 1f)    // 动态缩放因子
+
     // 三圈的透明度，取值 0~255
     private val alphas = intArrayOf(255, 90, 38) // ≈ 100%, 35%, 15%
 
@@ -71,17 +72,22 @@ class MeetVoiceWaveBroadView @JvmOverloads constructor(
 //            animators.add(animator)
 //            animator.start()
 //        }
-        animator = ValueAnimator.ofInt(0, baseRadii.size).apply {
-            duration = 1500 // 一轮时间
+        if (animator == null) {
+            animator = ValueAnimator.ofInt(0, baseRadii.size).apply {
+                duration = 1500 // 一轮时间
 //            repeatCount = ValueAnimator.INFINITE
-            addUpdateListener { va ->
-                val value = va.animatedValue as Int
-                currentIndex = if (value == baseRadii.size) -1 else value
-                invalidate()
+                addUpdateListener { va ->
+                    val value = va.animatedValue as Int
+                    currentIndex = if (value == baseRadii.size) -1 else value
+                    invalidate()
+                }
+                interpolator = LinearInterpolator()
+                start()
             }
-            interpolator= LinearInterpolator()
-            start()
+        } else {
+            animator?.start()
         }
+
     }
 
     fun stopLoopAnim() {
@@ -91,5 +97,9 @@ class MeetVoiceWaveBroadView @JvmOverloads constructor(
         animator = null
         currentIndex = -1
         invalidate()
+    }
+
+    fun isAnimating(): Boolean {
+        return animator?.isRunning == true
     }
 }

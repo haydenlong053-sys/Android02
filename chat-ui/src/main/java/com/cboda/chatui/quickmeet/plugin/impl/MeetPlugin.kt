@@ -1,6 +1,5 @@
 package com.cboda.chatui.quickmeet.plugin.impl
 
-import android.graphics.drawable.AnimationDrawable
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
@@ -22,14 +21,16 @@ import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.CallManager
 import com.cboda.chatui.quickmeet.bean.CallData
+import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
+import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
 
 /**
-* 会议最小化显示界面
-*/
-class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent{
+ * 会议最小化显示界面
+ */
+class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
     private var callingStateHeight = 0
     private var viewWidth = 0
     private var waitingStateHeight = 0
@@ -38,8 +39,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var durationTv: TextView? = null
     private var touchHandle: ViewTouchHandle? = null
     private var coverAvatarIv: ImageView? = null
+    private var mIvIconMic: ImageView? = null
     private var mTvMeetEnd: TextView? = null
     private var mVoiceWaveView: MeetVoiceWaveBroadView? = null
+    private var mLlNameView: View? = null
 
     private var mIsRegister = false
 
@@ -103,9 +106,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         coverAvatarIv = mView?.findViewById(R.id.chat_call_zoom_avatar_iv)
         mTvMeetEnd = mView?.findViewById(R.id.mTvMeetEnd)
         mVoiceWaveView = mView?.findViewById(R.id.mVoiceWaveView)
-
+        mIvIconMic = mView?.findViewById(R.id.mIvIconMic)
+        mLlNameView = mView?.findViewById(R.id.mLlNameView)
+        mIvIconMic?.isSelected = false
         showUI()
-        
+
         touchHandle = ViewTouchHandle(mView!!, activity, this)
         if (isCalling()) {
             touchHandle?.setupViewSize(viewWidth, callingStateHeight, false)
@@ -143,11 +148,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
     }
 
-
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
         mTvMeetEnd?.let {
-            it.isVisible =!it.isVisible
+            it.isVisible = !it.isVisible
         }
 
     }
@@ -185,7 +189,16 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         mTvMeetEnd?.click {
             CallManager.getInstance().leaveAndRelease()
         }
-        showOrHideCover(true )
+        mLlNameView?.click {
+            mIvIconMic?.let { mivView ->
+                val muteLocalAudio = CallManager.getInstance().muteLocalAudio(!mivView.isSelected)
+                if (muteLocalAudio == 0) {
+                    mivView.isSelected = !mivView.isSelected
+                }
+            }
+
+        }
+        showOrHideCover(true)
     }
 
     /**
@@ -196,7 +209,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         return CallManager.getInstance().isCallingState()
     }
 
-
     private fun showOrHideCover(show: Boolean, cameraChange: Boolean = false) {
         if (show) {
             coverAvatarIv?.visibility = View.VISIBLE
@@ -205,8 +217,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
     }
 
+    override fun onEngineSetup() {
+        showLoadingWfc()
+    }
 
-    override fun onEngineDestroy( data: CallData) {
+    override fun onRtcTokenFail() {
+        dismissLoadingWfc()
+    }
+
+    override fun onEngineDestroy(data: CallData) {
         eLogD("zhanglong", "mIsLayout==>$mIsLayout")
         if (mIsLayout) {
             touchHandle?.let {
@@ -221,31 +240,36 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onRtcJoinChannelSuccess() {
         super.onRtcJoinChannelSuccess()
+        dismissLoadingWfc()
         showMeetMiniLayoutView()
         Toast.makeText(UtilBroadApplication.cxt.applicationContext, "Join channel success", Toast.LENGTH_SHORT).show()
 
     }
 
+    override fun onRoomAudioVolumeIndication(totalVolume: Int) {
+        if (totalVolume > 0 && mVoiceWaveView?.isAnimating() == false) {
+            mVoiceWaveView?.startLoopAnim()
+        }
+    }
+
+    override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
+        mIvIconMic?.isSelected = muted
+    }
+
     override fun onRtcUserJoined(uid: Int) {
         super.onRtcUserJoined(uid)
-        //对方加入频道
+        //有人加入频道
         eLogD("call", "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
         runOnUiThread(Runnable {
             // 获取 uid 后，设置远端视频视图
             // After obtaining the UID, set the remote video view.
             Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User joined: " + uid, Toast.LENGTH_SHORT).show()
         })
-        if (isCalling()) {
-            if (mIsLayout) {
-                showUI()
-                if (mIsResume) {
 
-                }
-            }
-        }
     }
 
     private fun removePanel() {
+        mVoiceWaveView?.stopLoopAnim()
         mView?.visibility = View.GONE
         removeView()
         mIsLayout = false
@@ -261,15 +285,14 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             mView?.visibility = View.VISIBLE
         } else {
             if (!CallManager.getInstance().isIdleState()) {
-                //当前处于通话状态
+                //当前处于会议通话状态
                 setupPanel(activity)
             }
 //            setupPanel(activity)
         }
-        mVoiceWaveView?.startLoopAnim()
     }
 
-    override fun onPermissionDenied(){
+    override fun onPermissionDenied() {
 
     }
 
@@ -279,17 +302,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         if (mIsLayout
             && !CallManager.getInstance().isIdleState()
         ) {
-            //暂停等待接听动画
-            if (CallManager.getInstance().isWaitingState()) {
-                val animationDrawable = waitingStateIv?.drawable as? AnimationDrawable
-                animationDrawable?.stop()
-            }
             mView?.visibility = View.INVISIBLE
-            mVoiceWaveView?.stopLoopAnim()
         }
     }
-
-
 
     override fun onDestroy() {
         super.onDestroy()

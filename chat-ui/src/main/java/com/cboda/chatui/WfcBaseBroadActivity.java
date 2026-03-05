@@ -13,6 +13,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,14 +28,37 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.widge.LoadingBroadDialog;
 import com.cboda.chatui.utils.MyIMActivityBroadUtils;
 import com.cboda.select.picture.basic.BaseActivity;
 
 public abstract class WfcBaseBroadActivity extends BaseActivity {
     Toolbar toolbar;
 
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private LoadingBroadDialog dialogHelper;
+    private final Runnable mLoadingTask = new Runnable() {
+        @Override
+        public void run() {
+            if (isFinishing() || isDestroyed()) {
+                return;
+            }
+            if (dialogHelper == null) {
+                dialogHelper = new LoadingBroadDialog(WfcBaseBroadActivity.this, "");
+            }
+            dialogHelper.show();
+            dialogHelper.setCanceledOnTouchOutside(true);
+            dialogHelper.setCancelable(true);
+        }
+    };
+
     @Override
     protected void onDestroy() {
+        if (dialogHelper != null && dialogHelper.isShowing()) {
+            dismissLoading();
+        } else {
+            mHandler.removeCallbacks(mLoadingTask);
+        }
         super.onDestroy();
         MyIMActivityBroadUtils.activities.remove(this);
     }
@@ -184,6 +209,17 @@ public abstract class WfcBaseBroadActivity extends BaseActivity {
 
     protected boolean showHomeMenuItem() {
         return true;
+    }
+
+    public void showLoading() {
+        mHandler.postDelayed(mLoadingTask, 300L);
+    }
+
+    public void dismissLoading() {
+        mHandler.removeCallbacks(mLoadingTask);
+        if (dialogHelper != null) {
+            dialogHelper.dismiss();
+        }
     }
 
     public boolean checkPermission(String permission) {
