@@ -50,6 +50,7 @@ import cn.wildfirechat.message.FileMessageContent;
 import cn.wildfirechat.message.ImageMessageContent;
 import cn.wildfirechat.message.LocationMessageContent;
 import cn.wildfirechat.message.MediaMessageContent;
+import cn.wildfirechat.message.notification.ChangeGroupPortraitNotificationContent;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.MessageContent;
 import cn.wildfirechat.message.SoundMessageContent;
@@ -129,6 +130,9 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     public void onReceiveMessage(List<Message> messages, boolean hasMore) {
         if (messageLiveData != null && messages != null) {
             for (Message msg : messages) {
+                if (msg.content instanceof ChangeGroupPortraitNotificationContent) {
+                    continue;
+                }
                 postNewMessage(new UiBroadMessage(msg));
                 if (msg.content instanceof UnknownMessageContent) {
                     UnknownMessageContent tongzhiContent = (UnknownMessageContent) msg.content;

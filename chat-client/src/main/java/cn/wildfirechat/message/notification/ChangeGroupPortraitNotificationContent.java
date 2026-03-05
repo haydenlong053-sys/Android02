@@ -25,7 +25,7 @@ import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_C
  * Created by heavyrainlee on 20/12/2017.
  */
 
-@ContentTag(type = ContentType_CHANGE_GROUP_PORTRAIT, flag = PersistFlag.Persist)
+@ContentTag(type = ContentType_CHANGE_GROUP_PORTRAIT, flag = PersistFlag.No_Persist)
 public class ChangeGroupPortraitNotificationContent extends GroupNotificationMessageContent {
     public String operateUser;
 

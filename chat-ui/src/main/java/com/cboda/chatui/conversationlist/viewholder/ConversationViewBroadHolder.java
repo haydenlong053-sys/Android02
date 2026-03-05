@@ -36,6 +36,7 @@ import com.cboda.chatui.utils.WfcTextBroadUtils;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessageStatus;
+import cn.wildfirechat.message.notification.ChangeGroupPortraitNotificationContent;
 import cn.wildfirechat.message.notification.NotificationMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
@@ -173,19 +174,22 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
             if (conversationInfo.lastMessage != null && conversationInfo.lastMessage.content != null) {
                 String content = "";
                 Message lastMessage = conversationInfo.lastMessage;
-                // the message maybe invalid
-                try {
-                    if (conversationInfo.conversation.type == Conversation.ConversationType.Group
-                            && lastMessage.direction == MessageDirection.Receive
-                            && !(lastMessage.content instanceof NotificationMessageContent)) {
-                        GroupViewBroadModel groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
-                        String senderDisplayName = groupViewModel.getGroupMemberDisplayName(conversationInfo.conversation.target, conversationInfo.lastMessage.sender);
-                        content = senderDisplayName + ":" + lastMessage.digest();
-                    } else {
-                        content = lastMessage.digest();
+                // 更新群头像通知不在会话列表中展示摘要
+                if (!(lastMessage.content instanceof ChangeGroupPortraitNotificationContent)) {
+                    // the message maybe invalid
+                    try {
+                        if (conversationInfo.conversation.type == Conversation.ConversationType.Group
+                                && lastMessage.direction == MessageDirection.Receive
+                                && !(lastMessage.content instanceof NotificationMessageContent)) {
+                            GroupViewBroadModel groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
+                            String senderDisplayName = groupViewModel.getGroupMemberDisplayName(conversationInfo.conversation.target, conversationInfo.lastMessage.sender);
+                            content = senderDisplayName + ":" + lastMessage.digest();
+                        } else {
+                            content = lastMessage.digest();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 content = WfcTextBroadUtils.htmlToText(content);
                 MoonBroadUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, content, ImageSpan.ALIGN_BOTTOM);
