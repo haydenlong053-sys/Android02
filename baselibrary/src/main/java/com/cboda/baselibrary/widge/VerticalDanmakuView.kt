@@ -8,18 +8,15 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.doOnLayout
 import com.blankj.utilcode.util.SizeUtils.dp2px
-import com.blankj.utilcode.util.SizeUtils.px2dp
 import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.DanmakuItem
-import com.cboda.baselibrary.utils.eLogD
 import java.util.LinkedList
 
 
@@ -45,6 +42,8 @@ class VerticalDanmakuView @JvmOverloads constructor(
 //    private val pendingRemoveTasks = LinkedList<RemoveTask>()
     private val addViewQueue = LinkedList<DanmakuItem>()
 
+    private val animatorSetQueue = LinkedList<AnimatorSet>()
+
     var imageLoader: ((ImageView, String?) -> Unit)? = null
 
     private val maxSize = 10000 //弹幕存储最大数量
@@ -53,6 +52,8 @@ class VerticalDanmakuView @JvmOverloads constructor(
     private val mainDelayMillis = 300L //每条弹幕间隔时长
 
     private val danMaAnimateTime = 3000L//弹幕动画时长
+
+    private var canRun = false
 
 
     init {
@@ -88,8 +89,12 @@ class VerticalDanmakuView @JvmOverloads constructor(
     }
 
     private fun addAnimate() {
+        if (!canRun) {
+            return
+        }
         if (addViewQueue.isNotEmpty()) {
-            danMaPause()
+            canRun = false
+            mainHandler.removeCallbacks(mainRun)
             val holder = if (viewPool.isNotEmpty()) {
                 viewPool.removeFirst()
             } else {
@@ -118,7 +123,9 @@ class VerticalDanmakuView @JvmOverloads constructor(
                 rootView.y = startY.toFloat()
                 animateItems()
             }
-
+            if (addViewQueue.isNotEmpty()) {
+                addViewQueue.removeFirst()
+            }
             mainHandler.postDelayed(mainRun, mainDelayMillis)
 
             // 如果超过最大行数，立即移除最旧的（不受 3 秒限制）
@@ -126,23 +133,36 @@ class VerticalDanmakuView @JvmOverloads constructor(
 //            removeOldestItem()
 //        }
 
+        } else {
+            canRun = true
         }
 
     }
 
+
     fun danMaResume() {
+        if (animatorSetQueue.isNotEmpty()) {
+            for (i in animatorSetQueue.indices) {
+                animatorSetQueue[i].resume()
+            }
+        }
         mainHandler.postDelayed(mainRun, mainDelayMillis)
+//        mainHandler.post(mainRun)
     }
 
     fun danMaPause() {
         mainHandler.removeCallbacks(mainRun)
+        if (animatorSetQueue.isNotEmpty()) {
+            for (i in animatorSetQueue.indices) {
+                animatorSetQueue[i].pause()
+            }
+        }
+        canRun = false
     }
 
     private val mainRun = Runnable {
 //        eLogD("VerticalDanmakuViewClass", "addViewQueueSize2:${addViewQueue.size}")
-        if (addViewQueue.isNotEmpty()) {
-            addViewQueue.removeFirst()
-        }
+        canRun = true
 //        eLogD("VerticalDanmakuViewClass", "addViewQueueSize3:${addViewQueue.size}")
         addAnimate()
     }
@@ -188,13 +208,16 @@ class VerticalDanmakuView @JvmOverloads constructor(
                 duration = danMaAnimateTime
                 interpolator = LinearInterpolator()
             }
-            val alphaAnim = ObjectAnimator.ofFloat(lastView, "alpha", 1f, 0f).apply {
+            val alphaAnim = ObjectAnimator.ofFloat(lastView, "alpha", 1f, 0.8f, 0f).apply {
                 duration = danMaAnimateTime
                 interpolator = LinearInterpolator()
             }
 
             animatorSet.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
+                    if (animatorSetQueue.isNotEmpty()) {
+                        animatorSetQueue.removeFirst()
+                    }
                     removeView(lastView)
                     viewQueue.remove(lastView)
                     val holder = lastView.tag as? DanmakuViewHolder
@@ -203,7 +226,12 @@ class VerticalDanmakuView @JvmOverloads constructor(
                 }
             })
             animatorSet.playTogether(translateYAnim, alphaAnim)
+            if (animatorSetQueue.size < maxSize) {
+                animatorSetQueue.add(animatorSet)
+            }
+//            animatorSetQueue.add(animatorSet)
             animatorSet.start()
+
         }
     }
 
@@ -321,6 +349,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
         views.forEach { removeView(it) }
         viewPool.clear()
         addViewQueue.clear()
+        animatorSetQueue.clear()
     }
 
 //    fun setMaxLines(max: Int) {
