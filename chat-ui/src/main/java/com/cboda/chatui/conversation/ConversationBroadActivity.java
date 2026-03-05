@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.activity.OnBackPressedCallback;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -351,6 +352,22 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
         }
 
+        // 使用 OnBackPressedDispatcher 适配系统返回事件（替代 onBackPressed）
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (!conversationBroadFragment.onBackPressed()) {
+                    if (conversationBroad != null
+                        && conversationBroad.type == Conversation.ConversationType.Group
+                        && MeetCallManager.getInstance().isCallingState()) {
+                        showMyMeetLeaveTip();
+                    } else {
+                        finish();
+                    }
+                }
+            }
+        });
+
     }
 
     //检查是否当前有会议存在
@@ -390,18 +407,6 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
     public ConversationBroadFragment getConversationBroadFragment() {
         return conversationBroadFragment;
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        if (!conversationBroadFragment.onBackPressed()) {
-            if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallingState()) {
-                showMyMeetLeaveTip();
-            }else {
-                super.onBackPressed();
-            }
-        }
     }
 
 
