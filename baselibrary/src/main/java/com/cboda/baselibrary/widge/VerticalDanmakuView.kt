@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -49,7 +50,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
     private val maxSize = 10000 //弹幕存储最大数量
 
 
-    private val mainDelayMillis = 500L //每条弹幕间隔时长
+    private val mainDelayMillis = 300L //每条弹幕间隔时长
 
     private val danMaAnimateTime = 3000L//弹幕动画时长
 
@@ -185,11 +186,11 @@ class VerticalDanmakuView @JvmOverloads constructor(
             val animatorSet = AnimatorSet()
             val translateYAnim = ObjectAnimator.ofFloat(lastView, "y", viewY, viewY2).apply {
                 duration = danMaAnimateTime
-                interpolator = AccelerateInterpolator()
+                interpolator = LinearInterpolator()
             }
             val alphaAnim = ObjectAnimator.ofFloat(lastView, "alpha", 1f, 0f).apply {
                 duration = danMaAnimateTime
-                interpolator = AccelerateInterpolator()
+                interpolator = LinearInterpolator()
             }
 
             animatorSet.addListener(object : AnimatorListenerAdapter() {
