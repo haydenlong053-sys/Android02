@@ -65,21 +65,21 @@ class VerticalDanmakuView @JvmOverloads constructor(
      */
     fun addDanmaku(item: DanmakuItem) {
         if (addViewQueue.isNotEmpty() && item.isMeSend) {
-            var haveAdd = false
-            addViewQueue.forEachIndexed { index, item2 ->
-                if (index != 0 && !item2.isMeSend && !haveAdd) {
-                    haveAdd = true
-                    addViewQueue.add(index, item)
-                    if (addViewQueue.size > maxSize) {
-                        addViewQueue.removeLast()
-                    }
+            var insertIndex = -1
+            for (i in addViewQueue.indices) {
+                if (i != 0 && !addViewQueue[i].isMeSend) {
+                    insertIndex = i
+                    break
                 }
             }
-        } else {
-            if (addViewQueue.size < maxSize) {
-                addViewQueue.add(item)
+            if (insertIndex >= 0) {
+                addViewQueue.add(insertIndex, item)
+                if (addViewQueue.size > maxSize) addViewQueue.removeLast()
+            } else {
+                if (addViewQueue.size < maxSize) addViewQueue.add(item)
             }
-//            eLogD("VerticalDanmakuViewClass", "addViewQueueSize:${addViewQueue.size}")
+        } else {
+            if (addViewQueue.size < maxSize) addViewQueue.add(item)
         }
         if (addViewQueue.size == 1) {
             addAnimate()
@@ -169,50 +169,41 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
     /**
      * 执行所有可见项的位置动画
+     * 使用快照遍历，避免动画回调里 viewQueue.remove 导致 ConcurrentModificationException
      */
     private fun animateItems() {
-        val queueSize = viewQueue.size
-
-
-//
         this.doOnLayout {
-            viewQueue.forEachIndexed { index, childView ->
-                if (index == queueSize - 1) {
-                    val animatorSet = AnimatorSet()
-                    val viewY = childView.y
-                    val targetTop = this.top
-                    val targetBottom = this.bottom
-                    // 整个容器高度，保证每条弹幕移动距离一致，间距不被拉伸
-                    val viewY2 = viewY - (targetBottom - targetTop)
+            val snapshot = viewQueue.toList()
+            if (snapshot.isEmpty()) return@doOnLayout
+            val queueSize = snapshot.size
+            val lastView = snapshot[queueSize - 1]
+            val viewY = lastView.y
+            val targetTop = this.top
+            val targetBottom = this.bottom
+            val viewY2 = viewY - (targetBottom - targetTop)
 
-                    val translateYAnim = ObjectAnimator.ofFloat(childView, "y", viewY, viewY2).apply {
-                        duration = danMaAnimateTime
-                        interpolator = AccelerateInterpolator()
-                    }
-
-                    val alphaAnim = ObjectAnimator.ofFloat(childView, "alpha", 1f, 0f).apply {
-                        duration = danMaAnimateTime
-                        interpolator = AccelerateInterpolator()
-                    }
-
-                    animatorSet.addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            removeView(childView)
-                            // 精确移除当前动画对应的 View，避免错删导致间距异常
-                            if (!viewQueue.isEmpty()) {
-                                viewQueue.remove(childView)
-                            }
-                            val holder = childView.tag as? DanmakuViewHolder
-                            holder?.reset()
-                            holder?.let { viewPool.addLast(it) }
-                        }
-                    })
-                    animatorSet.playTogether(translateYAnim, alphaAnim)
-                    animatorSet.start()
-                }
+            val animatorSet = AnimatorSet()
+            val translateYAnim = ObjectAnimator.ofFloat(lastView, "y", viewY, viewY2).apply {
+                duration = danMaAnimateTime
+                interpolator = AccelerateInterpolator()
             }
-        }
+            val alphaAnim = ObjectAnimator.ofFloat(lastView, "alpha", 1f, 0f).apply {
+                duration = danMaAnimateTime
+                interpolator = AccelerateInterpolator()
+            }
 
+            animatorSet.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    removeView(lastView)
+                    viewQueue.remove(lastView)
+                    val holder = lastView.tag as? DanmakuViewHolder
+                    holder?.reset()
+                    holder?.let { viewPool.addLast(it) }
+                }
+            })
+            animatorSet.playTogether(translateYAnim, alphaAnim)
+            animatorSet.start()
+        }
     }
 
     /**
@@ -323,15 +314,10 @@ class VerticalDanmakuView @JvmOverloads constructor(
      * 清空所有弹幕
      */
     fun clearAll() {
-        // 取消所有待执行的移除任务
-
         mainHandler.removeCallbacks(mainRun)
-//        pendingRemoveTasks.forEach { mainHandler.removeCallbacks(it) }
-//        pendingRemoveTasks.clear()
-
-        // 移除所有 View
-        viewQueue.forEach { removeView(it) }
+        val views = viewQueue.toList()
         viewQueue.clear()
+        views.forEach { removeView(it) }
         viewPool.clear()
         addViewQueue.clear()
     }

@@ -33,6 +33,7 @@ class TestActivity : BaseSimple2BroadActivity() {
                     avatarUrl = "https://img0.baidu.com/it/u=3582218749,1515921929&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750",
                     showAvatar = true,
                     textColor = if (count % 5 == 0) Color.YELLOW else Color.WHITE,
+                    isMeSend = count % 5 == 0,
                     onClick = {
                         showToastMain("点击了第 $count 条弹幕")
                     }
