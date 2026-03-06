@@ -492,4 +492,14 @@
     <string name="app_transfer_address_format_error">送金アドレス形式が正しくありません!</string>
     <string name="app_withdraw_address_format_error">出金アドレス形式が正しくありません!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">アドレスを追加</string>
+    <string name="add_trans_hint_receiving_address">受取用アドレスを入力してください</string>
+    <string name="add_trans_paste">貼り付け</string>
+    <string name="add_trans_save">保存</string>
+    <string name="add_trans_receiving_address_format_error">受取アドレスの形式が正しくありません!</string>
+    <string name="add_trans_toast_copied">クリップボードにコピーしました！</string>
+    <string name="add_trans_dialog_title_disabled">一時的に操作できません</string>
+    <string name="add_trans_dialog_msg_contact_cs">カスタマーサポート008までお問い合わせください</string>
+
 </resources>

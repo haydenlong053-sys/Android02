@@ -494,4 +494,14 @@
     <string name="app_transfer_address_format_error">Μη έγκυρη μορφή διεύθυνσης μεταφοράς!</string>
     <string name="app_withdraw_address_format_error">Μη έγκυρη μορφή διεύθυνσης ανάληψης!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Προσθήκη διεύθυνσης</string>
+    <string name="add_trans_hint_receiving_address">Εισάγετε τη διεύθυνση παραλαβής σας</string>
+    <string name="add_trans_paste">Επικόλληση</string>
+    <string name="add_trans_save">Αποθήκευση</string>
+    <string name="add_trans_receiving_address_format_error">Μη έγκυρη μορφή διεύθυνσης παραλαβής!</string>
+    <string name="add_trans_toast_copied">Αντιγράφηκε στο πρόχειρο!</string>
+    <string name="add_trans_dialog_title_disabled">Προσωρινά μη διαθέσιμο</string>
+    <string name="add_trans_dialog_msg_contact_cs">Επικοινωνήστε με την εξυπηρέτηση πελατών 008</string>
+
 </resources>

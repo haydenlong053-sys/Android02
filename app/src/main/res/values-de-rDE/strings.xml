@@ -492,4 +492,14 @@
     <string name="app_transfer_address_format_error">Ungültiges Überweisungsadressformat!</string>
     <string name="app_withdraw_address_format_error">Ungültiges Auszahlungsadressformat!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Adresse hinzufügen</string>
+    <string name="add_trans_hint_receiving_address">Bitte geben Sie Ihre Empfangsadresse ein</string>
+    <string name="add_trans_paste">Einfügen</string>
+    <string name="add_trans_save">Speichern</string>
+    <string name="add_trans_receiving_address_format_error">Ungültiges Empfangsadressformat!</string>
+    <string name="add_trans_toast_copied">In die Zwischenablage kopiert!</string>
+    <string name="add_trans_dialog_title_disabled">Vorübergehend nicht verfügbar</string>
+    <string name="add_trans_dialog_msg_contact_cs">Bitte kontaktieren Sie den Kundenservice 008</string>
+
 </resources>

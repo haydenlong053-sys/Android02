@@ -892,6 +892,16 @@
     <string name="app_transfer_address_format_error">转账地址格式错误!</string>
     <string name="app_withdraw_address_format_error">提现地址格式错误!</string>
 
+    <!-- 新增提现地址弹窗 -->
+    <string name="add_trans_title">新增地址</string>
+    <string name="add_trans_hint_receiving_address">请输入您的收款地址</string>
+    <string name="add_trans_paste">粘贴</string>
+    <string name="add_trans_save">保存</string>
+    <string name="add_trans_receiving_address_format_error">收款地址格式错误!</string>
+    <string name="add_trans_toast_copied">已复制到剪贴板！</string>
+    <string name="add_trans_dialog_title_disabled">暂时不可操作</string>
+    <string name="add_trans_dialog_msg_contact_cs">请联系客服008号</string>
+
     <string name="wallet_eth">区块钱包</string>
 
     <!-- Wallet Transfer -->

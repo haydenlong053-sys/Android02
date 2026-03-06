@@ -493,4 +493,14 @@
     <string name="app_transfer_address_format_error">รูปแบบที่อยู่โอนเงินไม่ถูกต้อง!</string>
     <string name="app_withdraw_address_format_error">รูปแบบที่อยู่ถอนเงินไม่ถูกต้อง!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">เพิ่มที่อยู่</string>
+    <string name="add_trans_hint_receiving_address">กรุณาใส่ที่อยู่รับของคุณ</string>
+    <string name="add_trans_paste">วาง</string>
+    <string name="add_trans_save">บันทึก</string>
+    <string name="add_trans_receiving_address_format_error">รูปแบบที่อยู่รับไม่ถูกต้อง!</string>
+    <string name="add_trans_toast_copied">คัดลอกไปยังคลิปบอร์ดแล้ว!</string>
+    <string name="add_trans_dialog_title_disabled">ไม่สามารถใช้งานได้ชั่วคราว</string>
+    <string name="add_trans_dialog_msg_contact_cs">กรุณาติดต่อฝ่ายบริการ 008</string>
+
 </resources>

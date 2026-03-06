@@ -893,6 +893,16 @@
     <string name="app_transfer_address_format_error">轉賬地址格式錯誤!</string>
     <string name="app_withdraw_address_format_error">提現地址格式錯誤!</string>
 
+    <!-- 新增提現地址彈窗 -->
+    <string name="add_trans_title">新增地址</string>
+    <string name="add_trans_hint_receiving_address">請輸入您的收款地址</string>
+    <string name="add_trans_paste">貼上</string>
+    <string name="add_trans_save">儲存</string>
+    <string name="add_trans_receiving_address_format_error">收款地址格式錯誤!</string>
+    <string name="add_trans_toast_copied">已複製到剪貼簿！</string>
+    <string name="add_trans_dialog_title_disabled">暫時不可操作</string>
+    <string name="add_trans_dialog_msg_contact_cs">請聯繫客服008號</string>
+
     <string name="wallet_eth">區塊錢包</string>
 
     <!-- Wallet Transfer -->

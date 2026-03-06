@@ -492,4 +492,14 @@
     <string name="app_transfer_address_format_error">تنسيق عنوان التحويل غير صحيح!</string>
     <string name="app_withdraw_address_format_error">تنسيق عنوان السحب غير صحيح!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">إضافة عنوان</string>
+    <string name="add_trans_hint_receiving_address">يرجى إدخال عنوان الاستلام</string>
+    <string name="add_trans_paste">لصق</string>
+    <string name="add_trans_save">حفظ</string>
+    <string name="add_trans_receiving_address_format_error">تنسيق عنوان الاستلام غير صحيح!</string>
+    <string name="add_trans_toast_copied">تم النسخ إلى الحافظة!</string>
+    <string name="add_trans_dialog_title_disabled">غير متاح مؤقتاً</string>
+    <string name="add_trans_dialog_msg_contact_cs">يرجى الاتصال بخدمة العملاء 008</string>
+
 </resources>

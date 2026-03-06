@@ -104,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_4"
-                            android:text="复制"
+                            android:text="@string/wt_copy"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_14" />
                     </LinearLayout>
@@ -129,7 +129,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_4"
-                            android:text="删除"
+                            android:text="@string/shanchu"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_14" />
                     </LinearLayout>

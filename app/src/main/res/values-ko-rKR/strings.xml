@@ -492,4 +492,14 @@
     <string name="app_transfer_address_format_error">송금 주소 형식이 잘못되었습니다!</string>
     <string name="app_withdraw_address_format_error">출금 주소 형식이 잘못되었습니다!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">주소 추가</string>
+    <string name="add_trans_hint_receiving_address">받을 주소를 입력하세요</string>
+    <string name="add_trans_paste">붙여넣기</string>
+    <string name="add_trans_save">저장</string>
+    <string name="add_trans_receiving_address_format_error">받을 주소 형식이 잘못되었습니다!</string>
+    <string name="add_trans_toast_copied">클립보드에 복사되었습니다!</string>
+    <string name="add_trans_dialog_title_disabled">일시적으로 사용할 수 없습니다</string>
+    <string name="add_trans_dialog_msg_contact_cs">고객 서비스 008로 문의하세요</string>
+
 </resources>

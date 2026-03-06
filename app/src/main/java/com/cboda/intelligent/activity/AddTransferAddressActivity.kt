@@ -23,7 +23,7 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBind = (binding as? AddTransferAddressActivityBinding)
-        getToolbarTitle()?.text = "提现地址"
+        getToolbarTitle()?.text = getString(R.string.mine_t_Withdrawal_address)
         getRightImg()?.click {
             showAddPop(false)
         }
@@ -37,7 +37,7 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
         mBind?.swipeActionCopy?.click {
             ClipboardUtils.copyText(mBind?.address?.text?.toString())
             mBind?.swipeRevealLayout?.closeSwipe()
-            showToastMain("已复制到剪贴板！")
+            showToastMain(getString(R.string.add_trans_toast_copied))
         }
         // 侧滑露出的「删除」
         mBind?.swipeActionDelete?.click {
@@ -48,7 +48,7 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
     }
 
     private fun showLxKfDialog() {
-        showCommonStrTip("暂时不可操作", "请联系客服008号", "", getAppStr(R.string.mine_ok, this@AddTransferAddressActivity), this@AddTransferAddressActivity) {
+        showCommonStrTip(getString(R.string.add_trans_dialog_title_disabled), getString(R.string.add_trans_dialog_msg_contact_cs), "", getAppStr(R.string.mine_ok, this@AddTransferAddressActivity), this@AddTransferAddressActivity) {
         }
     }
 

@@ -493,4 +493,14 @@
     <string name="app_transfer_address_format_error">פורמט כתובת ההעברה שגוי!</string>
     <string name="app_withdraw_address_format_error">פורמט כתובת המשיכה שגוי!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">הוסף כתובת</string>
+    <string name="add_trans_hint_receiving_address">הזן את כתובת הקבלה שלך</string>
+    <string name="add_trans_paste">הדבק</string>
+    <string name="add_trans_save">שמור</string>
+    <string name="add_trans_receiving_address_format_error">פורמט כתובת קבלה לא חוקי!</string>
+    <string name="add_trans_toast_copied">הועתק ללוח!</string>
+    <string name="add_trans_dialog_title_disabled">לא זמין זמנית</string>
+    <string name="add_trans_dialog_msg_contact_cs">אנא פנה לשירות הלקוחות 008</string>
+
 </resources>

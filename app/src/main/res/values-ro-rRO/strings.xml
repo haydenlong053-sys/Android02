@@ -495,4 +495,14 @@
     <string name="app_transfer_address_format_error">Format adresă transfer invalid!</string>
     <string name="app_withdraw_address_format_error">Format adresă retragere invalid!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Adaugă adresă</string>
+    <string name="add_trans_hint_receiving_address">Introduceți adresa de primire</string>
+    <string name="add_trans_paste">Lipește</string>
+    <string name="add_trans_save">Salvează</string>
+    <string name="add_trans_receiving_address_format_error">Format adresă de primire invalid!</string>
+    <string name="add_trans_toast_copied">Copiat în clipboard!</string>
+    <string name="add_trans_dialog_title_disabled">Indisponibil temporar</string>
+    <string name="add_trans_dialog_msg_contact_cs">Contactați serviciul clienți 008</string>
+
 </resources>

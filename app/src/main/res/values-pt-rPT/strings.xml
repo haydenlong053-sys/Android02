@@ -495,4 +495,14 @@
     <string name="app_transfer_address_format_error">Formato de endereço de transferência inválido!</string>
     <string name="app_withdraw_address_format_error">Formato de endereço de levantamento inválido!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Adicionar endereço</string>
+    <string name="add_trans_hint_receiving_address">Introduza o seu endereço de receção</string>
+    <string name="add_trans_paste">Colar</string>
+    <string name="add_trans_save">Guardar</string>
+    <string name="add_trans_receiving_address_format_error">Formato de endereço de receção inválido!</string>
+    <string name="add_trans_toast_copied">Copiado para a área de transferência!</string>
+    <string name="add_trans_dialog_title_disabled">Indisponível temporariamente</string>
+    <string name="add_trans_dialog_msg_contact_cs">Contacte o apoio ao cliente 008</string>
+
 </resources>

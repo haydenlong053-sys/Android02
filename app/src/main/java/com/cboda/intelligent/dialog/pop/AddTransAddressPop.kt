@@ -47,7 +47,7 @@ class AddTransAddressPop(val context: Context) : BaseBottomBroadPop(context) {
                 val address = binding.mEtInputAddress.text.toString().trim()
                 if (!TextUtils.isEmpty(address)) {
                     if (!address.startsWith("0x", true)) {
-                        ToastBroadUtils.show("收款地址格式错误!")
+                        ToastBroadUtils.show(context.getString(R.string.add_trans_receiving_address_format_error))
                         return@click
                     }
                     scope.launch {

@@ -492,4 +492,14 @@
     <string name="app_transfer_address_format_error">¡Formato de dirección de transferencia inválido!</string>
     <string name="app_withdraw_address_format_error">¡Formato de dirección de retiro inválido!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Añadir dirección</string>
+    <string name="add_trans_hint_receiving_address">Introduzca su dirección de recepción</string>
+    <string name="add_trans_paste">Pegar</string>
+    <string name="add_trans_save">Guardar</string>
+    <string name="add_trans_receiving_address_format_error">¡Formato de dirección de recepción no válido!</string>
+    <string name="add_trans_toast_copied">¡Copiado al portapapeles!</string>
+    <string name="add_trans_dialog_title_disabled">No disponible temporalmente</string>
+    <string name="add_trans_dialog_msg_contact_cs">Contacte con el servicio de atención 008</string>
+
 </resources>
