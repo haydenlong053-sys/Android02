@@ -91,4 +91,7 @@
     <color name="color_price_border">#25A6FF</color>
     <color name="color_content_bg">@color/white</color>
     <color name="ps_color_white">#FFFFFF</color>
+    <!-- 侧滑操作按钮 -->
+    <color name="swipe_action_copy_bg">#FF9500</color>
+    <color name="swipe_action_delete_bg">#FF4D4F</color>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isGone
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ClipboardUtils
@@ -22,9 +23,6 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBind = (binding as? AddTransferAddressActivityBinding)
-//        mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.white)
-//        mIvBgTop.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-//        mIvBgTop.requestLayout() // 或直接调用 setLayoutParams 会自动触发
         getToolbarTitle()?.text = "提现地址"
         getRightImg()?.click {
             showAddPop(false)
@@ -36,19 +34,60 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
         mBind?.addressLayout?.click {
             setResult(mBind?.address?.text?.toString())
         }
+        // 侧滑露出的「复制」
+        mBind?.swipeActionCopy?.click {
+            ClipboardUtils.copyText(mBind?.address?.text?.toString())
+            showToastMain("已复制到剪贴板！")
+            mBind?.swipeRevealLayout?.closeSwipe()
+        }
+        // 侧滑露出的「删除」
+        mBind?.swipeActionDelete?.click {
+            AlertDialog.Builder(this)
+                .setMessage("确定删除该提现地址？")
+                .setNegativeButton(getString(R.string.quxiao), null)
+                .setPositiveButton(getString(R.string.queding)) { _, _ ->
+//                    lifecycleScope.launch {
+//                        viewModel.deleteTransferAddress().observe(this@AddTransferAddressActivity) { success ->
+//                            if (success) {
+//                                showToastMain("已删除")
+//                                refreshAddress()
+//                            }
+//                        }
+//                    }
+                }
+                .show()
+        }
         lifecycleScope.launch {
             viewModel.getTransferAddress().observe(this@AddTransferAddressActivity) {
                 if (null != it) {
+                    mBind?.swipeRevealLayout?.isGone = false
                     mBind?.addressLayout?.isGone = false
                     mBind?.address?.text = it.toAddress
                     mBind?.time?.text = it.createTime
                 } else {
+                    mBind?.swipeRevealLayout?.isGone = true
                     getRightImg()?.setImageResource(R.mipmap.ic_add_broad_black)
                     showAddPop(true)
                 }
             }
         }
+    }
 
+    private fun refreshAddress() {
+        lifecycleScope.launch {
+            viewModel.getTransferAddress().observe(this@AddTransferAddressActivity) {
+                if (null != it) {
+                    mBind?.swipeRevealLayout?.isGone = false
+                    mBind?.addressLayout?.isGone = false
+                    mBind?.address?.text = it.toAddress
+                    mBind?.time?.text = it.createTime
+                } else {
+                    mBind?.swipeRevealLayout?.isGone = true
+                    getRightImg()?.setImageResource(R.mipmap.ic_add_broad_black)
+                    showAddPop(true)
+                }
+            }
+        }
     }
 
 
