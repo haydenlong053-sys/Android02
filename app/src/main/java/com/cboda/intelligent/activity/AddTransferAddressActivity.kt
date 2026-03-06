@@ -27,10 +27,9 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
         getRightImg()?.click {
             showAddPop(false)
         }
-//        mBind?.editAddressIv?.click {
-//            ClipboardUtils.copyText(mBind?.address?.text?.toString())
-//            showToastMain("已复制到剪贴板！")
-//        }
+        mBind?.editAddressIv?.click {
+            showLxKfDialog()
+        }
         mBind?.addressLayout?.click {
             setResult(mBind?.address?.text?.toString())
         }
@@ -43,10 +42,14 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
         // 侧滑露出的「删除」
         mBind?.swipeActionDelete?.click {
             mBind?.swipeRevealLayout?.closeSwipe()
-            showCommonStrTip("暂时不可操作", "请联系客服008号", "", getAppStr(R.string.mine_ok, this@AddTransferAddressActivity), this@AddTransferAddressActivity) {
-            }
+            showLxKfDialog()
         }
         refreshAddress(true)
+    }
+
+    private fun showLxKfDialog() {
+        showCommonStrTip("暂时不可操作", "请联系客服008号", "", getAppStr(R.string.mine_ok, this@AddTransferAddressActivity), this@AddTransferAddressActivity) {
+        }
     }
 
     private fun refreshAddress(isReturn: Boolean) {
