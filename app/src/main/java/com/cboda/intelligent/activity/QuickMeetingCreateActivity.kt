@@ -22,9 +22,13 @@ import com.cboda.chatui.R
 import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.baselibrary.common.MyEventCodeEnum
 import cn.wildfirechat.message.MeetingInviteMessageContent
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
 import com.google.gson.Gson
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.*
+import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.model.CreateMeetingResponse
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -269,6 +273,14 @@ fun QuickMeetingCreateScreen(
 //                        onSuccess = onCreateSuccess,
                         onError = { error ->
                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                        },
+                        onSuccessInvoke = { hasPassword ->
+                            if (hasPassword) {
+                                eLogD("zhanglong", "展示支付密码弹窗----》")
+                                PasswordPricedPop(getAppContext(), uiState.calculateTotalPrice().toString(), {
+                                    ToastBroadUtils.show("验证支付success")
+                                }).showPopupWindow()
+                            }
                         }
                     )
                 }
@@ -304,36 +316,36 @@ fun QuickMeetingCreateScreen(
     }
 
     // 支付密码弹窗
-    if (uiState.showPaymentPasswordDialog) {
-        PaymentPasswordDialog(
-            isLoading = uiState.paymentPasswordLoading,
-            errorMessage = uiState.paymentPasswordError,
-            onPasswordEntered = { password ->
-                viewModel.verifyPaymentPassword(
-                    password = password,
-                    onSuccess = onCreateSuccess,
-                    onError = { error, createout ->
-                        when (createout) {
-                            1 -> {
-                                viewModel.showInsufficientTokenDialog()
-
-                            }
-
-                            2 -> {
-                                viewModel.showCreateFailedDialog()
-                            }
-
-                            else -> {
-                                viewModel.showValidationFailedDialog(error)
-                            }
-                        }
-//                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                    }
-                )
-            },
-            onDismiss = { viewModel.dismissPaymentPasswordDialog() }
-        )
-    }
+//    if (uiState.showPaymentPasswordDialog) {
+//        PaymentPasswordDialog(
+//            isLoading = uiState.paymentPasswordLoading,
+//            errorMessage = uiState.paymentPasswordError,
+//            onPasswordEntered = { password ->
+//                viewModel.verifyPaymentPassword(
+//                    password = password,
+//                    onSuccess = onCreateSuccess,
+//                    onError = { error, createout ->
+//                        when (createout) {
+//                            1 -> {
+//                                viewModel.showInsufficientTokenDialog()
+//
+//                            }
+//
+//                            2 -> {
+//                                viewModel.showCreateFailedDialog()
+//                            }
+//
+//                            else -> {
+//                                viewModel.showValidationFailedDialog(error)
+//                            }
+//                        }
+////                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+//                    }
+//                )
+//            },
+//            onDismiss = { viewModel.dismissPaymentPasswordDialog() }
+//        )
+//    }
 
     // 设置支付密码弹窗
     if (uiState.showSetPasswordDialog) {
@@ -345,7 +357,6 @@ fun QuickMeetingCreateScreen(
                 intent.putExtra("editIndex", "1")
                 context.startActivity(intent)
             }
-//            onSetPassword = { viewModel.navigateToSetPassword() }
         )
     }
 

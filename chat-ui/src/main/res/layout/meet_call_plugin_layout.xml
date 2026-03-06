@@ -85,7 +85,7 @@
                 android:maxWidth="@dimen/dp_55"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="JOY Follow"
+                android:text="主讲人"
                 android:textSize="10sp"
                 android:textColor="@color/white"
 

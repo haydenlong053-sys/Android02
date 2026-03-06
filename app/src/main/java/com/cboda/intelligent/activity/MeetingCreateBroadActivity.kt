@@ -31,6 +31,7 @@ import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.MeetingCreateViewBroadModel
 import org.greenrobot.eventbus.EventBus
 
+@Deprecated("废弃")
 class MeetingCreateBroadActivity : BaseSimpleBroadActivity() {
 
     private val viewModel: MeetingCreateViewBroadModel by viewModels()

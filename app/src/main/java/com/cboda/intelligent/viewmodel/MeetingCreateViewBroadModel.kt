@@ -6,7 +6,10 @@ import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.model.CreateMeetingRequest
 import com.cboda.intelligent.model.CreateMeetingResponse
 import com.cboda.intelligent.model.MeetingCreateUiState
@@ -223,7 +226,7 @@ class MeetingCreateViewBroadModel(
     /**
      * 检查支付密码状态并开始创建会议流程
      */
-    fun startCreateMeetingFlow( onError: (String) -> Unit) {
+    fun startCreateMeetingFlow( onError: (String) -> Unit,onSuccessInvoke: (Boolean) -> Unit={}) {
         // 先进行详细的表单验证
         val validationResult = validateMeetingForm()
         if (!validationResult.isValid) {
@@ -233,7 +236,7 @@ class MeetingCreateViewBroadModel(
         }
         
         // 验证通过，继续检查支付密码状态
-        checkPaymentPasswordStatus( onError)
+        checkPaymentPasswordStatus(onError,onSuccessInvoke)
     }
     
     /**
@@ -296,7 +299,7 @@ class MeetingCreateViewBroadModel(
     /**
      * 检查支付密码状态
      */
-    private fun checkPaymentPasswordStatus( onError: (String) -> Unit) {
+    private fun checkPaymentPasswordStatus( onError: (String) -> Unit, onSuccessInvoke: (Boolean) -> Unit={}) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             
@@ -306,7 +309,6 @@ class MeetingCreateViewBroadModel(
                         isLoading = false,
                         hasPaymentPassword = response.hasPassword
                     )
-                    
                     if (response.hasPassword) {
                         // 已设置支付密码，显示密码输入弹窗
                         _uiState.value = _uiState.value.copy(showPaymentPasswordDialog = true)
@@ -314,6 +316,7 @@ class MeetingCreateViewBroadModel(
                         // 未设置支付密码，显示设置密码提示弹窗
                         _uiState.value = _uiState.value.copy(showSetPasswordDialog = true)
                     }
+                    onSuccessInvoke.invoke(response.hasPassword)
                 }
                 .onFailure { error ->
                     val errorMessage = error.message ?: "检查支付密码状态失败"

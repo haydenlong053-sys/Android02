@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import kotlinx.coroutines.delay
@@ -461,7 +462,7 @@ fun OptionItem(
                     color = colorResource(R.color.color_content_bg),
                     shape = RoundedCornerShape(10.dp)
                 )
-                .clickable { onClick() }
+                .clickable(indication = null,interactionSource = remember { MutableInteractionSource() }) { onClick() }
                 .padding(16.dp)
         ) {
             Row(
@@ -487,7 +488,7 @@ fun OptionItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_broad_right),
@@ -846,10 +847,10 @@ fun BottomSection(
                         )
                     }
                 } else {
-                    // 正常价格显示
+                    // 正常价格显示：第二个 Text(ODIK) 相对第一个 Text(价格) 底部对齐
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.spacedBy(0.dp)
                     ) {
                         Text(
                             text = "${totalPrice}",
@@ -857,8 +858,9 @@ fun BottomSection(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
-                        
+
                         Text(
+                            modifier = Modifier.padding(2.dp),
                             text = "ODIK",
                             color = Color(0xFF3B47DD),
                             fontSize = 10.sp,
@@ -868,6 +870,7 @@ fun BottomSection(
                         // 原价显示
                         originalPrice?.let { original ->
                             if (original > totalPrice) {
+                                Spacer(modifier = Modifier.width(4.dp))
                                 Text(
                                     text = "原价${original}ODIK",
                                     color = Color(0xFF9CA1A5),
@@ -1088,7 +1091,7 @@ fun UserTierSelectionDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 0.dp),
+                .padding(bottom = 10.dp),
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(R.color.color_content_bg))
         ) {
@@ -1117,8 +1120,8 @@ fun UserTierSelectionDialog(
                     Text(
                         text = "请选择会议人数",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
+//                        fontWeight = FontWeight.Bold,
+                        color = colorResource(com.cboda.baselibrary.R.color.black),
                         textAlign = TextAlign.Center
                     )
 
@@ -1137,7 +1140,7 @@ fun UserTierSelectionDialog(
                         Text(
                             text = option.name, // 使用name字段显示人数范围
                             fontSize = 16.sp,
-                            color = if (isSelected)  colorResource(R.color.color_price_blue) else colorResource(R.color.color_text0),
+                            color = if (isSelected)  colorResource(R.color.color_price_blue) else colorResource(com.cboda.baselibrary.R.color.black),
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -1167,7 +1170,7 @@ fun UserTierSelectionDialog(
                         .height(44.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.color_price_blue),
+                        containerColor = colorResource(R.color.color_3B47DD),
                         disabledContainerColor = Color(0xFFF6F6f6)
                     )
                 ) {

@@ -665,7 +665,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                 JSONObject(map).toString(),
                                                 CommonResultBroadBean(),
                                                 showToast = true,
-                                                showLoading = false,
+                                                showLoading = true,
                                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                                         if (bean is CommonResultBroadBean) {
