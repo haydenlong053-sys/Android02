@@ -8,6 +8,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isGone
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ClipboardUtils
+import com.cboda.baselibrary.utils.getAppStr
+import com.cboda.baselibrary.utils.showCommonStrTip
+import com.cboda.baselibrary.utils.showCommonTip
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.AddTransferAddressActivityBinding
@@ -27,64 +30,40 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
         getRightImg()?.click {
             showAddPop(false)
         }
-        mBind?.editAddressIv?.click {
-            ClipboardUtils.copyText(mBind?.address?.text?.toString())
-            showToastMain("已复制到剪贴板！")
-        }
+//        mBind?.editAddressIv?.click {
+//            ClipboardUtils.copyText(mBind?.address?.text?.toString())
+//            showToastMain("已复制到剪贴板！")
+//        }
         mBind?.addressLayout?.click {
             setResult(mBind?.address?.text?.toString())
         }
         // 侧滑露出的「复制」
         mBind?.swipeActionCopy?.click {
             ClipboardUtils.copyText(mBind?.address?.text?.toString())
-            showToastMain("已复制到剪贴板！")
             mBind?.swipeRevealLayout?.closeSwipe()
+            showToastMain("已复制到剪贴板！")
         }
         // 侧滑露出的「删除」
         mBind?.swipeActionDelete?.click {
-            AlertDialog.Builder(this)
-                .setMessage("确定删除该提现地址？")
-                .setNegativeButton(getString(R.string.quxiao), null)
-                .setPositiveButton(getString(R.string.queding)) { _, _ ->
-//                    lifecycleScope.launch {
-//                        viewModel.deleteTransferAddress().observe(this@AddTransferAddressActivity) { success ->
-//                            if (success) {
-//                                showToastMain("已删除")
-//                                refreshAddress()
-//                            }
-//                        }
-//                    }
-                }
-                .show()
-        }
-        lifecycleScope.launch {
-            viewModel.getTransferAddress().observe(this@AddTransferAddressActivity) {
-                if (null != it) {
-                    mBind?.swipeRevealLayout?.isGone = false
-                    mBind?.addressLayout?.isGone = false
-                    mBind?.address?.text = it.toAddress
-                    mBind?.time?.text = it.createTime
-                } else {
-                    mBind?.swipeRevealLayout?.isGone = true
-                    getRightImg()?.setImageResource(R.mipmap.ic_add_broad_black)
-                    showAddPop(true)
-                }
+            mBind?.swipeRevealLayout?.closeSwipe()
+            showCommonStrTip("暂时不可操作", "请联系客服008号", "", getAppStr(R.string.mine_ok, this@AddTransferAddressActivity), this@AddTransferAddressActivity) {
             }
         }
+        refreshAddress(true)
     }
 
-    private fun refreshAddress() {
+    private fun refreshAddress(isReturn: Boolean) {
         lifecycleScope.launch {
             viewModel.getTransferAddress().observe(this@AddTransferAddressActivity) {
                 if (null != it) {
-                    mBind?.swipeRevealLayout?.isGone = false
+                    mBind?.cardViewLayout?.isGone = false
                     mBind?.addressLayout?.isGone = false
                     mBind?.address?.text = it.toAddress
                     mBind?.time?.text = it.createTime
                 } else {
-                    mBind?.swipeRevealLayout?.isGone = true
+                    mBind?.cardViewLayout?.isGone = true
                     getRightImg()?.setImageResource(R.mipmap.ic_add_broad_black)
-                    showAddPop(true)
+                    showAddPop(isReturn)
                 }
             }
         }
@@ -110,8 +89,6 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
 
 
     private var mBind: AddTransferAddressActivityBinding? = null
-
-    //    private val viewModel: CommViewBroadModel by viewModels()
     override fun getViewBindingClass() = AddTransferAddressActivityBinding::class.java
     override fun showTransparentTopTitleLayout() = true
     override fun useViewBinding() = true
