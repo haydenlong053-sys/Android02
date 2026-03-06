@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.animation.core.*
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -62,15 +63,19 @@ fun TitleBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp + statusBarHeight)
-    ) {
+            .background(
+                Brush.verticalGradient(
+                colors = listOf(Color(0xFF9EB4F5),Color(0x0097CAF7))
+            )
+    ) ){
         // 背景图片
-        Image(
-            painter = painterResource(id = R.mipmap.ic_bg_top_broad_main),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillWidth,
-            alignment = Alignment.TopCenter
-        )
+//        Image(
+//            painter = painterResource(id = R.mipmap.ic_bg_top_broad_main),
+//            contentDescription = null,
+//            modifier = Modifier.fillMaxSize(),
+//            contentScale = ContentScale.FillWidth,
+//            alignment = Alignment.TopCenter
+//        )
         
         // 标题栏内容
         Box(
@@ -87,16 +92,16 @@ fun TitleBar(
                 Icon(
                     painter = painterResource(id = R.mipmap.ic_broad_back),
                     contentDescription = "返回",
-                    tint = Color.White
+                    tint = Color.Black
                 )
             }
             
             // 标题
             Text(
                 text = stringResource(com.cboda.chatui.R.string.创建会议主题),
-                color = colorResource(id = R.color.color_title_page),
+                color = colorResource(id = R.color.black),
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
@@ -213,7 +218,7 @@ fun ValidationFailedDialog(
                         .fillMaxWidth()
                         .height(48.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF25A6FF)
+                        containerColor = Color(0xFF3B47DD)
                     ),
                     shape = RoundedCornerShape(24.dp)
                 ) {
@@ -333,7 +338,7 @@ fun RoomNameInputField(
                         onValueChange = onRoomNameChange,
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = TextStyle(
-                            color = colorResource(id = R.color.color_text_content),
+                            color = colorResource(id = R.color.black),
                             fontSize = 16.sp
                         ),
                         singleLine = true,
@@ -352,7 +357,7 @@ fun RoomNameInputField(
                                         }
                                         Text(
                                             text = placeholder,
-                                            color = colorResource(id = R.color.color_text_content).copy(alpha = 0.6f),
+                                            color = colorResource(id = R.color.black).copy(alpha = 0.6f),
                                             fontSize = 16.sp,
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis
@@ -370,7 +375,7 @@ fun RoomNameInputField(
                                         modifier = Modifier
                                             .size(16.dp)
                                             .clickable { onRoomNameChange("") },
-                                        tint = colorResource(id = R.color.color_text_content)
+                                        tint = colorResource(id = R.color.black_45)
                                     )
                                 }
                             }
@@ -465,7 +470,7 @@ fun OptionItem(
             ) {
                 Text(
                     text = title,
-                    color = colorResource(id = R.color.color_text0),
+                    color = colorResource(id = com.cboda.baselibrary.R.color.black),
                     fontSize = 16.sp,
                     modifier = Modifier.width(100.dp)
                 )
@@ -474,7 +479,7 @@ fun OptionItem(
                 
                 Text(
                     text = selectedText,
-                    color = colorResource(id = R.color.color_text_content),
+                    color = colorResource(id = R.color.black_35),
                     fontSize = 16.sp,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.End,
@@ -487,7 +492,7 @@ fun OptionItem(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_broad_right),
                     contentDescription = "选择",
-                    tint = colorResource(id = R.color.color_text_content)
+                    tint = colorResource(id = com.cboda.baselibrary.R.color.black)
                 )
             }
         }
@@ -520,7 +525,7 @@ fun SwitchItem(
             ) {
                 Text(
                     text = title,
-                    color = colorResource(id = R.color.color_text0),
+                    color = colorResource(id = com.cboda.baselibrary.R.color.black),
                     fontSize = 16.sp,
                     modifier = Modifier.width(100.dp)
                 )
@@ -542,7 +547,7 @@ fun SwitchItem(
                         ),
                         contentDescription = if (isChecked) "开启" else "关闭",
                         modifier = Modifier
-                            .size(48.dp, 24.dp)
+                            .size(48.dp, 28.dp)
                             .clickable { onCheckedChange(!isChecked) },
                         tint = Color.Unspecified // 保持原始颜色
                     )
@@ -676,8 +681,8 @@ fun MeetingDurationSection(
         // 标题
         Text(
             text = "会议时长",
-            color = colorResource(id = R.color.color_text0),
-            fontSize = 16.sp,
+            color = colorResource(id = R.color.black_65),
+            fontSize = 14.sp,
             modifier = Modifier.padding(bottom = 12.dp)
         )
         
@@ -739,7 +744,7 @@ fun DurationOptionsGrid(
         if (renewalRules.isNotEmpty()) {
             Text(
                 text = renewalRules,
-                color = colorResource(id = R.color.color_text_content),
+                color = colorResource(id = com.cboda.baselibrary.R.color.black_45),
                 fontSize = 12.sp,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -763,7 +768,7 @@ fun DurationOptionItem(
             )
             .border(
                 width = 1.dp,
-                color = if (isSelected) Color(0xFF25A6FF) else colorResource(R.color.color_content_bg),
+                color = if (isSelected) Color(0xFF3B47DD) else colorResource(R.color.color_content_bg),
                 shape = RoundedCornerShape(10.dp)
             )
             .clickable { onSelected() },
@@ -771,7 +776,7 @@ fun DurationOptionItem(
     ) {
         Text(
             text = option.name,
-            color = if (isSelected) Color(0xFF25A6FF) else colorResource(id = R.color.color_text_content),
+            color = if (isSelected) Color(0xFF3B47DD) else colorResource(id = com.cboda.baselibrary.R.color.black),
             fontSize = 14.sp
         )
     }
@@ -801,12 +806,12 @@ fun BottomSection(
                 .height(44.dp) // 边框高度44dp
                 .border(
                     width = 1.dp,
-                    color = Color(0xFF25A6FF),
+                    color = Color(0xFF3B47DD),
                     shape = RoundedCornerShape(10.dp)
                 )
                 .background(
-                    color = colorResource(R.color.bg_main),
-                    shape = RoundedCornerShape(10.dp)
+                    color = Color(0x143B47DD),
+                    shape = RoundedCornerShape(16.dp)
                 )
         ) {
             // 左侧价格显示区域
@@ -830,12 +835,12 @@ fun BottomSection(
                     ) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(16.dp),
-                            color = Color(0xFF25A6FF),
+                            color = Color(0xFF3B47DD),
                             strokeWidth = 2.dp
                         )
                         Text(
                             text = "计算价格中...",
-                            color = Color(0xFF25A6FF),
+                            color = Color(0xFF3B47DD),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Normal
                         )
@@ -848,15 +853,15 @@ fun BottomSection(
                     ) {
                         Text(
                             text = "${totalPrice}",
-                            color = Color(0xFF25A6FF),
+                            color = Color(0xFF3B47DD),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
                         
                         Text(
                             text = "ODIK",
-                            color = Color(0xFF25A6FF),
-                            fontSize = 14.sp,
+                            color = Color(0xFF3B47DD),
+                            fontSize = 10.sp,
                             fontWeight = FontWeight.Normal
                         )
 
@@ -882,7 +887,7 @@ fun BottomSection(
 //                modifier = Modifier
 //                    .width(1.dp)
 //                    .fillMaxHeight()
-//                    .background(Color(0xFF25A6FF))
+//                    .background(Color(0xFF3B47DD))
 //            )
             
             // 右侧创建按钮区域
@@ -891,7 +896,7 @@ fun BottomSection(
                     .weight(153f)
                     .fillMaxHeight()
                     .background(
-                        color = if (!isLoading) Color(0xFF25A6FF) else Color(0xFF25A6FF).copy(alpha = 0.6f),
+                        color = if (!isLoading) Color(0xFF3B47DD) else Color(0xFF3B47DD).copy(alpha = 0.6f),
                         shape = RoundedCornerShape(
                             topStart = 0.dp,
                             topEnd = 10.dp,
@@ -1047,7 +1052,7 @@ fun MeetingUserCountDialog(
                         .fillMaxWidth()
                         .height(44.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF25A6FF)
+                        containerColor = Color(0xFF3B47DD)
                     ),
                     shape = RoundedCornerShape(22.dp)
                 ) {
@@ -1283,7 +1288,7 @@ fun CustomDatePickerDialog(
                             onDismiss()
                         },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF25A6FF)
+                            containerColor = Color(0xFF3B47DD)
                         )
                     ) {
                         Text(
@@ -1315,7 +1320,7 @@ fun NumberPicker(
                 text = number.toString(),
                 fontSize = if (number == value) 18.sp else 14.sp,
                 fontWeight = if (number == value) FontWeight.Bold else FontWeight.Normal,
-                color = if (number == value) Color(0xFF25A6FF) else colorResource(id = R.color.color_text_content),
+                color = if (number == value) Color(0xFF3B47DD) else colorResource(id = R.color.color_text_content),
                 modifier = Modifier
                     .clickable { onValueChange(number) }
                     .padding(vertical = 8.dp)
@@ -1478,7 +1483,7 @@ fun PaymentPasswordDialog(
                                     color = if (showError) {
                                         Color.Red
                                     } else if (index < password.length) {
-                                        Color(0xFF25A6FF)
+                                        Color(0xFF3B47DD)
                                     } else {
                                         Color(0xFFE5E5E5)
                                     },
@@ -1600,7 +1605,7 @@ fun SetPaymentPasswordDialog(
 //                Icon(
 //                    painter = painterResource(id = R.mipmap.ic_close_broad_topic), // 这里应该用一个锁的图标
 //                    contentDescription = "支付密码",
-//                    tint = Color(0xFF25A6FF),
+//                    tint = Color(0xFF3B47DD),
 //                    modifier = Modifier.size(48.dp)
 //                )
 
@@ -1653,7 +1658,7 @@ fun SetPaymentPasswordDialog(
                         onClick = onSetPassword,
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF25A6FF)
+                            containerColor = Color(0xFF3B47DD)
                         ),
                         shape = RoundedCornerShape(22.dp)
                     ) {

@@ -31,6 +31,8 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.MeetingCreateBroadActivity
+import com.cboda.intelligent.activity.QuickMeetingCreateActivity
 import com.cboda.intelligent.bean.MeetingDetailBroadBean
 import com.cboda.intelligent.bean.NoResultBroadBean
 import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity
@@ -676,7 +678,9 @@ class MyImManagerBroadHolder(private val context: Context?) {
 //                                                                    okGoHelper,
 //                                                                    context
 //                                                                )
-                                                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, PlatformParams.channelName, PlatformParams.token)
+
+                                                                QuickMeetingCreateActivity.launch(context,params2?:"",it.data?.mId ?: "",it.data?.name?:"")
+//                                                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, PlatformParams.channelName, PlatformParams.token)
                                                             } else {
                                                                 MeetCallManager.getInstance().callMeetAction(CallDirect.ANSWER, PlatformParams.channelName, PlatformParams.token)
                                                                 ToastBroadUtils.show("只有群主/管理员可以开启会议室")
