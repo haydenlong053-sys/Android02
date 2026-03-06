@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/black"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/addressLayout"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_16"
+        app:shape_solidColor="@color/white"
+        app:shape_radius="@dimen/dp_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/address"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingHorizontal="@dimen/dp_16"
+            android:textSize="14sp"
+            tools:text="oijsdakldjflksaj"
+            android:textColor="@color/black"
+            android:layout_width="@dimen/dp_0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/editAddressIv"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/time"
+            app:layout_constraintTop_toBottomOf="@id/address"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingHorizontal="@dimen/dp_16"
+            android:textSize="10sp"
+            tools:text="2025-04-02 22:30:32"
+            android:textColor="@color/black_45"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/editAddressIv"
+            android:layout_width="@dimen/dp_13"
+            android:src="@mipmap/icon_edit_address"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_18"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="@dimen/dp_13"/>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

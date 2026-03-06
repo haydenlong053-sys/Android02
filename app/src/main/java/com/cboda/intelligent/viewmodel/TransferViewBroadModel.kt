@@ -7,6 +7,11 @@ import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toLog
+import com.cboda.intelligent.bean.TransferAddressBean
 import com.cboda.intelligent.livedata.SingleLiveBroadData
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
@@ -20,14 +25,68 @@ import com.cboda.intelligent.model.SafeCenterBroadBean
 import com.cboda.intelligent.model.TransferInfoBroadBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.collections.HashMap
 
 
-class TransferViewBroadModel: BaseViewModel() {
+class TransferViewBroadModel : BaseViewModel() {
+
+
+    suspend fun addTransferAddress(address: String): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        val params = hashMapOf("addressType" to 2, "toAddress" to address)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2<Any>(
+                    UrlBroadBroadConstants.ADD_TRANSACTION_ADDRESS,
+                    Any::class.java,
+                    params
+                ).onSuccess {
+                    liveData.postValue(true)
+                }.onFailure { code, message ->
+                    showToastMain(message)
+                    liveData.postValue(false)
+                }.onError {
+                    liveData.postValue(false)
+                }
+
+            } catch (e: Exception) {
+                e.toLog("TransferViewBroadModelClass")
+                liveData.postValue(false)
+            }
+        }
+        return liveData
+    }
+
+    suspend fun getTransferAddress() :SingleLiveBroadData<TransferAddressBean?> {
+        val liveData = SingleLiveBroadData<TransferAddressBean?>()
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.GET_TRANSACTION_ADDRESS,
+                    TransferAddressBean::class.java,
+                    HashMap<String, Any>()
+                ).onSuccess {
+                    eLogD("TransferViewBroadModelClass","onSuccess:$it")
+                    liveData.postValue(it)
+                }.onFailure { code, message ->
+                    liveData.postValue(null)
+                }.onError {
+                    eLogD("TransferViewBroadModelClass","onError:$it")
+                }
+
+            } catch (e: Exception) {
+                e.toLog("TransferViewBroadModelClass")
+            }
+
+        }
+        return liveData
+    }
+
 
     /**
      * 获取资产初始信息
      */
-    suspend fun goTransferInfo() :SingleLiveBroadData<TransferInfoBroadBean>{
+    suspend fun goTransferInfo(): SingleLiveBroadData<TransferInfoBroadBean> {
         val safeCenterLiveData = SingleLiveBroadData<TransferInfoBroadBean>()
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
@@ -57,7 +116,7 @@ class TransferViewBroadModel: BaseViewModel() {
     /**
      * 获取转账人信息
      */
-    suspend fun getTransactionPersonInfo(receivingAddress: String) :SingleLiveBroadData<PersonInfoBean>{
+    suspend fun getTransactionPersonInfo(receivingAddress: String): SingleLiveBroadData<PersonInfoBean> {
         getTopBaseSimple2Activity()?.showLoading()
         val mLiveData = SingleLiveBroadData<PersonInfoBean>()
         val params = hashMapOf("receivingAddress" to receivingAddress)
@@ -91,7 +150,7 @@ class TransferViewBroadModel: BaseViewModel() {
      * 获取费率
      * type=1:转账(入金wx) 2:提现
      */
-    suspend fun getRateInfo(amount: String,type: Int=1,address: String) :SingleLiveBroadData<RateInfoBean>{
+    suspend fun getRateInfo(amount: String, type: Int = 1, address: String): SingleLiveBroadData<RateInfoBean> {
         val mLiveData = SingleLiveBroadData<RateInfoBean>()
         val params = hashMapOf<String, Any?>("amount" to amount)
         params["type"] = type
@@ -124,7 +183,7 @@ class TransferViewBroadModel: BaseViewModel() {
     /**
      * 转账交易下单
      */
-    suspend fun goTransactionAddOrder(receivingAddress: String,amount: String) :SingleLiveBroadData<OrderInfoBean>{
+    suspend fun goTransactionAddOrder(receivingAddress: String, amount: String): SingleLiveBroadData<OrderInfoBean> {
         getTopBaseSimple2Activity()?.showLoading()
         val mLiveData = SingleLiveBroadData<OrderInfoBean>()
         val params = hashMapOf<String, Any>()
@@ -158,7 +217,7 @@ class TransferViewBroadModel: BaseViewModel() {
     /**
      * 提现下单/asset/withdraw/add
      */
-    suspend fun goWithdrawAddOrder(receivingAddress: String,amount: String) :SingleLiveBroadData<OrderInfoBean>{
+    suspend fun goWithdrawAddOrder(receivingAddress: String, amount: String): SingleLiveBroadData<OrderInfoBean> {
         getTopBaseSimple2Activity()?.showLoading()
         val mLiveData = SingleLiveBroadData<OrderInfoBean>()
         val params = hashMapOf<String, Any>()
@@ -193,9 +252,9 @@ class TransferViewBroadModel: BaseViewModel() {
     /**
      * 转账列表
      */
-    suspend fun getTransferInfoList(pageNo: Int =1) :SingleLiveBroadData<NetworkListBroadResult<OrderInfoBean>>{
+    suspend fun getTransferInfoList(pageNo: Int = 1): SingleLiveBroadData<NetworkListBroadResult<OrderInfoBean>> {
         val safeCenterLiveData = SingleLiveBroadData<NetworkListBroadResult<OrderInfoBean>>()
-        val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonBroadConfig.pageSize)
+        val params = hashMapOf("pageNo" to pageNo, "pageSize" to CommonBroadConfig.pageSize)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncryptedList2<OrderInfoBean>(
@@ -219,12 +278,13 @@ class TransferViewBroadModel: BaseViewModel() {
         }
         return safeCenterLiveData
     }
+
     /**
      * 提现列表
      */
-    suspend fun getWithdrawInfoList(pageNo: Int =1) :SingleLiveBroadData<NetworkListBroadResult<OrderInfoBean>>{
+    suspend fun getWithdrawInfoList(pageNo: Int = 1): SingleLiveBroadData<NetworkListBroadResult<OrderInfoBean>> {
         val safeCenterLiveData = SingleLiveBroadData<NetworkListBroadResult<OrderInfoBean>>()
-        val params = hashMapOf("pageNo" to pageNo,"pageSize" to CommonBroadConfig.pageSize)
+        val params = hashMapOf("pageNo" to pageNo, "pageSize" to CommonBroadConfig.pageSize)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncryptedList2<OrderInfoBean>(
@@ -250,11 +310,10 @@ class TransferViewBroadModel: BaseViewModel() {
     }
 
 
-
     /**
      * 转账详情
      */
-    suspend fun goTransactionOrderDetail(id: String) :SingleLiveBroadData<OrderInfoBean>{
+    suspend fun goTransactionOrderDetail(id: String): SingleLiveBroadData<OrderInfoBean> {
         val mLiveData = SingleLiveBroadData<OrderInfoBean>()
         val params = hashMapOf("id" to id)
         withContext(Dispatchers.IO) {
@@ -279,10 +338,11 @@ class TransferViewBroadModel: BaseViewModel() {
         }
         return mLiveData
     }
+
     /**
      * 提现详情/asset/withdraw/detail
      */
-    suspend fun goWithdrawOrderDetail(id: String) :SingleLiveBroadData<OrderInfoBean>{
+    suspend fun goWithdrawOrderDetail(id: String): SingleLiveBroadData<OrderInfoBean> {
         val mLiveData = SingleLiveBroadData<OrderInfoBean>()
         val params = hashMapOf("id" to id)
         withContext(Dispatchers.IO) {
@@ -311,7 +371,7 @@ class TransferViewBroadModel: BaseViewModel() {
     /**
      * 安全中心
      */
-    suspend fun goSecurityCenter() :SingleLiveBroadData<SafeCenterBroadBean>{
+    suspend fun goSecurityCenter(): SingleLiveBroadData<SafeCenterBroadBean> {
         val safeCenterLiveData = SingleLiveBroadData<SafeCenterBroadBean>()
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
@@ -341,7 +401,7 @@ class TransferViewBroadModel: BaseViewModel() {
     /**
      * 是否第一次交易/api/member//security/first
      */
-    suspend fun checkSecurityFirst() :SingleLiveBroadData<ResultBooBean>{
+    suspend fun checkSecurityFirst(): SingleLiveBroadData<ResultBooBean> {
         val mLiveData = SingleLiveBroadData<ResultBooBean>()
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {

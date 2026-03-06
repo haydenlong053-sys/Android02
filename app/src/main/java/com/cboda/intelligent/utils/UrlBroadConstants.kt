@@ -49,6 +49,10 @@ object UrlBroadBroadConstants {
     const val BINDING_TWO_FACTOR_VALIDATE = "asset/google/bindingTwoFactorValidate"
     const val TWO_FACTOR_VALIDATE = "asset/google/validateGoogleTwoFactor"
     const val TRANSACTION_INITIALIZE = "asset/transaction/initialize"
+
+    const val ADD_TRANSACTION_ADDRESS = "asset/withdraw/address/add"
+    const val GET_TRANSACTION_ADDRESS = "asset/withdraw/address/getByIdno"
+
     const val TRANSACTION_PERSONINFO = "asset/transaction/personInfo"
     const val TRANSACTION_RATEINFO = "asset/transaction/rateInfo"
     const val TRANSACTION_ADD_ORDER = "asset/transaction/add"

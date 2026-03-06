@@ -169,7 +169,7 @@
         android:orientation="horizontal"
         >
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/mEtInputAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -186,6 +186,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/mTvPaste"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -195,6 +196,11 @@
             android:textColor="@color/color_3B47DDk"
             android:textSize="14sp"
             />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="@dimen/dp_50"
+            android:src="@mipmap/ic_auth_broad_go"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <EditText
