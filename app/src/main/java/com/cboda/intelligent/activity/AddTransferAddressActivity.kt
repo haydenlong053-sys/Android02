@@ -2,15 +2,12 @@ package com.cboda.intelligent.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isGone
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ClipboardUtils
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.showCommonStrTip
-import com.cboda.baselibrary.utils.showCommonTip
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.AddTransferAddressActivityBinding
