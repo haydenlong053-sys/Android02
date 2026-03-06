@@ -11,6 +11,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
+import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.TransferAddressBean
 import com.cboda.intelligent.livedata.SingleLiveBroadData
 import com.cboda.intelligent.configuration.CommonBroadConfig
@@ -57,21 +58,22 @@ class TransferViewBroadModel : BaseViewModel() {
         return liveData
     }
 
-    suspend fun getTransferAddress() :SingleLiveBroadData<TransferAddressBean?> {
-        val liveData = SingleLiveBroadData<TransferAddressBean?>()
+    suspend fun getTransferAddress() :SingleLiveBroadData<List<TransferAddressBean>?> {
+        val liveData = SingleLiveBroadData<List<TransferAddressBean>?>()
         withContext(Dispatchers.IO) {
             try {
-                NetworkBroadRepository.postEncrypted2(
+                NetworkBroadRepository.postEncryptedList2(
                     UrlBroadBroadConstants.GET_TRANSACTION_ADDRESS,
                     TransferAddressBean::class.java,
                     HashMap<String, Any>()
                 ).onSuccess {
                     eLogD("TransferViewBroadModelClass","onSuccess:$it")
-                    liveData.postValue(it)
+                    liveData.postValue(it?.list)
                 }.onFailure { code, message ->
                     liveData.postValue(null)
                 }.onError {
                     eLogD("TransferViewBroadModelClass","onError:$it")
+                    showToastMain(R.string.httperror)
                 }
 
             } catch (e: Exception) {
@@ -103,7 +105,7 @@ class TransferViewBroadModel : BaseViewModel() {
                 }.onFailure { code, message ->
                     showToastMain(message)
                 }.onError {
-
+                    showToastMain(R.string.httperror)
                 }
 
             } catch (e: Exception) {

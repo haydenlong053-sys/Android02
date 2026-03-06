@@ -55,11 +55,11 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
     private fun refreshAddress(isReturn: Boolean) {
         lifecycleScope.launch {
             viewModel.getTransferAddress().observe(this@AddTransferAddressActivity) {
-                if (null != it) {
+                if (null != it && it.isNotEmpty()) {
                     mBind?.cardViewLayout?.isGone = false
                     mBind?.addressLayout?.isGone = false
-                    mBind?.address?.text = it.toAddress
-                    mBind?.time?.text = it.createTime
+                    mBind?.address?.text = it[0].toAddress
+                    mBind?.time?.text = it[0].createTime
                 } else {
                     mBind?.cardViewLayout?.isGone = true
                     getRightImg()?.setImageResource(R.mipmap.ic_add_broad_black)
