@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Transfer Tutarı</string>
     <string name="bianjixiaoxineirong">Mesaj içeriğini düzenle</string>
     <string name="mourendehongbao">%1$s\'nin kırmızı zarfı</string>
-    <string name="yuanqian">ODIK</string>
+    <string name="yuanqian">ODIC</string>
     <string name="yilingquhongbao">%1$s alındı, toplam %2$s yuan</string>
     <string name="daishoulkuan">Ödeme bekleniyor</string>
     <string name="zhuanzhuangshijian">Transfer zamanı</string>
@@ -246,7 +246,7 @@
     <string name="确定">Onayla</string>
     <string name="点击保存图片">Resmi kaydetmek için tıklayın</string>
     <string name="设置签名">İmzayı ayarla</string>
-    <string name="人民币">ODIK</string>
+    <string name="人民币">ODIC</string>
     <string name="当前余额">Mevcut bakiye</string>
     <string name="充值">Yükleme yap</string>
     <string name="提现">Para çek</string>

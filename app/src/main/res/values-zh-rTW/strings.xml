@@ -280,7 +280,7 @@
     <string name="确定">確定</string>
     <string name="点击保存图片">點擊保存圖片</string>
     <string name="设置签名">設置簽名</string>
-    <string name="人民币">ODIK</string>
+    <string name="人民币">ODIC</string>
     <string name="当前余额">當前餘額</string>
     <string name="充值">充值</string>
     <string name="提现">提現</string>
@@ -487,7 +487,7 @@
     <string name="mine_look_go">前往查看</string>
     <string name="mine_change_auth_des2">使用已绑定方式验证+支付密码</string>
     <string name="保存二维码">保存二维码</string>
-    <string name="webX_name">ODIK</string>
+    <string name="webX_name">ODIC</string>
     <string name="获取设备验证码">获取设备验证码</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="action_save">保存</string>

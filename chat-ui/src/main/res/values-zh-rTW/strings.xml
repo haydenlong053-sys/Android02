@@ -159,8 +159,8 @@
     <string name="bianjixiaoxineirong">編輯訊息內容</string>
     <!-- 為避免個別環境下 aapt2 對 Unicode 的解析問題，這裡使用簡單 ASCII 文字 -->
     <string name="mourendehongbao">%1$s 的紅包</string>
-    <string name="yuanqian">ODIK</string>
-    <string name="yilingquhongbao">已領 %1$s 個，共 %2$s ODIK</string>
+    <string name="yuanqian">ODIC</string>
+    <string name="yilingquhongbao">已領 %1$s 個，共 %2$s ODIC</string>
     <string name="daishoulkuan">待收款</string>
     <string name="zhuanzhuangshijian">轉帳時間</string>
     <string name="shoukuan">收款</string>

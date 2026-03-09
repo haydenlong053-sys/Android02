@@ -158,8 +158,8 @@
     <string name="zhuanzhangjine">Transfer amount</string>
     <string name="bianjixiaoxineirong">Edit message content</string>
     <string name="mourendehongbao">%1$s\'s red envelope</string>
-    <string name="yuanqian">ODIK</string>
-    <string name="yilingquhongbao">Received %1$s, total %2$sODIK</string>
+    <string name="yuanqian">ODIC</string>
+    <string name="yilingquhongbao">Received %1$s, total %2$sODIC</string>
     <string name="daishoulkuan">Pending payment</string>
     <string name="zhuanzhuangshijian">Transfer time</string>
     <string name="shoukuan">Receive payment</string>
