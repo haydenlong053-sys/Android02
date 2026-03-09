@@ -108,8 +108,9 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/danmakuIv"
                     android:layout_width="@dimen/dp_66"
-                    android:layout_height="@dimen/dp_66"
+                    android:layout_height="@dimen/dp_74"
                     android:layout_gravity="bottom|end"
+                    android:paddingTop="@dimen/dp_8"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/icon_dm" />
 

@@ -20,7 +20,17 @@ class DanMaPop(context: Context): BasePopupWindow(context) {
         popupGravity = Gravity.TOP
         setBackgroundColor(Color.parseColor("#00ffffff"))
     }
-
+//    override fun onCreateContentView(): View {
+//        val contentView = createPopupById(R.layout.popup_content)
+//
+//        // 获取根布局的 LayoutParams
+//        val params = contentView.layoutParams
+//        params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+//        params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+//        contentView.layoutParams = params
+//
+//        return contentView
+//    }
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
 //        binding.mTvCancel.setOnClickListener {
@@ -31,6 +41,7 @@ class DanMaPop(context: Context): BasePopupWindow(context) {
 //            dismiss()
 //
 //        }
+
         initData()
 
     }
