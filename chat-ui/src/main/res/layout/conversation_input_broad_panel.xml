@@ -14,11 +14,11 @@
         <com.hjq.shape.layout.ShapeLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginHorizontal="@dimen/dp_8"
             android:animateLayoutChanges="true"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            app:shape_radius="@dimen/dp_24"
+            app:shape_radius="@dimen/dp_30"
             app:shape_solidColor="@color/color_bg_input">
 
             <LinearLayout
@@ -84,16 +84,20 @@
                     android:gravity="center">
 
                     <LinearLayout
+
+                        android:layout_gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <FrameLayout
+                            android:layout_gravity="center_vertical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <EditText
+                                android:layout_gravity="center_vertical"
                                 android:id="@+id/editText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -102,8 +106,8 @@
                                 android:hint="@string/msg_input"
                                 android:maxLines="5"
                                 android:minHeight="42dp"
+                                android:paddingVertical="@dimen/dp_6"
                                 android:paddingStart="12dp"
-                                android:paddingTop="6dp"
                                 android:paddingEnd="40dp"
                                 android:textColor="@color/color_text0"
                                 android:textColorHint="@color/black35"

@@ -634,11 +634,11 @@ public class ConversationBroadFragment extends Fragment implements
 
     private void initView() {
         rootLinearLayoutBroad.addOnKeyboardShownListener(this);
-        verticalDanmakuView.setImageLoader((imageView, s) -> {
-            imageView.setVisibility(View.VISIBLE);
-            loadImg(imageView, s);
-            return null;
-        });
+//        verticalDanmakuView.setImageLoader((imageView, s) -> {
+//            imageView.setVisibility(View.VISIBLE);
+//            loadImg(imageView, s);
+//            return null;
+//        });
         swipeRefreshLayoutBroad.setOnRefreshListener(() -> {
             if (adapterBroad.getMessages() == null || adapterBroad.getMessages().isEmpty()) {
                 swipeRefreshLayoutBroad.setRefreshing(false);
