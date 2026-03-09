@@ -6,6 +6,7 @@ package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -78,6 +79,7 @@ import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.conversation.multimsg.MultiMessageBroadAction;
 import com.cboda.chatui.conversation.multimsg.MultiMessageActionBroadManager;
 import com.cboda.chatui.conversation.receipt.GroupMessageReceiptBroadActivity;
+import com.cboda.chatui.dialog.DanMaPop;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.group.PickGroupMemberBroadActivity;
 import com.cboda.chatui.third.utils.UIBroadUtils;
@@ -116,6 +118,7 @@ import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
@@ -149,6 +152,7 @@ public class ConversationBroadFragment extends Fragment implements
     InputAwareBroadLayout rootLinearLayoutBroad;
     SwipeRefreshLayout swipeRefreshLayoutBroad;
     VerticalDanmakuView verticalDanmakuView;
+    ImageView danmakuIv;
     RecyclerView recyclerViewBroad;
 
     RecyclerView ongoingCallRecyclerViewBroad;
@@ -174,7 +178,8 @@ public class ConversationBroadFragment extends Fragment implements
     private GroupViewBroadModel groupBroadViewModel;
     private ChatRoomViewBroadModel chatRoomBroadViewModel;
 
-    private Handler handlerBroad=ThreadUtils.getMainHandler();;
+    private Handler handlerBroad = ThreadUtils.getMainHandler();
+    ;
     private long initialFocusedBroadMessageId;
     private long firstUnreadBroadMessageId;
     // 用户channel主发起，针对某个用户的会话
@@ -523,6 +528,7 @@ public class ConversationBroadFragment extends Fragment implements
         rootLinearLayoutBroad = view.findViewById(R.id.rootLinearLayout);
         swipeRefreshLayoutBroad = view.findViewById(R.id.swipeRefreshLayout);
         verticalDanmakuView = view.findViewById(R.id.verticalDanmakuView);
+        danmakuIv = view.findViewById(R.id.danmakuIv);
         recyclerViewBroad = view.findViewById(R.id.msgRecyclerView);
         ongoingCallRecyclerViewBroad = view.findViewById(R.id.ongoingCallRecyclerView);
         tvPhoneLoginBroad = view.findViewById(R.id.tvPhoneLogin);
@@ -639,6 +645,14 @@ public class ConversationBroadFragment extends Fragment implements
 //            loadImg(imageView, s);
 //            return null;
 //        });
+        click(danmakuIv, new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                DanMaPop danMaPop = new DanMaPop(getActivity());
+                danMaPop.showPopupWindow(danmakuIv);
+                return null;
+            }
+        });
         swipeRefreshLayoutBroad.setOnRefreshListener(() -> {
             if (adapterBroad.getMessages() == null || adapterBroad.getMessages().isEmpty()) {
                 swipeRefreshLayoutBroad.setRefreshing(false);
