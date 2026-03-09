@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.doOnLayout
+import androidx.core.view.isGone
 import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.R
@@ -396,13 +397,13 @@ class VerticalDanmakuView @JvmOverloads constructor(
             clickListener = item.onClick
 
             if (item.showAvatar && !item.avatarUrl.isNullOrBlank()) {
-                ivAvatar.visibility = VISIBLE
+                ivAvatar.isGone = imageLoader==null
                 imageLoader?.invoke(ivAvatar, item.avatarUrl)
             } else if (item.iconResId != null) {
-                ivAvatar.visibility = VISIBLE
+                ivAvatar.isGone = false
                 ivAvatar.setImageResource(item.iconResId)
             } else {
-                ivAvatar.visibility = GONE
+                ivAvatar.isGone = true
             }
 
             rootView.setOnClickListener { clickListener?.invoke() }
@@ -411,7 +412,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
         fun reset() {
             tvContent.text = ""
             ivAvatar.setImageResource(0)
-            ivAvatar.visibility = View.GONE
+            ivAvatar.isGone = true
             clickListener = null
             rootView.setOnClickListener(null)
             rootView.alpha = 1f

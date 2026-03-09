@@ -249,13 +249,13 @@ class AiAllFragment :
             clearChooseData()
         }
         binding.shapeView.click {
-//            when (resourceType) {
-//                DOCUMENT_TYPE -> chooseDocument()
-//                IMAGE_TYPE -> chooseImg()
-//                VOICE_TYPE -> chooseAudio()
-//                VIDEO_TYPE -> chooseVideo()
-//            }
-            startActivity(Intent(activity, TestActivity::class.java))
+            when (resourceType) {
+                DOCUMENT_TYPE -> chooseDocument()
+                IMAGE_TYPE -> chooseImg()
+                VOICE_TYPE -> chooseAudio()
+                VIDEO_TYPE -> chooseVideo()
+            }
+//            startActivity(Intent(activity, TestActivity::class.java))
         }
         adapter.setOnItemClickListener { _, _ ->
             chooseImg()

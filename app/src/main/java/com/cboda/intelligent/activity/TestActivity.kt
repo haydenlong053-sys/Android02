@@ -16,21 +16,21 @@ class TestActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = (binding as? TestActivityBinding)
-        mBinding?.verticalDanmakuView?.imageLoader = { imageView, url ->
-            if (url.isNullOrBlank()) {
-                imageView.visibility = View.GONE
-            } else {
-                imageView.visibility = View.VISIBLE
-                imageView.loadImg(url)
-            }
-        }
+//        mBinding?.verticalDanmakuView?.imageLoader = { imageView, url ->
+//            if (url.isNullOrBlank()) {
+//                imageView.visibility = View.GONE
+//            } else {
+//                imageView.visibility = View.VISIBLE
+//                imageView.loadImg(url)
+//            }
+//        }
 //        testDanmaku()
         mBinding?.addData?.setOnClickListener {
             count++
             mBinding?.verticalDanmakuView?.addDanmaku(
                 DanmakuItem(
                     text = "用户 ${count}: 这条弹幕带头像",
-                    avatarUrl = "https://img0.baidu.com/it/u=3582218749,1515921929&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750",
+                    avatarUrl = "",
                     showAvatar = true,
                     textColor = if (count % 5 == 0) Color.YELLOW else Color.WHITE,
                     isMeSend = count % 5 == 0,
