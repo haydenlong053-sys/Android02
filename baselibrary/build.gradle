@@ -80,6 +80,8 @@ dependencies {
     api libs.refresh.layout.kernel
     api libs.refresh.header.material
     api libs.refresh.footer.ball
+//    api libs.api.router
+//    kapt libs.kapt.router
     implementation libs.okhttp3
     implementation libs.mmkv
     implementation libs.androidx.core

@@ -55,7 +55,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+//        TheRouter.inject(this)
 //        val language = MMKVBroadUtils.getYuYan()
 
 //        val zhuti = getZt()
@@ -286,7 +286,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
      * 设置是否需要支持ImmersionBar
      *  true代表需要初始化 false代表不需要
      */
-    protected  open  fun isEnableImmerBar(): Boolean{
+    protected open fun isEnableImmerBar(): Boolean {
         return true
     }
 
@@ -431,7 +431,7 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
             return
         }
         if (dialogHelper == null) {
-            dialogHelper = LoadingBroadDialog(this,"")
+            dialogHelper = LoadingBroadDialog(this, "")
         }
         dialogHelper?.show()
         dialogHelper?.setCanceledOnTouchOutside(true)

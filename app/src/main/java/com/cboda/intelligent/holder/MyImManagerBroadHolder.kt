@@ -79,6 +79,9 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             JumpBroadUtils.startQunInfoActivity(mContext, params ?: "")
                         }
 
+                        BridgeImEnum.GROUP_GAG.value -> {
+                            JumpBroadUtils.startQunJinYanActivity(mContext, params ?: "")
+                        }
 
                         BridgeImEnum.GET_USER_DATA.value -> {
                             val map = mapOf(
@@ -152,7 +155,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                             if (bean.data?.isFri == "1") {
                                                 JumpBroadUtils.startHaoYouAddActivity(
                                                     mContext,
-                                                    params ?: "","1"
+                                                    params ?: "", "1"
                                                 )
                                             } else {
                                                 JumpBroadUtils.startHaoYouAddActivity(
@@ -578,7 +581,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             intent.putExtra("video", params ?: "")
                             intent.putExtra("videoImage", params ?: "")
                             msg?.message?.let {
-                                intent.putExtra("messageId",it.messageId)
+                                intent.putExtra("messageId", it.messageId)
                             }
 //                            msg?.let {
 //                                if (it.message.content is VideoMessageContent &&(it.message.content as VideoMessageContent).thumbnail !=null){

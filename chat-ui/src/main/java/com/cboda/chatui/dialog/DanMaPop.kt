@@ -5,12 +5,15 @@ import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.isGone
+import com.cboda.baselibrary.utils.click
 import com.cboda.chatui.databinding.DanMaPopularBinding
 import razerdp.basepopup.BasePopupWindow
 
-class DanMaPop(context: Context): BasePopupWindow(context) {
+class DanMaPop(context: Context, val isGroupOwner: Boolean) : BasePopupWindow(context) {
 
-    var sureInvoke:()-> Unit ={}
+    var clickInvoke: (Int) -> Unit = {}
     private var binding = DanMaPopularBinding.inflate(
         LayoutInflater.from(context)
     )
@@ -20,55 +23,58 @@ class DanMaPop(context: Context): BasePopupWindow(context) {
         popupGravity = Gravity.TOP
         setBackgroundColor(Color.parseColor("#00ffffff"))
     }
-//    override fun onCreateContentView(): View {
-//        val contentView = createPopupById(R.layout.popup_content)
-//
-//        // 获取根布局的 LayoutParams
-//        val params = contentView.layoutParams
-//        params.width = ViewGroup.LayoutParams.WRAP_CONTENT
-//        params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-//        contentView.layoutParams = params
-//
-//        return contentView
-//    }
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
-//        binding.mTvCancel.setOnClickListener {
-//            dismiss()
-//        }
-//        binding.mTvSure.setOnClickListener {
-//            sureInvoke.invoke()
-//            dismiss()
-//
-//        }
-
-        initData()
-
+        binding.picIv.isGone = !isGroupOwner
+        binding.picTv.isGone = !isGroupOwner
+        binding.gagIv.isGone = !isGroupOwner
+        binding.gagTv.isGone = !isGroupOwner
+        binding.removeGagIv.isGone = !isGroupOwner
+        binding.removeGagTv.isGone = !isGroupOwner
+        width = ViewGroup.LayoutParams.WRAP_CONTENT
+        binding.flowerIv.click {
+            clickInvoke.invoke(1)
+            dismiss()
+        }
+        binding.flowerTv.click {
+            clickInvoke.invoke(1)
+            dismiss()
+        }
+        binding.acclamationIv.click {
+            clickInvoke.invoke(2)
+            dismiss()
+        }
+        binding.acclamationTv.click {
+            clickInvoke.invoke(2)
+            dismiss()
+        }
+        binding.picIv.click {
+            clickInvoke.invoke(3)
+            dismiss()
+        }
+        binding.picTv.click {
+            clickInvoke.invoke(3)
+            dismiss()
+        }
+        binding.gagIv.click {
+            clickInvoke.invoke(4)
+            dismiss()
+        }
+        binding.gagTv.click {
+            clickInvoke.invoke(4)
+            dismiss()
+        }
+        binding.removeGagIv.click {
+            clickInvoke.invoke(5)
+            dismiss()
+        }
+        binding.removeGagTv.click {
+            clickInvoke.invoke(5)
+            dismiss()
+        }
     }
-
-    fun setSureBtn(strName: String ="") :BasePopupWindow {
-//        binding.mTvSure.text =strName
-        return this
-    }
-
-    fun setCancelBtn(strName: String ="") :BasePopupWindow {
-//        binding.mTvCancel.text =strName
-        return this
-    }
-    private fun initData() {
-//        binding.mTvTitle.text = title
-//        binding.mTvDes.text = des
-//        if (context is AppCompatActivity) {
-//            val activity = context
-//            viewModel =
-//                ViewModelProvider(activity).get<TransferViewBroadModel>(TransferViewBroadModel::class.java)
-//        }
-
-    }
-
 
     override fun onDismiss() {
-//        scope.cancel()
         super.onDismiss()
     }
 }

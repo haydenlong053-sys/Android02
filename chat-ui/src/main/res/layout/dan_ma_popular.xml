@@ -1,119 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="end"
-    android:alpha="0.8"
-    android:paddingHorizontal="@dimen/dp_8"
-    android:paddingVertical="@dimen/dp_12"
-    app:shape_radius="@dimen/dp_12"
-    app:shape_solidColor="@color/black"
-    tools:background="@color/black">
+    android:orientation="horizontal">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/flowerIv"
-        android:layout_width="@dimen/dp_58"
-        android:layout_height="@dimen/dp_42"
-        android:paddingHorizontal="@dimen/dp_8"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_danma_xh"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/flowerTv"
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="鲜花"
-        android:textColor="@color/color_white_90"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/flowerIv"
-        app:layout_constraintStart_toStartOf="@id/flowerIv"
-        app:layout_constraintTop_toBottomOf="@id/flowerIv" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/acclamationIv"
-        android:layout_width="@dimen/dp_58"
-        android:layout_height="@dimen/dp_42"
+        android:alpha="0.8"
         android:paddingHorizontal="@dimen/dp_8"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_danma_gz"
-        app:layout_constraintStart_toEndOf="@id/flowerIv"
-        app:layout_constraintTop_toTopOf="@id/flowerIv" />
+        android:paddingVertical="@dimen/dp_12"
+        app:shape_radius="@dimen/dp_12"
+        app:shape_solidColor="@color/black">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/acclamationTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="鼓掌"
-        android:textColor="@color/color_white_90"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/acclamationIv"
-        app:layout_constraintStart_toStartOf="@id/acclamationIv"
-        app:layout_constraintTop_toTopOf="@id/flowerTv" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/flowerIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_danma_xh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/picIv"
-        android:layout_width="@dimen/dp_58"
-        android:layout_height="@dimen/dp_42"
-        android:paddingHorizontal="@dimen/dp_8"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_danma_pic"
-        app:layout_constraintStart_toEndOf="@id/acclamationIv"
-        app:layout_constraintTop_toTopOf="@id/flowerIv" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/flowerTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="鲜花"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/flowerIv"
+            app:layout_constraintStart_toStartOf="@id/flowerIv"
+            app:layout_constraintTop_toBottomOf="@id/flowerIv" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/picTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="图片"
-        android:textColor="@color/color_white_90"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/picIv"
-        app:layout_constraintStart_toStartOf="@id/picIv"
-        app:layout_constraintTop_toTopOf="@id/flowerTv" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/acclamationIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_danma_gz"
+            app:layout_constraintStart_toEndOf="@id/flowerIv"
+            app:layout_constraintTop_toTopOf="@id/flowerIv" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/gagIv"
-        android:layout_width="@dimen/dp_58"
-        android:layout_height="@dimen/dp_42"
-        android:paddingHorizontal="@dimen/dp_8"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_danma_jy"
-        app:layout_constraintStart_toEndOf="@id/picIv"
-        app:layout_constraintTop_toTopOf="@id/flowerIv" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/acclamationTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="鼓掌"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/acclamationIv"
+            app:layout_constraintStart_toStartOf="@id/acclamationIv"
+            app:layout_constraintTop_toTopOf="@id/flowerTv" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/gagTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="禁言"
-        android:textColor="@color/color_white_90"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/gagIv"
-        app:layout_constraintStart_toStartOf="@id/gagIv"
-        app:layout_constraintTop_toTopOf="@id/flowerTv" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/picIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_danma_pic"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/acclamationIv"
+            app:layout_constraintTop_toTopOf="@id/flowerIv"
+            tools:visibility="visible" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/removeGagIv"
-        android:layout_width="@dimen/dp_58"
-        android:layout_height="@dimen/dp_42"
-        android:paddingHorizontal="@dimen/dp_8"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_danma_jy"
-        app:layout_constraintStart_toEndOf="@id/gagIv"
-        app:layout_constraintTop_toTopOf="@id/flowerIv" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/picTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/picIv"
+            app:layout_constraintStart_toStartOf="@id/picIv"
+            app:layout_constraintTop_toTopOf="@id/flowerTv"
+            tools:visibility="visible" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/removeGagTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="解禁言"
-        android:textColor="@color/color_white_90"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/removeGagIv"
-        app:layout_constraintStart_toStartOf="@id/removeGagIv"
-        app:layout_constraintTop_toTopOf="@id/flowerTv" />
-</com.hjq.shape.layout.ShapeConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/gagIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_danma_jy"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/picIv"
+            app:layout_constraintTop_toTopOf="@id/flowerIv"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gagTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="禁言"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/gagIv"
+            app:layout_constraintStart_toStartOf="@id/gagIv"
+            app:layout_constraintTop_toTopOf="@id/flowerTv"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/removeGagIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_danma_jy"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/gagIv"
+            app:layout_constraintTop_toTopOf="@id/flowerIv"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/removeGagTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="解禁言"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/removeGagIv"
+            app:layout_constraintStart_toStartOf="@id/removeGagIv"
+            app:layout_constraintTop_toTopOf="@id/flowerTv"
+            tools:visibility="visible" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+    <Space
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="wrap_content" />
+</LinearLayout>

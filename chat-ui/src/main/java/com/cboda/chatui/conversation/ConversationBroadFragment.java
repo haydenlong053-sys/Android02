@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.conversation;
 
+import static com.blankj.utilcode.util.SizeUtils.dp2px;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
@@ -118,9 +119,7 @@ import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
 import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
-import kotlin.jvm.functions.Function2;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
@@ -645,13 +644,25 @@ public class ConversationBroadFragment extends Fragment implements
 //            loadImg(imageView, s);
 //            return null;
 //        });
-        click(danmakuIv, new Function0<Unit>() {
-            @Override
-            public Unit invoke() {
-                DanMaPop danMaPop = new DanMaPop(getActivity());
-                danMaPop.showPopupWindow(danmakuIv);
+        click(danmakuIv, () -> {
+            Activity activity = getActivity();
+            if (activity == null) {
                 return null;
             }
+            DanMaPop danMaPop = new DanMaPop(activity, true);
+            danMaPop.setClickInvoke(integer -> {
+                switch (integer) {
+                    case 1:
+
+                        break;
+                    case 4, 5:
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.GROUP_GAG.getValue(), conversationBroad.target, "", null);
+                        break;
+                }
+                return null;
+            });
+            danMaPop.showPopupWindow(danmakuIv);
+            return null;
         });
         swipeRefreshLayoutBroad.setOnRefreshListener(() -> {
             if (adapterBroad.getMessages() == null || adapterBroad.getMessages().isEmpty()) {
