@@ -8,7 +8,7 @@ import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.base.BaseViewBroadModel
-import com.cboda.intelligent.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SignInfoViewBroadModel
 import com.cboda.intelligent.model.UserInfoBroadModel

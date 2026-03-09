@@ -12,7 +12,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.fragment.AiAllFragment.Companion.VIDEO_TYPE
-import com.cboda.intelligent.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.bean.AiResultListBean
 import com.cboda.intelligent.configuration.CommonBroadConfig

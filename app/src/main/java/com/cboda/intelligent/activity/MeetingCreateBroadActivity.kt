@@ -208,8 +208,8 @@ fun MeetingCreateScreen(
                         onDurationSelected = { duration ->
                             viewModel.updateSelectedDuration(duration)
                         },
-                        timeOptions = uiState.config?.timeOline ?: emptyList(),
-                        renewalRules = uiState.config?.renewalRules ?: ""
+                        timeOptions = uiState.config?.durationConfigList ?: emptyList(),
+                        renewalRules = uiState.config?.billingRule?.roundingRule ?: ""
                     )
                 }
 
@@ -226,7 +226,7 @@ fun MeetingCreateScreen(
                 item {
                     OptionItem(
                         title = stringResource(id = com.cboda.intelligent.R.string.meeting_participants),
-                        selectedText = uiState.selectedUserTier?.name
+                        selectedText = uiState.selectedUserTier?.tierName
                             ?: stringResource(id = com.cboda.intelligent.R.string.meeting_please_select),
                         onClick = {
                             showUserTierDialog = true
@@ -294,7 +294,7 @@ fun MeetingCreateScreen(
     // 用户等级选择对话框
     if (showUserTierDialog) {
         UserTierSelectionDialog(
-            userTierOptions = uiState.config?.userTierOptions ?: emptyList(),
+            userTierOptions = uiState.config?.userTierConfigList ?: emptyList(),
             currentSelection = uiState.selectedUserTier,
             onDismiss = { showUserTierDialog = false },
             onOptionSelected = { userTier ->

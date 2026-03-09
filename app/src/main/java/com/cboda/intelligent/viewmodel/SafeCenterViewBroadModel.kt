@@ -1,13 +1,12 @@
 package com.cboda.intelligent.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.intelligent.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.intelligent.bean.CommonSelectBroadBean
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.utils.BaseBroadCallback

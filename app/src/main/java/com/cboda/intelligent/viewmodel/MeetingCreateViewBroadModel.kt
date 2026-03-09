@@ -6,10 +6,8 @@ import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.getAppContext
-import com.cboda.intelligent.dialog.pop.PasswordPricedPop
+import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.intelligent.model.CreateMeetingRequest
 import com.cboda.intelligent.model.CreateMeetingResponse
 import com.cboda.intelligent.model.MeetingCreateUiState
@@ -25,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Deprecated("废弃")
 class MeetingCreateViewBroadModel(
     private val repository: MeetingBroadRepository = MeetingBroadRepository()
 ) : BaseViewModel() {
@@ -48,10 +47,10 @@ class MeetingCreateViewBroadModel(
                 .onSuccess { config ->
                     config?.let {
                         // 为TimeOption添加基于索引的id（如果服务器没有返回id或id重复）
-                        val processedTimeOptions = config.timeOline.mapIndexed { index, timeOption ->
+                        val processedTimeOptions = config.durationConfigList.mapIndexed { index, timeOption ->
                             // 如果id为0或者与其他选项重复，则使用index+1作为id
                             val needsNewId = timeOption.id == 0 || 
-                                           config.timeOline.count { it.id == timeOption.id } > 1
+                                           config.durationConfigList.count { it.id == timeOption.id } > 1
                             
                             if (needsNewId) {
                                 timeOption.copy(id = index + 1)
@@ -60,17 +59,17 @@ class MeetingCreateViewBroadModel(
                             }
                         }
                         
-                        val updatedConfig = config.copy(timeOline = processedTimeOptions)
+                        val updatedConfig = config.copy(durationConfigList = processedTimeOptions)
                         
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
                             config = updatedConfig,
-                            allMic = config.allMic,
-                            allMute = config.allMute,
-                            isNonPayPwd = config.isNonPayPwd
+                            allMic = config.allMembersMicOn,
+                            allMute = config.allMembersMuted,
+                            isNonPayPwd = config.autoRenewPayWithoutPassword
                         )
 
-                        eLogD("MeetingCreateViewBroadModel", "Processed TimeOptions: ${processedTimeOptions.map { "${it.name}(id=${it.id})" }}")
+                        eLogD("MeetingCreateViewBroadModel", "Processed TimeOptions: ${processedTimeOptions.map { "${it.durationName}(id=${it.id})" }}")
                     }
                 }
                 .onFailure { code, message, data ->
@@ -177,8 +176,8 @@ class MeetingCreateViewBroadModel(
      */
     private fun queryPriceIfReady() {
         val currentState = _uiState.value
-        val duration = currentState.selectedDuration?.value
-        val userCount = currentState.selectedUserTier?.value
+        val duration = currentState.selectedDuration?.durationValue
+        val userCount = currentState.selectedUserTier?.tierValue
         
         if (duration != null && userCount != null) {
             queryMeetingPrice(duration, userCount)
@@ -203,9 +202,9 @@ class MeetingCreateViewBroadModel(
                 .onSuccess { response ->
                     response?.let {
                         _uiState.value = _uiState.value.copy(
-                            currentPrice = response.discountMeetingTokens.toDouble(),
-                            originalPrice = response.meetingTokens.toDouble(),
-                            availableTokens = response.availableTokens.toDouble(),
+                            currentPrice = response.liveAmount?.toDouble()?:0.0,
+                            originalPrice = response.meetingTokens?.toDouble()?:0.0,
+                            availableTokens = response.currentAmount?.toDouble()?:0.0,
                             isPriceLoading = false
                         )
                     }
@@ -405,7 +404,7 @@ class MeetingCreateViewBroadModel(
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             
             // 使用选中的用户等级的值作为最大参与人数
-            val maxParticipants = currentState.selectedUserTier?.value ?: 100
+            val maxParticipants = currentState.selectedUserTier?.tierValue ?: 100
             
             // 将日期时间转换为毫秒级时间戳
             val startTimeTimestamp = try {
@@ -423,7 +422,7 @@ class MeetingCreateViewBroadModel(
                 ownerId = ChatManager.Instance().userId,
                 roomName = currentState.roomName,
                 startTime = startTimeTimestamp.toString(), // 使用毫秒级时间戳字符串
-                meetingTime = currentState.selectedDuration?.value ?: 0,
+                meetingTime = currentState.selectedDuration?.durationValue ?: 0,
                 meetingMaxUsers = maxParticipants,
                 allMic = currentState.allMic,
                 allMute = currentState.allMute,

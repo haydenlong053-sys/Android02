@@ -34,7 +34,7 @@ interface CallEventCallback{
     /**
      * 声网rtc token 无效或过期
      */
-    fun onRtcTokenFail() {
+    fun onRtcTokenFail(reason: Int) {
 
     }
 

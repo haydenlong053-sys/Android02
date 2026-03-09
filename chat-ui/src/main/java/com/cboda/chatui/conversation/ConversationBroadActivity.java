@@ -439,8 +439,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         if (conversationBroad.type == Conversation.ConversationType.Group) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
-            PluginLayout meetPlugin = new MeetPlugin(this);
+            MeetPlugin meetPlugin = new MeetPlugin(this);
             getLifecycle().addObserver(meetPlugin);
+            meetPlugin.queryMeetInfo(conversationBroad.target,"active");
         }
 
 

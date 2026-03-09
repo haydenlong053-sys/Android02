@@ -6,8 +6,11 @@ import com.cboda.intelligent.bean.MeetingData
  * 用户人数选项
  */
 data class UserTierBroadOption(
-    val name: String,
-    val value: Int
+    val id: Int,
+    val status: Int,
+    val tierName: String,
+    val tierSort: Int,
+    val tierValue: Int,
 )
 
 /**
@@ -15,22 +18,27 @@ data class UserTierBroadOption(
  */
 data class TimeOption(
     val id:Int,
-    val name: String,
-    val value: Int // 分钟数
+    val durationName: String,
+    val durationValue: Int // 分钟数
 )
 
 /**
  * 会议配置数据
  */
 data class MeetingConfig(
-    val allMic: Boolean,                    // 是否全禁麦
-    val allMute: Boolean,                   // 是否全禁言
+    val allMembersMicOn: Boolean,                    // 是否全禁麦
+    val allMembersMuted: Boolean,                   // 是否全禁言
 //    val stepConsumptionToken: Int,          // 每30分钟消耗的token
     val timeZone: String,                   // 时区
-    val userTierOptions: List<UserTierBroadOption>, // 用户人数选项
-    val timeOline: List<TimeOption>,        // 时间选项
-    val isNonPayPwd: Boolean,               // 是否支持续时免密支付
-    val renewalRules: String                // 续费规则说明文本
+    val userTierConfigList: List<UserTierBroadOption>, // 用户人数选项
+    val durationConfigList: List<TimeOption>,        // 时间选项
+    val autoRenewPayWithoutPassword: Boolean,               // 是否支持续时免密支付
+    val billingRule: BillingRuleBean                // 续费规则说明文本
+)
+
+data class BillingRuleBean(
+    val roundingRule: String,
+    val unitPrice: Double=0.0
 )
 
 /**
@@ -62,16 +70,18 @@ data class PaymentPasswordVerifyResponse(
 data class PriceQueryRequest(
     val ownerId: String,                    // 用户ID
     val meetingTime: String,                // 会议时长（分钟）
-    val meetingMaxUsers: String             // 最大用户数
+    val meetingMaxUsers: String ,            // 最大用户数
+    val durationConfigId: Int=0,
+    val userTierConfigId: Int=0,
 )
 
 /**
  * 价格查询响应
  */
 data class PriceQueryResponse(
-    val discountMeetingTokens: String,      // 折扣后价格
-    val meetingTokens: String,              // 原价
-    val availableTokens: String             // 可用代币
+    val liveAmount: String?,      // 直播金额
+    val meetingTokens: String?,              // 原价
+    val currentAmount: String?             // 可用代币(当前金额)
 )
 
 /**

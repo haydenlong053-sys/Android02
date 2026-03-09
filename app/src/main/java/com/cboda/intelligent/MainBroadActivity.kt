@@ -262,6 +262,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 currtentLoginUser = this
                 MMKVBroadUtils.saveKeFuId(it.data?.kfid!!)
                 MMKVBroadUtils.saveUserName(it.data?.name!!)
+                MMKVBroadUtils.saveUserMId(it.data?.mId)
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", it.data?.autofanyi!!)
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "isvip", it.data?.isvip!!)
                 viewModel?.getKfInfo(this@MainBroadActivity, it.data?.kfid!!)

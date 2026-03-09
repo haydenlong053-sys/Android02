@@ -17,7 +17,7 @@ import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.dialog.QrdlBroadDialog
-import com.cboda.intelligent.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.utils.SpotsCallBroadBack

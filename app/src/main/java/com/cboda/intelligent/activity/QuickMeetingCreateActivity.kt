@@ -18,26 +18,22 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.cboda.chatui.R
-import com.cboda.chatui.bridge.MyBroadEvent
-import com.cboda.baselibrary.common.MyEventCodeEnum
-import cn.wildfirechat.message.MeetingInviteMessageContent
+import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
-import com.google.gson.Gson
+import com.cboda.chatui.quickmeet.CallEventCallback
+import com.cboda.chatui.quickmeet.MeetCallManager
+import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.*
 import com.cboda.intelligent.dialog.pop.PasswordPricedPop
-import com.cboda.intelligent.utils.ToastBroadUtil
-import com.cboda.intelligent.model.CreateMeetingResponse
-import com.cboda.intelligent.utils.JumpBroadUtils
-import com.cboda.intelligent.viewmodel.MeetingCreateViewBroadModel
-import org.greenrobot.eventbus.EventBus
+import com.cboda.intelligent.viewmodel.QuickMeetingCreateViewModel
+import kotlinx.coroutines.launch
 
-class QuickMeetingCreateActivity : BaseSimpleBroadActivity() {
+class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback {
 
-    private val viewModel: MeetingCreateViewBroadModel by viewModels()
+    private val viewModel: QuickMeetingCreateViewModel by viewModels()
 
     override fun getLayoutId(): Int = com.cboda.intelligent.R.layout.activity_quick_meet_create
 
@@ -59,7 +55,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity() {
 
     companion object {
 
-        fun launch(context: Context?, groupId: String, userId: String, groupName: String) {
+        fun launch(context: Context?, groupId: String, groupName: String) {
             context?.let {
                 val intent = Intent(it, QuickMeetingCreateActivity::class.java)
                 intent.putExtra("group_name", groupName)
@@ -71,7 +67,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        MeetCallManager.getInstance().registerEngineEvent(this)
         // 获取传入的群聊名称
         val roomName = if (groupName.isNotEmpty()) {
             "$groupName ${getString(com.cboda.intelligent.R.string.meeting_room_suffix)}"
@@ -91,43 +87,11 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity() {
                 viewModel = viewModel,
                 groupName,
                 onBack = { finish() },
-                onCreateSuccess = {
-                    it?.let {
-                        when (it.createout ?: -1) {
-                            200 -> {
-                                ToastBroadUtil.show(getString(com.cboda.intelligent.R.string.meeting_create_success))
-                                val meetingMessage =
-                                    MeetingInviteMessageContent()
-                                        .apply {
-                                            meetingId = it.meeting?.roomId
-                                            idno = it.meeting?.idNo
-                                            title = it.meeting?.roomName
-                                            desc = getString(com.cboda.intelligent.R.string.meeting_invite_desc)
-                                            isAllMic = it.meeting?.allMic ?: true
-                                            isAllMute = it.meeting?.allMute ?: false
-
-                                        }
-                                EventBus.getDefault().post(
-                                    MyBroadEvent(
-                                        MyEventCodeEnum.MEETING_ROOM.value,
-                                        Gson().toJson(meetingMessage),
-                                        ""
-                                    )
-                                )
-                                finish()
-                                JumpBroadUtils.startQunMeetingActivity(
-                                    this,
-                                    it.meeting?.roomId ?: "",
-                                    it.meeting?.idNo ?: "",
-                                    it.meeting?.roomName ?: "",
-                                    true,
-                                    it.meeting?.allMute ?: false,
-                                    it.meeting?.allMic ?: true
-                                )
-
-                            }
-
-
+                onPayAuthSuccess = {
+                    lifecycleScope.launch {
+                        val meetingCreateUiState = viewModel.uiState.value
+                        viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0).observe(this@QuickMeetingCreateActivity){
+                            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER,it.channelName?:"",it.token?:"")
                         }
                     }
 
@@ -135,15 +99,24 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity() {
             )
         }
     }
+
+    override fun onRtcJoinChannelSuccess() {
+        finish()
+    }
+
+    override fun onDestroy() {
+        MeetCallManager.getInstance().unregisterEngineEvent(this)
+        super.onDestroy()
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuickMeetingCreateScreen(
-    viewModel: MeetingCreateViewBroadModel,
+    viewModel: QuickMeetingCreateViewModel,
     groupName: String,
     onBack: () -> Unit,
-    onCreateSuccess: (CreateMeetingResponse?) -> Unit
+    onPayAuthSuccess: () -> Unit
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -211,8 +184,8 @@ fun QuickMeetingCreateScreen(
                         onDurationSelected = { duration ->
                             viewModel.updateSelectedDuration(duration)
                         },
-                        timeOptions = uiState.config?.timeOline ?: emptyList(),
-                        renewalRules = uiState.config?.renewalRules ?: ""
+                        timeOptions = uiState.config?.durationConfigList ?: emptyList(),
+                        renewalRules = uiState.config?.billingRule?.roundingRule ?: ""
                     )
                 }
 
@@ -229,7 +202,7 @@ fun QuickMeetingCreateScreen(
                 item {
                     OptionItem(
                         title = stringResource(id = com.cboda.intelligent.R.string.meeting_participants),
-                        selectedText = uiState.selectedUserTier?.name
+                        selectedText = uiState.selectedUserTier?.tierName
                             ?: stringResource(id = com.cboda.intelligent.R.string.meeting_please_select),
                         onClick = {
                             showUserTierDialog = true
@@ -272,13 +245,13 @@ fun QuickMeetingCreateScreen(
                     viewModel.startCreateMeetingFlow(
 //                        onSuccess = onCreateSuccess,
                         onError = { error ->
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                            ToastBroadUtils.show(error)
                         },
                         onSuccessInvoke = { hasPassword ->
                             if (hasPassword) {
                                 eLogD("zhanglong", "展示支付密码弹窗----》")
                                 PasswordPricedPop(getAppContext(), uiState.calculateTotalPrice().toString(), {
-                                    ToastBroadUtils.show("验证支付success")
+                                    onPayAuthSuccess.invoke()
                                 }).showPopupWindow()
                             }
                         }
@@ -305,7 +278,7 @@ fun QuickMeetingCreateScreen(
     // 用户等级选择对话框
     if (showUserTierDialog) {
         UserTierSelectionDialog(
-            userTierOptions = uiState.config?.userTierOptions ?: emptyList(),
+            userTierOptions = uiState.config?.userTierConfigList ?: emptyList(),
             currentSelection = uiState.selectedUserTier,
             onDismiss = { showUserTierDialog = false },
             onOptionSelected = { userTier ->

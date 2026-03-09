@@ -3,7 +3,6 @@ package com.cboda.intelligent.compose
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,7 +16,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -776,7 +774,7 @@ fun DurationOptionItem(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = option.name,
+            text = option.durationName,
             color = if (isSelected) Color(0xFF3B47DD) else colorResource(id = com.cboda.baselibrary.R.color.black),
             fontSize = 14.sp
         )
@@ -956,7 +954,7 @@ fun SelectionDialog(
                 LazyColumn {
                     items(options) { option ->
                         Text(
-                            text = option.name,
+                            text = option.durationName,
                             fontSize = 16.sp,
                             color = colorResource(id = R.color.color_text_content),
                             modifier = Modifier
@@ -1023,7 +1021,7 @@ fun MeetingUserCountDialog(
                 Column {
                     userTierOptions.forEachIndexed { index, option ->
                         Text(
-                            text = option.name,
+                            text = option.tierName,
                             fontSize = 16.sp,
                             color = colorResource(id = R.color.color_text_content),
                             fontWeight = FontWeight.Normal,
@@ -1138,7 +1136,7 @@ fun UserTierSelectionDialog(
                     userTierOptions.forEach { option ->
                         val isSelected = selectedOption == option
                         Text(
-                            text = option.name, // 使用name字段显示人数范围
+                            text = option.tierName, // 使用name字段显示人数范围
                             fontSize = 16.sp,
                             color = if (isSelected)  colorResource(R.color.color_price_blue) else colorResource(com.cboda.baselibrary.R.color.black),
                             textAlign = TextAlign.Center,

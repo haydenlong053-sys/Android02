@@ -644,33 +644,19 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                         BridgeImEnum.MEETING_ROOM.value -> {
                             val map = mapOf(
-                                "code" to "",
+                                "id" to params2,
                             )
                             okGoHelper.post(
                                 context,
-                                "/userInfo",
+                                "/groupInfo",
                                 JSONObject(map).toString(),
                                 CommonResultBroadBean(),
+                                showToast = true,
+                                showLoading = true,
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
-                                        (bean as? CommonResultBroadBean)?.let {
-                                            val userIdNo = it.data?.mId ?: ""
-                                            val map = mapOf(
-                                                "id" to params2,
-                                            )
-
-                                            okGoHelper.post(
-                                                context,
-                                                "/groupInfo",
-                                                JSONObject(map).toString(),
-                                                CommonResultBroadBean(),
-                                                showToast = true,
-                                                showLoading = true,
-                                                callBack = object : OKGoBroadHelper.RequestCallBack {
-                                                    override fun onSuccess(bean: BaseBroadResponse?) {
-                                                        if (bean is CommonResultBroadBean) {
-                                                            if (bean.data?.userType == "1" || bean.data?.userType == "2") {
-
+                                        if (bean is CommonResultBroadBean) {
+                                            if (bean.data?.userType == "1" || bean.data?.userType == "2") {
 //                                                                MeetingBroadHolder.openMeetingDialog(
 //                                                                    mContext,
 //                                                                    it.data?.mId ?: "",
@@ -679,31 +665,18 @@ class MyImManagerBroadHolder(private val context: Context?) {
 //                                                                    context
 //                                                                )
 
-                                                                QuickMeetingCreateActivity.launch(context,params2?:"",it.data?.mId ?: "",it.data?.name?:"")
-//                                                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, PlatformParams.channelName, PlatformParams.token)
-                                                            } else {
-                                                                MeetCallManager.getInstance().callMeetAction(CallDirect.ANSWER, PlatformParams.channelName, PlatformParams.token)
-                                                                ToastBroadUtils.show("只有群主/管理员可以开启会议室")
-                                                            }
-                                                        }
-                                                    }
-
-                                                    override fun onFail(bean: BaseBroadResponse?) {
-                                                    }
-                                                },
-                                            )
-
-
+                                                QuickMeetingCreateActivity.launch(context,params2?:"",bean.data?.name?:"")
+                                            } else {
+                                                ToastBroadUtils.show("只有群主/管理员可以开启会议室")
+                                            }
                                         }
                                     }
 
                                     override fun onFail(bean: BaseBroadResponse?) {
                                     }
-
-                                }
-
-
+                                },
                             )
+
                         }
 
                         BridgeImEnum.MEETING.value -> {

@@ -54,6 +54,8 @@ class MMKVBroadUtils {
         const val KEY_GROUP_LIST_DATA = "key_group_list_data"
         const val KEY_GROUP_NOTICE = "keyGroupNotice_"
         const val KEY_SAVE_COMPRESS_VIDEO = "keySaveCompressVideo"
+
+        const val REAL_USER_M_ID_KEY = "mId"
         fun saveGroupNotice(groupId: String?, desNotice: String?) {
             val kv = MMKV.defaultMMKV()
             kv.encode(KEY_GROUP_NOTICE + groupId, desNotice)
@@ -109,6 +111,17 @@ class MMKVBroadUtils {
         fun getKeFuId(): String {
             val kv = MMKV.defaultMMKV()
             return kv.decodeString(KEFU_ID_KEY) ?: "robot001"
+        }
+
+        fun saveUserMId(mId: String?) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(REAL_USER_M_ID_KEY, mId)
+        }
+
+        //用户的mId，用于声网
+        fun getUserMId(): String {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeString(REAL_USER_M_ID_KEY) ?: "0"
         }
 
         fun saveKeFuName(name: String) {

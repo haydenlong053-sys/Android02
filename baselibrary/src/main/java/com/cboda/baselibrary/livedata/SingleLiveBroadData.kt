@@ -1,4 +1,4 @@
-package com.cboda.intelligent.livedata
+package com.cboda.baselibrary.livedata
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

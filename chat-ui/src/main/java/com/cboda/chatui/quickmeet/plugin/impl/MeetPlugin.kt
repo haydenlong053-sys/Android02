@@ -9,11 +9,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.BusLiveBroadData
 import com.cboda.baselibrary.utils.LiveDataBroadBroadBus
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
@@ -21,11 +26,14 @@ import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
+import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
 import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
+import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
+import kotlinx.coroutines.launch
 
 /**
  * 会议最小化显示界面
@@ -45,7 +53,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var mLlNameView: View? = null
 
     private var mIsRegister = false
-
+    private var viewModel: QuickMeetViewBroadModel? = null
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -67,6 +75,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //                }
 //            }
 //        }
+//        eLogD("zhanglong", "init--lifecycles_owner==${activity.lifecycle.currentState}")
+        viewModel =
+            ViewModelProvider(activity).get<QuickMeetViewBroadModel>(QuickMeetViewBroadModel::class.java)
     }
 
     private fun getCallingDuration(mills: Long): String {
@@ -133,6 +144,24 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
         }
         registerListener()
+    }
+
+    fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
+        val userMId = MMKVBroadUtils.getUserMId()
+        activity.lifecycleScope.launch {
+            viewModel?.goQuickMeetInfo(groupIdNo,liveStatus)?.observe(activity){
+                if (it.list?.isNotEmpty() == true && it.token!=null){
+                    val meetChannelBean = it.list!![0]
+                    val direct =if (userMId== meetChannelBean.mId.toString()){
+                        CallDirect.CALLER
+                    }else{
+                        CallDirect.ANSWER
+                    }
+                    MeetCallManager.getInstance().callMeetAction(direct,meetChannelBean.channelName?:"",it.token!!)
+                }
+
+            }
+        }
     }
 
     private fun updateLayoutPosition(result: String, force: Boolean = false) {
@@ -221,7 +250,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         showLoadingWfc()
     }
 
-    override fun onRtcTokenFail() {
+    override fun onRtcTokenFail(reason: Int) {
         dismissLoadingWfc()
     }
 
@@ -296,9 +325,14 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     }
 
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+//        eLogD("zhanglong", "onResume--lifecycles_owner==${activity.lifecycle.currentState}")
+    }
 
     override fun onPause() {
         super.onPause()
+//        eLogD("zhanglong", "onPause--lifecycles_owner==${activity.lifecycle.currentState}")
         if (mIsLayout
             && !MeetCallManager.getInstance().isIdleState()
         ) {

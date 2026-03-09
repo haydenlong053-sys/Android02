@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.common.PlatformParams
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.getResumeActivity
@@ -103,7 +104,6 @@ class MeetCallManager private constructor() {
         }
     }
 
-
     /**
      * 通话参数初始化，拉起会议
      * @param msg CallRespData 通话接口数据
@@ -124,9 +124,9 @@ class MeetCallManager private constructor() {
             // 判断 targetSDKVersion 31 及以上时所需的权限
             // Determine the permissions required when targetSDKVersion is 31 or higher
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                ToastBroadUtils.show("请开启手机录音权限，以及蓝牙权限")
+                ToastBroadUtils.show("会议功能,请开启手机录音权限，以及蓝牙权限")
             } else {
-                ToastBroadUtils.show("请开启手机录音权限")
+                ToastBroadUtils.show("会议功能,请开启手机录音权限")
             }
             getResumeActivity()?.let {
                 ActivityCompat.requestPermissions(it, getRequiredPermissions(), PERMISSION_REQ_ID)
@@ -141,7 +141,7 @@ class MeetCallManager private constructor() {
      */
     private fun start(data: CallData, channelName: String, token: String) {
         if (isIdleState()) {
-            eLogD("call", "init===>")
+            eLogD("call", "init===>channelName=$channelName---token=$token")
             mCallData.direct = data.direct
             mCallData.callStatus = data.callStatus
 //            mCallData.chatRoomId = data.chatRoomId
@@ -159,7 +159,8 @@ class MeetCallManager private constructor() {
             eLogD("zhanglong", "会议未启动===>")
             return
         }
-        callEngine?.joinChannel(token, channelName, 0, options)
+        val userMId = MMKVBroadUtils.getUserMId().toInt()
+        callEngine?.joinChannel(token, channelName, userMId, options)
     }
 
     private fun initRtcEngine(context: Context, channelName: String, token: String) {
@@ -206,6 +207,7 @@ class MeetCallManager private constructor() {
         options.autoSubscribeAudio = true
 
         callEngine?.let {
+            eLogD("call", "会议join===>")
             joinChannel(channelName, token, options)
         }
     }
@@ -233,7 +235,7 @@ class MeetCallManager private constructor() {
                     //正常退出会议频道
                     notifyEngineDestroy(mCallData)
                 } else if (state == CONNECTION_STATE_FAILED) {
-                    tokenError()
+                    tokenError(reason)
                 }
             })
 
@@ -314,10 +316,10 @@ class MeetCallManager private constructor() {
 
     }
 
-    private fun tokenError() {
+    private fun tokenError(reason: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
-            callEvent.onRtcTokenFail()
+            callEvent.onRtcTokenFail(reason)
         }
     }
 

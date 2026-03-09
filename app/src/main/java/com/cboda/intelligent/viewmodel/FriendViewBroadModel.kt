@@ -1,6 +1,5 @@
 package com.cboda.intelligent.viewmodel
 
-import androidx.lifecycle.ViewModel
 import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
@@ -8,7 +7,7 @@ import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.intelligent.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SocialBroadCircle
 import kotlinx.coroutines.Dispatchers
