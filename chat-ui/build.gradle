@@ -85,7 +85,7 @@ dependencies {
     api libs.king.zxing
     api libs.wheelpicker
     api libs.agora.meet
-    api libs.agora.screen.share
+//    api libs.agora.screen.share
     implementation libs.androidx.swiperefreshlayout
     implementation libs.eventbus
     implementation libs.ucrop

@@ -109,7 +109,7 @@ class MeetCallManager private constructor() {
      * @param msg CallRespData 通话接口数据
      * @param direct CallDirect? 会议接听/发言方
      */
-    fun callMeetAction(direct: CallDirect?, channelName: String, token: String) {
+    fun callMeetAction(direct: CallDirect?, channelId: String, token: String) {
         if (checkMeetPermissions()) {
             if (!isIdleState()) {
                 eLogD("call", "callEvent 当前有正在进行的通话会议=========>")
@@ -118,8 +118,9 @@ class MeetCallManager private constructor() {
             val data = CallData()
             data.callStatus = CallStatus.WAITING
             data.direct = direct
+            data.channelId = channelId
             //初始化通话参数
-            start(data, channelName, token)
+            start(data, channelId, token)
         } else {
             // 判断 targetSDKVersion 31 及以上时所需的权限
             // Determine the permissions required when targetSDKVersion is 31 or higher
@@ -139,15 +140,15 @@ class MeetCallManager private constructor() {
      * 初始化参数和音视频sdk
      * @param data CallData
      */
-    private fun start(data: CallData, channelName: String, token: String) {
+    private fun start(data: CallData, channelId: String, token: String) {
         if (isIdleState()) {
-            eLogD("call", "init===>channelName=$channelName---token=$token")
+            eLogD("call", "init===>channelName=$channelId---token=$token")
             mCallData.direct = data.direct
             mCallData.callStatus = data.callStatus
-//            mCallData.chatRoomId = data.chatRoomId
+            mCallData.channelId = data.channelId
 
             //初始化 音视频sdk
-            initRtcEngine(UtilBroadApplication.cxt.applicationContext, channelName, token)
+            initRtcEngine(UtilBroadApplication.cxt.applicationContext, channelId, token)
         } else {
             eLogD("call", "rtc 当前有在处理的视频通话===>")
         }
@@ -160,10 +161,11 @@ class MeetCallManager private constructor() {
             return
         }
         val userMId = MMKVBroadUtils.getUserMId().toInt()
+        eLogD("zhanglong","joinChannel---channelName=$channelName---mid=$userMId---token=$token")
         callEngine?.joinChannel(token, channelName, userMId, options)
     }
 
-    private fun initRtcEngine(context: Context, channelName: String, token: String) {
+    private fun initRtcEngine(context: Context, channelId: String, token: String) {
         notifyEngineSetup()
         try {
             // 创建 RtcEngineConfig 对象，并进行配置
@@ -207,14 +209,15 @@ class MeetCallManager private constructor() {
         options.autoSubscribeAudio = true
 
         callEngine?.let {
-            eLogD("call", "会议join===>")
-            joinChannel(channelName, token, options)
+            eLogD("zhanglong", "会议join===>")
+            joinChannel(channelId, token, options)
         }
     }
 
     private val mRtcEventHandler: IRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
             super.onJoinChannelSuccess(channel, uid, elapsed)
+            eLogD("zhanglong", "onJoinChannelSuccess---channel=$channel---uid=$uid" )
             runOnUiThread(Runnable {
                 startCallService()
                 mCallData.callStatus = CallStatus.CALLING

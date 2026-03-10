@@ -3,6 +3,7 @@ package com.cboda.chatui.quickmeet.bean
 data class MeetChannelBean(
     var beginTime: String? = null,
     var channelName: String? = null,
+    var channelId: String? = null,
     var createTime: String? = null,
     var durationConfigId: Int = 0,
     var durationConfigValue: Int = 0,

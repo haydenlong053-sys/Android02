@@ -16,7 +16,7 @@ import com.cboda.chatui.quickmeet.showLoadingWfc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
+//极速直播
 open class QuickMeetViewBroadModel: BaseViewModel() {
 
     /**
@@ -60,7 +60,7 @@ open class QuickMeetViewBroadModel: BaseViewModel() {
     suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String,durationConfigId: Int,userTierConfigId: Int) : SingleLiveBroadData<QuickCreateMeetBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickCreateMeetBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo,"channelName" to channelName,"durationConfigId" to durationConfigId,"userTierConfigId" to userTierConfigId)
+        val params = hashMapOf("groupIdNo" to groupIdNo,"channelId" to groupIdNo,"channelName" to channelName,"durationConfigId" to durationConfigId,"userTierConfigId" to userTierConfigId)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickCreateMeetBean>(
@@ -87,5 +87,35 @@ open class QuickMeetViewBroadModel: BaseViewModel() {
         }
         return safeCenterLiveData
     }
+
+    /**
+     * 销毁直播频道
+     */
+    suspend fun goDissolveQuickMeet(groupIdNo: String) : SingleLiveBroadData<Boolean> {
+        val mLiveData = SingleLiveBroadData<Boolean>()
+        val params = hashMapOf("groupIdNo" to groupIdNo)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlMeetConstants.QUICK_LIVE_DISSOLVE,
+                    Any::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    mLiveData.postValue(true)
+
+                }.onFailure { code, message->
+//                    ToastBroadUtils.show(message)
+                }.onError {
+
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return mLiveData
+    }
+
+
 
 }

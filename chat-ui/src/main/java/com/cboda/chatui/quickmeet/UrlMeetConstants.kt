@@ -10,4 +10,8 @@ object UrlMeetConstants {
     //创建直播
     const val QUICK_LIVE_CREATE="api/quick/live/create"
 
+    //销毁直播频道
+    const val QUICK_LIVE_DISSOLVE="api/quick/live/dissolve"
+
+
 }

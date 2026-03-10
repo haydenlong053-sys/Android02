@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.app.UtilBroadApplication
-import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.BusLiveBroadData
 import com.cboda.baselibrary.utils.LiveDataBroadBroadBus
 import com.cboda.baselibrary.utils.MMKVBroadUtils
@@ -157,9 +156,18 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     }else{
                         CallDirect.ANSWER
                     }
-                    MeetCallManager.getInstance().callMeetAction(direct,meetChannelBean.channelName?:"",it.token!!)
+                    MeetCallManager.getInstance().callMeetAction(direct,meetChannelBean.channelId?:"",it.token!!)
                 }
 
+            }
+        }
+    }
+
+    //取消会议
+   private fun cancelMeeting() {
+        activity.lifecycleScope.launch {
+            val channelId = MeetCallManager.getInstance().mCallData.channelId
+            viewModel?.goDissolveQuickMeet(channelId)?.observe(activity){
             }
         }
     }
@@ -193,30 +201,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     private fun showUI() {
-//        val layoutParams = mView?.layoutParams
-//        layoutParams?.let { lp ->
-//            lp.height = if (isCalling() && isVideoCall()) callingStateHeight else waitingStateHeight
-//        }
-//        mView?.layoutParams = layoutParams
-
-//        if (isCalling()) {
-//            waitingStateIv?.setImageDrawable(null)
-//            if (isVideoCall()) {
-//                waitingStateFl?.visibility = View.GONE
-//                showOrHideCover(true )
-//            } else {
-//                //语音通话， 获取通话时长
-////                CallManager.getInstance().getCallTimerObserver().value?.let { time ->
-////                    durationTv?.text = getCallingDuration(time)
-////                }
-//                waitingStateFl?.visibility = View.VISIBLE
-//                durationTv?.visibility = View.VISIBLE
-//            }
-//        } else {
-//            waitingStateFl?.visibility = View.VISIBLE
-//        }
         mTvMeetEnd?.click {
             MeetCallManager.getInstance().leaveAndRelease()
+            cancelMeeting()
         }
         mLlNameView?.click {
             mIvIconMic?.let { mivView ->

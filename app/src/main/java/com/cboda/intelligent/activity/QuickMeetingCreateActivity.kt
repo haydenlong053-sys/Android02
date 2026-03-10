@@ -3,6 +3,7 @@ package com.cboda.intelligent.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -70,7 +71,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
         MeetCallManager.getInstance().registerEngineEvent(this)
         // 获取传入的群聊名称
         val roomName = if (groupName.isNotEmpty()) {
-            "$groupName ${getString(com.cboda.intelligent.R.string.meeting_room_suffix)}"
+            "$groupName-${getString(com.cboda.intelligent.R.string.meeting_room_suffix)}"
         } else {
             ""
         }
@@ -91,7 +92,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                     lifecycleScope.launch {
                         val meetingCreateUiState = viewModel.uiState.value
                         viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0).observe(this@QuickMeetingCreateActivity){
-                            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER,it.channelName?:"",it.token?:"")
+                            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER,it.channelId?:"",it.token?:"")
                         }
                     }
 

@@ -8,6 +8,7 @@ class CallData {
      * 说话方或接收方
      */
     var direct: CallDirect? = null
+    var channelId: String = ""
 
 
 }
