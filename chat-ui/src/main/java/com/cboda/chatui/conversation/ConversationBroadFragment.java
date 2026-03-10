@@ -43,6 +43,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.cboda.baselibrary.bean.CommonResultBroadBean;
 import com.cboda.baselibrary.bean.DanmakuItem;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
@@ -54,6 +55,7 @@ import com.bumptech.glide.Glide;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,6 +90,9 @@ import com.cboda.chatui.conversation.receipt.GroupMessageReceiptBroadActivity;
 import com.cboda.chatui.dialog.DanMaPop;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.group.PickGroupMemberBroadActivity;
+import com.cboda.chatui.quickmeet.CallEventCallback;
+import com.cboda.chatui.quickmeet.MeetCallManager;
+import com.cboda.chatui.quickmeet.bean.CallData;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import com.cboda.chatui.user.UserViewBroadModel;
@@ -141,7 +146,7 @@ public class ConversationBroadFragment extends Fragment implements
         ConversationMessageBroadAdapter.OnPortraitClickListener,
         ConversationMessageBroadAdapter.OnPortraitLongClickListener,
         ConversationInputBroadPanel.OnConversationInputPanelStateChangeListener,
-        ConversationMessageBroadAdapter.OnMessageCheckListener, ConversationMessageBroadAdapter.OnMessageReceiptClickListener {
+        ConversationMessageBroadAdapter.OnMessageCheckListener, ConversationMessageBroadAdapter.OnMessageReceiptClickListener, CallEventCallback {
 
     private static final String TAG = "convFragment";
 
@@ -660,16 +665,28 @@ public class ConversationBroadFragment extends Fragment implements
         }
     }
 
+
+    @Override
+    public void onRtcJoinChannelSuccess() {
+        danmakuIv.setVisibility(View.VISIBLE);
+        verticalDanmakuView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onEngineDestroy(@NotNull CallData data) {
+        danmakuIv.setVisibility(View.GONE);
+        verticalDanmakuView.setVisibility(View.GONE);
+    }
+
     private void initView() {
         rootLinearLayoutBroad.addOnKeyboardShownListener(this);
-//        chatRoomBroadViewModel.getGagData()
 //        verticalDanmakuView.setImageLoader((imageView, s) -> {
 //            imageView.setVisibility(View.VISIBLE);
 //            loadImg(imageView, s);
 //            return null;
 //        });
         getUpdateBarrageDataLiveData().observe(getViewLifecycleOwner(), barrageBean -> {
-            if (null != verticalDanmakuView && barrageBean.getConversationType() == conversationBroad.type.getValue() && barrageBean.getConversationId().equals(conversationBroad.target)) {
+            if (null != conversationBroad && MeetCallManager.getInstance().isCallingState() && null != verticalDanmakuView && barrageBean.getConversationType() == conversationBroad.type.getValue() && barrageBean.getConversationId().equals(conversationBroad.target)) {
                 E.INSTANCE.getUserName(barrageBean.getSender(), barrageBean.getConversationId(), userName -> {
                     addBarrageData(userName, barrageBean.getGiftType(), false);
                     return null;
@@ -873,6 +890,21 @@ public class ConversationBroadFragment extends Fragment implements
             showGroupMemberNameBroad = "1".equals(userBroadViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfoBroad.target));
 
             updateGroupMuteStatus();
+            MeetCallManager.getInstance().unregisterEngineEvent(this);
+            MeetCallManager.getInstance().registerEngineEvent(this);
+            groupBroadViewModel.getGagData(conversation.target).observe(getViewLifecycleOwner(), new Observer<CommonResultBroadBean>() {
+                @Override
+                public void onChanged(CommonResultBroadBean commonResultBroadBean) {
+                    eLogD("ConversationBroadFragmentClass", "getGagDataSuccess_allJy:" + commonResultBroadBean.getData().getAllJy());
+                }
+            });
+            if (MeetCallManager.getInstance().isCallingState()) {
+                danmakuIv.setVisibility(View.VISIBLE);
+                verticalDanmakuView.setVisibility(View.VISIBLE);
+            } else {
+                danmakuIv.setVisibility(View.GONE);
+                verticalDanmakuView.setVisibility(View.GONE);
+            }
         }
         userBroadViewModel.getUserInfo(userBroadViewModel.getUserId(), true);
 
@@ -1359,6 +1391,9 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group) {
+            MeetCallManager.getInstance().unregisterEngineEvent(this);
+        }
         EventBus.getDefault().unregister(this);
         if (null != verticalDanmakuView) {
             verticalDanmakuView.clearAll();

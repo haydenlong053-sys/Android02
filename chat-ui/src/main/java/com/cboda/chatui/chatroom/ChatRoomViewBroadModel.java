@@ -42,28 +42,6 @@ public class ChatRoomViewBroadModel extends ViewModel {
         return result;
     }
 
-
-    public MutableLiveData<CommonResultBroadBean> getGagData(String groupID) {
-        MutableLiveData<CommonResultBroadBean> result = new MutableLiveData<>();
-        String url = HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupInfo";
-        Map<String, Object> params = new HashMap<>(2);
-        params.put("id", groupID);
-        OKHttpBroadHelper.post(url, params, new SimpleCallback<BaseBroadResponse>() {
-            @Override
-            public void onUiSuccess(BaseBroadResponse bean) {
-                if (bean instanceof CommonResultBroadBean) {
-                    result.postValue((CommonResultBroadBean) bean);
-                }
-            }
-
-            @Override
-            public void onUiFailure(int code, String msg) {
-
-            }
-        });
-        return result;
-    }
-
     public MutableLiveData<OperateBroadResult<Boolean>> quitChatRoom(String chatRoomId) {
         MutableLiveData<OperateBroadResult<Boolean>> result = new MutableLiveData<>();
         ChatManager.Instance().quitChatRoom(chatRoomId, new GeneralCallback() {
