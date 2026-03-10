@@ -161,7 +161,7 @@ class MeetCallManager private constructor() {
             return
         }
         val userMId = MMKVBroadUtils.getUserMId().toInt()
-        eLogD("zhanglong","joinChannel---channelName=$channelName---mid=$userMId---token=$token")
+        eLogD("zhanglong", "joinChannel---channelName=$channelName---mid=$userMId---token=$token")
         callEngine?.joinChannel(token, channelName, userMId, options)
     }
 
@@ -217,7 +217,7 @@ class MeetCallManager private constructor() {
     private val mRtcEventHandler: IRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
             super.onJoinChannelSuccess(channel, uid, elapsed)
-            eLogD("zhanglong", "onJoinChannelSuccess---channel=$channel---uid=$uid" )
+            eLogD("zhanglong", "onJoinChannelSuccess---channel=$channel---uid=$uid")
             runOnUiThread(Runnable {
                 mCallData.callStatus = CallStatus.CALLING
                 startCallService()
@@ -237,8 +237,8 @@ class MeetCallManager private constructor() {
                 if (state == CONNECTION_STATE_DISCONNECTED && reason == CONNECTION_CHANGED_LEAVE_CHANNEL) {
                     //正常退出会议频道
                     notifyEngineDestroy(mCallData)
-                } else if (state == CONNECTION_STATE_FAILED) {
-                    tokenError(reason)
+                } else {
+                    onRtcConnectionStateChanged(state, reason)
                 }
             })
 
@@ -255,7 +255,7 @@ class MeetCallManager private constructor() {
 
         override fun onUserOffline(uid: Int, reason: Int) {
             runOnUiThread(Runnable {
-                notifyRtcUserOffline(uid,reason)
+                notifyRtcUserOffline(uid, reason)
 
             })
         }
@@ -319,10 +319,10 @@ class MeetCallManager private constructor() {
 
     }
 
-    private fun tokenError(reason: Int) {
+    private fun onRtcConnectionStateChanged(state: Int, reason: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
-            callEvent.onRtcTokenFail(reason)
+            callEvent.onRtcConnectionStateChanged(state, reason)
         }
     }
 
@@ -360,10 +360,11 @@ class MeetCallManager private constructor() {
             callEvent.onRtcUserJoined(uid)
         }
     }
-    private fun notifyRtcUserOffline(uid: Int,reason: Int) {
+
+    private fun notifyRtcUserOffline(uid: Int, reason: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
-            callEvent.onRtcUserOffline(uid,reason)
+            callEvent.onRtcUserOffline(uid, reason)
         }
     }
 

@@ -44,13 +44,6 @@ interface CallEventCallback{
 
     }
 
-    /**
-     * 声网rtc token 无效或过期
-     */
-    fun onRtcTokenFail(reason: Int) {
-
-    }
-
     fun onPermissionDenied() {
 
     }
@@ -91,6 +84,9 @@ interface CallEventCallback{
      * false：音频流未被静音。
      */
     fun onRoomUserMuteAudio(uid: Int,muted : Boolean){
+
+    }
+    fun onRtcConnectionStateChanged(state: Int, reason: Int){
 
     }
 

@@ -35,6 +35,9 @@ import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
+import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
+import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
+import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -59,7 +62,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private var mIsRegister = false
     private var viewModel: QuickMeetViewBroadModel? = null
-    private var groupBean : GlobalChatGroupBean?=null
+    private var groupBean: GlobalChatGroupBean? = null
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -172,11 +175,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     //取消会议
-   private fun cancelMeeting() {
-        if (MeetCallManager.getInstance().isCallDirect() && isCalling()){
+    private fun cancelMeeting() {
+        if (MeetCallManager.getInstance().isCallDirect() && isCalling()) {
             MainScope().launch {
                 val channelId = MeetCallManager.getInstance().mCallData.channelId
-                viewModel?.goDissolveQuickMeet(channelId)?.observeForever {  }
+                viewModel?.goDissolveQuickMeet(channelId)?.observeForever { }
             }
         }
     }
@@ -211,11 +214,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun showUI() {
         mTvMeetEnd?.click {
-            cancelMeeting()
-            MeetCallManager.getInstance().leaveAndRelease()
+            goOverMeeting()
+
         }
         mLlNameView?.click {
-            if (MeetCallManager.getInstance().isCallDirect()){
+            if (MeetCallManager.getInstance().isCallDirect()) {
                 mIvIconMic?.let { mivView ->
                     val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
                     if (muteLocalAudio == 0) {
@@ -228,6 +231,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //        showOrHideCover()
     }
 
+    private fun goOverMeeting() {
+        cancelMeeting()
+        MeetCallManager.getInstance().leaveAndRelease()
+    }
+
     /**
      * 会议中
      * @return Boolean
@@ -238,12 +246,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun showOrHideCover() {
         groupBean?.let {
-            if (it.userList?.isNotEmpty() == true){
+            if (it.userList?.isNotEmpty() == true) {
                 it.userList?.find { user ->
-                    user.type =="1"
-                }?.let { ownerUser->
+                    user.type == "1"
+                }?.let { ownerUser ->
                     coverAvatarIv?.loadImg(ownerUser.icon)
-                    mTvUserName?.text= ownerUser.name
+                    mTvUserName?.text = ownerUser.name
 
                 }
             }
@@ -254,10 +262,13 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         showLoadingWfc()
     }
 
-    override fun onRtcTokenFail(reason: Int) {
-        dismissLoadingWfc()
-        if (reason == 8) {
+    override fun onRtcConnectionStateChanged(state: Int, reason: Int) {
+        if (state == CONNECTION_STATE_FAILED && reason == CONNECTION_CHANGED_INVALID_TOKEN) {
+            dismissLoadingWfc()
             ToastBroadUtils.show("会议无效的 Token")
+        } else if (state == CONNECTION_STATE_FAILED && reason == CONNECTION_CHANGED_BANNED_BY_SERVER) {
+            cancelMeeting()
+            MeetCallManager.getInstance().leaveAndRelease()
         }
 
     }
@@ -331,11 +342,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //            setupPanel(activity)
         }
     }
+
     private fun queryGroupInfo() {
         activity.lifecycleScope.launch {
             val channelId = MeetCallManager.getInstance().mCallData.channelId
             viewModel?.queryGroupInfo(channelId)?.observe(activity) {
-                groupBean =it
+                groupBean = it
                 showOrHideCover()
             }
         }
@@ -365,8 +377,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         unregisterListener()
         eLogD("onDestroy==========>")
         MeetCallManager.getInstance().unregisterEngineEvent(this)
-        cancelMeeting()
-        MeetCallManager.getInstance().leaveAndRelease()
+        goOverMeeting()
         removePanel()
         touchHandle = null
     }

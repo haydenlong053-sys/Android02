@@ -29,7 +29,7 @@ enum class CallStatus {
     WAITING,
 
     /**
-     * 通话中
+     * 会议中
      */
     CALLING,
 }
