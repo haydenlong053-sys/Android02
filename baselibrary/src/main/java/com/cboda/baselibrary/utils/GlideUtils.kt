@@ -59,7 +59,7 @@ fun ImageView.loadDiyImg2(
                     } else {
                         mWidth to height1
                     }
-                } else if (bitmapWidth > mWidth && mWidth != 0) {
+                } else if ((bitmapWidth >= mWidth && mWidth != 0) || (mWidth > bitmapWidth && mHeight == 0)) {
                     mWidth to mWidth * bitmapHeight / bitmapWidth
                 } else if (bitmapHeight > mHeight && mHeight != 0) {
                     mHeight * bitmapWidth / bitmapHeight to mHeight
@@ -225,7 +225,7 @@ fun ImageView.loadDiyImg(
                             lp.width = mWidth
                             lp.height = height1
                         }
-                    } else if (bitmapWidth > mWidth && mWidth != 0) {
+                    } else if ((bitmapWidth >= mWidth && mWidth != 0) || (mWidth > bitmapWidth && mHeight == 0)) {
                         lp.width = mWidth
                         lp.height = mWidth * bitmapHeight / bitmapWidth
                     } else if (bitmapHeight > mHeight && mHeight != 0) {
@@ -276,7 +276,7 @@ fun ImageView.loadImg(url: String?) {
             if (mContext.isFinishing || mContext.isDestroyed) {
                 return
             }
-        }else if (windowToken == null) {
+        } else if (windowToken == null) {
             return
         }
 

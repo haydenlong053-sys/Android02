@@ -116,10 +116,10 @@ public class UserCardBroadExt extends ConversationMidExt {
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                     CardMessageContent cardMessageContent = new CardMessageContent(type, target, displayName, portrait, ChatManager.Instance().getUserId());
                     cardMessageContent.setName(name);
-                    messageViewModel.sendMessage(conversation, cardMessageContent);
+                    messageViewModel.sendMessage(conversation, cardMessageContent,false);
                     if (!TextUtils.isEmpty(view.getEditText())) {
                         TextMessageContent content = new TextMessageContent(view.getEditText());
-                        messageViewModel.sendMessage(conversation, content);
+                        messageViewModel.sendMessage(conversation, content,false);
                     }
                     dialog.dismiss();
                 }

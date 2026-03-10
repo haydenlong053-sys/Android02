@@ -50,7 +50,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
     private val maxSize = 10000 //弹幕存储最大数量
 
 
-    private val mainDelayMillis = 300L //每条弹幕间隔时长
+    private val mainDelayMillis = 500L //每条弹幕间隔时长
 
     private val danMaAnimateTime = 3000L//弹幕动画时长
 
@@ -388,25 +388,25 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
     class DanmakuViewHolder(val rootView: View) {
         private val ivAvatar: ImageView = rootView.findViewById(R.id.ivAvatar)
+        private val rightIv: ImageView = rootView.findViewById(R.id.rightIv)
         private val tvContent: TextView = rootView.findViewById(R.id.tvContent)
         private var clickListener: (() -> Unit)? = null
 
         fun bind(item: DanmakuItem, imageLoader: ((ImageView, String?) -> Unit)?) {
-            tvContent.text = item.text
-            tvContent.setTextColor(item.textColor)
-            clickListener = item.onClick
-
-            if (item.showAvatar && !item.avatarUrl.isNullOrBlank()) {
-                ivAvatar.isGone = imageLoader==null
+            tvContent.text = item.content
+//            tvContent.setTextColor(item.textColor)
+//            clickListener = item.onClick
+            if (!item.avatarUrl.isNullOrBlank()) {
+                ivAvatar.isGone = imageLoader == null
                 imageLoader?.invoke(ivAvatar, item.avatarUrl)
-            } else if (item.iconResId != null) {
-                ivAvatar.isGone = false
-                ivAvatar.setImageResource(item.iconResId)
             } else {
                 ivAvatar.isGone = true
             }
-
-            rootView.setOnClickListener { clickListener?.invoke() }
+            if (item.iconResId != null && item.iconResId != 0) {
+                item.iconResId?.let { rightIv.setImageResource(it) }
+            }
+            rightIv.isGone = item.iconResId == null
+//            rootView.setOnClickListener { clickListener?.invoke() }
         }
 
         fun reset() {

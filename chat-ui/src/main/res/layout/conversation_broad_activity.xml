@@ -105,14 +105,6 @@
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/danmakuIv"
-                    android:layout_width="@dimen/dp_66"
-                    android:layout_height="@dimen/dp_74"
-                    android:layout_gravity="bottom|end"
-                    android:paddingTop="@dimen/dp_8"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/icon_dm" />
 
                 <com.cboda.baselibrary.widge.VerticalDanmakuView
                     android:id="@+id/verticalDanmakuView"
@@ -123,6 +115,14 @@
                     android:layout_marginBottom="@dimen/dp_15"
                     android:clickable="false" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/danmakuIv"
+                    android:layout_width="@dimen/dp_66"
+                    android:layout_height="@dimen/dp_74"
+                    android:layout_gravity="bottom|end"
+                    android:paddingTop="@dimen/dp_8"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/icon_dm" />
             </FrameLayout>
 
 

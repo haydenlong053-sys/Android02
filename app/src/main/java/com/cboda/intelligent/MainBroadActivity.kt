@@ -24,61 +24,66 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager.widget.ViewPager
-import com.cboda.chatui.IMConnectionStatusViewBroadModel
-import com.cboda.chatui.IMServiceStatusViewBroadModel
-import com.cboda.chatui.bridge.TiXingBroadUtils
-import com.cboda.chatui.bridge.MyCommonBroadBridge
-import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
-import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
-import com.cboda.chatui.user.UserViewBroadModel
 import cn.wildfirechat.client.ConnectionStatus
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeInformMessageContent
 import cn.wildfirechat.message.UnknownMessageContent
+import cn.wildfirechat.message.core.MessageContentBroadType
 import cn.wildfirechat.model.Conversation.ConversationType
 import cn.wildfirechat.model.ModifyMyInfoEntry
 import cn.wildfirechat.model.ModifyMyInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.OnReceiveMessageListener
 import cn.wildfirechat.viewmodel.HomeUIViewModel
-import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SizeUtils.dp2px
+import com.cboda.baselibrary.bean.BarrageBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.common.BridgeImEnum
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.DoubleMessageBroadEvent
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
+import com.cboda.baselibrary.utils.updateBarrageDataLiveData
 import com.cboda.chatemoji.EmotionBroadEvent
+import com.cboda.chatui.IMConnectionStatusViewBroadModel
+import com.cboda.chatui.IMServiceStatusViewBroadModel
+import com.cboda.chatui.bridge.MyCommonBroadBridge
+import com.cboda.chatui.bridge.TiXingBroadUtils
+import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
+import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
+import com.cboda.chatui.user.UserViewBroadModel
+import com.cboda.chatui.voip.conference.message.BarrageContent
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
-import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
-import com.cboda.intelligent.fragment.MineBroadFragment
-import com.cboda.intelligent.fragment.TongXunLuBroadFragment
+import com.cboda.intelligent.fragment.CleverBodyBroadFragment
 import com.cboda.intelligent.fragment.MessageBroadFragment
+import com.cboda.intelligent.fragment.MineBroadFragment
+import com.cboda.intelligent.fragment.NewMirrorBroadFragment
+import com.cboda.intelligent.fragment.TongXunLuBroadFragment
+import com.cboda.intelligent.holder.MyImManagerBroadHolder
 import com.cboda.intelligent.holder.SingleBtnBroadHolder
 import com.cboda.intelligent.holder.XitonggaonggaoBroadHolder
-import com.cboda.intelligent.holder.MyImManagerBroadHolder
-import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
-import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
-import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.eLogD
-import com.cboda.intelligent.fragment.CleverBodyBroadFragment
-import com.cboda.intelligent.fragment.NewMirrorBroadFragment
+import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
+import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
-import com.cboda.intelligent.widge.MyViewBroadPager
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
+import com.cboda.intelligent.widge.MyViewBroadPager
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import com.cboda.baselibrary.common.BridgeImEnum
 
 class MainBroadActivity : BaseSimpleBroadActivity() {
 
@@ -558,7 +563,11 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             override fun onReceiveMessage(messages: MutableList<Message>?, hasMore: Boolean) {
                 try {
                     messages?.forEachIndexed { index, message ->
-                         eLogD("zhanglong","MessageContent==="+message.content+"--messageContentType=="+message.content.messageContentType)
+                        eLogD(
+                            "MainBroadActivityClass",
+                            "sender:" + message.sender + ", conversationType:" + message.conversation.type.value + ", conversationId:" + message.conversation.target + ", messageContent:" + toJson2(message.content)
+                        )
+                        eLogD("zhanglong", "MessageContent===" + message.content + "--messageContentType==" + message.content.messageContentType)
                         if (message.sender == "admin" && message.content is NoticeInformMessageContent) {
                             val bean = message.content as NoticeInformMessageContent
 //                            Log.d("zhanglong","NoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")
@@ -648,6 +657,22 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                             null
                                         )
                                     }
+                                }
+
+                                MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE -> {
+//                                    eLogD("MainBroadActivityClass", "MESSAGE_CONTENT_TYPE_GROUP_BARRAGE")
+                                    if (message.content is UnknownMessageContent) {
+                                        val barrageContent = message.content as UnknownMessageContent
+                                        val barrageBean = BarrageBean()
+                                        barrageBean.sender = message.sender
+                                        barrageBean.conversationId = message.conversation.target
+                                        barrageBean.conversationType = message.conversation.type.value
+                                        barrageBean.giftType = anyToInt(barrageContent.orignalPayload.content)
+                                        updateBarrageDataLiveData.postValue(barrageBean)
+//                                        eLogD("MainBroadActivityClass", "barrageBean:${toJson2(barrageBean)}")
+                                    }
+
+
                                 }
 //                                }
                             }

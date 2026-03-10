@@ -27,17 +27,17 @@ class TestActivity : BaseSimple2BroadActivity() {
 //        testDanmaku()
         mBinding?.addData?.setOnClickListener {
             count++
-            mBinding?.verticalDanmakuView?.addDanmaku(
-                DanmakuItem(
-                    text = "用户 ${count}: 这条弹幕带头像",
-                    avatarUrl = "",
-                    showAvatar = true,
-                    textColor = if (count % 5 == 0) Color.YELLOW else Color.WHITE,
-                    isMeSend = count % 5 == 0,
-                    onClick = {
-                        showToastMain("点击了第 $count 条弹幕")
-                    }
-                ))
+//            mBinding?.verticalDanmakuView?.addDanmaku(
+//                DanmakuItem(
+//                    text = "用户 ${count}: 这条弹幕带头像",
+//                    avatarUrl = "",
+////                    showAvatar = true,
+////                    textColor = if (count % 5 == 0) Color.YELLOW else Color.WHITE,
+//                    isMeSend = count % 5 == 0,
+//                    onClick = {
+//                        showToastMain("点击了第 $count 条弹幕")
+//                    }
+//                ))
         }
     }
 

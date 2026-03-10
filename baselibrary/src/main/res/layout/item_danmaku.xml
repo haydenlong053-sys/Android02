@@ -2,36 +2,46 @@
 <com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tag_remove_task"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:alpha="0.8"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:id="@+id/tag_remove_task"
+    android:paddingVertical="@dimen/dp_9"
     android:paddingStart="8dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="12dp"
-    android:paddingBottom="6dp"
+    android:paddingEnd="10dp"
     app:shape_radius="@dimen/dp_12"
-    app:shape_solidColor="#B0000000">
+    app:shape_solidColor="@color/black">
 
     <!-- 用户头像/图标 -->
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivAvatar"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <!-- 弹幕文字 -->
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_8"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        tools:text="用户发送了消息" />
+        android:textColor="#FFD957"
+        android:textSize="12sp"
+        tools:text="用户COY Follow：" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/rightIv"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"
+        tools:src="@mipmap/icon_danma_xh" />
 </com.hjq.shape.layout.ShapeLinearLayout>
