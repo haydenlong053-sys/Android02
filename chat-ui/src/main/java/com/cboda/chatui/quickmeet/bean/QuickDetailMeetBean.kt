@@ -1,6 +1,6 @@
 package com.cboda.chatui.quickmeet.bean
 
-data class QuickCreateMeetBean(
+data class QuickDetailMeetBean(
     var beginTime: String? = null,
     var channelName: String? = null,
     var channelId: String? = null,
@@ -17,6 +17,7 @@ data class QuickCreateMeetBean(
     var remainAmount: Double = 0.0,
     var token: String? = null,
     var userId: String? = null,
+    var mId: Int = 0,
     var userTierConfigId: Int = 0,
     var userTierConfigValue: Int = 0
 )

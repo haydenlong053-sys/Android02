@@ -219,8 +219,8 @@ class MeetCallManager private constructor() {
             super.onJoinChannelSuccess(channel, uid, elapsed)
             eLogD("zhanglong", "onJoinChannelSuccess---channel=$channel---uid=$uid" )
             runOnUiThread(Runnable {
-                startCallService()
                 mCallData.callStatus = CallStatus.CALLING
+                startCallService()
                 notifyRtcJoinChannelSuccess()
             })
         }

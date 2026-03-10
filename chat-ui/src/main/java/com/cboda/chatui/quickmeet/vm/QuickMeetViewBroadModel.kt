@@ -8,7 +8,7 @@ import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.chatui.quickmeet.UrlMeetConstants
-import com.cboda.chatui.quickmeet.bean.QuickCreateMeetBean
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
@@ -17,15 +17,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 //极速直播
-open class QuickMeetViewBroadModel: BaseViewModel() {
+open class QuickMeetViewBroadModel : BaseViewModel() {
 
     /**
      * 直播信息查询
      */
-    suspend fun goQuickMeetInfo(groupIdNo: String, liveStatus: String) : SingleLiveBroadData<QuickMeetInfoBean> {
+    suspend fun goQuickMeetInfo(groupIdNo: String, liveStatus: String): SingleLiveBroadData<QuickMeetInfoBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickMeetInfoBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo,"liveStatus" to liveStatus)
+        val params = hashMapOf("groupIdNo" to groupIdNo, "liveStatus" to liveStatus)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickMeetInfoBean>(
@@ -57,15 +57,15 @@ open class QuickMeetViewBroadModel: BaseViewModel() {
     /**
      * 创建直播
      */
-    suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String,durationConfigId: Int,userTierConfigId: Int) : SingleLiveBroadData<QuickCreateMeetBean> {
+    suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String, durationConfigId: Int, userTierConfigId: Int): SingleLiveBroadData<QuickDetailMeetBean> {
         showLoadingWfc()
-        val safeCenterLiveData = SingleLiveBroadData<QuickCreateMeetBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo,"channelId" to groupIdNo,"channelName" to channelName,"durationConfigId" to durationConfigId,"userTierConfigId" to userTierConfigId)
+        val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
+        val params = hashMapOf("groupIdNo" to groupIdNo, "channelId" to groupIdNo, "channelName" to channelName, "durationConfigId" to durationConfigId, "userTierConfigId" to userTierConfigId)
         withContext(Dispatchers.IO) {
             try {
-                NetworkBroadRepository.postEncrypted2<QuickCreateMeetBean>(
+                NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(
                     UrlMeetConstants.QUICK_LIVE_CREATE,
-                    QuickCreateMeetBean::class.java,
+                    QuickDetailMeetBean::class.java,
                     params
                 ).onSuccess { userInfo ->
                     dismissLoadingWfc()
@@ -88,10 +88,11 @@ open class QuickMeetViewBroadModel: BaseViewModel() {
         return safeCenterLiveData
     }
 
+
     /**
      * 销毁直播频道
      */
-    suspend fun goDissolveQuickMeet(groupIdNo: String) : SingleLiveBroadData<Boolean> {
+    suspend fun goDissolveQuickMeet(groupIdNo: String): SingleLiveBroadData<Boolean> {
         val mLiveData = SingleLiveBroadData<Boolean>()
         val params = hashMapOf("groupIdNo" to groupIdNo)
         withContext(Dispatchers.IO) {
@@ -103,7 +104,7 @@ open class QuickMeetViewBroadModel: BaseViewModel() {
                 ).onSuccess { userInfo ->
                     mLiveData.postValue(true)
 
-                }.onFailure { code, message->
+                }.onFailure { code, message ->
 //                    ToastBroadUtils.show(message)
                 }.onError {
 
@@ -116,6 +117,39 @@ open class QuickMeetViewBroadModel: BaseViewModel() {
         return mLiveData
     }
 
+    /**
+     * 延长直播时间
+     */
+    suspend fun goExtendQuickMeet(groupIdNo: String, durationConfigId: Int = 1): SingleLiveBroadData<QuickDetailMeetBean> {
+        showLoadingWfc()
+        val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
+        val params = hashMapOf("groupIdNo" to groupIdNo, "durationConfigId" to durationConfigId)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(
+                    UrlMeetConstants.QUICK_LIVE_EXTEND,
+                    QuickDetailMeetBean::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    dismissLoadingWfc()
+                    userInfo?.let {
+                        safeCenterLiveData.postValue(it)
+                    }
+
+                }.onFailure { code, message ->
+                    dismissLoadingWfc()
+                    ToastBroadUtils.show(message)
+                }.onError {
+                    dismissLoadingWfc()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                dismissLoadingWfc()
+            }
+        }
+        return safeCenterLiveData
+    }
 
 
 }

@@ -91,9 +91,10 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                 onPayAuthSuccess = {
                     lifecycleScope.launch {
                         val meetingCreateUiState = viewModel.uiState.value
-                        viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0).observe(this@QuickMeetingCreateActivity){
-                            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER,it.channelId?:"",it.token?:"")
-                        }
+                        viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0)
+                            .observe(this@QuickMeetingCreateActivity) {
+                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "")
+                            }
                     }
 
                 }

@@ -1,7 +1,7 @@
 package com.cboda.chatui.quickmeet.bean
 
 class QuickMeetInfoBean(
-    var list: List<MeetChannelBean>? = null,
+    var list: List<QuickDetailMeetBean>? = null,
     var liveStatus: String? = null,
     var token: String? = null,
     var totalBeginTime: String? = null,

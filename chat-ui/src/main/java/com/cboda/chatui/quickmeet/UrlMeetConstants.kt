@@ -13,5 +13,9 @@ object UrlMeetConstants {
     //销毁直播频道
     const val QUICK_LIVE_DISSOLVE="api/quick/live/dissolve"
 
+    //延长直播时间
+    const val QUICK_LIVE_EXTEND="api/quick/live/extend"
+
+
 
 }

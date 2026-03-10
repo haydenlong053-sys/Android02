@@ -300,7 +300,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         if (mIsLayout) {
             mView?.visibility = View.VISIBLE
         } else {
-            if (!MeetCallManager.getInstance().isIdleState()) {
+            if (MeetCallManager.getInstance().isCallingState()) {
                 //当前处于会议通话状态
                 setupPanel(activity)
             }
@@ -321,7 +321,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         super.onPause()
 //        eLogD("zhanglong", "onPause--lifecycles_owner==${activity.lifecycle.currentState}")
         if (mIsLayout
-            && !MeetCallManager.getInstance().isIdleState()
+            && MeetCallManager.getInstance().isCallingState()
         ) {
             mView?.visibility = View.INVISIBLE
         }
