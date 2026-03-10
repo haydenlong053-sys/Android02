@@ -254,15 +254,15 @@ class MeetCallManager private constructor() {
         }
 
         override fun onUserOffline(uid: Int, reason: Int) {
-            super.onUserOffline(uid, reason)
             runOnUiThread(Runnable {
-                Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User offline: " + uid, Toast.LENGTH_SHORT).show()
+                notifyRtcUserOffline(uid,reason)
+
             })
         }
 
         override fun onClientRoleChanged(oldRole: Int, newRole: Int, newRoleOptions: ClientRoleOptions) {
             super.onClientRoleChanged(oldRole, newRole, newRoleOptions)
-            Log.d("zhanglong", "oldRole==" + oldRole + "---newRole==" + newRole + "---audienceLatencyLevel==" + newRoleOptions.getAudienceLatencyLevel())
+            eLogD("zhanglong", "oldRole==" + oldRole + "---newRole==" + newRole + "---audienceLatencyLevel==" + newRoleOptions.getAudienceLatencyLevel())
 //            runOnUiThread(Runnable {
 //                if (newRole == Constants.CLIENT_ROLE_AUDIENCE) {
 //                    LOOK_TYPE = 1
@@ -360,6 +360,13 @@ class MeetCallManager private constructor() {
             callEvent.onRtcUserJoined(uid)
         }
     }
+    private fun notifyRtcUserOffline(uid: Int,reason: Int) {
+        val list = ArrayList<CallEventCallback>(mCallEvents)
+        for (callEvent in list) {
+            callEvent.onRtcUserOffline(uid,reason)
+        }
+    }
+
 
     private fun notifyRtcJoinChannelSuccess() {
         val list = ArrayList<CallEventCallback>(mCallEvents)

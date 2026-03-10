@@ -15,11 +15,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.bean.GlobalChatGroupBean
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.BusLiveBroadData
 import com.cboda.baselibrary.utils.LiveDataBroadBroadBus
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
 import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.CallEventCallback
@@ -32,6 +35,8 @@ import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 /**
@@ -50,9 +55,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var mTvMeetEnd: TextView? = null
     private var mVoiceWaveView: MeetVoiceWaveBroadView? = null
     private var mLlNameView: View? = null
+    private var mTvUserName: TextView? = null
 
     private var mIsRegister = false
     private var viewModel: QuickMeetViewBroadModel? = null
+    private var groupBean : GlobalChatGroupBean?=null
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -118,6 +125,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         mVoiceWaveView = mView?.findViewById(R.id.mVoiceWaveView)
         mIvIconMic = mView?.findViewById(R.id.mIvIconMic)
         mLlNameView = mView?.findViewById(R.id.mLlNameView)
+        mTvUserName = mView?.findViewById(R.id.mTvUserName)
         mIvIconMic?.isSelected = false
         showUI()
 
@@ -148,15 +156,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
         val userMId = MMKVBroadUtils.getUserMId()
         activity.lifecycleScope.launch {
-            viewModel?.goQuickMeetInfo(groupIdNo,liveStatus)?.observe(activity){
-                if (it.list?.isNotEmpty() == true && it.token!=null){
+            viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
+                if (it.list?.isNotEmpty() == true && it.token != null) {
                     val meetChannelBean = it.list!![0]
-                    val direct =if (userMId== meetChannelBean.mId.toString()){
+                    val direct = if (userMId == meetChannelBean.idNo.toString()) {
                         CallDirect.CALLER
-                    }else{
+                    } else {
                         CallDirect.ANSWER
                     }
-                    MeetCallManager.getInstance().callMeetAction(direct,meetChannelBean.channelId?:"",it.token!!)
+                    MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!)
                 }
 
             }
@@ -165,9 +173,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     //取消会议
    private fun cancelMeeting() {
-        activity.lifecycleScope.launch {
-            val channelId = MeetCallManager.getInstance().mCallData.channelId
-            viewModel?.goDissolveQuickMeet(channelId)?.observe(activity){
+        if (MeetCallManager.getInstance().isCallDirect() && isCalling()){
+            MainScope().launch {
+                val channelId = MeetCallManager.getInstance().mCallData.channelId
+                viewModel?.goDissolveQuickMeet(channelId)?.observeForever {  }
             }
         }
     }
@@ -202,19 +211,21 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun showUI() {
         mTvMeetEnd?.click {
-            MeetCallManager.getInstance().leaveAndRelease()
             cancelMeeting()
+            MeetCallManager.getInstance().leaveAndRelease()
         }
         mLlNameView?.click {
-            mIvIconMic?.let { mivView ->
-                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
-                if (muteLocalAudio == 0) {
-                    mivView.isSelected = !mivView.isSelected
+            if (MeetCallManager.getInstance().isCallDirect()){
+                mIvIconMic?.let { mivView ->
+                    val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
+                    if (muteLocalAudio == 0) {
+                        mivView.isSelected = !mivView.isSelected
+                    }
                 }
             }
 
         }
-        showOrHideCover(true)
+//        showOrHideCover()
     }
 
     /**
@@ -225,11 +236,17 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         return MeetCallManager.getInstance().isCallingState()
     }
 
-    private fun showOrHideCover(show: Boolean, cameraChange: Boolean = false) {
-        if (show) {
-            coverAvatarIv?.visibility = View.VISIBLE
-        } else {
-            coverAvatarIv?.visibility = View.GONE
+    private fun showOrHideCover() {
+        groupBean?.let {
+            if (it.userList?.isNotEmpty() == true){
+                it.userList?.find { user ->
+                    user.type =="1"
+                }?.let { ownerUser->
+                    coverAvatarIv?.loadImg(ownerUser.icon)
+                    mTvUserName?.text= ownerUser.name
+
+                }
+            }
         }
     }
 
@@ -239,6 +256,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onRtcTokenFail(reason: Int) {
         dismissLoadingWfc()
+        if (reason == 8) {
+            ToastBroadUtils.show("会议无效的 Token")
+        }
+
     }
 
     override fun onEngineDestroy(data: CallData) {
@@ -273,15 +294,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onRtcUserJoined(uid: Int) {
-        super.onRtcUserJoined(uid)
         //有人加入频道
         eLogD("call", "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-        runOnUiThread(Runnable {
-            // 获取 uid 后，设置远端视频视图
-            // After obtaining the UID, set the remote video view.
-            Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User joined: " + uid, Toast.LENGTH_SHORT).show()
-        })
+        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User joined: " + uid, Toast.LENGTH_SHORT).show()
 
+    }
+
+    override fun onRtcUserOffline(uid: Int, reason: Int) {
+        //有人离开频道
+        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User offline: " + uid, Toast.LENGTH_SHORT).show()
     }
 
     private fun removePanel() {
@@ -294,7 +315,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onResume() {
         super.onResume()
         showMeetMiniLayoutView()
+
     }
+
 
     private fun showMeetMiniLayoutView() {
         if (mIsLayout) {
@@ -303,8 +326,18 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             if (MeetCallManager.getInstance().isCallingState()) {
                 //当前处于会议通话状态
                 setupPanel(activity)
+                queryGroupInfo()
             }
 //            setupPanel(activity)
+        }
+    }
+    private fun queryGroupInfo() {
+        activity.lifecycleScope.launch {
+            val channelId = MeetCallManager.getInstance().mCallData.channelId
+            viewModel?.queryGroupInfo(channelId)?.observe(activity) {
+                groupBean =it
+                showOrHideCover()
+            }
         }
     }
 
@@ -332,6 +365,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         unregisterListener()
         eLogD("onDestroy==========>")
         MeetCallManager.getInstance().unregisterEngineEvent(this)
+        cancelMeeting()
         MeetCallManager.getInstance().leaveAndRelease()
         removePanel()
         touchHandle = null

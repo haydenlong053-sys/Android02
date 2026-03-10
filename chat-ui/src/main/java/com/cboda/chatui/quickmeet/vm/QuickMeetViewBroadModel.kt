@@ -1,6 +1,7 @@
 package com.cboda.chatui.quickmeet.vm
 
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -146,6 +147,41 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 dismissLoadingWfc()
+            }
+        }
+        return safeCenterLiveData
+    }
+
+
+    /**
+     * 查询群信息
+     */
+    suspend fun queryGroupInfo(groupId: String): SingleLiveBroadData<GlobalChatGroupBean> {
+//        showLoadingWfc()
+        val safeCenterLiveData = SingleLiveBroadData<GlobalChatGroupBean>()
+        val params = hashMapOf("id" to groupId)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2<GlobalChatGroupBean>(
+                    UrlMeetConstants.QUICK_GROUP_INFO,
+                    GlobalChatGroupBean::class.java,
+                    params
+                ).onSuccess { userInfo ->
+//                    dismissLoadingWfc()
+                    userInfo?.let {
+                        safeCenterLiveData.postValue(it)
+                    }
+
+                }.onFailure { code, message ->
+//                    dismissLoadingWfc()
+                    ToastBroadUtils.show(message)
+                }.onError {
+//                    dismissLoadingWfc()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+//                dismissLoadingWfc()
             }
         }
         return safeCenterLiveData

@@ -17,7 +17,6 @@ data class QuickDetailMeetBean(
     var remainAmount: Double = 0.0,
     var token: String? = null,
     var userId: String? = null,
-    var mId: Int = 0,
     var userTierConfigId: Int = 0,
     var userTierConfigValue: Int = 0
 )

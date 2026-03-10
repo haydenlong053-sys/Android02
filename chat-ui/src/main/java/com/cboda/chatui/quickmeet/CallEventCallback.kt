@@ -21,9 +21,22 @@ interface CallEventCallback{
 
     /**
      * 有人加入频道
-     * @param uid Long
+     * @param uid
      */
     fun onRtcUserJoined(uid: Int) {
+
+    }
+
+    /**
+     * 有人离开频道（远端用户或主播离开频道时触发的回调。）
+     * @param uid
+     * reason
+     * 远端用户（在通信场景中）或主播（在直播场景中）离线的原因：
+     * USER_OFFLINE_QUIT (0)：用户主动退出通话，发送离开消息。
+     * USER_OFFLINE_DROPPED (1)：SDK 超时未收到任何数据包，用户掉线。网络连接不佳可能导致误判，建议使用声网 RTM SDK 进行可靠的离线检测。
+     * USER_OFFLINE_BECOME_AUDIENCE (2)：用户将角色从主播切换为观众。
+     */
+    fun onRtcUserOffline(uid: Int,reason: Int) {
 
     }
 

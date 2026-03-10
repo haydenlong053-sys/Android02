@@ -80,12 +80,13 @@
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
             <TextView
+                android:id="@+id/mTvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="@dimen/dp_55"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="主讲人"
+                android:text=""
                 android:textSize="10sp"
                 android:textColor="@color/white"
 

@@ -15,6 +15,8 @@ object UrlMeetConstants {
 
     //延长直播时间
     const val QUICK_LIVE_EXTEND="api/quick/live/extend"
+    //获取群信息
+    const val QUICK_GROUP_INFO="api/groupInfo"
 
 
 
