@@ -1,5 +1,6 @@
 package com.cboda.baselibrary.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -58,7 +59,7 @@ fun ImageView.loadDiyImg2(
                     } else {
                         mWidth to height1
                     }
-                } else if (bitmapWidth > mWidth && mWidth != 0) {
+                } else if ((bitmapWidth >= mWidth && mWidth != 0) || (mWidth > bitmapWidth && mHeight == 0)) {
                     mWidth to mWidth * bitmapHeight / bitmapWidth
                 } else if (bitmapHeight > mHeight && mHeight != 0) {
                     mHeight * bitmapWidth / bitmapHeight to mHeight
@@ -224,7 +225,7 @@ fun ImageView.loadDiyImg(
                             lp.width = mWidth
                             lp.height = height1
                         }
-                    } else if (bitmapWidth > mWidth && mWidth != 0) {
+                    } else if ((bitmapWidth >= mWidth && mWidth != 0) || (mWidth > bitmapWidth && mHeight == 0)) {
                         lp.width = mWidth
                         lp.height = mWidth * bitmapHeight / bitmapWidth
                     } else if (bitmapHeight > mHeight && mHeight != 0) {
@@ -269,15 +270,25 @@ fun ImageView.loadGifImage(any: Any?, width: Int, height: Int) {
 
 fun ImageView.loadImg(url: String?) {
     if (!TextUtils.isEmpty(url)) {
+        var mContext = this.context
+        if (mContext is Activity) {
+            mContext = this.context as Activity
+            if (mContext.isFinishing || mContext.isDestroyed) {
+                return
+            }
+        } else if (windowToken == null) {
+            return
+        }
+
         if (url!!.endsWith("gif")) {
             // 使用Glide播放gif图片
-            Glide.with(context)
+            Glide.with(mContext)
                 .asGif()
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(this)
         } else {
-            Glide.with(context).load(url).apply(RequestOptions().error(R.mipmap.ic_head_broad_defaut).placeholder(R.mipmap.ic_head_broad_defaut)).into(this)
+            Glide.with(mContext).load(url).apply(RequestOptions().error(R.mipmap.ic_head_broad_defaut).placeholder(R.mipmap.ic_head_broad_defaut)).into(this)
         }
     } else {
         this.setImageResource(R.mipmap.ic_head_broad_defaut)

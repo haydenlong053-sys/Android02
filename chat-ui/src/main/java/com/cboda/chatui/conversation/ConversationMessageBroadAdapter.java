@@ -60,6 +60,7 @@ import com.cboda.chatui.conversation.message.viewholder.NormalMessageContentView
 import com.cboda.chatui.conversation.message.viewholder.NotificationMessageContentViewBroadHolder;
 import com.cboda.chatui.utils.SharePrefBroadBroadUtil;
 import com.cboda.chatui.viewmodel.MessageViewBroadModel;
+
 import cn.wildfirechat.message.BiaoQingMessageContent;
 import cn.wildfirechat.message.CallStartMessageContent;
 import cn.wildfirechat.message.ImageMessageContent;
@@ -73,6 +74,7 @@ import cn.wildfirechat.message.VideoMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -416,12 +418,19 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         });
         int position = viewHolder.getAdapterPosition();
         UiBroadMessage message = getItem(position);
+        View portraitImageLayout = itemView.findViewById(R.id.portraitImageLayout);
         TextView portraitTv = itemView.findViewById(R.id.portraitTv);
         if (message.message.sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
             if (!TextUtils.isEmpty(message.message.content.extra)) {
-                portraitTv.setVisibility(View.VISIBLE);
                 MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
-                portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
+                if (msgExtra.isMeetingImage().equals("1")) {
+                    portraitImageLayout.setVisibility(View.GONE);
+                    portraitTv.setVisibility(View.GONE);
+                } else {
+                    portraitImageLayout.setVisibility(View.VISIBLE);
+                    portraitTv.setVisibility(View.VISIBLE);
+                    portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
+                }
             } else if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null) {
                 portraitTv.setVisibility(View.VISIBLE);
                 portraitTv.setText(messageViewModel.getUserGroupData().getGrade() + fragment.getString(R.string.message_grade_unit));
@@ -430,20 +439,30 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             }
         } else {
             TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
-                if (!TextUtils.isEmpty(message.message.content.extra)) {
-                portraitTv.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(message.message.content.extra)) {
                 MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
-                String joinGroupTime = msgExtra.getJoinGroupTime();
-                portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
-                joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
-                try {
-                    long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
-                    String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
-                    joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
-                } catch (Exception e) {
-                    toLog(e, "joinGroupTime");
+                if (msgExtra.isMeetingImage().equals("1")) {
+                    portraitImageLayout.setVisibility(View.GONE);
+                    portraitTv.setVisibility(View.GONE);
                     joinTimeTv.setVisibility(View.GONE);
+                } else {
+                    portraitImageLayout.setVisibility(View.VISIBLE);
+                    portraitTv.setVisibility(View.VISIBLE);
+                    String joinGroupTime = msgExtra.getJoinGroupTime();
+                    portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
+                    joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
+                    try {
+                        long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
+                        String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
+                        joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
+                    } catch (Exception e) {
+                        toLog(e, "joinGroupTime");
+                        joinTimeTv.setVisibility(View.GONE);
+                    }
                 }
+
+
+
             } else {
                 joinTimeTv.setVisibility(View.GONE);
                 portraitTv.setVisibility(View.GONE);
@@ -738,7 +757,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         || message1.content.getMessageContentType() == 6
 //                        || message1.content.getMessageContentType() == 4
                 ) {
-                    if ((message1.content.getMessageContentType() == 3 ||message1.content.getMessageContentType() == 6) && !TextUtils.isEmpty(((MediaMessageContent) message1.content).remoteUrl)){
+                    if ((message1.content.getMessageContentType() == 3 || message1.content.getMessageContentType() == 6) && !TextUtils.isEmpty(((MediaMessageContent) message1.content).remoteUrl)) {
                         titles.add(fragment.getString(R.string.message_collect));
                         ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
                         shoucang.setActionName(fragment.getString(R.string.message_collect));
@@ -751,7 +770,8 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                                 } else if (message1.content.getMessageContentType() == 2) {
                                     params2 = ((SoundMessageContent) message1.content).remoteUrl + "|" + "4" + "|" + ((SoundMessageContent) message1.content).getDuration();
                                 } else if (message1.content.getMessageContentType() == 6) {
-                                    params2 = ((VideoMessageContent) message1.content).remoteUrl + "|" + "3"+"|" + ((VideoMessageContent) message1.content).getDuration();;
+                                    params2 = ((VideoMessageContent) message1.content).remoteUrl + "|" + "3" + "|" + ((VideoMessageContent) message1.content).getDuration();
+                                    ;
                                 } else if (message1.content.getMessageContentType() == 4) {
                                     params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
                                 }
@@ -759,7 +779,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             }
                         });
                         mPopActions.add(shoucang);
-                    }else  if (message1.content.getMessageContentType() == 1){
+                    } else if (message1.content.getMessageContentType() == 1) {
                         titles.add(fragment.getString(R.string.message_collect));
                         ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
                         shoucang.setActionName(fragment.getString(R.string.message_collect));

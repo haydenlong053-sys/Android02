@@ -7,7 +7,16 @@ package com.cboda.chatui.chatroom;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.cboda.baselibrary.bean.BaseBroadResponse;
+import com.cboda.baselibrary.bean.CommonResultBroadBean;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.chatui.common.OperateBroadResult;
+import com.cboda.chatui.net.OKHttpBroadHelper;
+import com.cboda.chatui.net.SimpleCallback;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.wildfirechat.model.ChatRoomInfo;
 import cn.wildfirechat.model.ChatRoomMembersInfo;
 import cn.wildfirechat.remote.ChatManager;
@@ -28,6 +37,28 @@ public class ChatRoomViewBroadModel extends ViewModel {
             @Override
             public void onFail(int errorCode) {
                 result.setValue(new OperateBroadResult<>(false, errorCode));
+            }
+        });
+        return result;
+    }
+
+
+    public MutableLiveData<CommonResultBroadBean> getGagData(String groupID) {
+        MutableLiveData<CommonResultBroadBean> result = new MutableLiveData<>();
+        String url = HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupInfo";
+        Map<String, Object> params = new HashMap<>(2);
+        params.put("id", groupID);
+        OKHttpBroadHelper.post(url, params, new SimpleCallback<BaseBroadResponse>() {
+            @Override
+            public void onUiSuccess(BaseBroadResponse bean) {
+                if (bean instanceof CommonResultBroadBean) {
+                    result.postValue((CommonResultBroadBean) bean);
+                }
+            }
+
+            @Override
+            public void onUiFailure(int code, String msg) {
+
             }
         });
         return result;

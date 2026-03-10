@@ -75,6 +75,7 @@ import com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout;
 import com.cboda.chatui.widget.ShapeKeyboardHeightFrameBroadLayout;
 import com.cboda.chatui.widget.SimpleTextBroadWatcher;
 import com.cboda.chatui.widget.ViewPagerBroadFixed;
+
 import cn.wildfirechat.message.ChannelMenuEventMessageContent;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.TextMessageContent;
@@ -87,6 +88,7 @@ import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.QuoteInfo;
 import cn.wildfirechat.ptt.PTTClient;
 import cn.wildfirechat.remote.ChatManager;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 
 public class ConversationInputBroadPanel extends FrameLayout implements IEmotionSelectedBroadListener, DefaultLifecycleObserver {
@@ -306,7 +308,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             public void onRecordStateChanged(AudioRecorderBroadPanel.RecordState state) {
                 if (state == AudioRecorderBroadPanel.RecordState.START) {
                     TypingMessageContent content = new TypingMessageContent(TypingMessageContent.TYPING_VOICE);
-                    messageViewModel.sendMessage(conversation, content);
+                    messageViewModel.sendMessage(conversation, content, false);
                 }
             }
         });
@@ -830,7 +832,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             if (now - lastTypingTime > TYPING_INTERVAL_IN_SECOND * 1000) {
                 lastTypingTime = now;
                 TypingMessageContent content = new TypingMessageContent(type);
-                messageViewModel.sendMessage(conversation, content);
+                messageViewModel.sendMessage(conversation, content, false);
             }
         }
     }

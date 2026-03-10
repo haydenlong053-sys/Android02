@@ -11,6 +11,7 @@ import com.cboda.baselibrary.bean.CommonResultBroadBean.CommonResult
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
+//@Route(path = "/app/QunJinYanBroadActivity")
 class QunJinYanBroadActivity : BaseSimpleBroadActivity() {
     private var qunId = ""
     private var viewModel: CommViewBroadModel? = null

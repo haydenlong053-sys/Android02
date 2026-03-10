@@ -16,6 +16,9 @@ enum class BridgeImEnum(val value: String) {
     // 群聊主页
     GROUP_CHAT_HOME("qunliaozhuye"),
 
+    // 群聊禁言
+    GROUP_GAG("groupGag"),
+
     // 获取用户数据
     GET_USER_DATA("getUserData"),
 

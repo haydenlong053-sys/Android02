@@ -5,6 +5,7 @@
 package com.cboda.chatui.conversation.message.viewholder;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.cboda.baselibrary.bean.MsgBroadExtra;
 import com.cboda.chatui.AppServiceBroadProvider;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.BroadConfig;
@@ -48,6 +50,7 @@ import com.cboda.chatui.favorite.FavoriteBroadItem;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.net.SimpleCallback;
 import com.cboda.chatui.user.UserViewBroadModel;
+import com.cboda.chatui.utils.E;
 
 import cn.wildfirechat.message.ArticlesMessageContent;
 import cn.wildfirechat.message.CallStartMessageContent;
@@ -460,38 +463,48 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
             nameTextView.setVisibility(View.GONE);
             return;
         }
-        nameTextView.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(message.content.extra)) {
+            MsgBroadExtra msgExtra = fromJson2(message.content.extra, MsgBroadExtra.class);
+            nameTextView.setVisibility(msgExtra.isMeetingImage().equals("1") ? View.GONE : View.VISIBLE);
+        } else {
+            nameTextView.setVisibility(View.VISIBLE);
+        }
+
         // TODO optimize 缓存userInfo吧
 //        if (Conversation.equals(nameTextView.getTag(), sender)) {
 //            return;
 //        }
-        final String[] displayName = {""};
-        UserInfo userInfo = ChatManager.Instance().getUserInfo(sender, conversation.target, false);
-        if (userInfo != null) {
-            if (!TextUtils.isEmpty(userInfo.groupAlias)) {
-                displayName[0] = userInfo.groupAlias;
-            } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
-                displayName[0] = userInfo.friendAlias;
-            } else if (!TextUtils.isEmpty(userInfo.displayName)) {
-                displayName[0] = userInfo.displayName;
-            }
-        }
-        if (TextUtils.isEmpty(displayName[0])) {
-            displayName[0] = "<" + sender + ">";
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(sender, null, globalFriendBean -> {
-                if (null != globalFriendBean) {
-                    if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
-                        displayName[0] = globalFriendBean.remarkName;
-                    } else if (!TextUtils.isEmpty(globalFriendBean.nickName)) {
-                        displayName[0] = globalFriendBean.nickName;
-                    }
-                }
-                nameTextView.setText(displayName[0]);
-                return null;
-            });
-        }else{
-            nameTextView.setText(displayName[0]);
-        }
+//        final String[] displayName = {""};
+//        UserInfo userInfo = ChatManager.Instance().getUserInfo(sender, conversation.target, false);
+//        if (userInfo != null) {
+//            if (!TextUtils.isEmpty(userInfo.groupAlias)) {
+//                displayName[0] = userInfo.groupAlias;
+//            } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
+//                displayName[0] = userInfo.friendAlias;
+//            } else if (!TextUtils.isEmpty(userInfo.displayName)) {
+//                displayName[0] = userInfo.displayName;
+//            }
+//        }
+//        if (TextUtils.isEmpty(displayName[0])) {
+//            displayName[0] = "<" + sender + ">";
+//            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(sender, null, globalFriendBean -> {
+//                if (null != globalFriendBean) {
+//                    if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
+//                        displayName[0] = globalFriendBean.remarkName;
+//                    } else if (!TextUtils.isEmpty(globalFriendBean.nickName)) {
+//                        displayName[0] = globalFriendBean.nickName;
+//                    }
+//                }
+//                nameTextView.setText(displayName[0]);
+//                return null;
+//            });
+//        } else {
+//            nameTextView.setText(displayName[0]);
+//        }
+        E.INSTANCE.getUserName(sender, conversation.target, s -> {
+            nameTextView.setText(s);
+            return null;
+        });
         nameTextView.setTag(sender);
     }
 

@@ -58,15 +58,33 @@ fun String.removeTrailingZeros(): String {
 
 // 把这 10 行放进项目，以后所有点击都不用再担心重复
 fun View.click(debounceTime: Long = 800, action: () -> Unit) {
-    setOnClickListener {
+//    setOnClickListener {
+//        val now = SystemClock.uptimeMillis()
+//        val key = 0x7fffffff
+//        val last = (getTag(key) as? Long) ?: 0
+//        if (now - last >= debounceTime) {
+//            setTag(key, now)
+//            action()
+//        }
+//    }
+    click(this, action, debounceTime)
+}
+
+
+fun click(view: View, action: () -> Unit, debounceTime: Long = 800) {
+    view.setOnClickListener {
         val now = SystemClock.uptimeMillis()
         val key = 0x7fffffff
-        val last = (getTag(key) as? Long) ?: 0
+        val last = (view.getTag(key) as? Long) ?: 0
         if (now - last >= debounceTime) {
-            setTag(key, now)
+            view.setTag(key, now)
             action()
         }
     }
+}
+
+fun click(view: View, action: () -> Unit) {
+    click(view, action, 800)
 }
 
 /**
@@ -948,7 +966,7 @@ fun showMeetLeaveTip(context: Context? = null,block:()-> Unit={}) {
 }
 
 //裁视图轮廓圆角
-fun clipViewOutlineRound(view: View,radiusDp: Int){
+fun clipViewOutlineRound(view: View, radiusDp: Int) {
     val radius = radiusDp * view.resources.displayMetrics.density
     view.post {
         view.clipToOutline = true

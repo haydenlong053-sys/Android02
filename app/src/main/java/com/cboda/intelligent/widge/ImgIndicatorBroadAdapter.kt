@@ -83,7 +83,9 @@ class ImgIndicatorBroadAdapter : CommonNavigatorBroadAdapter {
         val titleText = itemLayout.findViewById<TextView>(R.id.imgIndicatorTitleTv)
         val bottomIv = itemLayout.findViewById<AppCompatImageView>(R.id.imgIndicatorTitleIv)
 //        val shapeView = itemLayout.findViewById<View>(R.id.shapeView)
+//        titleText.post {
         titleText.setText(mTitles!![index])
+//        }
 //        titleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
         bottomIv.setImageResource(mImgS!![index])
         pagerTitleView.contentView = itemLayout

@@ -1,5 +1,6 @@
 package com.cboda.intelligent.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.StringUtils
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.TestActivity
 import com.cboda.intelligent.adapter.AIImgBroadAdapter
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.AiAllFragmentBinding
@@ -253,6 +255,7 @@ class AiAllFragment :
                 VOICE_TYPE -> chooseAudio()
                 VIDEO_TYPE -> chooseVideo()
             }
+//            startActivity(Intent(activity, TestActivity::class.java))
         }
         adapter.setOnItemClickListener { _, _ ->
             chooseImg()

@@ -5,6 +5,7 @@
 package com.cboda.chatui.viewmodel;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.content.Context;
@@ -223,7 +224,13 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     // TODO 可优化成moveTo
     public void resendMessage(Message message) {
         deleteMessage(message);
-        sendMessage(message.conversation, message.content);
+        if (!TextUtils.isEmpty(message.content.extra)) {
+            MsgBroadExtra msgExtra = fromJson2(message.content.extra, MsgBroadExtra.class);
+            sendMessage(message.conversation, message.content, msgExtra.isMeetingImage().equals("1"));
+        } else {
+            sendMessage(message.conversation, message.content, false);
+        }
+
     }
 
     public void recallMessage(Message message) {
@@ -339,21 +346,23 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     }
 
 
-    public void sendMessage(Conversation conversation, MessageContent content) {
+    public void sendMessage(Conversation conversation, MessageContent content, Boolean isMeetingImage) {
         if (conversation.type == Conversation.ConversationType.Group && null == userGroupData) {
             E.INSTANCE.getDetailUserData(conversation.target, commonBean -> {
                 userGroupData = commonBean;
-                sendMessageAfter(conversation, content);
+                sendMessageAfter(conversation, content, isMeetingImage);
                 return null;
             });
         } else {
-            sendMessageAfter(conversation, content);
+            sendMessageAfter(conversation, content, isMeetingImage);
         }
     }
 
-    public void sendMessageAfter(Conversation conversation, MessageContent content) {
+    public void sendMessageAfter(Conversation conversation, MessageContent content, Boolean isMeetingImage) {
         if (conversation.type == Conversation.ConversationType.Group && null != userGroupData) {
-            content.extra = toJson2(new MsgBroadExtra(userGroupData.getGrade(), userGroupData.getJoinTime()));
+            content.extra = toJson2(new MsgBroadExtra(userGroupData.getGrade(), userGroupData.getJoinTime(), isMeetingImage ? "1" : ""));
+        } else if (isMeetingImage) {
+            content.extra = toJson2(new MsgBroadExtra(0, "", "1"));
         }
         //野火发送消息
         if (content instanceof TypingMessageContent) {
@@ -452,7 +461,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     }
 
     public void sendTextMsg(Conversation conversation, TextMessageContent txtContent) {
-        sendMessage(conversation, txtContent);
+        sendMessage(conversation, txtContent, false);
         ChatManager.Instance().setConversationDraft(conversation, null);
     }
 
@@ -464,23 +473,23 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
         ChatManager.Instance().setConversationSilent(conversation, silent);
     }
 
-    public void sendImgMsg(Conversation conversation, Uri imageFileThumbUri, Uri imageFileSourceUri) {
+    public void sendImgMsg(Conversation conversation, Uri imageFileThumbUri, Uri imageFileSourceUri, Boolean isMeetingImage) {
         ImageMessageContent imgContent = new ImageMessageContent(imageFileSourceUri.getEncodedPath());
         String thumbParam = ChatManager.Instance().getImageThumbPara();
         if (!TextUtils.isEmpty(thumbParam)) {
             imgContent.setThumbPara(ChatManager.Instance().getImageThumbPara());
         }
-        sendMessage(conversation, imgContent);
+        sendMessage(conversation, imgContent, isMeetingImage);
     }
 
-    public void sendImgMsg(Conversation conversation, File imageFileThumb, File imageFileSource) {
+    public void sendImgMsg(Conversation conversation, File imageFileThumb, File imageFileSource, Boolean isMeetingImage) {
         // Uri.fromFile()遇到中文檔名會轉 ASCII，這個 ASCII 的 path 將導致後面 ChatManager.sendMessage()
         // 在 new File()時找不到 File 而 return
         Uri imageFileThumbUri = Uri.parse(Uri.decode(imageFileThumb.getAbsolutePath()));
 //        Uri imageFileThumbUri = Uri.fromFile(imageFileThumb);
         CompressionBroadUtil.imgCompression(context, imageFileSource.getAbsolutePath(), 100, s -> {
             Uri imageFileSourceUri = Uri.parse(Uri.decode(s));
-            sendImgMsg(conversation, imageFileThumbUri, imageFileSourceUri);
+            sendImgMsg(conversation, imageFileThumbUri, imageFileSourceUri, isMeetingImage);
             return null;
         });
 //        Uri imageFileSourceUri = Uri.parse(Uri.decode(imageFileSource.getAbsolutePath()));
@@ -490,7 +499,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     public void sendVideoMsg(Conversation conversation, File file, FragmentActivity activity) {
         CompressionBroadUtil.sendVideoCompress(file.getPath(), activity, (s, s2) -> {
             VideoMessageContent videoMessageContent = new VideoMessageContent(s);
-            sendMessage(conversation, videoMessageContent);
+            sendMessage(conversation, videoMessageContent, false);
             return null;
         });
 //        VideoMessageContent videoMessageContent = new VideoMessageContent(file.getPath());
@@ -500,12 +509,12 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     public void sendStickerMsg(Conversation conversation, String localPath, String remoteUrl) {
         StickerMessageContent stickerMessageContent = new StickerMessageContent(localPath);
         stickerMessageContent.remoteUrl = remoteUrl;
-        sendMessage(conversation, stickerMessageContent);
+        sendMessage(conversation, stickerMessageContent, false);
     }
 
     public void sendFileMsg(Conversation conversation, File file) {
         FileMessageContent fileMessageContent = new FileMessageContent(file.getPath());
-        sendMessage(conversation, fileMessageContent);
+        sendMessage(conversation, fileMessageContent, false);
     }
 
     public void sendLocationMessage(Conversation conversation, LocationBroadData locationData) {
@@ -515,7 +524,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
         locCont.getLocation().setLongitude(locationData.getLng());
         locCont.setThumbnail(locationData.getThumbnail());
 
-        sendMessage(conversation, locCont);
+        sendMessage(conversation, locCont, false);
     }
 
     public void sendAudioFile(Conversation conversation, Uri audioPath, int duration) {
@@ -527,7 +536,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
             }
             SoundMessageContent soundContent = new SoundMessageContent(file.getAbsolutePath());
             soundContent.setDuration(duration);
-            sendMessage(conversation, soundContent);
+            sendMessage(conversation, soundContent, false);
         }
     }
 

@@ -7,12 +7,17 @@ package com.cboda.chatui.conversation.message.viewholder;
 import static com.cboda.baselibrary.utils.GlideUtilsKt.loadDiyImg;
 import static com.cboda.baselibrary.utils.GlideUtilsKt.loadDiyImg2;
 import static com.blankj.utilcode.util.SizeUtils.dp2px;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil.getScreenWidth;
 
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.bean.MsgBroadExtra;
 import com.cboda.chatui.*;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
@@ -20,6 +25,7 @@ import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.utils.DownloadBroadManager;
 import com.cboda.chatui.utils.FileBroadUtils;
+
 import cn.wildfirechat.message.ImageMessageContent;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.core.MessageDirection;
@@ -73,11 +79,20 @@ public class ImageMessageContentViewBroadHolder extends MediaMessageContentViewB
             imagePath = DownloadBroadManager.buildSecretChatMediaUrl(message.message);
         }
 //        loadMedia(thumbnail, imagePath, imageView);
+        boolean isMeetingImage = false;
+        if (!TextUtils.isEmpty(message.message.content.extra)) {
+            MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
+            if (msgExtra.isMeetingImage().equals("1")) {
+                isMeetingImage = true;
+            }
+        }
         if (FileBroadUtils.isFileExists(imagePath)) {
-            loadDiyImg(imageView, imagePath, dp2px(140f), dp2px(140f), () -> null);
+//            ViewGroup.LayoutParams layoutParams= imageView.getLayoutParams();
+//            imageView.getLayoutParams()
+            loadDiyImg(imageView, imagePath, isMeetingImage ? getScreenWidth(imageView.getContext()) - dp2px(40f) : dp2px(140f), isMeetingImage ? 0 : dp2px(140f), () -> null);
         } else {
             ImgBean imgBean = imageMessage.getImgBean();
-            loadDiyImg2(imageView, imagePath, dp2px(140f), dp2px(140f), imgBean.getImgWidth(), imgBean.getImgHeight(), imgBean.getThumbnail(), () -> null);
+            loadDiyImg2(imageView, imagePath, isMeetingImage ? getScreenWidth(imageView.getContext()) - dp2px(40f) : dp2px(140f), isMeetingImage ? 0 : dp2px(140f), imgBean.getImgWidth(), imgBean.getImgHeight(), imgBean.getThumbnail(), () -> null);
         }
     }
 

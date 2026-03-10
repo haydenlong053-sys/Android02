@@ -245,6 +245,10 @@ fun chooseVideo(
 
 }
 
+fun chooseMsgOnePicture(block: (result: LinkedList<Pair<String, LocalMedia>>?) -> Unit) {
+    choosePicture(block = block)
+}
+
 fun choosePicture(
     canCamera: Boolean = true,
     canChooseGif: Boolean = false,

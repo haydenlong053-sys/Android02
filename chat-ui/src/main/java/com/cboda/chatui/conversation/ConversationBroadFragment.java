@@ -4,7 +4,10 @@
 
 package com.cboda.chatui.conversation;
 
+import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateBarrageDataLiveData;
+import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePicture;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,6 +42,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.cboda.baselibrary.bean.DanmakuItem;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
@@ -51,14 +56,19 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.widge.VerticalDanmakuView;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.MarqueeTextBroadView;
 import com.cboda.chatui.R;
@@ -75,14 +85,18 @@ import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.conversation.multimsg.MultiMessageBroadAction;
 import com.cboda.chatui.conversation.multimsg.MultiMessageActionBroadManager;
 import com.cboda.chatui.conversation.receipt.GroupMessageReceiptBroadActivity;
+import com.cboda.chatui.dialog.DanMaPop;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.group.PickGroupMemberBroadActivity;
+import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.utils.DownloadBroadManager;
+import com.cboda.chatui.utils.E;
 import com.cboda.chatui.viewmodel.MessageViewBroadModel;
 import com.cboda.chatui.viewmodel.SettingViewBroadModel;
 import com.cboda.chatui.viewmodel.UserOnlineStateViewBroadModel;
+import com.cboda.chatui.voip.conference.message.BarrageContent;
 import com.cboda.chatui.widget.InputAwareBroadLayout;
 import com.cboda.chatui.widget.KeyboardAwareLinearBroadLayout;
 
@@ -111,12 +125,14 @@ import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.model.UserOnlineState;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
+import cn.wildfirechat.remote.SendMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
+import com.cboda.select.picture.entity.LocalMedia;
 
 @SuppressLint("FragmentLiveDataObserve")
 public class ConversationBroadFragment extends Fragment implements
@@ -144,6 +160,8 @@ public class ConversationBroadFragment extends Fragment implements
 
     InputAwareBroadLayout rootLinearLayoutBroad;
     SwipeRefreshLayout swipeRefreshLayoutBroad;
+    VerticalDanmakuView verticalDanmakuView;
+    ImageView danmakuIv;
     RecyclerView recyclerViewBroad;
 
     RecyclerView ongoingCallRecyclerViewBroad;
@@ -169,7 +187,8 @@ public class ConversationBroadFragment extends Fragment implements
     private GroupViewBroadModel groupBroadViewModel;
     private ChatRoomViewBroadModel chatRoomBroadViewModel;
 
-    private Handler handlerBroad;
+    private Handler handlerBroad = ThreadUtils.getMainHandler();
+    ;
     private long initialFocusedBroadMessageId;
     private long firstUnreadBroadMessageId;
     // 用户channel主发起，针对某个用户的会话
@@ -517,6 +536,8 @@ public class ConversationBroadFragment extends Fragment implements
         qunMeetingNoticeBroad = view.findViewById(R.id.qunMeetingNotice);
         rootLinearLayoutBroad = view.findViewById(R.id.rootLinearLayout);
         swipeRefreshLayoutBroad = view.findViewById(R.id.swipeRefreshLayout);
+        verticalDanmakuView = view.findViewById(R.id.verticalDanmakuView);
+        danmakuIv = view.findViewById(R.id.danmakuIv);
         recyclerViewBroad = view.findViewById(R.id.msgRecyclerView);
         ongoingCallRecyclerViewBroad = view.findViewById(R.id.ongoingCallRecyclerView);
         tvPhoneLoginBroad = view.findViewById(R.id.tvPhoneLogin);
@@ -566,6 +587,9 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
+        if (null != verticalDanmakuView) {
+            verticalDanmakuView.danMaResume();
+        }
         if (conversationBroadViewModel != null && conversationBroad != null) {
             conversationBroadViewModel.clearUnreadStatus(conversationBroad);
         }
@@ -626,10 +650,96 @@ public class ConversationBroadFragment extends Fragment implements
 
     }
 
-    private void initView() {
-        handlerBroad = new Handler();
-        rootLinearLayoutBroad.addOnKeyboardShownListener(this);
+    private void addBarrageData(String userName, int giftType, boolean isMeSend) {
+        if (null != verticalDanmakuView) {
+            DanmakuItem danmakuItem = new DanmakuItem();
+            danmakuItem.setContent(userName + ": ");
+            danmakuItem.setMeSend(isMeSend);
+            danmakuItem.setIconResId(giftType == 1 ? com.cboda.baselibrary.R.mipmap.icon_danma_xh : com.cboda.baselibrary.R.mipmap.icon_danma_gz);
+            verticalDanmakuView.addDanmaku(danmakuItem);
+        }
+    }
 
+    private void initView() {
+        rootLinearLayoutBroad.addOnKeyboardShownListener(this);
+//        chatRoomBroadViewModel.getGagData()
+//        verticalDanmakuView.setImageLoader((imageView, s) -> {
+//            imageView.setVisibility(View.VISIBLE);
+//            loadImg(imageView, s);
+//            return null;
+//        });
+        getUpdateBarrageDataLiveData().observe(getViewLifecycleOwner(), barrageBean -> {
+            if (null != verticalDanmakuView && barrageBean.getConversationType() == conversationBroad.type.getValue() && barrageBean.getConversationId().equals(conversationBroad.target)) {
+                E.INSTANCE.getUserName(barrageBean.getSender(), barrageBean.getConversationId(), userName -> {
+                    addBarrageData(userName, barrageBean.getGiftType(), false);
+                    return null;
+                });
+            }
+        });
+        click(danmakuIv, () -> {
+            Activity activity = getActivity();
+            if (activity == null) {
+                return null;
+            }
+            DanMaPop danMaPop = new DanMaPop(activity, true);
+            danMaPop.setClickInvoke(integer -> {
+                switch (integer) {
+                    case 1, 2:
+                        BarrageContent bc = new BarrageContent();
+                        bc.giftType = integer;
+                        Message msg = new Message();
+                        msg.conversation = conversationBroad;
+                        msg.content = bc;
+                        msg.sender = ChatManager.Instance().getUserId();
+                        ChatManager.Instance().sendMessage(msg, new SendMessageCallback() {
+                            @Override
+                            public void onSuccess(long messageUid, long timestamp) {
+                                eLogD("ConversationBroadFragmentClass", "onSuccess");
+                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
+//                                ToastUtils.showShort("发送成功");
+                            }
+
+                            @Override
+                            public void onFail(int errorCode) {
+                                eLogD("ConversationBroadFragmentClass", "onFail:" + errorCode);
+                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
+//                                ToastUtils.showShort(getString(R.string.call_network_error));
+                            }
+
+                            @Override
+                            public void onPrepare(long messageId, long savedTime) {
+
+                            }
+                        });
+                        break;
+                    case 3:
+                        chooseMsgOnePicture(pairs -> {
+                            if (!pairs.isEmpty()) {
+                                LocalMedia imageItem = pairs.getFirst().getSecond();
+                                File imageFileThumb;
+                                File imageFileSource = null;
+                                if (!imageItem.isCompressed()) {
+                                    imageFileSource = ImageBroadUtils.compressImage(imageItem.getRealPath());
+                                }
+                                imageFileSource = imageFileSource == null ? new File(imageItem.getRealPath()) : imageFileSource;
+                                imageFileThumb = ImageBroadUtils.genThumbImgFile(imageItem.getRealPath());
+                                File finalImageFileSource = imageFileSource;
+                                if (null != messageBroadViewModel) {
+                                    UIBroadUtils.postTaskSafely(() -> messageBroadViewModel.sendImgMsg(conversationBroad, imageFileThumb, finalImageFileSource, true));
+                                }
+                            }
+                            return null;
+                        });
+                        break;
+                    case 4, 5:
+                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.GROUP_GAG.getValue(), conversationBroad.target, "", null);
+                        break;
+                }
+                return null;
+            });
+            danMaPop.showPopupWindow(danmakuIv);
+            return null;
+        });
         swipeRefreshLayoutBroad.setOnRefreshListener(() -> {
             if (adapterBroad.getMessages() == null || adapterBroad.getMessages().isEmpty()) {
                 swipeRefreshLayoutBroad.setRefreshing(false);
@@ -731,6 +841,28 @@ public class ConversationBroadFragment extends Fragment implements
         }
     }
 
+    private boolean isGifFile(String file) {
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            int[] flags = new int[5];
+            flags[0] = inputStream.read();
+            flags[1] = inputStream.read();
+            flags[2] = inputStream.read();
+            flags[3] = inputStream.read();
+            inputStream.skip(inputStream.available() - 1);
+            flags[4] = inputStream.read();
+            inputStream.close();
+            return flags[0] == 71 && flags[1] == 73 && flags[2] == 70 && flags[3] == 56 && flags[4] == 0x3B;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private void setupConversation(Conversation conversation) {
         if (conversation.type == Conversation.ConversationType.Group) {
             groupBroadViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
@@ -759,7 +891,7 @@ public class ConversationBroadFragment extends Fragment implements
             }
         } else if (conversation.type == Conversation.ConversationType.Channel) {
             EnterChannelChatMessageContent content = new EnterChannelChatMessageContent();
-            messageBroadViewModel.sendMessage(conversation, content);
+            messageBroadViewModel.sendMessage(conversation, content, false);
         } else if (conversation.type == Conversation.ConversationType.Group) {
             messageBroadViewModel.getMsgDetailUserData(conversation.target);
 
@@ -987,7 +1119,7 @@ public class ConversationBroadFragment extends Fragment implements
                                 content.tip = String.format(welcome, "<" + userId + ">");
                             }
                             handlerBroad.postDelayed(() -> {
-                                messageBroadViewModel.sendMessage(conversationBroad, content);
+                                messageBroadViewModel.sendMessage(conversationBroad, content, false);
                             }, 1000);
                             setChatRoomConversationTitle();
 
@@ -1217,6 +1349,9 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onPause() {
         super.onPause();
+        if (null != verticalDanmakuView) {
+            verticalDanmakuView.danMaPause();
+        }
         inputPanelBroad.onActivityPause();
         messageBroadViewModel.stopPlayAudio();
     }
@@ -1225,6 +1360,9 @@ public class ConversationBroadFragment extends Fragment implements
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (null != verticalDanmakuView) {
+            verticalDanmakuView.clearAll();
+        }
         if (conversationBroad == null) {
             return;
         }
@@ -1240,7 +1378,7 @@ public class ConversationBroadFragment extends Fragment implements
             }
         } else if (conversationBroad.type == Conversation.ConversationType.Channel) {
             LeaveChannelChatMessageContent content = new LeaveChannelChatMessageContent();
-            messageBroadViewModel.sendMessage(conversationBroad, content);
+            messageBroadViewModel.sendMessage(conversationBroad, content, false);
         }
 
         messageBroadViewModel.messageLiveData().removeObserver(messageBroadLiveDataObserver);
@@ -1363,7 +1501,7 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void updateTypingStatusTitle() {
-        if (!isAdded()){
+        if (!isAdded()) {
             return;
         }
         if (this.typingMessageBroadMap == null || this.conversationBroad.type == Conversation.ConversationType.Channel || this.conversationBroad.type == Conversation.ConversationType.ChatRoom) {

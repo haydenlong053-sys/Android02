@@ -43,7 +43,7 @@ public class ShootBroadExt extends ConversationMidExt {
             Intent intent = new Intent(activity, TakePhotoBroadActivity.class);
             startActivityForResult(intent, 100);
             TypingMessageContent content = new TypingMessageContent(TypingMessageContent.TYPING_CAMERA);
-            messageViewModel.sendMessage(conversation, content);
+            messageViewModel.sendMessage(conversation, content,false);
         } else {
             new PermissionExplainBroadPopup.BroadBuilder(activity)
                     .setTitle(activity.getString(R.string.shoot_warm_reminder))
@@ -80,7 +80,7 @@ public class ShootBroadExt extends ConversationMidExt {
             if (data.getBooleanExtra("take_photo", true)) {
                 //照片
                 File file = new File(path);
-                messageViewModel.sendImgMsg(conversation, ImageBroadUtils.genThumbImgFile(path), file);
+                messageViewModel.sendImgMsg(conversation, ImageBroadUtils.genThumbImgFile(path), file,false);
                 ImageBroadUtils.saveMedia2Album(fragment.getContext(), file, true);
             } else {
                 //小视频

@@ -1,5 +1,8 @@
 package com.cboda.chatui.voip.conference;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -8,9 +11,9 @@ import androidx.fragment.app.Fragment;
 import java.util.List;
 
 import com.cboda.chatui.voip.conference.message.ConferenceChangeModeBroadContent;
+
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.message.Message;
-import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.OnReceiveMessageListener;
 
@@ -30,19 +33,21 @@ public abstract class BaseConferenceBroadFragment extends Fragment implements On
 
     public void changeMode(String conferenceId, boolean audience) {
         if (AVEngineKit.Instance().getCurrentSession() != null
-            && AVEngineKit.Instance().getCurrentSession().isConference()
-            && AVEngineKit.Instance().getCurrentSession().getCallId().equals(conferenceId))
+                && AVEngineKit.Instance().getCurrentSession().isConference()
+                && AVEngineKit.Instance().getCurrentSession().getCallId().equals(conferenceId))
             AVEngineKit.Instance().getCurrentSession().switchAudience(audience);
     }
 
     @Override
     public void onReceiveMessage(List<Message> messages, boolean hasMore) {
         if (AVEngineKit.Instance().getCurrentSession() != null
-            && AVEngineKit.Instance().getCurrentSession().isConference()) {
+                && AVEngineKit.Instance().getCurrentSession().isConference()) {
             for (Message msg : messages) {
                 if (msg.content instanceof ConferenceChangeModeBroadContent) {
                     ConferenceChangeModeBroadContent content = (ConferenceChangeModeBroadContent) msg.content;
                     onChangeModeRequest(content.getCallId(), content.isAudience());
+                } else {
+                    eLogD("BaseConferenceBroadFragmentClass", "content:" + toJson2(msg.content));
                 }
             }
         }

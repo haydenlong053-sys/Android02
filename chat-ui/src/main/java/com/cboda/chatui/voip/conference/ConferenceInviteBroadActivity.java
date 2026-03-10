@@ -77,7 +77,7 @@ public class ConferenceInviteBroadActivity extends PickOrCreateConversationBroad
                         extraMsg = new Message();
                         extraMsg.content = content;
                     }
-                    messageViewModel.sendMessage(targetConversation, inviteMessage);
+                    messageViewModel.sendMessage(targetConversation, inviteMessage,false);
                     Toast.makeText(ConferenceInviteBroadActivity.this, "邀请成功", Toast.LENGTH_SHORT).show();
                     finish();
 //                        .observe(ConferenceInviteBroadActivity.this, new Observer<OperateBroadResult<Integer>>() {

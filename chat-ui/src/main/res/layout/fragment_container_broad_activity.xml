@@ -73,77 +73,86 @@
             app:layout_constraintTop_toTopOf="@id/page_title_right_icon" />
 
 
-        <com.hjq.shape.layout.ShapeConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dp_0"
-            android:gravity="center_horizontal"
-            android:minHeight="@dimen/dp_60"
-            android:orientation="vertical"
-            android:paddingVertical="@dimen/dp_15"
             app:layout_constraintBottom_toBottomOf="@id/page_title_left_icon"
             app:layout_constraintEnd_toStartOf="@id/page_title_right_icon"
             app:layout_constraintStart_toEndOf="@id/page_title_left_icon"
-            app:layout_constraintTop_toTopOf="@id/page_title_left_icon"
-            app:shape_radius="@dimen/dp_30"
-            app:shape_shadowColor="#739e9e9e"
-            app:shape_shadowSize="@dimen/dp_10"
-            app:shape_solidColor="@color/white">
+            app:layout_constraintTop_toTopOf="@id/page_title_left_icon">
 
-            <TextView
-                android:id="@+id/page_title"
+            <com.hjq.shape.layout.ShapeConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxWidth="200dp"
-                android:singleLine="true"
-                android:textAlignment="gravity"
-                android:textColor="@color/color_text0"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/titleGradeAndTime"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="用户信息" />
-
-            <LinearLayout
-                android:id="@+id/titleGradeAndTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_2"
-                android:orientation="horizontal"
-                android:visibility="gone"
+                android:layout_marginHorizontal="@dimen/dp_0"
+                android:gravity="center_horizontal"
+                android:minHeight="@dimen/dp_60"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dp_20"
+                android:paddingVertical="@dimen/dp_15"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/page_title"
-                tools:visibility="visible">
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape_radius="@dimen/dp_30"
+                app:shape_shadowColor="#739e9e9e"
+                app:shape_shadowSize="@dimen/dp_10"
+                app:shape_solidColor="@color/white">
 
-                <com.hjq.shape.view.ShapeTextView
-                    android:id="@+id/titleGrade"
+                <TextView
+                    android:id="@+id/page_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/dp_4"
-                    android:textColor="#A5000000"
-                    android:textSize="10sp"
-                    app:shape_radius="@dimen/dp_4"
-                    tools:text="信誉：89分" />
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/color_text0"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/titleGradeAndTime"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="用户信息" />
 
-                <com.hjq.shape.view.ShapeTextView
-                    android:id="@+id/titleTime"
+                <LinearLayout
+                    android:id="@+id/titleGradeAndTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_4"
-                    android:paddingHorizontal="@dimen/dp_4"
-                    android:textColor="#A5000000"
-                    android:textSize="10sp"
-                    app:shape_radius="@dimen/dp_4"
-                    tools:text="信誉：89分" />
-            </LinearLayout>
-        </com.hjq.shape.layout.ShapeConstraintLayout>
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/page_title"
+                    tools:visibility="visible">
+
+                    <com.hjq.shape.view.ShapeTextView
+                        android:id="@+id/titleGrade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/dp_4"
+                        android:textColor="#A5000000"
+                        android:textSize="10sp"
+                        app:shape_radius="@dimen/dp_4"
+                        tools:text="信誉：89分" />
+
+                    <com.hjq.shape.view.ShapeTextView
+                        android:id="@+id/titleTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:paddingHorizontal="@dimen/dp_4"
+                        android:textColor="#A5000000"
+                        android:textSize="10sp"
+                        app:shape_radius="@dimen/dp_4"
+                        tools:text="信誉：89分" />
+                </LinearLayout>
+            </com.hjq.shape.layout.ShapeConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

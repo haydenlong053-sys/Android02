@@ -97,7 +97,7 @@ public class ImageBroadExt extends ConversationMidExt {
                                         return;
                                     }
                                     File finalImageFileSource = imageFileSource;
-                                    UIBroadUtils.postTaskSafely(() -> messageViewModel.sendImgMsg(conversation, imageFileThumb, finalImageFileSource));
+                                    UIBroadUtils.postTaskSafely(() -> messageViewModel.sendImgMsg(conversation, imageFileThumb, finalImageFileSource,false));
 
                                 }
                             }
@@ -113,7 +113,7 @@ public class ImageBroadExt extends ConversationMidExt {
 //        Intent intent = ImagePicker.picker().showCamera(true).enableMultiMode(9).buildPickIntent(activity);
 //        startActivityForResult(intent, 100);
         TypingMessageContent content = new TypingMessageContent(TypingMessageContent.TYPING_CAMERA);
-        messageViewModel.sendMessage(conversation, content);
+        messageViewModel.sendMessage(conversation, content,false);
     }
 
     private boolean isGifFile(String file) {

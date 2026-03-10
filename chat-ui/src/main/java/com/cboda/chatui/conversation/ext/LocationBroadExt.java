@@ -52,7 +52,7 @@ public class LocationBroadExt extends ConversationMidExt {
         }
 
         TypingMessageContent content = new TypingMessageContent(TypingMessageContent.TYPING_LOCATION);
-        messageViewModel.sendMessage(conversation, content);
+        messageViewModel.sendMessage(conversation, content,false);
     }
 
     @Override

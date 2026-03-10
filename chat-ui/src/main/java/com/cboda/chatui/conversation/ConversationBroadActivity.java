@@ -207,7 +207,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             MeetingInviteMessageContent inviteMessageContent =
                     new Gson().fromJson(json, MeetingInviteMessageContent.class);
             if (inviteMessageContent != null && conversationBroadFragment != null) {
-                conversationBroadFragment.messageBroadViewModel.sendMessage(conversationBroad, inviteMessageContent);
+                conversationBroadFragment.messageBroadViewModel.sendMessage(conversationBroad, inviteMessageContent,false);
             }
 
 

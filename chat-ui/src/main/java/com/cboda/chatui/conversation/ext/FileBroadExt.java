@@ -40,7 +40,7 @@ public class FileBroadExt extends ConversationMidExt {
 //        intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent, 100);
         TypingMessageContent content = new TypingMessageContent(TypingMessageContent.TYPING_FILE);
-        messageViewModel.sendMessage(conversation, content);
+        messageViewModel.sendMessage(conversation, content,false);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class FileBroadExt extends ConversationMidExt {
                 case ".jpeg":
                 case ".gif":
                     File imageFileThumb = ImageBroadUtils.genThumbImgFile(path);
-                    messageViewModel.sendImgMsg(conversation, imageFileThumb, file);
+                    messageViewModel.sendImgMsg(conversation, imageFileThumb, file,false);
                     break;
                 case ".3gp":
                 case ".mpg":
