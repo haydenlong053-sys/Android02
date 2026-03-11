@@ -719,14 +719,22 @@ public class ConversationBroadFragment extends Fragment implements
                             @Override
                             public void onSuccess(long messageUid, long timestamp) {
                                 eLogD("ConversationBroadFragmentClass", "发送弹幕成功");
-                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
+                                E.INSTANCE.getUserName(MMKVBroadUtils.Companion.getRealUserId(), conversationBroad.target, userName -> {
+                                    addBarrageData(userName, integer, true);
+                                    return null;
+                                });
+//                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
 //                                ToastUtils.showShort("发送成功");
                             }
 
                             @Override
                             public void onFail(int errorCode) {
                                 eLogD("ConversationBroadFragmentClass", "发送弹幕失败:" + errorCode);
-                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
+                                E.INSTANCE.getUserName(MMKVBroadUtils.Companion.getRealUserId(), conversationBroad.target, userName -> {
+                                    addBarrageData(userName, integer, true);
+                                    return null;
+                                });
+//                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
 //                                ToastUtils.showShort(getString(R.string.call_network_error));
                             }
 
