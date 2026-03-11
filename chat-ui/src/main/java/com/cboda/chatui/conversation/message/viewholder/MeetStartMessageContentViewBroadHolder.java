@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import cn.wildfirechat.message.MeetStartMessageContent;
 
 @MessageContentBroadType(MeetStartMessageContent.class)
-@EnableContextBroadMenu
+//@EnableContextBroadMenu
 public class MeetStartMessageContentViewBroadHolder extends NotificationMessageContentViewBroadHolder {
 
     private TextView tvContent;

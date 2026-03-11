@@ -14,7 +14,7 @@ import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import cn.wildfirechat.message.MeetEndMessageContent;
 
 @MessageContentBroadType(MeetEndMessageContent.class)
-@EnableContextBroadMenu
+//@EnableContextBroadMenu
 public class MeetEndMessageContentViewBroadHolder extends NotificationMessageContentViewBroadHolder {
 
     private TextView tvContent;

@@ -3,7 +3,6 @@ package cn.wildfirechat.message;
 
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_MEET_END;
-import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_MEET_START;
 
 import android.os.Parcel;
 
@@ -32,14 +31,14 @@ public class MeetEndMessageContent extends GroupNotificationMessageContent {
 
     @Override
     public void decode(MessagePayload payload) {
-        try {
-            if (payload.content != null) {
-                JSONObject jsonObject = new JSONObject(payload.content);
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (payload.content != null) {
+//                JSONObject jsonObject = new JSONObject(payload.content);
+//
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -51,7 +50,8 @@ public class MeetEndMessageContent extends GroupNotificationMessageContent {
 
     @Override
     public String digest(Message message) {
-        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_meeting);
+//        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_meeting);
+        return "会议已结束";
 
     }
 
