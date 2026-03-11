@@ -50,7 +50,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
 
     var imageLoader: ((ImageView, String?) -> Unit)? = null
 
-    private val maxSize = 10000 //弹幕存储最大数量
+    private val maxSize = 66 //弹幕存储最大数量
 
 
 //    private val mainDelayMillis = 500L //每条弹幕间隔时长
