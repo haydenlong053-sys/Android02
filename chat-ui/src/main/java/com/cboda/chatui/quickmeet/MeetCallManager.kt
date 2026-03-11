@@ -18,6 +18,7 @@ import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.CallStatus
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import io.agora.rtc2.ChannelMediaOptions
 import io.agora.rtc2.ClientRoleOptions
 import io.agora.rtc2.Constants
@@ -86,7 +87,7 @@ class MeetCallManager private constructor() {
      * @param msg CallRespData 通话接口数据
      * @param direct CallDirect? 会议接听/发言方
      */
-    fun callMeetAction(direct: CallDirect?, channelId: String, token: String) {
+    fun callMeetAction(direct: CallDirect?, channelId: String, token: String, quickDetailMeetBean: QuickDetailMeetBean? = null) {
         if (checkMeetPermissions()) {
             if (!isIdleState()) {
                 eLogD("call", "callEvent 当前有正在进行的通话会议=========>")
@@ -96,6 +97,7 @@ class MeetCallManager private constructor() {
             data.callStatus = CallStatus.WAITING
             data.direct = direct
             data.channelId = channelId
+            data.quickDetailMeetBean = quickDetailMeetBean
             //初始化通话参数
             start(data, channelId, token)
         } else {
@@ -123,7 +125,7 @@ class MeetCallManager private constructor() {
             mCallData.direct = data.direct
             mCallData.callStatus = data.callStatus
             mCallData.channelId = data.channelId
-
+            mCallData.quickDetailMeetBean = data.quickDetailMeetBean
             //初始化 音视频sdk
             initRtcEngine(UtilBroadApplication.cxt.applicationContext, channelId, token)
         } else {

@@ -45,6 +45,7 @@ import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.DoubleMessageBroadEvent
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
@@ -59,7 +60,9 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.chatui.bridge.TiXingBroadUtils
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
+import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.showMeetPreEndTip
+import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
 import com.cboda.chatui.voip.conference.message.BarrageContent
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
@@ -118,6 +121,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var viewPager: MyViewBroadPager
 
     private val uIViewModel: HomeUIViewModel by viewModels()
+    private val quickMeetViewModel: QuickMeetViewBroadModel by viewModels()
 
 
     override fun getLayoutId(): Int {
@@ -588,7 +592,15 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                             )
                         }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent){
                             runOnUiThread {
-                                showMeetPreEndTip()
+                                showMeetPreEndTip(){
+                                    if (MeetCallManager.getInstance().isCallingState()){
+                                        lifecycleScope.launch {
+                                            quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observe(this@MainBroadActivity){
+                                                ToastBroadUtils.show("加时成功")
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                         if (message.content is UnknownMessageContent) {

@@ -7,10 +7,7 @@ import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.requestPermission
 import com.cboda.chatui.WfcBaseBroadActivity
-import com.cboda.select.picture.permissions.PermissionConfig.READ_MEDIA_AUDIO
-import com.cboda.select.picture.permissions.PermissionConfig.READ_MEDIA_IMAGES
-import com.cboda.select.picture.permissions.PermissionConfig.READ_MEDIA_VIDEO
-import com.cboda.select.picture.utils.SdkVersionUtils
+
 
 fun showLoadingWfc() {
     if (getResumeActivity() is WfcBaseBroadActivity) {
@@ -59,8 +56,8 @@ fun showMeetPreEndTip(block: () -> Unit = {}) {
                 mContext.getString(R.string.wenxintishi),
                 mContext.getString(R.string.chat_meet_pre_end_tip)
             )
-            commonTipPop.setCancelBtn(mContext.getString(R.string.bs_quxiao))
-            commonTipPop.setSureBtn(mContext.getString(R.string.bs_mine_sure))
+            commonTipPop.setCancelBtn(mContext.getString(R.string.chat_meet_time_tip_cancel))
+            commonTipPop.setSureBtn(mContext.getString(R.string.chat_meet_time_tip_ok))
             commonTipPop.sureInvoke = {
                 block.invoke()
             }

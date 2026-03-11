@@ -1,5 +1,7 @@
 package com.cboda.chatui.quickmeet.bean
 
+import java.io.Serializable
+
 data class QuickDetailMeetBean(
     var beginTime: String? = null,
     var channelName: String? = null,
@@ -19,4 +21,4 @@ data class QuickDetailMeetBean(
     var userId: String? = null,
     var userTierConfigId: Int = 0,
     var userTierConfigValue: Int = 0
-)
+): Serializable

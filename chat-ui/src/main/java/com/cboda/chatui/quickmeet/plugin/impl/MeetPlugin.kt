@@ -60,7 +60,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var mLlNameView: View? = null
     private var mTvUserName: TextView? = null
 
-    private var mIsRegister = false
     private var viewModel: QuickMeetViewBroadModel? = null
     private var groupBean: GlobalChatGroupBean? = null
 
@@ -102,17 +101,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
     }
 
-    private fun registerListener() {
-        if (!mIsRegister) {
-            mIsRegister = true
-        }
-    }
-
-    private fun unregisterListener() {
-        if (mIsRegister) {
-            mIsRegister = false
-        }
-    }
 
     override fun getContentLayout(): Int {
         return R.layout.meet_call_plugin_layout
@@ -153,7 +141,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 )
             }
         }
-        registerListener()
     }
 
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
@@ -168,7 +155,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                         } else {
                             CallDirect.ANSWER
                         }
-                        MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!)
+                        MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!,meetChannelBean)
 
                     }
                 }
@@ -250,12 +237,16 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private fun showOrHideCover() {
         groupBean?.let {
             if (it.userList?.isNotEmpty() == true) {
+                val quickDetailMeetBean = MeetCallManager.getInstance().mCallData.quickDetailMeetBean
                 it.userList?.find { user ->
-                    user.type == "1"
+                    quickDetailMeetBean?.let {detailMeetBean ->
+                        user.userId == detailMeetBean.userId
+                    }?:false
+
                 }?.let { ownerUser ->
+                    //会议发起人的信息
                     coverAvatarIv?.loadImg(ownerUser.icon)
                     mTvUserName?.text = ownerUser.name
-
                 }
             }
         }
@@ -293,7 +284,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         super.onRtcJoinChannelSuccess()
         dismissLoadingWfc()
         showMeetMiniLayoutView()
-        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "Join channel success", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "Join channel success", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -310,13 +301,13 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onRtcUserJoined(uid: Int) {
         //有人加入频道
         eLogD("call", "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User joined: " + uid, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User joined: " + uid, Toast.LENGTH_SHORT).show()
 
     }
 
     override fun onRtcUserOffline(uid: Int, reason: Int) {
         //有人离开频道
-        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User offline: " + uid, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User offline: " + uid, Toast.LENGTH_SHORT).show()
     }
 
     private fun removePanel() {
@@ -377,7 +368,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterListener()
         eLogD("onDestroy==========>")
         MeetCallManager.getInstance().unregisterEngineEvent(this)
         goOverMeeting()

@@ -26,6 +26,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
+import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.*
@@ -94,7 +95,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                         val meetingCreateUiState = viewModel.uiState.value
                         viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0)
                             .observe(this@QuickMeetingCreateActivity) {
-                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "")
+                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "",it)
                             }
                     }
 
@@ -103,7 +104,12 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
         }
     }
 
+    override fun onEngineSetup() {
+        showLoading()
+    }
+
     override fun onRtcJoinChannelSuccess() {
+        dismissLoading()
         finish()
     }
 

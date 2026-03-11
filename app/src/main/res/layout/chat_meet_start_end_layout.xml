@@ -19,7 +19,7 @@
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_4"
+        android:layout_marginHorizontal="4dp"
         tools:text="会议中"
         android:textColor="@color/black_45"
         android:textSize="12sp" />

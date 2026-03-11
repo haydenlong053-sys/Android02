@@ -1,6 +1,8 @@
 package com.cboda.chatui.quickmeet.bean
 
-class CallData {
+import java.io.Serializable
+
+class CallData : Serializable{
     constructor()
 
     var callStatus: CallStatus = CallStatus.IDLE
@@ -9,6 +11,7 @@ class CallData {
      */
     var direct: CallDirect? = null
     var channelId: String = ""
+    var quickDetailMeetBean:QuickDetailMeetBean?=null
 
 
 }
