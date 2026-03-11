@@ -462,7 +462,6 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 }
 
 
-
             } else {
                 joinTimeTv.setVisibility(View.GONE);
                 portraitTv.setVisibility(View.GONE);
@@ -666,17 +665,26 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     });
                     mPopActions.add(fuzhi);
                 }
-
-                titles.add(fragment.getString(R.string.message_select_more));
-                ChatPopBroadMenu.ChatPopMenuAction selectMore = new ChatPopBroadMenu.ChatPopMenuAction();
-                selectMore.setActionName(fragment.getString(R.string.message_select_more));
-                selectMore.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                    @Override
-                    public void onClick() {
-                        fragment.toggleMultiMessageMode(message);
+                boolean isMeetingImage = false;
+                if (!TextUtils.isEmpty(message1.content.extra)) {
+                    MsgBroadExtra msgExtra = fromJson2(message1.content.extra, MsgBroadExtra.class);
+                    if (msgExtra.isMeetingImage().equals("1")) {
+                        isMeetingImage = true;
                     }
-                });
-                mPopActions.add(selectMore);
+                }
+                if (!isMeetingImage) {
+                    titles.add(fragment.getString(R.string.message_select_more));
+                    ChatPopBroadMenu.ChatPopMenuAction selectMore = new ChatPopBroadMenu.ChatPopMenuAction();
+                    selectMore.setActionName(fragment.getString(R.string.message_select_more));
+                    selectMore.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                        @Override
+                        public void onClick() {
+                            fragment.toggleMultiMessageMode(message);
+                        }
+                    });
+                    mPopActions.add(selectMore);
+                }
+
 
                 titles.add(fragment.getString(R.string.message_delete));
                 ChatPopBroadMenu.ChatPopMenuAction shanchu = new ChatPopBroadMenu.ChatPopMenuAction();
