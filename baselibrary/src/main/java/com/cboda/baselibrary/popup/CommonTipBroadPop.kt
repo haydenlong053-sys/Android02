@@ -1,9 +1,11 @@
 package com.cboda.baselibrary.popup
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.view.isGone
 import com.cboda.baselibrary.databinding.CommonTipBroadPopBinding
 import razerdp.basepopup.BasePopupWindow
 
@@ -12,9 +14,10 @@ class CommonTipBroadPop(val context: Context, val title: String = "", val des: S
     BasePopupWindow(context) {
     //    private val scope = MainScope() // 创建主线程的协程作用域
 //    private var viewModel: TransferViewBroadModel? = null
-    var sureInvoke:()-> Unit ={}
+    var sureInvoke: () -> Unit = {}
+
     //添加取消回調
-    var cancelInvoke:()-> Unit ={}
+    var cancelInvoke: () -> Unit = {}
     private var binding = CommonTipBroadPopBinding.inflate(
         LayoutInflater.from(context)
     )
@@ -40,15 +43,17 @@ class CommonTipBroadPop(val context: Context, val title: String = "", val des: S
 
     }
 
-     fun setSureBtn(strName: String ="") : BasePopupWindow {
-         binding.mTvSure.text =strName
+    fun setSureBtn(strName: String = ""): BasePopupWindow {
+        binding.mTvSure.text = strName
         return this
     }
 
-    fun setCancelBtn(strName: String ="") : BasePopupWindow {
-        binding.mTvCancel.text =strName
+    fun setCancelBtn(strName: String = ""): BasePopupWindow {
+        binding.mTvCancel.text = strName
+        binding.mTvCancel.isGone = TextUtils.isEmpty(strName)
         return this
     }
+
     private fun initData() {
         binding.mTvTitle.text = title
         binding.mTvDes.text = des

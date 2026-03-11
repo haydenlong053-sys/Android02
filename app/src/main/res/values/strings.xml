@@ -258,6 +258,11 @@
     <string name="搜索附近位置">Search Nearby Location</string>
     <string name="消息">Messages</string>
     <string name="签到规则">Sign-in Rules</string>
+    <!-- WebX red envelope detail page -->
+    <string name="webx_transfer_time_pattern">yyyy-MM-dd HH:mm:ss</string>
+    <string name="webx_transfer_time_format">Transfer time: %1$s</string>
+    <string name="webx_red_envelope_from_user">Red envelope from %1$s</string>
+    <string name="webx_group_received_summary">Received %1$d/%2$d, total %3$s ODIK</string>
     <string name="我的钱包">Private Assets</string>
     <string name="账户ID1">Account ID:</string>
     <string name="点击查看">Click to View</string>
@@ -889,6 +894,16 @@
     <string name="app_cannot_transfer_to_self">You cannot transfer to yourself</string>
     <string name="app_transfer_address_format_error">Invalid transfer address format</string>
     <string name="app_withdraw_address_format_error">Invalid withdrawal address format</string>
+
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Add Address</string>
+    <string name="add_trans_hint_receiving_address">Please enter your receiving address</string>
+    <string name="add_trans_paste">Paste</string>
+    <string name="add_trans_save">Save</string>
+    <string name="add_trans_receiving_address_format_error">Invalid receiving address format!</string>
+    <string name="add_trans_toast_copied">Copied to clipboard!</string>
+    <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
+    <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
     <string name="wallet_eth">Blockchain Wallet</string>
 

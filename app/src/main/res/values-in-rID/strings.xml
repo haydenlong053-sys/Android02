@@ -497,4 +497,14 @@
     <string name="app_transfer_address_format_error">Format alamat transfer salah!</string>
     <string name="app_withdraw_address_format_error">Format alamat penarikan salah!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Tambah Alamat</string>
+    <string name="add_trans_hint_receiving_address">Silakan masukkan alamat penerimaan Anda</string>
+    <string name="add_trans_paste">Tempel</string>
+    <string name="add_trans_save">Simpan</string>
+    <string name="add_trans_receiving_address_format_error">Format alamat penerimaan tidak valid!</string>
+    <string name="add_trans_toast_copied">Disalin ke clipboard!</string>
+    <string name="add_trans_dialog_title_disabled">Sementara tidak tersedia</string>
+    <string name="add_trans_dialog_msg_contact_cs">Silakan hubungi layanan pelanggan 008</string>
+
 </resources>

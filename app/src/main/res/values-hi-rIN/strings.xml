@@ -495,4 +495,14 @@
     <string name="app_transfer_address_format_error">ट्रांसफर पता प्रारूप गलत है!</string>
     <string name="app_withdraw_address_format_error">निकासी पता प्रारूप गलत है!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">पता जोड़ें</string>
+    <string name="add_trans_hint_receiving_address">कृपया अपना प्राप्ति पता दर्ज करें</string>
+    <string name="add_trans_paste">पेस्ट करें</string>
+    <string name="add_trans_save">सहेजें</string>
+    <string name="add_trans_receiving_address_format_error">अमान्य प्राप्ति पता प्रारूप!</string>
+    <string name="add_trans_toast_copied">क्लिपबोर्ड पर कॉपी किया गया!</string>
+    <string name="add_trans_dialog_title_disabled">अस्थायी रूप से अनुपलब्ध</string>
+    <string name="add_trans_dialog_msg_contact_cs">कृपया ग्राहक सेवा 008 से संपर्क करें</string>
+
 </resources>

@@ -498,4 +498,14 @@
     <string name="app_transfer_address_format_error">Невірний формат адреси переказу!</string>
     <string name="app_withdraw_address_format_error">Невірний формат адреси виведення!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Додати адресу</string>
+    <string name="add_trans_hint_receiving_address">Введіть адресу отримання</string>
+    <string name="add_trans_paste">Вставити</string>
+    <string name="add_trans_save">Зберегти</string>
+    <string name="add_trans_receiving_address_format_error">Невірний формат адреси отримання!</string>
+    <string name="add_trans_toast_copied">Скопійовано в буфер обміну!</string>
+    <string name="add_trans_dialog_title_disabled">Тимчасово недоступно</string>
+    <string name="add_trans_dialog_msg_contact_cs">Зверніться до служби підтримки 008</string>
+
 </resources>

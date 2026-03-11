@@ -495,4 +495,14 @@
     <string name="app_transfer_address_format_error">Formato indirizzo di trasferimento non valido!</string>
     <string name="app_withdraw_address_format_error">Formato indirizzo di prelievo non valido!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Aggiungi indirizzo</string>
+    <string name="add_trans_hint_receiving_address">Inserisci il tuo indirizzo di ricezione</string>
+    <string name="add_trans_paste">Incolla</string>
+    <string name="add_trans_save">Salva</string>
+    <string name="add_trans_receiving_address_format_error">Formato indirizzo di ricezione non valido!</string>
+    <string name="add_trans_toast_copied">Copiato negli appunti!</string>
+    <string name="add_trans_dialog_title_disabled">Temporaneamente non disponibile</string>
+    <string name="add_trans_dialog_msg_contact_cs">Contattare il servizio clienti 008</string>
+
 </resources>

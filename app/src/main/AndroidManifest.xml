@@ -170,6 +170,10 @@
             android:name="com.cboda.intelligent.activity.MiBaoBroadActivity"
             android:exported="false" />
         <activity
+            android:name="com.cboda.intelligent.activity.AddTransferAddressActivity"
+            android:exported="false" />
+
+        <activity
             android:name="com.cboda.intelligent.activity.UserNameBroadActivity"
             android:exported="false" />
         <activity

@@ -500,4 +500,14 @@
     <string name="app_transfer_address_format_error">ਟ੍ਰਾਂਸਫਰ ਪਤਾ ਫਾਰਮੈਟ ਗਲਤ!</string>
     <string name="app_withdraw_address_format_error">ਨਿਕਾਸੀ ਪਤਾ ਫਾਰਮੈਟ ਗਲਤ!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Add Address</string>
+    <string name="add_trans_hint_receiving_address">Please enter your receiving address</string>
+    <string name="add_trans_paste">Paste</string>
+    <string name="add_trans_save">Save</string>
+    <string name="add_trans_receiving_address_format_error">Invalid receiving address format!</string>
+    <string name="add_trans_toast_copied">Copied to clipboard!</string>
+    <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
+    <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
+
 </resources>

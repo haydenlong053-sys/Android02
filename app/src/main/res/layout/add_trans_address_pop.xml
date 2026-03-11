@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mViewTopBg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rect_white_only_top_broad_18dp"
+    android:paddingBottom="@dimen/dp_32">
+
+
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/mIvClose"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:padding="16dp"
+            android:src="@mipmap/ic_auth_broad_close"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/mTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="18dp"
+            android:text="@string/add_trans_title"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/mTvDes3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/add_trans_hint_receiving_address"
+        android:textColor="@color/black_90"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topLayout"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@drawable/bg_rect_save_broad_10dp"
+        android:minHeight="@dimen/dp_76"
+        app:layout_constraintTop_toBottomOf="@id/mTvDes3">
+
+        <EditText
+            android:id="@+id/mEtInputAddress"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_0"
+            android:background="@color/transparent"
+            android:gravity="start"
+            android:hint="@string/mine_input"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:paddingStart="12dp"
+            android:paddingVertical="@dimen/dp_16"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_35"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cvTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/cvTv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_0"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/dp_12"
+            android:text="@string/add_trans_paste"
+            android:textColor="@color/color_3B47DD"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/mTvSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="@dimen/dp_32"
+        android:background="@drawable/bg_rect_submit_no_broad_16dp"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/add_trans_save"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/inputLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

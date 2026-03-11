@@ -500,4 +500,14 @@
     <string name="app_transfer_address_format_error">Format dadresse de transfert invalide !</string>
     <string name="app_withdraw_address_format_error">Format dadresse de retrait invalide !</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Ajouter l\'adresse</string>
+    <string name="add_trans_hint_receiving_address">Veuillez entrer votre adresse de réception</string>
+    <string name="add_trans_paste">Coller</string>
+    <string name="add_trans_save">Enregistrer</string>
+    <string name="add_trans_receiving_address_format_error">Format d\'adresse de réception invalide !</string>
+    <string name="add_trans_toast_copied">Copié dans le presse-papiers !</string>
+    <string name="add_trans_dialog_title_disabled">Indisponible temporairement</string>
+    <string name="add_trans_dialog_msg_contact_cs">Veuillez contacter le service client 008</string>
+
 </resources>

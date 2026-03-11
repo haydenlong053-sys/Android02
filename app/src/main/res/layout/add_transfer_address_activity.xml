@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/black">
+
+    <!-- 主布局在左，操作区在右；左滑时整体左移，操作区从右侧滑入 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewLayout"
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:elevation="@dimen/dp_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        app:cardCornerRadius="@dimen/dp_16"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.cboda.intelligent.widge.SwipeRevealLayout
+            android:id="@+id/swipeRevealLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- 左侧：主内容卡片 -->
+                <com.hjq.shape.layout.ShapeConstraintLayout
+                    android:id="@+id/addressLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:shape_radius="@dimen/dp_16"
+                    app:shape_solidColor="@color/white"
+                 >
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/address"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/dp_16"
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@id/editAddressIv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="oijsdakldjflksaj" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:textColor="@color/black_45"
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/address"
+                        tools:text="2025-04-02 22:30:32" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/editAddressIv"
+                        android:layout_width="@dimen/dp_13"
+                        android:layout_height="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:layout_marginEnd="@dimen/dp_18"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/icon_edit_address"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </com.hjq.shape.layout.ShapeConstraintLayout>
+
+                <!-- 右侧：操作区，随左滑从右侧滑入，高度与左侧主布局同步 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/swipeActionCopy"
+                        android:layout_width="@dimen/dp_72"
+                        android:layout_height="match_parent"
+                        android:background="@color/swipe_action_copy_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/dp_12">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/dp_16"
+                            android:layout_height="@dimen/dp_16"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_wt_backup_copy"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_4"
+                            android:text="@string/wt_copy"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_14" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/swipeActionDelete"
+                        android:layout_width="@dimen/dp_72"
+                        android:layout_height="match_parent"
+                        android:background="@color/swipe_action_delete_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/dp_12">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/dp_16"
+                            android:layout_height="@dimen/dp_16"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_delete_broad_item"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_4"
+                            android:text="@string/shanchu"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_14" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </com.cboda.intelligent.widge.SwipeRevealLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

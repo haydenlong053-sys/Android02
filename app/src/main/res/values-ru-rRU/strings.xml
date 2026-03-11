@@ -496,4 +496,14 @@
     <string name="app_transfer_address_format_error">Неверный формат адреса перевода!</string>
     <string name="app_withdraw_address_format_error">Неверный формат адреса вывода!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Добавить адрес</string>
+    <string name="add_trans_hint_receiving_address">Введите адрес получения</string>
+    <string name="add_trans_paste">Вставить</string>
+    <string name="add_trans_save">Сохранить</string>
+    <string name="add_trans_receiving_address_format_error">Неверный формат адреса получения!</string>
+    <string name="add_trans_toast_copied">Скопировано в буфер обмена!</string>
+    <string name="add_trans_dialog_title_disabled">Временно недоступно</string>
+    <string name="add_trans_dialog_msg_contact_cs">Обратитесь в службу поддержки 008</string>
+
 </resources>

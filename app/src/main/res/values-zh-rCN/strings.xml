@@ -258,6 +258,11 @@
     <string name="搜索附近位置">搜索附近位置</string>
     <string name="消息">消息</string>
     <string name="签到规则">签到规则</string>
+    <!-- WebX 红包详情页 -->
+    <string name="webx_transfer_time_pattern">yyyy年MM月dd日 HH:mm:ss</string>
+    <string name="webx_transfer_time_format">转账时间：%1$s</string>
+    <string name="webx_red_envelope_from_user">%1$s发出的红包</string>
+    <string name="webx_group_received_summary">已领取 %1$d/%2$d个，共%3$sODIK</string>
     <string name="我的钱包">私有资产</string>
     <string name="账户ID1">账户ID：</string>
     <string name="点击查看">点击查看</string>
@@ -889,6 +894,16 @@
     <string name="app_cannot_transfer_to_self">不能给自己转账!</string>
     <string name="app_transfer_address_format_error">转账地址格式错误!</string>
     <string name="app_withdraw_address_format_error">提现地址格式错误!</string>
+
+    <!-- 新增提现地址弹窗 -->
+    <string name="add_trans_title">新增地址</string>
+    <string name="add_trans_hint_receiving_address">请输入您的收款地址</string>
+    <string name="add_trans_paste">粘贴</string>
+    <string name="add_trans_save">保存</string>
+    <string name="add_trans_receiving_address_format_error">收款地址格式错误!</string>
+    <string name="add_trans_toast_copied">已复制到剪贴板！</string>
+    <string name="add_trans_dialog_title_disabled">暂时不可操作</string>
+    <string name="add_trans_dialog_msg_contact_cs">请联系客服008号</string>
 
     <string name="wallet_eth">区块钱包</string>
 

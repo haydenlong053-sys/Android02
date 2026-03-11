@@ -3,6 +3,7 @@ package com.cboda.intelligent.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -32,6 +33,7 @@ import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.utils.textChanges
 import com.cboda.intelligent.model.PersonInfoBean
 import com.cboda.intelligent.model.SafeCenterBroadBean
+import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.TransferViewBroadModel
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
@@ -54,6 +56,16 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
     private var isFirst = true
     private var safeCenterBean = SafeCenterBroadBean()
     private var mBind: ActivityBroadTransferBinding? = null
+    private val launchDetailActivity = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // 获取返回数据
+            val data = result.data
+            val returnValue = data?.getStringExtra("address")
+            mBind?.mEtInputAddress?.text = returnValue
+        }
+    }
 
     override fun getViewBindingClass(): Class<out ViewBinding>? {
         return ActivityBroadTransferBinding::class.java
@@ -88,32 +100,36 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun initListener() {
-        getRightImg()?.setOnClickListener {
+        getRightImg()?.click {
             startActivity(Intent(this@TransferBroadActivity, TransferListBroadActivity::class.java).apply {
                 putExtra("type", flag)
             })
         }
-        mBind?.mLlSysPoint?.setOnClickListener {
+        mBind?.mLlSysPoint?.click {
             showToastMain(getString(R.string.is_not_yet_available))
         }
-        mBind?.mTvMoneyQrcode?.setOnClickListener {
+        mBind?.mTvMoneyQrcode?.click {
             if (paymentAddress?.isNotEmpty() == true) {
                 SaveMoneyQrCodeTipBroadPop(this@TransferBroadActivity, paymentAddress).showPopupWindow()
             }
 
         }
-        mBind?.mIvCopy?.setOnClickListener {
+        mBind?.mIvCopy?.click {
             if (paymentAddress?.isNotEmpty() == true) {
                 copyToClipboard(this, paymentAddress)
             }
         }
         mBind?.mTvPaste?.setOnClickListener {
-            pasteToEditText(mBind?.mEtInputAddress!!)
+//            pasteToEditText(mBind?.mEtInputAddress!!)
         }
         mBind?.mEtInputAddress?.addTextChangedListener { editable ->
             checkNestBtn()
         }
-
+        mBind?.mLlInputAddress?.click {
+//            val addr = mBind?.mEtInputAddress?.text?.trim()?.toString()
+//            eLogD("TransferBroadActivityClass", "addr:$addr")
+            launchDetailActivity.launch(Intent(this, AddTransferAddressActivity::class.java))
+        }
         mBind?.mEtInputMoney?.addTextChangedListener { editable ->
             checkNestBtn()
         }
@@ -123,13 +139,13 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
                 mBind?.mEtInputAddress?.text?.trim().toString()
             val inputMoneyString =
                 mBind?.mEtInputMoney?.text?.trim().toString()
-            if (flag==0 && inputAddressString == mBind?.mTvMoneyAddressKey?.text.toString()){
+            if (flag == 0 && inputAddressString == mBind?.mTvMoneyAddressKey?.text.toString()) {
                 ToastBroadUtils.show(getString(R.string.app_cannot_transfer_to_self))
                 return@setOnClickListener
-            }else if (flag==0 && !inputAddressString.startsWith("w",true)){
+            } else if (flag == 0 && !inputAddressString.startsWith("w", true)) {
                 ToastBroadUtils.show(getString(R.string.app_transfer_address_format_error))
                 return@setOnClickListener
-            }else if (flag==1 && !inputAddressString.startsWith("0x",true)){
+            } else if (flag == 1 && !inputAddressString.startsWith("0x", true)) {
                 ToastBroadUtils.show(getString(R.string.app_withdraw_address_format_error))
                 return@setOnClickListener
             }
@@ -256,11 +272,9 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
         mBind?.mTvActualAmount?.text = "0.00"
         mBind?.mTvActualAmount?.isSelected = false
         if (isTransferLinkQrCode(linkString)) {
-            mBind?.mEtInputAddress?.setText(
-                linkString.replace(
-                    CommonBroadConfig.seekWeb4,
-                    ""
-                )
+            mBind?.mEtInputAddress?.text = linkString.replace(
+                CommonBroadConfig.seekWeb4,
+                ""
             )
         }
         lifecycleScope.launch {

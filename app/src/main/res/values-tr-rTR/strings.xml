@@ -502,4 +502,14 @@
     <string name="app_transfer_address_format_error">Transfer adresi formatı hatalı!</string>
     <string name="app_withdraw_address_format_error">Çekim adresi formatı hatalı!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Adres ekle</string>
+    <string name="add_trans_hint_receiving_address">Lütfen alıcı adresinizi girin</string>
+    <string name="add_trans_paste">Yapıştır</string>
+    <string name="add_trans_save">Kaydet</string>
+    <string name="add_trans_receiving_address_format_error">Geçersiz alıcı adresi formatı!</string>
+    <string name="add_trans_toast_copied">Panoya kopyalandı!</string>
+    <string name="add_trans_dialog_title_disabled">Geçici olarak kullanılamıyor</string>
+    <string name="add_trans_dialog_msg_contact_cs">Lütfen 008 müşteri hizmetleri ile iletişime geçin</string>
+
 </resources>

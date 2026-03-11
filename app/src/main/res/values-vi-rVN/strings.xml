@@ -495,4 +495,14 @@
     <string name="app_transfer_address_format_error">Định dạng địa chỉ chuyển khoản không đúng!</string>
     <string name="app_withdraw_address_format_error">Định dạng địa chỉ rút tiền không đúng!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Thêm địa chỉ</string>
+    <string name="add_trans_hint_receiving_address">Vui lòng nhập địa chỉ nhận của bạn</string>
+    <string name="add_trans_paste">Dán</string>
+    <string name="add_trans_save">Lưu</string>
+    <string name="add_trans_receiving_address_format_error">Định dạng địa chỉ nhận không hợp lệ!</string>
+    <string name="add_trans_toast_copied">Đã sao chép vào bảng nhớ tạm!</string>
+    <string name="add_trans_dialog_title_disabled">Tạm thời không khả dụng</string>
+    <string name="add_trans_dialog_msg_contact_cs">Vui lòng liên hệ dịch vụ khách hàng 008</string>
+
 </resources>

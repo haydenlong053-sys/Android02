@@ -499,4 +499,14 @@
     <string name="app_transfer_address_format_error">Format alamat pindahan tidak sah!</string>
     <string name="app_withdraw_address_format_error">Format alamat pengeluaran tidak sah!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Tambah Alamat</string>
+    <string name="add_trans_hint_receiving_address">Sila masukkan alamat penerimaan anda</string>
+    <string name="add_trans_paste">Tampal</string>
+    <string name="add_trans_save">Simpan</string>
+    <string name="add_trans_receiving_address_format_error">Format alamat penerimaan tidak sah!</string>
+    <string name="add_trans_toast_copied">Disalin ke papan keratan!</string>
+    <string name="add_trans_dialog_title_disabled">Sementara tidak tersedia</string>
+    <string name="add_trans_dialog_msg_contact_cs">Sila hubungi perkhidmatan pelanggan 008</string>
+
 </resources>

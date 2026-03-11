@@ -100,4 +100,14 @@
     <string name="app_transfer_address_format_error">Nieprawidłowy format adresu przelewu!</string>
     <string name="app_withdraw_address_format_error">Nieprawidłowy format adresu wypłaty!</string>
 
+    <!-- Add Transfer Address Pop -->
+    <string name="add_trans_title">Dodaj adres</string>
+    <string name="add_trans_hint_receiving_address">Wprowadź adres odbioru</string>
+    <string name="add_trans_paste">Wklej</string>
+    <string name="add_trans_save">Zapisz</string>
+    <string name="add_trans_receiving_address_format_error">Nieprawidłowy format adresu odbioru!</string>
+    <string name="add_trans_toast_copied">Skopiowano do schowka!</string>
+    <string name="add_trans_dialog_title_disabled">Tymczasowo niedostępne</string>
+    <string name="add_trans_dialog_msg_contact_cs">Skontaktuj się z obsługą klienta 008</string>
+
 </resources>
