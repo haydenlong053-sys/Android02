@@ -74,6 +74,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.cboda.chatui.contact.ContactViewBroadModel
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.utils.eLogD
@@ -591,7 +593,14 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                 }
             }
             AsyncImage(
-                model = contact.icon,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(contact.icon)
+                    .crossfade(true)
+                    .size(48, 48)          // 预设大小，防止 measure 反复计算
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .build(),
+//                model = contact.icon,
                 contentDescription = stringResource(R.string.contact_avatar),
                 modifier = Modifier
                     .size(48.dp)

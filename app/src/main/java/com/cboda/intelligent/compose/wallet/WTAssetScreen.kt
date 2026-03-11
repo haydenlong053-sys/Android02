@@ -123,10 +123,13 @@ fun WTAssetScreen(
     viewModel: WTViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val mContext = LocalContext.current
 
     
     LaunchedEffect(Unit) {
-        viewModel.getWalletList(97)
+        viewModel.getWalletList(97) {
+            viewModel.checkAndConvertWallets(mContext)
+        }
     }
 
     val currentWallet = uiState.currentWallet
@@ -262,7 +265,7 @@ fun WTAssetContent(
                     modifier = Modifier.noRippleClickable { onWalletTitleClick() }
                 ) {
                     Text(
-                        text = formatTextEllipsize(currentWallet?.label ?: "My wallet",9),
+                        text = formatTextEllipsize(currentWallet?.label ?: "My wallet",10),
                         fontSize = 16.sp,
                         lineHeight =18.75.sp ,
                         fontWeight = FontWeight.W400,
@@ -491,7 +494,8 @@ fun WTAssetContent(
             },
             onWalletDetailClick = onWalletDetailClick,
             onWalletSelected = onWalletSelected,
-            onWalletsReordered = onWalletsReordered
+            onWalletsReordered = onWalletsReordered,
+            hideAssets = hideAssets
         )
     }
 
@@ -870,7 +874,8 @@ fun WalletSelectBottomSheet(
     onAddWallet: () -> Unit,
     onWalletDetailClick: (String, String, Boolean) -> Unit,
     onWalletSelected: (WalletItemData) -> Unit,
-    onWalletsReordered: (List<WalletItemData>) -> Unit
+    onWalletsReordered: (List<WalletItemData>) -> Unit,
+    hideAssets: Boolean = false
 ) {
     var isManageMode by remember { mutableStateOf(false) }
     var localWallets by remember { mutableStateOf(wallets) }
@@ -1054,7 +1059,8 @@ fun WalletSelectBottomSheet(
                                         Collections.swap(newList, index, index + 1)
                                         localWallets = newList
                                     }
-                                }
+                                },
+                                hideAssets = hideAssets
                             )
                         }
                     }
@@ -1112,7 +1118,8 @@ fun WalletItemRow(
     onSelect: () -> Unit,
     onEdit: () -> Unit,
     onMoveUp: () -> Unit,
-    onMoveDown: () -> Unit
+    onMoveDown: () -> Unit,
+    hideAssets: Boolean = false
 ) {
     val context = LocalContext.current
     Row(
@@ -1136,25 +1143,25 @@ fun WalletItemRow(
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = formatTextEllipsize(wallet.name),
+                    text = formatTextEllipsize(wallet.name,10),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
                     color = Color.Black
                 )
-//                if (wallet.isWatch) {
-//                    Spacer(modifier = Modifier.width(8.dp))
-//                    Surface(
-//                        color = Color(0xFF3B47DD).copy(0.16f),
-//                        shape = RoundedCornerShape(8.dp)
-//                    ) {
-//                        Text(
-//                            text = stringResource(R.string.wt_watch_wallet_tag),
-//                            color = Color(0xFF3B47DD),
-//                            fontSize = 10.sp,
-//                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-//                        )
-//                    }
-//                }
+                if (wallet.isWatch) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Surface(
+                        color = Color(0xFF3B47DD).copy(0.16f),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.wt_watch_wallet_tag),
+                            color = Color(0xFF3B47DD),
+                            fontSize = 10.sp,
+                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.width(8.dp))
                 
                 // Address Row with Copy Icon
@@ -1179,9 +1186,9 @@ fun WalletItemRow(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Row {
-                Text(text = "BSC: ${getFormattedAmount(wallet.bscBalance,18)}", fontSize = 12.sp, color = Color.Gray)
+                Text(text = if (hideAssets) "BSC: ****" else "BSC: ${getFormattedAmount(wallet.bscBalance,18)}", fontSize = 12.sp, color = Color.Gray)
                 Spacer(modifier = Modifier.width(12.dp))
-                Text(text = "余额: $${wallet.usdBalance}", fontSize = 12.sp, color = Color.Gray)
+                Text(text = if (hideAssets) "余额: ****" else "余额: $${wallet.usdBalance}", fontSize = 12.sp, color = Color.Gray)
             }
         }
 

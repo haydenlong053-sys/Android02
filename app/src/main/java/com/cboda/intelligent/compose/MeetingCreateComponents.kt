@@ -130,7 +130,7 @@ fun InsufficientTokenDialog(
             ) {
                 // 标题
                 Text(
-                    text = "ODIK不足",
+                    text = "ODIC不足",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
@@ -139,7 +139,7 @@ fun InsufficientTokenDialog(
                 
                 // 提示内容
                 Text(
-                    text = "请前往资金ODIK中心充值",
+                    text = "请前往资金ODIC中心充值",
                     fontSize = 14.sp,
                     color = Color.Gray,
                     textAlign = TextAlign.Center,
@@ -858,10 +858,9 @@ fun BottomSection(
                         )
 
                         Text(
-                            modifier = Modifier.padding(2.dp),
-                            text = "ODIK",
+                            text = "ODIC",
                             color = Color(0xFF3B47DD),
-                            fontSize = 10.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Normal
                         )
 
@@ -870,7 +869,7 @@ fun BottomSection(
                             if (original > totalPrice) {
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
-                                    text = "原价${original}ODIK",
+                                    text = "原价${original}ODIC",
                                     color = Color(0xFF9CA1A5),
                                     fontSize = 12.sp,
                                     style = androidx.compose.ui.text.TextStyle(

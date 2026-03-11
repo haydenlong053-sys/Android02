@@ -113,7 +113,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
 //            redTitle.text = "人人皆股东 好运连连"
 //            createTime.text = "转账时间：2024年08月30日 14:34:30"
 //            moneyNum.text = "899"
-//            getTheTitle.text = "已领取 2/10个，共1000ODIK"
+//            getTheTitle.text = "已领取 2/10个，共1000ODIC"
             viewModel.lingquListLiveData.observe(this@GetWebxRedEnvelopesBroadActivity) {
                 it.data?.also { it1 ->
                     redTitle.text = it1.info
@@ -136,7 +136,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                     moneyNum.text = it1.money
                     if (isGroup) {
                         getTheTitle.text =
-                            "已领取 ${it1.ylq?.toInt()}/${it1.count?.toInt()}个，共${it1.money}ODIK"
+                            "已领取 ${it1.ylq?.toInt()}/${it1.count?.toInt()}个，共${it1.money}ODIC"
                     }
                 }
                 mAdapter?.setList(it.dataList ?: arrayListOf())

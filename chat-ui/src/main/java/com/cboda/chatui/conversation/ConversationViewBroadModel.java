@@ -19,6 +19,7 @@ import com.cboda.chatui.common.AppScopeViewBroadModel;
 import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 
+import cn.wildfirechat.message.notification.ChangeGroupPortraitNotificationContent;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.model.BurnMessageInfo;
 import cn.wildfirechat.model.Conversation;
@@ -69,6 +70,9 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
 //                        Log.d("zhanglong","messageList.size ===="+messageList.size());
                         List<UiBroadMessage> uiMsgs = new ArrayList<>();
                         for (Message msg : messageList) {
+                            if (msg.content instanceof ChangeGroupPortraitNotificationContent) {
+                                continue;
+                            }
                             if (conversation.type == Conversation.ConversationType.SecretChat) {
                                 BurnMessageInfo burnMessageInfo = ChatManager.Instance().getBurnMessageInfo(msg.messageId);
                                 uiMsgs.add(new UiBroadMessage(msg, burnMessageInfo));
@@ -149,6 +153,7 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
             List<UiBroadMessage> oldMessages = new ArrayList<>();
             if (oldMessageList != null) {
                 for (Message msg : oldMessageList) {
+                    if (msg.content instanceof ChangeGroupPortraitNotificationContent) continue;
                     if (conversation.type == Conversation.ConversationType.SecretChat) {
                         BurnMessageInfo burnMessageInfo = ChatManager.Instance().getBurnMessageInfo(msg.messageId);
                         oldMessages.add(new UiBroadMessage(msg, burnMessageInfo));
@@ -158,10 +163,14 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
                 }
             }
             Message message = ChatManager.Instance().getMessage(focusIndex);
+            if (message != null && message.content instanceof ChangeGroupPortraitNotificationContent) {
+                message = null;
+            }
             List<Message> newMessageList = ChatManager.Instance().getMessages(conversation, focusIndex, false, count, withUser);
             List<UiBroadMessage> newMessages = new ArrayList<>();
             if (newMessageList != null) {
                 for (Message msg : newMessageList) {
+                    if (msg.content instanceof ChangeGroupPortraitNotificationContent) continue;
                     if (conversation.type == Conversation.ConversationType.SecretChat) {
                         BurnMessageInfo burnMessageInfo = ChatManager.Instance().getBurnMessageInfo(msg.messageId);
                         newMessages.add(new UiBroadMessage(msg, burnMessageInfo));
@@ -193,6 +202,7 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
                     List<UiBroadMessage> uiMsgs = new ArrayList<>();
                     if (messageList != null) {
                         for (Message msg : messageList) {
+                            if (msg.content instanceof ChangeGroupPortraitNotificationContent) continue;
                             if (conversation.type == Conversation.ConversationType.SecretChat) {
                                 BurnMessageInfo burnMessageInfo = ChatManager.Instance().getBurnMessageInfo(msg.messageId);
                                 uiMsgs.add(new UiBroadMessage(msg, burnMessageInfo));

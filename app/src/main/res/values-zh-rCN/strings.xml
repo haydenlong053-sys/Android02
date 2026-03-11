@@ -5,7 +5,7 @@
     <string name="background_inspection_team">检测团队背景</string>
     <string name="project_risk">项目风险</string>
     <string name="business_logic_compliance">商业逻辑及合规性</string>
-    <string name="start_test_immediately">立即开始检测</string>
+    <string name="start_test_immediately">开始AI防诈检测</string>
     <string name="analyze_unfair_terms">分析霸王条款</string>
     <string name="contract_risk">合同风险</string>
     <string name="hide_right_responsibilities_traps">隐藏权责及陷阱</string>
@@ -81,8 +81,8 @@
     <string name="zhuanzhangjine">转账数量</string>
     <string name="bianjixiaoxineirong">编辑消息内容</string>
     <string name="mourendehongbao">%1$s的红包</string>
-    <string name="yuanqian">ODIK</string>
-    <string name="yilingquhongbao">已领%1$s个，共%2$sODIK</string>
+    <string name="yuanqian">ODIC</string>
+    <string name="yilingquhongbao">已领%1$s个，共%2$sODIC</string>
     <string name="daishoulkuan">待收款</string>
     <string name="zhuanzhuangshijian">转账时间</string>
     <string name="shoukuan">收款</string>
@@ -283,7 +283,7 @@
     <string name="确定">确定</string>
     <string name="点击保存图片">点击保存图片</string>
     <string name="设置签名">设置签名</string>
-    <string name="人民币">ODIK</string>
+    <string name="人民币">ODIC</string>
     <string name="当前余额">当前余额</string>
     <string name="充值">充值</string>
     <string name="提现">提现</string>
@@ -395,7 +395,7 @@
     <string name="请输入内容">请输入内容</string>
     <string name="回复">回复：</string>
     <string name="已连续签到">已连续签到%s天</string>
-    <string name="签到领取红包">签到领取ODIK</string>
+    <string name="签到领取红包">签到领取ODIC</string>
     <string name="已签到">已签到</string>
     <string name="签到">签到</string>
     <string name="user_id_prefix">ID:</string>
@@ -635,7 +635,7 @@
     <string name="credit_item2_title">eycorsican/go-tun2socks</string>
     <string name="credit_item3_title">bingoogolapple/BGAQRCode-Android</string>
     <string name="action_about">About</string>
-    <string name="webX_name">ODIK</string>
+    <string name="webX_name">ODIC</string>
     <string name="mine_sys_currency">平台通证(%1$s)</string>
     <string name="mine_sys_point">平台积分(WX)</string>
     <string name="mine_safe_center">安全中心</string>
