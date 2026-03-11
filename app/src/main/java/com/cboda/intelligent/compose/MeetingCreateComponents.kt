@@ -547,7 +547,8 @@ fun SwitchItem(
                         contentDescription = if (isChecked) "开启" else "关闭",
                         modifier = Modifier
                             .size(48.dp, 28.dp)
-                            .clickable { onCheckedChange(!isChecked) },
+//                            .clickable { onCheckedChange(!isChecked) }
+                            .alpha(0.6f), // 增加 40% 透明度，并移除点击事件使其不可点击
                         tint = Color.Unspecified // 保持原始颜色
                     )
                 }
