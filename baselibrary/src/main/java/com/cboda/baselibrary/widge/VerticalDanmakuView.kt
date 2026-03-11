@@ -18,6 +18,8 @@ import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.DanmakuItem
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toLog
 import java.util.LinkedList
 
 
@@ -35,9 +37,10 @@ class VerticalDanmakuView @JvmOverloads constructor(
     private val itemHeightPx: Int = dp2px(44f)
     private val viewQueue = LinkedList<View>()
     private val viewPool = LinkedList<DanmakuViewHolder>()
+    private var oldY = 0f
 
     // 主线程 Handler
-    private val mainHandler = ThreadUtils.getMainHandler()
+//    private val mainHandler = ThreadUtils.getMainHandler()
 
     // 跟踪所有待执行的移除任务，便于清理
 //    private val pendingRemoveTasks = LinkedList<RemoveTask>()
@@ -50,11 +53,11 @@ class VerticalDanmakuView @JvmOverloads constructor(
     private val maxSize = 10000 //弹幕存储最大数量
 
 
-    private val mainDelayMillis = 500L //每条弹幕间隔时长
+//    private val mainDelayMillis = 500L //每条弹幕间隔时长
 
     private val danMaAnimateTime = 3000L//弹幕动画时长
 
-    private var canRun = false
+//    private var canRun = false
 
 
     init {
@@ -84,58 +87,69 @@ class VerticalDanmakuView @JvmOverloads constructor(
         } else {
             if (addViewQueue.size < maxSize) addViewQueue.add(item)
         }
-        if (addViewQueue.size == 1) {
-            addAnimate()
-        }
+//        eLogD("VerticalDanmakuViewClass", "addViewQueueSize:${addViewQueue.size}")
+//        if (addViewQueue.size == 1) {
+        addAnimate()
+//        }
     }
 
     private fun addAnimate() {
-        if (!canRun) {
-            return
-        }
-        if (addViewQueue.isNotEmpty()) {
-            canRun = false
-            mainHandler.removeCallbacks(mainRun)
-            val holder = if (viewPool.isNotEmpty()) {
-                viewPool.removeFirst()
-            } else {
-                createViewHolder()
-            }
-            val item = addViewQueue[0]
-            holder.bind(item, imageLoader)
-
-            val rootView = holder.rootView
-            rootView.alpha = 1f
-            // 先放到屏幕外下方，避免 addView 后到 post 执行前以默认 y=0 在顶部闪一下
-            rootView.y = (resources.displayMetrics.heightPixels + itemHeightPx).toFloat()
-
-            addView(rootView)
-            viewQueue.addLast(rootView)
-
-            // 【新增】设置 3 秒后自动移除
-//        scheduleRemove(rootView)
-
-            // 延迟到布局完成后再设置位置并执行动画，避免首条弹幕时 height 仍为 0 导致位置计算错误
-            post {
-                // 初始 Y 放在「容器底部的下面一点」，保证从容器底部滑上来而不是直接出现在容器内部
-                val containerHeight = height
-                // 往下偏移 0.5 个弹幕高度，可按需要微调
-                val startY = containerHeight
-                rootView.y = startY.toFloat()
-                animateItems()
+//        if (!canRun) {
+//            return
+//        }
+        try {
+            if (height.toFloat() - oldY <= itemHeightPx) {
+//            eLogD("VerticalDanmakuViewClass", "height:$height ,oldY:$oldY ,itemHeightPx:$itemHeightPx")
+                return
             }
             if (addViewQueue.isNotEmpty()) {
-                addViewQueue.removeFirst()
-            }
-            mainHandler.postDelayed(mainRun, mainDelayMillis)
+//            canRun = false
+//            mainHandler.removeCallbacks(mainRun)
+                val rootViewY1 = (resources.displayMetrics.heightPixels + itemHeightPx).toFloat()
+                val holder = if (viewPool.isNotEmpty()) {
+                    viewPool.removeFirst()
+                } else {
+                    createViewHolder()
+                }
+                val item = addViewQueue[0]
+                holder.bind(item, imageLoader)
 
-            // 如果超过最大行数，立即移除最旧的（不受 3 秒限制）
+                val rootView = holder.rootView
+                rootView.alpha = 1f
+                // 先放到屏幕外下方，避免 addView 后到 post 执行前以默认 y=0 在顶部闪一下
+                rootView.y = rootViewY1
+
+                addView(rootView)
+                viewQueue.addLast(rootView)
+
+                // 【新增】设置 3 秒后自动移除
+//        scheduleRemove(rootView)
+
+                // 延迟到布局完成后再设置位置并执行动画，避免首条弹幕时 height 仍为 0 导致位置计算错误
+                post {
+                    // 初始 Y 放在「容器底部的下面一点」，保证从容器底部滑上来而不是直接出现在容器内部
+                    val containerHeight = height
+                    // 往下偏移 0.5 个弹幕高度，可按需要微调
+                    val startY = containerHeight
+                    rootView.y = startY.toFloat()
+//                eLogD("VerticalDanmakuViewClass", "rootViewY1:$rootViewY1 ,startY:$startY")
+                    animateItems()
+                }
+                if (addViewQueue.isNotEmpty()) {
+                    addViewQueue.removeFirst()
+                }
+//            mainHandler.postDelayed(mainRun, mainDelayMillis)
+
+                // 如果超过最大行数，立即移除最旧的（不受 3 秒限制）
 //        if (viewQueue.size > maxLines) {
 //            removeOldestItem()
 //        }
 
-        } else {
-            canRun = true
+            } else {
+//            canRun = true
+            }
+        } catch (e: Exception) {
+            e.toLog("VerticalDanmakuViewClass")
         }
 
     }
@@ -147,26 +161,26 @@ class VerticalDanmakuView @JvmOverloads constructor(
                 animatorSetQueue[i].resume()
             }
         }
-        mainHandler.postDelayed(mainRun, mainDelayMillis)
+//        mainHandler.postDelayed(mainRun, mainDelayMillis)
 //        mainHandler.post(mainRun)
     }
 
     fun danMaPause() {
-        mainHandler.removeCallbacks(mainRun)
+//        mainHandler.removeCallbacks(mainRun)
         if (animatorSetQueue.isNotEmpty()) {
             for (i in animatorSetQueue.indices) {
                 animatorSetQueue[i].pause()
             }
         }
-        canRun = false
+//        canRun = false
     }
 
-    private val mainRun = Runnable {
-//        eLogD("VerticalDanmakuViewClass", "addViewQueueSize2:${addViewQueue.size}")
-        canRun = true
-//        eLogD("VerticalDanmakuViewClass", "addViewQueueSize3:${addViewQueue.size}")
-        addAnimate()
-    }
+//    private val mainRun = Runnable {
+////        eLogD("VerticalDanmakuViewClass", "addViewQueueSize2:${addViewQueue.size}")
+//        canRun = true
+////        eLogD("VerticalDanmakuViewClass", "addViewQueueSize3:${addViewQueue.size}")
+//        addAnimate()
+//    }
     /**
      * 为 View 安排移除任务
      */
@@ -203,17 +217,26 @@ class VerticalDanmakuView @JvmOverloads constructor(
             val targetTop = this.top
             val targetBottom = this.bottom
             val viewY2 = viewY - (targetBottom - targetTop)
-
+//            eLogD("VerticalDanmakuViewClass", "viewY:$viewY ,viewY2:$viewY2")
             val animatorSet = AnimatorSet()
             val translateYAnim = ObjectAnimator.ofFloat(lastView, "y", viewY, viewY2).apply {
                 duration = danMaAnimateTime
                 interpolator = LinearInterpolator()
             }
+            translateYAnim.addUpdateListener {
+//                val currentX = lastView.x  // ✅ 实时坐标
+//                val currentY = lastView.y
+                if (viewQueue.size - 1 >= 0 && lastView == viewQueue[viewQueue.size - 1]) {
+                    oldY = lastView.y
+                    addAnimate()
+//                    eLogD("VerticalDanmakuViewClass", "currentX:$currentX ,currentY:$currentY")
+                }
+                // 处理逻辑
+            }
             val alphaAnim = ObjectAnimator.ofFloat(lastView, "alpha", 0f, 0.3f, 1f, 1f, 0.8f, 0f).apply {
                 duration = danMaAnimateTime
                 interpolator = LinearInterpolator()
             }
-
             animatorSet.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     if (animatorSetQueue.isNotEmpty()) {
@@ -225,6 +248,8 @@ class VerticalDanmakuView @JvmOverloads constructor(
                     holder?.reset()
                     holder?.let { viewPool.addLast(it) }
                 }
+
+
             })
             animatorSet.playTogether(translateYAnim, alphaAnim)
             if (animatorSetQueue.size < maxSize) {
@@ -344,13 +369,14 @@ class VerticalDanmakuView @JvmOverloads constructor(
      * 清空所有弹幕
      */
     fun clearAll() {
-        mainHandler.removeCallbacks(mainRun)
+//        mainHandler.removeCallbacks(mainRun)
         val views = viewQueue.toList()
         viewQueue.clear()
         views.forEach { removeView(it) }
         viewPool.clear()
         addViewQueue.clear()
         animatorSetQueue.clear()
+        oldY = 0f
     }
 
 //    fun setMaxLines(max: Int) {
