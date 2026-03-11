@@ -42,4 +42,5 @@
     <string name="in_compressed_video2">Compressing the video...</string>
 
     <string name="chat_meet_leave_tip">确定要离开当前会议吗？</string>
+    <string name="chat_meet_pre_end_tip">会议还有10分钟结束</string>
 </resources>

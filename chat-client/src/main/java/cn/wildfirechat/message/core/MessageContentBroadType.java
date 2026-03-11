@@ -129,7 +129,15 @@ public interface MessageContentBroadType {
     int ContentType_Meeting_Command = 4004;
 
     int MESSAGE_CONTENT_TYPE_SYS_NOTICE_INFORM = 6001;
+
     int MESSAGE_CONTENT_TYPE_SYS_NOTICE = 5001;
 
     int MESSAGE_CONTENT_TYPE_GROUP_BARRAGE = 6002;
+    //会议倒计时提醒
+    int MESSAGE_CONTENT_TYPE_SYS_MEETING_PRE_TIP = 6011;
+//    会议消息，野火状态码
+//    开始: 4010
+//    结束: 4020
+    int MESSAGE_CONTENT_TYPE_MEET_START = 4010;
+    int MESSAGE_CONTENT_TYPE_MEET_END = 4020;
 }

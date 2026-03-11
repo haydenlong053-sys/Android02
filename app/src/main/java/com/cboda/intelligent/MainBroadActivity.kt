@@ -25,6 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager.widget.ViewPager
 import cn.wildfirechat.client.ConnectionStatus
+import cn.wildfirechat.message.MeetingPreEndTipMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeInformMessageContent
 import cn.wildfirechat.message.UnknownMessageContent
@@ -48,6 +49,7 @@ import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.updateBarrageDataLiveData
 import com.cboda.chatemoji.EmotionBroadEvent
@@ -57,6 +59,7 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.chatui.bridge.TiXingBroadUtils
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
+import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.user.UserViewBroadModel
 import com.cboda.chatui.voip.conference.message.BarrageContent
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
@@ -583,6 +586,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     status = bean.isStatus
                                 )
                             )
+                        }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent){
+                            runOnUiThread {
+                                showMeetPreEndTip()
+                            }
                         }
                         if (message.content is UnknownMessageContent) {
                             val unkown = message.content as UnknownMessageContent

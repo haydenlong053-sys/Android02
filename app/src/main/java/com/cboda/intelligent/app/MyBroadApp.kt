@@ -43,6 +43,8 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug
 import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
+import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentViewBroadHolder
+import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
 import com.lzy.okgo.OkGo
@@ -256,6 +258,17 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
                 LingQuMessageContentViewBroadHolder::class.java,
                 R.layout.chat_ling_broad_qu_layout, R.layout.chat_ling_broad_qu_layout
             )
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                MeetStartMessageContentViewBroadHolder::class.java,
+                R.layout.chat_meet_start_end_layout, R.layout.chat_meet_start_end_layout
+            )
+
+            MessageViewHolderBroadManager.getInstance().registerMessageViewHolder(
+                MeetEndMessageContentViewBroadHolder::class.java,
+                R.layout.chat_meet_start_end_layout, R.layout.chat_meet_start_end_layout
+            )
+
+
 
             setupWFCDirs()
             val userId = MMKVBroadUtils.getRealUserId()

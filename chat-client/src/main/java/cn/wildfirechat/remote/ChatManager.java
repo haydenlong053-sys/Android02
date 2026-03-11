@@ -119,7 +119,10 @@ import cn.wildfirechat.message.LinkMessageContent;
 import cn.wildfirechat.message.LocationMessageContent;
 import cn.wildfirechat.message.MarkUnreadMessageContent;
 import cn.wildfirechat.message.MediaMessageContent;
+import cn.wildfirechat.message.MeetEndMessageContent;
+import cn.wildfirechat.message.MeetStartMessageContent;
 import cn.wildfirechat.message.MeetingInviteMessageContent;
+import cn.wildfirechat.message.MeetingPreEndTipMessageContent;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.MessageContent;
 import cn.wildfirechat.message.MessageContentMediaType;
@@ -2972,7 +2975,7 @@ public class ChatManager {
      * @param fromIndex    消息起始id(messageId)
      * @param before       true, 获取fromIndex之前的消息，即更旧的消息；false，获取fromIndex之后的消息，即更新的消息。都不包含fromIndex对应的消息
      * @param count        获取消息条数
-     * @param withUser     只有会话类型为{@link cn.wildfirechat.model.Conversation.ConversationType#Channel}时生效, channel主用来查询和某个用户的所有消息
+     * @param      {@link cn.wildfirechat.model.Conversation.ConversationType#Channel}时生效, channel主用来查询和某个用户的所有消息
      * @param callback     消息回调，当消息比较多，或者消息体比较大时，可能会回调多次
      */
     public void getMentionedMessages(Conversation conversation, long fromIndex, boolean before, int count, GetMessageCallback callback) {
@@ -5703,7 +5706,7 @@ public class ChatManager {
      * @param desc
      * @param limit
      * @param offset
-     * @param withUser
+     * @param
      * @return
      */
     public List<Message> searchMentionedMessages(Conversation conversation, String keyword, boolean desc, int limit, int offset) {
@@ -7752,7 +7755,7 @@ public class ChatManager {
      * 设置第三方推送设备token
      *
      * @param token
-     * @param pushType 使用什么推送你，可选值参考{@link cn.wildfirechat.push.PushService.PushServiceType}
+     * @param pushType 使用什么推送你，可选值参考
      */
     public void setDeviceToken(String token, int pushType) {
         eLogD(TAG, "setDeviceToken " + token + " " + pushType);
@@ -9017,6 +9020,10 @@ public class ChatManager {
         //测试公告消息
         registerMessageContent(NoticeInformMessageContent.class);
         registerMessageContent(NoticeMessageContent.class);
+        //极速直播消息--倒计时10分钟提示
+        registerMessageContent(MeetingPreEndTipMessageContent.class);
+        registerMessageContent(MeetStartMessageContent.class);
+        registerMessageContent(MeetEndMessageContent.class);
     }
 
     private MessageContent contentOfType(int type) {

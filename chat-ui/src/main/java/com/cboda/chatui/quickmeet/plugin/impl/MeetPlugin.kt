@@ -157,11 +157,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
-        goPermissionAudioMeet(){
-            val userMId = MMKVBroadUtils.getUserMId()
-            activity.lifecycleScope.launch {
-                viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
-                    if (it.list?.isNotEmpty() == true && it.token != null) {
+        activity.lifecycleScope.launch {
+            viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
+                if (it.list?.isNotEmpty() == true && it.token != null) {
+                    goPermissionAudioMeet() {
+                        val userMId = MMKVBroadUtils.getUserMId()
                         val meetChannelBean = it.list!![0]
                         val direct = if (userMId == meetChannelBean.idNo.toString()) {
                             CallDirect.CALLER
@@ -169,8 +169,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                             CallDirect.ANSWER
                         }
                         MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!)
-                    }
 
+                    }
                 }
             }
         }

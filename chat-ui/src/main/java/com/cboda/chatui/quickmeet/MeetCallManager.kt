@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
@@ -25,7 +23,6 @@ import io.agora.rtc2.ClientRoleOptions
 import io.agora.rtc2.Constants
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_LEAVE_CHANNEL
 import io.agora.rtc2.Constants.CONNECTION_STATE_DISCONNECTED
-import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
 import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.RtcEngine
 import io.agora.rtc2.RtcEngineConfig
@@ -74,7 +71,7 @@ class MeetCallManager private constructor() {
     }
 
     private fun checkMeetPermissions(): Boolean {
-        for (permission in getRequiredPermissions()) {
+        for (permission in getMeetAudioPermissions()) {
             val permissionCheck = ContextCompat.checkSelfPermission(getAppContext(), permission)
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                 eLogD("zhanglong", "被拒绝的权限--》" + permission)
@@ -82,26 +79,6 @@ class MeetCallManager private constructor() {
             }
         }
         return true
-    }
-
-    // 获取体验实时音视频互动所需的录音、摄像头等权限
-    // Get the permissions required for real-time audio and video interaction
-    private fun getRequiredPermissions(): Array<String> {
-        // 判断 targetSDKVersion 31 及以上时所需的权限
-        // Determine the permissions required when targetSDKVersion is 31 or higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            return arrayOf<String>(
-                Manifest.permission.RECORD_AUDIO,  // 录音权限 // Recording permission
-//                Manifest.permission.CAMERA,  // 摄像头权限 // Camera permission
-//                Manifest.permission.READ_PHONE_STATE,  // 读取电话状态权限 // Read phone state permission
-                Manifest.permission.BLUETOOTH_CONNECT // 蓝牙连接权限 // Bluetooth connection permission
-            )
-        } else {
-            return arrayOf<String>(
-                Manifest.permission.RECORD_AUDIO,
-//                Manifest.permission.CAMERA
-            )
-        }
     }
 
     /**
@@ -130,7 +107,7 @@ class MeetCallManager private constructor() {
                 ToastBroadUtils.show("会议功能,请开启手机录音权限")
             }
             getResumeActivity()?.let {
-                ActivityCompat.requestPermissions(it, getRequiredPermissions(), PERMISSION_REQ_ID)
+                ActivityCompat.requestPermissions(it, getMeetAudioPermissions(), PERMISSION_REQ_ID)
             }
         }
     }
