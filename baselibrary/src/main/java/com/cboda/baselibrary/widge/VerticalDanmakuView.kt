@@ -209,7 +209,7 @@ class VerticalDanmakuView @JvmOverloads constructor(
                 duration = danMaAnimateTime
                 interpolator = LinearInterpolator()
             }
-            val alphaAnim = ObjectAnimator.ofFloat(lastView, "alpha", 1f, 0.8f, 0f).apply {
+            val alphaAnim = ObjectAnimator.ofFloat(lastView, "alpha", 0f, 0.3f, 1f, 1f, 0.8f, 0f).apply {
                 duration = danMaAnimateTime
                 interpolator = LinearInterpolator()
             }

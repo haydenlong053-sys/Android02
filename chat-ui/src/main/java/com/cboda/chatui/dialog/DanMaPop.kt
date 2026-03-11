@@ -28,10 +28,10 @@ class DanMaPop(context: Context, val isGroupOwner: Boolean, val isGag: Boolean) 
         super.onViewCreated(contentView)
         binding.picIv.isGone = !isGroupOwner
         binding.picTv.isGone = !isGroupOwner
-        binding.gagIv.isGone = !isGroupOwner && isGag
-        binding.gagTv.isGone = !isGroupOwner && isGag
-        binding.removeGagIv.isGone = !isGroupOwner && !isGag
-        binding.removeGagTv.isGone = !isGroupOwner && !isGag
+        binding.gagIv.isGone = !isGroupOwner || isGag
+        binding.gagTv.isGone = !isGroupOwner || isGag
+        binding.removeGagIv.isGone = !isGroupOwner || !isGag
+        binding.removeGagTv.isGone = !isGroupOwner || !isGag
         width = ViewGroup.LayoutParams.WRAP_CONTENT
         binding.flowerIv.click {
             clickInvoke.invoke(1)
