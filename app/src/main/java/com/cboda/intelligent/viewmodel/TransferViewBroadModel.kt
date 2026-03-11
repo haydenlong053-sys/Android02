@@ -12,7 +12,6 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.TransferAddressBean
-import com.cboda.intelligent.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
