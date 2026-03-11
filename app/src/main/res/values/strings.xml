@@ -262,7 +262,7 @@
     <string name="webx_transfer_time_pattern">yyyy-MM-dd HH:mm:ss</string>
     <string name="webx_transfer_time_format">Transfer time: %1$s</string>
     <string name="webx_red_envelope_from_user">Red envelope from %1$s</string>
-    <string name="webx_group_received_summary">Received %1$d/%2$d, total %3$s ODIK</string>
+    <string name="webx_group_received_summary">Received %1$d/%2$d, total %3$s ODIC</string>
     <string name="我的钱包">Private Assets</string>
     <string name="账户ID1">Account ID:</string>
     <string name="点击查看">Click to View</string>
