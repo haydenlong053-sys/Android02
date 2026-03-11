@@ -595,8 +595,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                 showMeetPreEndTip(){
                                     if (MeetCallManager.getInstance().isCallingState()){
                                         lifecycleScope.launch {
-                                            quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observe(this@MainBroadActivity){
-                                                ToastBroadUtils.show("加时成功")
+                                            quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
+                                                ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
                                             }
                                         }
                                     }
