@@ -15,3 +15,8 @@ fun dismissLoadingWfc() {
          (getResumeActivity() as WfcBaseBroadActivity).dismissLoading()
     }
 }
+
+fun goPermissionAudioMeet(goNext:()-> Unit={}){
+    goNext.invoke()
+
+}

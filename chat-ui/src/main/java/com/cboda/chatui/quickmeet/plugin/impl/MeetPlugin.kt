@@ -13,7 +13,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
@@ -30,6 +29,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
+import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
 import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
@@ -157,21 +157,24 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
-        val userMId = MMKVBroadUtils.getUserMId()
-        activity.lifecycleScope.launch {
-            viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
-                if (it.list?.isNotEmpty() == true && it.token != null) {
-                    val meetChannelBean = it.list!![0]
-                    val direct = if (userMId == meetChannelBean.idNo.toString()) {
-                        CallDirect.CALLER
-                    } else {
-                        CallDirect.ANSWER
+        goPermissionAudioMeet(){
+            val userMId = MMKVBroadUtils.getUserMId()
+            activity.lifecycleScope.launch {
+                viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
+                    if (it.list?.isNotEmpty() == true && it.token != null) {
+                        val meetChannelBean = it.list!![0]
+                        val direct = if (userMId == meetChannelBean.idNo.toString()) {
+                            CallDirect.CALLER
+                        } else {
+                            CallDirect.ANSWER
+                        }
+                        MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!)
                     }
-                    MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!)
-                }
 
+                }
             }
         }
+
     }
 
     //取消会议

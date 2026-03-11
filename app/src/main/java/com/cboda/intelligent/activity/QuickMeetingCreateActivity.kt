@@ -26,6 +26,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
+import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.*
 import com.cboda.intelligent.dialog.pop.PasswordPricedPop
@@ -244,20 +245,22 @@ fun QuickMeetingCreateScreen(
                 isPriceLoading = uiState.isPriceLoading,
                 showPriceLoadingIndicator = true, // 可以设置为false来隐藏价格加载指示器
                 onCreateClick = {
-                    viewModel.startCreateMeetingFlow(
+                    goPermissionAudioMeet(){
+                        viewModel.startCreateMeetingFlow(
 //                        onSuccess = onCreateSuccess,
-                        onError = { error ->
-                            ToastBroadUtils.show(error)
-                        },
-                        onSuccessInvoke = { hasPassword ->
-                            if (hasPassword) {
-                                eLogD("zhanglong", "展示支付密码弹窗----》")
-                                PasswordPricedPop(getAppContext(), uiState.calculateTotalPrice().toString(), {
-                                    onPayAuthSuccess.invoke()
-                                }).showPopupWindow()
+                            onError = { error ->
+                                ToastBroadUtils.show(error)
+                            },
+                            onSuccessInvoke = { hasPassword ->
+                                if (hasPassword) {
+                                    eLogD("zhanglong", "展示支付密码弹窗----》")
+                                    PasswordPricedPop(getAppContext(), uiState.calculateTotalPrice().toString(), {
+                                        onPayAuthSuccess.invoke()
+                                    }).showPopupWindow()
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             )
         }
