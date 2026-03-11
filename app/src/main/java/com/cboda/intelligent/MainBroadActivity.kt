@@ -25,6 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager.widget.ViewPager
 import cn.wildfirechat.client.ConnectionStatus
+import cn.wildfirechat.message.MeetStartMessageContent
 import cn.wildfirechat.message.MeetingPreEndTipMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeInformMessageContent
@@ -51,6 +52,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getResumeActivity
+import com.cboda.baselibrary.utils.meetJoinMsgLiveData
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.updateBarrageDataLiveData
 import com.cboda.chatemoji.EmotionBroadEvent
@@ -602,6 +604,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     }
                                 }
                             }
+                        }else if (message.content is MeetStartMessageContent){
+                            message.conversation?.target?.let { groupId->
+                                meetJoinMsgLiveData.postValue(groupId)
+                            }
                         }
                         if (message.content is UnknownMessageContent) {
                             val unkown = message.content as UnknownMessageContent
@@ -679,6 +685,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     }
                                 }
 
+
                                 MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE -> {
 //                                    eLogD("MainBroadActivityClass", "MESSAGE_CONTENT_TYPE_GROUP_BARRAGE")
                                     if (message.content is UnknownMessageContent) {
@@ -694,7 +701,6 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
 
                                 }
-//                                }
                             }
 
 

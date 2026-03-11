@@ -22,6 +22,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.utils.meetJoinMsgLiveData
 import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
 import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.CallEventCallback
@@ -38,7 +39,6 @@ import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
 import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -62,6 +62,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private var viewModel: QuickMeetViewBroadModel? = null
     private var groupBean: GlobalChatGroupBean? = null
+    private var groupId: String? = null
+
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -86,6 +88,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //        eLogD("zhanglong", "init--lifecycles_owner==${activity.lifecycle.currentState}")
         viewModel =
             ViewModelProvider(activity).get<QuickMeetViewBroadModel>(QuickMeetViewBroadModel::class.java)
+        meetJoinMsgLiveData.observe(activity) {
+            if (MeetCallManager.getInstance().isIdleState() && groupId == it) {
+                queryMeetInfo(it)
+            }
+        }
     }
 
     private fun getCallingDuration(mills: Long): String {
@@ -144,6 +151,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
+        groupId = groupIdNo
         activity.lifecycleScope.launch {
             viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
                 if (it.list?.isNotEmpty() == true && it.token != null) {
@@ -155,7 +163,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                         } else {
                             CallDirect.ANSWER
                         }
-                        MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!,meetChannelBean)
+                        MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!, meetChannelBean)
 
                     }
                 }
@@ -239,9 +247,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             if (it.userList?.isNotEmpty() == true) {
                 val quickDetailMeetBean = MeetCallManager.getInstance().mCallData.quickDetailMeetBean
                 it.userList?.find { user ->
-                    quickDetailMeetBean?.let {detailMeetBean ->
+                    quickDetailMeetBean?.let { detailMeetBean ->
                         user.userId == detailMeetBean.userId
-                    }?:false
+                    } ?: false
 
                 }?.let { ownerUser ->
                     //会议发起人的信息

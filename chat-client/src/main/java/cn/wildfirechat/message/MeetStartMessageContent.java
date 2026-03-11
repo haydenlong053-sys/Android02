@@ -31,14 +31,14 @@ public class MeetStartMessageContent extends GroupNotificationMessageContent {
 
     @Override
     public void decode(MessagePayload payload) {
-        try {
-            if (payload.content != null) {
-                JSONObject jsonObject = new JSONObject(payload.content);
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (payload.content != null) {
+//                JSONObject jsonObject = new JSONObject(payload.content);
+//
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -50,7 +50,8 @@ public class MeetStartMessageContent extends GroupNotificationMessageContent {
 
     @Override
     public String digest(Message message) {
-        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_meeting);
+//        return ContextCompat.getString(getAppContext(null), com.cboda.baselibrary.R.string.base_digest_meeting);
+        return "会议中";
 
     }
 
