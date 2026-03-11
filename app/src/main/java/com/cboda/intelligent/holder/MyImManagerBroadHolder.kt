@@ -23,6 +23,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.updateGroupDetailLiveData
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -501,6 +502,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                         ""
                                                     )
                                                 )
+                                                updateGroupDetailLiveData.postValue(this)
                                             }
                                         }
                                     }
@@ -646,7 +648,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                         }
 
                         BridgeImEnum.MEETING_ROOM.value -> {
-                            if (MeetCallManager.getInstance().isIdleState()){
+                            if (MeetCallManager.getInstance().isIdleState()) {
                                 val map = mapOf(
                                     "id" to params2,
                                 )
@@ -669,7 +671,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 //                                                                    context
 //                                                                )
 
-                                                    QuickMeetingCreateActivity.launch(context,params2?:"",bean.data?.name?:"")
+                                                    QuickMeetingCreateActivity.launch(context, params2 ?: "", bean.data?.name ?: "")
                                                 } else {
                                                     ToastBroadUtils.show("只有群主/管理员可以开启会议室")
                                                 }
@@ -680,7 +682,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                         }
                                     },
                                 )
-                            }else{
+                            } else {
                                 ToastBroadUtils.show("当前有会议正在进行中")
                             }
                         }

@@ -5,6 +5,7 @@
 package com.cboda.intelligent.myim.service;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.net.Uri;
 import android.text.TextUtils;
@@ -36,7 +37,7 @@ public class WfcDefaultPortraitBroadProvider implements DefaultPortraitProvider 
 
     @Override
     public String groupDefaultPortrait(GroupInfo groupInfo, List<UserInfo> userInfos) {
-        eLogD("群资料",new Gson().toJson(groupInfo));
+        eLogD("群资料",toJson2(groupInfo));
         if (groupInfo instanceof NullGroupInfo || !TextUtils.isEmpty(groupInfo.portrait)) {
             return groupInfo.portrait;
         }

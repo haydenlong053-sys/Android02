@@ -11,7 +11,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.chatui.databinding.DanMaPopularBinding
 import razerdp.basepopup.BasePopupWindow
 
-class DanMaPop(context: Context, val isGroupOwner: Boolean) : BasePopupWindow(context) {
+class DanMaPop(context: Context, val isGroupOwner: Boolean, val isGag: Boolean) : BasePopupWindow(context) {
 
     var clickInvoke: (Int) -> Unit = {}
     private var binding = DanMaPopularBinding.inflate(
@@ -23,14 +23,15 @@ class DanMaPop(context: Context, val isGroupOwner: Boolean) : BasePopupWindow(co
         popupGravity = Gravity.TOP
         setBackgroundColor(Color.parseColor("#00ffffff"))
     }
+
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
         binding.picIv.isGone = !isGroupOwner
         binding.picTv.isGone = !isGroupOwner
-        binding.gagIv.isGone = !isGroupOwner
-        binding.gagTv.isGone = !isGroupOwner
-        binding.removeGagIv.isGone = !isGroupOwner
-        binding.removeGagTv.isGone = !isGroupOwner
+        binding.gagIv.isGone = !isGroupOwner && isGag
+        binding.gagTv.isGone = !isGroupOwner && isGag
+        binding.removeGagIv.isGone = !isGroupOwner && !isGag
+        binding.removeGagTv.isGone = !isGroupOwner && !isGag
         width = ViewGroup.LayoutParams.WRAP_CONTENT
         binding.flowerIv.click {
             clickInvoke.invoke(1)

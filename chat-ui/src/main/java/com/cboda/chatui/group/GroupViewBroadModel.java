@@ -4,6 +4,9 @@
 
 package com.cboda.chatui.group;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,6 +32,10 @@ import java.util.Set;
 
 import com.cboda.baselibrary.bean.BaseBroadResponse;
 import com.cboda.baselibrary.bean.CommonResultBroadBean;
+import com.cboda.baselibrary.common.UrlBroadConstants;
+import com.cboda.baselibrary.network.NetworkBroadUtils;
+import com.cboda.baselibrary.network.model.NetworkBroadResponse;
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.R;
@@ -40,6 +47,8 @@ import com.cboda.chatui.third.utils.FileBroadUtils;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.utils.PinyinBroadUtils;
 import com.cboda.chatui.utils.portrait.CombineBitmapBroadTools;
+
+import org.jetbrains.annotations.NotNull;
 
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.MessageContent;
@@ -64,26 +73,35 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
     private MutableLiveData<List<GroupInfo>> groupInfoUpdateLiveData;
     private MutableLiveData<List<GroupMember>> groupMembersUpdateLiveData;
 
-    public MutableLiveData<CommonResultBroadBean> getGagData(String groupID) {
-        MutableLiveData<CommonResultBroadBean> result = new MutableLiveData<>();
-        String url = HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupInfo";
+    public MutableLiveData<Boolean> setIsGag(String groupID, boolean isGag) {
+        eLogD("GroupViewBroadModelClass", "getGagData");
+        MutableLiveData<Boolean> result = new MutableLiveData<>();
+//        String url = HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupInfo";
         Map<String, Object> params = new HashMap<>(2);
         params.put("id", groupID);
-        OKHttpBroadHelper.post(url, params, new SimpleCallback<BaseBroadResponse>() {
+        params.put("allJy", isGag ? "1" : "0");
+        NetworkBroadUtils.INSTANCE.postEncrypted("api/editGroup", params, new NetworkBroadUtils.NetworkCallback<>() {
             @Override
-            public void onUiSuccess(BaseBroadResponse bean) {
-                if (bean instanceof CommonResultBroadBean) {
-                    result.postValue((CommonResultBroadBean) bean);
-                }else{
-
-                }
+            public void onFailure(int code, @NotNull String message, @org.jetbrains.annotations.Nullable Object data) {
+                eLogD("GroupViewBroadModelClass", "onFailure:" + code + "," + message);
             }
 
             @Override
-            public void onUiFailure(int code, String msg) {
-
+            public void onSuccess(@org.jetbrains.annotations.Nullable Object data) {
+                result.postValue(isGag);
+//                eLogD("GroupViewBroadModelClass", "onSuccess:" + toJson2(data));
             }
+
+            @Override
+            public void onError(@NotNull Throwable throwable) {
+//                eLogD("GroupViewBroadModelClass", "onError");
+            }
+
+
         });
+//                UrlBroadBroadConstants.SIGN_INFO,
+//                SignInfoViewBroadModel::class.java, HashMap<String, Any>()
+//                    )
         return result;
     }
 

@@ -5,6 +5,7 @@
 package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateBarrageDataLiveData;
+import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateGroupDetailLiveData;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePicture;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
@@ -148,7 +149,7 @@ public class ConversationBroadFragment extends Fragment implements
         ConversationInputBroadPanel.OnConversationInputPanelStateChangeListener,
         ConversationMessageBroadAdapter.OnMessageCheckListener, ConversationMessageBroadAdapter.OnMessageReceiptClickListener, CallEventCallback {
 
-    private static final String TAG = "convFragment";
+    private static final String TAG = "ConversationBroadFragmentClass";
 
     public static final int REQUEST_BROAD_PICK_MENTION_CONTACT = 100;
     public static final int REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT = 101;
@@ -218,7 +219,7 @@ public class ConversationBroadFragment extends Fragment implements
     public View qunMeetingNoticeBroad;
     public MarqueeTextBroadView gonggaoxinxiBroad;
     public MarqueeTextBroadView tvQunMeetingBroad;
-
+    private boolean isGag = false;
     private Observer<UiBroadMessage> messageBroadLiveDataObserver = new Observer<UiBroadMessage>() {
         @Override
         public void onChanged(@Nullable UiBroadMessage uiMessage) {
@@ -678,6 +679,7 @@ public class ConversationBroadFragment extends Fragment implements
         verticalDanmakuView.setVisibility(View.GONE);
     }
 
+
     private void initView() {
         rootLinearLayoutBroad.addOnKeyboardShownListener(this);
 //        verticalDanmakuView.setImageLoader((imageView, s) -> {
@@ -686,6 +688,8 @@ public class ConversationBroadFragment extends Fragment implements
 //            return null;
 //        });
         getUpdateBarrageDataLiveData().observe(getViewLifecycleOwner(), barrageBean -> {
+            eLogD(TAG, "收到弹幕消息：" + barrageBean.getConversationId() + " ,type:" + barrageBean.getConversationType());
+            eLogD(TAG, "isCallingState：" + MeetCallManager.getInstance().isCallingState() + " ,conversationBroad is null:" + (null == conversationBroad));
             if (null != conversationBroad && MeetCallManager.getInstance().isCallingState() && null != verticalDanmakuView && barrageBean.getConversationType() == conversationBroad.type.getValue() && barrageBean.getConversationId().equals(conversationBroad.target)) {
                 E.INSTANCE.getUserName(barrageBean.getSender(), barrageBean.getConversationId(), userName -> {
                     addBarrageData(userName, barrageBean.getGiftType(), false);
@@ -693,12 +697,15 @@ public class ConversationBroadFragment extends Fragment implements
                 });
             }
         });
+        getUpdateGroupDetailLiveData().observe(getViewLifecycleOwner(), commonResult -> {
+            isGag = commonResult.getAllJy().equals("1");
+        });
         click(danmakuIv, () -> {
             Activity activity = getActivity();
             if (activity == null) {
                 return null;
             }
-            DanMaPop danMaPop = new DanMaPop(activity, true);
+            DanMaPop danMaPop = new DanMaPop(activity, MeetCallManager.getInstance().isCallDirect(), isGag);
             danMaPop.setClickInvoke(integer -> {
                 switch (integer) {
                     case 1, 2:
@@ -711,14 +718,14 @@ public class ConversationBroadFragment extends Fragment implements
                         ChatManager.Instance().sendMessage(msg, new SendMessageCallback() {
                             @Override
                             public void onSuccess(long messageUid, long timestamp) {
-                                eLogD("ConversationBroadFragmentClass", "onSuccess");
+                                eLogD("ConversationBroadFragmentClass", "发送弹幕成功");
                                 addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
 //                                ToastUtils.showShort("发送成功");
                             }
 
                             @Override
                             public void onFail(int errorCode) {
-                                eLogD("ConversationBroadFragmentClass", "onFail:" + errorCode);
+                                eLogD("ConversationBroadFragmentClass", "发送弹幕失败:" + errorCode);
                                 addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
 //                                ToastUtils.showShort(getString(R.string.call_network_error));
                             }
@@ -749,7 +756,10 @@ public class ConversationBroadFragment extends Fragment implements
                         });
                         break;
                     case 4, 5:
-                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.GROUP_GAG.getValue(), conversationBroad.target, "", null);
+                        if (null != groupBroadViewModel) {
+                            groupBroadViewModel.setIsGag(conversationBroad.target, !isGag).observe(this, aBoolean -> isGag = aBoolean);
+                        }
+//                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.GROUP_GAG.getValue(), conversationBroad.target, "", null);
                         break;
                 }
                 return null;
@@ -888,16 +898,10 @@ public class ConversationBroadFragment extends Fragment implements
             groupInfoBroad = groupBroadViewModel.getGroupInfo(conversation.target, true);
             groupMemberBroad = groupBroadViewModel.getGroupMember(conversation.target, userBroadViewModel.getUserId());
             showGroupMemberNameBroad = "1".equals(userBroadViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfoBroad.target));
-
             updateGroupMuteStatus();
             MeetCallManager.getInstance().unregisterEngineEvent(this);
             MeetCallManager.getInstance().registerEngineEvent(this);
-            groupBroadViewModel.getGagData(conversation.target).observe(getViewLifecycleOwner(), new Observer<CommonResultBroadBean>() {
-                @Override
-                public void onChanged(CommonResultBroadBean commonResultBroadBean) {
-                    eLogD("ConversationBroadFragmentClass", "getGagDataSuccess_allJy:" + commonResultBroadBean.getData().getAllJy());
-                }
-            });
+            eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
             if (MeetCallManager.getInstance().isCallingState()) {
                 danmakuIv.setVisibility(View.VISIBLE);
                 verticalDanmakuView.setVisibility(View.VISIBLE);
