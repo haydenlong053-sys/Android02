@@ -48,13 +48,13 @@ fun getMeetAudioPermissions(): Array<String> {
     }
 }
 
-fun showMeetPreEndTip(block: () -> Unit = {}) {
+fun showMeetPreEndTip(time: String?, amount: String?, block: () -> Unit = {}) {
     try {
         getResumeActivity()?.let { mContext ->
             val commonTipPop = CommonTipBroadPop(
                 mContext,
                 mContext.getString(R.string.wenxintishi),
-                mContext.getString(R.string.chat_meet_pre_end_tip)
+                mContext.getString(R.string.chat_meet_pre_end_tip) +"\n"+"${time}分钟(${amount} ODIC)"
             )
             commonTipPop.setCancelBtn(mContext.getString(R.string.chat_meet_time_tip_cancel))
             commonTipPop.setSureBtn(mContext.getString(R.string.chat_meet_time_tip_ok))

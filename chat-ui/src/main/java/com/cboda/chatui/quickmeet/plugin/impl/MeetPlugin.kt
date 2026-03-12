@@ -6,14 +6,12 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.BusLiveBroadData
@@ -197,10 +195,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
-        mTvMeetEnd?.let {
-            it.isVisible = !it.isVisible
+        if (MeetCallManager.getInstance().isCallDirect()){
+            mTvMeetEnd?.let {
+                it.isVisible = !it.isVisible
+            }
         }
-
     }
 
     override fun updateLocation(translationX: Float, translationY: Float) {

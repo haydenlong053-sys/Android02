@@ -51,7 +51,6 @@ import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.updateBarrageDataLiveData
@@ -66,7 +65,6 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
-import com.cboda.chatui.voip.conference.message.BarrageContent
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.ExpandableBottomBar
@@ -594,10 +592,11 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     status = bean.isStatus
                                 )
                             )
-                        } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
+                        }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent){
+                            val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
                             runOnUiThread {
-                                showMeetPreEndTip() {
-                                    if (MeetCallManager.getInstance().isCallingState()) {
+                                showMeetPreEndTip(preEndTipMessageContent.time,preEndTipMessageContent.amount){
+                                    if (MeetCallManager.getInstance().isCallingState()){
                                         lifecycleScope.launch {
                                             quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
                                                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
