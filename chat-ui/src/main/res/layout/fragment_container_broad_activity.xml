@@ -20,11 +20,11 @@
         android:orientation="horizontal">
 
         <com.hjq.shape.view.ShapeView
-            android:layout_marginStart="@dimen/dp_5"
-            android:layout_marginTop="@dimen/dp_5"
             android:id="@+id/page_title_left_icon"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
+            android:layout_marginStart="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shape_radius="@dimen/dp_30"
@@ -52,11 +52,10 @@
             app:layout_constraintTop_toTopOf="@id/page_title_left_icon" />
 
         <com.hjq.shape.view.ShapeView
-            android:layout_marginStart="@dimen/dp_5"
-            android:layout_marginTop="@dimen/dp_5"
             android:id="@+id/page_title_right_icon"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
+            android:layout_marginStart="@dimen/dp_5"
             app:layout_constraintBottom_toBottomOf="@id/page_title_left_icon"
             app:layout_constraintEnd_toStartOf="@id/rightView"
             app:layout_constraintTop_toTopOf="@id/page_title_left_icon"
@@ -113,11 +112,11 @@
                     android:textColor="@color/color_text0"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintBottom_toTopOf="@id/titleGradeAndTime"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
                     tools:text="用户信息" />
 
                 <LinearLayout
