@@ -425,8 +425,10 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
             GlobalBroadInfo.INSTANCE.queryMyFriendInfo(item.sender, null, new Function1<GlobalFriendBroadBean, Unit>() {
                 @Override
                 public Unit invoke(GlobalFriendBroadBean bean) {
-                    portraitUrl[0] = bean.icon;
-                    setImgData(portraitUrl[0]);
+                    if (bean != null) {
+                        portraitUrl[0] = bean.icon;
+                        setImgData(portraitUrl[0]);
+                    }
                     return null;
                 }
             });
