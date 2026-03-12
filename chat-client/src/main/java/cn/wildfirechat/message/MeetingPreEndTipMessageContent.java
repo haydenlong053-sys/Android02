@@ -8,7 +8,7 @@ import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTE
 
 import android.os.Parcel;
 
-import androidx.core.content.ContextCompat;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,15 +27,13 @@ public class MeetingPreEndTipMessageContent extends MessageContent {
 //    private int intervalNumber;
 //    private int intervalUnit;
 
-    private String tipStr;
+    private String time;
+    private String amount;
 
 
     public MeetingPreEndTipMessageContent() {
     }
 
-    public String getTipStr() {
-        return tipStr;
-    }
 
     @Override
     public MessagePayload encode() {
@@ -45,13 +43,26 @@ public class MeetingPreEndTipMessageContent extends MessageContent {
         return payload;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
 
     @Override
     public void decode(MessagePayload payload) {
-//        Log.d("zhanglong","id-->"+id+"------------payload.pushData--->"+ payload.pushData);
-        if (payload.pushData != null) {
-            tipStr =payload.pushData;
+        ELogUtilKt.eLogD("zhanglong","------------payload.pushData--->"+ payload.pushData);
 
+        try {
+            if (payload.pushData != null) {
+                JSONObject jsonObject = new JSONObject(payload.pushData);
+                time = jsonObject.optString("time");
+                amount = jsonObject.optString("amount");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
