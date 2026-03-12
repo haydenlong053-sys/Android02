@@ -8,6 +8,7 @@ import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateBarrageDa
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateGroupDetailLiveData;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePicture;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 
 import android.annotation.SuppressLint;
@@ -44,6 +45,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.cboda.baselibrary.bean.CommonResultBroadBean;
 import com.cboda.baselibrary.bean.DanmakuItem;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
@@ -749,6 +751,9 @@ public class ConversationBroadFragment extends Fragment implements
                                     addBarrageData(userName, integer, true);
                                     return null;
                                 });
+//                                if (getIsDebug()) {
+//                                    ToastUtils.showShort("发送弹幕失败");
+//                                }
 //                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
 //                                ToastUtils.showShort(getString(R.string.call_network_error));
                             }
