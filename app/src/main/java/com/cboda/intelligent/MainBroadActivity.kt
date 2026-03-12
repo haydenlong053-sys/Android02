@@ -575,7 +575,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                     messages?.forEachIndexed { index, message ->
                         eLogD(
                             "MainBroadActivityClass",
-                            "sender:" + message.sender + ", conversationType:" + message.conversation.type.value + ", conversationId:" + message.conversation.target + ", messageContent:" + toJson2(message.content)
+                            "sender:" + message.sender + ", conversationType:" + message.conversation.type.value + ", conversationId:" + message.conversation.target + ", messageId" + message.messageId + ", messageContent:" + toJson2(
+                                message.content
+                            )
                         )
                         eLogD("zhanglong", "MessageContent===" + message.content + "--messageContentType==" + message.content.messageContentType)
                         if (message.sender == "admin" && message.content is NoticeInformMessageContent) {
@@ -592,10 +594,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     status = bean.isStatus
                                 )
                             )
-                        }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent){
+                        } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
                             runOnUiThread {
-                                showMeetPreEndTip(){
-                                    if (MeetCallManager.getInstance().isCallingState()){
+                                showMeetPreEndTip() {
+                                    if (MeetCallManager.getInstance().isCallingState()) {
                                         lifecycleScope.launch {
                                             quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
                                                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
@@ -604,8 +606,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     }
                                 }
                             }
-                        }else if (message.content is MeetStartMessageContent){
-                            message.conversation?.target?.let { groupId->
+                        } else if (message.content is MeetStartMessageContent) {
+                            message.conversation?.target?.let { groupId ->
                                 meetJoinMsgLiveData.postValue(groupId)
                             }
                         }

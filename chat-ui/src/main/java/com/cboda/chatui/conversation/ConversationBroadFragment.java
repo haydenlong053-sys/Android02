@@ -220,6 +220,7 @@ public class ConversationBroadFragment extends Fragment implements
     public MarqueeTextBroadView gonggaoxinxiBroad;
     public MarqueeTextBroadView tvQunMeetingBroad;
     private boolean isGag = false;
+    private boolean oldGag = false;
     private Observer<UiBroadMessage> messageBroadLiveDataObserver = new Observer<UiBroadMessage>() {
         @Override
         public void onChanged(@Nullable UiBroadMessage uiMessage) {
@@ -677,8 +678,20 @@ public class ConversationBroadFragment extends Fragment implements
     public void onEngineDestroy(@NotNull CallData data) {
         danmakuIv.setVisibility(View.GONE);
         verticalDanmakuView.setVisibility(View.GONE);
+        eLogD(TAG, "onEngineDestroy,isCallDirect:" + MeetCallManager.getInstance().isCallDirect());
+        if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallDirect() && oldGag != isGag) {
+            groupBroadViewModel.setIsGag(conversationBroad.target, oldGag).observe(this, aBoolean -> isGag = aBoolean);
+        }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        eLogD(TAG, "onDestroyView,isCallDirect:" + MeetCallManager.getInstance().isCallDirect());
+        if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallDirect() && oldGag != isGag) {
+            groupBroadViewModel.setIsGag(conversationBroad.target, oldGag).observe(this, aBoolean -> isGag = aBoolean);
+        }
+    }
 
     private void initView() {
         rootLinearLayoutBroad.addOnKeyboardShownListener(this);
@@ -698,7 +711,9 @@ public class ConversationBroadFragment extends Fragment implements
             }
         });
         getUpdateGroupDetailLiveData().observe(getViewLifecycleOwner(), commonResult -> {
-            isGag = commonResult.getAllJy().equals("1");
+            boolean gag = commonResult.getAllJy().equals("1");
+            isGag = gag;
+            oldGag = gag;
         });
         click(danmakuIv, () -> {
             Activity activity = getActivity();
@@ -746,7 +761,7 @@ public class ConversationBroadFragment extends Fragment implements
                         break;
                     case 3:
                         chooseMsgOnePicture(pairs -> {
-                            if (!pairs.isEmpty()) {
+                            if (null != pairs && !pairs.isEmpty()) {
                                 LocalMedia imageItem = pairs.getFirst().getSecond();
                                 File imageFileThumb;
                                 File imageFileSource = null;
