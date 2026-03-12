@@ -722,6 +722,10 @@ public class ConversationBroadFragment extends Fragment implements
             if (activity == null) {
                 return null;
             }
+            GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationBroad.target, /* refresh = */ false);
+            if (null != groupInfo) {
+                isGag = groupInfo.mute == 1;
+            }
             DanMaPop danMaPop = new DanMaPop(activity, MeetCallManager.getInstance().isCallDirect(), isGag);
             danMaPop.setClickInvoke(integer -> {
                 switch (integer) {
