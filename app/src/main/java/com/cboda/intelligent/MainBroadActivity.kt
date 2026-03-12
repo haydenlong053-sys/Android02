@@ -424,7 +424,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         super.onResume()
         viewModel?.getconfig(this)
         viewModel?.getUserInfo(this, "")
-
+        eLogD(this.javaClass.simpleName, "getGroupInfos672")
         conversationListViewModel?.reloadConversationUnreadStatus()
 
     }
@@ -592,11 +592,11 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     status = bean.isStatus
                                 )
                             )
-                        }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent){
+                        } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
                             val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
                             runOnUiThread {
-                                showMeetPreEndTip(preEndTipMessageContent.time,preEndTipMessageContent.amount){
-                                    if (MeetCallManager.getInstance().isCallingState()){
+                                showMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount) {
+                                    if (MeetCallManager.getInstance().isCallingState()) {
                                         lifecycleScope.launch {
                                             quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
                                                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
@@ -612,11 +612,11 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         }
                         if (message.content is UnknownMessageContent) {
                             val unkown = message.content as UnknownMessageContent
-                            AppBroadUtils.debug(
+                            eLogD(
                                 "野火",
                                 "收到自定义通知消息---> ${unkown.orignalPayload.type}---> ${unkown.orignalPayload.content}"
                             )
-                            AppBroadUtils.debug(
+                            eLogD(
                                 "野火",
                                 "收到自定义通知消息---> ${System.currentTimeMillis()}---> ${message.serverTime}---> ${ChatManager.Instance().serverDeltaTime}---> ${(System.currentTimeMillis() - message.serverTime - ChatManager.Instance().serverDeltaTime)}"
                             )
@@ -632,7 +632,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     val xinepngy = split[0].toLong()
                                     val qunshu = split[1].toLong()
                                     val zongshu = xinepngy + qunshu
-                                    AppBroadUtils.debug("野火", "收到自定义通知消息---> $xinepngy")
+                                    eLogD("野火", "收到自定义通知消息---> $xinepngy")
 //                                    if (zongshu > 99) {
 //                                        tongxunluUnreadCount = "99+"
 //                                    } else {
@@ -693,14 +693,17 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                         val barrageContent = message.content as UnknownMessageContent
                                         val barrageBean = BarrageBean()
                                         barrageBean.sender = message.sender
-                                        barrageBean.conversationId = message.conversation.target
-                                        barrageBean.conversationType = message.conversation.type.value
+                                        // 支持两种来源：
+                                        // 1）群会话中的弹幕（老逻辑）
+                                        // 2）礼物聊天室（roomId = gift_ + groupId）
+                                        val conv = message.conversation
+                                        barrageBean.conversationId = conv.target
+                                        barrageBean.conversationType = ConversationType.Group.value
                                         barrageBean.giftType = anyToInt(barrageContent.orignalPayload.content)
+//                                        ChatManager.Instance().isOnce = false
                                         updateBarrageDataLiveData.postValue(barrageBean)
-//                                        eLogD("MainBroadActivityClass", "barrageBean:${toJson2(barrageBean)}")
+//                                        eLogD("MainBroadActivityClass", "BARRAGE")
                                     }
-
-
                                 }
                             }
 
@@ -708,7 +711,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         }
                     }
                 } catch (e: Exception) {
-                    AppBroadUtils.debug("野火", "收到自定义通知消息异常---> $e")
+                    eLogD("野火", "收到自定义通知消息异常---> $e")
                 }
             }
         })
@@ -753,6 +756,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             }
         }
         viewPager.postDelayed({
+            eLogD(this.javaClass.simpleName, "getGroupInfos671")
             conversationListViewModel?.reloadConversationUnreadStatus()
         }, 2000L)
 //        conversationListViewModel?.unreadCountLiveData()?.observe(this) {

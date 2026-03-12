@@ -380,6 +380,7 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
 
     public @Nullable
     GroupInfo getGroupInfo(String groupId, boolean refresh) {
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos65");
         return ChatManager.Instance().getGroupInfo(groupId, refresh);
     }
 

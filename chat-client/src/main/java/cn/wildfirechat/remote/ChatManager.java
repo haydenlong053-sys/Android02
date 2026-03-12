@@ -208,6 +208,7 @@ import cn.wildfirechat.utils.MemoryFileUtil;
  */
 
 public class ChatManager {
+
     private static final String TAG = ChatManager.class.getName();
 
     private String SERVER_HOST;
@@ -2975,7 +2976,7 @@ public class ChatManager {
      * @param fromIndex    消息起始id(messageId)
      * @param before       true, 获取fromIndex之前的消息，即更旧的消息；false，获取fromIndex之后的消息，即更新的消息。都不包含fromIndex对应的消息
      * @param count        获取消息条数
-     * @param      {@link cn.wildfirechat.model.Conversation.ConversationType#Channel}时生效, channel主用来查询和某个用户的所有消息
+     * @param {@link       cn.wildfirechat.model.Conversation.ConversationType#Channel}时生效, channel主用来查询和某个用户的所有消息
      * @param callback     消息回调，当消息比较多，或者消息体比较大时，可能会回调多次
      */
     public void getMentionedMessages(Conversation conversation, long fromIndex, boolean before, int count, GetMessageCallback callback) {
@@ -4521,6 +4522,7 @@ public class ChatManager {
 
     public long haoyoushenqing;
     public long qunshenqing;
+//    public boolean isOnce = true;
 
     /**
      * 获取未读好友请求数
@@ -4859,11 +4861,17 @@ public class ChatManager {
         }
 
         try {
+            eLogD(TAG, "getGroupInfos6");
+//            if (isOnce) {
             GroupInfo groupInfo = mClient.getGroupInfo(groupId, refresh);
             if (groupInfo == null) {
                 groupInfo = new NullGroupInfo(groupId);
             }
             return groupInfo;
+//            } else {
+//                return null;
+//            }
+
         } catch (RemoteException e) {
             e.printStackTrace();
             return null;
@@ -6344,6 +6352,7 @@ public class ChatManager {
             mClient.modifyGroupInfo(groupId, modifyType.ordinal(), newValue, inlines, content2Payload(notifyMsg), new cn.wildfirechat.client.IGeneralCallback.Stub() {
                 @Override
                 public void onSuccess() throws RemoteException {
+                    eLogD(TAG, "getGroupInfos7");
                     GroupInfo groupInfo = mClient.getGroupInfo(groupId, false);
                     onGroupInfoUpdated(Collections.singletonList(groupInfo));
                     if (callback != null) {
@@ -6946,6 +6955,7 @@ public class ChatManager {
             mClient.setGroupRemark(groupId, remark, new IGeneralCallback.Stub() {
                 @Override
                 public void onSuccess() throws RemoteException {
+                    eLogD(TAG, "getGroupInfos8");
                     GroupInfo groupInfo = mClient.getGroupInfo(groupId, false);
                     onGroupInfoUpdated(Collections.singletonList(groupInfo));
                     if (callback != null) {
@@ -7175,6 +7185,7 @@ public class ChatManager {
             return;
         }
         workHandler.post(() -> {
+            eLogD(TAG, "getGroupInfos61");
             Map<String, String> groupIdMap = getUserSettings(UserSettingScope.FavoriteGroup);
             List<GroupInfo> groups = new ArrayList<>();
             if (groupIdMap != null && !groupIdMap.isEmpty()) {

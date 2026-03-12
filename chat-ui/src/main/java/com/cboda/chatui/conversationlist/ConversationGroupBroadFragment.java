@@ -260,6 +260,7 @@ public class ConversationGroupBroadFragment extends ProgressBroadFragment {
                 return;
             }
             conversationListViewModel.reloadConversationList(true);
+            eLogD(this.getClass().getSimpleName(), "getGroupInfos675");
             conversationListViewModel.reloadConversationUnreadStatus();
 
             loadAndShowPCOnlineNotification();
@@ -289,6 +290,7 @@ public class ConversationGroupBroadFragment extends ProgressBroadFragment {
             return;
         }
         conversationListViewModel.reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos673");
         conversationListViewModel.reloadConversationUnreadStatus();
     }
 

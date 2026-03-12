@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.conversationlist;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.os.RemoteException;
 import android.text.TextUtils;
 
@@ -151,7 +153,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
         if (unreadCountLiveData == null) {
             unreadCountLiveData = new MutableLiveData<>();
         }
-
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67y");
         reloadConversationUnreadStatus();
         return unreadCountLiveData;
     }
@@ -160,6 +162,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
         if (msgUnreadCountLiveData == null) {
             msgUnreadCountLiveData = new MutableLiveData<>();
         }
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos679");
         reloadConversationUnreadStatus();
         return msgUnreadCountLiveData;
     }
@@ -169,6 +172,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
     }
 
     public void reloadConversationUnreadStatus() {
+        eLogD(this.getClass().getSimpleName(), "reloadConversationUnreadStatus");
         int myGroupUnreadCount = 0;
         int otherGroupUnreadCount = 0;
         int realSingleUnreadCount = 0;
@@ -210,6 +214,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
         List<ConversationInfo> myConversationList = conversationList.stream().filter(
                 conversationInfo -> {
                     try {
+                        eLogD(this.getClass().getSimpleName(), "getGroupInfos67");
                         GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationInfo.conversation.target, false);
                         String myUserId = ChatManager.Instance().getUserId();
                         return groupInfo != null && groupInfo.owner.equals(myUserId);
@@ -241,13 +246,16 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
 
     @Override
     public void onReceiveMessage(List<Message> messages, boolean hasMore) {
+//        if(messages.isEmpty())
         reloadConversationList(true);
+//        eLogD(this.getClass().getSimpleName(), "getGroupInfos67a");
         reloadConversationUnreadStatus();
     }
 
     @Override
     public void onRecallMessage(Message message) {
         reloadConversationList();
+//        eLogD(this.getClass().getSimpleName(), "getGroupInfos67b");
         reloadConversationUnreadStatus();
     }
 
@@ -311,6 +319,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
     @Override
     public void onDeleteMessage(Message message) {
         reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67c");
         reloadConversationUnreadStatus();
     }
 
@@ -332,6 +341,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
     @Override
     public void onConversationUnreadStatusClear(ConversationInfo conversationInfo) {
         reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67g");
         reloadConversationUnreadStatus();
     }
 
@@ -343,18 +353,21 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
     @Override
     public void onClearMessage(Conversation conversation) {
         reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67f");
         reloadConversationUnreadStatus();
     }
 
     @Override
     public void onConversationRemove(Conversation conversation) {
         reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67e");
         reloadConversationUnreadStatus();
     }
 
     @Override
     public void onSettingUpdate() {
         reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67d");
         reloadConversationUnreadStatus();
     }
 

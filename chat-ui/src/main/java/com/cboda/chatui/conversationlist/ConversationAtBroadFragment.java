@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.conversationlist;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -261,6 +263,7 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
                 return;
             }
             conversationListViewModel.reloadConversationList(true);
+            eLogD(this.getClass().getSimpleName(), "getGroupInfos67u1");
             conversationListViewModel.reloadConversationUnreadStatus();
 
             loadAndShowPCOnlineNotification();
@@ -290,6 +293,7 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
             return;
         }
         conversationListViewModel.reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67u2");
         conversationListViewModel.reloadConversationUnreadStatus();
     }
 

@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.imgs.load.util.JImageLoader
 import com.cboda.baselibrary.utils.imgs.load.web.WebMerge
 import com.cboda.baselibrary.utils.loadImg
@@ -44,6 +45,7 @@ object GroupAvatarBroadLoader {
         imageView: ImageView,
         groupId: String
     ) {
+        eLogD(this.javaClass.simpleName, "getGroupInfos66")
         val groupInfo = ChatManager.Instance().getGroupInfo(groupId, false)
         if (groupInfo != null && !TextUtils.isEmpty(groupInfo.portrait)) {
             imageView.loadImg(groupInfo.portrait)

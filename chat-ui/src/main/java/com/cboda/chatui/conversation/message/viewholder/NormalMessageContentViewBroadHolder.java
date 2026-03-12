@@ -207,6 +207,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
         items.add("删除本地消息");
         boolean isSuperGroup = false;
         if (message.message.conversation.type == Conversation.ConversationType.Group) {
+            eLogD(this.getClass().getSimpleName(), "getGroupInfos69");
             GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(message.message.conversation.target, false);
             if (groupInfo != null && groupInfo.superGroup == 1) {
                 isSuperGroup = true;
@@ -578,7 +579,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
                         }
                     }
                 }
-
+                eLogD(this.getClass().getSimpleName(), "getGroupInfos68");
                 GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(item.conversation.target, false);
                 if (groupInfo == null) {
                     return;

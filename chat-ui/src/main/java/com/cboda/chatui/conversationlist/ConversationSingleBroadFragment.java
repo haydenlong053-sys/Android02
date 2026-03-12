@@ -338,6 +338,7 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
                 return;
             }
             conversationListViewModel.reloadConversationList(true);
+            eLogD(this.getClass().getSimpleName(), "getGroupInfos67k");
             conversationListViewModel.reloadConversationUnreadStatus();
 
             loadAndShowPCOnlineNotification();
@@ -367,6 +368,7 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
             return;
         }
         conversationListViewModel.reloadConversationList();
+        eLogD(this.getClass().getSimpleName(), "getGroupInfos67p");
         conversationListViewModel.reloadConversationUnreadStatus();
     }
 

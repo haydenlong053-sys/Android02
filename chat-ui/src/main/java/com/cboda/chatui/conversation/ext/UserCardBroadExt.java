@@ -8,6 +8,8 @@
 
 package com.cboda.chatui.conversation.ext;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -104,6 +106,7 @@ public class UserCardBroadExt extends ConversationMidExt {
             UserInfo targetUser = ChatManager.Instance().getUserInfo(conversation.target, false);
             view.bind(targetUser.displayName, portrait, desc);
         } else if (conversation.type == Conversation.ConversationType.Group) {
+            eLogD(this.getClass().getSimpleName(), "getGroupInfos63");
             GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversation.target, false);
             view.bind(!TextUtils.isEmpty(groupInfo.remark) ? groupInfo.remark : groupInfo.name, groupInfo.portrait, desc);
         }

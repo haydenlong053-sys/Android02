@@ -165,6 +165,7 @@ public class WfcNotificationBroadManager {
                 String name = ChatManager.Instance().getUserDisplayName(message.conversation.target);
                 title = TextUtils.isEmpty(name) ? "新消息" : name;
             } else if (message.conversation.type == Conversation.ConversationType.Group) {
+                eLogD(getInstance().getClass().getSimpleName(), "getGroupInfos62");
                 GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(message.conversation.target, false);
                 title = groupInfo == null ? "群聊" : (!TextUtils.isEmpty(groupInfo.remark) ? groupInfo.remark : groupInfo.name);
             } else if(message.conversation.type == Conversation.ConversationType.Channel) {

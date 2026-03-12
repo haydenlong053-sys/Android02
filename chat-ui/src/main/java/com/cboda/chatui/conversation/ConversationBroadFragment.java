@@ -10,6 +10,7 @@ import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePictu
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
+import static com.cboda.chatui.voip.conference.GiftChatRoomHelper.getGiftChatRoomId;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -105,6 +106,7 @@ import com.cboda.chatui.viewmodel.MessageViewBroadModel;
 import com.cboda.chatui.viewmodel.SettingViewBroadModel;
 import com.cboda.chatui.viewmodel.UserOnlineStateViewBroadModel;
 import com.cboda.chatui.voip.conference.message.BarrageContent;
+import com.cboda.chatui.voip.conference.GiftChatRoomHelper;
 import com.cboda.chatui.widget.InputAwareBroadLayout;
 import com.cboda.chatui.widget.KeyboardAwareLinearBroadLayout;
 
@@ -674,6 +676,15 @@ public class ConversationBroadFragment extends Fragment implements
     public void onRtcJoinChannelSuccess() {
         danmakuIv.setVisibility(View.VISIBLE);
         verticalDanmakuView.setVisibility(View.VISIBLE);
+        // 进入礼物聊天室（基于当前群 ID），用于发送/接收鲜花和鼓掌弹幕
+        if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group) {
+            GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationBroad.target, /* refresh = */ false);
+            if (null != groupInfo) {
+                isGag = groupInfo.mute == 1;
+                oldGag = groupInfo.mute == 1;
+            }
+            GiftChatRoomHelper.joinGiftChatRoom(conversationBroad.target);
+        }
     }
 
     @Override
@@ -681,6 +692,10 @@ public class ConversationBroadFragment extends Fragment implements
         danmakuIv.setVisibility(View.GONE);
         verticalDanmakuView.setVisibility(View.GONE);
         eLogD(TAG, "onEngineDestroy,isCallDirect:" + MeetCallManager.getInstance().isCallDirect());
+        // 退出礼物聊天室
+        if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group) {
+            GiftChatRoomHelper.quitGiftChatRoom(conversationBroad.target);
+        }
         if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallDirect() && oldGag != isGag) {
             groupBroadViewModel.setIsGag(conversationBroad.target, oldGag).observe(this, aBoolean -> isGag = aBoolean);
         }
@@ -695,6 +710,8 @@ public class ConversationBroadFragment extends Fragment implements
         }
     }
 
+    private Map<String, String> nameMap = new HashMap<String, String>();
+
     private void initView() {
         rootLinearLayoutBroad.addOnKeyboardShownListener(this);
 //        verticalDanmakuView.setImageLoader((imageView, s) -> {
@@ -702,14 +719,23 @@ public class ConversationBroadFragment extends Fragment implements
 //            loadImg(imageView, s);
 //            return null;
 //        });
+
         getUpdateBarrageDataLiveData().observe(getViewLifecycleOwner(), barrageBean -> {
             eLogD(TAG, "收到弹幕消息：" + barrageBean.getConversationId() + " ,type:" + barrageBean.getConversationType());
             eLogD(TAG, "isCallingState：" + MeetCallManager.getInstance().isCallingState() + " ,conversationBroad is null:" + (null == conversationBroad));
-            if (null != conversationBroad && MeetCallManager.getInstance().isCallingState() && null != verticalDanmakuView && barrageBean.getConversationType() == conversationBroad.type.getValue() && barrageBean.getConversationId().equals(conversationBroad.target)) {
-                E.INSTANCE.getUserName(barrageBean.getSender(), barrageBean.getConversationId(), userName -> {
-                    addBarrageData(userName, barrageBean.getGiftType(), false);
-                    return null;
-                });
+            if (null != conversationBroad && MeetCallManager.getInstance().isCallingState() && null != verticalDanmakuView && barrageBean.getConversationType() == conversationBroad.type.getValue() && barrageBean.getConversationId().equals(getGiftChatRoomId(conversationBroad.target))) {
+                String sender = barrageBean.getSender();
+                String getName = nameMap.get(sender);
+                if (null != getName) {
+                    addBarrageData(getName, barrageBean.getGiftType(), false);
+                } else {
+                    E.INSTANCE.getUserName(sender, barrageBean.getConversationId(), userName -> {
+                        nameMap.put(sender, userName);
+                        addBarrageData(userName, barrageBean.getGiftType(), false);
+                        return null;
+                    });
+                }
+
             }
         });
         getUpdateGroupDetailLiveData().observe(getViewLifecycleOwner(), commonResult -> {
@@ -730,43 +756,24 @@ public class ConversationBroadFragment extends Fragment implements
             danMaPop.setClickInvoke(integer -> {
                 switch (integer) {
                     case 1, 2:
-                        BarrageContent bc = new BarrageContent();
-                        bc.giftType = integer;
-                        Message msg = new Message();
-                        msg.conversation = conversationBroad;
-                        msg.content = bc;
-                        msg.sender = ChatManager.Instance().getUserId();
-                        ChatManager.Instance().sendMessage(msg, new SendMessageCallback() {
-                            @Override
-                            public void onSuccess(long messageUid, long timestamp) {
-                                eLogD("ConversationBroadFragmentClass", "发送弹幕成功");
-                                E.INSTANCE.getUserName(MMKVBroadUtils.Companion.getRealUserId(), conversationBroad.target, userName -> {
-                                    addBarrageData(userName, integer, true);
-                                    return null;
-                                });
-//                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
-//                                ToastUtils.showShort("发送成功");
-                            }
-
-                            @Override
-                            public void onFail(int errorCode) {
-                                eLogD("ConversationBroadFragmentClass", "发送弹幕失败:" + errorCode);
-                                E.INSTANCE.getUserName(MMKVBroadUtils.Companion.getRealUserId(), conversationBroad.target, userName -> {
-                                    addBarrageData(userName, integer, true);
-                                    return null;
-                                });
-//                                if (getIsDebug()) {
-//                                    ToastUtils.showShort("发送弹幕失败");
-//                                }
-//                                addBarrageData(MMKVBroadUtils.Companion.getUserName(), integer, true);
-//                                ToastUtils.showShort(getString(R.string.call_network_error));
-                            }
-
-                            @Override
-                            public void onPrepare(long messageId, long savedTime) {
-
-                            }
-                        });
+                        // 会议中：通过野火聊天室发送礼物，避免群禁言影响；仅主播可发送
+//                            if (!MeetCallManager.getInstance().isCallDirect()) {
+//                                Toast.makeText(getActivity(), "当前为观众角色，无法发送鲜花和鼓掌", Toast.LENGTH_SHORT).show();
+//                                break;
+//                            }
+                        GiftChatRoomHelper.sendGift(conversationBroad.target, integer);
+                        // 本端立即展示一条弹幕
+                        String sender = MMKVBroadUtils.Companion.getRealUserId();
+                        String getName = nameMap.get(sender);
+                        if (null != getName) {
+                            addBarrageData(getName, integer, true);
+                        } else {
+                            E.INSTANCE.getUserName(sender, conversationBroad.target, userName -> {
+                                nameMap.put(sender, userName);
+                                addBarrageData(userName, integer, true);
+                                return null;
+                            });
+                        }
                         break;
                     case 3:
                         chooseMsgOnePicture(pairs -> {
