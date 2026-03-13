@@ -380,30 +380,29 @@
     <string name="msg_send_message">Send message</string>
 
     <!-- HongBao Message Content -->
-    <string name="hongbao_unlocked_by_others">已被解锁</string>
-    <string name="hongbao_unlocked">已解锁</string>
-    <string name="hongbao_received">已领取</string>
-    <string name="hongbao_expired">已过期</string>
-    <string name="hongbao_unlock_digital_future">解锁你的数字未来</string>
-    <string name="hongbao_rejected_by_others">已被拒绝</string>
-    <string name="hongbao_rejected">已拒绝</string>
+    <string name="hongbao_unlocked_by_others">Unlocked by others</string>
+    <string name="hongbao_unlocked">Unlocked</string>
+    <string name="hongbao_received">Received</string>
+    <string name="hongbao_expired">Expired</string>
+    <string name="hongbao_unlock_digital_future">Unlock your digital future</string>
+    <string name="hongbao_rejected_by_others">Rejected by others</string>
+    <string name="hongbao_rejected">Rejected</string>
 
     <!-- Shoot Extension -->
-    <string name="shoot_warm_reminder">温馨提示</string>
-    <string name="shoot_camera_permission_explain">为了让你可以拍摄头像或分享照片，我们需要访问你的相机</string>
-    <string name="shoot_microphone_permission_explain">为了让你可以录像时录制声音，我们需要访问你的麦克风</string>
-    <string name="shoot_error_feedback">拍照错误, 请向我们反馈</string>
+    <string name="shoot_warm_reminder">Warm Reminder</string>
+    <string name="shoot_camera_permission_explain">To allow you to take profile photos or share photos, we need to access your camera</string>
+    <string name="shoot_microphone_permission_explain">To allow you to record sound when recording videos, we need to access your microphone</string>
+    <string name="shoot_error_feedback">Photo error, please provide feedback</string>
 
     <!-- Voip Extension -->
-    <string name="voip_permission_request">请先授权语音和蓝牙权限!</string>
+    <string name="voip_permission_request">Please grant audio and Bluetooth permissions first!</string>
 
     <!-- Conversation Group Fragment -->
-    <string name="connection_status_connecting">正在连接...</string>
-    <string name="connection_status_syncing">正在同步...</string>
-    <string name="connection_status_failed">连接失败</string>
+    <string name="connection_status_connecting">Connecting...</string>
+    <string name="connection_status_syncing">Syncing...</string>
+    <string name="connection_status_failed">Connection failed</string>
 
     <!-- 新会议相关-->
-    <string name="chat_meet_service_notification">会议前台服务通知</string>
-    <string name="chat_meet_service_tip">点击回到app</string>
-
+    <string name="chat_meet_service_notification">Meeting foreground service notification</string>
+    <string name="chat_meet_service_tip">Tap to return to the app</string>
 </resources>

@@ -40,4 +40,11 @@
     <string name="permissions_missing">缺少相应权限，请在系统设置中打开相应权限！</string>
     <string name="in_compressed_video1">压缩视频中</string>
     <string name="in_compressed_video2">压缩视频中...</string>
+
+    <!-- 新会议相关 -->
+    <string name="chat_meet_leave_tip">确定要离开当前会议吗？</string>
+    <string name="chat_meet_pre_end_tip">还有10分钟结束，是否加时延长会议？</string>
+    <string name="chat_meet_time_tip_cancel">不用</string>
+    <string name="chat_meet_time_tip_ok">加时</string>
+    <string name="chat_meet_time_tip_success">加时成功</string>
 </resources>

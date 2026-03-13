@@ -122,4 +122,8 @@
     <string name="connection_status_connecting">Ixhuma...</string>
     <string name="connection_status_syncing">I-sync...</string>
     <string name="connection_status_failed">Ukuxhuma akuphumelelanga</string>
+
+    <!-- Umhlangano omusha -->
+    <string name="chat_meet_service_notification">Isaziso sesevisi yomhlangano wangaphambili</string>
+    <string name="chat_meet_service_tip">Thepha ukuze ubuyele kuhlelo lokusebenza</string>
 </resources>

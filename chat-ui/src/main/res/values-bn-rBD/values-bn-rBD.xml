@@ -180,4 +180,8 @@
     <string name="connection_status_syncing">সিঙ্ক্রোনাইজ হচ্ছে...</string>
     <string name="connection_status_failed">সংযোগ ব্যর্থ</string>
 
+    <!-- নতুন মিটিং -->
+    <string name="chat_meet_service_notification">মিটিং ফোরগ্রাউন্ড পরিষেবা বিজ্ঞপ্তি</string>
+    <string name="chat_meet_service_tip">অ্যাপে ফিরে যেতে ট্যাপ করুন</string>
+
 </resources>

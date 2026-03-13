@@ -40,4 +40,11 @@
     <string name="permissions_missing">缺少相應權限，請在系統設定中開啟相應權限！</string>
     <string name="in_compressed_video1">壓縮影片中</string>
     <string name="in_compressed_video2">壓縮影片中…</string>
+
+    <!-- 新會議相關 -->
+    <string name="chat_meet_leave_tip">確定要離開當前會議嗎？</string>
+    <string name="chat_meet_pre_end_tip">還有10分鐘結束，是否加時延長會議？</string>
+    <string name="chat_meet_time_tip_cancel">不用</string>
+    <string name="chat_meet_time_tip_ok">加時</string>
+    <string name="chat_meet_time_tip_success">加時成功</string>
 </resources>

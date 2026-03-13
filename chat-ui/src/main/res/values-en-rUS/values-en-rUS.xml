@@ -362,4 +362,8 @@
     <string name="connection_status_syncing">Syncing...</string>
     <string name="connection_status_failed">Connection failed</string>
 
+    <!-- New meeting related -->
+    <string name="chat_meet_service_notification">Meeting foreground service notification</string>
+    <string name="chat_meet_service_tip">Tap to return to the app</string>
+
 </resources>
