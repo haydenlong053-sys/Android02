@@ -1856,7 +1856,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
             }
 
             ProtoGroupInfo protoGroupInfo = ProtoLogic.getGroupInfo(groupId, refresh);
-            eLogD(TAG, "getGroupInfos2");
+//            eLogD(TAG, "getGroupInfos2");
             return convertProtoGroupInfo(protoGroupInfo);
         }
 

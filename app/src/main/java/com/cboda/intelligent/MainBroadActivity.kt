@@ -611,23 +611,42 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                             }
                         }
                         if (message.content is UnknownMessageContent) {
-                            val unkown = message.content as UnknownMessageContent
+                            val unknowMsg = message.content as UnknownMessageContent
+                            val time1 = System.currentTimeMillis() - message.serverTime - ChatManager.Instance().serverDeltaTime
                             eLogD(
                                 "野火",
-                                "收到自定义通知消息---> ${unkown.orignalPayload.type}---> ${unkown.orignalPayload.content}"
+                                "收到自定义通知消息---> ${unknowMsg.orignalPayload.type}---> ${unknowMsg.orignalPayload.content} ---> $time1"
                             )
                             eLogD(
                                 "野火",
                                 "收到自定义通知消息---> ${System.currentTimeMillis()}---> ${message.serverTime}---> ${ChatManager.Instance().serverDeltaTime}---> ${(System.currentTimeMillis() - message.serverTime - ChatManager.Instance().serverDeltaTime)}"
                             )
-                            if ((System.currentTimeMillis() - message.serverTime - ChatManager.Instance().serverDeltaTime) / 1000 > 120) {
-                                return@forEachIndexed
+//                            eLogD("MainBroadActivityClass", "time1:" + System.currentTimeMillis() + ",time2:" + message.serverTime + ",time3:" + ChatManager.Instance().serverDeltaTime)
+                            if (unknowMsg.orignalPayload.type == MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE && time1 < 300000L) {
+                                val barrageContent = message.content as UnknownMessageContent
+                                val barrageBean = BarrageBean()
+                                barrageBean.sender = message.sender
+                                // 支持两种来源：
+                                // 1）群会话中的弹幕（老逻辑）
+                                // 2）礼物聊天室（roomId = gift_ + groupId）
+                                val conv = message.conversation
+                                barrageBean.conversationId = conv.target
+                                barrageBean.conversationType = ConversationType.Group.value
+                                barrageBean.giftType = anyToInt(barrageContent.orignalPayload.content)
+//                                        ChatManager.Instance().isOnce = false
+                                updateBarrageDataLiveData.postValue(barrageBean)
+                                eLogD("MainBroadActivityClass", "BARRAGE")
                             }
 
+//                            eLogD("野火", "time1:$time1")
+                            if (time1 / 1000 > 120) {
+                                return@forEachIndexed
+                            }
+                            eLogD("野火", "收到自定义通知消息")
 //                            if (message.conversation.target == ChatManager.Instance().userId) {
-                            when (unkown.orignalPayload.type) {
+                            when (unknowMsg.orignalPayload.type) {
                                 1002 -> {
-                                    val zidingyi = unkown.orignalPayload.content
+                                    val zidingyi = unknowMsg.orignalPayload.content
                                     val split = zidingyi.split("|")
                                     val xinepngy = split[0].toLong()
                                     val qunshu = split[1].toLong()
@@ -676,7 +695,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                 }
 
                                 1005 -> {
-                                    if (unkown.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
+                                    if (unknowMsg.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
                                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(
                                             this@MainBroadActivity, BridgeImEnum.BANNED.value,
                                             "",
@@ -685,26 +704,24 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                         )
                                     }
                                 }
-
-
-                                MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE -> {
-//                                    eLogD("MainBroadActivityClass", "MESSAGE_CONTENT_TYPE_GROUP_BARRAGE")
-                                    if (message.content is UnknownMessageContent) {
-                                        val barrageContent = message.content as UnknownMessageContent
-                                        val barrageBean = BarrageBean()
-                                        barrageBean.sender = message.sender
-                                        // 支持两种来源：
-                                        // 1）群会话中的弹幕（老逻辑）
-                                        // 2）礼物聊天室（roomId = gift_ + groupId）
-                                        val conv = message.conversation
-                                        barrageBean.conversationId = conv.target
-                                        barrageBean.conversationType = ConversationType.Group.value
-                                        barrageBean.giftType = anyToInt(barrageContent.orignalPayload.content)
-//                                        ChatManager.Instance().isOnce = false
-                                        updateBarrageDataLiveData.postValue(barrageBean)
+//                                MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE -> {
+////                                    eLogD("MainBroadActivityClass", "MESSAGE_CONTENT_TYPE_GROUP_BARRAGE")
+//                                    if (message.content is UnknownMessageContent) {
+//                                        val barrageContent = message.content as UnknownMessageContent
+//                                        val barrageBean = BarrageBean()
+//                                        barrageBean.sender = message.sender
+//                                        // 支持两种来源：
+//                                        // 1）群会话中的弹幕（老逻辑）
+//                                        // 2）礼物聊天室（roomId = gift_ + groupId）
+//                                        val conv = message.conversation
+//                                        barrageBean.conversationId = conv.target
+//                                        barrageBean.conversationType = ConversationType.Group.value
+//                                        barrageBean.giftType = anyToInt(barrageContent.orignalPayload.content)
+////                                        ChatManager.Instance().isOnce = false
+//                                        updateBarrageDataLiveData.postValue(barrageBean)
 //                                        eLogD("MainBroadActivityClass", "BARRAGE")
-                                    }
-                                }
+//                                    }
+//                                }
                             }
 
 

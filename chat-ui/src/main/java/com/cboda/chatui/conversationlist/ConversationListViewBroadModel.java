@@ -172,7 +172,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
     }
 
     public void reloadConversationUnreadStatus() {
-        eLogD(this.getClass().getSimpleName(), "reloadConversationUnreadStatus");
+//        eLogD(this.getClass().getSimpleName(), "reloadConversationUnreadStatus");
         int myGroupUnreadCount = 0;
         int otherGroupUnreadCount = 0;
         int realSingleUnreadCount = 0;
@@ -214,7 +214,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
         List<ConversationInfo> myConversationList = conversationList.stream().filter(
                 conversationInfo -> {
                     try {
-                        eLogD(this.getClass().getSimpleName(), "getGroupInfos67");
+//                        eLogD(this.getClass().getSimpleName(), "getGroupInfos67");
                         GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationInfo.conversation.target, false);
                         String myUserId = ChatManager.Instance().getUserId();
                         return groupInfo != null && groupInfo.owner.equals(myUserId);

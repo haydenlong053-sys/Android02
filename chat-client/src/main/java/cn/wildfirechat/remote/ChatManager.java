@@ -8,6 +8,7 @@ package cn.wildfirechat.remote;
 import static android.content.Context.BIND_AUTO_CREATE;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 
 import android.app.Application;
 import android.content.ComponentName;
@@ -4861,7 +4862,7 @@ public class ChatManager {
         }
 
         try {
-            eLogD(TAG, "getGroupInfos6");
+//            eLogD(TAG, "getGroupInfos6");
 //            if (isOnce) {
             GroupInfo groupInfo = mClient.getGroupInfo(groupId, refresh);
             if (groupInfo == null) {
@@ -5118,6 +5119,8 @@ public class ChatManager {
      * @return
      * @discussion refresh 为true会导致一次网络同步，代价特别大，应该尽量避免使用true，仅当在进入此人的单聊会话中时或者此人的用户信息页面使用一次true。
      */
+
+
     public UserInfo getUserInfo(String userId, String groupId, boolean refresh) {
         if (TextUtils.isEmpty(userId)) {
             eLogD(TAG, "Error, user id is null");
@@ -5157,6 +5160,15 @@ public class ChatManager {
         } catch (RemoteException e) {
             e.printStackTrace();
             return new NullUserInfo(userId);
+        }
+    }
+
+    public UserInfo getUserInfo2(String userId, String groupId) {
+        try {
+            return mClient.getUserInfo(userId, groupId, true);
+        } catch (RemoteException e) {
+            toLog(e, "ChatManagerClass");
+            return getUserInfo(userId, groupId, false);
         }
     }
 

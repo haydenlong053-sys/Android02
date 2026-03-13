@@ -710,7 +710,7 @@ public class ConversationBroadFragment extends Fragment implements
         }
     }
 
-    private Map<String, String> nameMap = new HashMap<String, String>();
+//    private Map<String, String> nameMap = new HashMap<String, String>();
 
     private void initView() {
         rootLinearLayoutBroad.addOnKeyboardShownListener(this);
@@ -725,16 +725,16 @@ public class ConversationBroadFragment extends Fragment implements
             eLogD(TAG, "isCallingState：" + MeetCallManager.getInstance().isCallingState() + " ,conversationBroad is null:" + (null == conversationBroad));
             if (null != conversationBroad && MeetCallManager.getInstance().isCallingState() && null != verticalDanmakuView && barrageBean.getConversationType() == conversationBroad.type.getValue() && barrageBean.getConversationId().equals(getGiftChatRoomId(conversationBroad.target))) {
                 String sender = barrageBean.getSender();
-                String getName = nameMap.get(sender);
-                if (null != getName) {
-                    addBarrageData(getName, barrageBean.getGiftType(), false);
-                } else {
-                    E.INSTANCE.getUserName(sender, barrageBean.getConversationId(), userName -> {
-                        nameMap.put(sender, userName);
-                        addBarrageData(userName, barrageBean.getGiftType(), false);
-                        return null;
-                    });
-                }
+//                String getName = nameMap.get(sender);
+//                if (null != getName) {
+//                    addBarrageData(getName, barrageBean.getGiftType(), false);
+//                } else {
+                E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+//                    nameMap.put(sender, userName);
+                    addBarrageData(userName, barrageBean.getGiftType(), false);
+                    return null;
+                });
+//                }
 
             }
         });
@@ -764,16 +764,16 @@ public class ConversationBroadFragment extends Fragment implements
                         GiftChatRoomHelper.sendGift(conversationBroad.target, integer);
                         // 本端立即展示一条弹幕
                         String sender = MMKVBroadUtils.Companion.getRealUserId();
-                        String getName = nameMap.get(sender);
-                        if (null != getName) {
-                            addBarrageData(getName, integer, true);
-                        } else {
-                            E.INSTANCE.getUserName(sender, conversationBroad.target, userName -> {
-                                nameMap.put(sender, userName);
+//                        String getName = nameMap.get(sender);
+//                        if (null != getName) {
+//                            addBarrageData(getName, integer, true);
+//                        } else {
+                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+//                                nameMap.put(sender, userName);
                                 addBarrageData(userName, integer, true);
                                 return null;
                             });
-                        }
+//                        }
                         break;
                     case 3:
                         chooseMsgOnePicture(pairs -> {

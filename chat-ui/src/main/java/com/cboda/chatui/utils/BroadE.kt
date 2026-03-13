@@ -10,14 +10,17 @@ import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
+import com.cboda.baselibrary.utils.eLogD
 import com.google.gson.reflect.TypeToken
 
 object E {
-    fun getUserName(userId: String, groupId: String,callBack:(String)-> Unit) {
+
+    fun getUserName(userId: String, groupId: String, refresh: Boolean = false, callBack: (String) -> Unit) {
         // TODO optimize 缓存userInfo吧
         var displayName: String? = ""
-        val userInfo = ChatManager.Instance().getUserInfo(userId, groupId, false)
+        val userInfo = ChatManager.Instance().getUserInfo(userId, groupId, refresh)
         if (userInfo != null) {
+//            eLogD("BroadEClass", "groupAlias:${userInfo.groupAlias} ,friendAlias:${userInfo.friendAlias} ,displayName:${userInfo.displayName}")
             if (!TextUtils.isEmpty(userInfo.groupAlias)) {
                 displayName = userInfo.groupAlias
             } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
@@ -36,10 +39,10 @@ object E {
                         displayName = globalFriendBean.nickName
                     }
                 }
-                callBack.invoke(displayName?:"")
+                callBack.invoke(displayName ?: "")
             }
         } else {
-            callBack.invoke(displayName?:"")
+            callBack.invoke(displayName ?: "")
         }
     }
 
