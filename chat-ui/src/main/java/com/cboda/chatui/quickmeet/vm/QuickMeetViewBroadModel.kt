@@ -156,7 +156,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 查询群信息
      */
-    suspend fun queryGroupInfo(groupId: String): SingleLiveBroadData<GlobalChatGroupBean> {
+    suspend fun queryGroupInfo(groupId: String, failInvoke: (code: Int, msg: String) -> Unit = { _, _ -> }): SingleLiveBroadData<GlobalChatGroupBean> {
 //        showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<GlobalChatGroupBean>()
         val params = hashMapOf("id" to groupId)
@@ -174,6 +174,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
 
                 }.onFailure { code, message ->
 //                    dismissLoadingWfc()
+                    failInvoke.invoke(code, message)
                     ToastBroadUtils.show(message)
                 }.onError {
 //                    dismissLoadingWfc()

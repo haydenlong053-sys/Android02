@@ -195,7 +195,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
-        if (MeetCallManager.getInstance().isCallDirect()){
+        if (MeetCallManager.getInstance().isCallDirect()) {
             mTvMeetEnd?.let {
                 it.isVisible = !it.isVisible
             }
@@ -347,9 +347,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private fun queryGroupInfo() {
         activity.lifecycleScope.launch {
             val channelId = MeetCallManager.getInstance().mCallData.channelId
-            viewModel?.queryGroupInfo(channelId)?.observe(activity) {
-                groupBean = it
+            viewModel?.queryGroupInfo(channelId, failInvoke = { code, _ ->
+                // 如果当前用户已不在群组内，则退出正在进行中的会议
+                if (code == 200 && MeetCallManager.getInstance().isCallingState()) {
+                    goOverMeeting()
+                }
+            })?.observe(activity) { bean ->
+                groupBean = bean
                 showOrHideCover()
+
             }
         }
     }
