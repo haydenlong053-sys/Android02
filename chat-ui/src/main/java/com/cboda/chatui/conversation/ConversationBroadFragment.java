@@ -5,7 +5,6 @@
 package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateBarrageDataLiveData;
-import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateGroupDetailLiveData;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePicture;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
@@ -684,6 +683,9 @@ public class ConversationBroadFragment extends Fragment implements
                 oldGag = groupInfo.mute == 1;
             }
             GiftChatRoomHelper.joinGiftChatRoom(conversationBroad.target);
+            if (MeetCallManager.getInstance().isCallDirect() && !isGag) {
+                groupBroadViewModel.setIsGag(conversationBroad.target, true).observe(this, aBoolean -> isGag = aBoolean);
+            }
         }
     }
 
@@ -738,11 +740,11 @@ public class ConversationBroadFragment extends Fragment implements
 
             }
         });
-        getUpdateGroupDetailLiveData().observe(getViewLifecycleOwner(), commonResult -> {
-            boolean gag = commonResult.getAllJy().equals("1");
-            isGag = gag;
-            oldGag = gag;
-        });
+//        getUpdateGroupDetailLiveData().observe(getViewLifecycleOwner(), commonResult -> {
+//            boolean gag = commonResult.getAllJy().equals("1");
+//            isGag = gag;
+//            oldGag = gag;
+//        });
         click(danmakuIv, () -> {
             Activity activity = getActivity();
             if (activity == null) {
@@ -768,11 +770,11 @@ public class ConversationBroadFragment extends Fragment implements
 //                        if (null != getName) {
 //                            addBarrageData(getName, integer, true);
 //                        } else {
-                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                        E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
 //                                nameMap.put(sender, userName);
-                                addBarrageData(userName, integer, true);
-                                return null;
-                            });
+                            addBarrageData(userName, integer, true);
+                            return null;
+                        });
 //                        }
                         break;
                     case 3:

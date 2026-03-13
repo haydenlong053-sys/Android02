@@ -11,9 +11,9 @@ val updateBarrageDataLiveData: BusLiveBroadData<BarrageBean> by lazy(LazyThreadS
     LiveDataBroadBroadBus.getInstance().with("UpdateBarrageData")
 }
 
-val updateGroupDetailLiveData: BusLiveBroadData<CommonResult> by lazy(LazyThreadSafetyMode.NONE) {
-    LiveDataBroadBroadBus.getInstance().with("UpdateGroupDetail")
-}
+//val updateGroupDetailLiveData: BusLiveBroadData<CommonResult> by lazy(LazyThreadSafetyMode.NONE) {
+//    LiveDataBroadBroadBus.getInstance().with("UpdateGroupDetail")
+//}
 
 val meetJoinMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
     LiveDataBroadBroadBus.getInstance().with("meetJoinMsg")

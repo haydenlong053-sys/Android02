@@ -16,23 +16,19 @@ import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
-import com.cboda.baselibrary.common.PlatformParams
 import com.cboda.baselibrary.event.FanYiBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.updateGroupDetailLiveData
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.chatemoji.EmotionBroadEvent
 import com.cboda.chatui.quickmeet.MeetCallManager
-import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
-import com.cboda.intelligent.activity.MeetingCreateBroadActivity
 import com.cboda.intelligent.activity.QuickMeetingCreateActivity
 import com.cboda.intelligent.bean.MeetingDetailBroadBean
 import com.cboda.intelligent.bean.NoResultBroadBean
@@ -502,7 +498,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                         ""
                                                     )
                                                 )
-                                                updateGroupDetailLiveData.postValue(this)
+//                                                updateGroupDetailLiveData.postValue(this)
                                             }
                                         }
                                     }
