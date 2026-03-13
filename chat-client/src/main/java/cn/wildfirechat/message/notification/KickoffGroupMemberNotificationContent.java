@@ -25,7 +25,7 @@ import cn.wildfirechat.remote.ChatManager;
  * Created by heavyrainlee on 20/12/2017.
  */
 
-@ContentTag(type = ContentType_KICKOF_GROUP_MEMBER, flag = PersistFlag.No_Persist)
+@ContentTag(type = ContentType_KICKOF_GROUP_MEMBER, flag = PersistFlag.Persist)
 public class KickoffGroupMemberNotificationContent extends GroupNotificationMessageContent {
     public String operator;
     public List<String> kickedMembers;
