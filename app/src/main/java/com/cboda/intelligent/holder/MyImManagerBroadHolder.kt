@@ -679,7 +679,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                     },
                                 )
                             } else {
-                                ToastBroadUtils.show("当前有会议正在进行中")
+                                ToastBroadUtils.show(context?.getString(com.cboda.baselibrary.R.string.msg_meeting_in_progress))
                             }
                         }
 

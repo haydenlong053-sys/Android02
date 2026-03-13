@@ -47,4 +47,8 @@
     <string name="chat_meet_time_tip_cancel">No</string>
     <string name="chat_meet_time_tip_ok">Extend</string>
     <string name="chat_meet_time_tip_success">Extended successfully</string>
+
+    <!-- New meeting status messages -->
+    <string name="msg_meeting_func_unavailable">This feature is temporarily unavailable during a meeting.</string>
+    <string name="msg_meeting_in_progress">A meeting is currently in progress.</string>
 </resources>
