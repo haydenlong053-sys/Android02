@@ -746,67 +746,73 @@ public class ConversationBroadFragment extends Fragment implements
 //            oldGag = gag;
 //        });
         click(danmakuIv, () -> {
-            Activity activity = getActivity();
-            if (activity == null) {
-                return null;
-            }
-            GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationBroad.target, /* refresh = */ false);
-            if (null != groupInfo) {
-                isGag = groupInfo.mute == 1;
-            }
-            DanMaPop danMaPop = new DanMaPop(activity, MeetCallManager.getInstance().isCallDirect(), isGag);
-            danMaPop.setClickInvoke(integer -> {
-                switch (integer) {
-                    case 1, 2:
-                        // 会议中：通过野火聊天室发送礼物，避免群禁言影响；仅主播可发送
+            if (null != conversationBroad && null != groupMemberBroad) {
+                Activity activity = getActivity();
+                if (activity == null) {
+                    return null;
+                }
+                GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationBroad.target, /* refresh = */ false);
+                if (null != groupInfo) {
+                    isGag = groupInfo.mute == 1;
+                }
+
+                GroupMember.GroupMemberType type = groupMemberBroad.type;
+                boolean isMan = (type == GroupMember.GroupMemberType.Owner || type == GroupMember.GroupMemberType.Manager);
+                DanMaPop danMaPop = new DanMaPop(activity, isMan, isMan, isGag);
+                danMaPop.setClickInvoke(integer -> {
+                    switch (integer) {
+                        case 1, 2:
+                            // 会议中：通过野火聊天室发送礼物，避免群禁言影响；仅主播可发送
 //                            if (!MeetCallManager.getInstance().isCallDirect()) {
 //                                Toast.makeText(getActivity(), "当前为观众角色，无法发送鲜花和鼓掌", Toast.LENGTH_SHORT).show();
 //                                break;
 //                            }
-                        GiftChatRoomHelper.sendGift(conversationBroad.target, integer);
-                        // 本端立即展示一条弹幕
-                        String sender = MMKVBroadUtils.Companion.getRealUserId();
+                            GiftChatRoomHelper.sendGift(conversationBroad.target, integer);
+                            // 本端立即展示一条弹幕
+                            String sender = MMKVBroadUtils.Companion.getRealUserId();
 //                        String getName = nameMap.get(sender);
 //                        if (null != getName) {
 //                            addBarrageData(getName, integer, true);
 //                        } else {
-                        E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
 //                                nameMap.put(sender, userName);
-                            addBarrageData(userName, integer, true);
-                            return null;
-                        });
+                                addBarrageData(userName, integer, true);
+                                return null;
+                            });
 //                        }
-                        break;
-                    case 3:
-                        chooseMsgOnePicture(pairs -> {
-                            if (null != pairs && !pairs.isEmpty()) {
-                                LocalMedia imageItem = pairs.getFirst().getSecond();
-                                File imageFileThumb;
-                                File imageFileSource = null;
-                                if (!imageItem.isCompressed()) {
-                                    imageFileSource = ImageBroadUtils.compressImage(imageItem.getRealPath());
+                            break;
+                        case 3:
+                            chooseMsgOnePicture(pairs -> {
+                                if (null != pairs && !pairs.isEmpty()) {
+                                    LocalMedia imageItem = pairs.getFirst().getSecond();
+                                    File imageFileThumb;
+                                    File imageFileSource = null;
+                                    if (!imageItem.isCompressed()) {
+                                        imageFileSource = ImageBroadUtils.compressImage(imageItem.getRealPath());
+                                    }
+                                    imageFileSource = imageFileSource == null ? new File(imageItem.getRealPath()) : imageFileSource;
+                                    imageFileThumb = ImageBroadUtils.genThumbImgFile(imageItem.getRealPath());
+                                    File finalImageFileSource = imageFileSource;
+                                    if (null != messageBroadViewModel) {
+                                        UIBroadUtils.postTaskSafely(() -> messageBroadViewModel.sendImgMsg(conversationBroad, imageFileThumb, finalImageFileSource, true));
+                                    }
                                 }
-                                imageFileSource = imageFileSource == null ? new File(imageItem.getRealPath()) : imageFileSource;
-                                imageFileThumb = ImageBroadUtils.genThumbImgFile(imageItem.getRealPath());
-                                File finalImageFileSource = imageFileSource;
-                                if (null != messageBroadViewModel) {
-                                    UIBroadUtils.postTaskSafely(() -> messageBroadViewModel.sendImgMsg(conversationBroad, imageFileThumb, finalImageFileSource, true));
-                                }
+                                return null;
+                            });
+                            break;
+                        case 4, 5:
+                            if (null != groupBroadViewModel) {
+                                groupBroadViewModel.setIsGag(conversationBroad.target, !isGag).observe(this, aBoolean -> isGag = aBoolean);
                             }
-                            return null;
-                        });
-                        break;
-                    case 4, 5:
-                        if (null != groupBroadViewModel) {
-                            groupBroadViewModel.setIsGag(conversationBroad.target, !isGag).observe(this, aBoolean -> isGag = aBoolean);
-                        }
 //                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.GROUP_GAG.getValue(), conversationBroad.target, "", null);
-                        break;
-                }
-                return null;
-            });
-            danMaPop.showPopupWindow(danmakuIv);
+                            break;
+                    }
+                    return null;
+                });
+                danMaPop.showPopupWindow(danmakuIv);
+            }
             return null;
+
         });
         swipeRefreshLayoutBroad.setOnRefreshListener(() -> {
             if (adapterBroad.getMessages() == null || adapterBroad.getMessages().isEmpty()) {

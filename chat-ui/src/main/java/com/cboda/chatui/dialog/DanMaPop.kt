@@ -11,7 +11,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.chatui.databinding.DanMaPopularBinding
 import razerdp.basepopup.BasePopupWindow
 
-class DanMaPop(context: Context, val isGroupOwner: Boolean, val isGag: Boolean) : BasePopupWindow(context) {
+class DanMaPop(context: Context, val canSendPic: Boolean, val canGag: Boolean, val isGag: Boolean) : BasePopupWindow(context) {
 
     var clickInvoke: (Int) -> Unit = {}
     private var binding = DanMaPopularBinding.inflate(
@@ -26,12 +26,12 @@ class DanMaPop(context: Context, val isGroupOwner: Boolean, val isGag: Boolean) 
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
-        binding.picIv.isGone = !isGroupOwner
-        binding.picTv.isGone = !isGroupOwner
-        binding.gagIv.isGone = !isGroupOwner || isGag
-        binding.gagTv.isGone = !isGroupOwner || isGag
-        binding.removeGagIv.isGone = !isGroupOwner || !isGag
-        binding.removeGagTv.isGone = !isGroupOwner || !isGag
+        binding.picIv.isGone = !canSendPic
+        binding.picTv.isGone = !canSendPic
+        binding.gagIv.isGone = !canGag || isGag
+        binding.gagTv.isGone = !canGag || isGag
+        binding.removeGagIv.isGone = !canGag || !isGag
+        binding.removeGagTv.isGone = !canGag || !isGag
         width = ViewGroup.LayoutParams.WRAP_CONTENT
         binding.flowerIv.click {
             clickInvoke.invoke(1)
