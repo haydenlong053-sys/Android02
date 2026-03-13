@@ -673,8 +673,12 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onRtcJoinChannelSuccess() {
-        danmakuIv.setVisibility(View.VISIBLE);
-        verticalDanmakuView.setVisibility(View.VISIBLE);
+        if(null!=danmakuIv){
+            danmakuIv.setVisibility(View.VISIBLE);
+        }
+        if (null != verticalDanmakuView) {
+            verticalDanmakuView.setVisibility(View.VISIBLE);
+        }
         // 进入礼物聊天室（基于当前群 ID），用于发送/接收鲜花和鼓掌弹幕
         if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group) {
             GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationBroad.target, /* refresh = */ false);
@@ -691,24 +695,37 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onEngineDestroy(@NotNull CallData data) {
-        danmakuIv.setVisibility(View.GONE);
-        verticalDanmakuView.setVisibility(View.GONE);
-        eLogD(TAG, "onEngineDestroy,isCallDirect:" + MeetCallManager.getInstance().isCallDirect());
+        if(null!=danmakuIv){
+            danmakuIv.setVisibility(View.GONE);
+        }
+        if (null != verticalDanmakuView) {
+            verticalDanmakuView.clearAll();
+            verticalDanmakuView.setVisibility(View.GONE);
+        }
+//        verticalDanmakuView.clearAll();
+//        eLogD(TAG, "onEngineDestroy,isCallDirect:" + MeetCallManager.getInstance().isCallDirect());
         // 退出礼物聊天室
         if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group) {
             GiftChatRoomHelper.quitGiftChatRoom(conversationBroad.target);
+            if (MeetCallManager.getInstance().isCallDirect() && oldGag != isGag) {
+                groupBroadViewModel.setIsGag(conversationBroad.target, oldGag).observe(this, aBoolean -> isGag = aBoolean);
+            }
         }
-        if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallDirect() && oldGag != isGag) {
-            groupBroadViewModel.setIsGag(conversationBroad.target, oldGag).observe(this, aBoolean -> isGag = aBoolean);
-        }
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         eLogD(TAG, "onDestroyView,isCallDirect:" + MeetCallManager.getInstance().isCallDirect());
-        if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallDirect() && oldGag != isGag) {
-            groupBroadViewModel.setIsGag(conversationBroad.target, oldGag).observe(this, aBoolean -> isGag = aBoolean);
+        if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group) {
+            MeetCallManager.getInstance().unregisterEngineEvent(this);
+            if (MeetCallManager.getInstance().isCallDirect() && oldGag != isGag) {
+                groupBroadViewModel.setIsGag(conversationBroad.target, oldGag).observe(this, aBoolean -> isGag = aBoolean);
+            }
+        }
+        if (null != verticalDanmakuView) {
+            verticalDanmakuView.clearAll();
         }
     }
 
@@ -1442,13 +1459,7 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null != conversationBroad && conversationBroad.type == Conversation.ConversationType.Group) {
-            MeetCallManager.getInstance().unregisterEngineEvent(this);
-        }
         EventBus.getDefault().unregister(this);
-        if (null != verticalDanmakuView) {
-            verticalDanmakuView.clearAll();
-        }
         if (conversationBroad == null) {
             return;
         }
