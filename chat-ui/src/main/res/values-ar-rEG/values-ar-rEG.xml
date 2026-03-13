@@ -185,4 +185,8 @@
     <string name="connection_status_syncing">جاري المزامنة...</string>
     <string name="connection_status_failed">فشل الاتصال</string>
 
+    <!-- اجتماع جديد -->
+    <string name="chat_meet_service_notification">إشعار خدمة الاجتماع في المقدمة</string>
+    <string name="chat_meet_service_tip">اضغط للعودة إلى التطبيق</string>
+
 </resources>

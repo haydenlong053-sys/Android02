@@ -185,4 +185,8 @@
     <string name="connection_status_syncing">Синхронизация...</string>
     <string name="connection_status_failed">Ошибка подключения</string>
 
+    <!-- Новое собрание -->
+    <string name="chat_meet_service_notification">Уведомление службы совещаний на переднем плане</string>
+    <string name="chat_meet_service_tip">Нажмите, чтобы вернуться в приложение</string>
+
 </resources>

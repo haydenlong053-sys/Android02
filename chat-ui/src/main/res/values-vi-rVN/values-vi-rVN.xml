@@ -491,4 +491,8 @@
     <string name="connection_status_syncing">Đang đồng bộ...</string>
     <string name="connection_status_failed">Kết nối thất bại</string>
 
+    <!-- Cuộc họp mới -->
+    <string name="chat_meet_service_notification">Thông báo dịch vụ cuộc họp nền trước</string>
+    <string name="chat_meet_service_tip">Chạm để quay lại ứng dụng</string>
+
 </resources>

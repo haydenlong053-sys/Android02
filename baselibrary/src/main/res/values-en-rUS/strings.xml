@@ -40,4 +40,11 @@
     <string name="permissions_missing">The corresponding permissions are missing. Please turn on the corresponding permissions in system settings!</string>
     <string name="in_compressed_video1">Compressing the video</string>
     <string name="in_compressed_video2">Compressing the video...</string>
+
+    <!-- New meeting related -->
+    <string name="chat_meet_leave_tip">Are you sure you want to leave the current meeting?</string>
+    <string name="chat_meet_pre_end_tip">10 minutes left. Do you want to extend the meeting time?</string>
+    <string name="chat_meet_time_tip_cancel">No</string>
+    <string name="chat_meet_time_tip_ok">Extend</string>
+    <string name="chat_meet_time_tip_success">Extended successfully</string>
 </resources>

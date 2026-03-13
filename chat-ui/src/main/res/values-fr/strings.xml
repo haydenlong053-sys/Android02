@@ -185,4 +185,8 @@
     <string name="connection_status_syncing">Synchronisation en cours...</string>
     <string name="connection_status_failed">Échec de la connexion</string>
 
+    <!-- Nouvelle réunion -->
+    <string name="chat_meet_service_notification">Notification du service de réunion au premier plan</string>
+    <string name="chat_meet_service_tip">Touchez pour revenir à l\'application</string>
+
 </resources>

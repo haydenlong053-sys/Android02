@@ -403,7 +403,6 @@
     <string name="connection_status_failed">Connection failed</string>
 
     <!-- 新会议相关-->
-    <string name="chat_meet_service_notification">会议前台服务通知</string>
-    <string name="chat_meet_service_tip">点击回到app</string>
-
+    <string name="chat_meet_service_notification">Meeting foreground service notification</string>
+    <string name="chat_meet_service_tip">Tap to return to the app</string>
 </resources>

@@ -180,4 +180,8 @@
     <string name="connection_status_syncing">Синхронізація...</string>
     <string name="connection_status_failed">Помилка підключення</string>
 
+    <!-- Нова зустріч -->
+    <string name="chat_meet_service_notification">Сповіщення служби наради у передньому плані</string>
+    <string name="chat_meet_service_tip">Торкніться, щоб повернутися до програми</string>
+
 </resources>

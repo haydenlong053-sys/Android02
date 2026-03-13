@@ -180,4 +180,8 @@
     <string name="connection_status_syncing">Menyinkronkan...</string>
     <string name="connection_status_failed">Koneksi gagal</string>
 
+    <!-- Rapat baru -->
+    <string name="chat_meet_service_notification">Notifikasi layanan rapat latar depan</string>
+    <string name="chat_meet_service_tip">Ketuk untuk kembali ke aplikasi</string>
+
 </resources>
