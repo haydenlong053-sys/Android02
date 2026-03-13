@@ -51,6 +51,7 @@ import com.cboda.baselibrary.bean.DanmakuItem;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.bumptech.glide.Glide;
@@ -1793,12 +1794,17 @@ public class ConversationBroadFragment extends Fragment implements
 //    }
 
     public void pickGroupMemberToVoipChat(boolean isAudioOnly) {
-        Intent intent = new Intent(getActivity(), PickGroupMemberBroadActivity.class);
-        GroupInfo groupInfo = groupBroadViewModel.getGroupInfo(conversationBroad.target, false);
-        intent.putExtra("groupInfo", groupInfo);
-        int maxCount = AVEngineKit.isSupportMultiCall() ? (isAudioOnly ? AVEngineKit.MAX_AUDIO_PARTICIPANT_COUNT - 1 : AVEngineKit.MAX_VIDEO_PARTICIPANT_COUNT - 1) : 1;
-        intent.putExtra("maxCount", maxCount);
-        startActivityForResult(intent, isAudioOnly ? REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT : REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT);
+        if (MeetCallManager.getInstance().isCallingState()){
+            ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_func_unavailable);
+        }else {
+            Intent intent = new Intent(getActivity(), PickGroupMemberBroadActivity.class);
+            GroupInfo groupInfo = groupBroadViewModel.getGroupInfo(conversationBroad.target, false);
+            intent.putExtra("groupInfo", groupInfo);
+            int maxCount = AVEngineKit.isSupportMultiCall() ? (isAudioOnly ? AVEngineKit.MAX_AUDIO_PARTICIPANT_COUNT - 1 : AVEngineKit.MAX_VIDEO_PARTICIPANT_COUNT - 1) : 1;
+            intent.putExtra("maxCount", maxCount);
+            startActivityForResult(intent, isAudioOnly ? REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT : REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT);
+        }
+
     }
 
     private void onPickGroupMemberToVoipChat(Intent intent, boolean isAudioOnly) {

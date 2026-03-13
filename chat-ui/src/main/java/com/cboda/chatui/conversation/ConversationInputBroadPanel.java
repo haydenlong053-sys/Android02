@@ -69,6 +69,7 @@ import com.cboda.chatui.conversation.mention.Mention;
 import com.cboda.chatui.conversation.mention.MentionGroupMemberBroadActivity;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
 import com.cboda.chatui.group.GroupViewBroadModel;
+import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.viewmodel.MessageViewBroadModel;
 import com.cboda.chatui.widget.InputAwareBroadLayout;
 import com.cboda.chatui.widget.KeyboardHeightFrameBroadLayout;
@@ -368,7 +369,12 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         audioImageView.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
-                showRecordPanel(v);
+                if (MeetCallManager.getInstance().isCallingState()){
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_func_unavailable);
+                }else {
+                    showRecordPanel(v);
+                }
+
             }
         });
         pttImageView.setOnClickListener(this::showRecordPanel);

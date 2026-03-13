@@ -47,4 +47,8 @@
     <string name="chat_meet_time_tip_cancel">不用</string>
     <string name="chat_meet_time_tip_ok">加時</string>
     <string name="chat_meet_time_tip_success">加時成功</string>
+
+    <!-- 新會議狀態提示 -->
+    <string name="msg_meeting_func_unavailable">會議中，該功能暫不可使用</string>
+    <string name="msg_meeting_in_progress">當前有會議正在進行中</string>
 </resources>
