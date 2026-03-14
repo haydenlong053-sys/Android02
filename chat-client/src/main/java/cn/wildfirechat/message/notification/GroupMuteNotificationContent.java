@@ -27,11 +27,11 @@ public class GroupMuteNotificationContent extends GroupNotificationMessageConten
     @Override
     public String formatNotification(Message message) {
         StringBuilder sb = new StringBuilder();
-        if (fromSelf) {
-            sb.append("您");
-        } else {
-            sb.append(ChatManager.Instance().getGroupMemberDisplayName(groupId, operator));
-        }
+//        if (fromSelf) {
+//            sb.append("您");
+//        } else {
+//            sb.append(ChatManager.Instance().getGroupMemberDisplayName(groupId, operator));
+//        }
         if (type == 0) {
             sb.append("关闭了全员禁言");
         } else {
