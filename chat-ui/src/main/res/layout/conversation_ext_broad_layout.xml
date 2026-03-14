@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- 第1行：5列 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/container_0"
@@ -18,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/icon_0"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
                 android:tag="icon_0"
                 tools:src="@mipmap/ic_func_pic" />
@@ -32,8 +34,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_0"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="test" />
         </RelativeLayout>
 
@@ -45,8 +47,8 @@
 
             <ImageView
                 android:id="@+id/icon_1"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
                 android:tag="icon_1"
                 tools:src="@mipmap/ic_func_shot" />
@@ -59,8 +61,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_1"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="@string/shot" />
         </RelativeLayout>
 
@@ -72,8 +74,8 @@
 
             <ImageView
                 android:id="@+id/icon_2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
                 android:tag="icon_2"
                 tools:src="@mipmap/ic_func_location" />
@@ -86,8 +88,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_2"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="@string/location" />
         </RelativeLayout>
 
@@ -99,8 +101,8 @@
 
             <ImageView
                 android:id="@+id/icon_3"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
                 android:tag="icon_3"
                 tools:src="@mipmap/ic_func_file" />
@@ -113,28 +115,21 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_3"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="@string/file" />
         </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/container_4"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
 
         <RelativeLayout
-            android:id="@+id/rlCall"
+            android:id="@+id/container_4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/icon_4"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
                 android:tag="icon_4"
                 tools:src="@mipmap/ic_func_video" />
@@ -147,10 +142,18 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_4"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="@string/video" />
         </RelativeLayout>
+    </LinearLayout>
+
+    <!-- 第2行：5列 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/container_5"
@@ -160,8 +163,8 @@
 
             <ImageView
                 android:id="@+id/icon_5"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
                 android:tag="icon_5"
                 tools:src="@mipmap/ic_func_video" />
@@ -174,8 +177,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_5"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="音频" />
         </RelativeLayout>
 
@@ -187,8 +190,8 @@
 
             <ImageView
                 android:id="@+id/icon_6"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
                 android:tag="icon_6"
                 tools:src="@mipmap/ic_func_video" />
@@ -201,8 +204,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_6"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="音频" />
         </RelativeLayout>
 
@@ -214,10 +217,9 @@
 
             <ImageView
                 android:id="@+id/icon_7"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerInParent="true"
-                android:clickable="false"
                 android:tag="icon_7"
                 tools:src="@mipmap/ic_func_video" />
 
@@ -229,18 +231,71 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:tag="title_7"
-                android:textColor="@color/gray16"
-                android:textSize="12sp"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
                 tools:text="音频" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/container_8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/icon_8"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_centerInParent="true"
+                android:tag="icon_8"
+                tools:src="@mipmap/ic_func_video"
+                />
+
+            <TextView
+                android:id="@+id/title_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/icon_8"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:tag="title_8"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
+                tools:text="name" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/container_9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/icon_9"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_centerInParent="true"
+                android:tag="icon_9"
+                tools:src="@mipmap/ic_func_video" />
+
+            <TextView
+                android:id="@+id/title_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/icon_9"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:tag="title_9"
+                android:textColor="@color/black_65"
+                android:textSize="11sp"
+                tools:text="name" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        android:layout_height="20dp"/>
-
+        android:orientation="horizontal" />
 
 </LinearLayout>
