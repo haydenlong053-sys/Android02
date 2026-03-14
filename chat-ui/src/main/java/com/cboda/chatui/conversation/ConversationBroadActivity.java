@@ -164,7 +164,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             mIvBack2.setVisibility(View.GONE);
             rightView.setVisibility(View.VISIBLE);
         } else if (MyEventCodeEnum.UPDATE_SEND_TIME.getValue().equals(myImEvent.type)) {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
+            if (conversationBroad!=null && conversationBroad.type.getValue() == Conversation.ConversationType.Group.getValue()){
+                MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
+            }
         } else if (MyEventCodeEnum.BANNED.getValue().equals(myImEvent.type)) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.BANNED.getValue(), conversationBroad.target, "", null);
         } else if (MyEventCodeEnum.SEND_RECEIVE_TRANSFER_MESSAGE.getValue().equals(myImEvent.type)) {
