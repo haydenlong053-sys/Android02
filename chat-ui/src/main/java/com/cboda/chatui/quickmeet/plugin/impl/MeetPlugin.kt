@@ -269,8 +269,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             dismissLoadingWfc()
             ToastBroadUtils.show("会议无效的 Token")
         } else if (state == CONNECTION_STATE_FAILED && reason == CONNECTION_CHANGED_BANNED_BY_SERVER) {
-            cancelMeeting()
-            MeetCallManager.getInstance().leaveAndRelease()
+            goOverMeeting()
+//            cancelMeeting()
+//            MeetCallManager.getInstance().leaveAndRelease()
         }
 
     }

@@ -15,6 +15,7 @@ val updateBarrageDataLiveData: BusLiveBroadData<BarrageBean> by lazy(LazyThreadS
 //    LiveDataBroadBroadBus.getInstance().with("UpdateGroupDetail")
 //}
 
+//群内有人开启了会议的通知消息
 val meetJoinMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
     LiveDataBroadBroadBus.getInstance().with("meetJoinMsg")
 }

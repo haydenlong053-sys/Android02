@@ -10,6 +10,7 @@ class CallData : Serializable{
      * 说话方或接收方
      */
     var direct: CallDirect? = null
+    var role: MeetRole? = null
     var channelId: String = ""
     var quickDetailMeetBean:QuickDetailMeetBean?=null
 
@@ -51,5 +52,24 @@ enum class CallDirect {
      * 接听方
      */
     ANSWER
+}
+
+/**
+ * 会议角色
+ */
+enum class MeetRole {
+    /**
+     * 房主
+     */
+    OWNER,
+
+    /**
+     * 管理员
+     */
+    MANAGER,
+    /**
+     * 普通人
+     */
+    NORMAL,
 }
 
