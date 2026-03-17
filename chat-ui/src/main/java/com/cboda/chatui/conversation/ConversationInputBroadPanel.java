@@ -796,7 +796,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     private void showEmotionLayout() {
         audioButton.setVisibility(View.GONE);
         emotionImageView.setImageResource(R.mipmap.ic_chat_broad_keyboard);
-        rootLinearLayout.show(editText, emotionContainerFrameLayout);
+        rootLinearLayout.show(editText, emotionContainerFrameLayout,0);
         if (onConversationInputPanelStateChangeListener != null) {
             onConversationInputPanelStateChangeListener.onInputPanelExpanded();
         }
@@ -810,7 +810,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     }
 
     private void showConversationExtension() {
-        rootLinearLayout.show(editText, extContainerFrameLayout);
+        rootLinearLayout.show(editText, extContainerFrameLayout,1);
         extImageView.setImageResource(R.mipmap.ic_msg_broad_add_off);
         if (audioButton.isShown()) {
             hideAudioButton();
