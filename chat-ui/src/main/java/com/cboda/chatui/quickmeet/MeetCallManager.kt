@@ -18,6 +18,7 @@ import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.CallStatus
+import com.cboda.chatui.quickmeet.bean.MeetRole
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import io.agora.rtc2.ChannelMediaOptions
 import io.agora.rtc2.ClientRoleOptions
@@ -25,6 +26,7 @@ import io.agora.rtc2.Constants
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_LEAVE_CHANNEL
 import io.agora.rtc2.Constants.CONNECTION_STATE_DISCONNECTED
 import io.agora.rtc2.IRtcEngineEventHandler
+import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 import io.agora.rtc2.RtcEngine
 import io.agora.rtc2.RtcEngineConfig
 
@@ -242,7 +244,9 @@ class MeetCallManager private constructor() {
         override fun onClientRoleChanged(oldRole: Int, newRole: Int, newRoleOptions: ClientRoleOptions) {
             super.onClientRoleChanged(oldRole, newRole, newRoleOptions)
             eLogD(APP_TAG, "oldRole==" + oldRole + "---newRole==" + newRole + "---audienceLatencyLevel==" + newRoleOptions.getAudienceLatencyLevel())
-//            runOnUiThread(Runnable {
+            if (oldRole != newRole){
+                runOnUiThread(Runnable {
+                    notifyRtcRoleChanged(oldRole,newRole)
 //                if (newRole == Constants.CLIENT_ROLE_AUDIENCE) {
 //                    LOOK_TYPE = 1
 //                } else {
@@ -253,14 +257,15 @@ class MeetCallManager private constructor() {
 //                } else {
 //                    mTvLook.setText("当前是观众，仅收听,点击切换为主播端")
 //                }
-//            })
+                })
+            }
         }
 
         // 获取瞬时说话音量最高的三个用户（即说话者）的用户 ID、他们的音量及本地用户是否在说话
-        override fun onAudioVolumeIndication(speakers: Array<out AudioVolumeInfo?>?, totalVolume: Int) {
+        override fun onAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?, totalVolume: Int) {
             super.onAudioVolumeIndication(speakers, totalVolume)
             runOnUiThread {
-                notifyRtcAudioVolumeChange(totalVolume)
+                notifyRtcAudioVolumeChange(speakers,totalVolume)
             }
         }
 
@@ -270,6 +275,10 @@ class MeetCallManager private constructor() {
             runOnUiThread {
                 notifyRtcUserMuteAudioChange(uid, muted)
             }
+        }
+
+        override fun onRtcStats(stats: RtcStats?) {
+            notifyRtcStatsInfo(stats)
         }
     }
 
@@ -355,10 +364,10 @@ class MeetCallManager private constructor() {
         }
     }
 
-    private fun notifyRtcAudioVolumeChange(totalVolume: Int) {
+    private fun notifyRtcAudioVolumeChange(speakers: Array<AudioVolumeInfo>?,totalVolume: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
-            callEvent.onRoomAudioVolumeIndication(totalVolume)
+            callEvent.onRoomAudioVolumeIndication(speakers,totalVolume)
         }
     }
 
@@ -401,6 +410,9 @@ class MeetCallManager private constructor() {
         return mCallData.callStatus == CallStatus.WAITING
     }
 
+    fun getMyselfMeetRole(): MeetRole? {
+        return mCallData.role
+    }
 
     /**
      * 设置是否处于最小化状态
@@ -409,17 +421,17 @@ class MeetCallManager private constructor() {
     }
 
 
-    private fun notifyCountdownTimer(time: Long) {
+    private fun notifyRtcRoleChanged(oldRole: Int,newRole: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         list.forEach { callback ->
-            callback.onHangupCountdown(time)
+            callback.onRtcRoleChanged(oldRole,newRole)
         }
     }
 
-    private fun notifyCancelCountdownTimer() {
+    private fun notifyRtcStatsInfo(statsBean: IRtcEngineEventHandler.RtcStats?) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         list.forEach { callback ->
-            callback.onCancelHangupCountdown()
+            callback.onRtcStats(statsBean)
         }
     }
 

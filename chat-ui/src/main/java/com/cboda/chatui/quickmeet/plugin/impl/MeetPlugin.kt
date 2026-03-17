@@ -12,6 +12,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
@@ -38,6 +39,8 @@ import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
 import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
+import io.agora.rtc2.IRtcEngineEventHandler
+import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -297,10 +300,19 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     }
 
-    override fun onRoomAudioVolumeIndication(totalVolume: Int) {
+    override fun onRoomAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?,totalVolume: Int) {
         if (totalVolume > 0 && mVoiceWaveView?.isAnimating() == false) {
             mVoiceWaveView?.startLoopAnim()
         }
+    }
+
+    override fun onRtcRoleChanged(oldRole: Int, newRole: Int) {
+
+    }
+    override fun onRtcStats(statsBean: IRtcEngineEventHandler.RtcStats?) {
+        //先判断会议人数有没有变化后，再在主线程更新人数信息
+//        runOnUiThread {
+//        }
     }
 
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {

@@ -1,6 +1,8 @@
 package com.cboda.chatui.quickmeet
 
 import com.cboda.chatui.quickmeet.bean.CallData
+import io.agora.rtc2.IRtcEngineEventHandler
+import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 
 interface CallEventCallback{
 
@@ -49,17 +51,27 @@ interface CallEventCallback{
     }
 
     /**
-     * 挂断 激活倒计时 事件
-     * @param time Long
+     * 用户角色或观众延迟级别发生变化回调
+     *
+     * oldRole
+     * 用户切换前的角色：
+     * CLIENT_ROLE_BROADCASTER (1)：主播。
+     * CLIENT_ROLE_AUDIENCE (2)：观众。
+     * newRole
+     * 用户切换后的角色：
+     * CLIENT_ROLE_BROADCASTER (1)：主播。
+     * CLIENT_ROLE_AUDIENCE (2)：观众。
+     *
      */
-    fun onHangupCountdown(time: Long) {
+    fun onRtcRoleChanged(oldRole: Int,newRole: Int) {
 
     }
 
     /**
-     * 取消挂断倒计时
+     * 报告当前通话统计信息的回调
+     * 该回调在用户加入频道后每两秒触发一次。
      */
-    fun onCancelHangupCountdown() {
+    fun onRtcStats(statsBean: IRtcEngineEventHandler.RtcStats?) {
 
     }
 
@@ -71,7 +83,7 @@ interface CallEventCallback{
      * 对于远端用户的回调，totalVolume 是瞬时音量最高的最多三位远端用户的音量总和。
      * 如果调用了 startAudioMixing，则 totalVolume 是混音后的音量。
      */
-    fun onRoomAudioVolumeIndication(totalVolume: Int){
+    fun onRoomAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?,totalVolume: Int){
 
     }
 
