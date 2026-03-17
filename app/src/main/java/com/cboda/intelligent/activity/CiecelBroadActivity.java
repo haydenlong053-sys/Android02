@@ -1,5 +1,7 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -118,7 +120,7 @@ public class CiecelBroadActivity extends BaseSimpleBroadActivity implements View
                     llTool.setBackgroundColor(Color.parseColor("#00000000"));
                 }
                 if (state == State.IDLING) {
-                    ELogUtilKt.eLogD("zhanglong", "========State.IDLING");
+                    ELogUtilKt.eLogD(APP_TAG, "========State.IDLING");
                     for (int j = 0; j < listBeans.size(); j++) {
                         listBeans.get(j).isChecked = false;
                     }

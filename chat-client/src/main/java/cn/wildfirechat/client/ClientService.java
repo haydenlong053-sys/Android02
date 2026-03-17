@@ -4,6 +4,7 @@
 
 package cn.wildfirechat.client;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.tencent.mars.comm.PlatformComm.context;
 import static com.tencent.mars.xlog.Xlog.AppednerModeAsync;
@@ -564,7 +565,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
 
         @Override
         public void send(cn.wildfirechat.message.Message msg, final ISendMessageCallback callback, int expireDuration) throws RemoteException {
-            eLogD("zhanglong", "msg===" + msg + "---" + msg.content + "-----expireDuration==" + expireDuration);
+            eLogD(APP_TAG, "msg===" + msg + "---" + msg.content + "-----expireDuration==" + expireDuration);
             msg.messageId = 0;
             msg.messageUid = 0;
             msg.sender = userId;
@@ -592,7 +593,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
 //                            uploadThenSend = true;
 //                        }
                         //强制判断文件大于100kb直接走大文件上传
-                        eLogD("zhanglong", "forcePresignedUrlUpload==" + ProtoLogic.forcePresignedUrlUpload() + "-----" + file.length());
+                        eLogD(APP_TAG, "forcePresignedUrlUpload==" + ProtoLogic.forcePresignedUrlUpload() + "-----" + file.length());
                         if (ProtoLogic.forcePresignedUrlUpload() || file.length() > 102400) {
                             uploadThenSend = true;
                         }
@@ -606,7 +607,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
                     }
                 }
             }
-            eLogD("zhanglong", "uploadThenSend==" + uploadThenSend + "-----" + isSupportBigFilesUpload());
+            eLogD(APP_TAG, "uploadThenSend==" + uploadThenSend + "-----" + isSupportBigFilesUpload());
             if (uploadThenSend) {
                 protoMessage.setStatus(MessageStatus.Sending.value());
                 long messageId = ProtoLogic.insertMessage(protoMessage);
@@ -615,7 +616,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
                     if (callback != null)
                         callback.onPrepared(messageId, System.currentTimeMillis());
                 } catch (RemoteException e) {
-                    eLogD("zhanglong", "报错=====" + e.getMessage());
+                    eLogD(APP_TAG, "报错=====" + e.getMessage());
                     e.printStackTrace();
                     return;
                 }
@@ -4558,7 +4559,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
 
     private void uploadBigFile(long messageId, String filePath, int mediaType, String contentType, UploadMediaCallback callback) {
         File file = new File(filePath);
-        eLogD("zhanglong", "uploadBigFile=====" + filePath);
+        eLogD(APP_TAG, "uploadBigFile=====" + filePath);
         getTempTime = System.currentTimeMillis();
         eLogD("myTime", "HttpsBroadConfig.currentHostHttpUrlType==" + HttpsBroadConfig.currentHostHttpUrlType + "---uploadBigFile文件上传发起时间--" + getTempTime);
         if (HttpsBroadConfig.currentHostHttpUrlType != HttpsBroadConfig.RELEASE_TYPE) {
@@ -4566,7 +4567,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
             getMyServerOssInfo(file.getName(), mediaType, contentType, new ProtoLogic.IGetUploadMediaUrlCallback() {
                 @Override
                 public void onSuccess(String uploadUrl, String remoteUrl, String backUploadupUrl, int serverType) {
-                    eLogD("zhanglong", "https---" + uploadUrl + "---" + remoteUrl + "---" + backUploadupUrl + "---" + serverType);
+                    eLogD(APP_TAG, "https---" + uploadUrl + "---" + remoteUrl + "---" + backUploadupUrl + "---" + serverType);
                     eLogD("myTime", "查询getMyServerOssInfo接口文件上传七牛云还是其他类型耗时----" + (System.currentTimeMillis() - getTempTime));
                     if (serverType == 1) {
                         String[] ss = uploadUrl.split("\\?");
@@ -4578,7 +4579,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
 
                 @Override
                 public void onFailure(int i) {
-                    eLogD("zhanglong", "报错=====onFailure==" + i);
+                    eLogD(APP_TAG, "报错=====onFailure==" + i);
                     if (callback != null) {
                         callback.onFail(i);
                     }
@@ -4589,7 +4590,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
             ProtoLogic.getUploadMediaUrl(file.getName(), mediaType, contentType, new ProtoLogic.IGetUploadMediaUrlCallback() {
                 @Override
                 public void onSuccess(String uploadUrl, String remoteUrl, String backUploadupUrl, int serverType) {
-                    eLogD("zhanglong", uploadUrl + "---" + remoteUrl + "---" + backUploadupUrl + "---" + serverType);
+                    eLogD(APP_TAG, uploadUrl + "---" + remoteUrl + "---" + backUploadupUrl + "---" + serverType);
                     eLogD("myTime", "查询getUploadMediaUrl接口文件上传七牛云还是其他类型耗时----" + (System.currentTimeMillis() - getTempTime));
                     if (serverType == 1) {
                         String[] ss = uploadUrl.split("\\?");
@@ -4602,7 +4603,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
 
                 @Override
                 public void onFailure(int i) {
-                    eLogD("zhanglong", "报错=====onFailure==" + i);
+                    eLogD(APP_TAG, "报错=====onFailure==" + i);
                     if (callback != null) {
                         callback.onFail(i);
                     }
@@ -4624,7 +4625,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
                     .build();
         }
         tempTime = System.currentTimeMillis();
-        eLogD("zhanglong", "上传开始时间===" + tempTime);
+        eLogD(APP_TAG, "上传开始时间===" + tempTime);
         File file = new File(filePath);
         MediaType mediaType = MediaType.parse(contentType);
         RequestBody fileBody = new UploadFileRequestBody(RequestBody.create(mediaType, file), callback::onProgress);
@@ -4634,7 +4635,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                eLogD("zhanglong", "上传失败===" + System.currentTimeMillis());
+                eLogD(APP_TAG, "上传失败===" + System.currentTimeMillis());
                 e.printStackTrace();
                 callback.onFail(4);
                 uploadingMap.remove(messageId);
@@ -4643,11 +4644,11 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.code() != 200) {
-                    eLogD("zhanglong", "上传失败===" + response.code() + "===" + System.currentTimeMillis());
+                    eLogD(APP_TAG, "上传失败===" + response.code() + "===" + System.currentTimeMillis());
                     Log.e(TAG, "uploadMediaFail " + response.code());
                     callback.onFail(4);
                 } else {
-                    eLogD("zhanglong", "上传成功耗时===" + (System.currentTimeMillis() - tempTime));
+                    eLogD(APP_TAG, "上传成功耗时===" + (System.currentTimeMillis() - tempTime));
                     callback.onSuccess(remoteUrl);
                 }
                 uploadingMap.remove(messageId);

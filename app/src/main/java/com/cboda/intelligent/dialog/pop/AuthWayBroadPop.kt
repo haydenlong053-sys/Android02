@@ -53,7 +53,7 @@ class AuthWayBroadPop(
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
-//        eLogD("zhanglong","context===="+context)
+//        eLogD(APP_TAG,"context===="+context)
         if (outSafeCenterBean!=null){
             safeCenterBean = outSafeCenterBean
             if (jumpSource == SafeJumpBroadEnum.LoginForgetPassword.sourceType) {

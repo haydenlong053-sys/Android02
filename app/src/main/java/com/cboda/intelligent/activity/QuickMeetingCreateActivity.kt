@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.quickmeet.CallEventCallback
@@ -259,7 +260,7 @@ fun QuickMeetingCreateScreen(
                             },
                             onSuccessInvoke = { hasPassword ->
                                 if (hasPassword) {
-                                    eLogD("zhanglong", "展示支付密码弹窗----》")
+                                    eLogD(APP_TAG, "展示支付密码弹窗----》")
                                     PasswordPricedPop(getAppContext(), uiState.calculateTotalPrice().toString(), {
                                         onPayAuthSuccess.invoke()
                                     }).showPopupWindow()

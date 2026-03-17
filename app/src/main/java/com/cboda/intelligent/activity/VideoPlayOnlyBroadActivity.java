@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.Manifest;
@@ -95,11 +96,11 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
         viHead.setLayoutParams(linearParams);
 
         video = getIntent().getStringExtra("video");
-//        Log.d("zhanglong","video_url==="+video);
+//        Log.d(APP_TAG,"video_url==="+video);
         String videoImage = getIntent().getStringExtra("videoImage");
 
         long messageId = getIntent().getLongExtra("messageId",0);
-        ELogUtilKt.eLogD("zhanglong","video_url==="+video+"--messageId="+messageId);
+        ELogUtilKt.eLogD(APP_TAG,"video_url==="+video+"--messageId="+messageId);
         showLoading();
         if (messageId > 0){
             try {
@@ -121,8 +122,8 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
             }
         }
 //        if (thumbnail!=null &&thumbnail.getWidth()>0 && thumbnail.getHeight()>0){
-//            ELogUtilKt.eLogD("zhanglong","w=="+thumbnail.getWidth());
-//            ELogUtilKt.eLogD("zhanglong","h=="+thumbnail.getHeight());
+//            ELogUtilKt.eLogD(APP_TAG,"w=="+thumbnail.getWidth());
+//            ELogUtilKt.eLogD(APP_TAG,"h=="+thumbnail.getHeight());
 //            int screenWidth = ScreenBroadBroadUtil.getScreenWidth(this);
 //
 //            mIvTemp.getLayoutParams().height = screenWidth/ thumbnail.getWidth() *thumbnail.getHeight();

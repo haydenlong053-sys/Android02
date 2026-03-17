@@ -336,7 +336,7 @@ public class AudioRecorderBroadPanel implements View.OnTouchListener {
 
     private void tick() {
 //        if (BuildConfig.DEBUG){
-//            Log.d("zhanglong","tick---isRecording--->"+isRecording);
+//            Log.d(APP_TAG,"tick---isRecording--->"+isRecording);
 //        }
         if (isRecording) {
             long now = System.currentTimeMillis();

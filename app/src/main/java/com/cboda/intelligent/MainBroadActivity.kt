@@ -47,6 +47,7 @@ import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.DoubleMessageBroadEvent
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
@@ -577,10 +578,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                 message.content
                             )
                         )
-                        eLogD("zhanglong", "MessageContent===" + message.content + "--messageContentType==" + message.content.messageContentType)
+                        eLogD(APP_TAG, "MessageContent===" + message.content + "--messageContentType==" + message.content.messageContentType)
                         if (message.sender == "admin" && message.content is NoticeInformMessageContent) {
                             val bean = message.content as NoticeInformMessageContent
-//                            Log.d("zhanglong","NoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")
+//                            Log.d(APP_TAG,"NoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")
                             EventBus.getDefault().post(
                                 NoticeInfoBroadBean(
                                     id = bean.id,
@@ -754,7 +755,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         )[ConversationListViewBroadModel::class.java]
 
         conversationListViewModel?.unreadCountEventLiveData()?.observe(this) {
-//            Log.d("zhanglong","unreadCountEventLiveData==="+it.toString())
+//            Log.d(APP_TAG,"unreadCountEventLiveData==="+it.toString())
             EventBus.getDefault().post(
                 UnreadCountBroadEvent(
                     null,

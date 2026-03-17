@@ -8,6 +8,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import cn.wildfirechat.remote.ChatManager
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
@@ -93,7 +94,7 @@ class SaveGroupQrCodeBroadPop(val context: Context,val qunId: String) : BasePopu
             // 获取该 Activity 作用域的 ViewModel
             viewModel = ViewModelProvider(activity).get<CommViewBroadModel>(CommViewBroadModel::class.java)
             // 现在可以使用 viewModel 进行数据操作
-            eLogD("zhanglong","viewModel=="+viewModel)
+            eLogD(APP_TAG,"viewModel=="+viewModel)
             viewModel?.gonggaoLiveData?.observe(context) {
                 it.data?.apply {
                     binding.mTvName.text = this.name ?: ""

@@ -121,7 +121,7 @@ public class SearchBroadFragment2 extends Fragment {
 
     private void queryFriendList(String mKeyword) {
         if (!TextUtils.isEmpty(mKeyword.trim())) {
-//            Log.d("zhanglong", "keyword====" + mKeyword);
+//            Log.d(APP_TAG, "keyword====" + mKeyword);
             Map<String, Object> map = new HashMap<>();
             map.put("text", mKeyword);
             NetworkBroadUtils.INSTANCE.postEncryptedList(UrlBroadConstants.FRIEND_CONTACT_LIST, map, new NetworkBroadUtils.ListCallback<GlobalFriendListBroadBean>() {

@@ -185,7 +185,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
 //        UnreadCount singleUnread = ChatManager.Instance().getUnreadCountEx(Collections.singletonList(Conversation.ConversationType.Single), Collections.singletonList(0));
 //        msgUnReadCountEvent.singleCount=singleUnread.unread;
         List<ConversationInfo> singlecConversationList = ChatManager.Instance().getConversationList(Collections.singletonList(Conversation.ConversationType.Single), Arrays.asList(0));
-//        Log.d("zhanglong","singlecConversationList----"+singlecConversationList.size());
+//        Log.d(APP_TAG,"singlecConversationList----"+singlecConversationList.size());
 
         List<ConversationInfo> realSinglecConversationList = singlecConversationList.stream().filter(
                 conversationInfo -> {
@@ -208,7 +208,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
         List<Conversation.ConversationType> groupTypes = Arrays.asList(Conversation.ConversationType.Group);
         List<Integer> lines = Arrays.asList(0);
         List<ConversationInfo> conversationList = ChatManager.Instance().getConversationList(groupTypes, lines);
-//        Log.d("zhanglong","groupConversationList----"+conversationList.size());
+//        Log.d(APP_TAG,"groupConversationList----"+conversationList.size());
 
         //我的群聊
         List<ConversationInfo> myConversationList = conversationList.stream().filter(
@@ -236,7 +236,7 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
         if (msgUnreadCountLiveData != null) {
             msgUnreadCountLiveData.postValue(msgUnReadCountEvent);
         }
-//        Log.d("zhanglong","reloadConversationUnreadStatus----"+msgUnReadCountEvent.toString());
+//        Log.d(APP_TAG,"reloadConversationUnreadStatus----"+msgUnReadCountEvent.toString());
 
 //        if (unreadCountLiveData == null) {
 //            return;

@@ -138,7 +138,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
 //        itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : R.drawable.selector_common_broad_item);
         itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : 0);
         redDotView.setVisibility(View.GONE);
-//        ELogUtilKt.eLogD("zhanglong",conversationInfo.conversation.target+conversationInfo.isSilent+"-未读数--"+conversationInfo.unreadCount.unread);
+//        ELogUtilKt.eLogD(APP_TAG,conversationInfo.conversation.target+conversationInfo.isSilent+"-未读数--"+conversationInfo.unreadCount.unread);
         if (conversationInfo.isSilent) {
             if (conversationInfo.unreadCount.unread > 0) { // 显示红点
                 unreadCountTextView.setText("");

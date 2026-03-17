@@ -165,7 +165,7 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
                 bean = resultBean;
                 tvName.setText(bean.data.name);
                 GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(id, false);
-//                ELogUtilKt.eLogD("zhanglong","groupInfo.portrait==="+groupInfo.portrait);
+//                ELogUtilKt.eLogD(APP_TAG,"groupInfo.portrait==="+groupInfo.portrait);
 
                 // 提取头像URL列表
                 List<String> avatarUrls = new ArrayList<>();

@@ -142,7 +142,7 @@ public class SearchResultBroadAdapter2 extends RecyclerView.Adapter<RecyclerView
                 ((ExpandViewBroadHolder) holder).onBind(ir.module.category2(holder.itemView), ir.results.size() - SearchableBroadModule.DEFAULT_SHOW_RESULT_ITEM_COUNT);
                 break;
             default:
-//                Log.d("zhanglong","onBindViewHolder===position="+position+"---startPosition=="+ir.startPosition+"---endPosition=="+ir.endPosition+"--it="+ir);
+//                Log.d(APP_TAG,"onBindViewHolder===position="+position+"---startPosition=="+ir.startPosition+"---endPosition=="+ir.endPosition+"--it="+ir);
                 ir.module.onBind2(fragment, holder, getResultItemAtPosition(position),position,ir.startPosition,ir.endPosition);
                 break;
         }

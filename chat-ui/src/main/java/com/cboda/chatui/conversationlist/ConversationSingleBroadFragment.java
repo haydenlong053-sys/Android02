@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.conversationlist;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.content.Context;
@@ -171,7 +172,7 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
     public void setGlobalNoticeBean(GlobalNoticeBroadBean mNoticeBean) {
         this.globalNoticeBean = mNoticeBean;
         if (BuildConfig.DEBUG){
-            eLogD("zhanglong","--setGlobalNoticeBean---globalNoticeBean=="+globalNoticeBean.toString()+"---myHeaderAdapter=="+myHeaderAdapter);
+            eLogD(APP_TAG,"--setGlobalNoticeBean---globalNoticeBean=="+globalNoticeBean.toString()+"---myHeaderAdapter=="+myHeaderAdapter);
         }
         if (myHeaderAdapter != null) {
             myHeaderAdapter.refreshHeaderData(globalNoticeBean);
@@ -205,8 +206,8 @@ public class ConversationSingleBroadFragment extends ProgressBroadFragment {
     private void init() {
 //        HashMap<String, GlobalFriendBroadBean> friendListData = MMKVBroadUtils.Companion.getFriendListData();
 //        GlobalBroadInfo.INSTANCE.setMyFriendListBean(friendListData);
-//        ELogUtilKt.eLogD("zhanglong","mList.size===="+GlobalBroadInfo.INSTANCE.getMyFriendListBean().size());
-//        ELogUtilKt.eLogD("zhanglong","mList====="+GlobalBroadInfo.INSTANCE.getMyFriendListBean());
+//        ELogUtilKt.eLogD(APP_TAG,"mList.size===="+GlobalBroadInfo.INSTANCE.getMyFriendListBean().size());
+//        ELogUtilKt.eLogD(APP_TAG,"mList====="+GlobalBroadInfo.INSTANCE.getMyFriendListBean());
 
         UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         adapter = new ConversationListBroadAdapter(this,false);

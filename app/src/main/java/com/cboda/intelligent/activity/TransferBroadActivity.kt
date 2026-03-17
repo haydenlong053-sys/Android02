@@ -10,6 +10,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
@@ -299,7 +300,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
                 safeCenterBean = bean
             }
             viewModel.checkSecurityFirst().observe(this@TransferBroadActivity) { bean ->
-                eLogD("zhanglong", "bean.result--${bean.result}")
+                eLogD(APP_TAG, "bean.result--${bean.result}")
                 isFirst = bean.result
             }
         }

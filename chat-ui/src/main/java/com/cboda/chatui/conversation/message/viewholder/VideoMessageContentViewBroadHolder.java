@@ -90,7 +90,7 @@ public class VideoMessageContentViewBroadHolder extends MediaMessageContentViewB
             ChatManager.Instance().setMediaMessagePlayed(message.message.messageId);
         }
         VideoMessageContent videoMessageContent = (VideoMessageContent) message.message.content;
-//        ELogUtilKt.eLogD("zhanglong","localPath------"+videoMessageContent.localPath);
+//        ELogUtilKt.eLogD(APP_TAG,"localPath------"+videoMessageContent.localPath);
         if(FileBroadUtils.isFileExists(videoMessageContent.localPath)){
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(time_tv.getContext(), BridgeImEnum.PLAY_VIDEO.getValue(),videoMessageContent.localPath,"",null);
         }else {

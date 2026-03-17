@@ -1,6 +1,5 @@
 package com.cboda.chatui.quickmeet
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,6 +10,7 @@ import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.common.PlatformParams
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
@@ -75,7 +75,7 @@ class MeetCallManager private constructor() {
         for (permission in getMeetAudioPermissions()) {
             val permissionCheck = ContextCompat.checkSelfPermission(getAppContext(), permission)
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                eLogD("zhanglong", "被拒绝的权限--》" + permission)
+                eLogD(APP_TAG, "被拒绝的权限--》" + permission)
                 return false
             }
         }
@@ -136,11 +136,11 @@ class MeetCallManager private constructor() {
 
     private fun joinChannel(channelName: String, token: String, options: ChannelMediaOptions) {
         if (isIdleState()) {
-            eLogD("zhanglong", "会议未启动===>")
+            eLogD(APP_TAG, "会议未启动===>")
             return
         }
         val userMId = MMKVBroadUtils.getUserMId().toInt()
-        eLogD("zhanglong", "joinChannel---channelName=$channelName---mid=$userMId---token=$token")
+        eLogD(APP_TAG, "joinChannel---channelName=$channelName---mid=$userMId---token=$token")
         callEngine?.joinChannel(token, channelName, userMId, options)
     }
 
@@ -188,7 +188,7 @@ class MeetCallManager private constructor() {
         options.autoSubscribeAudio = true
 
         callEngine?.let {
-            eLogD("zhanglong", "会议join===>")
+            eLogD(APP_TAG, "会议join===>")
             joinChannel(channelId, token, options)
         }
     }
@@ -196,7 +196,7 @@ class MeetCallManager private constructor() {
     private val mRtcEventHandler: IRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
             super.onJoinChannelSuccess(channel, uid, elapsed)
-            eLogD("zhanglong", "onJoinChannelSuccess---channel=$channel---uid=$uid")
+            eLogD(APP_TAG, "onJoinChannelSuccess---channel=$channel---uid=$uid")
             runOnUiThread(Runnable {
                 mCallData.callStatus = CallStatus.CALLING
                 startCallService()
@@ -207,11 +207,11 @@ class MeetCallManager private constructor() {
         //        @Override
         //        public void onError(int err) {
         //            super.onError(err);
-        //            Log.d("zhanglong","声网报错码error=="+err);
+        //            Log.d(APP_TAG,"声网报错码error=="+err);
         //        }
         override fun onConnectionStateChanged(state: Int, reason: Int) {
             super.onConnectionStateChanged(state, reason)
-            eLogD("zhanglong", "声网连接状态==" + state + "----------reason=" + reason)
+            eLogD(APP_TAG, "声网连接状态==" + state + "----------reason=" + reason)
             runOnUiThread(Runnable {
                 if (state == CONNECTION_STATE_DISCONNECTED && reason == CONNECTION_CHANGED_LEAVE_CHANNEL) {
                     //正常退出会议频道
@@ -241,7 +241,7 @@ class MeetCallManager private constructor() {
 
         override fun onClientRoleChanged(oldRole: Int, newRole: Int, newRoleOptions: ClientRoleOptions) {
             super.onClientRoleChanged(oldRole, newRole, newRoleOptions)
-            eLogD("zhanglong", "oldRole==" + oldRole + "---newRole==" + newRole + "---audienceLatencyLevel==" + newRoleOptions.getAudienceLatencyLevel())
+            eLogD(APP_TAG, "oldRole==" + oldRole + "---newRole==" + newRole + "---audienceLatencyLevel==" + newRoleOptions.getAudienceLatencyLevel())
 //            runOnUiThread(Runnable {
 //                if (newRole == Constants.CLIENT_ROLE_AUDIENCE) {
 //                    LOOK_TYPE = 1

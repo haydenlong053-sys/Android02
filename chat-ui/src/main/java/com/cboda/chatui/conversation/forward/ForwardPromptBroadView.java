@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.conversation.forward;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
@@ -116,7 +118,7 @@ public class ForwardPromptBroadView extends LinearLayout {
             width = imageSize[0] > 0 ? imageSize[0] : 300;
             height = imageSize[1] > 0 ? imageSize[1] : 400;
         }
-        ELogUtilKt.eLogD("zhanglong","w="+width+"-----"+"h"+height);
+        ELogUtilKt.eLogD(APP_TAG,"w="+width+"-----"+"h"+height);
         contentImageView.getLayoutParams().width = width;
         contentImageView.getLayoutParams().height = height;
         contentImageView.setImageBitmap(contentImage);

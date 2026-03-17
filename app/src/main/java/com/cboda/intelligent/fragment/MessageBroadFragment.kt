@@ -37,6 +37,7 @@ import com.cboda.intelligent.adapter.MyPagerBroadAdapter
 import com.cboda.intelligent.base.BaseLazyBroadFragment
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.intelligent.compose.BlurButton
 import com.cboda.intelligent.compose.BlurFabButton
 import com.cboda.intelligent.compose.FloatManagerBar
@@ -232,7 +233,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     }
 
     private fun initFriendList() {
-        eLogD("zhanglong", "initFriendList-----------")
+        eLogD(APP_TAG, "initFriendList-----------")
         lifecycleScope.launch {
             friendViewModel.fetchFriendShipList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.size}")
@@ -256,7 +257,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                 .observe(viewLifecycleOwner) { mList ->
                     if (mList.list?.isNotEmpty() == true) {
                         eLogD(
-                            "zhanglong",
+                            APP_TAG,
                             "mList.list!![0].noticeTitle==" + mList.list!![0].noticeTitle
                         )
                         val noticeBean = GlobalNoticeBroadBean(
@@ -266,7 +267,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                         )
 
                         eLogD(
-                            "zhanglong",
+                            APP_TAG,
                             "mNoticeBean==" + noticeBean.noticeTitle
                         )
                         conversationSingleFragment?.setGlobalNoticeBean(noticeBean)
@@ -282,7 +283,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     private var sysNoticePop: SysNoticeBroadPop? = null
     private fun showNoticeMsgDialog(infoBeans: List<NoticeInfoBroadBean>?) {
 //        if (infoBeans?.isNotEmpty() == true){
-//            Log.d("zhanglong","===${infoBeans[0].isRead}---${infoBeans[0].forcePopup}---${infoBeans[0].status}")
+//            Log.d(APP_TAG,"===${infoBeans[0].isRead}---${infoBeans[0].forcePopup}---${infoBeans[0].status}")
 //        }
         if (infoBeans?.isNotEmpty() == true && sysNoticePop?.isShowing != true && !infoBeans[0].isRead && infoBeans[0].forcePopup && infoBeans[0].status) {
             sysNoticePop = SysNoticeBroadPop(requireContext(), infoBeans[0])

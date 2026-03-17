@@ -137,7 +137,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         otherUid = intent?.getStringExtra("uid") ?: ""
-//        eLogD("zhanglong", "userInfo.otherUid----" + otherUid)
+//        eLogD(APP_TAG, "userInfo.otherUid----" + otherUid)
         initViews()
         getRightImg()?.isVisible = false
         getRightImg()?.setImageResource(R.mipmap.ic_gengduo_broad_white)
@@ -206,7 +206,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 }
 
 
-//                eLogD("zhanglong","otherUid-->$otherUid======getRealUserId==${MMKVBroadUtils.getRealUserId()}")
+//                eLogD(APP_TAG,"otherUid-->$otherUid======getRealUserId==${MMKVBroadUtils.getRealUserId()}")
                 var showName = ""
                 tvTagName.text = "${getString(R.string.user_id_prefix)}${idno}"
                 if (bei.isNullOrEmpty()) {

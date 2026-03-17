@@ -1,5 +1,7 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -159,7 +161,7 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
                                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                         thumbnail.compress(Bitmap.CompressFormat.JPEG, 75, baos);
                                         byte[] thumbnailBytes = baos.toByteArray();
-                                        ELogUtilKt.eLogD("zhanglong", "size==>" + thumbnailBytes.length / 1024 + "kb");
+                                        ELogUtilKt.eLogD(APP_TAG, "size==>" + thumbnailBytes.length / 1024 + "kb");
                                         videoContent.setThumbnailBytes(thumbnailBytes);
                                     }
                                     sendMessage(conversation, videoContent);
@@ -247,7 +249,7 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
                                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                         thumbnail.compress(Bitmap.CompressFormat.JPEG, 75, baos);
                                         byte[] thumbnailBytes = baos.toByteArray();
-                                        ELogUtilKt.eLogD("zhanglong", "size==>" + thumbnailBytes.length / 1024 + "kb");
+                                        ELogUtilKt.eLogD(APP_TAG, "size==>" + thumbnailBytes.length / 1024 + "kb");
                                         ((VideoMessageContent) message.content).setThumbnailBytes(thumbnailBytes);
                                         Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
                                         intent.putExtra("message", message);

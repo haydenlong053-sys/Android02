@@ -3362,7 +3362,7 @@ public class ChatManager {
      * @discussion 获取得到的消息数目有可能少于指定的count数，如果count不为0就意味着还有更多的消息可以获取，只有获取到的消息数为0才表示没有更多的消息了。
      */
     public void getRemoteMessages(Conversation conversation, List<Integer> contentTypes, long beforeMessageUid, int count, GetRemoteMessageCallback callback) {
-//        eLogD("zhanglong","conversation.target===="+conversation.target+"===contentTypes==="+contentTypes+"===beforeMessageUid==="+beforeMessageUid+"===count===="+count);
+//        eLogD(APP_TAG,"conversation.target===="+conversation.target+"===contentTypes==="+contentTypes+"===beforeMessageUid==="+beforeMessageUid+"===count===="+count);
         if (!checkRemoteService()) {
             return;
         }

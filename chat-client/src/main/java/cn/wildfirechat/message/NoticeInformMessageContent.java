@@ -149,7 +149,7 @@ public class NoticeInformMessageContent extends MessageContent {
     @Override
     public void decode(MessagePayload payload) {
         id = payload.content;
-//        Log.d("zhanglong","id-->"+id+"------------payload.pushData--->"+ payload.pushData);
+//        Log.d(APP_TAG,"id-->"+id+"------------payload.pushData--->"+ payload.pushData);
         try {
             if (payload.pushData != null) {
                 JSONObject jsonObject = new JSONObject(payload.pushData);

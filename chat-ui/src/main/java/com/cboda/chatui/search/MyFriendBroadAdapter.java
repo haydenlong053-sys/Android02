@@ -58,7 +58,7 @@ public class MyFriendBroadAdapter extends RecyclerView.Adapter<FriendViewBroadHo
     public void onBindViewHolder(@NonNull FriendViewBroadHolder holder, int position) {
         // 获取当前位置的数据
         GlobalFriendListBroadBean currentItem = itemList.get(position);
-//        Log.d("zhanglong","pos==="+position+"----size="+itemList.size());
+//        Log.d(APP_TAG,"pos==="+position+"----size="+itemList.size());
         // 将数据绑定到ViewHolder的视图上
         if (position == 0 && position + 1 == itemList.size()) {
             //只有一条时

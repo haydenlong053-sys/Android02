@@ -10,6 +10,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
@@ -124,7 +125,7 @@ class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpB
                             binding.mTvSecurityName.text.trim().toString(),
                             binding.mEtAnswer.text.trim().toString(), type, account
                         )?.observe(activity) {
-                            eLogD("zhanglong", "jumpSource==$jumpSource")
+                            eLogD(APP_TAG, "jumpSource==$jumpSource")
                             when (jumpSource) {
                                 SafeJumpBroadEnum.GoogleAuth.sourceType -> {
                                     backInvoke.invoke()

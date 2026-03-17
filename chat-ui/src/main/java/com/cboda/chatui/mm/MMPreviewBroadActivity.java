@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.mm;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.Manifest;
@@ -377,9 +378,9 @@ public class MMPreviewBroadActivity extends AppCompatActivity implements PhotoBr
 //        } else {
 //            saveImageView.setVisibility(View.GONE);
 //        }
-        ELogUtilKt.eLogD("zhanglong","entry.getMediaLocalPath()=="+entry.getMediaLocalPath());
-        ELogUtilKt.eLogD("zhanglong","entry.getThumbnail()=="+entry.getThumbnail());
-        ELogUtilKt.eLogD("zhanglong","entry.getMediaUrl()=="+entry.getMediaUrl());
+        ELogUtilKt.eLogD(APP_TAG,"entry.getMediaLocalPath()=="+entry.getMediaLocalPath());
+        ELogUtilKt.eLogD(APP_TAG,"entry.getThumbnail()=="+entry.getThumbnail());
+        ELogUtilKt.eLogD(APP_TAG,"entry.getMediaUrl()=="+entry.getMediaUrl());
         if (!TextUtils.isEmpty(entry.getMediaLocalPath()) && FileBroadUtils.isFileExists(entry.getMediaLocalPath())){
             Glide.with(MMPreviewBroadActivity.this).load(entry.getMediaLocalPath()).into(photoView);
 

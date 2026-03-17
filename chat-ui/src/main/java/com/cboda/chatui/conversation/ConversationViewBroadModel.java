@@ -65,9 +65,9 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
             ChatManager.Instance().getMessages(conversation, fromMessageId, true, count, withUser, new GetMessageCallback() {
                 @Override
                 public void onSuccess(List<Message> messageList, boolean hasMore) {
-//                    Log.d("zhanglong","messageList ===="+messageList+"---hasMore=="+hasMore);
+//                    Log.d(APP_TAG,"messageList ===="+messageList+"---hasMore=="+hasMore);
                     if (messageList != null && !messageList.isEmpty()) {
-//                        Log.d("zhanglong","messageList.size ===="+messageList.size());
+//                        Log.d(APP_TAG,"messageList.size ===="+messageList.size());
                         List<UiBroadMessage> uiMsgs = new ArrayList<>();
                         for (Message msg : messageList) {
                             if (msg.content instanceof ChangeGroupPortraitNotificationContent) {
@@ -84,11 +84,11 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
                     } else if (conversation.type != Conversation.ConversationType.SecretChat) {
                         //取消拉取远端历史消息的逻辑
                         result.postValue(new ArrayList<>());
-//                        Log.d("zhanglong","拉取远端getRemoteMessages---conversation.type ===="+conversation.type);
+//                        Log.d(APP_TAG,"拉取远端getRemoteMessages---conversation.type ===="+conversation.type);
 //                        ChatManager.Instance().getRemoteMessages(conversation, null, fromMessageUid, count, new GetRemoteMessageCallback() {
 //                            @Override
 //                            public void onSuccess(List<Message> messages) {
-////                                Log.d("zhanglong","messages.size=="+messages.size()+"--messages ===="+messages);
+////                                Log.d(APP_TAG,"messages.size=="+messages.size()+"--messages ===="+messages);
 //                                if (messages != null && !messages.isEmpty()) {
 //                                    List<UiBroadMessage> uiMsgs = new ArrayList<>();
 //                                    for (Message msg : messages) {
@@ -108,13 +108,13 @@ public class ConversationViewBroadModel extends ViewModel implements AppScopeVie
 //
 //                            @Override
 //                            public void onFail(int errorCode) {
-////                                Log.d("zhanglong","onFail ===="+errorCode);
+////                                Log.d(APP_TAG,"onFail ===="+errorCode);
 //                                result.postValue(new ArrayList<>());
 //                            }
 //                        });
 
                     } else {
-//                        Log.d("zhanglong","=====list==empty");
+//                        Log.d(APP_TAG,"=====list==empty");
                         result.postValue(new ArrayList<>());
                     }
                 }

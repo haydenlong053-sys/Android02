@@ -13,7 +13,7 @@ import com.cboda.chatui.search.module.GroupSearchViewBroadModule2;
 public class SearchPortalBroadActivity extends SearchBroadActivity2 {
     @Override
     protected void initSearchModule(List<SearchableBroadModule> modules) {
-//        Log.d("zhanglong","SearchBroadActivity2=========initSearchModule");
+//        Log.d(APP_TAG,"SearchBroadActivity2=========initSearchModule");
         SearchableBroadModule module = new ContactSearchBroadModule();
 //        modules.add(module);
 

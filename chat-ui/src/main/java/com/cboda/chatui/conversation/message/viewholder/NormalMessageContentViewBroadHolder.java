@@ -518,7 +518,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 
     protected void setSendStatus(Message item) {
         MessageStatus sentStatus = item.status;
-//        ELogUtilKt.eLogD("zhanglong","item.direction=="+item.direction+"---"+sentStatus);
+//        ELogUtilKt.eLogD(APP_TAG,"item.direction=="+item.direction+"---"+sentStatus);
         if (item.direction == MessageDirection.Receive) {
             return;
         }
@@ -538,7 +538,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
             errorLinearLayout.setVisibility(View.GONE);
             return;
         }
-//        ELogUtilKt.eLogD("zhanglong",ChatManager.Instance().isReceiptEnabled()+"==="+ChatManager.Instance().isUserEnableReceipt()+"==="+showMessageReceipt(message.message));
+//        ELogUtilKt.eLogD(APP_TAG,ChatManager.Instance().isReceiptEnabled()+"==="+ChatManager.Instance().isUserEnableReceipt()+"==="+showMessageReceipt(message.message));
         if (!ChatManager.Instance().isReceiptEnabled() || !ChatManager.Instance().isUserEnableReceipt() || !showMessageReceipt(message.message)) {
             return;
         }

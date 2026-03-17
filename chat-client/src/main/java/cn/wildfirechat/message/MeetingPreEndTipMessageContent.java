@@ -4,6 +4,7 @@
 
 package cn.wildfirechat.message;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_SYS_MEETING_PRE_TIP;
 
 import android.os.Parcel;
@@ -53,7 +54,7 @@ public class MeetingPreEndTipMessageContent extends MessageContent {
 
     @Override
     public void decode(MessagePayload payload) {
-        ELogUtilKt.eLogD("zhanglong","------------payload.pushData--->"+ payload.pushData);
+        ELogUtilKt.eLogD(APP_TAG,"------------payload.pushData--->"+ payload.pushData);
 
         try {
             if (payload.pushData != null) {

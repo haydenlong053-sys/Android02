@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.BusLiveBroadData
 import com.cboda.baselibrary.utils.LiveDataBroadBroadBus
 import com.cboda.baselibrary.utils.MMKVBroadUtils
@@ -83,7 +84,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //                }
 //            }
 //        }
-//        eLogD("zhanglong", "init--lifecycles_owner==${activity.lifecycle.currentState}")
+//        eLogD(APP_TAG, "init--lifecycles_owner==${activity.lifecycle.currentState}")
         viewModel =
             ViewModelProvider(activity).get<QuickMeetViewBroadModel>(QuickMeetViewBroadModel::class.java)
         meetJoinMsgLiveData.observe(activity) {
@@ -275,7 +276,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onEngineDestroy(data: CallData) {
-        eLogD("zhanglong", "mIsLayout==>$mIsLayout")
+        eLogD(APP_TAG, "mIsLayout==>$mIsLayout")
         if (mIsLayout) {
             touchHandle?.let {
                 it.setDisabledTouch(true)
@@ -366,12 +367,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-//        eLogD("zhanglong", "onResume--lifecycles_owner==${activity.lifecycle.currentState}")
+//        eLogD(APP_TAG, "onResume--lifecycles_owner==${activity.lifecycle.currentState}")
     }
 
     override fun onPause() {
         super.onPause()
-//        eLogD("zhanglong", "onPause--lifecycles_owner==${activity.lifecycle.currentState}")
+//        eLogD(APP_TAG, "onPause--lifecycles_owner==${activity.lifecycle.currentState}")
         if (mIsLayout
             && MeetCallManager.getInstance().isCallingState()
         ) {

@@ -6,6 +6,7 @@ package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateBarrageDataLiveData;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePicture;
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
@@ -333,7 +334,7 @@ public class ConversationBroadFragment extends Fragment implements
                 }
                 if (uiMessage.progress == 100 && uiMessage.message.direction == MessageDirection.Receive) {
                     uiMessage.progress = 0;
-                    eLogD("zhanglong", "---接收方语音消息完成，准备播放语音气泡");
+                    eLogD(APP_TAG, "---接收方语音消息完成，准备播放语音气泡");
                     messageBroadViewModel.playAudioMessage(uiMessage);
                 }
                 if (uiMessage.audioPlayCompleted) {
@@ -373,7 +374,7 @@ public class ConversationBroadFragment extends Fragment implements
             }
             toPlayAudioMessage.continuousPlayAudio = true;
             if (file.exists()) {
-                eLogD("zhanglong", "---2");
+                eLogD(APP_TAG, "---2");
                 messageBroadViewModel.playAudioMessage(toPlayAudioMessage);
             } else {
                 messageBroadViewModel.downloadMedia(toPlayAudioMessage, file);
@@ -980,7 +981,7 @@ public class ConversationBroadFragment extends Fragment implements
         inputPanelBroad.setupConversation(conversation);
 
         if (conversation.type != Conversation.ConversationType.ChatRoom) {
-//            eLogD("zhanglong","setupConversation---"+conversation.target+"===="+initialFocusedMessageId);
+//            eLogD(APP_TAG,"setupConversation---"+conversation.target+"===="+initialFocusedMessageId);
             loadMessage(initialFocusedBroadMessageId);
         }
         if (conversation.type == Conversation.ConversationType.ChatRoom) {
@@ -1290,7 +1291,7 @@ public class ConversationBroadFragment extends Fragment implements
                             conversationBroadTitle = "";
                         }
                     }
-                    ELogUtilKt.eLogD("zhanglong", "conversationTitle===" + conversationBroadTitle);
+                    ELogUtilKt.eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
                     UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
                     if (userOnlineState != null) {
                         String onlineDesc = userOnlineState.desc();
@@ -1556,12 +1557,12 @@ public class ConversationBroadFragment extends Fragment implements
 
 
     private void loadMoreOldMessages(boolean scrollToBottom) {
-//eLogD("zhanglong","channelPrivateChatUser======"+channelPrivateChatUser+"==="+adapter.oldestMessageId+"===="+adapter.oldestMessageUid);
-//eLogD("zhanglong","conversation=="+conversation.target+"==="+conversation.type);
+//eLogD(APP_TAG,"channelPrivateChatUser======"+channelPrivateChatUser+"==="+adapter.oldestMessageId+"===="+adapter.oldestMessageUid);
+//eLogD(APP_TAG,"conversation=="+conversation.target+"==="+conversation.type);
 
         conversationBroadViewModel.loadOldMessages(conversationBroad, channelPrivateBroadChatUser, adapterBroad.oldestMessageId, adapterBroad.oldestMessageUid, MESSAGE_BROAD_LOAD_COUNT_PER_TIME)
                 .observe(this, uiMessages -> {
-//                    eLogD("zhanglong","loadOldMessages===uiMessages.size==="+uiMessages.size());
+//                    eLogD(APP_TAG,"loadOldMessages===uiMessages.size==="+uiMessages.size());
 
                     List<UiBroadMessage> messageList = adapterBroad.getMessages();
                     for (int i = 0; i < messageList.size(); i++) {

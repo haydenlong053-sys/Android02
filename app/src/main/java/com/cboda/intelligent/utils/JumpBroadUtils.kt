@@ -354,7 +354,7 @@ class JumpBroadUtils {
 //
 //
 //                } else {
-//                    eLogD("zhanglong","roomId==$roomId---isCreate==$isCreate---MeetingFloatBroadService==${MeetingFloatBroadService.isFloatShow}")
+//                    eLogD(APP_TAG,"roomId==$roomId---isCreate==$isCreate---MeetingFloatBroadService==${MeetingFloatBroadService.isFloatShow}")
 //                    if (MeetingFloatBroadService.isServiceRunning){
 //                        EventBus.getDefault().post(
 //                            MeetingFloatBroadService.MeetingEvent(

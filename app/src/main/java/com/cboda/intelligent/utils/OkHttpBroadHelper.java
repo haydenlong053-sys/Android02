@@ -195,7 +195,7 @@ public class OkHttpBroadHelper {
                         eLogD(TAG, "http--http", "--->Exception " + e);
                     }
                     eLogD(TAG, "http--http---", resultStrAes);
-//                    Log.d("zhanglong","callback.mType=="+callback.mType);
+//                    Log.d(APP_TAG,"callback.mType=="+callback.mType);
                     if (callback.mType == String.class) {
 //                        callbackSuccess(callback, response, resultStr);
                         callbackSuccessVpn(callback, response, resultStrAes);
@@ -444,7 +444,7 @@ public class OkHttpBroadHelper {
 //                    callback.onSuccess(response, obj);
                     try {
                         if (callback.mType == String.class) {
-//                            Log.d("zhanglong","obj=="+obj);
+//                            Log.d(APP_TAG,"obj=="+obj);
                             callback.onSuccess(response, obj);
                         } else if (((BaseBroadBean) obj).code.equals("200") && ((BaseBroadBean) obj).success) {
                             callback.onSuccess(response, obj);

@@ -8,6 +8,7 @@ import java.io.PrintWriter
 import java.io.StringWriter
 
 private const val eLogTag = "ELogClass"
+const val APP_TAG = "APP_WEB4"
 
 //private var mIsDebug = false
 fun getIsDebug(): Boolean = BuildConfig.DEBUG
