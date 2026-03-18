@@ -44,12 +44,12 @@ enum class CallStatus {
  */
 enum class CallDirect {
     /**
-     * 说话方
+     * 说话方(主播)
      */
     CALLER,
 
     /**
-     * 接听方
+     * 接听方(观众)
      */
     ANSWER
 }

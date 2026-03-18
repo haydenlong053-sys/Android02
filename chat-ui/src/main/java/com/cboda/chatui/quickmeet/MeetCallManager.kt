@@ -244,9 +244,9 @@ class MeetCallManager private constructor() {
         override fun onClientRoleChanged(oldRole: Int, newRole: Int, newRoleOptions: ClientRoleOptions) {
             super.onClientRoleChanged(oldRole, newRole, newRoleOptions)
             eLogD(APP_TAG, "oldRole==" + oldRole + "---newRole==" + newRole + "---audienceLatencyLevel==" + newRoleOptions.getAudienceLatencyLevel())
-            if (oldRole != newRole){
+            if (oldRole != newRole) {
                 runOnUiThread(Runnable {
-                    notifyRtcRoleChanged(oldRole,newRole)
+                    notifyRtcRoleChanged(oldRole, newRole)
 //                if (newRole == Constants.CLIENT_ROLE_AUDIENCE) {
 //                    LOOK_TYPE = 1
 //                } else {
@@ -265,7 +265,7 @@ class MeetCallManager private constructor() {
         override fun onAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?, totalVolume: Int) {
             super.onAudioVolumeIndication(speakers, totalVolume)
             runOnUiThread {
-                notifyRtcAudioVolumeChange(speakers,totalVolume)
+                notifyRtcAudioVolumeChange(speakers, totalVolume)
             }
         }
 
@@ -364,10 +364,10 @@ class MeetCallManager private constructor() {
         }
     }
 
-    private fun notifyRtcAudioVolumeChange(speakers: Array<AudioVolumeInfo>?,totalVolume: Int) {
+    private fun notifyRtcAudioVolumeChange(speakers: Array<AudioVolumeInfo>?, totalVolume: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
-            callEvent.onRoomAudioVolumeIndication(speakers,totalVolume)
+            callEvent.onRoomAudioVolumeIndication(speakers, totalVolume)
         }
     }
 
@@ -420,11 +420,29 @@ class MeetCallManager private constructor() {
     fun setZoomMode(zoomMode: Boolean) {
     }
 
+    /**
+     * 切换会议中自己的身份
+     * 返回值
+     * 0：方法调用成功。
+     * < 0：方法调用失败
+     */
+    fun setRtcClientRoleDirect(type: CallDirect) = callEngine?.let {
+        if (CallDirect.ANSWER == type) {
+            //切换成观众
+            val clientRoleOptions = ClientRoleOptions()
+            clientRoleOptions.audienceLatencyLevel = Constants.AUDIENCE_LATENCY_LEVEL_LOW_LATENCY
+            it.setClientRole(Constants.CLIENT_ROLE_AUDIENCE, clientRoleOptions)
+        } else {
+            //切换成主播
+            it.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
+        }
 
-    private fun notifyRtcRoleChanged(oldRole: Int,newRole: Int) {
+    } ?: -1
+
+    private fun notifyRtcRoleChanged(oldRole: Int, newRole: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         list.forEach { callback ->
-            callback.onRtcRoleChanged(oldRole,newRole)
+            callback.onRtcRoleChanged(oldRole, newRole)
         }
     }
 

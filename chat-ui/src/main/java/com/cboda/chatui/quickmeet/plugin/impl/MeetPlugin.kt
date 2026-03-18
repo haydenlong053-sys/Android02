@@ -328,6 +328,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onRtcUserOffline(uid: Int, reason: Int) {
         //有人离开频道
+        eLogD("call", "onRtcUserOffline uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
 //        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User offline: " + uid, Toast.LENGTH_SHORT).show()
     }
 
