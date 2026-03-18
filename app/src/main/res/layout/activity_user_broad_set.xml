@@ -215,6 +215,15 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/tvAboutVersion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/black_45"
+                        android:textSize="13sp"
+                        tools:text="v1.0.0" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

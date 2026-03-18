@@ -65,6 +65,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
     private LinearLayout llFanYi;
     private TextView tvZx;
     private TextView tvLogout;
+    private TextView tvAboutVersion;
     private View llBindMachineNo;
     private boolean isHasPassword = false;
 
@@ -374,6 +375,10 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
         tvLogout = findViewById(R.id.tvLogout);
         llBindMachineNo = findViewById(R.id.llBindMachineNo);
         tvSwitch = findViewById(R.id.tvSwitch);
+        tvAboutVersion = findViewById(R.id.tvAboutVersion);
+        if (tvAboutVersion != null) {
+            tvAboutVersion.setText("v" + AppBroadUtils.Companion.getVersion(this));
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
