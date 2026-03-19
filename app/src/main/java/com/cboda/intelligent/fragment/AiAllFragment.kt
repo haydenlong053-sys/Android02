@@ -14,7 +14,6 @@ import com.cboda.baselibrary.utils.getNotScrollVerticalGridLayoutManager
 import com.cboda.baselibrary.utils.seStrokeColor
 import com.cboda.baselibrary.utils.setTxt
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.StringUtils
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.TestActivity

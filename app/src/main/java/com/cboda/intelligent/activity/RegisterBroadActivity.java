@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.bean.EventBusBroadBean;
@@ -167,7 +168,7 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
     private String eqno;
 
     private void regist() {
-        eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
         Map<String, Object> param = new HashMap<>();
         param.put("eqno", eqno);
         param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());

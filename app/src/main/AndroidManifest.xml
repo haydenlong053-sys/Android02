@@ -153,6 +153,11 @@
         <activity
             android:name="com.cboda.intelligent.activity.VerifyPayPasswordBroadActivity"
             android:exported="false" />
+
+
+        <activity
+            android:name="com.cboda.intelligent.activity.CreditScoreActivity"
+            android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.TestActivity"
             android:exported="false" />

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/black">
+
+    <com.cboda.baselibrary.view.AppRoundBroadImage
+        android:id="@+id/userImg"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        app:app_round_borderRadius_type="0"
+        app:app_round_border_color="@color/white"
+        app:app_round_border_width="@dimen/dp_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userName"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/circleProgress"
+        app:layout_constraintStart_toEndOf="@id/userImg"
+        app:layout_constraintTop_toTopOf="@id/userImg"
+        tools:text="HI,JOY Follow" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:textColor="@color/black_65"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/userName"
+        app:layout_constraintTop_toBottomOf="@id/userName"
+        tools:text="信用不错，再接再厉！" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/userMemberImg"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_32"
+        android:layout_marginStart="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_32"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userImg"
+        tools:src="@mipmap/credit_score8" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userMemberTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/userMemberImg"
+        app:layout_constraintStart_toStartOf="@id/userMemberImg"
+        app:layout_constraintTop_toBottomOf="@id/userMemberImg"
+        tools:text="会员权益"
+        tools:textColor="@color/color_B25900" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/userNiceNumImg"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_32"
+        android:layout_marginStart="@dimen/dp_40"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@id/userMemberImg"
+        app:layout_constraintTop_toTopOf="@id/userMemberImg"
+        tools:src="@mipmap/credit_score9" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userNiceNumTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/userNiceNumImg"
+        app:layout_constraintStart_toStartOf="@id/userNiceNumImg"
+        app:layout_constraintTop_toTopOf="@id/userMemberTv"
+        tools:text="会员权益"
+        tools:textColor="@color/color_B25900" />
+
+    <com.dinuscxj.progressbar.CircleProgressBar
+        android:id="@+id/circleProgress"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_120"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progress_background_color="@color/white"
+        app:progress_end_color="@color/color_926DF0"
+        app:progress_shader="sweep"
+        app:progress_start_color="@color/color_3B47DD"
+        app:progress_stroke_cap="round"
+        app:progress_stroke_width="@dimen/dp_11"
+        app:progress_style="solid_line"
+        app:progress_text_color="@color/transparent"
+        app:progress_text_size="@dimen/dp_0" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_35"
+        android:textColor="@color/color_3B47DD"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/circleProgress"
+        app:layout_constraintStart_toStartOf="@id/circleProgress"
+        app:layout_constraintTop_toTopOf="@id/circleProgress"
+        tools:text="330.2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5"
+        android:text="综合信誉分"
+        android:textColor="@color/color_3B47DD"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/circleProgress"
+        app:layout_constraintStart_toStartOf="@id/circleProgress"
+        app:layout_constraintTop_toBottomOf="@id/userScore" />
+
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/shapeView"
+        android:layout_width="@dimen/dp_192"
+        android:layout_height="@dimen/dp_42"
+        android:layout_marginTop="@dimen/dp_162"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_radius="@dimen/dp_21"
+        app:shape_solidColor="@color/white" />
+
+    <com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
+        android:id="@+id/magicIndicator"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/shapeView"
+        app:layout_constraintEnd_toEndOf="@id/shapeView"
+        app:layout_constraintStart_toStartOf="@id/shapeView"
+        app:layout_constraintTop_toTopOf="@id/shapeView" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shapeView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

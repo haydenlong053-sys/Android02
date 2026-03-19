@@ -45,6 +45,9 @@
     <string name="bottom_bar_intelligent">Ai</string>
     <string name="bottom_bar_social">Social</string>
     <string name="bottom_bar_center">Me</string>
+    <string name="credit_score_title">信用分</string>
+    <string name="credit_score_tab_compose">信用构成</string>
+    <string name="credit_score_tab_record">变动记录</string>
     <string name="wenxintishi">Warm reminder</string>
     <string name="qitashebeidenglu">Account has been logged in on another device</string>
     <string name="queding">Confirm</string>

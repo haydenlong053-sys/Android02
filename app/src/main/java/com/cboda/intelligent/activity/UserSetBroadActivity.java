@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
@@ -81,7 +82,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
         tvSwitch.setOnClickListener(this);
         llUserInfo.setOnClickListener(this);
         EventBus.getDefault().register(this);
-        eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
         llZhanghu.setOnClickListener(this);
         llTongyong.setOnClickListener(this);
         llGuanyu.setOnClickListener(this);

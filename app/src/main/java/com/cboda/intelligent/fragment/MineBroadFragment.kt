@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.ui.shape.TopRoundedBottomArcShape
 import com.cboda.intelligent.base.BaseLazyBroadFragment
@@ -99,8 +100,7 @@ class MineBroadFragment : BaseLazyBroadFragment() {
 
 
     private fun refreshVipFromPrefs() {
-        val vipFlag = SharePrefBroadBroadUtil.getString(requireContext(), "isvip", "0")
-        isVip = vipFlag == "1"
+        isVip = MMKVBroadUtils.getUserVip()
         // 优先从偏好中读取到期时间（若未写入则为空字符串）
         vipExpireText = SharePrefBroadBroadUtil.getString(requireContext(), "vipTime", "")
     }
@@ -128,7 +128,7 @@ class MineBroadFragment : BaseLazyBroadFragment() {
                     isHasPassword = hasPaypwd
 
                     // 同步到全局偏好，保持与旧逻辑一致
-                    SharePrefBroadBroadUtil.saveString(requireContext(), "isvip", vipFlag)
+                    MMKVBroadUtils.saveUserVip(vipFlag)
                     SharePrefBroadBroadUtil.saveString(requireContext(), "vipTime", vipTimeText)
 
                     // 更新当前页面状态
