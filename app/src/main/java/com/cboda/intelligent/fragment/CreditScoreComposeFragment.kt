@@ -1,97 +1,88 @@
 package com.cboda.intelligent.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cboda.baselibrary.base.BaseBroadAdapter
+import com.cboda.baselibrary.base.BaseFragment
+import com.cboda.baselibrary.utils.anyToFloat
+import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.widge.RoundedProgressBar
 import com.cboda.intelligent.R
+import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.FragmentCreditScoreComposeBinding
 import com.cboda.intelligent.databinding.ItemCreditScoreComposeBinding
+import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.cboda.intelligent.viewmodel.LoginViewBroadModel
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
-class CreditScoreComposeFragment : Fragment() {
+class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeBinding, LoginViewBroadModel>() {
+    private val composeAdapter = ComposeAdapter()
 
     companion object {
         fun newInstance() = CreditScoreComposeFragment()
     }
 
-    private var bind: FragmentCreditScoreComposeBinding? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        bind = FragmentCreditScoreComposeBinding.inflate(inflater, container, false)
-        return bind!!.root
+    override fun initView() {
+        super.initView()
+        val rv = binding.recyclerView
+        rv.adapter = composeAdapter
+//        composeAdapter.setData(buildTestData())
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val rv = bind!!.recyclerView
-        rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = ComposeAdapter(buildMockData())
-        rv.itemAnimator = null
-    }
+    override fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?) = FragmentCreditScoreComposeBinding.inflate(inflater, parent, false)
 
     override fun onDestroyView() {
         super.onDestroyView()
-        bind = null
     }
 
-    private fun buildMockData(): List<ComposeItem> {
-        return listOf(
-//            ComposeItem(R.mipmap.credit_score4, "在线时长", "45/150", "基础：+0.2/天  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_A855F7),
-//            ComposeItem(R.mipmap.credit_score5, "注册天数", "45/150", "基础：+0.2/天  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_2563EB),
-//            ComposeItem(R.mipmap.credit_score6, "担保交易", "45/150", "基础：+0.2/USDT  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_22C55E),
-//            ComposeItem(R.mipmap.credit_score7, "邀请好友", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_06B6D4),
-//            ComposeItem(R.mipmap.credit_score8, "获得背书", "50/150", "基础：+2/人  会员+10%  靓号+10%", 0.34f, com.cboda.baselibrary.R.color.color_8B5CF6),
-//            ComposeItem(R.mipmap.credit_score9, "特殊贡献", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_F59E0B),
-//            ComposeItem(R.mipmap.credit_score10, "持有ODIC", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_E11D48)
-        )
+    private fun buildTestData(): ArrayList<ComposeItem> {
+        val list = arrayListOf<ComposeItem>()
+        for (i in 1..10) { // 包含结束值
+            val composeItem = ComposeItem()
+            composeItem.title = "在线时长$i"
+            composeItem.iconRes = R.mipmap.credit_score7
+            composeItem.proColor = com.cboda.baselibrary.R.color.color_F4A32B
+            list.add(composeItem)
+        }
+        return list
     }
 
-    private data class ComposeItem(
-        val iconRes: Int,
-        val title: String,
-        val scoreText: String,
-        val desc: String,
-        val progress: Float,
-        val barColorRes: Int
-    )
+    private class ComposeItem() {
+        var iconRes: Int = 0
+        var title: String = ""
+        var content: String = "基础：+0.2/USDT"
+        var desc: String = "会员+10%  靓号+10%"
+        var progress: String = "140"
+        var maxProgress = "150"
+        var proColor: Int = 0
+    }
 
-    private class ComposeAdapter(
-        private val items: List<ComposeItem>
-    ) : RecyclerView.Adapter<ComposeAdapter.VH>() {
+    private class ComposeAdapter() : BaseBroadAdapter<ComposeItem>(R.layout.item_credit_score_compose) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-            val binding = ItemCreditScoreComposeBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-            return VH(binding)
-        }
-
-        override fun getItemCount(): Int = items.size
-
-        override fun onBindViewHolder(holder: VH, position: Int) {
-            holder.bind(items[position])
-        }
-
-        class VH(private val binding: ItemCreditScoreComposeBinding) : RecyclerView.ViewHolder(binding.root) {
-            fun bind(item: ComposeItem) {
-                binding.ivIcon.setImageResource(item.iconRes)
-                binding.tvTitle.text = item.title
-                binding.tvScore.text = item.scoreText
-                binding.tvDesc.text = item.desc
-                binding.progressBar.progress = (item.progress * 100).toInt().coerceIn(0, 100)
-                binding.progressBar.progressTintList =
-                    androidx.core.content.ContextCompat.getColorStateList(binding.root.context, item.barColorRes)
+        override fun onBindData(holder: BaseViewHolder, bean: ComposeItem) {
+            holder.apply {
+                getView<ImageView>(R.id.itemImg).setImageResource(bean.iconRes)
+                getView<TextView>(R.id.itemTitle).text = bean.title
+                getView<TextView>(R.id.itemProTv).text = "${anyToInt(bean.progress)}"
+                getView<TextView>(R.id.itemMaxProTv).text = "/${anyToInt(bean.maxProgress)}"
+                getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.progress, bean.maxProgress, com.cboda.baselibrary.R.color.black_12, bean.proColor)
+                getView<TextView>(R.id.itemContent).text = bean.content
+                getView<TextView>(R.id.itemDesc).text = bean.desc
+                setGone(R.id.lineView, layoutPosition == 0)
             }
         }
+
+
     }
 }
 

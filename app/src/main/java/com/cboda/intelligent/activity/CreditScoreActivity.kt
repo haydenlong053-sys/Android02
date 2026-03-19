@@ -89,7 +89,7 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
         commonNavigator.adapter = indicatorAdapter
         mBind?.magicIndicator?.navigator = commonNavigator
         mBind?.apply {
-            bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapter)
+            bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapter, magicIndicatorNeedOnPageScrolled = true)
         }
 
     }

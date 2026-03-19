@@ -28,6 +28,10 @@ import kotlin.collections.get
  */
 class MMKVBroadUtils {
     companion object {
+        const val DEVICE_BRAND = "deviceBrand"
+        const val DEVICE_MODEL = "deviceModel"
+        const val DEVICE_ID = "deviceIdFive"
+        const val DEVICE_AID = "deviceAndroidId"
         const val NET_TYPE = "appNetType"
         const val DEV_INPUT_BASE_URL = "devInputBaseUrl"
         const val SEARCH_KEY = "searchHistoryKey"
@@ -115,7 +119,6 @@ class MMKVBroadUtils {
         }
 
 
-
         fun saveUserNiceNum(isLiang: String) {
             val kv = MMKV.defaultMMKV()
             kv.encode(USER_NICE_NUMBER_KEY, isLiang == "1")
@@ -125,6 +128,7 @@ class MMKVBroadUtils {
             val kv = MMKV.defaultMMKV()
             return kv.decodeBool(USER_NICE_NUMBER_KEY, false)
         }
+
         fun saveUserName(userName: String) {
             val kv = MMKV.defaultMMKV()
             kv.encode(USER_NAME_KEY, userName)
@@ -507,5 +511,39 @@ class MMKVBroadUtils {
             kv.remove(KEY_FRIEND_LIST_DATA)
         }
 
+
+        fun getSqlStrData(key: String, defaultValue: String = ""): String {
+            return try {
+                getMmKv()?.decodeString(key) ?: defaultValue
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+                ""
+            }
+        }
+
+        fun saveSqlStrData(key: String, value: String? = null) {
+            try {
+                getMmKv()?.encode(key, value ?: "")
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+            }
+
+        }
+
+
+        private var mkv: MMKV? = null
+        private fun getMmKv(): MMKV? {
+            return try {
+                if (mkv != null) {
+                    mkv
+                } else {
+                    mkv = MMKV.defaultMMKV()
+                    mkv
+                }
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+                null
+            }
+        }
     }
 }
