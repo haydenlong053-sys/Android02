@@ -14,6 +14,7 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
         <FrameLayout
+            android:id="@+id/mViewRootMeetMain"
             android:layout_width="@dimen/dp_88"
             android:layout_height="@dimen/dp_96"
             android:background="@drawable/bg_meet_mini_bg"
@@ -65,46 +66,19 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/msg_meeting_main_mic"
                 />
-
-
-            <LinearLayout
-                android:id="@+id/mLlNameView"
+            <TextView
+                android:id="@+id/mTvUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_78"
                 android:gravity="center"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
-                <TextView
-                    android:id="@+id/mTvUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="@dimen/dp_65"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:text=""
-                    android:textSize="10sp"
-                    android:textColor="@color/white"
-                    />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/mTvMeetEnd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_96"
-                android:gravity="center"
+                android:maxWidth="@dimen/dp_65"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="结束会议"
-                android:textSize="12sp"
-                android:textColor="@color/color_EB534B"
-                android:visibility="gone"
-                tools:visibility="gone"
+                tools:text="111"
+                android:textSize="10sp"
+                android:textColor="@color/white"
                 />
-
         </FrameLayout>
 
         <include layout="@layout/meet_call_plugin_layout_four_site"/>

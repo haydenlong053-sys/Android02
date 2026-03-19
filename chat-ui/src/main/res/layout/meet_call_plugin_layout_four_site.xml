@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mViewRootMeetFour"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -17,17 +18,20 @@
         android:orientation="horizontal"
         >
         <FrameLayout
+            android:id="@+id/seat_main_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             >
             <com.cboda.baselibrary.view.MeetVoiceWaveBroadView
+                android:id="@+id/seat_main_voice_wave_view"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginTop="@dimen/dp_4"
                 android:layout_gravity="center_horizontal"
                 />
             <com.cboda.baselibrary.view.AppRoundBroadImage
+                android:id="@+id/seat_main_avatar_iv"
                 android:layout_width="@dimen/dp_56"
                 android:layout_height="@dimen/dp_56"
                 android:layout_gravity="center_horizontal"
@@ -42,6 +46,7 @@
                 tools:visibility="visible" />
 
             <ImageView
+                android:id="@+id/seat_main_mic_iv"
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:src="@drawable/bg_mic_icon"
@@ -50,6 +55,7 @@
                 android:layout_gravity="end"
                 tools:ignore="ContentDescription" />
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/seat_main_tag_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="@dimen/dp_40"
@@ -66,6 +72,7 @@
                 android:text="@string/msg_meeting_main_mic"
                 />
             <TextView
+                android:id="@+id/seat_main_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_78"
@@ -81,17 +88,20 @@
 
         </FrameLayout>
         <FrameLayout
+            android:id="@+id/seat_sub_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             >
             <com.cboda.baselibrary.view.MeetVoiceWaveBroadView
+                android:id="@+id/seat_sub_voice_wave_view"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginTop="@dimen/dp_4"
                 android:layout_gravity="center_horizontal"
                 />
             <com.cboda.baselibrary.view.AppRoundBroadImage
+                android:id="@+id/seat_sub_avatar_iv"
                 android:layout_width="@dimen/dp_56"
                 android:layout_height="@dimen/dp_56"
                 android:layout_gravity="center_horizontal"
@@ -105,6 +115,7 @@
                 tools:visibility="visible" />
 
             <ImageView
+                android:id="@+id/seat_sub_mic_iv"
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:src="@drawable/bg_mic_icon"
@@ -115,6 +126,7 @@
                 android:layout_gravity="end"
                 tools:ignore="ContentDescription" />
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/seat_sub_tag_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="@dimen/dp_40"
@@ -131,6 +143,7 @@
                 android:text="@string/msg_meeting_sub_mic"
                 />
             <TextView
+                android:id="@+id/seat_sub_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_78"
@@ -146,17 +159,20 @@
 
         </FrameLayout>
         <FrameLayout
+            android:id="@+id/seat_guest_one_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             >
             <com.cboda.baselibrary.view.MeetVoiceWaveBroadView
+                android:id="@+id/seat_guest_one_voice_wave_view"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginTop="@dimen/dp_4"
                 android:layout_gravity="center_horizontal"
                 />
             <com.cboda.baselibrary.view.AppRoundBroadImage
+                android:id="@+id/seat_guest_one_avatar_iv"
                 android:layout_width="@dimen/dp_56"
                 android:layout_height="@dimen/dp_56"
                 android:layout_gravity="center_horizontal"
@@ -170,6 +186,7 @@
                 tools:visibility="visible" />
 
             <ImageView
+                android:id="@+id/seat_guest_one_mic_iv"
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:src="@drawable/bg_mic_icon"
@@ -180,6 +197,7 @@
                 android:layout_gravity="end"
                 tools:ignore="ContentDescription" />
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/seat_guest_one_tag_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="@dimen/dp_40"
@@ -196,6 +214,7 @@
                 android:text="@string/msg_meeting_guest_1"
                 />
             <TextView
+                android:id="@+id/seat_guest_one_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_78"
@@ -211,17 +230,20 @@
 
         </FrameLayout>
         <FrameLayout
+            android:id="@+id/seat_guest_two_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             >
             <com.cboda.baselibrary.view.MeetVoiceWaveBroadView
+                android:id="@+id/seat_guest_two_voice_wave_view"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginTop="@dimen/dp_4"
                 android:layout_gravity="center_horizontal"
                 />
             <com.cboda.baselibrary.view.AppRoundBroadImage
+                android:id="@+id/seat_guest_two_avatar_iv"
                 android:layout_width="@dimen/dp_56"
                 android:layout_height="@dimen/dp_56"
                 android:layout_gravity="center_horizontal"
@@ -235,6 +257,7 @@
                 tools:visibility="visible" />
 
             <ImageView
+                android:id="@+id/seat_guest_two_mic_iv"
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:src="@drawable/bg_mic_icon"
@@ -245,6 +268,7 @@
                 android:layout_gravity="end"
                 tools:ignore="ContentDescription" />
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/seat_guest_two_tag_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="@dimen/dp_40"
@@ -261,6 +285,7 @@
                 android:text="@string/msg_meeting_guest_2"
                 />
             <TextView
+                android:id="@+id/seat_guest_two_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_78"
