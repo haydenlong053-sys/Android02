@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.SizeUtils
+import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
@@ -19,6 +20,8 @@ import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.fragment.CreditScoreComposeFragment
+import com.cboda.intelligent.fragment.CreditScoreRecordFragment
+import com.cboda.intelligent.widge.BadgeIndicatorAdapter
 import com.cboda.intelligent.widge.TextIndicatorAdapter
 
 class CreditScoreActivity : BaseSimple2BroadActivity() {
@@ -63,7 +66,7 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
     private fun initViewPagerAndIndicator() {
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
         vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance())
-        vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance())
+        vp2FragmentAdapter.addFragment(CreditScoreRecordFragment.newInstance())
 
         mBind?.viewPager?.adapter = vp2FragmentAdapter
         mBind?.viewPager?.orientation = ViewPager2.ORIENTATION_HORIZONTAL

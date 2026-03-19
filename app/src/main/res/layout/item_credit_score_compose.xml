@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
-    android:paddingTop="10dp"
     android:paddingEnd="16dp"
+    android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
     <androidx.cardview.widget.CardView
@@ -59,30 +59,20 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/progressBarCardView"
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="6dp"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0dp"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="30"
+                android:progressBackgroundTint="@color/color_F1F5F9"
+                android:progressTint="@color/color_2563EB"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle">
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="30"
-                    android:progressBackgroundTint="@color/color_F1F5F9"
-                    android:progressTint="@color/color_2563EB" />
-            </androidx.cardview.widget.CardView>
-
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
             <TextView
                 android:id="@+id/tvDesc"
@@ -93,8 +83,8 @@
                 android:textColor="@color/color_94A3B8"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/progressBarCardView"
-                app:layout_constraintTop_toBottomOf="@+id/progressBarCardView" />
+                app:layout_constraintStart_toStartOf="@+id/progressBar"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
