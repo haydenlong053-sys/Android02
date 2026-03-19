@@ -284,7 +284,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                         }
 
                         BridgeImEnum.TRANSLATE.value -> {
-                            if (SharePrefBroadBroadUtil.getString(mContext, "isvip", "0").equals("1")) {
+                            if (MMKVBroadUtils.getUserVip()) {
                                 fanyi(
                                     mContext,
                                     getFanYi().toString(),

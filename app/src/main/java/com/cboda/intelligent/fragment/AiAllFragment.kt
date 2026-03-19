@@ -14,10 +14,8 @@ import com.cboda.baselibrary.utils.getNotScrollVerticalGridLayoutManager
 import com.cboda.baselibrary.utils.seStrokeColor
 import com.cboda.baselibrary.utils.setTxt
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.StringUtils
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
-import com.cboda.intelligent.activity.CreditScoreActivity
 import com.cboda.intelligent.activity.TestActivity
 import com.cboda.intelligent.adapter.AIImgBroadAdapter
 import com.cboda.intelligent.base.BaseBroadFragment
@@ -250,13 +248,13 @@ class AiAllFragment :
             clearChooseData()
         }
         binding.shapeView.click {
-//            when (resourceType) {
-//                DOCUMENT_TYPE -> chooseDocument()
-//                IMAGE_TYPE -> chooseImg()
-//                VOICE_TYPE -> chooseAudio()
-//                VIDEO_TYPE -> chooseVideo()
-//            }
-            startActivity(Intent(activity, CreditScoreActivity::class.java))
+            when (resourceType) {
+                DOCUMENT_TYPE -> chooseDocument()
+                IMAGE_TYPE -> chooseImg()
+                VOICE_TYPE -> chooseAudio()
+                VIDEO_TYPE -> chooseVideo()
+            }
+//            startActivity(Intent(activity, TestActivity::class.java))
         }
         adapter.setOnItemClickListener { _, _ ->
             chooseImg()

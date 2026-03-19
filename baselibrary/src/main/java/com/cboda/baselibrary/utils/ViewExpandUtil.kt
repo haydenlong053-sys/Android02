@@ -896,9 +896,17 @@ fun TextView.setTxt(res: Int) {
 
 fun anyToInt(any: Any): Int {
     return try {
-        any.toString().toFloat().toInt()
+        anyToFloat(any).toInt()
     } catch (e: Exception) {
         0
+    }
+}
+
+fun anyToFloat(any: Any): Float {
+    return try {
+        any.toString().toFloat()
+    } catch (e: Exception) {
+        0f
     }
 }
 
@@ -950,7 +958,7 @@ fun showCommonStrTip(title: String, content: String, cancelBtn: String, sureBtn:
 }
 
 
-fun showMeetLeaveTip(context: Context? = null,block:()-> Unit={}) {
+fun showMeetLeaveTip(context: Context? = null, block: () -> Unit = {}) {
     val mContext = getAppContext(context)
     val commonTipPop = CommonTipBroadPop(
         mContext,

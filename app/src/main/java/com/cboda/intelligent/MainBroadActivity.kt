@@ -273,11 +273,13 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //            }
             it.data?.apply {
                 currtentLoginUser = this
-                MMKVBroadUtils.saveKeFuId(it.data?.kfid!!)
-                MMKVBroadUtils.saveUserName(it.data?.name!!)
+                MMKVBroadUtils.saveUserImg(it.data?.icon ?: "")
+                MMKVBroadUtils.saveKeFuId(it.data?.kfid ?: "")
+                MMKVBroadUtils.saveUserName(it.data?.name ?: "")
+                MMKVBroadUtils.saveUserNiceNum(it.data?.isLiang ?: "")
                 MMKVBroadUtils.saveUserMId(it.data?.mId)
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", it.data?.autofanyi!!)
-                SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "isvip", it.data?.isvip!!)
+                MMKVBroadUtils.saveUserVip(it.data?.isvip ?: "")
                 viewModel?.getKfInfo(this@MainBroadActivity, it.data?.kfid!!)
 
                 val zongshu = this.fris + this.gros

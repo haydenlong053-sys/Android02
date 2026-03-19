@@ -18,6 +18,7 @@ import androidx.viewbinding.ViewBinding;
 import com.cboda.baselibrary.event.AppBroadEvent;
 import com.cboda.baselibrary.event.AppEventBroadCode;
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
+import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.intelligent.databinding.ActivityBroadEquipmentBinding;
 import com.google.gson.Gson;
 import com.cboda.intelligent.R;
@@ -102,7 +103,7 @@ public class EquipmentBroadActivity extends BaseSimpleBroadActivity implements V
 
         EventBus.getDefault().register(this);
 
-        eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
 
 //        mBinding.tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
         mBinding.tvLanguage.setOnClickListener(this);

@@ -71,16 +71,6 @@ class AppBroadUtils {
 
         @SuppressLint("HardwareIds")
         fun getDeviceIMEI(context: Context): String {
-//            var deviceId: String
-//            val telephony: TelephonyManager = context
-//                .getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-//            deviceId = telephony.getDeviceId()
-//            if (deviceId == null) {
-//                deviceId = Settings.Secure.getString(
-//                    context.contentResolver,
-//                    Settings.Secure.ANDROID_ID
-//                )
-//            }
             return try {
                 val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 tm?.deviceId ?: "Unknown"

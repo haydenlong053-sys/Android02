@@ -802,7 +802,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     }
                 }
                 if (message1.content.getMessageContentType() == 1
-                        && SharePrefBroadBroadUtil.getString(v.getContext(), "isvip", "0").equals("1")) {
+                        && MMKVBroadUtils.Companion.getUserVip()) {
                     titles.add(fragment.getString(R.string.message_translate));
                     ChatPopBroadMenu.ChatPopMenuAction fanyi = new ChatPopBroadMenu.ChatPopMenuAction();
                     fanyi.setActionName(fragment.getString(R.string.message_translate));

@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.event.AppBroadEvent;
 import com.cboda.baselibrary.event.AppEventBroadCode;
+import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.google.zxing.Result;
 import com.google.zxing.client.result.ParsedResult;
@@ -91,7 +92,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         jumpSource = getIntent().getIntExtra("jumpSource", 0);
-        eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
         initViews();
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",

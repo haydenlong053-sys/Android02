@@ -33,6 +33,12 @@ class MMKVBroadUtils {
         const val SEARCH_KEY = "searchHistoryKey"
         const val USER_ID_KEY = "userIdKey"
         const val USER_NAME_KEY = "username"
+
+        const val USER_VIP_KEY = "userVip"
+
+        const val USER_NICE_NUMBER_KEY = "userNiceNumberKey"
+
+        const val USER_IMG_KEY = "userAvatar"
         const val USER_PHONE_KEY = "userPhoneKey"
         const val USER_ONE_KEY_LOGIN_PHONE_KEY = "userOneKeyLoginPhoneKey"
         const val USER_ONE_KEY_LOGIN_TYPE_KEY = "userOneKeyLoginTypeKey"
@@ -86,6 +92,39 @@ class MMKVBroadUtils {
             kv.encode(USER_ID_KEY, appToken)
         }
 
+
+        fun saveUserImg(userImg: String) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(USER_IMG_KEY, userImg)
+        }
+
+        fun getUserImg(): String? {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeString(USER_IMG_KEY)
+        }
+
+
+        fun saveUserVip(userVip: String) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(USER_VIP_KEY, userVip == "1")
+        }
+
+        fun getUserVip(): Boolean {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeBool(USER_VIP_KEY, false)
+        }
+
+
+
+        fun saveUserNiceNum(isLiang: String) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(USER_NICE_NUMBER_KEY, isLiang == "1")
+        }
+
+        fun getUserIsNiceNum(): Boolean {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeBool(USER_NICE_NUMBER_KEY, false)
+        }
         fun saveUserName(userName: String) {
             val kv = MMKV.defaultMMKV()
             kv.encode(USER_NAME_KEY, userName)
