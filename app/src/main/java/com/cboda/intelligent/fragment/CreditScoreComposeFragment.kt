@@ -43,13 +43,13 @@ class CreditScoreComposeFragment : Fragment() {
 
     private fun buildMockData(): List<ComposeItem> {
         return listOf(
-            ComposeItem(R.mipmap.credit_score4, "在线时长", "45/150", "基础：+0.2/天  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_A855F7),
-            ComposeItem(R.mipmap.credit_score5, "注册天数", "45/150", "基础：+0.2/天  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_2563EB),
-            ComposeItem(R.mipmap.credit_score6, "担保交易", "45/150", "基础：+0.2/USDT  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_22C55E),
-            ComposeItem(R.mipmap.credit_score7, "邀请好友", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_06B6D4),
-            ComposeItem(R.mipmap.credit_score8, "获得背书", "50/150", "基础：+2/人  会员+10%  靓号+10%", 0.34f, com.cboda.baselibrary.R.color.color_8B5CF6),
-            ComposeItem(R.mipmap.credit_score9, "特殊贡献", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_F59E0B),
-            ComposeItem(R.mipmap.credit_score10, "持有ODIC", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_E11D48)
+//            ComposeItem(R.mipmap.credit_score4, "在线时长", "45/150", "基础：+0.2/天  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_A855F7),
+//            ComposeItem(R.mipmap.credit_score5, "注册天数", "45/150", "基础：+0.2/天  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_2563EB),
+//            ComposeItem(R.mipmap.credit_score6, "担保交易", "45/150", "基础：+0.2/USDT  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_22C55E),
+//            ComposeItem(R.mipmap.credit_score7, "邀请好友", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_06B6D4),
+//            ComposeItem(R.mipmap.credit_score8, "获得背书", "50/150", "基础：+2/人  会员+10%  靓号+10%", 0.34f, com.cboda.baselibrary.R.color.color_8B5CF6),
+//            ComposeItem(R.mipmap.credit_score9, "特殊贡献", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_F59E0B),
+//            ComposeItem(R.mipmap.credit_score10, "持有ODIC", "45/150", "基础：+2/人  会员+10%  靓号+10%", 0.30f, com.cboda.baselibrary.R.color.color_E11D48)
         )
     }
 

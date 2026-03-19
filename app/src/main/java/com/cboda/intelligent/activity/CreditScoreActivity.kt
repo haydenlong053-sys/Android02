@@ -20,7 +20,7 @@ import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.fragment.CreditScoreComposeFragment
-import com.cboda.intelligent.fragment.CreditScoreRecordFragment
+
 import com.cboda.intelligent.widge.BadgeIndicatorAdapter
 import com.cboda.intelligent.widge.TextIndicatorAdapter
 
@@ -66,7 +66,7 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
     private fun initViewPagerAndIndicator() {
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
         vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance())
-        vp2FragmentAdapter.addFragment(CreditScoreRecordFragment.newInstance())
+        vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance())
 
         mBind?.viewPager?.adapter = vp2FragmentAdapter
         mBind?.viewPager?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
