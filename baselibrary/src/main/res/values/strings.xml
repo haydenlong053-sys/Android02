@@ -50,4 +50,27 @@
     <!-- New meeting status messages -->
     <string name="msg_meeting_func_unavailable">This feature is temporarily unavailable during a meeting.</string>
     <string name="msg_meeting_in_progress">A meeting is currently in progress.</string>
+
+    <string name="msg_meeting_person_open">%1$s人 正在会议中…</string>
+    <string name="msg_meeting_">加入会议</string>
+    <string name="msg_meeting_">主麦</string>
+    <string name="msg_meeting_">副麦</string>
+    <string name="msg_meeting_">嘉宾1</string>
+    <string name="msg_meeting_">嘉宾2</string>
+    <string name="msg_meeting_">关麦</string>
+    <string name="msg_meeting_">结束会议</string>
+    <string name="msg_meeting_">退出会议</string>
+    <string name="msg_meeting_">上麦</string>
+    <string name="msg_meeting_">申请</string>
+    <string name="msg_meeting_">申请上麦</string>
+    <string name="msg_meeting_">当前麦位已满，不可新加上麦</string>
+    <string name="msg_meeting_">已申请上麦，等待主讲人批准</string>
+    <string name="msg_meeting_">申请列表</string>
+    <string name="msg_meeting_">管理员</string>
+    <string name="msg_meeting_">同意</string>
+    <string name="msg_meeting_">下麦</string>
+    <string name="msg_meeting_">静音</string>
+    <string name="msg_meeting_">已下麦</string>
+
+
 </resources>

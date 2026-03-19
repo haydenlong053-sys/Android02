@@ -157,11 +157,42 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <FrameLayout
-        android:id="@+id/containerFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F2F3F5" />
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/containerFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F2F3F5" />
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_4"
+            android:gravity="center_vertical"
+            app:shape_radius="@dimen/dp_16"
+            app:shape_solidColor="@color/color_EB534B_35"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/black"
+                android:text="80人 正在会议中…."
+                android:layout_marginStart="@dimen/dp_16"
+                />
+            <com.hjq.shape.view.ShapeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/black"
+                android:text="加入会议"
+                />
+
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>
