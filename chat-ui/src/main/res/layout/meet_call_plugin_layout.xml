@@ -107,6 +107,7 @@
 
         </FrameLayout>
 
+        <include layout="@layout/meet_call_plugin_layout_four_site"/>
     </LinearLayout>
 
 
