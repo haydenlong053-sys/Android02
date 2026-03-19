@@ -29,6 +29,8 @@ import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
+import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
@@ -65,6 +67,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var viewModel: QuickMeetViewBroadModel? = null
     private var groupBean: GlobalChatGroupBean? = null
     private var groupId: String? = null
+    private var meetChannelBean: QuickDetailMeetBean?=null
 
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
@@ -152,26 +155,34 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
     }
 
+    var hasMeetInfoInvoke: (QuickDetailMeetBean) -> Unit = {}
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
         groupId = groupIdNo
         activity.lifecycleScope.launch {
             viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
                 if (it.list?.isNotEmpty() == true && it.token != null) {
-                    goPermissionAudioMeet() {
-                        val userMId = MMKVBroadUtils.getUserMId()
-                        val meetChannelBean = it.list!![0]
-                        val direct = if (userMId == meetChannelBean.idNo.toString()) {
-                            CallDirect.CALLER
-                        } else {
-                            CallDirect.ANSWER
-                        }
-                        MeetCallManager.getInstance().callMeetAction(direct, meetChannelBean.channelId ?: "", it.token!!, meetChannelBean)
-
-                    }
+                    hasMeetInfoInvoke.invoke(it.list!![0])
+                    meetChannelBean =it.list!![0]
+                    meetChannelBean?.token =it.token
                 }
             }
         }
 
+    }
+
+     fun joinMyMeetRoom(isJoinInvoke:()-> Unit ={}) {
+         goPermissionAudioMeet() {
+             val userMId = MMKVBroadUtils.getUserMId()
+             meetChannelBean?.let {
+                 isJoinInvoke.invoke()
+                 val direct = if (userMId == it.idNo.toString()) {
+                     CallDirect.CALLER
+                 } else {
+                     CallDirect.ANSWER
+                 }
+                 MeetCallManager.getInstance().callMeetAction(direct, it.channelId ?: "", it.token?:"", it)
+             }
+         }
     }
 
     //取消会议
@@ -300,7 +311,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     }
 
-    override fun onRoomAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?,totalVolume: Int) {
+    override fun onRoomAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?, totalVolume: Int) {
         if (totalVolume > 0 && mVoiceWaveView?.isAnimating() == false) {
             mVoiceWaveView?.startLoopAnim()
         }
@@ -309,6 +320,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onRtcRoleChanged(oldRole: Int, newRole: Int) {
 
     }
+
     override fun onRtcStats(statsBean: IRtcEngineEventHandler.RtcStats?) {
         //先判断会议人数有没有变化后，再在主线程更新人数信息
 //        runOnUiThread {
