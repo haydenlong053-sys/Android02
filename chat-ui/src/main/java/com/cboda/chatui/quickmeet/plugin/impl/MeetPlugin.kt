@@ -53,9 +53,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var callingStateHeight = 0
     private var viewWidth = 0
     private var waitingStateHeight = 0
-    private var waitingStateFl: FrameLayout? = null
-    private var waitingStateIv: ImageView? = null
-    private var durationTv: TextView? = null
     private var touchHandle: ViewTouchHandle? = null
     private var coverAvatarIv: ImageView? = null
     private var mIvIconMic: ImageView? = null
@@ -120,9 +117,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun initView() {
         mView?.findViewById<FrameLayout>(R.id.chat_call_plugin_container_fl)
-        waitingStateFl = mView?.findViewById(R.id.chat_call_zoom_answer_state_fl)
-        waitingStateIv = mView?.findViewById(R.id.chat_call_zoom_answer_state_iv)
-        durationTv = mView?.findViewById(R.id.chat_voice_call_duration_tv)
         coverAvatarIv = mView?.findViewById(R.id.chat_call_zoom_avatar_iv)
         mTvMeetEnd = mView?.findViewById(R.id.mTvMeetEnd)
         mVoiceWaveView = mView?.findViewById(R.id.mVoiceWaveView)

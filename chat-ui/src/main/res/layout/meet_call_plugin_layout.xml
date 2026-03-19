@@ -3,122 +3,112 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chat_call_plugin_container_fl"
-    android:layout_width="@dimen/dp_88"
-    android:layout_height="@dimen/dp_129"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:layout_gravity="center"
     >
-    <FrameLayout
-        android:layout_width="match_parent"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/dp_96"
-        android:background="@drawable/bg_meet_mini_bg"
         android:animateLayoutChanges="true"
-        >
-        <com.hjq.shape.layout.ShapeFrameLayout
-            android:id="@+id/chat_call_zoom_answer_state_fl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/dp_8"
-            app:shape_radius="@dimen/dp_8"
-            app:shape_solidColor="@color/white"
-            android:visibility="gone"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="@dimen/dp_88"
+            android:layout_height="@dimen/dp_96"
+            android:background="@drawable/bg_meet_mini_bg"
             >
-
-            <ImageView
-                android:id="@+id/chat_call_zoom_answer_state_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                tools:visibility="gone" />
-
-
-            <TextView
-                android:id="@+id/chat_voice_call_duration_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold"
-                android:visibility="gone"
-                tools:text="28:28"
+            <com.cboda.baselibrary.view.MeetVoiceWaveBroadView
+                android:id="@+id/mVoiceWaveView"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_gravity="center_horizontal"
+                />
+            <com.cboda.baselibrary.view.AppRoundBroadImage
+                android:id="@+id/chat_call_zoom_avatar_iv"
+                android:layout_width="@dimen/dp_56"
+                android:layout_height="@dimen/dp_56"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:app_round_round_type="0"
+                app:app_round_border_color="#D4AF37"
+                app:app_round_border_width="@dimen/dp_0"
+                android:layout_marginTop="@dimen/dp_16"
+                android:src="@mipmap/ic_head_broad_defaut"
+                tools:src="@mipmap/ic_head_broad_defaut"
                 tools:visibility="visible" />
 
-        </com.hjq.shape.layout.ShapeFrameLayout>
-
-        <com.cboda.baselibrary.view.MeetVoiceWaveBroadView
-            android:id="@+id/mVoiceWaveView"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_80"
-            android:layout_marginTop="@dimen/dp_4"
-            android:layout_gravity="center_horizontal"
-            />
-        <com.cboda.baselibrary.view.AppRoundBroadImage
-            android:id="@+id/chat_call_zoom_avatar_iv"
-            android:layout_width="@dimen/dp_56"
-            android:layout_height="@dimen/dp_56"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
-            android:visibility="visible"
-            app:app_round_round_type="0"
-            app:app_round_border_color="#D4AF37"
-            app:app_round_border_width="@dimen/dp_0"
-            android:layout_marginTop="@dimen/dp_16"
-            android:src="@mipmap/ic_head_broad_defaut"
-            tools:src="@mipmap/ic_head_broad_defaut"
-            tools:visibility="visible" />
-
-
-        <LinearLayout
-            android:id="@+id/mLlNameView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_78"
-            android:gravity="center"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
-            <TextView
-                android:id="@+id/mTvUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxWidth="@dimen/dp_55"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text=""
-                android:textSize="10sp"
-                android:textColor="@color/white"
-
-                />
             <ImageView
                 android:id="@+id/mIvIconMic"
-                android:layout_width="@dimen/dp_10"
-                android:layout_height="@dimen/dp_10"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
                 android:src="@drawable/bg_mic_icon"
-                android:layout_marginStart="@dimen/dp_2"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_56"
+                android:layout_gravity="end"
                 tools:ignore="ContentDescription" />
+            <com.hjq.shape.view.ShapeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/dp_40"
+                android:lines="1"
+                android:ellipsize="end"
+                app:shape_radius="@dimen/dp_4"
+                app:shape_solidColor="@color/color_D4AF37"
+                android:paddingVertical="@dimen/dp_1"
+                android:paddingHorizontal="@dimen/dp_4"
+                android:textSize="9sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/msg_meeting_main_mic"
+                />
 
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/mLlNameView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_78"
+                android:gravity="center"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+                <TextView
+                    android:id="@+id/mTvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/dp_65"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text=""
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    />
 
-        <TextView
-            android:id="@+id/mTvMeetEnd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_96"
-            android:gravity="center"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="结束会议"
-            android:textSize="12sp"
-            android:textColor="@color/color_EB534B"
-            android:visibility="gone"
-            tools:visibility="visible"
-            />
+            </LinearLayout>
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/mTvMeetEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_96"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="结束会议"
+                android:textSize="12sp"
+                android:textColor="@color/color_EB534B"
+                android:visibility="gone"
+                tools:visibility="gone"
+                />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
 
 
 </FrameLayout>
