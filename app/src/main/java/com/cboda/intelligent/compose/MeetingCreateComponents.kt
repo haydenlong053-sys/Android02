@@ -708,7 +708,7 @@ fun DurationOptionsGrid(
     ) {
         if (timeOptions.isNotEmpty()) {
             // 动态生成行数，每行最多3个选项
-            val rows = timeOptions.chunked(3)
+            val rows = timeOptions.chunked(2)
             
             rows.forEachIndexed { rowIndex, rowOptions ->
                 Row(
@@ -726,7 +726,7 @@ fun DurationOptionsGrid(
                     }
                     
                     // 如果这一行不足3个选项，添加空白占位符
-                    repeat(3 - rowOptions.size) {
+                    repeat(2 - rowOptions.size) {
                         Spacer(modifier = Modifier.weight(1f))
                     }
                 }
