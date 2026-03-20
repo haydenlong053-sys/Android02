@@ -1,8 +1,12 @@
 package com.cboda.chatui.quickmeet.plugin.impl
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.Rect
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,7 +16,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
@@ -30,7 +33,6 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
-import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
@@ -52,6 +54,7 @@ import kotlinx.coroutines.launch
 class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
     private var callingStateHeight = 0
     private var viewWidth = 0
+    private var marginTop = 0
     private var touchHandle: ViewTouchHandle? = null
 
     private var seatMainContainer: View? = null
@@ -82,6 +85,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var seatGuestTwoTagTv: TextView? = null
     private var seatGuestTwoNameTv: TextView? = null
 
+
     private var coverAvatarIv: ImageView? = null
     private var mIvIconMic: ImageView? = null
     private var mTvMeetEnd: TextView? = null
@@ -90,6 +94,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var mViewRootMeetMain: View? = null
     private var mViewRootMeetFour: View? = null
     private var mTvUserName: TextView? = null
+
+    // 用于“点击悬浮窗外收起四座位”的全屏透明遮罩
+    private var outsideTapMaskView: View? = null
 
     private var viewModel: QuickMeetViewBroadModel? = null
     private var groupBean: GlobalChatGroupBean? = null
@@ -194,17 +201,19 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         touchHandle = ViewTouchHandle(mView!!, activity, this)
         touchHandle?.setupViewSize(viewWidth, callingStateHeight, false)
 
+        setupOutsideTapToCollapseFourSeats()
 
-        val margin = mContext?.resources?.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_358) ?: 0
-        eLogD("call", "margin==$margin")
+
+        marginTop = mContext?.resources?.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_100) ?: 0
         touchHandle?.let {
             val result = pluginMoveData.value
             if (!TextUtils.isEmpty(result)) {
                 updateLayoutPosition(result!!, true)
             } else {
                 it.updateLocation(
-                    it.screenWidth.toFloat(),
+//                    it.screenWidth.toFloat(),
                     0f,
+                    marginTop.toFloat(),
                     false
                 )
             }
@@ -266,6 +275,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
+        switchSeatUI()
+
+    }
+
+    private fun switchSeatUI() {
         if (MeetCallManager.getInstance().isCallingState()) {
             mViewRootMeetMain?.let {
                 it.isVisible = !it.isVisible
@@ -273,6 +287,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             mViewRootMeetFour?.let {
                 it.isVisible = !it.isVisible
             }
+            syncOutsideTapMaskVisibility()
             mView?.post {
                 touchHandle?.let {
                     it.setupViewSize()
@@ -282,7 +297,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     } else {
                         it.updateLocation(
                             0f,
-                            0f,
+                            marginTop.toFloat(),
                             false
                         )
                     }
@@ -324,6 +339,57 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
         }
 //        showOrHideCover()
+    }
+
+    /**
+     * 当 `mViewRootMeetFour` 处于展开状态时，点击悬浮窗外部收起四座位。
+     * 逻辑参考 `onItemClick`：收起后会重算 `touchHandle` 尺寸并矫正位置边界。
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupOutsideTapToCollapseFourSeats() {
+        if (outsideTapMaskView == null) {
+            outsideTapMaskView = View(activity).apply {
+                setBackgroundColor(Color.TRANSPARENT)
+                isClickable = true
+                isFocusable = false
+                visibility = View.GONE
+
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
+                )
+
+                setOnTouchListener { _, event ->
+                    if (mViewRootMeetFour?.isVisible != true) return@setOnTouchListener false
+
+                    when (event.actionMasked) {
+                        MotionEvent.ACTION_DOWN -> {
+                            switchSeatUI()
+                            return@setOnTouchListener true
+                        }
+                    }
+                    // 遮罩已命中：把事件传到底层
+                    false
+                }
+            }
+
+            // 插入到 mView 下面，保证 mView 自己仍能收到触摸事件
+            mContainer?.let { container ->
+                val index = container.indexOfChild(mView!!)
+                if (index >= 0) {
+                    container.addView(outsideTapMaskView, index)
+                } else {
+                    container.addView(outsideTapMaskView)
+                }
+            }
+        }
+
+        syncOutsideTapMaskVisibility()
+    }
+
+    private fun syncOutsideTapMaskVisibility() {
+        outsideTapMaskView?.visibility =
+            if (mViewRootMeetFour?.isVisible == true) View.VISIBLE else View.GONE
     }
 
     private fun goOverMeeting() {
@@ -436,6 +502,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         mVoiceWaveView?.stopLoopAnim()
         seatMainVoiceWaveView?.stopLoopAnim()
         mView?.visibility = View.GONE
+        outsideTapMaskView?.let { mask ->
+            mContainer?.removeView(mask)
+        }
+        outsideTapMaskView = null
         removeView()
         mIsLayout = false
     }
