@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="76dp">
+
+    <com.cboda.baselibrary.view.AppRoundBroadImage
+        android:id="@+id/ivMeetSeatApplyAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        app:app_round_round_type="0"
+        app:app_round_border_width="0dp"
+        android:src="@mipmap/ic_head_broad_defaut"
+        tools:src="@mipmap/ic_head_broad_defaut"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="24dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/llMeetSeatApplyInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/ivMeetSeatApplyAvatar"
+        app:layout_constraintEnd_toStartOf="@id/tvMeetSeatApplyAgree"
+        app:layout_constraintTop_toTopOf="@id/ivMeetSeatApplyAvatar"
+        app:layout_constraintBottom_toBottomOf="@id/ivMeetSeatApplyAvatar">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvMeetSeatApplyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="120dp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                tools:text="COY FollowBB31231231"
+                />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/tvMeetSeatApplyRoleTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="1dp"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:text="@string/msg_meeting_admin"
+                app:shape_radius="4dp"
+                app:shape_solidColor="@color/color_D4AF37"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvMeetSeatApplyApplyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/black_65"
+            android:textSize="14sp"
+            android:text="@string/msg_meeting_apply_mic"
+            />
+    </LinearLayout>
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tvMeetSeatApplyAgree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:text="@string/msg_meeting_agree"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="18dp"
+        app:shape_radius="16dp"
+        app:shape_solidColor="@color/color_3B47DD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="24dp"
+        />
+
+    <View
+        android:id="@+id/viewMeetSeatApplyDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/black_12"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

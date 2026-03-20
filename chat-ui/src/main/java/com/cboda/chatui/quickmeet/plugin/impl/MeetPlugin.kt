@@ -33,6 +33,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
+import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
@@ -275,7 +276,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
-        switchSeatUI()
+//        switchSeatUI()
+        MeetSeatApplyPop(activity).showPopupWindow()
 
     }
 

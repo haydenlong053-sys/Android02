@@ -426,8 +426,10 @@ class MeetCallManager private constructor() {
      * 0：方法调用成功。
      * < 0：方法调用失败
      */
-    fun setRtcClientRoleDirect(type: CallDirect) = callEngine?.let {
-        if (CallDirect.ANSWER == type) {
+    fun setRtcClientRoleDirect(type: CallDirect) : Int = callEngine?.let {
+        if (mCallData.direct == type){
+            -1
+        }else if (CallDirect.ANSWER == type) {
             //切换成观众
             val clientRoleOptions = ClientRoleOptions()
             clientRoleOptions.audienceLatencyLevel = Constants.AUDIENCE_LATENCY_LEVEL_LOW_LATENCY
