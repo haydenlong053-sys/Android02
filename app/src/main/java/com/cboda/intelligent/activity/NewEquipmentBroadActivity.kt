@@ -197,7 +197,6 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
                 imLogin(
                     this@NewEquipmentBroadActivity,
                     resultBean.apptoken,
-                    resultBean.userSign,
                     resultBean.userId,
                     resultBean.imtoken
                 )

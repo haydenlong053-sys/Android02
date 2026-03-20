@@ -204,16 +204,15 @@ class AppBroadUtils {
         fun imLogin(
             context: Context?,
             apptoken: String?,
-            rytoken: String?,
             uid: String?,
             myImUserToken: String?
         ) {
-            debug("imLogin", "--> $uid $rytoken $myImUserToken")
+            debug("imLogin", "--> $uid  $myImUserToken")
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
 
             MMKVBroadUtils.saveUserAppToken(apptoken ?: "")
-            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
+//            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
             MMKVBroadUtils.saveRealUserId(uid ?: "")
             MMKVBroadUtils.saveMyImToken(myImUserToken ?: "")
 
@@ -238,9 +237,9 @@ class AppBroadUtils {
             }
 
 
-            MMKVBroadUtils.getRealUserId()?.apply {
-
-            }
+//            MMKVBroadUtils.getRealUserId()?.apply {
+//
+//            }
 
         }
 

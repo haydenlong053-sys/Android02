@@ -191,7 +191,7 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
                     intent.putExtra("pwd", etNewPassword.getText().toString());
                     startActivity(intent);
                 } else {
-                    AppBroadUtils.Companion.imLogin(RegisterBroadActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
+                    AppBroadUtils.Companion.imLogin(RegisterBroadActivity.this, resultBean.apptoken, resultBean.userId, resultBean.imtoken);
                 }
             }
 

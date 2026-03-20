@@ -319,7 +319,7 @@ public class PushInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                 EventBusBroadBean eventBusBean = new EventBusBroadBean();
                 eventBusBean.msg = "登录成功";
                 EventBus.getDefault().post(eventBusBean);
-                AppBroadUtils.Companion.imLogin(PushInfoBroadActivity.this, apptoken, userSign, uid, imtoken);
+                AppBroadUtils.Companion.imLogin(PushInfoBroadActivity.this, apptoken, uid, imtoken);
 //                            }
 //                        }
 //                    });

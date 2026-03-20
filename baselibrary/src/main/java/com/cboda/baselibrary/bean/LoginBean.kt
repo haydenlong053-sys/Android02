@@ -8,8 +8,21 @@ class LoginBean {
     var existMbName = false
     var existPayPassword = false
     var twoFactorCode = false
-    var type = ""
+
+    //    var type = ""
     var linkId = ""
     var haveOldDeviceCode = false
     var oldDevice = false
+
+    var loginAccount = ""
+
+    var loginPwd = ""
+}
+
+class LoginIdBean() {
+    var securityQuestion = ""
+    var payPwd = ""
+    var oldDevCode = ""
+    var googleCode = ""
+    var linkId = ""
 }

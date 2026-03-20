@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.isEthWalletLinkQrCode;
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.isTransferLinkQrCode;
 
@@ -425,13 +426,16 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         }
         loginViewBroadModel.getScanLoginDetail(linkId).observe(this, loginBean -> {
             if (null != loginBean) {
-                loginBean.setType("scanLogin");
+//                loginBean.setType("scanLogin");
                 loginBean.setLinkId(linkId);
                 loginBean.setHaveOldDeviceCode(true);
                 Intent newIntent = new Intent(ScanBroadActivity.this, LoginVerificationActivity.class);
                 newIntent.putExtra("loginBean", toJson2(loginBean));
                 startActivity(newIntent);
                 finish();
+            } else {
+                restartScan();
+                showToastMain(R.string.scan_login_request_failed);
             }
         });
 
