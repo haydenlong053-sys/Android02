@@ -25,6 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager.widget.ViewPager
 import cn.wildfirechat.client.ConnectionStatus
+import cn.wildfirechat.message.MeetEndMessageContent
 import cn.wildfirechat.message.MeetStartMessageContent
 import cn.wildfirechat.message.MeetingPreEndTipMessageContent
 import cn.wildfirechat.message.Message
@@ -52,6 +53,7 @@ import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.updateBarrageDataLiveData
@@ -611,6 +613,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         } else if (message.content is MeetStartMessageContent) {
                             message.conversation?.target?.let { groupId ->
                                 meetJoinMsgLiveData.postValue(groupId)
+                            }
+                        }else if (message.content is MeetEndMessageContent) {
+                            message.conversation?.target?.let { groupId ->
+                                meetEndMsgLiveData.postValue(groupId)
                             }
                         }
                         if (message.content is UnknownMessageContent) {

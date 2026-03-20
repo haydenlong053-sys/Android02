@@ -16,17 +16,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.activity.OnBackPressedCallback;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatui.quickmeet.MeetCallManager;
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.plugin.PluginLayout;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.google.gson.Gson;
@@ -64,8 +67,10 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private Conversation conversationBroad;
     private View pageTitleLeftIcon;
     private View pageTitleRightIcon, mIvBack2, rightView;
+    private View mViewMeetJoin;
     private View titleGradeAndTimeBroad;
     private TextView pageTitle;
+    private TextView mTvMeetJoin,mTvMeetPeople;
     private String fromPageBroad;
 
     @Override
@@ -312,6 +317,9 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         pageTitleRightIcon = findViewById(R.id.page_title_right_icon);
         mIvBack2 = findViewById(R.id.mIvBack2);
         rightView = findViewById(R.id.rightView);
+        mViewMeetJoin = findViewById(R.id.mViewMeetJoin);
+        mTvMeetPeople = findViewById(R.id.mTvMeetPeople);
+        mTvMeetJoin = findViewById(R.id.mTvMeetJoin);
         pageTitleRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,7 +335,6 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
             }
         });
-
 
         pageTitle = findViewById(R.id.page_title);
 
@@ -443,7 +450,37 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
             MeetPlugin meetPlugin = new MeetPlugin(this);
             getLifecycle().addObserver(meetPlugin);
-            meetPlugin.queryMeetInfo(conversationBroad.target,"active");
+            meetPlugin.setHasMeetInfoInvoke(new Function1<QuickDetailMeetBean, Unit>() {
+                @Override
+                public Unit invoke(QuickDetailMeetBean quickDetailMeetBean) {
+                    if (MeetCallManager.getInstance().isIdleState()){
+                        mViewMeetJoin.setVisibility(View.VISIBLE);
+                        mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count),"88"));
+                    }
+                    return null;
+                }
+            });
+            meetPlugin.queryMeetInfo(conversationBroad.target, "active");
+            mTvMeetJoin.setOnClickListener(new OnSingleClickBroadListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    meetPlugin.joinMyMeetRoom(new Function0<Unit>() {
+                        @Override
+                        public Unit invoke() {
+                            mViewMeetJoin.setVisibility(View.GONE);
+                            return null;
+                        }
+                    });
+                }
+            });
+            BaseLiveDataEventKt.meetEndMsgLiveData.observe(this, new Observer<String>() {
+                @Override
+                public void onChanged(String groupId) {
+                    if (TextUtils.equals(conversationBroad.target,groupId) && mViewMeetJoin!=null && mViewMeetJoin.getVisibility() ==View.VISIBLE)  {
+                        mViewMeetJoin.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
 
 

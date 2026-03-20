@@ -19,3 +19,7 @@ val updateBarrageDataLiveData: BusLiveBroadData<BarrageBean> by lazy(LazyThreadS
 val meetJoinMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
     LiveDataBroadBroadBus.getInstance().with("meetJoinMsg")
 }
+
+//群内有人结束了会议的通知消息
+@JvmField
+val meetEndMsgLiveData: BusLiveBroadData<String> = LiveDataBroadBroadBus.getInstance().with("meetEndMsg")
