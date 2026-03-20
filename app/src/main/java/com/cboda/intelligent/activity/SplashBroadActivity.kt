@@ -1,12 +1,8 @@
 package com.cboda.intelligent.activity
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import com.blankj.utilcode.util.ThreadUtils
-import com.cboda.baselibrary.utils.DeviceBroadUtil
-import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.base.BaseSimpleBroadActivity

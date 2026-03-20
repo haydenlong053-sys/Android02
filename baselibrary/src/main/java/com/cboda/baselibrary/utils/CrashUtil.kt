@@ -44,9 +44,6 @@ fun initFireBase(context: Context, buglyId: String) {
         val strategy = com.tencent.bugly.crashreport.CrashReport.UserStrategy(context)
         strategy.deviceModel = DeviceBroadUtil.getDeviceBrand()
         strategy.deviceID = DeviceBroadUtil.getDeviceId()
-//        strategy.appChannel = DeviceBroadUtil.getWidevineId()
-//        strategy.appPackageName = DeviceBroadUtil.getDeviceModel()
-//        strategy.appVersion = DeviceBroadUtil.getDeviceBrand()
         com.tencent.bugly.crashreport.CrashReport.initCrashReport(
             context,
             buglyId,
