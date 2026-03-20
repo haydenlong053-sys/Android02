@@ -4,7 +4,7 @@ import android.content.Context
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
-private const val tAG = "BuGlyUtilClass"
+private const val tAG = "CrashUtilClass"
 
 fun crashReport(errorMsg: String?) {
     crashReport(Throwable(errorMsg ?: ""))
@@ -43,6 +43,10 @@ fun initFireBase(context: Context, buglyId: String) {
     try {
         val strategy = com.tencent.bugly.crashreport.CrashReport.UserStrategy(context)
         strategy.deviceModel = DeviceBroadUtil.getDeviceBrand()
+        strategy.deviceID = DeviceBroadUtil.getDeviceId()
+//        strategy.appChannel = DeviceBroadUtil.getWidevineId()
+//        strategy.appPackageName = DeviceBroadUtil.getDeviceModel()
+//        strategy.appVersion = DeviceBroadUtil.getDeviceBrand()
         com.tencent.bugly.crashreport.CrashReport.initCrashReport(
             context,
             buglyId,

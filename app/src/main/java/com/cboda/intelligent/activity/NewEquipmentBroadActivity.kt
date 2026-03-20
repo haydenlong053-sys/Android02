@@ -71,7 +71,15 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         mBinding?.bottomTv5?.click {
             startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议))
         }
-
+//        val startTime = System.currentTimeMillis()
+//        val aID = DeviceBroadUtil.getAndroidId(this)
+//        val endTime = System.currentTimeMillis()
+//        val wId = DeviceBroadUtil.getWidevineId()
+//        val endTime2 = System.currentTimeMillis()
+//        eLogD("SplashBroadActivityClass", "wId:$wId ,aID:$aID")
+//        val time1 = endTime - startTime
+//        val time2 = endTime2 - endTime
+//        eLogD("SplashBroadActivityClass", "time1:$time1 ,time2:$time2")
     }
 
     private fun checkIsFinish(): Boolean {
