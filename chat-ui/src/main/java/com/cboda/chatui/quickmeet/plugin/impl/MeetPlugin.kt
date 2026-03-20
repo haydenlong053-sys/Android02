@@ -52,7 +52,6 @@ import kotlinx.coroutines.launch
 class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
     private var callingStateHeight = 0
     private var viewWidth = 0
-    private var waitingStateHeight = 0
     private var touchHandle: ViewTouchHandle? = null
 
     private var seatMainContainer: View? = null
@@ -103,9 +102,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     init {
-        callingStateHeight = activity.resources.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_144)
-        waitingStateHeight = activity.resources.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_96)
-        viewWidth = waitingStateHeight
+        callingStateHeight = activity.resources.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_96)
+        viewWidth = activity.resources.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_88)
         MeetCallManager.getInstance().registerEngineEvent(this)
 //        CallManager.getInstance().getCallTimerObserver().observe(lifecycleOwner) { time ->
 //            time?.let {
@@ -194,11 +192,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         showUI()
 
         touchHandle = ViewTouchHandle(mView!!, activity, this)
-        if (isCalling()) {
-            touchHandle?.setupViewSize(viewWidth, callingStateHeight, false)
-        } else {
-            touchHandle?.setupViewSize(viewWidth, viewWidth, false)
-        }
+        touchHandle?.setupViewSize(viewWidth, callingStateHeight, false)
+
 
         val margin = mContext?.resources?.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_358) ?: 0
         eLogD("call", "margin==$margin")
