@@ -58,6 +58,7 @@
     <string name="msg_meeting_guest_1">嘉宾1</string>
     <string name="msg_meeting_guest_2">嘉宾2</string>
     <string name="msg_meeting_close_mic">关麦</string>
+    <string name="msg_meeting_open_mic">开麦</string>
     <string name="msg_meeting_end">结束会议</string>
     <string name="msg_meeting_exit">退出会议</string>
     <string name="msg_meeting_on_mic">上麦</string>

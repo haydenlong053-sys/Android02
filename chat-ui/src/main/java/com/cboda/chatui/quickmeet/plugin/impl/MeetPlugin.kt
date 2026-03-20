@@ -86,7 +86,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var mIvIconMic: ImageView? = null
     private var mTvMeetEnd: TextView? = null
     private var mVoiceWaveView: MeetVoiceWaveBroadView? = null
-    private var mTvCloseMic: View? = null
+    private var mTvCloseMic: TextView? = null
     private var mViewRootMeetMain: View? = null
     private var mViewRootMeetFour: View? = null
     private var mTvUserName: TextView? = null
@@ -310,6 +310,14 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
                     if (muteLocalAudio == 0) {
                         mivView.isSelected = !mivView.isSelected
+                        seatMainMicIv?.isSelected =!seatMainMicIv!!.isSelected
+                        if (mivView.isSelected){
+                            //已禁麦
+                            mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
+                        }else{
+                            mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
+
+                        }
                     }
                 }
             }

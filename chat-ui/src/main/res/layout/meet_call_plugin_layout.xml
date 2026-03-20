@@ -68,14 +68,15 @@
                 />
             <TextView
                 android:id="@+id/mTvUserName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_78"
                 android:gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:maxWidth="@dimen/dp_65"
                 android:maxLines="1"
                 android:ellipsize="end"
-                tools:text="111"
+                tools:text="11111111111114434"
                 android:textSize="10sp"
                 android:textColor="@color/white"
                 />

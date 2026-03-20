@@ -71,19 +71,20 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/msg_meeting_main_mic"
                 />
+
             <TextView
                 android:id="@+id/seat_main_name_tv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_78"
+                android:ellipsize="end"
                 android:gravity="center"
                 android:maxWidth="@dimen/dp_65"
                 android:maxLines="1"
-                android:ellipsize="end"
-                tools:text="name1"
-                android:textSize="10sp"
                 android:textColor="@color/white"
-                />
+                android:textSize="10sp"
+                tools:text="name1" />
 
 
         </FrameLayout>
@@ -144,8 +145,9 @@
                 />
             <TextView
                 android:id="@+id/seat_sub_name_tv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_78"
                 android:gravity="center"
                 android:maxWidth="@dimen/dp_65"
@@ -215,8 +217,9 @@
                 />
             <TextView
                 android:id="@+id/seat_guest_one_name_tv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_78"
                 android:gravity="center"
                 android:maxWidth="@dimen/dp_65"
@@ -286,8 +289,9 @@
                 />
             <TextView
                 android:id="@+id/seat_guest_two_name_tv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_78"
                 android:gravity="center"
                 android:maxWidth="@dimen/dp_65"
