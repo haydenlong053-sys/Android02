@@ -266,13 +266,29 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
-        if (MeetCallManager.getInstance().isCallDirect()) {
+        if (MeetCallManager.getInstance().isCallingState()) {
             mViewRootMeetMain?.let {
                 it.isVisible = !it.isVisible
             }
             mViewRootMeetFour?.let {
                 it.isVisible = !it.isVisible
             }
+            mView?.post {
+                touchHandle?.let {
+                    it.setupViewSize()
+                    val result = pluginMoveData.value
+                    if (!TextUtils.isEmpty(result)) {
+                        updateLayoutPosition(result!!, true)
+                    } else {
+                        it.updateLocation(
+                            0f,
+                            0f,
+                            false
+                        )
+                    }
+                }
+            }
+
         }
     }
 
