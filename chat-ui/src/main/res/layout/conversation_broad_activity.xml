@@ -107,7 +107,7 @@
                     android:visibility="gone" />
 
 
-                <com.cboda.baselibrary.widge.VerticalDanmakuView
+                <com.cboda.baselibrary.widge.HighPerformanceDanmakuView
                     android:id="@+id/verticalDanmakuView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_400"

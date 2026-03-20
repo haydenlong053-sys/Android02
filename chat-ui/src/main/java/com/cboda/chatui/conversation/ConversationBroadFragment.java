@@ -75,6 +75,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.baselibrary.widge.VerticalDanmakuView;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.MarqueeTextBroadView;
@@ -171,7 +172,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     InputAwareBroadLayout rootLinearLayoutBroad;
     SwipeRefreshLayout swipeRefreshLayoutBroad;
-    VerticalDanmakuView verticalDanmakuView;
+    HighPerformanceDanmakuView verticalDanmakuView;
     ImageView danmakuIv;
     RecyclerView recyclerViewBroad;
 
@@ -599,9 +600,9 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if (null != verticalDanmakuView) {
-            verticalDanmakuView.danMaResume();
-        }
+//        if (null != verticalDanmakuView) {
+//            verticalDanmakuView.danMaResume();
+//        }
         if (conversationBroadViewModel != null && conversationBroad != null) {
             conversationBroadViewModel.clearUnreadStatus(conversationBroad);
         }
@@ -1451,9 +1452,9 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onPause() {
         super.onPause();
-        if (null != verticalDanmakuView) {
-            verticalDanmakuView.danMaPause();
-        }
+//        if (null != verticalDanmakuView) {
+//            verticalDanmakuView.danMaPause();
+//        }
         inputPanelBroad.onActivityPause();
         messageBroadViewModel.stopPlayAudio();
     }
