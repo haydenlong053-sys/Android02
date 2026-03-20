@@ -16,12 +16,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.activity.OnBackPressedCallback;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
@@ -469,6 +471,14 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                             return null;
                         }
                     });
+                }
+            });
+            BaseLiveDataEventKt.meetEndMsgLiveData.observe(this, new Observer<String>() {
+                @Override
+                public void onChanged(String groupId) {
+                    if (TextUtils.equals(conversationBroad.target,groupId) && mViewMeetJoin!=null && mViewMeetJoin.getVisibility() ==View.VISIBLE)  {
+                        mViewMeetJoin.setVisibility(View.GONE);
+                    }
                 }
             });
         }
