@@ -826,6 +826,15 @@ public class ConversationBroadFragment extends Fragment implements
                             }
 //                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.GROUP_GAG.getValue(), conversationBroad.target, "", null);
                             break;
+                        case 7:
+                            eLogD(TAG, "上麦");
+                            break;
+                        case 8:
+                            eLogD(TAG, "下麦");
+                            break;
+                        case 9:
+                            eLogD(TAG, "申请列表");
+                            break;
                     }
                     return null;
                 });

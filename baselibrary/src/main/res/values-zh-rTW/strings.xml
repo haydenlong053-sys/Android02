@@ -73,4 +73,11 @@
     <string name="msg_meeting_off_mic">下麥</string>
     <string name="msg_meeting_mute">靜音</string>
     <string name="msg_meeting_off_mic_done">已下麥</string>
+
+    <!-- 禮物 / 互動 -->
+    <string name="msg_flower">鮮花</string>
+    <string name="msg_acclamation">鼓掌</string>
+    <string name="msg_gag">禁言</string>
+    <string name="msg_remove_gag">解除禁言</string>
+    <string name="msg_pic">圖片</string>
 </resources>

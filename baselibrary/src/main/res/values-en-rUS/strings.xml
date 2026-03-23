@@ -73,4 +73,11 @@
     <string name="msg_meeting_off_mic">Leave mic</string>
     <string name="msg_meeting_mute">Mute</string>
     <string name="msg_meeting_off_mic_done">Left mic</string>
+
+    <!-- Gift / interaction labels -->
+    <string name="msg_flower">Flowers</string>
+    <string name="msg_acclamation">Applause</string>
+    <string name="msg_gag">Mute</string>
+    <string name="msg_remove_gag">Unmute</string>
+    <string name="msg_pic">Image</string>
 </resources>
