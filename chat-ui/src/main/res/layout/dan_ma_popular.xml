@@ -67,7 +67,7 @@
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/acclamationIv"
             app:layout_constraintTop_toTopOf="@id/flowerIv"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/picTv"
@@ -80,7 +80,7 @@
             app:layout_constraintEnd_toEndOf="@id/picIv"
             app:layout_constraintStart_toStartOf="@id/picIv"
             app:layout_constraintTop_toTopOf="@id/flowerTv"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/gagIv"
@@ -92,7 +92,7 @@
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/picIv"
             app:layout_constraintTop_toTopOf="@id/flowerIv"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/gagTv"
@@ -105,7 +105,7 @@
             app:layout_constraintEnd_toEndOf="@id/gagIv"
             app:layout_constraintStart_toStartOf="@id/gagIv"
             app:layout_constraintTop_toTopOf="@id/flowerTv"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/removeGagIv"
@@ -117,7 +117,7 @@
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/gagIv"
             app:layout_constraintTop_toTopOf="@id/flowerIv"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/removeGagTv"
@@ -130,7 +130,98 @@
             app:layout_constraintEnd_toEndOf="@id/removeGagIv"
             app:layout_constraintStart_toStartOf="@id/removeGagIv"
             app:layout_constraintTop_toTopOf="@id/flowerTv"
+            tools:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/upMicIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_up_mic2"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/removeGagIv"
+            app:layout_constraintTop_toTopOf="@id/flowerIv"
             tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/upMicTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上麦"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/upMicIv"
+            app:layout_constraintStart_toStartOf="@id/upMicIv"
+            app:layout_constraintTop_toTopOf="@id/flowerTv"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/downMicIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_down_mic2"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/upMicIv"
+            app:layout_constraintTop_toTopOf="@id/flowerIv"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/downMicTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下麦"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/downMicIv"
+            app:layout_constraintStart_toStartOf="@id/downMicIv"
+            app:layout_constraintTop_toTopOf="@id/flowerTv"
+            tools:visibility="visible" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/applicationListIv"
+            android:layout_width="@dimen/dp_58"
+            android:layout_height="@dimen/dp_42"
+            android:paddingHorizontal="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_application_list"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/downMicIv"
+            app:layout_constraintTop_toTopOf="@id/flowerIv"
+            tools:visibility="visible" />
+
+        <com.hjq.shape.view.ShapeView
+            android:id="@+id/applicationListNum"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/applicationListIv"
+            app:layout_constraintTop_toTopOf="@id/applicationListIv"
+            app:shape_radius="@dimen/dp_4"
+            app:shape_solidColor="@color/color_EB534B"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/applicationListTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请"
+            android:textColor="@color/color_white_90"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/applicationListIv"
+            app:layout_constraintStart_toStartOf="@id/applicationListIv"
+            app:layout_constraintTop_toTopOf="@id/flowerTv"
+            tools:visibility="visible" />
+
+
     </com.hjq.shape.layout.ShapeConstraintLayout>
 
     <Space

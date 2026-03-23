@@ -11,7 +11,8 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.chatui.databinding.DanMaPopularBinding
 import razerdp.basepopup.BasePopupWindow
 
-class DanMaPop(context: Context, val canSendPic: Boolean, val canGag: Boolean, val isGag: Boolean) : BasePopupWindow(context) {
+class DanMaPop(context: Context, val canSendPic: Boolean, val canGag: Boolean, val isGag: Boolean, val canUpMic: Boolean, val canDownMic: Boolean, val haveApplicationList: Boolean, val haveListUnRead: Boolean) :
+    BasePopupWindow(context) {
 
     var clickInvoke: (Int) -> Unit = {}
     private var binding = DanMaPopularBinding.inflate(
@@ -32,6 +33,13 @@ class DanMaPop(context: Context, val canSendPic: Boolean, val canGag: Boolean, v
         binding.gagTv.isGone = !canGag || isGag
         binding.removeGagIv.isGone = !canGag || !isGag
         binding.removeGagTv.isGone = !canGag || !isGag
+        binding.upMicIv.isGone=!canUpMic
+        binding.upMicTv.isGone=!canUpMic
+        binding.downMicIv.isGone=!canDownMic
+        binding.downMicTv.isGone=!canDownMic
+        binding.applicationListIv.isGone=!haveApplicationList
+        binding.applicationListTv.isGone=!haveApplicationList
+        binding.applicationListNum.isGone=!haveApplicationList || !haveListUnRead
         width = ViewGroup.LayoutParams.WRAP_CONTENT
         binding.flowerIv.click {
             clickInvoke.invoke(1)
@@ -71,6 +79,32 @@ class DanMaPop(context: Context, val canSendPic: Boolean, val canGag: Boolean, v
         }
         binding.removeGagTv.click {
             clickInvoke.invoke(5)
+            dismiss()
+        }
+
+
+        binding.upMicIv.click {
+            clickInvoke.invoke(6)
+            dismiss()
+        }
+        binding.upMicTv.click {
+            clickInvoke.invoke(6)
+            dismiss()
+        }
+        binding.downMicIv.click {
+            clickInvoke.invoke(7)
+            dismiss()
+        }
+        binding.downMicTv.click {
+            clickInvoke.invoke(7)
+            dismiss()
+        }
+        binding.applicationListIv.click {
+            clickInvoke.invoke(8)
+            dismiss()
+        }
+        binding.applicationListTv.click {
+            clickInvoke.invoke(8)
             dismiss()
         }
     }

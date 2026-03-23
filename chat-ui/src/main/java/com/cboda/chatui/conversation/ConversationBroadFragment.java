@@ -676,7 +676,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onRtcJoinChannelSuccess() {
-        if(null!=danmakuIv){
+        if (null != danmakuIv) {
             danmakuIv.setVisibility(View.VISIBLE);
         }
         if (null != verticalDanmakuView) {
@@ -698,7 +698,7 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onEngineDestroy(@NotNull CallData data) {
-        if(null!=danmakuIv){
+        if (null != danmakuIv) {
             danmakuIv.setVisibility(View.GONE);
         }
         if (null != verticalDanmakuView) {
@@ -778,7 +778,7 @@ public class ConversationBroadFragment extends Fragment implements
 
                 GroupMember.GroupMemberType type = groupMemberBroad.type;
                 boolean isMan = (type == GroupMember.GroupMemberType.Owner || type == GroupMember.GroupMemberType.Manager);
-                DanMaPop danMaPop = new DanMaPop(activity, isMan, isMan, isGag);
+                DanMaPop danMaPop = new DanMaPop(activity, isMan, isMan, isGag, true, true, true, true);
                 danMaPop.setClickInvoke(integer -> {
                     switch (integer) {
                         case 1, 2:
@@ -1796,9 +1796,9 @@ public class ConversationBroadFragment extends Fragment implements
 //    }
 
     public void pickGroupMemberToVoipChat(boolean isAudioOnly) {
-        if (MeetCallManager.getInstance().isCallingState()){
+        if (MeetCallManager.getInstance().isCallingState()) {
             ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_func_unavailable);
-        }else {
+        } else {
             Intent intent = new Intent(getActivity(), PickGroupMemberBroadActivity.class);
             GroupInfo groupInfo = groupBroadViewModel.getGroupInfo(conversationBroad.target, false);
             intent.putExtra("groupInfo", groupInfo);
