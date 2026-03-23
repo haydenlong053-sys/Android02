@@ -35,6 +35,8 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.bean.ComBottomListBean
+import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.hjq.shape.layout.ShapeLinearLayout
@@ -325,6 +327,17 @@ fun ShapeTextView.setTextGradientColor(
     this.textColorBuilder.intoTextColor()
 }
 
+
+fun ShapeTextView.setBackColorAndStrokeColor(
+    @ColorRes startColor: Int,
+    @ColorRes endColor: Int,
+    @ColorRes strokeColor: Int
+) {
+    this.shapeDrawableBuilder.solidGradientColors = intArrayOf(getAppColor(this.context, startColor), getAppColor(this.context, endColor))
+    this.shapeDrawableBuilder.strokeColor = getAppColor(this.context, strokeColor)
+    this.shapeDrawableBuilder.intoBackground()
+}
+
 fun ShapeEditText.setStrokeColor(@ColorRes strokeColor: Int) {
     this.shapeDrawableBuilder.strokeColor = getAppColor(this.context, strokeColor)
     this.shapeDrawableBuilder.intoBackground()
@@ -378,6 +391,12 @@ fun ShapeRelativeLayout.setBackColor(@ColorRes color: Int) {
 
 fun ShapeLinearLayout.setBackColor(@ColorRes color: Int) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
+    this.shapeDrawableBuilder.intoBackground()
+}
+
+fun ShapeLinearLayout.setBackColorAndStrokeColor(@ColorRes backColor: Int, @ColorRes strokeColor: Int) {
+    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, backColor)
+    this.shapeDrawableBuilder.strokeColor = getAppColor(this.context, strokeColor)
     this.shapeDrawableBuilder.intoBackground()
 }
 
@@ -889,10 +908,14 @@ fun dismissLoadingDialog() {
     }
 }
 
+
 fun TextView.setTxt(res: Int) {
     this.text = this.context.getString(res)
 }
 
+fun TextView.setTxtColor(@ColorRes color: Int) {
+    this.setTextColor(getAppColor(this.context, color))
+}
 
 fun anyToInt(any: Any): Int {
     return try {
@@ -934,16 +957,48 @@ fun showCommonTip(
     block: (Boolean) -> Unit
 ): CommonTipBroadPop {
     val mContext = getAppContext(context)
-    return showCommonStrTip(getAppStr(title, mContext), getAppStr(content, mContext), getAppStr(cancelBtn, mContext), getAppStr(sureBtn, mContext), mContext, block)
+    return showCommonTip(
+        title, content, cancelBtn, sureBtn,
+        R.color.white, R.color.white, R.color.black, R.color.black_65,
+        R.color.color_3B47DDk, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD,
+        R.color.white, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD,
+        mContext, block
+    )
 }
 
+fun showCommonTip(
+    @StringRes title: Int = R.string.wenxintishi,
+    @StringRes content: Int,
+    @StringRes cancelBtn: Int = R.string.bs_quxiao,
+    @StringRes sureBtn: Int = R.string.bs_mine_sure,
+    backColor: Int, strokeColor: Int,
+    titleColor: Int, contentColor: Int, cancelTvColor: Int, sureTvColor: Int,
+    cancelStrokeColor: Int, sureStrokeColor: Int,
+    cancelStartColor: Int, cancelEndColor: Int,
+    sureStartColor: Int, sureEndColor: Int,
+    context: Context? = null,
+    block: (Boolean) -> Unit
+): CommonTipBroadPop {
+    val mContext = getAppContext(context)
+    return showCommonStrTip(
+        getAppStr(title, mContext), getAppStr(content, mContext), getAppStr(cancelBtn, mContext), getAppStr(sureBtn, mContext), mContext,
+        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor, block
+    )
+}
 
-fun showCommonStrTip(title: String, content: String, cancelBtn: String, sureBtn: String, context: Context? = null, block: (Boolean) -> Unit): CommonTipBroadPop {
+fun showCommonStrTip(
+    title: String, content: String, cancelBtn: String, sureBtn: String, context: Context? = null, backColor: Int = R.color.white, strokeColor: Int = R.color.white,
+    titleColor: Int = R.color.black, contentColor: Int = R.color.black_65, cancelTvColor: Int = R.color.color_3B47DDk, sureTvColor: Int = R.color.white,
+    cancelStrokeColor: Int = R.color.color_3B47DD, sureStrokeColor: Int = R.color.color_3B47DD,
+    cancelStartColor: Int = R.color.white, cancelEndColor: Int = R.color.white,
+    sureStartColor: Int = R.color.color_3B47DD, sureEndColor: Int = R.color.color_3B47DD, block: (Boolean) -> Unit
+): CommonTipBroadPop {
     val mContext = getAppContext(context)
     val commonTipPop = CommonTipBroadPop(
         mContext,
         title,
-        content
+        content,
+        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor
     )
     commonTipPop.setCancelBtn(cancelBtn)
     commonTipPop.setSureBtn(sureBtn)
@@ -957,6 +1012,24 @@ fun showCommonStrTip(title: String, content: String, cancelBtn: String, sureBtn:
     return commonTipPop
 }
 
+fun showCommonBottomListPop(
+    list: List<ComBottomListBean>,
+    context: Context? = null,
+    @ColorRes viewColor: Int = R.color.color_F7F8FA,
+    block: (Int, ComBottomListBean) -> Unit
+): CommonBottomListPop {
+    val mContext = getAppContext(context)
+    val commonTipPop = CommonBottomListPop(
+        mContext,
+        list,
+        viewColor
+    )
+    commonTipPop.backInvoke = { pos, bean ->
+        block.invoke(pos, bean)
+    }
+    commonTipPop.showPopupWindow()
+    return commonTipPop
+}
 
 fun showMeetLeaveTip(context: Context? = null, block: () -> Unit = {}) {
     val mContext = getAppContext(context)

@@ -1,11 +1,15 @@
 package com.cboda.chatui.quickmeet
 
 import android.Manifest
+import android.content.Context
 import android.os.Build
 import com.cboda.baselibrary.R
+import com.cboda.baselibrary.bean.ComBottomListBean
+import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.requestPermission
+import com.cboda.baselibrary.utils.showCommonBottomListPop
 import com.cboda.chatui.WfcBaseBroadActivity
 
 
@@ -54,7 +58,7 @@ fun showMeetPreEndTip(time: String?, amount: String?, block: () -> Unit = {}) {
             val commonTipPop = CommonTipBroadPop(
                 mContext,
                 mContext.getString(R.string.wenxintishi),
-                mContext.getString(R.string.chat_meet_pre_end_tip) +"\n"+"${time}分钟(${amount} ODIC)"
+                mContext.getString(R.string.chat_meet_pre_end_tip) + "\n" + "${time}分钟(${amount} ODIC)"
             )
             commonTipPop.setCancelBtn(mContext.getString(R.string.chat_meet_time_tip_cancel))
             commonTipPop.setSureBtn(mContext.getString(R.string.chat_meet_time_tip_ok))
@@ -67,4 +71,18 @@ fun showMeetPreEndTip(time: String?, amount: String?, block: () -> Unit = {}) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+//下麦弹窗
+fun showDownMicDialog(context: Context? = null, block: (Int, ComBottomListBean) -> Unit): CommonBottomListPop {
+    val list = arrayListOf<ComBottomListBean>()
+    list.add(ComBottomListBean().apply {
+        iconRes = com.cboda.chatui.R.mipmap.icon_down_mic
+        itemContent = "下麦"
+    })
+    list.add(ComBottomListBean().apply {
+        iconRes = com.cboda.chatui.R.mipmap.icon_mute
+        itemContent = "静音"
+    })
+    return showCommonBottomListPop(list, context, block = block)
 }

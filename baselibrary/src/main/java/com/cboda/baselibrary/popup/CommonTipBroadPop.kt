@@ -6,11 +6,22 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isGone
+import com.cboda.baselibrary.R
 import com.cboda.baselibrary.databinding.CommonTipBroadPopBinding
+import com.cboda.baselibrary.utils.setBackColor
+import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
+import com.cboda.baselibrary.utils.setTxt
+import com.cboda.baselibrary.utils.setTxtColor
 import razerdp.basepopup.BasePopupWindow
 
 //简单基础提示pop
-class CommonTipBroadPop(val context: Context, val title: String = "", val des: String = "") :
+class CommonTipBroadPop(
+    val context: Context, val title: String = "", val des: String = "", val backColor: Int = R.color.white, val strokeColor: Int = R.color.white,
+    val titleColor: Int = R.color.black, val contentColor: Int = R.color.black_65, val cancelTvColor: Int = R.color.color_3B47DDk, val sureTvColor: Int = R.color.white,
+    val cancelStrokeColor: Int = R.color.color_3B47DD, val sureStrokeColor: Int = R.color.color_3B47DD,
+    val cancelStartColor: Int = R.color.white, val cancelEndColor: Int = R.color.white,
+    val sureStartColor: Int = R.color.color_3B47DD, val sureEndColor: Int = R.color.color_3B47DD
+) :
     BasePopupWindow(context) {
     //    private val scope = MainScope() // 创建主线程的协程作用域
 //    private var viewModel: TransferViewBroadModel? = null
@@ -57,6 +68,13 @@ class CommonTipBroadPop(val context: Context, val title: String = "", val des: S
     private fun initData() {
         binding.mTvTitle.text = title
         binding.mTvDes.text = des
+        binding.mLlSaveView.setBackColorAndStrokeColor(backColor, strokeColor)
+        binding.mTvTitle.setTxtColor(titleColor)
+        binding.mTvDes.setTxtColor(contentColor)
+        binding.mTvCancel.setBackColorAndStrokeColor(cancelStartColor, cancelEndColor, cancelStrokeColor)
+        binding.mTvCancel.setTxtColor(cancelTvColor)
+        binding.mTvSure.setBackColorAndStrokeColor(sureStartColor, sureEndColor, sureStrokeColor)
+        binding.mTvSure.setTxtColor(sureTvColor)
 //        if (context is AppCompatActivity) {
 //            val activity = context
 //            viewModel =

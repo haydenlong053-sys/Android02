@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showCommonTip;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 
 import android.content.Intent;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -152,22 +154,13 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
 
     //0是转账，1是提现
     private void showGuideTip() {
-        CommonTipBroadPop commonTipPop = new CommonTipBroadPop(
-                this,
-                getString(R.string.mine_tip_other_title),
-                getString(R.string.mine_tip_other_des)
-        );
-        commonTipPop.setCancelBtn(getString(R.string.mine_tip_wait));
-        commonTipPop.setSureBtn(getString(R.string.mine_ok));
-        commonTipPop.setSureInvoke(new Function0<Unit>() {
-            @Override
-            public Unit invoke() {
+        showCommonTip(R.string.mine_tip_other_title, R.string.mine_tip_other_des, R.string.mine_tip_wait, R.string.mine_ok, this, aBoolean -> {
+            if (aBoolean) {
                 Intent intent = new Intent(getBaseContext(), SafeCenterBroadActivity.class);
                 startActivity(intent);
-                return null;
             }
+            return null;
         });
-        commonTipPop.showPopupWindow();
     }
 
     /**

@@ -29,7 +29,7 @@ class AddTransAddressPop(val context: Context) : BaseBottomBroadPop(context) {
 
     @JvmField
     var backInvoke: (String) -> Unit = {}
-    private var binding: AddTransAddressPopBinding = AddTransAddressPopBinding.inflate(
+    private val binding: AddTransAddressPopBinding = AddTransAddressPopBinding.inflate(
         LayoutInflater.from(context)
     )
 

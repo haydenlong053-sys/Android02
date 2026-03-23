@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.clipViewOutlineRound;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showCommonTip;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
@@ -130,7 +131,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     public final static int EDIT_PROFESSION = 10003;
     public final static int EDIT_INTEREST = 10004;
     public final static int EDIT_ADDRESS = 10005;
-    private OpenBeautifulNumbPop openBeautifulNumbPop=null;
+    private OpenBeautifulNumbPop openBeautifulNumbPop = null;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -140,8 +141,8 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         setRootBgColor(com.cboda.baselibrary.R.color.white);
 //        ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
-        clipViewOutlineRound(mBinding.mViewPremiumNumber,20);
-        if (HttpsBroadConfig.INSTANCE.isReviewEnv()){
+        clipViewOutlineRound(mBinding.mViewPremiumNumber, 20);
+        if (HttpsBroadConfig.INSTANCE.isReviewEnv()) {
             mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
         }
         userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
@@ -235,7 +236,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         mBinding.mTvBindPremiumNumber.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
-                if (openBeautifulNumbPop == null){
+                if (openBeautifulNumbPop == null) {
                     openBeautifulNumbPop = new OpenBeautifulNumbPop(UserInfoBroadActivity.this, new Function1<String, Unit>() {
                         @Override
                         public Unit invoke(String s) {
@@ -287,11 +288,11 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
-                if (openBeautifulNumbPop != null && openBeautifulNumbPop.isShowing()){
+                if (openBeautifulNumbPop != null && openBeautifulNumbPop.isShowing()) {
                     openBeautifulNumbPop.dismiss();
                 }
-                if (bean!=null &&bean.data!=null && resultBean!=null && resultBean.data!=null){
-                    bean.data.isLiang ="1";
+                if (bean != null && bean.data != null && resultBean != null && resultBean.data != null) {
+                    bean.data.isLiang = "1";
                     bean.data.lianghao = resultBean.data.prettyNumber;
                     showBeautifulId();
                 }
@@ -308,7 +309,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId() == R.id.iv_user_avatar && bean!=null && bean.data!=null) {
+        if (view.getId() == R.id.iv_user_avatar && bean != null && bean.data != null) {
             String[] perms = {
                     Permission.READ_MEDIA_IMAGES,
                     Permission.CAMERA};
@@ -340,12 +341,12 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                         }).show();
             }
         }
-        if (view.getId() == R.id.tv_user_name && bean!=null && bean.data!=null) {
+        if (view.getId() == R.id.tv_user_name && bean != null && bean.data != null) {
             intent = new Intent(this, NickNameBroadActivity.class);
             intent.putExtra("name", mBinding.tvUserName.getText().toString());
             startActivityForResult(intent, 111);
         }
-        if (view.getId() == R.id.llSex && bean!=null && bean.data!=null &&oldBean!=null &&oldBean.data!=null) {
+        if (view.getId() == R.id.llSex && bean != null && bean.data != null && oldBean != null && oldBean.data != null) {
             new SexDialogBroadFra().setShaixuanClick(bean.data.sex, new SexDialogBroadFra.OnShaixuanClick() {
                 @Override
                 public void onShaixuanClick(String sex) {
@@ -368,10 +369,10 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                 }
             }).show(getSupportFragmentManager(), "");
         }
-        if (view.getId() == R.id.llErweima&& bean!=null && bean.data!=null) {
+        if (view.getId() == R.id.llErweima && bean != null && bean.data != null) {
             new UserEwmBroadDialog(this, bean.data.qrcode, bean.data.icon, bean.data.name, bean.data.idno).show();
         }
-        if (view.getId() == R.id.llQianming && bean!=null && bean.data!=null) {
+        if (view.getId() == R.id.llQianming && bean != null && bean.data != null) {
             intent = new Intent(this, QianMingBroadActivity.class);
             intent.putExtra("sign", mBinding.tvQianming.getText().toString());
             startActivityForResult(intent, 444);
@@ -403,7 +404,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
      * 修改资料
      */
     private void editUserinfo() {
-        if (bean!=null && bean.data!=null){
+        if (bean != null && bean.data != null) {
             Map<String, Object> param = new HashMap<>();
             param.put("icon", bean.data.icon);
             param.put("name", bean.data.name);
@@ -450,7 +451,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                     uploadFiles(photoLists);
                 }
             }
-        } else if (requestCode == 111 && resultCode == 111 &&bean!=null && bean.data!=null) {
+        } else if (requestCode == 111 && resultCode == 111 && bean != null && bean.data != null) {
             bean.data.name = data.getStringExtra("name");
             boolean isChange = false;
             if (oldBean.data.name == null || oldBean.data.name.isEmpty()) {
@@ -462,7 +463,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             }
             showSaveButtonUI(isChange);
             setInfo();
-        } else if (requestCode == 444 && resultCode == 444 &&bean!=null && bean.data!=null) {
+        } else if (requestCode == 444 && resultCode == 444 && bean != null && bean.data != null) {
             bean.data.sign = data.getStringExtra("name");
             boolean isChange = false;
             if (oldBean.data.sign == null || oldBean.data.sign.isEmpty()) {
@@ -474,7 +475,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             }
             showSaveButtonUI(isChange);
             setInfo();
-        } else if (requestCode == EDIT_PROFESSION && resultCode == EDIT_PROFESSION &&bean!=null && bean.data!=null) {
+        } else if (requestCode == EDIT_PROFESSION && resultCode == EDIT_PROFESSION && bean != null && bean.data != null) {
             bean.data.profession = data.getStringExtra("profession");
 
             boolean isChange = false;
@@ -488,7 +489,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             showSaveButtonUI(isChange);
 
             setInfo();
-        } else if (requestCode == EDIT_ADDRESS && resultCode == EDIT_ADDRESS && bean!=null && bean.data!=null) {
+        } else if (requestCode == EDIT_ADDRESS && resultCode == EDIT_ADDRESS && bean != null && bean.data != null) {
             bean.data.city = data.getStringExtra("address");
 
             boolean isChange = false;
@@ -502,7 +503,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             showSaveButtonUI(isChange);
 
             setInfo();
-        } else if (requestCode == EDIT_INTEREST && resultCode == EDIT_INTEREST && bean!=null && bean.data!=null) {
+        } else if (requestCode == EDIT_INTEREST && resultCode == EDIT_INTEREST && bean != null && bean.data != null) {
             ArrayList<String> interest = data.getStringArrayListExtra("interest");
             bean.data.memberInterestList = interest;
             boolean isChange = false;
@@ -700,7 +701,6 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 //            }
 //        });
 //    }
-
     @SuppressLint("SetTextI18n")
     private void setInfo() {
         GlideBroadUtil.setHeadImag(UserInfoBroadActivity.this, bean.data.icon, mBinding.ivUserAvatar);
@@ -723,27 +723,27 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 
     //展示是否为靓号
     private void showBeautifulId() {
-        if (bean !=null && bean.data!=null && TextUtils.equals(bean.data.isLiang,"1")){
+        if (bean != null && bean.data != null && TextUtils.equals(bean.data.isLiang, "1")) {
             //靓号
             mBinding.tvAccountId.setVisibility(View.GONE);
             mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
             mBinding.mViewPremiumNumber.setVisibility(View.VISIBLE);
-            mBinding.mTvPremiumNumber.setText("ID:"+bean.data.lianghao);
-            if (!mBinding.mViewAnimateNumb.isAnimating()){
+            mBinding.mTvPremiumNumber.setText("ID:" + bean.data.lianghao);
+            if (!mBinding.mViewAnimateNumb.isAnimating()) {
                 mBinding.mViewAnimateNumb.playAnimation();
             }
 
 
-        }else {
+        } else {
             //非靓号
             mBinding.tvAccountId.setVisibility(View.VISIBLE);
-            if (HttpsBroadConfig.INSTANCE.isReviewEnv()){
+            if (HttpsBroadConfig.INSTANCE.isReviewEnv()) {
                 mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
-            }else {
+            } else {
                 mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);
             }
             mBinding.mViewPremiumNumber.setVisibility(View.GONE);
-            if (mBinding.mViewAnimateNumb.isAnimating()){
+            if (mBinding.mViewAnimateNumb.isAnimating()) {
                 mBinding.mViewAnimateNumb.pauseAnimation();
             }
         }
@@ -769,28 +769,14 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     }
 
     private void showGuideTip() {
-        CommonTipBroadPop commonTipPop = new CommonTipBroadPop(
-                this,
-                getString(R.string.your_personal_info_changed),
-                getString(R.string.update_and_save_confirm)
-        );
-        commonTipPop.setCancelBtn(getString(R.string.cancel));
-        commonTipPop.setSureBtn(getString(R.string.action_save));
-        commonTipPop.setSureInvoke(new Function0<Unit>() {
-            @Override
-            public Unit invoke() {
+        showCommonTip(R.string.your_personal_info_changed, R.string.update_and_save_confirm, R.string.cancel, R.string.action_save, this, aBoolean -> {
+            if (aBoolean) {
                 editUserinfo();
-                return null;
-            }
-        });
-        commonTipPop.setCancelInvoke(new Function0<Unit>() {
-            @Override
-            public Unit invoke() {
+            } else {
                 finish();
-                return null;
             }
+            return null;
         });
-        commonTipPop.showPopupWindow();
     }
 
     @Override
@@ -801,7 +787,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     protected void onResume() {
         super.onResume();
-        if (mBinding.mViewPremiumNumber.getVisibility() ==View.VISIBLE && !mBinding.mViewAnimateNumb.isAnimating()){
+        if (mBinding.mViewPremiumNumber.getVisibility() == View.VISIBLE && !mBinding.mViewAnimateNumb.isAnimating()) {
             mBinding.mViewAnimateNumb.playAnimation();
         }
     }
@@ -809,7 +795,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     protected void onPause() {
         super.onPause();
-        if (mBinding.mViewAnimateNumb.isAnimating()){
+        if (mBinding.mViewAnimateNumb.isAnimating()) {
             mBinding.mViewAnimateNumb.pauseAnimation();
         }
     }
