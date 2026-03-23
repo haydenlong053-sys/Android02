@@ -51,4 +51,26 @@
     <!-- New meeting status messages -->
     <string name="msg_meeting_func_unavailable">This feature is temporarily unavailable during a meeting.</string>
     <string name="msg_meeting_in_progress">A meeting is currently in progress.</string>
+
+    <string name="msg_meeting_active_count">%1$s people in meeting…</string>
+    <string name="msg_meeting_join">Join meeting</string>
+    <string name="msg_meeting_main_mic">Host mic</string>
+    <string name="msg_meeting_sub_mic">Co-host mic</string>
+    <string name="msg_meeting_guest_1">Guest 1</string>
+    <string name="msg_meeting_guest_2">Guest 2</string>
+    <string name="msg_meeting_close_mic">Mute mic</string>
+    <string name="msg_meeting_open_mic">Unmute mic</string>
+    <string name="msg_meeting_end">End meeting</string>
+    <string name="msg_meeting_exit">Leave meeting</string>
+    <string name="msg_meeting_on_mic">Take mic</string>
+    <string name="msg_meeting_apply">Apply</string>
+    <string name="msg_meeting_apply_mic">Request to speak</string>
+    <string name="msg_meeting_mic_full">All mic slots are full. No more speakers can join.</string>
+    <string name="msg_meeting_apply_pending">Request sent. Waiting for host approval.</string>
+    <string name="msg_meeting_apply_list">Requests</string>
+    <string name="msg_meeting_admin">Admin</string>
+    <string name="msg_meeting_agree">Approve</string>
+    <string name="msg_meeting_off_mic">Leave mic</string>
+    <string name="msg_meeting_mute">Mute</string>
+    <string name="msg_meeting_off_mic_done">Left mic</string>
 </resources>

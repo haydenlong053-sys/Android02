@@ -51,27 +51,27 @@
     <string name="msg_meeting_func_unavailable">This feature is temporarily unavailable during a meeting.</string>
     <string name="msg_meeting_in_progress">A meeting is currently in progress.</string>
 
-    <string name="msg_meeting_active_count">%1$s人 正在会议中…</string>
-    <string name="msg_meeting_join">加入会议</string>
-    <string name="msg_meeting_main_mic">主麦</string>
-    <string name="msg_meeting_sub_mic">副麦</string>
-    <string name="msg_meeting_guest_1">嘉宾1</string>
-    <string name="msg_meeting_guest_2">嘉宾2</string>
-    <string name="msg_meeting_close_mic">关麦</string>
-    <string name="msg_meeting_open_mic">开麦</string>
-    <string name="msg_meeting_end">结束会议</string>
-    <string name="msg_meeting_exit">退出会议</string>
-    <string name="msg_meeting_on_mic">上麦</string>
-    <string name="msg_meeting_apply">申请</string>
-    <string name="msg_meeting_apply_mic">申请上麦</string>
-    <string name="msg_meeting_mic_full">当前麦位已满，不可新加上麦</string>
-    <string name="msg_meeting_apply_pending">已申请上麦，等待主讲人批准</string>
-    <string name="msg_meeting_apply_list">申请列表</string>
-    <string name="msg_meeting_admin">管理员</string>
-    <string name="msg_meeting_agree">同意</string>
-    <string name="msg_meeting_off_mic">下麦</string>
-    <string name="msg_meeting_mute">静音</string>
-    <string name="msg_meeting_off_mic_done">已下麦</string>
+    <string name="msg_meeting_active_count">%1$s people in meeting…</string>
+    <string name="msg_meeting_join">Join meeting</string>
+    <string name="msg_meeting_main_mic">Host mic</string>
+    <string name="msg_meeting_sub_mic">Co-host mic</string>
+    <string name="msg_meeting_guest_1">Guest 1</string>
+    <string name="msg_meeting_guest_2">Guest 2</string>
+    <string name="msg_meeting_close_mic">Mute mic</string>
+    <string name="msg_meeting_open_mic">Unmute mic</string>
+    <string name="msg_meeting_end">End meeting</string>
+    <string name="msg_meeting_exit">Leave meeting</string>
+    <string name="msg_meeting_on_mic">Take mic</string>
+    <string name="msg_meeting_apply">Apply</string>
+    <string name="msg_meeting_apply_mic">Request to speak</string>
+    <string name="msg_meeting_mic_full">All mic slots are full. No more speakers can join.</string>
+    <string name="msg_meeting_apply_pending">Request sent. Waiting for host approval.</string>
+    <string name="msg_meeting_apply_list">Requests</string>
+    <string name="msg_meeting_admin">Admin</string>
+    <string name="msg_meeting_agree">Approve</string>
+    <string name="msg_meeting_off_mic">Leave mic</string>
+    <string name="msg_meeting_mute">Mute</string>
+    <string name="msg_meeting_off_mic_done">Left mic</string>
 
 
 </resources>

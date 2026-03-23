@@ -51,4 +51,26 @@
     <!-- 新會議狀態提示 -->
     <string name="msg_meeting_func_unavailable">會議中，該功能暫不可使用</string>
     <string name="msg_meeting_in_progress">當前有會議正在進行中</string>
+
+    <string name="msg_meeting_active_count">%1$s 人正在會議中…</string>
+    <string name="msg_meeting_join">加入會議</string>
+    <string name="msg_meeting_main_mic">主麥</string>
+    <string name="msg_meeting_sub_mic">副麥</string>
+    <string name="msg_meeting_guest_1">嘉賓1</string>
+    <string name="msg_meeting_guest_2">嘉賓2</string>
+    <string name="msg_meeting_close_mic">關麥</string>
+    <string name="msg_meeting_open_mic">開麥</string>
+    <string name="msg_meeting_end">結束會議</string>
+    <string name="msg_meeting_exit">退出會議</string>
+    <string name="msg_meeting_on_mic">上麥</string>
+    <string name="msg_meeting_apply">申請</string>
+    <string name="msg_meeting_apply_mic">申請上麥</string>
+    <string name="msg_meeting_mic_full">目前麥位已滿，無法新增上麥</string>
+    <string name="msg_meeting_apply_pending">已申請上麥，等待主講人核准</string>
+    <string name="msg_meeting_apply_list">申請列表</string>
+    <string name="msg_meeting_admin">管理員</string>
+    <string name="msg_meeting_agree">同意</string>
+    <string name="msg_meeting_off_mic">下麥</string>
+    <string name="msg_meeting_mute">靜音</string>
+    <string name="msg_meeting_off_mic_done">已下麥</string>
 </resources>

@@ -7,6 +7,7 @@ import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
+import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.requestPermission
 import com.cboda.baselibrary.utils.showCommonBottomListPop
@@ -78,11 +79,11 @@ fun showDownMicDialog(context: Context? = null, block: (Int, ComBottomListBean) 
     val list = arrayListOf<ComBottomListBean>()
     list.add(ComBottomListBean().apply {
         iconRes = com.cboda.chatui.R.mipmap.icon_down_mic
-        itemContent = "下麦"
+        itemContent = getAppStr(R.string.msg_meeting_off_mic, context)
     })
     list.add(ComBottomListBean().apply {
         iconRes = com.cboda.chatui.R.mipmap.icon_mute
-        itemContent = "静音"
+        itemContent = getAppStr(R.string.msg_meeting_mute, context)
     })
     return showCommonBottomListPop(list, context, block = block)
 }
