@@ -50,4 +50,8 @@
     <!-- New meeting status messages -->
     <string name="msg_meeting_func_unavailable">This feature is temporarily unavailable during a meeting.</string>
     <string name="msg_meeting_in_progress">A meeting is currently in progress.</string>
+
+
+    <string name="security_verification">安全验证</string>
+
 </resources>

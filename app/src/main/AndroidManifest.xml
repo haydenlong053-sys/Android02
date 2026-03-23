@@ -154,6 +154,9 @@
             android:name="com.cboda.intelligent.activity.VerifyPayPasswordBroadActivity"
             android:exported="false" />
         <activity
+            android:name="com.cboda.intelligent.activity.LoginVerificationActivity"
+            android:exported="false" />
+        <activity
             android:name="com.cboda.intelligent.activity.TestActivity"
             android:exported="false" />
         <activity
