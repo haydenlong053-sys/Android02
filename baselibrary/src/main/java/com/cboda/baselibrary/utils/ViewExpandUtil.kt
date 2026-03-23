@@ -35,6 +35,8 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.bean.ComBottomListBean
+import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.hjq.shape.layout.ShapeLinearLayout
@@ -906,6 +908,7 @@ fun dismissLoadingDialog() {
     }
 }
 
+
 fun TextView.setTxt(res: Int) {
     this.text = this.context.getString(res)
 }
@@ -975,26 +978,6 @@ fun showCommonTip(
     )
 }
 
-
-//fun showCommonStrTip(title: String, content: String, cancelBtn: String, sureBtn: String, context: Context? = null, block: (Boolean) -> Unit): CommonTipBroadPop {
-//    val mContext = getAppContext(context)
-//    val commonTipPop = CommonTipBroadPop(
-//        mContext,
-//        title,
-//        content
-//    )
-//    commonTipPop.setCancelBtn(cancelBtn)
-//    commonTipPop.setSureBtn(sureBtn)
-//    commonTipPop.sureInvoke = {
-//        block.invoke(true)
-//    }
-//    commonTipPop.cancelInvoke = {
-//        block.invoke(false)
-//    }
-//    commonTipPop.showPopupWindow()
-//    return showCommonStrTip(title,content,cancelBtn,sureBtn,context)
-//}
-
 fun showCommonStrTip(
     title: String, content: String, cancelBtn: String, sureBtn: String, context: Context? = null, backColor: Int = R.color.white, strokeColor: Int = R.color.white,
     titleColor: Int = R.color.black, contentColor: Int = R.color.black_65, cancelTvColor: Int = R.color.color_3B47DDk, sureTvColor: Int = R.color.white,
@@ -1021,6 +1004,24 @@ fun showCommonStrTip(
     return commonTipPop
 }
 
+fun showCommonBottomListPop(
+    list: List<ComBottomListBean>,
+    context: Context? = null,
+    @ColorRes viewColor: Int = R.color.color_F7F8FA,
+    block: (Int, ComBottomListBean) -> Unit
+): CommonBottomListPop {
+    val mContext = getAppContext(context)
+    val commonTipPop = CommonBottomListPop(
+        mContext,
+        list,
+        viewColor
+    )
+    commonTipPop.backInvoke = { pos, bean ->
+        block.invoke(pos, bean)
+    }
+    commonTipPop.showPopupWindow()
+    return commonTipPop
+}
 
 fun showMeetLeaveTip(context: Context? = null, block: () -> Unit = {}) {
     val mContext = getAppContext(context)

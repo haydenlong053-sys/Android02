@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mViewTopBg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/black_FF4D4F">
+
+
+    <com.hjq.shape.layout.ShapeRecyclerView
+        android:id="@+id/commonBottomListPopListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_solidColor="@color/white"
+        app:shape_topLeftRadius="@dimen/dp_18"
+        app:shape_topRightRadius="@dimen/dp_18" />
+
+    <View
+        android:id="@+id/commonBottomView1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_12"
+        app:layout_constraintTop_toBottomOf="@id/commonBottomListPopListView"
+        tools:background="@color/color_F7F8FA" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/commonBottomCancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="@string/ps_cancel"
+        android:textColor="@color/black_90"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/commonBottomView1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_32"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/commonBottomCancel" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.getIsDebug
+import com.cboda.baselibrary.utils.showCommonBottomListPop
 import com.cboda.baselibrary.utils.showCommonStrTip
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
@@ -51,6 +53,20 @@ class SelectLoginBroadFragment : BaseBroadFragment<SelectLoginBroadFragmentBindi
             val bundle = Bundle()
             bundle.putInt("jumpSource", ScanJumpBroadEnum.Login.sourceType)
             viewModel.startAct<ScanBroadActivity>(bundle)
+
+//            val list = arrayListOf<ComBottomListBean>()
+//
+//            list.add(ComBottomListBean().apply {
+//                iconRes = R.mipmap.ic_broad_head
+//                itemContent = "测试数据1"
+//            })
+//            list.add(ComBottomListBean().apply {
+//                iconRes = R.mipmap.ic_broad_head
+//                itemContent = "测试数据2"
+//            })
+//            showCommonBottomListPop(list, activity, R.color.transparent) { _, _ -> }
+
+
 //            showCommonStrTip(
 //                "新设备登录", "需在旧设备获取设备验证码", "取消", "好的", activity, R.color.color_3B47DD_20, R.color.color_3B47DD, R.color.white, R.color.color_A5A5A5, R.color.white, R.color.color_A5A5A5,
 //                R.color.color_3B47DD, R.color.color_3B47DD, R.color.transparent, R.color.transparent, R.color.black_FF4D4F, R.color.colorAccent
