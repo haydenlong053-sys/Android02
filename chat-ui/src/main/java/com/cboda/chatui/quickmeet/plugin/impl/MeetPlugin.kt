@@ -33,6 +33,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
+import com.cboda.chatui.quickmeet.bean.SeatNumb
 import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
@@ -48,6 +49,7 @@ import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import kotlin.let
 
 /**
  * 会议最小化显示界面
@@ -94,6 +96,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var mTvCloseMic: TextView? = null
     private var mViewRootMeetMain: View? = null
     private var mViewRootMeetFour: View? = null
+    private var mViewUiLine: View? = null
     private var mTvUserName: TextView? = null
 
     // 用于“点击悬浮窗外收起四座位”的全屏透明遮罩
@@ -191,6 +194,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         mIvIconMic = mView?.findViewById(R.id.mIvIconMic)
         mTvCloseMic = mView?.findViewById(R.id.mTvCloseMic)
         mTvUserName = mView?.findViewById(R.id.mTvUserName)
+        mViewUiLine = mView?.findViewById(R.id.mViewUiLine)
 
         seatMainMicIv?.isSelected = false
         seatSubMicIv?.isSelected = false
@@ -276,8 +280,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
-//        switchSeatUI()
-        MeetSeatApplyPop(activity).showPopupWindow()
+        switchSeatUI()
+//        MeetSeatApplyPop(activity).showPopupWindow()
 
     }
 
@@ -327,11 +331,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
                     if (muteLocalAudio == 0) {
                         mivView.isSelected = !mivView.isSelected
-                        seatMainMicIv?.isSelected =!seatMainMicIv!!.isSelected
-                        if (mivView.isSelected){
+                        goSeatMicStateChange(SeatNumb.MIC_MAIN.ordinal)
+                        if (mivView.isSelected) {
                             //已禁麦
                             mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
-                        }else{
+                        } else {
                             mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
 
                         }
@@ -341,7 +345,19 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
         }
 //        showOrHideCover()
+        showMicBtnUI()
     }
+
+    private fun showMicBtnUI() {
+        if (MeetCallManager.getInstance().isCallDirect()){
+            mTvCloseMic?.isVisible =true
+            mViewUiLine?.isVisible =true
+        }else{
+            mTvCloseMic?.isVisible =false
+            mViewUiLine?.isVisible =false
+        }
+    }
+
 
     /**
      * 当 `mViewRootMeetFour` 处于展开状态时，点击悬浮窗外部收起四座位。
@@ -420,11 +436,77 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     //会议发起人的信息
                     coverAvatarIv?.loadImg(ownerUser.icon)
                     mTvUserName?.text = ownerUser.name
-                    seatMainAvatarIv?.loadImg(ownerUser.icon)
-                    seatMainNameTv?.text = ownerUser.name
+
+                    showSeatAvatarNameUI(SeatNumb.MIC_MAIN.ordinal, ownerUser.icon, ownerUser.name)
+//                    showSeatMicUI(0, true)
+
                 }
             }
         }
+    }
+
+    //麦位上的麦克风状态变更---取反
+    private fun goSeatMicStateChange(index: Int) {
+        if (index == SeatNumb.MIC_MAIN.ordinal) {
+            seatMainMicIv?.isSelected = !seatMainMicIv!!.isSelected
+        } else if (index == SeatNumb.MIC_SUB.ordinal) {
+            seatSubMicIv?.isSelected = !seatSubMicIv!!.isSelected
+        } else if (index == SeatNumb.MIC_GUEST_ONE.ordinal) {
+            seatGuestOneMicIv?.isSelected = !seatGuestOneMicIv!!.isSelected
+        } else if (index == SeatNumb.MIC_GUEST_TWO.ordinal) {
+            seatGuestTwoMicIv?.isSelected = !seatGuestTwoMicIv!!.isSelected
+        }
+    }
+
+    //麦位上的用户信息展示
+    private fun showSeatAvatarNameUI(index: Int, icon: String?, name: String?) {
+        if (index == SeatNumb.MIC_MAIN.ordinal) {
+            //2个值都等于null即表示麦位无人
+            if (icon == null && name == null) {
+                seatMainAvatarIv?.setImageResource(R.drawable.meet_mic_site_bg)
+                seatMainNameTv?.text = ""
+                seatMainMicIv?.isVisible = false
+            } else {
+                seatMainAvatarIv?.loadImg(icon)
+                seatMainNameTv?.text = name
+                seatMainMicIv?.isVisible = true
+            }
+
+        } else if (index == SeatNumb.MIC_SUB.ordinal) {
+            if (icon == null && name == null) {
+                seatSubAvatarIv?.setImageResource(R.drawable.meet_mic_site_bg)
+                seatSubNameTv?.text = ""
+                seatSubMicIv?.isVisible = false
+            } else {
+                seatSubAvatarIv?.loadImg(icon)
+                seatSubNameTv?.text = name
+                seatSubMicIv?.isVisible = true
+            }
+
+        } else if (index == SeatNumb.MIC_GUEST_ONE.ordinal) {
+            if (icon == null && name == null) {
+                seatGuestOneAvatarIv?.setImageResource(R.drawable.meet_mic_site_bg)
+                seatGuestOneNameTv?.text = ""
+                seatGuestOneMicIv?.isVisible = false
+            } else {
+                seatSubAvatarIv?.loadImg(icon)
+                seatSubNameTv?.text = name
+                seatSubMicIv?.isVisible = true
+            }
+
+        } else if (index == SeatNumb.MIC_GUEST_TWO.ordinal) {
+            if (icon == null && name == null) {
+                seatGuestTwoAvatarIv?.setImageResource(R.drawable.meet_mic_site_bg)
+                seatGuestTwoNameTv?.text = ""
+                seatGuestTwoMicIv?.isVisible = false
+            } else {
+                seatGuestTwoAvatarIv?.loadImg(icon)
+                seatGuestTwoNameTv?.text = name
+                seatGuestTwoMicIv?.isVisible = true
+            }
+
+        }
+
     }
 
     override fun onEngineSetup() {
@@ -532,6 +614,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
     }
 
+    //首次进入会议频道后
     private fun queryGroupInfo() {
         activity.lifecycleScope.launch {
             val channelId = MeetCallManager.getInstance().mCallData.channelId
