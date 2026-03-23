@@ -99,6 +99,7 @@ import com.cboda.chatui.group.PickGroupMemberBroadActivity;
 import com.cboda.chatui.quickmeet.CallEventCallback;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.CallData;
+import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import com.cboda.chatui.user.UserViewBroadModel;
@@ -828,12 +829,15 @@ public class ConversationBroadFragment extends Fragment implements
                             break;
                         case 7:
                             eLogD(TAG, "上麦");
+                            groupBroadViewModel.goMeetUpMicApply(conversationBroad.target);
                             break;
                         case 8:
                             eLogD(TAG, "下麦");
                             break;
                         case 9:
                             eLogD(TAG, "申请列表");
+                            new MeetSeatApplyPop(requireContext()).showPopupWindow();
+
                             break;
                     }
                     return null;

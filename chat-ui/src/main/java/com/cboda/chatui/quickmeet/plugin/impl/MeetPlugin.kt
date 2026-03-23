@@ -34,10 +34,10 @@ import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.bean.SeatNumb
-import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.chatui.quickmeet.plugin.PluginLayout
+import com.cboda.chatui.quickmeet.showDownMicDialog
 import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
@@ -281,7 +281,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onItemClick(e: MotionEvent) {
         super.onItemClick(e)
         switchSeatUI()
-//        MeetSeatApplyPop(activity).showPopupWindow()
 
     }
 
@@ -344,17 +343,42 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
 
         }
+
+        seatSubContainer?.click {
+            if (seatSubMicIv?.isVisible == true) {
+                showDownMicDialog(activity){i, bean ->
+
+                }
+            }
+
+        }
+        seatGuestOneContainer?.click {
+            if (seatGuestOneMicIv?.isVisible == true) {
+                showDownMicDialog(activity){i, bean ->
+
+                }
+            }
+
+        }
+        seatGuestTwoContainer?.click {
+            if (seatGuestTwoMicIv?.isVisible == true) {
+                showDownMicDialog(activity){i, bean ->
+
+                }
+            }
+
+        }
 //        showOrHideCover()
         showMicBtnUI()
     }
 
     private fun showMicBtnUI() {
-        if (MeetCallManager.getInstance().isCallDirect()){
-            mTvCloseMic?.isVisible =true
-            mViewUiLine?.isVisible =true
-        }else{
-            mTvCloseMic?.isVisible =false
-            mViewUiLine?.isVisible =false
+        if (MeetCallManager.getInstance().isCallDirect()) {
+            mTvCloseMic?.isVisible = true
+            mViewUiLine?.isVisible = true
+        } else {
+            mTvCloseMic?.isVisible = false
+            mViewUiLine?.isVisible = false
         }
     }
 

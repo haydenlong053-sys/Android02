@@ -140,4 +140,10 @@ public interface MessageContentBroadType {
 //    结束: 4020
     int MESSAGE_CONTENT_TYPE_MEET_START = 4010;
     int MESSAGE_CONTENT_TYPE_MEET_END = 4020;
+    //上麦申请消息
+    int MESSAGE_CONTENT_TYPE_MEET_UP_MIC_APPLY = 6012;
+    //上麦同意消息
+    int MESSAGE_CONTENT_TYPE_MEET_UP_MIC_AGREE = 6013;
+    //下麦消息
+    int MESSAGE_CONTENT_TYPE_MEET_DOWN_MIC = 6014;
 }
