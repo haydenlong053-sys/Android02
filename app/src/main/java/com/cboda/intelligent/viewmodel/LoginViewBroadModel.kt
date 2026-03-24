@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
+import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -18,6 +19,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.utils.SpotsCallBroadBack
@@ -34,11 +36,39 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Response
 import java.lang.Exception
+import kotlin.jvm.java
 
 class LoginViewBroadModel : BaseViewBroadModel() {
 
 
-    fun updatePassword(account: String, pwd: String, secondPwd: String):SingleLiveBroadData<Boolean> {
+    fun getScanLoginDetail(linkId: String): SingleLiveBroadData<LoginBean?> {
+        val params = hashMapOf("idno" to linkId, "eqno" to getAndroidId())
+        val liveData = SingleLiveBroadData<LoginBean?>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/account/getScanQrCodeYz", LoginBean::class.java, params)
+                    result.onSuccess { data ->
+//                        eLogD("LoginViewBroadModelClass", "getScanLoginDetail:${toJson2(data)}")
+                        if (data?.oldDevice == true) {
+                            oneClickLogin()
+                        } else {
+                            liveData.postValue(data)
+                        }
+                    }.onFailure { _, _ ->
+                        liveData.postValue(null)
+                    }.onError { _ ->
+                        liveData.postValue(null)
+                    }
+                } catch (e: kotlin.Exception) {
+                    liveData.postValue(null)
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun updatePassword(account: String, pwd: String, secondPwd: String): SingleLiveBroadData<Boolean> {
         val liveData = SingleLiveBroadData<Boolean>()
         if (TextUtils.isEmpty(pwd)) {
             showToastMain("请输入您的密码！")

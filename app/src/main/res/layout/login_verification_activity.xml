@@ -27,8 +27,10 @@
         android:text="@string/密保问题"
         android:textColor="@color/color_white_65"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginVerificationTitle" />
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationTitle"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginVerificationSecurityQuestion"
@@ -37,9 +39,11 @@
         android:layout_marginStart="@dimen/dp_8"
         android:textColor="@color/color_6672ff"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/loginVerificationSecurityQuestionBefore"
         app:layout_constraintTop_toTopOf="@id/loginVerificationSecurityQuestionBefore"
-        tools:text="您的姓名" />
+        tools:text="您的姓名"
+        tools:visibility="visible" />
 
 
     <com.hjq.shape.view.ShapeEditText
@@ -55,13 +59,15 @@
         android:textColor="@color/white"
         android:textColorHint="#7366A0F7"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/loginVerificationSecurityQuestionBefore"
         app:layout_constraintTop_toBottomOf="@id/loginVerificationSecurityQuestionBefore"
         app:shape_radius="@dimen/dp_16"
         app:shape_solidColor="@color/color_080E1E"
         app:shape_strokeColor="@color/color_080E1E"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginVerificationPayPwdBefore"
@@ -72,8 +78,10 @@
         android:text="@string/支付密码"
         android:textColor="@color/color_white_65"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginVerificationSecurityQuestionInput" />
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationSecurityQuestionInput"
+        tools:visibility="visible" />
 
     <com.hjq.shape.view.ShapeEditText
         android:id="@+id/loginVerificationPayPwd"
@@ -88,13 +96,15 @@
         android:textColor="@color/white"
         android:textColorHint="#7366A0F7"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/loginVerificationPayPwdBefore"
         app:layout_constraintTop_toBottomOf="@id/loginVerificationPayPwdBefore"
         app:shape_radius="@dimen/dp_16"
         app:shape_solidColor="@color/color_080E1E"
         app:shape_strokeColor="@color/color_080E1E"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -106,8 +116,10 @@
         android:text="@string/old_code_before"
         android:textColor="@color/color_white_65"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginVerificationPayPwd" />
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationPayPwd"
+        tools:visibility="visible" />
 
     <com.hjq.shape.view.ShapeEditText
         android:id="@+id/loginVerificationOldCode"
@@ -121,13 +133,15 @@
         android:textColor="@color/white"
         android:textColorHint="#7366A0F7"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/loginVerificationOldCodeBefore"
         app:layout_constraintTop_toBottomOf="@id/loginVerificationOldCodeBefore"
         app:shape_radius="@dimen/dp_16"
         app:shape_solidColor="@color/color_080E1E"
         app:shape_strokeColor="@color/color_080E1E"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -139,8 +153,10 @@
         android:text="@string/google_code"
         android:textColor="@color/color_white_65"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginVerificationOldCode" />
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationOldCode"
+        tools:visibility="visible" />
 
     <com.hjq.shape.view.ShapeEditText
         android:id="@+id/loginVerificationGoogleCode"
@@ -156,13 +172,15 @@
         android:textColor="@color/white"
         android:textColorHint="#7366A0F7"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/loginVerificationGoogleCodeBefore"
         app:layout_constraintTop_toBottomOf="@id/loginVerificationGoogleCodeBefore"
         app:shape_radius="@dimen/dp_16"
         app:shape_solidColor="@color/color_080E1E"
         app:shape_strokeColor="@color/color_080E1E"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginVerificationBtn"
