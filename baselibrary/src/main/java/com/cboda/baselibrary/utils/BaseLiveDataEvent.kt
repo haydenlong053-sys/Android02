@@ -20,6 +20,16 @@ val meetJoinMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.N
     LiveDataBroadBroadBus.getInstance().with("meetJoinMsg")
 }
 
+//群内有人发起上麦通知消息
+val meetUpMicMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
+    LiveDataBroadBroadBus.getInstance().with("meetUpMicMsg")
+}
+
+//群内有人会议座次变更通知消息
+val meetSeatChangeMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
+    LiveDataBroadBroadBus.getInstance().with("meetSeatChangeMsg")
+}
+
 //群内有人结束了会议的通知消息
 @JvmField
 val meetEndMsgLiveData: BusLiveBroadData<String> = LiveDataBroadBroadBus.getInstance().with("meetEndMsg")

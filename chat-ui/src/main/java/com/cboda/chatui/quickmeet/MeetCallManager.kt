@@ -124,10 +124,16 @@ class MeetCallManager private constructor() {
     private fun start(data: CallData, channelId: String, token: String) {
         if (isIdleState()) {
             eLogD("call", "init===>channelName=$channelId---token=$token")
+            val realUserId = MMKVBroadUtils.getRealUserId()
             mCallData.direct = data.direct
             mCallData.callStatus = data.callStatus
             mCallData.channelId = data.channelId
             mCallData.quickDetailMeetBean = data.quickDetailMeetBean
+            mCallData.role = if (data.quickDetailMeetBean != null && realUserId == data.quickDetailMeetBean?.userId) {
+                MeetRole.OWNER
+            } else {
+                null
+            }
             //初始化 音视频sdk
             initRtcEngine(UtilBroadApplication.cxt.applicationContext, channelId, token)
         } else {
@@ -228,9 +234,7 @@ class MeetCallManager private constructor() {
         // 监听频道内的远端用户，获取用户的 uid 信息
         //Listen to remote users in the channel and retrieve their UID information.
         override fun onUserJoined(uid: Int, elapsed: Int) {
-            runOnUiThread(Runnable {
-                notifyRtcUserJoined(uid)
-            })
+            notifyRtcUserJoined(uid)
 
         }
 
@@ -413,6 +417,9 @@ class MeetCallManager private constructor() {
     fun getMyselfMeetRole(): MeetRole? {
         return mCallData.role
     }
+    fun isOwner(): Boolean {
+        return mCallData.role == MeetRole.OWNER
+    }
 
     /**
      * 设置是否处于最小化状态
@@ -426,10 +433,10 @@ class MeetCallManager private constructor() {
      * 0：方法调用成功。
      * < 0：方法调用失败
      */
-    fun setRtcClientRoleDirect(type: CallDirect) : Int = callEngine?.let {
-        if (mCallData.direct == type){
+    fun setRtcClientRoleDirect(type: CallDirect): Int = callEngine?.let {
+        if (mCallData.direct == type) {
             -1
-        }else if (CallDirect.ANSWER == type) {
+        } else if (CallDirect.ANSWER == type) {
             //切换成观众
             val clientRoleOptions = ClientRoleOptions()
             clientRoleOptions.audienceLatencyLevel = Constants.AUDIENCE_LATENCY_LEVEL_LOW_LATENCY
