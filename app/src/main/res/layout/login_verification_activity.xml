@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/black">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginVerificationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="@string/security_complete_verification"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginVerificationSecurityQuestionBefore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/密保问题"
+        android:textColor="@color/color_white_65"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationTitle"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginVerificationSecurityQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:textColor="@color/color_6672ff"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/loginVerificationSecurityQuestionBefore"
+        app:layout_constraintTop_toTopOf="@id/loginVerificationSecurityQuestionBefore"
+        tools:text="您的姓名"
+        tools:visibility="visible" />
+
+
+    <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/loginVerificationSecurityQuestionInput"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:hint="@string/请输入密保答案"
+        android:maxLength="30"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:textColor="@color/white"
+        android:textColorHint="#7366A0F7"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/loginVerificationSecurityQuestionBefore"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationSecurityQuestionBefore"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/color_080E1E"
+        app:shape_strokeColor="@color/color_080E1E"
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginVerificationPayPwdBefore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/支付密码"
+        android:textColor="@color/color_white_65"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationSecurityQuestionInput"
+        tools:visibility="visible" />
+
+    <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/loginVerificationPayPwd"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:hint="@string/请输入支付密码"
+        android:maxLength="25"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:textColor="@color/white"
+        android:textColorHint="#7366A0F7"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/loginVerificationPayPwdBefore"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationPayPwdBefore"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/color_080E1E"
+        app:shape_strokeColor="@color/color_080E1E"
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginVerificationOldCodeBefore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/old_code_before"
+        android:textColor="@color/color_white_65"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationPayPwd"
+        tools:visibility="visible" />
+
+    <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/loginVerificationOldCode"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:hint="@string/please_input_old_code"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:textColor="@color/white"
+        android:textColorHint="#7366A0F7"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/loginVerificationOldCodeBefore"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationOldCodeBefore"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/color_080E1E"
+        app:shape_strokeColor="@color/color_080E1E"
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginVerificationGoogleCodeBefore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/google_code"
+        android:textColor="@color/color_white_65"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationOldCode"
+        tools:visibility="visible" />
+
+    <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/loginVerificationGoogleCode"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:hint="@string/please_input_google_code"
+        android:inputType="number"
+        android:maxLength="6"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:textColor="@color/white"
+        android:textColorHint="#7366A0F7"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/loginVerificationGoogleCodeBefore"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationGoogleCodeBefore"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/color_080E1E"
+        app:shape_strokeColor="@color/color_080E1E"
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loginVerificationBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_32"
+        android:gravity="center"
+        android:text="@string/提交"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginVerificationGoogleCode" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

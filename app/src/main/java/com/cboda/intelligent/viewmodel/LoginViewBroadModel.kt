@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
+import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -18,6 +19,8 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.utils.toJson2
+import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.utils.SpotsCallBroadBack
@@ -29,27 +32,98 @@ import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.model.SafeCenterBroadBean
 import com.cboda.intelligent.net.manager.UserServerBroadManager
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.OkHttpBroadHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Response
 import java.lang.Exception
+import kotlin.jvm.java
 
 class LoginViewBroadModel : BaseViewBroadModel() {
 
 
-    fun updatePassword(account: String, pwd: String, secondPwd: String):SingleLiveBroadData<Boolean> {
+    fun getAccountLoginDetail(account: String, pwd: String): SingleLiveBroadData<LoginBean?> {
+        val liveData = SingleLiveBroadData<LoginBean?>()
+        if (TextUtils.isEmpty(account)) {
+            showToastMain(R.string.please_enter_account)
+            return liveData
+        }
+        if (TextUtils.isEmpty(pwd)) {
+            showToastMain(R.string.please_enter_password)
+            return liveData
+        }
+        val params = hashMapOf(
+            "acc" to account,
+            "pwd" to pwd,
+            "eqno" to getAndroidId()
+        )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/account/getAccountYz", LoginBean::class.java, params)
+                    result.onSuccess { data ->
+                        data?.also {
+                            if (!data.twoFactorCode && !data.existMbName && !data.existPayPassword) {
+                                pwdLogin(account, pwd)
+                            } else {
+                                liveData.postValue(data)
+                            }
+                        } ?: liveData.postValue(null)
+//                        eLogD("LoginViewBroadModelClass", "getScanLoginDetail:${toJson2(data)}")
+
+                    }.onFailure { _, _ ->
+                        liveData.postValue(null)
+                    }.onError { _ ->
+                        liveData.postValue(null)
+                    }
+                } catch (_: kotlin.Exception) {
+                    liveData.postValue(null)
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun getScanLoginDetail(linkId: String): SingleLiveBroadData<LoginBean?> {
+        val params = hashMapOf("idno" to linkId, "eqno" to getAndroidId())
+        val liveData = SingleLiveBroadData<LoginBean?>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/account/getScanQrCodeYz", LoginBean::class.java, params)
+                    result.onSuccess { data ->
+//                        eLogD("LoginViewBroadModelClass", "getScanLoginDetail:${toJson2(data)}")
+                        if (data?.oldDevice == true) {
+                            oneClickLogin()
+                        } else {
+                            liveData.postValue(data)
+                        }
+                    }.onFailure { _, _ ->
+                        liveData.postValue(null)
+                    }.onError { _ ->
+                        liveData.postValue(null)
+                    }
+                } catch (_: kotlin.Exception) {
+                    liveData.postValue(null)
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun updatePassword(account: String, pwd: String, secondPwd: String): SingleLiveBroadData<Boolean> {
         val liveData = SingleLiveBroadData<Boolean>()
         if (TextUtils.isEmpty(pwd)) {
-            showToastMain("请输入您的密码！")
+            showToastMain(R.string.please_enter_password)
             return liveData
         }
         if (TextUtils.isEmpty(secondPwd)) {
-            showToastMain("请再次输入您的密码！")
+            showToastMain(com.cboda.baselibrary.R.string.please_again_input_pwd)
             return liveData
         }
         if (pwd != secondPwd) {
-            showToastMain("您两次输入的密码不一致！")
+            showToastMain(com.cboda.baselibrary.R.string.again_pwd_inconsistent)
             return liveData
         }
         val param =
@@ -157,7 +231,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                 "type" to 2,
                 "model" to model
             )
-        eLogD("LoginViewModelClass_oneClickLoginMap", param)
+//        eLogD("LoginViewModelClass_oneClickLoginMap", param)
         UserServerBroadManager.qeLogin(
             mContext,
             param,
@@ -168,7 +242,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                 ) {
                     resultBean?.let {
                         imLogin(it, mContext)
-                    } ?: showToastMain("服务器错误：imToken为空")
+                    } ?: showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
                 }
 
                 override fun onError(
@@ -176,7 +250,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                     code: Int,
                     e: Exception?
                 ) {
-//                    showToastMain("服务器错误：imToken为空")
+//                     showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
                 }
             })
 
@@ -186,25 +260,24 @@ class LoginViewBroadModel : BaseViewBroadModel() {
         AppBroadUtils.imLogin(
             context,
             resultBean.apptoken,
-            resultBean.userSign,
             resultBean.userId,
             resultBean.imtoken
         )
     }
 
-    fun pwdLogin(account: String, pwd: String, code: String = "") {
+    fun pwdLogin(account: String, pwd: String, code: String = "", payPwd: String = "", googleCode: String = "", securityQuestion: String = "") {
         if (TextUtils.isEmpty(account)) {
-            showToastMain("请输入您的帐号！")
+            showToastMain(R.string.please_enter_account)
             return
         }
         if (TextUtils.isEmpty(pwd)) {
-            showToastMain("请输入您的密码！")
+            showToastMain(R.string.please_enter_password)
             return
         }
         val mContext = getAppContext()
         val model = "${getDeviceBrand()} ${getDeviceModel()}"
         val param =
-            mapOf(
+            hashMapOf(
                 "acc" to account,
                 "pwd" to pwd,
                 "code" to code,
@@ -213,7 +286,16 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                 "type" to 2,
                 "model" to model
             )
-        eLogD("LoginViewModelClass_pwdLoginMap", param)
+        if (!TextUtils.isEmpty(payPwd)) {
+            param["paywd"] = payPwd
+        }
+        if (!TextUtils.isEmpty(googleCode)) {
+            param["googleCode"] = googleCode
+        }
+        if (!TextUtils.isEmpty(securityQuestion)) {
+            param["mbda"] = securityQuestion
+        }
+//        eLogD("LoginViewModelClass_pwdLoginMap", param)
         UserServerBroadManager.accLogin(
             mContext,
             param,
@@ -232,7 +314,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                             showToastMain(resultBean.msg)
                         }
                     } else {
-                        showToastMain("服务器错误：数据为空")
+                        showToastMain(com.cboda.baselibrary.R.string.service_error_data_null)
                     }
                 }
 
@@ -252,19 +334,19 @@ class LoginViewBroadModel : BaseViewBroadModel() {
     fun registerAccount(account: String, pwd: String, secondPwd: String) {
         val mContext = getAppContext()
         if (TextUtils.isEmpty(account)) {
-            showToastMain("请输入您的帐号！")
+            showToastMain(R.string.please_enter_account)
             return
         }
         if (TextUtils.isEmpty(pwd)) {
-            showToastMain("请输入您的密码！")
+            showToastMain(R.string.please_enter_password)
             return
         }
         if (TextUtils.isEmpty(secondPwd)) {
-            showToastMain("请再次输入您的密码！")
+            showToastMain(com.cboda.baselibrary.R.string.please_again_input_pwd)
             return
         }
         if (pwd != secondPwd) {
-            showToastMain("您两次输入的密码不一致！")
+            showToastMain(com.cboda.baselibrary.R.string.again_pwd_inconsistent)
             return
         }
         val model = "${getDeviceBrand()} ${getDeviceModel()}"
@@ -286,7 +368,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
 //                "type" to 2,
 //                "model" to getUuIdMd5()
 //            )
-        eLogD("LoginViewModelClass_registeredMap", param)
+//        eLogD("LoginViewModelClass_registeredMap", param)
         UserServerBroadManager.qeLogin(
             mContext,
             param,
@@ -311,7 +393,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                         } else {
                             imLogin(resultBean, mContext)
                         }
-                    } ?: showToastMain("服务器错误：imToken为空")
+                    } ?: showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
                 }
 
                 override fun onError(

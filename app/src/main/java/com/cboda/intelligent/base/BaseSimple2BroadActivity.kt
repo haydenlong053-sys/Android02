@@ -484,7 +484,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
     private lateinit var rightIcon: AppCompatImageView
     private lateinit var tvRight: TextView
     private lateinit var tvTitle: TextView
-    private lateinit var backIcon: AppCompatImageView
+    lateinit var backIcon: AppCompatImageView
     private lateinit var vitool:
             View
     private lateinit var mViewRootBg: View
@@ -510,7 +510,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
             return@Runnable
         }
         if (dialogHelper == null) {
-            dialogHelper = LoadingBroadDialog(this,"")
+            dialogHelper = LoadingBroadDialog(this, "")
         }
         dialogHelper?.show()
         dialogHelper?.setCanceledOnTouchOutside(true)

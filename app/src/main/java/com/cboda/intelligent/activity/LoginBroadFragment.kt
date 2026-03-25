@@ -7,14 +7,17 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import com.cboda.intelligent.R
+import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.databinding.LoginBroadFragmentBinding
 
 class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginViewBroadModel>() {
@@ -55,10 +58,20 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
             (activity as NewEquipmentBroadActivity).toRegistered()
         }
         binding.loginBtn.click {
-            viewModel.pwdLogin(
-                binding.loginAccount.text.toString(),
-                binding.loginPwd.text.toString()
-            )
+            val loginAccount = binding.loginAccount.text.toString()
+            val loginPwd = binding.loginPwd.text.toString()
+            viewModel.getAccountLoginDetail(
+                loginAccount,
+                loginPwd
+            ).observe(this) { loginBean ->
+                if (null != loginBean) {
+                    loginBean.loginAccount = loginAccount
+                    loginBean.loginPwd = loginPwd
+                    val bundle = Bundle()
+                    bundle.putString("loginBean", toJson2(loginBean))
+                    viewModel.startAct<LoginVerificationActivity>(bundle)
+                }
+            }
         }
         binding.oneLogin.click {
 //            viewModel.startAct<EquipmentBroadActivity>(canFinish = true)

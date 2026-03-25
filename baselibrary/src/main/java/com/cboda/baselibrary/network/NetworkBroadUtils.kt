@@ -26,6 +26,7 @@ import java.io.File
  * @author CommonLibrary
  */
 object NetworkBroadUtils {
+    private val tAG="NetworkBroadUtilsClass"
 
     private val mainHandler = Handler(Looper.getMainLooper())
 
@@ -554,10 +555,11 @@ object NetworkBroadUtils {
                 response: Response<NetworkBroadResponse<T>>
             ) {
                 mainHandler.post {
+                    eLogD(tAG, "response-->${response}")
                     if (response.isSuccessful) {
                         val networkResponse = response.body()
                         networkResponse.let {
-//                            eLogD("返回体executeCall", "response-->${response}")
+                            eLogD(tAG, "networkResponse-->${networkResponse}")
                         }
                         if (networkResponse != null) {
                             if (networkResponse.isRequestSuccess()) {
@@ -571,11 +573,13 @@ object NetworkBroadUtils {
 
                             }
                         } else {
+                            eLogD(tAG, "networkResponse==null")
                             callback.onFailure(-1, "响应数据为空", null)
                         }
                     } else {
                         // 这里解析 errorBody
                         val errorBody = response.errorBody()?.string()
+                        eLogD(tAG, "errorBody==>$errorBody")
                         try {
                             val gson = Gson()
                             val errorResponse: NetworkBroadResponse<*>? =

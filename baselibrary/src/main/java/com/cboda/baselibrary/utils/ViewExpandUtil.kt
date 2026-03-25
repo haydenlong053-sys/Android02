@@ -831,6 +831,24 @@ fun showCenterListDialog(items: Array<String>, callBack: (Int, Any) -> Unit) {
         .show()
 }
 
+//edittext限制只能输入数字和英文(最大长度)
+fun EditText.setIsNumAndEng(maxLength: Int = 0) {
+    val inputFilter = InputFilter { source, start, end, _, _, _ ->
+        val regex = "[a-zA-Z0-9]" // 匹配范围
+        val isMatch = (start until end).all { index ->
+            source[index].toString().matches(regex.toRegex())
+        }
+        if (!isMatch) "" else null // 返回空字符串拒绝非法字符，null表示不修改
+    }
+    val ifArray = if (maxLength > 0) {
+        arrayOf(inputFilter, InputFilter.LengthFilter(maxLength))
+    } else {
+        arrayOf(inputFilter)
+    }
+    this.filters = ifArray
+}
+
+
 //edittext限制输入最大值和精确值
 class AmountInputFilter(
     private val maxAmount: Double = 1000.0,

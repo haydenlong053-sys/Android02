@@ -27,6 +27,9 @@ open class NetworkBroadResponse<T>(
      * 响应数据，可能为空
      */
     var data: T? = null
+
+
+
 ) {
     
     /**

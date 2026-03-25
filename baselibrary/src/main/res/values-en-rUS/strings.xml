@@ -80,4 +80,17 @@
     <string name="msg_gag">Mute</string>
     <string name="msg_remove_gag">Unmute</string>
     <string name="msg_pic">Image</string>
+
+    <!-- Security / login verification -->
+    <string name="security_verification">Security verification</string>
+    <string name="security_complete_verification">For your account security, please complete the verification below</string>
+    <string name="old_code_before">Old device verification code (check your old device)</string>
+    <string name="please_input_old_code">Enter the 6–8 digit old device verification code</string>
+    <string name="google_code">Google verification code</string>
+    <string name="please_input_google_code">Enter the 6-digit Google verification code</string>
+    <string name="device_error">Incorrect device code</string>
+    <string name="service_error_token_null">Server error: imToken is empty</string>
+    <string name="service_error_data_null">Server error: data is empty</string>
+    <string name="please_again_input_pwd">Please enter your password again</string>
+    <string name="again_pwd_inconsistent">The two passwords do not match</string>
 </resources>

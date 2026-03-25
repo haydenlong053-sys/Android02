@@ -81,11 +81,7 @@ class EncryptionBroadInterceptor : Interceptor {
 
         // 将参数转换为JSON字符串
         val jsonParams = gson.toJson(params)
-        if (getIsDebug()) {
-            eLogD("请求体", jsonParams)
-        }
-
-
+        eLogD("请求体", jsonParams)
         // 加密参数
         val encryptedData = AESBroadUtil.encrypt(jsonParams)
 

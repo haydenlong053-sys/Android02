@@ -1,6 +1,8 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.isEthWalletLinkQrCode;
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.isTransferLinkQrCode;
 
@@ -20,11 +22,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.cboda.baselibrary.bean.LoginBean;
 import com.cboda.baselibrary.event.AppBroadEvent;
 import com.cboda.baselibrary.event.AppEventBroadCode;
 import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
+import com.cboda.chatui.group.GroupViewBroadModel;
+import com.cboda.intelligent.utils.GsonBroadUtil;
+import com.cboda.intelligent.viewmodel.LoginViewBroadModel;
 import com.google.zxing.Result;
 import com.google.zxing.client.result.ParsedResult;
 import com.hjq.permissions.OnPermissionCallback;
@@ -71,7 +79,8 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
     private TextView tvXiangce;
     private TextView tvZhaoming;
     private int jumpSource = 0;
-    private String eqno;
+    //    private String eqno;
+    private LoginViewBroadModel loginViewBroadModel;
 
     @Override
     public boolean showOrHideTitleLayout() {
@@ -92,7 +101,8 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         jumpSource = getIntent().getIntExtra("jumpSource", 0);
-        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
+//        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
+        loginViewBroadModel = new ViewModelProvider(this).get(LoginViewBroadModel.class);
         initViews();
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",
@@ -414,40 +424,45 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             restartScan();
             return;
         }
-        Map<String, Object> param = new HashMap<>();
-        param.put("id", linkId);
-        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
-        param.put("type", "2");
-        param.put("model", Build.BRAND + " " + Build.MODEL);
-        OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
-
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-//                if (resultBean.isws.equals("0")) {//是否已完善资料
-//                    Intent intent = new Intent(ScanBroadActivity.this, PushInfoBroadActivity.class);
-//                    intent.putExtra("apptoken", resultBean.apptoken);
-//                    intent.putExtra("uid", resultBean.userId);
-//                    intent.putExtra("userSign", resultBean.userSign);
-//                    intent.putExtra("imtoken", resultBean.imtoken);
-//                    intent.putExtra("idno", linkId);
-//                    startActivity(intent);
-//                } else {
-                if (jumpSource == ScanJumpBroadEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, eqno)) {
-                    //登录扫码，比对为新设备登录
-                    EventBus.getDefault().post(new AppBroadEvent<ResultBroadBean>(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean));
-                } else {
-                    AppBroadUtils.Companion.imLogin(ScanBroadActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
-                }
-//                }
+        loginViewBroadModel.getScanLoginDetail(linkId).observe(this, loginBean -> {
+            if (null != loginBean) {
+//                loginBean.setType("scanLogin");
+                loginBean.setLinkId(linkId);
+                loginBean.setHaveOldDeviceCode(true);
+                Intent newIntent = new Intent(ScanBroadActivity.this, LoginVerificationActivity.class);
+                newIntent.putExtra("loginBean", toJson2(loginBean));
+                startActivity(newIntent);
                 finish();
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-                ToastBroadUtil.show(getString(R.string.scan_login_request_failed));
+            } else {
                 restartScan();
+                showToastMain(R.string.scan_login_request_failed);
             }
         });
+
+
+//        Map<String, Object> param = new HashMap<>();
+//        param.put("id", linkId);
+//        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
+//        param.put("type", "2");
+//        param.put("model", DeviceBroadUtil.INSTANCE.getDeviceBrand() + " " + DeviceBroadUtil.INSTANCE.getDeviceModel());
+//        OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
+//
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//                if (jumpSource == ScanJumpBroadEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, eqno)) {
+//                    EventBus.getDefault().post(new AppBroadEvent<>(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean));
+//                } else {
+//                    AppBroadUtils.Companion.imLogin(ScanBroadActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
+//                }
+//                finish();
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//                ToastBroadUtil.show(getString(R.string.scan_login_request_failed));
+//                restartScan();
+//            }
+//        });
     }
 
 

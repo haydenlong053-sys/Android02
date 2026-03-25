@@ -3,11 +3,8 @@ package com.cboda.baselibrary.network.repository
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.result.NetworkBroadResult
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
 import com.blankj.utilcode.util.GsonUtils
-import com.cboda.baselibrary.utils.getIsDebug
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -20,6 +17,8 @@ import kotlin.coroutines.resume
  */
 object NetworkBroadRepository {
 
+    private val tAG = "NetworkBroadRepositoryClass"
+
     /**
      * 辅助函数：将失败时的data转换为目标类型
      */
@@ -31,7 +30,7 @@ object NetworkBroadRepository {
                 gson.fromJson(json, clazz)
             }
         } catch (e: Exception) {
-            eLogD("数据转换失败", "Failed to convert failure data: ${e.message}")
+            eLogD(tAG, "Failed to convert failure data: ${e.message}")
             null
         }
     }
@@ -227,9 +226,7 @@ object NetworkBroadRepository {
                         val json = gson.toJson(list)
                         val type = TypeToken.getParameterized(List::class.java, clazz).getType()
                         val result = gson.fromJson<List<T>>(json, type)
-                        if (getIsDebug()) {
-                            eLogD("data返回体list:", json)
-                        }
+                        eLogD(tAG, json)
                         continuation.resume(
                             NetworkBroadResult.BroadSuccess(result)
                         )
@@ -331,6 +328,7 @@ object NetworkBroadRepository {
             }
         )
     }
+
     /**
      * 协程版本的加密 GET 请求
      *
@@ -564,7 +562,7 @@ object NetworkBroadRepository {
             callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     data?.let {
-//                        eLogD("返回体",it.toString())
+                        eLogD(tAG, it.toString())
                     }
                     try {
                         val gson = GsonUtils.getGson()
@@ -577,16 +575,16 @@ object NetworkBroadRepository {
                 }
 
                 override fun onFailure(code: Int, message: String, data: Any?) {
-                    eLogD("请求失败", "code $code message $message")
+                    eLogD(tAG, "code $code message $message")
                     data?.let {
-                        eLogD("失败时的数据", it.toString())
+                        eLogD(tAG, it.toString())
                     }
                     val convertedData = convertFailureData(data, clazz)
                     continuation.resume(NetworkBroadResult.BroadFailure(code, message, convertedData))
                 }
 
                 override fun onError(throwable: Throwable) {
-                    eLogD("请求失败", "onError: ${throwable.message}")
+                    eLogD(tAG, "onError: ${throwable.message}")
                     throwable.printStackTrace()
                     continuation.resume(NetworkBroadResult.BroadError(throwable))
                 }
@@ -605,7 +603,7 @@ object NetworkBroadRepository {
             callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
                     data?.let {
-                        eLogD("返回体", it.toString())
+                        eLogD(tAG, it.toString())
                     }
                     try {
                         val gson = GsonUtils.getGson()
@@ -618,16 +616,16 @@ object NetworkBroadRepository {
                 }
 
                 override fun onFailure(code: Int, message: String, data: Any?) {
-                    eLogD("请求失败", "code $code message $message")
+                    eLogD(tAG, "code $code message $message")
                     data?.let {
-                        eLogD("失败时的数据", it.toString())
+                        eLogD(tAG, it.toString())
                     }
                     val convertedData = convertFailureData(data, clazz)
                     continuation.resume(NetworkBroadResult.BroadFailure(code, message, convertedData))
                 }
 
                 override fun onError(throwable: Throwable) {
-                    eLogD("请求失败", "onError: ${throwable.message}")
+                    eLogD(tAG, "onError: ${throwable.message}")
                     throwable.printStackTrace()
                     continuation.resume(NetworkBroadResult.BroadError(throwable))
                 }
@@ -653,9 +651,7 @@ object NetworkBroadRepository {
             body = body,
             callback = object : NetworkBroadUtils.NetworkCallback<Any> {
                 override fun onSuccess(data: Any?) {
-                    if (getIsDebug()) {
-                        eLogD("返回体", data.toString())
-                    }
+                    eLogD(tAG, data.toString())
                     if (data == null) {
                         continuation.resume(NetworkBroadResult.BroadSuccess(data))
                     } else {
@@ -672,20 +668,16 @@ object NetworkBroadRepository {
                 }
 
                 override fun onFailure(code: Int, message: String, data: Any?) {
-                    if (getIsDebug()) {
-                        eLogD("请求失败", "code $code message $message")
-                        data?.let {
-                            eLogD("失败时的数据", it.toString())
-                        }
+                    eLogD(tAG, "code $code message $message")
+                    data?.let {
+                        eLogD(tAG, it.toString())
                     }
                     val convertedData = convertFailureData(data, clazz)
                     continuation.resume(NetworkBroadResult.BroadFailure(code, message, convertedData))
                 }
 
                 override fun onError(throwable: Throwable) {
-                    if (getIsDebug()) {
-                        eLogD("请求失败", "onError: ${throwable.message}")
-                    }
+                    eLogD(tAG, "onError: ${throwable.message}")
                     throwable.printStackTrace()
                     continuation.resume(NetworkBroadResult.BroadError(throwable))
                 }
@@ -716,9 +708,7 @@ object NetworkBroadRepository {
                         val json = gson.toJson(list)
                         val type = TypeToken.getParameterized(List::class.java, clazz).getType()
                         val result = gson.fromJson<List<T>>(json, type)
-                        if (getIsDebug()) {
-                            eLogD("返回体listGson", result.toString())
-                        }
+                        eLogD(tAG, result.toString())
                         continuation.resume(
                             NetworkBroadResult.BroadSuccess(NetworkListBroadResult(result, totalCount, totalPage))
                         )
@@ -811,17 +801,17 @@ object NetworkBroadRepository {
 //                        data?.let {
 //                            eLogD("postFileClass返回体", it.toString())
 //                        }
-                        eLogD("postFileClass", "onSuccess")
+                        eLogD(tAG, "onSuccess")
                         continuation.resume(NetworkBroadResult.BroadSuccess(data))
                     }
 
                     override fun onFailure(code: Int, message: String, data: T?) {
-                        eLogD("postFileClass", "onFailure:$code ,$message")
+                        eLogD(tAG, "onFailure:$code ,$message")
                         continuation.resume(NetworkBroadResult.BroadFailure(code, message, data))
                     }
 
                     override fun onError(throwable: Throwable) {
-                        eLogD("postFileClass", "onError:${throwable.toLog()}")
+                        eLogD(tAG, "onError:${throwable.toLog()}")
                         continuation.resume(NetworkBroadResult.BroadError(throwable))
                     }
                 })
