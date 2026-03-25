@@ -5,8 +5,7 @@
 package cn.wildfirechat.message;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
-import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_MEET_UP_MIC_AGREE;
-import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_MEET_UP_MIC_APPLY;
+import static cn.wildfirechat.message.core.MessageContentBroadType.MESSAGE_CONTENT_TYPE_MEET_SEAT_CHANGE;
 
 import android.os.Parcel;
 
@@ -20,11 +19,11 @@ import cn.wildfirechat.message.core.PersistFlag;
 
 /**
  * Created by heavyrain lee on 2017/12/6.
- * 后端在线主动推的会议同意上麦
+ * 后端在线主动推的会议座次变更消息
  */
 
-@ContentTag(type = MESSAGE_CONTENT_TYPE_MEET_UP_MIC_AGREE, flag = PersistFlag.Transparent)
-public class MeetingUpMicAgreeMessageContent extends MessageContent {
+@ContentTag(type = MESSAGE_CONTENT_TYPE_MEET_SEAT_CHANGE, flag = PersistFlag.Transparent)
+public class MeetingSeatChangeMessageContent extends MessageContent {
 //    private int intervalNumber;
 //    private int intervalUnit;
 
@@ -32,7 +31,7 @@ public class MeetingUpMicAgreeMessageContent extends MessageContent {
     private String amount;
 
 
-    public MeetingUpMicAgreeMessageContent() {
+    public MeetingSeatChangeMessageContent() {
     }
 
 
@@ -84,20 +83,20 @@ public class MeetingUpMicAgreeMessageContent extends MessageContent {
 //        dest.writeString(id != null ? id : "");
     }
 
-    protected MeetingUpMicAgreeMessageContent(Parcel in) {
+    protected MeetingSeatChangeMessageContent(Parcel in) {
         super(in);
 //        id = in.readString();
     }
 
-    public static final Creator<MeetingUpMicAgreeMessageContent> CREATOR = new Creator<MeetingUpMicAgreeMessageContent>() {
+    public static final Creator<MeetingSeatChangeMessageContent> CREATOR = new Creator<MeetingSeatChangeMessageContent>() {
         @Override
-        public MeetingUpMicAgreeMessageContent createFromParcel(Parcel source) {
-            return new MeetingUpMicAgreeMessageContent(source);
+        public MeetingSeatChangeMessageContent createFromParcel(Parcel source) {
+            return new MeetingSeatChangeMessageContent(source);
         }
 
         @Override
-        public MeetingUpMicAgreeMessageContent[] newArray(int size) {
-            return new MeetingUpMicAgreeMessageContent[size];
+        public MeetingSeatChangeMessageContent[] newArray(int size) {
+            return new MeetingSeatChangeMessageContent[size];
         }
     };
 }

@@ -16,6 +16,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.ThreadUtils
+import com.blankj.utilcode.util.ThreadUtils.runOnUiThreadDelayed
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
@@ -26,6 +28,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
+import com.cboda.baselibrary.utils.meetSeatChangeMsgLiveData
 import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
 import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.CallEventCallback
@@ -45,6 +48,7 @@ import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
 import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
+import io.agora.rtc2.Constants.USER_OFFLINE_BECOME_AUDIENCE
 import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 import kotlinx.coroutines.MainScope
@@ -55,6 +59,7 @@ import kotlin.let
  * 会议最小化显示界面
  */
 class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
+    private val Interval_Time = 1000L
     private var callingStateHeight = 0
     private var viewWidth = 0
     private var marginTop = 0
@@ -134,6 +139,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             if (MeetCallManager.getInstance().isIdleState() && groupId == it) {
                 queryMeetInfo(it)
             }
+        }
+        meetSeatChangeMsgLiveData.observe(activity) {
+            goRefreshMeetSeatInfo()
         }
     }
 
@@ -257,7 +265,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     //取消会议
     private fun cancelMeeting() {
-        if (MeetCallManager.getInstance().isCallDirect() && isCalling()) {
+        if (MeetCallManager.getInstance().isOwner() && isCalling()) {
             MainScope().launch {
                 val channelId = MeetCallManager.getInstance().mCallData.channelId
                 viewModel?.goDissolveQuickMeet(channelId)?.observeForever { }
@@ -320,6 +328,13 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     private fun showUI() {
+        MeetCallManager.getInstance().mCallData.quickDetailMeetBean?.let {
+            mTvMeetEnd?.text = if (MeetCallManager.getInstance().isOwner()) {
+                activity.getString(com.cboda.baselibrary.R.string.msg_meeting_end)
+            } else {
+                activity.getString(com.cboda.baselibrary.R.string.msg_meeting_exit)
+            }
+        }
         mTvMeetEnd?.click {
             goOverMeeting()
 
@@ -346,30 +361,37 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
         seatSubContainer?.click {
             if (seatSubMicIv?.isVisible == true) {
-                showDownMicDialog(activity){i, bean ->
-
-                }
+                goDownMic(SeatNumb.MIC_SUB.ordinal)
             }
 
         }
         seatGuestOneContainer?.click {
             if (seatGuestOneMicIv?.isVisible == true) {
-                showDownMicDialog(activity){i, bean ->
-
-                }
+                goDownMic(SeatNumb.MIC_GUEST_ONE.ordinal)
             }
 
         }
         seatGuestTwoContainer?.click {
             if (seatGuestTwoMicIv?.isVisible == true) {
-                showDownMicDialog(activity){i, bean ->
-
-                }
+                goDownMic(SeatNumb.MIC_GUEST_TWO.ordinal)
             }
 
         }
 //        showOrHideCover()
         showMicBtnUI()
+    }
+
+    //主播端点击下mic弹框
+    private fun goDownMic(ordinal: Int) {
+        showDownMicDialog(activity) { i, _ ->
+            if (SeatNumb.MIC_SUB.ordinal == ordinal) {
+
+            } else if (SeatNumb.MIC_GUEST_ONE.ordinal == ordinal) {
+
+            } else if (SeatNumb.MIC_GUEST_TWO.ordinal == ordinal) {
+
+            }
+        }
     }
 
     private fun showMicBtnUI() {
@@ -435,6 +457,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     private fun goOverMeeting() {
+//        ThreadUtils.getMainHandler().removeCallbacks(runnableRefreshMeetSeatInfo)
         cancelMeeting()
         MeetCallManager.getInstance().leaveAndRelease()
     }
@@ -593,10 +616,24 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         mIvIconMic?.isSelected = muted
     }
 
+//    private val runnableRefreshMeetSeatInfo = Runnable {
+//        goRefreshMeetSeatInfo()
+//
+//    }
+
+    private fun goRefreshMeetSeatInfo() {
+        if (MeetCallManager.getInstance().isCallingState()) {
+            ToastBroadUtils.show("去刷新座次信息")
+        }
+
+    }
+
     override fun onRtcUserJoined(uid: Int) {
         //有人加入频道
         eLogD("call", "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
 //        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User joined: " + uid, Toast.LENGTH_SHORT).show()
+//        ThreadUtils.getMainHandler().removeCallbacks(runnableRefreshMeetSeatInfo)
+//        runOnUiThreadDelayed(runnableRefreshMeetSeatInfo, Interval_Time)
 
     }
 
@@ -604,6 +641,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         //有人离开频道
         eLogD("call", "onRtcUserOffline uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
 //        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User offline: " + uid, Toast.LENGTH_SHORT).show()
+        //用户将角色从主播切换为观众
+//        if (reason == USER_OFFLINE_BECOME_AUDIENCE) {
+//            goRefreshMeetSeatInfo()
+//        }
     }
 
     private fun removePanel() {
@@ -650,7 +691,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             })?.observe(activity) { bean ->
                 groupBean = bean
                 showOrHideCover()
-
+                goRefreshMeetSeatInfo()
             }
         }
     }

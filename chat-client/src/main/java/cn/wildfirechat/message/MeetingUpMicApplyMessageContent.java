@@ -11,6 +11,7 @@ import android.os.Parcel;
 
 import com.cboda.baselibrary.utils.ELogUtilKt;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.wildfirechat.message.core.ContentTag;
@@ -24,31 +25,38 @@ import cn.wildfirechat.message.core.PersistFlag;
 
 @ContentTag(type = MESSAGE_CONTENT_TYPE_MEET_UP_MIC_APPLY, flag = PersistFlag.Transparent)
 public class MeetingUpMicApplyMessageContent extends MessageContent {
-//    private int intervalNumber;
-//    private int intervalUnit;
 
-    private String time;
-    private String amount;
+    private String userId;
+    private String idno;
 
 
     public MeetingUpMicApplyMessageContent() {
     }
 
+    public MeetingUpMicApplyMessageContent(String userId, String idno) {
+        this.userId = userId;
+        this.idno = idno;
+    }
 
     @Override
     public MessagePayload encode() {
         MessagePayload payload = super.encode();
-        payload.pushData = "";
+        try {
+            JSONObject objWrite = new JSONObject();
+
+            if (userId!=null){
+                objWrite.put("userId",userId);
+            }
+            if (idno != null) {
+                objWrite.put("idno", idno);
+            }
+
+            payload.pushData = objWrite.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return payload;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getAmount() {
-        return amount;
     }
 
     @Override
@@ -58,8 +66,8 @@ public class MeetingUpMicApplyMessageContent extends MessageContent {
         try {
             if (payload.pushData != null) {
                 JSONObject jsonObject = new JSONObject(payload.pushData);
-                time = jsonObject.optString("time");
-                amount = jsonObject.optString("amount");
+                userId = jsonObject.optString("userId");
+                idno = jsonObject.optString("idno");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,12 +88,14 @@ public class MeetingUpMicApplyMessageContent extends MessageContent {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-//        dest.writeString(id != null ? id : "");
+        dest.writeString(userId != null ? userId : "");
+        dest.writeString(idno != null ? idno : "");
     }
 
     protected MeetingUpMicApplyMessageContent(Parcel in) {
         super(in);
-//        id = in.readString();
+        userId = in.readString();
+        idno = in.readString();
     }
 
     public static final Creator<MeetingUpMicApplyMessageContent> CREATOR = new Creator<MeetingUpMicApplyMessageContent>() {

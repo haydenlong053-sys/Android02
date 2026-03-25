@@ -23,6 +23,11 @@ interface CallEventCallback{
 
     /**
      * 有人加入频道
+     * 触发时机
+     * 该回调在以下任一情况下被触发：
+     * 远端用户或主播加入频道。
+     * 远端用户加入频道后将用户角色切换为主播。
+     * 远端用户或主播在网络中断后重新加入频道。
      * @param uid
      */
     fun onRtcUserJoined(uid: Int) {
