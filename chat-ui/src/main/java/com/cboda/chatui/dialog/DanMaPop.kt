@@ -43,80 +43,67 @@ class DanMaPop(context: Context, val canSendPic: Boolean, val canGag: Boolean, v
         binding.gagTv.isGone = !canGag || isGag
         binding.removeGagIv.isGone = !canGag || !isGag
         binding.removeGagTv.isGone = !canGag || !isGag
-        binding.upMicIv.isGone=!canUpMic
-        binding.upMicTv.isGone=!canUpMic
-        binding.downMicIv.isGone=!canDownMic
-        binding.downMicTv.isGone=!canDownMic
-        binding.applicationListIv.isGone=!haveApplicationList
-        binding.applicationListTv.isGone=!haveApplicationList
-        binding.applicationListNum.isGone=!haveApplicationList || !haveListUnRead
+        binding.upMicIv.isGone = !canUpMic
+        binding.upMicTv.isGone = !canUpMic
+        binding.downMicIv.isGone = !canDownMic
+        binding.downMicTv.isGone = !canDownMic
+        binding.applicationListIv.isGone = !haveApplicationList
+        binding.applicationListTv.isGone = !haveApplicationList
+        binding.applicationListNum.isGone = !haveApplicationList || !haveListUnRead
         width = ViewGroup.LayoutParams.WRAP_CONTENT
         binding.flowerIv.click {
-            clickInvoke.invoke(DanMaPopAction.FLOWER)
-            dismiss()
+            clickInvoke(DanMaPopAction.FLOWER)
         }
         binding.flowerTv.click {
-            clickInvoke.invoke(DanMaPopAction.FLOWER)
-            dismiss()
+            clickInvoke(DanMaPopAction.FLOWER)
         }
         binding.acclamationIv.click {
-            clickInvoke.invoke(DanMaPopAction.ACCLAMATION)
-            dismiss()
+            clickInvoke(DanMaPopAction.ACCLAMATION)
         }
         binding.acclamationTv.click {
-            clickInvoke.invoke(DanMaPopAction.ACCLAMATION)
-            dismiss()
+            clickInvoke(DanMaPopAction.ACCLAMATION)
         }
         binding.picIv.click {
-            clickInvoke.invoke(DanMaPopAction.PIC)
-            dismiss()
+            clickInvoke(DanMaPopAction.PIC)
         }
         binding.picTv.click {
-            clickInvoke.invoke(DanMaPopAction.PIC)
-            dismiss()
+            clickInvoke(DanMaPopAction.PIC)
         }
         binding.gagIv.click {
-            clickInvoke.invoke(DanMaPopAction.GAG)
-            dismiss()
+            clickInvoke(DanMaPopAction.GAG)
         }
         binding.gagTv.click {
-            clickInvoke.invoke(DanMaPopAction.GAG)
-            dismiss()
+            clickInvoke(DanMaPopAction.GAG)
         }
         binding.removeGagIv.click {
-            clickInvoke.invoke(DanMaPopAction.REMOVE_GAG)
-            dismiss()
+            clickInvoke(DanMaPopAction.REMOVE_GAG)
         }
         binding.removeGagTv.click {
-            clickInvoke.invoke(DanMaPopAction.REMOVE_GAG)
-            dismiss()
+            clickInvoke(DanMaPopAction.REMOVE_GAG)
         }
-
-
         binding.upMicIv.click {
-            clickInvoke.invoke(DanMaPopAction.UP_MIC)
-            dismiss()
+            clickInvoke(DanMaPopAction.UP_MIC)
         }
         binding.upMicTv.click {
-            clickInvoke.invoke(DanMaPopAction.UP_MIC)
-            dismiss()
+            clickInvoke(DanMaPopAction.UP_MIC)
         }
         binding.downMicIv.click {
-            clickInvoke.invoke(DanMaPopAction.DOWN_MIC)
-            dismiss()
+            clickInvoke(DanMaPopAction.DOWN_MIC)
         }
         binding.downMicTv.click {
-            clickInvoke.invoke(DanMaPopAction.DOWN_MIC)
-            dismiss()
+            clickInvoke(DanMaPopAction.DOWN_MIC)
         }
         binding.applicationListIv.click {
-            clickInvoke.invoke(DanMaPopAction.APPLICATION_LIST)
-            dismiss()
+            clickInvoke(DanMaPopAction.APPLICATION_LIST)
         }
         binding.applicationListTv.click {
-            clickInvoke.invoke(DanMaPopAction.APPLICATION_LIST)
-            dismiss()
+            clickInvoke(DanMaPopAction.APPLICATION_LIST)
         }
+    }
+
+    private fun clickInvoke(action: DanMaPopAction) {
+        clickInvoke.invoke(action)
+        dismiss()
     }
 
     override fun onDismiss() {
