@@ -778,4 +778,8 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
             ChatManager.Instance().getGroupInfos(new ArrayList<>(groupIds), true);
         }
     }
+
+    public void goMeetUpMicApply(String target) {
+
+    }
 }

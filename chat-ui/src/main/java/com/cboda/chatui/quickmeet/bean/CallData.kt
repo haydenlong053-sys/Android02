@@ -73,3 +73,27 @@ enum class MeetRole {
     NORMAL,
 }
 
+/**
+ * 会议座次
+ */
+enum class SeatNumb {
+    /**
+     * 主麦
+     */
+    MIC_MAIN,
+
+    /**
+     * 副麦
+     */
+    MIC_SUB,
+    /**
+     * 嘉宾1
+     */
+    MIC_GUEST_ONE,
+    /**
+     * 嘉宾2
+     */
+    MIC_GUEST_TWO,
+}
+
+

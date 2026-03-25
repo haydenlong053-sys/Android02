@@ -325,13 +325,20 @@
             android:gravity="center"
             android:text="@string/msg_meeting_close_mic"
             android:textColor="@color/color_EB534B"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
 
         <View
+            android:id="@+id/mViewUiLine"
             android:layout_width="1dp"
             android:layout_height="@dimen/dp_24"
             android:layout_gravity="center_vertical"
-            android:background="#3C3D51" />
+            android:background="#3C3D51"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
 
         <TextView
             android:id="@+id/mTvMeetEnd"
@@ -339,7 +346,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/msg_meeting_end"
+            android:text="@string/msg_meeting_exit"
             android:textColor="@color/color_EB534B"
             android:textSize="14sp" />
     </LinearLayout>
