@@ -72,6 +72,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
@@ -142,6 +143,7 @@ import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.SendMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
+import io.agora.rtc2.IRtcEngineEventHandler;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -235,6 +237,19 @@ public class ConversationBroadFragment extends Fragment implements
     private TextView mTvMeetJoin, mTvMeetPeople;
     private boolean isGag = false;
     private boolean oldGag = false;
+
+    @Override
+    public void onRtcStats(IRtcEngineEventHandler.@org.jetbrains.annotations.Nullable RtcStats statsBean) {
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (null != statsBean && null != countPillView) {
+                    countPillView.setTarget(statsBean.users, 500L);
+                }
+            }
+        });
+    }
+
     private Observer<UiBroadMessage> messageBroadLiveDataObserver = new Observer<UiBroadMessage>() {
         @Override
         public void onChanged(@Nullable UiBroadMessage uiMessage) {
