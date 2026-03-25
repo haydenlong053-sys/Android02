@@ -5,6 +5,7 @@ import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.DanmakuItem
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.TestActivityBinding
+import java.util.Random
 
 class TestActivity : BaseSimple2BroadActivity() {
     private var mBinding: TestActivityBinding? = null
@@ -38,12 +39,18 @@ class TestActivity : BaseSimple2BroadActivity() {
 //                danmakuItem.iconResId = if (i % 2 == 0) R.mipmap.icon_danma_xh else R.mipmap.icon_danma_gz
 //                mBinding?.verticalDanmakuView?.addDanmaku(danmakuItem)
 //            }
-            count++
-            val danmakuItem = DanmakuItem()
-            danmakuItem.content = "用户1111$count: "
-            danmakuItem.isMeSend = count % 2 == 0
-            danmakuItem.iconResId = if (count % 2 == 0) R.mipmap.icon_danma_xh else R.mipmap.icon_danma_gz
-            mBinding?.verticalDanmakuView?.addDanmaku(danmakuItem)
+//            count++
+//            val danmakuItem = DanmakuItem()
+//            danmakuItem.content = "用户1111$count: "
+//            danmakuItem.isMeSend = count % 2 == 0
+//            danmakuItem.iconResId = if (count % 2 == 0) R.mipmap.icon_danma_xh else R.mipmap.icon_danma_gz
+//            mBinding?.verticalDanmakuView?.addDanmaku(danmakuItem)
+
+
+            mBinding?.verticalDanmakuView?.apply {
+                setTarget(Random().nextInt(100))
+            }
+
 //            mBinding?.verticalDanmakuView?.addDanmaku(
 //                DanmakuItem(
 //                    text = "用户 ${count}: 这条弹幕带头像",
@@ -68,17 +75,17 @@ class TestActivity : BaseSimple2BroadActivity() {
 
     override fun finish() {
         super.finish()
-        mBinding?.verticalDanmakuView?.clearAll()
+//        mBinding?.verticalDanmakuView?.clearAll()
     }
 
     override fun onResume() {
         super.onResume()
-        mBinding?.verticalDanmakuView?.danMaResume()
+//        mBinding?.verticalDanmakuView?.danMaResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mBinding?.verticalDanmakuView?.danMaPause()
+//        mBinding?.verticalDanmakuView?.danMaPause()
     }
 
     override fun getViewBindingClass() = TestActivityBinding::class.java

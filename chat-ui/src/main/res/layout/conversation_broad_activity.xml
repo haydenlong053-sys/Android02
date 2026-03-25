@@ -130,6 +130,22 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
 
+                <com.cboda.baselibrary.widge.CountPillView
+                    android:id="@+id/countPillView"
+                    android:layout_width="@dimen/dp_42"
+                    android:layout_height="@dimen/dp_18"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="@dimen/dp_48"
+                    android:layout_marginBottom="@dimen/dp_45"
+                    android:visibility="gone"
+                    app:cornerRadius="@dimen/dp_9"
+                    app:pillBgColor="#99212234"
+                    app:rollLineGapExtra="@dimen/dp_5"
+                    app:suffixText="@string/msg_person_unit"
+                    app:suffixTextColor="#ffd957"
+                    app:suffixTextSize="10sp"
+                    tools:visibility="visible" />
+
                 <com.hjq.shape.view.ShapeView
                     android:id="@+id/danmakuView"
                     android:layout_width="@dimen/dp_8"
@@ -220,37 +236,37 @@
             android:id="@+id/mViewMeetJoin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_36"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:layout_marginHorizontal="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_4"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
             app:shape_radius="@dimen/dp_16"
             app:shape_solidColor="@color/color_EB534B_35"
-            android:orientation="horizontal">
+            tools:visibility="visible">
+
             <TextView
                 android:id="@+id/mTvMeetPeople"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/black"
-                android:text="@string/msg_meeting_active_count"
                 android:layout_marginStart="@dimen/dp_16"
-                />
+                android:layout_weight="1"
+                android:text="@string/msg_meeting_active_count"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14" />
+
             <com.hjq.shape.view.ShapeTextView
                 android:id="@+id/mTvMeetJoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_5"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:paddingVertical="@dimen/dp_5"
                 android:paddingHorizontal="@dimen/dp_12"
+                android:paddingVertical="@dimen/dp_5"
                 android:text="@string/msg_meeting_join"
+                android:textColor="@color/white"
+                android:textSize="12sp"
                 app:shape_radius="@dimen/dp_16"
-                app:shape_solidColor="@color/color_EB534B"
-                />
+                app:shape_solidColor="@color/color_EB534B" />
 
         </com.hjq.shape.layout.ShapeLinearLayout>
 

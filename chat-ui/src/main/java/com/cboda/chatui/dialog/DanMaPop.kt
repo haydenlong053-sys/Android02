@@ -12,6 +12,15 @@ import com.cboda.chatui.databinding.DanMaPopularBinding
 import com.cboda.chatui.quickmeet.bean.EnumerationBean.DanMaPopAction
 import razerdp.basepopup.BasePopupWindow
 
+/**
+ * canSendPic：能否发送图片
+ * canGag：能否解禁言和开启禁言
+ * isGag：是否禁言状态
+ * canUpMic：能否上麦
+ * canDownMic：能否下麦
+ * haveApplicationList：是否展示申请列表入口
+ * haveListUnRead：是否有未读消息（申请上麦消息）
+ */
 class DanMaPop(context: Context, val canSendPic: Boolean, val canGag: Boolean, val isGag: Boolean, val canUpMic: Boolean, val canDownMic: Boolean, val haveApplicationList: Boolean, val haveListUnRead: Boolean) :
     BasePopupWindow(context) {
 

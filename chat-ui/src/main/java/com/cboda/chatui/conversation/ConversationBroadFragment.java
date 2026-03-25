@@ -75,6 +75,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.widge.CountPillView;
 import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.baselibrary.widge.VerticalDanmakuView;
 import com.cboda.chatui.ChatManagerBroadHolder;
@@ -177,7 +178,7 @@ public class ConversationBroadFragment extends Fragment implements
     SwipeRefreshLayout swipeRefreshLayoutBroad;
     HighPerformanceDanmakuView verticalDanmakuView;
     ImageView danmakuIv;
-
+    CountPillView countPillView;//会议在线人数， setTarget(Random().nextInt(100))
     View danmakuView;
     RecyclerView recyclerViewBroad;
 
@@ -231,7 +232,7 @@ public class ConversationBroadFragment extends Fragment implements
     public MarqueeTextBroadView gonggaoxinxiBroad;
     public MarqueeTextBroadView tvQunMeetingBroad;
     private View mViewMeetJoin;
-    private TextView mTvMeetJoin,mTvMeetPeople;
+    private TextView mTvMeetJoin, mTvMeetPeople;
     private boolean isGag = false;
     private boolean oldGag = false;
     private Observer<UiBroadMessage> messageBroadLiveDataObserver = new Observer<UiBroadMessage>() {
@@ -548,14 +549,14 @@ public class ConversationBroadFragment extends Fragment implements
         mTvMeetJoin.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
-                if (getActivity() instanceof  ConversationBroadActivity && ((ConversationBroadActivity) getActivity()).meetPlugin !=null){
-                     ((ConversationBroadActivity) getActivity()).meetPlugin.joinMyMeetRoom(new Function0<Unit>() {
-                         @Override
-                         public Unit invoke() {
-                             mViewMeetJoin.setVisibility(View.GONE);
-                             return null;
-                         }
-                     });
+                if (getActivity() instanceof ConversationBroadActivity && ((ConversationBroadActivity) getActivity()).meetPlugin != null) {
+                    ((ConversationBroadActivity) getActivity()).meetPlugin.joinMyMeetRoom(new Function0<Unit>() {
+                        @Override
+                        public Unit invoke() {
+                            mViewMeetJoin.setVisibility(View.GONE);
+                            return null;
+                        }
+                    });
                 }
 
             }
@@ -577,6 +578,7 @@ public class ConversationBroadFragment extends Fragment implements
         swipeRefreshLayoutBroad = view.findViewById(R.id.swipeRefreshLayout);
         verticalDanmakuView = view.findViewById(R.id.verticalDanmakuView);
         danmakuIv = view.findViewById(R.id.danmakuIv);
+        countPillView = view.findViewById(R.id.countPillView);
         danmakuView = view.findViewById(R.id.danmakuView);
         recyclerViewBroad = view.findViewById(R.id.msgRecyclerView);
         ongoingCallRecyclerViewBroad = view.findViewById(R.id.ongoingCallRecyclerView);
@@ -706,6 +708,9 @@ public class ConversationBroadFragment extends Fragment implements
         if (null != danmakuIv) {
             danmakuIv.setVisibility(View.VISIBLE);
         }
+        if (null != countPillView) {
+            countPillView.setVisibility(View.VISIBLE);
+        }
         if (null != verticalDanmakuView) {
             verticalDanmakuView.setVisibility(View.VISIBLE);
         }
@@ -727,6 +732,9 @@ public class ConversationBroadFragment extends Fragment implements
     public void onEngineDestroy(@NotNull CallData data) {
         if (null != danmakuIv) {
             danmakuIv.setVisibility(View.GONE);
+        }
+        if (null != countPillView) {
+            countPillView.setVisibility(View.GONE);
         }
         if (null != verticalDanmakuView) {
             verticalDanmakuView.clearAll();
@@ -1012,11 +1020,25 @@ public class ConversationBroadFragment extends Fragment implements
             MeetCallManager.getInstance().registerEngineEvent(this);
             eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
             if (MeetCallManager.getInstance().isCallingState()) {
-                danmakuIv.setVisibility(View.VISIBLE);
-                verticalDanmakuView.setVisibility(View.VISIBLE);
+                if (null != danmakuIv) {
+                    danmakuIv.setVisibility(View.VISIBLE);
+                }
+                if (null != verticalDanmakuView) {
+                    verticalDanmakuView.setVisibility(View.VISIBLE);
+                }
+                if (null != countPillView) {
+                    countPillView.setVisibility(View.VISIBLE);
+                }
             } else {
-                danmakuIv.setVisibility(View.GONE);
-                verticalDanmakuView.setVisibility(View.GONE);
+                if (null != danmakuIv) {
+                    danmakuIv.setVisibility(View.GONE);
+                }
+                if (null != verticalDanmakuView) {
+                    verticalDanmakuView.setVisibility(View.GONE);
+                }
+                if (null != countPillView) {
+                    countPillView.setVisibility(View.GONE);
+                }
             }
         }
         userBroadViewModel.getUserInfo(userBroadViewModel.getUserId(), true);
@@ -1888,13 +1910,13 @@ public class ConversationBroadFragment extends Fragment implements
     public void showMeetJoinUi(QuickDetailMeetBean quickDetailMeetBean) {
         if (mViewMeetJoin != null) {
             mViewMeetJoin.setVisibility(View.VISIBLE);
-            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count),"88"));
+            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count), "88"));
         }
 
     }
 
     public void hideMeetJoinUi() {
-        if (mViewMeetJoin!=null && mViewMeetJoin.getVisibility() ==View.VISIBLE)  {
+        if (mViewMeetJoin != null && mViewMeetJoin.getVisibility() == View.VISIBLE) {
             mViewMeetJoin.setVisibility(View.GONE);
         }
     }

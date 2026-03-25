@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="CountPillView">
+        <attr name="suffixTextColor" format="color"/>
+        <attr name="suffixTextSize" format="dimension"/>
+        <attr name="pillBgColor" format="color"/>
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="suffixText" format="string"/>
+        <attr name="rollTarget" format="integer"/>
+        <!-- 滚动切换时两行文案之间的额外垂直间距（叠加在单行字高之上） -->
+        <attr name="rollLineGapExtra" format="dimension"/>
+    </declare-styleable>
     <declare-styleable name="MyTextView">
         <attr name="tv_style" format="enum">
             <enum name="normal" value="0" />
