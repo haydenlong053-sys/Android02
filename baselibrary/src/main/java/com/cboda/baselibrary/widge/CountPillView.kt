@@ -70,8 +70,8 @@ class CountPillView @JvmOverloads constructor(
     }
 
     fun setTarget(number: Int, mDuration: Long = 500L) {
-        val n = max(0, number)
         if (number != currentNumber) {
+            val n = max(0, number)
             cancelAnimation()
             transitionFrom = currentNumber
             transitionTo = n
