@@ -814,7 +814,14 @@ public class ConversationBroadFragment extends Fragment implements
 
                 GroupMember.GroupMemberType type = groupMemberBroad.type;
                 boolean isMan = (type == GroupMember.GroupMemberType.Owner || type == GroupMember.GroupMemberType.Manager);
-                DanMaPop danMaPop = new DanMaPop(activity, isMan, isMan, isGag, true, true, true, true);
+                DanMaPop danMaPop = null;
+                if (MeetCallManager.getInstance().isOwner()) {
+                    //会议发起人
+                    danMaPop = new DanMaPop(activity, isMan, isMan, isGag, false, false, true, true);
+                } else {
+                    danMaPop = new DanMaPop(activity, isMan, isMan, isGag, !MeetCallManager.getInstance().isCallDirect(), MeetCallManager.getInstance().isCallDirect(), false, false);
+                }
+
                 danMaPop.setClickInvoke(action -> {
                     switch (action) {
                         case FLOWER:

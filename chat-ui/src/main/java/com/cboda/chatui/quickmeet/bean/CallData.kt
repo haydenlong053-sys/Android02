@@ -59,7 +59,7 @@ enum class CallDirect {
  */
 enum class MeetRole {
     /**
-     * 房主
+     * 会议的房主
      */
     OWNER,
 

@@ -607,6 +607,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onRtcStats(statsBean: IRtcEngineEventHandler.RtcStats?) {
+        eLogD(APP_TAG, "RtcStats=users=>${statsBean?.users}")
         //先判断会议人数有没有变化后，再在主线程更新人数信息
 //        runOnUiThread {
 //        }
