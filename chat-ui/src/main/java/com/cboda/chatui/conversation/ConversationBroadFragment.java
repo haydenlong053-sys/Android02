@@ -175,6 +175,8 @@ public class ConversationBroadFragment extends Fragment implements
     SwipeRefreshLayout swipeRefreshLayoutBroad;
     HighPerformanceDanmakuView verticalDanmakuView;
     ImageView danmakuIv;
+
+    View danmakuView;
     RecyclerView recyclerViewBroad;
 
     RecyclerView ongoingCallRecyclerViewBroad;
@@ -552,6 +554,7 @@ public class ConversationBroadFragment extends Fragment implements
         swipeRefreshLayoutBroad = view.findViewById(R.id.swipeRefreshLayout);
         verticalDanmakuView = view.findViewById(R.id.verticalDanmakuView);
         danmakuIv = view.findViewById(R.id.danmakuIv);
+        danmakuView = view.findViewById(R.id.danmakuView);
         recyclerViewBroad = view.findViewById(R.id.msgRecyclerView);
         ongoingCallRecyclerViewBroad = view.findViewById(R.id.ongoingCallRecyclerView);
         tvPhoneLoginBroad = view.findViewById(R.id.tvPhoneLogin);
@@ -768,6 +771,7 @@ public class ConversationBroadFragment extends Fragment implements
 //        });
         click(danmakuIv, () -> {
             if (null != conversationBroad && null != groupMemberBroad) {
+                danmakuView.setVisibility(View.VISIBLE);//显示未读小红点
                 Activity activity = getActivity();
                 if (activity == null) {
                     return null;
