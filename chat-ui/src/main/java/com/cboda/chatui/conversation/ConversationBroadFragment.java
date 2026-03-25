@@ -807,15 +807,16 @@ public class ConversationBroadFragment extends Fragment implements
                 GroupMember.GroupMemberType type = groupMemberBroad.type;
                 boolean isMan = (type == GroupMember.GroupMemberType.Owner || type == GroupMember.GroupMemberType.Manager);
                 DanMaPop danMaPop = new DanMaPop(activity, isMan, isMan, isGag, true, true, true, true);
-                danMaPop.setClickInvoke(integer -> {
-                    switch (integer) {
-                        case 1, 2:
+                danMaPop.setClickInvoke(action -> {
+                    switch (action) {
+                        case FLOWER:
+                        case ACCLAMATION:
                             // 会议中：通过野火聊天室发送礼物，避免群禁言影响；仅主播可发送
 //                            if (!MeetCallManager.getInstance().isCallDirect()) {
 //                                Toast.makeText(getActivity(), "当前为观众角色，无法发送鲜花和鼓掌", Toast.LENGTH_SHORT).show();
 //                                break;
 //                            }
-                            GiftChatRoomHelper.sendGift(conversationBroad.target, integer);
+                            GiftChatRoomHelper.sendGift(conversationBroad.target, action.getCode());
                             // 本端立即展示一条弹幕
                             String sender = MMKVBroadUtils.Companion.getRealUserId();
 //                        String getName = nameMap.get(sender);
@@ -824,12 +825,12 @@ public class ConversationBroadFragment extends Fragment implements
 //                        } else {
                             E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
 //                                nameMap.put(sender, userName);
-                                addBarrageData(userName, integer, true);
+                                addBarrageData(userName, action.getCode(), true);
                                 return null;
                             });
 //                        }
                             break;
-                        case 3:
+                        case PIC:
                             chooseMsgOnePicture(pairs -> {
                                 if (null != pairs && !pairs.isEmpty()) {
                                     LocalMedia imageItem = pairs.getFirst().getSecond();
@@ -848,20 +849,21 @@ public class ConversationBroadFragment extends Fragment implements
                                 return null;
                             });
                             break;
-                        case 4, 5:
+                        case GAG:
+                        case REMOVE_GAG:
                             if (null != groupBroadViewModel) {
                                 groupBroadViewModel.setIsGag(conversationBroad.target, !isGag).observe(this, aBoolean -> isGag = aBoolean);
                             }
 //                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(activity, BridgeImEnum.GROUP_GAG.getValue(), conversationBroad.target, "", null);
                             break;
-                        case 7:
+                        case UP_MIC:
                             eLogD(TAG, "上麦");
                             groupBroadViewModel.goMeetUpMicApply(conversationBroad.target);
                             break;
-                        case 8:
+                        case DOWN_MIC:
                             eLogD(TAG, "下麦");
                             break;
-                        case 9:
+                        case APPLICATION_LIST:
                             eLogD(TAG, "申请列表");
                             new MeetSeatApplyPop(requireContext()).showPopupWindow();
 
