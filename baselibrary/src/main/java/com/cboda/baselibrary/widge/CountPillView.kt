@@ -24,10 +24,10 @@ class CountPillView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private var targetNumber: Int = 0
+    private var targetNumber: Int = 1
     /** 静止时显示的数值 */
-    private var currentNumber: Int = 0
-    private var suffixText: String = "人"
+    private var currentNumber: Int = 1
+    private var suffixText: String = ""
     private var animationDuration: Long = 500L
 
     /** 当前这一次动画的起止（仅两行文案参与滚动） */
