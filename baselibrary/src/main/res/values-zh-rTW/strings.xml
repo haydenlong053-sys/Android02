@@ -51,4 +51,17 @@
     <!-- 新會議狀態提示 -->
     <string name="msg_meeting_func_unavailable">會議中，該功能暫不可使用</string>
     <string name="msg_meeting_in_progress">當前有會議正在進行中</string>
+
+    <!-- 安全 / 登入驗證 -->
+    <string name="security_verification">安全驗證</string>
+    <string name="security_complete_verification">為了您的帳戶安全，請完成以下驗證</string>
+    <string name="old_code_before">舊裝置驗證碼（請至舊裝置查看）</string>
+    <string name="please_input_old_code">請輸入 6–8 位舊裝置驗證碼</string>
+    <string name="google_code">Google 驗證碼</string>
+    <string name="please_input_google_code">請輸入 6 位 Google 驗證碼</string>
+    <string name="device_error">裝置碼錯誤</string>
+    <string name="service_error_token_null">伺服器錯誤：imToken 為空</string>
+    <string name="service_error_data_null">伺服器錯誤：資料為空</string>
+    <string name="please_again_input_pwd">請再次輸入您的密碼！</string>
+    <string name="again_pwd_inconsistent">您兩次輸入的密碼不一致！</string>
 </resources>

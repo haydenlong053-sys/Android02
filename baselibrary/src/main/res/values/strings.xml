@@ -52,16 +52,17 @@
     <string name="msg_meeting_in_progress">A meeting is currently in progress.</string>
 
 
-    <string name="security_verification">安全验证</string>
-    <string name="security_complete_verification">为了您的账户安全，请完成以下验证</string>
-    <string name="old_code_before">旧设备验证码（前往旧设备查看）</string>
-    <string name="please_input_old_code">请输入6-8位旧设备验证码</string>
-    <string name="google_code">谷歌验证码</string>
-    <string name="please_input_google_code">请输入6位谷歌验证码</string>
-    <string name="device_error">设备码错误</string>
-    <string name="service_error_token_null">服务器错误：imToken为空</string>
-    <string name="service_error_data_null">服务器错误：数据为空</string>
-    <string name="please_again_input_pwd">请再次输入您的密码！</string>
-    <string name="again_pwd_inconsistent">您两次输入的密码不一致！</string>
+    <!-- Security / login verification -->
+    <string name="security_verification">Security verification</string>
+    <string name="security_complete_verification">For your account security, please complete the verification below</string>
+    <string name="old_code_before">Old device verification code (check your old device)</string>
+    <string name="please_input_old_code">Enter the 6–8 digit old device verification code</string>
+    <string name="google_code">Google verification code</string>
+    <string name="please_input_google_code">Enter the 6-digit Google verification code</string>
+    <string name="device_error">Incorrect device code</string>
+    <string name="service_error_token_null">Server error: imToken is empty</string>
+    <string name="service_error_data_null">Server error: data is empty</string>
+    <string name="please_again_input_pwd">Please enter your password again</string>
+    <string name="again_pwd_inconsistent">The two passwords do not match</string>
 
 </resources>
