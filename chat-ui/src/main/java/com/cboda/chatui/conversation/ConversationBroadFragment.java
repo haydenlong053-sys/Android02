@@ -99,6 +99,7 @@ import com.cboda.chatui.group.PickGroupMemberBroadActivity;
 import com.cboda.chatui.quickmeet.CallEventCallback;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.CallData;
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.third.utils.UIBroadUtils;
@@ -141,6 +142,7 @@ import cn.wildfirechat.remote.GetMessageCallback;
 import cn.wildfirechat.remote.SendMessageCallback;
 import cn.wildfirechat.remote.UserSettingScope;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
@@ -226,6 +228,8 @@ public class ConversationBroadFragment extends Fragment implements
     public View qunMeetingNoticeBroad;
     public MarqueeTextBroadView gonggaoxinxiBroad;
     public MarqueeTextBroadView tvQunMeetingBroad;
+    private View mViewMeetJoin;
+    private TextView mTvMeetJoin,mTvMeetPeople;
     private boolean isGag = false;
     private boolean oldGag = false;
     private Observer<UiBroadMessage> messageBroadLiveDataObserver = new Observer<UiBroadMessage>() {
@@ -539,11 +543,30 @@ public class ConversationBroadFragment extends Fragment implements
         view.findViewById(R.id.unreadCountTextView).setOnClickListener(_v -> onUnreadCountTextViewClick());
         view.findViewById(R.id.unreadMentionCountTextView).setOnClickListener(_v -> aitonUnreadCountTextViewClick());
 
+        mTvMeetJoin.setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if (getActivity() instanceof  ConversationBroadActivity && ((ConversationBroadActivity) getActivity()).meetPlugin !=null){
+                     ((ConversationBroadActivity) getActivity()).meetPlugin.joinMyMeetRoom(new Function0<Unit>() {
+                         @Override
+                         public Unit invoke() {
+                             mViewMeetJoin.setVisibility(View.GONE);
+                             return null;
+                         }
+                     });
+                }
+
+            }
+        });
+
     }
 
     public String fromPage;
 
     private void bindViews(View view) {
+        mViewMeetJoin = view.findViewById(R.id.mViewMeetJoin);
+        mTvMeetPeople = view.findViewById(R.id.mTvMeetPeople);
+        mTvMeetJoin = view.findViewById(R.id.mTvMeetJoin);
         gonggaoxinxiBroad = view.findViewById(R.id.gonggaoxinxi);
         tvQunMeetingBroad = view.findViewById(R.id.tvQunMeeting);
         qungonggaoBroad = view.findViewById(R.id.qungonggao);
@@ -1305,7 +1328,7 @@ public class ConversationBroadFragment extends Fragment implements
                             conversationBroadTitle = "";
                         }
                     }
-                    ELogUtilKt.eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
+                    eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
                     UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
                     if (userOnlineState != null) {
                         String onlineDesc = userOnlineState.desc();
@@ -1853,6 +1876,20 @@ public class ConversationBroadFragment extends Fragment implements
         } else {
             ongoingCallAdapterBroad.setOngoingCalls(null);
             ongoingCallRecyclerViewBroad.setVisibility(View.GONE);
+        }
+    }
+
+    public void showMeetJoinUi(QuickDetailMeetBean quickDetailMeetBean) {
+        if (mViewMeetJoin != null) {
+            mViewMeetJoin.setVisibility(View.VISIBLE);
+            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count),"88"));
+        }
+
+    }
+
+    public void hideMeetJoinUi() {
+        if (mViewMeetJoin!=null && mViewMeetJoin.getVisibility() ==View.VISIBLE)  {
+            mViewMeetJoin.setVisibility(View.GONE);
         }
     }
 }
