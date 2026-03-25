@@ -245,6 +245,9 @@ public class ConversationBroadFragment extends Fragment implements
             public void run() {
                 if (null != statsBean && null != countPillView) {
                     countPillView.setTarget(statsBean.users, 500L);
+                    if (countPillView.getVisibility() == View.GONE) {
+                        countPillView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -723,9 +726,9 @@ public class ConversationBroadFragment extends Fragment implements
         if (null != danmakuIv) {
             danmakuIv.setVisibility(View.VISIBLE);
         }
-        if (null != countPillView) {
-            countPillView.setVisibility(View.VISIBLE);
-        }
+//        if (null != countPillView) {
+//            countPillView.setVisibility(View.VISIBLE);
+//        }
         if (null != verticalDanmakuView) {
             verticalDanmakuView.setVisibility(View.VISIBLE);
         }
@@ -1048,9 +1051,9 @@ public class ConversationBroadFragment extends Fragment implements
                 if (null != verticalDanmakuView) {
                     verticalDanmakuView.setVisibility(View.VISIBLE);
                 }
-                if (null != countPillView) {
-                    countPillView.setVisibility(View.VISIBLE);
-                }
+//                if (null != countPillView) {
+//                    countPillView.setVisibility(View.VISIBLE);
+//                }
             } else {
                 if (null != danmakuIv) {
                     danmakuIv.setVisibility(View.GONE);
