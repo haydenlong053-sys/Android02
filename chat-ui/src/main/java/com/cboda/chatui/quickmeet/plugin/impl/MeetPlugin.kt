@@ -615,6 +615,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
         mIvIconMic?.isSelected = muted
+        seatMainMicIv?.isSelected =muted
     }
 
 //    private val runnableRefreshMeetSeatInfo = Runnable {
