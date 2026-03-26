@@ -36,3 +36,12 @@ data class User(
     var type: String? = null,
     var userId: String? = null
 )
+
+data class MeetUser(
+    var icon: String? = null,
+    var name: String? = null,
+    var type: String? = null,
+    var userId: String? = null,
+    var idno: String? = null,
+    var seatNumbIndex: Int = -1,
+)

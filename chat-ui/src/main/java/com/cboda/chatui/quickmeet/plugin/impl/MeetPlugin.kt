@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThreadDelayed
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
+import com.cboda.baselibrary.bean.MeetUser
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.BusLiveBroadData
@@ -111,6 +112,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var groupBean: GlobalChatGroupBean? = null
     private var groupId: String? = null
     private var meetChannelBean: QuickDetailMeetBean? = null
+    private val seatMicFourList = arrayListOf(
+        MeetUser(seatNumbIndex = SeatNumb.MIC_MAIN.ordinal),
+        MeetUser(seatNumbIndex = SeatNumb.MIC_SUB.ordinal),
+        MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_ONE.ordinal),
+        MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_TWO.ordinal)
+    )
 
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
@@ -483,8 +490,14 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     //会议发起人的信息
                     coverAvatarIv?.loadImg(ownerUser.icon)
                     mTvUserName?.text = ownerUser.name
-
-                    showSeatAvatarNameUI(SeatNumb.MIC_MAIN.ordinal, ownerUser.icon, ownerUser.name)
+                    val meetUser1 = seatMicFourList.find { meetUser ->
+                        meetUser.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal
+                    }
+                    meetUser1?.name =ownerUser.icon
+                    meetUser1?.icon =ownerUser.icon
+                    meetUser1?.type =ownerUser.type
+                    meetUser1?.userId =ownerUser.userId
+                    meetUser1?.idno =quickDetailMeetBean?.idNo
 //                    showSeatMicUI(0, true)
 
                 }
@@ -615,7 +628,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
         mIvIconMic?.isSelected = muted
-        seatMainMicIv?.isSelected =muted
+        seatMainMicIv?.isSelected = muted
     }
 
 //    private val runnableRefreshMeetSeatInfo = Runnable {
@@ -625,6 +638,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun goRefreshMeetSeatInfo() {
         if (MeetCallManager.getInstance().isCallingState()) {
+            seatMicFourList.forEach {
+                showSeatAvatarNameUI(it.seatNumbIndex, it.icon, it.name)
+            }
             ToastBroadUtils.show("去刷新座次信息")
         }
 
@@ -650,6 +666,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     private fun removePanel() {
+        clearFourSeatMicList()
         mVoiceWaveView?.stopLoopAnim()
         seatMainVoiceWaveView?.stopLoopAnim()
         mView?.visibility = View.GONE
@@ -659,6 +676,16 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         outsideTapMaskView = null
         removeView()
         mIsLayout = false
+    }
+
+    private fun clearFourSeatMicList() {
+        seatMicFourList.forEach {
+            it.icon =null
+            it.name =null
+            it.type =null
+            it.userId=null
+            it.idno =null
+        }
     }
 
     override fun onResume() {
