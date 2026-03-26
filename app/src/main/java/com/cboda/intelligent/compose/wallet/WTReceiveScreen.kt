@@ -37,16 +37,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cboda.intelligent.viewmodel.WTViewModel
 import com.cboda.intelligent.R
 import coil.compose.SubcomposeAsyncImage
-import android.net.Uri
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.toLowerCase
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
-import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.ToastBroadUtil
-import java.util.Locale
-import java.util.Locale.getDefault
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +52,7 @@ fun WTReceiveScreen(
     logoUrl: String?,
     chainId: Int?,
     chain: String?,
-    tokenAddress:String?="",
+    tokenAddress: String? = "",
     onBack: () -> Unit,
     viewModel: WTViewModel = viewModel()
 ) {
@@ -75,7 +71,7 @@ fun WTReceiveScreen(
                 navigationColor = Color.White,
                 backgroundColor = colorResource(R.color.color_3B47DD)
             )
-            
+
         },
         containerColor = Color(0xFF3B47DD)
     ) { paddingValues ->
@@ -153,7 +149,7 @@ fun WTReceiveScreen(
                         ) {
                             Box(contentAlignment = Alignment.Center) {
                                 Text(
-                                    symbol?:"BNB".take(1),
+                                    symbol ?: "BNB".take(1),
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -176,7 +172,7 @@ fun WTReceiveScreen(
             Box(contentAlignment = Alignment.Center) {
                 // Generate QR Code
                 val qrContent = remember(amount, address, symbol, logoUrl, chainId, chain) {
-                    val encryptedAddress = AEBroadS.encryptETH(address) ?: ""
+                    val encryptedAddress = EncryptUtil.aesEncrypt(address, "AES") ?: ""
                     val finalAmount = if (amount.isNullOrEmpty()) "0" else amount
                     val finalSymbol = symbol ?: "BNB"
                     val finalLogo = logoUrl ?: ""
@@ -185,11 +181,11 @@ fun WTReceiveScreen(
                     // Format: seekWeb4://transfer?amount=0.123&toAddress=...&symbol=USDT&logo_url=...&chan_id=...&chan=...&version=1.0
                     "sw4bc://transfer?amount=$finalAmount&toAddress=$encryptedAddress&symbol=$finalSymbol&tokenAddress=$tokenAddress&version=1.0"
                 }
-                
+
                 val qrBitmap = remember(qrContent) {
                     AppBroadUtils.createQRImage(qrContent, 600, 600)
                 }
-                
+
                 if (qrBitmap != null) {
                     Image(
                         bitmap = qrBitmap.asImageBitmap(),
@@ -197,7 +193,9 @@ fun WTReceiveScreen(
                         modifier = Modifier.size(240.dp)
                     )
                 } else {
-                    Box(modifier = Modifier.size(240.dp).background(Color.Gray))
+                    Box(modifier = Modifier
+                        .size(240.dp)
+                        .background(Color.Gray))
                 }
                 SubcomposeAsyncImage(
                     model = logoUrl,
@@ -242,7 +240,7 @@ fun WTReceiveScreen(
                         ) {
                             Box(contentAlignment = Alignment.Center) {
                                 Text(
-                                    symbol?:"BNB".take(1),
+                                    symbol ?: "BNB".take(1),
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -287,7 +285,7 @@ fun WTReceiveScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "$amount ${symbol?:"BNB"}",
+                        text = "$amount ${symbol ?: "BNB"}",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
@@ -296,8 +294,9 @@ fun WTReceiveScreen(
                     Image(
                         painter = painterResource(id = R.mipmap.ic_wt_receive_close),
                         contentDescription = null,
-                        modifier = Modifier.size(16.dp)
-                            .noRippleClickable{
+                        modifier = Modifier
+                            .size(16.dp)
+                            .noRippleClickable {
                                 amount = null
                             }
                     )

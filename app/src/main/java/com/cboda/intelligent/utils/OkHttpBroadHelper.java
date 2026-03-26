@@ -1,7 +1,6 @@
 package com.cboda.intelligent.utils;
 
 
-
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
@@ -11,10 +10,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
+
 import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.network.ResBroadInterceptor;
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
-import com.cboda.baselibrary.utils.AESBroadUtil;
+import com.cboda.baselibrary.utils.EncryptUtil;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.bean.BaseBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
@@ -189,7 +189,7 @@ public class OkHttpBroadHelper {
                     String resultStr = response.body().string();
                     String resultStrAes = "";
                     try {
-                        resultStrAes = AESBroadUtil.decrypt(resultStr);
+                        resultStrAes = EncryptUtil.INSTANCE.aesDecrypt(resultStr, "AES", null);
                     } catch (Exception e) {
 //                        throw new RuntimeException(e);
                         eLogD(TAG, "http--http", "--->Exception " + e);
@@ -235,7 +235,7 @@ public class OkHttpBroadHelper {
         if (methodType == HttpMethodType.POST) {
             Map<String, Object> paramsAes = new HashMap<>();
             try {
-                paramsAes.put("encrData", AESBroadUtil.encrypt(GsonUtils.getGson().toJson(params)));
+                paramsAes.put("encrData", EncryptUtil.INSTANCE.aesEncrypt(GsonUtils.getGson().toJson(params), "AES", null));
             } catch (Exception e) {
                 toLog(e, TAG);
             }

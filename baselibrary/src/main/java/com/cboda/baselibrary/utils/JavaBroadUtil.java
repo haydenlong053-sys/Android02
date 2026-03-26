@@ -37,13 +37,13 @@ public class JavaBroadUtil {
     }
 
 
-    private static final String AES_KEY = HttpsBroadConfig.INSTANCE.getAppAesPwd();
-
-    public static String aesDecrypt(String encrypted) throws Exception {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-        byte[] original = cipher.doFinal(Base64.decode(encrypted, Base64.DEFAULT));
-        return new String(original);
-    }
+//    private static final String AES_KEY = HttpsBroadConfig.INSTANCE.getAppAesPwd();
+//
+//    public static String aesDecrypt(String encrypted) throws Exception {
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
+//        Cipher cipher = Cipher.getInstance("AES");
+//        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+//        byte[] original = cipher.doFinal(Base64.decode(encrypted, Base64.DEFAULT));
+//        return new String(original);
+//    }
 }

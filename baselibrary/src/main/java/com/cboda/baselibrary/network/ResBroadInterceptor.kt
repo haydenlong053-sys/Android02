@@ -1,12 +1,10 @@
 package com.cboda.baselibrary.network
 
 import android.text.TextUtils
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.JavaBroadUtil.UStr_2_Str
-import com.cboda.baselibrary.utils.JavaBroadUtil.aesDecrypt
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.fromMapJson
 import com.cboda.baselibrary.utils.gsonFormat
-import com.cboda.baselibrary.utils.toLog
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
@@ -45,7 +43,7 @@ class ResBroadInterceptor(private val tAG: String) : Interceptor {
             var jmReqBody = ""
             try {
                 if (!TextUtils.isEmpty(resBody)) {
-                    jmReqBody = aesDecrypt(resBody)
+                    jmReqBody = EncryptUtil.aesDecrypt(resBody, "AES")
                 }
             } catch (e: Exception) {
 //                e.toLog(tAG)
@@ -82,17 +80,17 @@ class ResBroadInterceptor(private val tAG: String) : Interceptor {
             if (!TextUtils.isEmpty(reqBody)) {
                 if (reqBody.contains("encrData")) {
                     val encryptionData = JSONObject(reqBody).getString("encrData")
-                    jmReqBody = aesDecrypt(encryptionData)
+                    jmReqBody = EncryptUtil.aesDecrypt(encryptionData, "AES")
                 }
             }
         } catch (e: Exception) {
 //            e.toLog(tAG)
         }
-        val send = if (request.url.toString().contains("AI/file")){
+        val send = if (request.url.toString().contains("AI/file")) {
             "发送请求method：${request.method}\nurl：${request.url}\n请求headers：" +
                     "${request.headers}请求contentType：${request.body?.contentType()}"
 
-        }else{
+        } else {
             "发送请求method：${request.method}\nurl：${request.url}\n请求headers：" +
                     "${request.headers}请求contentType：${request.body?.contentType()}" +
                     "\n请求body:${gsonFormat(UStr_2_Str(reqBody))}" + if (!TextUtils.isEmpty(jmReqBody))

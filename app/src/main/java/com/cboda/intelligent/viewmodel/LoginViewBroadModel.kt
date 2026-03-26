@@ -72,9 +72,11 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                         } ?: liveData.postValue(null)
 //                        eLogD("LoginViewBroadModelClass", "getScanLoginDetail:${toJson2(data)}")
 
-                    }.onFailure { _, _ ->
+                    }.onFailure { _, msg ->
+                        showToastMain(msg)
                         liveData.postValue(null)
-                    }.onError { _ ->
+                    }.onError { error ->
+                        showToastMain("${error.message}")
                         liveData.postValue(null)
                     }
                 } catch (_: kotlin.Exception) {

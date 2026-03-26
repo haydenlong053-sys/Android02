@@ -30,6 +30,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 
 import androidx.compose.ui.graphics.Color
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.intelligent.activity.PaySuccessBroadActivity
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.compose.wallet.WTAssetScreen
@@ -50,7 +51,6 @@ import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.model.CreateWalletRequest
 import com.cboda.intelligent.model.DeleteWalletRequest
 import com.cboda.intelligent.repository.WTRepository
-import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.WTViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -65,14 +65,14 @@ fun WTFlowHost(
 ) {
     val navController = rememberNavController()
     val hasWallet by viewModel.hasWallet.collectAsState()
-    
+
     val systemUiController = rememberSystemUiController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     val (statusBarColor, useDarkIcons) = remember(currentRoute) {
         when (currentRoute) {
-            WTRoute.TRANSFER_WT, WTRoute.WALLET_DETAIL, WTRoute.ADD_TOKEN , WTRoute.ADD_WT -> Color(0xFFF7F8FA) to true
+            WTRoute.TRANSFER_WT, WTRoute.WALLET_DETAIL, WTRoute.ADD_TOKEN, WTRoute.ADD_WT -> Color(0xFFF7F8FA) to true
             WTRoute.TOKEN_DETAIL, WTRoute.TRANSACTION_DETAIL, WTRoute.EXPORT_PRIVATE_KEY -> Color(0xFFF9F9F9) to true
             WTRoute.RECEIVE_WT -> Color(0xFF3B47DD) to false
             else -> Color.White to true
@@ -97,11 +97,11 @@ fun WTFlowHost(
             }
         }
     }
-    
+
     // Handle Export Result
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
-    
+
     val scanLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -120,20 +120,20 @@ fun WTFlowHost(
                     // However, AEBroadS encrypted string might contain characters that are special in URL (+, /, =)
                     // If they were not properly encoded in QR code, or if getQueryParameter decoded them,
                     // spaces might have replaced + signs.
-                    
+
                     val toAddress = if (!encryptedAddress.isNullOrEmpty()) {
                         // Handle potential space vs + issue in base64 strings passed via URL
                         val fixedEncryptedAddress = encryptedAddress.replace(" ", "+")
                         try {
-                             AEBroadS.decryptEth(fixedEncryptedAddress)
+                            EncryptUtil.aesDecrypt(fixedEncryptedAddress, "AES")
                         } catch (e: Exception) {
                             // Fallback to original if replacement failed
-                             AEBroadS.decryptEth(encryptedAddress)
+                            EncryptUtil.aesDecrypt(encryptedAddress, "AES")
                         }
                     } else ""
-                    
+
                     if (!toAddress.isNullOrEmpty()) {
-                        navController.navigate(WTRoute.transferWt(toAddress, amount, symbol,tokenAddress))
+                        navController.navigate(WTRoute.transferWt(toAddress, amount, symbol, tokenAddress))
                     } else {
                         ToastBroadUtil.show("二维码解析失败: 地址无效")
                     }
@@ -192,11 +192,11 @@ fun WTFlowHost(
     ) {
         composable(WTRoute.CREATE_WT) {
             WTEmptyScreen(
-                onBack = { 
+                onBack = {
                     if (navController.previousBackStackEntry != null) {
                         navController.popBackStack()
                     } else {
-                        onBack?.invoke() 
+                        onBack?.invoke()
                     }
                 },
                 onImportClick = { navController.navigate(WTRoute.importWt()) },
@@ -224,29 +224,31 @@ fun WTFlowHost(
                     intent.putExtra("jumpSource", ScanJumpBroadEnum.ETH_TRANSFER.sourceType)
                     scanLauncher.launch(intent)
                 },
-                onTransferClick = {  
+                onTransferClick = {
                     navController.navigate(WTRoute.transferWt(null, null, null))
                 },
                 onReceiveClick = { asset ->
                     val currentWallet = viewModel.uiState.value.currentWallet
                     val address = currentWallet?.address ?: ""
                     if (address.isNotEmpty()) {
-                        navController.navigate(WTRoute.receiveWt(
-                            address = address,
-                            symbol = asset?.symbol,
-                            logoUrl = asset?.logo_url,
-                            chainId = currentWallet?.chain_id,
-                            chain = "BSC",
-                            tokenAddress = asset?.token_address?:""
-                        ))
+                        navController.navigate(
+                            WTRoute.receiveWt(
+                                address = address,
+                                symbol = asset?.symbol,
+                                logoUrl = asset?.logo_url,
+                                chainId = currentWallet?.chain_id,
+                                chain = "BSC",
+                                tokenAddress = asset?.token_address ?: ""
+                            )
+                        )
                     }
                 },
                 onAddWalletClick = { navController.navigate(WTRoute.ADD_WT) },
                 onWalletDetailClick = { name, address, isWatch ->
                     navController.navigate(WTRoute.walletDetail(name, address, isWatch))
                 },
-                onTokenClick = { isWatch, symbol,tokenAddress ->
-                    navController.navigate(WTRoute.tokenDetail(isWatch, symbol,tokenAddress))
+                onTokenClick = { isWatch, symbol, tokenAddress ->
+                    navController.navigate(WTRoute.tokenDetail(isWatch, symbol, tokenAddress))
                 },
                 onAddTokenClick = {
                     navController.navigate(WTRoute.ADD_TOKEN)
@@ -258,7 +260,7 @@ fun WTFlowHost(
             WTAddTokenScreen(
                 onBack = {
                     navController.popBackStack()
-                         },
+                },
                 viewModel = viewModel
             )
         }
@@ -298,7 +300,7 @@ fun WTFlowHost(
             val expectedAddress = backStackEntry.arguments?.getString("expectedAddress")
             WTImportScreen(
                 expectedAddress = expectedAddress,
-                onBack = { 
+                onBack = {
                     if (!navController.popBackStack()) {
                         onBack?.invoke()
                     }
@@ -317,7 +319,7 @@ fun WTFlowHost(
         }
         composable(WTRoute.WATCH_WT) {
             WTWatchScreen(
-                onBack = { 
+                onBack = {
                     if (!navController.popBackStack()) {
                         onBack?.invoke()
                     }
@@ -338,7 +340,7 @@ fun WTFlowHost(
             val name = backStackEntry.arguments?.getString("name") ?: ""
             val address = backStackEntry.arguments?.getString("address") ?: ""
 //            val filename = backStackEntry.arguments?.getString("filename") ?: ""
-            
+
             val uiState by viewModel.uiState.collectAsState()
 
             LaunchedEffect(uiState.isCreateSuccess) {
@@ -429,13 +431,13 @@ fun WTFlowHost(
                     viewModel.updateWalletName(address, newName, 97)
                 },
                 onDelete = {
-                    viewModel.deleteWallet(context,DeleteWalletRequest(chain_id = 97, address = address))
+                    viewModel.deleteWallet(context, DeleteWalletRequest(chain_id = 97, address = address))
                 },
                 onExportMnemonic = {
-                    viewModel.exportMnemonic(context,address)
+                    viewModel.exportMnemonic(context, address)
                 },
                 onExportPrivateKey = {
-                    viewModel.exportPrivateKey(context,address)
+                    viewModel.exportPrivateKey(context, address)
                 },
                 onConvert = {
                     // Navigate to Import screen with expected address
@@ -457,26 +459,29 @@ fun WTFlowHost(
             WTTokenDetailScreen(
                 isWatch = isWatch,
                 symbol = symbol,
-                tokenAddress=tokenAddress,
+                tokenAddress = tokenAddress,
                 onBack = { navController.popBackStack() },
-                onTransactionClick = { txHash,logoUrl ->
-                    navController.navigate(WTRoute.transactionDetail(txHash,logoUrl)) },
+                onTransactionClick = { txHash, logoUrl ->
+                    navController.navigate(WTRoute.transactionDetail(txHash, logoUrl))
+                },
                 onReceiveClick = { asset ->
                     val currentWallet = viewModel.uiState.value.currentWallet
                     val address = currentWallet?.address ?: ""
                     if (address.isNotEmpty()) {
-                        navController.navigate(WTRoute.receiveWt(
-                            address = address,
-                            symbol = asset.symbol,
-                            logoUrl = asset.logo_url,
-                            chainId = currentWallet?.chain_id,
-                            chain = "BSC",
-                            tokenAddress = tokenAddress
-                        ))
+                        navController.navigate(
+                            WTRoute.receiveWt(
+                                address = address,
+                                symbol = asset.symbol,
+                                logoUrl = asset.logo_url,
+                                chainId = currentWallet?.chain_id,
+                                chain = "BSC",
+                                tokenAddress = tokenAddress
+                            )
+                        )
                     }
                 },
                 onTransferClick = {
-                    navController.navigate(WTRoute.transferWt(null, null, symbol,tokenAddress))
+                    navController.navigate(WTRoute.transferWt(null, null, symbol, tokenAddress))
                 },
                 viewModel = viewModel
             )
@@ -553,32 +558,46 @@ class WTRoute {
     companion object {
         //创建(Landing Page)
         const val CREATE_WT = "create_wt"
+
         //添加钱包
         const val ADD_WT = "add_wt"
+
         //资产首页
         const val ASSET_WT = "asset_wt"
+
         //导入
         const val IMPORT_WT = "import_wt?expectedAddress={expectedAddress}"
+
         //观察
         const val WATCH_WT = "watch_wt"
+
         //备份助记词
         const val BACKUP_MNEMONIC = "backup_mnemonic/{mnemonic}/{name}/{address}"
+
         //查看助记词
         const val VIEW_MNEMONIC = "view_mnemonic/{mnemonic}"
+
         //导出私钥
         const val EXPORT_PRIVATE_KEY = "export_private_key/{privateKey}"
+
         //钱包详情
         const val WALLET_DETAIL = "wallet_detail/{name}/{address}/{isWatch}"
+
         //代币详情
         const val TOKEN_DETAIL = "token_detail/{isWatch}/{symbol}/{tokenAddress}"
+
         //交易详情
         const val TRANSACTION_DETAIL = "transaction_detail/{tx_hash}?logoUrl={logoUrl}"
+
         //收款
         const val RECEIVE_WT = "receive_wt/{address}?symbol={symbol}&logo_url={logo_url}&chain_id={chain_id}&chain={chain}&tokenAddress={tokenAddress}"
+
         //转账
         const val TRANSFER_WT = "transfer_wt?address={address}&amount={amount}&symbol={symbol}&tokenAddress={tokenAddress}"
+
         //处理中
         const val TRANSFER_PROCESSING = "transfer_processing"
+
         //添加代币
         const val ADD_TOKEN = "add_token"
 
@@ -586,7 +605,7 @@ class WTRoute {
         fun viewMnemonic(mnemonic: String) = "view_mnemonic/$mnemonic"
         fun exportPrivateKey(privateKey: String) = "export_private_key/$privateKey"
         fun walletDetail(name: String, address: String, isWatch: Boolean) = "wallet_detail/$name/$address/$isWatch"
-        fun tokenDetail(isWatch: Boolean, symbol: String,tokenAddress:String) = "token_detail/$isWatch/$symbol/$tokenAddress"
+        fun tokenDetail(isWatch: Boolean, symbol: String, tokenAddress: String) = "token_detail/$isWatch/$symbol/$tokenAddress"
         fun transactionDetail(txHash: String, logoUrl: String?): String {
             return if (logoUrl.isNullOrEmpty()) {
                 "transaction_detail/$txHash"
@@ -594,7 +613,8 @@ class WTRoute {
                 "transaction_detail/$txHash?logoUrl=${Uri.encode(logoUrl)}"
             }
         }
-        fun receiveWt(address: String, symbol: String?, logoUrl: String?, chainId: Int?, chain: String?,tokenAddress: String): String {
+
+        fun receiveWt(address: String, symbol: String?, logoUrl: String?, chainId: Int?, chain: String?, tokenAddress: String): String {
             val base = StringBuilder("receive_wt/$address")
             var first = true
             fun appendParam(key: String, value: String?) {
@@ -611,10 +631,12 @@ class WTRoute {
             appendParam("tokenAddress", tokenAddress)
             return base.toString()
         }
+
         fun importWt(expectedAddress: String? = null): String {
             return if (expectedAddress.isNullOrEmpty()) "import_wt" else "import_wt?expectedAddress=$expectedAddress"
         }
-        fun transferWt(address: String?, amount: String?, symbol: String?,tokenAddress: String?=""): String {
+
+        fun transferWt(address: String?, amount: String?, symbol: String?, tokenAddress: String? = ""): String {
             val base = StringBuilder("transfer_wt")
             var first = true
             fun appendParam(key: String, value: String?) {
