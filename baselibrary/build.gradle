@@ -12,6 +12,7 @@ android {
     namespace 'com.cboda.baselibrary'
 
     defaultConfig {
+        buildConfigField "boolean", "IS_NEW_SIGNATURE", libsinfo.isNewSignature
         minSdk libsinfo.minSdk
         targetSdk libsinfo.compileSdk
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

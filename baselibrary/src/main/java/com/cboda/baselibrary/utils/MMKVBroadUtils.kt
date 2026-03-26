@@ -28,11 +28,24 @@ import kotlin.collections.get
  */
 class MMKVBroadUtils {
     companion object {
+        const val DEVICE_BRAND = "deviceBrand"
+        const val DEVICE_MODEL = "deviceModel"
+        const val DEVICE_ID = "deviceIdFive"
+        const val DEVICE_AID = "deviceAndroidId"
+        const val DEVICE_WID = "deviceWId"
+
+        const val DEVICE_UID = "deviceUId"
         const val NET_TYPE = "appNetType"
         const val DEV_INPUT_BASE_URL = "devInputBaseUrl"
         const val SEARCH_KEY = "searchHistoryKey"
         const val USER_ID_KEY = "userIdKey"
         const val USER_NAME_KEY = "username"
+
+        const val USER_VIP_KEY = "userVip"
+
+        const val USER_NICE_NUMBER_KEY = "userNiceNumberKey"
+
+        const val USER_IMG_KEY = "userAvatar"
         const val USER_PHONE_KEY = "userPhoneKey"
         const val USER_ONE_KEY_LOGIN_PHONE_KEY = "userOneKeyLoginPhoneKey"
         const val USER_ONE_KEY_LOGIN_TYPE_KEY = "userOneKeyLoginTypeKey"
@@ -84,6 +97,39 @@ class MMKVBroadUtils {
         fun saveUserAppToken(appToken: String) {
             val kv = MMKV.defaultMMKV()
             kv.encode(USER_ID_KEY, appToken)
+        }
+
+
+        fun saveUserImg(userImg: String) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(USER_IMG_KEY, userImg)
+        }
+
+        fun getUserImg(): String? {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeString(USER_IMG_KEY)
+        }
+
+
+        fun saveUserVip(userVip: String) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(USER_VIP_KEY, userVip == "1")
+        }
+
+        fun getUserVip(): Boolean {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeBool(USER_VIP_KEY, false)
+        }
+
+
+        fun saveUserNiceNum(isLiang: String) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(USER_NICE_NUMBER_KEY, isLiang == "1")
+        }
+
+        fun getUserIsNiceNum(): Boolean {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeBool(USER_NICE_NUMBER_KEY, false)
         }
 
         fun saveUserName(userName: String) {
@@ -468,5 +514,39 @@ class MMKVBroadUtils {
             kv.remove(KEY_FRIEND_LIST_DATA)
         }
 
+
+        fun getSqlStrData(key: String, defaultValue: String = ""): String {
+            return try {
+                getMmKv()?.decodeString(key) ?: defaultValue
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+                ""
+            }
+        }
+
+        fun saveSqlStrData(key: String, value: String? = null) {
+            try {
+                getMmKv()?.encode(key, value ?: "")
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+            }
+
+        }
+
+
+        private var mkv: MMKV? = null
+        private fun getMmKv(): MMKV? {
+            return try {
+                if (mkv != null) {
+                    mkv
+                } else {
+                    mkv = MMKV.defaultMMKV()
+                    mkv
+                }
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+                null
+            }
+        }
     }
 }

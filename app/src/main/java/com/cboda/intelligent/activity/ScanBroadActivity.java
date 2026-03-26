@@ -101,7 +101,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         jumpSource = getIntent().getIntExtra("jumpSource", 0);
-//        eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+//        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
         loginViewBroadModel = new ViewModelProvider(this).get(LoginViewBroadModel.class);
         initViews();
         int result = 0;

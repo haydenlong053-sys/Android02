@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.bean.EventBusBroadBean;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.cboda.chatui.ChatManagerBroadHolder;
+
 import okhttp3.Response;
 
 public class RegisterBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
@@ -116,7 +118,7 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId() == R.id.tvBack){
+        if (view.getId() == R.id.tvBack) {
             finish();
         }
         if (view.getId() == R.id.tvLanguage) {
@@ -150,14 +152,14 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
             }
             regist();
         }
-        if (view.getId() == R.id.tvXy){
+        if (view.getId() == R.id.tvXy) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议));
         }
-        if (view.getId()==R.id.tvThrid){
+        if (view.getId() == R.id.tvThrid) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getThirdContentUrl(), getString(R.string.第三方信息共享清单));
         }
 
-        if (view.getId() == R.id.tvYs){
+        if (view.getId() == R.id.tvYs) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议));
         }
 
@@ -167,7 +169,7 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
     private String eqno;
 
     private void regist() {
-        eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
         Map<String, Object> param = new HashMap<>();
         param.put("eqno", eqno);
         param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());

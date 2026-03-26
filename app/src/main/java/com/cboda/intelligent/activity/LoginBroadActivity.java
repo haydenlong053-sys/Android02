@@ -408,7 +408,7 @@
 //        param.put("acount", etUser.getText().toString());
 //        param.put("pwd", etPassword.getText().toString());
 //        param.put("qu", tvDiqu.getText().toString().replace("+", ""));
-//        param.put("eqid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+//        param.put("eqid", DeviceBroadUtil.INSTANCE.getAndroidId(this));
 //        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
 //        param.put("type", "2");
 //        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.zhLogin, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
@@ -458,7 +458,7 @@
 //        param.put("pwd", etPassword.getText().toString());
 //        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
 //        param.put("type", "2");
-//        param.put("eqid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+//        param.put("eqid", DeviceBroadUtil.INSTANCE.getAndroidId(this));
 //        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.pwdLogin, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
 //            @Override
 //            public void onSuccess(Response response, ResultBroadBean resultBean) {

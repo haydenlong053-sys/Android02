@@ -102,7 +102,7 @@
 //
 //        EventBus.getDefault().register(this);
 //
-//        eqno = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+//        eqno = DeviceBroadUtil.INSTANCE.getAndroidId(this);
 //
 ////        mBinding.tvLanguage.setText(MMKVBroadUtils.Companion.getYuYan());
 //        mBinding.tvLanguage.setOnClickListener(this);

@@ -19,6 +19,7 @@ import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.google.zxing.BarcodeFormat
@@ -76,10 +77,7 @@ class AppBroadUtils {
 //                .getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 //            deviceId = telephony.getDeviceId()
 //            if (deviceId == null) {
-//                deviceId = Settings.Secure.getString(
-//                    context.contentResolver,
-//                    Settings.Secure.ANDROID_ID
-//                )
+//            deviceId = DeviceBroadUtil.getAndroidId(context)
 //            }
             return try {
                 val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager

@@ -11,11 +11,13 @@ ext {
 //            storeFile        : "googleplay.jks",
 //            storePassword    : "123456",
 //            keyAlias         : "lxkj",
+//            isNewSignature   : "false",
 
             // //新版签名（旧版us环境）
             storeFile        : "google_play_us.jks",
             storePassword    : "Aa663366",
             keyAlias         : "uscbodabroadintelligent",
+            isNewSignature   : "false",
     ]
 
     andx = [
