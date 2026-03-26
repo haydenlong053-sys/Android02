@@ -2,11 +2,9 @@ package com.cboda.chatui.quickmeet.plugin.impl
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.Rect
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,8 +14,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.blankj.utilcode.util.ThreadUtils
-import com.blankj.utilcode.util.ThreadUtils.runOnUiThreadDelayed
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.bean.MeetUser
 import com.cboda.baselibrary.toast.ToastBroadUtils
@@ -49,7 +45,6 @@ import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
 import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
-import io.agora.rtc2.Constants.USER_OFFLINE_BECOME_AUDIENCE
 import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 import kotlinx.coroutines.MainScope
@@ -118,7 +113,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_ONE.ordinal),
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_TWO.ordinal)
     )
-
+    private val myMid = MMKVBroadUtils.getUserMId()
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -257,10 +252,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     fun joinMyMeetRoom(isJoinInvoke: () -> Unit = {}) {
         goPermissionAudioMeet() {
-            val userMId = MMKVBroadUtils.getUserMId()
             meetChannelBean?.let {
                 isJoinInvoke.invoke()
-                val direct = if (userMId == it.idNo.toString()) {
+                val direct = if (myMid == it.idNo.toString()) {
                     CallDirect.CALLER
                 } else {
                     CallDirect.ANSWER
@@ -493,11 +487,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     val meetUser1 = seatMicFourList.find { meetUser ->
                         meetUser.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal
                     }
-                    meetUser1?.name =ownerUser.name
-                    meetUser1?.icon =ownerUser.icon
-                    meetUser1?.type =ownerUser.type
-                    meetUser1?.userId =ownerUser.userId
-                    meetUser1?.idno =quickDetailMeetBean?.idNo
+                    meetUser1?.name = ownerUser.name
+                    meetUser1?.icon = ownerUser.icon
+                    meetUser1?.type = ownerUser.type
+                    meetUser1?.userId = ownerUser.userId
+                    meetUser1?.idno = quickDetailMeetBean?.idNo
 //                    showSeatMicUI(0, true)
 
                 }
@@ -610,8 +604,39 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         if (totalVolume > 0 && mVoiceWaveView?.isAnimating() == false) {
             mVoiceWaveView?.startLoopAnim()
         }
-        if (totalVolume > 0 && seatMainVoiceWaveView?.isAnimating() == false) {
+        updateFourSeatSpeakingState(speakers)
+    }
+
+    /**
+     * 依据 Agora 回调中的 uid 与麦位用户 idno 对应关系，找出当前正在说话的麦位并更新波纹动画。
+     * 比对规则：AudioVolumeInfo.uid == MeetUser.idno
+     *
+     */
+    private fun updateFourSeatSpeakingState(speakers: Array<AudioVolumeInfo>?) {
+        speakers?.forEach { speaker ->
+            eLogD(APP_TAG, "speakers.uid==>${speaker.uid.toString()}")
+            if (speaker.volume <= 0) return@forEach
+            val uidString = if (speaker.uid ==0){
+                myMid
+            }else{
+                speaker.uid.toString()
+            }
+            seatMicFourList.firstOrNull { meetUser ->
+                !meetUser.idno.isNullOrEmpty() && meetUser.idno == uidString
+            }?.let { updateSeatWaveByIndex(it.seatNumbIndex) }
+        }
+
+    }
+
+    private fun updateSeatWaveByIndex(seatIndex: Int) {
+        if (SeatNumb.MIC_MAIN.ordinal == seatIndex && seatMainVoiceWaveView?.isAnimating() == false) {
             seatMainVoiceWaveView?.startLoopAnim()
+        }else if (SeatNumb.MIC_SUB.ordinal == seatIndex && seatSubVoiceWaveView?.isAnimating() == false) {
+            seatSubVoiceWaveView?.startLoopAnim()
+        }else if (SeatNumb.MIC_GUEST_ONE.ordinal == seatIndex && seatGuestOneVoiceWaveView?.isAnimating() == false) {
+            seatGuestOneVoiceWaveView?.startLoopAnim()
+        }else if (SeatNumb.MIC_GUEST_TWO.ordinal == seatIndex && seatGuestTwoVoiceWaveView?.isAnimating() == false) {
+            seatGuestTwoVoiceWaveView?.startLoopAnim()
         }
     }
 
@@ -620,7 +645,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onRtcStats(statsBean: IRtcEngineEventHandler.RtcStats?) {
-        eLogD(APP_TAG, "RtcStats=users=>${statsBean?.users}")
+//        eLogD(APP_TAG, "RtcStats=users=>${statsBean?.users}")
         //先判断会议人数有没有变化后，再在主线程更新人数信息
 //        runOnUiThread {
 //        }
@@ -683,11 +708,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun clearFourSeatMicList() {
         seatMicFourList.forEach {
-            it.icon =null
-            it.name =null
-            it.type =null
-            it.userId=null
-            it.idno =null
+            it.icon = null
+            it.name = null
+            it.type = null
+            it.userId = null
+            it.idno = null
         }
     }
 

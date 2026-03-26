@@ -87,6 +87,11 @@ interface CallEventCallback{
      * 对于本地用户的回调，totalVolume 是发送音频流的本地用户的音量。
      * 对于远端用户的回调，totalVolume 是瞬时音量最高的最多三位远端用户的音量总和。
      * 如果调用了 startAudioMixing，则 totalVolume 是混音后的音量。
+     * uid
+     * 用户 ID。
+     * 在本地用户的回调中，uid 为 0。
+     * 在远端用户的回调中，uid 为瞬时音量最大的远端用户 ID。
+     *
      */
     fun onRoomAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?,totalVolume: Int){
 
