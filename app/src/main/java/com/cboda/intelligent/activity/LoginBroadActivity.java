@@ -408,7 +408,7 @@
 //        param.put("acount", etUser.getText().toString());
 //        param.put("pwd", etPassword.getText().toString());
 //        param.put("qu", tvDiqu.getText().toString().replace("+", ""));
-//        param.put("eqid",DeviceBroadUtil.INSTANCE.getAndroidId(this));
+//        param.put("eqid", DeviceBroadUtil.INSTANCE.getAndroidId(this));
 //        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
 //        param.put("type", "2");
 //        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.zhLogin, param, new SpotsCallBroadBack<ResultBroadBean>(this) {

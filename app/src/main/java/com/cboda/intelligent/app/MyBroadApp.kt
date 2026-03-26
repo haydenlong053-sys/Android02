@@ -36,13 +36,13 @@ import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.utils.HttpsBroadConfig.setHttpMode
 import com.cboda.baselibrary.network.ResBroadInterceptor
-import com.cboda.intelligent.utils.DeviceBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.clearUserDataLiveData
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug
 import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
+import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentViewBroadHolder
 import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
@@ -92,7 +92,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
             builder.readTimeout(180000, TimeUnit.MILLISECONDS)
             val headers = HttpHeaders()
             headers.put("apptoken", BroadConstant.getAppToken() ?: "")
-            headers.put("sensorNo", DeviceBroadUtils.getDeviceId(mContext!!))
+            headers.put("sensorNo", DeviceBroadUtil.getAndroidId(mContext))
             // 多语言头
             headers.put("Accept-Language", NetworkBroadConfig.getNetAppLanguage())
             if (getIsDebug()) {

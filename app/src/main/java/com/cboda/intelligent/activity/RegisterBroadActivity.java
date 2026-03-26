@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.cboda.chatui.ChatManagerBroadHolder;
+
 import okhttp3.Response;
 
 public class RegisterBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
@@ -117,7 +118,7 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId() == R.id.tvBack){
+        if (view.getId() == R.id.tvBack) {
             finish();
         }
         if (view.getId() == R.id.tvLanguage) {
@@ -151,14 +152,14 @@ public class RegisterBroadActivity extends BaseSimpleBroadActivity implements Vi
             }
             regist();
         }
-        if (view.getId() == R.id.tvXy){
+        if (view.getId() == R.id.tvXy) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议));
         }
-        if (view.getId()==R.id.tvThrid){
+        if (view.getId() == R.id.tvThrid) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getThirdContentUrl(), getString(R.string.第三方信息共享清单));
         }
 
-        if (view.getId() == R.id.tvYs){
+        if (view.getId() == R.id.tvYs) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议));
         }
 
