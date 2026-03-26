@@ -1,13 +1,12 @@
 package com.cboda.intelligent.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.intelligent.bean.UrlBroadBean
 import com.cboda.intelligent.bean.UrlsBroadBean
-import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.intelligent.utils.JsonBroadUtils
 import com.lzy.okgo.OkGo
@@ -47,7 +46,7 @@ class UploadFileViewBroadModel : BaseViewModel() {
             ?.execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
                     var body = response?.body()
-                    body = AEBroadS.decrypt(body)
+                    body = EncryptUtil.aesDecrypt(body)
                     val bean = JsonBroadUtils.getSuccessJsonBean(body)
                     bean?.code?.apply {
                         if (this == BroadConstant.RESULT_OK&& bean.success) {
@@ -79,7 +78,7 @@ class UploadFileViewBroadModel : BaseViewModel() {
             ?.execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
                     var body = response?.body()
-                    body = AEBroadS.decrypt(body)
+                    body = EncryptUtil.aesDecrypt(body)
                     val bean = JsonBroadUtils.getSuccessJsonBean(body)
                     bean?.code?.apply {
                         if (this == BroadConstant.RESULT_OK&& bean.success) {
@@ -113,7 +112,7 @@ class UploadFileViewBroadModel : BaseViewModel() {
                 ?.execute(object : StringCallback() {
                     override fun onSuccess(response: Response<String>?) {
                         var body = response?.body()
-                        body = AEBroadS.decrypt(body)
+                        body = EncryptUtil.aesDecrypt(body)
                         val bean = JsonBroadUtils.getSuccessJsonBean(body)
                         bean?.code?.apply {
                             if (this == BroadConstant.RESULT_OK&& bean.success) {
@@ -146,7 +145,7 @@ class UploadFileViewBroadModel : BaseViewModel() {
                 ?.execute(object : StringCallback() {
                     override fun onSuccess(response: Response<String>?) {
                         var body = response?.body()
-                        body = AEBroadS.decrypt(body)
+                        body = EncryptUtil.aesDecrypt(body)
                         val bean = JsonBroadUtils.getSuccessJsonBean(body)
                         bean?.code?.apply {
                             if (this == BroadConstant.RESULT_OK&& bean.success) {

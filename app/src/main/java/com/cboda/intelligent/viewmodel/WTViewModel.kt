@@ -9,6 +9,7 @@ import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.model.AddTokenRequest
 import com.cboda.intelligent.model.AssetItem
@@ -30,7 +31,6 @@ import com.cboda.intelligent.model.WalletItem
 import com.cboda.intelligent.model.WalletItemData
 import com.cboda.intelligent.model.WalletSourceRequest
 import com.cboda.intelligent.repository.WTRepository
-import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.WalletManager
 import com.cboda.intelligent.utils.dismissLoading
@@ -964,7 +964,7 @@ class WTViewModel() : ViewModel() {
 
     private fun saveEncryptedMnemonic(address: String, mnemonic: String, directory: File) {
         try {
-            val encrypted = AEBroadS.encrypt(mnemonic)
+            val encrypted = EncryptUtil.aesEncrypt(mnemonic)
             if (encrypted != null) {
                 val file = File(directory, getMnemonicFilename(address))
                 file.writeText(encrypted)
@@ -980,7 +980,7 @@ class WTViewModel() : ViewModel() {
             val file = File(dir, getMnemonicFilename(address))
             if (file.exists()) {
                 val encrypted = file.readText()
-                return AEBroadS.decrypt(encrypted)
+                return EncryptUtil.aesDecrypt(encrypted)
             }
         } catch (e: Exception) {
             e.printStackTrace()

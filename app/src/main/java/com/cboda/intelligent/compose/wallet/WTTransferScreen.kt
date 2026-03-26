@@ -71,6 +71,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import coil.compose.SubcomposeAsyncImage
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.compose.formatSixDecimalChange
 import com.cboda.intelligent.compose.formatSixDecimalValue
@@ -79,7 +80,6 @@ import com.cboda.intelligent.compose.getOriginalAmount
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
-import com.cboda.intelligent.utils.AEBroadS
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.WalletManager
 import org.web3j.utils.Convert
@@ -139,9 +139,9 @@ fun WTTransferScreen(
                     val parsedAddress = if (!encryptedAddress.isNullOrEmpty()) {
                         val fixedEncryptedAddress = encryptedAddress.replace(" ", "+")
                         try {
-                            AEBroadS.decryptEth(fixedEncryptedAddress)
+                            EncryptUtil.aesDecrypt(fixedEncryptedAddress, "AES")
                         } catch (e: Exception) {
-                            AEBroadS.decryptEth(encryptedAddress)
+                            EncryptUtil.aesDecrypt(encryptedAddress, "AES")
                         }
                     } else ""
 

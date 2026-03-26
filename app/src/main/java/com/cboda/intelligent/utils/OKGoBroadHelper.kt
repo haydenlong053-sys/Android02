@@ -10,6 +10,7 @@ import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.intelligent.bean.CreateRoomBroadBean
 import com.cboda.intelligent.bean.GroupMeetingBroadBean
@@ -48,7 +49,7 @@ class OKGoBroadHelper {
 
 //        eLogD("OKGoHelperClass接口请求", " url-->${url} 加密前--> $json ")
         val map = mapOf(
-            "encrData" to AEBroadS.encrypt(json),
+            "encrData" to EncryptUtil.aesEncrypt(json),
         )
 
         OkGo.post<String>(if (hasBasUrl) url else (HttpsBroadConfig.appBaseUrl + url))
@@ -64,7 +65,7 @@ class OKGoBroadHelper {
 //                                "OKGoHelperClass接口返回",
 //                                " url-->${url}  加密后--> ${AEBroadS.decrypt(body)} "
 //                            )
-                            body = AEBroadS.decrypt(body)
+                            body = EncryptUtil.aesDecrypt(body)
 
                             val baseBean = JsonBroadUtils.getSuccessJsonBean(body)
                             baseBean?.code?.apply {

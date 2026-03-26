@@ -1,8 +1,7 @@
 package com.cboda.baselibrary.network.interceptor
 
-import com.cboda.baselibrary.utils.AESBroadUtil
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.getIsDebug
 import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -83,7 +82,7 @@ class EncryptionBroadInterceptor : Interceptor {
         val jsonParams = gson.toJson(params)
         eLogD("请求体", jsonParams)
         // 加密参数
-        val encryptedData = AESBroadUtil.encrypt(jsonParams)
+        val encryptedData = EncryptUtil.aesEncrypt(jsonParams, "AES")
 
         // 创建新的请求体，只包含加密后的数据
         val encryptedParams = mapOf(ENCRYPT_DATA_KEY to encryptedData)
