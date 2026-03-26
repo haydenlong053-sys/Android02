@@ -30,7 +30,8 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="@dimen/dp_10"
                 android:paddingTop="6dp"
-                android:paddingBottom="6dp">
+                android:paddingBottom="6dp"
+                >
 
                 <ImageView
                     android:id="@+id/menuImageView"
@@ -223,18 +224,59 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-            <com.hjq.shape.view.ShapeTextView
-                android:id="@+id/disableInputTipTextView"
+            <LinearLayout
+                android:id="@+id/disableInputTipView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
-                android:gravity="center"
-                android:text="全员禁言中"
-                android:textColor="@color/black_45"
-                android:textSize="14sp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:orientation="horizontal"
                 android:visibility="gone"
-                app:shape_radius="@dimen/dp_20"
-                app:shape_solidColor="#E4E5E7"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                >
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_chat_mute_icon1" />
+
+
+                <com.hjq.shape.layout.ShapeFrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:shape_radius="@dimen/dp_12"
+                    app:shape_solidColor="#E4E5E7"
+                    >
+                    <com.hjq.shape.view.ShapeTextView
+                        android:id="@+id/disableInputTipTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:layout_gravity="center"
+                        android:drawablePadding="@dimen/dp_4"
+                        android:text="@string/group_all_muted_hint"
+                        android:textColor="@color/black_45"
+                        android:textSize="14sp"
+                        android:drawableStart="@mipmap/ic_chat_mute_icon2"
+
+                         />
+                </com.hjq.shape.layout.ShapeFrameLayout>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_chat_mute_icon3" />
+
+
+            </LinearLayout>
 
 
         </com.hjq.shape.layout.ShapeLinearLayout>

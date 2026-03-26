@@ -96,6 +96,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
 
     LinearLayout inputContainerLinearLayout;
     TextView disableInputTipTextView;
+    View disableInputTipView;
 
     ImageView menuImageView;
     ImageView audioImageView;
@@ -216,13 +217,13 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     public void disableInput(String tip) {
         closeConversationInputPanel();
         inputContainerLinearLayout.setVisibility(GONE);
-        disableInputTipTextView.setVisibility(VISIBLE);
+        disableInputTipView.setVisibility(VISIBLE);
         disableInputTipTextView.setText(tip);
     }
 
     public void enableInput() {
         inputContainerLinearLayout.setVisibility(VISIBLE);
-        disableInputTipTextView.setVisibility(GONE);
+        disableInputTipView.setVisibility(GONE);
     }
 
     public void onDestroy() {
@@ -343,6 +344,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     private void bindViews() {
         inputContainerLinearLayout = findViewById(R.id.inputContainerLinearLayout);
         disableInputTipTextView = findViewById(R.id.disableInputTipTextView);
+        disableInputTipView = findViewById(R.id.disableInputTipView);
         menuImageView = findViewById(R.id.menuImageView);
         audioImageView = findViewById(R.id.audioImageView);
         mIvVoiceSend = findViewById(R.id.mIvVoiceSend);

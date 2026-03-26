@@ -493,7 +493,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     val meetUser1 = seatMicFourList.find { meetUser ->
                         meetUser.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal
                     }
-                    meetUser1?.name =ownerUser.icon
+                    meetUser1?.name =ownerUser.name
                     meetUser1?.icon =ownerUser.icon
                     meetUser1?.type =ownerUser.type
                     meetUser1?.userId =ownerUser.userId
@@ -586,7 +586,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onEngineDestroy(data: CallData) {
-        eLogD(APP_TAG, "mIsLayout==>$mIsLayout")
+        eLogD(APP_TAG, "onEngineDestroy---mIsLayout==>$mIsLayout")
         if (mIsLayout) {
             touchHandle?.let {
                 it.setDisabledTouch(true)
@@ -669,6 +669,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         clearFourSeatMicList()
         mVoiceWaveView?.stopLoopAnim()
         seatMainVoiceWaveView?.stopLoopAnim()
+        seatSubVoiceWaveView?.stopLoopAnim()
+        seatGuestOneVoiceWaveView?.stopLoopAnim()
+        seatGuestTwoVoiceWaveView?.stopLoopAnim()
         mView?.visibility = View.GONE
         outsideTapMaskView?.let { mask ->
             mContainer?.removeView(mask)
