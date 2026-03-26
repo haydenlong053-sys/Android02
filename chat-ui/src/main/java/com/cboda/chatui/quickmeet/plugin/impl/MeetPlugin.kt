@@ -113,7 +113,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_ONE.ordinal),
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_TWO.ordinal)
     )
-    private val myMid = MMKVBroadUtils.getUserMId()
+    private val myMid by lazy {
+        MMKVBroadUtils.getUserMId()
+    }
+    private val myUserId by lazy {
+        MMKVBroadUtils.getRealUserId()?:""
+    }
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -342,20 +347,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
         mTvCloseMic?.click {
             if (MeetCallManager.getInstance().isCallDirect()) {
-                mIvIconMic?.let { mivView ->
-                    val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
-                    if (muteLocalAudio == 0) {
-                        mivView.isSelected = !mivView.isSelected
-                        goSeatMicStateChange(SeatNumb.MIC_MAIN.ordinal)
-                        if (mivView.isSelected) {
-                            //已禁麦
-                            mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
-                        } else {
-                            mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
-
-                        }
-                    }
+                seatMicFourList.find {
+                    it.userId ==myUserId
+                }?.let { seatUser ->
+                    goSeatMicStateChange(seatUser.seatNumbIndex)
                 }
+
             }
 
         }
@@ -502,13 +499,65 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     //麦位上的麦克风状态变更---取反
     private fun goSeatMicStateChange(index: Int) {
         if (index == SeatNumb.MIC_MAIN.ordinal) {
-            seatMainMicIv?.isSelected = !seatMainMicIv!!.isSelected
+            seatMainMicIv?.let {mivView->
+                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
+                if (muteLocalAudio == 0) {
+                    mivView.isSelected = !mivView.isSelected
+                    mIvIconMic?.isSelected = !mivView.isSelected
+                    if (mivView.isSelected) {
+                        //已禁麦
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
+                    } else {
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
+
+                    }
+                }
+            }
+
         } else if (index == SeatNumb.MIC_SUB.ordinal) {
-            seatSubMicIv?.isSelected = !seatSubMicIv!!.isSelected
+            seatSubMicIv?.let {mivView->
+                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
+                if (muteLocalAudio == 0) {
+                    mivView.isSelected = !mivView.isSelected
+                    if (mivView.isSelected) {
+                        //已禁麦
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
+                    } else {
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
+
+                    }
+                }
+            }
+
         } else if (index == SeatNumb.MIC_GUEST_ONE.ordinal) {
-            seatGuestOneMicIv?.isSelected = !seatGuestOneMicIv!!.isSelected
+            seatGuestOneMicIv?.let {mivView->
+                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
+                if (muteLocalAudio == 0) {
+                    mivView.isSelected = !mivView.isSelected
+                    if (mivView.isSelected) {
+                        //已禁麦
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
+                    } else {
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
+
+                    }
+                }
+            }
+
         } else if (index == SeatNumb.MIC_GUEST_TWO.ordinal) {
-            seatGuestTwoMicIv?.isSelected = !seatGuestTwoMicIv!!.isSelected
+            seatGuestTwoMicIv?.let {mivView->
+                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
+                if (muteLocalAudio == 0) {
+                    mivView.isSelected = !mivView.isSelected
+                    if (mivView.isSelected) {
+                        //已禁麦
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
+                    } else {
+                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
+
+                    }
+                }
+            }
         }
     }
 
