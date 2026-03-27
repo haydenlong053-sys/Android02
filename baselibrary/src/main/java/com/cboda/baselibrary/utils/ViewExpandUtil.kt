@@ -39,6 +39,7 @@ import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.widge.LoadingBroadDialog
+import com.hjq.shape.layout.ShapeConstraintLayout
 import com.hjq.shape.layout.ShapeLinearLayout
 import com.hjq.shape.layout.ShapeRelativeLayout
 import com.hjq.shape.view.ShapeEditText
@@ -343,6 +344,16 @@ fun ShapeEditText.setStrokeColor(@ColorRes strokeColor: Int) {
     this.shapeDrawableBuilder.intoBackground()
 }
 
+
+fun ShapeConstraintLayout.setBackColor(@ColorRes color: Int) {
+    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
+    this.shapeDrawableBuilder.intoBackground()
+}
+
+fun ShapeConstraintLayout.setBackColor2(color: Int) {
+    this.shapeDrawableBuilder.solidColor = color
+    this.shapeDrawableBuilder.intoBackground()
+}
 
 fun ShapeRelativeLayout.setBackColor(@ColorRes color: Int, radius: Float) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
