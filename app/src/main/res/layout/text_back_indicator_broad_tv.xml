@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/textBackIndicatorLayout"
-    app:shape_radius="@dimen/dp_8"
     tools:viewBindingIgnore="true">
 
 
@@ -24,4 +22,4 @@
         tools:textSize="14sp"
         tools:textStyle="bold" />
 
-</com.hjq.shape.layout.ShapeConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

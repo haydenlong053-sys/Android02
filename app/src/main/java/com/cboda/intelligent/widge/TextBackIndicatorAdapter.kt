@@ -15,6 +15,7 @@ import com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.BezierPagerBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePager2Indicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.WrapPager2Indicator
@@ -161,7 +162,6 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
                     val interpolatedColor =
                         interpolateColor(mNormalColor, mSelectedColor, enterPercent)
                     titleText.setTextColor(interpolatedColor)
-//                    bottomIv.setColorFilter(interpolatedColor, PorterDuff.Mode.SRC_IN)
                 }
             }
         }
@@ -210,24 +210,6 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
         indicator.roundRadius = UIBroadUtil.dip2px(context, 8.0).toFloat()
         indicator.setStartInterpolator(AccelerateInterpolator())
         indicator.setEndInterpolator(DecelerateInterpolator(2.0f))
-
-//        val indicator = LinePagerBroadIndicator(context)
-//        indicator.mode = LinePagerBroadIndicator.MODE_EXACTLY
-//        indicator.lineHeight = UIBroadUtil.dip2px(context, 2.0).toFloat()
-//        indicator.lineWidth = UIBroadUtil.dip2px(context, 15.0).toFloat()
-//        indicator.roundRadius = UIBroadUtil.dip2px(context, 2.0).toFloat()
-//        indicator.startInterpolator = AccelerateInterpolator()
-//        indicator.endInterpolator = DecelerateInterpolator(2.0f)
-//        indicator.colors = mIndicatorColor
         return indicator
     }
-
-    //为了与ViewPage进行连动，需要设置一个接口，通知使用者实现被点击事件的处理
-//    fun setOnIndicatorTapClickListener(listener: OnIndicatorItemClickListener) {
-//        mListener = listener
-//    }
-//
-//    interface OnIndicatorItemClickListener {
-//        fun onTabClick(index: Int)
-//    }
 }
