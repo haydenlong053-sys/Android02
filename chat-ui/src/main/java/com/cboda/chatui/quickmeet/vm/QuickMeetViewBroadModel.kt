@@ -11,6 +11,7 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.chatui.quickmeet.UrlMeetConstants
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
+import com.cboda.chatui.quickmeet.bean.SeatMicListBean
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
 
@@ -183,6 +184,40 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
 //                dismissLoadingWfc()
+            }
+        }
+        return safeCenterLiveData
+    }
+
+    /**
+     * 已经在麦位的人员列表
+     */
+    suspend fun goMeetMicSeatPersonList(groupIdNo: String?): SingleLiveBroadData<SeatMicListBean> {
+        showLoadingWfc()
+        val safeCenterLiveData = SingleLiveBroadData<SeatMicListBean>()
+        val params = hashMapOf("groupIdNo" to groupIdNo,)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2<SeatMicListBean>(
+                    UrlMeetConstants.QUICK_MIC_SEAT_LIST,
+                    SeatMicListBean::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    dismissLoadingWfc()
+                    userInfo?.let {
+                        safeCenterLiveData.postValue(it)
+                    }
+
+                }.onFailure { code, message ->
+                    dismissLoadingWfc()
+                    ToastBroadUtils.show(message)
+                }.onError {
+                    dismissLoadingWfc()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                dismissLoadingWfc()
             }
         }
         return safeCenterLiveData

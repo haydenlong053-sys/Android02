@@ -148,7 +148,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
         }
         meetSeatChangeMsgLiveData.observe(activity) {
-            goRefreshMeetSeatInfo()
+            if (groupId == it){
+                goRefreshMeetSeatInfo()
+            }
         }
     }
 
@@ -485,11 +487,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     val meetUser1 = seatMicFourList.find { meetUser ->
                         meetUser.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal
                     }
-                    meetUser1?.name = ownerUser.name
+                    meetUser1?.nickname = ownerUser.name
                     meetUser1?.icon = ownerUser.icon
                     meetUser1?.type = ownerUser.type
                     meetUser1?.userId = ownerUser.userId
-                    meetUser1?.idno = quickDetailMeetBean?.idNo
+                    meetUser1?.idNo = quickDetailMeetBean?.idNo
 //                    showSeatMicUI(0, true)
 
                 }
@@ -625,7 +627,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
      */
     private fun updateFourSeatSpeakingState(speakers: Array<AudioVolumeInfo>?) {
         speakers?.forEach { speaker ->
-            eLogD(APP_TAG, "speakers.uid==>${speaker.uid.toString()}")
+//            eLogD(APP_TAG, "speakers.uid==>${speaker.uid.toString()}")
             if (speaker.volume <= 0) return@forEach
             val uidString = if (speaker.uid ==0){
                 myMid
@@ -633,7 +635,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 speaker.uid.toString()
             }
             seatMicFourList.firstOrNull { meetUser ->
-                !meetUser.idno.isNullOrEmpty() && meetUser.idno == uidString
+                !meetUser.idNo.isNullOrEmpty() && meetUser.idNo == uidString
             }?.let { updateSeatWaveByIndex(it.seatNumbIndex) }
         }
 
@@ -674,10 +676,17 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun goRefreshMeetSeatInfo() {
         if (MeetCallManager.getInstance().isCallingState()) {
-            seatMicFourList.forEach {
-                showSeatAvatarNameUI(it.seatNumbIndex, it.icon, it.name)
+            activity.lifecycleScope.launch {
+                viewModel?.goMeetMicSeatPersonList(groupId)?.observe(activity){
+
+
+                }
             }
-            ToastBroadUtils.show("去刷新座次信息")
+
+
+            seatMicFourList.forEach {
+                showSeatAvatarNameUI(it.seatNumbIndex, it.icon, it.nickname)
+            }
         }
 
     }
@@ -738,10 +747,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private fun clearFourSeatMicList() {
         seatMicFourList.forEach {
             it.icon = null
-            it.name = null
+            it.nickname = null
             it.type = null
             it.userId = null
-            it.idno = null
+            it.idNo = null
         }
     }
 

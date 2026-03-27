@@ -28,6 +28,8 @@ import cn.wildfirechat.client.ConnectionStatus
 import cn.wildfirechat.message.MeetEndMessageContent
 import cn.wildfirechat.message.MeetStartMessageContent
 import cn.wildfirechat.message.MeetingPreEndTipMessageContent
+import cn.wildfirechat.message.MeetingSeatChangeMessageContent
+import cn.wildfirechat.message.MeetingUpMicApplyMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeInformMessageContent
 import cn.wildfirechat.message.UnknownMessageContent
@@ -55,6 +57,8 @@ import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
+import com.cboda.baselibrary.utils.meetSeatChangeMsgLiveData
+import com.cboda.baselibrary.utils.meetUpMicMsgLiveData
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.updateBarrageDataLiveData
 import com.cboda.chatemoji.EmotionBroadEvent
@@ -600,16 +604,25 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
                             val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
                             runOnUiThread {
-                                showMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount) {
-                                    if (MeetCallManager.getInstance().isCallingState()) {
-                                        lifecycleScope.launch {
-                                            quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
-                                                ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                                if (MeetCallManager.getInstance().isCallingState() && MeetCallManager.getInstance().isOwner()){
+                                    showMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount) {
+                                        if (MeetCallManager.getInstance().isCallingState()) {
+                                            lifecycleScope.launch {
+                                                quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
+                                                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                                                }
                                             }
                                         }
                                     }
                                 }
+
                             }
+                        } else if (message.content is MeetingUpMicApplyMessageContent) {
+                            val meetingUpMicApplyMessageContent = message.content as MeetingUpMicApplyMessageContent
+                            meetUpMicMsgLiveData.postValue(meetingUpMicApplyMessageContent.groupIdNo?:"")
+                        }else if (message.content is MeetingSeatChangeMessageContent) {
+                            val meetingMicMessageContent = message.content as MeetingSeatChangeMessageContent
+                            meetSeatChangeMsgLiveData.postValue(meetingMicMessageContent.groupIdNo?:"")
                         } else if (message.content is MeetStartMessageContent) {
                             message.conversation?.target?.let { groupId ->
                                 meetJoinMsgLiveData.postValue(groupId)

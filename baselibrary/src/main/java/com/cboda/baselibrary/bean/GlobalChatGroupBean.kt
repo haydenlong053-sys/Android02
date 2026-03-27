@@ -39,9 +39,9 @@ data class User(
 
 data class MeetUser(
     var icon: String? = null,
-    var name: String? = null,
+    var nickname: String? = null,
     var type: String? = null,
     var userId: String? = null,
-    var idno: String? = null,
+    var idNo: String? = null,
     var seatNumbIndex: Int = -1,
 )

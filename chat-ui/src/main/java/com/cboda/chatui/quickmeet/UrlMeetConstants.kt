@@ -17,6 +17,12 @@ object UrlMeetConstants {
     const val QUICK_LIVE_EXTEND="api/quick/live/extend"
     //获取群信息
     const val QUICK_GROUP_INFO="api/groupInfo"
+    //申请上麦人员列表
+    const val QUICK_APPLY_MIC_LIST="api/quick/live/applyMicList"
+    //同意上麦
+    const val QUICK_AGREE_MIC="api/quick/live/agreeMic"
+    //麦位人员列表
+    const val QUICK_MIC_SEAT_LIST="api/quick/live/micSeatList"
 
 
 

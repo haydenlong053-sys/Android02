@@ -124,6 +124,8 @@ import cn.wildfirechat.message.MeetEndMessageContent;
 import cn.wildfirechat.message.MeetStartMessageContent;
 import cn.wildfirechat.message.MeetingInviteMessageContent;
 import cn.wildfirechat.message.MeetingPreEndTipMessageContent;
+import cn.wildfirechat.message.MeetingSeatChangeMessageContent;
+import cn.wildfirechat.message.MeetingUpMicApplyMessageContent;
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.MessageContent;
 import cn.wildfirechat.message.MessageContentMediaType;
@@ -9047,6 +9049,8 @@ public class ChatManager {
         registerMessageContent(MeetingPreEndTipMessageContent.class);
         registerMessageContent(MeetStartMessageContent.class);
         registerMessageContent(MeetEndMessageContent.class);
+        registerMessageContent(MeetingUpMicApplyMessageContent.class);
+        registerMessageContent(MeetingSeatChangeMessageContent.class);
     }
 
     private MessageContent contentOfType(int type) {

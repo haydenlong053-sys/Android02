@@ -26,16 +26,16 @@ import cn.wildfirechat.message.core.PersistFlag;
 @ContentTag(type = MESSAGE_CONTENT_TYPE_MEET_UP_MIC_APPLY, flag = PersistFlag.Transparent)
 public class MeetingUpMicApplyMessageContent extends MessageContent {
 
-    private String userId;
-    private String idno;
+    public String applicantUserId;
+    public String groupIdNo;
 
 
     public MeetingUpMicApplyMessageContent() {
     }
 
-    public MeetingUpMicApplyMessageContent(String userId, String idno) {
-        this.userId = userId;
-        this.idno = idno;
+    public MeetingUpMicApplyMessageContent(String userId, String groupIdNo) {
+        this.applicantUserId = userId;
+        this.groupIdNo = groupIdNo;
     }
 
     @Override
@@ -44,11 +44,11 @@ public class MeetingUpMicApplyMessageContent extends MessageContent {
         try {
             JSONObject objWrite = new JSONObject();
 
-            if (userId!=null){
-                objWrite.put("userId",userId);
+            if (applicantUserId !=null){
+                objWrite.put("applicantUserId", applicantUserId);
             }
-            if (idno != null) {
-                objWrite.put("idno", idno);
+            if (groupIdNo != null) {
+                objWrite.put("groupIdNo", groupIdNo);
             }
 
             payload.pushData = objWrite.toString();
@@ -66,8 +66,8 @@ public class MeetingUpMicApplyMessageContent extends MessageContent {
         try {
             if (payload.pushData != null) {
                 JSONObject jsonObject = new JSONObject(payload.pushData);
-                userId = jsonObject.optString("userId");
-                idno = jsonObject.optString("idno");
+                applicantUserId = jsonObject.optString("applicantUserId");
+                groupIdNo = jsonObject.optString("groupIdNo");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,14 +88,14 @@ public class MeetingUpMicApplyMessageContent extends MessageContent {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(userId != null ? userId : "");
-        dest.writeString(idno != null ? idno : "");
+        dest.writeString(applicantUserId != null ? applicantUserId : "");
+        dest.writeString(groupIdNo != null ? groupIdNo : "");
     }
 
     protected MeetingUpMicApplyMessageContent(Parcel in) {
         super(in);
-        userId = in.readString();
-        idno = in.readString();
+        applicantUserId = in.readString();
+        groupIdNo = in.readString();
     }
 
     public static final Creator<MeetingUpMicApplyMessageContent> CREATOR = new Creator<MeetingUpMicApplyMessageContent>() {

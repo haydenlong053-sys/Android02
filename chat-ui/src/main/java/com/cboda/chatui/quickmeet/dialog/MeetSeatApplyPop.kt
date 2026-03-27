@@ -4,24 +4,34 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.view.AppRoundBroadImage
 import com.cboda.chatui.databinding.DialogPopMeetSeatApplyBinding
 import com.cboda.chatui.R
 import com.cboda.chatui.quickmeet.bean.SeatApplyItem
+import com.cboda.chatui.quickmeet.vm.QuickMeetMicViewModel
 import com.hjq.shape.view.ShapeTextView
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 //极速会议--麦位申请列表
-class MeetSeatApplyPop(val context: Context) : BaseBottomBroadPop(context) {
-    var sureInvoke: (SeatApplyItem) -> Unit = {}
+class MeetSeatApplyPop(val context: Context, val groupIdNo: String?) : BaseBottomBroadPop(context) {
+    private var sureInvoke: (SeatApplyItem) -> Unit = {}
+    private val scope = MainScope() // 创建主线程的协程作用域
     private var binding: DialogPopMeetSeatApplyBinding = DialogPopMeetSeatApplyBinding.inflate(
         LayoutInflater.from(context)
     )
+    private var viewModel: QuickMeetMicViewModel? = null
 
     init {
         contentView = binding.root
@@ -32,19 +42,37 @@ class MeetSeatApplyPop(val context: Context) : BaseBottomBroadPop(context) {
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
 
-        // TODO: 后续替换成真实的申请列表数据；当前用假数据完整展示 UI 样式
-        val fakeList = listOf(
-            SeatApplyItem("COY FollowBB", "管理员", "申请上麦"),
-            SeatApplyItem("COY FollowBB13455", "管理员", "申请上麦"),
-            SeatApplyItem("COY FollowBB", "管理员", "申请上麦"),
-            SeatApplyItem("COY FollowBB", "管理员", "申请上麦"),
-            SeatApplyItem("COY FollowBB", "管理员", "申请上麦"),
-            SeatApplyItem("COY FollowBB", "管理员", "申请上麦"),
-        )
-
         binding.rvMeetSeatApplyList.layoutManager = LinearLayoutManager(context)
-        binding.rvMeetSeatApplyList.adapter = MeetSeatApplyAdapter(fakeList)
+        initData()
     }
+
+    private fun initData() {
+        if (context is FragmentActivity) {
+            val activity = context
+            // 获取该 Activity 作用域的 ViewModel
+            viewModel =
+                ViewModelProvider(activity).get<QuickMeetMicViewModel>(QuickMeetMicViewModel::class.java)
+            // 现在可以使用 viewModel 进行数据操作
+            scope.launch {
+                viewModel?.getApplyMicList(groupIdNo)?.observe(activity) {
+                    binding.rvMeetSeatApplyList.adapter = MeetSeatApplyAdapter(it.applyList ?: arrayListOf())
+                }
+
+            }
+            sureInvoke ={
+                scope.launch {
+                    viewModel?.goAgreeUpMic(it.userId,groupIdNo)?.observe(activity) {
+                        if (it){
+                            ToastBroadUtils.show("已同意")
+                        }
+                        dismiss()
+                    }
+                }
+            }
+        }
+
+    }
+
 
     private inner class MeetSeatApplyAdapter(
         private val items: List<SeatApplyItem>,
@@ -60,8 +88,8 @@ class MeetSeatApplyPop(val context: Context) : BaseBottomBroadPop(context) {
         }
 
         override fun onBindViewHolder(holder: MeetSeatApplyViewHolder, position: Int) {
-            val lasePositionBoo= (position == (items.size-1))
-            holder.bind(items[position],lasePositionBoo)
+            val lasePositionBoo = (position == (items.size - 1))
+            holder.bind(items[position], lasePositionBoo)
 
         }
 
@@ -69,21 +97,25 @@ class MeetSeatApplyPop(val context: Context) : BaseBottomBroadPop(context) {
     }
 
     private inner class MeetSeatApplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val avatarIv: AppRoundBroadImage = itemView.findViewById(R.id.ivMeetSeatApplyAvatar)
+        private val avatarIv: ImageView = itemView.findViewById(R.id.ivMeetSeatApplyAvatar)
         private val nameTv: TextView = itemView.findViewById(R.id.tvMeetSeatApplyName)
         private val roleTagTv: ShapeTextView = itemView.findViewById(R.id.tvMeetSeatApplyRoleTag)
         private val agreeTv: ShapeTextView = itemView.findViewById(R.id.tvMeetSeatApplyAgree)
         private val viewLine: View = itemView.findViewById(R.id.viewMeetSeatApplyDivider)
 
         fun bind(item: SeatApplyItem, lasePositionBoo: Boolean) {
-            nameTv.text = item.name
+            nameTv.text = item.nickname
             roleTagTv.text = item.role
+            avatarIv.loadImg(item.icon)
             agreeTv.setOnClickListener {
-                dismiss()
-                // TODO: 接入“同意申请”业务逻辑
                 sureInvoke.invoke(item)
             }
             viewLine.isGone = lasePositionBoo
         }
+    }
+
+    override fun onDismiss() {
+        scope.cancel()
+        super.onDismiss()
     }
 }

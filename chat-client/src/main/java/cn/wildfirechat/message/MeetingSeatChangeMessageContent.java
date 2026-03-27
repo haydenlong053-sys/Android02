@@ -11,6 +11,7 @@ import android.os.Parcel;
 
 import com.cboda.baselibrary.utils.ELogUtilKt;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.wildfirechat.message.core.ContentTag;
@@ -19,36 +20,44 @@ import cn.wildfirechat.message.core.PersistFlag;
 
 /**
  * Created by heavyrain lee on 2017/12/6.
- * 后端在线主动推的会议座次变更消息
+ * 后端在线主动推的会议上麦申请
+ * payload.pushData--->{"refreshType":"micSeat","groupIdNo":"1fd4d614470c41659fb1ce7a9ef82185"}
  */
 
 @ContentTag(type = MESSAGE_CONTENT_TYPE_MEET_SEAT_CHANGE, flag = PersistFlag.Transparent)
 public class MeetingSeatChangeMessageContent extends MessageContent {
-//    private int intervalNumber;
-//    private int intervalUnit;
 
-    private String time;
-    private String amount;
+    public String refreshType;
+    public String groupIdNo;
 
 
     public MeetingSeatChangeMessageContent() {
     }
 
+    public MeetingSeatChangeMessageContent(String refreshType, String groupIdNo) {
+        this.refreshType = refreshType;
+        this.groupIdNo = groupIdNo;
+    }
 
     @Override
     public MessagePayload encode() {
         MessagePayload payload = super.encode();
-        payload.pushData = "";
+        try {
+            JSONObject objWrite = new JSONObject();
+
+            if (refreshType !=null){
+                objWrite.put("refreshType", refreshType);
+            }
+            if (groupIdNo != null) {
+                objWrite.put("groupIdNo", groupIdNo);
+            }
+
+            payload.pushData = objWrite.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return payload;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getAmount() {
-        return amount;
     }
 
     @Override
@@ -58,8 +67,8 @@ public class MeetingSeatChangeMessageContent extends MessageContent {
         try {
             if (payload.pushData != null) {
                 JSONObject jsonObject = new JSONObject(payload.pushData);
-                time = jsonObject.optString("time");
-                amount = jsonObject.optString("amount");
+                refreshType = jsonObject.optString("refreshType");
+                groupIdNo = jsonObject.optString("groupIdNo");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,12 +89,14 @@ public class MeetingSeatChangeMessageContent extends MessageContent {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-//        dest.writeString(id != null ? id : "");
+        dest.writeString(refreshType != null ? refreshType : "");
+        dest.writeString(groupIdNo != null ? groupIdNo : "");
     }
 
     protected MeetingSeatChangeMessageContent(Parcel in) {
         super(in);
-//        id = in.readString();
+        refreshType = in.readString();
+        groupIdNo = in.readString();
     }
 
     public static final Creator<MeetingSeatChangeMessageContent> CREATOR = new Creator<MeetingSeatChangeMessageContent>() {

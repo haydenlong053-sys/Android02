@@ -33,10 +33,12 @@ import java.util.Set;
 import com.cboda.baselibrary.bean.BaseBroadResponse;
 import com.cboda.baselibrary.bean.CommonResultBroadBean;
 import com.cboda.baselibrary.common.UrlBroadConstants;
+import com.cboda.baselibrary.livedata.SingleLiveBroadData;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
 import com.cboda.baselibrary.network.model.NetworkBroadResponse;
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.R;
 import com.cboda.chatui.common.OperateBroadResult;
@@ -779,7 +781,34 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
         }
     }
 
-    public void goMeetUpMicApply(String target) {
+
+    //上麦申请接口
+    public SingleLiveBroadData<Boolean> goMeetUpMicApply(String groupID) {
+        SingleLiveBroadData<Boolean> result = new SingleLiveBroadData<>();
+        Map<String, Object> params = new HashMap<>(2);
+        params.put("uid", MMKVBroadUtils.Companion.getRealUserId());
+        params.put("groupIdNo", groupID);
+        NetworkBroadUtils.INSTANCE.postEncrypted("api/quick/live/applyMic", params, new NetworkBroadUtils.NetworkCallback<>() {
+            @Override
+            public void onFailure(int code, @NotNull String message, @org.jetbrains.annotations.Nullable Object data) {
+                eLogD("GroupViewBroadModelClass", "onFailure:" + code + "," + message);
+            }
+
+            @Override
+            public void onSuccess(@org.jetbrains.annotations.Nullable Object data) {
+                result.postValue(true);
+            }
+
+            @Override
+            public void onError(@NotNull Throwable throwable) {
+            }
+
+        });
+        return result;
+    }
+
+
+    public void goMeetDownMicApply(String target) {
 
     }
 }
