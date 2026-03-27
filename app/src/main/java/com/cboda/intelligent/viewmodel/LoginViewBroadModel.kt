@@ -216,7 +216,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                     dismissLoading()
                 }
 
-            } catch (e: kotlin.Exception) {
+            } catch (_: kotlin.Exception) {
                 dismissLoading()
             }
         }

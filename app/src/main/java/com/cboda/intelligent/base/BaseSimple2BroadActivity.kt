@@ -379,6 +379,10 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
     }
 
 
+    open fun setRootBgRes(@DrawableRes resId: Int) {
+        mViewRootBg.setBackgroundResource(resId)
+    }
+
     open fun getRightView(): TextView? {
         return tvRight
     }
