@@ -11,12 +11,12 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.utils.setBackColor
-import com.cboda.baselibrary.utils.setBackColor2
 import com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerBroadIndicator
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.WrapPager2Indicator
+import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.WrapPagerBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleBroadView
 import com.hjq.shape.layout.ShapeConstraintLayout
 
@@ -85,7 +85,7 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
             R.layout.text_back_indicator_broad_tv,
             pagerTitleView, false
         )
-        val backLayout = itemLayout.findViewById<ShapeConstraintLayout>(R.id.textBackIndicatorLayout)
+//        val backLayout = itemLayout.findViewById<ShapeConstraintLayout>(R.id.textBackIndicatorLayout)
         val titleText = itemLayout.findViewById<TextView>(R.id.textBackIndicatorTitleTv)
 //        val shapeView = itemLayout.findViewById<View>(R.id.shapeView)
 //        titleText.post {
@@ -101,11 +101,8 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
                 } else {
                     titleText.setTextColor(getAppColor(context, R.color.white))
                 }
-                if (mBackSelectedColor != -1) {
-                    backLayout.setBackColor(mBackSelectedColor)
-                } else {
-                    backLayout.setBackColor(com.cboda.baselibrary.R.color.white)
-                }
+                // 选中背景由 WrapPagerBroadIndicator 随滑动绘制，此处保持透明
+//                backLayout.setBackColor(com.cboda.baselibrary.R.color.transparent)
 //                titleText.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
             }
 
@@ -115,11 +112,7 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
                 } else {
                     titleText.setTextColor(getAppColor(context, R.color.colorAccent))
                 }
-                if (mBackNormalColor != -1) {
-                    backLayout.setBackColor(mBackNormalColor)
-                } else {
-                    backLayout.setBackColor(com.cboda.baselibrary.R.color.transparent)
-                }
+//                backLayout.setBackColor(com.cboda.baselibrary.R.color.transparent)
 //                titleText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL)
 //                bottomIv.imageTintList = ColorStateList.valueOf(mNormalColor)
             }
@@ -195,16 +188,20 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
         )
     }
 
-    //LinePagerBroadIndicator 当标题被选中时，标题下方出现一条直线
+    // WrapPagerBroadIndicator：在标题下方绘制圆角块，随 ViewPager 滑动在相邻 Tab 间插值移动（与 text_back_indicator_broad_tv 的 dp_8 圆角一致）
     override fun getIndicator(context: Context): IPagerIndicator {
-        val indicator = LinePagerBroadIndicator(context)
-        indicator.mode = LinePagerBroadIndicator.MODE_EXACTLY
-        indicator.lineHeight = UIBroadUtil.dip2px(context, 2.0).toFloat()
-        indicator.lineWidth = UIBroadUtil.dip2px(context, 32.0).toFloat()
-        indicator.roundRadius = UIBroadUtil.dip2px(context, 2.0).toFloat()
-        indicator.startInterpolator = AccelerateInterpolator()
-        indicator.endInterpolator = DecelerateInterpolator(2.0f)
-        indicator.colors = mIndicatorColor
+        val indicator = WrapPager2Indicator(context)
+        val fillColor =
+            if (mIndicatorColor.isNotEmpty()) mIndicatorColor[0] else getAppColor(
+                context,
+                com.cboda.baselibrary.R.color.white
+            )
+        indicator.fillColor = fillColor
+//        indicator.verticalPadding = UIBroadUtil.dip2px(context, 4.0)
+//        indicator.horizontalPadding = UIBroadUtil.dip2px(context, 4.0)
+        indicator.setRoundRadius(UIBroadUtil.dip2px(context, 8.0).toFloat())
+        indicator.setStartInterpolator(AccelerateInterpolator())
+        indicator.setEndInterpolator(DecelerateInterpolator(2.0f))
         return indicator
     }
 

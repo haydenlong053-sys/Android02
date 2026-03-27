@@ -46,7 +46,7 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
         mBinding?.magicIndicator?.navigator = commonNavigator
         mBinding?.magicIndicator?.also { magicIndicator ->
             mBinding?.viewPager?.also { viewPager ->
-                bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapt)
+                bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapt, magicIndicatorNeedOnPageScrolled = true)
             }
         }
 
