@@ -35,6 +35,8 @@ public class LinePager2Indicator extends View implements IPagerIndicator {
     public static final int MODE_MATCH_EDGE = 0;   // 直线宽度 == title宽度 - 2 * mXOffset
     public static final int MODE_WRAP_CONTENT = 1;    // 直线宽度 == title内容宽度 - 2 * mXOffset
     public static final int MODE_EXACTLY = 2;  // 直线宽度 == mLineWidth
+    /** 指示器铺满整个 title 项（与 tab 背景同宽同高），圆角矩形随页面滑动在相邻项间插值 */
+    public static final int MODE_FULL_CELL = 3;
 
     private int mMode;  // 默认为MODE_MATCH_EDGE模式
 
@@ -131,7 +133,13 @@ public class LinePager2Indicator extends View implements IPagerIndicator {
         float nextLeftX;
         float rightX;
         float nextRightX;
-        if (mMode == MODE_MATCH_EDGE) {
+        if (mMode == MODE_FULL_CELL) {
+            // 与整格 tab（title 项）同区域：横向同 MODE_MATCH_EDGE，纵向为 mTop～mBottom 并随滑动插值
+            leftX = current.mLeft + mXOffset;
+            nextLeftX = next.mLeft + mXOffset;
+            rightX = current.mRight - mXOffset;
+            nextRightX = next.mRight - mXOffset;
+        } else if (mMode == MODE_MATCH_EDGE) {
             leftX = current.mLeft + mXOffset;
             nextLeftX = next.mLeft + mXOffset;
             rightX = current.mRight - mXOffset;
@@ -150,8 +158,14 @@ public class LinePager2Indicator extends View implements IPagerIndicator {
 
         mLineRect.left = leftX + (nextLeftX - leftX) * mStartInterpolator.getInterpolation(positionOffset);
         mLineRect.right = rightX + (nextRightX - rightX) * mEndInterpolator.getInterpolation(positionOffset);
-        mLineRect.top = getHeight() - mLineHeight - mYOffset;
-        mLineRect.bottom = getHeight() - mYOffset;
+        if (mMode == MODE_FULL_CELL) {
+            float t = positionOffset;
+            mLineRect.top = current.mTop + (next.mTop - current.mTop) * t;
+            mLineRect.bottom = current.mBottom + (next.mBottom - current.mBottom) * t;
+        } else {
+            mLineRect.top = getHeight() - mLineHeight - mYOffset;
+            mLineRect.bottom = getHeight() - mYOffset;
+        }
         // 计算颜色,是否需要渐变线条
         if (mColors != null && mColors.size() > 1) {
             mPaint.setShader(new LinearGradient(mLineRect.left, mLineRect.top, mLineRect.right, mLineRect.bottom,
@@ -225,7 +239,8 @@ public class LinePager2Indicator extends View implements IPagerIndicator {
     }
 
     public void setMode(int mode) {
-        if (mode == MODE_EXACTLY || mode == MODE_MATCH_EDGE || mode == MODE_WRAP_CONTENT) {
+        if (mode == MODE_EXACTLY || mode == MODE_MATCH_EDGE || mode == MODE_WRAP_CONTENT
+                || mode == MODE_FULL_CELL) {
             mMode = mode;
         } else {
             throw new IllegalArgumentException("mode " + mode + " not supported.");
