@@ -40,7 +40,7 @@ data class User(
 data class MeetUser(
     var icon: String? = null,
     var nickname: String? = null,
-    var type: String? = null,
+    var role: String? = null,
     var userId: String? = null,
     var idNo: String? = null,
     var seatNumbIndex: Int = -1,

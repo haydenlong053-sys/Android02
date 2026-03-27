@@ -117,7 +117,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         MMKVBroadUtils.getUserMId()
     }
     private val myUserId by lazy {
-        MMKVBroadUtils.getRealUserId()?:""
+        MMKVBroadUtils.getRealUserId() ?: ""
     }
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
@@ -148,7 +148,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
         }
         meetSeatChangeMsgLiveData.observe(activity) {
-            if (groupId == it){
+            if (groupId == it) {
                 goRefreshMeetSeatInfo()
             }
         }
@@ -350,7 +350,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         mTvCloseMic?.click {
             if (MeetCallManager.getInstance().isCallDirect()) {
                 seatMicFourList.find {
-                    it.userId ==myUserId
+                    it.userId == myUserId
                 }?.let { seatUser ->
                     goSeatMicStateChange(seatUser.seatNumbIndex)
                 }
@@ -359,7 +359,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
         }
 
-        seatMainContainer?.click {  }
+        seatMainContainer?.click { }
         seatSubContainer?.click {
             if (seatSubMicIv?.isVisible == true) {
                 goDownMic(SeatNumb.MIC_SUB.ordinal)
@@ -489,7 +489,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     }
                     meetUser1?.nickname = ownerUser.name
                     meetUser1?.icon = ownerUser.icon
-                    meetUser1?.type = ownerUser.type
+                    meetUser1?.role = ownerUser.type
                     meetUser1?.userId = ownerUser.userId
                     meetUser1?.idNo = quickDetailMeetBean?.idNo
 //                    showSeatMicUI(0, true)
@@ -534,6 +534,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 seatMainNameTv?.text = ""
                 seatMainMicIv?.isVisible = false
             } else {
+                coverAvatarIv?.loadImg(icon)
+                mTvUserName?.text = name
                 seatMainAvatarIv?.loadImg(icon)
                 seatMainNameTv?.text = name
                 seatMainMicIv?.isVisible = true
@@ -629,9 +631,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         speakers?.forEach { speaker ->
 //            eLogD(APP_TAG, "speakers.uid==>${speaker.uid.toString()}")
             if (speaker.volume <= 0) return@forEach
-            val uidString = if (speaker.uid ==0){
+            val uidString = if (speaker.uid == 0) {
                 myMid
-            }else{
+            } else {
                 speaker.uid.toString()
             }
             seatMicFourList.firstOrNull { meetUser ->
@@ -644,11 +646,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private fun updateSeatWaveByIndex(seatIndex: Int) {
         if (SeatNumb.MIC_MAIN.ordinal == seatIndex && seatMainVoiceWaveView?.isAnimating() == false) {
             seatMainVoiceWaveView?.startLoopAnim()
-        }else if (SeatNumb.MIC_SUB.ordinal == seatIndex && seatSubVoiceWaveView?.isAnimating() == false) {
+        } else if (SeatNumb.MIC_SUB.ordinal == seatIndex && seatSubVoiceWaveView?.isAnimating() == false) {
             seatSubVoiceWaveView?.startLoopAnim()
-        }else if (SeatNumb.MIC_GUEST_ONE.ordinal == seatIndex && seatGuestOneVoiceWaveView?.isAnimating() == false) {
+        } else if (SeatNumb.MIC_GUEST_ONE.ordinal == seatIndex && seatGuestOneVoiceWaveView?.isAnimating() == false) {
             seatGuestOneVoiceWaveView?.startLoopAnim()
-        }else if (SeatNumb.MIC_GUEST_TWO.ordinal == seatIndex && seatGuestTwoVoiceWaveView?.isAnimating() == false) {
+        } else if (SeatNumb.MIC_GUEST_TWO.ordinal == seatIndex && seatGuestTwoVoiceWaveView?.isAnimating() == false) {
             seatGuestTwoVoiceWaveView?.startLoopAnim()
         }
     }
@@ -674,18 +676,70 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //
 //    }
 
-    private fun goRefreshMeetSeatInfo() {
+    private fun goRefreshMeetSeatInfo(isRefreshMainMic: Boolean =false) {
         if (MeetCallManager.getInstance().isCallingState()) {
             activity.lifecycleScope.launch {
-                viewModel?.goMeetMicSeatPersonList(groupId)?.observe(activity){
+                viewModel?.goMeetMicSeatPersonList(groupId)?.observe(activity) {
+                    val quickDetailMeetBean = MeetCallManager.getInstance().mCallData.quickDetailMeetBean
+                    it.speakingList?.let { netList ->
+                        //先将接口返回的数据排序，将主麦人放到集合首位
+                        netList.find { netBean ->
+                            quickDetailMeetBean?.userId == netBean.userId
+                        }?.let {bean->
+                            val indexOf = netList.indexOf(bean)
+                            if (indexOf !=0){
+                                netList.remove(bean)
+                                netList.add(0,bean)
+                            }
+                        }
+                        //同步接口数据到 固定麦位的集合上
+                        seatMicFourList.forEachIndexed { index, seatMicFourUser ->
+                            if (index < netList.size){
+                                seatMicFourUser.icon = netList[index].icon
+                                seatMicFourUser.nickname = netList[index].nickname
+                                seatMicFourUser.role = netList[index].role
+                                seatMicFourUser.userId = netList[index].userId
+                                seatMicFourUser.idNo = netList[index].idNo
+                            }else{
+                                seatMicFourUser.icon = null
+                                seatMicFourUser.nickname = null
+                                seatMicFourUser.role = null
+                                seatMicFourUser.userId = null
+                                seatMicFourUser.idNo = null
+                            }
+                        }
 
 
+                    }
+
+                    seatMicFourList.forEach {bean ->
+                        if (bean.seatNumbIndex != SeatNumb.MIC_MAIN.ordinal){
+                            showSeatAvatarNameUI(bean.seatNumbIndex, bean.icon, bean.nickname)
+                        }else if (isRefreshMainMic){
+                            showSeatAvatarNameUI(bean.seatNumbIndex, bean.icon, bean.nickname)
+                        }
+
+                    }
+                    goRefreshRtcSeatMic()
                 }
             }
+        }
 
+    }
 
-            seatMicFourList.forEach {
-                showSeatAvatarNameUI(it.seatNumbIndex, it.icon, it.nickname)
+    private fun goRefreshRtcSeatMic() {
+        seatMicFourList.find { meetUser ->
+            meetUser.userId ==myUserId
+        }?.let {
+            //上麦
+            if (!MeetCallManager.getInstance().isOwner() && !MeetCallManager.getInstance().isCallDirect()){
+                MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER)
+            }
+
+        }?:kotlin.run {
+            //下麦
+            if (MeetCallManager.getInstance().isCallDirect() && !MeetCallManager.getInstance().isOwner()){
+                MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.ANSWER)
             }
         }
 
@@ -715,7 +769,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         clearVoiceWaveAnimate()
 
         mView?.visibility = View.GONE
-        outsideTapMaskView?.isVisible =false
+        outsideTapMaskView?.isVisible = false
         outsideTapMaskView?.let { mask ->
             mContainer?.removeView(mask)
         }
@@ -725,20 +779,20 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     private fun clearVoiceWaveAnimate() {
-        if (mVoiceWaveView?.isAnimating() ==true){
+        if (mVoiceWaveView?.isAnimating() == true) {
             mVoiceWaveView?.stopLoopAnim()
         }
 
-        if (seatMainVoiceWaveView?.isAnimating() ==true){
+        if (seatMainVoiceWaveView?.isAnimating() == true) {
             seatMainVoiceWaveView?.stopLoopAnim()
         }
-        if (seatSubVoiceWaveView?.isAnimating() ==true){
+        if (seatSubVoiceWaveView?.isAnimating() == true) {
             seatSubVoiceWaveView?.stopLoopAnim()
         }
-        if (seatGuestOneVoiceWaveView?.isAnimating() ==true){
+        if (seatGuestOneVoiceWaveView?.isAnimating() == true) {
             seatGuestOneVoiceWaveView?.stopLoopAnim()
         }
-        if (seatGuestTwoVoiceWaveView?.isAnimating() ==true){
+        if (seatGuestTwoVoiceWaveView?.isAnimating() == true) {
             seatGuestTwoVoiceWaveView?.stopLoopAnim()
         }
 
@@ -748,7 +802,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         seatMicFourList.forEach {
             it.icon = null
             it.nickname = null
-            it.type = null
+            it.role = null
             it.userId = null
             it.idNo = null
         }
@@ -785,8 +839,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 }
             })?.observe(activity) { bean ->
                 groupBean = bean
-                showOrHideCover()
-                goRefreshMeetSeatInfo()
+//                showOrHideCover()
+                goRefreshMeetSeatInfo(true)
             }
         }
     }
