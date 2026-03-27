@@ -56,7 +56,7 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
         mSelectedColor = getAppColor(context, com.cboda.baselibrary.R.color.color_3B47DD)
         mNormalColor = getAppColor(context, com.cboda.baselibrary.R.color.color_white_85)
         mIndicatorColor = ArrayList()
-        mIndicatorColor.add(getAppColor(context, com.cboda.baselibrary.R.color.transparent))
+        mIndicatorColor.add(getAppColor(context, com.cboda.baselibrary.R.color.white))
         textSize = context.resources.getDimensionPixelSize(fontSize)
     }
 
