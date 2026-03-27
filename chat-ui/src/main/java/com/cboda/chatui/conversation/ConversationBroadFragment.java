@@ -750,6 +750,7 @@ public class ConversationBroadFragment extends Fragment implements
     public void onEngineDestroy(@NotNull CallData data) {
         if (null != danmakuIv) {
             danmakuIv.setVisibility(View.GONE);
+            danmakuView.setVisibility(View.GONE);
         }
         if (null != countPillView) {
             countPillView.setVisibility(View.GONE);

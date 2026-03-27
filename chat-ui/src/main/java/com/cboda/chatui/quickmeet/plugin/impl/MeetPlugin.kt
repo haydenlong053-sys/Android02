@@ -357,6 +357,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
         }
 
+        seatMainContainer?.click {  }
         seatSubContainer?.click {
             if (seatSubMicIv?.isVisible == true) {
                 goDownMic(SeatNumb.MIC_SUB.ordinal)
@@ -498,66 +499,27 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     //麦位上的麦克风状态变更---取反
     private fun goSeatMicStateChange(index: Int) {
-        if (index == SeatNumb.MIC_MAIN.ordinal) {
-            seatMainMicIv?.let {mivView->
-                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
-                if (muteLocalAudio == 0) {
-                    mivView.isSelected = !mivView.isSelected
-                    mIvIconMic?.isSelected = !mivView.isSelected
-                    if (mivView.isSelected) {
-                        //已禁麦
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
-                    } else {
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
+        val openMicText = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
+        val closeMicText = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
 
-                    }
+        fun toggleMic(micIv: ImageView?, updateMainIcon: Boolean) {
+            micIv ?: return
+            val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!micIv.isSelected)
+            if (muteLocalAudio == 0) {
+                micIv.isSelected = !micIv.isSelected
+                if (updateMainIcon) {
+                    mIvIconMic?.isSelected = !mIvIconMic!!.isSelected
                 }
+                // 已禁麦 => 展示“打开麦克风”，未禁麦 => 展示“关闭麦克风”
+                mTvCloseMic?.text = if (micIv.isSelected) openMicText else closeMicText
             }
+        }
 
-        } else if (index == SeatNumb.MIC_SUB.ordinal) {
-            seatSubMicIv?.let {mivView->
-                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
-                if (muteLocalAudio == 0) {
-                    mivView.isSelected = !mivView.isSelected
-                    if (mivView.isSelected) {
-                        //已禁麦
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
-                    } else {
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
-
-                    }
-                }
-            }
-
-        } else if (index == SeatNumb.MIC_GUEST_ONE.ordinal) {
-            seatGuestOneMicIv?.let {mivView->
-                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
-                if (muteLocalAudio == 0) {
-                    mivView.isSelected = !mivView.isSelected
-                    if (mivView.isSelected) {
-                        //已禁麦
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
-                    } else {
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
-
-                    }
-                }
-            }
-
-        } else if (index == SeatNumb.MIC_GUEST_TWO.ordinal) {
-            seatGuestTwoMicIv?.let {mivView->
-                val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!mivView.isSelected)
-                if (muteLocalAudio == 0) {
-                    mivView.isSelected = !mivView.isSelected
-                    if (mivView.isSelected) {
-                        //已禁麦
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
-                    } else {
-                        mTvCloseMic?.text = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
-
-                    }
-                }
-            }
+        when (index) {
+            SeatNumb.MIC_MAIN.ordinal -> toggleMic(seatMainMicIv, updateMainIcon = true)
+            SeatNumb.MIC_SUB.ordinal -> toggleMic(seatSubMicIv, updateMainIcon = false)
+            SeatNumb.MIC_GUEST_ONE.ordinal -> toggleMic(seatGuestOneMicIv, updateMainIcon = false)
+            SeatNumb.MIC_GUEST_TWO.ordinal -> toggleMic(seatGuestTwoMicIv, updateMainIcon = false)
         }
     }
 
@@ -741,18 +703,36 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun removePanel() {
         clearFourSeatMicList()
-        mVoiceWaveView?.stopLoopAnim()
-        seatMainVoiceWaveView?.stopLoopAnim()
-        seatSubVoiceWaveView?.stopLoopAnim()
-        seatGuestOneVoiceWaveView?.stopLoopAnim()
-        seatGuestTwoVoiceWaveView?.stopLoopAnim()
+        clearVoiceWaveAnimate()
+
         mView?.visibility = View.GONE
+        outsideTapMaskView?.isVisible =false
         outsideTapMaskView?.let { mask ->
             mContainer?.removeView(mask)
         }
         outsideTapMaskView = null
         removeView()
         mIsLayout = false
+    }
+
+    private fun clearVoiceWaveAnimate() {
+        if (mVoiceWaveView?.isAnimating() ==true){
+            mVoiceWaveView?.stopLoopAnim()
+        }
+
+        if (seatMainVoiceWaveView?.isAnimating() ==true){
+            seatMainVoiceWaveView?.stopLoopAnim()
+        }
+        if (seatSubVoiceWaveView?.isAnimating() ==true){
+            seatSubVoiceWaveView?.stopLoopAnim()
+        }
+        if (seatGuestOneVoiceWaveView?.isAnimating() ==true){
+            seatGuestOneVoiceWaveView?.stopLoopAnim()
+        }
+        if (seatGuestTwoVoiceWaveView?.isAnimating() ==true){
+            seatGuestTwoVoiceWaveView?.stopLoopAnim()
+        }
+
     }
 
     private fun clearFourSeatMicList() {
