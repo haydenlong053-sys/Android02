@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- 底色层 -->
+<item>
+    <shape android:shape="rectangle">
+        <solid android:color="@color/bg_main2" /> <!-- 浅色底色 -->
+        <corners android:radius="0dp"/>
+    </shape>
+</item>
+
+<!-- 渐变层 -->
+<item>
+    <shape android:shape="rectangle">
+        <gradient
+            android:startColor="#033B47DD"
+            android:endColor="#FF3B47DD"
+            android:angle="90"
+            android:type="linear"/>
+        <corners android:radius="0dp"/>
+    </shape>
+</item>
+</layer-list>

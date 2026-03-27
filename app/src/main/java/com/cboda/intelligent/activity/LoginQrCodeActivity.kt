@@ -1,7 +1,10 @@
 package com.cboda.intelligent.activity
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.cboda.baselibrary.utils.getAppColor
+import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.LoginQrCodeActivityBinding
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
@@ -12,16 +15,19 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = (binding as? LoginQrCodeActivityBinding)
-//        setRootBgRes()
+        setRootBgRes(R.drawable.bg_blue_white)
+//        backIcon.imageTintList = ColorStateList.valueOf(getAppColor(this@LoginQrCodeActivity, R.color.white))
+
     }
 
     private var mBinding: LoginQrCodeActivityBinding? = null
 
     private val viewModel: LoginViewBroadModel by viewModels()
     override fun getViewBindingClass() = LoginQrCodeActivityBinding::class.java
-    override fun showTransparentTopTitleLayout() = false
+    override fun showTransparentTopTitleLayout() = true
     override fun useViewBinding() = true
-    override fun showOrHideTitleLayout() = true
+
     override fun useStatusBarDarkFont() = false
-    override fun showBgTopTitleLayout() = true
+    override fun showBgTopTitleLayout() = false
+    override fun showOrHideTitleLayout() = false
 }

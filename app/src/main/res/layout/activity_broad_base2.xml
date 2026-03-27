@@ -57,6 +57,7 @@
                     android:tint="@color/black_or_white" />
 
                 <FrameLayout
+                    android:id="@+id/mTitleLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
