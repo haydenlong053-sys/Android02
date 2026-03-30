@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout.LayoutParams
@@ -484,6 +485,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
     private lateinit var llContentLayout: LinearLayoutCompat
     private lateinit var llTitleLayout: LinearLayout
     private lateinit var mFlTitleLayout: View
+    lateinit var mTitleLayout: FrameLayout
     lateinit var mIvBgTop: ImageView
     private lateinit var rightIcon: AppCompatImageView
     private lateinit var tvRight: TextView
@@ -507,6 +509,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
         llContentLayout = findViewById(R.id.llContentLayout)
         mFlTitleLayout = findViewById(R.id.mFlTitleLayout)
         mViewRootBg = findViewById(R.id.mViewRootBg)
+        mTitleLayout = findViewById(R.id.mTitleLayout)
     }
 
     private val mLoadingTask = Runnable {
@@ -533,6 +536,10 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
         backLottie.setAnimation(path)
         backLottie.playAnimation()
         setBackLottieIsShow(true)
+    }
+
+    fun addCenterLayout(centerLayout: Int) {
+        LayoutInflater.from(this).inflate(centerLayout, mTitleLayout, true)
     }
 
     fun setBackLottieIsShow(boolean: Boolean) {

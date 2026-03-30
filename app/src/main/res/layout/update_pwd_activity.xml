@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main2">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/set_login_pwd"
+        android:textColor="@color/black_90"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:text="@string/新密码"
+        android:textColor="@color/black_65"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/title1"
+        app:layout_constraintTop_toBottomOf="@id/title1" />
+
+    <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/newPwdEt"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:hint="@string/please_input_new_pwd"
+        android:paddingStart="@dimen/dp_12"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black35"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title2"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/confirm_password"
+        android:textColor="@color/black_65"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/title1"
+        app:layout_constraintTop_toBottomOf="@id/newPwdEt" />
+
+    <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/againPwdEt"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:hint="@string/请再次输入密码"
+        android:paddingStart="@dimen/dp_12"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black35"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title3"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_14"
+        android:text="@string/password_not_is_num"
+        android:textColor="@color/black_65"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/againPwdEt" />
+
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/cancelBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_66"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/color_3B47DD"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/transparent"
+        app:shape_strokeColor="@color/color_3B47DD"
+        app:shape_strokeWidth="@dimen/dp_1" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:alpha="0.3"
+        android:id="@+id/sureBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:gravity="center"
+        android:text="@string/mine_sure"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/cancelBtn"
+        app:layout_constraintEnd_toEndOf="@id/cancelBtn"
+        app:layout_constraintStart_toStartOf="@id/cancelBtn"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/color_3B47DD" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

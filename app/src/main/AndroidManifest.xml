@@ -211,8 +211,8 @@
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.QuickMeetingCreateActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.EditPasswordBroadActivity"
             android:exported="false" />
@@ -353,10 +353,13 @@
         <activity
             android:name="com.cboda.intelligent.activity.RetrieveBroadActivity"
             android:exported="false" />
-
         <activity
             android:name="com.cboda.intelligent.activity.LoginQrCodeActivity"
             android:exported="false" />
+        <activity
+            android:name="com.cboda.intelligent.activity.UpdatePwdActivity"
+            android:exported="false" />
+
         <activity
             android:name="com.cboda.intelligent.activity.NewEquipmentBroadActivity"
             android:exported="false"
