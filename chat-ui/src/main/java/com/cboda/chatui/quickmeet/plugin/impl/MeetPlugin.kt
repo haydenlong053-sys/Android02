@@ -42,6 +42,7 @@ import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
+import io.agora.rtc2.Constants
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
 import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
@@ -471,33 +472,33 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         return MeetCallManager.getInstance().isCallingState()
     }
 
-    private fun showOrHideCover() {
-        groupBean?.let {
-            if (it.userList?.isNotEmpty() == true) {
-                val quickDetailMeetBean = MeetCallManager.getInstance().mCallData.quickDetailMeetBean
-                it.userList?.find { user ->
-                    quickDetailMeetBean?.let { detailMeetBean ->
-                        user.userId == detailMeetBean.userId
-                    } ?: false
-
-                }?.let { ownerUser ->
-                    //会议发起人的信息
-                    coverAvatarIv?.loadImg(ownerUser.icon)
-                    mTvUserName?.text = ownerUser.name
-                    val meetUser1 = seatMicFourList.find { meetUser ->
-                        meetUser.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal
-                    }
-                    meetUser1?.nickname = ownerUser.name
-                    meetUser1?.icon = ownerUser.icon
-                    meetUser1?.role = ownerUser.type
-                    meetUser1?.userId = ownerUser.userId
-                    meetUser1?.idNo = quickDetailMeetBean?.idNo
-//                    showSeatMicUI(0, true)
-
-                }
-            }
-        }
-    }
+//    private fun showOrHideCover() {
+//        groupBean?.let {
+//            if (it.userList?.isNotEmpty() == true) {
+//                val quickDetailMeetBean = MeetCallManager.getInstance().mCallData.quickDetailMeetBean
+//                it.userList?.find { user ->
+//                    quickDetailMeetBean?.let { detailMeetBean ->
+//                        user.userId == detailMeetBean.userId
+//                    } ?: false
+//
+//                }?.let { ownerUser ->
+//                    //会议发起人的信息
+//                    coverAvatarIv?.loadImg(ownerUser.icon)
+//                    mTvUserName?.text = ownerUser.name
+//                    val meetUser1 = seatMicFourList.find { meetUser ->
+//                        meetUser.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal
+//                    }
+//                    meetUser1?.nickname = ownerUser.name
+//                    meetUser1?.icon = ownerUser.icon
+//                    meetUser1?.role = ownerUser.type
+//                    meetUser1?.userId = ownerUser.userId
+//                    meetUser1?.idNo = quickDetailMeetBean?.idNo
+////                    showSeatMicUI(0, true)
+//
+//                }
+//            }
+//        }
+//    }
 
     //麦位上的麦克风状态变更---取反
     private fun goSeatMicStateChange(index: Int) {
@@ -656,7 +657,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onRtcRoleChanged(oldRole: Int, newRole: Int) {
-
+        showMicBtnUI()
     }
 
     override fun onRtcStats(statsBean: IRtcEngineEventHandler.RtcStats?) {
@@ -667,8 +668,21 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
-        mIvIconMic?.isSelected = muted
-        seatMainMicIv?.isSelected = muted
+        seatMicFourList.find {
+            it.idNo?.toIntOrNull() ==uid
+        }?.let {
+            if (it.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal){
+                mIvIconMic?.isSelected = muted
+                seatMainMicIv?.isSelected = muted
+            }else if (it.seatNumbIndex == SeatNumb.MIC_SUB.ordinal){
+                seatSubMicIv?.isSelected = muted
+            }else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_ONE.ordinal){
+                seatGuestOneMicIv?.isSelected = muted
+            }else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_TWO.ordinal){
+                seatGuestTwoMicIv?.isSelected = muted
+            }
+        }
+
     }
 
 //    private val runnableRefreshMeetSeatInfo = Runnable {
@@ -676,7 +690,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //
 //    }
 
-    private fun goRefreshMeetSeatInfo(isRefreshMainMic: Boolean =false) {
+    //刷新同步4个固定麦位信息
+    private fun goRefreshMeetSeatInfo(isRefreshMainMic: Boolean = false) {
         if (MeetCallManager.getInstance().isCallingState()) {
             activity.lifecycleScope.launch {
                 viewModel?.goMeetMicSeatPersonList(groupId)?.observe(activity) {
@@ -685,22 +700,22 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                         //先将接口返回的数据排序，将主麦人放到集合首位
                         netList.find { netBean ->
                             quickDetailMeetBean?.userId == netBean.userId
-                        }?.let {bean->
+                        }?.let { bean ->
                             val indexOf = netList.indexOf(bean)
-                            if (indexOf !=0){
+                            if (indexOf != 0) {
                                 netList.remove(bean)
-                                netList.add(0,bean)
+                                netList.add(0, bean)
                             }
                         }
-                        //同步接口数据到 固定麦位的集合上
+                        //同步接口数据到 4个固定麦位的集合上
                         seatMicFourList.forEachIndexed { index, seatMicFourUser ->
-                            if (index < netList.size){
+                            if (index < netList.size) {
                                 seatMicFourUser.icon = netList[index].icon
                                 seatMicFourUser.nickname = netList[index].nickname
                                 seatMicFourUser.role = netList[index].role
                                 seatMicFourUser.userId = netList[index].userId
                                 seatMicFourUser.idNo = netList[index].idNo
-                            }else{
+                            } else {
                                 seatMicFourUser.icon = null
                                 seatMicFourUser.nickname = null
                                 seatMicFourUser.role = null
@@ -712,43 +727,47 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
                     }
 
-                    seatMicFourList.forEach {bean ->
-                        if (bean.seatNumbIndex != SeatNumb.MIC_MAIN.ordinal){
+                    seatMicFourList.forEach { bean ->
+                        if (bean.seatNumbIndex != SeatNumb.MIC_MAIN.ordinal) {
                             showSeatAvatarNameUI(bean.seatNumbIndex, bean.icon, bean.nickname)
-                        }else if (isRefreshMainMic){
+                        } else if (isRefreshMainMic) {
                             showSeatAvatarNameUI(bean.seatNumbIndex, bean.icon, bean.nickname)
                         }
 
                     }
-                    goRefreshRtcSeatMic()
+                    goRefreshMyselfSeatMic()
                 }
             }
         }
 
     }
 
-    private fun goRefreshRtcSeatMic() {
-        seatMicFourList.find { meetUser ->
-            meetUser.userId ==myUserId
-        }?.let {
-            //上麦
-            if (!MeetCallManager.getInstance().isOwner() && !MeetCallManager.getInstance().isCallDirect()){
-                MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER)
-            }
+    //同步自己的上下麦信息（过滤掉会议房主）
+    private fun goRefreshMyselfSeatMic() {
+        if (!MeetCallManager.getInstance().isOwner()) {
+            seatMicFourList.find { meetUser ->
+                meetUser.userId == myUserId
+            }?.let {
+                //上麦
+                if (!MeetCallManager.getInstance().isCallDirect()) {
+                    MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER)
+                }
 
-        }?:kotlin.run {
-            //下麦
-            if (MeetCallManager.getInstance().isCallDirect() && !MeetCallManager.getInstance().isOwner()){
-                MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.ANSWER)
+            } ?: kotlin.run {
+                //下麦
+                if (MeetCallManager.getInstance().isCallDirect()) {
+                    MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.ANSWER)
+                }
             }
         }
+
 
     }
 
     override fun onRtcUserJoined(uid: Int) {
         //有人加入频道
-        eLogD("call", "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-//        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User joined: " + uid, Toast.LENGTH_SHORT).show()
+        eLogD(APP_TAG, "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
+        ToastBroadUtils.show("User joined: " + uid)
 //        ThreadUtils.getMainHandler().removeCallbacks(runnableRefreshMeetSeatInfo)
 //        runOnUiThreadDelayed(runnableRefreshMeetSeatInfo, Interval_Time)
 
@@ -756,8 +775,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onRtcUserOffline(uid: Int, reason: Int) {
         //有人离开频道
-        eLogD("call", "onRtcUserOffline uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-//        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "User offline: " + uid, Toast.LENGTH_SHORT).show()
+        eLogD(APP_TAG, "onRtcUserOffline uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
+        ToastBroadUtils.show("User offline: " + uid)
         //用户将角色从主播切换为观众
 //        if (reason == USER_OFFLINE_BECOME_AUDIENCE) {
 //            goRefreshMeetSeatInfo()

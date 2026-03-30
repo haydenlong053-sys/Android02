@@ -250,17 +250,12 @@ class MeetCallManager private constructor() {
             eLogD(APP_TAG, "oldRole==" + oldRole + "---newRole==" + newRole + "---audienceLatencyLevel==" + newRoleOptions.getAudienceLatencyLevel())
             if (oldRole != newRole) {
                 runOnUiThread(Runnable {
+                    if (newRole == Constants.CLIENT_ROLE_BROADCASTER) {
+                        mCallData.direct =CallDirect.CALLER
+                    } else {
+                        mCallData.direct =CallDirect.ANSWER
+                    }
                     notifyRtcRoleChanged(oldRole, newRole)
-//                if (newRole == Constants.CLIENT_ROLE_AUDIENCE) {
-//                    LOOK_TYPE = 1
-//                } else {
-//                    LOOK_TYPE = 0
-//                }
-//                if (LOOK_TYPE == 0) {
-//                    mTvLook.setText("当前是主播，可发言可收听,点击切换为观众端")
-//                } else {
-//                    mTvLook.setText("当前是观众，仅收听,点击切换为主播端")
-//                }
                 })
             }
         }
@@ -279,6 +274,14 @@ class MeetCallManager private constructor() {
             runOnUiThread {
                 notifyRtcUserMuteAudioChange(uid, muted)
             }
+        }
+
+        override fun onAudioPublishStateChanged(channel: String?, oldState: Int, newState: Int, elapseSinceLastState: Int) {
+            eLogD(APP_TAG,"onAudioPublishStateChanged---channel=$channel--oldState=$oldState--newState=$newState")
+        }
+
+        override fun onAudioSubscribeStateChanged(channel: String?, uid: Int, oldState: Int, newState: Int, elapseSinceLastState: Int) {
+            eLogD(APP_TAG,"onAudioSubscribeStateChanged---channel=$channel--uid=$uid--oldState=$oldState--newState=$newState")
         }
 
         override fun onRtcStats(stats: RtcStats?) {

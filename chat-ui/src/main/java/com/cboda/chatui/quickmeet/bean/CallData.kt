@@ -55,7 +55,7 @@ enum class CallDirect {
 }
 
 /**
- * 会议角色
+ * 会议角色(目前逻辑只用到了OWNER，其他留作拓展)
  */
 enum class MeetRole {
     /**
