@@ -37,6 +37,7 @@ import com.cboda.baselibrary.livedata.SingleLiveBroadData;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
 import com.cboda.baselibrary.network.model.NetworkBroadResponse;
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.chatui.ChatManagerBroadHolder;
@@ -808,7 +809,31 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
     }
 
 
-    public void goMeetDownMicApply(String target) {
 
+    //下麦接口
+    public SingleLiveBroadData<Boolean> goMeetDownMicApply(String groupID) {
+        SingleLiveBroadData<Boolean> result = new SingleLiveBroadData<>();
+        Map<String, Object> params = new HashMap<>(2);
+        params.put("applicantUserId", MMKVBroadUtils.Companion.getRealUserId());
+        params.put("groupIdNo", groupID);
+        NetworkBroadUtils.INSTANCE.postEncrypted("api/quick/live/downMic", params, new NetworkBroadUtils.NetworkCallback<>() {
+            @Override
+            public void onFailure(int code, @NotNull String message, @org.jetbrains.annotations.Nullable Object data) {
+                eLogD("GroupViewBroadModelClass", "onFailure:" + code + "," + message);
+                ToastBroadUtils.show(message);
+            }
+
+            @Override
+            public void onSuccess(@org.jetbrains.annotations.Nullable Object data) {
+                result.postValue(true);
+            }
+
+            @Override
+            public void onError(@NotNull Throwable throwable) {
+            }
+
+        });
+        return result;
     }
+
 }

@@ -164,6 +164,7 @@ class MeetCallManager private constructor() {
             // 创建并初始化 RtcEngine
             // Create and initialize the RtcEngine
             callEngine = RtcEngine.create(config)
+            callEngine?.adjustRecordingSignalVolume(300)
             // 启用 onAudioVolumeIndication 回调
             callEngine?.enableAudioVolumeIndication(1000, 3, true);
 

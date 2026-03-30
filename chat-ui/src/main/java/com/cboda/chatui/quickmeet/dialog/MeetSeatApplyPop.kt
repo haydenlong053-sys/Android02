@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -104,8 +105,19 @@ class MeetSeatApplyPop(val context: Context, val groupIdNo: String?) : BaseBotto
         private val viewLine: View = itemView.findViewById(R.id.viewMeetSeatApplyDivider)
 
         fun bind(item: SeatApplyItem, lasePositionBoo: Boolean) {
+            //owner(群主) / member(普通成员) admin(管理员)
             nameTv.text = item.nickname
-            roleTagTv.text = item.role
+            if (item.role =="admin"){
+                roleTagTv.isVisible =true
+                roleTagTv.text = roleTagTv.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_admin)
+            }else if (item.role =="owner"){
+                roleTagTv.isVisible =true
+                roleTagTv.text = roleTagTv.resources.getString(R.string.qunzhushenfen)
+
+            }else{
+                roleTagTv.isVisible =false
+            }
+
             avatarIv.loadImg(item.icon)
             agreeTv.setOnClickListener {
                 sureInvoke.invoke(item)

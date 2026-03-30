@@ -224,4 +224,38 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     }
 
 
+    /**
+     * 下麦
+     */
+    suspend fun goNetDownMic(applicantUserId: String?,groupIdNo: String?) :SingleLiveBroadData<Boolean>{
+        showLoadingWfc()
+        val mLiveData = SingleLiveBroadData<Boolean>()
+        val params = hashMapOf("applicantUserId" to applicantUserId,"groupIdNo" to groupIdNo,)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlMeetConstants.QUICK_DOWN_MIC,
+                    Any::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    dismissLoadingWfc()
+                    mLiveData.postValue(true)
+
+                }.onFailure { code, message->
+                    dismissLoadingWfc()
+                    ToastBroadUtils.show(message)
+
+                }.onError {
+                    dismissLoadingWfc()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                dismissLoadingWfc()
+            }
+        }
+        return mLiveData
+    }
+
+
 }

@@ -909,8 +909,13 @@ public class ConversationBroadFragment extends Fragment implements
                             });
                             break;
                         case DOWN_MIC:
-                            groupBroadViewModel.goMeetDownMicApply(conversationBroad.target);
                             eLogD(TAG, "下麦");
+                            groupBroadViewModel.goMeetDownMicApply(conversationBroad.target).observe(this, new Observer<Boolean>() {
+                                @Override
+                                public void onChanged(Boolean aBoolean) {
+                                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_off_mic_done);
+                                }
+                            });
                             break;
                         case APPLICATION_LIST:
                             eLogD(TAG, "申请列表");

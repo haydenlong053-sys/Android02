@@ -120,6 +120,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private val myUserId by lazy {
         MMKVBroadUtils.getRealUserId() ?: ""
     }
+    private var myGroupMemberType: String? = null
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -267,6 +268,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 } else {
                     CallDirect.ANSWER
                 }
+//                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: "", it.token ?: "", it)
                 MeetCallManager.getInstance().callMeetAction(direct, it.channelId ?: "", it.token ?: "", it)
             }
         }
@@ -385,12 +387,22 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     //主播端点击下mic弹框
     private fun goDownMic(ordinal: Int) {
-        showDownMicDialog(activity) { i, _ ->
-            if (SeatNumb.MIC_SUB.ordinal == ordinal) {
-
-            } else if (SeatNumb.MIC_GUEST_ONE.ordinal == ordinal) {
-
-            } else if (SeatNumb.MIC_GUEST_TWO.ordinal == ordinal) {
+        if (myGroupMemberType == "1" || myGroupMemberType == "2") {
+            showDownMicDialog(activity) { i, _ ->
+                val applicantUserId = if (SeatNumb.MIC_SUB.ordinal == ordinal) {
+                    seatMicFourList[1].userId
+                } else if (SeatNumb.MIC_GUEST_ONE.ordinal == ordinal) {
+                    seatMicFourList[2].userId
+                } else if (SeatNumb.MIC_GUEST_TWO.ordinal == ordinal) {
+                    seatMicFourList[3].userId
+                } else {
+                    ""
+                }
+                activity.lifecycleScope.launch {
+                    viewModel?.goNetDownMic(applicantUserId,groupId)?.observe(activity){
+                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_off_mic_done)
+                    }
+                }
 
             }
         }
@@ -669,16 +681,16 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
         seatMicFourList.find {
-            it.idNo?.toIntOrNull() ==uid
+            it.idNo?.toIntOrNull() == uid
         }?.let {
-            if (it.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal){
+            if (it.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal) {
                 mIvIconMic?.isSelected = muted
                 seatMainMicIv?.isSelected = muted
-            }else if (it.seatNumbIndex == SeatNumb.MIC_SUB.ordinal){
+            } else if (it.seatNumbIndex == SeatNumb.MIC_SUB.ordinal) {
                 seatSubMicIv?.isSelected = muted
-            }else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_ONE.ordinal){
+            } else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_ONE.ordinal) {
                 seatGuestOneMicIv?.isSelected = muted
-            }else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_TWO.ordinal){
+            } else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_TWO.ordinal) {
                 seatGuestTwoMicIv?.isSelected = muted
             }
         }
@@ -859,6 +871,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             })?.observe(activity) { bean ->
                 groupBean = bean
 //                showOrHideCover()
+                groupBean?.userList?.find {
+                    it.userId == myUserId
+                }?.let {
+                    myGroupMemberType = it.type
+                }
                 goRefreshMeetSeatInfo(true)
             }
         }

@@ -24,6 +24,10 @@ object UrlMeetConstants {
     //麦位人员列表
     const val QUICK_MIC_SEAT_LIST="api/quick/live/micSeatList"
 
+    //管理员下麦
+    const val QUICK_DOWN_MIC="api/quick/live/downMic"
+
+
 
 
 }
