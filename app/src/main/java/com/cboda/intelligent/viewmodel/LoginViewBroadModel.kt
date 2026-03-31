@@ -5,6 +5,7 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.LoginBean
+import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -41,6 +42,53 @@ import java.lang.Exception
 import kotlin.jvm.java
 
 class LoginViewBroadModel : BaseViewBroadModel() {
+
+
+
+    fun resetQrCode(): SingleLiveBroadData<String> {
+        val liveData = SingleLiveBroadData<String>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/account/freshQRCode2", UserInfoBean::class.java, HashMap<String, Any>())
+                    result.onSuccess { data ->
+                        data?.qrcode?.let {
+                            liveData.postValue(it)
+                        }
+                    }.onFailure { _, msg ->
+                        showToastMain(msg)
+                    }.onError { _ ->
+                        showToastMain(R.string.httperror)
+                    }
+                } catch (_: kotlin.Exception) {
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun getUserInfo(): SingleLiveBroadData<UserInfoBean> {
+        val liveData = SingleLiveBroadData<UserInfoBean>()
+        val params = HashMap<String, Any>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/userInfo", UserInfoBean::class.java, params)
+                    result.onSuccess { data ->
+                        data?.let {
+                            liveData.postValue(data)
+                        }
+                    }.onFailure { _, msg ->
+                        showToastMain(msg)
+                    }.onError { _ ->
+                        showToastMain(R.string.httperror)
+                    }
+                } catch (_: kotlin.Exception) {
+                }
+            }
+        }
+        return liveData
+    }
 
 
     fun getAccountLoginDetail(account: String, pwd: String): SingleLiveBroadData<LoginBean?> {

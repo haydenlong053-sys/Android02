@@ -69,14 +69,14 @@
         android:gravity="center_vertical"
         android:inputType="textPassword"
         android:paddingHorizontal="@dimen/dp_12"
+        android:text="FFGUIO"
         android:textColor="@color/black65"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/accountDetailFragmentShapeView"
         app:layout_constraintStart_toStartOf="@id/accountDetailFragmentShapeView"
         app:layout_constraintTop_toBottomOf="@id/accountDetailFragmentTv2"
         app:shape_radius="@dimen/dp_10"
-        app:shape_solidColor="#EEEFF0"
-        tools:text="FFGUIOJ" />
+        app:shape_solidColor="#EEEFF0" />
 
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/updatePwdBtn"

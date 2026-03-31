@@ -141,6 +141,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
             intent = new Intent(this, ZhaqBroadActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.llTongyong) {
+//            intent = new Intent(this, LoginQrCodeActivity.class);
             intent = new Intent(this, CommonSetBroadActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.llGuanyu) {

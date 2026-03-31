@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.getAppColor
@@ -13,6 +14,7 @@ import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.LoginQrCodeActivityBinding
 import com.cboda.intelligent.fragment.AccountDetailFragment
 import com.cboda.intelligent.fragment.LoginQrCodeFragment
+import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import com.cboda.intelligent.widge.TextBackIndicatorAdapter
 
 class LoginQrCodeActivity : BaseSimple2BroadActivity() {
@@ -23,9 +25,11 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
         setRootBgRes(R.drawable.bg_blue_white)
         backIcon.imageTintList = ColorStateList.valueOf(getAppColor(this@LoginQrCodeActivity, R.color.white))
         addCenterLayout(R.layout.login_qr_code_center_title_layout)
+        val loginQrCodeFragment = LoginQrCodeFragment()
+        val accountDetailFragment = AccountDetailFragment()
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
-        vp2FragmentAdapter.addFragment(LoginQrCodeFragment())
-        vp2FragmentAdapter.addFragment(AccountDetailFragment())
+        vp2FragmentAdapter.addFragment(loginQrCodeFragment)
+        vp2FragmentAdapter.addFragment(accountDetailFragment)
         mBinding?.viewPager?.adapter = vp2FragmentAdapter
         mBinding?.viewPager?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mBinding?.viewPager?.isUserInputEnabled = true
@@ -45,12 +49,15 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
                 bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapt, magicIndicatorNeedOnPageScrolled = true)
             }
         }
-
+        viewModel.getUserInfo().observe(this) {
+            loginQrCodeFragment.setData(it)
+            accountDetailFragment.setData(it)
+        }
     }
 
     private var mBinding: LoginQrCodeActivityBinding? = null
 
-//    private val viewModel: LoginViewBroadModel by viewModels()
+    private val viewModel: LoginViewBroadModel by viewModels()
     override fun getViewBindingClass() = LoginQrCodeActivityBinding::class.java
     override fun showTransparentTopTitleLayout() = true
     override fun useViewBinding() = true

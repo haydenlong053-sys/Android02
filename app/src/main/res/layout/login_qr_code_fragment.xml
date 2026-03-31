@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/loginQrCodeFragmentLayout"
     tools:background="@color/black_8">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,22 +54,6 @@
             app:layout_constraintTop_toBottomOf="@id/userImg"
             tools:text="JOY Follow" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/userId"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_5"
-            android:ellipsize="end"
-            android:gravity="center_horizontal"
-            android:maxLines="1"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/shapeLayout"
-            app:layout_constraintStart_toStartOf="@id/shapeLayout"
-            app:layout_constraintTop_toBottomOf="@id/userName"
-            tools:text="ID:3848560" />
-
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/qrCodeBlur"
@@ -86,16 +71,17 @@
             tools:visibility="visible" />
 
 
-        <View
-            android:id="@+id/mViewDash"
-            android:layout_width="@dimen/dp_210"
-            android:layout_height="@dimen/dp_210"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_12"
-            android:background="@drawable/bg_mine_dash_broad_line"
-            app:layout_constraintEnd_toEndOf="@id/shapeLayout"
-            app:layout_constraintStart_toStartOf="@id/shapeLayout"
-            app:layout_constraintTop_toBottomOf="@id/userId" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/qrCode"
+            android:layout_width="@dimen/dp_260"
+            android:layout_height="@dimen/dp_260"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/mViewDash"
+            app:layout_constraintEnd_toEndOf="@id/mViewDash"
+            app:layout_constraintStart_toStartOf="@id/mViewDash"
+            app:layout_constraintTop_toTopOf="@id/mViewDash"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/closeEyes"
@@ -110,17 +96,32 @@
             tools:ignore="ContentDescription"
             tools:visibility="visible" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:id="@+id/qrCode"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_200"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@id/mViewDash"
-            app:layout_constraintEnd_toEndOf="@id/mViewDash"
-            app:layout_constraintStart_toStartOf="@id/mViewDash"
-            app:layout_constraintTop_toTopOf="@id/mViewDash" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/userId"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_5"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/shapeLayout"
+            app:layout_constraintStart_toStartOf="@id/shapeLayout"
+            app:layout_constraintTop_toBottomOf="@id/userName"
+            tools:text="ID:3848560" />
+
+        <View
+            android:id="@+id/mViewDash"
+            android:layout_width="@dimen/dp_210"
+            android:layout_height="@dimen/dp_210"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@drawable/bg_mine_dash_broad_line"
+            app:layout_constraintEnd_toEndOf="@id/shapeLayout"
+            app:layout_constraintStart_toStartOf="@id/shapeLayout"
+            app:layout_constraintTop_toBottomOf="@id/userId" />
 
         <com.hjq.shape.view.ShapeTextView
             android:id="@+id/showQrcodeTv"
