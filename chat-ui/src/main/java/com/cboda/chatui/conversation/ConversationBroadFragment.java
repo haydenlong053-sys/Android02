@@ -242,21 +242,6 @@ public class ConversationBroadFragment extends Fragment implements
     private boolean isGag = false;
     private boolean oldGag = false;
 
-//    @Override
-//    public void onRtcStats(IRtcEngineEventHandler.@org.jetbrains.annotations.Nullable RtcStats statsBean) {
-//        ThreadUtils.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (null != statsBean && null != countPillView) {
-//                    countPillView.setTarget(statsBean.users, 500L);
-//                    if (countPillView.getVisibility() == GONE) {
-//                        countPillView.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            }
-//        });
-//    }
-
     @Override
     public void onMeetTotalPersonCount(@NotNull String chanelId, int personCount) {
         if (null != countPillView && isAdded()) {
