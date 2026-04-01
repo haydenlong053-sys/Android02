@@ -60,7 +60,7 @@ import kotlin.let
  * 会议最小化显示界面
  */
 class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
-    private val Interval_Time = 15000L
+    private val Interval_Time = 10000L
     private var callingStateHeight = 0
     private var viewWidth = 0
     private var marginTop = 0
@@ -794,7 +794,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onRtcUserJoined(uid: Int) {
         //有人加入频道
         eLogD(APP_TAG, "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-//        ToastBroadUtils.show("User joined: " + uid)
+        ToastBroadUtils.show("User joined: " + uid)
 //        ThreadUtils.getMainHandler().removeCallbacks(runnableRefreshMeetSeatInfo)
 //        runOnUiThreadDelayed(runnableRefreshMeetSeatInfo, Interval_Time)
 
@@ -803,7 +803,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onRtcUserOffline(uid: Int, reason: Int) {
         //有人离开频道
         eLogD(APP_TAG, "onRtcUserOffline uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-//        ToastBroadUtils.show("User offline: " + uid)
+        ToastBroadUtils.show("User offline: " + uid)
         //用户将角色从主播切换为观众
 //        if (reason == USER_OFFLINE_BECOME_AUDIENCE) {
 //            goRefreshMeetSeatInfo()
