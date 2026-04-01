@@ -18,7 +18,7 @@ import kotlin.coroutines.resume
  */
 object NetworkBroadRepository {
 
-    private val tAG = "NetworkBroadRepositoryClass"
+     val tAG = "NetworkBroadRepositoryClass"
 
     /**
      * 辅助函数：将失败时的data转换为目标类型
@@ -336,25 +336,46 @@ object NetworkBroadRepository {
      * @param url 请求URL
      * @param params 查询参数
      * @return NetworkBroadResult<T>
+     *  使用 reified 和内联函数，防止泛型擦除
      */
-    suspend fun <T> getEncrypted(
+    suspend inline fun <reified T> getEncrypted2(
         url: String,
         params: Map<String, String?> = emptyMap()
     ): NetworkBroadResult<T> = suspendCancellableCoroutine { continuation ->
-        NetworkBroadUtils.getEncrypted<T>(
+        NetworkBroadUtils.getEncrypted2<T>(
             url = url,
             params = params,
             callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
-                    eLogD(APP_TAG, "data=>${data?.toString()}")
-                    continuation.resume(NetworkBroadResult.BroadSuccess(data))
+                    eLogD(tAG, data.toString())
+                    if (data == null) {
+                        continuation.resume(NetworkBroadResult.BroadSuccess(data))
+                    } else {
+                        try {
+                            val gson = GsonUtils.getGson()
+                            val json = gson.toJson(data)
+                            // 使用 reified 获取具体类型
+                            val type = object : TypeToken<T>() {}.type
+                            val result: T = gson.fromJson(json, type)
+                            continuation.resume(NetworkBroadResult.BroadSuccess(result))
+                        } catch (e: Exception) {
+                            eLogD(tAG, "onSuccess--？-onError: ${e.message}")
+                            continuation.resume(NetworkBroadResult.BroadError(e))
+                        }
+                    }
                 }
 
                 override fun onFailure(code: Int, message: String, data: T?) {
+                    eLogD(tAG, "code $code message $message")
+                    data?.let {
+                        eLogD(tAG, it.toString())
+                    }
                     continuation.resume(NetworkBroadResult.BroadFailure(code, message, data))
                 }
 
                 override fun onError(throwable: Throwable) {
+                    eLogD(tAG, "onError: ${throwable.message}")
+                    throwable.printStackTrace()
                     continuation.resume(NetworkBroadResult.BroadError(throwable))
                 }
             }

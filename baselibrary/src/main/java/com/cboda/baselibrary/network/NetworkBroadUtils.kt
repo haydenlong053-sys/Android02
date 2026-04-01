@@ -170,7 +170,7 @@ object NetworkBroadUtils {
      * @param params 查询参数
      * @param callback 回调接口
      */
-    fun <T> getEncrypted(
+    fun <T> getEncrypted2(
         url: String,
         params: Map<String, String?> = emptyMap(),
         callback: NetworkCallback<T>

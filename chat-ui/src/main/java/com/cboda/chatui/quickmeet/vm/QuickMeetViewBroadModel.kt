@@ -262,16 +262,17 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 查询会议总人数
      */
-    suspend fun queryMeetTotalPersonCount(groupId: String?): SingleLiveBroadData<Int> {
+    suspend fun queryMeetTotalPersonCount(groupId: String?): SingleLiveBroadData<String> {
 //        showLoadingWfc()
-        val safeCenterLiveData = SingleLiveBroadData<Int>()
+        val safeCenterLiveData = SingleLiveBroadData<String>()
         val params = hashMapOf("groupIdNo" to groupId,"channelName" to groupId)
         withContext(Dispatchers.IO) {
             try {
-                NetworkBroadRepository.getEncrypted<Int>(UrlMeetConstants.QUICK_MEET_TOTAL_COUNT, params)
+                NetworkBroadRepository.getEncrypted2<String>(UrlMeetConstants.QUICK_MEET_TOTAL_COUNT, params)
                     .onSuccess { userInfo ->
-                        eLogD(APP_TAG, "getEncrypted=>${userInfo?.toString()}")
 //                    dismissLoadingWfc()
+                        eLogD(APP_TAG, "queryMeetTotalPersonCount=>${userInfo}")
+
                         userInfo?.let {
                             safeCenterLiveData.postValue(it)
                         }

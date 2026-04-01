@@ -21,6 +21,7 @@ import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.BusLiveBroadData
 import com.cboda.baselibrary.utils.LiveDataBroadBroadBus
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
@@ -686,7 +687,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             meetRefreshPersonTimer = System.currentTimeMillis() + Interval_Time
             activity.lifecycleScope.launch {
                 viewModel?.queryMeetTotalPersonCount(groupId)?.observe(activity) {
-                    MeetCallManager.getInstance().notifyMeetTotalPersonCount(groupId ?: "", it)
+                    MeetCallManager.getInstance().notifyMeetTotalPersonCount(groupId ?: "", anyToInt(it))
                 }
             }
         }
@@ -793,7 +794,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onRtcUserJoined(uid: Int) {
         //有人加入频道
         eLogD(APP_TAG, "onRtcUserJoined uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-        ToastBroadUtils.show("User joined: " + uid)
+//        ToastBroadUtils.show("User joined: " + uid)
 //        ThreadUtils.getMainHandler().removeCallbacks(runnableRefreshMeetSeatInfo)
 //        runOnUiThreadDelayed(runnableRefreshMeetSeatInfo, Interval_Time)
 
@@ -802,7 +803,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onRtcUserOffline(uid: Int, reason: Int) {
         //有人离开频道
         eLogD(APP_TAG, "onRtcUserOffline uid = $uid; mIsLayout=$mIsLayout; isResume=$mIsResume")
-        ToastBroadUtils.show("User offline: " + uid)
+//        ToastBroadUtils.show("User offline: " + uid)
         //用户将角色从主播切换为观众
 //        if (reason == USER_OFFLINE_BECOME_AUDIENCE) {
 //            goRefreshMeetSeatInfo()
