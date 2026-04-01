@@ -57,7 +57,10 @@ class UpdatePwdActivity : BaseSimple2BroadActivity() {
             } else {
                 mBinding?.sureBtn?.alpha = 1f
                 if (isUpdate) {
-
+                    viewModel.updatePwd(pwd).observe(this) {
+                        finish()
+                        showToastMain(com.cboda.baselibrary.R.string.password_update_success)
+                    }
                 }
             }
         } else if (TextUtils.isEmpty(pwd)) {

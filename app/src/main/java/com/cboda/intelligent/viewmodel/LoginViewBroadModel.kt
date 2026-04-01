@@ -44,6 +44,27 @@ import kotlin.jvm.java
 class LoginViewBroadModel : BaseViewBroadModel() {
 
 
+    //    api/wanshan
+    fun updatePwd(pwd: String): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        val params = mapOf("pwd" to pwd)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/wanshan", Any::class.java, params)
+                    result.onSuccess { _ ->
+                        liveData.postValue(true)
+                    }.onFailure { _, msg ->
+                        showToastMain(msg)
+                    }.onError { _ ->
+                        showToastMain(R.string.httperror)
+                    }
+                } catch (_: kotlin.Exception) {
+                }
+            }
+        }
+        return liveData
+    }
 
     fun resetQrCode(): SingleLiveBroadData<String> {
         val liveData = SingleLiveBroadData<String>()
