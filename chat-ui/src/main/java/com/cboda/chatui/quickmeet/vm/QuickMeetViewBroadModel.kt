@@ -271,7 +271,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
                 NetworkBroadRepository.getEncrypted2<String>(UrlMeetConstants.QUICK_MEET_TOTAL_COUNT, params)
                     .onSuccess { userInfo ->
 //                    dismissLoadingWfc()
-                        eLogD(APP_TAG, "queryMeetTotalPersonCount=>${userInfo}")
+//                        eLogD(APP_TAG, "queryMeetTotalPersonCount=>${userInfo}")
 
                         userInfo?.let {
                             safeCenterLiveData.postValue(it)
