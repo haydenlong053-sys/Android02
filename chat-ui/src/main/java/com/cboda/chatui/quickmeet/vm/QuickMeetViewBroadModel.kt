@@ -8,6 +8,8 @@ import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.chatui.quickmeet.UrlMeetConstants
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
@@ -195,7 +197,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     suspend fun goMeetMicSeatPersonList(groupIdNo: String?): SingleLiveBroadData<SeatMicListBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<SeatMicListBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo,)
+        val params = hashMapOf("groupIdNo" to groupIdNo)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<SeatMicListBean>(
@@ -227,10 +229,10 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 下麦
      */
-    suspend fun goNetDownMic(applicantUserId: String?,groupIdNo: String?) :SingleLiveBroadData<Boolean>{
+    suspend fun goNetDownMic(applicantUserId: String?, groupIdNo: String?): SingleLiveBroadData<Boolean> {
         showLoadingWfc()
         val mLiveData = SingleLiveBroadData<Boolean>()
-        val params = hashMapOf("targetUserId" to applicantUserId,"groupIdNo" to groupIdNo,)
+        val params = hashMapOf("targetUserId" to applicantUserId, "groupIdNo" to groupIdNo)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2(
@@ -241,7 +243,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
                     dismissLoadingWfc()
                     mLiveData.postValue(true)
 
-                }.onFailure { code, message->
+                }.onFailure { code, message ->
                     dismissLoadingWfc()
                     ToastBroadUtils.show(message)
 
@@ -257,5 +259,36 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
         return mLiveData
     }
 
+    /**
+     * 查询会议总人数
+     */
+    suspend fun queryMeetTotalPersonCount(groupId: String?): SingleLiveBroadData<Int> {
+//        showLoadingWfc()
+        val safeCenterLiveData = SingleLiveBroadData<Int>()
+        val params = hashMapOf("groupIdNo" to groupId,"channelName" to groupId)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.getEncrypted<Int>(UrlMeetConstants.QUICK_MEET_TOTAL_COUNT, params)
+                    .onSuccess { userInfo ->
+                        eLogD(APP_TAG, "getEncrypted=>${userInfo?.toString()}")
+//                    dismissLoadingWfc()
+                        userInfo?.let {
+                            safeCenterLiveData.postValue(it)
+                        }
+
+                    }.onFailure { code, message ->
+//                    dismissLoadingWfc()
+                        ToastBroadUtils.show(message)
+                    }.onError {
+//                    dismissLoadingWfc()
+                    }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+//                dismissLoadingWfc()
+            }
+        }
+        return safeCenterLiveData
+    }
 
 }

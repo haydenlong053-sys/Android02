@@ -172,7 +172,7 @@ object NetworkBroadUtils {
      */
     fun <T> getEncrypted(
         url: String,
-        params: Map<String, String> = emptyMap(),
+        params: Map<String, String?> = emptyMap(),
         callback: NetworkCallback<T>
     ) {
         val api = createApi()

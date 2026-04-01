@@ -112,4 +112,9 @@ interface CallEventCallback{
 
     }
 
+    //会议总人数
+    fun onMeetTotalPersonCount(chanelId: String, personCount: Int){
+
+    }
+
 }

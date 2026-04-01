@@ -59,7 +59,7 @@ import kotlin.let
  * 会议最小化显示界面
  */
 class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
-    private val Interval_Time = 1000L
+    private val Interval_Time = 15000L
     private var callingStateHeight = 0
     private var viewWidth = 0
     private var marginTop = 0
@@ -400,7 +400,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     ""
                 }
                 activity.lifecycleScope.launch {
-                    viewModel?.goNetDownMic(applicantUserId,groupId)?.observe(activity){
+                    viewModel?.goNetDownMic(applicantUserId, groupId)?.observe(activity) {
                         ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_off_mic_done)
                     }
                 }
@@ -604,7 +604,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             goOverMeeting()
 //            cancelMeeting()
 //            MeetCallManager.getInstance().leaveAndRelease()
-        }else if (state == CONNECTION_STATE_RECONNECTING && reason ==CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT){
+        } else if (state == CONNECTION_STATE_RECONNECTING && reason == CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT) {
             ToastBroadUtils.show("当前会议网络环境较差，正在重新连接")
         }
 
@@ -678,11 +678,19 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         showMicBtnUI()
     }
 
+    private var meetRefreshPersonTimer = 0L
     override fun onRtcStats(statsBean: IRtcEngineEventHandler.RtcStats?) {
 //        eLogD(APP_TAG, "RtcStats=users=>${statsBean?.users}")
-        //先判断会议人数有没有变化后，再在主线程更新人数信息
-//        runOnUiThread {
-//        }
+
+        if (System.currentTimeMillis() > meetRefreshPersonTimer) {
+            meetRefreshPersonTimer = System.currentTimeMillis() + Interval_Time
+            activity.lifecycleScope.launch {
+                viewModel?.queryMeetTotalPersonCount(groupId)?.observe(activity) {
+                    MeetCallManager.getInstance().notifyMeetTotalPersonCount(groupId ?: "", it)
+                }
+            }
+        }
+
     }
 
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {

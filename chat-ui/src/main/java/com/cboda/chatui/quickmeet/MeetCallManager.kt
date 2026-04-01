@@ -465,6 +465,12 @@ class MeetCallManager private constructor() {
             callback.onRtcStats(statsBean)
         }
     }
+    fun notifyMeetTotalPersonCount(chanelId: String,personCount: Int) {
+        val list = ArrayList<CallEventCallback>(mCallEvents)
+        list.forEach { callback ->
+            callback.onMeetTotalPersonCount(chanelId,personCount)
+        }
+    }
 
     fun leaveAndRelease() {
         if (callEngine != null) {

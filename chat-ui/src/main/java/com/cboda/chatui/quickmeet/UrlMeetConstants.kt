@@ -27,6 +27,9 @@ object UrlMeetConstants {
     //管理员下麦
     const val QUICK_DOWN_MIC="api/quick/live/downMic"
 
+    //会议总人数
+    const val QUICK_MEET_TOTAL_COUNT="api/quick/live/getJoinedUsers"
+
 
 
 

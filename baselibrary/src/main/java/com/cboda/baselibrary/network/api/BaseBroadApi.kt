@@ -76,7 +76,7 @@ interface BaseBroadApi {
     @Headers("X-Encrypt-Request: true", "X-Decrypt-Response: true")
     fun getEncrypted(
         @Url url: String,
-        @QueryMap params: Map<String, String> = emptyMap()
+        @QueryMap params: Map<String, String?> = emptyMap()
     ): Call<NetworkBroadResponse<Any>>
 
 

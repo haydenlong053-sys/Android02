@@ -5,6 +5,7 @@ import com.cboda.baselibrary.network.result.NetworkBroadResult
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.blankj.utilcode.util.GsonUtils
+import com.cboda.baselibrary.utils.APP_TAG
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -338,13 +339,14 @@ object NetworkBroadRepository {
      */
     suspend fun <T> getEncrypted(
         url: String,
-        params: Map<String, String> = emptyMap()
+        params: Map<String, String?> = emptyMap()
     ): NetworkBroadResult<T> = suspendCancellableCoroutine { continuation ->
         NetworkBroadUtils.getEncrypted<T>(
             url = url,
             params = params,
             callback = object : NetworkBroadUtils.NetworkCallback<T> {
                 override fun onSuccess(data: T?) {
+                    eLogD(APP_TAG, "data=>${data?.toString()}")
                     continuation.resume(NetworkBroadResult.BroadSuccess(data))
                 }
 
