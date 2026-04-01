@@ -30,6 +30,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
+import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.plugin.PluginLayout;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.google.gson.Gson;
@@ -447,12 +448,12 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
             meetPlugin = new MeetPlugin(this);
             getLifecycle().addObserver(meetPlugin);
-            meetPlugin.setHasMeetInfoInvoke(new Function1<QuickDetailMeetBean, Unit>() {
+            meetPlugin.setHasMeetInfoInvoke(new Function1<QuickMeetInfoBean, Unit>() {
                 @Override
-                public Unit invoke(QuickDetailMeetBean quickDetailMeetBean) {
+                public Unit invoke(QuickMeetInfoBean quickMeetBean) {
                     if (MeetCallManager.getInstance().isIdleState()){
                         if (conversationBroadFragment != null && conversationBroadFragment.isAdded()) {
-                            conversationBroadFragment.showMeetJoinUi(quickDetailMeetBean);
+                            conversationBroadFragment.showMeetJoinUi(quickMeetBean);
                         }
 
                     }

@@ -46,6 +46,7 @@ import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.contact.model.UIUserBroadInfo;
 import com.cboda.chatui.net.OKHttpBroadHelper;
 import com.cboda.chatui.net.SimpleCallback;
+import com.cboda.chatui.quickmeet.UrlMeetConstants;
 import com.cboda.chatui.third.utils.FileBroadUtils;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.utils.PinyinBroadUtils;
@@ -814,9 +815,9 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
     public SingleLiveBroadData<Boolean> goMeetDownMicApply(String groupID) {
         SingleLiveBroadData<Boolean> result = new SingleLiveBroadData<>();
         Map<String, Object> params = new HashMap<>(2);
-        params.put("applicantUserId", MMKVBroadUtils.Companion.getRealUserId());
+        params.put("targetUserId", MMKVBroadUtils.Companion.getRealUserId());
         params.put("groupIdNo", groupID);
-        NetworkBroadUtils.INSTANCE.postEncrypted("api/quick/live/downMic", params, new NetworkBroadUtils.NetworkCallback<>() {
+        NetworkBroadUtils.INSTANCE.postEncrypted(UrlMeetConstants.QUICK_DOWN_MIC, params, new NetworkBroadUtils.NetworkCallback<>() {
             @Override
             public void onFailure(int code, @NotNull String message, @org.jetbrains.annotations.Nullable Object data) {
                 eLogD("GroupViewBroadModelClass", "onFailure:" + code + "," + message);

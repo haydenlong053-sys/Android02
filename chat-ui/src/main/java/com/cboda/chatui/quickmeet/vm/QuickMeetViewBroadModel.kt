@@ -230,7 +230,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     suspend fun goNetDownMic(applicantUserId: String?,groupIdNo: String?) :SingleLiveBroadData<Boolean>{
         showLoadingWfc()
         val mLiveData = SingleLiveBroadData<Boolean>()
-        val params = hashMapOf("applicantUserId" to applicantUserId,"groupIdNo" to groupIdNo,)
+        val params = hashMapOf("targetUserId" to applicantUserId,"groupIdNo" to groupIdNo,)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2(

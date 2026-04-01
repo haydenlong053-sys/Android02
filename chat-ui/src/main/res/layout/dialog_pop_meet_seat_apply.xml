@@ -21,12 +21,23 @@
         android:textSize="18sp"
         android:textStyle="bold"
         />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMeetSeatApplyList"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:overScrollMode="never"
-        tools:listitem="@layout/item_meet_seat_apply_broad" />
+        android:layout_height="480dp">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMeetSeatApplyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            tools:listitem="@layout/item_meet_seat_apply_broad" />
+        <ImageView
+            android:id="@+id/ivNoData"
+            android:layout_width="@dimen/dp_140"
+            android:layout_height="@dimen/dp_140"
+            android:src="@drawable/ic_empty_broad_bg"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 
 </LinearLayout>

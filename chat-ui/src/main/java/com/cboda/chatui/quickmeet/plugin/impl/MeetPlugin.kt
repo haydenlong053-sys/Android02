@@ -33,6 +33,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
+import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.bean.SeatNumb
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
@@ -45,7 +46,9 @@ import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import io.agora.rtc2.Constants
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
+import io.agora.rtc2.Constants.CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT
 import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
+import io.agora.rtc2.Constants.CONNECTION_STATE_RECONNECTING
 import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 import kotlinx.coroutines.MainScope
@@ -244,13 +247,13 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
     }
 
-    var hasMeetInfoInvoke: (QuickDetailMeetBean) -> Unit = {}
+    var hasMeetInfoInvoke: (QuickMeetInfoBean) -> Unit = {}
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
         groupId = groupIdNo
         activity.lifecycleScope.launch {
             viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
                 if (it.list?.isNotEmpty() == true && it.token != null) {
-                    hasMeetInfoInvoke.invoke(it.list!![0])
+                    hasMeetInfoInvoke.invoke(it)
                     meetChannelBean = it.list!![0]
                     meetChannelBean?.token = it.token
                 }
@@ -304,31 +307,29 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     private fun switchSeatUI() {
-        if (MeetCallManager.getInstance().isCallingState()) {
-            mViewRootMeetMain?.let {
-                it.isVisible = !it.isVisible
-            }
-            mViewRootMeetFour?.let {
-                it.isVisible = !it.isVisible
-            }
-            syncOutsideTapMaskVisibility()
-            mView?.post {
-                touchHandle?.let {
-                    it.setupViewSize()
-                    val result = pluginMoveData.value
-                    if (!TextUtils.isEmpty(result)) {
-                        updateLayoutPosition(result!!, true)
-                    } else {
-                        it.updateLocation(
-                            0f,
-                            marginTop.toFloat(),
-                            false
-                        )
-                    }
+        mViewRootMeetMain?.let {
+            it.isVisible = !it.isVisible
+        }
+        mViewRootMeetFour?.let {
+            it.isVisible = !it.isVisible
+        }
+        syncOutsideTapMaskVisibility()
+        mView?.post {
+            touchHandle?.let {
+                it.setupViewSize()
+                val result = pluginMoveData.value
+                if (!TextUtils.isEmpty(result)) {
+                    updateLayoutPosition(result!!, true)
+                } else {
+                    it.updateLocation(
+                        0f,
+                        marginTop.toFloat(),
+                        false
+                    )
                 }
             }
-
         }
+
     }
 
     override fun updateLocation(translationX: Float, translationY: Float) {
@@ -571,9 +572,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 seatGuestOneNameTv?.text = ""
                 seatGuestOneMicIv?.isVisible = false
             } else {
-                seatSubAvatarIv?.loadImg(icon)
-                seatSubNameTv?.text = name
-                seatSubMicIv?.isVisible = true
+                seatGuestOneAvatarIv?.loadImg(icon)
+                seatGuestOneNameTv?.text = name
+                seatGuestOneMicIv?.isVisible = true
             }
 
         } else if (index == SeatNumb.MIC_GUEST_TWO.ordinal) {
@@ -603,6 +604,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             goOverMeeting()
 //            cancelMeeting()
 //            MeetCallManager.getInstance().leaveAndRelease()
+        }else if (state == CONNECTION_STATE_RECONNECTING && reason ==CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT){
+            ToastBroadUtils.show("当前会议网络环境较差，正在重新连接")
         }
 
     }
@@ -649,9 +652,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             } else {
                 speaker.uid.toString()
             }
-            seatMicFourList.firstOrNull { meetUser ->
+            seatMicFourList.find { meetUser ->
                 !meetUser.idNo.isNullOrEmpty() && meetUser.idNo == uidString
-            }?.let { updateSeatWaveByIndex(it.seatNumbIndex) }
+            }?.let {
+//                eLogD(APP_TAG, "speakers.uid==>${it.idNo}----seatNumbIndex =${it.seatNumbIndex}")
+                updateSeatWaveByIndex(it.seatNumbIndex)
+            }
         }
 
     }
@@ -845,6 +851,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     }
 
+    override fun onPause() {
+        super.onPause()
+//        eLogD(APP_TAG, "onPause--lifecycles_owner==${activity.lifecycle.currentState}")
+        if (mIsLayout
+            && MeetCallManager.getInstance().isCallingState()
+        ) {
+            mView?.visibility = View.INVISIBLE
+        }
+    }
 
     private fun showMeetMiniLayoutView() {
         if (mIsLayout) {
@@ -883,21 +898,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onPermissionDenied() {
 
-    }
-
-    override fun onResume(owner: LifecycleOwner) {
-        super.onResume(owner)
-//        eLogD(APP_TAG, "onResume--lifecycles_owner==${activity.lifecycle.currentState}")
-    }
-
-    override fun onPause() {
-        super.onPause()
-//        eLogD(APP_TAG, "onPause--lifecycles_owner==${activity.lifecycle.currentState}")
-        if (mIsLayout
-            && MeetCallManager.getInstance().isCallingState()
-        ) {
-            mView?.visibility = View.INVISIBLE
-        }
     }
 
     override fun onDestroy() {

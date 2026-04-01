@@ -11,6 +11,7 @@ import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePictu
 import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 import static com.cboda.chatui.voip.conference.GiftChatRoomHelper.getGiftChatRoomId;
 
@@ -104,6 +105,7 @@ import com.cboda.chatui.quickmeet.CallEventCallback;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.CallData;
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
+import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.third.utils.UIBroadUtils;
@@ -1956,10 +1958,10 @@ public class ConversationBroadFragment extends Fragment implements
         }
     }
 
-    public void showMeetJoinUi(QuickDetailMeetBean quickDetailMeetBean) {
+    public void showMeetJoinUi(QuickMeetInfoBean quickDetailMeetBean) {
         if (mViewMeetJoin != null) {
             mViewMeetJoin.setVisibility(View.VISIBLE);
-            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count), "88"));
+            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count),String.valueOf(anyToInt(quickDetailMeetBean.getJoinedUsers()))) );
         }
 
     }

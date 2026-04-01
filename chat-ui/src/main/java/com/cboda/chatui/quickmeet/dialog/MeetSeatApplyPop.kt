@@ -56,6 +56,7 @@ class MeetSeatApplyPop(val context: Context, val groupIdNo: String?) : BaseBotto
             // 现在可以使用 viewModel 进行数据操作
             scope.launch {
                 viewModel?.getApplyMicList(groupIdNo)?.observe(activity) {
+                    binding.ivNoData.isGone = (((it.applyList?.size ?: 0) > 0))
                     binding.rvMeetSeatApplyList.adapter = MeetSeatApplyAdapter(it.applyList ?: arrayListOf())
                 }
 
