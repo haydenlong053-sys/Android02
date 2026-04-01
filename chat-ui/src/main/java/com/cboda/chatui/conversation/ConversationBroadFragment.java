@@ -246,7 +246,7 @@ public class ConversationBroadFragment extends Fragment implements
     public void onMeetTotalPersonCount(@NotNull String chanelId, int personCount) {
         if (null != countPillView && isAdded()) {
             countPillView.setTarget(personCount, 500L);
-            if (countPillView.getVisibility() == GONE) {
+            if (countPillView.getVisibility() == GONE && personCount > 0) {
                 countPillView.setVisibility(View.VISIBLE);
             }
         }
@@ -1956,7 +1956,12 @@ public class ConversationBroadFragment extends Fragment implements
     public void showMeetJoinUi(QuickMeetInfoBean quickDetailMeetBean) {
         if (mViewMeetJoin != null) {
             mViewMeetJoin.setVisibility(View.VISIBLE);
-            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count),String.valueOf(anyToInt(quickDetailMeetBean.getJoinedUsers()))) );
+            int anyToInt = anyToInt(quickDetailMeetBean.getJoinedUsers());
+            //兜底操作
+            if (anyToInt == 0 ){
+                anyToInt =1;
+            }
+            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count),String.valueOf(anyToInt)) );
         }
 
     }
