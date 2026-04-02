@@ -194,7 +194,8 @@ class AuthWayBroadPop(
                     jumpSource == SafeJumpBroadEnum.LoginNewMachine.sourceType || jumpSource == SafeJumpBroadEnum.LoginForgetPassword.sourceType,
                     account =account
                 )
-                if (jumpSource == SafeJumpBroadEnum.TransferAuthSure.sourceType || jumpSource == SafeJumpBroadEnum.ChangeMachineAuth.sourceType || jumpSource == SafeJumpBroadEnum.LoginNewMachine.sourceType || jumpSource == SafeJumpBroadEnum.LoginForgetPassword.sourceType) {
+                if (jumpSource == SafeJumpBroadEnum.TransferAuthSure.sourceType || jumpSource == SafeJumpBroadEnum.ChangeMachineAuth.sourceType || jumpSource == SafeJumpBroadEnum.LoginNewMachine.sourceType || jumpSource == SafeJumpBroadEnum.LoginForgetPassword.sourceType
+                    || jumpSource == SafeJumpBroadEnum.ChangeLoginPassword.sourceType) {
                     tipPop.transferInvoke = transferInvoke
                 }
                 tipPop.showPopupWindow()

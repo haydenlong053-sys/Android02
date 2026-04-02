@@ -23,4 +23,17 @@ class UserInfoBean {
 
     var qrcode = ""
 
+    @SerializedName("paypwd")
+    var payPwd = "" //支付密码
+
+
+    @SerializedName("twoFactorCode")
+    var googleCode = "" //谷歌验证码
+
+    @SerializedName("mbName")
+    var securityQuestion = "" //密保问题
+
+    @SerializedName("mbAnswer")
+    var securityQuestionAnswer = "" //密保问题答案
+
 }

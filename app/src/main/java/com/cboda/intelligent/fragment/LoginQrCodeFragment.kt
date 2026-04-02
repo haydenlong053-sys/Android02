@@ -3,6 +3,7 @@ package com.cboda.intelligent.fragment
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
@@ -26,6 +27,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
 
     private var userInfoBean: UserInfoBean? = null
     private var closeEyesIsGone: Boolean = true
+    private var widthIsBig = true
 
     fun setData(data: UserInfoBean) {
         userInfoBean = data
@@ -40,16 +42,22 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
                 binding.userName.text = userInfo.name
                 binding.userId.text = "ID:${userInfo.showId}"
                 if (userInfo.loginQrcode.endsWith(".jpg")) {
-                    val lp = binding.qrCode.layoutParams
-                    lp.width = dp2px(260f)
-                    lp.height = dp2px(260f)
-                    binding.qrCode.layoutParams = lp
+                    if (widthIsBig) {
+                        val lp = binding.qrCode.layoutParams
+                        lp.width = dp2px(260f)
+                        lp.height = dp2px(260f)
+                        binding.qrCode.layoutParams = lp
+                    }
+                    widthIsBig = true
                     binding.qrCode.loadImg(userInfo.loginQrcode)
                 } else {
-                    val lp = binding.qrCode.layoutParams
-                    lp.width = dp2px(200f)
-                    lp.height = dp2px(200f)
-                    binding.qrCode.layoutParams = lp
+                    if (!widthIsBig) {
+                        val lp = binding.qrCode.layoutParams
+                        lp.width = dp2px(200f)
+                        lp.height = dp2px(200f)
+                        binding.qrCode.layoutParams = lp
+                    }
+                    widthIsBig = false
                     binding.qrCode.loadImg(CodeUtils.createQRCode(userInfo.loginQrcode, dp2px(260f)), null)
                 }
             }
@@ -73,8 +81,10 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
         }
         binding.requestQrCode.click {
             viewModel.resetQrCode().observe(this) {
-                userInfoBean?.loginQrcode = it
-                setData()
+                if (null != it && !TextUtils.isEmpty(it)) {
+                    userInfoBean?.loginQrcode = it
+                    setData()
+                }
             }
         }
         binding.save.click {

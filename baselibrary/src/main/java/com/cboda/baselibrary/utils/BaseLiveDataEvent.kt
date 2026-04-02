@@ -19,3 +19,7 @@ val updateBarrageDataLiveData: BusLiveBroadData<BarrageBean> by lazy(LazyThreadS
 val meetJoinMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
     LiveDataBroadBroadBus.getInstance().with("meetJoinMsg")
 }
+
+val updatePayPwdDataLiveData: BusLiveBroadData<Boolean> by lazy(LazyThreadSafetyMode.NONE) {
+    LiveDataBroadBroadBus.getInstance().with("UpdatePayPwdEventName")
+}

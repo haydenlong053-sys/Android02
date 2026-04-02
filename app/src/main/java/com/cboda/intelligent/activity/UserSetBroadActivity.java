@@ -76,6 +76,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
         initViews();
         getToolbarTitle().setText(getResources().getString(R.string.设置));
         setRootBgColor(R.color.white);
+        llZhanghu.setVisibility(View.GONE);
         tvSwitch.setVisibility(getIsDebug() ? View.VISIBLE : View.GONE);
         tvSwitch.setText("切换环境（" + HttpsBroadConfig.INSTANCE.getDevType() + "）");
         tvSwitch.setOnClickListener(this);
@@ -141,11 +142,10 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
             intent = new Intent(this, ZhaqBroadActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.llTongyong) {
-//            intent = new Intent(this, LoginQrCodeActivity.class);
             intent = new Intent(this, CommonSetBroadActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.llGuanyu) {
-            JumpBroadUtils.Companion.startH5Activity(this,  BroadUrl.getAboutUrl(), getString(R.string.关于我们));
+            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getAboutUrl(), getString(R.string.关于我们));
         } else if (view.getId() == R.id.llYonghu) {
             JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议));
         } else if (view.getId() == R.id.llYinsi) {

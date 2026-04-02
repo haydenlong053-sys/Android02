@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.getAppColor
+import com.cboda.baselibrary.utils.updatePayPwdDataLiveData
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
@@ -19,14 +20,14 @@ import com.cboda.intelligent.widge.TextBackIndicatorAdapter
 
 class LoginQrCodeActivity : BaseSimple2BroadActivity() {
 
+    private val loginQrCodeFragment = LoginQrCodeFragment()
+    private val accountDetailFragment = AccountDetailFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = (binding as? LoginQrCodeActivityBinding)
         setRootBgRes(R.drawable.bg_blue_white)
         backIcon.imageTintList = ColorStateList.valueOf(getAppColor(this@LoginQrCodeActivity, R.color.white))
         addCenterLayout(R.layout.login_qr_code_center_title_layout)
-        val loginQrCodeFragment = LoginQrCodeFragment()
-        val accountDetailFragment = AccountDetailFragment()
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
         vp2FragmentAdapter.addFragment(loginQrCodeFragment)
         vp2FragmentAdapter.addFragment(accountDetailFragment)
@@ -49,6 +50,14 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
                 bindIndicatorAndViewPager(magicIndicator, viewPager, indicatorAdapt, magicIndicatorNeedOnPageScrolled = true)
             }
         }
+        getData()
+        updatePayPwdDataLiveData.observe(this) {
+            getData()
+        }
+    }
+
+
+    private fun getData() {
         viewModel.getUserInfo().observe(this) {
             loginQrCodeFragment.setData(it)
             accountDetailFragment.setData(it)

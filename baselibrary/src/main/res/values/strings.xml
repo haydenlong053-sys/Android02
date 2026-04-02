@@ -78,4 +78,6 @@
     <string name="confirm_password">确认密码</string>
     <string name="password_not_is_num">密码必须是8-16英文母、数字、字符组合（不能是纯数字）</string>
     <string name="password_update_success">密码修改成功</string>
+    <string name="account_pwd">账号密码</string>
+
 </resources>

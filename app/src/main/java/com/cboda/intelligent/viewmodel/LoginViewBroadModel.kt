@@ -66,22 +66,23 @@ class LoginViewBroadModel : BaseViewBroadModel() {
         return liveData
     }
 
-    fun resetQrCode(): SingleLiveBroadData<String> {
-        val liveData = SingleLiveBroadData<String>()
+    fun resetQrCode(): SingleLiveBroadData<String?> {
+        val liveData = SingleLiveBroadData<String?>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
                     val result = NetworkBroadRepository.postEncrypted("api/account/freshQRCode2", UserInfoBean::class.java, HashMap<String, Any>())
                     result.onSuccess { data ->
-                        data?.qrcode?.let {
-                            liveData.postValue(it)
-                        }
+                        liveData.postValue(data?.qrcode)
                     }.onFailure { _, msg ->
+                        liveData.postValue(null)
                         showToastMain(msg)
                     }.onError { _ ->
+                        liveData.postValue(null)
                         showToastMain(R.string.httperror)
                     }
                 } catch (_: kotlin.Exception) {
+                    liveData.postValue(null)
                 }
             }
         }
@@ -452,12 +453,12 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                     resultBean?.let {
                         if (resultBean.isws == "0") {
                             val newIntent = Intent(mContext, PushInfo2BroadActivity::class.java)
-                            newIntent.putExtra("apptoken", resultBean.apptoken);
-                            newIntent.putExtra("uid", resultBean.userId);
-                            newIntent.putExtra("userSign", resultBean.userSign);
-                            newIntent.putExtra("imtoken", resultBean.imtoken);
-                            newIntent.putExtra("idno", resultBean.idno);
-                            newIntent.putExtra("qrcode", resultBean.qrcode);
+                            newIntent.putExtra("apptoken", resultBean.apptoken)
+                            newIntent.putExtra("uid", resultBean.userId)
+                            newIntent.putExtra("userSign", resultBean.userSign)
+                            newIntent.putExtra("imtoken", resultBean.imtoken)
+                            newIntent.putExtra("idno", resultBean.idno)
+                            newIntent.putExtra("qrcode", resultBean.qrcode)
                             newIntent.putExtra("account", account)
                             newIntent.putExtra("pwd", pwd)
                             mContext.startActivity(newIntent)
