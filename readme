@@ -2,5 +2,5 @@
 config.gradle文件中
 82环境正式版（release版）用：旧版签名
 其它环境或者82环境debug版用：新版签名（旧版us环境）
- //todo HttpsBroadConfig->此处提审的时候改成true
+ HttpsBroadConfig->此处提审的时候改成true
     val isReviewEnv= false
