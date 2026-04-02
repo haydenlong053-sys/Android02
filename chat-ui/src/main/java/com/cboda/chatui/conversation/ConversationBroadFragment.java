@@ -5,6 +5,7 @@
 package com.cboda.chatui.conversation;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getMeetUpMicMsgLiveData;
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateBarrageDataLiveData;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePicture;
@@ -244,10 +245,10 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Override
     public void onMeetTotalPersonCount(@NotNull String chanelId, int personCount) {
-        if (null != countPillView && isAdded()) {
+        if (null != countPillView && isAdded() && null != danmakuIv && danmakuIv.getVisibility() == VISIBLE) {
             countPillView.setTarget(personCount, 500L);
             if (countPillView.getVisibility() == GONE && personCount > 0) {
-                countPillView.setVisibility(View.VISIBLE);
+                countPillView.setVisibility(VISIBLE);
             }
         }
     }
@@ -275,7 +276,7 @@ public class ConversationBroadFragment extends Fragment implements
                 ongoingCallsBroad.put(ongoingCall.getCallId(), uiMessage.message);
 
                 if (ongoingCallsBroad.size() > 0) {
-                    ongoingCallRecyclerViewBroad.setVisibility(View.VISIBLE);
+                    ongoingCallRecyclerViewBroad.setVisibility(VISIBLE);
                     if (ongoingCallAdapterBroad == null) {
                         ongoingCallAdapterBroad = new OngoingCallBroadAdapter();
                         ongoingCallRecyclerViewBroad.setAdapter(ongoingCallAdapterBroad);
@@ -603,7 +604,7 @@ public class ConversationBroadFragment extends Fragment implements
         inputPanelBroad = view.findViewById(R.id.inputPanelFrameLayout);
         mViewInterceptBroad = view.findViewById(R.id.mViewIntercept);
         if ("tousu".equals(fromPage)) {
-            tvPhoneLoginBroad.setVisibility(View.VISIBLE);
+            tvPhoneLoginBroad.setVisibility(VISIBLE);
             inputPanelBroad.setVisibility(GONE);
             tvPhoneLoginBroad.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -723,13 +724,13 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onRtcJoinChannelSuccess() {
         if (null != danmakuIv) {
-            danmakuIv.setVisibility(View.VISIBLE);
+            danmakuIv.setVisibility(VISIBLE);
         }
 //        if (null != countPillView) {
 //            countPillView.setVisibility(View.VISIBLE);
 //        }
         if (null != verticalDanmakuView) {
-            verticalDanmakuView.setVisibility(View.VISIBLE);
+            verticalDanmakuView.setVisibility(VISIBLE);
         }
         // 进入礼物聊天室（基于当前群 ID），用于发送/接收鲜花和鼓掌弹幕
         if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group) {
@@ -749,6 +750,8 @@ public class ConversationBroadFragment extends Fragment implements
     public void onEngineDestroy(@NotNull CallData data) {
         if (null != danmakuIv) {
             danmakuIv.setVisibility(GONE);
+        }
+        if (null != danmakuView) {
             danmakuView.setVisibility(GONE);
         }
         if (null != countPillView) {
@@ -821,8 +824,8 @@ public class ConversationBroadFragment extends Fragment implements
         getMeetUpMicMsgLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String groupIdNo) {
-                if (danmakuView !=null && conversationBroad !=null && TextUtils.equals(conversationBroad.target,groupIdNo) && MeetCallManager.getInstance().isOwner()){
-                    danmakuView.setVisibility(View.VISIBLE);//显示未读小红点
+                if (danmakuView != null && conversationBroad != null && TextUtils.equals(conversationBroad.target, groupIdNo) && MeetCallManager.getInstance().isOwner()) {
+                    danmakuView.setVisibility(VISIBLE);//显示未读小红点
                 }
             }
         });
@@ -842,7 +845,7 @@ public class ConversationBroadFragment extends Fragment implements
                 DanMaPop danMaPop = null;
                 if (MeetCallManager.getInstance().isOwner()) {
                     //会议发起人
-                    danMaPop = new DanMaPop(activity, isMan, isMan, isGag, false, false, true, danmakuView.getVisibility() ==View.VISIBLE);
+                    danMaPop = new DanMaPop(activity, isMan, isMan, isGag, false, false, true, danmakuView.getVisibility() == VISIBLE);
                 } else {
                     danMaPop = new DanMaPop(activity, isMan, isMan, isGag, !MeetCallManager.getInstance().isCallDirect(), MeetCallManager.getInstance().isCallDirect(), false, false);
                 }
@@ -919,7 +922,7 @@ public class ConversationBroadFragment extends Fragment implements
                             if (danmakuView != null) {
                                 danmakuView.setVisibility(GONE);
                             }
-                            new MeetSeatApplyPop(getActivity(),conversationBroad.target).showPopupWindow();
+                            new MeetSeatApplyPop(getActivity(), conversationBroad.target).showPopupWindow();
 
                             break;
                     }
@@ -1067,10 +1070,10 @@ public class ConversationBroadFragment extends Fragment implements
             eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
             if (MeetCallManager.getInstance().isCallingState()) {
                 if (null != danmakuIv) {
-                    danmakuIv.setVisibility(View.VISIBLE);
+                    danmakuIv.setVisibility(VISIBLE);
                 }
                 if (null != verticalDanmakuView) {
-                    verticalDanmakuView.setVisibility(View.VISIBLE);
+                    verticalDanmakuView.setVisibility(VISIBLE);
                 }
 //                if (null != countPillView) {
 //                    countPillView.setVisibility(View.VISIBLE);
@@ -1137,7 +1140,7 @@ public class ConversationBroadFragment extends Fragment implements
         }
         ScrollView scrollView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundScrollView);
         ImageView imageView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundImageView);
-        scrollView.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(VISIBLE);
         Glide.with(this).load(uri).into(imageView);
     }
 
@@ -1148,7 +1151,7 @@ public class ConversationBroadFragment extends Fragment implements
         }
         ScrollView scrollView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundScrollView);
         ImageView imageView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundImageView);
-        scrollView.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(VISIBLE);
         Glide.with(this).load(backgroundImageBroadResId).into(imageView);
     }
 
@@ -1297,8 +1300,8 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void showUnreadMessageCountLabel(int count) {
-        unreadCountLinearLayoutBroad.setVisibility(View.VISIBLE);
-        unreadCountTextViewBroad.setVisibility(View.VISIBLE);
+        unreadCountLinearLayoutBroad.setVisibility(VISIBLE);
+        unreadCountTextViewBroad.setVisibility(VISIBLE);
         unreadCountTextViewBroad.setText(getString(R.string.unread_messages_count, count));
     }
 
@@ -1307,8 +1310,8 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     private void showUnreadMentionCountLabel(int count) {
-        unreadCountLinearLayoutBroad.setVisibility(View.VISIBLE);
-        unreadMentionCountTextViewBroad.setVisibility(View.VISIBLE);
+        unreadCountLinearLayoutBroad.setVisibility(VISIBLE);
+        unreadMentionCountTextViewBroad.setVisibility(VISIBLE);
         unreadMentionCountTextViewBroad.setText(getString(R.string.unread_mentions_count, count));
     }
 
@@ -1626,7 +1629,7 @@ public class ConversationBroadFragment extends Fragment implements
         if (rootLinearLayoutBroad.getCurrentInput() != null) {
             rootLinearLayoutBroad.hideAttachedInput(true);
             inputPanelBroad.closeConversationInputPanel();
-        } else if (multiMessageActionContainerLinearLayoutBroad.getVisibility() == View.VISIBLE) {
+        } else if (multiMessageActionContainerLinearLayoutBroad.getVisibility() == VISIBLE) {
             toggleConversationMode();
         } else {
             consumed = false;
@@ -1825,12 +1828,12 @@ public class ConversationBroadFragment extends Fragment implements
         message.isChecked = true;
         adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_CHECKABLE);
         adapterBroad.notifyDataSetChanged();
-        multiMessageActionContainerLinearLayoutBroad.setVisibility(View.VISIBLE);
+        multiMessageActionContainerLinearLayoutBroad.setVisibility(VISIBLE);
         setupMultiMessageAction();
     }
 
     public void toggleConversationMode() {
-        inputPanelBroad.setVisibility(View.VISIBLE);
+        inputPanelBroad.setVisibility(VISIBLE);
         multiMessageActionContainerLinearLayoutBroad.setVisibility(GONE);
         adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_NORMAL);
         adapterBroad.clearMessageCheckStatus();
@@ -1955,19 +1958,19 @@ public class ConversationBroadFragment extends Fragment implements
 
     public void showMeetJoinUi(QuickMeetInfoBean quickDetailMeetBean) {
         if (mViewMeetJoin != null) {
-            mViewMeetJoin.setVisibility(View.VISIBLE);
+            mViewMeetJoin.setVisibility(VISIBLE);
             int anyToInt = anyToInt(quickDetailMeetBean.getJoinedUsers());
             //兜底操作
-            if (anyToInt == 0 ){
-                anyToInt =1;
+            if (anyToInt == 0) {
+                anyToInt = 1;
             }
-            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count),String.valueOf(anyToInt)) );
+            mTvMeetPeople.setText(String.format(getString(com.cboda.baselibrary.R.string.msg_meeting_active_count), String.valueOf(anyToInt)));
         }
 
     }
 
     public void hideMeetJoinUi() {
-        if (mViewMeetJoin != null && mViewMeetJoin.getVisibility() == View.VISIBLE) {
+        if (mViewMeetJoin != null && mViewMeetJoin.getVisibility() == VISIBLE) {
             mViewMeetJoin.setVisibility(GONE);
         }
     }
