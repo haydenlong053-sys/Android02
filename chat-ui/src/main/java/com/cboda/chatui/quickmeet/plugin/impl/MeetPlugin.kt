@@ -58,7 +58,7 @@ import kotlin.let
  * 会议最小化显示界面
  */
 class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
-    private val Interval_Time = 10000L
+    private val intervalTime = 10000L
     private var callingStateHeight = 0
     private var viewWidth = 0
     private var marginTop = 0
@@ -92,7 +92,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var seatGuestTwoTagTv: TextView? = null
     private var seatGuestTwoNameTv: TextView? = null
 
-
     private var coverAvatarIv: ImageView? = null
     private var mIvIconMic: ImageView? = null
     private var mTvMeetEnd: TextView? = null
@@ -110,12 +109,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var groupBean: GlobalChatGroupBean? = null
     private var groupId: String? = null
     private var meetChannelBean: QuickDetailMeetBean? = null
+    //4个固定麦位的本地数据
     private val seatMicFourList = arrayListOf(
         MeetUser(seatNumbIndex = SeatNumb.MIC_MAIN.ordinal),
         MeetUser(seatNumbIndex = SeatNumb.MIC_SUB.ordinal),
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_ONE.ordinal),
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_TWO.ordinal)
     )
+    //麦位上当前所有人员的麦克风禁言状态的集合
+    private val tempSeatMutAudioMap =hashMapOf<Int, Boolean>()
     private val myMid by lazy {
         MMKVBroadUtils.getUserMId()
     }
@@ -129,9 +131,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
     }
 
-
     private var myGroupMemberType: String? = null
-
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -179,7 +179,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
         }
     }
-
 
     override fun getContentLayout(): Int {
         return R.layout.meet_call_plugin_layout
@@ -238,7 +237,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
         setupOutsideTapToCollapseFourSeats()
 
-
         marginTop = mContext?.resources?.getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_100) ?: 0
         touchHandle?.let {
             val result = pluginMoveData.value
@@ -279,7 +277,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 } else {
                     CallDirect.ANSWER
                 }
-//                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: "", it.token ?: "", it)
                 MeetCallManager.getInstance().callMeetAction(direct, it.channelId ?: "", it.token ?: "", it)
             }
         }
@@ -390,11 +387,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
 
         }
-//        showOrHideCover()
         showMicBtnUI()
     }
 
-    //主播端点击下mic弹框
+    //群主或管理员点击下mic弹框
     private fun goDownMic(ordinal: Int) {
         if (myGroupMemberType == "1" || myGroupMemberType == "2") {
             showDownMicDialog(activity) { i, _ ->
@@ -426,7 +422,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             mViewUiLine?.isVisible = false
         }
     }
-
 
     /**
      * 当 `mViewRootMeetFour` 处于展开状态时，点击悬浮窗外部收起四座位。
@@ -480,7 +475,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     private fun goOverMeeting() {
-//        ThreadUtils.getMainHandler().removeCallbacks(runnableRefreshMeetSeatInfo)
         cancelMeeting()
         MeetCallManager.getInstance().leaveAndRelease()
     }
@@ -492,34 +486,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private fun isCalling(): Boolean {
         return MeetCallManager.getInstance().isCallingState()
     }
-
-//    private fun showOrHideCover() {
-//        groupBean?.let {
-//            if (it.userList?.isNotEmpty() == true) {
-//                val quickDetailMeetBean = MeetCallManager.getInstance().mCallData.quickDetailMeetBean
-//                it.userList?.find { user ->
-//                    quickDetailMeetBean?.let { detailMeetBean ->
-//                        user.userId == detailMeetBean.userId
-//                    } ?: false
-//
-//                }?.let { ownerUser ->
-//                    //会议发起人的信息
-//                    coverAvatarIv?.loadImg(ownerUser.icon)
-//                    mTvUserName?.text = ownerUser.name
-//                    val meetUser1 = seatMicFourList.find { meetUser ->
-//                        meetUser.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal
-//                    }
-//                    meetUser1?.nickname = ownerUser.name
-//                    meetUser1?.icon = ownerUser.icon
-//                    meetUser1?.role = ownerUser.type
-//                    meetUser1?.userId = ownerUser.userId
-//                    meetUser1?.idNo = quickDetailMeetBean?.idNo
-////                    showSeatMicUI(0, true)
-//
-//                }
-//            }
-//        }
-//    }
 
     //本人麦位上的麦克风状态变更---取反
     private fun goLocalMuteSeatMicStateChange(index: Int) {
@@ -608,8 +574,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             ToastBroadUtils.show("会议无效的 Token")
         } else if (state == CONNECTION_STATE_FAILED && reason == CONNECTION_CHANGED_BANNED_BY_SERVER) {
             goOverMeeting()
-//            cancelMeeting()
-//            MeetCallManager.getInstance().leaveAndRelease()
         } else if (state == CONNECTION_STATE_RECONNECTING && reason == CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT) {
             ToastBroadUtils.show("当前会议网络环境较差，正在重新连接")
         }
@@ -689,7 +653,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //        eLogD(APP_TAG, "RtcStats=users=>${statsBean?.users}")
 
         if (System.currentTimeMillis() > meetRefreshPersonTimer) {
-            meetRefreshPersonTimer = System.currentTimeMillis() + Interval_Time
+            meetRefreshPersonTimer = System.currentTimeMillis() + intervalTime
             activity.lifecycleScope.launch {
                 viewModel?.queryMeetTotalPersonCount(groupId)?.observe(activity) {
                     MeetCallManager.getInstance().notifyMeetTotalPersonCount(groupId ?: "", anyToInt(it))
@@ -699,7 +663,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     }
 
-    private val tempSeatMutAudioMap =hashMapOf<Int, Boolean>()
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
         tempSeatMutAudioMap.put(uid,muted)
         refreshSeatMicState(uid,muted)
@@ -722,11 +685,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
         }
     }
-
-//    private val runnableRefreshMeetSeatInfo = Runnable {
-//        goRefreshMeetSeatInfo()
-//
-//    }
 
     //刷新同步4个固定麦位信息
     private fun goRefreshMeetSeatInfo(isRefreshMainMic: Boolean = false) {
@@ -909,7 +867,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 }
             })?.observe(activity) { bean ->
                 groupBean = bean
-//                showOrHideCover()
                 groupBean?.userList?.find {
                     it.userId == myUserId
                 }?.let {
