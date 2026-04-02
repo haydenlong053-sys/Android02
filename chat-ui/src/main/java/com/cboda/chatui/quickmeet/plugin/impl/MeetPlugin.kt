@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -44,7 +43,6 @@ import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
-import io.agora.rtc2.Constants
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT
@@ -124,7 +122,16 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private val myUserId by lazy {
         MMKVBroadUtils.getRealUserId() ?: ""
     }
+    private val openMicText  by lazy {
+        activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
+    }
+    private val closeMicText  by lazy {
+        activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
+    }
+
+
     private var myGroupMemberType: String? = null
+
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -357,7 +364,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 seatMicFourList.find {
                     it.userId == myUserId
                 }?.let { seatUser ->
-                    goSeatMicStateChange(seatUser.seatNumbIndex)
+                    goLocalMuteSeatMicStateChange(seatUser.seatNumbIndex)
                 }
 
             }
@@ -514,11 +521,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 //        }
 //    }
 
-    //麦位上的麦克风状态变更---取反
-    private fun goSeatMicStateChange(index: Int) {
-        val openMicText = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
-        val closeMicText = activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
-
+    //本人麦位上的麦克风状态变更---取反
+    private fun goLocalMuteSeatMicStateChange(index: Int) {
         fun toggleMic(micIv: ImageView?, updateMainIcon: Boolean) {
             micIv ?: return
             val muteLocalAudio = MeetCallManager.getInstance().muteLocalAudio(!micIv.isSelected)
@@ -527,6 +531,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 if (updateMainIcon) {
                     mIvIconMic?.isSelected = !mIvIconMic!!.isSelected
                 }
+                tempSeatMutAudioMap.put(myMid.toInt(),micIv.isSelected)
                 // 已禁麦 => 展示“打开麦克风”，未禁麦 => 展示“关闭麦克风”
                 mTvCloseMic?.text = if (micIv.isSelected) openMicText else closeMicText
             }
@@ -694,7 +699,14 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     }
 
+    private val tempSeatMutAudioMap =hashMapOf<Int, Boolean>()
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
+        tempSeatMutAudioMap.put(uid,muted)
+        refreshSeatMicState(uid,muted)
+    }
+
+    //刷新麦位上的麦克风状态
+    private fun refreshSeatMicState(uid: Int, muted: Boolean) {
         seatMicFourList.find {
             it.idNo?.toIntOrNull() == uid
         }?.let {
@@ -709,7 +721,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 seatGuestTwoMicIv?.isSelected = muted
             }
         }
-
     }
 
 //    private val runnableRefreshMeetSeatInfo = Runnable {
@@ -763,6 +774,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
                     }
                     goRefreshMyselfSeatMic()
+                    //同步麦位上的麦克风状态
+                    tempSeatMutAudioMap.forEach { (key, value) ->
+                        refreshSeatMicState(key,value)
+                    }
                 }
             }
         }
@@ -777,7 +792,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }?.let {
                 //上麦
                 if (!MeetCallManager.getInstance().isCallDirect()) {
-                    MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER)
+                    MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER).let {  successInt->
+                        if (successInt == 0 && it.idNo?.isNotEmpty() == true){
+                            tempSeatMutAudioMap.put(anyToInt(it.idNo!!), false)
+                        }
+                    }
                 }
 
             } ?: kotlin.run {
@@ -807,6 +826,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     private fun removePanel() {
         clearFourSeatMicList()
+        tempSeatMutAudioMap.clear()
         clearVoiceWaveAnimate()
 
         mView?.visibility = View.GONE

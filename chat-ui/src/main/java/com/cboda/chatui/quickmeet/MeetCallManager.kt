@@ -272,6 +272,7 @@ class MeetCallManager private constructor() {
 
         //远端用户或主播停止或恢复发送音频流的回调
         override fun onUserMuteAudio(uid: Int, muted: Boolean) {
+            eLogD(APP_TAG,"onUserMuteAudio---uid=$uid--muted=$muted")
             super.onUserMuteAudio(uid, muted)
             runOnUiThread {
                 notifyRtcUserMuteAudioChange(uid, muted)
@@ -279,11 +280,11 @@ class MeetCallManager private constructor() {
         }
 
         override fun onAudioPublishStateChanged(channel: String?, oldState: Int, newState: Int, elapseSinceLastState: Int) {
-            eLogD(APP_TAG,"onAudioPublishStateChanged---channel=$channel--oldState=$oldState--newState=$newState")
+//            eLogD(APP_TAG,"onAudioPublishStateChanged---channel=$channel--oldState=$oldState--newState=$newState")
         }
 
         override fun onAudioSubscribeStateChanged(channel: String?, uid: Int, oldState: Int, newState: Int, elapseSinceLastState: Int) {
-            eLogD(APP_TAG,"onAudioSubscribeStateChanged---channel=$channel--uid=$uid--oldState=$oldState--newState=$newState")
+//            eLogD(APP_TAG,"onAudioSubscribeStateChanged---channel=$channel--uid=$uid--oldState=$oldState--newState=$newState")
         }
 
         override fun onRtcStats(stats: RtcStats?) {
