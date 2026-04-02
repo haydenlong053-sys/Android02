@@ -56,14 +56,23 @@
                     android:src="@mipmap/ic_broad_back"
                     android:tint="@color/black_or_white" />
 
-                <TextView
-                    android:id="@+id/tvTitle"
+                <FrameLayout
+                    android:id="@+id/mTitleLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black_or_white"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/black_or_white"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:text="测试标题" />
+                </FrameLayout>
+
 
                 <TextView
                     android:id="@+id/tvRight"

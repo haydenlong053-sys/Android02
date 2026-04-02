@@ -20,6 +20,10 @@ val meetJoinMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.N
     LiveDataBroadBroadBus.getInstance().with("meetJoinMsg")
 }
 
+val updatePayPwdDataLiveData: BusLiveBroadData<Boolean> by lazy(LazyThreadSafetyMode.NONE) {
+    LiveDataBroadBroadBus.getInstance().with("UpdatePayPwdEventName")
+}
+
 //群内有人发起上麦通知消息
 val meetUpMicMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
     LiveDataBroadBroadBus.getInstance().with("meetUpMicMsg")

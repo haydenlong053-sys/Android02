@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         savedInstanceState: Bundle?
     ) = RegisteredBroadFragmentBinding.inflate(inflater, parent, false)
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         super.initView()
         binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_080E1E)

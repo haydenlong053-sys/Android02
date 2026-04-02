@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/black">
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/accountDetailFragmentShapeView"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_36"
+        app:layout_constraintBottom_toBottomOf="@id/space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/accountDetailFragmentTv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/user_account"
+        android:textColor="@color/black65"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintTop_toTopOf="@id/accountDetailFragmentShapeView" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/accountEt"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:textColor="@color/black65"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintStart_toStartOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintTop_toBottomOf="@id/accountDetailFragmentTv1"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="#EEEFF0"
+        tools:text="FFGUIOJ" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/accountDetailFragmentTv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/login_pwd"
+        android:textColor="@color/black65"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintTop_toBottomOf="@id/accountEt" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/pwdEt"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
+        android:gravity="center_vertical"
+        android:inputType="textPassword"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:text="QWERTYUI"
+        android:textColor="@color/black65"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintStart_toStartOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintTop_toBottomOf="@id/accountDetailFragmentTv2"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="#EEEFF0" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/updatePwdBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_32"
+        android:gravity="center"
+        android:text="@string/update_login_pwd"
+        android:textColor="@color/color_3B47DD"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintStart_toStartOf="@id/accountDetailFragmentShapeView"
+        app:layout_constraintTop_toBottomOf="@id/pwdEt"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/transparent"
+        app:shape_strokeColor="@color/color_3B47DD"
+        app:shape_strokeWidth="@dimen/dp_1" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_32"
+        app:layout_constraintTop_toBottomOf="@id/updatePwdBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ import kotlin.getValue
 
 class SafeCenterBroadActivity : BaseSimple2BroadActivity() {
     private val viewModel: SafeCenterViewBroadModel by viewModels()
-    private var safeBean :SafeCenterBroadBean?=null
+    private var safeBean: SafeCenterBroadBean? = null
     override fun getLayoutId(): Int {
         return R.layout.activity_safe_broad_center
     }
@@ -45,13 +45,13 @@ class SafeCenterBroadActivity : BaseSimple2BroadActivity() {
 
         (binding as? ActivitySafeBroadCenterBinding)?.mLlGoogleAuth?.setOnClickListener {
             safeBean?.let {
-                if (it.twoFactorCode?.isNotEmpty() == true){
-                    val intent =   Intent(this, IdCardAuthBroadActivity::class.java).apply {
+                if (it.twoFactorCode?.isNotEmpty() == true) {
+                    val intent = Intent(this, IdCardAuthBroadActivity::class.java).apply {
                         this.putExtra("data", safeBean)
                     }
                     startActivity(intent)
-                }else{
-                    goSafeCenterAuth(this,SafeJumpBroadEnum.GoogleAuth.sourceType,it)
+                } else {
+                    goSafeCenterAuth(this, SafeJumpBroadEnum.GoogleAuth.sourceType, it)
                 }
 
             }
@@ -61,7 +61,7 @@ class SafeCenterBroadActivity : BaseSimple2BroadActivity() {
 
         (binding as? ActivitySafeBroadCenterBinding)?.mLlPassWord?.setOnClickListener {
             safeBean?.let {
-                goSafeCenterAuth(this,SafeJumpBroadEnum.PasswordAuth.sourceType,it)
+                goSafeCenterAuth(this, SafeJumpBroadEnum.PasswordAuth.sourceType, it)
             }
 
         }
@@ -69,18 +69,24 @@ class SafeCenterBroadActivity : BaseSimple2BroadActivity() {
         (binding as? ActivitySafeBroadCenterBinding)?.mLlSecurity?.setOnClickListener {
             safeBean?.let {
                 if (it.securityId?.isNotEmpty() == true) {
-                    val intent =   Intent(this, SecurityAuthBroadActivity::class.java).apply {
+                    val intent = Intent(this, SecurityAuthBroadActivity::class.java).apply {
                         this.putExtra("data", safeBean)
                     }
                     startActivity(intent)
                 } else {
-                    goSafeCenterAuth(this,SafeJumpBroadEnum.QuestionAuth.sourceType,it)
+                    goSafeCenterAuth(this, SafeJumpBroadEnum.QuestionAuth.sourceType, it)
                 }
 
             }
 
 
         }
+
+        (binding as? ActivitySafeBroadCenterBinding)?.mLlLoginPwd?.setOnClickListener {
+            val intent = Intent(this, LoginQrCodeActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 

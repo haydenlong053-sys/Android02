@@ -1,5 +1,7 @@
 package com.cboda.intelligent.activity;
 
+import static com.blankj.utilcode.util.SizeUtils.dp2px;
+import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.content.Intent;
@@ -14,9 +16,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.cboda.baselibrary.network.config.NetworkBroadConfig;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.blankj.utilcode.util.BarUtils;
+import com.cboda.chatui.viewmodel.MessageViewBroadModel;
+import com.cboda.intelligent.viewmodel.LoginViewBroadModel;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -41,6 +48,7 @@ import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
 import com.cboda.intelligent.utils.StringBroadUtil;
 import com.cboda.intelligent.utils.ToastBroadUtil;
 import com.cboda.intelligent.utils.AppBroadUtils;
+import com.king.zxing.util.CodeUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,8 +68,10 @@ import top.zibin.luban.Luban;
 
 public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
 
+    private LoginViewBroadModel loginViewModel;
+
     private View mIvMyBack;
-    private View myToolView,space;
+    private View myToolView, space;
     private TextView tvMyTitle;
     private String icon;
     private String apptoken;
@@ -91,6 +101,17 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         return false;
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        NetworkBroadConfig.INSTANCE.updateAppToken("");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NetworkBroadConfig.INSTANCE.updateAppToken("");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +137,15 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         etName.setText(account);
         etPsw.setText(pwd);
         SharePrefBroadBroadUtil.saveString(PushInfo2BroadActivity.this, AppBroadConsts.APPTOKEN, apptoken);
-        GlideBroadUtil.setImag(PushInfo2BroadActivity.this, qrcode, ivQrcode);
+
+        setQrcodeData();
+
         tvName.setText(getString(R.string.user_prefix) + idno);
 //        rlIcon.setOnClickListener(this);
         tvName.setOnClickListener(this);
 //        llUserName.setOnClickListener(this);
         tvSave.setOnClickListener(this);
+
         tvLogin.setOnClickListener(this);
         tvIdno.setText("ID:" + idno);
 
@@ -152,15 +176,25 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         setNavBarHeightListener(new Function1<Integer, Unit>() {
             @Override
             public Unit invoke(Integer integer) {
-                if (integer!=null && integer > 0){
+                if (integer != null && integer > 0) {
                     ViewGroup.LayoutParams params = space.getLayoutParams();
-                    params.height =integer;
+                    params.height = integer;
                     space.setLayoutParams(params);
                     space.setVisibility(View.VISIBLE);
                 }
                 return null;
             }
         });
+        findViewById(R.id.requestQrCode).setOnClickListener(this);
+    }
+
+
+    private void setQrcodeData() {
+        if (qrcode.endsWith(".jpg")) {
+            GlideBroadUtil.setImag(PushInfo2BroadActivity.this, qrcode, ivQrcode);
+        } else {
+            loadImg(ivQrcode, CodeUtils.createQRCode(qrcode, dp2px(260f)), null);
+        }
     }
 
     private void ptConfig() {
@@ -201,7 +235,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId() ==R.id.rlIcon){
+        if (view.getId() == R.id.rlIcon) {
             String[] perms = {
                     Permission.READ_MEDIA_IMAGES,
                     Permission.CAMERA};
@@ -232,13 +266,13 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                             }
                         }).show();
             }
-        }else  if (view.getId() ==R.id.tvName){
+        } else if (view.getId() == R.id.tvName) {
             intent = new Intent(this, NickNameBroadActivity.class);
             intent.putExtra("name", tvName.getText().toString());
             startActivityForResult(intent, 111);
-        }else  if (view.getId() ==R.id.tvLogin){
+        } else if (view.getId() == R.id.tvLogin) {
             wanshan();
-        }else  if (view.getId() ==R.id.tvSave){
+        } else if (view.getId() == R.id.tvSave) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 String[] perms = {
@@ -255,7 +289,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                                     permission.request(new OnPermissionCallback() {
                                         @Override
                                         public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                           goNest();
+                                            goNest();
 
                                         }
 
@@ -278,7 +312,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                         Permission.WRITE_EXTERNAL_STORAGE,
                 };
                 if (XXPermissions.isGranted(this, perms1)) {
-                   goNest();
+                    goNest();
                 } else {
                     new NormalBroadDialog(this, getString(R.string.温馨提示), getString(R.string.save_image_permission_request), getString(R.string.quxiao), getString(R.string.queding), true)
                             .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
@@ -305,6 +339,15 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                             }).show();
                 }
             }
+        } else if (view.getId() == R.id.requestQrCode) {
+            NetworkBroadConfig.INSTANCE.updateAppToken(apptoken);
+            loginViewModel.resetQrCode().observe(this, s -> {
+                NetworkBroadConfig.INSTANCE.updateAppToken("");
+                if (null != s && !TextUtils.isEmpty(s)) {
+                    qrcode = s;
+                    setQrcodeData();
+                }
+            });
         }
 //        switch (view.getId()) {
 //            case R.id.rlIcon://头像
@@ -472,7 +515,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
     }
 
     private void initViews() {
-        space= findViewById(R.id.space);
+        space = findViewById(R.id.space);
         myToolView = findViewById(R.id.myToolView);
         mIvMyBack = findViewById(R.id.mIvMyBack);
         tvMyTitle = findViewById(R.id.tvMyTitle);
@@ -493,6 +536,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         mViewDash = findViewById(R.id.mViewDash);
         mIvBlur = findViewById(R.id.mIvBlur);
         mViewRootBg = findViewById(R.id.mViewRootBg);
+        loginViewModel = new ViewModelProvider(this).get(LoginViewBroadModel.class);
     }
 
     @Override

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
+import com.cboda.baselibrary.utils.updatePayPwdDataLiveData
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
@@ -40,7 +41,7 @@ class AuthPasswordBroadPop(
     val jumpSource: Int = SafeJumpBroadEnum.None.sourceType,
     val oldPassWord: String = "",
     val isDeepColor: Boolean = false,
-    val account:String?=null,
+    val account: String? = null,
 ) :
     BaseBottomBroadPop(context) {
     private val scope = MainScope() // 创建主线程的协程作用域
@@ -53,7 +54,7 @@ class AuthPasswordBroadPop(
     private lateinit var mTvTitle: TextView
     private lateinit var mTvMoney: TextView
     private lateinit var mViewRoot: ViewGroup
-    var backPwdInvoke:(String)-> Unit ={}
+    var backPwdInvoke: (String) -> Unit = {}
 
     init {
         if (isDeepColor) {
@@ -95,7 +96,6 @@ class AuthPasswordBroadPop(
                             AuthPasswordBroadPop(context, SafeJumpBroadEnum.PasswordBindSure.sourceType, text)
                         mPop.showPopupWindow()
                         dismiss()
-
                     } else if (SafeJumpBroadEnum.PasswordChangeSure.sourceType == jumpSource || SafeJumpBroadEnum.PasswordBindSure.sourceType == jumpSource) {
                         if (oldPassWord == text) {
                             viewModel =
@@ -111,7 +111,7 @@ class AuthPasswordBroadPop(
                                         //重置密码成功
                                         dismiss()
                                         EventBus.getDefault().post(ActionRefreshBroadEvent())
-
+                                        updatePayPwdDataLiveData.postValue(true)
                                     }
 
                                     override fun onError(
@@ -132,7 +132,7 @@ class AuthPasswordBroadPop(
                         // 现在可以使用 viewModel 进行数据操作
                         val type = if (jumpSource == SafeJumpBroadEnum.TransferAuthSure.sourceType) {
                             1
-                        }else if (jumpSource == SafeJumpBroadEnum.LoginForgetPassword.sourceType){
+                        } else if (jumpSource == SafeJumpBroadEnum.LoginForgetPassword.sourceType) {
                             2
                         } else {
                             0
@@ -180,12 +180,16 @@ class AuthPasswordBroadPop(
                                             })
 
                                         }
-                                        SafeJumpBroadEnum.EthPasswordAuth.sourceType->{
+
+                                        SafeJumpBroadEnum.EthPasswordAuth.sourceType -> {
                                             //钱包模块的验证需要传递密码，所以用不同的回调
                                             backPwdInvoke.invoke(text)
 
                                         }
 
+                                        SafeJumpBroadEnum.ChangeLoginPassword.sourceType -> {
+                                            backInvoke.invoke()
+                                        }
                                     }
 
                                 }
@@ -231,7 +235,7 @@ class AuthPasswordBroadPop(
                 context.getString(R.string.mine_password_title_4)
             }
 
-            SafeJumpBroadEnum.PasswordChangeSure.sourceType ,SafeJumpBroadEnum.EthPasswordAuth.sourceType-> {
+            SafeJumpBroadEnum.PasswordChangeSure.sourceType, SafeJumpBroadEnum.EthPasswordAuth.sourceType -> {
                 context.getString(R.string.mine_password_title_5)
             }
 

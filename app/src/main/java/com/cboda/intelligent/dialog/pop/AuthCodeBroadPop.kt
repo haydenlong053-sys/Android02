@@ -97,7 +97,6 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
 
                                 SafeJumpBroadEnum.PasswordAuth.sourceType -> {
                                     transferInvoke.invoke()
-
                                 }
 
                                 SafeJumpBroadEnum.QuestionAuth.sourceType -> {
@@ -114,6 +113,9 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
                                     transferInvoke.invoke()
                                 }
                                 SafeJumpBroadEnum.LoginForgetPassword.sourceType -> {
+                                    transferInvoke.invoke()
+                                }
+                                SafeJumpBroadEnum.ChangeLoginPassword.sourceType->{
                                     transferInvoke.invoke()
                                 }
                             }

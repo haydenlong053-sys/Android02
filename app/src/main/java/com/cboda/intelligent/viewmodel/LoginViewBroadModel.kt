@@ -5,6 +5,7 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.LoginBean
+import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -41,6 +42,75 @@ import java.lang.Exception
 import kotlin.jvm.java
 
 class LoginViewBroadModel : BaseViewBroadModel() {
+
+
+    //    api/wanshan
+    fun updatePwd(pwd: String): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        val params = mapOf("pwd" to pwd)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/wanshan", Any::class.java, params)
+                    result.onSuccess { _ ->
+                        liveData.postValue(true)
+                    }.onFailure { _, msg ->
+                        showToastMain(msg)
+                    }.onError { _ ->
+                        showToastMain(R.string.httperror)
+                    }
+                } catch (_: kotlin.Exception) {
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun resetQrCode(): SingleLiveBroadData<String?> {
+        val liveData = SingleLiveBroadData<String?>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/account/freshQRCode2", UserInfoBean::class.java, HashMap<String, Any>())
+                    result.onSuccess { data ->
+                        liveData.postValue(data?.qrcode)
+                    }.onFailure { _, msg ->
+                        liveData.postValue(null)
+                        showToastMain(msg)
+                    }.onError { _ ->
+                        liveData.postValue(null)
+                        showToastMain(R.string.httperror)
+                    }
+                } catch (_: kotlin.Exception) {
+                    liveData.postValue(null)
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun getUserInfo(): SingleLiveBroadData<UserInfoBean> {
+        val liveData = SingleLiveBroadData<UserInfoBean>()
+        val params = HashMap<String, Any>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted("api/userInfo", UserInfoBean::class.java, params)
+                    result.onSuccess { data ->
+                        data?.let {
+                            liveData.postValue(data)
+                        }
+                    }.onFailure { _, msg ->
+                        showToastMain(msg)
+                    }.onError { _ ->
+                        showToastMain(R.string.httperror)
+                    }
+                } catch (_: kotlin.Exception) {
+                }
+            }
+        }
+        return liveData
+    }
 
 
     fun getAccountLoginDetail(account: String, pwd: String): SingleLiveBroadData<LoginBean?> {
@@ -216,7 +286,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                     dismissLoading()
                 }
 
-            } catch (e: kotlin.Exception) {
+            } catch (_: kotlin.Exception) {
                 dismissLoading()
             }
         }
@@ -383,12 +453,12 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                     resultBean?.let {
                         if (resultBean.isws == "0") {
                             val newIntent = Intent(mContext, PushInfo2BroadActivity::class.java)
-                            newIntent.putExtra("apptoken", resultBean.apptoken);
-                            newIntent.putExtra("uid", resultBean.userId);
-                            newIntent.putExtra("userSign", resultBean.userSign);
-                            newIntent.putExtra("imtoken", resultBean.imtoken);
-                            newIntent.putExtra("idno", resultBean.idno);
-                            newIntent.putExtra("qrcode", resultBean.qrcode);
+                            newIntent.putExtra("apptoken", resultBean.apptoken)
+                            newIntent.putExtra("uid", resultBean.userId)
+                            newIntent.putExtra("userSign", resultBean.userSign)
+                            newIntent.putExtra("imtoken", resultBean.imtoken)
+                            newIntent.putExtra("idno", resultBean.idno)
+                            newIntent.putExtra("qrcode", resultBean.qrcode)
                             newIntent.putExtra("account", account)
                             newIntent.putExtra("pwd", pwd)
                             mContext.startActivity(newIntent)

@@ -39,6 +39,7 @@ import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.widge.LoadingBroadDialog
+import com.hjq.shape.layout.ShapeConstraintLayout
 import com.hjq.shape.layout.ShapeLinearLayout
 import com.hjq.shape.layout.ShapeRelativeLayout
 import com.hjq.shape.view.ShapeEditText
@@ -343,6 +344,16 @@ fun ShapeEditText.setStrokeColor(@ColorRes strokeColor: Int) {
     this.shapeDrawableBuilder.intoBackground()
 }
 
+
+fun ShapeConstraintLayout.setBackColor(@ColorRes color: Int) {
+    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
+    this.shapeDrawableBuilder.intoBackground()
+}
+
+fun ShapeConstraintLayout.setBackColor2(color: Int) {
+    this.shapeDrawableBuilder.solidColor = color
+    this.shapeDrawableBuilder.intoBackground()
+}
 
 fun ShapeRelativeLayout.setBackColor(@ColorRes color: Int, radius: Float) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
@@ -839,6 +850,36 @@ fun EditText.setIsNumAndEng(maxLength: Int = 0) {
             source[index].toString().matches(regex.toRegex())
         }
         if (!isMatch) "" else null // 返回空字符串拒绝非法字符，null表示不修改
+    }
+    val ifArray = if (maxLength > 0) {
+        arrayOf(inputFilter, InputFilter.LengthFilter(maxLength))
+    } else {
+        arrayOf(inputFilter)
+    }
+    this.filters = ifArray
+}
+
+
+//edittext限制只能输入数字和英文和标点符号(最大长度)
+fun EditText.setIsNumAndEngAndSymbol(maxLength: Int = 0) {
+    val inputFilter = InputFilter { source, start, end, _, _, _ ->
+        val allowedSpecialChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+-=[]{}|;:',.<>?/"
+        if (source.isNullOrEmpty()) {
+            null
+        } else {
+            // 遍历输入的每一个字符
+            var returnData: String? = null
+            for (i in start until end) {
+                val char = source[i].toString()
+                // 允许：字母、数字、指定特殊符号
+                val isAllowed = allowedSpecialChars.contains(char)
+                if (!isAllowed) {
+                    // 发现非法字符（如中文、空格、Emoji），返回空字符串拦截
+                    returnData = ""
+                }
+            }
+            returnData
+        }
     }
     val ifArray = if (maxLength > 0) {
         arrayOf(inputFilter, InputFilter.LengthFilter(maxLength))

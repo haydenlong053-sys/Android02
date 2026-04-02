@@ -161,6 +161,9 @@ class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpB
                                     backInvoke.invoke()
                                 }
 
+                                SafeJumpBroadEnum.ChangeLoginPassword.sourceType -> {
+                                    backInvoke.invoke()
+                                }
                             }
                             dismiss()
                         }

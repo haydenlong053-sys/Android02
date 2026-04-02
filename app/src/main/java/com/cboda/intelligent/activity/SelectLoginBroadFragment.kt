@@ -37,6 +37,7 @@ class SelectLoginBroadFragment : BaseBroadFragment<SelectLoginBroadFragmentBindi
         }
         binding.registerTv.click {
             (activity as NewEquipmentBroadActivity).toRegistered(true)
+//            viewModel.startAct<LoginQrCodeActivity>()
         }
         if (getIsDebug()) {
             binding.selectLoginLayout.click {
@@ -53,7 +54,6 @@ class SelectLoginBroadFragment : BaseBroadFragment<SelectLoginBroadFragmentBindi
             val bundle = Bundle()
             bundle.putInt("jumpSource", ScanJumpBroadEnum.Login.sourceType)
             viewModel.startAct<ScanBroadActivity>(bundle)
-
 //            val list = arrayListOf<ComBottomListBean>()
 //
 //            list.add(ComBottomListBean().apply {
