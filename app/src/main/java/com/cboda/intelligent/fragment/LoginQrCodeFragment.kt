@@ -42,7 +42,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
                 binding.userName.text = userInfo.name
                 binding.userId.text = "ID:${userInfo.showId}"
                 if (userInfo.loginQrcode.endsWith(".jpg")) {
-                    if (widthIsBig) {
+                    if (!widthIsBig) {
                         val lp = binding.qrCode.layoutParams
                         lp.width = dp2px(260f)
                         lp.height = dp2px(260f)
@@ -51,7 +51,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
                     widthIsBig = true
                     binding.qrCode.loadImg(userInfo.loginQrcode)
                 } else {
-                    if (!widthIsBig) {
+                    if (widthIsBig) {
                         val lp = binding.qrCode.layoutParams
                         lp.width = dp2px(200f)
                         lp.height = dp2px(200f)
