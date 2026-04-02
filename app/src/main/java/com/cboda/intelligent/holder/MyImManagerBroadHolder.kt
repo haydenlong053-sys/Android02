@@ -27,6 +27,8 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.chatemoji.EmotionBroadEvent
 import com.cboda.chatui.quickmeet.MeetCallManager
+import com.cboda.chatui.quickmeet.dismissLoadingWfc
+import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.QuickMeetingCreateActivity
@@ -645,6 +647,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                         BridgeImEnum.MEETING_ROOM.value -> {
                             if (MeetCallManager.getInstance().isIdleState()) {
+                                showLoadingWfc()
                                 val map = mapOf(
                                     "id" to params2,
                                 )
@@ -654,9 +657,10 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                     JSONObject(map).toString(),
                                     CommonResultBroadBean(),
                                     showToast = true,
-                                    showLoading = true,
+                                    showLoading = false,
                                     callBack = object : OKGoBroadHelper.RequestCallBack {
                                         override fun onSuccess(bean: BaseBroadResponse?) {
+                                            dismissLoadingWfc()
                                             if (bean is CommonResultBroadBean) {
                                                 if (bean.data?.userType == "1" || bean.data?.userType == "2") {
 //                                                                MeetingBroadHolder.openMeetingDialog(
@@ -675,6 +679,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                         }
 
                                         override fun onFail(bean: BaseBroadResponse?) {
+                                            dismissLoadingWfc()
                                         }
                                     },
                                 )
