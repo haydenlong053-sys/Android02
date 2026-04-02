@@ -65,19 +65,19 @@
     <string name="please_again_input_pwd">Please enter your password again</string>
     <string name="again_pwd_inconsistent">The two passwords do not match</string>
 
-    <string name="save_to_album">保存到相册</string>
-    <string name="reset_the_qr_code">重置二维码</string>
-    <string name="login_qr_code">登录二维码</string>
-    <string name="account_detail">账号信息</string>
-    <string name="user_account">账号</string>
-    <string name="login_pwd">登录密码</string>
-    <string name="update_login_pwd">修改登录密码</string>
-    <string name="update_login_pwd2">登录密码修改</string>
-    <string name="set_login_pwd">设置登录密码</string>
-    <string name="please_input_new_pwd">请输入新的密码</string>
-    <string name="confirm_password">确认密码</string>
-    <string name="password_not_is_num">密码必须是8-16英文母、数字、字符组合（不能是纯数字）</string>
-    <string name="password_update_success">密码修改成功</string>
-    <string name="account_pwd">账号密码</string>
+    <string name="save_to_album">Save to gallery</string>
+    <string name="reset_the_qr_code">Reset QR code</string>
+    <string name="login_qr_code">Login QR code</string>
+    <string name="account_detail">Account details</string>
+    <string name="user_account">Account</string>
+    <string name="login_pwd">Login password</string>
+    <string name="update_login_pwd">Change login password</string>
+    <string name="update_login_pwd2">Change login password</string>
+    <string name="set_login_pwd">Set login password</string>
+    <string name="please_input_new_pwd">Please enter a new password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="password_not_is_num">Password must be 8–16 characters combining letters, numbers, and symbols (cannot be numbers only)</string>
+    <string name="password_update_success">Password changed successfully</string>
+    <string name="account_pwd">Account password</string>
 
 </resources>
