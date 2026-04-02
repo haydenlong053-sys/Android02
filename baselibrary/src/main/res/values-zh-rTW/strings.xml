@@ -93,4 +93,19 @@
     <string name="service_error_data_null">伺服器錯誤：資料為空</string>
     <string name="please_again_input_pwd">請再次輸入您的密碼！</string>
     <string name="again_pwd_inconsistent">您兩次輸入的密碼不一致！</string>
+
+    <string name="save_to_album">儲存至相簿</string>
+    <string name="reset_the_qr_code">重設 QR 碼</string>
+    <string name="login_qr_code">登入 QR 碼</string>
+    <string name="account_detail">帳號資訊</string>
+    <string name="user_account">帳號</string>
+    <string name="login_pwd">登入密碼</string>
+    <string name="update_login_pwd">變更登入密碼</string>
+    <string name="update_login_pwd2">登入密碼變更</string>
+    <string name="set_login_pwd">設定登入密碼</string>
+    <string name="please_input_new_pwd">請輸入新密碼</string>
+    <string name="confirm_password">確認密碼</string>
+    <string name="password_not_is_num">密碼須為 8–16 位，並包含英文字母、數字與符號（不可為純數字）</string>
+    <string name="password_update_success">密碼已變更</string>
+    <string name="account_pwd">帳號密碼</string>
 </resources>
