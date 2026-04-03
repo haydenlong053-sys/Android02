@@ -20,7 +20,7 @@ import cn.wildfirechat.message.notification.RecallMessageContent;
 import cn.wildfirechat.remote.ChatManager;
 
 @MessageContentBroadType(RecallMessageContent.class)
-@EnableContextBroadMenu
+//@EnableContextBroadMenu
 public class RecallMessageContentViewBroadHolder extends NotificationMessageContentViewBroadHolder {
     TextView notificationTextView;
     TextView reeditTextView;
