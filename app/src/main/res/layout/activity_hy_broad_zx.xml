@@ -164,6 +164,8 @@
             android:background="@mipmap/ic_bg_btn2_broad_01"
             android:gravity="center"
             android:layout_marginBottom="30dp"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:text="@string/开通10000人群"
             android:textColor="#ffffffff"
             android:textSize="16sp"

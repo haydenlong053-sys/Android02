@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.intelligent.R
 import com.cboda.intelligent.ui.shape.TopRoundedBottomArcShape
 import com.cboda.intelligent.base.BaseLazyBroadFragment
@@ -188,7 +189,9 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
                 top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 24.dp,
                 start = 16.dp,
                 end = 16.dp
-            ).clickable(indication = null, // 没有点击效果
+            )
+            .clickable(
+                indication = null, // 没有点击效果
                 interactionSource = remember { MutableInteractionSource() }) {
                 // 跳转到会员中心（原本 llHyzx 点击）
                 context.startActivity(Intent(context, HyzxBroadActivity::class.java))
@@ -205,19 +208,20 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
                 .clip(TopRoundedBottomArcShape(12f, 16f)),
             contentScale = ContentScale.Crop
         )
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .background(
-                    Color(0xff090E14), RoundedCornerShape(
-                        topStart = 12.dp, bottomEnd = 12.dp
+        if (!HttpsBroadConfig.isReviewEnv) {
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .background(
+                        Color(0xff090E14), RoundedCornerShape(
+                            topStart = 12.dp, bottomEnd = 12.dp
+                        )
                     )
-                )
-                .padding(vertical = 6.dp, horizontal = 12.dp)
-        ) {
-            Text(if (isVip) stringResource(R.string.vip_member) else stringResource(R.string.非会员), color = Color(0xffFEECD7), fontSize = 10.sp)
+                    .padding(vertical = 6.dp, horizontal = 12.dp)
+            ) {
+                Text(if (isVip) stringResource(R.string.vip_member) else stringResource(R.string.非会员), color = Color(0xffFEECD7), fontSize = 10.sp)
+            }
         }
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -225,34 +229,35 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
                 .padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = R.mipmap.ic_mine_vip_broad_logo),
-                contentDescription = null,
-                modifier = Modifier.size(36.dp)
-            )
-            Spacer(Modifier.width(8.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = if (isVip) stringResource(R.string.seekweb4_vip_member) else stringResource(R.string.open_vip_privilege),
-                    color = Color(0xFFFFD3A9),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
+            if (!HttpsBroadConfig.isReviewEnv) {
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_mine_vip_broad_logo),
+                    contentDescription = null,
+                    modifier = Modifier.size(36.dp)
                 )
-                if (isVip) {
-                    Spacer(modifier = Modifier.height(2.dp))
+                Spacer(Modifier.width(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = vipExpireText,
-                        color = Color(0xA6FFD3A9),
-                        fontSize = 12.sp
+                        text = if (isVip) stringResource(R.string.seekweb4_vip_member) else stringResource(R.string.open_vip_privilege),
+                        color = Color(0xFFFFD3A9),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
+                    if (isVip) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = vipExpireText,
+                            color = Color(0xA6FFD3A9),
+                            fontSize = 12.sp
+                        )
+                    }
                 }
             }
-            if (!isVip){
+            if (!isVip && !HttpsBroadConfig.isReviewEnv) {
                 Box(
                     modifier = Modifier
                         .width(73.dp)
-                        .height(27.dp)
-                    ,
+                        .height(27.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
@@ -296,9 +301,11 @@ private fun MenuContainer(isHasPassword: Boolean) {
 
             // 两列网格：逐行渲染
             items.chunked(2).forEach { rowItems ->
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                ) {
                     rowItems.forEach { item ->
                         MenuCard(item, modifier = Modifier.weight(1f)) {
                             when (it.titleResId) {
@@ -401,9 +408,11 @@ private fun MenuCard(item: MenuItem, modifier: Modifier = Modifier, onClick: (Me
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(maxLines = 1,
+                Text(
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    text = item.subtitle, color = Color.Black.copy(0.65f), fontSize = 10.sp)
+                    text = item.subtitle, color = Color.Black.copy(0.65f), fontSize = 10.sp
+                )
             }
             Spacer(modifier = Modifier.width(10.dp))
             Image(

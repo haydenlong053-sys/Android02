@@ -13,6 +13,7 @@ const val APP_TAG = "APP_WEB4"
 //private var mIsDebug = false
 fun getIsDebug(): Boolean = BuildConfig.DEBUG
 //fun getIsDebug(): Boolean = true
+//fun getIsDebug(): Boolean = false
 //fun setIsDebug(isDebug: Boolean) {
 //    mIsDebug = isDebug
 //}
