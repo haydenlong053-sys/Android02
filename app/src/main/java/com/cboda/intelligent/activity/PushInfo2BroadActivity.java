@@ -391,7 +391,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         EventBusBroadBean eventBusBean = new EventBusBroadBean();
         eventBusBean.msg = getString(R.string.login_success);
         EventBus.getDefault().post(eventBusBean);
-        AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken);
+        AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken,"PushInfo2BroadActivity");
 
     }
 
@@ -429,7 +429,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                 EventBusBroadBean eventBusBean = new EventBusBroadBean();
                 eventBusBean.msg = getString(R.string.login_success);
                 EventBus.getDefault().post(eventBusBean);
-                AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken);
+                AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken,"PushInfo2BroadActivity");
 //                            }
 //                        }
 //                    });

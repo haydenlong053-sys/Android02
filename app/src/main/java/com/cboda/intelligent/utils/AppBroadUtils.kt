@@ -70,14 +70,21 @@ class AppBroadUtils {
         }
 
         @SuppressLint("HardwareIds")
-        fun getDeviceIMEI(context: Context): String {
-            return try {
-                val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                tm?.deviceId ?: "Unknown"
-            } catch (e: Exception) {
-                "Unknown"
-            }
-        }
+//        fun getDeviceIMEI(context: Context): String {
+////            var deviceId: String
+////            val telephony: TelephonyManager = context
+////                .getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+////            deviceId = telephony.getDeviceId()
+////            if (deviceId == null) {
+////            deviceId = DeviceBroadUtil.getAndroidId(context)
+////            }
+//            return try {
+//                val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+//                tm?.deviceId ?: "Unknown"
+//            } catch (e: Exception) {
+//                "Unknown"
+//            }
+//        }
 
         fun getVersionCode(context: Context?): Int {
             val manager: PackageManager? = context?.packageManager
@@ -195,9 +202,11 @@ class AppBroadUtils {
             context: Context?,
             apptoken: String?,
             uid: String?,
-            myImUserToken: String?
+            myImUserToken: String?,
+            fromType: String = ""
         ) {
             debug("imLogin", "--> $uid  $myImUserToken")
+
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
 
@@ -219,7 +228,7 @@ class AppBroadUtils {
                 delay(200)
                 EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_LOGIN_SUCCESS, null))
             }
-            JumpBroadUtils.startMainActivity(context)
+            JumpBroadUtils.startMainActivity(context, fromType)
             activityList.forEachIndexed { _, activity ->
                 if (activity !is MainBroadActivity) {
                     activity.finish()

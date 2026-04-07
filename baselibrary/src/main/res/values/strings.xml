@@ -110,4 +110,8 @@
     <string name="password_update_success">Password changed successfully</string>
     <string name="account_pwd">Account password</string>
 
+    <string name="urgent_reminder">紧急提示</string>
+    <string name="qr_code_expired">您的登录二维码已失效，请保存新的二维码，否则下次将无法登录</string>
+
+
 </resources>

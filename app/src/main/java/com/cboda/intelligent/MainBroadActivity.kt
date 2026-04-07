@@ -1,8 +1,10 @@
 package com.cboda.intelligent
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -72,6 +74,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
+import com.cboda.intelligent.activity.LoginQrCodeActivity
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.ExpandableBottomBar
@@ -100,6 +103,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 class MainBroadActivity : BaseSimpleBroadActivity() {
 
+    private val fromType by lazy(LazyThreadSafetyMode.NONE) { intent?.getStringExtra("type") ?: "" }
     private var needShowAccount = false
     private var selectedIndex by mutableStateOf(0)
     private var isBottomBarExpanded by mutableStateOf(false)
@@ -404,6 +408,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             layoutParams.height = dp2px(12f) + it
             bottomView.layoutParams = layoutParams
             (messageFragment as MessageBroadFragment).setBottomHeight(it)
+        }
+        if (fromType != "PushInfo2BroadActivity") {
+            val intent = Intent(this, LoginQrCodeActivity::class.java)
+            startActivity(intent)
         }
     }
 

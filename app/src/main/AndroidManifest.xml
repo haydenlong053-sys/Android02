@@ -185,9 +185,6 @@
             android:name="com.cboda.intelligent.activity.UserNameBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.cboda.intelligent.activity.PushInfoBroadActivity"
-            android:exported="false" />
-        <activity
             android:name="com.cboda.intelligent.activity.FeedbackBroadActivity"
             android:exported="false" />
         <activity
@@ -348,9 +345,6 @@
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.ScanBroadActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.cboda.intelligent.activity.RegisterBroadActivity"
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.RegionBroadActivity"
