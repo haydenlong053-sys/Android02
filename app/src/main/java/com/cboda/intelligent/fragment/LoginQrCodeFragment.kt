@@ -13,6 +13,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.requestPermission
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.UpdatePwdActivity
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.LoginQrCodeFragmentBinding
 import com.cboda.intelligent.utils.BitmapBroadUtils1
@@ -80,10 +81,12 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
             setCloseEyesIsGone(true)
         }
         binding.requestQrCode.click {
-            viewModel.resetQrCode().observe(this) {
-                if (null != it && !TextUtils.isEmpty(it)) {
-                    userInfoBean?.loginQrcode = it
-                    setData()
+            viewModel.checkSafe(userInfoBean, requireContext()) {
+                viewModel.resetQrCode().observe(this) {
+                    if (null != it && !TextUtils.isEmpty(it)) {
+                        userInfoBean?.loginQrcode = it
+                        setData()
+                    }
                 }
             }
         }
