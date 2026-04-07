@@ -23,7 +23,13 @@ import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
+import com.cboda.intelligent.activity.UpdatePwdActivity
 import com.cboda.intelligent.bean.ResultBroadBean
+import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
+import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
+import com.cboda.intelligent.dialog.pop.AuthQuestionBroadPop
+import com.cboda.intelligent.dialog.pop.AuthWayBroadPop
 import com.cboda.intelligent.utils.SpotsCallBroadBack
 import com.cboda.intelligent.net.BroadUrl
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
@@ -34,6 +40,7 @@ import com.cboda.intelligent.model.SafeCenterBroadBean
 import com.cboda.intelligent.net.manager.UserServerBroadManager
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.OkHttpBroadHelper
+import com.cboda.intelligent.utils.showGuidePasswordTip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,7 +51,56 @@ import kotlin.jvm.java
 class LoginViewBroadModel : BaseViewBroadModel() {
 
 
-    //    api/wanshan
+    fun checkSafe(userInfoBean: UserInfoBean?, context: Context?, block: () -> Unit = {}) {
+        userInfoBean?.let { userInfo ->
+            val mContext = getAppContext(context)
+            if (TextUtils.isEmpty(userInfo.payPwd)) {
+                showGuidePasswordTip(mContext)
+            } else {
+                val haveMb = !TextUtils.isEmpty(userInfo.securityQuestionAnswer)
+                val haveGoogleCode = !TextUtils.isEmpty(userInfo.googleCode)
+                if (haveMb && haveGoogleCode) {
+                    val authWayPop = AuthWayBroadPop(mContext, SafeJumpBroadEnum.ChangeLoginPassword.sourceType)
+                    authWayPop.transferInvoke = {
+                        checkPayPwd(mContext, block)
+                    }
+                    authWayPop.showPopupWindow()
+                } else if (haveMb) {
+                    val tipPop = AuthQuestionBroadPop(
+                        mContext,
+                        SafeJumpBroadEnum.ChangeLoginPassword.sourceType
+                    )
+                    tipPop.backInvoke = {
+                        checkPayPwd(mContext, block)
+                    }
+                    tipPop.showPopupWindow()
+                } else if (haveGoogleCode) {
+                    val tipPop = AuthCodeBroadPop(
+                        mContext,
+                        SafeJumpBroadEnum.ChangeLoginPassword.sourceType
+                    )
+                    tipPop.transferInvoke = {
+                        checkPayPwd(mContext, block)
+                    }
+                    tipPop.showPopupWindow()
+                } else {
+                    checkPayPwd(mContext, block)
+                }
+            }
+        }
+    }
+
+    private fun checkPayPwd(context: Context, block: () -> Unit) {
+        val mPop = AuthPasswordBroadPop(
+            context,
+            SafeJumpBroadEnum.ChangeLoginPassword.sourceType
+        )
+        mPop.backInvoke = {
+            block.invoke()
+        }
+        mPop.showPopupWindow()
+    }
+
     fun updatePwd(pwd: String): SingleLiveBroadData<Boolean> {
         val liveData = SingleLiveBroadData<Boolean>()
         val params = mapOf("pwd" to pwd)

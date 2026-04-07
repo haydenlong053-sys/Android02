@@ -38,55 +38,12 @@ class AccountDetailFragment : BaseBroadFragment<AccountDetailFragmentBinding, Lo
     override fun initListener() {
         super.initListener()
         binding.updatePwdBtn.click {
-            userInfoBean?.let { userInfo ->
-                if (TextUtils.isEmpty(userInfo.payPwd)) {
-                    showGuidePasswordTip(requireContext())
-                } else {
-                    val haveMb = !TextUtils.isEmpty(userInfo.securityQuestionAnswer)
-                    val haveGoogleCode = !TextUtils.isEmpty(userInfo.googleCode)
-                    if (haveMb && haveGoogleCode) {
-                        val authWayPop = AuthWayBroadPop(requireContext(), SafeJumpBroadEnum.ChangeLoginPassword.sourceType)
-                        authWayPop.transferInvoke = {
-                            checkPayPwd()
-                        }
-                        authWayPop.showPopupWindow()
-                    } else if (haveMb) {
-                        val tipPop = AuthQuestionBroadPop(
-                            requireContext(),
-                            SafeJumpBroadEnum.ChangeLoginPassword.sourceType
-                        )
-                        tipPop.backInvoke = {
-                            checkPayPwd()
-                        }
-                        tipPop.showPopupWindow()
-                    } else if (haveGoogleCode) {
-                        val tipPop = AuthCodeBroadPop(
-                            requireContext(),
-                            SafeJumpBroadEnum.ChangeLoginPassword.sourceType
-                        )
-                        tipPop.transferInvoke = {
-                            checkPayPwd()
-                        }
-                        tipPop.showPopupWindow()
-                    } else {
-                        checkPayPwd()
-                    }
-                }
+            viewModel.checkSafe(userInfoBean, requireContext()) {
+                viewModel.startAct<UpdatePwdActivity>()
             }
-
         }
     }
 
-    private fun checkPayPwd() {
-        val mPop = AuthPasswordBroadPop(
-            requireContext(),
-            SafeJumpBroadEnum.ChangeLoginPassword.sourceType
-        )
-        mPop.backInvoke = {
-            viewModel.startAct<UpdatePwdActivity>()
-        }
-        mPop.showPopupWindow()
-    }
 
     override fun initView() {
         super.initView()
