@@ -96,7 +96,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (conversationBroad.type == Conversation.ConversationType.Group) {
                 titleGradeAndTimeBroad.setVisibility(View.GONE);
 //            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this,"huoququnxiangqing",conversation.target,"",null);
-                MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
+//                MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
             } else if (conversationBroad.type == Conversation.ConversationType.Single) {
                 getUserData();
             }
@@ -445,7 +445,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         }
         if (conversationBroad.type == Conversation.ConversationType.Group) {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
+//            MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
             meetPlugin = new MeetPlugin(this);
             getLifecycle().addObserver(meetPlugin);
             meetPlugin.setHasMeetInfoInvoke(new Function1<QuickMeetInfoBean, Unit>() {
