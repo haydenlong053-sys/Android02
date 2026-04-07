@@ -1,420 +1,420 @@
-package com.cboda.intelligent.activity;
-
-import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
-
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.Settings;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
-import com.cboda.select.picture.basic.PictureSelector;
-import com.cboda.select.picture.config.SelectMimeType;
-import com.cboda.select.picture.entity.LocalMedia;
-import com.cboda.intelligent.R;
-import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.bean.EventBusBroadBean;
-import com.cboda.intelligent.bean.ResultBroadBean;
-import com.cboda.intelligent.configuration.AppBroadConsts;
-import com.cboda.intelligent.dialog.NormalBroadDialog;
-import com.cboda.intelligent.utils.BaseBroadCallback;
-import com.cboda.intelligent.utils.OkHttpBroadHelper;
-import com.cboda.intelligent.utils.SpotsCallBroadBack;
-import com.cboda.intelligent.net.BroadUrl;
-import com.cboda.intelligent.utils.BitmapBroadUtils1;
-import com.cboda.intelligent.utils.GlideBroadBroadEngine;
-import com.cboda.intelligent.utils.GlideBroadUtil;
-import com.cboda.intelligent.utils.ListBroadUtil;
-import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
-import com.cboda.intelligent.utils.StringBroadUtil;
-import com.cboda.intelligent.utils.ToastBroadUtil;
-import com.cboda.intelligent.utils.AppBroadUtils;
-import com.makeramen.roundedimageview.RoundedImageView;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.Request;
-import okhttp3.Response;
-import top.zibin.luban.Luban;
-
-public class PushInfoBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
-
-
-    private String icon;
-    private String apptoken;
-    private String uid;
-    private String userSign;
-    private String imtoken, idno, qrcode, account, pwd;
-    private ResultBroadBean ptbean;
-    private RoundedImageView riIcon;
-    private RelativeLayout rlIcon;
-    private TextView tvName;
-    private TextView tvIdno;
-    private RoundedImageView ivQrcode;
-    private LinearLayout llSave;
-    private TextView tvRegInfo;
-    private EditText etName;
-    private EditText etPsw;
-    private TextView tvSave;
-    private TextView tvLogin;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getToolbarTitle().setText(getResources().getString(R.string.信息上传));
-        userSign = getIntent().getStringExtra("userSign");
-        apptoken = getIntent().getStringExtra("apptoken");
-        uid = getIntent().getStringExtra("uid");
-        imtoken = getIntent().getStringExtra("imtoken");
-        idno = getIntent().getStringExtra("idno");
-        qrcode = getIntent().getStringExtra("qrcode");
-        account = getIntent().getStringExtra("account");
-        pwd = getIntent().getStringExtra("pwd");
-        initViews();
-        etName.setText(account);
-        etPsw.setText(pwd);
-        SharePrefBroadBroadUtil.saveString(PushInfoBroadActivity.this, AppBroadConsts.APPTOKEN, apptoken);
-        GlideBroadUtil.setImag(PushInfoBroadActivity.this, qrcode, ivQrcode);
-        tvName.setText("用户" + idno);
-        rlIcon.setOnClickListener(this);
-        tvName.setOnClickListener(this);
-//        llUserName.setOnClickListener(this);
-        tvSave.setOnClickListener(this);
-        tvLogin.setOnClickListener(this);
-        tvIdno.setText("ID:" + idno);
-
-
-        ptConfig();
-    }
-
-    private void ptConfig() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new BaseBroadCallback<ResultBroadBean>() {
-            @Override
-            public void onBeforeRequest(Request request) {
-
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) {
-
-            }
-
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                ptbean = resultBean;
-                tvRegInfo.setText(resultBean.data.appinfo);
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_push_broad_info;
-    }
-
-    @Override
-    public void onClick(View view) {
-        Intent intent;
-        if (view.getId() ==R.id.rlIcon){
-            String[] perms = {
-                    Permission.READ_MEDIA_IMAGES,
-                    Permission.CAMERA};
-            if (XXPermissions.isGranted(this, perms)) {
-                pmsSuccess();
-            } else {
-                new NormalBroadDialog(this, getString(R.string.温馨提示), "使用选择图片功能需要相机、存储权限，是否请求权限？", "取消", "确定", true)
-                        .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
-                            @Override
-                            public void OnRightClick() {
-                                XXPermissions permission = XXPermissions.with(PushInfoBroadActivity.this).permission(perms);
-                                permission.request(new OnPermissionCallback() {
-                                    @Override
-                                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                        pmsSuccess();
-                                    }
-
-                                    @Override
-                                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                        OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
-                                        ToastBroadUtil.show(getString(R.string.权限被拒绝));
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void OnLeftClick() {
-                            }
-                        }).show();
-            }
-        }else  if (view.getId() ==R.id.tvName){
-            intent = new Intent(this, NickNameBroadActivity.class);
-            intent.putExtra("name", tvName.getText().toString());
-            startActivityForResult(intent, 111);
-        }else  if (view.getId() ==R.id.tvLogin){
-            wanshan();
-        }else  if (view.getId() ==R.id.tvSave){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (Environment.isExternalStorageManager()) {
-                    // 权限已被授予，可以访问外部存储
-                    String[] perms1 = {
-                            Permission.WRITE_EXTERNAL_STORAGE};
-                    if (XXPermissions.isGranted(this, perms1)) {
-                        BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), this);
-                        ToastBroadUtil.show("保存成功");
-                    } else {
-                        new NormalBroadDialog(this, getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
-                                .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
-                                    @Override
-                                    public void OnRightClick() {
-                                        XXPermissions permission = XXPermissions.with(PushInfoBroadActivity.this).permission(perms1);
-                                        permission.request(new OnPermissionCallback() {
-                                            @Override
-                                            public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                                BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), PushInfoBroadActivity.this);
-                                                ToastBroadUtil.show("保存成功");
-                                            }
-
-                                            @Override
-                                            public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                                OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
-                                                ToastBroadUtil.show(getString(R.string.权限被拒绝));
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void OnLeftClick() {
-                                    }
-                                }).show();
-                    }
-                } else {
-                    // 权限未被授予，可以提示用户授权
-                    intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                    startActivity(intent);
-                }
-            } else {
-                String[] perms1 = {
-                        Permission.WRITE_EXTERNAL_STORAGE,
-                };
-                if (XXPermissions.isGranted(this, perms1)) {
-                    BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), this);
-                    ToastBroadUtil.show("保存成功");
-                } else {
-                    new NormalBroadDialog(this, getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
-                            .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
-                                @Override
-                                public void OnRightClick() {
-                                    XXPermissions permission = XXPermissions.with(PushInfoBroadActivity.this).permission(perms1);
-                                    permission.request(new OnPermissionCallback() {
-                                        @Override
-                                        public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                            BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), PushInfoBroadActivity.this);
-                                            ToastBroadUtil.show("保存成功");
-                                        }
-
-                                        @Override
-                                        public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                            OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
-                                            ToastBroadUtil.show(getString(R.string.权限被拒绝));
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void OnLeftClick() {
-                                }
-                            }).show();
-                }
-            }
-        }
-//        switch (view.getId()) {
-//            case R.id.rlIcon://头像
+//package com.cboda.intelligent.activity;
 //
-//                break;
-//            case R.id.tvName://昵称
+//import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 //
-//                break;
-////            case R.id.llUserName://用户名
-////                intent = new Intent(this, UserNameBroadActivity.class);
-////                intent.putExtra("name",tvUserName.getText().toString());
-////                startActivityForResult(intent,222);
-////                break;
-//            case R.id.tvLogin://保存
-////                if (StringBroadUtil.isEmpty(icon)) {
-////                    ToastBroadUtil.show(getString(R.string.请上传头像));
-////                    return;
-////                }
-////                if (StringBroadUtil.isEmpty(tvName.getText().toString())) {
-////                    ToastBroadUtil.show(getString(R.string.请输入昵称));
-////                    return;
-////                }
-//                wanshan();
-//                break;
-//            case R.id.tvSave:
+//import android.content.Intent;
+//import android.os.Build;
+//import android.os.Bundle;
+//import android.os.Environment;
+//import android.provider.Settings;
+//import android.text.TextUtils;
+//import android.view.View;
+//import android.widget.EditText;
+//import android.widget.LinearLayout;
+//import android.widget.RelativeLayout;
+//import android.widget.TextView;
 //
-//                break;
-//        }
-    }
-
-    /**
-     * 修改资料
-     */
-    private void wanshan() {
-        if (TextUtils.isEmpty(etName.getText())) {
-            ToastBroadUtil.show(getString(R.string.请输入用户名));
-            return;
-        }
-        if (TextUtils.isEmpty(etPsw.getText())) {
-            ToastBroadUtil.show(getString(R.string.请输入密码));
-            return;
-        }
-        Map<String, Object> param = new HashMap<>();
-        if (!StringBroadUtil.isEmpty(icon))
-            param.put("icon", icon);
-        param.put("name", tvName.getText().toString());
-        param.put("account", etName.getText().toString());
-        param.put("pwd", etPsw.getText().toString());
-
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.wanshan, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-
-//                if (ptbean != null && !TextUtils.isEmpty(ptbean.data.regInfo)) {
-
-//                    ZhuceHuanyingyuBroadHolder zhuceHuanyingyuHolder = new ZhuceHuanyingyuBroadHolder(PushInfoBroadActivity.this);
-//                    zhuceHuanyingyuHolder.setOnConfimCallBack(new ZhuceHuanyingyuBroadHolder.OnConfimCallBack() {
-//                        @Override
-//                        public void onClickConfim(boolean isConfim) {
-//                            if (isConfim) {
-                SharePrefBroadBroadUtil.saveString(PushInfoBroadActivity.this, AppBroadConsts.UID, uid);
-                EventBusBroadBean eventBusBean = new EventBusBroadBean();
-                eventBusBean.msg = "登录成功";
-                EventBus.getDefault().post(eventBusBean);
-                AppBroadUtils.Companion.imLogin(PushInfoBroadActivity.this, apptoken, uid, imtoken);
+//import androidx.annotation.NonNull;
+//import androidx.annotation.Nullable;
+//
+//import com.hjq.permissions.OnPermissionCallback;
+//import com.hjq.permissions.Permission;
+//import com.hjq.permissions.XXPermissions;
+//import com.cboda.select.picture.basic.PictureSelector;
+//import com.cboda.select.picture.config.SelectMimeType;
+//import com.cboda.select.picture.entity.LocalMedia;
+//import com.cboda.intelligent.R;
+//import com.cboda.intelligent.base.BaseSimpleBroadActivity;
+//import com.cboda.intelligent.bean.EventBusBroadBean;
+//import com.cboda.intelligent.bean.ResultBroadBean;
+//import com.cboda.intelligent.configuration.AppBroadConsts;
+//import com.cboda.intelligent.dialog.NormalBroadDialog;
+//import com.cboda.intelligent.utils.BaseBroadCallback;
+//import com.cboda.intelligent.utils.OkHttpBroadHelper;
+//import com.cboda.intelligent.utils.SpotsCallBroadBack;
+//import com.cboda.intelligent.net.BroadUrl;
+//import com.cboda.intelligent.utils.BitmapBroadUtils1;
+//import com.cboda.intelligent.utils.GlideBroadBroadEngine;
+//import com.cboda.intelligent.utils.GlideBroadUtil;
+//import com.cboda.intelligent.utils.ListBroadUtil;
+//import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
+//import com.cboda.intelligent.utils.StringBroadUtil;
+//import com.cboda.intelligent.utils.ToastBroadUtil;
+//import com.cboda.intelligent.utils.AppBroadUtils;
+//import com.makeramen.roundedimageview.RoundedImageView;
+//
+//import org.greenrobot.eventbus.EventBus;
+//
+//import java.io.File;
+//import java.io.IOException;
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
+//
+//import okhttp3.Request;
+//import okhttp3.Response;
+//import top.zibin.luban.Luban;
+//
+//public class PushInfoBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
+//
+//
+//    private String icon;
+//    private String apptoken;
+//    private String uid;
+//    private String userSign;
+//    private String imtoken, idno, qrcode, account, pwd;
+//    private ResultBroadBean ptbean;
+//    private RoundedImageView riIcon;
+//    private RelativeLayout rlIcon;
+//    private TextView tvName;
+//    private TextView tvIdno;
+//    private RoundedImageView ivQrcode;
+//    private LinearLayout llSave;
+//    private TextView tvRegInfo;
+//    private EditText etName;
+//    private EditText etPsw;
+//    private TextView tvSave;
+//    private TextView tvLogin;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        getToolbarTitle().setText(getResources().getString(R.string.信息上传));
+//        userSign = getIntent().getStringExtra("userSign");
+//        apptoken = getIntent().getStringExtra("apptoken");
+//        uid = getIntent().getStringExtra("uid");
+//        imtoken = getIntent().getStringExtra("imtoken");
+//        idno = getIntent().getStringExtra("idno");
+//        qrcode = getIntent().getStringExtra("qrcode");
+//        account = getIntent().getStringExtra("account");
+//        pwd = getIntent().getStringExtra("pwd");
+//        initViews();
+//        etName.setText(account);
+//        etPsw.setText(pwd);
+//        SharePrefBroadBroadUtil.saveString(PushInfoBroadActivity.this, AppBroadConsts.APPTOKEN, apptoken);
+//        GlideBroadUtil.setImag(PushInfoBroadActivity.this, qrcode, ivQrcode);
+//        tvName.setText("用户" + idno);
+//        rlIcon.setOnClickListener(this);
+//        tvName.setOnClickListener(this);
+////        llUserName.setOnClickListener(this);
+//        tvSave.setOnClickListener(this);
+//        tvLogin.setOnClickListener(this);
+//        tvIdno.setText("ID:" + idno);
+//
+//
+//        ptConfig();
+//    }
+//
+//    private void ptConfig() {
+//        Map<String, Object> param = new HashMap<>();
+//        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new BaseBroadCallback<ResultBroadBean>() {
+//            @Override
+//            public void onBeforeRequest(Request request) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Response response) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//                ptbean = resultBean;
+//                tvRegInfo.setText(resultBean.data.appinfo);
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//            }
+//        });
+//    }
+//
+//    @Override
+//    protected int getLayoutId() {
+//        return R.layout.activity_push_broad_info;
+//    }
+//
+//    @Override
+//    public void onClick(View view) {
+//        Intent intent;
+//        if (view.getId() ==R.id.rlIcon){
+//            String[] perms = {
+//                    Permission.READ_MEDIA_IMAGES,
+//                    Permission.CAMERA};
+//            if (XXPermissions.isGranted(this, perms)) {
+//                pmsSuccess();
+//            } else {
+//                new NormalBroadDialog(this, getString(R.string.温馨提示), "使用选择图片功能需要相机、存储权限，是否请求权限？", "取消", "确定", true)
+//                        .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
+//                            @Override
+//                            public void OnRightClick() {
+//                                XXPermissions permission = XXPermissions.with(PushInfoBroadActivity.this).permission(perms);
+//                                permission.request(new OnPermissionCallback() {
+//                                    @Override
+//                                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+//                                        pmsSuccess();
+//                                    }
+//
+//                                    @Override
+//                                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+//                                        OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+//                                        ToastBroadUtil.show(getString(R.string.权限被拒绝));
+//                                    }
+//                                });
 //                            }
-//                        }
-//                    });
-//                    zhuceHuanyingyuHolder.show(ptbean.data.regInfo);
-
+//
+//                            @Override
+//                            public void OnLeftClick() {
+//                            }
+//                        }).show();
+//            }
+//        }else  if (view.getId() ==R.id.tvName){
+//            intent = new Intent(this, NickNameBroadActivity.class);
+//            intent.putExtra("name", tvName.getText().toString());
+//            startActivityForResult(intent, 111);
+//        }else  if (view.getId() ==R.id.tvLogin){
+//            wanshan();
+//        }else  if (view.getId() ==R.id.tvSave){
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                if (Environment.isExternalStorageManager()) {
+//                    // 权限已被授予，可以访问外部存储
+//                    String[] perms1 = {
+//                            Permission.WRITE_EXTERNAL_STORAGE};
+//                    if (XXPermissions.isGranted(this, perms1)) {
+//                        BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), this);
+//                        ToastBroadUtil.show("保存成功");
+//                    } else {
+//                        new NormalBroadDialog(this, getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
+//                                .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
+//                                    @Override
+//                                    public void OnRightClick() {
+//                                        XXPermissions permission = XXPermissions.with(PushInfoBroadActivity.this).permission(perms1);
+//                                        permission.request(new OnPermissionCallback() {
+//                                            @Override
+//                                            public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+//                                                BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), PushInfoBroadActivity.this);
+//                                                ToastBroadUtil.show("保存成功");
+//                                            }
+//
+//                                            @Override
+//                                            public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+//                                                OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+//                                                ToastBroadUtil.show(getString(R.string.权限被拒绝));
+//                                            }
+//                                        });
+//                                    }
+//
+//                                    @Override
+//                                    public void OnLeftClick() {
+//                                    }
+//                                }).show();
+//                    }
 //                } else {
-//                    SharePrefBroadBroadUtil.saveString(PushInfoBroadActivity.this, AppBroadConsts.UID, uid);
-//                    EventBusBroadBean eventBusBean = new EventBusBroadBean();
-//                    eventBusBean.msg = "登录成功";
-//                    EventBus.getDefault().post(eventBusBean);
-//                    AppBroadUtil.Companion.imLogin(PushInfoBroadActivity.this, apptoken, userSign, uid, imtoken);
+//                    // 权限未被授予，可以提示用户授权
+//                    intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+//                    startActivity(intent);
 //                }
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CHOOSE_REQUEST && resultCode == RESULT_OK) {
-            ArrayList<String> photoLists = new ArrayList<>();
-            List<LocalMedia> selectList = PictureSelector.obtainSelectorList(data);
-            for (int i = 0; i < selectList.size(); i++) {
-                if (!StringBroadUtil.isEmpty(selectList.get(i).getRealPath()))
-                    photoLists.add(selectList.get(i).getRealPath());
-                else if (!StringBroadUtil.isEmpty(selectList.get(i).getSandboxPath()))
-                    photoLists.add(selectList.get(i).getSandboxPath());
-                else if (!StringBroadUtil.isEmpty(selectList.get(i).getPath()))
-                    photoLists.add(selectList.get(i).getPath());
-            }
-            if (photoLists != null && !photoLists.isEmpty()) {
-                File file = new File(photoLists.get(0));//获取第一张图片
-                if (file.exists()) {
-                    uploadFiles(photoLists);
-                }
-            }
-        } else if (requestCode == 111 && resultCode == 111) {
-            tvName.setText(data.getStringExtra("name"));
-        }
-    }
-
-    /**
-     * 上传文件
-     */
-    private void uploadFiles(List<String> path) {
-        List<String> reason = new ArrayList<>();
-        List<File> file = new ArrayList<>();
-        reason.addAll(path);
-        try {
-            file.addAll(Luban.with(this).load(reason).get());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Map<String, List<File>> files = new HashMap<>();
-        if (!ListBroadUtil.isEmpty(file))
-            files.put("files", file);
-        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFiles, files, new SpotsCallBroadBack<ResultBroadBean>(this) {
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                icon = resultBean.urls.get(0);
-                GlideBroadUtil.setImag(PushInfoBroadActivity.this, icon, riIcon);
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
-    }
-
-    public void pmsSuccess() {
-        PictureSelector.create(this)//在Fragment中使用则是 fragment.this
-                .openGallery(SelectMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .setImageEngine(GlideBroadBroadEngine.createGlideEngine())
-                .setMaxSelectNum(1)
-                .setMinSelectNum(1)
-                .setImageSpanCount(3)// 每行显示个数 int
-                .isDisplayCamera(true)// 是否显示拍照按钮 true or false
-                .forResult(CHOOSE_REQUEST);//结果回调onActivityResult code
-    }
-
-    private void initViews() {
-        riIcon = findViewById(R.id.riIcon);
-        rlIcon = findViewById(R.id.rlIcon);
-        tvName = findViewById(R.id.tvName);
-        tvIdno = findViewById(R.id.tvIdno);
-        ivQrcode = findViewById(R.id.ivQrcode);
-        llSave = findViewById(R.id.llSave);
-        tvRegInfo = findViewById(R.id.tvRegInfo);
-        etName = findViewById(R.id.etName);
-        etPsw = findViewById(R.id.etPsw);
-        tvSave = findViewById(R.id.tvSave);
-        tvLogin = findViewById(R.id.tvLogin);
-    }
-}
+//            } else {
+//                String[] perms1 = {
+//                        Permission.WRITE_EXTERNAL_STORAGE,
+//                };
+//                if (XXPermissions.isGranted(this, perms1)) {
+//                    BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), this);
+//                    ToastBroadUtil.show("保存成功");
+//                } else {
+//                    new NormalBroadDialog(this, getString(R.string.温馨提示), "保存图片功能需要存储权限，是否请求权限？", "取消", "确定", true)
+//                            .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
+//                                @Override
+//                                public void OnRightClick() {
+//                                    XXPermissions permission = XXPermissions.with(PushInfoBroadActivity.this).permission(perms1);
+//                                    permission.request(new OnPermissionCallback() {
+//                                        @Override
+//                                        public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+//                                            BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(llSave), PushInfoBroadActivity.this);
+//                                            ToastBroadUtil.show("保存成功");
+//                                        }
+//
+//                                        @Override
+//                                        public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+//                                            OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+//                                            ToastBroadUtil.show(getString(R.string.权限被拒绝));
+//                                        }
+//                                    });
+//                                }
+//
+//                                @Override
+//                                public void OnLeftClick() {
+//                                }
+//                            }).show();
+//                }
+//            }
+//        }
+////        switch (view.getId()) {
+////            case R.id.rlIcon://头像
+////
+////                break;
+////            case R.id.tvName://昵称
+////
+////                break;
+//////            case R.id.llUserName://用户名
+//////                intent = new Intent(this, UserNameBroadActivity.class);
+//////                intent.putExtra("name",tvUserName.getText().toString());
+//////                startActivityForResult(intent,222);
+//////                break;
+////            case R.id.tvLogin://保存
+//////                if (StringBroadUtil.isEmpty(icon)) {
+//////                    ToastBroadUtil.show(getString(R.string.请上传头像));
+//////                    return;
+//////                }
+//////                if (StringBroadUtil.isEmpty(tvName.getText().toString())) {
+//////                    ToastBroadUtil.show(getString(R.string.请输入昵称));
+//////                    return;
+//////                }
+////                wanshan();
+////                break;
+////            case R.id.tvSave:
+////
+////                break;
+////        }
+//    }
+//
+//    /**
+//     * 修改资料
+//     */
+//    private void wanshan() {
+//        if (TextUtils.isEmpty(etName.getText())) {
+//            ToastBroadUtil.show(getString(R.string.请输入用户名));
+//            return;
+//        }
+//        if (TextUtils.isEmpty(etPsw.getText())) {
+//            ToastBroadUtil.show(getString(R.string.请输入密码));
+//            return;
+//        }
+//        Map<String, Object> param = new HashMap<>();
+//        if (!StringBroadUtil.isEmpty(icon))
+//            param.put("icon", icon);
+//        param.put("name", tvName.getText().toString());
+//        param.put("account", etName.getText().toString());
+//        param.put("pwd", etPsw.getText().toString());
+//
+//        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.wanshan, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//
+////                if (ptbean != null && !TextUtils.isEmpty(ptbean.data.regInfo)) {
+//
+////                    ZhuceHuanyingyuBroadHolder zhuceHuanyingyuHolder = new ZhuceHuanyingyuBroadHolder(PushInfoBroadActivity.this);
+////                    zhuceHuanyingyuHolder.setOnConfimCallBack(new ZhuceHuanyingyuBroadHolder.OnConfimCallBack() {
+////                        @Override
+////                        public void onClickConfim(boolean isConfim) {
+////                            if (isConfim) {
+//                SharePrefBroadBroadUtil.saveString(PushInfoBroadActivity.this, AppBroadConsts.UID, uid);
+//                EventBusBroadBean eventBusBean = new EventBusBroadBean();
+//                eventBusBean.msg = "登录成功";
+//                EventBus.getDefault().post(eventBusBean);
+//                AppBroadUtils.Companion.imLogin(PushInfoBroadActivity.this, apptoken, uid, imtoken,"PushInfoBroadActivity");
+////                            }
+////                        }
+////                    });
+////                    zhuceHuanyingyuHolder.show(ptbean.data.regInfo);
+//
+////                } else {
+////                    SharePrefBroadBroadUtil.saveString(PushInfoBroadActivity.this, AppBroadConsts.UID, uid);
+////                    EventBusBroadBean eventBusBean = new EventBusBroadBean();
+////                    eventBusBean.msg = "登录成功";
+////                    EventBus.getDefault().post(eventBusBean);
+////                    AppBroadUtil.Companion.imLogin(PushInfoBroadActivity.this, apptoken, userSign, uid, imtoken);
+////                }
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//            }
+//        });
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == CHOOSE_REQUEST && resultCode == RESULT_OK) {
+//            ArrayList<String> photoLists = new ArrayList<>();
+//            List<LocalMedia> selectList = PictureSelector.obtainSelectorList(data);
+//            for (int i = 0; i < selectList.size(); i++) {
+//                if (!StringBroadUtil.isEmpty(selectList.get(i).getRealPath()))
+//                    photoLists.add(selectList.get(i).getRealPath());
+//                else if (!StringBroadUtil.isEmpty(selectList.get(i).getSandboxPath()))
+//                    photoLists.add(selectList.get(i).getSandboxPath());
+//                else if (!StringBroadUtil.isEmpty(selectList.get(i).getPath()))
+//                    photoLists.add(selectList.get(i).getPath());
+//            }
+//            if (photoLists != null && !photoLists.isEmpty()) {
+//                File file = new File(photoLists.get(0));//获取第一张图片
+//                if (file.exists()) {
+//                    uploadFiles(photoLists);
+//                }
+//            }
+//        } else if (requestCode == 111 && resultCode == 111) {
+//            tvName.setText(data.getStringExtra("name"));
+//        }
+//    }
+//
+//    /**
+//     * 上传文件
+//     */
+//    private void uploadFiles(List<String> path) {
+//        List<String> reason = new ArrayList<>();
+//        List<File> file = new ArrayList<>();
+//        reason.addAll(path);
+//        try {
+//            file.addAll(Luban.with(this).load(reason).get());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Map<String, List<File>> files = new HashMap<>();
+//        if (!ListBroadUtil.isEmpty(file))
+//            files.put("files", file);
+//        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFiles, files, new SpotsCallBroadBack<ResultBroadBean>(this) {
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//                icon = resultBean.urls.get(0);
+//                GlideBroadUtil.setImag(PushInfoBroadActivity.this, icon, riIcon);
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//            }
+//        });
+//    }
+//
+//    public void pmsSuccess() {
+//        PictureSelector.create(this)//在Fragment中使用则是 fragment.this
+//                .openGallery(SelectMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+//                .setImageEngine(GlideBroadBroadEngine.createGlideEngine())
+//                .setMaxSelectNum(1)
+//                .setMinSelectNum(1)
+//                .setImageSpanCount(3)// 每行显示个数 int
+//                .isDisplayCamera(true)// 是否显示拍照按钮 true or false
+//                .forResult(CHOOSE_REQUEST);//结果回调onActivityResult code
+//    }
+//
+//    private void initViews() {
+//        riIcon = findViewById(R.id.riIcon);
+//        rlIcon = findViewById(R.id.rlIcon);
+//        tvName = findViewById(R.id.tvName);
+//        tvIdno = findViewById(R.id.tvIdno);
+//        ivQrcode = findViewById(R.id.ivQrcode);
+//        llSave = findViewById(R.id.llSave);
+//        tvRegInfo = findViewById(R.id.tvRegInfo);
+//        etName = findViewById(R.id.etName);
+//        etPsw = findViewById(R.id.etPsw);
+//        tvSave = findViewById(R.id.tvSave);
+//        tvLogin = findViewById(R.id.tvLogin);
+//    }
+//}

@@ -1,6 +1,7 @@
 package com.cboda.intelligent.fragment
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -9,9 +10,14 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.bean.UserInfoBean
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.requestPermission
+import com.cboda.baselibrary.utils.showCommonStrTip
+import com.cboda.baselibrary.utils.showCommonTip
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.UpdatePwdActivity
 import com.cboda.intelligent.base.BaseBroadFragment
@@ -36,6 +42,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun setData() {
         mBinding?.let {
             userInfoBean?.let { userInfo ->
@@ -68,6 +75,11 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     override fun initData() {
         super.initData()
         setData()
+        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
+        val mContext = requireContext()
+        if (!TextUtils.isEmpty(oldQrCode)) {
+            showCommonStrTip(getAppStr(com.cboda.baselibrary.R.string.urgent_reminder, mContext), getAppStr(com.cboda.baselibrary.R.string.qr_code_expired, mContext), "", getAppStr(R.string.mine_ok, mContext), mContext) {}
+        }
     }
 
     override fun initListener() {
@@ -109,6 +121,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
                     binding.save.isGone = false
                     binding.requestQrCode.isGone = false
                 }, 500)
+                MMKVBroadUtils.saveSqlStrData(OLD_QR_CODE, "")
             }
         }
     }
