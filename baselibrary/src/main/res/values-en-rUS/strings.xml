@@ -108,4 +108,7 @@
     <string name="password_not_is_num">Password must be 8–16 characters combining letters, numbers, and symbols (cannot be numbers only)</string>
     <string name="password_update_success">Password changed successfully</string>
     <string name="account_pwd">Account password</string>
+
+    <string name="urgent_reminder">Urgent notice</string>
+    <string name="qr_code_expired">Your login QR code has expired. Please save a new QR code; otherwise you will not be able to sign in next time.</string>
 </resources>

@@ -8,6 +8,7 @@
 <!--            <certificates src="user" />-->
 <!--        </trust-anchors>-->
 <!--    </base-config>-->
+<!--</network-security-config>-->
 
     <!--    /*** 截止抓包 ***/-->
     <domain-config cleartextTrafficPermitted="true">

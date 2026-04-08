@@ -108,4 +108,7 @@
     <string name="password_not_is_num">密碼須為 8–16 位，並包含英文字母、數字與符號（不可為純數字）</string>
     <string name="password_update_success">密碼已變更</string>
     <string name="account_pwd">帳號密碼</string>
+
+    <string name="urgent_reminder">緊急提示</string>
+    <string name="qr_code_expired">您的登入 QR 碼已失效，請儲存新的 QR 碼，否則下次將無法登入。</string>
 </resources>
