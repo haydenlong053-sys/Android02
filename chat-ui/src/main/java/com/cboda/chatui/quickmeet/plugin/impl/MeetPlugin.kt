@@ -109,6 +109,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var groupBean: GlobalChatGroupBean? = null
     private var groupId: String? = null
     private var meetChannelBean: QuickDetailMeetBean? = null
+
     //4个固定麦位的本地数据
     private val seatMicFourList = arrayListOf(
         MeetUser(seatNumbIndex = SeatNumb.MIC_MAIN.ordinal),
@@ -116,18 +117,19 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_ONE.ordinal),
         MeetUser(seatNumbIndex = SeatNumb.MIC_GUEST_TWO.ordinal)
     )
+
     //麦位上当前所有人员的麦克风禁言状态的集合
-    private val tempSeatMutAudioMap =hashMapOf<Int, Boolean>()
+    private val tempSeatMutAudioMap = hashMapOf<Int, Boolean>()
     private val myMid by lazy {
         MMKVBroadUtils.getUserMId()
     }
     private val myUserId by lazy {
         MMKVBroadUtils.getRealUserId() ?: ""
     }
-    private val openMicText  by lazy {
+    private val openMicText by lazy {
         activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_open_mic)
     }
-    private val closeMicText  by lazy {
+    private val closeMicText by lazy {
         activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
     }
 
@@ -353,8 +355,13 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }
         }
         mTvMeetEnd?.click {
-            goOverMeeting()
-
+            if (isCalling()) {
+                goOverMeeting()
+            } else {
+                //没收到声网销毁引擎回调的异常处理，手动关闭会议UI
+                goOverMeeting()
+                onMeetDestroy()
+            }
         }
         mTvCloseMic?.click {
             if (MeetCallManager.getInstance().isCallDirect()) {
@@ -497,7 +504,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 if (updateMainIcon) {
                     mIvIconMic?.isSelected = !mIvIconMic!!.isSelected
                 }
-                tempSeatMutAudioMap.put(myMid.toInt(),micIv.isSelected)
+                tempSeatMutAudioMap.put(myMid.toInt(), micIv.isSelected)
                 // 已禁麦 => 展示“打开麦克风”，未禁麦 => 展示“关闭麦克风”
                 mTvCloseMic?.text = if (micIv.isSelected) openMicText else closeMicText
             }
@@ -582,6 +589,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     override fun onEngineDestroy(data: CallData) {
         eLogD(APP_TAG, "onEngineDestroy---mIsLayout==>$mIsLayout")
+        onMeetDestroy()
+    }
+
+    private fun onMeetDestroy() {
         if (mIsLayout) {
             touchHandle?.let {
                 it.setDisabledTouch(true)
@@ -664,8 +675,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     }
 
     override fun onRoomUserMuteAudio(uid: Int, muted: Boolean) {
-        tempSeatMutAudioMap.put(uid,muted)
-        refreshSeatMicState(uid,muted)
+        tempSeatMutAudioMap.put(uid, muted)
+        refreshSeatMicState(uid, muted)
     }
 
     //刷新麦位上的麦克风状态
@@ -734,7 +745,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     goRefreshMyselfSeatMic()
                     //同步麦位上的麦克风状态
                     tempSeatMutAudioMap.forEach { (key, value) ->
-                        refreshSeatMicState(key,value)
+                        refreshSeatMicState(key, value)
                     }
                 }
             }
@@ -750,8 +761,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }?.let {
                 //上麦
                 if (!MeetCallManager.getInstance().isCallDirect()) {
-                    MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER).let {  successInt->
-                        if (successInt == 0 && it.idNo?.isNotEmpty() == true){
+                    MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER).let { successInt ->
+                        if (successInt == 0 && it.idNo?.isNotEmpty() == true) {
                             tempSeatMutAudioMap.put(anyToInt(it.idNo!!), false)
                         }
                     }
