@@ -287,9 +287,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     //取消会议
     private fun cancelMeeting() {
         if (MeetCallManager.getInstance().isOwner() && isCalling()) {
+            //会议中的房主退出频道
             MainScope().launch {
                 val channelId = MeetCallManager.getInstance().mCallData.channelId
                 viewModel?.goDissolveQuickMeet(channelId)?.observeForever { }
+            }
+        }else if (isCalling() && MeetCallManager.getInstance().isCallDirect()){
+            //会议中的发言方（主播端）退出频道
+            MainScope().launch {
+                viewModel?.goNetDownMic(myUserId, groupId)?.observeForever {  }
             }
         }
     }
