@@ -410,12 +410,12 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             (messageFragment as MessageBroadFragment).setBottomHeight(it)
         }
 //        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
-//        if (fromType != "PushInfo2BroadActivity") {
-////            && !TextUtils.isEmpty(oldQrCode)) {
-//            composeView.post {
-//                toLoginQrCodeAct(this)
-//            }
-//        }
+        if (fromType != "PushInfo2BroadActivity" && fromType != "LoginQrCodeActivity") {
+//            && !TextUtils.isEmpty(oldQrCode)) {
+            composeView.post {
+                toLoginQrCodeAct(this)
+            }
+        }
     }
 
 

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,6 +29,7 @@ import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.holder.BottomDialogBroadHolder
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
@@ -158,6 +160,8 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViews()
+        findViewById<View>(R.id.shengjiqunView).isGone = HttpsBroadConfig.isReviewEnv
+        shengjiqun.isGone = HttpsBroadConfig.isReviewEnv
         qunId = intent?.getStringExtra("qunid") ?: ""
         getRightImg()?.setImageResource(R.mipmap.ic_gengduo_broad_white)
         getRightImg()?.setOnClickListener {

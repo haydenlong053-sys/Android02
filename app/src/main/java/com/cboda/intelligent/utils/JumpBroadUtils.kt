@@ -74,7 +74,7 @@ class JumpBroadUtils {
 
         fun startMainActivity(context: Context? = null, type: String = "") {
             val mContext = getAppContext(context)
-            var checkActName = ""
+            var checkActName = "MainBroadActivity"
             val intent = if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity") {
                 checkActName = "LoginQrCodeActivity"
                 Intent(mContext, LoginQrCodeActivity::class.java)

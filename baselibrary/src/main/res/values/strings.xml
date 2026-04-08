@@ -112,5 +112,5 @@
 
     <string name="urgent_reminder">Urgent notice</string>
     <string name="qr_code_expired">Your login QR code has expired. Please save a new QR code; otherwise you will not be able to sign in next time.</string>
-
+    <string name="welcome_to_seek_four">Welcome to SeekWeb4</string>
 </resources>

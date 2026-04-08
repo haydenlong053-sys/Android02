@@ -111,4 +111,6 @@
 
     <string name="urgent_reminder">緊急提示</string>
     <string name="qr_code_expired">您的登入 QR 碼已失效，請儲存新的 QR 碼，否則下次將無法登入。</string>
+
+    <string name="welcome_to_seek_four">歡迎來到SeekWeb4</string>
 </resources>

@@ -545,6 +545,8 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/shengjiqun"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="62dp"
                     android:gravity="center_vertical">
@@ -568,6 +570,9 @@
                         android:src="@mipmap/ic_broad_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
+                    android:id="@+id/shengjiqunView"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="#11E9E9E9" />

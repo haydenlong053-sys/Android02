@@ -193,14 +193,16 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
             .clickable(
                 indication = null, // 没有点击效果
                 interactionSource = remember { MutableInteractionSource() }) {
-                // 跳转到会员中心（原本 llHyzx 点击）
-                context.startActivity(Intent(context, HyzxBroadActivity::class.java))
+                if (!HttpsBroadConfig.isReviewEnv) {
+                    // 跳转到会员中心（原本 llHyzx 点击）
+                    context.startActivity(Intent(context, HyzxBroadActivity::class.java))
+                }
             }
     ) {
 
         // 背景图，顶部圆角 12dp，底部凹形 16dp
         Image(
-            painter = painterResource(id = R.mipmap.bg_mine_broad_vip),
+            painter = painterResource(id = if (!HttpsBroadConfig.isReviewEnv) R.mipmap.bg_mine_broad_vip else R.mipmap.bg_mine_broad_vip2),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -229,28 +231,28 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
                 .padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (!HttpsBroadConfig.isReviewEnv) {
-                Image(
-                    painter = painterResource(id = R.mipmap.ic_mine_vip_broad_logo),
-                    contentDescription = null,
-                    modifier = Modifier.size(36.dp)
+            Image(
+                painter = painterResource(id = R.mipmap.ic_mine_vip_broad_logo),
+                contentDescription = null,
+                modifier = Modifier.size(36.dp)
+            )
+            Spacer(Modifier.width(8.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = if (isVip && !HttpsBroadConfig.isReviewEnv) stringResource(R.string.seekweb4_vip_member) else if (!HttpsBroadConfig.isReviewEnv) stringResource(R.string.open_vip_privilege) else stringResource(
+                        com.cboda.baselibrary.R.string.welcome_to_seek_four
+                    ),
+                    color = Color(0xFFFFD3A9),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold
                 )
-                Spacer(Modifier.width(8.dp))
-                Column(modifier = Modifier.weight(1f)) {
+                if (isVip) {
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = if (isVip) stringResource(R.string.seekweb4_vip_member) else stringResource(R.string.open_vip_privilege),
-                        color = Color(0xFFFFD3A9),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold
+                        text = vipExpireText,
+                        color = Color(0xA6FFD3A9),
+                        fontSize = 12.sp
                     )
-                    if (isVip) {
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = vipExpireText,
-                            color = Color(0xA6FFD3A9),
-                            fontSize = 12.sp
-                        )
-                    }
                 }
             }
             if (!isVip && !HttpsBroadConfig.isReviewEnv) {
