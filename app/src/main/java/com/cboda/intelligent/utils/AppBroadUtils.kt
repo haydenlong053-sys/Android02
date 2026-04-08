@@ -9,7 +9,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.telephony.TelephonyManager
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import cn.wildfirechat.model.Conversation
@@ -28,11 +27,9 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.gyf.immersionbar.ImmersionBar
-import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
-//import com.cboda.intelligent.service.MeetingFloatBroadService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -209,7 +206,7 @@ class AppBroadUtils {
 
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
-
+            NetworkBroadConfig
             MMKVBroadUtils.saveUserAppToken(apptoken ?: "")
 //            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
             MMKVBroadUtils.saveRealUserId(uid ?: "")
@@ -228,12 +225,13 @@ class AppBroadUtils {
                 delay(200)
                 EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_LOGIN_SUCCESS, null))
             }
+//            activityList.forEachIndexed { _, activity ->
+//                if (activity !is MainBroadActivity) {
+//                    activity.finish()
+//                }
+//            }
             JumpBroadUtils.startMainActivity(context, fromType)
-            activityList.forEachIndexed { _, activity ->
-                if (activity !is MainBroadActivity) {
-                    activity.finish()
-                }
-            }
+
 
 
 //            MMKVBroadUtils.getRealUserId()?.apply {
@@ -280,7 +278,7 @@ class AppBroadUtils {
             ChatManager.Instance().disconnect(true, false)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "")
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "")
-            NetworkBroadConfig.updateAppToken(null)
+            NetworkBroadConfig.updateAppToken("")
 //            EventBus.getDefault().post(
 //                MeetingFloatBroadService.MeetingEvent(
 //                    MeetingFloatBroadService.EVENT_BACKGROUND_QUITE,

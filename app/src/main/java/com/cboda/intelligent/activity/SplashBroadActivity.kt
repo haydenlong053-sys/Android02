@@ -94,7 +94,7 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 //                            }
 //                        }
         } else {
-            startMainActivity(this@SplashBroadActivity)
+            startMainActivity(this@SplashBroadActivity, "SplashBroadActivity")
         }
         finish()
 

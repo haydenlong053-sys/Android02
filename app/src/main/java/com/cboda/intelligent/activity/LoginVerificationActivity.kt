@@ -112,7 +112,7 @@ class LoginVerificationActivity : BaseSimple2BroadActivity() {
             OkHttpBroadHelper.getInstance().post_json(this, HttpsBroadConfig.appBaseUrl + "/idLogin", params.toMap(), object : SpotsCallBroadBack<ResultBroadBean>(this) {
                 override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
                     resultBean?.let {
-                        AppBroadUtils.imLogin(this@LoginVerificationActivity, resultBean.apptoken, resultBean.userId, resultBean.imtoken)
+                        AppBroadUtils.imLogin(this@LoginVerificationActivity, resultBean.apptoken, resultBean.userId, resultBean.imtoken,"LoginVerificationActivity")
                     } ?: showToastMain(com.cboda.baselibrary.R.string.device_error)
                 }
 

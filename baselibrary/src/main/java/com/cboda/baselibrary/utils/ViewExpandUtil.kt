@@ -465,7 +465,7 @@ fun getUuIdCreate(): String {
     return try {
         getUuid2() + getTimeUuId()
     } catch (e: Exception) {
-//        e.toLog(tAG)
+        e.toLog(tAG)
         "defaultUUId"
     }
 }
@@ -474,7 +474,7 @@ fun getUuid2(): String {
     return try {
         UUID.randomUUID().toString().replace("-", "")
     } catch (e: Exception) {
-//        e.toLog(tAG)
+        e.toLog(tAG)
         "defaultUUId"
     }
 }
@@ -495,12 +495,12 @@ private fun getTimeUuId(): String {
                 }
             }
         } catch (e: Exception) {
-//            e.toLog(tAG)
+            e.toLog(tAG)
             timeUuId = timeStr
         }
         return timeUuId
     } catch (e: Exception) {
-//        e.toLog(tAG)
+        e.toLog(tAG)
         return ""
     }
 }
@@ -516,7 +516,7 @@ private fun getChar(length: Int): String {
             valSb += charStr[index]
         }
     } catch (e: Exception) {
-//        e.toLog(tAG)
+        e.toLog(tAG)
         if (charStr.length > length + 1) {
             valSb = charStr.substring(0, length)
         } else {

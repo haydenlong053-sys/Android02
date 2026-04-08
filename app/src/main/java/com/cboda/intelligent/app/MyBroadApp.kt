@@ -168,7 +168,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
 
         override fun onActivityStarted(activity: Activity) {
             super.onActivityStarted(activity)
-            eLogD(tAG, "onResumed:${activity.javaClass.simpleName}")
+            eLogD(tAG, "onStarted:${activity.javaClass.simpleName}")
         }
 
         override fun onActivityPaused(activity: Activity) {

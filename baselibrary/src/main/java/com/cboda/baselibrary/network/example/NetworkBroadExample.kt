@@ -66,39 +66,39 @@ class NetworkBroadExample {
     /**
      * 初始化网络配置示例
      */
-    fun initNetworkConfig() {
-        // 基础配置
-        NetworkBroadConfig.init(
-            baseUrl = "https://api.example.com/",
-            connectTimeout = 30,
-            readTimeout = 30,
-            writeTimeout = 30,
-            enableLogging = true
-        )
-        
-        // 设置App Token
-        NetworkBroadConfig.updateAppToken("your_app_token_here")
-        
-        // 添加通用请求头
-        NetworkBroadConfig.addCommonHeader("BroadUser-Agent", "MyApp/1.0.0")
-        NetworkBroadConfig.addCommonHeader("Platform", "Android")
-        NetworkBroadConfig.addCommonHeader("Version", "1.0.0")
-        
-        // 或者批量设置
-        val headers = mapOf(
-            "Device-ID" to "device_12345",
-            "App-Version" to "1.0.0",
-            "Channel" to "official"
-        )
-        NetworkBroadConfig.updateCommonHeaders(headers)
-        
-        println("网络配置初始化完成")
-        println("BaseURL: ${NetworkBroadConfig.defaultBaseUrl}")
-        println("超时设置: ${NetworkBroadConfig.connectTimeout}s")
-        println("日志开关: ${NetworkBroadConfig.enableLogging}")
-        println("App Token: ${NetworkBroadConfig.appToken}")
-        println("通用请求头: ${NetworkBroadConfig.commonHeaders}")
-    }
+//    fun initNetworkConfig() {
+//        // 基础配置
+//        NetworkBroadConfig.init(
+//            baseUrl = "https://api.example.com/",
+//            connectTimeout = 30,
+//            readTimeout = 30,
+//            writeTimeout = 30,
+//            enableLogging = true
+//        )
+//
+//        // 设置App Token
+//        NetworkBroadConfig.updateAppToken("your_app_token_here")
+//
+//        // 添加通用请求头
+//        NetworkBroadConfig.addCommonHeader("BroadUser-Agent", "MyApp/1.0.0")
+//        NetworkBroadConfig.addCommonHeader("Platform", "Android")
+//        NetworkBroadConfig.addCommonHeader("Version", "1.0.0")
+//
+//        // 或者批量设置
+//        val headers = mapOf(
+//            "Device-ID" to "device_12345",
+//            "App-Version" to "1.0.0",
+//            "Channel" to "official"
+//        )
+//        NetworkBroadConfig.updateCommonHeaders(headers)
+//
+//        println("网络配置初始化完成")
+//        println("BaseURL: ${NetworkBroadConfig.defaultBaseUrl}")
+//        println("超时设置: ${NetworkBroadConfig.connectTimeout}s")
+//        println("日志开关: ${NetworkBroadConfig.enableLogging}")
+//        println("App Token: ${NetworkBroadConfig.appToken}")
+//        println("通用请求头: ${NetworkBroadConfig.commonHeaders}")
+//    }
     
     /**
      * 简单GET请求示例
@@ -349,78 +349,78 @@ class NetworkBroadExample {
     /**
      * 更新网络配置示例
      */
-    fun updateConfigExample() {
-        // 更新基础URL
-        NetworkBroadConfig.setBaseUrl("https://new-api.example.com/")
-        
-        // 更新超时设置
-        NetworkBroadConfig.setTimeout(connectTimeout = 60, readTimeout = 60, writeTimeout = 60)
-        
-        // 更新日志设置
-        NetworkBroadConfig.setLoggingEnabled(false)
-        
-        // 更新App Token（比如用户登录后获取新token）
-        NetworkBroadConfig.updateAppToken("new_token_after_login")
-        
-        // 动态添加或更新请求头
-        NetworkBroadConfig.addCommonHeader("Authorization", "Bearer new_access_token")
-        NetworkBroadConfig.addCommonHeader("Session-ID", "session_12345")
-        
-        // 使用NetworkManager的便捷方法
-        NetworkBroadManager.updateConfig(
-            baseUrl = "https://api.v2.example.com/",
-            connectTimeout = 45,
-            enableLogging = true
-        )
-        
-        println("网络配置已更新")
-        println("新的BaseURL: ${NetworkBroadConfig.defaultBaseUrl}")
-        println("新的App Token: ${NetworkBroadConfig.appToken}")
-        println("更新后的请求头: ${NetworkBroadConfig.commonHeaders}")
-    }
+//    fun updateConfigExample() {
+//        // 更新基础URL
+//        NetworkBroadConfig.setBaseUrl("https://new-api.example.com/")
+//
+//        // 更新超时设置
+//        NetworkBroadConfig.setTimeout(connectTimeout = 60, readTimeout = 60, writeTimeout = 60)
+//
+//        // 更新日志设置
+//        NetworkBroadConfig.setLoggingEnabled(false)
+//
+//        // 更新App Token（比如用户登录后获取新token）
+//        NetworkBroadConfig.updateAppToken("new_token_after_login")
+//
+//        // 动态添加或更新请求头
+//        NetworkBroadConfig.addCommonHeader("Authorization", "Bearer new_access_token")
+//        NetworkBroadConfig.addCommonHeader("Session-ID", "session_12345")
+//
+//        // 使用NetworkManager的便捷方法
+//        NetworkBroadManager.updateConfig(
+//            baseUrl = "https://api.v2.example.com/",
+//            connectTimeout = 45,
+//            enableLogging = true
+//        )
+//
+//        println("网络配置已更新")
+//        println("新的BaseURL: ${NetworkBroadConfig.defaultBaseUrl}")
+//        println("新的App Token: ${NetworkBroadConfig.appToken}")
+//        println("更新后的请求头: ${NetworkBroadConfig.commonHeaders}")
+//    }
     
     /**
      * Header管理示例
      */
-    fun headerManagementExample() {
-        // 设置App Token
-        NetworkBroadConfig.updateAppToken("app_token_12345")
-        
-        // 添加单个请求头
-        NetworkBroadConfig.addCommonHeader("BroadUser-Agent", "MyApp/2.0.0")
-        NetworkBroadConfig.addCommonHeader("Platform", "Android")
-        
-        // 批量设置请求头
-        val deviceHeaders = mapOf(
-            "Device-ID" to "android_device_001",
-            "Device-Model" to "Samsung Galaxy S21",
-            "OS-Version" to "Android 12",
-            "App-Version" to "2.0.0"
-        )
-        NetworkBroadConfig.updateCommonHeaders(deviceHeaders)
-        
-        // 移除特定请求头
-        NetworkBroadConfig.removeCommonHeader("Device-Model")
-        
-        // 用户登录后添加认证相关头
-        fun onUserLogin(accessToken: String, refreshToken: String) {
-            NetworkBroadConfig.addCommonHeader("Authorization", "Bearer $accessToken")
-            NetworkBroadConfig.addCommonHeader("Refresh-Token", refreshToken)
-            // 重置网络管理器以应用新的header配置
-            NetworkBroadManager.reset()
-        }
-        
-        // 用户登出后清理认证头
-        fun onUserLogout() {
-            NetworkBroadConfig.removeCommonHeader("Authorization")
-            NetworkBroadConfig.removeCommonHeader("Refresh-Token")
-            NetworkBroadConfig.updateAppToken(null) // 清除app token
-            // 重置网络管理器
-            NetworkBroadManager.reset()
-        }
-        
-        println("Header管理示例完成")
-        println("当前App Token: ${NetworkBroadConfig.appToken}")
-        println("当前请求头: ${NetworkBroadConfig.commonHeaders}")
-    }
+//    fun headerManagementExample() {
+//        // 设置App Token
+//        NetworkBroadConfig.updateAppToken("app_token_12345")
+//
+//        // 添加单个请求头
+//        NetworkBroadConfig.addCommonHeader("BroadUser-Agent", "MyApp/2.0.0")
+//        NetworkBroadConfig.addCommonHeader("Platform", "Android")
+//
+//        // 批量设置请求头
+//        val deviceHeaders = mapOf(
+//            "Device-ID" to "android_device_001",
+//            "Device-Model" to "Samsung Galaxy S21",
+//            "OS-Version" to "Android 12",
+//            "App-Version" to "2.0.0"
+//        )
+//        NetworkBroadConfig.updateCommonHeaders(deviceHeaders)
+//
+//        // 移除特定请求头
+//        NetworkBroadConfig.removeCommonHeader("Device-Model")
+//
+//        // 用户登录后添加认证相关头
+//        fun onUserLogin(accessToken: String, refreshToken: String) {
+//            NetworkBroadConfig.addCommonHeader("Authorization", "Bearer $accessToken")
+//            NetworkBroadConfig.addCommonHeader("Refresh-Token", refreshToken)
+//            // 重置网络管理器以应用新的header配置
+//            NetworkBroadManager.reset()
+//        }
+//
+//        // 用户登出后清理认证头
+//        fun onUserLogout() {
+//            NetworkBroadConfig.removeCommonHeader("Authorization")
+//            NetworkBroadConfig.removeCommonHeader("Refresh-Token")
+//            NetworkBroadConfig.updateAppToken(null) // 清除app token
+//            // 重置网络管理器
+//            NetworkBroadManager.reset()
+//        }
+//
+//        println("Header管理示例完成")
+//        println("当前App Token: ${NetworkBroadConfig.appToken}")
+//        println("当前请求头: ${NetworkBroadConfig.commonHeaders}")
+//    }
 }

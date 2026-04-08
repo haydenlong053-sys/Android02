@@ -422,7 +422,7 @@ public class OkHttpBroadHelper {
                         callback.onSuccess(response, obj);
                     } else if (((BaseBroadBean) obj).code.equals("401")) {
                         SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
-                        NetworkBroadConfig.INSTANCE.updateAppToken(null);
+                        NetworkBroadConfig.INSTANCE.updateAppToken("");
                         SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
                         ToastBroadUtil.show(((BaseBroadBean) obj).msg);
                     } else {
@@ -451,7 +451,7 @@ public class OkHttpBroadHelper {
                         } else if (((BaseBroadBean) obj).code.equals("401") || ((BaseBroadBean) obj).code.equals("201")) {
                             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
                             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
-                            NetworkBroadConfig.INSTANCE.updateAppToken(null);
+                            NetworkBroadConfig.INSTANCE.updateAppToken("");
                             ToastBroadUtil.show(((BaseBroadBean) obj).msg);
                             AppBroadUtils.Companion.exit(context);
                         } else {

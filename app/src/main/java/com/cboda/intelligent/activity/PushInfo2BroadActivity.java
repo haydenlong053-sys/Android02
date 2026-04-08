@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.blankj.utilcode.util.BarUtils;
 import com.cboda.chatui.viewmodel.MessageViewBroadModel;
@@ -273,7 +274,6 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         } else if (view.getId() == R.id.tvLogin) {
             wanshan();
         } else if (view.getId() == R.id.tvSave) {
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 String[] perms = {
                         Permission.READ_MEDIA_IMAGES};
@@ -340,7 +340,9 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                 }
             }
         } else if (view.getId() == R.id.requestQrCode) {
-            NetworkBroadConfig.INSTANCE.updateAppToken(apptoken);
+            if (!TextUtils.isEmpty(apptoken)) {
+                NetworkBroadConfig.INSTANCE.updateAppToken(apptoken);
+            }
             loginViewModel.resetQrCode().observe(this, s -> {
                 NetworkBroadConfig.INSTANCE.updateAppToken("");
                 if (null != s && !TextUtils.isEmpty(s)) {
@@ -391,8 +393,8 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         EventBusBroadBean eventBusBean = new EventBusBroadBean();
         eventBusBean.msg = getString(R.string.login_success);
         EventBus.getDefault().post(eventBusBean);
-        AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken,"PushInfo2BroadActivity");
-
+        MMKVBroadUtils.Companion.saveSqlStrData(MMKVBroadUtils.OLD_QR_CODE, "");
+        AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken, "PushInfo2BroadActivity");
     }
 
     /**
@@ -429,7 +431,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                 EventBusBroadBean eventBusBean = new EventBusBroadBean();
                 eventBusBean.msg = getString(R.string.login_success);
                 EventBus.getDefault().post(eventBusBean);
-                AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken,"PushInfo2BroadActivity");
+                AppBroadUtils.Companion.imLogin(PushInfo2BroadActivity.this, apptoken, uid, imtoken, "PushInfo2BroadActivity");
 //                            }
 //                        }
 //                    });

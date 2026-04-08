@@ -31,7 +31,6 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
 
     override fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?) = LoginQrCodeFragmentBinding.inflate(inflater, parent, false)
 
-
     private var userInfoBean: UserInfoBean? = null
     private var closeEyesIsGone: Boolean = true
     private var widthIsBig = true
@@ -75,10 +74,20 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     override fun initData() {
         super.initData()
         setData()
-        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
+        var oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
         val mContext = requireContext()
         if (!TextUtils.isEmpty(oldQrCode)) {
-            showCommonStrTip(getAppStr(com.cboda.baselibrary.R.string.urgent_reminder, mContext), getAppStr(com.cboda.baselibrary.R.string.qr_code_expired, mContext), "", getAppStr(R.string.mine_ok, mContext), mContext) {}
+            oldQrCode = ""
+            MMKVBroadUtils.saveSqlStrData(OLD_QR_CODE, "")
+            showCommonStrTip(
+                getAppStr(com.cboda.baselibrary.R.string.urgent_reminder, mContext),
+                getAppStr(com.cboda.baselibrary.R.string.qr_code_expired, mContext),
+                "",
+                getAppStr(R.string.mine_ok, mContext),
+                mContext
+            ) {
+                savePhoto()
+            }
         }
     }
 
@@ -103,29 +112,32 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
             }
         }
         binding.save.click {
-            requestPermission(arrayOf(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                if (closeEyesIsGone) {
-                    setCloseEyesIsGone(false)
-                }
-                binding.closeEyes.isGone = true
-                binding.save.isGone = true
-                binding.requestQrCode.isGone = true
-                binding.loginQrCodeFragmentLayout.postDelayed({
-                    BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(binding.loginQrCodeFragmentLayout), requireContext())
-                    showToastMain(R.string.tipSaveSuccess)
-                    if (closeEyesIsGone) {
-                        setCloseEyesIsGone(true)
-                    } else {
-                        binding.closeEyes.isGone = false
-                    }
-                    binding.save.isGone = false
-                    binding.requestQrCode.isGone = false
-                }, 500)
-                MMKVBroadUtils.saveSqlStrData(OLD_QR_CODE, "")
-            }
+            savePhoto()
         }
     }
 
+
+    private fun savePhoto() {
+        requestPermission(arrayOf(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (closeEyesIsGone) {
+                setCloseEyesIsGone(false)
+            }
+            binding.closeEyes.isGone = true
+            binding.save.isGone = true
+            binding.requestQrCode.isGone = true
+            binding.loginQrCodeFragmentLayout.postDelayed({
+                BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(binding.loginQrCodeFragmentLayout), requireContext())
+                showToastMain(R.string.tipSaveSuccess)
+                if (closeEyesIsGone) {
+                    setCloseEyesIsGone(true)
+                } else {
+                    binding.closeEyes.isGone = false
+                }
+                binding.save.isGone = false
+                binding.requestQrCode.isGone = false
+            }, 500)
+        }
+    }
 
     private fun setCloseEyesIsGone(isGone: Boolean) {
         binding.closeEyes.isGone = isGone

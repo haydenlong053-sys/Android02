@@ -11,6 +11,8 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.clipViewOutlineRound
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.SignInBroadActivity
 import com.cboda.intelligent.activity.UserInfoBroadActivity
@@ -71,6 +73,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             it?.let {
                 userInfo = it
             }
+            eLogD("NewMirrorViewBroadModelClass","userInfo:${toJson2(userInfo)}")
             binding.ivMirrorAvatar.setImageResource(if (userInfo?.sex == "2") R.drawable.ic_mirror_broad_female else R.drawable.ic_mirror_broad_male)
             binding.tvMirrorCreditScore.text = "${userInfo?.grade}"
             binding.mViewPremiumNumber.isVisible =(userInfo?.isLiang == "1")

@@ -2,13 +2,11 @@ package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showGuidePasswordTip;
-import static com.cboda.intelligent.utils.ViewExpandUtilKt.showSetTipDialog;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,7 +68,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
     private View llBindMachineNo;
     private boolean isHasPassword = false;
 
-    @SuppressLint({"SetTextI18n", "HardwareIds"})
+    @SuppressLint({"SetTextI18n", "HardwareIds", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

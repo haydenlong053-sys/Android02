@@ -1,26 +1,18 @@
 package com.cboda.intelligent.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.cboda.baselibrary.app.UtilBroadApplication;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.select.picture.utils.LanguageUtil;
-import com.cboda.intelligent.MainBroadActivity;
 import com.cboda.intelligent.R;
-import com.cboda.intelligent.app.MyBroadApp;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.LanguageBroadAdapter;
 import com.cboda.select.picture.entity.DataListBroadBean;
-import com.cboda.intelligent.configuration.AppBroadConsts;
-import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
-import com.cboda.intelligent.utils.AppBroadUtils;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
 import java.util.ArrayList;

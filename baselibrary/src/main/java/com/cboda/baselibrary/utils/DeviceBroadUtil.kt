@@ -29,6 +29,7 @@ object DeviceBroadUtil {
     fun getAndroidId(context: Context? = null): String {
         if (BuildConfig.IS_NEW_SIGNATURE) {
             return getAllDeviceId()
+//            return getDeviceUUId()
         } else {
             if (TextUtils.isEmpty(androidId)) {
                 try {

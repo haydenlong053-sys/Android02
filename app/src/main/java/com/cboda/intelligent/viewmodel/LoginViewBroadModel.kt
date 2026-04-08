@@ -396,7 +396,8 @@ class LoginViewBroadModel : BaseViewBroadModel() {
             context,
             resultBean.apptoken,
             resultBean.userId,
-            resultBean.imtoken
+            resultBean.imtoken,
+            "NewEquipmentBroadActivity"
         )
     }
 

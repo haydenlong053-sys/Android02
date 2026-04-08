@@ -2,26 +2,100 @@ package com.cboda.intelligent.utils
 
 import android.content.Context
 import android.content.Intent
-import com.cboda.chatui.search.SearchPortalBroadActivity
+import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.chatui.search.SearchPortalBroadActivity
 import com.cboda.intelligent.MainBroadActivity
-import com.cboda.intelligent.activity.*
+import com.cboda.intelligent.activity.AiCheckResultBroadActivity
+import com.cboda.intelligent.activity.CreateQunBroadActivity
+import com.cboda.intelligent.activity.DsxxAddBroadActivity
+import com.cboda.intelligent.activity.DsxxBroadActivity
+import com.cboda.intelligent.activity.FaHongBaoBroadActivity
+import com.cboda.intelligent.activity.FaQunHongBaoBroadActivity
+import com.cboda.intelligent.activity.GetWebxRedEnvelopesBroadActivity
+import com.cboda.intelligent.activity.H5BroadActivity
+import com.cboda.intelligent.activity.HaoYouBeizhuBroadActivity
+import com.cboda.intelligent.activity.HaoYouPageBroadActivity
+import com.cboda.intelligent.activity.HaoYouSetBroadActivity
+import com.cboda.intelligent.activity.HaoyouApplyBroadActivity
+import com.cboda.intelligent.activity.HaoyouListBroadActivity
+import com.cboda.intelligent.activity.HongBaoPageBroadActivity
+import com.cboda.intelligent.activity.HyyAddBroadActivity
+import com.cboda.intelligent.activity.HyyBroadActivity
+import com.cboda.intelligent.activity.LoginQrCodeActivity
+import com.cboda.intelligent.activity.MinGanCiBroadActivity
+import com.cboda.intelligent.activity.MyCollectBroadActivity
+import com.cboda.intelligent.activity.NewEquipmentBroadActivity
+import com.cboda.intelligent.activity.QunCodeBroadActivity
+import com.cboda.intelligent.activity.QunGerenJInyanTimeBroadActivity
+import com.cboda.intelligent.activity.QunGerenPageBroadActivity
+import com.cboda.intelligent.activity.QunGongGaoBroadActivity
+import com.cboda.intelligent.activity.QunGonggaoInfoBroadActivity
+import com.cboda.intelligent.activity.QunInfoBroadActivity
+import com.cboda.intelligent.activity.QunJinYanBroadActivity
+import com.cboda.intelligent.activity.QunJinYanMemberBroadActivity
+import com.cboda.intelligent.activity.QunListBroadActivity
+import com.cboda.intelligent.activity.QunManagerBroadActivity
+import com.cboda.intelligent.activity.QunMemberListBroadActivity
+import com.cboda.intelligent.activity.QunNameBroadActivity
+import com.cboda.intelligent.activity.QunNichengBroadActivity
+import com.cboda.intelligent.activity.QunTouSuBroadActivity
+import com.cboda.intelligent.activity.QunUserListBroadActivity
+import com.cboda.intelligent.activity.SearchUserBroadActivity
+import com.cboda.intelligent.activity.SjqlBroadActivity
+import com.cboda.intelligent.activity.TouSuLeiXingBroadActivity
+import com.cboda.intelligent.activity.VerifyBroadActivity
+import com.cboda.intelligent.activity.XuanQunJinYanBroadActivity
+import com.cboda.intelligent.activity.ZhuanRangQunBroadActivity
+import com.cboda.intelligent.activity.ZhuanZhangPageBroadActivity
+import com.cboda.intelligent.activity.ZhuanzhangBroadActivity
+import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
-//import com.cboda.intelligent.service.MeetingFloatBroadService
-//import com.cboda.agora.ui.ui.basic.AUIAlertBroadDialog
-//import org.greenrobot.eventbus.EventBus
 
 
 class JumpBroadUtils {
+
     companion object {
-
-        fun startMainActivity(context: Context?, type: String = "") {
-            val intent = Intent(context, MainBroadActivity::class.java)
-            intent.putExtra("type", type)
-            context?.startActivity(intent)
-
+        private val tAG = "JumpBroadUtilsClass"
+        fun toLoginQrCodeAct(context: Context? = null) {
+            val mContext = getAppContext(context)
+//            val haveLoginQrCodeAct = ActivityUtils.getActivityList().any { it is LoginQrCodeActivity }
+//            if (haveLoginQrCodeAct) {
+//                ActivityUtils.finishActivity(LoginQrCodeActivity::class.java)
+//            }
+            val intent = Intent(mContext, LoginQrCodeActivity::class.java)
+            mContext.startActivity(intent)
+//            ActivityUtils.getActivityList().forEach {
+//                val actName = it.javaClass.simpleName
+//                eLogD(tAG, "actName2:$actName")
+//            }
         }
+
+        fun startMainActivity(context: Context? = null, type: String = "") {
+            val mContext = getAppContext(context)
+            var checkActName = ""
+            val intent = if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity") {
+                checkActName = "LoginQrCodeActivity"
+                Intent(mContext, LoginQrCodeActivity::class.java)
+            } else {
+                checkActName = "MainBroadActivity"
+                Intent(mContext, MainBroadActivity::class.java)
+            }
+            intent.putExtra("type", type)
+            if (type == "FontSizeBroadActivity") {
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            }
+            mContext.startActivity(intent)
+            ActivityUtils.getActivityList().forEach {
+                val actName = it.javaClass.simpleName
+//                eLogD(tAG, "actName:$actName")
+                if (actName != checkActName) {
+                    it.finish()
+                }
+            }
+        }
+
 
         fun startLoginActivity(context: Context?) {
             val intent = Intent(context, NewEquipmentBroadActivity::class.java)

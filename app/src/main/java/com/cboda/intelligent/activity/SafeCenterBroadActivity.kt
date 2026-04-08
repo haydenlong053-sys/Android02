@@ -13,6 +13,7 @@ import com.cboda.intelligent.bean.ActionRefreshBroadEvent
 import com.cboda.intelligent.databinding.ActivitySafeBroadCenterBinding
 import com.cboda.intelligent.utils.goSafeCenterAuth
 import com.cboda.intelligent.model.SafeCenterBroadBean
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.toLoginQrCodeAct
 import com.cboda.intelligent.viewmodel.SafeCenterViewBroadModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -83,8 +84,7 @@ class SafeCenterBroadActivity : BaseSimple2BroadActivity() {
         }
 
         (binding as? ActivitySafeBroadCenterBinding)?.mLlLoginPwd?.setOnClickListener {
-            val intent = Intent(this, LoginQrCodeActivity::class.java)
-            startActivity(intent)
+            toLoginQrCodeAct(this)
         }
 
     }

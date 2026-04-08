@@ -1,16 +1,15 @@
 package com.cboda.intelligent.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-
-import com.cboda.intelligent.MainBroadActivity;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
 import com.cboda.intelligent.utils.BaseBroadCallback;
+import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.net.BroadUrl;
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil;
@@ -102,13 +101,12 @@ public class FontSizeBroadActivity extends BaseSimpleBroadActivity {
     }
 
 
+    @SuppressLint("GestureBackNavigation")
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         SharePrefBroadBroadUtil.saveString(FontSizeBroadActivity.this, AppBroadConsts.FontScale, fontSizeScale + "");
-        Intent intent = new Intent(this, MainBroadActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        JumpBroadUtils.Companion.startMainActivity(this,"FontSizeBroadActivity");
     }
 
     /**

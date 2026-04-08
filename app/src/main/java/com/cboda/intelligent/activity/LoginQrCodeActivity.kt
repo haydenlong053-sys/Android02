@@ -2,8 +2,10 @@ package com.cboda.intelligent.activity
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.utils.updatePayPwdDataLiveData
@@ -15,6 +17,7 @@ import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.LoginQrCodeActivityBinding
 import com.cboda.intelligent.fragment.AccountDetailFragment
 import com.cboda.intelligent.fragment.LoginQrCodeFragment
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startMainActivity
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import com.cboda.intelligent.widge.TextBackIndicatorAdapter
 
@@ -22,6 +25,7 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
 
     private val loginQrCodeFragment = LoginQrCodeFragment()
     private val accountDetailFragment = AccountDetailFragment()
+    private var backCallback: OnBackPressedCallback? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = (binding as? LoginQrCodeActivityBinding)
@@ -54,6 +58,36 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
         updatePayPwdDataLiveData.observe(this) {
             getData()
         }
+
+
+        // 创建回调（true = 拦截返回事件）
+        backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+
+                val list = ActivityUtils.getActivityList()
+                var haveMainAct = false
+                list.forEach {
+                    val actName = it.javaClass.simpleName
+                    if (actName == "MainBroadActivity") {
+                        haveMainAct = true
+                    }
+                }
+                if (!haveMainAct) {
+                    startMainActivity(this@LoginQrCodeActivity, "LoginQrCodeActivity")
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
+            }
+        }
+
+        backCallback?.let { backCallback ->
+            // 注册回调（自动绑定 lifecycle）
+            onBackPressedDispatcher.addCallback(this, backCallback)
+        }
+
     }
 
 
@@ -64,8 +98,37 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
         }
     }
 
-    private var mBinding: LoginQrCodeActivityBinding? = null
+//    override fun finish() {
+////        val haveMainActivity = ActivityUtils.getActivityList().any { it is MainBroadActivity }
+////        if (!haveMainActivity) {
+////            startMainActivity(this)
+////        }
+//        val list = ActivityUtils.getActivityList()
+//        var haveMainAct = false
+//        list.forEach {
+//            val actName = it.javaClass.simpleName
+//            if (actName == "MainBroadActivity") {
+//                haveMainAct = true
+//            }
+//        }
+//        if (!haveMainAct) {
+//            startMainActivity(this@LoginQrCodeActivity, "LoginQrCodeActivity")
+//        }
+//        super.finish()
+//
+//    }
 
+    override fun finish() {
+        super.finish()
+        backCallback?.remove()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backCallback?.remove()
+    }
+
+    private var mBinding: LoginQrCodeActivityBinding? = null
     private val viewModel: LoginViewBroadModel by viewModels()
     override fun getViewBindingClass() = LoginQrCodeActivityBinding::class.java
     override fun showTransparentTopTitleLayout() = true

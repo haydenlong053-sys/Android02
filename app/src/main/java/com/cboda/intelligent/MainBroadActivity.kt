@@ -1,7 +1,6 @@
 package com.cboda.intelligent
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -55,6 +54,7 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
@@ -74,7 +74,6 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
-import com.cboda.intelligent.activity.LoginQrCodeActivity
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.ExpandableBottomBar
@@ -90,6 +89,7 @@ import com.cboda.intelligent.holder.XitonggaonggaoBroadHolder
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.toLoginQrCodeAct
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
@@ -409,10 +409,13 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             bottomView.layoutParams = layoutParams
             (messageFragment as MessageBroadFragment).setBottomHeight(it)
         }
-        if (fromType != "PushInfo2BroadActivity") {
-            val intent = Intent(this, LoginQrCodeActivity::class.java)
-            startActivity(intent)
-        }
+//        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
+//        if (fromType != "PushInfo2BroadActivity") {
+////            && !TextUtils.isEmpty(oldQrCode)) {
+//            composeView.post {
+//                toLoginQrCodeAct(this)
+//            }
+//        }
     }
 
 
@@ -612,7 +615,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
                             val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
                             runOnUiThread {
-                                if (MeetCallManager.getInstance().isCallingState() && MeetCallManager.getInstance().isOwner()){
+                                if (MeetCallManager.getInstance().isCallingState() && MeetCallManager.getInstance().isOwner()) {
                                     showMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount) {
                                         if (MeetCallManager.getInstance().isCallingState()) {
                                             lifecycleScope.launch {
@@ -627,15 +630,15 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                             }
                         } else if (message.content is MeetingUpMicApplyMessageContent) {
                             val meetingUpMicApplyMessageContent = message.content as MeetingUpMicApplyMessageContent
-                            meetUpMicMsgLiveData.postValue(meetingUpMicApplyMessageContent.groupIdNo?:"")
-                        }else if (message.content is MeetingSeatChangeMessageContent) {
+                            meetUpMicMsgLiveData.postValue(meetingUpMicApplyMessageContent.groupIdNo ?: "")
+                        } else if (message.content is MeetingSeatChangeMessageContent) {
                             val meetingMicMessageContent = message.content as MeetingSeatChangeMessageContent
-                            meetSeatChangeMsgLiveData.postValue(meetingMicMessageContent.groupIdNo?:"")
+                            meetSeatChangeMsgLiveData.postValue(meetingMicMessageContent.groupIdNo ?: "")
                         } else if (message.content is MeetStartMessageContent) {
                             message.conversation?.target?.let { groupId ->
                                 meetJoinMsgLiveData.postValue(groupId)
                             }
-                        }else if (message.content is MeetEndMessageContent) {
+                        } else if (message.content is MeetEndMessageContent) {
                             message.conversation?.target?.let { groupId ->
                                 meetEndMsgLiveData.postValue(groupId)
                             }

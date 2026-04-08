@@ -199,7 +199,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
                     this@NewEquipmentBroadActivity,
                     resultBean.apptoken,
                     resultBean.userId,
-                    resultBean.imtoken
+                    resultBean.imtoken, "NewEquipmentBroadActivity"
                 )
             }
             authWayPop.showPopupWindow()

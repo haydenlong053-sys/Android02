@@ -9,6 +9,8 @@ import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SignInfoViewBroadModel
 import com.cboda.intelligent.model.UserInfoBroadModel
@@ -61,13 +63,17 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                             bean.registerDay = data.registerDayBean?.registDay
                             MMKVBroadUtils.saveUserData(bean)
                         }
+                        eLogD("NewMirrorViewBroadModelClass","data:${toJson2(data)}")
                         liveData.postValue(data)
                     }.onFailure { _, _ ->
+                        eLogD("NewMirrorViewBroadModelClass","getUserInfo onFailure")
                         liveData.postValue(null)
                     }.onError { _ ->
+                        eLogD("NewMirrorViewBroadModelClass","getUserInfo onError")
                         liveData.postValue(null)
                     }
                 } catch (_: Exception) {
+                    eLogD("NewMirrorViewBroadModelClass","getUserInfo Exception")
                     liveData.postValue(null)
                 }
             }
