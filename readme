@@ -2,5 +2,5 @@
 config.gradle文件中
 82环境正式版（release版）用：旧版签名
 其它环境或者82环境debug版用：新版签名（旧版us环境）
- HttpsBroadConfig->此处提审的时候改成true
-    val isReviewEnv= false
+isDebug:是否为debug模式，是否能打印日志和切换环境（对外发布使用必须为true，如普通用户使用）
+isReviewEnv：是否为审核环境（上架应用市场必须为true）

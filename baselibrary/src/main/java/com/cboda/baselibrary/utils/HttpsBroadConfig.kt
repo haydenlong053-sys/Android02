@@ -8,12 +8,13 @@ import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEV_INPUT_BASE_URL
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.NET_TYPE
 import com.blankj.utilcode.util.ThreadUtils
+import com.cboda.baselibrary.BuildConfig
 import com.tencent.mmkv.MMKV
 import kotlin.system.exitProcess
 
 object HttpsBroadConfig {
     //todo 此处提审的时候改成true
-    val isReviewEnv= false
+    const val isReviewEnv = BuildConfig.IS_REVIEW_ENV
     val appBaseUrl
         get():String {
             return "$appHost2/api"
@@ -53,7 +54,7 @@ object HttpsBroadConfig {
     var currentHostHttpUrlType = RELEASE_TYPE
 
     private fun setServer(type: Int) {
-        currentHostHttpUrlType =type
+        currentHostHttpUrlType = type
         when (type) {
             US_TYPE -> {
                 appHost = "https://app.seekweb4.net"
