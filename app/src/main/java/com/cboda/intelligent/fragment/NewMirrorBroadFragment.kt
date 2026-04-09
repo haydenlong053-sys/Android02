@@ -19,6 +19,7 @@ import com.cboda.intelligent.activity.SignInBroadActivity
 import com.cboda.intelligent.activity.UserInfoBroadActivity
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.NewMirrorBroadFragmentBinding
+import com.cboda.intelligent.dialog.pop.CreditScoreActivateBroadPop
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.intelligent.model.UserInfoBroadModel
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -50,7 +51,12 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 if (it ==1){
                     JumpBroadUtils.startCreditScoreActivity(requireContext())
                 }else{
+                    CreditScoreActivateBroadPop(requireContext()).apply {
+//                        cancelInvoke = { /* 稍后再说 */ }
+                        sureInvoke = {
 
+                        }
+                    }.showPopupWindow()
                 }
             }
         }
