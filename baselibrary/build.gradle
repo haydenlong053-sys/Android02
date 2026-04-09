@@ -18,20 +18,24 @@ android {
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-//    buildTypes {
-//        release {
+    buildTypes {
+        release {
+            buildConfigField "boolean", "IS_DEBUG", libsinfo.isDebug
+            buildConfigField "boolean", "IS_REVIEW_ENV", libsinfo.isReviewEnv
 //            minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//
-//        debug {
-////            shrinkResources false // 临时关闭
+        }
+
+        debug {
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            buildConfigField "boolean", "IS_REVIEW_ENV", "false"
+//            shrinkResources false // 临时关闭
 //            minifyEnabled false
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//
-//
-//    }
+        }
+
+
+    }
     compileOptions {
         targetCompatibility JavaVersion.VERSION_21
         sourceCompatibility JavaVersion.VERSION_21

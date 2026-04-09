@@ -142,7 +142,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
 //        ImmersionBar.with(this).statusBarView(mBinding.viewStatus).init();
         mBinding.toolbar.tvPageTitle.setText(getResources().getString(R.string.个人信息));
         clipViewOutlineRound(mBinding.mViewPremiumNumber, 20);
-        if (HttpsBroadConfig.INSTANCE.isReviewEnv()) {
+        if (HttpsBroadConfig.isReviewEnv) {
             mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
         }
         userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
@@ -737,7 +737,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         } else {
             //非靓号
             mBinding.tvAccountId.setVisibility(View.VISIBLE);
-            if (HttpsBroadConfig.INSTANCE.isReviewEnv()) {
+            if (HttpsBroadConfig.isReviewEnv) {
                 mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
             } else {
                 mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);

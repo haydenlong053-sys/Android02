@@ -126,7 +126,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
                 bean = resultBean;
                 tvName.setText(bean.data.name);
                 GlideBroadUtil.setImag(HyzxBroadActivity.this, bean.data.icon, ivIcon);
-                if (null != bean.data.isvip && bean.data.isvip.equals("1") && !HttpsBroadConfig.INSTANCE.isReviewEnv()) {
+                if (null != bean.data.isvip && bean.data.isvip.equals("1") && !HttpsBroadConfig.isReviewEnv) {
                     tvVipState.setVisibility(View.GONE);
                     tvVipTime.setVisibility(View.VISIBLE);
                     tvVipTime.setText(bean.data.vipTime + getString(R.string.到期));
