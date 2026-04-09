@@ -292,6 +292,7 @@ private fun MenuContainer(isHasPassword: Boolean) {
                 .fillMaxWidth()
                 .padding(vertical = 10.dp)
         ) {
+            //设置页6大模块数据
             val items = listOf(
                 MenuItem(stringResource(R.string.personal_assets), stringResource(R.string.manage_digital_wealth), R.mipmap.ic_mine_broad_service, R.string.personal_assets),
                 MenuItem(stringResource(R.string.security_center), stringResource(R.string.protect_account_safe), R.mipmap.ic_mine_broad_safe, R.string.security_center),

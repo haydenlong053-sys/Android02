@@ -53,6 +53,7 @@ import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.anyToInt
@@ -168,7 +169,37 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         }
 
 
+
         composeView.setContent {
+            val itemList = arrayListOf(
+                ExpandableBottomBarBroadItem(
+                    icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
+                    selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
+                    text = stringResource(id = R.string.bottom_bar_mirror)
+                ),
+                ExpandableBottomBarBroadItem(
+                    icon = painterResource(id = R.drawable.ic_ai_tab_broad_mirror),
+                    selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_broad_pre),
+                    text = stringResource(id = R.string.bottom_bar_intelligent)
+                )
+            )
+            if (!HttpsBroadConfig.isReviewEnv) {
+                itemList.add(
+                    ExpandableBottomBarBroadItem(
+                        icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
+                        selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
+                        text = stringResource(id = R.string.bottom_bar_social),
+                        badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
+                    )
+                )
+            }
+            itemList.add(
+                ExpandableBottomBarBroadItem(
+                    icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
+                    selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_broad_pre),
+                    text = stringResource(id = R.string.bottom_bar_center)
+                )
+            )
             MaterialTheme {
                 ExpandableBottomBar(
                     selectedIndex = selectedIndex,
@@ -181,35 +212,36 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         findViewById<View>(R.id.touch_intercept_overlay).visibility =
                             if (isExpanded) View.VISIBLE else View.GONE
                     },
-                    items = listOf(
-                        ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
-                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
-                            text = stringResource(id = R.string.bottom_bar_mirror)
-                        ),
-                        ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_ai_tab_broad_mirror),
-                            selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_broad_pre),
-                            text = stringResource(id = R.string.bottom_bar_intelligent)
-                        ),
-                        ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
-                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
-                            text = stringResource(id = R.string.bottom_bar_social),
-                            badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
-                        ),
+                    items = itemList
+//                    items = listOf(
 //                        ExpandableBottomBarBroadItem(
-//                            icon = painterResource(id = R.drawable.ic_home_tab_contacts),
-//                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_contacts_pre),
-//                            text = "通讯录",
-//                            badge = if (tongxunluUnreadCount == "0") "" else tongxunluUnreadCount
+//                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
+//                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
+//                            text = stringResource(id = R.string.bottom_bar_mirror)
 //                        ),
-                        ExpandableBottomBarBroadItem(
-                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
-                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_broad_pre),
-                            text = stringResource(id = R.string.bottom_bar_center)
-                        )
-                    )
+//                        ExpandableBottomBarBroadItem(
+//                            icon = painterResource(id = R.drawable.ic_ai_tab_broad_mirror),
+//                            selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_broad_pre),
+//                            text = stringResource(id = R.string.bottom_bar_intelligent)
+//                        ),
+//                        ExpandableBottomBarBroadItem(
+//                            icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
+//                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
+//                            text = stringResource(id = R.string.bottom_bar_social),
+//                            badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
+//                        ),
+////                        ExpandableBottomBarBroadItem(
+////                            icon = painterResource(id = R.drawable.ic_home_tab_contacts),
+////                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_contacts_pre),
+////                            text = "通讯录",
+////                            badge = if (tongxunluUnreadCount == "0") "" else tongxunluUnreadCount
+////                        ),
+//                        ExpandableBottomBarBroadItem(
+//                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
+//                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_broad_pre),
+//                            text = stringResource(id = R.string.bottom_bar_center)
+//                        )
+//                    )
                 )
             }
         }
@@ -566,7 +598,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         fragmentList.add(NewMirrorBroadFragment())
         fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
-        fragmentList.add(messageFragment)
+        if (!HttpsBroadConfig.isReviewEnv) {
+            fragmentList.add(messageFragment)
+        }
 //        fragmentList.add(TongXunLuBroadFragment.getInstance())
 //        fragmentNameList.add("xiaoxi")
 //        fragmentNameList.add("tongxunlu")
