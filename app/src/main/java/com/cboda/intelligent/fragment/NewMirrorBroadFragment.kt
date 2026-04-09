@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.clipViewOutlineRound
 import com.cboda.baselibrary.utils.eLogD
@@ -20,6 +21,7 @@ import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.NewMirrorBroadFragmentBinding
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 
@@ -42,7 +44,16 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             UserQrCodeTipBroadPop(requireContext(), userInfo).showPopupWindow()
         }
         binding.ivMirrorAvatar.setOnClickListener(userInfoClick)
-        binding.layoutMirrorCredit.setOnClickListener(userInfoClick)
+        binding.layoutMirrorCredit.click {
+            userInfo?.gradeStatus?.let {
+                //信用分状态 1、已开通 0:未开通
+                if (it ==1){
+                    JumpBroadUtils.startCreditScoreActivity(requireContext())
+                }else{
+
+                }
+            }
+        }
         binding.idTv.setOnClickListener(userInfoClick)
         binding.vocationalTv.setOnClickListener(userInfoClick)
         binding.daysTv.setOnClickListener(userInfoClick)

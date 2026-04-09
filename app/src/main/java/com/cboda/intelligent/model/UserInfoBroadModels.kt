@@ -8,6 +8,10 @@ import com.google.gson.annotations.SerializedName
  * 现在分开来
  */
 data class UserInfoBroadModel(
+    @SerializedName("gradeStatus")
+    val gradeStatus: Int? = null,
+    @SerializedName("gradePrice")
+    val gradePrice: String? = "",
     @SerializedName("accSerch")
     val accSerch: String? = "",
     @SerializedName("acount")
