@@ -127,5 +127,6 @@ object UrlBroadBroadConstants {
 
     //信用分
     const val CREDIT_ACTIVATECREDIT = "api/credit/activateCredit" // 开通信用分
+    const val CREDIT_GET_CREDIT_DETAILS = "api/credit/getCreditDetails" // 查询信用分详情
 
 }

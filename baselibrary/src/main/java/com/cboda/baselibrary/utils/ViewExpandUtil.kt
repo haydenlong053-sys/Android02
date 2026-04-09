@@ -55,9 +55,23 @@ import java.util.UUID
 
 private val tAG by lazy { "ViewExpandUtilClass" }
 
-fun String.removeTrailingZeros(): String {
-    // 匹配：末尾的连续0，并且如果这些0后面紧跟着小数点，则连小数点也一起移除
-    return this.replace(Regex("(\\.(?:[0-9]*[1-9])?)0+$"), "$1").replace(Regex("\\.$"), "")
+
+/**
+ * 使用java正则表达式去掉多余的.与0
+ *
+ * @param s
+ * @return
+ */
+fun subZeroAndDot(s: String?): String {
+    var s = s
+    if (TextUtils.isEmpty(s)) {
+        return ""
+    }
+    if (s!!.indexOf(".") > 0) {
+        s = s.replace("0+?$".toRegex(), "") //去掉多余的0
+        s = s.replace("[.]$".toRegex(), "") //如最后一位是.则去掉
+    }
+    return s
 }
 
 // 把这 10 行放进项目，以后所有点击都不用再担心重复

@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
-import com.cboda.baselibrary.utils.removeTrailingZeros
 import com.cboda.baselibrary.utils.setLeftImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity

@@ -11,6 +11,7 @@ import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
+import com.cboda.intelligent.bean.CreditScoreBean
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SignInfoViewBroadModel
 import com.cboda.intelligent.model.UserInfoBroadModel
@@ -55,6 +56,39 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
         return mLiveData
     }
 
+    /**
+     * 查询信用分详情
+     */
+    suspend fun getCreditDetails() :SingleLiveBroadData<CreditScoreBean>{
+        showLoading()
+        val safeCenterLiveData = SingleLiveBroadData<CreditScoreBean>()
+        val params = hashMapOf<String, Any>()
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2<CreditScoreBean>(
+                    UrlBroadBroadConstants.CREDIT_GET_CREDIT_DETAILS,
+                    CreditScoreBean::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    dismissLoading()
+                    userInfo?.let {
+                        safeCenterLiveData.postValue(it)
+                    }
+
+                }.onFailure { code, message ->
+                    dismissLoading()
+                    showToastMain(message)
+                }.onError {
+                    dismissLoading()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                dismissLoading()
+            }
+        }
+        return safeCenterLiveData
+    }
 
 
     fun getSignInfo(): SingleLiveBroadData<Boolean> {
