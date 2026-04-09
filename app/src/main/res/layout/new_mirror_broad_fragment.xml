@@ -76,57 +76,62 @@
         app:layout_constraintTop_toTopOf="@id/qrCodeLayout" />
 
 
-    <com.hjq.shape.view.ShapeView
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:id="@+id/layoutMirrorCredit"
-        android:layout_width="@dimen/dp_85"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_64"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="16dp"
+        android:minWidth="@dimen/dp_85"
+        android:paddingHorizontal="@dimen/dp_14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shape_radius="@dimen/dp_10"
         app:shape_solidColor="#2D4F6FF3"
         app:shape_strokeColor="@color/white"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        app:shape_strokeWidth="@dimen/dp_1">
 
-    <com.cboda.baselibrary.view.MyTextView
-        android:id="@+id/tvMirrorCreditScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#031256"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@id/tv_mirror_credit_label"
-        app:layout_constraintEnd_toStartOf="@id/tvMirrorCreditScoreValue"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/layoutMirrorCredit"
-        app:layout_constraintTop_toTopOf="@id/layoutMirrorCredit"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:tv_style="num_bold"
-        tools:text="100" />
+        <com.cboda.baselibrary.view.MyTextView
+            android:id="@+id/tvMirrorCreditScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#031256"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_mirror_credit_label"
+            app:layout_constraintEnd_toStartOf="@id/tvMirrorCreditScoreValue"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutMirrorCredit"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:tv_style="num_bold"
+            tools:text="100" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvMirrorCreditScoreValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/score_unit"
-        android:textColor="#031256"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvMirrorCreditScore"
-        app:layout_constraintEnd_toEndOf="@id/layoutMirrorCredit"
-        app:layout_constraintStart_toEndOf="@id/tvMirrorCreditScore" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMirrorCreditScoreValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_unit"
+            android:textColor="#031256"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvMirrorCreditScore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvMirrorCreditScore" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_mirror_credit_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/credit_score"
-        android:textColor="#031256"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@id/layoutMirrorCredit"
-        app:layout_constraintEnd_toEndOf="@id/layoutMirrorCredit"
-        app:layout_constraintStart_toStartOf="@id/layoutMirrorCredit"
-        app:layout_constraintTop_toBottomOf="@id/tvMirrorCreditScore" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_mirror_credit_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/credit_score"
+            android:textColor="#031256"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/layoutMirrorCredit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMirrorCreditScore" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+
     <!-- 顶部右侧：信用分卡片 -->
 
     <!-- 签到红包 -->
@@ -176,41 +181,42 @@
         android:id="@+id/mViewPremiumNumber"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qrCodeLayout"
         android:layout_marginStart="16dp"
         android:layout_marginTop="35dp"
         android:visibility="gone"
-        tools:visibility="visible"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qrCodeLayout"
+        tools:visibility="visible">
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/mViewAnimateNumb"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@id/mTvPremiumNumber"
+            app:layout_constraintEnd_toEndOf="@id/mTvPremiumNumber"
+            app:layout_constraintStart_toStartOf="@id/mTvPremiumNumber"
+            app:layout_constraintTop_toTopOf="@id/mTvPremiumNumber"
             app:lottie_autoPlay="false"
             app:lottie_fileName="beautiful_id_bg.json"
             app:lottie_imageAssetsFolder="id_bg_animate_img"
-            app:layout_constraintStart_toStartOf="@id/mTvPremiumNumber"
-            app:layout_constraintEnd_toEndOf="@id/mTvPremiumNumber"
-            app:layout_constraintTop_toTopOf="@id/mTvPremiumNumber"
-            app:layout_constraintBottom_toBottomOf="@id/mTvPremiumNumber"
             app:lottie_loop="true" />
+
         <TextView
             android:id="@+id/mTvPremiumNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
-            tools:text="ID:123456"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
             android:textColor="@color/color_FAE77C"
             android:textSize="14sp"
-            android:paddingVertical="4dp"
-            android:paddingHorizontal="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ID:123456"
 
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@ class GlobalFriendBroadBean {
     var registerDay: Int? = null
 
     @JvmField
-    var grade: Int? = null
+    var grade: Double? = null
 
     @JvmField
     var icon: String? = null

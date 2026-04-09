@@ -89,7 +89,7 @@ data class UserInfoBroadModel(
     @SerializedName("zxState")
     val zxState: String? = "",
     @SerializedName("grade")
-    val grade: Int? = 100,
+    val grade: Double = 0.0,
     @SerializedName("mId")
     val mId: String? = "",
     @SerializedName("profession")

@@ -11,7 +11,11 @@ class UserInfoBean {
 
 
     @SerializedName("mId")
-    var realityId = ""
+    var realityId = ""//真实ID
+
+    var vocational = ""//职业
+
+    var id = ""
 
     var name = ""
 
@@ -36,4 +40,24 @@ class UserInfoBean {
     @SerializedName("mbAnswer")
     var securityQuestionAnswer = "" //密保问题答案
 
+    var grade = ""//信用分
+
+    @SerializedName("lianghao")
+    var niceNumberId = "" //靓号Id
+
+    var sex = "1"//性别
+    var isLiang = ""//是否为靓号
+
+
+    @SerializedName("memberInterestList")
+    var memberInterestList: Array<String>? = null //标签
+
+    @SerializedName("3dDoll")
+    var registerDayBean: RegisterDayBeanNew? = null
+
+
+    class RegisterDayBeanNew {
+        @SerializedName("registDay")
+        var registrationDays = ""
+    }
 }
