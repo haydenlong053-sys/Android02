@@ -14,11 +14,48 @@ import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SignInfoViewBroadModel
 import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.intelligent.utils.dismissLoading
+import com.cboda.intelligent.utils.showLoading
+import com.cboda.intelligent.utils.showToastMain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewMirrorViewBroadModel : BaseViewBroadModel() {
+    /**
+     * 开通信用分
+     */
+    suspend fun goOpenCredit(paypwd: String?) :SingleLiveBroadData<Boolean>{
+        showLoading()
+        val mLiveData = SingleLiveBroadData<Boolean>()
+        val params = hashMapOf<String, Any?>("paypwd" to paypwd)
+
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.CREDIT_ACTIVATECREDIT,
+                    Any::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    dismissLoading()
+                    mLiveData.postValue(true)
+
+                }.onFailure { code, message->
+                    dismissLoading()
+                    showToastMain(message)
+
+                }.onError {
+                    dismissLoading()
+                }
+
+            } catch (e: Exception) {
+                dismissLoading()
+            }
+        }
+        return mLiveData
+    }
+
+
 
     fun getSignInfo(): SingleLiveBroadData<Boolean> {
         val liveData = SingleLiveBroadData<Boolean>()

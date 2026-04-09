@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.clipViewOutlineRound
@@ -27,6 +28,7 @@ import com.cboda.intelligent.model.UserInfoBroadModel
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
+import kotlinx.coroutines.launch
 
 class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, NewMirrorViewBroadModel>() {
     override fun onCreateViewBinding(
@@ -56,8 +58,16 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                     CreditScoreActivateBroadPop(requireContext()).apply {
                         sureInvoke = {
                             PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
+                                lifecycleScope.launch {
+                                    viewModel.goOpenCredit(password).observe(viewLifecycleOwner){bool ->
+                                        if (bool){
+                                            ToastBroadUtils.show("激活成功")
+                                            onResume()
+                                        }
+                                    }
+                                }
 
-                                ToastBroadUtils.show(password)
+
 
                             }, isCheckPassword = false).showPopupWindow()
                         }
