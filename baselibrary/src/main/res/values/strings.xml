@@ -113,4 +113,16 @@
     <string name="urgent_reminder">Urgent notice</string>
     <string name="qr_code_expired">Your login QR code has expired. Please save a new QR code; otherwise you will not be able to sign in next time.</string>
     <string name="welcome_to_seek_four">Welcome to SeekWeb4</string>
+
+    <!-- 激活信用评分弹窗 -->
+    <string name="credit_score_activate_dialog_title">激活信用评分</string>
+    <string name="credit_score_activate_dialog_subtitle">信用分是衡量用户可靠度的核心指标</string>
+    <string name="credit_score_activate_item_1">建立互信:</string>
+    <string name="credit_score_activate_item_1_1">促成高效来往</string>
+    <string name="credit_score_activate_item_2">防御风险:</string>
+    <string name="credit_score_activate_item_2_1">智能拦截诈骗</string>
+    <string name="credit_score_activate_item_3">动态增分:</string>
+    <string name="credit_score_activate_item_3_1">活跃度越高,信用值越高</string>
+    <string name="credit_score_activate_later">稍后再说</string>
+    <string name="credit_score_activate_now">立即激活</string>
 </resources>
