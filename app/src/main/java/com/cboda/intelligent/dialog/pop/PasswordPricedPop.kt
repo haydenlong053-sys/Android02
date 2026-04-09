@@ -38,10 +38,11 @@ import org.greenrobot.eventbus.ThreadMode
 class PasswordPricedPop(
     val context: Context,
     val priceStr: String="",
-    var backInvoke: () -> Unit = {},
+    var backInvoke: (String) -> Unit = {},
 //    val jumpSource: Int = SafeJumpBroadEnum.None.sourceType,
     val isDeepColor: Boolean = false,
     val account:String?=null,
+    val isCheckPassword: Boolean = true,
 ) :
     BaseBottomBroadPop(context) {
     private val scope = MainScope() // 创建主线程的协程作用域
@@ -76,8 +77,9 @@ class PasswordPricedPop(
         }
         pswEdit.setOnTextChangeListener(object : OnTextChangeListener {
             override fun onTextChange(text: String, isComplete: Boolean) {
-                if (isComplete && context is AppCompatActivity) {
-                    val activity = context
+                if (isCheckPassword){
+                    if (isComplete && context is AppCompatActivity) {
+                        val activity = context
                         // 获取该 Activity 作用域的 ViewModel
                         viewModel =
                             ViewModelProvider(activity).get<PasswordViewBroadModel>(PasswordViewBroadModel::class.java)
@@ -94,7 +96,7 @@ class PasswordPricedPop(
                                     resultBean: ResultBroadBean?
                                 ) {
                                     dismiss()
-                                    backInvoke.invoke()
+                                    backInvoke.invoke(text)
 
                                 }
 
@@ -111,6 +113,13 @@ class PasswordPricedPop(
                                 }
                             })
                     }
+                }else{
+                    if (isComplete){
+                        dismiss()
+                        backInvoke.invoke(text)
+                    }
+                }
+
 
             }
         })

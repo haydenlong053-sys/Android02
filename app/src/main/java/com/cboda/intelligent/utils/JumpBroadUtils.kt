@@ -9,6 +9,7 @@ import com.cboda.chatui.search.SearchPortalBroadActivity
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.activity.AiCheckResultBroadActivity
 import com.cboda.intelligent.activity.CreateQunBroadActivity
+import com.cboda.intelligent.activity.CreditScoreActivity
 import com.cboda.intelligent.activity.DsxxAddBroadActivity
 import com.cboda.intelligent.activity.DsxxBroadActivity
 import com.cboda.intelligent.activity.FaHongBaoBroadActivity
@@ -526,5 +527,10 @@ class JumpBroadUtils {
             context.startActivity(intent)
         }
 
+        //跳转信用分页
+        fun startCreditScoreActivity(context: Context?) {
+            val intent = Intent(context, CreditScoreActivity::class.java)
+            context?.startActivity(intent)
+        }
     }
 }

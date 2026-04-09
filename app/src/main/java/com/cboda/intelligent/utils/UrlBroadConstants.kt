@@ -124,4 +124,8 @@ object UrlBroadBroadConstants {
     const val WT_TX_BROADCAST = "v1/tx/broadcast" // 交易广播(POST)
     const val WT_TX_STATUS = "v1/txs" // 交易状态查询(GET)
     const val WT_LEDGER = "v1/ledger" // 账本流水查询(GET)
+
+    //信用分
+    const val CREDIT_ACTIVATECREDIT = "api/credit/activateCredit" // 开通信用分
+
 }
