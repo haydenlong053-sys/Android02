@@ -49,6 +49,7 @@ import com.hjq.shape.view.ShapeView
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.math.BigDecimal
 import java.util.Random
 import java.util.UUID
 
@@ -1117,4 +1118,14 @@ fun clipViewOutlineRound(view: View, radiusDp: Int) {
         }
     }
 
+}
+
+
+/**
+ * 去除小数点后面多余数字0（使用 BigDecimal 格式化适合金融场景）
+ */
+fun formatWithBigDecimal(data: Any?): String {
+    return BigDecimal(data?.toString() ?: "0")
+        .stripTrailingZeros()
+        .toPlainString()
 }

@@ -24,7 +24,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var xcxUrl: String? = null
         var icon: String? = null
         var isLiang: String? = null
-        var grade: Int? = 100
+        var grade: Double? = 0.0
         var characterTags: String? = null
         var remarkName: String? = null
         var bei: String? = null
