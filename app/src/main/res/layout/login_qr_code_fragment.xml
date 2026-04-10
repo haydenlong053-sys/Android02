@@ -2,9 +2,9 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginQrCodeFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/loginQrCodeFragmentLayout"
     tools:background="@color/black_8">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -241,13 +241,15 @@
             android:textColor="@color/color_3B47DD"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/save"
             app:shape_radius="@dimen/dp_16"
             app:shape_solidColor="@color/transparent"
             app:shape_strokeColor="@color/color_3B47DD"
-            app:shape_strokeWidth="@dimen/dp_1" />
+            app:shape_strokeWidth="@dimen/dp_1"
+            tools:visibility="visible" />
 
 
         <Space
