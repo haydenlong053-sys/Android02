@@ -396,6 +396,21 @@
 
     <!-- Voip Extension -->
     <string name="voip_permission_request">Please grant audio and Bluetooth permissions first!</string>
+    <string name="voip_notification_channel_name">Voice calls</string>
+    <string name="voip_notification_waiting_peer">Waiting for the other party to answer…</string>
+    <string name="voip_notification_invite">Incoming call…</string>
+    <string name="voip_notification_connecting">Connecting…</string>
+    <string name="voip_notification_in_call">On a call…</string>
+    <string name="voip_float_waiting_answer">Waiting for answer</string>
+    <string name="voip_float_connecting_short">Connecting</string>
+    <string name="voip_float_stop_sharing">Stop sharing</string>
+    <string name="voip_toast_permissions_required">Microphone, camera, and related permissions are required for audio and video calls.</string>
+    <string name="voip_toast_screen_share_not_supported">Screen sharing is not supported on this device.</string>
+    <string name="voip_toast_screen_share_permission_denied">Screen sharing permission was denied.</string>
+    <string name="voip_toast_your_network_poor">Your network connection is poor.</string>
+    <string name="voip_toast_peer_network_poor">%1$s has a poor network connection.</string>
+    <string name="voip_peer_network_fallback_name">The other party</string>
+    <string name="voip_toast_overlay_permission_required">Display over other apps permission is required.</string>
 
     <!-- Conversation Group Fragment -->
     <string name="connection_status_connecting">Connecting...</string>

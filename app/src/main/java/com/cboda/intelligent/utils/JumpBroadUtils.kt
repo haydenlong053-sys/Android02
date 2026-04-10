@@ -3,6 +3,7 @@ package com.cboda.intelligent.utils
 import android.content.Context
 import android.content.Intent
 import com.blankj.utilcode.util.ActivityUtils
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.search.SearchPortalBroadActivity
@@ -76,11 +77,13 @@ class JumpBroadUtils {
         fun startMainActivity(context: Context? = null, type: String = "") {
             val mContext = getAppContext(context)
             var checkActName = "MainBroadActivity"
-            val intent = if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity") {
+            //82环境登录后不自动跳转到登录二维码页面
+            val intent = if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+                Intent(mContext, MainBroadActivity::class.java)
+            } else if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity") {
                 checkActName = "LoginQrCodeActivity"
                 Intent(mContext, LoginQrCodeActivity::class.java)
             } else {
-                checkActName = "MainBroadActivity"
                 Intent(mContext, MainBroadActivity::class.java)
             }
             intent.putExtra("type", type)

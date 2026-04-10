@@ -373,13 +373,15 @@
                 android:textColor="@color/color_3B47DD"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/save"
                 app:shape_radius="@dimen/dp_16"
                 app:shape_solidColor="@color/transparent"
                 app:shape_strokeColor="@color/color_3B47DD"
-                app:shape_strokeWidth="@dimen/dp_1" />
+                app:shape_strokeWidth="@dimen/dp_1"
+                tools:visibility="visible" />
 
             <Space
                 android:id="@+id/space"

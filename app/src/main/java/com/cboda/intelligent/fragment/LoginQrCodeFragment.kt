@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.bean.UserInfoBean
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.click
@@ -44,6 +45,9 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     @SuppressLint("SetTextI18n")
     private fun setData() {
         mBinding?.let {
+            //82环境登录隐藏二维码刷新
+            binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE
+//            binding.requestQrCode.isGone = false
             userInfoBean?.let { userInfo ->
                 binding.userImg.loadImg(userInfo.userImg)
                 binding.userName.text = userInfo.name
@@ -74,19 +78,21 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     override fun initData() {
         super.initData()
         setData()
-        var oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
-        val mContext = requireContext()
-        if (!TextUtils.isEmpty(oldQrCode)) {
-            oldQrCode = ""
-            MMKVBroadUtils.saveSqlStrData(OLD_QR_CODE, "")
-            showCommonStrTip(
-                getAppStr(com.cboda.baselibrary.R.string.urgent_reminder, mContext),
-                getAppStr(com.cboda.baselibrary.R.string.qr_code_expired, mContext),
-                "",
-                getAppStr(R.string.mine_ok, mContext),
-                mContext
-            ) {
-                savePhoto()
+        //82环境登录隐藏旧二维码弹窗
+        if (HttpsBroadConfig.currentHostHttpUrlType != HttpsBroadConfig.RELEASE_TYPE) {
+            val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
+            val mContext = requireContext()
+            if (!TextUtils.isEmpty(oldQrCode)) {
+                MMKVBroadUtils.saveSqlStrData(OLD_QR_CODE, "")
+                showCommonStrTip(
+                    getAppStr(com.cboda.baselibrary.R.string.urgent_reminder, mContext),
+                    getAppStr(com.cboda.baselibrary.R.string.qr_code_expired, mContext),
+                    "",
+                    getAppStr(R.string.mine_ok, mContext),
+                    mContext
+                ) {
+                    savePhoto()
+                }
             }
         }
     }

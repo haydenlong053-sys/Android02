@@ -141,7 +141,7 @@
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/msg_meeting_sub_mic"
+                android:text="@string/msg_meeting_guest_1"
                 />
             <TextView
                 android:id="@+id/seat_sub_name_tv"
@@ -213,7 +213,7 @@
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/msg_meeting_guest_1"
+                android:text="@string/msg_meeting_guest_2"
                 />
             <TextView
                 android:id="@+id/seat_guest_one_name_tv"
@@ -285,7 +285,7 @@
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/msg_meeting_guest_2"
+                android:text="@string/msg_meeting_guest_3"
                 />
             <TextView
                 android:id="@+id/seat_guest_two_name_tv"

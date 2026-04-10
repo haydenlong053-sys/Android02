@@ -442,7 +442,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             (messageFragment as MessageBroadFragment).setBottomHeight(it)
         }
 //        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
-        if (fromType != "PushInfo2BroadActivity" && fromType != "LoginQrCodeActivity") {
+        //82环境登录后不自动跳转到登录二维码页面
+        if (fromType != "PushInfo2BroadActivity" && fromType != "LoginQrCodeActivity" && HttpsBroadConfig.currentHostHttpUrlType != HttpsBroadConfig.RELEASE_TYPE) {
 //            && !TextUtils.isEmpty(oldQrCode)) {
             composeView.post {
                 toLoginQrCodeAct(this)
