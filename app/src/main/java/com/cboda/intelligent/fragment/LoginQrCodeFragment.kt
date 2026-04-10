@@ -46,8 +46,8 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     private fun setData() {
         mBinding?.let {
             //82环境登录隐藏二维码刷新
-//            binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE
-            binding.requestQrCode.isGone = false
+            binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE
+//            binding.requestQrCode.isGone = false
             userInfoBean?.let { userInfo ->
                 binding.userImg.loadImg(userInfo.userImg)
                 binding.userName.text = userInfo.name
@@ -79,23 +79,22 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
         super.initData()
         setData()
         //82环境登录隐藏旧二维码弹窗
-//        if (HttpsBroadConfig.currentHostHttpUrlType != HttpsBroadConfig.RELEASE_TYPE) {
-        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
-        val mContext = requireContext()
-        if (!TextUtils.isEmpty(oldQrCode)) {
-            MMKVBroadUtils.saveSqlStrData(OLD_QR_CODE, "")
-            showCommonStrTip(
-                getAppStr(com.cboda.baselibrary.R.string.urgent_reminder, mContext),
-                getAppStr(com.cboda.baselibrary.R.string.qr_code_expired, mContext),
-                "",
-                getAppStr(R.string.mine_ok, mContext),
-                mContext
-            ) {
-                savePhoto()
+        if (HttpsBroadConfig.currentHostHttpUrlType != HttpsBroadConfig.RELEASE_TYPE) {
+            val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
+            val mContext = requireContext()
+            if (!TextUtils.isEmpty(oldQrCode)) {
+                MMKVBroadUtils.saveSqlStrData(OLD_QR_CODE, "")
+                showCommonStrTip(
+                    getAppStr(com.cboda.baselibrary.R.string.urgent_reminder, mContext),
+                    getAppStr(com.cboda.baselibrary.R.string.qr_code_expired, mContext),
+                    "",
+                    getAppStr(R.string.mine_ok, mContext),
+                    mContext
+                ) {
+                    savePhoto()
+                }
             }
         }
-//        }
-
     }
 
     override fun initListener() {
