@@ -179,6 +179,21 @@
 
     <!-- Voip Extension -->
     <string name="voip_permission_request">Veuillez dabord accorder les autorisations audio et Bluetooth!</string>
+    <string name="voip_notification_channel_name">Appels vocaux</string>
+    <string name="voip_notification_waiting_peer">En attente de la réponse…</string>
+    <string name="voip_notification_invite">Appel entrant…</string>
+    <string name="voip_notification_connecting">Connexion…</string>
+    <string name="voip_notification_in_call">Appel en cours…</string>
+    <string name="voip_float_waiting_answer">En attente de la réponse</string>
+    <string name="voip_float_connecting_short">Connexion</string>
+    <string name="voip_float_stop_sharing">Arrêter le partage</string>
+    <string name="voip_toast_permissions_required">L\'accès au micro, à la caméra et aux autorisations associées est requis pour les appels audio et vidéo.</string>
+    <string name="voip_toast_screen_share_not_supported">Le partage d\'écran n\'est pas pris en charge sur cet appareil.</string>
+    <string name="voip_toast_screen_share_permission_denied">Autorisation de partage d\'écran refusée.</string>
+    <string name="voip_toast_your_network_poor">Votre connexion réseau est instable.</string>
+    <string name="voip_toast_peer_network_poor">La connexion réseau de %1$s est instable.</string>
+    <string name="voip_peer_network_fallback_name">L\'autre participant</string>
+    <string name="voip_toast_overlay_permission_required">L\'autorisation d\'affichage par-dessus les autres applications est requise.</string>
 
     <!-- Conversation Group Fragment -->
     <string name="connection_status_connecting">Connexion en cours...</string>

@@ -207,7 +207,7 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         String channelId = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             channelId = BuildConfig.LIBRARY_PACKAGE_NAME + ".voip";
-            String channelName = "voip";
+            String channelName = getString(R.string.voip_notification_channel_name);
             NotificationChannel chan = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW);
             chan.setLightColor(Color.BLUE);
             chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
@@ -221,16 +221,16 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         if (session != null) {
             switch (session.getState()) {
                 case Outgoing:
-                    title = "等待对方接听...";
+                    title = getString(R.string.voip_notification_waiting_peer);
                     break;
                 case Incoming:
-                    title = "邀请您进行通话...";
+                    title = getString(R.string.voip_notification_invite);
                     break;
                 case Connecting:
-                    title = "接听中...";
+                    title = getString(R.string.voip_notification_connecting);
                     break;
                 default:
-                    title = "通话中...";
+                    title = getString(R.string.voip_notification_in_call);
                     break;
             }
         } else {
@@ -328,13 +328,13 @@ public class VoipCallBroadService extends Service implements OnReceiveMessageLis
         String title = "";
         switch (session.getState()) {
             case Outgoing:
-                title = "等待接听";
+                title = getString(R.string.voip_float_waiting_answer);
                 break;
             case Incoming:
-                title = "等待接听";
+                title = getString(R.string.voip_float_waiting_answer);
                 break;
             case Connecting:
-                title = "接听中";
+                title = getString(R.string.voip_float_connecting_short);
                 break;
         }
         timeView.setText(title);

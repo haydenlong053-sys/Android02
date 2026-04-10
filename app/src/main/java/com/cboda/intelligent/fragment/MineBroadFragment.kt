@@ -287,21 +287,21 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
 private fun MenuContainer(isHasPassword: Boolean) {
     val context = LocalContext.current
     Box(modifier = Modifier.padding(horizontal = 0.dp)) {
+        val items = arrayListOf<MenuItem>()
+        //设置页6大模块数据
+        if (!HttpsBroadConfig.isReviewEnv) {
+            items.add(MenuItem(stringResource(R.string.personal_assets), stringResource(R.string.manage_digital_wealth), R.mipmap.ic_mine_broad_service, R.string.personal_assets))
+        }
+        items.add(MenuItem(stringResource(R.string.security_center), stringResource(R.string.protect_account_safe), R.mipmap.ic_mine_broad_safe, R.string.security_center))
+        items.add(MenuItem(stringResource(R.string.inspiration_square), stringResource(R.string.share_moments_see_inspiration), R.mipmap.ic_mine_broad_moment, R.string.inspiration_square))
+        items.add(MenuItem(stringResource(R.string.我的收藏), stringResource(R.string.my_collections_here), R.mipmap.ic_mine_broad_collect, R.string.我的收藏))
+        items.add(MenuItem(stringResource(R.string.常见问题), stringResource(R.string.quick_answers_about_us), R.mipmap.ic_mine_broad_feedback, R.string.常见问题))
+        items.add(MenuItem(stringResource(R.string.system_settings), stringResource(R.string.personalize_experience), R.mipmap.ic_mine_broad_setting, R.string.system_settings))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp)
         ) {
-            //设置页6大模块数据
-            val items = listOf(
-                MenuItem(stringResource(R.string.personal_assets), stringResource(R.string.manage_digital_wealth), R.mipmap.ic_mine_broad_service, R.string.personal_assets),
-                MenuItem(stringResource(R.string.security_center), stringResource(R.string.protect_account_safe), R.mipmap.ic_mine_broad_safe, R.string.security_center),
-                MenuItem(stringResource(R.string.inspiration_square), stringResource(R.string.share_moments_see_inspiration), R.mipmap.ic_mine_broad_moment, R.string.inspiration_square),
-                MenuItem(stringResource(R.string.我的收藏), stringResource(R.string.my_collections_here), R.mipmap.ic_mine_broad_collect, R.string.我的收藏),
-                MenuItem(stringResource(R.string.常见问题), stringResource(R.string.quick_answers_about_us), R.mipmap.ic_mine_broad_feedback, R.string.常见问题),
-                MenuItem(stringResource(R.string.system_settings), stringResource(R.string.personalize_experience), R.mipmap.ic_mine_broad_setting, R.string.system_settings)
-            )
-
             // 两列网格：逐行渲染
             items.chunked(2).forEach { rowItems ->
                 Row(

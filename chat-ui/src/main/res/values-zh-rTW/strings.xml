@@ -402,6 +402,21 @@
 
     <!-- Voip Extension -->
     <string name="voip_permission_request">請先授權語音和藍牙權限！</string>
+    <string name="voip_notification_channel_name">語音通話</string>
+    <string name="voip_notification_waiting_peer">等待對方接聽…</string>
+    <string name="voip_notification_invite">邀請您進行通話…</string>
+    <string name="voip_notification_connecting">接聽中…</string>
+    <string name="voip_notification_in_call">通話中…</string>
+    <string name="voip_float_waiting_answer">等待接聽</string>
+    <string name="voip_float_connecting_short">接聽中</string>
+    <string name="voip_float_stop_sharing">停止分享</string>
+    <string name="voip_toast_permissions_required">需要錄音、相機等權限，才能進行音視訊通話</string>
+    <string name="voip_toast_screen_share_not_supported">系統不支援螢幕分享</string>
+    <string name="voip_toast_screen_share_permission_denied">螢幕分享授權失敗</string>
+    <string name="voip_toast_your_network_poor">您的網路不佳</string>
+    <string name="voip_toast_peer_network_poor">%1$s 的網路不佳</string>
+    <string name="voip_peer_network_fallback_name">對方</string>
+    <string name="voip_toast_overlay_permission_required">需要顯示在其他應用程式上層的權限</string>
 
     <!-- Conversation Group Fragment -->
     <string name="connection_status_connecting">正在連線…</string>
