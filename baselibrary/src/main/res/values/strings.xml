@@ -57,6 +57,7 @@
     <string name="msg_meeting_sub_mic">Co-host mic</string>
     <string name="msg_meeting_guest_1">Guest 1</string>
     <string name="msg_meeting_guest_2">Guest 2</string>
+    <string name="msg_meeting_guest_3">Guest 3</string>
     <string name="msg_meeting_close_mic">Mute mic</string>
     <string name="msg_meeting_open_mic">Unmute mic</string>
     <string name="msg_meeting_end">End meeting</string>
