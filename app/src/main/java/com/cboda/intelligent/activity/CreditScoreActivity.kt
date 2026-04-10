@@ -68,17 +68,22 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
 
                 val score = it.creditScore?:"0"
                 val scoreFloat = anyToFloat(score)
-                mBind?.userHint?.text = if (scoreFloat < 100f) {
+                mBind?.userHint?.text = if (scoreFloat < 1000f) {
                     "信用很差，请努力提高！"
-                } else if (scoreFloat > 500f) {
+                } else if (scoreFloat > 5000f) {
                     "信用极好，请继续保持！"
-                } else if (scoreFloat > 300f) {
+                } else if (scoreFloat > 3000f) {
                     "信用不错，再接再厉！"
                 } else {
                     "信用一般，要加油哦！"
                 }
                 mBind?.userScore?.text = score
-                mBind?.circleProgress?.progress = anyToInt(scoreFloat / 10)
+                val tempValue= if (scoreFloat<0){
+                    0f
+                }else{
+                    scoreFloat
+                }
+                mBind?.circleProgress?.progress = anyToInt(tempValue / 100)
 
             }
 
