@@ -93,8 +93,8 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
 
     private fun initViewPagerAndIndicator() {
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
-        vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance())
-        vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance())
+        vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance(0))
+        vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance(1))
 
         mBind?.viewPager?.adapter = vp2FragmentAdapter
         mBind?.viewPager?.orientation = ViewPager2.ORIENTATION_HORIZONTAL

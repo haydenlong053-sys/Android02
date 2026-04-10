@@ -96,8 +96,8 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
     /**
      * 查询信用构成列表
      */
-    suspend fun getCreditConstituteList() :SingleLiveBroadData<List<ComposeItem>>{
-        val safeCenterLiveData = SingleLiveBroadData<List<ComposeItem>>()
+    suspend fun getCreditConstituteList() :SingleLiveBroadData<NetworkListBroadResult<ComposeItem>>{
+        val safeCenterLiveData = SingleLiveBroadData<NetworkListBroadResult<ComposeItem>>()
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
             try {
@@ -106,7 +106,8 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                     ComposeItem::class.java,
                     params
                 ).onSuccess { bean ->
-                    bean?.list?.let {
+                    //此处无分页只需拿list
+                    bean?.let {
                         safeCenterLiveData.postValue(it)
                     }
 
