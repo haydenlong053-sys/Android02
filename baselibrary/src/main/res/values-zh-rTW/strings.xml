@@ -58,6 +58,7 @@
     <string name="msg_meeting_sub_mic">副麥</string>
     <string name="msg_meeting_guest_1">嘉賓1</string>
     <string name="msg_meeting_guest_2">嘉賓2</string>
+    <string name="msg_meeting_guest_3">嘉賓3</string>
     <string name="msg_meeting_close_mic">關麥</string>
     <string name="msg_meeting_open_mic">開麥</string>
     <string name="msg_meeting_end">結束會議</string>
