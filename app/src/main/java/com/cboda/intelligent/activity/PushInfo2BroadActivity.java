@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.blankj.utilcode.util.BarUtils;
@@ -73,7 +74,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
 
     private View mIvMyBack;
     private View myToolView, space;
-    private TextView tvMyTitle;
+    private TextView tvMyTitle, requestQrCode;
     private String icon;
     private String apptoken;
     private String uid;
@@ -126,6 +127,12 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         account = getIntent().getStringExtra("account");
         pwd = getIntent().getStringExtra("pwd");
         initViews();
+        //82环境登录隐藏二维码刷新
+        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+            requestQrCode.setVisibility(View.GONE);
+        } else {
+            requestQrCode.setVisibility(View.VISIBLE);
+        }
         BarUtils.addMarginTopEqualStatusBarHeight(myToolView);
         tvMyTitle.setText(getResources().getString(R.string.m_account_info));
         mIvMyBack.setOnClickListener(new OnSingleClickBroadListener() {
@@ -148,6 +155,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         tvSave.setOnClickListener(this);
 
         tvLogin.setOnClickListener(this);
+        requestQrCode.setOnClickListener(this);
         tvIdno.setText("ID:" + idno);
 
         mTvShowQrcode.setOnClickListener(new OnSingleClickBroadListener() {
@@ -186,7 +194,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
                 return null;
             }
         });
-        findViewById(R.id.requestQrCode).setOnClickListener(this);
+
     }
 
 
@@ -517,6 +525,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
     }
 
     private void initViews() {
+        requestQrCode = findViewById(R.id.requestQrCode);
         space = findViewById(R.id.space);
         myToolView = findViewById(R.id.myToolView);
         mIvMyBack = findViewById(R.id.mIvMyBack);
