@@ -94,7 +94,18 @@
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@id/itemContent"
         app:layout_constraintTop_toTopOf="@id/itemContent"
-        tools:text="会员+10%  靓号+10%" />
+        tools:text="会员+10%" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemDesc2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/color_19A200"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/itemDesc"
+        app:layout_constraintTop_toTopOf="@id/itemDesc"
+        tools:text="靓号+10%" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

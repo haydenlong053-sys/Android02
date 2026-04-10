@@ -126,4 +126,22 @@
     <string name="credit_score_activate_item_3_1">活跃度越高,信用值越高</string>
     <string name="credit_score_activate_later">稍后再说</string>
     <string name="credit_score_activate_now">立即激活</string>
+
+    <!-- 信用构成：维度名称（与 CreditScoreComposeTypeBroadEnum 对应展示） -->
+    <string name="credit_score_label_online_duration">在线时长</string>
+    <string name="credit_score_label_online_duration_met">在线时长达标</string>
+    <string name="credit_score_label_register_days">注册天数</string>
+    <string name="credit_score_label_platform_contribution">平台贡献</string>
+    <string name="credit_score_label_violation_deduct">违规扣除</string>
+    <string name="credit_score_label_system_add">系统添加</string>
+    <string name="credit_score_label_system_deduct">系统扣减</string>
+    <string name="credit_score_label_invite_friend">邀请好友</string>
+    <string name="credit_score_label_hold">持有ODIC</string>
+
+    <!-- 信用分拆解行文案（基础 / 会员加成 / 靓号加成） -->
+    <string name="credit_score_fmt_breakdown_base">基础：%1$s/USDT</string>
+    <string name="credit_score_fmt_breakdown_base_day">基础：%1$s/天</string>
+    <string name="credit_score_fmt_breakdown_base_p">基础：%1$s/人</string>
+    <string name="credit_score_fmt_breakdown_vip_bonus">会员+%1$s</string>
+    <string name="credit_score_fmt_breakdown_nice_id_bonus">靓号+%1$s</string>
 </resources>
