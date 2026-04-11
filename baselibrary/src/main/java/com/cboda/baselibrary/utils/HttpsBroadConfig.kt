@@ -139,7 +139,7 @@ object HttpsBroadConfig {
         if (getIsDebug()) {
             setServer(getNetType())
         } else {
-            setServer(if (BuildConfig.IS_NEW_SIGNATURE) HONGKONG_TYPE else RELEASE_TYPE)
+            setServer(BuildConfig.APP_ENVIRONMENT)
         }
     }
 

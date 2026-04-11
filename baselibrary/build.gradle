@@ -12,6 +12,7 @@ android {
     namespace 'com.cboda.baselibrary'
 
     defaultConfig {
+        buildConfigField "int", "APP_ENVIRONMENT", libsinfo.appEnvironment
         buildConfigField "boolean", "IS_NEW_SIGNATURE", libsinfo.isNewSignature
         minSdk libsinfo.minSdk
         targetSdk libsinfo.compileSdk

@@ -11,19 +11,22 @@ ext {
 //            storeFile        : "googleplay.jks",
 //            storePassword    : "123456",
 //            keyAlias         : "lxkj",
+//            appEnvironment   : "0",
 //            isNewSignature   : "false",
 //            isDebug          : "false",
 //            isReviewEnv      : "false"
 
-            // //新版签名（旧版us环境）
+            // //新版签名（旧版us环境）(appEnvironment: 0-82环境，1-https，2-fat环境，3-自定义环境，4-美区环境，5-香港环境，6-84环境)
             storeFile        : "google_play_us.jks",
             storePassword    : "Aa663366",
             keyAlias         : "uscbodabroadintelligent",
             isNewSignature   : "true",
+            appEnvironment   : "5",
 //            isDebug          : "false",
 //            isReviewEnv      : "true"
             isDebug          : "true",
             isReviewEnv      : "false"
+
     ]
 
     andx = [
