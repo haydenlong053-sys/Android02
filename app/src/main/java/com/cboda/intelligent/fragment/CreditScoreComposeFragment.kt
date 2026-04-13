@@ -23,7 +23,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch
-import kotlin.io.encoding.Base64
+import androidx.core.graphics.toColorInt
 
 class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeBinding, NewMirrorViewBroadModel>() {
     private var page = 1
@@ -132,85 +132,91 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
         super.onDestroyView()
     }
 
-    private fun buildTestData(): ArrayList<ComposeItem> {
-        val list = arrayListOf<ComposeItem>()
-        for (i in 1..10) { // 包含结束值
-            val composeItem = ComposeItem()
+//    private fun buildTestData(): ArrayList<ComposeItem> {
+//        val list = arrayListOf<ComposeItem>()
+//        for (i in 1..10) { // 包含结束值
+//            val composeItem = ComposeItem()
 //            composeItem.title = "在线时长$i"
 //            composeItem.iconRes = R.mipmap.credit_score7
 //            composeItem.proColor = com.cboda.baselibrary.R.color.color_F4A32B
-            list.add(composeItem)
-        }
-        return list
-    }
+//            list.add(composeItem)
+//        }
+//        return list
+//    }
 
     private class ComposeAdapter(val typeAction: Int, layoutResId: Int) : BaseBroadAdapter<ComposeItem>(layoutResId) {
 
         override fun onBindData(holder: BaseViewHolder, bean: ComposeItem) {
             if (typeAction == 1) {
+                //变化记录列表
                 holder.apply {
                     when (bean.type) {
                         CreditScoreTypeEnum.ONLINE_TIME.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score1)
-                            getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_online_duration)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_B73BDD)
+                            getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_online_duration_met)
+                            getView<TextView>(R.id.itemContent).text =
+                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + (bean.vipBonusRate * 100) + "%")
                         }
 
                         CreditScoreTypeEnum.REGISTER_DAY.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score2)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_register_days)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_6A76FF)
+                            getView<TextView>(R.id.itemContent).text =
+                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + (bean.vipBonusRate * 100) + "%")
                         }
 
                         CreditScoreTypeEnum.CONTRIBUTION.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score3)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_platform_contribution)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_53CC90)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
                         }
 
                         CreditScoreTypeEnum.VIOLATION.code -> {
-                            getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score4)
+                            getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score12)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_violation_deduct)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_45BEDD)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
                         }
 
                         CreditScoreTypeEnum.SYSTEM_ADD.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score5)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_system_add)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_AA68FF)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
                         }
 
                         CreditScoreTypeEnum.SYSTEM_DEDUCT.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score6)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_system_deduct)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_F4A32B)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
                         }
 
                         CreditScoreTypeEnum.INVITE_USER.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score4)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_invite_friend)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_EE56D4)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_p), bean.baseScore)
                         }
 
                         CreditScoreTypeEnum.HOLD_ODIC.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score7)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_hold)
-                            getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_EE56D4)
+                            getView<TextView>(R.id.itemContent).text =
+                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + (bean.vipBonusRate * 100) + "%")
                         }
 
+
+                    }
+                    if (bean.score > 0) {
+                        getView<TextView>(R.id.itemPointTv).setTextColor("#00AC56".toColorInt())
+                        getView<TextView>(R.id.itemPointTv).text = "${+bean.score}"
+                    } else {
+                        getView<TextView>(R.id.itemPointTv).setTextColor("#DF0000".toColorInt())
+                        getView<TextView>(R.id.itemPointTv).text = "${bean.score}"
                     }
 
-
-                    getView<TextView>(R.id.itemProTv).text = "${anyToInt(bean.currentScore)}"
-                    getView<TextView>(R.id.itemMaxProTv).text = "/${anyToInt(bean.maxLimit)}"
-
-                    getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
-                    getView<TextView>(R.id.itemDesc).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_vip_bonus), (bean.vipBonusRate * 100).toString() + "%")
-                    getView<TextView>(R.id.itemDesc2).text =
-                        String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_nice_id_bonus), (bean.lianghaoBonusRate * 100).toString() + "%")
+                    getView<TextView>(R.id.itemTimeTv).text = bean.createTime
                     setGone(R.id.lineView, layoutPosition == 0)
                 }
             } else {
+                //信用构成
                 holder.apply {
                     when (bean.type) {
                         CreditScoreTypeEnum.ONLINE_TIME.code -> {
@@ -235,23 +241,23 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         }
 
                         CreditScoreTypeEnum.VIOLATION.code -> {
-                            getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score6)
+                            getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score12)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_violation_deduct)
-                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_usdt), bean.baseScore)
                             getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_45BEDD)
                         }
 
                         CreditScoreTypeEnum.SYSTEM_ADD.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score5)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_system_add)
-                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_usdt), bean.baseScore)
                             getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_AA68FF)
                         }
 
                         CreditScoreTypeEnum.SYSTEM_DEDUCT.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score6)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_system_deduct)
-                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), bean.baseScore)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_usdt), bean.baseScore)
                             getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_F4A32B)
                         }
 
@@ -279,8 +285,8 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                     getView<TextView>(R.id.itemDesc).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_vip_bonus), (bean.vipBonusRate * 100).toString() + "%")
                     getView<TextView>(R.id.itemDesc2).text =
                         String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_nice_id_bonus), (bean.lianghaoBonusRate * 100).toString() + "%")
-                    getView<TextView>(R.id.itemDesc).isVisible = (bean.vipBonusRate>0)
-                    getView<TextView>(R.id.itemDesc2).isVisible = (bean.lianghaoBonusRate>0)
+                    getView<TextView>(R.id.itemDesc).isVisible = (bean.vipBonusRate > 0)
+                    getView<TextView>(R.id.itemDesc2).isVisible = (bean.lianghaoBonusRate > 0)
                     setGone(R.id.lineView, layoutPosition == 0)
                 }
             }

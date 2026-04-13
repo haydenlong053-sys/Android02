@@ -36,7 +36,7 @@
         android:layout_marginStart="@dimen/dp_12"
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/itemPro"
+        app:layout_constraintBottom_toTopOf="@id/itemContent"
         app:layout_constraintStart_toEndOf="@id/itemImg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
@@ -44,34 +44,26 @@
 
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/itemMaxProTv"
+        android:id="@+id/itemPointTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_00AC56"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/itemTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="+0.24" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemTimeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black_65"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/itemTitle"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="/150" />
+        app:layout_constraintTop_toBottomOf="@id/itemPointTv"
+        android:layout_marginTop="@dimen/dp_5"
+        tools:text="2026-01-24" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/itemProTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/itemTitle"
-        app:layout_constraintEnd_toStartOf="@id/itemMaxProTv"
-        tools:text="45" />
-
-    <com.cboda.baselibrary.widge.RoundedProgressBar
-        android:id="@+id/itemPro"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_4"
-        android:layout_marginTop="@dimen/dp_4"
-        app:layout_constraintBottom_toTopOf="@id/itemContent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/itemTitle"
-        app:layout_constraintTop_toBottomOf="@id/itemTitle" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/itemContent"
@@ -82,29 +74,8 @@
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/itemTitle"
-        app:layout_constraintTop_toBottomOf="@id/itemPro"
+        app:layout_constraintTop_toBottomOf="@id/itemTitle"
         tools:text="基础：+0.2/天" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/itemDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_4"
-        android:textColor="@color/color_19A200"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@id/itemContent"
-        app:layout_constraintTop_toTopOf="@id/itemContent"
-        tools:text="会员+10%" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/itemDesc2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_4"
-        android:textColor="@color/color_19A200"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@id/itemDesc"
-        app:layout_constraintTop_toTopOf="@id/itemDesc"
-        tools:text="靓号+10%" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
