@@ -1,5 +1,6 @@
 package com.cboda.intelligent.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -146,6 +147,7 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
 
     private class ComposeAdapter(val typeAction: Int, layoutResId: Int) : BaseBroadAdapter<ComposeItem>(layoutResId) {
 
+        @SuppressLint("SetTextI18n")
         override fun onBindData(holder: BaseViewHolder, bean: ComposeItem) {
             if (typeAction == 1) {
                 //变化记录列表
@@ -154,15 +156,30 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         CreditScoreTypeEnum.ONLINE_TIME.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score1)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_online_duration_met)
-                            getView<TextView>(R.id.itemContent).text =
-                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + (bean.vipBonusRate * 100) + "%")
+                            if (bean.vipBonusRate > 0) {
+                                getView<TextView>(R.id.itemContent).text =
+                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + "x" + (bean.vipBonusRate * 100) + "%")
+
+                            } else {
+                                getView<TextView>(R.id.itemContent).text =
+                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
+
+                            }
+
                         }
 
                         CreditScoreTypeEnum.REGISTER_DAY.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score2)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_register_days)
-                            getView<TextView>(R.id.itemContent).text =
-                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + (bean.vipBonusRate * 100) + "%")
+                            if (bean.vipBonusRate > 0) {
+                                getView<TextView>(R.id.itemContent).text =
+                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + "x" + (bean.vipBonusRate * 100) + "%")
+
+                            } else {
+                                getView<TextView>(R.id.itemContent).text =
+                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
+
+                            }
                         }
 
                         CreditScoreTypeEnum.CONTRIBUTION.code -> {
@@ -198,15 +215,21 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         CreditScoreTypeEnum.HOLD_ODIC.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score7)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_hold)
-                            getView<TextView>(R.id.itemContent).text =
-                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + (bean.vipBonusRate * 100) + "%")
-                        }
+                            if (bean.vipBonusRate > 0) {
+                                getView<TextView>(R.id.itemContent).text =
+                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + "x" + (bean.vipBonusRate * 100) + "%")
 
+                            } else {
+                                getView<TextView>(R.id.itemContent).text =
+                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
+
+                            }
+                        }
 
                     }
                     if (bean.score > 0) {
                         getView<TextView>(R.id.itemPointTv).setTextColor("#00AC56".toColorInt())
-                        getView<TextView>(R.id.itemPointTv).text = "${+bean.score}"
+                        getView<TextView>(R.id.itemPointTv).text = "+${bean.score}"
                     } else {
                         getView<TextView>(R.id.itemPointTv).setTextColor("#DF0000".toColorInt())
                         getView<TextView>(R.id.itemPointTv).text = "${bean.score}"

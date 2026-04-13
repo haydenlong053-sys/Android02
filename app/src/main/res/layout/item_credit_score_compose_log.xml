@@ -9,7 +9,7 @@
     <View
         android:id="@+id/lineView"
         android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_1"
+        android:layout_height="@dimen/dp_0.5"
         android:layout_marginStart="@dimen/dp_16"
         android:background="@color/black_12"
         android:visibility="gone"
@@ -67,7 +67,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/itemContent"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
         android:textColor="@color/black_65"
@@ -75,6 +75,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/itemTitle"
         app:layout_constraintTop_toBottomOf="@id/itemTitle"
+        app:layout_constraintEnd_toStartOf="@id/itemTimeTv"
+        android:lines="1"
+        android:ellipsize="end"
         tools:text="基础：+0.2/天" />
 
 
