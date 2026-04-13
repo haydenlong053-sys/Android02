@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <View
         android:layout_width="match_parent"
@@ -91,10 +90,10 @@
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="卓同志的雨寒"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="卓同志的雨寒" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -107,17 +106,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/非会员"
                             android:textColor="#FFFFFF"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="@string/非会员" />
 
                         <TextView
                             android:id="@+id/tvVipTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2024/01/01 12:00:00到期"
                             android:textColor="#FF3939"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            tools:text="2024/01/01 12:00:00到期" />
 
                     </LinearLayout>
 
@@ -132,12 +131,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/会员专属特权"
             android:textColor="#333333"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -150,9 +149,9 @@
                 android:id="@+id/tvTq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="特权一：特权"
                 android:textColor="#333333"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:text="特权一：特权" />
         </ScrollView>
 
 
@@ -161,18 +160,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="30dp"
             android:background="@mipmap/ic_bg_btn2_broad_01"
             android:gravity="center"
-            android:layout_marginBottom="30dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:text="@string/开通10000人群"
             android:textColor="#ffffffff"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <TextView
-            android:visibility="visible"
             android:id="@+id/tvDh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -184,6 +182,7 @@
             android:text="@string/立即兑换"
             android:textColor="#25A6FF"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
     </LinearLayout>
 </RelativeLayout>
