@@ -146,4 +146,11 @@
     <string name="credit_score_fmt_breakdown_base_quick">基础：%1$s倍会员加速</string>
     <string name="credit_score_fmt_breakdown_vip_bonus">会员+%1$s</string>
     <string name="credit_score_fmt_breakdown_nice_id_bonus">靓号+%1$s</string>
+
+    <string name="credit_score_go">前往</string>
+    <string name="credit_score_open_member">开通会员</string>
+    <string name="credit_score_des1">开通SeekWeb官方会员尊享特权，可加速信用分，还享受六大专属权益</string>
+    <string name="credit_score_open_premium_number">靓号开通</string>
+    <string name="credit_score_des2">可根据自己需要在商城「我的」-「IM靓号」处选购靓号</string>
+
 </resources>
