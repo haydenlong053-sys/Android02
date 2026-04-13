@@ -139,8 +139,7 @@ object HttpsBroadConfig {
         if (getIsDebug()) {
             setServer(getNetType())
         } else {
-//            setServer(RELEASE_TYPE)
-            setServer(HONGKONG_TYPE)
+            setServer(BuildConfig.APP_ENVIRONMENT)
         }
     }
 

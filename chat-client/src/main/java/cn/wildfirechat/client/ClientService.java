@@ -40,6 +40,7 @@ import androidx.annotation.Nullable;
 import com.cboda.baselibrary.bean.OssFileBroadBean;
 import com.cboda.baselibrary.common.UrlBroadConstants;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
+import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.GsonUtilsKt;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
@@ -3986,7 +3987,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
             info.packagename = context.getPackageName();
             info.device = Build.MANUFACTURER;
             info.deviceversion = Build.VERSION.RELEASE;
-            info.phonename = Build.MODEL;
+            info.phonename = DeviceBroadUtil.INSTANCE.getDeviceModel();
             //如果是android pad设备，需要改这里，另外需要在gettoken时也使用pad类型，请在AppService代码中搜索"android pad"
 //            if(当前设备是android Pad) {
 //                info.platform = 9;

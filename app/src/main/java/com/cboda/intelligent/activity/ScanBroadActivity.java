@@ -424,45 +424,47 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             restartScan();
             return;
         }
-        loginViewBroadModel.getScanLoginDetail(linkId).observe(this, loginBean -> {
-            if (null != loginBean) {
+        //82环境使用老登录
+        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("id", linkId);
+            param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
+            param.put("type", "2");
+            param.put("model", DeviceBroadUtil.INSTANCE.getDeviceBrand() + " " + DeviceBroadUtil.INSTANCE.getDeviceModel());
+            OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
+
+                @Override
+                public void onSuccess(Response response, ResultBroadBean resultBean) {
+                    if (jumpSource == ScanJumpBroadEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, DeviceBroadUtil.INSTANCE.getAndroidId(ScanBroadActivity.this))) {
+                        EventBus.getDefault().post(new AppBroadEvent<>(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean));
+                    } else {
+                        AppBroadUtils.Companion.imLogin(ScanBroadActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
+                    }
+                    finish();
+                }
+
+                @Override
+                public void onError(Response response, int code, Exception e) {
+                    ToastBroadUtil.show(getString(R.string.scan_login_request_failed));
+                    restartScan();
+                }
+            });
+        } else {
+            loginViewBroadModel.getScanLoginDetail(linkId).observe(this, loginBean -> {
+                if (null != loginBean) {
 //                loginBean.setType("scanLogin");
-                loginBean.setLinkId(linkId);
-                loginBean.setHaveOldDeviceCode(true);
-                Intent newIntent = new Intent(ScanBroadActivity.this, LoginVerificationActivity.class);
-                newIntent.putExtra("loginBean", toJson2(loginBean));
-                startActivity(newIntent);
-                finish();
-            } else {
-                restartScan();
-                showToastMain(R.string.scan_login_request_failed);
-            }
-        });
-
-
-//        Map<String, Object> param = new HashMap<>();
-//        param.put("id", linkId);
-//        param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
-//        param.put("type", "2");
-//        param.put("model", DeviceBroadUtil.INSTANCE.getDeviceBrand() + " " + DeviceBroadUtil.INSTANCE.getDeviceModel());
-//        OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
-//
-//            @Override
-//            public void onSuccess(Response response, ResultBroadBean resultBean) {
-//                if (jumpSource == ScanJumpBroadEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, eqno)) {
-//                    EventBus.getDefault().post(new AppBroadEvent<>(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean));
-//                } else {
-//                    AppBroadUtils.Companion.imLogin(ScanBroadActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
-//                }
-//                finish();
-//            }
-//
-//            @Override
-//            public void onError(Response response, int code, Exception e) {
-//                ToastBroadUtil.show(getString(R.string.scan_login_request_failed));
-//                restartScan();
-//            }
-//        });
+                    loginBean.setLinkId(linkId);
+                    loginBean.setHaveOldDeviceCode(true);
+                    Intent newIntent = new Intent(ScanBroadActivity.this, LoginVerificationActivity.class);
+                    newIntent.putExtra("loginBean", toJson2(loginBean));
+                    startActivity(newIntent);
+                    finish();
+                } else {
+                    restartScan();
+                    showToastMain(R.string.scan_login_request_failed);
+                }
+            });
+        }
     }
 
 

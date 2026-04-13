@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import com.cboda.baselibrary.bean.LoginBean
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
@@ -60,16 +61,24 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
         binding.loginBtn.click {
             val loginAccount = binding.loginAccount.text.toString()
             val loginPwd = binding.loginPwd.text.toString()
-            viewModel.getAccountLoginDetail(
-                loginAccount,
-                loginPwd
-            ).observe(this) { loginBean ->
-                if (null != loginBean) {
-                    loginBean.loginAccount = loginAccount
-                    loginBean.loginPwd = loginPwd
-                    val bundle = Bundle()
-                    bundle.putString("loginBean", toJson2(loginBean))
-                    viewModel.startAct<LoginVerificationActivity>(bundle)
+            //82环境使用老登录
+            if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+                viewModel.pwdLogin(
+                    loginAccount,
+                    loginPwd
+                )
+            } else {
+                viewModel.getAccountLoginDetail(
+                    loginAccount,
+                    loginPwd
+                ).observe(this) { loginBean ->
+                    if (null != loginBean) {
+                        loginBean.loginAccount = loginAccount
+                        loginBean.loginPwd = loginPwd
+                        val bundle = Bundle()
+                        bundle.putString("loginBean", toJson2(loginBean))
+                        viewModel.startAct<LoginVerificationActivity>(bundle)
+                    }
                 }
             }
         }

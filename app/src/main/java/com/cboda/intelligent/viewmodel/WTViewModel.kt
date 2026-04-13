@@ -11,6 +11,9 @@ import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.getAppStr
+import com.cboda.baselibrary.utils.getIsDebug
+import com.cboda.intelligent.R
 import com.cboda.intelligent.model.AddTokenRequest
 import com.cboda.intelligent.model.AssetItem
 import com.cboda.intelligent.model.BroadcastTxRequest
@@ -35,6 +38,7 @@ import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.WalletManager
 import com.cboda.intelligent.utils.dismissLoading
 import com.cboda.intelligent.utils.showLoading
+import com.cboda.intelligent.utils.showToastMain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.joinAll
@@ -62,7 +66,7 @@ data class WTUiState(
     val walletList: List<WalletItem> = emptyList(),
     val currentWallet: WalletItem? = null,
     val isCreateSuccess: Boolean = false,
-    
+
     // Asset related
     val totalUsd: String = "0.00",
     val assetList: List<AssetItem> = emptyList(),
@@ -76,10 +80,10 @@ data class WTUiState(
     val closeWalletDetail: Boolean = false,
     val actionError: String? = null,
     val exportResult: ExportResult? = null,
-    
+
     // Safe Center
     val safeCenterInfo: SafeCenterBroadBean? = null,
-    
+
     // Ledger Pagination
     val isLedgerRefreshing: Boolean = false,
     val isLedgerLoadingMore: Boolean = false,
@@ -90,7 +94,7 @@ data class WTUiState(
     val isEstimatingGas: Boolean = false,
     val isSending: Boolean = false,
     val gasEstimateResponse: GasEstimateResponse? = null,
-    
+
     // Wallet Balances (Address -> Balance)
     val walletBalances: Map<String, WalletBalance> = emptyMap()
 )
@@ -114,9 +118,9 @@ sealed class WalletCreationState {
 }
 
 class WTViewModel() : ViewModel() {
-    
+
     private val repository = WTRepository()
-    
+
     private val _uiState = MutableStateFlow(WTUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -135,11 +139,13 @@ class WTViewModel() : ViewModel() {
 
 
     // Mock Wallet Data State
-    private val _mockWallets = MutableStateFlow(listOf(
-        WalletItemData("Wallet 8081", "0x6cb5742b...8081", "0.23", "12,400.32", true, false),
-        WalletItemData("Wallet 9835", "0x6cb5742b...9835", "0.03", "2.13", false, false),
-        WalletItemData("Watch Wallet", "0x6cb5742b...1234", "1.50", "120.00", false, true)
-    ))
+    private val _mockWallets = MutableStateFlow(
+        listOf(
+            WalletItemData("Wallet 8081", "0x6cb5742b...8081", "0.23", "12,400.32", true, false),
+            WalletItemData("Wallet 9835", "0x6cb5742b...9835", "0.03", "2.13", false, false),
+            WalletItemData("Watch Wallet", "0x6cb5742b...1234", "1.50", "120.00", false, true)
+        )
+    )
     val mockWallets: StateFlow<List<WalletItemData>> = _mockWallets
 
     fun updateMockWallets(wallets: List<WalletItemData>) {
@@ -188,28 +194,28 @@ class WTViewModel() : ViewModel() {
     }
 
     // Local Wallet Creation
-    fun createLocalWallet(context: Context,name: String, password: String) {
+    fun createLocalWallet(context: Context, name: String, password: String) {
         _createWalletState.value = WalletCreationState.Loading
         viewModelScope.launch {
             try {
-                val userId= MMKVBroadUtils.getRealUserId()?:""
+                val userId = MMKVBroadUtils.getRealUserId() ?: ""
                 // Clear old temp files
                 val tempDir = getTempWalletDir()
                 tempDir.deleteRecursively()
                 tempDir.mkdirs()
 
-                val walletAddress:String?
-                val walletMnemonic:String?
+                val walletAddress: String?
+                val walletMnemonic: String?
 
-                val secureWallet =withContext(Dispatchers.IO){
-                    WalletManager.createSecureWallet(context, WTRepository.wtDefaultWalletPwd,tempDir,userId)
+                val secureWallet = withContext(Dispatchers.IO) {
+                    WalletManager.createSecureWallet(context, WTRepository.wtDefaultWalletPwd, tempDir, userId)
                 }
                 secureWallet.let {
-                    walletMnemonic=it.second
-                    walletAddress=it.first
+                    walletMnemonic = it.second
+                    walletAddress = it.first
                 }
-                if (walletMnemonic.isNullOrEmpty()||walletAddress.isNullOrEmpty()){
-                    _createWalletState.value = WalletCreationState.Error( "创建钱包失败")
+                if (walletMnemonic.isNullOrEmpty() || walletAddress.isNullOrEmpty()) {
+                    _createWalletState.value = WalletCreationState.Error("创建钱包失败")
                     return@launch
                 }
 
@@ -223,7 +229,7 @@ class WTViewModel() : ViewModel() {
 //
 //                // 保存助记词到本地加密文件，以便后续导出
 //                saveEncryptedMnemonic(address, wallet.mnemonic, tempDir)
-                
+
                 _createWalletState.value = WalletCreationState.Success(walletMnemonic, name, walletAddress)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -237,11 +243,11 @@ class WTViewModel() : ViewModel() {
     }
 
     // Local Wallet Import
-    fun importLocalWallet(context: Context,input: String, name: String, expectedAddress: String? = null) {
+    fun importLocalWallet(context: Context, input: String, name: String, expectedAddress: String? = null) {
         _importWalletState.value = WalletCreationState.Loading
         viewModelScope.launch {
             try {
-                val userId= MMKVBroadUtils.getRealUserId()?:""
+                val userId = MMKVBroadUtils.getRealUserId() ?: ""
                 // Use temp dir first to avoid storing invalid/unconfirmed wallets in secure storage
                 val tempDir = getTempWalletDir()
                 if (!tempDir.exists()) tempDir.mkdirs()
@@ -255,18 +261,18 @@ class WTViewModel() : ViewModel() {
                 val walletFilename: String
                 val address: String?
                 val mnemonic: String
-                if (isMnemonic){
-                    address= withContext(Dispatchers.IO){
-                        WalletManager.importSecureWalletByMnemonic(context,input, WTRepository.wtDefaultWalletPwd,userId,tempDir)
+                if (isMnemonic) {
+                    address = withContext(Dispatchers.IO) {
+                        WalletManager.importSecureWalletByMnemonic(context, input, WTRepository.wtDefaultWalletPwd, userId, tempDir)
                     }
-                    mnemonic=input
-                }else{
-                    address= withContext(Dispatchers.IO){
-                        WalletManager.importWalletByPrivateKey(context,input,WTRepository.wtDefaultWalletPwd,userId,tempDir)
+                    mnemonic = input
+                } else {
+                    address = withContext(Dispatchers.IO) {
+                        WalletManager.importWalletByPrivateKey(context, input, WTRepository.wtDefaultWalletPwd, userId, tempDir)
                     }
-                    mnemonic=""
+                    mnemonic = ""
                 }
-                if (address.isNullOrEmpty()){
+                if (address.isNullOrEmpty()) {
                     _importWalletState.value = WalletCreationState.Error("导入的助记词/私钥未能正确获取钱包地址,请检查")
                     return@launch
                 }
@@ -354,7 +360,7 @@ class WTViewModel() : ViewModel() {
 //                    val walletObj = Bip39Wallet(walletFilename, mnemonic)
                     _importWalletState.value = WalletCreationState.Success(mnemonic, name, address)
                     _hasWallet.value = true
-                    
+
                     // Refresh wallet list
                     getWalletList(WTRepository.wtDefaultChanId)
                 }.onError {
@@ -378,7 +384,7 @@ class WTViewModel() : ViewModel() {
             }
         }
     }
-    
+
     companion object {
         private const val PAGE_LIMIT = 20
     }
@@ -418,9 +424,9 @@ class WTViewModel() : ViewModel() {
             result.onSuccess { response ->
                 val newItems = response?.items ?: emptyList()
                 val hasMore = newItems.size >= limit
-                
+
                 val finalList = currentList + newItems
-                
+
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     isLedgerRefreshing = false,
@@ -434,7 +440,7 @@ class WTViewModel() : ViewModel() {
                     isLedgerRefreshing = false,
                     isLedgerLoadingMore = false
                 )
-                 ToastBroadUtil.show(it.message) 
+                ToastBroadUtil.show(it.message)
             }.onFailure { _, msg ->
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
@@ -446,9 +452,9 @@ class WTViewModel() : ViewModel() {
         }
     }
 
-    fun estimateGasFee(toAddress: String, amount: String, symbol: String,token_address:String) {
+    fun estimateGasFee(toAddress: String, amount: String, symbol: String, token_address: String) {
         val wallet = _uiState.value.currentWallet ?: return
-        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true)&&it.token_address.equals(token_address,true) } ?: return
+        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true) && it.token_address.equals(token_address, true) } ?: return
 //        if ((amount.toDoubleOrNull() ?: 0.0) <= 0.0) return
 
         // Reset previous estimate
@@ -462,10 +468,10 @@ class WTViewModel() : ViewModel() {
 //                     _uiState.value = _uiState.value.copy(isEstimatingGas = false)
 //                    return@launch
 //                }
-                
+
                 val isNative = asset.token_type.equals("native", true)
                 val txType = "transfer"
-                
+
                 val req = GasEstimateRequest(
                     chain_id = wallet.chain_id,
                     from_address = wallet.address,
@@ -475,7 +481,7 @@ class WTViewModel() : ViewModel() {
                     amount = amount, // User input amount
                     value = if (isNative) amount else "0"
                 )
-                
+
                 repository.estimateGas(req).onSuccess {
                     _uiState.value = _uiState.value.copy(
                         isEstimatingGas = false,
@@ -494,43 +500,43 @@ class WTViewModel() : ViewModel() {
         }
     }
 
-    fun sendTransaction(context: Context,toAddress: String, amount: String, symbol: String, password: String,token_address:String, onResult: (Boolean, String?) -> Unit) {
+    fun sendTransaction(context: Context, toAddress: String, amount: String, symbol: String, password: String, token_address: String, onResult: (Boolean, String?) -> Unit) {
         val wallet = _uiState.value.currentWallet
-        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true)&&it.token_address.equals(token_address,true) }
+        val asset = _uiState.value.assetList.find { it.symbol.equals(symbol, ignoreCase = true) && it.token_address.equals(token_address, true) }
         val gasResponse = _uiState.value.gasEstimateResponse
         _uiState.value = _uiState.value.copy(isSending = true)
-        
+
         if (wallet == null || asset == null) {
             ToastBroadUtil.show("当前钱包或资产信息异常")
             onResult(false, "Wallet/Asset Error")
-            _uiState.value=_uiState.value.copy(isSending = false)
+            _uiState.value = _uiState.value.copy(isSending = false)
             return
         }
-        
+
         if (gasResponse == null) {
             ToastBroadUtil.show("请等待Gas预估完成")
-            _uiState.value=_uiState.value.copy(isSending = false)
+            _uiState.value = _uiState.value.copy(isSending = false)
             onResult(false, "Gas Not Estimated")
             return
         }
 
         viewModelScope.launch {
             try {
-                val userId= MMKVBroadUtils.getRealUserId()?:""
-                val isRoot=isRootDevice(context)
-                if (isRoot){
+                val userId = MMKVBroadUtils.getRealUserId() ?: ""
+                val isRoot = isRootDevice(context)
+                if (isRoot) {
                     ToastBroadUtil.show("Root设置不支持此操作")
                     onResult(false, "File Not Found")
-                    _uiState.value=_uiState.value.copy(isSending = false)
+                    _uiState.value = _uiState.value.copy(isSending = false)
                     return@launch
                 }
                 val localCredentials = withContext(Dispatchers.IO) {
                     WalletManager.loadWalletInfoByAddress(context, wallet.address, WTRepository.wtDefaultWalletPwd, userId)
                 }
-                if (localCredentials==null){
+                if (localCredentials == null) {
                     ToastBroadUtil.show("未找到钱包文件")
                     onResult(false, "File Not Found")
-                    _uiState.value=_uiState.value.copy(isSending = false)
+                    _uiState.value = _uiState.value.copy(isSending = false)
                     return@launch
                 }
 
@@ -563,28 +569,28 @@ class WTViewModel() : ViewModel() {
                 val minimal = BigDecimal(amount).multiply(base).toBigInteger().toString()
                 val isNative = asset.token_type.equals("native", true)
                 val txType = "transfer"
-                
+
                 val validateReq = ValidateTxRequest(
                     chain_id = wallet.chain_id,
                     from_address = wallet.address,
                     to_address = toAddress,
                     tx_type = txType,
                     token_address = asset.token_address,
-                    amount = (WalletManager.convertToWei(amount)?:BigInteger("0")).toString(),
-                    value = if (isNative) ((WalletManager.convertToWei(amount)?:BigInteger("0")).toString()) else "0"
+                    amount = (WalletManager.convertToWei(amount) ?: BigInteger("0")).toString(),
+                    value = if (isNative) ((WalletManager.convertToWei(amount) ?: BigInteger("0")).toString()) else "0"
                 )
-                
+
                 repository.validateTx(validateReq).onSuccess { res ->
 
                     if (res == null || !res.valid) {
                         ToastBroadUtil.show(res?.reason ?: "转账校验未通过")
-                        _uiState.value=_uiState.value.copy(isSending = false)
+                        _uiState.value = _uiState.value.copy(isSending = false)
                         onResult(false, res?.reason)
                         return@onSuccess
                     }
                     if (!res.balance_enough) {
                         ToastBroadUtil.show("余额不足")
-                        _uiState.value=_uiState.value.copy(isSending = false)
+                        _uiState.value = _uiState.value.copy(isSending = false)
                         onResult(false, "Balance Not Enough")
                         return@onSuccess
                     }
@@ -595,7 +601,7 @@ class WTViewModel() : ViewModel() {
                     val gasLimit = BigInteger(gasResponse.gas_limit)
                     val maxFeePerGas = BigInteger(gasResponse.standard.max_fee_per_gas)
                     val maxPriorityFeePerGas = BigInteger(gasResponse.standard.max_priority_fee_per_gas)
-                    
+
 //                    val amountVal = BigInteger(amount)
                     val amountVal = WalletManager.convertToWei(amount)
 
@@ -604,10 +610,12 @@ class WTViewModel() : ViewModel() {
                     // For this environment, we'll try to use legacy creation with gasPrice = maxFeePerGas
                     // to ensure compatibility unless we are sure about EIP-1559 factory.
                     // Using legacy transaction for broader compatibility in this context:
-                    
+
                     val rawTransaction = if (isNative) {
-                        RawTransaction.createTransaction(WTRepository.wtDefaultChanId.toLong(),nonce,gasLimit,toAddress,amountVal,"",
-                            maxPriorityFeePerGas,maxFeePerGas)
+                        RawTransaction.createTransaction(
+                            WTRepository.wtDefaultChanId.toLong(), nonce, gasLimit, toAddress, amountVal, "",
+                            maxPriorityFeePerGas, maxFeePerGas
+                        )
 //                        RawTransaction.createEtherTransaction(
 //                            nonce,
 //                            maxFeePerGas, // Using maxFeePerGas as gasPrice
@@ -643,14 +651,14 @@ class WTViewModel() : ViewModel() {
                     val txHash = withContext(Dispatchers.IO) {
                         val web3j = repository.getWorkingWeb3j(WTRepository.bnbTestnetRpcs)
                         if (web3j == null) {
-                            _uiState.value=_uiState.value.copy(isSending = false)
+                            _uiState.value = _uiState.value.copy(isSending = false)
                             onResult(false, "连接节点网络失败")
                             ""
-                        }else{
+                        } else {
                             val response: EthSendTransaction = web3j.ethSendRawTransaction(hexValue).send()
 
                             if (response.hasError()) {
-                                _uiState.value=_uiState.value.copy(isSending = false)
+                                _uiState.value = _uiState.value.copy(isSending = false)
                                 onResult(false, response.error.message)
                             }
 
@@ -661,10 +669,9 @@ class WTViewModel() : ViewModel() {
                         }
 
 
-
                     }
-                    _uiState.value=_uiState.value.copy(isSending = false)
-                    if (txHash.isNotEmpty()){
+                    _uiState.value = _uiState.value.copy(isSending = false)
+                    if (txHash.isNotEmpty()) {
                         val broadcastReq = BroadcastTxRequest(
                             request_id = "req_" + UUID.randomUUID().toString(),
                             chain_id = wallet.chain_id,
@@ -675,7 +682,7 @@ class WTViewModel() : ViewModel() {
                             token_address = asset.token_address,
                             amount = amount,
                             memo = null,
-                            tx_hash=txHash
+                            tx_hash = txHash
                         )
 
                         repository.broadcastTx(broadcastReq).onSuccess { br ->
@@ -693,20 +700,19 @@ class WTViewModel() : ViewModel() {
                     }
 
 
-
                 }.onError {
                     ToastBroadUtil.show(it.message ?: "转账校验失败")
                     onResult(false, it.message)
-                    _uiState.value=_uiState.value.copy(isSending = false)
+                    _uiState.value = _uiState.value.copy(isSending = false)
                 }.onFailure { _, message ->
                     ToastBroadUtil.show(message ?: "转账校验失败")
                     onResult(false, message)
-                    _uiState.value=_uiState.value.copy(isSending = false)
+                    _uiState.value = _uiState.value.copy(isSending = false)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 ToastBroadUtil.show("发送交易失败：${e.message}")
-                _uiState.value=_uiState.value.copy(isSending = false)
+                _uiState.value = _uiState.value.copy(isSending = false)
                 onResult(false, e.message)
             }
         }
@@ -716,12 +722,14 @@ class WTViewModel() : ViewModel() {
     fun addWatchWallet(address: String, note: String) {
         _watchWalletState.value = WalletCreationState.Loading
         viewModelScope.launch {
-            repository.createWallet(CreateWalletRequest(
-                source = "watch",
-                chain_id = WTRepository.wtDefaultChanId,
-                address = address,
-                label = note
-            )).onSuccess {
+            repository.createWallet(
+                CreateWalletRequest(
+                    source = "watch",
+                    chain_id = WTRepository.wtDefaultChanId,
+                    address = address,
+                    label = note
+                )
+            ).onSuccess {
                 // No local file needed for watch wallet
                 // We use a dummy Bip39Wallet object as the success state payload requires it, 
                 // but for watch wallet only address and name matter.
@@ -735,7 +743,7 @@ class WTViewModel() : ViewModel() {
             }
         }
     }
-    
+
     fun resetLocalState() {
         _createWalletState.value = WalletCreationState.Idle
         _importWalletState.value = WalletCreationState.Idle
@@ -747,23 +755,23 @@ class WTViewModel() : ViewModel() {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             repository.getWalletList(chainId).onSuccess {
                 val list = it?.items ?: emptyList()
-                
+
                 // Try to find the currently selected wallet in the new list to keep selection
                 // This ensures we switch to the new instance of the same wallet object
                 val previousWallet = _uiState.value.currentWallet
                 val newCurrentWalletInstance = if (previousWallet != null) {
                     list.find { w -> w.address.equals(previousWallet.address, ignoreCase = true) }
                 } else null
-                
+
                 // If not found (or no previous selection), fallback to default logic (sort_order or first)
-                val current = newCurrentWalletInstance ?: list.find { w -> w.sort_order==0 } ?: list.firstOrNull()
-                
+                val current = newCurrentWalletInstance ?: list.find { w -> w.sort_order == 0 } ?: list.firstOrNull()
+
                 _uiState.value = _uiState.value.copy(
-                    isLoading = false, 
+                    isLoading = false,
                     walletList = list,
                     currentWallet = current
                 )
-                
+
                 // If we have a current wallet, fetch its assets
                 current?.let { wallet ->
                     getAssets(chainId, wallet.address)
@@ -788,7 +796,7 @@ class WTViewModel() : ViewModel() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null, isCreateSuccess = false)
             repository.createWallet(req).onSuccess {
-                
+
 //                if (tempWalletFilename != null) {
 //                    try {
 //                        val tempFile = File(getTempWalletDir(), tempWalletFilename)
@@ -828,20 +836,20 @@ class WTViewModel() : ViewModel() {
             }
         }
     }
-    
+
     fun getAssets(chainId: Int, address: String) {
         viewModelScope.launch {
             // Don't set full screen loading for asset refresh typically, or handle differently
-             // _uiState.value = _uiState.value.copy(isLoading = true, error = null)
-             
+            // _uiState.value = _uiState.value.copy(isLoading = true, error = null)
+
             repository.getAssets(chainId, address).onSuccess {
                 _uiState.value = _uiState.value.copy(
                     totalUsd = it?.total_usd ?: "0.00",
                     assetList = it?.items ?: emptyList()
                 )
             }.onError {
-                 // specific error handling or silent fail
-                 // _uiState.value = _uiState.value.copy(error = it.message)
+                // specific error handling or silent fail
+                // _uiState.value = _uiState.value.copy(error = it.message)
             }
         }
     }
@@ -852,7 +860,7 @@ class WTViewModel() : ViewModel() {
             if (wallets.isEmpty()) return@launch
 
             val balances = ConcurrentHashMap<String, WalletBalance>()
-            
+
             val jobs = wallets.map { wallet ->
                 launch {
                     repository.getAssets(chainId, wallet.address).onSuccess { resp ->
@@ -862,18 +870,18 @@ class WTViewModel() : ViewModel() {
                     }
                 }
             }
-            
+
             jobs.joinAll()
-            
+
             _uiState.value = _uiState.value.copy(
                 walletBalances = _uiState.value.walletBalances + balances
             )
         }
     }
-    
+
     fun getLedger(chainId: Int, address: String, tokenAddress: String? = null) {
         viewModelScope.launch {
-             // Optional: specific loading state for ledger
+            // Optional: specific loading state for ledger
             repository.getLedger(chainId, address, tokenAddress).onSuccess {
                 _uiState.value = _uiState.value.copy(
                     ledgerList = it?.items ?: emptyList()
@@ -891,13 +899,13 @@ class WTViewModel() : ViewModel() {
                 SortItemRequest(wallet.address, index)
             }
             val req = SortWalletRequest(WTRepository.wtDefaultChanId, sortItems)
-            
+
             repository.sortWallet(req).onSuccess {
                 // Update local list order to match the sorted list
                 // We need to update the full walletList based on the sorted subset (if wallets is a subset) 
                 // or just replace if it's the full list.
                 // Assuming wallets contains all wallets for the current chain.
-                
+
                 // Construct new list preserving other properties from original list but in new order
                 val currentList = _uiState.value.walletList
                 val sortedList = wallets.mapNotNull { sortedItem ->
@@ -905,7 +913,7 @@ class WTViewModel() : ViewModel() {
                     // Actually we should just reorder the list.
                     currentList.find { it.address == sortedItem.address }
                 }
-                
+
                 // Append any wallets that might have been missing from the sorted list (safety check)
                 val missingWallets = currentList.filter { old -> wallets.none { new -> new.address == old.address } }
                 val finalList = sortedList + missingWallets
@@ -915,7 +923,7 @@ class WTViewModel() : ViewModel() {
                     isActionSuccess = true,
                     walletList = finalList
                 )
-                
+
                 // Refresh list from server to ensure consistency
                 getWalletList(WTRepository.wtDefaultChanId)
             }.onError {
@@ -930,14 +938,14 @@ class WTViewModel() : ViewModel() {
             val req = UpdateWalletInfoRequest(chainId, address, newName)
             repository.updateWalletInfo(req).onSuccess {
                 // Update list locally
-                val currentList = _uiState.value.walletList.map { 
+                val currentList = _uiState.value.walletList.map {
                     if (it.address.equals(address, ignoreCase = true)) {
                         it.copy(label = newName)
                     } else {
                         it
                     }
                 }
-                
+
                 // Update current wallet if it matches
                 val currentWallet = _uiState.value.currentWallet
                 val newCurrentWallet = if (currentWallet?.address.equals(address, ignoreCase = true)) {
@@ -945,7 +953,7 @@ class WTViewModel() : ViewModel() {
                 } else {
                     currentWallet
                 }
-                
+
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     // isActionSuccess = true, // Do not set to true to avoid navigation back
@@ -953,7 +961,7 @@ class WTViewModel() : ViewModel() {
                     currentWallet = newCurrentWallet
                 )
             }.onError {
-                 _uiState.value = _uiState.value.copy(isLoading = false, actionError = it.message)
+                _uiState.value = _uiState.value.copy(isLoading = false, actionError = it.message)
             }
         }
     }
@@ -988,12 +996,12 @@ class WTViewModel() : ViewModel() {
         return null
     }
 
-    fun exportPrivateKey(context: Context,address: String) {
+    fun exportPrivateKey(context: Context, address: String) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, exportResult = null)
-            val userId= MMKVBroadUtils.getRealUserId()
-            val isRoot=isRootDevice(context)
-            if (isRoot){
+            val userId = MMKVBroadUtils.getRealUserId()
+            val isRoot = isRootDevice(context)
+            if (isRoot) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     exportResult = ExportResult("private_key", "", "Root设备不支持此操作")
@@ -1001,7 +1009,7 @@ class WTViewModel() : ViewModel() {
                 return@launch
             }
             val exportPrivateKey = WalletManager.exportPrivateKey(context, address, WTRepository.wtDefaultWalletPwd, userId ?: "")
-            if (exportPrivateKey.isEmpty()){
+            if (exportPrivateKey.isEmpty()) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     exportResult = ExportResult("private_key", "", "未找到该钱包文件，无法导出私钥")
@@ -1014,7 +1022,6 @@ class WTViewModel() : ViewModel() {
                 isLoading = false,
                 exportResult = ExportResult("private_key", finalPrivateKey)
             )
-
 
 
 //            try {
@@ -1071,14 +1078,14 @@ class WTViewModel() : ViewModel() {
 //            }
         }
     }
-    
-    fun exportMnemonic(context: Context,address: String) {
+
+    fun exportMnemonic(context: Context, address: String) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, exportResult = null)
 
-            val userId= MMKVBroadUtils.getRealUserId()
-            val isRoot=isRootDevice(context)
-            if (isRoot){
+            val userId = MMKVBroadUtils.getRealUserId()
+            val isRoot = isRootDevice(context)
+            if (isRoot) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     exportResult = ExportResult("mnemonic", "", "Root设备不支持此操作")
@@ -1086,13 +1093,13 @@ class WTViewModel() : ViewModel() {
                 return@launch
             }
             val exportMnemonic = WalletManager.exportMnemonic(context, address, userId ?: "")
-            if (exportMnemonic.isNullOrEmpty()){
+            if (exportMnemonic.isNullOrEmpty()) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     exportResult = ExportResult("mnemonic", "", "未找到该钱包文件")
                 )
                 return@launch
-            }else{
+            } else {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     exportResult = ExportResult("mnemonic", exportMnemonic)
@@ -1146,37 +1153,37 @@ class WTViewModel() : ViewModel() {
 //            }
         }
     }
-    
+
     fun clearExportResult() {
         _uiState.value = _uiState.value.copy(exportResult = null)
     }
 
-    fun deleteWallet(context: Context,req: DeleteWalletRequest) {
+    fun deleteWallet(context: Context, req: DeleteWalletRequest) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, isActionSuccess = false, actionError = null)
-            val isRoot=isRootDevice(context)
-            if (isRoot){
+            val isRoot = isRootDevice(context)
+            if (isRoot) {
                 _uiState.value = _uiState.value.copy(isLoading = false, actionError = "Root设备不支持此操作")
                 return@launch
             }
             repository.deleteWallet(req).onSuccess {
                 // Delete local file if exists
-                deleteLocalWallet(context,req.address)
-                
+                deleteLocalWallet(context, req.address)
+
                 // Update list locally first to ensure UI reacts correctly immediately
                 val newList = _uiState.value.walletList.filter { !it.address.equals(req.address, ignoreCase = true) }
                 _uiState.value = _uiState.value.copy(
-                    isLoading = false, 
+                    isLoading = false,
                     isActionSuccess = true,
                     closeWalletDetail = true,
                     walletList = newList,
                     currentWallet = if (newList.isEmpty()) null else newList.first()
                 )
-                
+
                 if (newList.isEmpty()) {
                     _hasWallet.value = false
                 }
-                
+
                 getWalletList(req.chain_id) // Refresh list from server to be sure
             }.onError {
                 _uiState.value = _uiState.value.copy(isLoading = false, actionError = it.message)
@@ -1187,8 +1194,8 @@ class WTViewModel() : ViewModel() {
     }
 
     private suspend fun deleteLocalWallet(context: Context, address: String) {
-        val userId= MMKVBroadUtils.getRealUserId()?:""
-        WalletManager.deleteLocalWalletByAddress(context,address, WTRepository.wtDefaultWalletPwd,userId)
+        val userId = MMKVBroadUtils.getRealUserId() ?: ""
+        WalletManager.deleteLocalWalletByAddress(context, address, WTRepository.wtDefaultWalletPwd, userId)
 //        try {
 //            val dir = getUserWalletDir()
 //            val files = dir.listFiles()
@@ -1233,9 +1240,9 @@ class WTViewModel() : ViewModel() {
                 // Remove token locally to update UI immediately
                 val currentList = _uiState.value.assetList
                 val newList = currentList.filter { !it.token_address.equals(req.token_address, ignoreCase = true) }
-                
+
                 _uiState.value = _uiState.value.copy(
-                    isLoading = false, 
+                    isLoading = false,
                     isActionSuccess = true,
                     assetList = newList
                 )
@@ -1261,13 +1268,13 @@ class WTViewModel() : ViewModel() {
                 callback.onSuccess(it?.items.isNullOrEmpty())
             }.onError {
                 dismissLoading()
-                it.printStackTrace()
-                ToastBroadUtil.show(it.message)
+//                ToastBroadUtil.show(it.message)
+                showToastMain(if (getIsDebug()) it.message ?: getAppStr(R.string.scan_network_request_failed) else getAppStr(R.string.scan_network_request_failed))
                 callback.onError(it.message)
-            }.onFailure { code,message ->
+            }.onFailure { _, message ->
                 dismissLoading()
-                ToastBroadUtil.show("xxxx")
-
+                showToastMain(message)
+//                ToastBroadUtil.show("xxxx")
             }
         }
     }
@@ -1287,20 +1294,21 @@ class WTViewModel() : ViewModel() {
             }
         }
     }
-    // Check and convert local wallets: 
+
+    // Check and convert local wallets:
     // 1. If 'import'/'create' but no local file -> convert to 'watch'
     // 2. If 'watch' but has local file -> convert to 'import'
     fun checkAndConvertWallets(context: Context) {
         viewModelScope.launch {
-            val userId= MMKVBroadUtils.getRealUserId()?:""
+            val userId = MMKVBroadUtils.getRealUserId() ?: ""
             val walletList = _uiState.value.walletList
             walletList.forEach { wallet ->
                 val localCredentials = withContext(Dispatchers.IO) {
                     WalletManager.loadWalletInfoByAddress(context, wallet.address, WTRepository.wtDefaultWalletPwd, userId)
                 }
-                
+
                 var targetSource: String? = null
-                
+
                 if (wallet.source != "watch" && localCredentials == null) {
                     // Case 1: Regular wallet missing local file -> convert to watch
                     targetSource = "watch"
@@ -1308,7 +1316,7 @@ class WTViewModel() : ViewModel() {
                     // Case 2: Watch wallet has local file -> convert to import
                     targetSource = "import"
                 }
-                
+
                 if (targetSource != null) {
                     repository.updateWalletSource(
                         WalletSourceRequest(
@@ -1318,7 +1326,7 @@ class WTViewModel() : ViewModel() {
                         )
                     ).onSuccess {
                         // Update local list state
-                        val currentList = _uiState.value.walletList.map { 
+                        val currentList = _uiState.value.walletList.map {
                             if (it.address.equals(wallet.address, ignoreCase = true)) {
                                 it.copy(source = targetSource)
                             } else {
@@ -1342,7 +1350,7 @@ class WTViewModel() : ViewModel() {
         }
     }
 
-    private suspend fun  isRootDevice(context: Context): Boolean{
+    private suspend fun isRootDevice(context: Context): Boolean {
         return WalletManager.isDeviceRooted(context)
     }
 }

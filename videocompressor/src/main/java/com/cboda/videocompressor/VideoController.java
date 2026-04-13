@@ -9,6 +9,7 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
+import android.util.DebugUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -18,13 +19,15 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import kotlinx.coroutines.DebugKt;
+
 @SuppressLint("NewApi")
 public class VideoController {
 
     public static final int COMPRESS_QUALITY_HIGH = 1;
     public static final int COMPRESS_QUALITY_MEDIUM = 2;
     public static final int COMPRESS_QUALITY_LOW = 3;
-//    public static int VIDEO_QUALITY_HIGH = COMPRESS_QUALITY_HIGH;
+    //    public static int VIDEO_QUALITY_HIGH = COMPRESS_QUALITY_HIGH;
 //    public static int VIDEO_QUALITY_MEDIUM = COMPRESS_QUALITY_MEDIUM;
 //    public static int VIDEO_QUALITY_LOW = COMPRESS_QUALITY_LOW;
     public static File cachedFile;
@@ -165,6 +168,7 @@ public class VideoController {
         VideoConvertRunnable.runConversion(path, dest);
     }
 
+    @SuppressLint("WrongConstant")
     @TargetApi(16)
     private long readAndWriteTrack(MediaExtractor extractor, MP4Builder mediaMuxer, MediaCodec.BufferInfo info, long start, long end, File file, boolean isAudio) throws Exception {
         int trackIndex = selectTrack(extractor, isAudio);
@@ -390,7 +394,9 @@ public class VideoController {
                                 } else if (codecName.equals("OMX.TI.DUCATI1.VIDEO.H264E")) {
                                     processorType = PROCESSOR_TYPE_TI;
                                 }
-                                Log.e("tmessages", "codec = " + codecInfo.getName() + " manufacturer = " + manufacturer + "device = " + Build.MODEL);
+//                                if (DebugKt.getDEBUG()) {
+//                                    Log.e("tmessages", "codec = " + codecInfo.getName() + " manufacturer = " + manufacturer + "device = " + Build.MODEL);
+//                                }
                             } else {
                                 colorFormat = MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface;
                             }
