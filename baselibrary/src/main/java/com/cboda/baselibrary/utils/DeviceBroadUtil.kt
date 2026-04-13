@@ -1,5 +1,6 @@
 package com.cboda.baselibrary.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaDrm
 import android.os.Build
@@ -8,9 +9,11 @@ import android.text.TextUtils
 import com.blankj.utilcode.util.EncryptUtils.encryptMD5ToString
 import com.cboda.baselibrary.BuildConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_AID
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_ALL_ID
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_BRAND
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_ID
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_MODEL
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_SYS_AID
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_UID
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEVICE_WID
 import java.util.UUID
@@ -25,35 +28,46 @@ object DeviceBroadUtil {
     private var androidId = ""
     private var wId = ""
     private var deviceUId = ""
+    private var allDeviceId = ""
+    private var sysAndroidId = ""
 
     fun getAndroidId(context: Context? = null): String {
-        if (BuildConfig.IS_NEW_SIGNATURE) {
-            return getAllDeviceId()
-//            return getDeviceUUId()
-        } else {
-            if (TextUtils.isEmpty(androidId)) {
-                try {
-                    val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_AID)
-                    if (TextUtils.isEmpty(sqlData)) {
-                        androidId = Settings.Secure.getString(getAppContext(context).contentResolver, Settings.Secure.ANDROID_ID)
-                        if (!TextUtils.isEmpty(androidId)) {
-                            MMKVBroadUtils.saveSqlStrData(DEVICE_AID, androidId)
-                        }
-                    } else {
-                        androidId = sqlData
-                    }
-
-                } catch (e: Exception) {
-                    e.toLog(TAG)
-                }
-            }
-            if (TextUtils.isEmpty(androidId)) {
-                androidId = getAllDeviceId()
-            }
-            return androidId
+        val getAndroidId = when (BuildConfig.DEVICE_ID_TYPE) {
+            1 -> getSysAndroidId(context)
+            2 -> getAllDeviceId()
+            else -> getDeviceUUId()
         }
+        return getAndroidId
     }
 
+    @SuppressLint("HardwareIds")
+    private fun getSysAndroidId(context: Context? = null): String {
+        if (TextUtils.isEmpty(sysAndroidId)) {
+            val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_SYS_AID)
+            if (TextUtils.isEmpty(sqlData)) {
+                if (TextUtils.isEmpty(androidId)) {
+                    try {
+                        val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_AID)
+                        if (TextUtils.isEmpty(sqlData)) {
+                            androidId = Settings.Secure.getString(getAppContext(context).contentResolver, Settings.Secure.ANDROID_ID)
+                            if (!TextUtils.isEmpty(androidId)) {
+                                MMKVBroadUtils.saveSqlStrData(DEVICE_AID, androidId)
+                            }
+                        } else {
+                            androidId = sqlData
+                        }
+                    } catch (e: Exception) {
+                        e.toLog(TAG)
+                    }
+                }
+                this.sysAndroidId = if (TextUtils.isEmpty(androidId)) getAllDeviceId() else androidId
+                MMKVBroadUtils.saveSqlStrData(DEVICE_SYS_AID, sysAndroidId)
+            } else {
+                sysAndroidId = sqlData
+            }
+        }
+        return sysAndroidId
+    }
 
     fun getDeviceBrand(): String {
         try {
@@ -92,17 +106,26 @@ object DeviceBroadUtil {
     }
 
     private fun getAllDeviceId(): String {
-        val mWId = getWidevineId()
-        return if (TextUtils.isEmpty(mWId)) {
-            val dId = getDeviceId()
-            if (TextUtils.isEmpty(dId)) {
-                getDeviceUUId()
+        if (TextUtils.isEmpty(allDeviceId)) {
+            val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_ALL_ID)
+            if (TextUtils.isEmpty(sqlData)) {
+                val mWId = getWidevineId()
+                allDeviceId = if (TextUtils.isEmpty(mWId)) {
+                    val dId = getDeviceId()
+                    if (TextUtils.isEmpty(dId)) {
+                        getDeviceUUId()
+                    } else {
+                        dId
+                    }
+                } else {
+                    mWId
+                }
+                MMKVBroadUtils.saveSqlStrData(DEVICE_ALL_ID, allDeviceId)
             } else {
-                dId
+                allDeviceId = sqlData
             }
-        } else {
-            mWId
         }
+        return allDeviceId
     }
 
 

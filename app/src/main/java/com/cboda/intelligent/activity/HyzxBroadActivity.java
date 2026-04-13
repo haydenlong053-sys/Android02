@@ -58,7 +58,11 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
-        tvDh.setVisibility(View.GONE);
+        if (HttpsBroadConfig.isReviewEnv) {
+            tvDh.setVisibility(View.GONE);
+        } else {
+            tvDh.setVisibility(View.VISIBLE);
+        }
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",
                 "dimen", "android");
@@ -84,10 +88,10 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view.getId()==R.id.imFinish){
+        if (view.getId() == R.id.imFinish) {
             finish();
         }
-        if (view.getId() == R.id.tvDh){
+        if (view.getId() == R.id.tvDh) {
             new InputJhmBroadDialog(this, new InputJhmBroadDialog.OnInputListener() {
                 @Override
                 public void onInput(String num) {
@@ -95,7 +99,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
                 }
             }).show();
         }
-        if (view.getId() == R.id.tvKt){
+        if (view.getId() == R.id.tvKt) {
             JumpBroadUtils.Companion.startCreateQunActivity(this);
         }
     }
