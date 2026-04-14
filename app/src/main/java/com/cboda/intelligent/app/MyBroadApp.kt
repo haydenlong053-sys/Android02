@@ -24,7 +24,6 @@ import cn.wildfirechat.remote.OnConnectToServerListener
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.cboda.baselibrary.utils.initFireBase
 import com.danikula.videocache.HttpProxyCacheServer
 import com.cboda.intelligent.BuildConfig
 import com.cboda.intelligent.R
@@ -42,6 +41,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug
 import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
+import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentViewBroadHolder
 import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
@@ -130,7 +130,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         mContext = this
 //        Fresco.initialize(this)
         MMKVBroadUtils.init(this)
-        initFireBase(this, com.cboda.baselibrary.BuildConfig.CRASH_KEY)
+        CrashFactory.crashLoad.initFireBase(this, com.cboda.baselibrary.BuildConfig.CRASH_KEY)
         setHttpMode()
         ToastBroadUtils.init(this)
         val cacheDir = File(applicationContext.cacheDir, "http")
