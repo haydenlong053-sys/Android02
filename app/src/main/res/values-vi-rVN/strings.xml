@@ -505,4 +505,16 @@
     <string name="add_trans_dialog_title_disabled">Tạm thời không khả dụng</string>
     <string name="add_trans_dialog_msg_contact_cs">Vui lòng liên hệ dịch vụ khách hàng 008</string>
 
+    <string name="credit_score_hi_nickname">Xin chào, %1$s</string>
+    <string name="credit_score_member_benefits">Quyền lợi thành viên</string>
+    <string name="credit_score_member_not_open">Chưa kích hoạt thành viên</string>
+    <string name="credit_score_nice_number_benefits">Quyền lợi số đẹp</string>
+    <string name="credit_score_nice_number_not_open">Chưa kích hoạt số đẹp</string>
+    <string name="credit_score_hint_very_poor">Điểm tín dụng của bạn rất kém, hãy cố gắng cải thiện!</string>
+    <string name="credit_score_hint_excellent">Điểm tín dụng của bạn rất xuất sắc, hãy duy trì nhé!</string>
+    <string name="credit_score_hint_good">Điểm tín dụng của bạn tốt, hãy tiếp tục cố gắng!</string>
+    <string name="credit_score_hint_normal">Điểm tín dụng của bạn ở mức trung bình, hãy nỗ lực thêm!</string>
+    <string name="credit_score_title">Điểm tín dụng</string>
+    <string name="credit_score_tab_compose">Cơ cấu tín dụng</string>
+    <string name="credit_score_tab_record">Lịch sử thay đổi</string>
 </resources>

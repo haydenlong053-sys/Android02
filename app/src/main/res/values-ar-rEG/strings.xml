@@ -505,4 +505,16 @@
     <string name="add_trans_dialog_title_disabled">غير متاح مؤقتاً</string>
     <string name="add_trans_dialog_msg_contact_cs">يرجى الاتصال بخدمة العملاء 008</string>
 
+    <string name="credit_score_hi_nickname">مرحبًا،%1$s</string>
+    <string name="credit_score_member_benefits">مزايا العضوية</string>
+    <string name="credit_score_member_not_open">العضوية غير مفعلة</string>
+    <string name="credit_score_nice_number_benefits">مزايا الرقم المميز</string>
+    <string name="credit_score_nice_number_not_open">الرقم المميز غير مفعل</string>
+    <string name="credit_score_hint_very_poor">رصيدك الائتماني ضعيف جدًا، يرجى تحسينه!</string>
+    <string name="credit_score_hint_excellent">رصيدك الائتماني ممتاز، استمر!</string>
+    <string name="credit_score_hint_good">رصيدك الائتماني جيد، واصل التقدم!</string>
+    <string name="credit_score_hint_normal">رصيدك الائتماني متوسط، واصل العمل!</string>
+    <string name="credit_score_title">درجة الائتمان</string>
+    <string name="credit_score_tab_compose">تكوين الائتمان</string>
+    <string name="credit_score_tab_record">سجل التغييرات</string>
 </resources>

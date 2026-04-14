@@ -509,4 +509,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">Kumusta, %1$s</string>
+    <string name="credit_score_member_benefits">Benepisyo ng miyembro</string>
+    <string name="credit_score_member_not_open">Hindi pa aktibo ang membership</string>
+    <string name="credit_score_nice_number_benefits">Benepisyo ng premium na numero</string>
+    <string name="credit_score_nice_number_not_open">Hindi pa aktibo ang premium na numero</string>
+    <string name="credit_score_hint_very_poor">Napakahina ng iyong credit, subukang pagbutihin ito!</string>
+    <string name="credit_score_hint_excellent">Napakaganda ng iyong credit, ipagpatuloy mo!</string>
+    <string name="credit_score_hint_good">Maganda ang iyong credit, tuloy-tuloy lang!</string>
+    <string name="credit_score_hint_normal">Katamtaman ang iyong credit, dagdagan pa ang pagsisikap!</string>
+    <string name="credit_score_title">Iskor ng kredito</string>
+    <string name="credit_score_tab_compose">Komposisyon ng kredito</string>
+    <string name="credit_score_tab_record">Kasaysayan ng pagbabago</string>
 </resources>

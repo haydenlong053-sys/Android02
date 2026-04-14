@@ -505,4 +505,16 @@
     <string name="add_trans_dialog_title_disabled">अस्थायी रूप से अनुपलब्ध</string>
     <string name="add_trans_dialog_msg_contact_cs">कृपया ग्राहक सेवा 008 से संपर्क करें</string>
 
+    <string name="credit_score_hi_nickname">नमस्ते, %1$s</string>
+    <string name="credit_score_member_benefits">सदस्य लाभ</string>
+    <string name="credit_score_member_not_open">सदस्यता सक्रिय नहीं है</string>
+    <string name="credit_score_nice_number_benefits">प्रीमियम नंबर लाभ</string>
+    <string name="credit_score_nice_number_not_open">प्रीमियम नंबर सक्रिय नहीं है</string>
+    <string name="credit_score_hint_very_poor">आपका क्रेडिट बहुत खराब है, कृपया इसे बेहतर करें!</string>
+    <string name="credit_score_hint_excellent">आपका क्रेडिट शानदार है, ऐसे ही बनाए रखें!</string>
+    <string name="credit_score_hint_good">आपका क्रेडिट अच्छा है, इसी तरह आगे बढ़ते रहें!</string>
+    <string name="credit_score_hint_normal">आपका क्रेडिट सामान्य है, और मेहनत करें!</string>
+    <string name="credit_score_title">क्रेडिट स्कोर</string>
+    <string name="credit_score_tab_compose">क्रेडिट संरचना</string>
+    <string name="credit_score_tab_record">परिवर्तन इतिहास</string>
 </resources>

@@ -506,4 +506,16 @@
     <string name="add_trans_dialog_title_disabled">לא זמין זמנית</string>
     <string name="add_trans_dialog_msg_contact_cs">אנא פנה לשירות הלקוחות 008</string>
 
+    <string name="credit_score_hi_nickname">היי, %1$s</string>
+    <string name="credit_score_member_benefits">הטבות חברות</string>
+    <string name="credit_score_member_not_open">החברות לא הופעלה</string>
+    <string name="credit_score_nice_number_benefits">הטבות מספר פרימיום</string>
+    <string name="credit_score_nice_number_not_open">מספר הפרימיום לא הופעל</string>
+    <string name="credit_score_hint_very_poor">הדירוג האשראי שלך נמוך מאוד, נסה לשפר אותו!</string>
+    <string name="credit_score_hint_excellent">הדירוג האשראי שלך מצוין, המשך כך!</string>
+    <string name="credit_score_hint_good">הדירוג האשראי שלך טוב, המשך להתקדם!</string>
+    <string name="credit_score_hint_normal">הדירוג האשראי שלך בינוני, המשך להתאמץ!</string>
+    <string name="credit_score_title">ציון אשראי</string>
+    <string name="credit_score_tab_compose">הרכב האשראי</string>
+    <string name="credit_score_tab_record">היסטוריית שינויים</string>
 </resources>

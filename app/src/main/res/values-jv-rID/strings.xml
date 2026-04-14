@@ -508,4 +508,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">Halo, %1$s</string>
+    <string name="credit_score_member_benefits">Kauntungan anggota</string>
+    <string name="credit_score_member_not_open">Keanggotaan durung aktif</string>
+    <string name="credit_score_nice_number_benefits">Kauntungan nomer premium</string>
+    <string name="credit_score_nice_number_not_open">Nomer premium durung aktif</string>
+    <string name="credit_score_hint_very_poor">Skor kreditmu ala banget, coba benake!</string>
+    <string name="credit_score_hint_excellent">Skor kreditmu apik banget, terusna!</string>
+    <string name="credit_score_hint_good">Skor kreditmu apik, terus semangat!</string>
+    <string name="credit_score_hint_normal">Skor kreditmu lumayan, ayo tambah usaha!</string>
+    <string name="credit_score_title">Skor Kredit</string>
+    <string name="credit_score_tab_compose">Komposisi Kredit</string>
+    <string name="credit_score_tab_record">Riwayat Owah-owahan</string>
 </resources>

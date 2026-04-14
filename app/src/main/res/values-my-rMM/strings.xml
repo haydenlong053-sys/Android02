@@ -509,4 +509,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">မင်္ဂလာပါ၊%1$s</string>
+    <string name="credit_score_member_benefits">အဖွဲ့ဝင်အကျိုးခံစားခွင့်</string>
+    <string name="credit_score_member_not_open">အဖွဲ့ဝင်မှု မဖွင့်ရသေးပါ</string>
+    <string name="credit_score_nice_number_benefits">ပရီမီယံနံပါတ် အကျိုးခံစားခွင့်</string>
+    <string name="credit_score_nice_number_not_open">ပရီမီယံနံပါတ် မဖွင့်ရသေးပါ</string>
+    <string name="credit_score_hint_very_poor">သင့်၏ ခရက်ဒစ်အမှတ်သည် အလွန်နိမ့်ပါသည်၊ တိုးတက်အောင် ကြိုးစားပါ!</string>
+    <string name="credit_score_hint_excellent">သင့်၏ ခရက်ဒစ်အမှတ်သည် အလွန်ကောင်းပါသည်၊ ဆက်လက်ထိန်းသိမ်းပါ!</string>
+    <string name="credit_score_hint_good">သင့်၏ ခရက်ဒစ်အမှတ်သည် ကောင်းပါသည်၊ ဆက်လက်ကြိုးစားပါ!</string>
+    <string name="credit_score_hint_normal">သင့်၏ ခရက်ဒစ်အမှတ်သည် ပျမ်းမျှဖြစ်ပါသည်၊ ထပ်မံကြိုးစားပါ!</string>
+    <string name="credit_score_title">ခရက်ဒစ်အမှတ်</string>
+    <string name="credit_score_tab_compose">ခရက်ဒစ်ဖွဲ့စည်းမှု</string>
+    <string name="credit_score_tab_record">ပြောင်းလဲမှုမှတ်တမ်း</string>
 </resources>

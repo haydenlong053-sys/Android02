@@ -1068,4 +1068,16 @@
     <string name="wt_select_wallet">选择钱包</string>
     <string name="wt_transfer_address_no_same_tip">收款地址和钱包地址不可一样</string>
     <string name="welcome_to_seekweb4">欢迎来到SeekWeb4</string>
+    <string name="credit_score_hi_nickname">HI,%1$s</string>
+    <string name="credit_score_member_benefits">会员权益</string>
+    <string name="credit_score_member_not_open">会员未开通</string>
+    <string name="credit_score_nice_number_benefits">靓号权益</string>
+    <string name="credit_score_nice_number_not_open">靓号未开通</string>
+    <string name="credit_score_hint_very_poor">信用很差，请努力提高！</string>
+    <string name="credit_score_hint_excellent">信用极好，请继续保持！</string>
+    <string name="credit_score_hint_good">信用不错，再接再厉！</string>
+    <string name="credit_score_hint_normal">信用一般，要加油哦！</string>
+    <string name="credit_score_title">信用分</string>
+    <string name="credit_score_tab_compose">信用构成</string>
+    <string name="credit_score_tab_record">变动记录</string>
 </resources>

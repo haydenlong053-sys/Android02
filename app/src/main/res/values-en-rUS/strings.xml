@@ -1065,4 +1065,16 @@
     <string name="wt_transfer_address_no_same_tip">The receiving address cannot be the same as the wallet address</string>
     <string name="welcome_to_seekweb4">Welcome to SeekWeb4</string>
 
+    <string name="credit_score_hi_nickname">HI,%1$s</string>
+    <string name="credit_score_member_benefits">Membership Benefits</string>
+    <string name="credit_score_member_not_open">Membership Not Activated</string>
+    <string name="credit_score_nice_number_benefits">Premium Number Benefits</string>
+    <string name="credit_score_nice_number_not_open">Premium Number Not Activated</string>
+    <string name="credit_score_hint_very_poor">Your credit is very poor. Please work hard to improve!</string>
+    <string name="credit_score_hint_excellent">Your credit is excellent. Keep it up!</string>
+    <string name="credit_score_hint_good">Your credit is good. Keep going!</string>
+    <string name="credit_score_hint_normal">Your credit is average. Keep pushing!</string>
+    <string name="credit_score_title">Credit Score</string>
+    <string name="credit_score_tab_compose">Credit Composition</string>
+    <string name="credit_score_tab_record">Change History</string>
 </resources>

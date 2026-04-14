@@ -512,4 +512,16 @@
     <string name="add_trans_dialog_title_disabled">Geçici olarak kullanılamıyor</string>
     <string name="add_trans_dialog_msg_contact_cs">Lütfen 008 müşteri hizmetleri ile iletişime geçin</string>
 
+    <string name="credit_score_hi_nickname">Merhaba, %1$s</string>
+    <string name="credit_score_member_benefits">Üyelik avantajları</string>
+    <string name="credit_score_member_not_open">Üyelik etkinleştirilmedi</string>
+    <string name="credit_score_nice_number_benefits">Premium numara avantajları</string>
+    <string name="credit_score_nice_number_not_open">Premium numara etkinleştirilmedi</string>
+    <string name="credit_score_hint_very_poor">Kredi puanınız çok düşük, lütfen iyileştirin!</string>
+    <string name="credit_score_hint_excellent">Kredi puanınız mükemmel, böyle devam edin!</string>
+    <string name="credit_score_hint_good">Kredi puanınız iyi, çalışmaya devam edin!</string>
+    <string name="credit_score_hint_normal">Kredi puanınız normal, daha çok çaba gösterin!</string>
+    <string name="credit_score_title">Kredi Puanı</string>
+    <string name="credit_score_tab_compose">Kredi Bileşimi</string>
+    <string name="credit_score_tab_record">Değişiklik Geçmişi</string>
 </resources>

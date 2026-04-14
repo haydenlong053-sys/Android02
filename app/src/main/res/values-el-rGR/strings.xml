@@ -507,4 +507,16 @@
     <string name="add_trans_dialog_title_disabled">Προσωρινά μη διαθέσιμο</string>
     <string name="add_trans_dialog_msg_contact_cs">Επικοινωνήστε με την εξυπηρέτηση πελατών 008</string>
 
+    <string name="credit_score_hi_nickname">Γεια σου, %1$s</string>
+    <string name="credit_score_member_benefits">Προνόμια μέλους</string>
+    <string name="credit_score_member_not_open">Η συνδρομή δεν έχει ενεργοποιηθεί</string>
+    <string name="credit_score_nice_number_benefits">Προνόμια premium αριθμού</string>
+    <string name="credit_score_nice_number_not_open">Ο premium αριθμός δεν έχει ενεργοποιηθεί</string>
+    <string name="credit_score_hint_very_poor">Η πιστοληπτική σου βαθμολογία είναι πολύ χαμηλή, προσπάθησε να τη βελτιώσεις!</string>
+    <string name="credit_score_hint_excellent">Η πιστοληπτική σου βαθμολογία είναι εξαιρετική, συνέχισε έτσι!</string>
+    <string name="credit_score_hint_good">Η πιστοληπτική σου βαθμολογία είναι καλή, συνέχισε την προσπάθεια!</string>
+    <string name="credit_score_hint_normal">Η πιστοληπτική σου βαθμολογία είναι μέτρια, προσπάθησε περισσότερο!</string>
+    <string name="credit_score_title">Βαθμολογία Πίστωσης</string>
+    <string name="credit_score_tab_compose">Σύνθεση Πίστωσης</string>
+    <string name="credit_score_tab_record">Ιστορικό Αλλαγών</string>
 </resources>

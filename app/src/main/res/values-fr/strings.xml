@@ -510,4 +510,16 @@
     <string name="add_trans_dialog_title_disabled">Indisponible temporairement</string>
     <string name="add_trans_dialog_msg_contact_cs">Veuillez contacter le service client 008</string>
 
+    <string name="credit_score_hi_nickname">Salut, %1$s</string>
+    <string name="credit_score_member_benefits">Avantages membres</string>
+    <string name="credit_score_member_not_open">Adhésion non activée</string>
+    <string name="credit_score_nice_number_benefits">Avantages du numéro premium</string>
+    <string name="credit_score_nice_number_not_open">Numéro premium non activé</string>
+    <string name="credit_score_hint_very_poor">Votre crédit est très faible, veuillez l’améliorer !</string>
+    <string name="credit_score_hint_excellent">Votre crédit est excellent, continuez ainsi !</string>
+    <string name="credit_score_hint_good">Votre crédit est bon, continuez vos efforts !</string>
+    <string name="credit_score_hint_normal">Votre crédit est moyen, continuez à progresser !</string>
+    <string name="credit_score_title">Score de crédit</string>
+    <string name="credit_score_tab_compose">Composition du crédit</string>
+    <string name="credit_score_tab_record">Historique des changements</string>
 </resources>

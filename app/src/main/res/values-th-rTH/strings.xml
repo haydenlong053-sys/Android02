@@ -506,4 +506,16 @@
     <string name="add_trans_dialog_title_disabled">ไม่สามารถใช้งานได้ชั่วคราว</string>
     <string name="add_trans_dialog_msg_contact_cs">กรุณาติดต่อฝ่ายบริการ 008</string>
 
+    <string name="credit_score_hi_nickname">สวัสดี, %1$s</string>
+    <string name="credit_score_member_benefits">สิทธิประโยชน์สมาชิก</string>
+    <string name="credit_score_member_not_open">ยังไม่ได้เปิดสมาชิก</string>
+    <string name="credit_score_nice_number_benefits">สิทธิประโยชน์หมายเลขพรีเมียม</string>
+    <string name="credit_score_nice_number_not_open">ยังไม่ได้เปิดหมายเลขพรีเมียม</string>
+    <string name="credit_score_hint_very_poor">เครดิตของคุณแย่มาก โปรดพยายามปรับปรุง!</string>
+    <string name="credit_score_hint_excellent">เครดิตของคุณยอดเยี่ยม รักษาไว้ให้ดี!</string>
+    <string name="credit_score_hint_good">เครดิตของคุณดีมาก พยายามต่อไป!</string>
+    <string name="credit_score_hint_normal">เครดิตของคุณอยู่ระดับปานกลาง สู้ต่อไป!</string>
+    <string name="credit_score_title">คะแนนเครดิต</string>
+    <string name="credit_score_tab_compose">องค์ประกอบเครดิต</string>
+    <string name="credit_score_tab_record">ประวัติการเปลี่ยนแปลง</string>
 </resources>

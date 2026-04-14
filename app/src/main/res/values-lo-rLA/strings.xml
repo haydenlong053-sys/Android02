@@ -508,4 +508,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">ສະບາຍດີ, %1$s</string>
+    <string name="credit_score_member_benefits">ສິດປະໂຫຍດສະມາຊິກ</string>
+    <string name="credit_score_member_not_open">ຍັງບໍ່ໄດ້ເປີດສະມາຊິກ</string>
+    <string name="credit_score_nice_number_benefits">ສິດປະໂຫຍດເລກພຣີມຽມ</string>
+    <string name="credit_score_nice_number_not_open">ເລກພຣີມຽມຍັງບໍ່ໄດ້ເປີດ</string>
+    <string name="credit_score_hint_very_poor">ຄະແນນເຄຣດິດຂອງທ່ານຕໍ່າຫຼາຍ, ກະລຸນາປັບປຸງ!</string>
+    <string name="credit_score_hint_excellent">ຄະແນນເຄຣດິດຂອງທ່ານດີເຢັ່ຽມ, ຮັກສາໄວ້!</string>
+    <string name="credit_score_hint_good">ຄະແນນເຄຣດິດຂອງທ່ານດີ, ສູ້ຕໍ່ໄປ!</string>
+    <string name="credit_score_hint_normal">ຄະແນນເຄຣດິດຂອງທ່ານປານກາງ, ພະຍາຍາມອີກ!</string>
+    <string name="credit_score_title">ຄະແນນສິນເຊື່ອ</string>
+    <string name="credit_score_tab_compose">ອົງປະກອບສິນເຊື່ອ</string>
+    <string name="credit_score_tab_record">ປະຫວັດການປ່ຽນແປງ</string>
 </resources>

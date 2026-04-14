@@ -62,27 +62,30 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
             viewModel.getCreditDetails().observe(this@CreditScoreActivity) {
                 initListener(it.isVip, it.isLianghao)
                 mBind?.userImg?.loadImg(it.icon)
-                mBind?.userName?.text = "HI,${it.nickname}"
+                mBind?.userName?.text =
+                    getString(R.string.credit_score_hi_nickname, it.nickname ?: "")
                 val isVip = it.isVip
                 mBind?.userMemberImg?.setImageResource(if (isVip) R.mipmap.credit_score8 else R.mipmap.credit_score10)
-                mBind?.userMemberTv?.text = if (isVip) "会员权益" else "会员未开通"
+                mBind?.userMemberTv?.text =
+                    if (isVip) getString(R.string.credit_score_member_benefits) else getString(R.string.credit_score_member_not_open)
                 mBind?.userMemberTv?.setTextColor(getAppColor(this@CreditScoreActivity, if (isVip) com.cboda.baselibrary.R.color.color_B25900 else com.cboda.baselibrary.R.color.color_717171))
 
                 val isNiceNum = it.isLianghao
                 mBind?.userNiceNumImg?.setImageResource(if (isNiceNum) R.mipmap.credit_score9 else R.mipmap.credit_score11)
-                mBind?.userNiceNumTv?.text = if (isNiceNum) "靓号权益" else "靓号未开通"
+                mBind?.userNiceNumTv?.text =
+                    if (isNiceNum) getString(R.string.credit_score_nice_number_benefits) else getString(R.string.credit_score_nice_number_not_open)
                 mBind?.userNiceNumTv?.setTextColor(getAppColor(this@CreditScoreActivity, if (isNiceNum) com.cboda.baselibrary.R.color.color_B25900 else com.cboda.baselibrary.R.color.color_717171))
 
                 val score = it.creditScore ?: "0"
                 val scoreFloat = anyToFloat(score)
                 mBind?.userHint?.text = if (scoreFloat < 1000f) {
-                    "信用很差，请努力提高！"
+                    getString(R.string.credit_score_hint_very_poor)
                 } else if (scoreFloat > 5000f) {
-                    "信用极好，请继续保持！"
+                    getString(R.string.credit_score_hint_excellent)
                 } else if (scoreFloat > 3000f) {
-                    "信用不错，再接再厉！"
+                    getString(R.string.credit_score_hint_good)
                 } else {
-                    "信用一般，要加油哦！"
+                    getString(R.string.credit_score_hint_normal)
                 }
                 mBind?.userScore?.text = score
                 val tempValue = if (scoreFloat < 0) {
