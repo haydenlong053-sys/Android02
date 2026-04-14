@@ -20,6 +20,7 @@ import com.cboda.baselibrary.utils.anyToFloat
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.utils.subZeroAndDot
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.fragment.CreditScoreComposeFragment
@@ -87,7 +88,7 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
                 } else {
                     getString(R.string.credit_score_hint_normal)
                 }
-                mBind?.userScore?.text = score
+                mBind?.userScore?.text = subZeroAndDot(score)
                 val tempValue = if (scoreFloat < 0) {
                     0f
                 } else {
