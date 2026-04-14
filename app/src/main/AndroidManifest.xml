@@ -166,6 +166,7 @@
 
         <activity
             android:name="com.cboda.intelligent.activity.CreditScoreActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.LoginVerificationActivity"
