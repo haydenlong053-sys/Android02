@@ -1,6 +1,8 @@
 package com.cboda.intelligent.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,12 @@ import java.util.List;
 public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHolder> {
     private Context context;
     private List<DataListBroadBean> list;
+
     public BillBroadAdapter(Context context, List<DataListBroadBean> list) {
         this.context = context;
         this.list = list;
     }
+
     @Override
     public BillBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_broad_bill, parent, false);
@@ -34,42 +38,49 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
     }
 
     @Override
-    public void onBindViewHolder(BillBroadAdapter.MyHolder holder, final int position) {
-        holder.tvTime.setText(list.get(position).time);
-        holder.tvTitle.setText(list.get(position).title);
-        if (StringBroadUtil.isEmpty(list.get(position).info)){
+    public void onBindViewHolder(BillBroadAdapter.MyHolder holder, @SuppressLint("RecyclerView") final int position) {
+        if (!TextUtils.isEmpty(list.get(position).time)) {
+            holder.tvTime.setText(list.get(position).time);
+        }
+        if (!TextUtils.isEmpty(list.get(position).title)) {
+            holder.tvTitle.setText(list.get(position).title);
+        }
+        if (StringBroadUtil.isEmpty(list.get(position).info)) {
             holder.tvTuihuan.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.tvTuihuan.setVisibility(View.VISIBLE);
             holder.tvTuihuan.setText(list.get(position).info);
         }
-        if (list.get(position).state.equals("1")){
-            holder.tvPrice.setText("+"+list.get(position).money+context.getString(R.string.yuanqian));
+        if (!TextUtils.isEmpty(list.get(position).state) && !TextUtils.isEmpty(list.get(position).money)) {
+            if (list.get(position).state.equals("1")) {
+                holder.tvPrice.setText("+" + list.get(position).money + context.getString(R.string.yuanqian));
 //            holder.tvPrice.setTextColor(Color.parseColor("#333333"));
-        }else {
-            holder.tvPrice.setText("-"+list.get(position).money+context.getString(R.string.yuanqian));
+            } else {
+                holder.tvPrice.setText("-" + list.get(position).money + context.getString(R.string.yuanqian));
 //            holder.tvPrice.setTextColor(Color.parseColor("#FF5145"));
+            }
         }
-        switch (list.get(position).type){
-            case "1":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_hongbao);
-                break;
-            case "2":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_zhuanzhang);
-                break;
-            case "3":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_chongzhi);
-                break;
-            case "4":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_qiandao);
-            case "5":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_meeting);
-                break;
-            case "6":
-                holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_gift);
-                break;
+        if (!TextUtils.isEmpty(list.get(position).type)) {
+            switch (list.get(position).type) {
+                case "1":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_hongbao);
+                    break;
+                case "2":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_zhuanzhang);
+                    break;
+                case "3":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_chongzhi);
+                    break;
+                case "4":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_qiandao);
+                case "5":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_meeting);
+                    break;
+                case "6":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_gift);
+                    break;
+            }
         }
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +105,7 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
         TextView tvPrice;
         TextView tvTime;
         TextView tvTuihuan;
+
         public MyHolder(View itemView) {
             super(itemView);
             imIcon = itemView.findViewById(R.id.imIcon);
@@ -103,6 +115,7 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
             tvTuihuan = itemView.findViewById(R.id.tvTuihuan);
         }
     }
+
     private BillBroadAdapter.OnItemClickListener onItemClickListener;
 
     public void setOnItemClickListener(BillBroadAdapter.OnItemClickListener onItemClickListener) {

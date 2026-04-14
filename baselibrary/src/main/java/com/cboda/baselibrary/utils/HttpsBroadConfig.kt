@@ -13,7 +13,7 @@ import com.tencent.mmkv.MMKV
 import kotlin.system.exitProcess
 
 object HttpsBroadConfig {
-    //todo 此处提审的时候改成true
+    // 此处提审的时候改成true
     const val isReviewEnv = BuildConfig.IS_REVIEW_ENV
     val appBaseUrl
         get():String {

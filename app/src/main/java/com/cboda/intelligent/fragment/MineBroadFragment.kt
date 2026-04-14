@@ -288,7 +288,7 @@ private fun MenuContainer(isHasPassword: Boolean) {
     val context = LocalContext.current
     Box(modifier = Modifier.padding(horizontal = 0.dp)) {
         val items = arrayListOf<MenuItem>()
-        //设置页6大模块数据
+        //设置页6大模块数据（审核屏蔽个人资产入口）
         if (!HttpsBroadConfig.isReviewEnv) {
             items.add(MenuItem(stringResource(R.string.personal_assets), stringResource(R.string.manage_digital_wealth), R.mipmap.ic_mine_broad_service, R.string.personal_assets))
         }
