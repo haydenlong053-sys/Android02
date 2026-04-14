@@ -114,4 +114,42 @@
     <string name="qr_code_expired">您的登入 QR 碼已失效，請儲存新的 QR 碼，否則下次將無法登入。</string>
 
     <string name="welcome_to_seek_four">歡迎來到SeekWeb4</string>
+
+    <!-- 啟用信用評分彈窗 -->
+    <string name="credit_score_activate_dialog_title">啟用信用評分</string>
+    <string name="credit_score_activate_dialog_subtitle">信用分是衡量使用者可靠度的核心指標</string>
+    <string name="credit_score_activate_item_1">建立互信:</string>
+    <string name="credit_score_activate_item_1_1">促成高效往來</string>
+    <string name="credit_score_activate_item_2">防禦風險:</string>
+    <string name="credit_score_activate_item_2_1">智慧攔截詐騙</string>
+    <string name="credit_score_activate_item_3">動態增分:</string>
+    <string name="credit_score_activate_item_3_1">活躍度越高,信用值越高</string>
+    <string name="credit_score_activate_later">稍後再說</string>
+    <string name="credit_score_activate_now">立即啟用</string>
+
+    <!-- 信用構成：維度名稱（與 CreditScoreComposeTypeBroadEnum 對應展示） -->
+    <string name="credit_score_label_online_duration">在線時長</string>
+    <string name="credit_score_label_online_duration_met">在線時長達標</string>
+    <string name="credit_score_label_register_days">註冊天數</string>
+    <string name="credit_score_label_platform_contribution">平台貢獻</string>
+    <string name="credit_score_label_violation_deduct">違規扣除</string>
+    <string name="credit_score_label_system_add">系統添加</string>
+    <string name="credit_score_label_system_deduct">系統扣減</string>
+    <string name="credit_score_label_invite_friend">邀請好友</string>
+    <string name="credit_score_label_hold">持有ODIC</string>
+
+    <!-- 信用分拆解行文案（基礎 / 會員加成 / 靚號加成） -->
+    <string name="credit_score_fmt_breakdown_base_usdt">基礎：%1$s/USDT</string>
+    <string name="credit_score_fmt_breakdown_base_day">基礎：%1$s/天</string>
+    <string name="credit_score_fmt_breakdown_base_p">基礎：%1$s/人</string>
+    <string name="credit_score_fmt_breakdown_base">基礎：%1$s</string>
+    <string name="credit_score_fmt_breakdown_base_quick">基礎：%1$s倍會員加速</string>
+    <string name="credit_score_fmt_breakdown_vip_bonus">會員+%1$s</string>
+    <string name="credit_score_fmt_breakdown_nice_id_bonus">靚號+%1$s</string>
+
+    <string name="credit_score_go">前往</string>
+    <string name="credit_score_open_member">開通會員</string>
+    <string name="credit_score_des1">開通SeekWeb官方會員尊享特權，可加速信用分，還享有六大專屬權益</string>
+    <string name="credit_score_open_premium_number">靚號開通</string>
+    <string name="credit_score_des2">可根據自己需求在商城「我的」-「IM靚號」處選購靚號</string>
 </resources>

@@ -114,4 +114,43 @@
     <string name="qr_code_expired">Your login QR code has expired. Please save a new QR code; otherwise you will not be able to sign in next time.</string>
 
     <string name="welcome_to_seek_four">Welcome to SeekWeb4</string>
+
+    <!-- Credit score activation dialog -->
+    <string name="credit_score_activate_dialog_title">Activate Credit Score</string>
+    <string name="credit_score_activate_dialog_subtitle">Credit score is a core indicator of a users reliability</string>
+    <string name="credit_score_activate_item_1">Build Trust:</string>
+    <string name="credit_score_activate_item_1_1">Enable efficient interactions</string>
+    <string name="credit_score_activate_item_2">Prevent Risks:</string>
+    <string name="credit_score_activate_item_2_1">Intelligently block fraud</string>
+    <string name="credit_score_activate_item_3">Dynamic Increase:</string>
+    <string name="credit_score_activate_item_3_1">The more active you are, the higher your credit score</string>
+    <string name="credit_score_activate_later">Maybe Later</string>
+    <string name="credit_score_activate_now">Activate Now</string>
+
+    <!-- Credit composition labels -->
+    <string name="credit_score_label_online_duration">Online Duration</string>
+    <string name="credit_score_label_online_duration_met">Online Duration Target Met</string>
+    <string name="credit_score_label_register_days">Registration Days</string>
+    <string name="credit_score_label_platform_contribution">Platform Contribution</string>
+    <string name="credit_score_label_violation_deduct">Violation Deduction</string>
+    <string name="credit_score_label_system_add">System Addition</string>
+    <string name="credit_score_label_system_deduct">System Deduction</string>
+    <string name="credit_score_label_invite_friend">Invite Friends</string>
+    <string name="credit_score_label_hold">Hold ODIC</string>
+
+    <!-- Credit score breakdown lines -->
+    <string name="credit_score_fmt_breakdown_base_usdt">Base: %1$s/USDT</string>
+    <string name="credit_score_fmt_breakdown_base_day">Base: %1$s/day</string>
+    <string name="credit_score_fmt_breakdown_base_p">Base: %1$s/person</string>
+    <string name="credit_score_fmt_breakdown_base">Base: %1$s</string>
+    <string name="credit_score_fmt_breakdown_base_quick">Base: %1$sx member acceleration</string>
+    <string name="credit_score_fmt_breakdown_vip_bonus">Member +%1$s</string>
+    <string name="credit_score_fmt_breakdown_nice_id_bonus">Premium Number +%1$s</string>
+
+    <string name="credit_score_go">Go</string>
+    <string name="credit_score_open_member">Activate Membership</string>
+    <string name="credit_score_des1">Activate official SeekWeb membership to enjoy exclusive privileges, accelerate credit score growth, and unlock six member benefits</string>
+    <string name="credit_score_open_premium_number">Activate Premium Number</string>
+    <string name="credit_score_des2">You can purchase a premium number in Mall - Me - I AM Premium Number based on your needs</string>
+
 </resources>

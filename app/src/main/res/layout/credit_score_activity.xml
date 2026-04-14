@@ -36,13 +36,16 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userHint"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
         android:textColor="@color/black_65"
         android:textSize="12sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintStart_toStartOf="@id/userName"
         app:layout_constraintTop_toBottomOf="@id/userName"
+        app:layout_constraintEnd_toStartOf="@id/circleProgress"
         tools:text="信用不错，再接再厉！" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -65,6 +68,9 @@
         app:layout_constraintEnd_toEndOf="@id/userMemberImg"
         app:layout_constraintStart_toStartOf="@id/userMemberImg"
         app:layout_constraintTop_toBottomOf="@id/userMemberImg"
+        android:maxWidth="@dimen/dp_80"
+        android:lines="1"
+        android:ellipsize="end"
         tools:text="会员权益"
         tools:textColor="@color/color_B25900" />
 
@@ -87,6 +93,9 @@
         app:layout_constraintEnd_toEndOf="@id/userNiceNumImg"
         app:layout_constraintStart_toStartOf="@id/userNiceNumImg"
         app:layout_constraintTop_toTopOf="@id/userMemberTv"
+        android:maxWidth="@dimen/dp_80"
+        android:lines="1"
+        android:ellipsize="end"
         tools:text="会员权益"
         tools:textColor="@color/color_B25900" />
 
