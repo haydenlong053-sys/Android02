@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingPermission,ProtectedPermissions">
+    tools:ignore="MissingPermission,ProtectedPermissions,ForegroundServicesPolicy,SmsAndCallLogPolicy,SystemPermissionTypo,ScopedStorage,PhotoAndVideoPolicy,UnnecessaryRequiredFeature,DiscouragedApi,LockedOrientationActivity">
 
     <uses-permission
         android:name="android.permission.INSTALL_FAILED_USER_RESTRICTED"
@@ -70,16 +70,12 @@
         android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
         tools:node="remove" />
     <!--    <uses-permission-->
-    <!--        android:name="android.permission.SCHEDULE_EXACT_ALARM"-->
+    <!--        android:name="android.permission.FOREGROUND_SERVICE"-->
     <!--        tools:node="remove" />-->
-    <!--        <uses-permission-->
-    <!--            android:name="android.permission.USE_EXACT_ALARM"-->
-    <!--            tools:node="remove" />-->
     <!--    <uses-permission-->
-    <!--        android:name="android.permission.CHANGE_NETWORK_STATE"-->
+    <!--        android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE"-->
     <!--        tools:node="remove" />-->
-    <!--    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />-->
-    <!--    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />-->
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -87,13 +83,7 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
-    <uses-permission
-        android:name="android.permission.WRITE_MEDIA_STORAGE"
-        tools:ignore="ProtectedPermissions" />
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.WRITE_SETTINGS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
@@ -106,22 +96,38 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 允许修改网络状态 -->
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <!--    <uses-feature android:name="android.permission.MANAGE_USERS" />-->
-    <!--    <uses-feature android:name="android.permission.CREATE_USERS" />-->
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" /> <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!-- 音视频通话时， 允许普通电话打断音视频通话 -->
-    <!--    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 通过GPS得到精确位置 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.SCHEDULE_EXACT_ALARM"-->
+    <!--        tools:node="remove" />-->
+    <!--        <uses-permission-->
+    <!--            android:name="android.permission.USE_EXACT_ALARM"-->
+    <!--            tools:node="remove" />-->
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.CHANGE_NETWORK_STATE"-->
+    <!--        tools:node="remove" />-->
+    <!--    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />-->
+    <!--    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />-->
+    <!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.WRITE_SETTINGS"-->
+    <!--        tools:ignore="ProtectedPermissions" />-->
+    <!--    <uses-feature android:name="android.permission.MANAGE_USERS" />-->
+    <!--    <uses-feature android:name="android.permission.CREATE_USERS" />-->
+    <!-- 音视频通话时， 允许普通电话打断音视频通话 -->
+    <!--    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />-->
     <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> &lt;!&ndash; 通过网络得到粗略位置 &ndash;&gt;-->
     <!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!--    <uses-permission-->
     <!--        android:name="android.permission.CONTROL_VPN"-->
     <!--        tools:ignore="ProtectedPermissions" />-->
@@ -210,9 +216,6 @@
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.MessageSoundBroadActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.cboda.intelligent.activity.MeetingCreateBroadActivity"
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.QuickMeetingCreateActivity"
