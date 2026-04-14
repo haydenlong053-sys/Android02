@@ -13,7 +13,7 @@ import com.tencent.mmkv.MMKV
 import kotlin.system.exitProcess
 
 object HttpsBroadConfig {
-    //todo 此处提审的时候改成true
+    //此处提审的时候改成true
     const val isReviewEnv = BuildConfig.IS_REVIEW_ENV
     val appBaseUrl
         get():String {
@@ -29,6 +29,8 @@ object HttpsBroadConfig {
     var appGroupAvatarHost = "http://119.45.9.228:8888"
     const val appIceServer = "turn:turn.seekweb4.net:3478"
     const val appIceUserName = "seekweb4"
+
+    const val H5_BEAUTIFUL = "https://www.web4x.net"//信用分H5链接
 
     @JvmField
     var appWebHost = "https://app.seekweb4.net" //协议默认用美区

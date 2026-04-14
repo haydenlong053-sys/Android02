@@ -23,6 +23,8 @@ import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.fragment.CreditScoreComposeFragment
+import com.cboda.intelligent.net.BroadUrl
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startH5Activity
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 
 import com.cboda.intelligent.widge.TextIndicatorAdapter
@@ -45,9 +47,13 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
         mIvBgTop.setImageResource(R.mipmap.credit_score_back)
         mIvBgTop.layoutParams.height = SizeUtils.dp2px(278f)
         getToolbarTitle()?.text = getString(R.string.credit_score_title)
-        initData()
 
         initViewPagerAndIndicator()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initData()
     }
 
     @SuppressLint("SetTextI18n")
@@ -96,13 +102,10 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
     private fun initListener(vip: Boolean, lianghao: Boolean) {
         mBind?.layerMember?.setOnClickListener(object : OnSingleClickBroadListener() {
             override fun onSingleClick(v: View?) {
-                if (!vip) {
+                if (!vip && !HttpsBroadConfig.isReviewEnv) {
                     showMemberTip(this@CreditScoreActivity) {
-                        if (!HttpsBroadConfig.isReviewEnv) {
-                            finish()
-                            // 跳转到会员中心（原本 llHyzx 点击）
-                            startActivity(Intent(this@CreditScoreActivity, HyzxBroadActivity::class.java))
-                        }
+                        // 跳转到会员中心（原本 llHyzx 点击）
+                        startActivity(Intent(this@CreditScoreActivity, HyzxBroadActivity::class.java))
                     }
                 }
             }
@@ -110,9 +113,9 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
         })
         mBind?.layerPremiumNumb?.setOnClickListener(object : OnSingleClickBroadListener() {
             override fun onSingleClick(v: View?) {
-                if (!lianghao) {
-                    showPremiumNumbTip(this@CreditScoreActivity){
-
+                if (!lianghao && !HttpsBroadConfig.isReviewEnv) {
+                    showPremiumNumbTip(this@CreditScoreActivity) {
+                        startH5Activity(this@CreditScoreActivity, HttpsBroadConfig.H5_BEAUTIFUL, getString(com.cboda.baselibrary.R.string.credit_score_open_premium_number))
                     }
                 }
             }
