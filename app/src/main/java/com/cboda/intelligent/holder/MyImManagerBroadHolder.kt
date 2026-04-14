@@ -18,6 +18,7 @@ import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.event.FanYiBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
@@ -1092,8 +1093,9 @@ class MyImManagerBroadHolder(private val context: Context?) {
 //                                dataList.add(commonBean.emoji?:"")
 //                            }
 //                        }
-                        EventBus.getDefault()
-                            .post(EmotionBroadEvent("biaoqiangneirong", gson.toJson(bean)))
+                        eLogD(APP_TAG,"addCustomFace----")
+                        //废弃，暂未使用表情列表功能
+//                        EventBus.getDefault().post(EmotionBroadEvent("biaoqiangneirong", gson.toJson(bean)))
                     }
                 }
 
