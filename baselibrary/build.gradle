@@ -14,6 +14,7 @@ android {
     defaultConfig {
         buildConfigField "int", "APP_ENVIRONMENT", libsinfo.appEnvironment
         buildConfigField "int", "DEVICE_ID_TYPE", libsinfo.deviceIdType
+        buildConfigField "Boolean", "ENABLE_CRASH", libsinfo.enableCrash
         buildConfigField "String", "CRASH_KEY", "\"${libsinfo.crashKey}\""
         minSdk libsinfo.minSdk
         targetSdk libsinfo.compileSdk
@@ -95,7 +96,7 @@ dependencies {
     implementation libs.kotlin.stdlib
     implementation libs.androidx.appcompat
     implementation libs.material
-    implementation libs.bugly
+    if (libsinfo.enableCrash) implementation libs.bugly
 //    implementation "com.github.getActivity:MultiLanguages:10.2"
 //    api 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 //    api 'com.github.getActivity:ShapeDrawable:3.3'

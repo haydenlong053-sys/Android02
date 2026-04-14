@@ -15,6 +15,7 @@ ext {
 //            deviceIdType     : "1",
 //            appEnvironment   : "0",
 //            crashKey         : "4c2e98635e",
+//            enableCrash      : "true",
 //            isDebug          : "false",
 //            isReviewEnv      : "false",
 
@@ -26,6 +27,7 @@ ext {
 //            deviceIdType     : "2",
 //            appEnvironment   : "5",
 //            crashKey         : "4c2e98635e",
+//            enableCrash      : "false",
 //            isDebug          : "false",
 //            isReviewEnv      : "true",
 
@@ -37,6 +39,7 @@ ext {
             deviceIdType     : "2",
             appEnvironment   : "5",
             crashKey         : "03a4cc2bab",
+            enableCrash      : "true",
             isDebug          : "true",
             isReviewEnv      : "false",
     ]
