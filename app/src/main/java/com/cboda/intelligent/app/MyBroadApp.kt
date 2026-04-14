@@ -130,7 +130,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         mContext = this
 //        Fresco.initialize(this)
         MMKVBroadUtils.init(this)
-        initFireBase(this, "03a4cc2bab")
+        initFireBase(this, com.cboda.baselibrary.BuildConfig.CRASH_KEY)
         setHttpMode()
         ToastBroadUtils.init(this)
         val cacheDir = File(applicationContext.cacheDir, "http")

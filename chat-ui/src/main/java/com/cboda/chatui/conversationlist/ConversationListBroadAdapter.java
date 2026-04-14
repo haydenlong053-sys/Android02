@@ -331,16 +331,18 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
             ((StatusNotificationContainerViewBroadHolder) holder).onBind(fragment, holder.itemView, statusNotifications);
             return;
         }
-        ConversationInfo info = conversationInfos.get(position - headerCount());
-        ConversationViewBroadHolder cvh = (ConversationViewBroadHolder) holder;
+        if (position - headerCount() < conversationInfos.size() && position - headerCount() >= 0) {
+            ConversationInfo info = conversationInfos.get(position - headerCount());
+            ConversationViewBroadHolder cvh = (ConversationViewBroadHolder) holder;
 
-        // 关键修复：每次绑定都强制同步真实选中状态！
-        boolean isSelected = selectedTargetIds.contains(info.conversation.target);
-        info.isSelect = isSelected;
-        cvh.updateSelectedState(isSelected);  // ← 你必须在 ViewHolder 里加这个方法！
+            // 关键修复：每次绑定都强制同步真实选中状态！
+            boolean isSelected = selectedTargetIds.contains(info.conversation.target);
+            info.isSelect = isSelected;
+            cvh.updateSelectedState(isSelected);  // ← 你必须在 ViewHolder 里加这个方法！
 
-        cvh.setSelectMode(isSelectMode);
-        cvh.onBind(info, position);
+            cvh.setSelectMode(isSelectMode);
+            cvh.onBind(info, position);
+        }
     }
 
     @Override
@@ -357,8 +359,12 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
         if (isStatusNotificationHeader(position)) {
             return R.layout.conversationlist_item_notification_broad_container;
         }
-        Conversation conversation = conversationInfos.get(position - headerCount()).conversation;
-        return conversation.type.getValue() << 24 | conversation.line;
+        if (position - headerCount() < conversationInfos.size() && position - headerCount() >= 0) {
+            Conversation conversation = conversationInfos.get(position - headerCount()).conversation;
+            return conversation.type.getValue() << 24 | conversation.line;
+        }else{
+            return 0;
+        }
     }
 
     @Override

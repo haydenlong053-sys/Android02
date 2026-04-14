@@ -183,16 +183,16 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                     text = stringResource(id = R.string.bottom_bar_intelligent)
                 )
             )
-            if (!HttpsBroadConfig.isReviewEnv) {
-                itemList.add(
-                    ExpandableBottomBarBroadItem(
-                        icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
-                        selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
-                        text = stringResource(id = R.string.bottom_bar_social),
-                        badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
-                    )
+//            if (!HttpsBroadConfig.isReviewEnv) {
+            itemList.add(
+                ExpandableBottomBarBroadItem(
+                    icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
+                    selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
+                    text = stringResource(id = R.string.bottom_bar_social),
+                    badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
                 )
-            }
+            )
+//            }
             itemList.add(
                 ExpandableBottomBarBroadItem(
                     icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
@@ -599,9 +599,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         fragmentList.add(NewMirrorBroadFragment())
         fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
-        if (!HttpsBroadConfig.isReviewEnv) {
-            fragmentList.add(messageFragment)
-        }
+//        if (!HttpsBroadConfig.isReviewEnv) {
+        fragmentList.add(messageFragment)
+//        }
 //        fragmentList.add(TongXunLuBroadFragment.getInstance())
 //        fragmentNameList.add("xiaoxi")
 //        fragmentNameList.add("tongxunlu")

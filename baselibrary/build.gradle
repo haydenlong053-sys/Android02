@@ -13,9 +13,8 @@ android {
 
     defaultConfig {
         buildConfigField "int", "APP_ENVIRONMENT", libsinfo.appEnvironment
-//        buildConfigField "int", "NEW_SIGNATURE_TYPE", libsinfo.newSignatureType
         buildConfigField "int", "DEVICE_ID_TYPE", libsinfo.deviceIdType
-//        buildConfigField "boolean", "IS_NEW_SIGNATURE", libsinfo.isNewSignature
+        buildConfigField "String", "CRASH_KEY", "\"${libsinfo.crashKey}\""
         minSdk libsinfo.minSdk
         targetSdk libsinfo.compileSdk
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

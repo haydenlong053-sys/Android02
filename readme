@@ -6,3 +6,4 @@ isDebug:是否为debug模式，是否能打印日志和切换环境（对外发�
 isReviewEnv：是否为审核环境（上架应用市场必须为true）
 appEnvironment: 0-82环境，1-https环境，2-fat环境，3-自定义环境，4-美区环境，5-香港环境，6-84环境
 deviceIdType(设备ID类型):1-AndroidId，2-Wid或设备ID（可上架谷歌），0或其它-随机ID
+crashKey:正式用户使用-“4c2e98635e” ，测试使用-“03a4cc2bab”
