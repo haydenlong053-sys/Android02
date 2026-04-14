@@ -25,6 +25,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch
 import androidx.core.graphics.toColorInt
+import com.cboda.baselibrary.utils.subZeroAndDot
 
 class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeBinding, NewMirrorViewBroadModel>() {
     private var page = 1
@@ -290,8 +291,8 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                     }
 
 
-                    getView<TextView>(R.id.itemProTv).text = "${anyToInt(bean.currentScore)}"
-                    getView<TextView>(R.id.itemMaxProTv).text = "/${anyToInt(bean.maxLimit)}"
+                    getView<TextView>(R.id.itemProTv).text = subZeroAndDot(bean.currentScore)
+                    getView<TextView>(R.id.itemMaxProTv).text = "/${subZeroAndDot(bean.maxLimit)}"
 
 
                     getView<TextView>(R.id.itemDesc).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_vip_bonus), (bean.vipBonusRate * 100).toString() + "%")
