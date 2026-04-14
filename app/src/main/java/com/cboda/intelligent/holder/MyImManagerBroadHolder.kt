@@ -1094,7 +1094,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 //                            }
 //                        }
                         eLogD(APP_TAG,"addCustomFace----")
-                        //废弃，暂未使用表情列表功能
+                        //废弃，暂未使用自定义表情列表功能EmotionBroadEvent
 //                        EventBus.getDefault().post(EmotionBroadEvent("biaoqiangneirong", gson.toJson(bean)))
                     }
                 }
