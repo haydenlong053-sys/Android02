@@ -57,6 +57,7 @@ import com.cboda.chatemoji.MoonBroadUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.cboda.chatui.BroadConfig;
 import com.cboda.chatui.R;
@@ -142,6 +143,30 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     private boolean isPttMode = false;
 
     private OnConversationInputPanelStateChangeListener onConversationInputPanelStateChangeListener;
+
+    // 预编译正则，避免重复创建提升性能（与 BroadE.kt 中 link 规则一致，须闭合最外层 (?: ）
+    private String LINK_PATTERN_BEFORE =
+            "(?i)\\b(?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.](?:com|cn|net|org|io|tv|cc|me|xyz|top|fun|online|site|tech|store|app|dev|cloud|link|info|biz|gov|edu|mobi|name|pro|coop|aero|jobs|museum|travel|tel|asia|post|cat|xxx|[a-z]{2,})(?:/\\S*)?\\b|"
+                    + "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b|"
+                    + "\\b(?:weixin://|alipays://|taobao://|zhihu://|douyin://|bilibili://|tencent://|qq://|mailto:|tel:|sms:|file://|content://|ftp://)\\b)";
+    private Pattern LINK_PATTERN = Pattern.compile(LINK_PATTERN_BEFORE, Pattern.CASE_INSENSITIVE);
+
+
+    /**
+     * 检测文本是否包含链接
+     *
+     * @param text 待检测文本
+     * @return true 表示包含链接，false 表示安全
+     */
+    private boolean containsLink(String text) {
+        if (text == null || text.isEmpty()) return false;
+        // 防御零宽字符、全角空格等绕过手段
+        String cleaned = text
+                .replaceAll("[\\u200B\\u200C\\u200D\\uFEFF\\u00A0\\u3000]", "")
+                .trim();
+
+        return LINK_PATTERN.matcher(cleaned).find();
+    }
 
     public ConversationInputBroadPanel(@NonNull Context context) {
         super(context);
@@ -371,9 +396,9 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         audioImageView.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
-                if (MeetCallManager.getInstance().isCallingState()){
+                if (MeetCallManager.getInstance().isCallingState()) {
                     ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_func_unavailable);
-                }else {
+                } else {
                     showRecordPanel(v);
                 }
 
@@ -502,9 +527,13 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     }
 
     void afterInputTextChanged(Editable editable) {
-        if (editText.getText().toString().trim().length() > 0) {
+        String inputStr = editText.getText().toString();
+        if (inputStr.trim().length() > 0) {
             if (activity.getCurrentFocus() == editText) {
                 notifyTyping(TypingMessageContent.TYPING_TEXT);
+            }
+            if (containsLink(inputStr)) {
+//                sendButton.set
             }
             sendButton.setVisibility(View.VISIBLE);
             extImageView.setVisibility(View.GONE);
