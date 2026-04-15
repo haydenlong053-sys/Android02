@@ -26,7 +26,7 @@ import com.cboda.chatui.R;
 public class ConversationExtPageBroadView extends LinearLayout implements View.OnClickListener {
     private OnExtViewClickListener listener;
     private int pageIndex;
-    public static final int EXT_PER_PAGE = 8;
+    public static final int EXT_PER_PAGE = 10;
 
     public ConversationExtPageBroadView(Context context) {
         super(context);
@@ -67,17 +67,29 @@ public class ConversationExtPageBroadView extends LinearLayout implements View.O
 
         ColorStateList stateList = new ColorStateList(states, colors);
 
-        for (int index = 0; index < exts.size(); index++) {
+        for (int index = 0; index < EXT_PER_PAGE; index++) {
             ImageView iconImageView = findViewWithTag("icon_" + index);
-            iconImageView.setImageResource(exts.get(index).iconResId());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                iconImageView.setImageTintList(stateList);
-                iconImageView.setImageTintMode(PorterDuff.Mode.MULTIPLY);
-            }
-
-            iconImageView.setOnClickListener(this);
             TextView titleTextView = findViewWithTag("title_" + index);
-            titleTextView.setText(exts.get(index).title(getContext()));
+            View container = iconImageView != null ? (View) iconImageView.getParent() : null;
+            if (index < exts.size()) {
+                if (container != null) container.setVisibility(View.VISIBLE);
+                iconImageView.setImageResource(exts.get(index).iconResId());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    iconImageView.setImageTintList(stateList);
+                    iconImageView.setImageTintMode(PorterDuff.Mode.MULTIPLY);
+                }
+                iconImageView.setOnClickListener(this);
+                iconImageView.setVisibility(View.VISIBLE);
+                titleTextView.setText(exts.get(index).title(getContext()));
+                titleTextView.setVisibility(View.VISIBLE);
+            } else {
+                if (container != null) container.setVisibility(View.INVISIBLE);
+                if (iconImageView != null) {
+                    iconImageView.setOnClickListener(null);
+                    iconImageView.setVisibility(View.INVISIBLE);
+                }
+                if (titleTextView != null) titleTextView.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

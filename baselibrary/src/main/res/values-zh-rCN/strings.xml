@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="v_version">版本</string>
     <string name="camera">相机</string>
     <string name="storage">存储</string>
     <string name="read">读取</string>

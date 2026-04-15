@@ -11,7 +11,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.cboda.chatui.utils.ServiceBroadUtil;
+import com.cboda.chatui.utils.ViewBroadUtil;
 
 public class InputAwareBroadLayout extends KeyboardAwareLinearBroadLayout implements KeyboardAwareLinearBroadLayout.OnKeyboardShownListener {
     private InputView current;
@@ -34,19 +36,30 @@ public class InputAwareBroadLayout extends KeyboardAwareLinearBroadLayout implem
         hideAttachedInput(true);
     }
 
-    public void show(@NonNull final EditText imeTarget, @NonNull final InputView input) {
+    public void show(@NonNull final EditText imeTarget, @NonNull final InputView input, int funcType) {
         if (isKeyboardOpen()) {
             hideSoftkey(imeTarget, new Runnable() {
                 @Override
                 public void run() {
                     hideAttachedInput(true);
-                    input.show(getKeyboardHeight(), true);
+                    if (funcType==1){
+                        int px = SizeUtils.dp2px(217f);
+                        input.show(px ,true);
+                    }else {
+                        input.show(getKeyboardHeight(), true);
+                    }
+
                     current = input;
                 }
             });
         } else {
             if (current != null) current.hide(true);
-            input.show(getKeyboardHeight(), current != null);
+            if (funcType==1){
+                int px = SizeUtils.dp2px(217f);
+                input.show(px, current != null);
+            }else {
+                input.show(getKeyboardHeight(), current != null);
+            }
             current = input;
         }
     }
