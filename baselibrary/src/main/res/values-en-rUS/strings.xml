@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="v_version">version</string>
     <string name="camera">Camera</string>
     <string name="storage">Storage</string>
     <string name="read">Read</string>
