@@ -79,11 +79,11 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
 
                 val score = it.creditScore ?: "0"
                 val scoreFloat = anyToFloat(score)
-                mBind?.userHint?.text = if (scoreFloat < 1000f) {
+                mBind?.userHint?.text = if (scoreFloat < 100f) {
                     getString(R.string.credit_score_hint_very_poor)
-                } else if (scoreFloat > 5000f) {
+                } else if (scoreFloat > 500f) {
                     getString(R.string.credit_score_hint_excellent)
-                } else if (scoreFloat > 3000f) {
+                } else if (scoreFloat > 300f) {
                     getString(R.string.credit_score_hint_good)
                 } else {
                     getString(R.string.credit_score_hint_normal)

@@ -8,5 +8,6 @@ class ComposeItem {
     var currentScore: String = ""
     var maxLimit = ""
     var type: Int = 0
+    var createTimestamp: Long = 0L
     var createTime: String = ""
 }

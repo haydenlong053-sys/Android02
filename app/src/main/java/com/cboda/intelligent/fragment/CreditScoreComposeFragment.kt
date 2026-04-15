@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.TimeUtils
 import com.cboda.baselibrary.base.BaseBroadAdapter
 import com.cboda.baselibrary.common.CreditScoreTypeEnum
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
-import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.subZeroAndDot
 import com.cboda.baselibrary.widge.RoundedProgressBar
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
@@ -24,8 +26,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch
-import androidx.core.graphics.toColorInt
-import com.cboda.baselibrary.utils.subZeroAndDot
 
 class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeBinding, NewMirrorViewBroadModel>() {
     private var page = 1
@@ -146,30 +146,16 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         CreditScoreTypeEnum.ONLINE_TIME.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score1)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_online_duration_met)
-                            if (bean.vipBonusRate > 0) {
-                                getView<TextView>(R.id.itemContent).text =
-                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + "x" + (bean.vipBonusRate * 100) + "%")
-
-                            } else {
-                                getView<TextView>(R.id.itemContent).text =
-                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
-
-                            }
-
+                            getView<TextView>(R.id.itemContent).text =
+                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
                         }
 
                         CreditScoreTypeEnum.REGISTER_DAY.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score2)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_register_days)
-                            if (bean.vipBonusRate > 0) {
-                                getView<TextView>(R.id.itemContent).text =
-                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + "x" + (bean.vipBonusRate * 100) + "%")
+                            getView<TextView>(R.id.itemContent).text =
+                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
 
-                            } else {
-                                getView<TextView>(R.id.itemContent).text =
-                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
-
-                            }
                         }
 
                         CreditScoreTypeEnum.CONTRIBUTION.code -> {
@@ -205,15 +191,9 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         CreditScoreTypeEnum.HOLD_ODIC.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score7)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_hold)
-                            if (bean.vipBonusRate > 0) {
-                                getView<TextView>(R.id.itemContent).text =
-                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_quick), "+" + bean.baseScore + "x" + (bean.vipBonusRate * 100) + "%")
+                            getView<TextView>(R.id.itemContent).text =
+                                String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
 
-                            } else {
-                                getView<TextView>(R.id.itemContent).text =
-                                    String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base), "+" + bean.baseScore)
-
-                            }
                         }
 
                     }
@@ -224,8 +204,17 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         getView<TextView>(R.id.itemPointTv).setTextColor("#DF0000".toColorInt())
                         getView<TextView>(R.id.itemPointTv).text = "${bean.score}"
                     }
+                    getView<TextView>(R.id.itemDesc).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_vip_bonus), (bean.vipBonusRate * 100).toString() + "%")
+                    getView<TextView>(R.id.itemDesc2).text =
+                        String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_nice_id_bonus), (bean.lianghaoBonusRate * 100).toString() + "%")
+                    getView<TextView>(R.id.itemDesc).isVisible = (bean.vipBonusRate > 0)
+                    getView<TextView>(R.id.itemDesc2).isVisible = (bean.lianghaoBonusRate > 0)
+                    if (bean.createTimestamp > 0) {
+                        getView<TextView>(R.id.itemTimeTv).text = TimeUtils.millis2String(bean.createTimestamp, "yyyy-MM-dd")
+                    } else {
+                        getView<TextView>(R.id.itemTimeTv).text = ""
+                    }
 
-                    getView<TextView>(R.id.itemTimeTv).text = bean.createTime
                     setGone(R.id.lineView, layoutPosition == 0)
                 }
             } else {
