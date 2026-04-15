@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "567525688868",
+    "project_id": "seekweb4-17d05",
+    "storage_bucket": "seekweb4-17d05.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567525688868:android:9954f7ef0bf7c44657bab1",
+        "android_client_info": {
+          "package_name": "com.cboda.intelligent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIegy91FVS28xZLkWIBEprV7dApWCPV6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+//    id 'com.google.gms.google-services'
+//    id 'com.google.firebase.crashlytics'
 //    id 'maven-publish'
 //    id 'com.github.ben-manes.versions' version '0.53.0'
 }
@@ -97,6 +99,14 @@ dependencies {
     implementation libs.androidx.appcompat
     implementation libs.material
     if (libsinfo.enableCrash) implementation libs.bugly
+//    if (!libsinfo.enableCrash) implementation platform('com.google.firebase:firebase-bom:34.12.0')
+//    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-crashlytics-ndk'
+//    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-crashlytics'
+//    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-analytics'
+//    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-firestore'
+//    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-storage'
+//    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-auth'
+
 //    implementation "com.github.getActivity:MultiLanguages:10.2"
 //    api 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 //    api 'com.github.getActivity:ShapeDrawable:3.3'
