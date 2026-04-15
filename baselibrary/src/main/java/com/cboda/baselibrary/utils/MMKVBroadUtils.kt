@@ -41,6 +41,10 @@ class MMKVBroadUtils {
         const val DEV_INPUT_BASE_URL = "devInputBaseUrl"
         const val SEARCH_KEY = "searchHistoryKey"
         const val USER_ID_KEY = "userIdKey"
+
+        const val USER_SEND_LINK = "userSendLink"
+
+        const val USER_CREDIT_SCORE_NEW_USER_DAYS = "userCreditScoreNewUserDays"
         const val USER_NAME_KEY = "username"
 
         const val USER_VIP_KEY = "userVip"
@@ -400,7 +404,7 @@ class MMKVBroadUtils {
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_FRIEND_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
                 val type = object : TypeToken<HashMap<String, GlobalFriendBroadBean>>() {}
-                return fromJsonTypeToken(decodeString, type)
+                fromJsonTypeToken(decodeString, type)
             } else {
                 HashMap()
             }

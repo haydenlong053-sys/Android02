@@ -4,6 +4,10 @@
 
 package com.cboda.chatui.conversation;
 
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_CREDIT_SCORE_NEW_USER_DAYS;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static com.cboda.chatui.conversation.ConversationBroadFragment.REQUEST_BROAD_PICK_MENTION_CONTACT;
 
 import android.Manifest;
@@ -47,6 +51,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatemoji.EmotionBroadLayout;
 import com.cboda.chatemoji.IEmotionExtClickBroadListener;
@@ -532,9 +537,6 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
             if (activity.getCurrentFocus() == editText) {
                 notifyTyping(TypingMessageContent.TYPING_TEXT);
             }
-            if (containsLink(inputStr)) {
-//                sendButton.set
-            }
             sendButton.setVisibility(View.VISIBLE);
             extImageView.setVisibility(View.GONE);
         } else {
@@ -664,7 +666,16 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         if (TextUtils.isEmpty(content)) {
             return;
         }
-
+        String canSendLink = MMKVBroadUtils.Companion.getSqlStrData(USER_SEND_LINK, "false");
+        int dayInt = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, ""));
+        if (dayInt <= 0) {
+            dayInt = 61;
+        }
+        String day = String.valueOf(dayInt);
+        if (!canSendLink.equals("true") && containsLink(content.toString())) {
+            ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+            return;
+        }
         TextMessageContent txtContent = new TextMessageContent(content.toString().trim());
         if (this.quoteInfo != null) {
             txtContent.setQuoteInfo(quoteInfo);
