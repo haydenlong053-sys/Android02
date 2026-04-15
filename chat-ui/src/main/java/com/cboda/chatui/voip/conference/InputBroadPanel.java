@@ -119,7 +119,7 @@ public class InputBroadPanel extends FrameLayout implements IEmotionSelectedBroa
             rootLinearLayout.showSoftkey(editText);
             hideEmotionLayout();
         } else {
-            rootLinearLayout.show(editText, emotionContainerFrameLayout);
+            rootLinearLayout.show(editText, emotionContainerFrameLayout,0);
             showEmotionLayout();
         }
     }

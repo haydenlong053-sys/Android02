@@ -280,12 +280,14 @@
 
         </com.hjq.shape.layout.ShapeLinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_16"
+            />
         <com.cboda.chatui.widget.ShapeKeyboardHeightFrameBroadLayout
             android:id="@+id/emotionContainerFrameLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_custom_keyboard_size"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_16"
             android:visibility="gone"
             app:shape_solidColor="@color/white"
             app:shape_topLeftRadius="@dimen/dp_16"
@@ -301,9 +303,7 @@
         <com.cboda.chatui.widget.ShapeKeyboardHeightFrameBroadLayout
             android:id="@+id/extContainerContainerLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/default_custom_keyboard_size"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_16"
+            android:layout_height="@dimen/dp_217"
             android:visibility="gone"
             app:shape_solidColor="@color/white"
             app:shape_topLeftRadius="@dimen/dp_16"

@@ -48,7 +48,7 @@ public class ConversationExtPagerBroadAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return exts == null ? 0 : (exts.size() + 7) / 8;
+        return exts == null ? 0 : (exts.size() + 9) / 10;
     }
 
     @Override
