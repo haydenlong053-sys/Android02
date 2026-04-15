@@ -166,9 +166,10 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     ivMirrorSex.setImageResource(if (sex == "1") R.drawable.ic_mirror_broad_male else R.drawable.ic_mirror_broad_female)
 
                 }
+                ivMirrorSex.isVisible =true
                 val isFriend = "1" == it.data?.isFri
                 otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
-                findViewById<ImageView>(R.id.iv_float_more).isGone =
+                findViewById<ImageView>(R.id.iv_float_more).isInvisible =
                     otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
                 findViewById<TextView>(R.id.addFriend).isGone =
                     isFriend || otherUid == MMKVBroadUtils.getRealUserId()
