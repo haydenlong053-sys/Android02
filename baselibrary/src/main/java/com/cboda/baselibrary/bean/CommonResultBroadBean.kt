@@ -14,6 +14,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
     class CommonResult {
         var creditScoreNewUserDays = ""
+        var creditScoreNewInGroupDays:Int= 0
         var canSendLink = false
         var renameCount: Int = 0
         var joinTime: String = ""

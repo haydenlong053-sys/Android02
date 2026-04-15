@@ -55,6 +55,7 @@ import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.CREDIT_SCORE_NEW_IN_GROUP_DAYS
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_CREDIT_SCORE_NEW_USER_DAYS
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
@@ -324,6 +325,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 MMKVBroadUtils.saveUserMId(it.data?.mId)
                 MMKVBroadUtils.saveSqlStrData(USER_SEND_LINK, it.data?.canSendLink.toString())
                 MMKVBroadUtils.saveSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, it.data?.creditScoreNewUserDays.toString())
+                MMKVBroadUtils.saveNewInGroupDays(it.data?.creditScoreNewInGroupDays)
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", it.data?.autofanyi!!)
                 MMKVBroadUtils.saveUserVip(it.data?.isvip ?: "")
                 viewModel?.getKfInfo(this@MainBroadActivity, it.data?.kfid!!)

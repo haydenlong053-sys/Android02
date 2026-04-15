@@ -45,6 +45,7 @@ class MMKVBroadUtils {
         const val USER_SEND_LINK = "userSendLink"
 
         const val USER_CREDIT_SCORE_NEW_USER_DAYS = "userCreditScoreNewUserDays"
+        const val CREDIT_SCORE_NEW_IN_GROUP_DAYS = "creditScoreNewInGroupDays"
         const val USER_NAME_KEY = "username"
 
         const val USER_VIP_KEY = "userVip"
@@ -538,6 +539,17 @@ class MMKVBroadUtils {
             }
 
         }
+
+        //配置-新入群天数
+        fun saveNewInGroupDays(creditScoreNewInGroupDays: Int?) {
+            getMmKv()?.encode(CREDIT_SCORE_NEW_IN_GROUP_DAYS, creditScoreNewInGroupDays?:0)
+        }
+
+        //配置-新入群天数
+        fun getNewInGroupDays(): Int {
+            return getMmKv()?.decodeInt(CREDIT_SCORE_NEW_IN_GROUP_DAYS) ?: 0
+        }
+
 
 
         private var mkv: MMKV? = null

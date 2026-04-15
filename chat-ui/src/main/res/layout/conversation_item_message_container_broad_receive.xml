@@ -56,11 +56,13 @@
                     android:layout_marginLeft="4dp"
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="1dp"
-                    android:textColor="#3B47DD"
                     android:textSize="10sp"
                     android:visibility="gone"
                     app:shape_radius="4dp"
                     app:shape_solidColor="#1E3B47DD"
+                    app:shape_solidSelectedColor="#1ED5271E"
+                    app:shape_textColor="#3B47DD"
+                    app:shape_textSelectedColor="#D5271E"
                     tools:text="2014年12月30日入群"
                     tools:visibility="visible" />
             </LinearLayout>
