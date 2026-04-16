@@ -366,7 +366,7 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
         if (conversation.type == Conversation.ConversationType.Group && null != userGroupData) {
             content.extra = toJson2(new MsgBroadExtra(userGroupData.getGrade(), userGroupData.getJoinTime(), isMeetingImage ? "1" : ""));
         } else if (isMeetingImage) {
-            content.extra = toJson2(new MsgBroadExtra(0, "", "1"));
+            content.extra = toJson2(new MsgBroadExtra(0.0, "", "1"));
         }
         //野火发送消息
         if (content instanceof TypingMessageContent) {

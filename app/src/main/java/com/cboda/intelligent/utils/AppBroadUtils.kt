@@ -19,6 +19,7 @@ import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.eLogD
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
@@ -233,7 +234,6 @@ class AppBroadUtils {
             JumpBroadUtils.startMainActivity(context, fromType)
 
 
-
 //            MMKVBroadUtils.getRealUserId()?.apply {
 //
 //            }
@@ -290,6 +290,7 @@ class AppBroadUtils {
             MMKVBroadUtils.clearUserId()
             MMKVBroadUtils.clearRealUserId()
             MMKVBroadUtils.clearMyImToken()
+            MMKVBroadUtils.saveSqlStrData(USER_SEND_LINK, "false")
         }
 
     }

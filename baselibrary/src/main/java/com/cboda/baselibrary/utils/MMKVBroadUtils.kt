@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.FileUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.bean.GlobalBroadInfo.getFriendData
@@ -41,6 +42,13 @@ class MMKVBroadUtils {
         const val DEV_INPUT_BASE_URL = "devInputBaseUrl"
         const val SEARCH_KEY = "searchHistoryKey"
         const val USER_ID_KEY = "userIdKey"
+
+        const val USER_SEND_LINK = "userSendLink"
+
+        const val USER_CREDIT_SCORE_NEW_USER_DAYS = "userCreditScoreNewUserDays"
+
+        const val USER_REGISTRATION_DAY_SCORE = "userRegistrationDayScore"
+
         const val USER_NAME_KEY = "username"
 
         const val USER_VIP_KEY = "userVip"
@@ -351,6 +359,25 @@ class MMKVBroadUtils {
             saveUserListData(list)
         }
 
+
+        fun saveUserData(list: List<CommonDataListBroadBean.CommonBean>?) {
+            val glList = arrayListOf<GlobalFriendBroadBean>()
+            list?.let {
+                list.forEach { item ->
+                    val glBean = GlobalFriendBroadBean()
+                    glBean.userId = item.userId
+                    glBean.icon = item.icon
+                    glBean.isVip = "1" == item.isvip
+                    glBean.nickName = item.name
+                    glBean.registerDay = item.registerDay
+                    glBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
+                    glBean.grade = item.grade
+                    glList.add(glBean)
+                }
+                saveUserListData(glList)
+            }
+        }
+
         fun saveUserData(data: CommonResultBroadBean.CommonResult?) {
             data?.also {
                 val bean = GlobalFriendBroadBean()
@@ -360,9 +387,12 @@ class MMKVBroadUtils {
                 data.registerDayBean?.registDay?.also { bean.registerDay = it }
                 bean.grade = data.grade
                 bean.icon = data.icon
+                bean.isVip = data.isvip == "1"
+                bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
                 saveUserData(bean)
             }
         }
+
 
         fun saveUserListData(list: List<GlobalFriendBroadBean>, viewModelScope: CoroutineScope? = null) {
             getFriendData(viewModelScope) { map ->
@@ -388,6 +418,8 @@ class MMKVBroadUtils {
                     bean.icon = item.icon
                     bean.nickName = item.nickName
                     bean.remarkName = item.remarkName
+                    bean.isVip = item.isVip
+                    bean.isNiceNum = item.isNiceNum
                     map[item.userId ?: ""] = bean
                 }
             }
@@ -400,7 +432,7 @@ class MMKVBroadUtils {
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_FRIEND_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
                 val type = object : TypeToken<HashMap<String, GlobalFriendBroadBean>>() {}
-                return fromJsonTypeToken(decodeString, type)
+                fromJsonTypeToken(decodeString, type)
             } else {
                 HashMap()
             }
@@ -454,7 +486,7 @@ class MMKVBroadUtils {
                             }
                         }
                         MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
-                        GlobalBroadInfo.myGroupListData = map
+                        myGroupListData = map
                     }
                 } ?: let {
                     GlobalScope.launch(Dispatchers.IO) {
@@ -464,7 +496,7 @@ class MMKVBroadUtils {
                             }
                         }
                         MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
-                        GlobalBroadInfo.myGroupListData = map
+                        myGroupListData = map
                     }
                 }
             }
@@ -474,7 +506,7 @@ class MMKVBroadUtils {
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_GROUP_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
                 val type = object : TypeToken<HashMap<String, GlobalSmallGroupBroadBean>>() {}
-                return fromJsonTypeToken(decodeString, type)
+                fromJsonTypeToken(decodeString, type)
             } else {
                 HashMap()
             }

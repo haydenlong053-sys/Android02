@@ -13,6 +13,8 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
 
     class CommonResult {
+        var creditScoreNewUserDays = ""
+        var canSendLink = false
         var renameCount: Int = 0
         var joinTime: String = ""
         var fileType: String? = null
@@ -124,5 +126,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
     class RegisterDayBean {
         var registDay: Int = 0
+        @SerializedName("newUserDays")
+        var registrationDayScore = ""
     }
 }

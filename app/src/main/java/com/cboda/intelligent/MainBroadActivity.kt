@@ -56,6 +56,9 @@ import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_CREDIT_SCORE_NEW_USER_DAYS
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_REGISTRATION_DAY_SCORE
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
@@ -320,6 +323,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 MMKVBroadUtils.saveUserName(it.data?.name ?: "")
                 MMKVBroadUtils.saveUserNiceNum(it.data?.isLiang ?: "")
                 MMKVBroadUtils.saveUserMId(it.data?.mId)
+                MMKVBroadUtils.saveSqlStrData(USER_SEND_LINK, it.data?.canSendLink.toString())
+                MMKVBroadUtils.saveSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, it.data?.creditScoreNewUserDays.toString())
+                val registrationDayScoreInt = anyToInt(it.data?.registerDayBean?.registrationDayScore.toString())
+                MMKVBroadUtils.saveSqlStrData(USER_REGISTRATION_DAY_SCORE, registrationDayScoreInt.toString())
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", it.data?.autofanyi!!)
                 MMKVBroadUtils.saveUserVip(it.data?.isvip ?: "")
                 viewModel?.getKfInfo(this@MainBroadActivity, it.data?.kfid!!)
@@ -805,6 +812,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             adapter = FragmentBroadAdapter(fragmentList, supportFragmentManager)
             setScroll(true)
             offscreenPageLimit = fragmentList.size
+            if (fragmentList.size == 4) {
+                setCurrentItem(2, false)
+            }
         }
 
 

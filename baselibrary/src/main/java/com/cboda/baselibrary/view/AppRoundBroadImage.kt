@@ -10,7 +10,9 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatImageView
+import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.R
+import com.cboda.baselibrary.utils.getAppColor
 import kotlin.math.max
 import kotlin.math.min
 
@@ -107,6 +109,7 @@ open class AppRoundBroadImage constructor(
                         MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
                     )
                 }
+
                 mHeightRatio > 0 -> { // 宽度已知，根据比例，设置高度
                     val width = MeasureSpec.getSize(widthMeasureSpec)
                     super.onMeasure(
@@ -118,6 +121,7 @@ open class AppRoundBroadImage constructor(
                         )
                     )
                 }
+
                 else -> super.onMeasure(widthMeasureSpec, heightMeasureSpec)
             }
         }
@@ -176,6 +180,7 @@ open class AppRoundBroadImage constructor(
                             canvas.drawRect(mRoundRectB, mBitmapPaint)
                         }
                     }
+
                     2 -> {
                         mRoundRectC?.also { mRoundRectC ->
                             canvas.drawRect(mRoundRectC, mBitmapPaint)
@@ -320,6 +325,7 @@ open class AppRoundBroadImage constructor(
             when (mRoundType) {
                 1 -> mRoundRectB =
                     RectF(0f, h.toFloat() - mBorderRadius.toFloat(), w.toFloat(), h.toFloat())
+
                 2 -> mRoundRectC = RectF(0f, 0f, w.toFloat(), h.toFloat() - mBorderRadius.toFloat())
 //                3 -> mRoundRectD = RectF(
 //                    0f + mBorderRadius.toFloat(),
@@ -361,6 +367,13 @@ open class AppRoundBroadImage constructor(
             invalidate()
         }
     }
+
+    fun setBorderWidthAndColor(color: Int, width: Float) {
+        this.mBorderColor = getAppColor(context, color)
+        this.mBorderWidth = dp2px(width)
+        invalidate()
+    }
+
 
     fun setType(type: Int) {
         if (this.mBorderRadiusType != type) {

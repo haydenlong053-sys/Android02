@@ -1,5 +1,6 @@
 package com.cboda.intelligent.viewmodel
 
+import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -197,19 +198,21 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                             bean.nickName = data.name
                             bean.grade = data.grade
                             bean.registerDay = data.registerDayBean?.registDay
+                            bean.isVip = data.isvip == "1"
+                            bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
                             MMKVBroadUtils.saveUserData(bean)
                         }
-                        eLogD("NewMirrorViewBroadModelClass","data:${toJson2(data)}")
+                        eLogD("NewMirrorViewBroadModelClass", "data:${toJson2(data)}")
                         liveData.postValue(data)
                     }.onFailure { _, _ ->
-                        eLogD("NewMirrorViewBroadModelClass","getUserInfo onFailure")
+                        eLogD("NewMirrorViewBroadModelClass", "getUserInfo onFailure")
                         liveData.postValue(null)
                     }.onError { _ ->
-                        eLogD("NewMirrorViewBroadModelClass","getUserInfo onError")
+                        eLogD("NewMirrorViewBroadModelClass", "getUserInfo onError")
                         liveData.postValue(null)
                     }
                 } catch (_: Exception) {
-                    eLogD("NewMirrorViewBroadModelClass","getUserInfo Exception")
+                    eLogD("NewMirrorViewBroadModelClass", "getUserInfo Exception")
                     liveData.postValue(null)
                 }
             }
