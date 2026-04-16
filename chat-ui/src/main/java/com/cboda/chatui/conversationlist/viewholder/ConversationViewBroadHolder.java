@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.chatemoji.MoonBroadUtils;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.third.utils.MyTimeFormatter;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.chatui.utils.WfcTextBroadUtils;
+import com.hjq.shape.view.ShapeTextView;
+
 import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessageStatus;
@@ -53,12 +56,14 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
 
     protected TextView nameTextView;
     protected TextView timeTextView;
-    protected ImageView portraitImageView;
-    protected ImageView silentImageView;
+    protected AppRoundBroadImage portraitImageView;
+    protected ImageView silentImageView,vipImageView;
     protected TextView unreadCountTextView;
     protected View redDotView;
     protected TextView contentTextView;
-    protected TextView promptTextView, gradeTv, nameTimeTv;
+    protected TextView promptTextView, nameTimeTv;
+    protected ShapeTextView gradeTv;
+
 
     protected ImageView statusImageView;
 
@@ -101,6 +106,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         portraitImageView = itemView.findViewById(R.id.portraitImageView);
         gradeTv = itemView.findViewById(R.id.gradeTv);
         nameTimeTv = itemView.findViewById(R.id.nameTimeTv);
+        vipImageView= itemView.findViewById(R.id.vipImageView);
         silentImageView = itemView.findViewById(R.id.slient);
         unreadCountTextView = itemView.findViewById(R.id.unreadCountTextView);
         redDotView = itemView.findViewById(R.id.redDotView);

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -47,6 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.input.pointer.pointerInput
@@ -79,6 +81,7 @@ import coil.request.ImageRequest
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.formatWithBigDecimal
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -142,7 +145,7 @@ class SocialFragment : Fragment() {
     }
 
     private fun navigateToFriendInfoPage(userId: String) {
-        JumpBroadUtils.startHaoYouAddActivity(requireContext(), userId,"2")
+        JumpBroadUtils.startHaoYouAddActivity(requireContext(), userId, "2")
     }
 
     override fun onResume() {
@@ -484,7 +487,7 @@ private fun CirclesRow(
                     //此处文案翻译临时处理，后端接口文案一直是中文
                     Chip(
 //                        text = c.characterTags,
-                        text = goTempTranslateString(LocalContext.current,c.characterTags),
+                        text = goTempTranslateString(LocalContext.current, c.characterTags),
                         selected = isSelected,
                         onClick = { onSelect(if (isSelected) null else c.characterTags) },
                         minWidth = minChipWidth
@@ -505,7 +508,7 @@ private fun CharacterExplanation(text: String) {
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
-            text =  goTempTranslateString(LocalContext.current,text),
+            text = goTempTranslateString(LocalContext.current, text),
             fontSize = 14.sp,
             color = Color.Black.copy(0.65f),
             lineHeight = TextUnit(19.6f, TextUnitType.Sp),
@@ -592,23 +595,46 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     if (ch != null && ch.isLetter()) ch.uppercaseChar() else '#'
                 }
             }
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(contact.icon)
-                    .crossfade(true)
-                    .size(48, 48)          // 预设大小，防止 measure 反复计算
-                    .memoryCachePolicy(CachePolicy.ENABLED)
-                    .diskCachePolicy(CachePolicy.ENABLED)
-                    .build(),
+            val isVip = contact.isvip == "1"
+            val density = LocalDensity.current
+            val avatarPx = with(density) { 48.dp.roundToPx() }
+            Box(modifier = Modifier.size(48.dp)) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(contact.icon)
+                        .crossfade(true)
+                        // Coil size 为像素，需与 48.dp 对齐，避免小图被放大发糊
+                        .size(avatarPx, avatarPx)
+                        .memoryCachePolicy(CachePolicy.ENABLED)
+                        .diskCachePolicy(CachePolicy.ENABLED)
+                        .build(),
 //                model = contact.icon,
-                contentDescription = stringResource(R.string.contact_avatar),
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape),
-                placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
-                error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
-                contentScale = ContentScale.Crop
-            )
+                    contentDescription = stringResource(R.string.contact_avatar),
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .then(
+                            if (isVip) Modifier.border(
+                                1.dp,
+                                Color(0xFFFAD27C),
+                                CircleShape
+                            ) else Modifier
+                        ),
+                    placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
+                    error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
+                    contentScale = ContentScale.Crop
+                )
+                if (isVip) {
+                    Image(
+                        painter = painterResource(com.cboda.baselibrary.R.mipmap.new_vip),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .size(width = 17.dp, height = 14.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
 
 //            Box(
 //                modifier = Modifier
@@ -632,7 +658,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        text = "${contact.grade ?: 0}${stringResource(R.string.score_unit)}",
+                        text = "${formatWithBigDecimal(contact.grade)}${stringResource(R.string.score_unit)}",
                         fontSize = 14.sp,
                         color = Color(0xffEF7B05),
                         fontWeight = FontWeight.W500
@@ -646,10 +672,10 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                         ) {
                             Text(
 //                                text = contact.characterTags,
-                                text = goTempTranslateString(LocalContext.current,contact.characterTags),
+                                text = goTempTranslateString(LocalContext.current, contact.characterTags),
                                 fontSize = 11.sp,
                                 color = Color(0xFF3B47DD),
-                                overflow= TextOverflow.Ellipsis,
+                                overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                             )
                         }

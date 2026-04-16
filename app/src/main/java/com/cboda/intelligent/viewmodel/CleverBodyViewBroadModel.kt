@@ -1,5 +1,6 @@
 package com.cboda.intelligent.viewmodel
 
+import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -59,6 +60,8 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
                             bean.nickName = data.name
                             bean.grade = data.grade
                             bean.registerDay = data.registerDayBean?.registDay
+                            bean.isVip = data.isvip == "1"
+                            bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
                             MMKVBroadUtils.saveUserData(bean)
                         }
                         liveData.postValue(data)

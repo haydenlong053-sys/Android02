@@ -46,8 +46,13 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import com.airbnb.lottie.LottieAnimationView
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.clipViewOutlineRound
+import com.cboda.baselibrary.utils.formatWithBigDecimal
+import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
+import com.cboda.baselibrary.utils.setTxtColor
 import com.cboda.intelligent.utils.goTempTranslateString
+import com.hjq.shape.layout.ShapeConstraintLayout
 
 
 class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
@@ -218,34 +223,58 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     friendNickName.text = getString(R.string.nickname_with_prefix, name ?: "")
                     friendNickName.isGone = false
                 }
-                if (this.isLiang=="1"){
-                    tvTagName.isInvisible=true
-                    mViewPremiumNumber.isVisible =true
-                    mTvPremiumNumber.text= "${getString(R.string.user_id_prefix)}${this.lianghao}"
-                    if (!mViewAnimateNumb.isAnimating){
+                if (this.isLiang == "1") {
+                    tvTagName.isInvisible = true
+                    mViewPremiumNumber.isVisible = true
+                    mTvPremiumNumber.text = "${getString(R.string.user_id_prefix)}${this.lianghao}"
+                    if (!mViewAnimateNumb.isAnimating) {
                         mViewAnimateNumb.playAnimation()
                     }
 
-                }else{
+                } else {
                     tvTagName.isVisible = true
-                    mViewPremiumNumber.isVisible =false
-                    if (mViewAnimateNumb.isAnimating){
+                    mViewPremiumNumber.isVisible = false
+                    if (mViewAnimateNumb.isAnimating) {
                         mViewAnimateNumb.pauseAnimation()
                     }
                 }
 
                 friendName.text = showName
-                findViewById<LinearLayout>(R.id.ll_grade).visibility = View.VISIBLE
-                val tvGrade = findViewById<TextView>(R.id.tv_grade)
-                val fullGradeString = "${grade}${getString(R.string.score_unit)}"
-                tvGrade.text = SpanBroadUtils.small(fullGradeString, getString(R.string.score_unit), 12f, "#031256".toColorInt())
+                val layoutMirrorCredit = findViewById<ShapeConstraintLayout>(R.id.layoutMirrorCredit)
+//                layoutMirrorCredit.visibility = View.VISIBLE
+                val tvMirrorCreditScore = findViewById<TextView>(R.id.tvMirrorCreditScore)
+                val tvMirrorCreditScoreValue = findViewById<TextView>(R.id.tvMirrorCreditScoreValue)
+                val tvMirrorCreditLabel = findViewById<TextView>(R.id.tvMirrorCreditLabel)
+                tvMirrorCreditScore.text = formatWithBigDecimal(grade)
 
-
+                if (!TextUtils.isEmpty(lianghao)) {
+                    layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
+                    tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
+                    tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
+                    tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
+                } else {
+                    val registrationDayScore = anyToInt(registerDayBean?.registrationDayScore ?: "")
+                    val registrationDay = anyToInt(registerDayBean?.registDay ?: 0)
+                    if (registrationDay < registrationDayScore) {
+                        layoutMirrorCredit.setBackColorAndStrokeColor(com.cboda.baselibrary.R.color.color_FFB789_20, R.color.white)
+                        tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
+                        tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
+                        tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
+                    } else {
+                        layoutMirrorCredit.setBackColorAndStrokeColor(com.cboda.baselibrary.R.color.color_4F6FF3_20, R.color.white)
+                        tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
+                        tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
+                        tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
+                    }
+                }
+                val vipMirrorCredit = findViewById<ImageView>(R.id.vipMirrorCredit)
                 if (isLiang != null && isLiang == "1") {
                     ivLiang?.visibility = View.VISIBLE
+                    vipMirrorCredit.isGone = false
                     tvID?.setTextColor(resources.getColor(R.color.color_text_liang))
                 } else {
                     ivLiang?.visibility = View.GONE
+                    vipMirrorCredit.isGone = true
                 }
 
                 tvID?.text = "${getString(R.string.user_id_prefix)}${this.idno}"
@@ -253,7 +282,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 tvnicheng?.text = StringBroadUtils.format(getString(R.string.nichengshi), "${this.name}")
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
                 qianmingname?.text = this.sign ?: ""
-                beizhuname?.text = goTempTranslateString(this@HaoYouPageBroadActivity,this.characterTags?: "")
+                beizhuname?.text = goTempTranslateString(this@HaoYouPageBroadActivity, this.characterTags ?: "")
                 pengyouquanlay?.isVisible = this.isOpenQuan == "1"
 
                 if (BroadConstant.getRealUid() == this.id) {
@@ -427,7 +456,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (mViewAnimateNumb.isAnimating){
+        if (mViewAnimateNumb.isAnimating) {
             mViewAnimateNumb.pauseAnimation()
         }
     }
