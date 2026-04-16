@@ -432,10 +432,14 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         GlobalBroadInfo.INSTANCE.queryMyFriendInfo(message.message.sender, null, friendSmailListBean -> {
             if (null != friendSmailListBean) {
                 vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
+                if(friendSmailListBean.isVip){
+                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
+                }else{
+                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+                }
                 if (friendSmailListBean.isNiceNum) {
                     setBackColor(portraitTv, com.cboda.baselibrary.R.color.black);
                     setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
-                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
                 } else {
                     int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
                     int registrationDay = friendSmailListBean.registerDay;
@@ -445,7 +449,6 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_7A66FA);
                     }
                     setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
-                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
                 }
             } else {
                 vipMirrorCredit.setVisibility(View.GONE);

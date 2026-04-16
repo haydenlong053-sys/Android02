@@ -58,7 +58,6 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
                 if (friendSmailListBean.isNiceNum) {
                     setBackColor(gradeTv, com.cboda.baselibrary.R.color.black);
                     setTxtColor(gradeTv, com.cboda.baselibrary.R.color.color_FAE77C);
-                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
                 } else {
                     int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
                     int registrationDay = friendSmailListBean.registerDay;
@@ -68,17 +67,17 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
                         setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_7A66FA);
                     }
                     setTxtColor(gradeTv, com.cboda.baselibrary.R.color.white);
-                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
                 }
             } else {
                 setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_D5271E);
                 setTxtColor(gradeTv, com.cboda.baselibrary.R.color.white);
-                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
             }
             if (null != friendSmailListBean && friendSmailListBean.isVip) {
                 vipImageView.setVisibility(View.VISIBLE);
+                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
             } else {
                 vipImageView.setVisibility(View.GONE);
+                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
             }
 
 
