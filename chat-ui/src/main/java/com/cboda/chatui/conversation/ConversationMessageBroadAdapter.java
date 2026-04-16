@@ -4,6 +4,7 @@
 
 package com.cboda.chatui.conversation;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
@@ -106,12 +107,19 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     protected MessageViewBroadModel messageViewModel;
     public String istousu;
 
+    //配置值，新入群天数
+    private long inGroupDaysMs =0L;
+    private final long currentTimeMillis =System.currentTimeMillis();
 
     public ConversationMessageBroadAdapter(ConversationBroadFragment fragment) {
         super();
+//        eLogD(APP_TAG,"---"+MMKVBroadUtils.Companion.getNewInGroupDays());
+        inGroupDaysMs = (long) MMKVBroadUtils.Companion.getNewInGroupDays() * 24 *60 * 60 *1000;
         this.fragment = fragment;
         messageViewModel = new ViewModelProvider(fragment).get(MessageViewBroadModel.class);
+
     }
+
 
     public int getMode() {
         return mode;
@@ -507,6 +515,11 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
                             String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
                             joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
+                            if ((currentTimeMillis -timeLong) <inGroupDaysMs){
+                                joinTimeTv.setSelected(true);
+                            }else {
+                                joinTimeTv.setSelected(false);
+                            }
                         } catch (Exception e) {
                             toLog(e, "joinGroupTime");
                             joinTimeTv.setVisibility(View.GONE);
