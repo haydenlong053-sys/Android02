@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -47,6 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.input.pointer.pointerInput
@@ -593,23 +595,46 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     if (ch != null && ch.isLetter()) ch.uppercaseChar() else '#'
                 }
             }
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(contact.icon)
-                    .crossfade(true)
-                    .size(48, 48)          // 预设大小，防止 measure 反复计算
-                    .memoryCachePolicy(CachePolicy.ENABLED)
-                    .diskCachePolicy(CachePolicy.ENABLED)
-                    .build(),
+            val isVip = contact.isvip == "1"
+            val density = LocalDensity.current
+            val avatarPx = with(density) { 48.dp.roundToPx() }
+            Box(modifier = Modifier.size(48.dp)) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(contact.icon)
+                        .crossfade(true)
+                        // Coil size 为像素，需与 48.dp 对齐，避免小图被放大发糊
+                        .size(avatarPx, avatarPx)
+                        .memoryCachePolicy(CachePolicy.ENABLED)
+                        .diskCachePolicy(CachePolicy.ENABLED)
+                        .build(),
 //                model = contact.icon,
-                contentDescription = stringResource(R.string.contact_avatar),
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape),
-                placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
-                error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
-                contentScale = ContentScale.Crop
-            )
+                    contentDescription = stringResource(R.string.contact_avatar),
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .then(
+                            if (isVip) Modifier.border(
+                                1.dp,
+                                Color(0xFFFAD27C),
+                                CircleShape
+                            ) else Modifier
+                        ),
+                    placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
+                    error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
+                    contentScale = ContentScale.Crop
+                )
+                if (isVip) {
+                    Image(
+                        painter = painterResource(com.cboda.baselibrary.R.mipmap.new_vip),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .size(width = 17.dp, height = 14.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
 
 //            Box(
 //                modifier = Modifier
