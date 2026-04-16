@@ -137,6 +137,8 @@
     <string name="credit_score_label_system_deduct">System Deduction</string>
     <string name="credit_score_label_invite_friend">Invite Friends</string>
     <string name="credit_score_label_hold">Hold ODIC</string>
+    <string name="credit_score_label_guaranteed_transaction">Guaranteed Transaction</string>
+    <string name="credit_score_label_endorsement_gained">Endorsement Gained</string>
 
     <!-- Credit score breakdown lines -->
     <string name="credit_score_fmt_breakdown_base_usdt">Base: %1$s/USDT</string>
