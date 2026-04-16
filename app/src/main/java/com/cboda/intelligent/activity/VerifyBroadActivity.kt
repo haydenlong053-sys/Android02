@@ -13,6 +13,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.YanZhengBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
@@ -21,7 +22,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 
-class VerifyBroadActivity : BaseSimpleBroadActivity() {
+class VerifyBroadActivity : BaseSimple2BroadActivity() {
     private var fromPage = ""
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: YanZhengBroadAdapter? = null
@@ -36,8 +37,13 @@ class VerifyBroadActivity : BaseSimpleBroadActivity() {
         const val FRIEND_APPLY = "xindepengyou"
         const val GROUP_INVITED = "ruqunyaoqing"
     }
+    override fun showBgTopTitleLayout(): Boolean {
+        return true
+    }
+
 
     private fun initViews() {
+        setRootBgColor(R.color.white)
         edtSousuo = findViewById(R.id.edtSousuo)
         recyclerView = findViewById(R.id.recyclerView)
         smartLayout = findViewById(R.id.smartLayout)
