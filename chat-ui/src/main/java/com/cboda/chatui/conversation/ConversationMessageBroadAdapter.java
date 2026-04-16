@@ -9,6 +9,7 @@ import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
 
@@ -432,9 +433,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         GlobalBroadInfo.INSTANCE.queryMyFriendInfo(message.message.sender, null, friendSmailListBean -> {
             if (null != friendSmailListBean) {
                 vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
-                if(friendSmailListBean.isVip){
+                if (friendSmailListBean.isVip) {
                     portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
-                }else{
+                } else {
                     portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
                 }
                 if (friendSmailListBean.isNiceNum) {
@@ -467,11 +468,11 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 } else {
                     portraitImageLayout.setVisibility(View.VISIBLE);
                     portraitTv.setVisibility(View.VISIBLE);
-                    portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
+                    portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
                 }
             } else if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null) {
                 portraitTv.setVisibility(View.VISIBLE);
-                portraitTv.setText(messageViewModel.getUserGroupData().getGrade() + fragment.getString(R.string.message_grade_unit));
+                portraitTv.setText(formatWithBigDecimal(messageViewModel.getUserGroupData().getGrade()) + fragment.getString(R.string.message_grade_unit));
             } else {
                 portraitTv.setVisibility(View.GONE);
             }
@@ -487,7 +488,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     portraitImageLayout.setVisibility(View.VISIBLE);
                     portraitTv.setVisibility(View.VISIBLE);
                     String joinGroupTime = msgExtra.getJoinGroupTime();
-                    portraitTv.setText(msgExtra.getGrade() + fragment.getString(R.string.message_grade_unit));
+                    portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
                     joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
                     try {
                         long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");

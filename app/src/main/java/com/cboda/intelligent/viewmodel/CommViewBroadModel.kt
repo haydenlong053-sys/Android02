@@ -1273,7 +1273,6 @@ class CommViewBroadModel : FriendViewBroadModel() {
     }
 
     fun gonggaoxiangqing(context: Context?, qunid: String) {
-
         val map = mapOf(
             "id" to qunid,
         )

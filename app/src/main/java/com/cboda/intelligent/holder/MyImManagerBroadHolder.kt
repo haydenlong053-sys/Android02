@@ -493,6 +493,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
                                             bean.data?.apply {
+                                                saveUserData(userList)
                                                 EventBus.getDefault().post(
                                                     MyBroadEvent(
                                                         MyEventCodeEnum.GROUP_DETAILS.value,
@@ -909,6 +910,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
+                        saveUserData(bean.data?.userList)
                         if (bean.data?.isfanyi == "1") {
                             SharePrefBroadBroadUtil.saveString(
                                 context,

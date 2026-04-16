@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.FileUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.bean.GlobalBroadInfo.getFriendData
@@ -358,6 +359,25 @@ class MMKVBroadUtils {
             saveUserListData(list)
         }
 
+
+        fun saveUserData(list: List<CommonDataListBroadBean.CommonBean>?) {
+            val glList = arrayListOf<GlobalFriendBroadBean>()
+            list?.let {
+                list.forEach { item ->
+                    val glBean = GlobalFriendBroadBean()
+                    glBean.userId = item.userId
+                    glBean.icon = item.icon
+                    glBean.isVip = "1" == item.isvip
+                    glBean.nickName = item.name
+                    glBean.registerDay = item.registerDay
+                    glBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
+                    glBean.grade = item.grade
+                    glList.add(glBean)
+                }
+                saveUserListData(glList)
+            }
+        }
+
         fun saveUserData(data: CommonResultBroadBean.CommonResult?) {
             data?.also {
                 val bean = GlobalFriendBroadBean()
@@ -372,6 +392,7 @@ class MMKVBroadUtils {
                 saveUserData(bean)
             }
         }
+
 
         fun saveUserListData(list: List<GlobalFriendBroadBean>, viewModelScope: CoroutineScope? = null) {
             getFriendData(viewModelScope) { map ->
