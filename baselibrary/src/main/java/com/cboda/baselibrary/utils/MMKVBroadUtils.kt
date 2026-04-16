@@ -45,6 +45,9 @@ class MMKVBroadUtils {
         const val USER_SEND_LINK = "userSendLink"
 
         const val USER_CREDIT_SCORE_NEW_USER_DAYS = "userCreditScoreNewUserDays"
+
+        const val USER_REGISTRATION_DAY_SCORE = "userRegistrationDayScore"
+
         const val USER_NAME_KEY = "username"
 
         const val USER_VIP_KEY = "userVip"
@@ -364,6 +367,8 @@ class MMKVBroadUtils {
                 data.registerDayBean?.registDay?.also { bean.registerDay = it }
                 bean.grade = data.grade
                 bean.icon = data.icon
+                bean.isVip = data.isvip == "1"
+                bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
                 saveUserData(bean)
             }
         }
@@ -392,6 +397,8 @@ class MMKVBroadUtils {
                     bean.icon = item.icon
                     bean.nickName = item.nickName
                     bean.remarkName = item.remarkName
+                    bean.isVip = item.isVip
+                    bean.isNiceNum = item.isNiceNum
                     map[item.userId ?: ""] = bean
                 }
             }
@@ -458,7 +465,7 @@ class MMKVBroadUtils {
                             }
                         }
                         MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
-                        GlobalBroadInfo.myGroupListData = map
+                        myGroupListData = map
                     }
                 } ?: let {
                     GlobalScope.launch(Dispatchers.IO) {
@@ -468,7 +475,7 @@ class MMKVBroadUtils {
                             }
                         }
                         MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
-                        GlobalBroadInfo.myGroupListData = map
+                        myGroupListData = map
                     }
                 }
             }
@@ -478,7 +485,7 @@ class MMKVBroadUtils {
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_GROUP_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
                 val type = object : TypeToken<HashMap<String, GlobalSmallGroupBroadBean>>() {}
-                return fromJsonTypeToken(decodeString, type)
+                fromJsonTypeToken(decodeString, type)
             } else {
                 HashMap()
             }

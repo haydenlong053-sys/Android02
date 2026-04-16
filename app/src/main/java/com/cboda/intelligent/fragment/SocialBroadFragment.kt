@@ -79,6 +79,7 @@ import coil.request.ImageRequest
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.formatWithBigDecimal
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -142,7 +143,7 @@ class SocialFragment : Fragment() {
     }
 
     private fun navigateToFriendInfoPage(userId: String) {
-        JumpBroadUtils.startHaoYouAddActivity(requireContext(), userId,"2")
+        JumpBroadUtils.startHaoYouAddActivity(requireContext(), userId, "2")
     }
 
     override fun onResume() {
@@ -484,7 +485,7 @@ private fun CirclesRow(
                     //此处文案翻译临时处理，后端接口文案一直是中文
                     Chip(
 //                        text = c.characterTags,
-                        text = goTempTranslateString(LocalContext.current,c.characterTags),
+                        text = goTempTranslateString(LocalContext.current, c.characterTags),
                         selected = isSelected,
                         onClick = { onSelect(if (isSelected) null else c.characterTags) },
                         minWidth = minChipWidth
@@ -505,7 +506,7 @@ private fun CharacterExplanation(text: String) {
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
-            text =  goTempTranslateString(LocalContext.current,text),
+            text = goTempTranslateString(LocalContext.current, text),
             fontSize = 14.sp,
             color = Color.Black.copy(0.65f),
             lineHeight = TextUnit(19.6f, TextUnitType.Sp),
@@ -632,7 +633,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        text = "${contact.grade ?: 0}${stringResource(R.string.score_unit)}",
+                        text = "${formatWithBigDecimal(contact.grade)}${stringResource(R.string.score_unit)}",
                         fontSize = 14.sp,
                         color = Color(0xffEF7B05),
                         fontWeight = FontWeight.W500
@@ -646,10 +647,10 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                         ) {
                             Text(
 //                                text = contact.characterTags,
-                                text = goTempTranslateString(LocalContext.current,contact.characterTags),
+                                text = goTempTranslateString(LocalContext.current, contact.characterTags),
                                 fontSize = 11.sp,
                                 color = Color(0xFF3B47DD),
-                                overflow= TextOverflow.Ellipsis,
+                                overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                             )
                         }

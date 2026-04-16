@@ -126,5 +126,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
     class RegisterDayBean {
         var registDay: Int = 0
+        @SerializedName("newUserDays")
+        var registrationDayScore = ""
     }
 }

@@ -345,9 +345,14 @@ fun ShapeEditText.setStrokeColor(@ColorRes strokeColor: Int) {
     this.shapeDrawableBuilder.intoBackground()
 }
 
-
 fun ShapeConstraintLayout.setBackColor(@ColorRes color: Int) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
+    this.shapeDrawableBuilder.intoBackground()
+}
+
+fun ShapeConstraintLayout.setBackColorAndStrokeColor(@ColorRes backColor: Int, @ColorRes strokeColor: Int) {
+    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, backColor)
+    this.shapeDrawableBuilder.strokeColor = getAppColor(this.context, strokeColor)
     this.shapeDrawableBuilder.intoBackground()
 }
 
@@ -990,6 +995,14 @@ fun anyToFloat(any: Any): Float {
         any.toString().toFloat()
     } catch (e: Exception) {
         0f
+    }
+}
+
+fun anyToDouble(any: Any): Double {
+    return try {
+        any.toString().toDouble()
+    } catch (e: Exception) {
+        0.0
     }
 }
 

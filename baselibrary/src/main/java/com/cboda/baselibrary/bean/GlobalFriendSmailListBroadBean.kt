@@ -37,15 +37,15 @@ class GlobalFriendBroadBean {
     @JvmField
     var remarkName: String? = null
 
+    @JvmField
+    var isVip: Boolean = false
+
+    @JvmField
+    var isNiceNum: Boolean = false //是否靓号
+
+
     override fun toString(): String {
-        return "GlobalFriendSmailListBean{" +
-                "registrationDays=" + registerDay +
-                ", grade=" + grade +
-                ", icon='" + icon + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", remarkName='" + remarkName + '\'' +
-                ", userId='" + userId + '\'' +
-                '}'
+        return "GlobalFriendBroadBean(userId=$userId, registerDay=$registerDay, grade=$grade, icon=$icon, nickName=$nickName, remarkName=$remarkName, isVip=$isVip, isNiceNum=$isNiceNum)"
     }
 
 }

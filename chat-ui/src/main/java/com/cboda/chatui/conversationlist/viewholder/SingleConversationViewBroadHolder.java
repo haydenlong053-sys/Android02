@@ -4,6 +4,12 @@
 
 package com.cboda.chatui.conversationlist.viewholder;
 
+import static com.blankj.utilcode.util.SizeUtils.dp2px;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
+
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +21,7 @@ import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.bumptech.glide.Glide;
 
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ConversationInfoBroadType;
@@ -47,6 +54,34 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
                     .load(portrait)
                     .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
                     .into(portraitImageView);
+            if (null != friendSmailListBean) {
+                if (friendSmailListBean.isNiceNum) {
+                    setBackColor(gradeTv, com.cboda.baselibrary.R.color.black);
+                    setTxtColor(gradeTv, com.cboda.baselibrary.R.color.color_FAE77C);
+                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
+                } else {
+                    int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
+                    int registrationDay = friendSmailListBean.registerDay;
+                    if (registrationDay < registrationDayScore) {
+                        setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_D5271E);
+                    } else {
+                        setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_7A66FA);
+                    }
+                    setTxtColor(gradeTv, com.cboda.baselibrary.R.color.white);
+                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+                }
+            } else {
+                setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_D5271E);
+                setTxtColor(gradeTv, com.cboda.baselibrary.R.color.white);
+                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+            }
+            if (null != friendSmailListBean && friendSmailListBean.isVip) {
+                vipImageView.setVisibility(View.VISIBLE);
+            } else {
+                vipImageView.setVisibility(View.GONE);
+            }
+
+
             nameTextView.setText(name);
             if (null != friendSmailListBean && null != friendSmailListBean.grade) {
                 gradeTv.setVisibility(View.VISIBLE);

@@ -45,12 +45,15 @@ class UserInfoBean {
     @SerializedName("lianghao")
     var niceNumberId = "" //靓号Id
 
+    @SerializedName("isvip")
+    var isVip = ""
+
     var sex = "1"//性别
-    var isLiang = ""//是否为靓号
+//    var isLiang = ""//是否为靓号
 
 
-    @SerializedName("memberInterestList")
-    var memberInterestList: Array<String>? = null //标签
+//    @SerializedName("memberInterestList")
+//    var memberInterestList: Array<String>? = null //标签
 
     @SerializedName("3dDoll")
     var registerDayBean: RegisterDayBeanNew? = null

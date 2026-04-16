@@ -7,6 +7,10 @@ package com.cboda.chatui.conversation;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -27,9 +31,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.google.gson.Gson;
 import com.cboda.select.picture.utils.ToastBroadUtils;
 
@@ -76,6 +82,7 @@ import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.hjq.shape.view.ShapeTextView;
 
 public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ConversationBroadFragment fragment;
@@ -419,7 +426,35 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         int position = viewHolder.getAdapterPosition();
         UiBroadMessage message = getItem(position);
         View portraitImageLayout = itemView.findViewById(R.id.portraitImageLayout);
-        TextView portraitTv = itemView.findViewById(R.id.portraitTv);
+        ShapeTextView portraitTv = itemView.findViewById(R.id.portraitTv);
+        ImageView vipMirrorCredit = itemView.findViewById(R.id.vipMirrorCredit);
+        AppRoundBroadImage portraitImageView = itemView.findViewById(R.id.portraitImageView);
+        GlobalBroadInfo.INSTANCE.queryMyFriendInfo(message.message.sender, null, friendSmailListBean -> {
+            if (null != friendSmailListBean) {
+                vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
+                if (friendSmailListBean.isNiceNum) {
+                    setBackColor(portraitTv, com.cboda.baselibrary.R.color.black);
+                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
+                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
+                } else {
+                    int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
+                    int registrationDay = friendSmailListBean.registerDay;
+                    if (registrationDay < registrationDayScore) {
+                        setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
+                    } else {
+                        setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_7A66FA);
+                    }
+                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
+                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+                }
+            } else {
+                vipMirrorCredit.setVisibility(View.GONE);
+                setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
+                setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
+                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+            }
+            return null;
+        });
         if (message.message.sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
             if (!TextUtils.isEmpty(message.message.content.extra)) {
                 MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
