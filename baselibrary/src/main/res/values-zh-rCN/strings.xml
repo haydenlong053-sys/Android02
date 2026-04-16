@@ -138,6 +138,8 @@
     <string name="credit_score_label_system_deduct">系统扣减</string>
     <string name="credit_score_label_invite_friend">邀请好友</string>
     <string name="credit_score_label_hold">持有ODIC</string>
+    <string name="credit_score_label_guaranteed_transaction">担保交易</string>
+    <string name="credit_score_label_endorsement_gained">获得背书</string>
 
     <!-- 信用分拆解行文案（基础 / 会员加成 / 靓号加成） -->
     <string name="credit_score_fmt_breakdown_base_usdt">基础：%1$s/USDT</string>

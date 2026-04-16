@@ -144,7 +144,7 @@
 
     <com.hjq.shape.view.ShapeView
         android:id="@+id/shapeView"
-        android:layout_width="@dimen/dp_212"
+        android:layout_width="@dimen/dp_296"
         android:layout_height="@dimen/dp_62"
         android:layout_marginTop="@dimen/dp_162"
         app:layout_constraintEnd_toEndOf="parent"

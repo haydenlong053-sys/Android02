@@ -67,7 +67,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/itemContent"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
         android:textColor="@color/black_65"
@@ -75,10 +75,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/itemTitle"
         app:layout_constraintTop_toBottomOf="@id/itemTitle"
+        tools:text="基础：+0.2/天" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/color_19A200"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/itemContent"
+        app:layout_constraintTop_toTopOf="@id/itemContent"
+        tools:text="会员+10%" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemDesc2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/color_19A200"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/itemDesc"
+        app:layout_constraintTop_toTopOf="@id/itemDesc"
         app:layout_constraintEnd_toStartOf="@id/itemTimeTv"
         android:lines="1"
         android:ellipsize="end"
-        tools:text="基础：+0.2/天" />
+        tools:text="靓号+10%" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

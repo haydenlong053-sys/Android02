@@ -27,7 +27,14 @@ enum class CreditScoreTypeEnum(val code: Int, val label: String) {
     INVITE_USER(9, "邀请好友"),
 
     /** 持有 ODIC */
-    HOLD_ODIC(10, "持有ODIC");
+    HOLD_ODIC(10, "持有ODIC"),
+
+    /** 担保交易 */
+    GUARANTEED_TRANSACTION(11, "担保交易"),
+
+    /** 获得背书 */
+    ENDORSEMENT_GAINED(12, "获得背书");
+
 
     companion object {
         /**

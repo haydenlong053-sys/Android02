@@ -138,6 +138,8 @@
     <string name="credit_score_label_system_deduct">System Deduction</string>
     <string name="credit_score_label_invite_friend">Invite Friends</string>
     <string name="credit_score_label_hold">Hold ODIC</string>
+    <string name="credit_score_label_guaranteed_transaction">Guaranteed Transaction</string>
+    <string name="credit_score_label_endorsement_gained">Endorsement Gained</string>
 
     <!-- Credit score breakdown lines -->
     <string name="credit_score_fmt_breakdown_base_usdt">Base: %1$s/USDT</string>
@@ -153,6 +155,7 @@
     <string name="credit_score_des1">Activate official SeekWeb membership to enjoy exclusive privileges, accelerate credit score growth, and unlock six member benefits</string>
     <string name="credit_score_open_premium_number">Activate Premium Number</string>
     <string name="credit_score_des2">You can purchase a premium number in Mall - Me - I AM Premium Number based on your needs</string>
+    <string name="credit_score_func">信用说明</string>
 
 
     <string name="registered_less_than_days">账号注册未满%1$s天，消息禁止含链接；开通会员或购买靓号可提前满足条件</string>

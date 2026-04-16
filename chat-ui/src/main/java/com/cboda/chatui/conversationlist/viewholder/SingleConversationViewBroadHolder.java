@@ -7,6 +7,7 @@ package com.cboda.chatui.conversationlist.viewholder;
 import static com.blankj.utilcode.util.SizeUtils.dp2px;
 import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
 
@@ -85,7 +86,7 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
             if (null != friendSmailListBean && null != friendSmailListBean.grade) {
                 gradeTv.setVisibility(View.VISIBLE);
 //            gradeTv.setText(friendSmailListBean.grade + "分");
-                gradeTv.setText(friendSmailListBean.grade + gradeTv.getContext().getString(R.string.msg_score_unit));
+                gradeTv.setText(formatWithBigDecimal(friendSmailListBean.grade) + gradeTv.getContext().getString(R.string.msg_score_unit));
             } else {
                 gradeTv.setVisibility(View.GONE);
             }
