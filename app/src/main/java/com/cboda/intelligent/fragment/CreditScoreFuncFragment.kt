@@ -1,6 +1,7 @@
 package com.cboda.intelligent.fragment
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
@@ -33,13 +34,17 @@ class CreditScoreFuncFragment : BaseBroadFragment<FragmentCreditScoreFuncBinding
         lifecycleScope.launch {
             viewModel.getCreditScoreFunc()
                 .observe(viewLifecycleOwner) { resultBean ->
-                    binding.mTvDes.text = resultBean.scoreInfo
+                    if (resultBean.scoreInfo.isNullOrEmpty()) {
+                        binding.mTvDes.text = ""
+                    } else {
+                        binding.mTvDes.text = Html.fromHtml(resultBean.scoreInfo, Html.FROM_HTML_MODE_COMPACT)
+
+                    }
                 }
 
         }
 
     }
-
 
 
     override fun onDestroyView() {
