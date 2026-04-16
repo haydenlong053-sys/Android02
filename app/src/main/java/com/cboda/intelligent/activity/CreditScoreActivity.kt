@@ -24,6 +24,7 @@ import com.cboda.baselibrary.utils.subZeroAndDot
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.fragment.CreditScoreComposeFragment
+import com.cboda.intelligent.fragment.CreditScoreFuncFragment
 import com.cboda.intelligent.net.BroadUrl
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startH5Activity
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
@@ -162,6 +163,7 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
         vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance(0))
         vp2FragmentAdapter.addFragment(CreditScoreComposeFragment.newInstance(1))
+        vp2FragmentAdapter.addFragment(CreditScoreFuncFragment.newInstance())
 
         mBind?.viewPager?.adapter = vp2FragmentAdapter
         mBind?.viewPager?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -171,7 +173,8 @@ class CreditScoreActivity : BaseSimple2BroadActivity() {
 
         val titleResIds = intArrayOf(
             R.string.credit_score_tab_compose,
-            R.string.credit_score_tab_record
+            R.string.credit_score_tab_record,
+            com.cboda.baselibrary.R.string.credit_score_func,
         )
         val commonNavigator = CommonBroadNavigator(this)
         commonNavigator.isAdjustMode = true
