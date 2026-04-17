@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/bg_main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@color/color_F2F3F5"
+    android:orientation="vertical">
+
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/smart"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/llNoData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="140dp"
                 android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_marginTop="140dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/ivNoData"
@@ -42,10 +41,11 @@
                     android:textSize="13sp"
                     android:visibility="visible" />
             </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ryCollect"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </FrameLayout>
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>

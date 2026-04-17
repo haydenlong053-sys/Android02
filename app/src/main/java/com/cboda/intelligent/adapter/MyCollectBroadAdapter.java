@@ -1,5 +1,6 @@
 package com.cboda.intelligent.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.intelligent.R;
 import com.cboda.select.picture.entity.DataListBroadBean;
 import com.cboda.intelligent.utils.GlideBroadUtil;
@@ -26,10 +28,12 @@ import java.util.List;
 public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAdapter.MyHolder> {
     private Context context;
     private List<DataListBroadBean> list;
+
     public MyCollectBroadAdapter(Context context, List<DataListBroadBean> list) {
         this.context = context;
         this.list = list;
     }
+
     @Override
     public MyCollectBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_my_broad_collect, parent, false);
@@ -37,14 +41,14 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
     }
 
     @Override
-    public void onBindViewHolder(MyCollectBroadAdapter.MyHolder holder, final int position) {
+    public void onBindViewHolder(MyCollectBroadAdapter.MyHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.tvContent.setVisibility(View.GONE);
         holder.rlVideo.setVisibility(View.GONE);
         holder.llVoice.setVisibility(View.GONE);
-        GlideBroadUtil.setHeadImag(context,list.get(position).icon,holder.riIcon);
+//        GlideBroadUtil.setHeadImag(context,list.get(position).icon,holder.riIcon);
         holder.tvName.setText(list.get(position).name);
         holder.tvTime.setText(list.get(position).time);
-        switch (list.get(position).type){
+        switch (list.get(position).type) {
             case "1"://文字
                 holder.tvContent.setVisibility(View.VISIBLE);
                 holder.tvContent.setText(list.get(position).info);
@@ -52,32 +56,39 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
             case "2"://图片
                 holder.rlVideo.setVisibility(View.VISIBLE);
                 holder.imVideo.setVisibility(View.GONE);
-                GlideBroadUtil.setImag(context,list.get(position).info,holder.riImage);
+                GlideBroadUtil.setImag(context, list.get(position).info, holder.riImage);
                 break;
             case "3"://视频
                 holder.rlVideo.setVisibility(View.VISIBLE);
                 holder.imVideo.setVisibility(View.VISIBLE);
-                GlideBroadUtil.setImag3(context,list.get(position).info,holder.riImage);
+                GlideBroadUtil.setImag3(context, list.get(position).info, holder.riImage);
                 break;
             case "4"://音频
                 holder.llVoice.setVisibility(View.VISIBLE);
-                holder.tvVoiceTime.setText(list.get(position).miao+"s");
+                holder.tvVoiceTime.setText(list.get(position).miao + "s");
                 break;
             case "5"://位置
                 holder.tvContent.setVisibility(View.VISIBLE);
                 holder.tvContent.setText(list.get(position).info);
                 break;
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 onItemClickListener.OnItemClickListener(position);
             }
         });
-        holder.mIvShare.setOnClickListener(new View.OnClickListener() {
+        holder.mIvShare.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
-            public void onClick(View v) {
-                onItemClickListener.OnItemChildClickListener(v,position);
+            public void onSingleClick(View v) {
+                onItemClickListener.OnItemChildClickListener(v, position);
+            }
+        });
+        holder.mIvDel.setOnClickListener(new OnSingleClickBroadListener() {
+
+            @Override
+            public void onSingleClick(View v) {
+                onItemClickListener.OnItemDelClickListener(v, position);
             }
         });
     }
@@ -99,10 +110,11 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
         TextView tvTime;
         RelativeLayout rlVideo;
         RoundedImageView riImage;
-        RoundedImageView riIcon;
+        //        RoundedImageView riIcon;
         ImageView imVideo;
-        ImageView mIvShare;
+        ImageView mIvShare, mIvDel;
         LinearLayout llVoice;
+
         public MyHolder(View itemView) {
             super(itemView);
             tvContent = itemView.findViewById(R.id.tvContent);
@@ -111,12 +123,14 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
             imVideo = itemView.findViewById(R.id.imVideo);
             llVoice = itemView.findViewById(R.id.llVoice);
             tvVoiceTime = itemView.findViewById(R.id.tvVoiceTime);
-            riIcon = itemView.findViewById(R.id.riIcon);
+//            riIcon = itemView.findViewById(R.id.riIcon);
             tvName = itemView.findViewById(R.id.tvName);
             tvTime = itemView.findViewById(R.id.tvTime);
             mIvShare = itemView.findViewById(R.id.mIvShare);
+            mIvDel = itemView.findViewById(R.id.mIvDel);
         }
     }
+
     private MyCollectBroadAdapter.OnItemClickListener onItemClickListener;
 
     public void setOnItemClickListener(MyCollectBroadAdapter.OnItemClickListener onItemClickListener) {
@@ -125,6 +139,9 @@ public class MyCollectBroadAdapter extends RecyclerView.Adapter<MyCollectBroadAd
 
     public interface OnItemClickListener {
         void OnItemClickListener(int position);
-        void OnItemChildClickListener(View view,int position);
+
+        void OnItemChildClickListener(View view, int position);
+
+        void OnItemDelClickListener(View view, int position);
     }
 }

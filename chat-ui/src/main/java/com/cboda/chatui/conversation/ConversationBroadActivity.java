@@ -272,22 +272,18 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             rightView.setVisibility(View.VISIBLE);
         } else {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), conversationBroad.target, "", null);
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                @Override
-                public Unit invoke(GlobalFriendBroadBean bean) {
-                    if (null != bean && null != bean.grade && null != bean.registerDay) {
-                        titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
-                        TextView titleGrade = findViewById(R.id.titleGrade);
-                        TextView titleTime = findViewById(R.id.titleTime);
-                        titleGrade.setText(getString(R.string.credit_prefix) + formatWithBigDecimal(bean.grade) + getString(R.string.msg_score_unit2));
-                        titleTime.setText(getString(R.string.register_time_prefix) + bean.registerDay + getString(R.string.msg_days_unit2));
-                    } else {
-                        titleGradeAndTimeBroad.setVisibility(View.GONE);
-                    }
-                    return null;
+            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, bean -> {
+                if (null != bean && null != bean.grade && null != bean.registerDay) {
+                    titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
+                    TextView titleGrade = findViewById(R.id.titleGrade);
+                    TextView titleTime = findViewById(R.id.titleTime);
+                    titleGrade.setText(getString(com.cboda.baselibrary.R.string.credit_prefix2) + formatWithBigDecimal(bean.grade) + getString(R.string.msg_score_unit2));
+                    titleTime.setText(getString(com.cboda.baselibrary.R.string.register_time_prefix2) + bean.registerDay + getString(R.string.msg_days_unit2));
+                } else {
+                    titleGradeAndTimeBroad.setVisibility(View.GONE);
                 }
+                return null;
             });
-
         }
     }
 

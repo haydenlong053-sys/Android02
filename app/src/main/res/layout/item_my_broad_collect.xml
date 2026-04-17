@@ -1,41 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="10dp"
-    android:layout_marginHorizontal="10dp"
-    android:padding="10dp"
-    android:background="@drawable/bg_rect_broad_input"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="10dp"
+    android:padding="@dimen/dp_16"
+    app:shape_radius="@dimen/dp_16"
+    app:shape_solidColor="@color/white">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/mIvDel"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:scaleType="centerInside"
+        android:src="@mipmap/icon_del_coll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/mIvShare"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:scaleType="centerInside"
+        android:src="@mipmap/icon_share_coll"
+        app:layout_constraintEnd_toStartOf="@id/mIvDel"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容"
+        android:layout_marginTop="@dimen/dp_16"
         android:textColor="@color/color_text0"
         android:textSize="13sp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/mIvShare"
-        />
+        app:layout_constraintTop_toBottomOf="@id/mIvDel"
+        tools:text="文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容文本内容"
+        tools:visibility="visible" />
 
     <RelativeLayout
         android:id="@+id/rlVideo"
-        android:layout_width="165dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/dp_140"
+        android:layout_height="@dimen/dp_140"
+        android:layout_marginTop="@dimen/dp_16"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvContent"
-        app:layout_constraintStart_toStartOf="parent">
+        tools:visibility="visible">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riImage"
-            android:layout_width="165dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_broad_zhanwei"
-            app:riv_corner_radius="5dp" />
+            app:riv_corner_radius="@dimen/dp_12"
+            tools:src="@mipmap/ic_broad_zhanwei" />
 
         <ImageView
             android:id="@+id/imVideo"
@@ -45,81 +70,82 @@
             android:src="@mipmap/ic_broad_video" />
     </RelativeLayout>
 
-    <LinearLayout
+    <com.hjq.shape.layout.ShapeLinearLayout
         android:id="@+id/llVoice"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/bg_rect_f5f5f5_broad_4dp"
+        android:layout_width="@dimen/dp_214"
+        android:layout_height="@dimen/dp_42"
+        android:layout_marginTop="@dimen/dp_16"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="@dimen/dp_12"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rlVideo"
-        app:layout_constraintStart_toStartOf="parent">
+        app:shape_bottomLeftRadius="@dimen/dp_12"
+        app:shape_bottomRightRadius="@dimen/dp_12"
+        app:shape_solidColor="@color/color_F7F8FA"
+        app:shape_topRightRadius="@dimen/dp_12">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_collect_broad_voice" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_collect_voice_new" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_collect_voice_new" />
 
         <TextView
             android:id="@+id/tvVoiceTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="4s"
-            android:textColor="#333333"
-            android:textSize="13sp" />
-    </LinearLayout>
+            android:layout_marginStart="@dimen/dp_8"
+            android:textColor="@color/black_45"
+            android:textSize="14sp"
+            tools:text="4s" />
+    </com.hjq.shape.layout.ShapeLinearLayout>
 
     <LinearLayout
         android:id="@+id/llBottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/dp_16"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/llVoice"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llVoice">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riIcon"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_broad_head"
-            app:riv_corner_radius="5dp" />
+            android:visibility="gone"
+            app:riv_corner_radius="5dp"
+            tools:src="@mipmap/ic_broad_head" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="用户名"
-            android:textColor="@color/color_text0"
-            android:textSize="13sp" />
+            android:textColor="@color/black_65"
+            android:textSize="12sp"
+            tools:text="用户名" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="2024/01/01 12:00"
-            android:textColor="@color/color_text_content_hint"
-            android:textSize="11sp" />
+            android:layout_marginStart="@dimen/dp_10"
+            android:textColor="@color/black_65"
+            android:textSize="12sp"
+            tools:text="2024/01/01 12:00" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/mIvShare"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/ic_share_broad_notice"
-        android:scaleType="centerInside"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.hjq.shape.layout.ShapeConstraintLayout>

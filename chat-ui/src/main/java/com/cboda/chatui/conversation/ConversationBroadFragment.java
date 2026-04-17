@@ -1254,6 +1254,7 @@ public class ConversationBroadFragment extends Fragment implements
         if (groupInfoBroad == null || groupMemberBroad == null) {
             return;
         }
+
         if (groupInfoBroad.mute == 1
                 && groupMemberBroad.type != GroupMember.GroupMemberType.Owner
                 && groupMemberBroad.type != GroupMember.GroupMemberType.Manager

@@ -9,6 +9,7 @@ import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_REGISTRATION_DAY_S
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
 
 import android.annotation.SuppressLint;
@@ -55,33 +56,28 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
                     .load(portrait)
                     .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
                     .into(portraitImageView);
-            if (null != friendSmailListBean) {
-                if (friendSmailListBean.isNiceNum) {
-                    setBackColor(gradeTv, com.cboda.baselibrary.R.color.black);
-                    setTxtColor(gradeTv, com.cboda.baselibrary.R.color.color_FAE77C);
-                } else {
+            if (null != friendSmailListBean && friendSmailListBean.isVip) {
+                vipImageView.setVisibility(View.VISIBLE);
+                setBackColor2(gradeTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
+                setTxtColor(gradeTv, com.cboda.baselibrary.R.color.color_FAE77C);
+                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
+            } else {
+                vipImageView.setVisibility(View.GONE);
+                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+                if (null != friendSmailListBean) {
                     int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
                     int registrationDay = friendSmailListBean.registerDay;
                     if (registrationDay < registrationDayScore) {
                         setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_D5271E);
                     } else {
-                        setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_7A66FA);
+                        setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_956BEC, com.cboda.baselibrary.R.color.color_7A66FA);
                     }
                     setTxtColor(gradeTv, com.cboda.baselibrary.R.color.white);
+                } else {
+                    setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_D5271E);
+                    setTxtColor(gradeTv, com.cboda.baselibrary.R.color.white);
                 }
-            } else {
-                setBackColor(gradeTv, com.cboda.baselibrary.R.color.color_D5271E);
-                setTxtColor(gradeTv, com.cboda.baselibrary.R.color.white);
             }
-            if (null != friendSmailListBean && friendSmailListBean.isVip) {
-                vipImageView.setVisibility(View.VISIBLE);
-                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
-            } else {
-                vipImageView.setVisibility(View.GONE);
-                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
-            }
-
-
             nameTextView.setText(name);
             if (null != friendSmailListBean && null != friendSmailListBean.grade) {
                 gradeTv.setVisibility(View.VISIBLE);
