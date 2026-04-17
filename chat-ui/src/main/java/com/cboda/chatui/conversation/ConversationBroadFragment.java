@@ -14,6 +14,7 @@ import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static com.cboda.chatui.voip.conference.GiftChatRoomHelper.getGiftChatRoomId;
 
 import android.annotation.SuppressLint;
@@ -58,6 +59,7 @@ import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.JavaBroadUtil;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.bumptech.glide.Glide;
 
@@ -129,6 +131,7 @@ import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.MessageContent;
 import cn.wildfirechat.message.MultiCallOngoingMessageContent;
 import cn.wildfirechat.message.SoundMessageContent;
+import cn.wildfirechat.message.TextMessageContent;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessageStatus;
@@ -1852,7 +1855,23 @@ public class ConversationBroadFragment extends Fragment implements
             @Override
             public void onSingleClick(View v) {
                 if (!actions.isEmpty() && actions.size() > 1) {
-                    goSelectMoreAction(actions.get(1));
+                    List<UiBroadMessage> checkMsg = adapterBroad.getCheckedMessages();
+                    boolean isGo = true;
+                    String day = "";
+                    for (UiBroadMessage uiBroadMessage : checkMsg) {
+                        if (uiBroadMessage.message.content instanceof TextMessageContent) {
+                            String msgContent = ((TextMessageContent) uiBroadMessage.message.content).getContent();
+                            day = JavaBroadUtil.containsLinkReturnDay(msgContent);
+                            if (!TextUtils.isEmpty(day)) {
+                                isGo = false;
+                            }
+                        }
+                    }
+                    if (isGo) {
+                        goSelectMoreAction(actions.get(1));
+                    } else {
+                        com.cboda.baselibrary.toast.ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                    }
                 }
             }
         });
@@ -1867,6 +1886,7 @@ public class ConversationBroadFragment extends Fragment implements
         });
         multiMessageActionContainerLinearLayoutBroad.addView(inflateView);
     }
+
 
     private void goSelectMoreAction(MultiMessageBroadAction action) {
         action.onBind(ConversationBroadFragment.this, conversationBroad);

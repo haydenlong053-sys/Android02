@@ -95,7 +95,7 @@ public class MyCollectBroadActivity extends BaseSimple2BroadActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         ryCollect.setLayoutManager(linearLayoutManager);
         ryCollect.setAdapter(myCollectAdapter);
-        String canSendLink = MMKVBroadUtils.Companion.getSqlStrData(USER_SEND_LINK, "false");
+//        String canSendLink = MMKVBroadUtils.Companion.getSqlStrData(USER_SEND_LINK, "false");
         myCollectAdapter.setOnItemClickListener(new MyCollectBroadAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int position) {
@@ -129,12 +129,8 @@ public class MyCollectBroadActivity extends BaseSimple2BroadActivity {
                 String type = dataListBean.type;
                 if ("1".equals(type)) {
                     String msgContent = dataListBean.info.toString();
-                    if (!canSendLink.equals("true") && JavaBroadUtil.containsLink(msgContent)) {
-                        int dayInt = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, ""));
-                        if (dayInt <= 0) {
-                            dayInt = 61;
-                        }
-                        String day = String.valueOf(dayInt);
+                    String day = JavaBroadUtil.containsLinkReturnDay(msgContent);
+                    if (!TextUtils.isEmpty(day)) {
                         ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
                         return;
                     }

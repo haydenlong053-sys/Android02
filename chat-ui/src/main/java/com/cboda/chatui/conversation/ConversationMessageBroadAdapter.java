@@ -7,9 +7,12 @@ package com.cboda.chatui.conversation;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_CREDIT_SCORE_NEW_USER_DAYS;
 import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
@@ -36,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.utils.JavaBroadUtil;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
@@ -813,12 +817,19 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         && message1.content.getMessageContentType() != 2002
                         && !(message1.content instanceof CallStartMessageContent)) {
                     titles.add(fragment.getString(R.string.message_forward));
-
                     ChatPopBroadMenu.ChatPopMenuAction zhuanfa = new ChatPopBroadMenu.ChatPopMenuAction();
                     zhuanfa.setActionName(fragment.getString(R.string.message_forward));
                     zhuanfa.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
+                            if (message1.content.getMessageContentType() == 1 && message1.content instanceof TextMessageContent) {
+                                String msgContent = ((TextMessageContent) message1.content).getContent();
+                                String day = JavaBroadUtil.containsLinkReturnDay(msgContent);
+                                if (!TextUtils.isEmpty(day)) {
+                                    com.cboda.baselibrary.toast.ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                                    return;
+                                }
+                            }
                             Intent intent = new Intent(fragment.getContext(), ForwardBroadActivity.class);
                             intent.putExtra("message", message.message);
                             fragment.startActivity(intent);

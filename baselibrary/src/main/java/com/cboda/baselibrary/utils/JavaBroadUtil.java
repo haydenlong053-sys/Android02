@@ -1,6 +1,9 @@
 package com.cboda.baselibrary.utils;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_CREDIT_SCORE_NEW_USER_DAYS;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 
 import android.util.Base64;
 
@@ -20,19 +23,32 @@ public class JavaBroadUtil {
     private static Pattern LINK_PATTERN = Pattern.compile(LINK_PATTERN_BEFORE, Pattern.CASE_INSENSITIVE);
 
     /**
-     * 检测文本是否包含链接
+     * 检测文本是否包含链接(获取时间)
      *
      * @param text 待检测文本
      * @return true 表示包含链接，false 表示安全
      */
-    public static boolean containsLink(String text) {
-        if (text == null || text.isEmpty()) return false;
+    public static String containsLinkReturnDay(String text) {
+        String day = "";
+        if (text == null || text.isEmpty()) return day;
         // 防御零宽字符、全角空格等绕过手段
         String cleaned = text
                 .replaceAll("[\\u200B\\u200C\\u200D\\uFEFF\\u00A0\\u3000]", "")
                 .trim();
-
-        return LINK_PATTERN.matcher(cleaned).find();
+        if (LINK_PATTERN.matcher(cleaned).find()) {
+            String canSendLink = MMKVBroadUtils.Companion.getSqlStrData(USER_SEND_LINK, "false");
+            if (!canSendLink.equals("true")) {
+                int dayInt = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, ""));
+                if (dayInt <= 0) {
+                    dayInt = 61;
+                }
+                day = String.valueOf(dayInt);
+            }
+            return day;
+        } else {
+            return day;
+        }
+//        return LINK_PATTERN.matcher(cleaned).find();
     }
 
     public static String UStr_2_Str(String Ustr0) {

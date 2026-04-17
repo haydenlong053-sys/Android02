@@ -644,13 +644,8 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         if (TextUtils.isEmpty(content)) {
             return;
         }
-        String canSendLink = MMKVBroadUtils.Companion.getSqlStrData(USER_SEND_LINK, "false");
-        if (!canSendLink.equals("true") && JavaBroadUtil.containsLink(content.toString())) {
-            int dayInt = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, ""));
-            if (dayInt <= 0) {
-                dayInt = 61;
-            }
-            String day = String.valueOf(dayInt);
+        String day = JavaBroadUtil.containsLinkReturnDay(content.toString());
+        if (!TextUtils.isEmpty(day)) {
             ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
             return;
         }
