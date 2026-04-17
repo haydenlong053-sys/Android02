@@ -3,6 +3,8 @@ package com.cboda.intelligent.activity;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.clipViewOutlineRound;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showCommonTip;
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.isSubmitCanGo;
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.isSubmitCanGo2;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
@@ -751,8 +753,9 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     }
 
     private void showSaveButtonUI(boolean isModify) {
-        mBinding.tvSave.setBackgroundResource(!isModify ? R.drawable.bg_btn_broad_outline : R.drawable.bg_btn_broad_blue);
-        mBinding.tvSave.setTextColor(ContextCompat.getColor(UserInfoBroadActivity.this, !isModify ? com.cboda.chatui.R.color.color_3B47DD : R.color.white));
+        isSubmitCanGo2(mBinding.tvSave,isModify);
+//        mBinding.tvSave.setBackgroundResource(!isModify ? R.drawable.bg_btn_broad_outline : R.drawable.bg_btn_broad_blue);
+//        mBinding.tvSave.setTextColor(ContextCompat.getColor(UserInfoBroadActivity.this, !isModify ? com.cboda.chatui.R.color.color_3B47DD : R.color.white));
         mBinding.tvSave.setEnabled(isModify);
 
     }

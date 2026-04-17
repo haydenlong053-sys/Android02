@@ -73,6 +73,24 @@ public class TimeBroadBroadUtils {
         }
     }
 
+
+
+    public static String getJoinFormatTime(long msgTimeMillis) {
+        if (msgTimeMillis == 0) {
+            return "";
+        }
+        DateTime msgTime = new DateTime(msgTimeMillis);
+        Calendar nowCalendar = Calendar.getInstance();
+        nowCalendar.get(Calendar.DAY_OF_YEAR);
+        Calendar msgCalendar = Calendar.getInstance();
+        msgCalendar.setTimeInMillis(msgTimeMillis);
+        String pattern = "yyyy-MM-dd";
+        if (nowCalendar.get(Calendar.YEAR) == msgCalendar.get(Calendar.YEAR)) {
+            pattern="MM-dd";
+        }
+        return msgTime.toString(pattern);
+    }
+
     @NonNull
     private static String getTime(DateTime msgTime) {
         return msgTime.toString("HH:mm");

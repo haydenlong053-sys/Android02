@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mViewTopBg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:shape_solidColor="@color/white"
+    app:shape_radius="@dimen/dp_10"
+    tools:background="@color/black_FF4D4F">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delCollPopTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:gravity="center"
+        android:text="@string/del_coll_title"
+        android:textColor="@color/black_65"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/delCollPopView1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_12"
+        android:background="@color/color_F7F8FA"
+        app:layout_constraintTop_toBottomOf="@id/delCollPopTitle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delCollPopSure"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:gravity="center"
+        android:text="@string/shanchu"
+        android:textColor="@color/color_3B47DD"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/delCollPopView1" />
+
+    <View
+        android:id="@+id/delCollPopView2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/color_F7F8FA"
+        app:layout_constraintTop_toBottomOf="@id/delCollPopSure" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delCollPopCancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:gravity="center"
+        android:text="@string/ps_cancel"
+        android:textColor="@color/black_90"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/delCollPopView2" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_32"
+        app:layout_constraintTop_toBottomOf="@id/delCollPopCancel" />
+</com.hjq.shape.layout.ShapeConstraintLayout>
+
+

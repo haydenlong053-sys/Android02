@@ -262,6 +262,15 @@ fun ShapeTextView.setBackColor(@ColorRes startColor: Int, @ColorRes endColor: In
     this.shapeDrawableBuilder.intoBackground()
 }
 
+fun ShapeTextView.setBackColor2(@ColorRes startColor: Int, @ColorRes centerColor: Int, @ColorRes endColor: Int) {
+    this.shapeDrawableBuilder.setSolidGradientColors(
+        getAppColor(this.context, startColor),
+        getAppColor(this.context, centerColor),
+        getAppColor(this.context, endColor)
+    )
+    this.shapeDrawableBuilder.intoBackground()
+}
+
 fun ShapeTextView.setBackColor(@ColorRes color: Int) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
     this.shapeDrawableBuilder.intoBackground()

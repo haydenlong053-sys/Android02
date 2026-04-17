@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main">
+    android:background="@color/color_F7F8FA">
 
     <!-- 发送好友申请标题 -->
     <TextView
@@ -13,13 +13,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:text="@string/fasonghaouyoushenqing"
-        android:textColor="@color/color_text0"
+        android:textColor="@color/black_65"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 发送好友申请输入框（多行） -->
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:id="@+id/layout_apply_reason"
         android:layout_width="0dp"
         android:layout_height="96dp"
@@ -29,8 +29,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_apply_title"
-        app:shapeCornersRadius="12dp"
-        app:shapeSolidColor="@color/color_input_bg">
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/white">
 
         <EditText
             android:id="@+id/edtshenqing"
@@ -47,10 +47,10 @@
             android:paddingEnd="16dp"
             android:paddingBottom="10dp"
             android:textColor="@color/color_text0"
-            android:textColorHint="@color/color_text_content_hint"
+            android:textColorHint="@color/black_35"
             android:textSize="14sp" />
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
 
     <!-- 备注名标题 -->
     <TextView
@@ -60,13 +60,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="@string/shezhibneizhutispb"
-        android:textColor="@color/color_text0"
+        android:textColor="@color/black_65"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_apply_reason" />
 
     <!-- 备注名输入框 -->
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:id="@+id/layout_remark"
         android:layout_width="0dp"
         android:layout_height="52dp"
@@ -76,8 +76,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_remark_title"
-        app:shapeCornersRadius="12dp"
-        app:shapeSolidColor="@color/color_input_bg">
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/white">
 
         <EditText
             android:id="@+id/edtbeizhu"
@@ -90,10 +90,10 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="@color/color_text0"
-            android:textColorHint="@color/color_text_content_hint"
+            android:textColorHint="@color/black_35"
             android:textSize="14sp" />
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
 
     <!-- 圈子标签标题 -->
     <TextView
@@ -103,7 +103,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="@string/set_circle_tags"
-        android:textColor="@color/color_text0"
+        android:textColor="@color/black_65"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_remark" />
@@ -113,9 +113,9 @@
         android:id="@+id/layout_circle_row1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/dp_13"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_24"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +129,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/bg_rect_solid_3b47dd_broad_10dp"
+        android:background="@drawable/bg_rect_submit_no_broad_16dp"
         android:gravity="center"
         android:text="@string/fasongshenqing"
         android:textColor="@color/white"
@@ -140,7 +140,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 取消按钮 -->
-    <TextView
+    <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_cancel"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -154,6 +154,9 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_strokeColor="@color/color_3B47DD"
+        app:shape_strokeWidth="@dimen/dp_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
