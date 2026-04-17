@@ -446,11 +446,14 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 portraitTv.setText(formatWithBigDecimal(friendSmailListBean.grade) + fragment.getString(R.string.message_grade_unit));
                 vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
                 if (friendSmailListBean.isVip) {
-                    setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
-                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
                     portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
                 } else {
                     portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+                }
+                if (friendSmailListBean.isNiceNum) {
+                    setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
+                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
+                } else {
                     int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
                     int registrationDay = friendSmailListBean.registerDay;
                     if (registrationDay < registrationDayScore) {

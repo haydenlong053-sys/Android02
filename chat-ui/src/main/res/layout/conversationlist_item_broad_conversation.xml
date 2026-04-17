@@ -50,21 +50,22 @@
             tools:visibility="visible" />
 
         <com.hjq.shape.view.ShapeTextView
+            android:layout_marginBottom="@dimen/dp_1"
             android:id="@+id/gradeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dp_8"
+            android:paddingHorizontal="@dimen/dp_4"
             android:paddingVertical="@dimen/dp_1"
             android:textColor="@color/ps_color_white"
             android:textSize="8sp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/portraitImageView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:shape_endColor="#7A66FA"
             app:shape_radius="@dimen/dp_10"
             app:shape_startColor="#956BEC"
-            tools:text="78分"
+            tools:text="0分"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
