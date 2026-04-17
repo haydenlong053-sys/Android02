@@ -155,8 +155,9 @@
     <string name="credit_score_open_premium_number">Activate Premium Number</string>
     <string name="credit_score_des2">You can purchase a premium number in Mall - Me - I AM Premium Number based on your needs</string>
     <string name="credit_score_func">信用说明</string>
-
-
     <string name="registered_less_than_days">账号注册未满%1$s天，消息禁止含链接；开通会员或购买靓号可提前满足条件</string>
-
+    <string name="collect">收藏</string>
+    <string name="credit_prefix2">信用:</string>
+    <string name="register_time_prefix2">注册时间:</string>
+    <string name="del_coll_title">删除这个收藏吗？</string>
 </resources>

@@ -1,7 +1,12 @@
 package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_CREDIT_SCORE_NEW_USER_DAYS;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -20,12 +25,16 @@ import com.cboda.baselibrary.common.MyEventCodeEnum;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.GlideUtilsKt;
+import com.cboda.baselibrary.utils.JavaBroadUtil;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.VideoThumbnailUtils;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity;
 import com.cboda.intelligent.R;
+import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.MyCollectBroadAdapter;
+import com.cboda.intelligent.dialog.DelCollPop;
 import com.cboda.select.picture.entity.DataListBroadBean;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.utils.BaseBroadCallback;
@@ -53,11 +62,12 @@ import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.SendMessageCallback;
 import cn.wildfirechat.utils.WeChatImageUtils;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
+public class MyCollectBroadActivity extends BaseSimple2BroadActivity {
 
 
     private MyCollectBroadAdapter myCollectAdapter;
@@ -74,16 +84,18 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
         return R.layout.activity_my_broad_collect;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
-        getToolbarTitle().setText(getResources().getString(R.string.我的收藏));
-
+        getToolbarTitle().setText(getResources().getString(com.cboda.baselibrary.R.string.collect));
+        setRootBgColor(com.cboda.chatui.R.color.white);
         myCollectAdapter = new MyCollectBroadAdapter(this, listBeans);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         ryCollect.setLayoutManager(linearLayoutManager);
         ryCollect.setAdapter(myCollectAdapter);
+//        String canSendLink = MMKVBroadUtils.Companion.getSqlStrData(USER_SEND_LINK, "false");
         myCollectAdapter.setOnItemClickListener(new MyCollectBroadAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int position) {
@@ -116,9 +128,16 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
                 // 根据类型创建消息内容并发送
                 String type = dataListBean.type;
                 if ("1".equals(type)) {
+                    String msgContent = dataListBean.info.toString();
+                    String day = JavaBroadUtil.containsLinkReturnDay(msgContent);
+                    if (!TextUtils.isEmpty(day)) {
+                        ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                        return;
+                    }
                     // 文字消息
-                    TextMessageContent textContent = new TextMessageContent(dataListBean.info);
+                    TextMessageContent textContent = new TextMessageContent(msgContent);
                     sendMessage(conversation, textContent);
+
                 } else if ("2".equals(type)) {
                     // 图片消息
                     GlideUtilsKt.getBitmapFromUrl(MyCollectBroadActivity.this, dataListBean.info, new Function1<Bitmap, Unit>() {
@@ -267,6 +286,47 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
                 } else {
                     ToastBroadUtils.show("暂不支持的转发类型");
                 }
+            }
+
+            @Override
+            public void OnItemDelClickListener(View view, int position) {
+                DelCollPop delCollPop = new DelCollPop(MyCollectBroadActivity.this);
+                delCollPop.backInvoke = new Function0<Unit>() {
+                    @Override
+                    public Unit invoke() {
+                        DataListBroadBean dataListBean = listBeans.get(position);
+                        Map<String, Object> param = new HashMap<>();
+                        param.put("ids", dataListBean.id);
+                        OkHttpBroadHelper.getInstance().post_json(MyCollectBroadActivity.this, BroadUrl.DEL_COLL, param, new BaseBroadCallback<ResultBroadBean>() {
+                            @Override
+                            public void onBeforeRequest(Request request) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Request request, Exception e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Response response) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                                listBeans.remove(position);
+                                myCollectAdapter.notifyItemRemoved(position);
+                            }
+
+                            @Override
+                            public void onError(Response response, int code, Exception e) {
+                            }
+                        });
+                        return null;
+                    }
+                };
+                delCollPop.showPopupWindow();
             }
         });
 
@@ -432,6 +492,10 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
         });
     }
 
+    @Override
+    public boolean showTransparentTopTitleLayout() {
+        return true;
+    }
 
     private void initViews() {
         ivNoData = findViewById(R.id.ivNoData);

@@ -245,8 +245,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 val tvMirrorCreditScoreValue = findViewById<TextView>(R.id.tvMirrorCreditScoreValue)
                 val tvMirrorCreditLabel = findViewById<TextView>(R.id.tvMirrorCreditLabel)
                 tvMirrorCreditScore.text = formatWithBigDecimal(grade)
-
-                if (!TextUtils.isEmpty(lianghao)) {
+                if (isvip == "1") {
                     layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
                     tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
