@@ -304,25 +304,25 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         var type = ""
         when (fromPage) {
             "zhuanshuhongbao" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
             }
 
             "add" -> {
-                url = "/friendList"
+                url = "/friendListPage"
             }
 
             "remove" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
                 type = "3"
             }
 
             "qunmanager" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
                 type = "3"
             }
 
             "qunyiyintonghua" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
             }
         }
         viewModel?.getQunMemberList(

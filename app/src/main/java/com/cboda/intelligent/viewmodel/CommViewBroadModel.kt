@@ -809,7 +809,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
         val map = mapOf(
             "pageNo" to pageNo,
-            "pageSize" to "10",
+            "pageSize" to "20",
             "id" to id,
             "type" to type,
             "groupId" to id,
