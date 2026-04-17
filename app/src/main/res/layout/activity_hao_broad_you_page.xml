@@ -431,6 +431,7 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            tools:visibility="visible"
                             android:visibility="gone">
 
                             <ImageView
@@ -508,7 +509,6 @@
                                     android:maxLines="1"
                                     android:textColor="@color/color_text_content"
                                     android:textSize="12sp"
-
                                     tools:text="ID：000" />
                             </LinearLayout>
 

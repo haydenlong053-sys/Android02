@@ -63,7 +63,7 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
                 vipImageView.setVisibility(View.GONE);
                 portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
             }
-            if (null != friendSmailListBean && friendSmailListBean.isNiceNum) {
+            if (null != friendSmailListBean && (friendSmailListBean.isNiceNum || friendSmailListBean.isVip)) {
                 setBackColor2(gradeTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
                 setTxtColor(gradeTv, com.cboda.baselibrary.R.color.color_FAE77C);
             } else {

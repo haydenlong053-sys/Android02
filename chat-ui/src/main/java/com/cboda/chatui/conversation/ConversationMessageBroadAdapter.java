@@ -451,7 +451,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 } else {
                     portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
                 }
-                if (friendSmailListBean.isNiceNum) {
+                if (friendSmailListBean.isNiceNum || friendSmailListBean.isVip) {
                     setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
                     setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
                 } else {

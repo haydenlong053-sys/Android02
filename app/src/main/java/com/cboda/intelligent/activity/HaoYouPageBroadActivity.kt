@@ -244,15 +244,14 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 tvMirrorCreditScore.text = formatWithBigDecimal(grade)
                 val vipMirrorCredit = findViewById<ImageView>(R.id.vipMirrorCredit)
                 vipMirrorCredit.isVisible = isvip == "1"
-                if (isLiang != null && isLiang == "1") {
-                    ivLiang?.visibility = View.VISIBLE
+                ivLiang.isVisible = (isLiang != null && isLiang == "1")
+                tvID.setTxtColor(if (isLiang != null && isLiang == "1") R.color.color_text_liang else R.color.color_text_content)
+                if ((isLiang != null && isLiang == "1") || isvip == "1") {
                     layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
                     tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
-                    tvID?.setTextColor(resources.getColor(R.color.color_text_liang))
                 } else {
-                    ivLiang?.visibility = View.GONE
                     val registrationDayScore = anyToInt(getSqlStrData(MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE, ""))
                     val registrationDay = anyToInt(registerDayBean?.registDay ?: 0)
                     if (registrationDay < registrationDayScore) {
