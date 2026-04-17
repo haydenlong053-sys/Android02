@@ -1,6 +1,10 @@
 package com.cboda.intelligent.activity
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -46,6 +50,8 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var recyclerView2: RecyclerView
     private lateinit var edtSousuo:
             EditText
+    private val searchHandler by lazy { Handler(Looper.getMainLooper()) }
+    private var searchRunnable: Runnable? = null
 
     override fun showBgTopTitleLayout(): Boolean {
         return true
@@ -141,15 +147,25 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         edtSousuo.setOnEditorActionListener(TextView.OnEditorActionListener { textView, i, keyEvent ->
 
             if (i == EditorInfo.IME_ACTION_SEARCH) {
-                pageNo = 1
-                mDataList.clear()
-                checkCanGo()
-                request()
-                mDataList2.clear()
-                mAdapter2?.setList(mDataList2)
+                searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+                triggerSearch()
                 return@OnEditorActionListener true
             }
             false
+        })
+        edtSousuo.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+                searchRunnable = Runnable {
+                    triggerSearch()
+                }.also { runnable ->
+                    searchHandler.postDelayed(runnable, 1500L)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) = Unit
         })
 
         mManager = LinearLayoutManager(this)
@@ -267,6 +283,15 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         tvAgree.isSubmitCanGo(canGo)
     }
 
+    private fun triggerSearch() {
+        pageNo = 1
+        mDataList.clear()
+        checkCanGo()
+        request()
+        mDataList2.clear()
+        mAdapter2?.setList(mDataList2)
+    }
+
     private fun getPosByTag(txt: String): Int {
         var pos = -1
         for (i in 0 until mDataList.size) {
@@ -333,5 +358,10 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
             type,
             edtSousuo?.text?.toString()?.trim() ?: ""
         )
+    }
+
+    override fun onDestroy() {
+        searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+        super.onDestroy()
     }
 }
