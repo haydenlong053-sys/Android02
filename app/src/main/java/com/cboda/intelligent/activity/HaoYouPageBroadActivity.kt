@@ -240,17 +240,21 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
                 friendName.text = showName
                 val layoutMirrorCredit = findViewById<ShapeConstraintLayout>(R.id.layoutMirrorCredit)
-//                layoutMirrorCredit.visibility = View.VISIBLE
                 val tvMirrorCreditScore = findViewById<TextView>(R.id.tvMirrorCreditScore)
                 val tvMirrorCreditScoreValue = findViewById<TextView>(R.id.tvMirrorCreditScoreValue)
                 val tvMirrorCreditLabel = findViewById<TextView>(R.id.tvMirrorCreditLabel)
                 tvMirrorCreditScore.text = formatWithBigDecimal(grade)
-                if (isvip == "1") {
+                val vipMirrorCredit = findViewById<ImageView>(R.id.vipMirrorCredit)
+                vipMirrorCredit.isVisible = isvip == "1"
+                if (isLiang != null && isLiang == "1") {
+                    ivLiang?.visibility = View.VISIBLE
                     layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
                     tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
+                    tvID?.setTextColor(resources.getColor(R.color.color_text_liang))
                 } else {
+                    ivLiang?.visibility = View.GONE
                     val registrationDayScore = anyToInt(registerDayBean?.registrationDayScore ?: "")
                     val registrationDay = anyToInt(registerDayBean?.registDay ?: 0)
                     if (registrationDay < registrationDayScore) {
@@ -264,15 +268,6 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                         tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                         tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                     }
-                }
-                val vipMirrorCredit = findViewById<ImageView>(R.id.vipMirrorCredit)
-                if (isLiang != null && isLiang == "1") {
-                    ivLiang?.visibility = View.VISIBLE
-                    vipMirrorCredit.isGone = false
-                    tvID?.setTextColor(resources.getColor(R.color.color_text_liang))
-                } else {
-                    ivLiang?.visibility = View.GONE
-                    vipMirrorCredit.isGone = true
                 }
 
                 tvID?.text = "${getString(R.string.user_id_prefix)}${this.idno}"

@@ -115,11 +115,15 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             binding.tvMirrorCreditScore.text = formatWithBigDecimal(userInfo?.grade)
             binding.mViewPremiumNumber.isVisible = (userInfo?.isLiang == "1")
             binding.idTv.isInvisible = binding.mViewPremiumNumber.isVisible
-            if (userInfo?.isvip == "1") {
+            if (userInfo?.isLiang == "1") {
                 binding.layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
                 binding.tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                 binding.tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                 binding.tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
+                binding.mTvPremiumNumber.text = "ID:${userInfo?.lianghao}"
+                if (!binding.mViewAnimateNumb.isAnimating) {
+                    binding.mViewAnimateNumb.playAnimation()
+                }
             } else {
                 val registrationDayScore = anyToInt(userInfo?.registerDayBean?.registrationDayScore ?: "")
                 val registrationDay = anyToInt(userInfo?.registerDayBean?.registDay ?: 0)
@@ -134,13 +138,6 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                     binding.tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                     binding.tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                 }
-            }
-            if (userInfo?.isLiang == "1") {
-                binding.mTvPremiumNumber.text = "ID:${userInfo?.lianghao}"
-                if (!binding.mViewAnimateNumb.isAnimating) {
-                    binding.mViewAnimateNumb.playAnimation()
-                }
-            } else {
                 binding.idTv.text = "ID:${if (!TextUtils.isEmpty(userInfo?.idno)) userInfo?.idno else userInfo?.mId}"
                 if (binding.mViewAnimateNumb.isAnimating) {
                     binding.mViewAnimateNumb.pauseAnimation()

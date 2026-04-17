@@ -58,12 +58,15 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
                     .into(portraitImageView);
             if (null != friendSmailListBean && friendSmailListBean.isVip) {
                 vipImageView.setVisibility(View.VISIBLE);
-                setBackColor2(gradeTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
-                setTxtColor(gradeTv, com.cboda.baselibrary.R.color.color_FAE77C);
                 portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
             } else {
                 vipImageView.setVisibility(View.GONE);
                 portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+            }
+            if (null != friendSmailListBean && friendSmailListBean.isNiceNum) {
+                setBackColor2(gradeTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
+                setTxtColor(gradeTv, com.cboda.baselibrary.R.color.color_FAE77C);
+            } else {
                 if (null != friendSmailListBean) {
                     int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
                     int registrationDay = friendSmailListBean.registerDay;
