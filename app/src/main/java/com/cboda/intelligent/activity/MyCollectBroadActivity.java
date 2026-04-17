@@ -217,6 +217,11 @@ public class MyCollectBroadActivity extends BaseSimple2BroadActivity {
                 if (dataListBean.info == null || "null".equals(dataListBean.info)) {
                     ToastBroadUtils.show("服务器查询数据失败" + dataListBean.info);
                 } else if ("1".equals(dataListBean.type)) {
+                    String day = JavaBroadUtil.containsLinkReturnDay(dataListBean.info);
+                    if (!TextUtils.isEmpty(day)) {
+                        ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                        return;
+                    }
                     Message message = new Message();
                     message.content = new TextMessageContent(dataListBean.info);
                     Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
