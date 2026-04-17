@@ -91,7 +91,12 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 if (this.isNotEmpty()) {
                     pageNo++
                 }
-                mDataList.addAll(this)
+                val existingUserIds = mDataList.mapNotNull { bean -> bean.userId }.toHashSet()
+                val dedupedList = this.filter { bean ->
+                    val userId = bean.userId
+                    !userId.isNullOrEmpty() && existingUserIds.add(userId)
+                }
+                mDataList.addAll(dedupedList)
 
                 if (fromPage == "remove") {
                     if (userType == "1") {
