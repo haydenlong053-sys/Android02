@@ -440,6 +440,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunMemberListBroadActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunNameBroadActivity"

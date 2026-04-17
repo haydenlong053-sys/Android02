@@ -16,6 +16,7 @@ import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.intelligent.bean.ZhuanShuHongBaoBroadEvent
+import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -39,7 +40,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var mManager: LinearLayoutManager? = null
     private lateinit var tvSideBarHint: TextView
     private lateinit var indexBar: IndexBar
-    private lateinit var tvAgree: ShapeTextBroadView
+    private lateinit var tvAgree: TextView
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView
@@ -70,6 +71,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRootBgColor(R.color.white)
         initViews()
         fromPage = intent?.getStringExtra("fromPage") ?: ""
         qunId = intent?.getStringExtra("qunid") ?: ""
@@ -78,6 +80,8 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         getToolbarTitle()?.text = getString(R.string.xuanzelianxiren)
         if (fromPage == "zhuanshuhongbao") {
             tvAgree?.isVisible = false
+        }else{
+            tvAgree.isSubmitCanGo(false)
         }
 
         viewModel?.chengyuanListLiveData?.observe(this) {
@@ -110,7 +114,6 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     .invalidate()
 
                 mAdapter?.setList(mDataList)
-
                 if (mDataList.isEmpty()) {
                     mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
@@ -135,6 +138,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 pageNo = 1
                 mDataList.clear()
+                checkCanGo()
                 request()
                 mDataList2.clear()
                 mAdapter2?.setList(mDataList2)
@@ -176,6 +180,8 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 }
                 updateYiXuan()
             }
+            checkCanGo()
+
         }
 
 
@@ -238,6 +244,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 pageNo = 1
                 mDataList.clear()
+                checkCanGo()
                 request()
             }
 
@@ -247,6 +254,12 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
 
         })
         request()
+    }
+
+    private fun checkCanGo() {
+        if (fromPage == "zhuanshuhongbao") return
+        val canGo = mDataList.any { it.isSelect }
+        tvAgree.isSubmitCanGo(canGo)
     }
 
     private fun getPosByTag(txt: String): Int {
