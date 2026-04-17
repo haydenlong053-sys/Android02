@@ -1,6 +1,7 @@
 package com.cboda.intelligent.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -21,7 +22,9 @@ import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
 import com.cboda.baselibrary.utils.setTxtColor
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.toJson2
+import com.cboda.baselibrary.utils.updatePayPwdDataLiveData
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.QianbaoBroadActivity
 import com.cboda.intelligent.activity.SignInBroadActivity
 import com.cboda.intelligent.activity.UserInfoBroadActivity
 import com.cboda.intelligent.base.BaseBroadFragment
@@ -32,6 +35,7 @@ import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.intelligent.model.UserInfoBroadModel
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
+import com.cboda.intelligent.utils.showGuidePasswordTip
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import kotlinx.coroutines.launch
 
@@ -62,18 +66,22 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 } else {
                     CreditScoreActivateBroadPop(requireContext()).apply {
                         sureInvoke = {
-                            PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
-                                lifecycleScope.launch {
-                                    viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
-                                        if (bool) {
-                                            ToastBroadUtils.show("激活成功")
-                                            onResume()
+                            if (userInfo?.hasPaypwd == "1") {
+                                PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
+                                    lifecycleScope.launch {
+                                        viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
+                                            if (bool) {
+                                                ToastBroadUtils.show("激活成功")
+                                                onResume()
+                                            }
                                         }
                                     }
-                                }
 
 
-                            }, isCheckPassword = false).showPopupWindow()
+                                }, isCheckPassword = false).showPopupWindow()
+                            } else {
+                                showGuidePasswordTip(context)
+                            }
                         }
                     }.showPopupWindow()
                 }
@@ -88,6 +96,9 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         binding.hobbyTv4.setOnClickListener(userInfoClick)
         binding.hobbyTv5.setOnClickListener(userInfoClick)
         binding.hobbyTv6.setOnClickListener(userInfoClick)
+        updatePayPwdDataLiveData.observe(this) {
+            getUserInfo()
+        }
     }
 
     private val userInfoClick = object : OnSingleClickBroadListener() {
@@ -105,6 +116,10 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         viewModel.getSignInfo().observe(this) {
             binding.mTvMirrorSign.text = if (it) getString(R.string.已签到) else getString(R.string.签到)
         }
+        getUserInfo()
+    }
+
+    private fun getUserInfo() {
         viewModel.getUserInfo().observe(this) {
             it?.let {
                 userInfo = it

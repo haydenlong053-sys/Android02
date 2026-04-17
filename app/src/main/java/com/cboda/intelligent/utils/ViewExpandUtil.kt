@@ -130,7 +130,11 @@ fun View.isSubmitCanGo(
     this.isSelected = boolean
     this.setBackgroundResource(if (boolean) positiveBg else negativeBg)
 }
-
+fun View.isSubmitCanGo2(
+    boolean: Boolean
+) {
+    this.isSubmitCanGo(boolean)
+}
 fun getTopBaseSimple2Activity(): BaseSimple2BroadActivity? {
     if (activityList.isNotEmpty() && activityList.last() is BaseSimple2BroadActivity) {
         return activityList.last() as BaseSimple2BroadActivity

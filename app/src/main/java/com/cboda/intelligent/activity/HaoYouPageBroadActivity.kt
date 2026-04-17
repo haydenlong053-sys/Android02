@@ -6,52 +6,50 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.shinichi.library.ImagePreview
-import com.cboda.chatui.WfcUIBroadKit
-import com.cboda.chatui.conversation.ConversationBroadActivity
-import com.cboda.chatui.conversation.ConversationViewBroadModel
-import com.cboda.chatui.utils.MyIMActivityBroadUtils
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
-import com.cboda.baselibrary.utils.SpanBroadUtils
-import com.gyf.immersionbar.ImmersionBar
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
-import com.cboda.intelligent.R
-import com.cboda.intelligent.adapter.PengYouQuanBroadAdapter
-import com.cboda.intelligent.base.BaseSimpleBroadActivity
+import com.airbnb.lottie.LottieAnimationView
+import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.cboda.intelligent.holder.CommanConfimBroadHolder
-import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.baselibrary.bean.BroadConstant
-import com.cboda.intelligent.utils.GlideLoaderBroadHelper
-import com.cboda.intelligent.utils.JumpBroadUtils
-import com.cboda.intelligent.utils.PixelBroadBroadUtils
-import com.cboda.intelligent.utils.StringBroadUtils
-import com.cboda.intelligent.viewmodel.CommViewBroadModel
-import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
-import androidx.core.graphics.toColorInt
-import androidx.core.view.isGone
-import androidx.core.view.isInvisible
-import com.airbnb.lottie.LottieAnimationView
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.clipViewOutlineRound
 import com.cboda.baselibrary.utils.formatWithBigDecimal
 import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
 import com.cboda.baselibrary.utils.setTxtColor
+import com.cboda.chatui.WfcUIBroadKit
+import com.cboda.chatui.conversation.ConversationBroadActivity
+import com.cboda.chatui.conversation.ConversationViewBroadModel
+import com.cboda.chatui.utils.MyIMActivityBroadUtils
+import com.cboda.intelligent.R
+import com.cboda.intelligent.adapter.PengYouQuanBroadAdapter
+import com.cboda.intelligent.base.BaseSimpleBroadActivity
+import com.cboda.intelligent.holder.CommanConfimBroadHolder
+import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.GlideLoaderBroadHelper
+import com.cboda.intelligent.utils.JumpBroadUtils
+import com.cboda.intelligent.utils.PixelBroadBroadUtils
+import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
+import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
+import com.gyf.immersionbar.ImmersionBar
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.hjq.shape.layout.ShapeConstraintLayout
 
 
@@ -255,7 +253,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     tvID?.setTextColor(resources.getColor(R.color.color_text_liang))
                 } else {
                     ivLiang?.visibility = View.GONE
-                    val registrationDayScore = anyToInt(registerDayBean?.registrationDayScore ?: "")
+                    val registrationDayScore = anyToInt(getSqlStrData(MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE, ""))
                     val registrationDay = anyToInt(registerDayBean?.registDay ?: 0)
                     if (registrationDay < registrationDayScore) {
                         layoutMirrorCredit.setBackColorAndStrokeColor(com.cboda.baselibrary.R.color.color_FFB789_20, R.color.white)

@@ -43,6 +43,7 @@ import com.cboda.baselibrary.utils.JavaBroadUtil;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
+import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.google.gson.Gson;
 import com.cboda.select.picture.utils.ToastBroadUtils;
 
@@ -523,7 +524,8 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
                         try {
                             long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
-                            String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
+//                            String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
+                            String joinGroupTimeBefore = TimeBroadBroadUtils.getJoinFormatTime(timeLong);
                             joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
                         } catch (Exception e) {
                             toLog(e, "joinGroupTime");
