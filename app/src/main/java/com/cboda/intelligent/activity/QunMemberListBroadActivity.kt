@@ -85,6 +85,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         userType = intent?.getStringExtra("userType") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         getToolbarTitle()?.text = getString(R.string.xuanzelianxiren)
+        indexBar.isVisible =true
         if (fromPage == "zhuanshuhongbao") {
             tvAgree?.isVisible = false
         }else{
