@@ -27,6 +27,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.cboda.susindexbar.IndexBar.widget.IndexBar
+import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 import org.greenrobot.eventbus.EventBus
 import java.lang.StringBuilder
 
@@ -43,7 +44,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var mAdapter2: YiXuanQunMemberBroadAdapter? = null
     private var mManager: LinearLayoutManager? = null
     private lateinit var tvSideBarHint: TextView
-    private lateinit var indexBar: IndexBar
+    private lateinit var indexBar: IndexBar2
     private lateinit var tvAgree: TextView
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
