@@ -425,7 +425,8 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             return;
         }
         //82环境使用老登录
-        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+//        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+        if (HttpsBroadConfig.currentHostHttpUrlType < 1000) {
             Map<String, Object> param = new HashMap<>();
             param.put("id", linkId);
             param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
