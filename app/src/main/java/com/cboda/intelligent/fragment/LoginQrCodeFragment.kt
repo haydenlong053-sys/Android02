@@ -45,9 +45,9 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     @SuppressLint("SetTextI18n")
     private fun setData() {
         mBinding?.let {
-            //82环境登录隐藏二维码刷新
-            binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE
-//            binding.requestQrCode.isGone = false
+            //82环境使用老登录隐藏二维码刷新
+//            binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE
+            binding.requestQrCode.isGone = true
             userInfoBean?.let { userInfo ->
                 binding.userImg.loadImg(userInfo.userImg)
                 binding.userName.text = userInfo.name

@@ -62,7 +62,8 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
             val loginAccount = binding.loginAccount.text.toString()
             val loginPwd = binding.loginPwd.text.toString()
             //82环境使用老登录
-            if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+//            if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+            if (HttpsBroadConfig.currentHostHttpUrlType < 1000) {
                 viewModel.pwdLogin(
                     loginAccount,
                     loginPwd
