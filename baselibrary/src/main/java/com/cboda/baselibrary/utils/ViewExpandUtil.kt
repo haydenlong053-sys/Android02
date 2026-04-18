@@ -1166,5 +1166,13 @@ fun formatWithBigDecimal(data: Any?): String {
         .toPlainString()
 }
 
+fun ShapeTextView.isSubmitCanGo3(boolean: Boolean) {
+    this.alpha = if (boolean) 1f else 0.3f
+}
 
+fun ShapeTextView.isSubmitCanGo2(boolean: Boolean) {
+    this.isSubmitCanGo3(boolean)
+    this.isEnabled = boolean
+    this.isSelected = boolean
+}
 

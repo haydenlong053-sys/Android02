@@ -10,42 +10,35 @@
     <!-- 取消按钮 -->
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_cancel"
+        style="@style/btn_cancel"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/bg_rect_mine_3b47dd_broad_10dp"
-        android:gravity="center"
         android:text="@string/quxiao"
         android:textColor="@color/color_3B47DD"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_strokeColor="@color/color_3B47DD"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 发送按钮 -->
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tvPhoneLogin"
+        style="@style/btn_ok"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="12dp"
-        android:alpha="0.3"
-        android:gravity="center"
         android:text="@string/mine_sure"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_solidColor="@color/color_3B47DD" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

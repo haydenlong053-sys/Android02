@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.isSubmitCanGo3
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
@@ -174,7 +175,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
         } else {
             true
         }
-        tvPhoneLogin.alpha = if (canGo) 1f else 0.3f
+        tvPhoneLogin.isSubmitCanGo3(canGo)
     }
 
     /**
