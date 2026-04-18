@@ -162,6 +162,7 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
                 duifang?.name ?: "",
                 source,
                 qunid,
+                "1"
             )
         }
 

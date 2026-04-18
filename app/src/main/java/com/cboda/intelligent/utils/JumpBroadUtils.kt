@@ -2,6 +2,7 @@ package com.cboda.intelligent.utils
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
@@ -458,14 +459,21 @@ class JumpBroadUtils {
             uid: String,
             userName: String,
             source: String,
-            qunid: String
+            qunid: String,
+            type: String,
+            startForResult: ActivityResultLauncher<Intent>? = null
         ) {
             val intent = Intent(context, HaoyouApplyBroadActivity::class.java)
             intent.putExtra("userName", userName)
             intent.putExtra("uid", uid)
             intent.putExtra("source", source)
             intent.putExtra("qunid", qunid)
-            context?.startActivity(intent)
+            intent.putExtra("type", type)
+            if (type == "2" && null != startForResult) {
+                startForResult.launch(intent)
+            } else {
+                context?.startActivity(intent)
+            }
         }
 
         fun startInputTipsActivity3(context: Context?, uid: String, qunid: String) {

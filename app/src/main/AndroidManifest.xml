@@ -166,8 +166,8 @@
 
         <activity
             android:name="com.cboda.intelligent.activity.CreditScoreActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.LoginVerificationActivity"
             android:exported="false" />
@@ -440,8 +440,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunMemberListBroadActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name="com.cboda.intelligent.activity.QunNameBroadActivity"
             android:screenOrientation="portrait" />
@@ -492,9 +492,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.CreateQunBroadActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.cboda.intelligent.activity.HaoYouAddBroadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.SearchUserBroadActivity"
@@ -548,9 +545,9 @@
         <!--            android:screenOrientation="portrait"-->
         <!--            android:supportsPictureInPicture="true"-->
         <!--            android:windowSoftInputMode="adjustNothing" />-->
-        <activity
-            android:name="com.cboda.intelligent.activity.CircleAndRemarkBroadActivity"
-            android:screenOrientation="portrait" />
+        <!--        <activity-->
+        <!--            android:name="com.cboda.intelligent.activity.CircleAndRemarkBroadActivity"-->
+        <!--            android:screenOrientation="portrait" />-->
         <activity
             android:name="com.cboda.intelligent.activity.UserProfileInfoBroadActivity"
             android:screenOrientation="portrait" />

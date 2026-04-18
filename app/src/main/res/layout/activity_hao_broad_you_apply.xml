@@ -1,143 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_F7F8FA">
 
-    <!-- 发送好友申请标题 -->
-    <TextView
-        android:id="@+id/tv_apply_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/fasonghaouyoushenqing"
-        android:textColor="@color/black_65"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- 发送好友申请输入框（多行） -->
-    <com.hjq.shape.layout.ShapeConstraintLayout
-        android:id="@+id/layout_apply_reason"
-        android:layout_width="0dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_apply_title"
-        app:shape_radius="@dimen/dp_10"
-        app:shape_solidColor="@color/white">
-
-        <EditText
-            android:id="@+id/edtshenqing"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="top|start"
-            android:hint="@string/fasonghaouyoushenqing"
-            android:inputType="textMultiLine"
-            android:maxLength="100"
-            android:maxLines="4"
-            android:paddingStart="16dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/color_text0"
-            android:textColorHint="@color/black_35"
-            android:textSize="14sp" />
-
-    </com.hjq.shape.layout.ShapeConstraintLayout>
-
-    <!-- 备注名标题 -->
-    <TextView
-        android:id="@+id/tv_remark_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/shezhibneizhutispb"
-        android:textColor="@color/black_65"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_apply_reason" />
-
-    <!-- 备注名输入框 -->
-    <com.hjq.shape.layout.ShapeConstraintLayout
-        android:id="@+id/layout_remark"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_remark_title"
-        app:shape_radius="@dimen/dp_10"
-        app:shape_solidColor="@color/white">
-
-        <EditText
-            android:id="@+id/edtbeizhu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center_vertical|start"
-            android:hint="@string/shezhibneizhutispa"
-            android:maxLength="16"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/color_text0"
-            android:textColorHint="@color/black_35"
-            android:textSize="14sp" />
-
-    </com.hjq.shape.layout.ShapeConstraintLayout>
-
-    <!-- 圈子标签标题 -->
-    <TextView
-        android:id="@+id/tv_circle_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/set_circle_tags"
-        android:textColor="@color/black_65"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_remark" />
-
-    <!-- 第一行：亲密圈 / 社交圈 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/layout_circle_row1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_13"
-        android:layout_marginTop="@dimen/dp_12"
-        android:layout_marginEnd="@dimen/dp_24"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_circle_title" />
-
-    <!-- 发送按钮 -->
-    <TextView
-        android:id="@+id/tvPhoneLogin"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/bg_rect_submit_no_broad_16dp"
-        android:gravity="center"
-        android:text="@string/fasongshenqing"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 取消按钮 -->
     <com.hjq.shape.view.ShapeTextView
@@ -158,5 +26,158 @@
         app:shape_radius="@dimen/dp_16"
         app:shape_strokeColor="@color/color_3B47DD"
         app:shape_strokeWidth="@dimen/dp_1" />
+
+    <!-- 发送按钮 -->
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tvPhoneLogin"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:alpha="0.3"
+        android:gravity="center"
+        android:text="@string/mine_sure"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/color_3B47DD" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginBottom="@dimen/dp_15"
+        app:layout_constraintBottom_toTopOf="@id/tvPhoneLogin"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!-- 发送好友申请标题 -->
+            <TextView
+                android:id="@+id/tv_apply_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/fasonghaouyoushenqing"
+                android:textColor="@color/black_65"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <!-- 发送好友申请输入框（多行） -->
+            <com.hjq.shape.layout.ShapeConstraintLayout
+                android:id="@+id/layout_apply_reason"
+                android:layout_width="0dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_apply_title"
+                app:shape_radius="@dimen/dp_10"
+                app:shape_solidColor="@color/white"
+                tools:visibility="visible">
+
+                <EditText
+                    android:id="@+id/edtshenqing"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="top|start"
+                    android:hint="@string/fasonghaouyoushenqing"
+                    android:inputType="textMultiLine"
+                    android:maxLength="100"
+                    android:maxLines="4"
+                    android:paddingStart="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/color_text0"
+                    android:textColorHint="@color/black_35"
+                    android:textSize="14sp" />
+
+            </com.hjq.shape.layout.ShapeConstraintLayout>
+
+            <!-- 备注名标题 -->
+            <TextView
+                android:id="@+id/tv_remark_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/shezhibneizhutispb"
+                android:textColor="@color/black_65"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_apply_reason" />
+
+            <!-- 备注名输入框 -->
+            <com.hjq.shape.layout.ShapeConstraintLayout
+                android:id="@+id/layout_remark"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_remark_title"
+                app:shape_radius="@dimen/dp_10"
+                app:shape_solidColor="@color/white">
+
+                <EditText
+                    android:id="@+id/edtbeizhu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/shezhibneizhutispa"
+                    android:maxLength="16"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/color_text0"
+                    android:textColorHint="@color/black_35"
+                    android:textSize="14sp" />
+
+            </com.hjq.shape.layout.ShapeConstraintLayout>
+
+            <!-- 圈子标签标题 -->
+            <TextView
+                android:id="@+id/tv_circle_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/set_circle_tags"
+                android:textColor="@color/black_65"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_remark" />
+
+            <!-- 第一行：亲密圈 / 社交圈 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/layout_circle_row1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_12"
+                android:layout_marginEnd="@dimen/dp_24"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_circle_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

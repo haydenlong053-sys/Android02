@@ -1,9 +1,12 @@
 package com.cboda.intelligent.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,18 +22,23 @@ import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.FriendViewBroadModel
+import com.hjq.shape.view.ShapeTextView
 import kotlinx.coroutines.launch
 
 class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
 
+    private var type = ""
     private var userName = ""
     private var uid = ""
     private var qunid = ""
     private var viewModel: CommViewBroadModel? = null
     private val friendViewModel: FriendViewBroadModel by viewModels()
     private var source = "" //来源 1：群聊 2：名片 3：二维码 4：搜索添加
-    private lateinit var tvPhoneLogin: TextView
+    private lateinit var tvPhoneLogin: ShapeTextView
     private lateinit var tvCancel: TextView
+    private lateinit var tvApplyTitle: TextView
+    private lateinit var layoutApplyReason: View
+
     private lateinit var circleRecyclerView: RecyclerView
     private lateinit var circleAdapter: CircleTagAdapter
 
@@ -53,6 +61,8 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
 
     private fun initViews() {
         setRootBgColor(R.color.white)
+        tvApplyTitle = findViewById(R.id.tv_apply_title)
+        layoutApplyReason = findViewById(R.id.layout_apply_reason)
         edtshenqing = findViewById(R.id.edtshenqing)
         edtbeizhu = findViewById(R.id.edtbeizhu)
 //        edtmiaoshu = findViewById(R.id.edtmiaoshu)
@@ -76,8 +86,11 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
         source = intent?.getStringExtra("source") ?: ""
         uid = intent?.getStringExtra("uid") ?: ""
         userName = intent?.getStringExtra("userName") ?: ""
+        type = intent?.getStringExtra("type") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
-        getToolbarTitle()?.text = getString(R.string.shenqingtianjaihaoyou)
+        tvApplyTitle.isGone = type != "1"
+        layoutApplyReason.isGone = type != "1"
+        getToolbarTitle()?.text = getString(if (type == "1") R.string.shenqingtianjaihaoyou else R.string.social_friend_verification)
         lifecycleScope.launch {
             // 通过接口获取圈子标签数据并展示
             friendViewModel.getFriendshipCharacter().observe(this@HaoyouApplyBroadActivity) { circles ->
@@ -112,12 +125,10 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
             checkData()
         }
         tvPhoneLogin?.setOnClickListener {
-
-            if (edtshenqing?.text?.trim().isNullOrEmpty()) {
+            if (type == "1" && edtshenqing?.text?.trim().isNullOrEmpty()) {
                 ToastBroadUtils.show(getString(R.string.fasonghaouyoushenqingtips))
                 return@setOnClickListener
             }
-
             if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
                 ToastBroadUtils.show(getString(R.string.shezhibneizhutispa))
                 return@setOnClickListener
@@ -126,15 +137,26 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
                 ToastBroadUtils.show(getString(R.string.social_select_circle))
                 return@setOnClickListener
             }
-            viewModel?.fasonghaoyoushenqing(
-                this,
-                uid,
-                edtshenqing?.text?.trim()?.toString() ?: "",
-                edtbeizhu?.text?.trim()?.toString() ?: "",
-                circleAdapter.getSelectedId().toString(),
-                source,
-                qunid
-            )
+            if (type == "1") {
+                viewModel?.fasonghaoyoushenqing(
+                    this,
+                    uid,
+                    edtshenqing?.text?.trim()?.toString() ?: "",
+                    edtbeizhu?.text?.trim()?.toString() ?: "",
+                    circleAdapter.getSelectedId().toString(),
+                    source,
+                    qunid
+                )
+            } else {
+                circleAdapter.getSelectedData()?.let {
+                    setResult(RESULT_OK, Intent().apply {
+                        putExtra("remark", edtbeizhu?.text?.trim()?.toString() ?: "")
+                        putExtra("circleTag", it.characterTags)
+                        putExtra("circleId", circleAdapter.getSelectedId())
+                    })
+                    finish()
+                }
+            }
         }
 
         tvCancel.setOnClickListener {
@@ -143,7 +165,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun checkData() {
-        val canGo = if (edtshenqing?.text?.trim().isNullOrEmpty()) {
+        val canGo = if (type == "1" && edtshenqing?.text?.trim().isNullOrEmpty()) {
             false
         } else if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
             false
@@ -152,7 +174,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
         } else {
             true
         }
-        tvPhoneLogin.isSubmitCanGo(canGo)
+        tvPhoneLogin.alpha = if (canGo) 1f else 0.3f
     }
 
     /**
@@ -177,7 +199,9 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
 
         private val items = mutableListOf<SocialBroadCircle>()
         private var selectedId: Int = -1
+        private var selectedSocialBroadCircle: SocialBroadCircle? = null
 
+        fun getSelectedData() = selectedSocialBroadCircle
         fun getSelectedId() = selectedId
         fun submitList(list: List<SocialBroadCircle>) {
             items.clear()
@@ -206,6 +230,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
             holder.bind(item, isSelected)
             holder.itemView.setOnClickListener {
                 val newSelected = if (selectedId == item.id) -1 else item.id
+                selectedSocialBroadCircle = if (selectedId == item.id) null else item
                 selectedId = newSelected
                 notifyDataSetChanged()
                 onItemClick(item, newSelected == item.id)

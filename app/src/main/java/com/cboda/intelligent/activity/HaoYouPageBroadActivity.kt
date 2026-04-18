@@ -324,19 +324,20 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 otherUid,
                 friendName?.text?.toString() ?: "",
                 source,
-                ""
+                "",
+                "1"
             )
         }
         beizhulay?.setOnClickListener {
 //            JumpBroadUtils.startHaoYouBeizhuActivity(this, otherUid, beizhuname?.text?.toString() ?: "")
-            val oldName = friendName?.text?.toString() ?: ""
-            CircleAndRemarkBroadActivity.toPage(
-                this,
-                startForResult,
-                oldName,
-                beizhuname?.text?.toString() ?: "",
-                CircleAndRemarkBroadActivity.TYPE_EDIT
-            )
+//            val oldName = friendName?.text?.toString() ?: ""
+//            CircleAndRemarkBroadActivity.toPage(
+//                this,
+//                startForResult,
+//                oldName,
+//                beizhuname?.text?.toString() ?: "",
+//                CircleAndRemarkBroadActivity.TYPE_EDIT
+//            )
         }
 
         ivTouxiang?.setOnClickListener {

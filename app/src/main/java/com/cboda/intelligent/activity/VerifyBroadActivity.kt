@@ -37,6 +37,7 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
         const val FRIEND_APPLY = "xindepengyou"
         const val GROUP_INVITED = "ruqunyaoqing"
     }
+
     override fun showBgTopTitleLayout(): Boolean {
         return true
     }
@@ -136,13 +137,21 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
                     if (fromPage == FRIEND_APPLY) {
                         toEditId = mDataList[positio].id ?: ""
                         toEditUserId = mDataList[positio].userId ?: ""
-                        CircleAndRemarkBroadActivity.toPage(
+//                        CircleAndRemarkBroadActivity.toPage(
+//                            this,
+//                            startForResult,
+//                            mDataList[positio].getDisplayName() ?: "",
+//                            ""
+//                        )
+                        JumpBroadUtils.startHaoyouApplyActivity(
                             this,
-                            startForResult,
+                            "",
                             mDataList[positio].getDisplayName() ?: "",
-                            ""
+                            "",
+                            "",
+                            "2",
+                            startForResult
                         )
-
                     } else {
                         viewModel?.tongyi(this, mDataList[positio].id ?: "", fromPage)
                     }

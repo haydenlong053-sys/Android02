@@ -414,14 +414,16 @@
     </androidx.core.widget.NestedScrollView>
 
 
-    <TextView
+    <com.hjq.shape.view.ShapeTextView
+        android:alpha="0.3"
         android:id="@+id/tvSave"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="24dp"
-        tools:background="@drawable/bg_rect_submit_no_broad_16dp"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/color_3B47DD"
         android:gravity="center"
         android:text="@string/baocunle"
         android:textColor="@color/white"
