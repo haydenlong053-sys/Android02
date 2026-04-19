@@ -145,6 +145,8 @@
     <string name="credit_score_fmt_breakdown_base_usdt">基础：%1$s/USDT</string>
     <string name="credit_score_fmt_breakdown_base_day">基础：%1$s/天</string>
     <string name="credit_score_fmt_breakdown_base_p">基础：%1$s/人</string>
+    <string name="credit_score_fmt_breakdown_base_mei">基础：%1$s/枚</string>
+    <string name="credit_score_fmt_breakdown_base_fen">基础：%1$s/分</string>
     <string name="credit_score_fmt_breakdown_base">基础：%1$s</string>
     <string name="credit_score_fmt_breakdown_base_quick">基础：%1$s倍会员加速</string>
     <string name="credit_score_fmt_breakdown_vip_bonus">会员+%1$s</string>

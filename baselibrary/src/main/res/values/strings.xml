@@ -145,6 +145,8 @@
     <string name="credit_score_fmt_breakdown_base_usdt">Base: %1$s/USDT</string>
     <string name="credit_score_fmt_breakdown_base_day">Base: %1$s/day</string>
     <string name="credit_score_fmt_breakdown_base_p">Base: %1$s/person</string>
+    <string name="credit_score_fmt_breakdown_base_mei">Base: %1$s/piece</string>
+    <string name="credit_score_fmt_breakdown_base_fen">Base: %1$s/pts</string>
     <string name="credit_score_fmt_breakdown_base">Base: %1$s</string>
     <string name="credit_score_fmt_breakdown_base_quick">Base: %1$sx member acceleration</string>
     <string name="credit_score_fmt_breakdown_vip_bonus">Member +%1$s</string>

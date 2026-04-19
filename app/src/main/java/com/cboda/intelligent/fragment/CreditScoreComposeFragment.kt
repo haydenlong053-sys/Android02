@@ -254,7 +254,7 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         CreditScoreTypeEnum.CONTRIBUTION.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score6)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_platform_contribution)
-                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_p), bean.baseScore)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_fen), bean.baseScore)
                             getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_53CC90)
                         }
 
@@ -289,7 +289,7 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                         CreditScoreTypeEnum.HOLD_ODIC.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score7)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_hold)
-                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_p), bean.baseScore)
+                            getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_mei), bean.baseScore)
                             getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_EE56D4)
                         }
 
