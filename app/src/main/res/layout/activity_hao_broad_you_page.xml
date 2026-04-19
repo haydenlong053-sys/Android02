@@ -434,7 +434,7 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:visibility="visible"
+                            tools:visibility="gone"
                             android:visibility="gone">
 
                             <ImageView

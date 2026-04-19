@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.isSubmitCanGo3
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.intelligent.MainBroadActivity
@@ -91,7 +92,10 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         tvApplyTitle.isGone = type != "1"
         layoutApplyReason.isGone = type != "1"
-        getToolbarTitle()?.text = getString(if (type == "1") R.string.shenqingtianjaihaoyou else R.string.social_friend_verification)
+        getToolbarTitle()?.text = getString(if (type == "1") R.string.shenqingtianjaihaoyou else if (type == "2") R.string.social_friend_verification else R.string.social_persona_tag)
+        if (type == "3") {
+            circleAdapter.setSelectedId(qunid)
+        }
         lifecycleScope.launch {
             // 通过接口获取圈子标签数据并展示
             friendViewModel.getFriendshipCharacter().observe(this@HaoyouApplyBroadActivity) { circles ->
@@ -204,12 +208,22 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
 
         fun getSelectedData() = selectedSocialBroadCircle
         fun getSelectedId() = selectedId
+
+
+        fun setSelectedId(id: String?) {
+            selectedId = anyToInt(id ?: "-1")
+        }
+
         fun submitList(list: List<SocialBroadCircle>) {
             items.clear()
             items.addAll(list)
-//            if (list.isNotEmpty()) {
-//                selectedId = list[0].id
-//            }
+            if (selectedId != -1 && list.isNotEmpty()) {
+                list.forEach { item ->
+                    if (selectedId == item.id) {
+                        selectedSocialBroadCircle = item
+                    }
+                }
+            }
             // 刷新选中状态
             notifyDataSetChanged()
         }
@@ -232,7 +246,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
             holder.itemView.setOnClickListener {
                 val newSelected = if (selectedId == item.id) -1 else item.id
                 selectedSocialBroadCircle = if (selectedId == item.id) null else item
-                selectedId = newSelected
+                setSelectedId(newSelected.toString())
                 notifyDataSetChanged()
                 onItemClick(item, newSelected == item.id)
             }

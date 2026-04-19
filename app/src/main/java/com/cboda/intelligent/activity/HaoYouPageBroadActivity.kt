@@ -169,7 +169,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     ivMirrorSex.setImageResource(if (sex == "1") R.drawable.ic_mirror_broad_male else R.drawable.ic_mirror_broad_female)
 
                 }
-                ivMirrorSex.isVisible =true
+                ivMirrorSex.isVisible = true
                 val isFriend = "1" == it.data?.isFri
                 otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
                 findViewById<ImageView>(R.id.iv_float_more).isInvisible =
@@ -329,8 +329,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             )
         }
         beizhulay?.setOnClickListener {
-//            JumpBroadUtils.startHaoYouBeizhuActivity(this, otherUid, beizhuname?.text?.toString() ?: "")
-//            val oldName = friendName?.text?.toString() ?: ""
+            val oldName = friendName?.text?.toString() ?: ""
 //            CircleAndRemarkBroadActivity.toPage(
 //                this,
 //                startForResult,
@@ -338,6 +337,15 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //                beizhuname?.text?.toString() ?: "",
 //                CircleAndRemarkBroadActivity.TYPE_EDIT
 //            )
+            JumpBroadUtils.startHaoyouApplyActivity(
+                this,
+                "",
+                oldName,
+                "",
+                "${yonghubena?.characterTagsId ?: -1}",
+                "3",
+                startForResult
+            )
         }
 
         ivTouxiang?.setOnClickListener {
@@ -466,8 +474,6 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     val circleId = it.getIntExtra("circleId", -1)
                     val remarkName = it.getStringExtra("remark")
                     toEditFriendInfo(circleId, remarkName ?: "")
-
-
                 }
             }
 

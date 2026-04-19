@@ -469,7 +469,7 @@ class JumpBroadUtils {
             intent.putExtra("source", source)
             intent.putExtra("qunid", qunid)
             intent.putExtra("type", type)
-            if (type == "2" && null != startForResult) {
+            if (null != startForResult) {
                 startForResult.launch(intent)
             } else {
                 context?.startActivity(intent)
