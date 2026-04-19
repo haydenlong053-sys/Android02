@@ -5,6 +5,8 @@ import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SocialBroadCircle
 import com.cboda.intelligent.model.SocialContact
@@ -82,6 +84,7 @@ class SocialBroadRepository {
                 SocialContact::class.java, body
             )
             result.onSuccess { data ->
+                //eLogD(APP_TAG,"好友总数："+data?.totalCount)
                 list = data?.list ?: emptyList()
 
             }.onFailure { code, message ->
