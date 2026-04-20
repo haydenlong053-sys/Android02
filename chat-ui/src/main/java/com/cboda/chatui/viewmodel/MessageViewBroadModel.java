@@ -501,11 +501,13 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     }
 
     public void sendVideoMsg(Conversation conversation, File file, FragmentActivity activity) {
-        CompressionBroadUtil.sendVideoCompress(file.getPath(), activity, (s, s2) -> {
-            VideoMessageContent videoMessageContent = new VideoMessageContent(s);
-            sendMessage(conversation, videoMessageContent, false);
-            return null;
-        });
+        if (null != conversation && null != file && null != activity) {
+            CompressionBroadUtil.sendVideoCompress(file.getPath(), activity, (s, s2) -> {
+                VideoMessageContent videoMessageContent = new VideoMessageContent(s);
+                sendMessage(conversation, videoMessageContent, false);
+                return null;
+            });
+        }
 //        VideoMessageContent videoMessageContent = new VideoMessageContent(file.getPath());
 //        sendMessage(conversation, videoMessageContent);
     }
