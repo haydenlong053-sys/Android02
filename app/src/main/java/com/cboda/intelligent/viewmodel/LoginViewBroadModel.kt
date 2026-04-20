@@ -25,12 +25,9 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.anyToDouble
 import com.cboda.baselibrary.utils.anyToInt
-import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
-import com.cboda.intelligent.activity.UpdatePwdActivity
 import com.cboda.intelligent.bean.ResultBroadBean
-import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
@@ -45,8 +42,6 @@ import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.model.SafeCenterBroadBean
 import com.cboda.intelligent.net.manager.UserServerBroadManager
 import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.intelligent.utils.OkHttpBroadHelper
-import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.showGuidePasswordTip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

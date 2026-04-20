@@ -6,6 +6,9 @@ class UserInfoBean {
     @SerializedName("acount")
     var loginAccount = ""
 
+    @SerializedName("eqno")
+    var deviceId = ""
+
     @SerializedName("idno")
     var showId = ""
 

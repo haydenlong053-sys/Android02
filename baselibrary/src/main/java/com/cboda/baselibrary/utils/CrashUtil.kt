@@ -1,6 +1,8 @@
 package com.cboda.baselibrary.utils
 
 import android.content.Context
+import android.text.TextUtils
+import android.webkit.WebView
 import com.cboda.baselibrary.BuildConfig
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
@@ -9,7 +11,10 @@ private const val tAG = "CrashUtilClass"
 
 interface CrashLoad {
     fun crashReport(canLog: Boolean, throwable: Throwable?)
-    fun initFireBase(context: Context, buglyId: String)
+    fun initFireBase(context: Context, fireId: String)
+    fun crashWebView(webView: WebView?)
+    fun crashU(context: Context?, tag1: String?, tag2: String?)
+    fun crashTag(context: Context?, tagKey: String?, tagValue: String?)
 }
 
 object CrashFactory {
@@ -39,14 +44,16 @@ class CrashLoaderProxy : CrashLoad {
         }
     }
 
-    override fun initFireBase(context: Context, buglyId: String) {
+    override fun initFireBase(context: Context, fireId: String) {
         try {
             val strategy = com.tencent.bugly.crashreport.CrashReport.UserStrategy(context)
             strategy.deviceModel = DeviceBroadUtil.getDeviceBrand()
-            strategy.deviceID = DeviceBroadUtil.getDeviceId()
+            strategy.deviceID = DeviceBroadUtil.getDeviceId() + " # " + DeviceBroadUtil.getAndroidId()
+            strategy.isEnableCatchAnrTrace = getIsDebug() // 设置anr时是否获取系统trace文件，默认为false
+            strategy.isEnableRecordAnrMainStack = true// 设置是否获取anr过程中的主线程堆栈，默认为true
             com.tencent.bugly.crashreport.CrashReport.initCrashReport(
                 context,
-                buglyId,
+                fireId,
                 getIsDebug(),
                 strategy
             )
@@ -54,6 +61,58 @@ class CrashLoaderProxy : CrashLoad {
             e.toLog(tAG, false)
         }
     }
+
+    override fun crashWebView(webView: WebView?) {
+        try {
+            webView?.let {
+                kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                    try {
+                        com.tencent.bugly.crashreport.CrashReport.setJavascriptMonitor(webView, false)
+                    } catch (e: Exception) {
+                        e.toLog(tAG, false)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG, false)
+        }
+    }
+
+    override fun crashU(context: Context?, tag1: String?, tag2: String?) {
+        try {
+            kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                try {
+                    val mContext = getAppContext(context)
+                    if (!TextUtils.isEmpty(tag1) && !TextUtils.isEmpty(tag2)) {
+                        com.tencent.bugly.crashreport.CrashReport.putUserData(mContext, "u1", tag1 + "#" + HttpsBroadConfig.currentHostHttpUrlType + "#" + tag2)
+                    }
+                } catch (e: Exception) {
+                    e.toLog(tAG, false)
+                }
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG, false)
+        }
+    }
+
+    override fun crashTag(context: Context?, tagKey: String?, tagValue: String?) {
+        try {
+            kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                try {
+                    val mContext = getAppContext(context)
+                    if (!TextUtils.isEmpty(tagKey)) {
+                        com.tencent.bugly.crashreport.CrashReport.putUserData(mContext, tagKey, tagValue)
+                    }
+                } catch (e: Exception) {
+                    e.toLog(tAG, false)
+                }
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG, false)
+        }
+    }
+
+
 }
 
 class CrashLoaderFirebase : CrashLoad {
@@ -67,7 +126,31 @@ class CrashLoaderFirebase : CrashLoad {
         }
     }
 
-    override fun initFireBase(context: Context, buglyId: String) {
+    override fun initFireBase(context: Context, fireId: String) {
+        try {
+
+        } catch (e: Exception) {
+            e.toLog(tAG, false)
+        }
+    }
+
+    override fun crashWebView(webView: WebView?) {
+        try {
+
+        } catch (e: Exception) {
+            e.toLog(tAG, false)
+        }
+    }
+
+    override fun crashU(context: Context?, tag1: String?, tag2: String?) {
+        try {
+
+        } catch (e: Exception) {
+            e.toLog(tAG, false)
+        }
+    }
+
+    override fun crashTag(context: Context?, tagKey: String?, tagValue: String?) {
         try {
 
         } catch (e: Exception) {
@@ -75,6 +158,7 @@ class CrashLoaderFirebase : CrashLoad {
         }
     }
 }
+
 
 fun crashReport(errorMsg: String?) {
     crashReport(Throwable(errorMsg ?: ""))

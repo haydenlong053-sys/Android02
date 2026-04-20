@@ -482,12 +482,12 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     } else {
                         portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
                     }
-                    if (friendSmailListBean.isNiceNum || friendSmailListBean.isVip) {
+                    if (friendSmailListBean.isNiceNum) {
                         setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
                         setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
                     } else {
                         int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
-                        int registrationDay = friendSmailListBean.registerDay;
+                        int registrationDay = anyToInt(friendSmailListBean.registerDay);
                         if (registrationDay < registrationDayScore) {
                             setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
                         } else {

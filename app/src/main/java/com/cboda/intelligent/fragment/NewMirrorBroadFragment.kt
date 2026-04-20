@@ -131,7 +131,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             binding.mViewPremiumNumber.isVisible = (userInfo?.isLiang == "1")
             binding.idTv.isInvisible = binding.mViewPremiumNumber.isVisible
             binding.vipMirrorCredit.isVisible = userInfo?.isvip == "1"
-            if (userInfo?.isLiang == "1" || userInfo?.isvip == "1") {
+            if (userInfo?.isLiang == "1") {
                 binding.layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
                 binding.tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                 binding.tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
