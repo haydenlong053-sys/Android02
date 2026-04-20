@@ -247,7 +247,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 vipMirrorCredit.isVisible = isvip == "1"
                 ivLiang.isVisible = (isLiang != null && isLiang == "1")
                 tvID.setTxtColor(if (isLiang != null && isLiang == "1") R.color.color_text_liang else R.color.color_text_content)
-                if ((isLiang != null && isLiang == "1") || isvip == "1") {
+                if (isLiang != null && isLiang == "1") {
                     layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
                     tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)

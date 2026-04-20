@@ -13,6 +13,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
 
     class CommonResult {
+        var eqno = ""
         var creditScoreNewUserDays = ""
         var creditScoreNewInGroupDays: Int = 0
         var canSendLink = false

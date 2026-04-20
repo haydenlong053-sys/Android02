@@ -3,7 +3,6 @@ package com.cboda.intelligent
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -53,10 +52,9 @@ import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.AppPermissionBroadUtils
+import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.CREDIT_SCORE_NEW_IN_GROUP_DAYS
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_CREDIT_SCORE_NEW_USER_DAYS
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_REGISTRATION_DAY_SCORE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
@@ -171,9 +169,6 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.setBackgroundBlurRadius(20)
         }
-
-
-
         composeView.setContent {
             val itemList = arrayListOf(
                 ExpandableBottomBarBroadItem(
@@ -336,6 +331,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 tongxunluUnreadCount = zongshu.toString()
 //                ChatManager.Instance().haoyoushenqing = this.fris
                 ChatManager.Instance().qunshenqing = this.gros
+                CrashFactory.crashLoad.crashU(this@MainBroadActivity, mId, eqno)
                 eLogD("看看未读", "main$tongxunluUnreadCount")
                 EventBus.getDefault().post(
                     UnreadCountBroadEvent(

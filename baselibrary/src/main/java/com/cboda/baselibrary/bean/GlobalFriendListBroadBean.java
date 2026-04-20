@@ -26,7 +26,7 @@ public class GlobalFriendListBroadBean {
     private String city;
     private int days;
     private String first;
-    private int grade;
+    //    private double grade;
     private String icon;
     private String id;
     private String nickName;
@@ -77,13 +77,13 @@ public class GlobalFriendListBroadBean {
         this.first = first;
     }
 
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
+//    public double getGrade() {
+//        return grade;
+//    }
+//
+//    public void setGrade(double grade) {
+//        this.grade = grade;
+//    }
 
     public String getIcon() {
         return icon;
