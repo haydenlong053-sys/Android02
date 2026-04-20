@@ -335,7 +335,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
             }
 
             "add" -> {
-                url = "/friendListPage"
+                url = "/friendList"
             }
 
             "remove" -> {

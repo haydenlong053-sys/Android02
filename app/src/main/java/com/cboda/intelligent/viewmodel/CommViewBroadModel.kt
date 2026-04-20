@@ -14,6 +14,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.*
+import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.holder.SendCustomBroadMsg
 import com.cboda.intelligent.utils.OKGoBroadHelper
 import org.json.JSONObject
@@ -809,7 +810,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
         val map = mapOf(
             "pageNo" to pageNo,
-            "pageSize" to "20",
+            "pageSize" to CommonBroadConfig.pageSize_100.toString(),
             "id" to id,
             "type" to type,
             "groupId" to id,

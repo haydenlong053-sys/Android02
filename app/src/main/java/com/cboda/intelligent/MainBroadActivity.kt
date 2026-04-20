@@ -33,6 +33,7 @@ import cn.wildfirechat.message.MeetingSeatChangeMessageContent
 import cn.wildfirechat.message.MeetingUpMicApplyMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.NoticeInformMessageContent
+import cn.wildfirechat.message.PrivateNoticeInformMessageContent
 import cn.wildfirechat.message.UnknownMessageContent
 import cn.wildfirechat.message.core.MessageContentBroadType
 import cn.wildfirechat.model.Conversation.ConversationType
@@ -656,7 +657,21 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     status = bean.isStatus
                                 )
                             )
-                        } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
+                        } else if (message.sender == "admin" && message.content is PrivateNoticeInformMessageContent){
+                            val bean = message.content as PrivateNoticeInformMessageContent
+                            eLogD(APP_TAG,"PrivateNoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")
+                            EventBus.getDefault().post(
+                                NoticeInfoBroadBean(
+                                    id = bean.id,
+                                    contentUrl = bean.contentUrl,
+                                    forcePopup = bean.isForcePopup,
+                                    imageUrl = bean.imageUrl,
+                                    previewContent = bean.previewContent,
+                                    noticeTitle = bean.noticeTitle,
+                                    status = bean.isStatus
+                                )
+                            )
+                        }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
                             val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
                             runOnUiThread {
                                 if (MeetCallManager.getInstance().isCallingState() && MeetCallManager.getInstance().isOwner()) {

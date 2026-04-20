@@ -134,6 +134,7 @@ import cn.wildfirechat.message.NoticeInformMessageContent;
 import cn.wildfirechat.message.NoticeMessageContent;
 import cn.wildfirechat.message.PTTSoundMessageContent;
 import cn.wildfirechat.message.PTextMessageContent;
+import cn.wildfirechat.message.PrivateNoticeInformMessageContent;
 import cn.wildfirechat.message.SoundMessageContent;
 import cn.wildfirechat.message.StickerMessageContent;
 import cn.wildfirechat.message.TextMessageContent;
@@ -9045,6 +9046,7 @@ public class ChatManager {
         //测试公告消息
         registerMessageContent(NoticeInformMessageContent.class);
         registerMessageContent(NoticeMessageContent.class);
+        registerMessageContent(PrivateNoticeInformMessageContent.class);
         //极速直播消息--倒计时10分钟提示
         registerMessageContent(MeetingPreEndTipMessageContent.class);
         registerMessageContent(MeetStartMessageContent.class);
