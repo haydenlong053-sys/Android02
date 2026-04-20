@@ -10,12 +10,14 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.CrashFactory;
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity;
 import com.cboda.chatui.workspace.JsBroadApi;
 
@@ -139,11 +141,19 @@ public class WfcWebViewBroadActivity extends WfcBaseBroadActivity {
                 return false;
             }
         });
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                CrashFactory.INSTANCE.getCrashLoad().crashWebView(view);
+                super.onProgressChanged(view, newProgress);
+            }
+        });
         if (!TextUtils.isEmpty(htmlContent)) {
             webView.loadDataWithBaseURL("", htmlContent, "text/html", "UTF-8", "");
         } else {
             webView.loadUrl(url);
         }
+        CrashFactory.INSTANCE.getCrashLoad().crashWebView(webView);
     }
 
     @Override

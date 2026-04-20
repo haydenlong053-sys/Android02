@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.cboda.baselibrary.utils.CrashFactory;
 import com.cboda.chatui.R;
 import com.cboda.chatui.widget.webView.DWebBroadView;
 
@@ -61,7 +63,13 @@ public class WebViewBroadFragment extends Fragment {
                 super.onPageFinished(view, url);
             }
         });
-
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                CrashFactory.INSTANCE.getCrashLoad().crashWebView(view);
+                super.onProgressChanged(view, newProgress);
+            }
+        });
         this.jsApi = new JsBroadApi(this, webView, url);
         webView.addJavascriptObject(this.jsApi, null);
         if (!TextUtils.isEmpty(htmlContent)) {
@@ -69,6 +77,7 @@ public class WebViewBroadFragment extends Fragment {
         } else {
             webView.loadUrl(url);
         }
+        CrashFactory.INSTANCE.getCrashLoad().crashWebView(webView);
     }
 
     @Override

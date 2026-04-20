@@ -332,7 +332,6 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", it.data?.autofanyi!!)
                 MMKVBroadUtils.saveUserVip(it.data?.isvip ?: "")
                 viewModel?.getKfInfo(this@MainBroadActivity, it.data?.kfid!!)
-
                 val zongshu = this.fris + this.gros
                 tongxunluUnreadCount = zongshu.toString()
 //                ChatManager.Instance().haoyoushenqing = this.fris

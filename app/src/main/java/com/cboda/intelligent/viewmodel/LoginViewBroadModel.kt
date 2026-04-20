@@ -25,6 +25,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.anyToDouble
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.crashTag
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
@@ -169,6 +170,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                             bean.registerDay = anyToInt(data.registerDayBean?.registrationDays ?: "")
                             bean.isVip = data.isVip == "1"
                             bean.isNiceNum = !TextUtils.isEmpty(data.niceNumberId)
+                            crashTag(null, data.realityId)
                             MMKVBroadUtils.saveUserData(bean)
                             liveData.postValue(data)
                         }
