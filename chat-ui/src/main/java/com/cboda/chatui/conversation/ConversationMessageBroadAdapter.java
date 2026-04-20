@@ -38,6 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
 import com.cboda.baselibrary.utils.JavaBroadUtil;
@@ -115,13 +116,13 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     public String istousu;
 
     //配置值，新入群天数
-    private long inGroupDaysMs =0L;
-    private final long currentTimeMillis =System.currentTimeMillis();
+    private long inGroupDaysMs = 0L;
+    private final long currentTimeMillis = System.currentTimeMillis();
 
     public ConversationMessageBroadAdapter(ConversationBroadFragment fragment) {
         super();
 //        eLogD(APP_TAG,"---"+MMKVBroadUtils.Companion.getNewInGroupDays());
-        inGroupDaysMs = (long) MMKVBroadUtils.Companion.getNewInGroupDays() * 24 *60 * 60 *1000;
+        inGroupDaysMs = (long) MMKVBroadUtils.Companion.getNewInGroupDays() * 24 * 60 * 60 * 1000;
         this.fragment = fragment;
         messageViewModel = new ViewModelProvider(fragment).get(MessageViewBroadModel.class);
 
@@ -188,7 +189,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     public void setReadEntries(Map<String, Long> readEntries) {
         // TODO diff
         this.readEntries = readEntries;
-        notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            notifyDataSetChanged();
+        });
     }
 
     public Map<String, Long> getReadEntries() {
@@ -220,7 +223,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             return;
         }
         messages.add(message);
-        notifyItemInserted(messages.size() - 1);
+        ThreadUtils.runOnUiThread(() -> {
+            notifyItemInserted(messages.size() - 1);
+        });
     }
 
     public void addMessagesAtHead(List<UiBroadMessage> newMessages) {
@@ -241,7 +246,10 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             oldestMessageId = newMessages.get(0).message.messageId;
         }
         this.messages.addAll(0, newMessages);
-        notifyItemRangeInserted(0, newMessages.size());
+        int newMessagesSize = newMessages.size();
+        ThreadUtils.runOnUiThread(() -> {
+            notifyItemRangeInserted(0, newMessagesSize);
+        });
     }
 
     public void addMessagesAtTail(List<UiBroadMessage> newMessages) {
@@ -250,7 +258,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         }
         int insertStartPosition = this.messages.size();
         this.messages.addAll(newMessages);
-        notifyItemRangeInserted(insertStartPosition, newMessages.size());
+        ThreadUtils.runOnUiThread(() -> {
+            notifyItemRangeInserted(insertStartPosition, newMessages.size());
+        });
     }
 
     public void updateMessage(UiBroadMessage message) {
@@ -273,7 +283,10 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             }
         }
         if (index > -1) {
-            notifyItemChanged(index);
+            int finalIndex = index;
+            ThreadUtils.runOnUiThread(() -> {
+                notifyItemChanged(finalIndex);
+            });
         }
     }
 
@@ -285,7 +298,6 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         int position = -1;
         for (int i = 0; i < messages.size(); i++) {
             msg = messages.get(i);
-
             if (msg.message.messageUid > 0 || message.message.messageUid > 0) {
                 if (msg.message.messageUid == message.message.messageUid) {
                     messages.remove(msg);
@@ -301,7 +313,10 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             }
         }
         if (position >= 0) {
-            notifyItemRemoved(position);
+            int finalPosition = position;
+            ThreadUtils.runOnUiThread(() -> {
+                notifyItemRemoved(finalPosition);
+            });
         }
     }
 
@@ -317,7 +332,10 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             }
         }
         if (position >= 0) {
-            notifyItemRemoved(position);
+            int finalPosition = position;
+            ThreadUtils.runOnUiThread(() -> {
+                notifyItemRemoved(finalPosition);
+            });
         }
     }
 
@@ -333,7 +351,10 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             }
         }
         if (position >= 0) {
-            notifyItemRemoved(position);
+            int finalPosition = position;
+            ThreadUtils.runOnUiThread(() -> {
+                notifyItemRemoved(finalPosition);
+            });
         }
     }
 
@@ -434,10 +455,12 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             if (onPortraitClickListener != null) {
                 int position = viewHolder.getAdapterPosition();
                 UiBroadMessage message = getItem(position);
-                // FIXME: 2019/2/15 getUserInfo可能返回null
-                String keFuId = MMKVBroadUtils.Companion.getKeFuId();
-                if (!TextUtils.equals(message.message.sender, keFuId)) {
-                    onPortraitClickListener.onPortraitClick(ChatManager.Instance().getUserInfo(message.message.sender, false));
+                if (null != message) {
+                    //  2019/2/15 getUserInfo可能返回null
+                    String keFuId = MMKVBroadUtils.Companion.getKeFuId();
+                    if (!TextUtils.equals(message.message.sender, keFuId)) {
+                        onPortraitClickListener.onPortraitClick(ChatManager.Instance().getUserInfo(message.message.sender, false));
+                    }
                 }
             }
         });
@@ -447,116 +470,117 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         ShapeTextView portraitTv = itemView.findViewById(R.id.portraitTv);
         ImageView vipMirrorCredit = itemView.findViewById(R.id.vipMirrorCredit);
         AppRoundBroadImage portraitImageView = itemView.findViewById(R.id.portraitImageView);
-
-        GlobalBroadInfo.INSTANCE.queryMyFriendInfo(message.message.sender, null, friendSmailListBean -> {
-            boolean haveGradeData = false;
-            if (null != friendSmailListBean) {
-                haveGradeData = true;
-                portraitTv.setText(formatWithBigDecimal(friendSmailListBean.grade) + fragment.getString(R.string.message_grade_unit));
-                vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
-                if (friendSmailListBean.isVip) {
-                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
+        if (null != message) {
+            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(message.message.sender, null, friendSmailListBean -> {
+                boolean haveGradeData = false;
+                if (null != friendSmailListBean) {
+                    haveGradeData = true;
+                    portraitTv.setText(formatWithBigDecimal(friendSmailListBean.grade) + fragment.getString(R.string.message_grade_unit));
+                    vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
+                    if (friendSmailListBean.isVip) {
+                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
+                    } else {
+                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+                    }
+                    if (friendSmailListBean.isNiceNum || friendSmailListBean.isVip) {
+                        setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
+                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
+                    } else {
+                        int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
+                        int registrationDay = friendSmailListBean.registerDay;
+                        if (registrationDay < registrationDayScore) {
+                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
+                        } else {
+                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_956BEC, com.cboda.baselibrary.R.color.color_7A66FA);
+                        }
+                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
+                    }
                 } else {
+                    portraitTv.setVisibility(View.GONE);
+                    vipMirrorCredit.setVisibility(View.GONE);
+                    setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
+                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
                     portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
                 }
-                if (friendSmailListBean.isNiceNum || friendSmailListBean.isVip) {
-                    setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
-                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
-                } else {
-                    int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
-                    int registrationDay = friendSmailListBean.registerDay;
-                    if (registrationDay < registrationDayScore) {
-                        setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
-                    } else {
-                        setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_956BEC, com.cboda.baselibrary.R.color.color_7A66FA);
-                    }
-                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
-                }
-            } else {
-                portraitTv.setVisibility(View.GONE);
-                vipMirrorCredit.setVisibility(View.GONE);
-                setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
-                setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
-                portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
-            }
-            if (message.message.sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
-                if (!TextUtils.isEmpty(message.message.content.extra)) {
-                    MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
-                    if (msgExtra.isMeetingImage().equals("1")) {
-                        portraitImageLayout.setVisibility(View.GONE);
-                        portraitTv.setVisibility(View.GONE);
-                    } else {
-                        portraitImageLayout.setVisibility(View.VISIBLE);
-                        if (!haveGradeData) {
-                            portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
-                        }
-                        if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                            portraitTv.setVisibility(View.VISIBLE);
-                        } else {
+                if (message.message.sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
+                    if (!TextUtils.isEmpty(message.message.content.extra)) {
+                        MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
+                        if (msgExtra.isMeetingImage().equals("1")) {
+                            portraitImageLayout.setVisibility(View.GONE);
                             portraitTv.setVisibility(View.GONE);
-                        }
-                    }
-                } else if (!haveGradeData) {
-                    if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null && message.message.conversation.type == Conversation.ConversationType.Group) {
-                        portraitTv.setText(formatWithBigDecimal(messageViewModel.getUserGroupData().getGrade()) + fragment.getString(R.string.message_grade_unit));
-                        portraitTv.setVisibility(View.VISIBLE);
-                    } else {
-                        portraitTv.setVisibility(View.GONE);
-                    }
-                } else {
-                    if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                        portraitTv.setVisibility(View.VISIBLE);
-                    } else {
-                        portraitTv.setVisibility(View.GONE);
-                    }
-                }
-            } else {
-                TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
-                if (!TextUtils.isEmpty(message.message.content.extra)) {
-                    MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
-                    if (msgExtra.isMeetingImage().equals("1")) {
-                        portraitImageLayout.setVisibility(View.GONE);
-                        portraitTv.setVisibility(View.GONE);
-                        joinTimeTv.setVisibility(View.GONE);
-                    } else {
-                        portraitImageLayout.setVisibility(View.VISIBLE);
-                        String joinGroupTime = msgExtra.getJoinGroupTime();
-                        if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                            portraitTv.setVisibility(View.VISIBLE);
                         } else {
-                            portraitTv.setVisibility(View.GONE);
-                        }
-                        if (!haveGradeData) {
-                            portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
-                        }
-                        joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
-                        try {
-                            long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
-//                            String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
-                            String joinGroupTimeBefore = TimeBroadBroadUtils.getJoinFormatTime(timeLong);
-                            joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
-                            if ((currentTimeMillis -timeLong) <inGroupDaysMs){
-                                joinTimeTv.setSelected(true);
-                            }else {
-                                joinTimeTv.setSelected(false);
+                            portraitImageLayout.setVisibility(View.VISIBLE);
+                            if (!haveGradeData) {
+                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
                             }
-                        } catch (Exception e) {
-                            toLog(e, "joinGroupTime");
-                            joinTimeTv.setVisibility(View.GONE);
+                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
+                                portraitTv.setVisibility(View.VISIBLE);
+                            } else {
+                                portraitTv.setVisibility(View.GONE);
+                            }
+                        }
+                    } else if (!haveGradeData) {
+                        if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null && message.message.conversation.type == Conversation.ConversationType.Group) {
+                            portraitTv.setText(formatWithBigDecimal(messageViewModel.getUserGroupData().getGrade()) + fragment.getString(R.string.message_grade_unit));
+                            portraitTv.setVisibility(View.VISIBLE);
+                        } else {
+                            portraitTv.setVisibility(View.GONE);
+                        }
+                    } else {
+                        if (message.message.conversation.type == Conversation.ConversationType.Group) {
+                            portraitTv.setVisibility(View.VISIBLE);
+                        } else {
+                            portraitTv.setVisibility(View.GONE);
                         }
                     }
                 } else {
-                    joinTimeTv.setVisibility(View.GONE);
-                    if (!haveGradeData) {
-                        portraitTv.setVisibility(View.GONE);
-                    } else if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                        portraitTv.setVisibility(View.VISIBLE);
+                    TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
+                    if (!TextUtils.isEmpty(message.message.content.extra)) {
+                        MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
+                        if (msgExtra.isMeetingImage().equals("1")) {
+                            portraitImageLayout.setVisibility(View.GONE);
+                            portraitTv.setVisibility(View.GONE);
+                            joinTimeTv.setVisibility(View.GONE);
+                        } else {
+                            portraitImageLayout.setVisibility(View.VISIBLE);
+                            String joinGroupTime = msgExtra.getJoinGroupTime();
+                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
+                                portraitTv.setVisibility(View.VISIBLE);
+                            } else {
+                                portraitTv.setVisibility(View.GONE);
+                            }
+                            if (!haveGradeData) {
+                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
+                            }
+                            joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
+                            try {
+                                long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
+//                            String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
+                                String joinGroupTimeBefore = TimeBroadBroadUtils.getJoinFormatTime(timeLong);
+                                joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
+                                if ((currentTimeMillis - timeLong) < inGroupDaysMs) {
+                                    joinTimeTv.setSelected(true);
+                                } else {
+                                    joinTimeTv.setSelected(false);
+                                }
+                            } catch (Exception e) {
+                                toLog(e, "joinGroupTime");
+                                joinTimeTv.setVisibility(View.GONE);
+                            }
+                        }
+                    } else {
+                        joinTimeTv.setVisibility(View.GONE);
+                        if (!haveGradeData) {
+                            portraitTv.setVisibility(View.GONE);
+                        } else if (message.message.conversation.type == Conversation.ConversationType.Group) {
+                            portraitTv.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
-            }
 
-            return null;
-        });
+                return null;
+            });
+        }
 
 
     }
@@ -574,10 +598,16 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 UiBroadMessage message = getItem(position);
-                message.isSelectTouSu = !message.isSelectTouSu;
-                CheckBox tousucheckbox = itemView.findViewById(R.id.tousucheckbox);
-                tousucheckbox.setChecked(message.isSelectTouSu);
-                notifyItemChanged(position);
+                if (null != message) {
+                    message.isSelectTouSu = !message.isSelectTouSu;
+                    CheckBox tousucheckbox = itemView.findViewById(R.id.tousucheckbox);
+                    tousucheckbox.setChecked(message.isSelectTouSu);
+                }
+                if (messages.size() > position && position >= 0) {
+                    ThreadUtils.runOnUiThread(() -> {
+                        notifyItemChanged(position);
+                    });
+                }
             }
         });
     }
@@ -588,13 +618,17 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 UiBroadMessage message = getItem(position);
-                message.isChecked = !message.isChecked;
-                CheckBox checkBox = itemView.findViewById(R.id.checkbox);
-                checkBox.setChecked(message.isChecked);
-                if (onMessageCheckListener != null) {
-                    onMessageCheckListener.onMessageCheck(message, message.isChecked);
+                if (null != message) {
+                    message.isChecked = !message.isChecked;
+                    CheckBox checkBox = itemView.findViewById(R.id.checkbox);
+                    checkBox.setChecked(message.isChecked);
+                    if (onMessageCheckListener != null) {
+                        onMessageCheckListener.onMessageCheck(message, message.isChecked);
+                    }
                 }
-                notifyItemChanged(position);
+                ThreadUtils.runOnUiThread(() -> {
+                    notifyItemChanged(position);
+                });
             }
         });
     }
@@ -604,7 +638,9 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                     if (onPortraitLongClickListener != null) {
                         int position = viewHolder.getAdapterPosition();
                         UiBroadMessage message = getItem(position);
-                        onPortraitLongClickListener.onPortraitLongClick(ChatManager.Instance().getUserInfo(message.message.sender, false));
+                        if (null != message) {
+                            onPortraitLongClickListener.onPortraitLongClick(ChatManager.Instance().getUserInfo(message.message.sender, false));
+                        }
                         return true;
                     }
                     return false;
@@ -661,128 +697,129 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 }
                 int position = viewHolder.getAdapterPosition();
                 UiBroadMessage message = getItem(position);
-                Message message1 = message.message;
-                boolean canChehui = viewHolder.contextMenuItemFilter(message, MessageContextMenuItemBroadTags.TAG_RECALL);
-                eLogD("野火", "长按--> " + message1.direction + "  " + message1.content.getMessageContentType() + "  是否可撤回--> " + canChehui);
-                List<String> titles = new ArrayList<>();
-                mPopActions.clear();
+                if (null != message) {
+                    Message message1 = message.message;
+                    boolean canChehui = viewHolder.contextMenuItemFilter(message, MessageContextMenuItemBroadTags.TAG_RECALL);
+                    eLogD("野火", "长按--> " + message1.direction + "  " + message1.content.getMessageContentType() + "  是否可撤回--> " + canChehui);
+                    List<String> titles = new ArrayList<>();
+                    mPopActions.clear();
 
-                switch (message1.content.getMessageContentType()) {
-                    case 1:
-                        // 文本
-                        if (imCommonResult != null && "1".equals(imCommonResult.getOpenBj()) && message1.direction == MessageDirection.Send) {
-                            titles.add(fragment.getString(R.string.message_edit));
-                            ChatPopBroadMenu.ChatPopMenuAction bianjiAction = new ChatPopBroadMenu.ChatPopMenuAction();
-                            bianjiAction.setActionName(fragment.getString(R.string.message_edit));
-                            bianjiAction.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                    switch (message1.content.getMessageContentType()) {
+                        case 1:
+                            // 文本
+                            if (imCommonResult != null && "1".equals(imCommonResult.getOpenBj()) && message1.direction == MessageDirection.Send) {
+                                titles.add(fragment.getString(R.string.message_edit));
+                                ChatPopBroadMenu.ChatPopMenuAction bianjiAction = new ChatPopBroadMenu.ChatPopMenuAction();
+                                bianjiAction.setActionName(fragment.getString(R.string.message_edit));
+                                bianjiAction.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                                    @Override
+                                    public void onClick() {
+                                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.EDIT.getValue(), "", "", message);
+                                    }
+                                });
+                                mPopActions.add(bianjiAction);
+                            }
+                            break;
+                        case 3:
+                            //图片
+                            titles.add(fragment.getString(R.string.message_add));
+                            ChatPopBroadMenu.ChatPopMenuAction tianjia = new ChatPopBroadMenu.ChatPopMenuAction();
+                            tianjia.setActionName(fragment.getString(R.string.message_add));
+                            tianjia.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                                 @Override
                                 public void onClick() {
-                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.EDIT.getValue(), "", "", message);
+                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((ImageMessageContent) message.message.content).remoteUrl, "", message);
                                 }
                             });
-                            mPopActions.add(bianjiAction);
-                        }
-                        break;
-                    case 3:
-                        //图片
-                        titles.add(fragment.getString(R.string.message_add));
-                        ChatPopBroadMenu.ChatPopMenuAction tianjia = new ChatPopBroadMenu.ChatPopMenuAction();
-                        tianjia.setActionName(fragment.getString(R.string.message_add));
-                        tianjia.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                            @Override
-                            public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((ImageMessageContent) message.message.content).remoteUrl, "", message);
-                            }
-                        });
-                        mPopActions.add(tianjia);
-                        break;
-                    case 7:
-                        //表情
-                        titles.add(fragment.getString(R.string.message_add));
-                        ChatPopBroadMenu.ChatPopMenuAction tianjia2 = new ChatPopBroadMenu.ChatPopMenuAction();
-                        tianjia2.setActionName(fragment.getString(R.string.message_add));
-                        tianjia2.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                            @Override
-                            public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((StickerMessageContent) message.message.content).remoteUrl, "", message);
-                            }
-                        });
-                        mPopActions.add(tianjia2);
-                        break;
-                    case 2002:
-                        //表情
-                        titles.add(fragment.getString(R.string.message_add));
-                        ChatPopBroadMenu.ChatPopMenuAction tianjia3 = new ChatPopBroadMenu.ChatPopMenuAction();
-                        tianjia3.setActionName(fragment.getString(R.string.message_add));
-                        tianjia3.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                            @Override
-                            public void onClick() {
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((BiaoQingMessageContent) message.message.content).emoji, "", message);
-                            }
-                        });
-                        mPopActions.add(tianjia3);
-                        break;
-                }
-
-                if (!canChehui) {
-                    titles.add(fragment.getString(R.string.message_recall));
-                    ChatPopBroadMenu.ChatPopMenuAction cehhui = new ChatPopBroadMenu.ChatPopMenuAction();
-                    cehhui.setActionName(fragment.getString(R.string.message_recall));
-                    cehhui.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                        @Override
-                        public void onClick() {
-                            messageViewModel.recallMessage(message.message);
-                        }
-                    });
-                    mPopActions.add(cehhui);
-                }
-
-                if (message1.content.getMessageContentType() == 1) {
-                    titles.add(fragment.getString(R.string.message_copy));
-                    ChatPopBroadMenu.ChatPopMenuAction fuzhi = new ChatPopBroadMenu.ChatPopMenuAction();
-                    fuzhi.setActionName(fragment.getString(R.string.message_copy));
-                    fuzhi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                        @Override
-                        public void onClick() {
-                            ClipboardManager clipboardManager = (ClipboardManager) fragment.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                            if (clipboardManager == null) {
-                                return;
-                            }
-                            TextMessageContent content = (TextMessageContent) message.message.content;
-                            ClipData clipData = ClipData.newPlainText("messageContent", content.getContent());
-                            clipboardManager.setPrimaryClip(clipData);
-                            ToastBroadUtils.showToast(fragment.getContext(), fragment.getString(R.string.message_copy_success));
-                        }
-                    });
-                    mPopActions.add(fuzhi);
-                }
-                boolean isMeetingImage = false;
-                if (!TextUtils.isEmpty(message1.content.extra)) {
-                    MsgBroadExtra msgExtra = fromJson2(message1.content.extra, MsgBroadExtra.class);
-                    if (msgExtra.isMeetingImage().equals("1")) {
-                        isMeetingImage = true;
+                            mPopActions.add(tianjia);
+                            break;
+                        case 7:
+                            //表情
+                            titles.add(fragment.getString(R.string.message_add));
+                            ChatPopBroadMenu.ChatPopMenuAction tianjia2 = new ChatPopBroadMenu.ChatPopMenuAction();
+                            tianjia2.setActionName(fragment.getString(R.string.message_add));
+                            tianjia2.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                                @Override
+                                public void onClick() {
+                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((StickerMessageContent) message.message.content).remoteUrl, "", message);
+                                }
+                            });
+                            mPopActions.add(tianjia2);
+                            break;
+                        case 2002:
+                            //表情
+                            titles.add(fragment.getString(R.string.message_add));
+                            ChatPopBroadMenu.ChatPopMenuAction tianjia3 = new ChatPopBroadMenu.ChatPopMenuAction();
+                            tianjia3.setActionName(fragment.getString(R.string.message_add));
+                            tianjia3.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                                @Override
+                                public void onClick() {
+                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ADD_ANIMATED_EMOJI.getValue(), ((BiaoQingMessageContent) message.message.content).emoji, "", message);
+                                }
+                            });
+                            mPopActions.add(tianjia3);
+                            break;
                     }
-                }
-                if (!isMeetingImage) {
-                    titles.add(fragment.getString(R.string.message_select_more));
-                    ChatPopBroadMenu.ChatPopMenuAction selectMore = new ChatPopBroadMenu.ChatPopMenuAction();
-                    selectMore.setActionName(fragment.getString(R.string.message_select_more));
-                    selectMore.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+
+                    if (!canChehui) {
+                        titles.add(fragment.getString(R.string.message_recall));
+                        ChatPopBroadMenu.ChatPopMenuAction cehhui = new ChatPopBroadMenu.ChatPopMenuAction();
+                        cehhui.setActionName(fragment.getString(R.string.message_recall));
+                        cehhui.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                messageViewModel.recallMessage(message.message);
+                            }
+                        });
+                        mPopActions.add(cehhui);
+                    }
+
+                    if (message1.content.getMessageContentType() == 1) {
+                        titles.add(fragment.getString(R.string.message_copy));
+                        ChatPopBroadMenu.ChatPopMenuAction fuzhi = new ChatPopBroadMenu.ChatPopMenuAction();
+                        fuzhi.setActionName(fragment.getString(R.string.message_copy));
+                        fuzhi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                ClipboardManager clipboardManager = (ClipboardManager) fragment.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                                if (clipboardManager == null) {
+                                    return;
+                                }
+                                TextMessageContent content = (TextMessageContent) message.message.content;
+                                ClipData clipData = ClipData.newPlainText("messageContent", content.getContent());
+                                clipboardManager.setPrimaryClip(clipData);
+                                ToastBroadUtils.showToast(fragment.getContext(), fragment.getString(R.string.message_copy_success));
+                            }
+                        });
+                        mPopActions.add(fuzhi);
+                    }
+                    boolean isMeetingImage = false;
+                    if (!TextUtils.isEmpty(message1.content.extra)) {
+                        MsgBroadExtra msgExtra = fromJson2(message1.content.extra, MsgBroadExtra.class);
+                        if (msgExtra.isMeetingImage().equals("1")) {
+                            isMeetingImage = true;
+                        }
+                    }
+                    if (!isMeetingImage) {
+                        titles.add(fragment.getString(R.string.message_select_more));
+                        ChatPopBroadMenu.ChatPopMenuAction selectMore = new ChatPopBroadMenu.ChatPopMenuAction();
+                        selectMore.setActionName(fragment.getString(R.string.message_select_more));
+                        selectMore.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                fragment.toggleMultiMessageMode(message);
+                            }
+                        });
+                        mPopActions.add(selectMore);
+                    }
+
+
+                    titles.add(fragment.getString(R.string.message_delete));
+                    ChatPopBroadMenu.ChatPopMenuAction shanchu = new ChatPopBroadMenu.ChatPopMenuAction();
+                    shanchu.setActionName(fragment.getString(R.string.message_delete));
+                    shanchu.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                         @Override
                         public void onClick() {
-                            fragment.toggleMultiMessageMode(message);
-                        }
-                    });
-                    mPopActions.add(selectMore);
-                }
-
-
-                titles.add(fragment.getString(R.string.message_delete));
-                ChatPopBroadMenu.ChatPopMenuAction shanchu = new ChatPopBroadMenu.ChatPopMenuAction();
-                shanchu.setActionName(fragment.getString(R.string.message_delete));
-                shanchu.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                    @Override
-                    public void onClick() {
 //                        List<String> items = new ArrayList();
 //                        items.add("删除本地消息");
 //                        boolean isSuperGroup = false;
@@ -805,16 +842,16 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //                                    @Override
 //                                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
 //                                        if (position == 0) {
-                        messageViewModel.deleteMessage(message.message);
+                            messageViewModel.deleteMessage(message.message);
 //                                        } else {
 //                                            messageViewModel.deleteRemoteMessage(message.message);
 //                                        }
 //                                    }
 //                                })
 //                                .show();
-                    }
-                });
-                mPopActions.add(shanchu);
+                        }
+                    });
+                    mPopActions.add(shanchu);
 
 
 //                titles.add("双向删除");
@@ -829,99 +866,99 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //                mPopActions.add(shanchusx);
 
 
-                if (message1.content.getMessageContentType() != 2
-                        && message1.content.getMessageContentType() != 2000
-                        && message1.content.getMessageContentType() != 2001
-                        && message1.content.getMessageContentType() != 2002
-                        && !(message1.content instanceof CallStartMessageContent)) {
-                    titles.add(fragment.getString(R.string.message_forward));
-                    ChatPopBroadMenu.ChatPopMenuAction zhuanfa = new ChatPopBroadMenu.ChatPopMenuAction();
-                    zhuanfa.setActionName(fragment.getString(R.string.message_forward));
-                    zhuanfa.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                        @Override
-                        public void onClick() {
-                            if (message1.content.getMessageContentType() == 1 && message1.content instanceof TextMessageContent) {
-                                String msgContent = ((TextMessageContent) message1.content).getContent();
-                                String day = JavaBroadUtil.containsLinkReturnDay(msgContent);
-                                if (!TextUtils.isEmpty(day)) {
-                                    com.cboda.baselibrary.toast.ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
-                                    return;
-                                }
-                            }
-                            Intent intent = new Intent(fragment.getContext(), ForwardBroadActivity.class);
-                            intent.putExtra("message", message.message);
-                            fragment.startActivity(intent);
-                        }
-                    });
-                    mPopActions.add(zhuanfa);
-                }
-
-                // MessageContentBroadType MessageContextMenuItemBroadTags
-                if (message1.content.getMessageContentType() == 1
-                        || message1.content.getMessageContentType() == 3
-//                        || message1.content.getMessageContentType() == 2
-                        || message1.content.getMessageContentType() == 6
-//                        || message1.content.getMessageContentType() == 4
-                ) {
-                    if ((message1.content.getMessageContentType() == 3 || message1.content.getMessageContentType() == 6) && !TextUtils.isEmpty(((MediaMessageContent) message1.content).remoteUrl)) {
-                        titles.add(fragment.getString(R.string.message_collect));
-                        ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
-                        shoucang.setActionName(fragment.getString(R.string.message_collect));
-                        shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                    if (message1.content.getMessageContentType() != 2
+                            && message1.content.getMessageContentType() != 2000
+                            && message1.content.getMessageContentType() != 2001
+                            && message1.content.getMessageContentType() != 2002
+                            && !(message1.content instanceof CallStartMessageContent)) {
+                        titles.add(fragment.getString(R.string.message_forward));
+                        ChatPopBroadMenu.ChatPopMenuAction zhuanfa = new ChatPopBroadMenu.ChatPopMenuAction();
+                        zhuanfa.setActionName(fragment.getString(R.string.message_forward));
+                        zhuanfa.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
                             @Override
                             public void onClick() {
-                                String params2 = "";
-                                if (message1.content.getMessageContentType() == 3) {
-                                    params2 = ((ImageMessageContent) message1.content).remoteUrl + "|" + "2";
-                                } else if (message1.content.getMessageContentType() == 2) {
-                                    params2 = ((SoundMessageContent) message1.content).remoteUrl + "|" + "4" + "|" + ((SoundMessageContent) message1.content).getDuration();
-                                } else if (message1.content.getMessageContentType() == 6) {
-                                    params2 = ((VideoMessageContent) message1.content).remoteUrl + "|" + "3" + "|" + ((VideoMessageContent) message1.content).getDuration();
-                                } else if (message1.content.getMessageContentType() == 4) {
-                                    params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
+                                if (message1.content.getMessageContentType() == 1 && message1.content instanceof TextMessageContent) {
+                                    String msgContent = ((TextMessageContent) message1.content).getContent();
+                                    String day = JavaBroadUtil.containsLinkReturnDay(msgContent);
+                                    if (!TextUtils.isEmpty(day)) {
+                                        com.cboda.baselibrary.toast.ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                                        return;
+                                    }
                                 }
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
+                                Intent intent = new Intent(fragment.getContext(), ForwardBroadActivity.class);
+                                intent.putExtra("message", message.message);
+                                fragment.startActivity(intent);
                             }
                         });
-                        mPopActions.add(shoucang);
-                    } else if (message1.content.getMessageContentType() == 1) {
-                        titles.add(fragment.getString(R.string.message_collect));
-                        ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
-                        shoucang.setActionName(fragment.getString(R.string.message_collect));
-                        shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                            @Override
-                            public void onClick() {
-                                String params2 = ((TextMessageContent) message1.content).getContent() + "|" + "1";
-                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
-                            }
-                        });
-                        mPopActions.add(shoucang);
+                        mPopActions.add(zhuanfa);
                     }
-                }
-                if (message1.content.getMessageContentType() == 1
-                        && MMKVBroadUtils.Companion.getUserVip()) {
-                    titles.add(fragment.getString(R.string.message_translate));
-                    ChatPopBroadMenu.ChatPopMenuAction fanyi = new ChatPopBroadMenu.ChatPopMenuAction();
-                    fanyi.setActionName(fragment.getString(R.string.message_translate));
-                    fanyi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
-                        @Override
-                        public void onClick() {
-                            MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.TRANSLATE.getValue(), ((TextMessageContent) message1.content).getContent(), "", message);
+
+                    // MessageContentBroadType MessageContextMenuItemBroadTags
+                    if (message1.content.getMessageContentType() == 1
+                            || message1.content.getMessageContentType() == 3
+//                        || message1.content.getMessageContentType() == 2
+                            || message1.content.getMessageContentType() == 6
+//                        || message1.content.getMessageContentType() == 4
+                    ) {
+                        if ((message1.content.getMessageContentType() == 3 || message1.content.getMessageContentType() == 6) && !TextUtils.isEmpty(((MediaMessageContent) message1.content).remoteUrl)) {
+                            titles.add(fragment.getString(R.string.message_collect));
+                            ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
+                            shoucang.setActionName(fragment.getString(R.string.message_collect));
+                            shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                                @Override
+                                public void onClick() {
+                                    String params2 = "";
+                                    if (message1.content.getMessageContentType() == 3) {
+                                        params2 = ((ImageMessageContent) message1.content).remoteUrl + "|" + "2";
+                                    } else if (message1.content.getMessageContentType() == 2) {
+                                        params2 = ((SoundMessageContent) message1.content).remoteUrl + "|" + "4" + "|" + ((SoundMessageContent) message1.content).getDuration();
+                                    } else if (message1.content.getMessageContentType() == 6) {
+                                        params2 = ((VideoMessageContent) message1.content).remoteUrl + "|" + "3" + "|" + ((VideoMessageContent) message1.content).getDuration();
+                                    } else if (message1.content.getMessageContentType() == 4) {
+                                        params2 = ((LocationMessageContent) message1.content).getTitle() + "|" + "5";
+                                    }
+                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
+                                }
+                            });
+                            mPopActions.add(shoucang);
+                        } else if (message1.content.getMessageContentType() == 1) {
+                            titles.add(fragment.getString(R.string.message_collect));
+                            ChatPopBroadMenu.ChatPopMenuAction shoucang = new ChatPopBroadMenu.ChatPopMenuAction();
+                            shoucang.setActionName(fragment.getString(R.string.message_collect));
+                            shoucang.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                                @Override
+                                public void onClick() {
+                                    String params2 = ((TextMessageContent) message1.content).getContent() + "|" + "1";
+                                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.COLLECT.getValue(), message1.sender, params2, message);
+                                }
+                            });
+                            mPopActions.add(shoucang);
                         }
-                    });
-                    mPopActions.add(fanyi);
-                }
+                    }
+                    if (message1.content.getMessageContentType() == 1
+                            && MMKVBroadUtils.Companion.getUserVip()) {
+                        titles.add(fragment.getString(R.string.message_translate));
+                        ChatPopBroadMenu.ChatPopMenuAction fanyi = new ChatPopBroadMenu.ChatPopMenuAction();
+                        fanyi.setActionName(fragment.getString(R.string.message_translate));
+                        fanyi.setActionClickListener(new ChatPopBroadMenu.ChatPopMenuAction.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.TRANSLATE.getValue(), ((TextMessageContent) message1.content).getContent(), "", message);
+                            }
+                        });
+                        mPopActions.add(fanyi);
+                    }
 
-                if (mChatPopMenu != null) {
-                    mChatPopMenu.hide();
-                    mChatPopMenu = null;
-                }
-                mChatPopMenu = new ChatPopBroadMenu(fragment.getContext());
-                mChatPopMenu.setChatPopMenuActionList(mPopActions);
-                int[] location = new int[2];
-                v.getLocationOnScreen(location);
+                    if (mChatPopMenu != null) {
+                        mChatPopMenu.hide();
+                        mChatPopMenu = null;
+                    }
+                    mChatPopMenu = new ChatPopBroadMenu(fragment.getContext());
+                    mChatPopMenu.setChatPopMenuActionList(mPopActions);
+                    int[] location = new int[2];
+                    v.getLocationOnScreen(location);
 
-                mChatPopMenu.show(v, location[1]);
+                    mChatPopMenu.show(v, location[1]);
 
 
 //                new MaterialDialog.Builder(fragment.getContext()).items(titles).itemsCallback(new MaterialDialog.ListCallback() {
@@ -1064,6 +1101,8 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //
 //                    }
 //                }).show();
+                }
+
                 return true;
             }
         };
@@ -1076,46 +1115,48 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MessageContentViewBroadHolder) {
             MessageContentViewBroadHolder viewHolder = (MessageContentViewBroadHolder) holder;
-            ((MessageContentViewBroadHolder) holder).onBind(getItem(position), position);
-            MessageItemBroadView itemView = (MessageItemBroadView) holder.itemView;
-            CheckBox checkBox = itemView.findViewById(R.id.checkbox);
-            if (checkBox != null) {
-                if (holder instanceof NotificationMessageContentViewBroadHolder && !(holder instanceof ContextableNotificationMessageContentViewBroadHolder)) {
-                    checkBox.setVisibility(View.GONE);
-                } else {
-                    itemView.setCheckable(getMode() == MODE_CHECKABLE);
-                    if (getMode() == MODE_CHECKABLE) {
-                        checkBox.setVisibility(View.VISIBLE);
-                        UiBroadMessage message = getItem(position);
-                        checkBox.setChecked(message.isChecked);
-                    } else {
+            UiBroadMessage uiBroadMessage = getItem(position);
+            if (null != uiBroadMessage) {
+                ((MessageContentViewBroadHolder) holder).onBind(uiBroadMessage, position);
+                MessageItemBroadView itemView = (MessageItemBroadView) holder.itemView;
+                CheckBox checkBox = itemView.findViewById(R.id.checkbox);
+                if (checkBox != null) {
+                    if (holder instanceof NotificationMessageContentViewBroadHolder && !(holder instanceof ContextableNotificationMessageContentViewBroadHolder)) {
                         checkBox.setVisibility(View.GONE);
+                    } else {
+                        itemView.setCheckable(getMode() == MODE_CHECKABLE);
+                        if (getMode() == MODE_CHECKABLE) {
+                            checkBox.setVisibility(View.VISIBLE);
+                            checkBox.setChecked(uiBroadMessage.isChecked);
+                        } else {
+                            checkBox.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                CheckBox tousucheckbox = itemView.findViewById(R.id.tousucheckbox);
+                if (tousucheckbox != null) {
+                    if ("1".equals(istousu)) {
+                        tousucheckbox.setVisibility(View.VISIBLE);
+                        tousucheckbox.setChecked(uiBroadMessage.isSelectTouSu);
+                        processTousuCheckClick(viewHolder, itemView);
+                    } else {
+                        tousucheckbox.setVisibility(View.GONE);
+                    }
+                }
+
+
+                if (getMode() == MODE_CHECKABLE) {
+                    processCheckClick(viewHolder, itemView);
+                } else {
+                    processContentLongClick(viewHolder.getClass(), viewHolder, itemView);
+                    if (holder instanceof NormalMessageContentViewBroadHolder) {
+                        processPortraitClick(viewHolder, itemView);
+                        processPortraitLongClick(viewHolder, itemView);
                     }
                 }
             }
 
-            CheckBox tousucheckbox = itemView.findViewById(R.id.tousucheckbox);
-            if (tousucheckbox != null) {
-                if ("1".equals(istousu)) {
-                    tousucheckbox.setVisibility(View.VISIBLE);
-                    UiBroadMessage message = getItem(position);
-                    tousucheckbox.setChecked(message.isSelectTouSu);
-                    processTousuCheckClick(viewHolder, itemView);
-                } else {
-                    tousucheckbox.setVisibility(View.GONE);
-                }
-            }
-
-
-            if (getMode() == MODE_CHECKABLE) {
-                processCheckClick(viewHolder, itemView);
-            } else {
-                processContentLongClick(viewHolder.getClass(), viewHolder, itemView);
-                if (holder instanceof NormalMessageContentViewBroadHolder) {
-                    processPortraitClick(viewHolder, itemView);
-                    processPortraitLongClick(viewHolder, itemView);
-                }
-            }
         } else {
             // bottom loading progress bar, do nothing
         }
@@ -1129,10 +1170,11 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     // 返回message type + message direction
     @Override
     public int getItemViewType(int position) {
-        if (getItem(position) == null) {
+        UiBroadMessage uiBroadMessage = getItem(position);
+        if (uiBroadMessage == null) {
             return R.layout.conversation_item_broad_loading;
         }
-        Message msg = getItem(position).message;
+        Message msg = uiBroadMessage.message;
         return msg.direction.value() << 24 | msg.content.getMessageContentType();
     }
 
@@ -1147,16 +1189,22 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         }
 
         messages.add(null);
-        notifyItemInserted(messages.size() - 1);
+        ThreadUtils.runOnUiThread(() -> {
+            notifyItemInserted(messages.size() - 1);
+        });
     }
 
     public void dismissLoadingNewMessageProgressBar() {
-        if (messages == null || messages.isEmpty() || messages.get(messages.size() - 1) != null) {
+        if (messages == null || messages.isEmpty() || messages.getLast() != null) {
             return;
         }
         int position = messages.size() - 1;
-        messages.remove(position);
-        notifyItemRemoved(position);
+        if (messages.size() > position && position >= 0) {
+            messages.remove(position);
+            ThreadUtils.runOnUiThread(() -> {
+                notifyItemRemoved(position);
+            });
+        }
     }
 
     public int getMessagePosition(long messageId) {
@@ -1172,13 +1220,21 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     }
 
     public UiBroadMessage getItem(int position) {
-        return messages.get(position);
+        if (messages.size() > position && position >= 0) {
+            return messages.get(position);
+        } else {
+            return null;
+        }
     }
 
     public void highlightFocusMessage(int position) {
-        //野火闪烁
-        messages.get(position).isFocus = true;
-        notifyItemChanged(position);
+        if (messages.size() > position && position >= 0) {
+            //野火闪烁
+            messages.get(position).isFocus = true;
+            ThreadUtils.runOnUiThread(() -> {
+                notifyItemChanged(position);
+            });
+        }
     }
 
     private boolean contains(UiBroadMessage message) {

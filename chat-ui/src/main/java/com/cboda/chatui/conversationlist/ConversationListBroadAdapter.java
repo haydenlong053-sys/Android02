@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ConversationContextMenuBroadItem;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
@@ -56,7 +57,9 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
     public void updateSelectMode(boolean isSelectMode) {
         this.isSelectMode = isSelectMode;
         eLogD("xxxx", "isSelectMode" + isSelectMode);
-        notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            notifyDataSetChanged();
+        });
     }
 
     public void selectConversationByList(List<ConversationInfo> infos) {
@@ -82,8 +85,11 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
 
         // 修复：不要写 !conversationInfo.isSelect，要写真实状态！
         conversationInfo.isSelect = !willBeSelected;
-
-        notifyItemChanged(position);
+        if (conversationInfos.size() > position && position >= 0) {
+            ThreadUtils.runOnUiThread(() -> {
+                notifyItemChanged(position);
+            });
+        }
     }
 
     public void cancelSelectAll() {
@@ -96,7 +102,13 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
         for (ConversationInfo conversationInfo : conversationInfos) {
             conversationInfo.isSelect = false;
         }
-        notifyItemRangeChanged(0, conversationInfos.size());
+        ThreadUtils.runOnUiThread(() -> {
+            if (conversationInfos.size() != 0) {
+                notifyItemRangeChanged(0, conversationInfos.size());
+            } else {
+                notifyDataSetChanged();
+            }
+        });
     }
 
     // 新增：获取选中列表
@@ -158,8 +170,9 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
     public void setOnClickConversationItemListener(OnClickConversationItemBroadListener onClickConversationItemListener) {
         this.onClickConversationItemListener = onClickConversationItemListener;
         if (!isSelectMode) {
-
-            notifyDataSetChanged();
+            ThreadUtils.runOnUiThread(() -> {
+                notifyDataSetChanged();
+            });
         }
     }
 
@@ -167,9 +180,12 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
         this.statusNotifications = notifications;
         this.conversationInfos = conversationInfos;
         if (!isSelectMode) {
-            notifyDataSetChanged();
+            ThreadUtils.runOnUiThread(() -> {
+                notifyDataSetChanged();
+            });
         }
     }
+
 
     @NonNull
     @Override
@@ -362,7 +378,7 @@ public class ConversationListBroadAdapter extends RecyclerView.Adapter<RecyclerV
         if (position - headerCount() < conversationInfos.size() && position - headerCount() >= 0) {
             Conversation conversation = conversationInfos.get(position - headerCount()).conversation;
             return conversation.type.getValue() << 24 | conversation.line;
-        }else{
+        } else {
             return 0;
         }
     }

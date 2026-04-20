@@ -457,7 +457,9 @@ public class ConversationBroadFragment extends Fragment implements
         public void onChanged(Conversation conversation) {
             if (conversation.equals(ConversationBroadFragment.this.conversationBroad)) {
                 adapterBroad.setMessages(null);
-                adapterBroad.notifyDataSetChanged();
+                ThreadUtils.runOnUiThread(() -> {
+                    adapterBroad.notifyDataSetChanged();
+                });
             }
         }
     };
@@ -474,7 +476,9 @@ public class ConversationBroadFragment extends Fragment implements
             }
             int start = layoutBroadManager.findFirstVisibleItemPosition();
             int end = layoutBroadManager.findLastVisibleItemPosition();
-            adapterBroad.notifyItemRangeChanged(start, end - start + 1, userInfos);
+            ThreadUtils.runOnUiThread(() -> {
+                adapterBroad.notifyItemRangeChanged(start, end - start + 1, userInfos);
+            });
         }
     };
 
@@ -515,7 +519,9 @@ public class ConversationBroadFragment extends Fragment implements
                     groupInfoBroad = info;
                     updateGroupMuteStatus();
                     setTitle();
-                    adapterBroad.notifyDataSetChanged();
+                    ThreadUtils.runOnUiThread(() -> {
+                        adapterBroad.notifyDataSetChanged();
+                    });
                     break;
                 }
             }
@@ -1017,7 +1023,9 @@ public class ConversationBroadFragment extends Fragment implements
             boolean show = "1".equals(userBroadViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfoBroad.target));
             if (showGroupMemberNameBroad != show) {
                 showGroupMemberNameBroad = show;
-                adapterBroad.notifyDataSetChanged();
+                ThreadUtils.runOnUiThread(() -> {
+                    adapterBroad.notifyDataSetChanged();
+                });
             }
             reloadMessage();
         };
@@ -1192,8 +1200,9 @@ public class ConversationBroadFragment extends Fragment implements
         messages.addAll(newMessages);
         ChatManager.Instance().getMainHandler().post(() -> {
             adapterBroad.setMessages(messages);
-            adapterBroad.notifyDataSetChanged();
-
+            ThreadUtils.runOnUiThread(() -> {
+                adapterBroad.notifyDataSetChanged();
+            });
             if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {
@@ -1235,8 +1244,9 @@ public class ConversationBroadFragment extends Fragment implements
             swipeRefreshLayoutBroad.setRefreshing(false);
 
             adapterBroad.setMessages(uiMessages);
-            adapterBroad.notifyDataSetChanged();
-
+            ThreadUtils.runOnUiThread(() -> {
+                adapterBroad.notifyDataSetChanged();
+            });
             if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {
@@ -1624,7 +1634,9 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMsgReceive(FanYiBroadEvent fanYiEvent) {
-        adapterBroad.notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            adapterBroad.notifyDataSetChanged();
+        });
     }
 
     boolean onBackPressed() {
@@ -1830,7 +1842,9 @@ public class ConversationBroadFragment extends Fragment implements
         inputPanelBroad.setVisibility(GONE);
         message.isChecked = true;
         adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_CHECKABLE);
-        adapterBroad.notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            adapterBroad.notifyDataSetChanged();
+        });
         multiMessageActionContainerLinearLayoutBroad.setVisibility(VISIBLE);
         setupMultiMessageAction();
     }
@@ -1840,7 +1854,9 @@ public class ConversationBroadFragment extends Fragment implements
         multiMessageActionContainerLinearLayoutBroad.setVisibility(GONE);
         adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_NORMAL);
         adapterBroad.clearMessageCheckStatus();
-        adapterBroad.notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            adapterBroad.notifyDataSetChanged();
+        });
     }
 
     public void setInputText(String text) {

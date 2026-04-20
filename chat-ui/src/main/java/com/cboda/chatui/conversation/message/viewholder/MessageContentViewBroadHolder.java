@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
 import com.cboda.chatui.*;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
-import com.cboda.chatui.conversation.ConversationMessageBroadAdapter;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.chatui.viewmodel.MessageViewBroadModel;

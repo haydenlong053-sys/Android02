@@ -146,7 +146,7 @@ public class CircleDetailBroadActivity extends BaseSimpleBroadActivity implement
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.llMore){
+        if (view.getId() == R.id.llMore) {
             if (isShowMore) {
                 isShowMore = false;
                 llMoreShow.setVisibility(View.GONE);
@@ -169,13 +169,15 @@ public class CircleDetailBroadActivity extends BaseSimpleBroadActivity implement
                     }).show();
         }
         if (view.getId() == R.id.llDianzan) {
-            if (bean.data.isDz.equals("0")) {
-                quanLike("1");
-            } else {
-                quanLike("0");
+            if (null != bean && null != bean.data) {
+                if (bean.data.isDz.equals("0")) {
+                    quanLike("1");
+                } else {
+                    quanLike("0");
+                }
             }
         }
-        if (view.getId() == R.id.llPinglun){
+        if (view.getId() == R.id.llPinglun) {
             new InputDialogBroadFra().setShaixuanClick("", new InputDialogBroadFra.OnShaixuanClick() {
                 @Override
                 public void onShaixuanClick(String content) {
@@ -185,18 +187,20 @@ public class CircleDetailBroadActivity extends BaseSimpleBroadActivity implement
         }
 
         if (view.getId() == R.id.rlVideo) {
-            if (bean.data.type.equals("1")) {
-                ImagePreview
-                        .getInstance()
-                        .setContext(this)
-                        .setIndex(0)
-                        .setImageList(bean.data.imgs)
-                        .start();
-            } else {
-                Intent intent = new Intent(this, VideoPlayOnlyBroadActivity.class);
-                intent.putExtra("video", bean.data.video);
-                intent.putExtra("videoImage", bean.data.video);
-                startActivity(intent);
+            if (null != bean && null != bean.data) {
+                if (bean.data.type.equals("1")) {
+                    ImagePreview
+                            .getInstance()
+                            .setContext(this)
+                            .setIndex(0)
+                            .setImageList(bean.data.imgs)
+                            .start();
+                } else {
+                    Intent intent = new Intent(this, VideoPlayOnlyBroadActivity.class);
+                    intent.putExtra("video", bean.data.video);
+                    intent.putExtra("videoImage", bean.data.video);
+                    startActivity(intent);
+                }
             }
         }
 
