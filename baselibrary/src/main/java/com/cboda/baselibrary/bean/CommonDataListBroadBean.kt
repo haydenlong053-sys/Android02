@@ -13,6 +13,7 @@ class CommonDataListBroadBean : BaseBroadResponse() {
         var name: String? = null
         var icon: String? = null
         var sinfo: String? = null
+        var info: String? = null
         var state: String? = null
         var emoji: String? = null
         var bei: String? = null
