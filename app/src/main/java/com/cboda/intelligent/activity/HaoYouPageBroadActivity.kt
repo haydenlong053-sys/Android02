@@ -28,6 +28,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.clipViewOutlineRound
 import com.cboda.baselibrary.utils.formatWithBigDecimal
+import com.cboda.baselibrary.utils.setBackColor
 import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
 import com.cboda.baselibrary.utils.setTxtColor
 import com.cboda.chatui.WfcUIBroadKit
@@ -248,7 +249,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 ivLiang.isVisible = (isLiang != null && isLiang == "1")
                 tvID.setTxtColor(if (isLiang != null && isLiang == "1") R.color.color_text_liang else R.color.color_text_content)
                 if (isLiang != null && isLiang == "1") {
-                    layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
+                    layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black)
                     tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                     tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
@@ -256,12 +257,12 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     val registrationDayScore = anyToInt(getSqlStrData(MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE, ""))
                     val registrationDay = anyToInt(registerDayBean?.registDay ?: 0)
                     if (registrationDay < registrationDayScore) {
-                        layoutMirrorCredit.setBackColorAndStrokeColor(com.cboda.baselibrary.R.color.color_FFB789_20, R.color.white)
+                        layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.color_2DFF0000)
                         tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
                         tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
                         tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
                     } else {
-                        layoutMirrorCredit.setBackColorAndStrokeColor(com.cboda.baselibrary.R.color.color_4F6FF3_20, R.color.white)
+                        layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.color_4F6FF3_20)
                         tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                         tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                         tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_031256)

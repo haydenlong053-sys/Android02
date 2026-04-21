@@ -21,6 +21,7 @@ import com.cboda.chatui.annotation.ConversationInfoBroadType;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import com.cboda.chatui.user.UserViewBroadModel;
+
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
 import cn.wildfirechat.model.SecretChatInfo;
@@ -39,11 +40,11 @@ public class SecretConversationViewBroadHolder extends ConversationViewBroadHold
     protected void onBindConversationInfo(ConversationInfo conversationInfo) {
         secretChatIndicator.setVisibility(View.VISIBLE);
         SecretChatInfo secretChatInfo = ChatManager.Instance().getSecretChatInfo(conversationInfo.conversation.target);
-        if (secretChatInfo == null){
+        if (secretChatInfo == null) {
             return;
         }
         String userId = secretChatInfo.getUserId();
-        if (TextUtils.isEmpty(userId)){
+        if (TextUtils.isEmpty(userId)) {
             return;
         }
         UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(userId, false);
@@ -51,12 +52,13 @@ public class SecretConversationViewBroadHolder extends ConversationViewBroadHold
         String name = userViewModel.getUserDisplayName(userInfo);
         String portrait;
         portrait = userInfo.portrait;
-        Glide
-            .with(fragment)
-            .load(portrait)
-            .placeholder(R.mipmap.avatar_broad_def)
-            .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(fragment.getContext(), 4)))
-            .into(portraitImageView);
+//        Glide
+//            .with(fragment)
+//            .load(portrait)
+//            .placeholder(R.mipmap.avatar_broad_def)
+//            .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(fragment.getContext(), 4)))
+//            .into(portraitImageView);
+        vipGradeView.setData(portrait, null, null, null, null);
         nameTextView.setText(name);
     }
 

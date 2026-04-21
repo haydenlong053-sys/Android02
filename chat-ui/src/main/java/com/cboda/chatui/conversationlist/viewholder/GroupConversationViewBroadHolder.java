@@ -74,13 +74,14 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         // 加载群头像
         loadGroupPortrait(groupInfo, conversationInfo.conversation.target, portrait);
         GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target, null, smallGroupBean -> {
-            if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
-                gradeTv.setVisibility(View.VISIBLE);
-                gradeTv.setText(smallGroupBean.getGroupDays() + gradeTv.getContext().getString(R.string.msg_days_unit2));
-            } else {
-                gradeTv.setVisibility(View.VISIBLE);
-                gradeTv.setText("0" + gradeTv.getContext().getString(R.string.msg_days_unit2));
-            }
+//            if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
+//                gradeTv.setVisibility(View.VISIBLE);
+//                gradeTv.setText(smallGroupBean.getGroupDays() + gradeTv.getContext().getString(R.string.msg_days_unit2));
+//            } else {
+//                gradeTv.setVisibility(View.VISIBLE);
+//                gradeTv.setText("0" + gradeTv.getContext().getString(R.string.msg_days_unit2));
+//            }
+            vipGradeView.setRegisterDay(null != smallGroupBean ? smallGroupBean.getGroupDays() : null, R.string.msg_days_unit2);
             if (null != smallGroupBean && null != smallGroupBean.getRenameCount()) {
                 nameTimeTv.setVisibility(View.VISIBLE);
                 nameTimeTv.setText(nameTimeTv.getContext().getString(R.string.rename) + "\u00A0" + smallGroupBean.getRenameCount() + "\u00A0" + nameTimeTv.getContext().getString(R.string.times_unit));
@@ -99,7 +100,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
                     .with(fragment)
                     .load(portrait)
                     .placeholder(R.mipmap.ic_group_broad_chat)
-                    .into(portraitImageView);
+                    .into(vipGradeView.getUserImgView());
 //        }else {
 //            try {
 //                JSONObject object =new JSONObject(portrait);
@@ -135,7 +136,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         // 如果群头像为空或无效，获取群成员信息并生成组合头像
         if (groupInfo != null && !TextUtils.isEmpty(groupId)) {
             // 先显示占位图
-            portraitImageView.setImageResource(R.mipmap.ic_group_broad_chat);
+            vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
 
             // 异步获取群成员信息
             ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, new GetGroupMembersCallback() {
@@ -179,7 +180,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
                         GroupAvatarBroadLoader.INSTANCE.loadGroupImageView(
                                 fragment.getActivity(),
                                 avatarUrls,
-                                portraitImageView,
+                                vipGradeView.getUserImgView(),
                                 groupId
                         );
                     }
@@ -192,7 +193,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
             });
         } else {
             // 没有群信息，显示默认占位图
-            portraitImageView.setImageResource(R.mipmap.ic_group_broad_chat);
+            vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
         }
 
     }

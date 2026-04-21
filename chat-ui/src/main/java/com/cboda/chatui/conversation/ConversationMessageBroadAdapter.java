@@ -45,6 +45,7 @@ import com.cboda.baselibrary.utils.JavaBroadUtil;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
+import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.google.gson.Gson;
 import com.cboda.select.picture.utils.ToastBroadUtils;
@@ -451,7 +452,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 
     @SuppressLint("SetTextI18n")
     private void processPortraitClick(MessageContentViewBroadHolder viewHolder, View itemView) {
-        itemView.findViewById(R.id.portraitImageView).setOnClickListener(v -> {
+        itemView.findViewById(R.id.singleVgView).setOnClickListener(v -> {
             if (onPortraitClickListener != null) {
                 int position = viewHolder.getAdapterPosition();
                 UiBroadMessage message = getItem(position);
@@ -466,91 +467,104 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         });
         int position = viewHolder.getAdapterPosition();
         UiBroadMessage message = getItem(position);
-        View portraitImageLayout = itemView.findViewById(R.id.portraitImageLayout);
-        ShapeTextView portraitTv = itemView.findViewById(R.id.portraitTv);
-        ImageView vipMirrorCredit = itemView.findViewById(R.id.vipMirrorCredit);
-        AppRoundBroadImage portraitImageView = itemView.findViewById(R.id.portraitImageView);
+
+        VpGradeView singleVgView = itemView.findViewById(R.id.singleVgView);
+//        View portraitImageLayout = itemView.findViewById(R.id.portraitImageLayout);
+//        ShapeTextView portraitTv = itemView.findViewById(R.id.portraitTv);
+//        ImageView vipMirrorCredit = itemView.findViewById(R.id.vipMirrorCredit);
+//        AppRoundBroadImage portraitImageView = itemView.findViewById(R.id.portraitImageView);
         if (null != message) {
             GlobalBroadInfo.INSTANCE.queryMyFriendInfo(message.message.sender, null, friendSmailListBean -> {
                 boolean haveGradeData = false;
                 if (null != friendSmailListBean) {
                     haveGradeData = true;
-                    portraitTv.setText(formatWithBigDecimal(friendSmailListBean.grade) + fragment.getString(R.string.message_grade_unit));
-                    vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
-                    if (friendSmailListBean.isVip) {
-                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
-                    } else {
-                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
-                    }
-                    if (friendSmailListBean.isNiceNum) {
-                        setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
-                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
-                    } else {
-                        int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
-                        int registrationDay = anyToInt(friendSmailListBean.registerDay);
-                        if (registrationDay < registrationDayScore) {
-                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
-                        } else {
-                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_956BEC, com.cboda.baselibrary.R.color.color_7A66FA);
-                        }
-                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
-                    }
+                    singleVgView.setData5(friendSmailListBean.isNiceNum, friendSmailListBean.isVip, message.message.conversation.type == Conversation.ConversationType.Group ? friendSmailListBean.grade : null, friendSmailListBean.registerDay);
+//                    portraitTv.setText(formatWithBigDecimal(friendSmailListBean.grade) + fragment.getString(R.string.message_grade_unit));
+//                    vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
+//                    if (friendSmailListBean.isVip) {
+//                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
+//                    } else {
+//                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+//                    }
+//                    if (friendSmailListBean.isNiceNum) {
+//                        setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
+//                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
+//                    } else {
+//                        int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
+//                        int registrationDay = anyToInt(friendSmailListBean.registerDay);
+//                        if (registrationDay < registrationDayScore) {
+//                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
+//                        } else {
+//                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_956BEC, com.cboda.baselibrary.R.color.color_7A66FA);
+//                        }
+//                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
+//                    }
                 } else {
-                    portraitTv.setVisibility(View.GONE);
-                    vipMirrorCredit.setVisibility(View.GONE);
-                    setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
-                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
-                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+//                    portraitTv.setVisibility(View.GONE);
+//                    vipMirrorCredit.setVisibility(View.GONE);
+//                    setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
+//                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
+//                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
+                    singleVgView.setData5(null, null, null, null);
                 }
                 if (message.message.sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
                     if (!TextUtils.isEmpty(message.message.content.extra)) {
                         MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
                         if (msgExtra.isMeetingImage().equals("1")) {
-                            portraitImageLayout.setVisibility(View.GONE);
-                            portraitTv.setVisibility(View.GONE);
+//                            portraitImageLayout.setVisibility(View.GONE);
+//                            portraitTv.setVisibility(View.GONE);
+                            singleVgView.setVisibility(View.GONE);
                         } else {
-                            portraitImageLayout.setVisibility(View.VISIBLE);
+//                            portraitImageLayout.setVisibility(View.VISIBLE);
+                            singleVgView.setVisibility(View.VISIBLE);
                             if (!haveGradeData) {
-                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
+//                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
+                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
                             }
-                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                                portraitTv.setVisibility(View.VISIBLE);
-                            } else {
-                                portraitTv.setVisibility(View.GONE);
-                            }
+//                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
+//                                portraitTv.setVisibility(View.VISIBLE);
+//                            } else {
+//                                portraitTv.setVisibility(View.GONE);
+//                            }
                         }
                     } else if (!haveGradeData) {
-                        if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null && message.message.conversation.type == Conversation.ConversationType.Group) {
-                            portraitTv.setText(formatWithBigDecimal(messageViewModel.getUserGroupData().getGrade()) + fragment.getString(R.string.message_grade_unit));
-                            portraitTv.setVisibility(View.VISIBLE);
-                        } else {
-                            portraitTv.setVisibility(View.GONE);
-                        }
+                        singleVgView.setVisibility(View.VISIBLE);
+//                        if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null && message.message.conversation.type == Conversation.ConversationType.Group) {
+//                            portraitTv.setText(formatWithBigDecimal(messageViewModel.getUserGroupData().getGrade()) + fragment.getString(R.string.message_grade_unit));
+//                            portraitTv.setVisibility(View.VISIBLE);
+//                        } else {
+//                            portraitTv.setVisibility(View.GONE);
+//                        }
+                        singleVgView.setGradeData(messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null && message.message.conversation.type == Conversation.ConversationType.Group ? messageViewModel.getUserGroupData().getGrade() : null);
                     } else {
-                        if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                            portraitTv.setVisibility(View.VISIBLE);
-                        } else {
-                            portraitTv.setVisibility(View.GONE);
-                        }
+                        singleVgView.setVisibility(View.VISIBLE);
+//                        if (message.message.conversation.type == Conversation.ConversationType.Group) {
+//                            portraitTv.setVisibility(View.VISIBLE);
+//                        } else {
+//                            portraitTv.setVisibility(View.GONE);
+//                        }
                     }
                 } else {
                     TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
                     if (!TextUtils.isEmpty(message.message.content.extra)) {
                         MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
                         if (msgExtra.isMeetingImage().equals("1")) {
-                            portraitImageLayout.setVisibility(View.GONE);
-                            portraitTv.setVisibility(View.GONE);
+//                            portraitImageLayout.setVisibility(View.GONE);
+//                            portraitTv.setVisibility(View.GONE);
+                            singleVgView.setVisibility(View.GONE);
                             joinTimeTv.setVisibility(View.GONE);
                         } else {
-                            portraitImageLayout.setVisibility(View.VISIBLE);
+//                            portraitImageLayout.setVisibility(View.VISIBLE);
+                            singleVgView.setVisibility(View.VISIBLE);
                             String joinGroupTime = msgExtra.getJoinGroupTime();
-                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                                portraitTv.setVisibility(View.VISIBLE);
-                            } else {
-                                portraitTv.setVisibility(View.GONE);
-                            }
+//                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
+//                                portraitTv.setVisibility(View.VISIBLE);
+//                            } else {
+//                                portraitTv.setVisibility(View.GONE);
+//                            }
                             if (!haveGradeData) {
-                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
+//                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
+                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
                             }
                             joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
                             try {
@@ -569,12 +583,13 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             }
                         }
                     } else {
+                        singleVgView.setVisibility(View.VISIBLE);
                         joinTimeTv.setVisibility(View.GONE);
-                        if (!haveGradeData) {
-                            portraitTv.setVisibility(View.GONE);
-                        } else if (message.message.conversation.type == Conversation.ConversationType.Group) {
-                            portraitTv.setVisibility(View.VISIBLE);
-                        }
+//                        if (!haveGradeData) {
+//                            portraitTv.setVisibility(View.GONE);
+//                        } else if (message.message.conversation.type == Conversation.ConversationType.Group) {
+//                            portraitTv.setVisibility(View.VISIBLE);
+//                        }
                     }
                 }
 
@@ -634,7 +649,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     }
 
     private void processPortraitLongClick(MessageContentViewBroadHolder viewHolder, View itemView) {
-        itemView.findViewById(R.id.portraitImageView).setOnLongClickListener(v -> {
+        itemView.findViewById(R.id.singleVgView).setOnLongClickListener(v -> {
                     if (onPortraitLongClickListener != null) {
                         int position = viewHolder.getAdapterPosition();
                         UiBroadMessage message = getItem(position);

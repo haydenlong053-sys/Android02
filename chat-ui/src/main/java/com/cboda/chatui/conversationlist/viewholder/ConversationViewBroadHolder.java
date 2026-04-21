@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.view.AppRoundBroadImage;
+import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatemoji.MoonBroadUtils;
 
 import java.util.ArrayList;
@@ -56,15 +57,15 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
 
     protected TextView nameTextView;
     protected TextView timeTextView;
-    protected AppRoundBroadImage portraitImageView;
-    protected ImageView silentImageView,vipImageView;
+    //    protected AppRoundBroadImage portraitImageView;
+    protected ImageView silentImageView;
     protected TextView unreadCountTextView;
     protected View redDotView;
     protected TextView contentTextView;
     protected TextView promptTextView, nameTimeTv;
-    protected ShapeTextView gradeTv;
+//    protected ShapeTextView gradeTv;
 
-
+    protected VpGradeView vipGradeView;
     protected ImageView statusImageView;
 
     protected ImageView secretChatIndicator;
@@ -103,10 +104,11 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
     private void bindViews(View itemView) {
         nameTextView = itemView.findViewById(R.id.nameTextView);
         timeTextView = itemView.findViewById(R.id.timeTextView);
-        portraitImageView = itemView.findViewById(R.id.portraitImageView);
-        gradeTv = itemView.findViewById(R.id.gradeTv);
+        vipGradeView = itemView.findViewById(R.id.portraitRelativeLayout);
+//        portraitImageView = itemView.findViewById(R.id.portraitImageView);
+//        gradeTv = itemView.findViewById(R.id.gradeTv);
         nameTimeTv = itemView.findViewById(R.id.nameTimeTv);
-        vipImageView= itemView.findViewById(R.id.vipImageView);
+//        vipImageView = itemView.findViewById(R.id.vipImageView);
         silentImageView = itemView.findViewById(R.id.slient);
         unreadCountTextView = itemView.findViewById(R.id.unreadCountTextView);
         redDotView = itemView.findViewById(R.id.redDotView);
@@ -137,7 +139,7 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         ivCheckCnv.setImageResource(conversationInfo.isSelect ? R.mipmap.ic_check_cnv_broad_select : R.mipmap.ic_check_cnv_broad_normal);
 
 //        timeTextView.setText(TimeBroadBroadUtils.getMsgFormatTime(conversationInfo.timestamp));
-        timeTextView.setText(MyTimeFormatter.getSessionTimeString(conversationInfo.timestamp,timeTextView.getContext()));
+        timeTextView.setText(MyTimeFormatter.getSessionTimeString(conversationInfo.timestamp, timeTextView.getContext()));
         silentImageView.setVisibility(conversationInfo.isSilent ? View.VISIBLE : View.GONE);
         statusImageView.setVisibility(View.GONE);
 

@@ -37,12 +37,11 @@
                     android:layout_marginTop="80dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_mirror_broad_female"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="invisible"
-                    tools:visibility="visible"
-                    />
+                    tools:visibility="visible" />
 
 
                 <TextView
@@ -54,10 +53,10 @@
                     android:layout_marginTop="10dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/iv_mirror_sex"
@@ -68,45 +67,45 @@
                     android:id="@+id/mViewPremiumNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="26dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/iv_mirror_sex"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                    >
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_mirror_sex"
+                    tools:visibility="visible">
+
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/mViewAnimateNumb"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="@id/mTvPremiumNumber"
+                        app:layout_constraintEnd_toEndOf="@id/mTvPremiumNumber"
+                        app:layout_constraintStart_toStartOf="@id/mTvPremiumNumber"
+                        app:layout_constraintTop_toTopOf="@id/mTvPremiumNumber"
                         app:lottie_autoPlay="false"
                         app:lottie_fileName="beautiful_id_bg.json"
                         app:lottie_imageAssetsFolder="id_bg_animate_img"
-                        app:layout_constraintStart_toStartOf="@id/mTvPremiumNumber"
-                        app:layout_constraintEnd_toEndOf="@id/mTvPremiumNumber"
-                        app:layout_constraintTop_toTopOf="@id/mTvPremiumNumber"
-                        app:layout_constraintBottom_toBottomOf="@id/mTvPremiumNumber"
                         app:lottie_loop="true" />
+
                     <TextView
                         android:id="@+id/mTvPremiumNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:gravity="center"
-                        tools:text="ID:123456"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
                         android:textColor="@color/color_FAE77C"
                         android:textSize="14sp"
-                        android:paddingVertical="4dp"
-                        android:paddingHorizontal="12dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="ID:123456"
 
                         />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -118,17 +117,18 @@
                     android:layout_marginTop="10dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_tag_name"
                     tools:text="法师"
                     tools:visibility="visible" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hobbyTv1"
                     android:layout_width="wrap_content"
@@ -138,12 +138,12 @@
                     android:layout_marginTop="10dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/vocationalTv"
@@ -159,17 +159,18 @@
                     android:layout_marginTop="10dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hobbyTv1"
                     tools:text="爱好2"
                     tools:visibility="visible" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hobbyTv5"
                     android:layout_width="wrap_content"
@@ -179,92 +180,96 @@
                     android:layout_marginTop="10dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hobbyTv3"
                     tools:text="爱好3"
                     tools:visibility="visible" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/daysTv"
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_centerInParent="true"
-                    android:layout_marginEnd="55dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="55dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layoutMirrorCredit"
                     tools:text="20天"
                     tools:visibility="visible" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hobbyTv2"
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_centerInParent="true"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/daysTv"
                     tools:text="爱好2"
                     tools:visibility="visible" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hobbyTv4"
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_centerInParent="true"
-                    android:layout_marginEnd="65dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="65dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hobbyTv2"
                     tools:text="爱好4"
                     tools:visibility="visible" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hobbyTv6"
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_centerInParent="true"
-                    android:layout_marginEnd="30dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
                     android:background="@mipmap/bg_mirror_tag_broad_big"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:maxEms="8"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dp_9"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hobbyTv4"
@@ -275,7 +280,7 @@
                     android:id="@+id/layoutMirrorCredit"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_64"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginEnd="20dp"
                     android:minWidth="@dimen/dp_85"
                     android:paddingHorizontal="@dimen/dp_14"
@@ -283,7 +288,7 @@
                     app:layout_constraintTop_toTopOf="@id/iv_mirror_sex"
                     app:shape_radius="@dimen/dp_10"
                     app:shape_solidColor="@color/transparent"
-                    app:shape_strokeColor="@color/transparent"
+                    app:shape_strokeColor="@color/white"
                     app:shape_strokeWidth="@dimen/dp_1">
 
                     <com.cboda.baselibrary.view.MyTextView
@@ -291,7 +296,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/transparent"
-                        tools:textColor="@color/color_D5271E"
                         android:textSize="28sp"
                         app:layout_constraintBottom_toTopOf="@id/tv_mirror_credit_label"
                         app:layout_constraintEnd_toStartOf="@id/tvMirrorCreditScoreValue"
@@ -300,7 +304,8 @@
                         app:layout_constraintTop_toTopOf="@id/layoutMirrorCredit"
                         app:layout_constraintVertical_chainStyle="packed"
                         app:tv_style="num_bold"
-                        tools:text="100" />
+                        tools:text="100"
+                        tools:textColor="@color/color_D5271E" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvMirrorCreditScoreValue"
@@ -308,39 +313,41 @@
                         android:layout_height="wrap_content"
                         android:text="@string/score_unit"
                         android:textColor="@color/transparent"
-                        tools:textColor="@color/color_D5271E"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         app:layout_constraintBaseline_toBaselineOf="@id/tvMirrorCreditScore"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tvMirrorCreditScore" />
+                        app:layout_constraintStart_toEndOf="@id/tvMirrorCreditScore"
+                        tools:textColor="@color/color_D5271E" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvMirrorCreditLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10"
                         android:text="@string/credit_score"
                         android:textColor="@color/transparent"
-                        tools:textColor="@color/color_D5271E"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@id/layoutMirrorCredit"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvMirrorCreditScore" />
+                        app:layout_constraintTop_toBottomOf="@id/tvMirrorCreditScore"
+                        tools:textColor="@color/color_D5271E" />
                 </com.hjq.shape.layout.ShapeConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/vipMirrorCredit"
-                    android:layout_width="@dimen/dp_13"
-                    android:layout_height="@dimen/dp_11"
-                    android:layout_marginTop="@dimen/dp_7"
-                    android:layout_marginEnd="@dimen/dp_7"
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_3"
+                    android:layout_marginEnd="@dimen/dp_5"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/new_vip"
+                    android:src="@mipmap/user_vip_img3"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@id/layoutMirrorCredit"
                     app:layout_constraintTop_toTopOf="@id/layoutMirrorCredit"
                     tools:visibility="visible" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -434,8 +441,8 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:visibility="gone"
-                            android:visibility="gone">
+                            android:visibility="gone"
+                            tools:visibility="gone">
 
                             <ImageView
                                 android:id="@+id/ivTouxiang"
@@ -841,26 +848,26 @@
             android:id="@+id/friendName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:singleLine="true"
             tools:text="JOY Follow" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/friendNickName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/friendName"
-            android:singleLine="true"
             tools:text="(昵称:议告)"
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>

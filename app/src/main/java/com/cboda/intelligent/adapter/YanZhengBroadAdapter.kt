@@ -8,11 +8,13 @@ import com.cboda.intelligent.R
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import androidx.core.graphics.toColorInt
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.activity.VerifyBroadActivity.Companion.GROUP_INVITED
 
 class YanZhengBroadAdapter(layoutResId: Int, private val fromPage: String) :
     BaseQuickAdapter<CommonDataListBroadBean.CommonBean, BaseViewHolder>(layoutResId) {
     override fun convert(holder: BaseViewHolder, item: CommonDataListBroadBean.CommonBean) {
+        val ivTouxiang = holder.getView<VpGradeView>(R.id.ivTouxiang)
         if (fromPage == "xindepengyou" || item.icon?.isNotEmpty() == true) {
 //            GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
 //                context,
@@ -21,12 +23,13 @@ class YanZhengBroadAdapter(layoutResId: Int, private val fromPage: String) :
 //                PixelBroadBroadUtils.dip2px(context,5f),
 //                R.mipmap.ic_qun_broad_moren
 //            )
-
-            holder.getView<ImageView>(R.id.ivTouxiang).loadImg(item.icon ?: "")
+            ivTouxiang.setData2(item.icon, item.isLiang == "1", item.isvip == "1", item.grade, item.registDay)
+//            holder.getView<ImageView>(R.id.ivTouxiang).loadImg(item.icon ?: "")
         } else {
             val groupInfo = ChatManager.Instance().getGroupInfo(item.id, false)
 //            Glide.with(context).load( groupInfo?.portrait?:"").placeholder(com.cboda.chatui.R.mipmap.ic_group_broad_chat).into(  holder.getView(R.id.ivTouxiang))
-            holder.getView<ImageView>(R.id.ivTouxiang).loadImg(groupInfo?.portrait ?: "")
+            ivTouxiang.loadUserImg(groupInfo?.portrait ?: "")
+//            holder.getView<ImageView>(R.id.ivTouxiang).loadImg(groupInfo?.portrait ?: "")
         }
 
 

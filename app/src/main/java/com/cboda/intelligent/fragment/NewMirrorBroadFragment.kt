@@ -21,6 +21,7 @@ import com.cboda.baselibrary.utils.setBackColor
 import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
 import com.cboda.baselibrary.utils.setTxtColor
 import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.setBackColor2
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.updatePayPwdDataLiveData
 import com.cboda.intelligent.R
@@ -132,7 +133,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             binding.idTv.isInvisible = binding.mViewPremiumNumber.isVisible
             binding.vipMirrorCredit.isVisible = userInfo?.isvip == "1"
             if (userInfo?.isLiang == "1") {
-                binding.layoutMirrorCredit.setBackColorAndStrokeColor(R.color.black, R.color.black_or_white_65)
+                binding.layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black)
                 binding.tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                 binding.tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                 binding.tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
@@ -140,12 +141,12 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 val registrationDayScore = anyToInt(userInfo?.registerDayBean?.registrationDayScore ?: "")
                 val registrationDay = anyToInt(userInfo?.registerDayBean?.registDay ?: 0)
                 if (registrationDay < registrationDayScore) {
-                    binding.layoutMirrorCredit.setBackColorAndStrokeColor(com.cboda.baselibrary.R.color.color_FFB789_20, R.color.white)
+                    binding.layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.color_2DFF0000)
                     binding.tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
                     binding.tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
                     binding.tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
                 } else {
-                    binding.layoutMirrorCredit.setBackColorAndStrokeColor(com.cboda.baselibrary.R.color.color_4F6FF3_20, R.color.white)
+                    binding.layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.color_4F6FF3_20)
                     binding.tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                     binding.tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
                     binding.tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_031256)

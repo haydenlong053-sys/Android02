@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewbinding.ViewBinding;
 
 import com.cboda.intelligent.R;
+import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.BlackListBroadAdapter;
 import com.cboda.select.picture.entity.DataListBroadBean;
@@ -26,7 +27,7 @@ import java.util.Map;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class BlackListBroadActivity extends BaseSimpleBroadActivity {
+public class BlackListBroadActivity extends BaseSimple2BroadActivity {
 
     private BlackListBroadAdapter blacklistAdapter;
     private List<DataListBroadBean> listBeans = new ArrayList<>();
@@ -35,6 +36,7 @@ public class BlackListBroadActivity extends BaseSimpleBroadActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRootBgColor(R.color.white);
         mBinding = (ActivityBlackBroadListBinding) getBinding();
         getToolbarTitle().setText(getResources().getString(R.string.通讯录黑名单));
 
@@ -50,6 +52,11 @@ public class BlackListBroadActivity extends BaseSimpleBroadActivity {
         });
 
         blackList();
+    }
+
+    @Override
+    public boolean showBgTopTitleLayout() {
+        return true;
     }
 
     /**

@@ -45,12 +45,13 @@ public class ChannelConversationViewBroadHolder extends ConversationViewBroadHol
             portrait = null;
         }
         nameTextView.setText(name);
-        Glide
-            .with(fragment)
-            .load(portrait)
-            .placeholder(R.mipmap.ic_broad_channel)
-            .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(4)))
-            .into(portraitImageView);
+//        Glide
+//            .with(fragment)
+//            .load(portrait)
+//            .placeholder(R.mipmap.ic_broad_channel)
+//            .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(4)))
+//            .into(portraitImageView);
+        vipGradeView.setData(portrait, null, null, null, null);
     }
 
     @ConversationContextMenuBroadItem(tag = ConversationContextMenuItemBroadTags.TAG_UNSUBSCRIBE,

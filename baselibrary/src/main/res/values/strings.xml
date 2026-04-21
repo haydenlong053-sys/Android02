@@ -163,4 +163,6 @@
     <string name="credit_prefix2">信用:</string>
     <string name="register_time_prefix2">注册时间:</string>
     <string name="del_coll_title">删除这个收藏吗？</string>
+    <string name="msg_score_unit3">分</string>
+    <string name="remove_blacklist"> 解除</string>
 </resources>

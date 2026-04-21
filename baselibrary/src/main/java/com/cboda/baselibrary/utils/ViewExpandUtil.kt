@@ -15,6 +15,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.EditText
 import android.widget.TextView
@@ -381,6 +382,20 @@ fun ShapeConstraintLayout.setBackColorAndStrokeColor(@ColorRes backColor: Int, @
 
 fun ShapeConstraintLayout.setBackColor2(color: Int) {
     this.shapeDrawableBuilder.solidColor = color
+    this.shapeDrawableBuilder.intoBackground()
+}
+
+
+fun ShapeConstraintLayout.setBackColor(
+    @ColorRes startColor: Int,
+    @ColorRes centerColor: Int,
+    @ColorRes endColor: Int
+) {
+    this.shapeDrawableBuilder.setSolidGradientColors(
+        getAppColor(this.context, startColor),
+        getAppColor(this.context, centerColor),
+        getAppColor(this.context, endColor)
+    )
     this.shapeDrawableBuilder.intoBackground()
 }
 
@@ -1005,9 +1020,9 @@ fun TextView.setTxtColor(@ColorRes color: Int) {
     this.setTextColor(getAppColor(this.context, color))
 }
 
-fun anyToInt(any: Any): Int {
+fun anyToInt(any: Any?): Int {
     return try {
-        anyToFloat(any).toInt()
+        anyToFloat(any ?: 0).toInt()
     } catch (e: Exception) {
         0
     }
@@ -1161,9 +1176,13 @@ fun clipViewOutlineRound(view: View, radiusDp: Int) {
  * 去除小数点后面多余数字0（使用 BigDecimal 格式化适合金融场景）
  */
 fun formatWithBigDecimal(data: Any?): String {
-    return BigDecimal(data?.toString() ?: "0")
-        .stripTrailingZeros()
-        .toPlainString()
+    return try {
+        BigDecimal(data?.toString() ?: "0")
+            .stripTrailingZeros()
+            .toPlainString()
+    } catch (_: Exception) {
+        ""
+    }
 }
 
 fun ShapeTextView.isSubmitCanGo3(boolean: Boolean) {
@@ -1176,3 +1195,15 @@ fun ShapeTextView.isSubmitCanGo2(boolean: Boolean) {
     this.isSelected = boolean
 }
 
+
+fun View.setMarginBottom(pxValue: Int?) {
+    if (pxValue != null && this.layoutParams is ViewGroup.MarginLayoutParams) {
+        val params = this.layoutParams as ViewGroup.MarginLayoutParams
+        params.bottomMargin = pxValue
+        this.setLayoutParams(params)
+    }
+}
+
+fun View.setPaddingHorizontal(px: Int) {
+    setPaddingRelative(px, paddingTop, px, paddingBottom)
+}

@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.AppServiceBroadProvider;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.BroadConfig;
@@ -81,11 +82,13 @@ import kotlin.jvm.functions.Function1;
  * 普通消息
  */
 public abstract class NormalMessageContentViewBroadHolder extends MessageContentViewBroadHolder {
-    ImageView portraitImageView;
+    //    ImageView portraitImageView;
+    VpGradeView singleVgView;
     LinearLayout errorLinearLayout;
     TextView nameTextView;
     ProgressBar progressBar;
     CheckBox checkBox;
+    View nameLayout;
 
     @Nullable
     ImageView singleReceiptImageView;
@@ -114,7 +117,9 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
     }
 
     private void bindViews(View itemView) {
-        portraitImageView = itemView.findViewById(R.id.portraitImageView);
+//        portraitImageView = itemView.findViewById(R.id.portraitImageView);
+        nameLayout = itemView.findViewById(R.id.nameLayout);
+        singleVgView = itemView.findViewById(R.id.singleVgView);
         errorLinearLayout = itemView.findViewById(R.id.errorLinearLayout);
         nameTextView = itemView.findViewById(R.id.nameTextView);
         progressBar = itemView.findViewById(R.id.progressBar);
@@ -440,18 +445,21 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 
 
     private void setImgData(String portraitUrl) {
-        if (portraitImageView != null) {
+        if (singleVgView != null) {
             //默认头像
-            Glide.with(fragment)
-                    .load(portraitUrl == null ? "" : portraitUrl)
-                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
-                    .into(portraitImageView);
+//            Glide.with(fragment)
+//                    .load(portraitUrl == null ? "" : portraitUrl)
+//                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
+//                    .into(portraitImageView);
+            singleVgView.loadUserImg(portraitUrl);
         }
+
     }
 
     private void setSenderName(Message item) {
         if (item.conversation.type == Conversation.ConversationType.Single) {
             nameTextView.setVisibility(View.GONE);
+            nameLayout.setVisibility(View.GONE);
         } else if (item.conversation.type == Conversation.ConversationType.Group) {
             showGroupMemberAlias(message.message.conversation, message.message, message.message.sender);
         } else {
@@ -464,13 +472,16 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
         String hideGroupNickName = userViewModel.getUserSetting(UserSettingScope.GroupHideNickname, conversation.target);
         if ((!TextUtils.isEmpty(hideGroupNickName) && !"1".equals(hideGroupNickName)) || message.direction == MessageDirection.Send) {
             nameTextView.setVisibility(View.GONE);
+            nameLayout.setVisibility(View.GONE);
             return;
         }
         if (!TextUtils.isEmpty(message.content.extra)) {
             MsgBroadExtra msgExtra = fromJson2(message.content.extra, MsgBroadExtra.class);
             nameTextView.setVisibility(msgExtra.isMeetingImage().equals("1") ? View.GONE : View.VISIBLE);
+            nameLayout.setVisibility(msgExtra.isMeetingImage().equals("1") ? View.GONE : View.VISIBLE);
         } else {
             nameTextView.setVisibility(View.VISIBLE);
+            nameLayout.setVisibility(View.VISIBLE);
         }
 
         // TODO optimize 缓存userInfo吧

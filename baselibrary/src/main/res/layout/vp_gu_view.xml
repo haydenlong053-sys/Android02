@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <com.cboda.baselibrary.view.AppRoundBroadImage
+        android:id="@+id/vpGvUserImg"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_head_broad_defaut"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_height="@dimen/dp_42"
+        tools:layout_width="@dimen/dp_42" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/vpGvVip1"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/user_vip_img1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/vpGvUserImg"
+        app:layout_constraintEnd_toEndOf="@id/vpGvUserImg"
+        app:layout_constraintStart_toStartOf="@id/vpGvUserImg"
+        app:layout_constraintTop_toTopOf="@id/vpGvUserImg"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/vpGvVip2"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/user_vip_img2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/vpGvUserImg"
+        app:layout_constraintStart_toStartOf="@id/vpGvUserImg"
+        tools:layout_height="@dimen/dp_20"
+        tools:layout_marginBottom="@dimen/dp_10_minus"
+        tools:layout_width="@dimen/dp_20"
+        tools:visibility="visible" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/vpGvGradeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginBottom="@dimen/dp_2_minus"
+        android:gravity="center"
+        android:maxLines="1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/vpGvUserImg"
+        app:layout_constraintEnd_toEndOf="@id/vpGvUserImg"
+        app:layout_constraintStart_toStartOf="@id/vpGvUserImg"
+        app:shape_angle="0"
+        app:shape_endColor="@color/color_7A66FA"
+        app:shape_radius="@dimen/dp_7"
+        app:shape_startColor="@color/color_956BEC"
+        tools:ignore="SmallSp,SpUsage"
+        tools:layout_height="@dimen/dp_14"
+        tools:paddingHorizontal="@dimen/dp_4"
+        tools:text="10.2分"
+        tools:textColor="@color/white"
+        tools:textSize="@dimen/dp_8"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,79 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:layout_marginBottom="4dp"
-    android:paddingLeft="16dp">
+    android:layout_height="@dimen/dp_72"
+    android:layout_marginBottom="@dimen/dp_4"
+    tools:ignore="RtlSymmetry">
 
     <ImageView
         android:id="@+id/iv_check_cnv"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="@dimen/dp_16"
         android:src="@mipmap/ic_check_cnv_broad_normal"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.cboda.baselibrary.widge.VpGradeView
         android:id="@+id/portraitRelativeLayout"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/iv_check_cnv">
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_toRightOf="@id/iv_check_cnv" />
 
-        <!--头像-->
-        <com.cboda.baselibrary.view.AppRoundBroadImage
-            android:id="@+id/portraitImageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            app:app_round_round_type="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@color/black" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/vipImageView"
-            android:layout_width="@dimen/dp_17"
-            android:layout_height="@dimen/dp_14"
-            android:layout_marginStart="@dimen/dp_3"
-            android:layout_marginTop="@dimen/dp_3"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/new_vip"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
-
-        <com.hjq.shape.view.ShapeTextView
-            android:layout_marginBottom="@dimen/dp_1"
-            android:id="@+id/gradeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dp_4"
-            android:paddingVertical="@dimen/dp_1"
-            android:textColor="@color/ps_color_white"
-            android:textSize="8sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:shape_endColor="#7A66FA"
-            app:shape_radius="@dimen/dp_10"
-            app:shape_startColor="#956BEC"
-            tools:text="0分"
-            tools:visibility="visible" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_16"
         android:layout_toRightOf="@+id/portraitRelativeLayout"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -280,6 +236,6 @@
     <View
         style="@style/Line"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="2dp"
+        android:layout_marginStart="@dimen/dp_2"
         android:layout_toRightOf="@id/portraitRelativeLayout" />
 </RelativeLayout>

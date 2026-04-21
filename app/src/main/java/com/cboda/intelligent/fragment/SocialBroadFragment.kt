@@ -613,27 +613,28 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .then(
-                            if (isVip) Modifier.border(
-                                1.dp,
-                                Color(0xFFFAD27C),
-                                CircleShape
-                            ) else Modifier
-                        ),
+//                        .then(
+//                            if (isVip) Modifier.border(
+//                                1.dp,
+//                                Color(0xFFFAD27C),
+//                                CircleShape
+//                            ) else Modifier
+//                        )
+                    ,
                     placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
                     error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
                     contentScale = ContentScale.Crop
                 )
-                if (isVip) {
-                    Image(
-                        painter = painterResource(com.cboda.baselibrary.R.mipmap.new_vip),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .size(width = 17.dp, height = 14.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                }
+//                if (isVip) {
+//                    Image(
+//                        painter = painterResource(com.cboda.baselibrary.R.mipmap.new_vip),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .align(Alignment.TopStart)
+//                            .size(width = 17.dp, height = 14.dp),
+//                        contentScale = ContentScale.Crop
+//                    )
+//                }
             }
 
 //            Box(
