@@ -1,0 +1,24 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 第一层：外层大边框 -->
+    <item android:width="@dimen/dp_239" android:height="@dimen/dp_124">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:bottomRightRadius="10dp"
+                android:bottomLeftRadius="10dp"
+                android:topLeftRadius="10dp"/>
+        </shape>
+    </item>
+
+    <!-- 第二层：内层小背景 -->
+    <item android:width="@dimen/dp_239" android:height="@dimen/dp_62">
+        <shape android:shape="rectangle">
+            <gradient android:startColor="#008CCAFF" android:centerColor="#268CCAFF" android:endColor="#4D8CCAFF" android:angle="90"/>
+
+            <corners
+                android:topLeftRadius="10dp"/>
+        </shape>
+    </item>
+
+
+</layer-list>

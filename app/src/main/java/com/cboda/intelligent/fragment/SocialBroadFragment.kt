@@ -208,7 +208,7 @@ fun SocialScreen(
                 val explanationText = state.selectedCircleTag?.let { tag ->
                     state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
                 } ?: stringResource(R.string.all)
-                CharacterExplanation(text = explanationText)
+                CharacterExplanation(text = explanationText,state.selectedCircleTag,state.contactsAll.size,state.filteredContacts.size)
             }
             state.indexLetters.forEach { letter ->
                 stickyHeader(key = "header_$letter") {
@@ -500,15 +500,30 @@ private fun CirclesRow(
 }
 
 @Composable
-private fun CharacterExplanation(text: String) {
-    Box(
+private fun CharacterExplanation(text: String, selectedCircleTag: String?, size: Int, size1: Int) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
 //            .background(Color(0xFFF7F8FA))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+        val strTemp= if (selectedCircleTag.isNullOrEmpty()){
+            "$size${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
+        }else{
+            "$size1${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
+        }
         Text(
             text = goTempTranslateString(LocalContext.current, text),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+            fontSize = 14.sp,
+            color = Color.Black.copy(0.65f),
+            lineHeight = TextUnit(19.6f, TextUnitType.Sp),
+            fontWeight = FontWeight.W400
+        )
+        Text(
+            text = strTemp,
             fontSize = 14.sp,
             color = Color.Black.copy(0.65f),
             lineHeight = TextUnit(19.6f, TextUnitType.Sp),
