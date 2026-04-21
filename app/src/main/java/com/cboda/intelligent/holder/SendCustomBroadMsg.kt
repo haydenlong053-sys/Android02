@@ -26,11 +26,12 @@ class SendCustomBroadMsg {
         target: String,
         displayName: String,
         portrait: String,
-        activity: Activity
+        activity: Activity,
+        idno: String=""
     ) {
         val userInfo = ChatManager.Instance().getUserInfo(uid, false)
         val cardMessageContent =
-            CardMessageContent(0, uid, displayName, portrait, ChatManager.Instance().userId)
+            CardMessageContent(0, uid, displayName, portrait, ChatManager.Instance().userId,idno)
         cardMessageContent.name = userInfo.name
         val conversation = Conversation()
         conversation.target = target
