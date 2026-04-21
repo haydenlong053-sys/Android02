@@ -73,11 +73,16 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
                     break;
                 case "4":
                     holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_qiandao);
+                    break;
                 case "5":
                     holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_meeting);
                     break;
                 case "6":
                     holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_gift);
+                    break;
+                case "7":
+                case "8":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_point);
                     break;
             }
         }
