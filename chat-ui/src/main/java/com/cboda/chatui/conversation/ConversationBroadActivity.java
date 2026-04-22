@@ -29,6 +29,7 @@ import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.chatui.WfcFullBaseBroadActivity;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
@@ -63,7 +64,7 @@ import kotlin.jvm.functions.Function1;
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
 
-public class ConversationBroadActivity extends WfcBaseBroadActivity {
+public class ConversationBroadActivity extends WfcFullBaseBroadActivity {
     private boolean isInitialized = false;
     private ConversationBroadFragment conversationBroadFragment;
     private Conversation conversationBroad;
@@ -314,7 +315,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         pageTitleRightIcon = findViewById(R.id.page_title_right_icon);
         mIvBack2 = findViewById(R.id.mIvBack2);
         rightView = findViewById(R.id.rightView);
-
+        addTitleBarMarginTop(findViewById(R.id.page_title_layout));
         pageTitleRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -98,6 +98,7 @@ dependencies {
     implementation libs.androidx.gridlayout
     implementation libs.kvh.amr
     implementation libs.viewpagerdotsindicator
+    implementation libs.immersionbar
     coreLibraryDesugaring libs.desugar.jdk.libs
 //    api project(':chat-emoji')
 //    api files('libs/broad_chat_client.aar')

@@ -1144,24 +1144,30 @@ public class ConversationBroadFragment extends Fragment implements
     }
 
     public void setConversationBackgroundImage(String uri) {
-        if (rootLinearLayoutBroad == null) {
+        if (!isAdded() || getActivity() == null) {
             this.backgroundImageBroadUri = uri;
             return;
         }
-        ScrollView scrollView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundScrollView);
-        ImageView imageView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundImageView);
-        scrollView.setVisibility(VISIBLE);
+        ImageView imageView = getActivity().findViewById(R.id.conversationBackgroundImageView);
+        if (imageView == null) {
+            this.backgroundImageBroadUri = uri;
+            return;
+        }
+        imageView.setVisibility(VISIBLE);
         Glide.with(this).load(uri).into(imageView);
     }
 
     public void setConversationBackgroundImage(int drawableId) {
-        if (rootLinearLayoutBroad == null) {
+        if (!isAdded() || getActivity() == null) {
             this.backgroundImageBroadResId = drawableId;
             return;
         }
-        ScrollView scrollView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundScrollView);
-        ImageView imageView = rootLinearLayoutBroad.findViewById(R.id.conversationBackgroundImageView);
-        scrollView.setVisibility(VISIBLE);
+        ImageView imageView = getActivity().findViewById(R.id.conversationBackgroundImageView);
+        if (imageView == null) {
+            this.backgroundImageBroadResId = drawableId;
+            return;
+        }
+        imageView.setVisibility(VISIBLE);
         Glide.with(this).load(backgroundImageBroadResId).into(imageView);
     }
 
