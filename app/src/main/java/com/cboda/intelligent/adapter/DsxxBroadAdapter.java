@@ -42,7 +42,7 @@ public class DsxxBroadAdapter extends RecyclerView.Adapter<DsxxBroadAdapter.MyHo
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_hyy, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_hyy2, parent, false);
         return new MyHolder(view);
     }
 
@@ -58,12 +58,13 @@ public class DsxxBroadAdapter extends RecyclerView.Adapter<DsxxBroadAdapter.MyHo
             imageAdapter.setOnItemClickListener(new ImageBroadAdapter.OnItemClickListener() {
                 @Override
                 public void OnItemClick(int firstposition) {
-                    ImagePreview
-                            .getInstance()
-                            .setContext(context)
-                            .setIndex(firstposition)
-                            .setImageList(list.get(position).imgs)
-                            .start();
+//                    ImagePreview
+//                            .getInstance()
+//                            .setContext(context)
+//                            .setIndex(firstposition)
+//                            .setImageList(list.get(position).imgs)
+//                            .start();
+                    onItemClickListener.OnItemDeleteClickListener(position);
                 }
             });
         }else
@@ -85,6 +86,13 @@ public class DsxxBroadAdapter extends RecyclerView.Adapter<DsxxBroadAdapter.MyHo
             @Override
             public void onClick(View view) {
                 onItemClickListener.OnItemClickListener(position);
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.OnItemDeleteClickListener(position);
+                return true;
             }
         });
 

@@ -9,6 +9,7 @@ import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
+import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.eLogD
 import com.google.gson.reflect.TypeToken
@@ -17,6 +18,7 @@ object E {
 
     fun getUserName(userId: String, groupId: String, refresh: Boolean = false, callBack: (String) -> Unit) {
         // TODO optimize 缓存userInfo吧
+//        eLogD(APP_TAG,"userId==$userId---groupId==$groupId,")
         var displayName: String? = ""
         val userInfo = ChatManager.Instance().getUserInfo(userId, groupId, refresh)
         if (userInfo != null) {
