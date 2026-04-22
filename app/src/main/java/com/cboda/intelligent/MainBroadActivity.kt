@@ -649,12 +649,13 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     imageUrl = bean.imageUrl,
                                     previewContent = bean.previewContent,
                                     noticeTitle = bean.noticeTitle,
-                                    status = bean.isStatus
+                                    status = bean.isStatus,
+                                    createTime =  bean.createTime
                                 )
                             )
                         } else if (message.sender == "admin" && message.content is PrivateNoticeInformMessageContent){
                             val bean = message.content as PrivateNoticeInformMessageContent
-                            eLogD(APP_TAG,"PrivateNoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")
+                            eLogD(APP_TAG,"PrivateNoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}--${bean.createTime}")
                             EventBus.getDefault().post(
                                 NoticeInfoBroadBean(
                                     id = bean.id,
@@ -663,7 +664,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     imageUrl = bean.imageUrl,
                                     previewContent = bean.previewContent,
                                     noticeTitle = bean.noticeTitle,
-                                    status = bean.isStatus
+                                    status = bean.isStatus,
+                                    createTime =  bean.createTime
                                 )
                             )
                         }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
