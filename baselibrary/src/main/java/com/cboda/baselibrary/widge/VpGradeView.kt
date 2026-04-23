@@ -89,6 +89,7 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 binding.vpGvGradeTv.setBackColor2(R.color.black, R.color.color_31231A, R.color.black)
                 binding.vpGvGradeTv.setTxtColor(R.color.color_FAE77C)
             } else {
+                //通过注册天数判断信用分底色
                 val registrationDayScore = anyToInt(MMKVBroadUtils.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""))
                 val registrationDay = anyToInt(registerDay)
                 if (null != registerDay && registrationDay >= registrationDayScore) {

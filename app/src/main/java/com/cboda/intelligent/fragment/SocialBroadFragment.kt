@@ -1,6 +1,7 @@
 package com.cboda.intelligent.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -201,7 +202,7 @@ fun SocialScreen(
                 val explanationText = state.selectedCircleTag?.let { tag ->
                     state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
                 } ?: stringResource(R.string.all)
-                CharacterExplanation(text = explanationText,state.selectedCircleTag,state.contactsAll.size,state.filteredContacts.size)
+                CharacterExplanation(text = explanationText, state.selectedCircleTag, state.contactsAll.size, state.filteredContacts.size)
             }
             state.indexLetters.forEach { letter ->
                 stickyHeader(key = "header_$letter") {
@@ -500,9 +501,9 @@ private fun CharacterExplanation(text: String, selectedCircleTag: String?, size:
 //            .background(Color(0xFFF7F8FA))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        val strTemp= if (selectedCircleTag.isNullOrEmpty()){
+        val strTemp = if (selectedCircleTag.isNullOrEmpty()) {
             "$size${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
-        }else{
+        } else {
             "$size1${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
         }
         Text(
@@ -599,7 +600,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                 update = { view ->
                     view.setData2(
                         contact.icon,
-                        contact.lianghao == "1",
+                        !TextUtils.isEmpty(contact.lianghao),
                         contact.isvip == "1",
                         contact.grade,
                         contact.registerDay
