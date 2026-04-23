@@ -96,6 +96,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                 "/duiInfo",
                                 JSONObject(map).toString(),
                                 CommonResultBroadBean(),
+                                showLoading = false,
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
@@ -490,6 +491,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                 "/groupInfo",
                                 JSONObject(map).toString(),
                                 CommonResultBroadBean(),
+                                showLoading = false,
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
@@ -868,6 +870,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
             "/duiInfo",
             JSONObject(map).toString(),
             CommonResultBroadBean(),
+            showLoading = false,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
@@ -908,6 +911,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
             "/groupInfo",
             JSONObject(map).toString(),
             CommonResultBroadBean(),
+            showLoading = false,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
