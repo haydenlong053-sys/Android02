@@ -683,7 +683,37 @@ class CommViewBroadModel : FriendViewBroadModel() {
     }
 
 
-    fun getQunUser(context: Context?, id: String) {
+    var qunUserListPageLiveData = MutableLiveData<CommonDataListBroadBean>()
+
+    fun getQunUserPage(context: Context?, id: String, showLoading: Boolean = false) {
+
+        val map = mapOf(
+            "id" to id,
+            "pageNo" to "1",
+            "pageSize" to "500"
+        )
+
+        okGoHelper.post(
+            context,
+            "/groupUserListPage",
+            JSONObject(map).toString(),
+            CommonDataListBroadBean(),
+            showToast = true,
+            showLoading = showLoading,
+            callBack = object : OKGoBroadHelper.RequestCallBack {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
+                        qunUserListPageLiveData.value = bean
+                    }
+                }
+
+                override fun onFail(bean: BaseBroadResponse?) {
+                }
+            },
+        )
+    }
+
+    fun getQunUser(context: Context?, id: String,showLoading: Boolean = false) {
 
         val map = mapOf(
             "id" to id,
@@ -695,7 +725,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
             JSONObject(map).toString(),
             CommonDataListBroadBean(),
             showToast = true,
-            showLoading = false,
+            showLoading = showLoading,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonDataListBroadBean) {
@@ -1273,18 +1303,17 @@ class CommViewBroadModel : FriendViewBroadModel() {
         )
     }
 
-    fun gonggaoxiangqing(context: Context?, qunid: String) {
+    fun gonggaoxiangqing(context: Context?, qunid: String, showLoading: Boolean = false) {
         val map = mapOf(
             "id" to qunid,
         )
-
         okGoHelper.post(
             context,
             "/groupInfo",
             JSONObject(map).toString(),
             CommonResultBroadBean(),
             showToast = true,
-            showLoading = false,
+            showLoading = showLoading,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {

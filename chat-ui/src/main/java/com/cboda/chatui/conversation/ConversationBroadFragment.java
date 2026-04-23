@@ -1120,7 +1120,6 @@ public class ConversationBroadFragment extends Fragment implements
             messageBroadViewModel.sendMessage(conversation, content, false);
         } else if (conversation.type == Conversation.ConversationType.Group) {
             messageBroadViewModel.getMsgDetailUserData(conversation.target);
-
         }
 
         ConversationInfo conversationInfo = ChatManager.Instance().getConversation(conversation);

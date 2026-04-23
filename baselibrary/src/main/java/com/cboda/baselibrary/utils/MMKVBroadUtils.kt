@@ -363,21 +363,21 @@ class MMKVBroadUtils {
 
 
         fun saveUserData(list: List<CommonDataListBroadBean.CommonBean>?) {
-            val glList = arrayListOf<GlobalFriendBroadBean>()
-            list?.let {
-                list.forEach { item ->
-                    val glBean = GlobalFriendBroadBean()
-                    glBean.userId = item.userId
-                    glBean.icon = item.icon
-                    glBean.isVip = "1" == item.isvip
-                    glBean.nickName = item.name
-                    glBean.registerDay = item.registerDay
-                    glBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
-                    glBean.grade = item.grade
-                    glList.add(glBean)
-                }
-                saveUserListData(glList)
-            }
+//            val glList = arrayListOf<GlobalFriendBroadBean>()
+//            list?.let {
+//                list.forEach { item ->
+//                    val glBean = GlobalFriendBroadBean()
+//                    glBean.userId = item.userId
+//                    glBean.icon = item.icon
+//                    glBean.isVip = "1" == item.isvip
+//                    glBean.nickName = item.name
+//                    glBean.registerDay = item.registerDay
+//                    glBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
+//                    glBean.grade = item.grade
+//                    glList.add(glBean)
+//                }
+//                saveUserListData(glList)
+//            }
         }
 
         fun saveUserData(data: CommonResultBroadBean.CommonResult?) {

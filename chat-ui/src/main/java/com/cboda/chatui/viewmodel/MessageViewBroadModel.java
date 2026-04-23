@@ -351,15 +351,16 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
 
 
     public void sendMessage(Conversation conversation, MessageContent content, Boolean isMeetingImage) {
-        if (conversation.type == Conversation.ConversationType.Group && null == userGroupData) {
-            E.INSTANCE.getDetailUserData(conversation.target, commonBean -> {
-                userGroupData = commonBean;
-                sendMessageAfter(conversation, content, isMeetingImage);
-                return null;
-            });
-        } else {
-            sendMessageAfter(conversation, content, isMeetingImage);
-        }
+//        if (conversation.type == Conversation.ConversationType.Group && null == userGroupData) {
+//            E.INSTANCE.getDetailUserData(conversation.target, commonBean -> {
+//                userGroupData = commonBean;
+//                sendMessageAfter(conversation, content, isMeetingImage);
+//                return null;
+//            });
+//        } else {
+//            sendMessageAfter(conversation, content, isMeetingImage);
+//        }
+        sendMessageAfter(conversation, content, isMeetingImage);
     }
 
     public void sendMessageAfter(Conversation conversation, MessageContent content, Boolean isMeetingImage) {
