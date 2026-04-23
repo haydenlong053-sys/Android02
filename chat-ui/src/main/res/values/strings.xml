@@ -422,6 +422,6 @@
     <string name="chat_meet_service_tip">Tap to return to the app</string>
 
     <!--    个人名片vh-->
-    <string name="chat_recommend_friend">推荐好友</string>
-    <string name="chat_add_friend">添加好友</string>
+    <string name="chat_recommend_friend">Recommend Friends</string>
+    <string name="chat_add_friend">Add Friends</string>
 </resources>

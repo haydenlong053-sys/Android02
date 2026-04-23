@@ -184,4 +184,6 @@
     <string name="chat_meet_service_notification">Notifikasi layanan rapat latar depan</string>
     <string name="chat_meet_service_tip">Ketuk untuk kembali ke aplikasi</string>
 
+    <string name="chat_recommend_friend">Rekomendasikan teman</string>
+    <string name="chat_add_friend">Tambah teman</string>
 </resources>

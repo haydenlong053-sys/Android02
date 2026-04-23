@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">同期中...</string>
     <string name="connection_status_failed">接続失敗</string>
 
+    <string name="chat_recommend_friend">友だちをおすすめ</string>
+    <string name="chat_add_friend">友だちを追加</string>
 </resources>

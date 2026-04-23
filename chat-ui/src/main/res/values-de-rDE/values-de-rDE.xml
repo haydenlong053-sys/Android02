@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">Synchronisieren...</string>
     <string name="connection_status_failed">Verbindung fehlgeschlagen</string>
 
+    <string name="chat_recommend_friend">Freunde empfehlen</string>
+    <string name="chat_add_friend">Freunde hinzufügen</string>
 </resources>

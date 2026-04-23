@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">सिंक हो रहा है...</string>
     <string name="connection_status_failed">कनेक्शन विफल</string>
 
+    <string name="chat_recommend_friend">मित्र सुझाएँ</string>
+    <string name="chat_add_friend">मित्र जोड़ें</string>
 </resources>

@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Ana daidaitawa...</string>
     <string name="connection_status_failed">Haɗin ya gaza</string>
 
+    <string name="chat_recommend_friend">Ba da shawarar abokai</string>
+    <string name="chat_add_friend">Ƙara abokai</string>
 </resources>

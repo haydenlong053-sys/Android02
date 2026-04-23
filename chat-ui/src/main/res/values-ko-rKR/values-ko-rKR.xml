@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">동기화 중...</string>
     <string name="connection_status_failed">연결 실패</string>
 
+    <string name="chat_recommend_friend">친구 추천</string>
+    <string name="chat_add_friend">친구 추가</string>
 </resources>
