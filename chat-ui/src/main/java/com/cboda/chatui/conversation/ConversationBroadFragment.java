@@ -244,6 +244,8 @@ public class ConversationBroadFragment extends Fragment implements
     private TextView mTvMeetJoin, mTvMeetPeople;
     private boolean isGag = false;
     private boolean oldGag = false;
+    private final long TOUCH_INTERVAL_TIME=500L;
+    private long tempTime=0L;
 
     @Override
     public void onMeetTotalPersonCount(@NotNull String chanelId, int personCount) {
@@ -639,7 +641,19 @@ public class ConversationBroadFragment extends Fragment implements
         unreadMentionCountTextViewBroad = view.findViewById(R.id.unreadMentionCountTextView);
 
         view.findViewById(R.id.contentLayout).setOnTouchListener((v, event) -> ConversationBroadFragment.this.onTouch(v, event));
-        recyclerViewBroad.setOnTouchListener((v, event) -> ConversationBroadFragment.this.onTouch(v, event));
+        recyclerViewBroad.setOnTouchListener((v, e) -> {
+            if (e.getAction() == MotionEvent.ACTION_DOWN){
+               tempTime= System.currentTimeMillis();
+            }else if (e.getAction() == MotionEvent.ACTION_UP){
+                View childViewUnder = recyclerViewBroad.findChildViewUnder(e.getX(), e.getY());
+//                eLogD(APP_TAG,"childViewUnder==="+childViewUnder);
+                if (childViewUnder == null && (System.currentTimeMillis() -tempTime)>=TOUCH_INTERVAL_TIME) {
+                    // 点击空白区域
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(getActivity(), BridgeImEnum.CHAT_BG.getValue(),"","",null);
+                }
+            }
+            return ConversationBroadFragment.this.onTouch(v, e);
+        });
         gonggaoxinxiBroad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
