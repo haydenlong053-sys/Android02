@@ -14,6 +14,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="你邀请了xx加入"
+        android:textSize="12sp"
         android:textColor="@color/color_text_notification" />
 
 </LinearLayout>
