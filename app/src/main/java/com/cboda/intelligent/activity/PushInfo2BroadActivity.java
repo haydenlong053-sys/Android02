@@ -128,11 +128,11 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         pwd = getIntent().getStringExtra("pwd");
         initViews();
         //82环境登录隐藏二维码刷新
-        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
-            requestQrCode.setVisibility(View.GONE);
-        } else {
-            requestQrCode.setVisibility(View.VISIBLE);
-        }
+//        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+//            requestQrCode.setVisibility(View.GONE);
+//        } else {
+//            requestQrCode.setVisibility(View.VISIBLE);
+//        }
         BarUtils.addMarginTopEqualStatusBarHeight(myToolView);
         tvMyTitle.setText(getResources().getString(R.string.m_account_info));
         mIvMyBack.setOnClickListener(new OnSingleClickBroadListener() {
