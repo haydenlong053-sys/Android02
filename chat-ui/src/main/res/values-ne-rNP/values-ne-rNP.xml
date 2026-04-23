@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">सिङ्क्रोनाइज हुँदै...</string>
     <string name="connection_status_failed">जडान असफल</string>
 
+    <string name="chat_recommend_friend">साथी सिफारिस गर्नुहोस्</string>
+    <string name="chat_add_friend">साथी थप्नुहोस्</string>
 </resources>

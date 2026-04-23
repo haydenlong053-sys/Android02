@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">مطابقت پذیری ہو رہی ہے...</string>
     <string name="connection_status_failed">کنکشن ناکام</string>
 
+    <string name="chat_recommend_friend">دوست تجویز کریں</string>
+    <string name="chat_add_friend">دوست شامل کریں</string>
 </resources>

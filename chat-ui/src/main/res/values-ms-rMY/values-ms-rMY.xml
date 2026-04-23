@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Menyegerakkan...</string>
     <string name="connection_status_failed">Sambungan gagal</string>
 
+    <string name="chat_recommend_friend">Syorkan rakan</string>
+    <string name="chat_add_friend">Tambah rakan</string>
 </resources>

@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Συγχρονισμός...</string>
     <string name="connection_status_failed">Αποτυχία σύνδεσης</string>
 
+    <string name="chat_recommend_friend">Πρότεινε φίλους</string>
+    <string name="chat_add_friend">Προσθήκη φίλων</string>
 </resources>

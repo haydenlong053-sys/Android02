@@ -427,4 +427,6 @@
     <string name="chat_meet_service_notification">会议前台服务通知</string>
     <string name="chat_meet_service_tip">点击回到app</string>
 
+    <string name="chat_recommend_friend">推荐好友</string>
+    <string name="chat_add_friend">添加好友</string>
 </resources>

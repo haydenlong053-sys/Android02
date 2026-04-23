@@ -189,4 +189,6 @@
     <string name="chat_meet_service_notification">Уведомление службы совещаний на переднем плане</string>
     <string name="chat_meet_service_tip">Нажмите, чтобы вернуться в приложение</string>
 
+    <string name="chat_recommend_friend">Рекомендовать друзей</string>
+    <string name="chat_add_friend">Добавить друзей</string>
 </resources>

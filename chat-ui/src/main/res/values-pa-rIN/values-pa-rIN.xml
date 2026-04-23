@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">ਸਿੰਕ ਹੋ ਰਿਹਾ ਹੈ...</string>
     <string name="connection_status_failed">ਕਨੈਕਸ਼ਨ ਅਸਫਲ</string>
 
+    <string name="chat_recommend_friend">ਦੋਸਤਾਂ ਦੀ ਸਿਫਾਰਸ਼ ਕਰੋ</string>
+    <string name="chat_add_friend">ਦੋਸਤ ਸ਼ਾਮਲ ਕਰੋ</string>
 </resources>

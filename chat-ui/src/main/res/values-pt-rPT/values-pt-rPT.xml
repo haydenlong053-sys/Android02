@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Sincronizando...</string>
     <string name="connection_status_failed">Falha na conexão</string>
 
+    <string name="chat_recommend_friend">Recomendar amigos</string>
+    <string name="chat_add_friend">Adicionar amigos</string>
 </resources>
