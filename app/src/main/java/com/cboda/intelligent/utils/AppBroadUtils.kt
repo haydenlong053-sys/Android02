@@ -203,7 +203,7 @@ class AppBroadUtils {
             myImUserToken: String?,
             fromType: String = ""
         ) {
-            debug("imLogin", "--> $uid  $myImUserToken")
+            eLogD("imLogin", "--> $uid  $myImUserToken")
 
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
@@ -219,7 +219,7 @@ class AppBroadUtils {
             //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
             val connextStatus =
                 ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
-            debug("野火", "connect----> $connextStatus --> }")
+            eLogD("野火", "connect----> $connextStatus --> }")
 //            txLogin()
             MyBroadApp.initOkGo()
             MainScope().launch {

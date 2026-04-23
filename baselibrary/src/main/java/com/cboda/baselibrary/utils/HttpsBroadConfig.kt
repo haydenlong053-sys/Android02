@@ -73,8 +73,7 @@ object HttpsBroadConfig {
                 appImServerHost = "im.seekweb4.ai"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api.seekweb4.ai"
-                appAesPwd = "f81q30ryiacasda1"
-//                appAesPwd = "PgGMe2BWyp8G3SFxdn5fDjL5rFUoTYm1"
+                appAesPwd = "PgGMe2BWyp8G3SFxdn5fDjL5rFUoTYm1"
                 appWebHost = appHost
             }
 

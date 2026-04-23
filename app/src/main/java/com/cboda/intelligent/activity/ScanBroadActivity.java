@@ -439,7 +439,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                     if (jumpSource == ScanJumpBroadEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, DeviceBroadUtil.INSTANCE.getAndroidId(ScanBroadActivity.this))) {
                         EventBus.getDefault().post(new AppBroadEvent<>(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean));
                     } else {
-                        AppBroadUtils.Companion.imLogin(ScanBroadActivity.this, resultBean.apptoken, resultBean.userSign, resultBean.userId, resultBean.imtoken);
+                        AppBroadUtils.Companion.imLogin(ScanBroadActivity.this, resultBean.apptoken, resultBean.userId, resultBean.imtoken, "ScanBroadActivity");
                     }
                     finish();
                 }
