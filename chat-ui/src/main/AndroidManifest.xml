@@ -60,7 +60,8 @@
             android:screenOrientation="portrait" />-->
         <activity
             android:name="com.cboda.chatui.conversation.ConversationBroadActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name="com.cboda.chatui.mm.TakePhotoBroadActivity"

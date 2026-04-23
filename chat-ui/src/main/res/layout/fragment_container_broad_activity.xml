@@ -15,7 +15,7 @@
         android:visibility="gone"
         tools:ignore="ContentDescription" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -23,13 +23,21 @@
         <include
             android:id="@+id/toobarlay"
             layout="@layout/toolbar"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
+        <FrameLayout
+            android:id="@+id/containerFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_55"
+            />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/page_title_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/dp_55"
+            >
 
             <com.hjq.shape.view.ShapeView
                 android:id="@+id/page_title_left_icon"
@@ -170,12 +178,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-            android:id="@+id/containerFrameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
-
-    </LinearLayout>
+    </FrameLayout>
 
 </FrameLayout>
