@@ -157,6 +157,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/item_margin_left_and_right"
+            tools:visibility="visible"
             android:clickable="false"
             android:visibility="gone" />
 
