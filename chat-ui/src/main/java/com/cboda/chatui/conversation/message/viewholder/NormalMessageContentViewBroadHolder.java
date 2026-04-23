@@ -28,13 +28,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.AppServiceBroadProvider;
 import com.cboda.chatui.ChatManagerBroadHolder;
@@ -42,6 +42,7 @@ import com.cboda.chatui.BroadConfig;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcUIBroadKit;
 import com.cboda.chatui.annotation.MessageContextMenuBroadItem;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadActivity;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.ConversationMessageBroadAdapter;
@@ -89,6 +90,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
     ProgressBar progressBar;
     CheckBox checkBox;
     View nameLayout;
+    View messageRootLinearLayout;
 
     @Nullable
     ImageView singleReceiptImageView;
@@ -114,10 +116,19 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
         if (groupReceiptFrameLayout != null) {
             groupReceiptFrameLayout.setOnClickListener(this::OnGroupMessageReceiptClick);
         }
+        if (messageRootLinearLayout != null) {
+            messageRootLinearLayout.setOnClickListener(this::onClickChatBG);
+            messageRootLinearLayout.setOnLongClickListener(v -> {
+                onClickChatBG(v);
+                MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getActivity(), BridgeImEnum.CHAT_BG.getValue(),"","",message);
+                return true;
+            });
+        }
     }
 
     private void bindViews(View itemView) {
 //        portraitImageView = itemView.findViewById(R.id.portraitImageView);
+        messageRootLinearLayout = itemView.findViewById(R.id.messageRootLinearLayout);
         nameLayout = itemView.findViewById(R.id.nameLayout);
         singleVgView = itemView.findViewById(R.id.singleVgView);
         errorLinearLayout = itemView.findViewById(R.id.errorLinearLayout);
@@ -198,6 +209,11 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 
     public void OnGroupMessageReceiptClick(View itemView) {
         ((ConversationMessageBroadAdapter) adapter).onGroupMessageReceiptClick(message.message);
+    }
+
+
+    public void onClickChatBG(View itemView) {
+        ((ConversationMessageBroadAdapter) adapter).onLongClickChatBG(message.message);
     }
 
     @MessageContextMenuBroadItem(tag = MessageContextMenuItemBroadTags.TAG_RECALL, priority = 10)

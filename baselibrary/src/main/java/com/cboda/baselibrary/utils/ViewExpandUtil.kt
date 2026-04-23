@@ -1207,3 +1207,17 @@ fun View.setMarginBottom(pxValue: Int?) {
 fun View.setPaddingHorizontal(px: Int) {
     setPaddingRelative(px, paddingTop, px, paddingBottom)
 }
+
+//设置聊天背景
+fun goSetChatBgDialog(context: Context? = null, block: (Int, ComBottomListBean) -> Unit): CommonBottomListPop {
+    val list = arrayListOf<ComBottomListBean>()
+    list.add(ComBottomListBean().apply {
+        itemContent = "设置聊天背景"
+    })
+    //暂时去掉
+//    list.add(ComBottomListBean().apply {
+//        iconRes = com.cboda.chatui.R.mipmap.icon_mute
+//        itemContent = getAppStr(R.string.msg_meeting_mute, context)
+//    })
+    return showCommonBottomListPop(list, context, block = block)
+}

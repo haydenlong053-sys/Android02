@@ -2,20 +2,17 @@ package com.cboda.intelligent.holder
 
 import android.content.Context
 import android.content.Intent
-import com.cboda.chatui.bridge.MyCommonBroadBridge
-import com.cboda.chatui.bridge.MyBroadEvent
-import com.cboda.chatui.conversation.message.model.UiBroadMessage
-import com.cboda.baselibrary.common.BridgeImEnum
-import com.cboda.baselibrary.common.MyEventCodeEnum
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.TextMessageContent
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
 import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.common.BridgeImEnum
+import com.cboda.baselibrary.common.MyEventCodeEnum
 import com.cboda.baselibrary.event.FanYiBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
@@ -23,24 +20,31 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
 import com.cboda.baselibrary.utils.eLogD
-import com.google.gson.Gson
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
-import com.cboda.chatemoji.EmotionBroadEvent
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.goSetChatBgDialog
+import com.cboda.chatui.bridge.MyBroadEvent
+import com.cboda.chatui.bridge.MyCommonBroadBridge
+import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.QuickMeetingCreateActivity
+import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity
 import com.cboda.intelligent.bean.MeetingDetailBroadBean
 import com.cboda.intelligent.bean.NoResultBroadBean
-import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity
-import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
+import com.cboda.intelligent.utils.JumpBroadUtils
+import com.cboda.intelligent.utils.OKGoBroadHelper
+import com.cboda.intelligent.utils.QuickJsonBroadUtils
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.StringBroadUtil
-import com.cboda.intelligent.utils.*
-import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.google.gson.Gson
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
@@ -646,6 +650,13 @@ class MyImManagerBroadHolder(private val context: Context?) {
                         BridgeImEnum.COLLECT_IM.value -> {
                             JumpBroadUtils.startMyCollectActivity(mContext, params ?: "", params2 ?: "")
                         }
+
+                        BridgeImEnum.CHAT_BG.value -> {
+                            goSetChatBgDialog(getAppContext()){ i,_->
+                               JumpBroadUtils.startChatBgActivity()
+                            }
+                        }
+
 
                         BridgeImEnum.MEETING_ROOM.value -> {
                             if (MeetCallManager.getInstance().isIdleState()) {

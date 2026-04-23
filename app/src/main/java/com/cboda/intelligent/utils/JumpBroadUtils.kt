@@ -10,6 +10,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.search.SearchPortalBroadActivity
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.activity.AiCheckResultBroadActivity
+import com.cboda.intelligent.activity.ChatBgBroadActivity
 import com.cboda.intelligent.activity.CreateQunBroadActivity
 import com.cboda.intelligent.activity.CreditScoreActivity
 import com.cboda.intelligent.activity.DsxxAddBroadActivity
@@ -55,6 +56,7 @@ import com.cboda.intelligent.activity.ZhuanZhangPageBroadActivity
 import com.cboda.intelligent.activity.ZhuanzhangBroadActivity
 import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
+import kotlin.jvm.java
 
 
 class JumpBroadUtils {
@@ -543,5 +545,12 @@ class JumpBroadUtils {
             val intent = Intent(context, CreditScoreActivity::class.java)
             context?.startActivity(intent)
         }
+
+        fun startChatBgActivity(context: Context=getAppContext(), type: String="1") {
+            val intent = Intent(context, ChatBgBroadActivity::class.java)
+            intent.putExtra("type", type)
+            context.startActivity(intent)
+        }
+
     }
 }

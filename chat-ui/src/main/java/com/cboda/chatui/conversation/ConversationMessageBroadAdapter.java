@@ -429,6 +429,12 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         return null;
     }
 
+    public void onLongClickChatBG(Message message) {
+        if (fragment != null) {
+            fragment.onTouch(null,null);
+        }
+    }
+
     private static class ContextMenuItemWrapper {
         MessageContextMenuBroadItem contextMenuItem;
         Method method;
