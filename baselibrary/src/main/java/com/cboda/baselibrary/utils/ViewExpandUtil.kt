@@ -1207,3 +1207,19 @@ fun View.setMarginBottom(pxValue: Int?) {
 fun View.setPaddingHorizontal(px: Int) {
     setPaddingRelative(px, paddingTop, px, paddingBottom)
 }
+
+
+fun getSysLast(list: List<Any?>?): Any? {
+    if (!list.isNullOrEmpty()) {
+        return list.get(list.size - 1)
+    }
+    return null
+} //    private static final String AES_KEY = HttpsBroadConfig.INSTANCE.getAppAesPwd();
+//
+//    public static String aesDecrypt(String encrypted) throws Exception {
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
+//        Cipher cipher = Cipher.getInstance("AES");
+//        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+//        byte[] original = cipher.doFinal(Base64.decode(encrypted, Base64.DEFAULT));
+//        return new String(original);
+//    }

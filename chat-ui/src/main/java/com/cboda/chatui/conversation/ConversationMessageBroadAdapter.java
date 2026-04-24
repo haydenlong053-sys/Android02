@@ -14,6 +14,7 @@ import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getSysLast;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
@@ -545,7 +546,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                                 GlobalFriendBroadBean globalFriendBroadBean = stringGlobalFriendBroadBeanHashMap.get(message.message.sender);
                                 if (null != globalFriendBroadBean) {
                                     singleVgView.setGradeData(globalFriendBroadBean.grade != null && message.message.conversation.type == Conversation.ConversationType.Group ? globalFriendBroadBean.grade : null);
-                                }else{
+                                } else {
                                     singleVgView.setGradeData(null);
                                 }
                                 return null;
@@ -1225,7 +1226,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     }
 
     public void dismissLoadingNewMessageProgressBar() {
-        if (messages == null || messages.isEmpty() || messages.getLast() != null) {
+        if (messages == null || messages.isEmpty() || getSysLast(messages) != null) {
             return;
         }
         int position = messages.size() - 1;
