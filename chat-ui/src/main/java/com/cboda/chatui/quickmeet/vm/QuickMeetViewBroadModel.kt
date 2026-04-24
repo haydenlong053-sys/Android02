@@ -27,7 +27,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
      * 直播信息查询
      */
     suspend fun goQuickMeetInfo(groupIdNo: String, liveStatus: String): SingleLiveBroadData<QuickMeetInfoBean> {
-        showLoadingWfc()
+//        showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickMeetInfoBean>()
         val params = hashMapOf("groupIdNo" to groupIdNo, "liveStatus" to liveStatus)
         withContext(Dispatchers.IO) {
@@ -37,21 +37,21 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
                     QuickMeetInfoBean::class.java,
                     params
                 ).onSuccess { userInfo ->
-                    dismissLoadingWfc()
+//                    dismissLoadingWfc()
                     userInfo?.let {
                         safeCenterLiveData.postValue(it)
                     }
 
                 }.onFailure { code, message ->
-                    dismissLoadingWfc()
+//                    dismissLoadingWfc()
                     ToastBroadUtils.show(message)
                 }.onError {
-                    dismissLoadingWfc()
+//                    dismissLoadingWfc()
                 }
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                dismissLoadingWfc()
+//                dismissLoadingWfc()
             }
         }
         return safeCenterLiveData
