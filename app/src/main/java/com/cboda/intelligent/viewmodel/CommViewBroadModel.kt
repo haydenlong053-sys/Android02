@@ -684,6 +684,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
 
     var qunUserListPageLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var qunUserListPageLiveData2 = MutableLiveData<CommonDataListBroadBean>()
 
     fun getQunUserPage(context: Context?, id: String, showLoading: Boolean = false) {
 
@@ -704,6 +705,33 @@ class CommViewBroadModel : FriendViewBroadModel() {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonDataListBroadBean) {
                         qunUserListPageLiveData.value = bean
+                    }
+                }
+
+                override fun onFail(bean: BaseBroadResponse?) {
+                }
+            },
+        )
+    }
+    fun getQunUserPage2(context: Context?, id: String, pageNo: Int, pageSize : Int) {
+
+        val map = mapOf(
+            "id" to id,
+            "pageNo" to pageNo,
+            "pageSize" to pageSize
+        )
+
+        okGoHelper.post(
+            context,
+            "/groupUserListPage",
+            JSONObject(map).toString(),
+            CommonDataListBroadBean(),
+            showToast = true,
+            showLoading = (pageNo==1),
+            callBack = object : OKGoBroadHelper.RequestCallBack {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
+                        qunUserListPageLiveData2.value = bean
                     }
                 }
 

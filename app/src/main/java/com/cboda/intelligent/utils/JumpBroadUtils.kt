@@ -44,6 +44,7 @@ import com.cboda.intelligent.activity.QunMemberListBroadActivity
 import com.cboda.intelligent.activity.QunNameBroadActivity
 import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
+import com.cboda.intelligent.activity.QunUserList2BroadActivity
 import com.cboda.intelligent.activity.QunUserListBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
@@ -266,7 +267,7 @@ class JumpBroadUtils {
         }
 
         fun startQunUserListActivity(context: Context?, qunId: String) {
-            val intent = Intent(context, QunUserListBroadActivity::class.java)
+            val intent = Intent(context, QunUserList2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }

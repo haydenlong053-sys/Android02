@@ -12,6 +12,7 @@ import com.cboda.baselibrary.bean.CommonResultBroadBean.CommonResult
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
+@Deprecated("废弃")
 class QunUserListBroadActivity : BaseSimpleBroadActivity() {
     private var qunId = ""
     private var viewModel: CommViewBroadModel? = null
