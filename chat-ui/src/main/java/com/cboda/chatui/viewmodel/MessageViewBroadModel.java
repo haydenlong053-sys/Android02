@@ -344,9 +344,10 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
 
     public void getMsgDetailUserData(String groupId) {
         E.INSTANCE.getDetailUserData(groupId, commonBean -> {
-            userGroupData = commonBean;
+//            userGroupData = commonBean;
             return null;
         });
+
     }
 
 
@@ -364,11 +365,11 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     }
 
     public void sendMessageAfter(Conversation conversation, MessageContent content, Boolean isMeetingImage) {
-        if (conversation.type == Conversation.ConversationType.Group && null != userGroupData) {
-            content.extra = toJson2(new MsgBroadExtra(userGroupData.getGrade(), userGroupData.getJoinTime(), isMeetingImage ? "1" : ""));
-        } else if (isMeetingImage) {
-            content.extra = toJson2(new MsgBroadExtra(0.0, "", "1"));
-        }
+//        if (conversation.type == Conversation.ConversationType.Group) {
+//            content.extra = toJson2(new MsgBroadExtra(userGroupData.getGrade(), userGroupData.getJoinTime(), isMeetingImage ? "1" : ""));
+//        } else if (isMeetingImage) {
+//            content.extra = toJson2(new MsgBroadExtra(0.0, "", "1"));
+//        }
         //野火发送消息
         if (content instanceof TypingMessageContent) {
             Message msg = new Message();

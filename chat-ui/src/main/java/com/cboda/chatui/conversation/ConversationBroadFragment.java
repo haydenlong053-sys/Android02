@@ -680,7 +680,7 @@ public class ConversationBroadFragment extends Fragment implements
             this.recyclerViewBroad.setAdapter(this.adapterBroad);
         }
 
-        // TODO 要支持在线状态是才监听
+        //  要支持在线状态是才监听
         if ((conversation.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(conversation.target))
                 || conversation.type == Conversation.ConversationType.Group) {
             userOnlineStateBroadViewModel.watchUserOnlineState(conversation.type.getValue(), new String[]{conversation.target});
@@ -1077,7 +1077,7 @@ public class ConversationBroadFragment extends Fragment implements
             updateGroupMuteStatus();
             MeetCallManager.getInstance().unregisterEngineEvent(this);
             MeetCallManager.getInstance().registerEngineEvent(this);
-            eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
+//            eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
             if (MeetCallManager.getInstance().isCallingState()) {
                 if (null != danmakuIv) {
                     danmakuIv.setVisibility(VISIBLE);
@@ -1241,6 +1241,10 @@ public class ConversationBroadFragment extends Fragment implements
         adapterBroad.setReadEntries(ChatManager.Instance().getConversationRead(conversationBroad));
         messages.observe(this, uiMessages -> {
             swipeRefreshLayoutBroad.setRefreshing(false);
+            eLogD(TAG, "uiMessagesSize3:" + uiMessages.size());
+//            for (int i = 0; i < uiMessages.size(); i++) {
+//                uiMessages.get(i).message.sender
+//            }
 
             adapterBroad.setMessages(uiMessages);
             ThreadUtils.runOnUiThread(() -> {
@@ -1665,6 +1669,7 @@ public class ConversationBroadFragment extends Fragment implements
     public void reloadMessage() {
         conversationBroadViewModel.getMessages(conversationBroad, channelPrivateBroadChatUser).observe(this, uiMessages -> {
             adapterBroad.setMessages(uiMessages);
+            eLogD(TAG, "uiMessagesSize1:" + uiMessages.size());
             adapterBroad.notifyDataSetChanged();
         });
     }
@@ -1674,6 +1679,7 @@ public class ConversationBroadFragment extends Fragment implements
             for (int i = 0; i < uiMessages.size(); i++) {
                 uiMessages.get(i).message.status = MessageStatus.Sent;
             }
+            eLogD(TAG, "uiMessagesSize2:" + uiMessages.size());
             adapterBroad.setMessages(uiMessages);
             adapterBroad.notifyDataSetChanged();
         });

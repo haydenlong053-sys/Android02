@@ -6,12 +6,18 @@ import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.GlobalBroadInfo.queryMyFriendInfo
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
+import com.cboda.baselibrary.bean.GroupUserBean
+import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
+import com.cboda.baselibrary.network.NetworkBroadUtils.postEncrypted
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
 import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
+import com.cboda.baselibrary.utils.toLog
 import com.google.gson.reflect.TypeToken
 
 object E {
@@ -48,52 +54,66 @@ object E {
         }
     }
 
+
+
     fun getDetailUserData(
         groupId: String?,
         callBack: (bean: CommonDataListBroadBean.CommonBean?) -> Unit
     ) {
-        val map = mapOf("id" to groupId)
-        postEncryptedList(
-            UrlBroadConstants.GROUP_USER_LIST,
+        val map = mapOf("id" to groupId,"uid" to getRealUserId())
+        postEncrypted(
+            UrlBroadConstants.GROUP_ME_USER,
             map,
-            object : NetworkBroadUtils.ListCallback<CommonDataListBroadBean.CommonBean> {
+            object : NetworkBroadUtils.NetworkCallback<GroupUserBean> {
+//                override fun onError(throwable: Throwable) {
+//                    callBack.invoke(null)
+//                }
+//
+//                override fun onFailure(code: Int, message: String) {
+//                    callBack.invoke(null)
+//                }
+
+                //                override fun onSuccess(
+//                    list: List<CommonDataListBroadBean.CommonBean>?,
+//                    totalCount: Int,
+//                    totalPage: Int
+//                ) {
+//                    list?.also {
+//                        val gson = GsonUtils.getGson()
+//                        val jsonStr = gson.toJson(list)
+//                        val userList = gson.fromJson<MutableList<CommonDataListBroadBean.CommonBean>?>(
+//                            jsonStr,
+//                            object :
+//                                TypeToken<MutableList<CommonDataListBroadBean.CommonBean>?>() {}.type
+//                        )
+//                        userList?.also {
+//                            var commonBean: CommonDataListBroadBean.CommonBean? = null
+//                            for (bean in userList) {
+//                                if (bean.userId == getRealUserId()) {
+//                                    commonBean = bean
+//                                    break
+//                                }
+//                            }
+//                            callBack.invoke(commonBean)
+//                        } ?: also {
+//                            callBack.invoke(null)
+//                        }
+//                    } ?: also {
+//                        callBack.invoke(null)
+//                    }
+//                }
+                override fun onSuccess(data: GroupUserBean?) {
+                    eLogD("groupMeUserClass","success:${toJson2(data)}")
+                }
+
+                override fun onFailure(code: Int, message: String, data: GroupUserBean?) {
+                    eLogD("groupMeUserClass","onFailure:$code ,$message")
+                }
+
                 override fun onError(throwable: Throwable) {
-                    callBack.invoke(null)
+                    eLogD("groupMeUserClass","onError:${throwable.toLog("groupMeUserClass")}")
                 }
 
-                override fun onFailure(code: Int, message: String) {
-                    callBack.invoke(null)
-                }
-
-                override fun onSuccess(
-                    list: List<CommonDataListBroadBean.CommonBean>?,
-                    totalCount: Int,
-                    totalPage: Int
-                ) {
-                    list?.also {
-                        val gson = GsonUtils.getGson()
-                        val jsonStr = gson.toJson(list)
-                        val userList = gson.fromJson<MutableList<CommonDataListBroadBean.CommonBean>?>(
-                            jsonStr,
-                            object :
-                                TypeToken<MutableList<CommonDataListBroadBean.CommonBean>?>() {}.type
-                        )
-                        userList?.also {
-                            var commonBean: CommonDataListBroadBean.CommonBean? = null
-                            for (bean in userList) {
-                                if (bean.userId == getRealUserId()) {
-                                    commonBean = bean
-                                    break
-                                }
-                            }
-                            callBack.invoke(commonBean)
-                        } ?: also {
-                            callBack.invoke(null)
-                        }
-                    } ?: also {
-                        callBack.invoke(null)
-                    }
-                }
             })
     }
 }

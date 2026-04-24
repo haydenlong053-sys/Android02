@@ -742,31 +742,31 @@ class CommViewBroadModel : FriendViewBroadModel() {
         )
     }
 
-    fun getQunUser(context: Context?, id: String, showLoading: Boolean = false) {
-
-        val map = mapOf(
-            "id" to id,
-        )
-
-        okGoHelper.post(
-            context,
-            "/groupUserList",
-            JSONObject(map).toString(),
-            CommonDataListBroadBean(),
-            showToast = true,
-            showLoading = showLoading,
-            callBack = object : OKGoBroadHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseBroadResponse?) {
-                    if (bean is CommonDataListBroadBean) {
-                        qunUserListLiveData.value = bean
-                    }
-                }
-
-                override fun onFail(bean: BaseBroadResponse?) {
-                }
-            },
-        )
-    }
+//    fun getQunUser(context: Context?, id: String, showLoading: Boolean = false) {
+//
+//        val map = mapOf(
+//            "id" to id,
+//        )
+//
+//        okGoHelper.post(
+//            context,
+//            "/groupUserList",
+//            JSONObject(map).toString(),
+//            CommonDataListBroadBean(),
+//            showToast = true,
+//            showLoading = showLoading,
+//            callBack = object : OKGoBroadHelper.RequestCallBack {
+//                override fun onSuccess(bean: BaseBroadResponse?) {
+//                    if (bean is CommonDataListBroadBean) {
+//                        qunUserListLiveData.value = bean
+//                    }
+//                }
+//
+//                override fun onFail(bean: BaseBroadResponse?) {
+//                }
+//            },
+//        )
+//    }
 
     fun getxitonggaonggao(context: Context?, id: String) {
 
