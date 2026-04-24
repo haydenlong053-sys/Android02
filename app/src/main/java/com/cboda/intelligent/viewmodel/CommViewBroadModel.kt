@@ -713,7 +713,8 @@ class CommViewBroadModel : FriendViewBroadModel() {
             },
         )
     }
-    fun getQunUserPage2(context: Context?, id: String, pageNo: Int, pageSize : Int) {
+
+    fun getQunUserPage2(context: Context?, id: String, pageNo: Int, pageSize: Int) {
 
         val map = mapOf(
             "id" to id,
@@ -727,7 +728,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
             JSONObject(map).toString(),
             CommonDataListBroadBean(),
             showToast = true,
-            showLoading = (pageNo==1),
+            showLoading = (pageNo == 1),
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonDataListBroadBean) {
@@ -741,7 +742,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
         )
     }
 
-    fun getQunUser(context: Context?, id: String,showLoading: Boolean = false) {
+    fun getQunUser(context: Context?, id: String, showLoading: Boolean = false) {
 
         val map = mapOf(
             "id" to id,
@@ -863,12 +864,13 @@ class CommViewBroadModel : FriendViewBroadModel() {
         url: String,
         id: String,
         type: String,
-        name: String
+        name: String,
+        pageSize: Int = CommonBroadConfig.pageSize_100
     ) {
 
         val map = mapOf(
             "pageNo" to pageNo,
-            "pageSize" to CommonBroadConfig.pageSize_100.toString(),
+            "pageSize" to pageSize,
             "id" to id,
             "type" to type,
             "groupId" to id,
