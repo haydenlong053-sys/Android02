@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
@@ -160,12 +161,12 @@ class FaQunHongBaoBroadActivity : BaseSimple2BroadActivity() {
         qunid = intent?.getStringExtra("qunid") ?: ""
         getToolbarTitle()?.text = getString(R.string.faqunhongbao)
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
-        viewModel?.qunUserListLiveData?.observe(this) {
-            it.dataList?.apply {
-                quinrenshu?.text =
-                    StringBroadUtils.format(getString(R.string.qunrenshutis), this.size.toString())
-            }
-        }
+//        viewModel?.qunUserListLiveData?.observe(this) {
+//            it.dataList?.apply {
+//                quinrenshu?.text =
+//                    StringBroadUtils.format(getString(R.string.qunrenshutis), this.size.toString())
+//            }
+//        }
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "fahongbaosuc" -> {
@@ -333,7 +334,8 @@ class FaQunHongBaoBroadActivity : BaseSimple2BroadActivity() {
             }
 
         })
-        viewModel?.getQunUser(this, qunid)
+
+//        viewModel?.getQunUser(this, qunid)
         EventBus.getDefault().register(this)
     }
 

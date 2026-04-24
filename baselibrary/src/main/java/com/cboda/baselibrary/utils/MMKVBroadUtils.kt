@@ -440,16 +440,16 @@ class MMKVBroadUtils {
             }
         }
 
-        fun updateGroupNameAndRenameCount(id: String?, name: String?, renameCount: Int?, viewModelScope: CoroutineScope? = null) {
+        fun updateGroupNameAndRenameCount(id: String?, name: String?, renameCount: Int?, icon: String?, viewModelScope: CoroutineScope? = null) {
             if (!TextUtils.isEmpty(id) && (!TextUtils.isEmpty(name) || null != renameCount)) {
                 getGroupData(viewModelScope) { map ->
                     viewModelScope?.launch {
                         withContext(Dispatchers.IO) {
-                            saveGroupData(map, id, name, renameCount)
+                            saveGroupData(map, id, name, renameCount, icon)
                         }
                     } ?: let {
                         GlobalScope.launch(Dispatchers.IO) {
-                            saveGroupData(map, id, name, renameCount)
+                            saveGroupData(map, id, name, renameCount, icon)
                         }
                     }
                 }
@@ -457,7 +457,7 @@ class MMKVBroadUtils {
         }
 
 
-        private fun saveGroupData(map: HashMap<String, GlobalSmallGroupBroadBean>, id: String?, name: String?, renameCount: Int?) {
+        private fun saveGroupData(map: HashMap<String, GlobalSmallGroupBroadBean>, id: String?, name: String?, renameCount: Int?, icon: String?) {
             val bean = map[id]
             if (bean != null) {
                 if (!TextUtils.isEmpty(name)) {
@@ -466,12 +466,16 @@ class MMKVBroadUtils {
                 if (null != renameCount) {
                     bean.renameCount = renameCount
                 }
+                if (null != icon) {
+                    bean.icon = icon
+                }
                 map[id ?: ""] = bean
             } else {
                 val globalSmallGroupBean = GlobalSmallGroupBroadBean()
                 globalSmallGroupBean.id = id ?: ""
                 globalSmallGroupBean.name = name ?: ""
                 globalSmallGroupBean.renameCount = renameCount
+                globalSmallGroupBean.icon = icon ?: ""
                 map[id ?: ""] = globalSmallGroupBean
             }
             myGroupListData = map
@@ -571,14 +575,13 @@ class MMKVBroadUtils {
 
         //配置-新入群天数
         fun saveNewInGroupDays(creditScoreNewInGroupDays: Int?) {
-            getMmKv()?.encode(CREDIT_SCORE_NEW_IN_GROUP_DAYS, creditScoreNewInGroupDays?:0)
+            getMmKv()?.encode(CREDIT_SCORE_NEW_IN_GROUP_DAYS, creditScoreNewInGroupDays ?: 0)
         }
 
         //配置-新入群天数
         fun getNewInGroupDays(): Int {
             return getMmKv()?.decodeInt(CREDIT_SCORE_NEW_IN_GROUP_DAYS) ?: 0
         }
-
 
 
         private var mkv: MMKV? = null

@@ -206,7 +206,7 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.gonggaoLiveData?.observe(this) {
             it.data?.apply {
                 qunxiangqing = this
-                MMKVBroadUtils.updateGroupNameAndRenameCount(id, name, renameCount)
+                MMKVBroadUtils.updateGroupNameAndRenameCount(id, name, renameCount, icon)
                 if (this.qrcode?.isNotEmpty() == true) {
                     GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
                         this@QunInfoBroadActivity,
