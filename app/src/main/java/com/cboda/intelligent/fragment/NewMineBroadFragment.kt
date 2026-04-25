@@ -12,7 +12,7 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
 
 
     override fun initView() {
-//        addHeight(binding.aiTime)
+        addHeight(binding.cardVip)
     }
 
     override fun initListener() {
