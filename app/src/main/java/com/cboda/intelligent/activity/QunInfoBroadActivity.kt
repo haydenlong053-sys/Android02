@@ -1,7 +1,11 @@
 package com.cboda.intelligent.activity
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
@@ -20,7 +24,6 @@ import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.model.ModifyGroupInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
-import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
@@ -60,7 +63,7 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var kejianguanliView: View
     private lateinit var kejianguanli: SwitchCompat
     private lateinit var jiahao: AppCompatImageView
-    private lateinit var tvjiangeshi: ShapeTextBroadView
+    private lateinit var tvjiangeshi: EditText
     private lateinit var jianhao: AppCompatImageView
     private lateinit var wufajiahaoyouView: View
     private lateinit var wufajiahaoyou: SwitchCompat
@@ -254,7 +257,7 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
                 } else {
                     this.jiange!!.toInt()
                 }
-                tvjiangeshi?.text = jiangetime.toString()
+                tvjiangeshi?.setText(jiangetime.toString())
 
                 mDataList.clear()
                 when (this.userType) {
@@ -367,14 +370,36 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
             if (jiangetime <= 0) {
                 jiangetime = 0
             }
-            tvjiangeshi?.text = jiangetime.toString()
+            tvjiangeshi?.setText(jiangetime.toString())
             viewModel?.xiugaiqunxinxi(this, qunId, "jiange", jiangetime.toString())
         }
 
         jiahao?.setOnClickListener {
             jiangetime++
-            tvjiangeshi?.text = jiangetime.toString()
+            tvjiangeshi?.setText(jiangetime.toString())
             viewModel?.xiugaiqunxinxi(this, qunId, "jiange", jiangetime.toString())
+        }
+        tvjiangeshi.setOnEditorActionListener { _, actionId, event ->
+            val isDoneAction = actionId == EditorInfo.IME_ACTION_DONE
+            val isEnterDown =
+                event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN
+            if (!isDoneAction && !isEnterDown) {
+                return@setOnEditorActionListener false
+            }
+
+            val inputVal = tvjiangeshi.text?.toString()?.trim()?.toIntOrNull()
+            jiangetime = if (inputVal == null || inputVal <= 0) {
+                0
+            } else {
+                inputVal
+            }
+            tvjiangeshi.setText(jiangetime.toString())
+            tvjiangeshi.setSelection(tvjiangeshi.text?.length ?: 0)
+            viewModel?.xiugaiqunxinxi(this, qunId, "jiange", jiangetime.toString())
+            tvjiangeshi.clearFocus()
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(tvjiangeshi.windowToken, 0)
+            true
         }
 
         yaoqinghaioyuView?.setOnClickListener {
