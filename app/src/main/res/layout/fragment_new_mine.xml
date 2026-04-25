@@ -49,6 +49,7 @@
         />
 
     <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/mTvOpenVip"
         android:layout_width="81dp"
         android:layout_height="26dp"
         android:layout_marginTop="18dp"
@@ -61,6 +62,40 @@
         app:layout_constraintTop_toBottomOf="@id/mTvOpenVipDes1"
         app:shape_radius="13dp"
         app:shape_solidColor="#F9D8A4" />
+
+    <TextView
+        android:id="@+id/mTvOpenVipDes2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="SeekWeb4 VIP会员"
+        android:textColor="#FFD3A9"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/cardVip"
+        app:layout_constraintTop_toTopOf="@id/cardVip"
+        android:visibility="gone"
+
+        />
+
+    <TextView
+        android:id="@+id/mTvVipEndTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="有效期至"
+        android:textColor="#A5FFD3A9"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/mTvOpenVipDes2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mTvOpenVipDes2"
+        android:visibility="gone"
+        />
+
 
     <ImageView
         android:layout_width="match_parent"
