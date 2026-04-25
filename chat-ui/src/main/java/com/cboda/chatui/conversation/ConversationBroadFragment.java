@@ -1242,10 +1242,16 @@ public class ConversationBroadFragment extends Fragment implements
         messages.observe(this, uiMessages -> {
             swipeRefreshLayoutBroad.setRefreshing(false);
             eLogD(TAG, "uiMessagesSize3:" + uiMessages.size());
-//            for (int i = 0; i < uiMessages.size(); i++) {
-//                uiMessages.get(i).message.sender
-//            }
-
+            //初始化消息获取最新消息的发送者信息
+            if (conversationBroad.type == Conversation.ConversationType.Group) {
+                List<String> uidList = new ArrayList<>();
+                for (int i = 0; i < uiMessages.size(); i++) {
+                    String senderId = uiMessages.get(i).message.sender;
+                    if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId)) {
+                        uidList.add(senderId);
+                    }
+                }
+            }
             adapterBroad.setMessages(uiMessages);
             ThreadUtils.runOnUiThread(() -> {
                 adapterBroad.notifyDataSetChanged();

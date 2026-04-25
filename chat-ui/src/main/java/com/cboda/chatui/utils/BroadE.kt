@@ -54,17 +54,14 @@ object E {
         }
     }
 
-
-
-    fun getDetailUserData(
-        groupId: String?,
-        callBack: (bean: CommonDataListBroadBean.CommonBean?) -> Unit
-    ) {
-        val map = mapOf("id" to groupId,"uid" to getRealUserId())
-        postEncrypted(
-            UrlBroadConstants.GROUP_ME_USER,
-            map,
-            object : NetworkBroadUtils.NetworkCallback<GroupUserBean> {
+    fun getListUserData(groupId: String?, uidList: List<String>?) {
+        if (!TextUtils.isEmpty(groupId) && !uidList.isNullOrEmpty()) {
+            val uids = uidList.toTypedArray()
+            val map = mapOf("id" to groupId, "uids" to uids)
+            postEncryptedList(
+                "api/groupUsersInfoBatch",
+                map,
+                object : NetworkBroadUtils.ListCallback<GroupUserBean> {
 //                override fun onError(throwable: Throwable) {
 //                    callBack.invoke(null)
 //                }
@@ -73,7 +70,7 @@ object E {
 //                    callBack.invoke(null)
 //                }
 
-                //                override fun onSuccess(
+                    //                override fun onSuccess(
 //                    list: List<CommonDataListBroadBean.CommonBean>?,
 //                    totalCount: Int,
 //                    totalPage: Int
@@ -102,18 +99,96 @@ object E {
 //                        callBack.invoke(null)
 //                    }
 //                }
-                override fun onSuccess(data: GroupUserBean?) {
-                    eLogD("groupMeUserClass","success:${toJson2(data)}")
-                }
+//                    override fun onSuccess(data: GroupUserBean?) {
+//                        eLogD("getListUserDataClass", "success:${toJson2(data)}")
+//                    }
+//
+//                    override fun onFailure(code: Int, message: String, data: GroupUserBean?) {
+//                        eLogD("groupMeUserClass", "onFailure:$code ,$message")
+//                    }
+//
+//                    override fun onError(throwable: Throwable) {
+//                        eLogD("groupMeUserClass", "onError:${throwable.toLog("groupMeUserClass")}")
+//                    }
+                    override fun onSuccess(list: List<GroupUserBean>?, totalCount: Int, totalPage: Int) {
+                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
+                    }
 
-                override fun onFailure(code: Int, message: String, data: GroupUserBean?) {
-                    eLogD("groupMeUserClass","onFailure:$code ,$message")
-                }
+                    override fun onFailure(code: Int, message: String) {
+                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
+                    }
 
-                override fun onError(throwable: Throwable) {
-                    eLogD("groupMeUserClass","onError:${throwable.toLog("groupMeUserClass")}")
-                }
+                    override fun onError(throwable: Throwable) {
+                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
+                    }
 
-            })
+                })
+        }
+    }
+
+
+    fun getDetailUserData(
+        groupId: String?,
+        callBack: (bean: GroupUserBean?) -> Unit
+    ) {
+        if (!TextUtils.isEmpty(groupId)) {
+            val map = mapOf("id" to groupId, "uid" to getRealUserId())
+            postEncrypted(
+                UrlBroadConstants.GROUP_ME_USER,
+                map,
+                object : NetworkBroadUtils.NetworkCallback<GroupUserBean> {
+//                override fun onError(throwable: Throwable) {
+//                    callBack.invoke(null)
+//                }
+//
+//                override fun onFailure(code: Int, message: String) {
+//                    callBack.invoke(null)
+//                }
+
+                    //                override fun onSuccess(
+//                    list: List<CommonDataListBroadBean.CommonBean>?,
+//                    totalCount: Int,
+//                    totalPage: Int
+//                ) {
+//                    list?.also {
+//                        val gson = GsonUtils.getGson()
+//                        val jsonStr = gson.toJson(list)
+//                        val userList = gson.fromJson<MutableList<CommonDataListBroadBean.CommonBean>?>(
+//                            jsonStr,
+//                            object :
+//                                TypeToken<MutableList<CommonDataListBroadBean.CommonBean>?>() {}.type
+//                        )
+//                        userList?.also {
+//                            var commonBean: CommonDataListBroadBean.CommonBean? = null
+//                            for (bean in userList) {
+//                                if (bean.userId == getRealUserId()) {
+//                                    commonBean = bean
+//                                    break
+//                                }
+//                            }
+//                            callBack.invoke(commonBean)
+//                        } ?: also {
+//                            callBack.invoke(null)
+//                        }
+//                    } ?: also {
+//                        callBack.invoke(null)
+//                    }
+//                }
+                    override fun onSuccess(data: GroupUserBean?) {
+                        eLogD("groupMeUserClass", "success:${toJson2(data)}")
+                    }
+
+                    override fun onFailure(code: Int, message: String, data: GroupUserBean?) {
+                        eLogD("groupMeUserClass", "onFailure:$code ,$message")
+                    }
+
+                    override fun onError(throwable: Throwable) {
+                        eLogD("groupMeUserClass", "onError:${throwable.toLog("groupMeUserClass")}")
+                    }
+
+                })
+        } else {
+            callBack.invoke(null)
+        }
     }
 }
