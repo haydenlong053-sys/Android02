@@ -136,6 +136,7 @@
                 >
 
                 <LinearLayout
+                    android:id="@+id/layoutViewMoney"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -160,6 +161,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/layoutViewSquare"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -184,6 +186,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/layoutViewService"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
