@@ -25,7 +25,7 @@ class MyHeaderBroadAdapter(var globalNoticeBean: GlobalNoticeBroadBean?,val clic
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.conversationlist_item_broad_conversation, parent, false)
+            .inflate(R.layout.conversationlist_item_notice_conversation, parent, false)
         return VH(view)
     }
 
@@ -36,7 +36,7 @@ class MyHeaderBroadAdapter(var globalNoticeBean: GlobalNoticeBroadBean?,val clic
         //        itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : R.drawable.selector_common_broad_item);
         holder.itemView.setBackgroundResource(R.drawable.selector_stick_top_broad_item)
         nameTextView?.text = holder.itemView.context.getString(R.string.sys_notice_info)
-        portraitImageView?.setImageResource(R.mipmap.ic_head_defaut_broad_msg)
+        portraitImageView?.setImageResource(com.cboda.baselibrary.R.mipmap.chat_broad_logo)
         contentTextView?.text = globalNoticeBean?.noticeTitle ?: ""
         timeTextView?.text = globalNoticeBean?.createTime ?: ""
         holder.itemView.setOnClickListener {
