@@ -85,6 +85,7 @@ import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.fragment.CleverBodyBroadFragment
 import com.cboda.intelligent.fragment.MessageBroadFragment
 import com.cboda.intelligent.fragment.MineBroadFragment
+import com.cboda.intelligent.fragment.NewMineBroadFragment
 import com.cboda.intelligent.fragment.NewMirrorBroadFragment
 import com.cboda.intelligent.fragment.TongXunLuBroadFragment
 import com.cboda.intelligent.holder.MyImManagerBroadHolder
@@ -623,7 +624,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        } else {
 //            faxiaoLayout?.isVisible = false
 //        }
-        fragmentList.add(MineBroadFragment())
+//        fragmentList.add(MineBroadFragment())
+        fragmentList.add(NewMineBroadFragment())
 //        fragmentNameList.add("wode")
 
 
