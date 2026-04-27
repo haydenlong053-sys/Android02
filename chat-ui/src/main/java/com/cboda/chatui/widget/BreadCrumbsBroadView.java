@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.widget;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getSysLast;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -89,7 +91,7 @@ public class BreadCrumbsBroadView extends FrameLayout {
     private void addTab(Tab tab) {
         // 修改tab的状态
         if (!tabList.isEmpty()) {
-            tabList.getLast().setCurrent(false);
+            tabList.get(tabList.size() - 1).setCurrent(false);
         }
         // 设置新增tab的数据及状态
         // 设置角标
@@ -133,15 +135,17 @@ public class BreadCrumbsBroadView extends FrameLayout {
             int size = tabList.size();
             // 从尾部开始删除
             for (int i = size - 1; i > index; i--) {
-                if (onTabListener != null) {
-                    onTabListener.onRemoved(tabList.getLast());
+                if (onTabListener != null && null != getSysLast(tabList)) {
+                    Tab tab = ((Tab) getSysLast(tabList));
+                    onTabListener.onRemoved(tab);
                 }
                 tabList.removeLast();
             }
             // 修改当前选中的tab状态
-            tabList.getLast().setCurrent(true);
-            if (onTabListener != null) {
-                onTabListener.onActivated(tabList.getLast());
+            if (null != getSysLast(tabList) && onTabListener != null) {
+                Tab tab = ((Tab) getSysLast(tabList));
+                tab.setCurrent(true);
+                onTabListener.onActivated(tab);
             }
             tabAdapter.notifyDataSetChanged();
         }
@@ -155,12 +159,12 @@ public class BreadCrumbsBroadView extends FrameLayout {
         this.onTabListener = onTabListener;
     }
 
-    public Tab getLastTab() {
-        if (!tabList.isEmpty()) {
-            return tabList.getLast();
-        }
-        return null;
-    }
+//    public Tab getLastTab() {
+//        if (!tabList.isEmpty()) {
+//            return tabList.getLast();
+//        }
+//        return null;
+//    }
 
     public static class Tab {
 

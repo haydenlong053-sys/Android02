@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Se sincronizează...</string>
     <string name="connection_status_failed">Conexiune eșuată</string>
 
+    <string name="chat_recommend_friend">Recomandă prieteni</string>
+    <string name="chat_add_friend">Adaugă prieteni</string>
 </resources>

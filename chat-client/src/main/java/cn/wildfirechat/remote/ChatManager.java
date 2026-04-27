@@ -2173,7 +2173,11 @@ public class ChatManager {
      */
     public long connect(String userId, String token) {
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(token) || TextUtils.isEmpty(SERVER_HOST)) {
-            Toast.makeText(getApplicationContext(), "服务器错误：imtoken为空", Toast.LENGTH_SHORT).show();
+            String msgCenter = "imToken";
+            if (TextUtils.isEmpty(userId)) {
+                msgCenter = "imUserId";
+            }
+            Toast.makeText(getApplicationContext(), "服务器错误：" + msgCenter + "为空", Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("userId, token and im_server_host must not be empty!");
         }
         this.userId = userId;

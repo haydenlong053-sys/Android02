@@ -85,6 +85,7 @@ import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.fragment.CleverBodyBroadFragment
 import com.cboda.intelligent.fragment.MessageBroadFragment
 import com.cboda.intelligent.fragment.MineBroadFragment
+import com.cboda.intelligent.fragment.NewMineBroadFragment
 import com.cboda.intelligent.fragment.NewMirrorBroadFragment
 import com.cboda.intelligent.fragment.TongXunLuBroadFragment
 import com.cboda.intelligent.holder.MyImManagerBroadHolder
@@ -448,7 +449,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         }
 //        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
         //82环境登录后不自动跳转到登录二维码页面
-        if (fromType != "PushInfo2BroadActivity" && fromType != "LoginQrCodeActivity" && HttpsBroadConfig.currentHostHttpUrlType != HttpsBroadConfig.RELEASE_TYPE) {
+        if (fromType != "PushInfo2BroadActivity" && fromType != "LoginQrCodeActivity" && HttpsBroadConfig.currentHostHttpUrlType > 1000) {
 //            && !TextUtils.isEmpty(oldQrCode)) {
             composeView.post {
                 toLoginQrCodeAct(this)
@@ -457,9 +458,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     }
 
 
-    private fun getsitonggonggao() {
-        viewModel?.getxitonggaonggao(this, "1")
-    }
+//    private fun getsitonggonggao() {
+//        viewModel?.getxitonggaonggao(this, "1")
+//    }
 
     private fun clickItem(tag: String) {
 //        val i = fragmentNameList.indexOf(tag)
@@ -623,7 +624,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        } else {
 //            faxiaoLayout?.isVisible = false
 //        }
-        fragmentList.add(MineBroadFragment())
+//        fragmentList.add(MineBroadFragment())
+        fragmentList.add(NewMineBroadFragment())
 //        fragmentNameList.add("wode")
 
 
@@ -650,12 +652,12 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     previewContent = bean.previewContent,
                                     noticeTitle = bean.noticeTitle,
                                     status = bean.isStatus,
-                                    createTime =  bean.createTime
+                                    createTime = bean.createTime
                                 )
                             )
-                        } else if (message.sender == "admin" && message.content is PrivateNoticeInformMessageContent){
+                        } else if (message.sender == "admin" && message.content is PrivateNoticeInformMessageContent) {
                             val bean = message.content as PrivateNoticeInformMessageContent
-                            eLogD(APP_TAG,"PrivateNoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}--${bean.createTime}")
+                            eLogD(APP_TAG, "PrivateNoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}--${bean.createTime}")
                             EventBus.getDefault().post(
                                 NoticeInfoBroadBean(
                                     id = bean.id,
@@ -665,10 +667,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     previewContent = bean.previewContent,
                                     noticeTitle = bean.noticeTitle,
                                     status = bean.isStatus,
-                                    createTime =  bean.createTime
+                                    createTime = bean.createTime
                                 )
                             )
-                        }else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
+                        } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
                             val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
                             runOnUiThread {
                                 if (MeetCallManager.getInstance().isCallingState() && MeetCallManager.getInstance().isOwner()) {

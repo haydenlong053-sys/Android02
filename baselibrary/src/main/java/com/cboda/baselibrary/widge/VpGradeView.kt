@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.core.view.isGone
@@ -25,12 +26,12 @@ import com.cboda.baselibrary.utils.setTxtColor
 
 class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private lateinit var binding: VpGuViewBinding
-    private var imgWidth = 0
-    private var gradeTextSize = 0
-    private var vipWidth = 0
-    private var gradeHeight = 0
-    private var gradePad = 0
-    private var vipMarginBottom = 0
+    private var imgWidth = resources.getDimensionPixelSize(R.dimen.dp_48)
+    private var gradeTextSize = resources.getDimensionPixelSize(R.dimen.dp_8)
+    private var vipWidth = resources.getDimensionPixelSize(R.dimen.dp_25)
+    private var gradeHeight = resources.getDimensionPixelSize(R.dimen.dp_14)
+    private var gradePad = resources.getDimensionPixelSize(R.dimen.dp_4)
+    private var vipMarginBottom = resources.getDimensionPixelSize(R.dimen.dp_10_minus)
 
 
     init {
@@ -45,13 +46,24 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 recycle()
             }
         }
+        ensureBindingInitialized()
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val inflate =
-            LayoutInflater.from(context).inflate(R.layout.vp_gu_view, this, false)
+        ensureBindingInitialized()
+    }
+
+    private fun ensureBindingInitialized() {
+        if (::binding.isInitialized) return
+        val inflate = LayoutInflater.from(context).inflate(R.layout.vp_gu_view, this, false)
         addView(inflate)
+        clipChildren = false
+        clipToPadding = false
+        (inflate as? ViewGroup)?.let { root ->
+            root.clipChildren = false
+            root.clipToPadding = false
+        }
         initView(inflate)
         initListener()
     }
@@ -77,6 +89,7 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 binding.vpGvGradeTv.setBackColor2(R.color.black, R.color.color_31231A, R.color.black)
                 binding.vpGvGradeTv.setTxtColor(R.color.color_FAE77C)
             } else {
+                //通过注册天数判断信用分底色
                 val registrationDayScore = anyToInt(MMKVBroadUtils.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""))
                 val registrationDay = anyToInt(registerDay)
                 if (null != registerDay && registrationDay >= registrationDayScore) {
@@ -133,6 +146,11 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun loadUserImg(imgUrl: String?) {
         binding.vpGvUserImg.loadImg(imgUrl)
+    }
+
+    fun setVipTopBadgeMarginBottom(marginBottomPx: Int) {
+        ensureBindingInitialized()
+        binding.vpGvVip2.setMarginBottom(marginBottomPx)
     }
 
     fun getUserImgView() = binding.vpGvUserImg

@@ -13,6 +13,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.intelligent.configuration.CommonBroadConfig.pageSize_20
 import com.cboda.intelligent.holder.SelectTypeBroadHolder
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
@@ -186,8 +187,8 @@ class XuanQunJinYanBroadActivity : BaseSimpleBroadActivity() {
 //            })
 
         }
-        smartLayout?.setEnableRefresh(false)
-        smartLayout?.setEnableLoadMore(false)
+        smartLayout?.setEnableRefresh(true)
+        smartLayout?.setEnableLoadMore(true)
         smartLayout?.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 pageNo = 1
@@ -208,8 +209,8 @@ class XuanQunJinYanBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.getQunMemberList(
             this,
             pageNo.toString(),
-            "/groupUserList", qunId, "3",
-            edtSousuo?.text?.toString()?.trim()?:""
+            "/groupUserListPage", qunId, "3",
+            edtSousuo?.text?.toString()?.trim()?:"",pageSize_20
         )
     }
 

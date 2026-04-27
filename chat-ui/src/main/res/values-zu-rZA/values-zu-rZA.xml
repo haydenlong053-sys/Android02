@@ -126,4 +126,6 @@
     <!-- Umhlangano omusha -->
     <string name="chat_meet_service_notification">Isaziso sesevisi yomhlangano wangaphambili</string>
     <string name="chat_meet_service_tip">Thepha ukuze ubuyele kuhlelo lokusebenza</string>
+    <string name="chat_recommend_friend">Ncoma abangane</string>
+    <string name="chat_add_friend">Engeza abangane</string>
 </resources>

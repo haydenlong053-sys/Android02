@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Inasawazisha...</string>
     <string name="connection_status_failed">Muunganisho umeshindwa</string>
 
+    <string name="chat_recommend_friend">Pendekeza marafiki</string>
+    <string name="chat_add_friend">Ongeza marafiki</string>
 </resources>

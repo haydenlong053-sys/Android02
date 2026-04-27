@@ -45,6 +45,7 @@ import com.cboda.intelligent.activity.QunMemberListBroadActivity
 import com.cboda.intelligent.activity.QunNameBroadActivity
 import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
+import com.cboda.intelligent.activity.QunUserList2BroadActivity
 import com.cboda.intelligent.activity.QunUserListBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
@@ -81,9 +82,9 @@ class JumpBroadUtils {
             val mContext = getAppContext(context)
             var checkActName = "MainBroadActivity"
             //82环境登录后不自动跳转到登录二维码页面
-            val intent = if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+            val intent = if (HttpsBroadConfig.currentHostHttpUrlType < 1000) {
                 Intent(mContext, MainBroadActivity::class.java)
-            } else if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity") {
+            } else if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity" || type == "ScanBroadActivity") {
                 checkActName = "LoginQrCodeActivity"
                 Intent(mContext, LoginQrCodeActivity::class.java)
             } else {
@@ -268,7 +269,7 @@ class JumpBroadUtils {
         }
 
         fun startQunUserListActivity(context: Context?, qunId: String) {
-            val intent = Intent(context, QunUserListBroadActivity::class.java)
+            val intent = Intent(context, QunUserList2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }

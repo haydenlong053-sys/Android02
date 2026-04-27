@@ -423,4 +423,6 @@
     <string name="connection_status_syncing">正在同步…</string>
     <string name="connection_status_failed">連線失敗</string>
 
+    <string name="chat_recommend_friend">推薦好友</string>
+    <string name="chat_add_friend">新增好友</string>
 </resources>

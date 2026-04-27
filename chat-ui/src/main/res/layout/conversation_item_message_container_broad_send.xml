@@ -13,9 +13,8 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="2dp"
+        android:paddingHorizontal="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_2"
         tools:ignore="RtlHardcoded">
 
         <!-- 重试 -->
@@ -55,8 +54,8 @@
 
         <ImageView
             android:id="@+id/singleReceiptImageView"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
             android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginEnd="2dp"
@@ -68,11 +67,12 @@
 
         <FrameLayout
             android:id="@+id/groupReceiptFrameLayout"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -149,9 +149,9 @@
                     app:shape_solidSelectedColor="#1ED5271E"
                     app:shape_textColor="#3B47DD"
                     app:shape_textSelectedColor="#D5271E"
+                    tools:ignore="SmallSp"
                     tools:text="2014年12月30日入群"
-                    tools:visibility="visible"
-                    tools:ignore="SmallSp" />
+                    tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -185,7 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="@dimen/dp_5"
             android:layout_marginTop="@dimen/dp_10"
             android:clickable="false"
             android:visibility="gone"
@@ -197,11 +197,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="@dimen/dp_5"
             android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginRight="@dimen/item_margin_left_and_right"
+            android:layout_marginEnd="@dimen/dp_5"
             android:clickable="false"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </LinearLayout>
 

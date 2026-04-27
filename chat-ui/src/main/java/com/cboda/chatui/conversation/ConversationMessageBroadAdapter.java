@@ -14,6 +14,7 @@ import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getSysLast;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setTxtColor;
@@ -40,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
 import com.cboda.baselibrary.utils.JavaBroadUtil;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
@@ -55,6 +57,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -92,6 +95,8 @@ import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.hjq.shape.view.ShapeTextView;
@@ -541,7 +546,18 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //                        } else {
 //                            portraitTv.setVisibility(View.GONE);
 //                        }
-                        singleVgView.setGradeData(messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null && message.message.conversation.type == Conversation.ConversationType.Group ? messageViewModel.getUserGroupData().getGrade() : null);
+                        GlobalBroadInfo.INSTANCE.getFriendData(null, new Function1<HashMap<String, GlobalFriendBroadBean>, Unit>() {
+                            @Override
+                            public Unit invoke(HashMap<String, GlobalFriendBroadBean> stringGlobalFriendBroadBeanHashMap) {
+                                GlobalFriendBroadBean globalFriendBroadBean = stringGlobalFriendBroadBeanHashMap.get(message.message.sender);
+                                if (null != globalFriendBroadBean) {
+                                    singleVgView.setGradeData(globalFriendBroadBean.grade != null && message.message.conversation.type == Conversation.ConversationType.Group ? globalFriendBroadBean.grade : null);
+                                } else {
+                                    singleVgView.setGradeData(null);
+                                }
+                                return null;
+                            }
+                        });
                     } else {
                         singleVgView.setVisibility(View.VISIBLE);
 //                        if (message.message.conversation.type == Conversation.ConversationType.Group) {
@@ -1216,7 +1232,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
     }
 
     public void dismissLoadingNewMessageProgressBar() {
-        if (messages == null || messages.isEmpty() || messages.getLast() != null) {
+        if (messages == null || messages.isEmpty() || getSysLast(messages) != null) {
             return;
         }
         int position = messages.size() - 1;

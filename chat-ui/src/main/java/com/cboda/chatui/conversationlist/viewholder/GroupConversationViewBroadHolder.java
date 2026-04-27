@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.conversationlist.viewholder;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.cboda.chatui.ChatManagerBroadHolder;
@@ -31,6 +34,7 @@ import cn.wildfirechat.model.ConversationInfo;
 import cn.wildfirechat.model.GroupInfo;
 import cn.wildfirechat.model.GroupMember;
 import cn.wildfirechat.model.UserInfo;
+import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.GetGroupMembersCallback;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -94,6 +98,18 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
     }
 
     private void loadGroupPortrait(GroupInfo groupInfo, String groupId, String portrait) {
+        if (!TextUtils.isEmpty(groupId)) {
+            GlobalBroadInfo.INSTANCE.getGroupData(null, stringGlobalSmallGroupBroadBeanHashMap -> {
+                GlobalSmallGroupBroadBean globalSmallGroupBroadBean = stringGlobalSmallGroupBroadBeanHashMap.get(groupId);
+                loadGroupPortrait2(groupInfo, groupId, (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.getIcon())) ? globalSmallGroupBroadBean.getIcon() : portrait);
+                return null;
+            });
+        } else {
+            loadGroupPortrait2(groupInfo, groupId, portrait);
+        }
+    }
+
+    private void loadGroupPortrait2(GroupInfo groupInfo, String groupId, String portrait) {
         // 如果群头像URL有效，直接加载
         if (!TextUtils.isEmpty(portrait) && (portrait.startsWith("http") || portrait.startsWith("file://"))) {
             Glide
@@ -132,6 +148,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
 
             return;
         }
+
 
         // 如果群头像为空或无效，获取群成员信息并生成组合头像
         if (groupInfo != null && !TextUtils.isEmpty(groupId)) {
@@ -195,7 +212,6 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
             // 没有群信息，显示默认占位图
             vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
         }
-
     }
 
 }

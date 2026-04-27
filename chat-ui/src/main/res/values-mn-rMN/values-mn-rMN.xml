@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Синхрончлож байна...</string>
     <string name="connection_status_failed">Холболт амжилтгүй</string>
 
+    <string name="chat_recommend_friend">Найз санал болгох</string>
+    <string name="chat_add_friend">Найз нэмэх</string>
 </resources>

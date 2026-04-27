@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">מסנכרן...</string>
     <string name="connection_status_failed">החיבור נכשל</string>
 
+    <string name="chat_recommend_friend">המלץ על חברים</string>
+    <string name="chat_add_friend">הוסף חברים</string>
 </resources>

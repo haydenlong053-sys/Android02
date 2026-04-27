@@ -1,11 +1,11 @@
 package com.cboda.intelligent.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -29,7 +29,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -48,11 +47,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -71,24 +68,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.Dp
-import com.cboda.chatui.utils.PinyinBroadUtils
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.cboda.chatui.contact.ContactViewBroadModel
-import coil.compose.AsyncImage
-import coil.request.CachePolicy
-import coil.request.ImageRequest
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.formatWithBigDecimal
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
+import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import androidx.compose.ui.viewinterop.AndroidView
 
 enum class CircleInteractionBroadMode {
     WithAllSingleSelect, // 有“全部”选项，单选
@@ -208,7 +202,7 @@ fun SocialScreen(
                 val explanationText = state.selectedCircleTag?.let { tag ->
                     state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
                 } ?: stringResource(R.string.all)
-                CharacterExplanation(text = explanationText,state.selectedCircleTag,state.contactsAll.size,state.filteredContacts.size)
+                CharacterExplanation(text = explanationText, state.selectedCircleTag, state.contactsAll.size, state.filteredContacts.size)
             }
             state.indexLetters.forEach { letter ->
                 stickyHeader(key = "header_$letter") {
@@ -507,9 +501,9 @@ private fun CharacterExplanation(text: String, selectedCircleTag: String?, size:
 //            .background(Color(0xFFF7F8FA))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        val strTemp= if (selectedCircleTag.isNullOrEmpty()){
+        val strTemp = if (selectedCircleTag.isNullOrEmpty()) {
             "$size${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
-        }else{
+        } else {
             "$size1${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
         }
         Text(
@@ -598,68 +592,21 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // 简易头像：首字母圆形背景
             val display = (contact.remarkName?.takeIf { it.isNotBlank() } ?: (contact.nickName
                 ?: contact.userId))
-            val initial = run {
-                val first = display.firstOrNull()
-                if (first == null) '#'
-                else {
-                    val py = PinyinBroadUtils.getPinyin(first.toString())
-                    val ch = py.firstOrNull()
-                    if (ch != null && ch.isLetter()) ch.uppercaseChar() else '#'
+            AndroidView(
+                modifier = Modifier.size(48.dp),
+                factory = { context -> VpGradeView(context) },
+                update = { view ->
+                    view.setData2(
+                        contact.icon,
+                        !TextUtils.isEmpty(contact.lianghao),
+                        contact.isvip == "1",
+                        contact.grade,
+                        contact.registerDay
+                    )
                 }
-            }
-            val isVip = contact.isvip == "1"
-            val density = LocalDensity.current
-            val avatarPx = with(density) { 48.dp.roundToPx() }
-            Box(modifier = Modifier.size(48.dp)) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(contact.icon)
-                        .crossfade(true)
-                        // Coil size 为像素，需与 48.dp 对齐，避免小图被放大发糊
-                        .size(avatarPx, avatarPx)
-                        .memoryCachePolicy(CachePolicy.ENABLED)
-                        .diskCachePolicy(CachePolicy.ENABLED)
-                        .build(),
-//                model = contact.icon,
-                    contentDescription = stringResource(R.string.contact_avatar),
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-//                        .then(
-//                            if (isVip) Modifier.border(
-//                                1.dp,
-//                                Color(0xFFFAD27C),
-//                                CircleShape
-//                            ) else Modifier
-//                        )
-                    ,
-                    placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
-                    error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
-                    contentScale = ContentScale.Crop
-                )
-//                if (isVip) {
-//                    Image(
-//                        painter = painterResource(com.cboda.baselibrary.R.mipmap.new_vip),
-//                        contentDescription = null,
-//                        modifier = Modifier
-//                            .align(Alignment.TopStart)
-//                            .size(width = 17.dp, height = 14.dp),
-//                        contentScale = ContentScale.Crop
-//                    )
-//                }
-            }
-
-//            Box(
-//                modifier = Modifier
-//                    .size(48.dp)
-//                    .background(Color(0xFFE6E7EB), CircleShape),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Text(text = initial.toString(), fontSize = 17.sp, color = Color.Black.copy(0.9f))
-//            }
+            )
 
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -671,13 +618,6 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f, fill = true),
-                    )
-                    Spacer(Modifier.width(10.dp))
-                    Text(
-                        text = "${formatWithBigDecimal(contact.grade)}${stringResource(R.string.score_unit)}",
-                        fontSize = 14.sp,
-                        color = Color(0xffEF7B05),
-                        fontWeight = FontWeight.W500
                     )
                     Spacer(Modifier.width(10.dp))
                     if (!contact.characterTags.isNullOrBlank()) {

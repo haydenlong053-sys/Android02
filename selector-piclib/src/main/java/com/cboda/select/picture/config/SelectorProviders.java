@@ -1,6 +1,7 @@
 package com.cboda.select.picture.config;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author：luck
@@ -16,7 +17,15 @@ public class SelectorProviders {
     }
 
     public SelectorConfig getSelectorConfig() {
-        return selectionConfigsQueue.size() > 0 ? selectionConfigsQueue.getLast() : new SelectorConfig();
+        return selectionConfigsQueue.size() > 0 ? getSelectorConfigLast(selectionConfigsQueue) : new SelectorConfig();
+    }
+
+
+    private SelectorConfig getSelectorConfigLast(List<SelectorConfig> list) {
+        if (list != null && !list.isEmpty()) {
+            return list.get(list.size() - 1);
+        }
+        return null;
     }
 
     public void destroy() {

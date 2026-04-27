@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">ກຳລັງຊິງຄ໌...</string>
     <string name="connection_status_failed">ການເຊື່ອມຕໍ່ລົ້ມເຫລວ</string>
 
+    <string name="chat_recommend_friend">ແນະນຳໝູ່ເພື່ອນ</string>
+    <string name="chat_add_friend">ເພີ່ມໝູ່ເພື່ອນ</string>
 </resources>

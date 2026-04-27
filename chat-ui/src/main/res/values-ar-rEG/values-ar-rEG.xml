@@ -189,4 +189,6 @@
     <string name="chat_meet_service_notification">إشعار خدمة الاجتماع في المقدمة</string>
     <string name="chat_meet_service_tip">اضغط للعودة إلى التطبيق</string>
 
+    <string name="chat_recommend_friend">توصية بالأصدقاء</string>
+    <string name="chat_add_friend">إضافة أصدقاء</string>
 </resources>

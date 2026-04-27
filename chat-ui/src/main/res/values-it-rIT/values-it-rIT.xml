@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">Sincronizzazione in corso...</string>
     <string name="connection_status_failed">Connessione fallita</string>
 
+    <string name="chat_recommend_friend">Consiglia amici</string>
+    <string name="chat_add_friend">Aggiungi amici</string>
 </resources>
