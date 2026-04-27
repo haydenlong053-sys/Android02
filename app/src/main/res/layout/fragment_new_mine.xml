@@ -170,7 +170,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_mine_icon_money"
+                        android:src="@drawable/ic_mine_icon_square"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -288,7 +288,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_mine_icon_colloct"
+                    android:src="@drawable/ic_mine_icon_question"
                     tools:ignore="ContentDescription" />
 
                 <TextView
