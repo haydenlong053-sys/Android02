@@ -164,5 +164,7 @@
     <string name="register_time_prefix2">注册时间:</string>
     <string name="del_coll_title">删除这个收藏吗？</string>
     <string name="msg_score_unit3">分</string>
-    <string name="remove_blacklist"> 解除</string>
+    <string name="remove_blacklist">解除</string>
+    <string name="min_gan_ci_hit">请输入敏感词，多个敏感词用英文符号 “ @ ” 进行和分割</string>
+    <string name="min_gan_ci_hit2">·多个敏感词请用英文符号 “ @ ” 隔开</string>
 </resources>
