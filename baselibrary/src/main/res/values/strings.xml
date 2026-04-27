@@ -157,13 +157,25 @@
     <string name="credit_score_des1">Activate official SeekWeb membership to enjoy exclusive privileges, accelerate credit score growth, and unlock six member benefits</string>
     <string name="credit_score_open_premium_number">Activate Premium Number</string>
     <string name="credit_score_des2">You can purchase a premium number in Mall - Me - I AM Premium Number based on your needs</string>
-    <string name="credit_score_func">信用说明</string>
-    <string name="registered_less_than_days">账号注册未满%1$s天，消息禁止含链接；开通会员或购买靓号可提前满足条件</string>
-    <string name="collect">收藏</string>
-    <string name="credit_prefix2">信用:</string>
-    <string name="register_time_prefix2">注册时间:</string>
-    <string name="del_coll_title">删除这个收藏吗？</string>
-    <string name="msg_score_unit3">分</string>
-    <string name="remove_blacklist"> 解除</string>
-    <string name="mine_vip_time_to">有效期至</string>
+    <string name="credit_score_func">Credit Guide</string>
+    <string name="registered_less_than_days">If the account is registered for less than %1$s days, messages cannot contain links; activating membership or purchasing a premium number can meet this requirement earlier.</string>
+    <string name="collect">Favorites</string>
+    <string name="credit_prefix2">Credit:</string>
+    <string name="register_time_prefix2">Registration time:</string>
+    <string name="del_coll_title">Delete this favorite?</string>
+    <string name="msg_score_unit3">pts</string>
+    <string name="remove_blacklist"> Remove</string>
+    <string name="mine_vip_time_to">Valid until</string>
+
+    <!-- Mine page (new) -->
+    <string name="mine_vip_limited_offer">Limited-Time VIP Offer</string>
+    <string name="mine_open_now">Activate Now</string>
+    <string name="mine_seekweb4_vip_member">SeekWeb4 VIP Member</string>
+    <string name="mine_assets">Assets</string>
+    <string name="mine_square">Square</string>
+    <string name="mine_customer_service">Customer Service</string>
+    <string name="mine_favorite">Favorites</string>
+    <string name="mine_safe_center">Security Center</string>
+    <string name="mine_faq">FAQ</string>
+    <string name="mine_system_settings">System Settings</string>
 </resources>

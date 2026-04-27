@@ -38,7 +38,7 @@
         android:layout_marginEnd="20dp"
         android:ellipsize="end"
         android:lines="1"
-        android:text="会员限时特惠"
+        android:text="@string/mine_vip_limited_offer"
         android:textColor="#FFD3A9"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -54,7 +54,7 @@
         android:layout_height="26dp"
         android:layout_marginTop="18dp"
         android:gravity="center"
-        android:text="立即开通"
+        android:text="@string/mine_open_now"
         android:textColor="#1A1A1C"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/mTvOpenVipDes1"
@@ -71,7 +71,7 @@
         android:layout_marginEnd="20dp"
         android:ellipsize="end"
         android:lines="1"
-        android:text="SeekWeb4 VIP会员"
+        android:text="@string/mine_seekweb4_vip_member"
         android:textColor="#FFD3A9"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="资产"
+                        android:text="@string/mine_assets"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
@@ -177,7 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="广场"
+                        android:text="@string/mine_square"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
@@ -202,7 +202,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="客服"
+                        android:text="@string/mine_customer_service"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
@@ -231,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="收藏"
+                    android:text="@string/mine_favorite"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -263,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="安全中心"
+                    android:text="@string/mine_safe_center"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -296,7 +296,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="@string/常见问题"
+                    android:text="@string/mine_faq"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -328,7 +328,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="系统设置"
+                    android:text="@string/mine_system_settings"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
