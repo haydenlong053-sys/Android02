@@ -165,4 +165,5 @@
     <string name="del_coll_title">删除这个收藏吗？</string>
     <string name="msg_score_unit3">分</string>
     <string name="remove_blacklist"> 解除</string>
+    <string name="mine_vip_time_to">有效期至</string>
 </resources>

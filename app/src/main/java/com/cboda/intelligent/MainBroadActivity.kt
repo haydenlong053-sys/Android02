@@ -624,8 +624,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        } else {
 //            faxiaoLayout?.isVisible = false
 //        }
-        fragmentList.add(MineBroadFragment())
-//        fragmentList.add(NewMineBroadFragment())
+//        fragmentList.add(MineBroadFragment())
+        fragmentList.add(NewMineBroadFragment())
 //        fragmentNameList.add("wode")
 
 
