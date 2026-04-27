@@ -177,7 +177,7 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
                     val vipFlag = data.isvip ?: "0"
                     val vipTimeRaw = data.vipTime ?: ""
                     val vipTimeText = if (vipFlag == "1" && vipTimeRaw.isNotEmpty()) {
-                          getString(com.cboda.baselibrary.R.string.mine_vip_time_to)+vipTimeRaw
+                          getString(com.cboda.baselibrary.R.string.mine_vip_time_to)+" "+vipTimeRaw
                     } else {
                         ""
                     }
