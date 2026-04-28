@@ -1,7 +1,9 @@
 package com.cboda.intelligent.viewmodel
 
 import android.text.TextUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -9,13 +11,15 @@ import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.utils.anyToDouble
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SocialBroadCircle
 import com.cboda.intelligent.model.SocialContact
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-open class FriendViewBroadModel : BaseViewModel() {
+open class FriendViewBroadModel : LoginViewBroadModel() {
 
     /**
      * 安全中心
@@ -42,35 +46,48 @@ open class FriendViewBroadModel : BaseViewModel() {
     }
 
 
-    suspend fun fetchFriendShipList(): SingleLiveBroadData<List<GlobalFriendBroadBean>> {
-        val liveData = SingleLiveBroadData<List<GlobalFriendBroadBean>>()
+    suspend fun fetchFriendShipList(): SingleLiveBroadData<Pair<List<GlobalFriendBroadBean>, List<FriendBean>>> {
+        val liveData = SingleLiveBroadData<Pair<List<GlobalFriendBroadBean>, List<FriendBean>>>()
         val body = HashMap<String, String>()
         withContext(Dispatchers.IO) {
             val list = arrayListOf<GlobalFriendBroadBean>()
-            val result = NetworkBroadRepository.postEncryptedList2<SocialContact>(
+            val list2 = arrayListOf<FriendBean>()
+            val result = NetworkBroadRepository.postEncryptedList2(
                 UrlBroadBroadConstants.FRIEND_CONTACT_LIST,
                 SocialContact::class.java, body
             )
             result.onSuccess { data ->
                 data?.list?.forEach { item ->
+                    val friendBean = FriendBean()
                     val glBean = GlobalFriendBroadBean()
                     glBean.userId = item.userId
-                    glBean.registerDay = item.registerDay
-                    glBean.grade = item.grade
+                    glBean.registerDay = item.registerDay?.let { anyToInt(it) }
+                    glBean.grade = item.grade?.let { anyToDouble(it) }
                     glBean.icon = item.icon
                     glBean.nickName = item.nickName
                     glBean.remarkName = item.remarkName
                     glBean.isVip = "1" == item.isvip
                     glBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
+
+                    friendBean.id = item.userId
+                    friendBean.grade = item.grade
+                    friendBean.remarkName = item.remarkName
+                    friendBean.isVip = "1" == item.isvip
+                    friendBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
+                    friendBean.registerDay = item.registerDay
+                    friendBean.sex = item.sex
+                    friendBean.nickName = item.nickName
+                    friendBean.userImg = item.icon
+                    list2.add(friendBean)
                     list.add(glBean)
+
                 }
-                liveData.postValue(list)
-            }.onFailure { code, message ->
-                liveData.postValue(list)
-            }.onError { e ->
-                liveData.postValue(list)
+                liveData.postValue(Pair(list, list2))
+            }.onFailure { _, _ ->
+                liveData.postValue(Pair(list, list2))
+            }.onError { _ ->
+                liveData.postValue(Pair(list, list2))
             }
-            list
         }
         return liveData
     }

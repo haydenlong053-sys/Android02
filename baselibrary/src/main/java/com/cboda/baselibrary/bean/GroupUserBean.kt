@@ -8,6 +8,7 @@ class GroupUserBean {
 
     var joinTime = ""//入群时间（"2026-04-23 15:56:33"）
 
+    var joinTimeTimestamp = 0L // /入群时间（ 1776930993000)
     var sex = ""//性别
 
     var groupID = ""

@@ -20,7 +20,10 @@ class UserInfoBean {
 
     var id = ""
 
-    var name = ""
+    var creditScoreNewUserDays = ""//支持发送链接注册最短时间（天数）
+    var creditScoreNewInGroupDays = ""//入群变化样式所需的最短天数（配置新入群天数）
+    var canSendLink = "false" //能否发送链接
+    var name = ""//名称
 
     @SerializedName("icon")
     var userImg = ""
@@ -29,6 +32,11 @@ class UserInfoBean {
     var loginQrcode = ""
 
     var qrcode = ""
+    var fris = 0L
+    var gros = 0L
+
+    @SerializedName("autofanyi")
+    var autoTranslation = ""
 
     @SerializedName("paypwd")
     var payPwd = "" //支付密码
@@ -52,7 +60,9 @@ class UserInfoBean {
     var isVip = ""
 
     var sex = "1"//性别
-//    var isLiang = ""//是否为靓号
+
+
+    var isLiang = ""//是否为靓号
 
 
 //    @SerializedName("memberInterestList")
@@ -62,8 +72,17 @@ class UserInfoBean {
     var registerDayBean: RegisterDayBeanNew? = null
 
 
+    @SerializedName("kfid")
+    var aiRobotId = "robot001" //机器人ID
+
+
+    var chatImg = ""
+
     class RegisterDayBeanNew {
         @SerializedName("registDay")
-        var registrationDays = ""
+        var registrationDays = ""//注册天数
+
+        @SerializedName("newUserDays")
+        var registrationDayScore = ""//信用分底色变化所需的最短天数
     }
 }

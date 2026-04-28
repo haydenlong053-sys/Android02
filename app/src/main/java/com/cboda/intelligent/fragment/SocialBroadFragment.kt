@@ -598,7 +598,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                 modifier = Modifier.size(48.dp),
                 factory = { context -> VpGradeView(context) },
                 update = { view ->
-                    view.setData2(
+                    view.setData(
                         contact.icon,
                         !TextUtils.isEmpty(contact.lianghao),
                         contact.isvip == "1",

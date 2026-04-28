@@ -21,7 +21,6 @@ import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.model.SocialBroadCircle
 import com.cboda.intelligent.utils.StringBroadUtils
-import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.FriendViewBroadModel
 import com.hjq.shape.view.ShapeTextView
@@ -118,7 +117,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
         edtshenqing?.setText(
             StringBroadUtils.format(
                 getString(R.string.woshishenqing),
-                MainBroadActivity.currtentLoginUser?.name ?: ""
+                MainBroadActivity.currentLoginUser?.name ?: ""
             )
         )
         edtbeizhu?.setText(userName)

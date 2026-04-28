@@ -2,28 +2,22 @@ package com.cboda.chatui.utils
 
 import android.text.TextUtils
 import cn.wildfirechat.remote.ChatManager
-import com.blankj.utilcode.util.GsonUtils
-import com.cboda.baselibrary.bean.CommonDataListBroadBean
-import com.cboda.baselibrary.bean.GlobalBroadInfo.queryMyFriendInfo
-import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GroupUserBean
-import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncrypted
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
-import com.cboda.baselibrary.utils.APP_TAG
-import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
-import com.google.gson.reflect.TypeToken
 
 object E {
 
     fun getUserName(userId: String, groupId: String, refresh: Boolean = false, callBack: (String) -> Unit) {
-        // TODO optimize 缓存userInfo吧
+        //   缓存userInfo
 //        eLogD(APP_TAG,"userId==$userId---groupId==$groupId,")
         var displayName: String? = ""
         val userInfo = ChatManager.Instance().getUserInfo(userId, groupId, refresh)
@@ -39,7 +33,7 @@ object E {
         }
         if (TextUtils.isEmpty(displayName)) {
             displayName = "<$userId>"
-            queryMyFriendInfo(userId, null) { globalFriendBean: GlobalFriendBroadBean? ->
+            RealmUtil.findUserData(userId) { globalFriendBean ->
                 if (null != globalFriendBean) {
                     if (!TextUtils.isEmpty(globalFriendBean.remarkName)) {
                         displayName = globalFriendBean.remarkName
@@ -136,7 +130,7 @@ object E {
             postEncrypted(
                 UrlBroadConstants.GROUP_ME_USER,
                 map,
-                object : NetworkBroadUtils.NetworkCallback<GroupUserBean> {
+                object : NetworkBroadUtils.NetworkCallback<Any> {
 //                override fun onError(throwable: Throwable) {
 //                    callBack.invoke(null)
 //                }
@@ -174,11 +168,13 @@ object E {
 //                        callBack.invoke(null)
 //                    }
 //                }
-                    override fun onSuccess(data: GroupUserBean?) {
-                        eLogD("groupMeUserClass", "success:${toJson2(data)}")
+                    override fun onSuccess(data: Any?) {
+                        val userData = fromJson2(toJson2(data), GroupUserBean::class.java)
+
+
                     }
 
-                    override fun onFailure(code: Int, message: String, data: GroupUserBean?) {
+                    override fun onFailure(code: Int, message: String, data: Any?) {
                         eLogD("groupMeUserClass", "onFailure:$code ,$message")
                     }
 

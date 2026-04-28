@@ -54,6 +54,7 @@ import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
@@ -236,15 +237,18 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         eLogD(APP_TAG, "initFriendList-----------")
         lifecycleScope.launch {
             friendViewModel.fetchFriendShipList().observe(viewLifecycleOwner) { mList ->
-                eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.size}")
-                if (mList.isNotEmpty()) {
-                    MMKVBroadUtils.saveUserListData(mList, lifecycleScope)
+                eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.first.size}")
+//                if (mList.first.isNotEmpty()) {
+//                    MMKVBroadUtils.saveUserListData(mList.first, lifecycleScope)
+//                }
+                if (mList.second.isNotEmpty()) {
+                    RealmUtil.addUserData(mList.second, lifecycleScope)
                 }
             }
             friendViewModel.fetchGroupList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchGroupList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                   MMKVBroadUtils.saveGroupList(mList,lifecycleScope)
+                    MMKVBroadUtils.saveGroupList(mList, lifecycleScope)
                 }
             }
         }

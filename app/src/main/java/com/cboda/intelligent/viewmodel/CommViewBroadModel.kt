@@ -10,7 +10,7 @@ import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.*
@@ -60,7 +60,8 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
-                        saveUserData(bean.data)
+//                        saveUserData(bean.data)
+                        RealmUtil.addUserData(bean.data)
                         imUserLiveData.value = bean
                     }
                 }
@@ -1424,7 +1425,8 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
-                        saveUserData(bean.data)
+//                        saveUserData(bean.data)
+                        RealmUtil.addUserData(bean.data)
                         keFuData.value = bean
                     }
                 }

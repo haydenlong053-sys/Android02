@@ -2,6 +2,7 @@ package com.cboda.intelligent.viewmodel
 
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
+import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -11,6 +12,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.bean.ComposeItem
@@ -31,7 +33,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
     /**
      * 开通信用分
      */
-    suspend fun goOpenCredit(paypwd: String?) :SingleLiveBroadData<Boolean>{
+    suspend fun goOpenCredit(paypwd: String?): SingleLiveBroadData<Boolean> {
         showLoading()
         val mLiveData = SingleLiveBroadData<Boolean>()
         val params = hashMapOf<String, Any?>("paypwd" to paypwd)
@@ -46,7 +48,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                     dismissLoading()
                     mLiveData.postValue(true)
 
-                }.onFailure { code, message->
+                }.onFailure { code, message ->
                     dismissLoading()
                     showToastMain(message)
 
@@ -64,7 +66,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
     /**
      * 查询信用分详情
      */
-    suspend fun getCreditDetails() :SingleLiveBroadData<CreditScoreBean>{
+    suspend fun getCreditDetails(): SingleLiveBroadData<CreditScoreBean> {
         showLoading()
         val safeCenterLiveData = SingleLiveBroadData<CreditScoreBean>()
         val params = hashMapOf<String, Any>()
@@ -98,7 +100,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
     /**
      * 查询信用构成列表
      */
-    suspend fun getCreditConstituteList() :SingleLiveBroadData<NetworkListBroadResult<ComposeItem>>{
+    suspend fun getCreditConstituteList(): SingleLiveBroadData<NetworkListBroadResult<ComposeItem>> {
         val safeCenterLiveData = SingleLiveBroadData<NetworkListBroadResult<ComposeItem>>()
         val params = hashMapOf("code" to "")
         withContext(Dispatchers.IO) {
@@ -127,13 +129,12 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
     }
 
 
-
     /**
      * 信用分记录分页
      */
-    suspend fun getLogPageList(pageNo: Int =1,pageSize: Int=CommonBroadConfig.pageSize_20) :SingleLiveBroadData<NetworkListBroadResult<ComposeItem>>{
+    suspend fun getLogPageList(pageNo: Int = 1, pageSize: Int = CommonBroadConfig.pageSize_20): SingleLiveBroadData<NetworkListBroadResult<ComposeItem>> {
         val safeCenterLiveData = SingleLiveBroadData<NetworkListBroadResult<ComposeItem>>()
-        val params = hashMapOf("pageNo" to pageNo,"pageSize" to pageSize)
+        val params = hashMapOf("pageNo" to pageNo, "pageSize" to pageSize)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncryptedList2<ComposeItem>(
@@ -157,7 +158,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
         }
         return safeCenterLiveData
     }
-    
+
     fun getSignInfo(): SingleLiveBroadData<Boolean> {
         val liveData = SingleLiveBroadData<Boolean>()
         viewModelScope.launch {
@@ -193,15 +194,17 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                     )
                     result.onSuccess { data ->
                         data?.let {
-                            val bean = GlobalFriendBroadBean()
-                            bean.userId = data.id
-                            bean.icon = data.icon
+                            val bean = FriendBean()
+                            bean.id = data.id ?: ""
+                            bean.userImg = data.icon
                             bean.nickName = data.name
-                            bean.grade = data.grade
-                            bean.registerDay = data.registerDayBean?.registDay
+                            bean.grade = data.grade.toString()
+                            bean.registerDay = data.registerDayBean?.registDay?.toString() ?: ""
                             bean.isVip = data.isvip == "1"
                             bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
-                            MMKVBroadUtils.saveUserData(bean)
+                            bean.sex = data.sex
+                            RealmUtil.addUserData(bean)
+//                            MMKVBroadUtils.saveUserData(bean)
                         }
                         eLogD("NewMirrorViewBroadModelClass", "data:${toJson2(data)}")
                         liveData.postValue(data)
@@ -224,7 +227,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
     /**
      * 查询信用分分数说明
      */
-    suspend fun getCreditScoreFunc() :SingleLiveBroadData<CreditScoreFuncBean>{
+    suspend fun getCreditScoreFunc(): SingleLiveBroadData<CreditScoreFuncBean> {
         showLoading()
         val safeCenterLiveData = SingleLiveBroadData<CreditScoreFuncBean>()
         val params = hashMapOf<String, Any>()

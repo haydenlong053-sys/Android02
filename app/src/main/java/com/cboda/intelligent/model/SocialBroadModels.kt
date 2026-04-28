@@ -17,11 +17,11 @@ data class SocialContact(
     val city: String?,
     val profession: String?,
     val sex: String?,
-    val grade: Double?,
+    val grade: String?,
     val days: Int?,
     val characterTags: String? = "",
     val characterTagsId: Int?,
-    val registerDay: Int?,
+    val registerDay: String?,
     val isvip: String?,
     val lianghao: String?,
     val first: String? // 服务器返回的首字母备用

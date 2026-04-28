@@ -54,6 +54,7 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cboda.baselibrary.bean.CommonResultBroadBean;
 import com.cboda.baselibrary.bean.DanmakuItem;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
@@ -82,6 +83,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.widge.CountPillView;
 import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.baselibrary.widge.VerticalDanmakuView;
@@ -1403,41 +1405,38 @@ public class ConversationBroadFragment extends Fragment implements
 
         if (conversationBroad.type == Conversation.ConversationType.Single) {
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversationBroad.target, false);
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                @Override
-                public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
-                    if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-                        conversationBroadTitle = MMKVBroadUtils.Companion.getKeFuName();
-                    } else if (friendSmailListBean != null) {
-                        if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                            conversationBroadTitle = friendSmailListBean.remarkName;
-                        } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                            conversationBroadTitle = friendSmailListBean.nickName;
-                        } else {
-                            if (userInfo == null) {
-                                conversationBroadTitle = "";
-                            }
-                        }
-                    } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
-                        conversationBroadTitle = userInfo.friendAlias;
-                    } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
-                        conversationBroadTitle = userInfo.displayName;
+            RealmUtil.INSTANCE.findUserData(conversationBroad.target, friendSmailListBean -> {
+                if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+                    conversationBroadTitle = MMKVBroadUtils.Companion.getKeFuName();
+                } else if (friendSmailListBean != null) {
+                    if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                        conversationBroadTitle = friendSmailListBean.remarkName;
+                    } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                        conversationBroadTitle = friendSmailListBean.nickName;
                     } else {
                         if (userInfo == null) {
                             conversationBroadTitle = "";
                         }
                     }
-                    eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
-                    UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
-                    if (userOnlineState != null) {
-                        String onlineDesc = userOnlineState.desc();
-                        if (!TextUtils.isEmpty(onlineDesc)) {
-                            conversationBroadTitle += " (" + onlineDesc + ")";
-                        }
+                } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+                    conversationBroadTitle = userInfo.friendAlias;
+                } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
+                    conversationBroadTitle = userInfo.displayName;
+                } else {
+                    if (userInfo == null) {
+                        conversationBroadTitle = "";
                     }
-                    setActivityTitle(conversationBroadTitle);
-                    return null;
                 }
+                eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
+                UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
+                if (userOnlineState != null) {
+                    String onlineDesc = userOnlineState.desc();
+                    if (!TextUtils.isEmpty(onlineDesc)) {
+                        conversationBroadTitle += " (" + onlineDesc + ")";
+                    }
+                }
+                setActivityTitle(conversationBroadTitle);
+                return null;
             });
         } else if (conversationBroad.type == Conversation.ConversationType.Group) {
             if (groupInfoBroad != null) {

@@ -355,14 +355,14 @@ class MMKVBroadUtils {
             MMKV.initialize(context)
         }
 
-        fun saveUserData(data: GlobalFriendBroadBean) {
-            val list = arrayListOf<GlobalFriendBroadBean>()
-            list.add(data)
-            saveUserListData(list)
-        }
+//        fun saveUserData(data: GlobalFriendBroadBean) {
+//            val list = arrayListOf<GlobalFriendBroadBean>()
+//            list.add(data)
+//            saveUserListData(list)
+//        }
 
 
-        fun saveUserData(list: List<CommonDataListBroadBean.CommonBean>?) {
+//        fun saveUserData(list: List<CommonDataListBroadBean.CommonBean>?) {
 //            val glList = arrayListOf<GlobalFriendBroadBean>()
 //            list?.let {
 //                list.forEach { item ->
@@ -378,56 +378,56 @@ class MMKVBroadUtils {
 //                }
 //                saveUserListData(glList)
 //            }
-        }
+//        }
 
-        fun saveUserData(data: CommonResultBroadBean.CommonResult?) {
-            data?.also {
-                val bean = GlobalFriendBroadBean()
-                bean.userId = data.id
-                bean.nickName = data.name
-                bean.remarkName = data.remarkName
-                data.registerDayBean?.registDay?.also { bean.registerDay = it }
-                bean.grade = data.grade
-                bean.icon = data.icon
-                bean.isVip = data.isvip == "1"
-                bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
-                saveUserData(bean)
-            }
-        }
-
-
-        fun saveUserListData(list: List<GlobalFriendBroadBean>, viewModelScope: CoroutineScope? = null) {
-            getFriendData(viewModelScope) { map ->
-                viewModelScope?.launch {
-                    withContext(Dispatchers.IO) {
-                        saveUserData(list, map)
-                    }
-                } ?: let {
-                    GlobalScope.launch(Dispatchers.IO) {
-                        saveUserData(list, map)
-                    }
-                }
-            }
-        }
+//        fun saveUserData(data: CommonResultBroadBean.CommonResult?) {
+//            data?.also {
+//                val bean = GlobalFriendBroadBean()
+//                bean.userId = data.id
+//                bean.nickName = data.name
+//                bean.remarkName = data.remarkName
+//                data.registerDayBean?.registDay?.also { bean.registerDay = it }
+//                bean.grade = data.grade
+//                bean.icon = data.icon
+//                bean.isVip = data.isvip == "1"
+//                bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
+//                saveUserData(bean)
+//            }
+//        }
 
 
-        fun saveUserData(list: List<GlobalFriendBroadBean>, map: HashMap<String, GlobalFriendBroadBean>) {
-            list.forEach { item ->
-                if (!TextUtils.isEmpty(item.userId)) {
-                    val bean = GlobalFriendBroadBean()
-                    bean.registerDay = item.registerDay
-                    bean.grade = item.grade
-                    bean.icon = item.icon
-                    bean.nickName = item.nickName
-                    bean.remarkName = item.remarkName
-                    bean.isVip = item.isVip
-                    bean.isNiceNum = item.isNiceNum
-                    map[item.userId ?: ""] = bean
-                }
-            }
-            MMKV.defaultMMKV().encode(KEY_FRIEND_LIST_DATA, toJson2(map))
-            GlobalBroadInfo.myFriendListBean = map
-        }
+//        fun saveUserListData(list: List<GlobalFriendBroadBean>, viewModelScope: CoroutineScope? = null) {
+//            getFriendData(viewModelScope) { map ->
+//                viewModelScope?.launch {
+//                    withContext(Dispatchers.IO) {
+//                        saveUserData(list, map)
+//                    }
+//                } ?: let {
+//                    GlobalScope.launch(Dispatchers.IO) {
+//                        saveUserData(list, map)
+//                    }
+//                }
+//            }
+//        }
+
+
+//        fun saveUserData(list: List<GlobalFriendBroadBean>, map: HashMap<String, GlobalFriendBroadBean>) {
+//            list.forEach { item ->
+//                if (!TextUtils.isEmpty(item.userId)) {
+//                    val bean = GlobalFriendBroadBean()
+//                    bean.registerDay = item.registerDay
+//                    bean.grade = item.grade
+//                    bean.icon = item.icon
+//                    bean.nickName = item.nickName
+//                    bean.remarkName = item.remarkName
+//                    bean.isVip = item.isVip
+//                    bean.isNiceNum = item.isNiceNum
+//                    map[item.userId ?: ""] = bean
+//                }
+//            }
+//            MMKV.defaultMMKV().encode(KEY_FRIEND_LIST_DATA, toJson2(map))
+//            GlobalBroadInfo.myFriendListBean = map
+//        }
 
         fun getFriendListData(): HashMap<String, GlobalFriendBroadBean> {
 
