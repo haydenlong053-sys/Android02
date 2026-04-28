@@ -14,7 +14,7 @@ import com.cboda.intelligent.dialog.NormalBroadDialog
 import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
-import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 import razerdp.basepopup.BasePopupWindow
 
 //保存提示pop

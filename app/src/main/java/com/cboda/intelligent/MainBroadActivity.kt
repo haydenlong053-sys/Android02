@@ -577,7 +577,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         val connectionStatusViewModel =
             ViewModelProvider(this)[IMConnectionStatusViewBroadModel::class.java]
         connectionStatusViewModel.connectionStatusLiveData().observe(this) {
-            AppBroadUtils.debug("野火", "连接状态--> $it")
+            eLogD("野火", "连接状态--> $it")
             when (it) {
                 ConnectionStatus.ConnectionStatusTokenIncorrect,
                 ConnectionStatus.ConnectionStatusSecretKeyMismatch,

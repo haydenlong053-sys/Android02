@@ -33,7 +33,7 @@ import com.cboda.intelligent.databinding.NewMirrorBroadFragmentBinding
 import com.cboda.intelligent.dialog.pop.CreditScoreActivateBroadPop
 import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
-import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.showGuidePasswordTip

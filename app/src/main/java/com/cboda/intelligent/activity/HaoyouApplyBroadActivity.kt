@@ -19,7 +19,7 @@ import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.showToastMain
-import com.cboda.intelligent.model.SocialBroadCircle
+import com.cboda.baselibrary.bean.SocialBroadCircle
 import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.FriendViewBroadModel

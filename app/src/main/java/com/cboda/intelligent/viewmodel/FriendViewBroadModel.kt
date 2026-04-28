@@ -1,8 +1,6 @@
 package com.cboda.intelligent.viewmodel
 
 import android.text.TextUtils
-import com.blankj.utilcode.util.ThreadUtils
-import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
@@ -14,8 +12,9 @@ import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.anyToDouble
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
-import com.cboda.intelligent.model.SocialBroadCircle
-import com.cboda.intelligent.model.SocialContact
+import com.cboda.baselibrary.bean.SocialBroadCircle
+import com.cboda.baselibrary.bean.SocialContact
+import com.cboda.baselibrary.utils.RealmUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -46,50 +45,20 @@ open class FriendViewBroadModel : LoginViewBroadModel() {
     }
 
 
-    suspend fun fetchFriendShipList(): SingleLiveBroadData<Pair<List<GlobalFriendBroadBean>, List<FriendBean>>> {
-        val liveData = SingleLiveBroadData<Pair<List<GlobalFriendBroadBean>, List<FriendBean>>>()
+    suspend fun fetchFriendShipList() {
         val body = HashMap<String, String>()
         withContext(Dispatchers.IO) {
-            val list = arrayListOf<GlobalFriendBroadBean>()
-            val list2 = arrayListOf<FriendBean>()
             val result = NetworkBroadRepository.postEncryptedList2(
                 UrlBroadBroadConstants.FRIEND_CONTACT_LIST,
                 SocialContact::class.java, body
             )
             result.onSuccess { data ->
-                data?.list?.forEach { item ->
-                    val friendBean = FriendBean()
-                    val glBean = GlobalFriendBroadBean()
-                    glBean.userId = item.userId
-                    glBean.registerDay = item.registerDay?.let { anyToInt(it) }
-                    glBean.grade = item.grade?.let { anyToDouble(it) }
-                    glBean.icon = item.icon
-                    glBean.nickName = item.nickName
-                    glBean.remarkName = item.remarkName
-                    glBean.isVip = "1" == item.isvip
-                    glBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
-
-                    friendBean.id = item.userId
-                    friendBean.grade = item.grade
-                    friendBean.remarkName = item.remarkName
-                    friendBean.isVip = "1" == item.isvip
-                    friendBean.isNiceNum = !TextUtils.isEmpty(item.lianghao)
-                    friendBean.registerDay = item.registerDay
-                    friendBean.sex = item.sex
-                    friendBean.nickName = item.nickName
-                    friendBean.userImg = item.icon
-                    list2.add(friendBean)
-                    list.add(glBean)
-
-                }
-                liveData.postValue(Pair(list, list2))
+                RealmUtil.addUserData(data?.list)
             }.onFailure { _, _ ->
-                liveData.postValue(Pair(list, list2))
+
             }.onError { _ ->
-                liveData.postValue(Pair(list, list2))
             }
         }
-        return liveData
     }
 
     suspend fun fetchGroupList(): SingleLiveBroadData<List<GlobalSmallGroupBroadBean>> {

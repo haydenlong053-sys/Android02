@@ -75,6 +75,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -1244,20 +1245,29 @@ public class ConversationBroadFragment extends Fragment implements
         messages.observe(this, uiMessages -> {
             swipeRefreshLayoutBroad.setRefreshing(false);
             eLogD(TAG, "uiMessagesSize3:" + uiMessages.size());
+            adapterBroad.setMessages(uiMessages);
             //初始化消息获取最新消息的发送者信息
             if (conversationBroad.type == Conversation.ConversationType.Group) {
-                List<String> uidList = new ArrayList<>();
+                List<String> uidListBefore = new ArrayList<>();
                 for (int i = 0; i < uiMessages.size(); i++) {
                     String senderId = uiMessages.get(i).message.sender;
                     if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId)) {
-                        uidList.add(senderId);
+                        uidListBefore.add(senderId);
                     }
                 }
+                List<String> uidList = new ArrayList<>(new HashSet<>(uidListBefore));
+//                eLogD(TAG,"uidListBefore:"+uidListBefore);
+//                eLogD(TAG,"uidList:"+uidList);
+                ThreadUtils.runOnUiThread(() -> {
+                    adapterBroad.notifyDataSetChanged();
+                });
+            } else {
+                ThreadUtils.runOnUiThread(() -> {
+                    adapterBroad.notifyDataSetChanged();
+                });
             }
-            adapterBroad.setMessages(uiMessages);
-            ThreadUtils.runOnUiThread(() -> {
-                adapterBroad.notifyDataSetChanged();
-            });
+
+
             if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {

@@ -2,9 +2,9 @@ package com.cboda.intelligent.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.bean.SocialContact
+import com.cboda.baselibrary.bean.SocialUiState
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.intelligent.model.SocialContact
-import com.cboda.intelligent.model.SocialUiState
 import com.cboda.chatui.utils.PinyinBroadUtils
 import com.cboda.intelligent.repository.SocialBroadRepository
 import kotlinx.coroutines.Job

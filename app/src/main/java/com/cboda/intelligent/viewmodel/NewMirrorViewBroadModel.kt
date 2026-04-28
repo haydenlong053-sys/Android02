@@ -3,12 +3,11 @@ package com.cboda.intelligent.viewmodel
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.FriendBean
-import com.cboda.baselibrary.bean.GlobalFriendBroadBean
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
@@ -21,7 +20,6 @@ import com.cboda.intelligent.bean.CreditScoreFuncBean
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SignInfoViewBroadModel
-import com.cboda.intelligent.model.UserInfoBroadModel
 import com.cboda.intelligent.utils.dismissLoading
 import com.cboda.intelligent.utils.showLoading
 import com.cboda.intelligent.utils.showToastMain
@@ -193,19 +191,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                         UserInfoBroadModel::class.java, HashMap<String, Any>()
                     )
                     result.onSuccess { data ->
-                        data?.let {
-                            val bean = FriendBean()
-                            bean.id = data.id ?: ""
-                            bean.userImg = data.icon
-                            bean.nickName = data.name
-                            bean.grade = data.grade.toString()
-                            bean.registerDay = data.registerDayBean?.registDay?.toString() ?: ""
-                            bean.isVip = data.isvip == "1"
-                            bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
-                            bean.sex = data.sex
-                            RealmUtil.addUserData(bean)
-//                            MMKVBroadUtils.saveUserData(bean)
-                        }
+                        RealmUtil.addUserData(data)
                         eLogD("NewMirrorViewBroadModelClass", "data:${toJson2(data)}")
                         liveData.postValue(data)
                     }.onFailure { _, _ ->
