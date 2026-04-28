@@ -99,11 +99,11 @@
     <string name="chakanquanbuquncheng">查看更多群成员</string>
     <string name="shezhiquntouxiang">设置群头像</string>
     <string name="qunid">群聊ID</string>
-    <string name="shewweizhiding">设为置顶</string>
-    <string name="xiaoximiandarao">消息免打扰</string>
+    <string name="shewweizhiding">置顶聊天</string>
+    <string name="xiaoximiandarao">免打扰</string>
     <string name="qungonggapo">群公告</string>
     <string name="qubmingcheng">群聊名称</string>
-    <string name="wodequnnicheng">我的群昵称</string>
+    <string name="wodequnnicheng">群昵称</string>
     <string name="qunguanli">群管理</string>
     <string name="qunguanliyuan">群管理员</string>
     <string name="qunjinyan">群禁言</string>
@@ -442,7 +442,7 @@
     <string name="输入激活码">输入激活码</string>
     <string name="升级群聊">升级群聊</string>
     <string name="机器人定时消息">机器人定时消息</string>
-    <string name="欢迎成员">欢迎成员</string>
+    <string name="欢迎成员">欢迎新成员</string>
     <string name="立即升级">立即升级</string>
     <string name="群成员上限为1000人">群成员上限为1000人</string>
     <string name="群成员上限为10000人">群成员上限为10000人</string>

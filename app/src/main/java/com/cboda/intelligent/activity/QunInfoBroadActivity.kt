@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
+@Deprecated("废弃")
 class QunInfoBroadActivity : BaseSimpleBroadActivity() {
 
     private var qunId = ""
