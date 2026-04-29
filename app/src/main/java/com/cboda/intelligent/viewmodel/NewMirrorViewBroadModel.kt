@@ -3,6 +3,7 @@ package com.cboda.intelligent.viewmodel
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.FriendBean
+import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -181,14 +182,14 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
         return liveData
     }
 
-    fun getUserInfo(): SingleLiveBroadData<UserInfoBroadModel?> {
-        val liveData = SingleLiveBroadData<UserInfoBroadModel?>()
+    fun getUserInfo(): SingleLiveBroadData<UserInfoBean?> {
+        val liveData = SingleLiveBroadData<UserInfoBean?>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
                     val result = NetworkBroadRepository.postEncrypted(
                         UrlBroadBroadConstants.GET_USER_INFO,
-                        UserInfoBroadModel::class.java, HashMap<String, Any>()
+                        UserInfoBean::class.java, HashMap<String, Any>()
                     )
                     result.onSuccess { data ->
                         RealmUtil.addUserData(data)

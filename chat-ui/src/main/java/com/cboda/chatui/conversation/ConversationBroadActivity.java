@@ -37,6 +37,7 @@ import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.plugin.PluginLayout;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
+import com.cboda.chatui.utils.E;
 import com.google.gson.Gson;
 import com.cboda.chatemoji.EmotionBroadEvent;
 
@@ -329,6 +330,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.SINGLE_CHAT_MORE.getValue(), conversationBroad.target, "", null);
                     } else {
                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GROUP_CHAT_HOME.getValue(), conversationBroad.target, "", null);
+//                        E.INSTANCE.getAllListUserData(conversationBroad.target);
                     }
 
                 }

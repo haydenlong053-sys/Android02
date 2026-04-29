@@ -4,12 +4,8 @@ import android.content.Context
 import android.text.TextUtils
 import com.blankj.utilcode.util.FileUtils
 import com.cboda.baselibrary.R
-import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
-import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
-import com.cboda.baselibrary.bean.GlobalBroadInfo
-import com.cboda.baselibrary.bean.GlobalBroadInfo.getFriendData
 import com.cboda.baselibrary.bean.GlobalBroadInfo.getGroupData
 import com.cboda.baselibrary.bean.GlobalBroadInfo.myGroupListData
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
@@ -42,7 +38,7 @@ class MMKVBroadUtils {
         const val DEV_INPUT_BASE_URL = "devInputBaseUrl"
         const val SEARCH_KEY = "searchHistoryKey"
         const val USER_ID_KEY = "userIdKey"
-
+        const val USER_LOGIN_DATA = "userLoginData"
         const val USER_SEND_LINK = "userSendLink"
 
         const val USER_CREDIT_SCORE_NEW_USER_DAYS = "userCreditScoreNewUserDays"
@@ -582,7 +578,6 @@ class MMKVBroadUtils {
         fun getNewInGroupDays(): Int {
             return getMmKv()?.decodeInt(CREDIT_SCORE_NEW_IN_GROUP_DAYS) ?: 0
         }
-
 
         private var mkv: MMKV? = null
         private fun getMmKv(): MMKV? {

@@ -91,6 +91,19 @@ public class TimeBroadBroadUtils {
         return msgTime.toString(pattern);
     }
 
+
+    public static String getJoinFormatTime2(long msgTimeMillis) {
+        if (msgTimeMillis == 0) {
+            return "";
+        }
+        DateTime msgTime = new DateTime(msgTimeMillis);
+        Calendar nowCalendar = Calendar.getInstance();
+        nowCalendar.get(Calendar.DAY_OF_YEAR);
+        Calendar msgCalendar = Calendar.getInstance();
+        msgCalendar.setTimeInMillis(msgTimeMillis);
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        return msgTime.toString(pattern);
+    }
     @NonNull
     private static String getTime(DateTime msgTime) {
         return msgTime.toString("HH:mm");

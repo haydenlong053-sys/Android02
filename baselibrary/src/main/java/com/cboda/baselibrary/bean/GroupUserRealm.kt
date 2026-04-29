@@ -10,4 +10,6 @@ open class GroupUserRealm : RealmObject() {
     var id = ""
     var groupNickName = ""//用户在群内的昵称
     var joinTime = 0L//入群时间
+
+    var extraJson = ""
 }

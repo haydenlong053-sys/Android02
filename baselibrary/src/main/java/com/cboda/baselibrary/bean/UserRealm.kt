@@ -9,7 +9,7 @@ open class UserRealm : RealmObject() {
     @Index
     @PrimaryKey
     var id = ""
-    var registerDay=""
+    var registerDay = ""
     var grade = ""
     var userImg = ""
     var nickName = ""
@@ -17,4 +17,5 @@ open class UserRealm : RealmObject() {
     var isVip: Boolean = false
     var isNiceNum: Boolean = false
     var sex = ""
+    var extraJson = ""
 }

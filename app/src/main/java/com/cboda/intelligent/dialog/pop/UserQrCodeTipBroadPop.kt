@@ -2,9 +2,12 @@ package com.cboda.intelligent.dialog.pop
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import com.blankj.utilcode.util.SizeUtils.dp2px
+import com.cboda.baselibrary.bean.UserInfoBean
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -15,10 +18,12 @@ import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.baselibrary.bean.UserInfoBroadModel
+import com.cboda.baselibrary.utils.loadImg
+import com.king.zxing.util.CodeUtils
 import razerdp.basepopup.BasePopupWindow
 
 //保存提示pop
-class UserQrCodeTipBroadPop(val context: Context, val userInfo: UserInfoBroadModel?) : BasePopupWindow(context) {
+class UserQrCodeTipBroadPop(val context: Context, val userInfo: UserInfoBean?) : BasePopupWindow(context) {
     private var binding: DialogPopSaveUserBroadQrcodeBinding = DialogPopSaveUserBroadQrcodeBinding.inflate(
         LayoutInflater.from(context)
     )
@@ -32,10 +37,14 @@ class UserQrCodeTipBroadPop(val context: Context, val userInfo: UserInfoBroadMod
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
-        GlideBroadUtil.setHeadImag(context, userInfo?.icon, binding.mIvIcon)
-        GlideBroadUtil.setImag(context, userInfo?.qrcode, binding.mIvQrCodeAuth)
+        GlideBroadUtil.setHeadImag(context, userInfo?.userImg, binding.mIvIcon)
+        if (userInfo != null && !TextUtils.isEmpty(userInfo.businessQrCode)) {
+            binding.mIvQrCodeAuth.loadImg(CodeUtils.createQRCode(userInfo.businessQrCode, dp2px(260f)), null)
+        } else {
+            binding.mIvQrCodeAuth.loadImg(userInfo?.qrcode, null)
+        }
         binding.mTvName.text = userInfo?.name
-        binding.mTvId.text = "ID：${userInfo?.idno ?: userInfo?.id}"
+        binding.mTvId.text = "ID：${userInfo?.showId ?: userInfo?.id}"
         binding.mTvSaveQrcode.setOnClickListener {
             val perms = arrayOf(Permission.READ_MEDIA_IMAGES, Permission.CAMERA)
             if (XXPermissions.isGranted(context, perms)) {

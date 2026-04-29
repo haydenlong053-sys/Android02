@@ -24,9 +24,11 @@ import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.anyToDouble
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
@@ -157,6 +159,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 try {
                     val result = NetworkBroadRepository.postEncrypted("api/userInfo", UserInfoBean::class.java, params)
                     result.onSuccess { data ->
+//                        MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
                         RealmUtil.addUserData(data)
                         data?.let {
                             liveData.postValue(data)
@@ -524,6 +527,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                             newIntent.putExtra("imtoken", resultBean.imtoken)
                             newIntent.putExtra("idno", resultBean.idno)
                             newIntent.putExtra("qrcode", resultBean.qrcode)
+                            newIntent.putExtra("qrCodeNew", resultBean.tQrcode2)
                             newIntent.putExtra("account", account)
                             newIntent.putExtra("pwd", pwd)
                             mContext.startActivity(newIntent)

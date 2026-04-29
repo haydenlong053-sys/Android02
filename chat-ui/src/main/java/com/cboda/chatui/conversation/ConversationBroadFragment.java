@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.os.RemoteException;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -57,6 +59,7 @@ import com.cboda.baselibrary.bean.DanmakuItem;
 import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.UserGroupBean;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
@@ -1122,7 +1125,16 @@ public class ConversationBroadFragment extends Fragment implements
             EnterChannelChatMessageContent content = new EnterChannelChatMessageContent();
             messageBroadViewModel.sendMessage(conversation, content, false);
         } else if (conversation.type == Conversation.ConversationType.Group) {
-            messageBroadViewModel.getMsgDetailUserData(conversation.target);
+            UserGroupBean userGroupBean = new UserGroupBean();
+            userGroupBean.setGroupId(conversation.target);
+            userGroupBean.setUserId(MMKVBroadUtils.Companion.getRealUserId());
+            messageBroadViewModel.getMsgDetailUserData(userGroupBean);
+            Looper.myQueue().addIdleHandler(() -> {
+                // 在这里执行你的任务
+                E.INSTANCE.getAllListUserData(conversation.target);
+                // 返回 false 表示处理完成后不再调用
+                return false;
+            });
         }
 
         ConversationInfo conversationInfo = ChatManager.Instance().getConversation(conversation);
@@ -1248,26 +1260,19 @@ public class ConversationBroadFragment extends Fragment implements
             adapterBroad.setMessages(uiMessages);
             //初始化消息获取最新消息的发送者信息
             if (conversationBroad.type == Conversation.ConversationType.Group) {
-                List<String> uidListBefore = new ArrayList<>();
+                List<String> uidList = new ArrayList<>();
                 for (int i = 0; i < uiMessages.size(); i++) {
                     String senderId = uiMessages.get(i).message.sender;
                     if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId)) {
-                        uidListBefore.add(senderId);
+                        uidList.add(senderId);
                     }
                 }
-                List<String> uidList = new ArrayList<>(new HashSet<>(uidListBefore));
-//                eLogD(TAG,"uidListBefore:"+uidListBefore);
-//                eLogD(TAG,"uidList:"+uidList);
-                ThreadUtils.runOnUiThread(() -> {
-                    adapterBroad.notifyDataSetChanged();
-                });
-            } else {
-                ThreadUtils.runOnUiThread(() -> {
-                    adapterBroad.notifyDataSetChanged();
-                });
+                E.INSTANCE.getListUserData(conversationBroad.target, uidList);
             }
 
-
+            ThreadUtils.runOnUiThread(() -> {
+                adapterBroad.notifyDataSetChanged();
+            });
             if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {

@@ -7,6 +7,7 @@ package com.cboda.chatui.viewmodel;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToDouble;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,9 +20,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.cboda.baselibrary.bean.CommonDataListBroadBean;
+import com.cboda.baselibrary.bean.FriendBean;
+import com.cboda.baselibrary.bean.GroupUserBean;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.bean.UserGroupBean;
 import com.cboda.baselibrary.utils.CompressionBroadUtil;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.utils.SharePrefBroadBroadUtil;
+import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.select.picture.utils.ToastBroadUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -77,6 +83,9 @@ import cn.wildfirechat.remote.OnReceiveMessageListener;
 import cn.wildfirechat.remote.OnSendMessageListener;
 import cn.wildfirechat.remote.SecretMessageBurnStateListener;
 import cn.wildfirechat.remote.SendMessageCallback;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
 
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
@@ -336,15 +345,28 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     public boolean shifoumianci = false;
     public String mgc;
     public String openMgc;
-    private CommonDataListBroadBean.CommonBean userGroupData;
+    private GroupUserBean groupUserBean;
+    private UserGroupBean meUserGroupBean;
+    private FriendBean friendBean;
 
-    public CommonDataListBroadBean.CommonBean getUserGroupData() {
-        return userGroupData;
-    }
+//    public GroupUserBean getUserGroupData() {
+//        if(null==userGroupData && null!=meUserGroupBean){
+//
+//        }else{
+//            return userGroupData;
+//        }
+//    }
 
-    public void getMsgDetailUserData(String groupId) {
-        E.INSTANCE.getDetailUserData(groupId, commonBean -> {
-//            userGroupData = commonBean;
+    public void getMsgDetailUserData(UserGroupBean userGroupBean) {
+        meUserGroupBean = userGroupBean;
+        E.INSTANCE.getDetailUserData(userGroupBean, groupUserBean -> {
+            if (null != groupUserBean) {
+                this.groupUserBean = groupUserBean;
+                if (null != groupUserBean.getJoinTimeTimestamp() && groupUserBean.getJoinTimeTimestamp() != 0L) {
+                    meUserGroupBean.setJoinTime(groupUserBean.getJoinTimeTimestamp());
+                    meUserGroupBean.setGroupNickName(groupUserBean.getGroupNickName());
+                }
+            }
             return null;
         });
 
@@ -364,12 +386,53 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
         sendMessageAfter(conversation, content, isMeetingImage);
     }
 
+
     public void sendMessageAfter(Conversation conversation, MessageContent content, Boolean isMeetingImage) {
-//        if (conversation.type == Conversation.ConversationType.Group) {
-//            content.extra = toJson2(new MsgBroadExtra(userGroupData.getGrade(), userGroupData.getJoinTime(), isMeetingImage ? "1" : ""));
-//        } else if (isMeetingImage) {
-//            content.extra = toJson2(new MsgBroadExtra(0.0, "", "1"));
-//        }
+        if (isMeetingImage) {
+            content.extra = toJson2(new MsgBroadExtra("", "", "1", "", "", "", ""));
+            sendMessageAfter(conversation, content);
+        } else if (conversation.type == Conversation.ConversationType.Group) {
+            if (null != meUserGroupBean.getJoinTime() && meUserGroupBean.getJoinTime() != 0L && null != friendBean) {
+                sendMessageAfter(conversation, content, friendBean, meUserGroupBean);
+            } else {
+                E.INSTANCE.getUserAndGroupData(groupUserBean, meUserGroupBean, (friendBean, userGroupBean) -> {
+                    sendMessageAfter(conversation, content, friendBean, userGroupBean);
+                    return null;
+                });
+            }
+        }
+    }
+
+    public void sendMessageAfter(Conversation conversation, MessageContent content, FriendBean friendBean, UserGroupBean userGroupBean) {
+        String grade = "";
+        String joinTime = "";
+        String registerDay = "";
+        String isVip = "";
+        String isNiceNum = "";
+        String nickNameInGroup = "";
+        if (null != friendBean) {
+            this.friendBean = friendBean;
+            grade = friendBean.grade;
+            registerDay = friendBean.registerDay;
+            if (friendBean.isVip) {
+                isVip = "1";
+            }
+            if (friendBean.isNiceNum) {
+                isNiceNum = "1";
+            }
+        }
+        if (null != userGroupBean) {
+            this.meUserGroupBean = userGroupBean;
+            if (null != userGroupBean.getGroupNickName() && !TextUtils.isEmpty(userGroupBean.getGroupNickName())) {
+                nickNameInGroup = userGroupBean.getGroupNickName();
+            }
+            joinTime = TimeBroadBroadUtils.getJoinFormatTime2(userGroupBean.getJoinTime());
+        }
+        content.extra = toJson2(new MsgBroadExtra(grade, joinTime, "", registerDay, isVip, isNiceNum, nickNameInGroup));
+        sendMessageAfter(conversation, content);
+    }
+
+    public void sendMessageAfter(Conversation conversation, MessageContent content) {
         //野火发送消息
         if (content instanceof TypingMessageContent) {
             Message msg = new Message();
@@ -384,7 +447,6 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                 if (shiji >= shijicha) {
                     faxiaoxi(conversation, content);
                 } else {
-
                     ToastBroadUtils.showToast(context, "发言过于频繁");
                 }
 

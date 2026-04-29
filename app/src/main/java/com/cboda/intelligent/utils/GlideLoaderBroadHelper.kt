@@ -58,7 +58,7 @@ class GlideLoaderBroadHelper {
          */
         fun loadCenterCopRoundedCornersUrl(
             context: Context?,
-            url: String,
+            url: Any,
             imageView: ImageView,
             radius: Int,
             placeId: Int = 0,

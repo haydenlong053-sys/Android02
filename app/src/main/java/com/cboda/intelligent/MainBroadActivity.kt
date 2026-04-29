@@ -59,6 +59,7 @@ import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_CREDIT_SCORE_NEW_USER_DAYS
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_REGISTRATION_DAY_SCORE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.RealmUtil
@@ -496,11 +497,12 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.getUserInfo()?.observe(this@MainBroadActivity) { data ->
             currentLoginUser = data
             CrashFactory.crashLoad.crashU(this@MainBroadActivity, data.realityId, data.deviceId)
+//            MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
             RealmUtil.addUserData(data)
             MMKVBroadUtils.saveUserImg(data.userImg)
             MMKVBroadUtils.saveKeFuId(data.aiRobotId)
             MMKVBroadUtils.saveUserName(data.name)
-            MMKVBroadUtils.saveUserNiceNum(data.isLiang )
+            MMKVBroadUtils.saveUserNiceNum(data.isLiang)
             MMKVBroadUtils.saveUserMId(data.realityId)
             MMKVBroadUtils.saveSqlStrData(USER_SEND_LINK, data.canSendLink)
             MMKVBroadUtils.saveSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, data.creditScoreNewUserDays)

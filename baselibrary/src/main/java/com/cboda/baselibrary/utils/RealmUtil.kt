@@ -5,7 +5,10 @@ import android.text.TextUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.FriendBean
+import com.cboda.baselibrary.bean.GroupUserBean
+import com.cboda.baselibrary.bean.GroupUserRealm
 import com.cboda.baselibrary.bean.SocialContact
+import com.cboda.baselibrary.bean.UserGroupBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.bean.UserRealm
@@ -35,11 +38,13 @@ object RealmUtil {
 //            } ?: callBack.invoke(null)
         }
     }
+
     fun addUserData(list: List<SocialContact>?, viewModelScope: CoroutineScope? = null) {
         list?.let {
             if (list.isNotEmpty()) {
-                list.forEach { item ->
-                    getRealm()?.executeTransactionAsync { realm ->
+                val updateList = arrayListOf<UserRealm>()
+                getRealm()?.executeTransactionAsync { realm ->
+                    list.forEach { item ->
                         val data = realm.where(UserRealm::class.java)?.equalTo("id", item.userId)?.findFirst()
 //                    viewModelScope?.launch {
 //                        withContext(Dispatchers.IO) {
@@ -53,13 +58,14 @@ object RealmUtil {
 ////                            }
 //                        }
 //                    }
-                        val list = arrayListOf<UserRealm>()
                         data?.let {
-                            list.add(data)
+                            updateList.add(data)
                         } ?: let {
-                            list.add(getUserRealm(item))
+                            updateList.add(getUserRealm(item))
                         }
-                        realm.insertOrUpdate(list)
+                    }
+                    if (updateList.isNotEmpty()) {
+                        realm.insertOrUpdate(updateList)
                     }
                 }
             }
@@ -79,21 +85,6 @@ object RealmUtil {
             bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
             bean.sex = data.sex
             addUserData(bean)
-        }
-    }
-
-    fun addUserData(friendBean: FriendBean?) {
-        friendBean?.let {
-            if (!TextUtils.isEmpty(friendBean.id)) {
-//                if (canFind) {
-                findUserDataAndUpdateOrAdd(friendBean.id, friendBean)
-//                } else {
-//                    getRealm()?.executeTransactionAsync { realm ->
-//                        val createUserRealm = realm.createObject(UserRealm::class.java)
-//                        addUserData2(friendBean, createUserRealm)
-//                    }
-//                }
-            }
         }
     }
 
@@ -127,7 +118,115 @@ object RealmUtil {
         }
     }
 
-//    fun addUserData(list: List<FriendBean>?, viewModelScope: CoroutineScope? = null) {
+
+    fun addUserGroupData(userGroupBean: UserGroupBean, groupUserBean: GroupUserBean?) {
+        groupUserBean?.let {
+            if (!TextUtils.isEmpty(userGroupBean.groupId) && !TextUtils.isEmpty(userGroupBean.userId)) {
+                addUserGroupData(getUserGroupBean(userGroupBean, groupUserBean))
+                val friendBean = getFriendBean(groupUserBean)
+                addUserData(friendBean)
+            }
+        }
+    }
+
+
+    fun addUserGroupData(groupId: String?, list: List<GroupUserBean>?, viewModelScope: CoroutineScope? = null) {
+        list?.let {
+            if (list.isNotEmpty() && !TextUtils.isEmpty(groupId)) {
+                getRealm()?.executeTransactionAsync { realm ->
+                    val updateList = arrayListOf<GroupUserRealm>()
+                    list.forEach { item ->
+                        val userGroupBean = UserGroupBean()
+                        userGroupBean.groupId = groupId ?: ""
+                        userGroupBean.userId = item.userId
+                        val id = getUserGroupId(userGroupBean)
+                        val data = realm.where(GroupUserRealm::class.java)?.equalTo("id", id)?.findFirst()
+                        data?.let {
+                            updateList.add(data)
+                        } ?: let {
+                            updateList.add(getGroupUserRealm(item, id))
+                        }
+                    }
+                    if (updateList.isNotEmpty()) {
+                        realm.insertOrUpdate(updateList)
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun findUserGroupData(userGroupBean: UserGroupBean?, callBack: (UserGroupBean?) -> Unit = {}) {
+        findUserGroupData2(userGroupBean) { data ->
+            data?.let {
+                if (0L != data.joinTime) {
+                    userGroupBean?.joinTime = data.joinTime
+                }
+                userGroupBean?.groupNickName = data.groupNickName
+                ThreadUtils.getMainHandler().post { callBack.invoke(userGroupBean) }
+            } ?: ThreadUtils.getMainHandler().post { callBack.invoke(null) }
+        }
+    }
+
+
+    private fun findUserGroupData2(userGroupBean: UserGroupBean?, callBack: (GroupUserRealm?) -> Unit = {}) {
+        userGroupBean?.let {
+            if (!TextUtils.isEmpty(userGroupBean.groupId) && !TextUtils.isEmpty(userGroupBean.userId)) {
+                getRealm()?.executeTransactionAsync { realm ->
+                    val data = realm.where(GroupUserRealm::class.java)?.equalTo("id", getUserGroupId(userGroupBean))?.findFirst()
+                    callBack.invoke(data)
+                }
+            } else {
+                callBack.invoke(null)
+            }
+        } ?: callBack.invoke(null)
+    }
+
+    private fun addUserGroupData(userGroupBean: UserGroupBean?) {
+        userGroupBean?.let {
+            if (!TextUtils.isEmpty(userGroupBean.groupId) && !TextUtils.isEmpty(userGroupBean.userId)) {
+                findUserGroupDataAndUpdateOrAdd(userGroupBean)
+            }
+        }
+    }
+
+    private fun getUserGroupId(userGroupBean: UserGroupBean?): String {
+        return userGroupBean?.let { it.groupId + "_" + it.userId } ?: ""
+    }
+
+    private fun findUserGroupDataAndUpdateOrAdd(userGroupBean: UserGroupBean) {
+        val id = getUserGroupId(userGroupBean)
+        if (!TextUtils.isEmpty(id)) {
+            getRealm()?.executeTransactionAsync { realm ->
+                val groupUserRealm = realm.where(GroupUserRealm::class.java)?.equalTo("id", id)?.findFirst()
+                groupUserRealm?.let {
+                    userGroupBean.joinTime?.let {
+                        groupUserRealm.joinTime = it
+                    }
+                    if (!TextUtils.isEmpty(userGroupBean.groupNickName)) {
+                        groupUserRealm.groupNickName = userGroupBean.groupNickName ?: ""
+                    }
+                } ?: let {
+                    val createUserRealm = realm.createObject(GroupUserRealm::class.java, id)
+                    getUserGroupRealm(userGroupBean, createUserRealm)
+                }
+            }
+        }
+    }
+
+    private fun getUserGroupRealm(userGroupBean: UserGroupBean?, groupUserRealm: GroupUserRealm): GroupUserRealm {
+        userGroupBean?.let {
+            userGroupBean.joinTime?.let {
+                groupUserRealm.joinTime = it
+            }
+            if (!TextUtils.isEmpty(userGroupBean.groupNickName)) {
+                groupUserRealm.groupNickName = userGroupBean.groupNickName ?: ""
+            }
+        }
+        return groupUserRealm
+    }
+
+    //    fun addUserData(list: List<FriendBean>?, viewModelScope: CoroutineScope? = null) {
 //        list?.let {
 //            list.forEach { item ->
 //                getRealm()?.executeTransactionAsync { realm ->
@@ -155,6 +254,20 @@ object RealmUtil {
 //            }
 //        }
 //    }
+    private fun addUserData(friendBean: FriendBean?) {
+        friendBean?.let {
+            if (!TextUtils.isEmpty(friendBean.id)) {
+//                if (canFind) {
+                findUserDataAndUpdateOrAdd(friendBean.id, friendBean)
+//                } else {
+//                    getRealm()?.executeTransactionAsync { realm ->
+//                        val createUserRealm = realm.createObject(UserRealm::class.java)
+//                        addUserData2(friendBean, createUserRealm)
+//                    }
+//                }
+            }
+        }
+    }
 
     private fun findUserData2(id: String?, callBack: (UserRealm?) -> Unit = {}) {
         if (!TextUtils.isEmpty(id)) {
@@ -237,6 +350,19 @@ object RealmUtil {
         return createUserRealm
     }
 
+
+    private fun getGroupUserRealm(groupUserBean: GroupUserBean, id: String): GroupUserRealm {
+        val groupUserRealm = GroupUserRealm()
+        groupUserRealm.id = id
+        groupUserBean.joinTimeTimestamp?.let {
+            groupUserRealm.joinTime = it
+        }
+        if (!TextUtils.isEmpty(groupUserBean.groupNickName)) {
+            groupUserRealm.groupNickName = groupUserBean.groupNickName ?: ""
+        }
+        return groupUserRealm
+    }
+
     private fun getUserRealm(friendBean: FriendBean?, userRealm: UserRealm?): UserRealm {
         val createUserRealm = userRealm ?: UserRealm()
         friendBean?.let {
@@ -269,6 +395,35 @@ object RealmUtil {
             }
         }
         return createUserRealm
+    }
+
+
+    fun getFriendBean(groupUserBean: GroupUserBean?): FriendBean? {
+        return groupUserBean?.let {
+            val friendBean = FriendBean()
+            friendBean.id = groupUserBean.userId
+            friendBean.sex = groupUserBean.sex
+            friendBean.isVip = groupUserBean.isVip == "1"
+            friendBean.userImg = groupUserBean.icon
+            friendBean.nickName = groupUserBean.name
+            friendBean.registerDay = groupUserBean.registDay
+            friendBean.isNiceNum = groupUserBean.isLiang == "1"
+            friendBean.grade = groupUserBean.grade
+            friendBean
+        }
+    }
+
+    fun getUserGroupBean(getUserGroupBean: UserGroupBean?, groupUserBean: GroupUserBean?): UserGroupBean? {
+        return groupUserBean?.let {
+            val userGroupBean = getUserGroupBean ?: UserGroupBean()
+            if (null == getUserGroupBean) {
+                userGroupBean.userId = groupUserBean.userId
+                userGroupBean.groupId = groupUserBean.groupID
+            }
+            userGroupBean.joinTime = groupUserBean.joinTimeTimestamp
+            userGroupBean.groupNickName = groupUserBean.groupNickName
+            userGroupBean
+        }
     }
 
     //    private var mRealm: Realm? = null

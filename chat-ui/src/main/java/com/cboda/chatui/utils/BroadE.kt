@@ -2,15 +2,17 @@ package com.cboda.chatui.utils
 
 import android.text.TextUtils
 import cn.wildfirechat.remote.ChatManager
+import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GroupUserBean
+import com.cboda.baselibrary.bean.UserGroupBean
 import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncrypted
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.fromJson2
+import com.cboda.baselibrary.utils.fromListJson2
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
 
@@ -48,72 +50,50 @@ object E {
         }
     }
 
-    fun getListUserData(groupId: String?, uidList: List<String>?) {
+
+
+    fun getAllListUserData(groupId: String?) {
+        if (!TextUtils.isEmpty(groupId)) {
+            val map = mapOf("id" to groupId)
+            postEncryptedList(
+                "api/groupUserList",
+                map,
+                object : NetworkBroadUtils.ListCallback<Any> {
+                    override fun onSuccess(list: List<Any>?, totalCount: Int, totalPage: Int) {
+//                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
+                        RealmUtil.addUserGroupData(groupId, fromListJson2(toJson2(list), GroupUserBean::class.java))
+                    }
+
+                    override fun onFailure(code: Int, message: String) {
+//                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
+                    }
+
+                    override fun onError(throwable: Throwable) {
+//                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
+                    }
+
+                })
+        }
+    }
+    fun getListUserData(groupId: String?, uidList: List<String?>?) {
         if (!TextUtils.isEmpty(groupId) && !uidList.isNullOrEmpty()) {
-            val uids = uidList.toTypedArray()
+            val uids = uidList.filterNotNull().filter { it.isNotBlank() }.distinct().toTypedArray()
             val map = mapOf("id" to groupId, "uids" to uids)
             postEncryptedList(
                 "api/groupUsersInfoBatch",
                 map,
                 object : NetworkBroadUtils.ListCallback<GroupUserBean> {
-//                override fun onError(throwable: Throwable) {
-//                    callBack.invoke(null)
-//                }
-//
-//                override fun onFailure(code: Int, message: String) {
-//                    callBack.invoke(null)
-//                }
-
-                    //                override fun onSuccess(
-//                    list: List<CommonDataListBroadBean.CommonBean>?,
-//                    totalCount: Int,
-//                    totalPage: Int
-//                ) {
-//                    list?.also {
-//                        val gson = GsonUtils.getGson()
-//                        val jsonStr = gson.toJson(list)
-//                        val userList = gson.fromJson<MutableList<CommonDataListBroadBean.CommonBean>?>(
-//                            jsonStr,
-//                            object :
-//                                TypeToken<MutableList<CommonDataListBroadBean.CommonBean>?>() {}.type
-//                        )
-//                        userList?.also {
-//                            var commonBean: CommonDataListBroadBean.CommonBean? = null
-//                            for (bean in userList) {
-//                                if (bean.userId == getRealUserId()) {
-//                                    commonBean = bean
-//                                    break
-//                                }
-//                            }
-//                            callBack.invoke(commonBean)
-//                        } ?: also {
-//                            callBack.invoke(null)
-//                        }
-//                    } ?: also {
-//                        callBack.invoke(null)
-//                    }
-//                }
-//                    override fun onSuccess(data: GroupUserBean?) {
-//                        eLogD("getListUserDataClass", "success:${toJson2(data)}")
-//                    }
-//
-//                    override fun onFailure(code: Int, message: String, data: GroupUserBean?) {
-//                        eLogD("groupMeUserClass", "onFailure:$code ,$message")
-//                    }
-//
-//                    override fun onError(throwable: Throwable) {
-//                        eLogD("groupMeUserClass", "onError:${throwable.toLog("groupMeUserClass")}")
-//                    }
                     override fun onSuccess(list: List<GroupUserBean>?, totalCount: Int, totalPage: Int) {
-                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
+                        RealmUtil.addUserGroupData(groupId, fromListJson2(toJson2(list), GroupUserBean::class.java))
+//                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
                     }
 
                     override fun onFailure(code: Int, message: String) {
-                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
+//                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
                     }
 
                     override fun onError(throwable: Throwable) {
-                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
+//                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
                     }
 
                 })
@@ -122,69 +102,47 @@ object E {
 
 
     fun getDetailUserData(
-        groupId: String?,
+        userGroupBean: UserGroupBean,
         callBack: (bean: GroupUserBean?) -> Unit
     ) {
-        if (!TextUtils.isEmpty(groupId)) {
-            val map = mapOf("id" to groupId, "uid" to getRealUserId())
+        if (!TextUtils.isEmpty(userGroupBean.groupId) && !TextUtils.isEmpty(userGroupBean.userId)) {
+            val map = mapOf("id" to userGroupBean.groupId, "uid" to userGroupBean.userId)
             postEncrypted(
                 UrlBroadConstants.GROUP_ME_USER,
                 map,
                 object : NetworkBroadUtils.NetworkCallback<Any> {
-//                override fun onError(throwable: Throwable) {
-//                    callBack.invoke(null)
-//                }
-//
-//                override fun onFailure(code: Int, message: String) {
-//                    callBack.invoke(null)
-//                }
-
-                    //                override fun onSuccess(
-//                    list: List<CommonDataListBroadBean.CommonBean>?,
-//                    totalCount: Int,
-//                    totalPage: Int
-//                ) {
-//                    list?.also {
-//                        val gson = GsonUtils.getGson()
-//                        val jsonStr = gson.toJson(list)
-//                        val userList = gson.fromJson<MutableList<CommonDataListBroadBean.CommonBean>?>(
-//                            jsonStr,
-//                            object :
-//                                TypeToken<MutableList<CommonDataListBroadBean.CommonBean>?>() {}.type
-//                        )
-//                        userList?.also {
-//                            var commonBean: CommonDataListBroadBean.CommonBean? = null
-//                            for (bean in userList) {
-//                                if (bean.userId == getRealUserId()) {
-//                                    commonBean = bean
-//                                    break
-//                                }
-//                            }
-//                            callBack.invoke(commonBean)
-//                        } ?: also {
-//                            callBack.invoke(null)
-//                        }
-//                    } ?: also {
-//                        callBack.invoke(null)
-//                    }
-//                }
                     override fun onSuccess(data: Any?) {
-                        val userData = fromJson2(toJson2(data), GroupUserBean::class.java)
-
-
+                        val groupUserBean = fromJson2(toJson2(data), GroupUserBean::class.java)
+                        RealmUtil.addUserGroupData(userGroupBean, groupUserBean)
+                        callBack.invoke(groupUserBean)
                     }
 
                     override fun onFailure(code: Int, message: String, data: Any?) {
-                        eLogD("groupMeUserClass", "onFailure:$code ,$message")
+//                        eLogD("groupMeUserClass", "onFailure:$code ,$message")
+                        callBack.invoke(null)
                     }
 
                     override fun onError(throwable: Throwable) {
-                        eLogD("groupMeUserClass", "onError:${throwable.toLog("groupMeUserClass")}")
+//                        eLogD("groupMeUserClass", "onError:${throwable.toLog("groupMeUserClass")}")
+                        callBack.invoke(null)
                     }
 
                 })
         } else {
             callBack.invoke(null)
+        }
+    }
+
+
+    fun getUserAndGroupData(groupUserBean: GroupUserBean?, meUserGroupBean: UserGroupBean?, callBack: (friendBean: FriendBean?, userGroupBean: UserGroupBean?) -> Unit) {
+        if (null == groupUserBean && null != meUserGroupBean) {
+            RealmUtil.findUserGroupData(meUserGroupBean) { groupBean ->
+                RealmUtil.findUserData(meUserGroupBean.userId) { userBean ->
+                    callBack.invoke(userBean, groupBean)
+                }
+            }
+        } else if (null != groupUserBean) {
+            callBack.invoke(RealmUtil.getFriendBean(groupUserBean), RealmUtil.getUserGroupBean(meUserGroupBean, groupUserBean))
         }
     }
 }

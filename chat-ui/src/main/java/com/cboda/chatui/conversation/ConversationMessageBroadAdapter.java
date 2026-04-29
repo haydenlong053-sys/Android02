@@ -500,23 +500,25 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                         } else {
                             singleVgView.setVisibility(View.VISIBLE);
                             if (!haveGradeData) {
-                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
+                                singleVgView.setData3(msgExtra.isNice().equals("1"), msgExtra.isVip().equals("1"), message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null, msgExtra.getRDay());
+//                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
                             }
                         }
                     } else if (!haveGradeData) {
                         singleVgView.setVisibility(View.VISIBLE);
-                        GlobalBroadInfo.INSTANCE.getFriendData(null, new Function1<HashMap<String, GlobalFriendBroadBean>, Unit>() {
-                            @Override
-                            public Unit invoke(HashMap<String, GlobalFriendBroadBean> stringGlobalFriendBroadBeanHashMap) {
-                                GlobalFriendBroadBean globalFriendBroadBean = stringGlobalFriendBroadBeanHashMap.get(message.message.sender);
-                                if (null != globalFriendBroadBean) {
-                                    singleVgView.setGradeData(globalFriendBroadBean.grade != null && message.message.conversation.type == Conversation.ConversationType.Group ? globalFriendBroadBean.grade : null);
-                                } else {
-                                    singleVgView.setGradeData(null);
-                                }
-                                return null;
-                            }
-                        });
+                        singleVgView.setGradeData(null);
+//                        GlobalBroadInfo.INSTANCE.getFriendData(null, new Function1<HashMap<String, GlobalFriendBroadBean>, Unit>() {
+//                            @Override
+//                            public Unit invoke(HashMap<String, GlobalFriendBroadBean> stringGlobalFriendBroadBeanHashMap) {
+//                                GlobalFriendBroadBean globalFriendBroadBean = stringGlobalFriendBroadBeanHashMap.get(message.message.sender);
+//                                if (null != globalFriendBroadBean) {
+//                                    singleVgView.setGradeData(globalFriendBroadBean.grade != null && message.message.conversation.type == Conversation.ConversationType.Group ? globalFriendBroadBean.grade : null);
+//                                } else {
+//                                    singleVgView.setGradeData(null);
+//                                }
+//                                return null;
+//                            }
+//                        });
                     } else {
                         singleVgView.setVisibility(View.VISIBLE);
                     }
@@ -531,7 +533,8 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                             singleVgView.setVisibility(View.VISIBLE);
                             String joinGroupTime = msgExtra.getJoinGroupTime();
                             if (!haveGradeData) {
-                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
+//                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
+                                singleVgView.setData3(msgExtra.isNice().equals("1"), msgExtra.isVip().equals("1"), message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null, msgExtra.getRDay());
                             }
                             joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
                             try {

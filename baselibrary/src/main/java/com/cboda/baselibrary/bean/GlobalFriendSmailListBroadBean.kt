@@ -77,3 +77,10 @@ class FriendBean {
     @JvmField
     var sex: String? = null
 }
+
+class UserGroupBean {
+    var userId = ""
+    var groupId = ""
+    var groupNickName: String? = null
+    var joinTime: Long? = null
+}
