@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -28,6 +29,7 @@ import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.ConversationViewBroadModel
@@ -104,13 +106,14 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private lateinit var miaodarao: SwitchCompat
     private lateinit var zhidingView: View
     private lateinit var zhiding: SwitchCompat
-    private lateinit var qunidlay: LinearLayoutCompat
-    private lateinit var qunma: ImageView
+    private lateinit var mIvGroupQrcode: View
+//    private lateinit var qunma: ImageView
     private lateinit var qunid: TextView
     private lateinit var shezhiqunnicheng: LinearLayoutCompat
     private lateinit var qunmingceng: TextView
+    private lateinit var mTvGroupName: TextView
     private lateinit var shezhiquntou: LinearLayoutCompat
-    private lateinit var quntouxiang: ImageView
+    private lateinit var mIvGroupAvatar: ImageView
     private lateinit var chakangebngduo: TextView
     private lateinit var recyclerView:
             RecyclerView
@@ -118,13 +121,14 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private fun initViews() {
         recyclerView = findViewById(R.id.recyclerView)
         chakangebngduo = findViewById(R.id.chakangebngduo)
-        quntouxiang = findViewById(R.id.quntouxiang)
+        mIvGroupAvatar = findViewById(R.id.mIvGroupAvatar)
         shezhiquntou = findViewById(R.id.shezhiquntou)
         qunmingceng = findViewById(R.id.qunmingceng)
+        mTvGroupName = findViewById(R.id.mTvGroupName)
         shezhiqunnicheng = findViewById(R.id.shezhiqunnicheng)
         qunid = findViewById(R.id.qunid)
-        qunma = findViewById(R.id.qunma)
-        qunidlay = findViewById(R.id.qunidlay)
+//        qunma = findViewById(R.id.qunma)
+        mIvGroupQrcode = findViewById(R.id.mIvGroupQrcode)
         zhiding = findViewById(R.id.zhiding)
         zhidingView = findViewById(R.id.zhidingView)
         miaodarao = findViewById(R.id.miaodarao)
@@ -175,6 +179,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
         return false
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViews()
@@ -242,26 +247,23 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
             it.data?.apply {
                 qunxiangqing = this
                 MMKVBroadUtils.updateGroupNameAndRenameCount(id, name, renameCount, icon)
-                if (this.qrcode?.isNotEmpty() == true) {
-                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
-                        this@QunInfo2BroadActivity,
-                        this.qrcode ?: "",
-                        qunma,
-                        PixelBroadBroadUtils.dip2px(this@QunInfo2BroadActivity, 10f)
-                    )
-                }
+//                if (this.qrcode?.isNotEmpty() == true) {
+//                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
+//                        this@QunInfo2BroadActivity,
+//                        this.qrcode ?: "",
+//                        qunma,
+//                        PixelBroadBroadUtils.dip2px(this@QunInfo2BroadActivity, 10f)
+//                    )
+//                }
                 if (this.icon?.isNotEmpty() == true) {
-                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
-                        this@QunInfo2BroadActivity,
-                        this.icon ?: "",
-                        quntouxiang,
-                        PixelBroadBroadUtils.dip2px(this@QunInfo2BroadActivity, 5f)
-                    )
+                    mIvGroupAvatar.loadImg(this.icon ?: "")
+
                 }
 
 
                 qunmingceng?.text = this.name ?: ""
-                qunid?.text = this.idno ?: ""
+                mTvGroupName?.text = this.name ?: ""
+                qunid?.text = "${getString(com.cboda.baselibrary.R.string.msg_group_id)}${this.idno ?: ""}"
                 zhiding?.isChecked = this.isZd == "1"
                 wodequnbnicjheng?.text = this.nickname ?: ""
 
@@ -518,12 +520,8 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
                         val resultList: MutableList<LocalMedia>? = result
                         if (resultList?.isNotEmpty() == true) {
                             val card1File = File(resultList[0].realPath)
-                            GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
-                                this@QunInfo2BroadActivity,
-                                "file://${resultList[0].realPath}",
-                                quntouxiang,
-                                PixelBroadBroadUtils.dip2px(this@QunInfo2BroadActivity, 5f)
-                            )
+                            mIvGroupAvatar.loadImg("file://${resultList[0].realPath}")
+
                             imgCompression(this@QunInfo2BroadActivity, card1File) { _, compressFile ->
                                 compressFile?.apply {
                                     if (uploadViewModel == null) {
@@ -690,7 +688,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 
 
 
-        qunidlay?.setOnClickListener {
+        mIvGroupQrcode?.setOnClickListener {
             JumpBroadUtils.startQunCodeActivity(this, qunId)
         }
 

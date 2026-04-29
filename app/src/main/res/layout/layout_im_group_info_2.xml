@@ -25,10 +25,7 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/quntouxiang"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="40dp"
@@ -139,44 +136,5 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/qunidlay"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/qunid"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_marginEnd="10dp"
-            android:maxWidth="180dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="#9C9C9C"
-            android:textSize="14sp"
-            android:id="@+id/qunid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:layout_marginEnd="10dp"
-            android:id="@+id/qunma"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

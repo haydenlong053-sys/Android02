@@ -611,9 +611,6 @@
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="9dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
