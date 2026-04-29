@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -27,24 +28,22 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.ConversationViewBroadModel
+import com.cboda.chatui.utils.GroupAvatarBroadLoader
 import com.cboda.chatui.utils.MyIMActivityBroadUtils
 import com.cboda.intelligent.R
-import com.cboda.intelligent.adapter.QunUserBroadAdapter
 import com.cboda.intelligent.adapter.QunUserBroadAdapter2
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.holder.BottomDialogBroadHolder
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.holder.ImagePickerBroadHolder
 import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.intelligent.utils.GlideLoaderBroadHelper
+import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.utils.JumpBroadUtils
-import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.UploadFileViewBroadModel
@@ -61,6 +60,8 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private val contentList = arrayListOf<String>()
     private var mAdapter: QunUserBroadAdapter2? = null
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
+
+    private fun membersPreviewForRecycler() = mDataList.take(10)
     private var pageNo = 1
     private var uploadViewModel: UploadFileViewBroadModel? = null
     private var qunxiangqing: CommonResultBroadBean.CommonResult? = null
@@ -107,7 +108,8 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private lateinit var zhidingView: View
     private lateinit var zhiding: SwitchCompat
     private lateinit var mIvGroupQrcode: View
-//    private lateinit var qunma: ImageView
+
+    //    private lateinit var qunma: ImageView
     private lateinit var qunid: TextView
     private lateinit var shezhiqunnicheng: LinearLayoutCompat
     private lateinit var qunmingceng: TextView
@@ -115,8 +117,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private lateinit var shezhiquntou: LinearLayoutCompat
     private lateinit var mIvGroupAvatar: ImageView
     private lateinit var chakangebngduo: TextView
-    private lateinit var recyclerView:
-            RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
     private fun initViews() {
         recyclerView = findViewById(R.id.recyclerView)
@@ -203,7 +204,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
         findViewById<View>(com.cboda.baselibrary.R.id.mViewBack).click {
             finish()
         }
-        findViewById<View>(com.cboda.baselibrary.R.id.mFlView).isVisible =true
+        findViewById<View>(com.cboda.baselibrary.R.id.mFlView).isVisible = true
         findViewById<View>(com.cboda.baselibrary.R.id.mFlView).click {
             contentList.clear()
             contentList.add(getString(R.string.tousuqun))
@@ -215,6 +216,9 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
             }
             holder.show()
         }
+        val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
+        findViewById<TextView>(R.id.mTvGroupMemberCount).text ="群成员(${(groupInfo?.memberCount?:0)-1})"
+
         conversationViewModel = WfcUIBroadKit.getAppScopeViewModel(
             ConversationViewBroadModel::class.java
         )
@@ -255,9 +259,32 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 //                        PixelBroadBroadUtils.dip2px(this@QunInfo2BroadActivity, 10f)
 //                    )
 //                }
-                if (this.icon?.isNotEmpty() == true) {
-                    mIvGroupAvatar.loadImg(this.icon ?: "")
 
+//                if (this.icon?.isNotEmpty() == true) {
+//                    mIvGroupAvatar.loadImg(this.icon ?: "")
+//
+//                }
+                //此处参考泽伟写的展示群头像逻辑
+                val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
+                // 提取头像URL列表
+                val avatarUrls: MutableList<String> = java.util.ArrayList<String>()
+                if (this.userList != null && this.userList?.isNotEmpty() == true) {
+                    for (broadBean in this.userList) {
+                        avatarUrls.add(broadBean.icon ?: "")
+                    }
+                }
+                if (TextUtils.isEmpty(this.icon) && groupInfo != null && !TextUtils.isEmpty(groupInfo.portrait)) {
+                    mIvGroupAvatar.loadImg(groupInfo.portrait)
+
+                } else if (TextUtils.isEmpty(this.icon) && !avatarUrls.isEmpty()) {
+                    GroupAvatarBroadLoader.loadToImageView(
+                        this@QunInfo2BroadActivity,
+                        avatarUrls,
+                        mIvGroupAvatar,
+                        qunId
+                    )
+                } else {
+                    mIvGroupAvatar.loadImg(this.icon)
                 }
 
 
@@ -348,21 +375,22 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
                 }
 
 
-                mAdapter?.setList(mDataList)
+                mAdapter?.setList(membersPreviewForRecycler())
 
-                if (qunxiangqing?.gonggao.isNullOrEmpty()){
-                    mTvNoticeSet.isVisible =true
-                    mTvNoticeDes.isVisible =false
-                }else{
-                    mTvNoticeSet.isVisible =false
-                    mTvNoticeDes.isVisible =true
-                    mTvNoticeDes.text =qunxiangqing?.gonggao
+                if (qunxiangqing?.gonggao.isNullOrEmpty()) {
+                    mTvNoticeSet.isVisible = true
+                    mTvNoticeDes.isVisible = false
+                } else {
+                    mTvNoticeSet.isVisible = false
+                    mTvNoticeDes.isVisible = true
+                    mTvNoticeDes.text = qunxiangqing?.gonggao
                 }
             }
 
         }
 
         mAdapter = QunUserBroadAdapter2(R.layout.item_qun_user_broad_layout2)
+        recyclerView.isNestedScrollingEnabled = false
         recyclerView?.apply {
             layoutManager = GridLayoutManager(
                 this@QunInfo2BroadActivity,
@@ -370,7 +398,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
             )
             adapter = mAdapter
         }
-        mAdapter?.setList(mDataList)
+        mAdapter?.setList(membersPreviewForRecycler())
         mAdapter?.setOnItemClickListener { _, _, position ->
             if (mDataList.isEmpty()) return@setOnItemClickListener
             when (mDataList[position].type) {
