@@ -20,6 +20,12 @@ class UserInfoBean {
 
     var id = ""
 
+    @SerializedName("hasPaypwd")
+    var hasPayPwd = ""//是否有支付密码
+
+    var gradePrice: String? = null
+    var gradeStatus: String? = null
+
     var creditScoreNewUserDays = ""//支持发送链接注册最短时间（天数）
     var creditScoreNewInGroupDays = ""//入群变化样式所需的最短天数（配置新入群天数）
     var canSendLink = "false" //能否发送链接
@@ -30,6 +36,14 @@ class UserInfoBean {
 
     @SerializedName("qrcode2")
     var loginQrcode = ""
+
+    @SerializedName("tQrcode2")
+    var loginNewQrCode = ""//扫码登录二维码
+
+
+    @SerializedName("tQrcode")
+    var businessQrCode = ""//加好友二维码
+
 
     var qrcode = ""
     var fris = 0L
@@ -59,14 +73,14 @@ class UserInfoBean {
     @SerializedName("isvip")
     var isVip = ""
 
-    var sex = "1"//性别
+    var sex = ""//性别
 
 
     var isLiang = ""//是否为靓号
 
 
-//    @SerializedName("memberInterestList")
-//    var memberInterestList: Array<String>? = null //标签
+    @SerializedName("memberInterestList")
+    var memberInterestList: Array<String>? = null //标签
 
     @SerializedName("3dDoll")
     var registerDayBean: RegisterDayBeanNew? = null
@@ -77,6 +91,13 @@ class UserInfoBean {
 
 
     var chatImg = ""
+
+//    @JvmField
+//    var profession = "" //职业
+//
+//
+//    @JvmField
+//    var city = "" //地区
 
     class RegisterDayBeanNew {
         @SerializedName("registDay")
