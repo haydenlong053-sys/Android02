@@ -1,6 +1,8 @@
 package com.cboda.baselibrary.network.config
 
 import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.select.picture.utils.LanguageUtil.getAppLanguageKey
+import com.cboda.select.picture.utils.LanguageUtil.getLanList
 import com.cboda.select.picture.utils.LanguageUtil.getSystemLocal
 
 
@@ -11,42 +13,42 @@ import com.cboda.select.picture.utils.LanguageUtil.getSystemLocal
  * @author CommonLibrary
  */
 object NetworkBroadConfig {
-    
+
     /**
      * 默认基础URL
      */
     var defaultBaseUrl: String = "https://api.example.com/"
-    
+
     /**
      * 连接超时时间（秒）
      */
     var connectTimeout: Long = 30
-    
+
     /**
      * 读取超时时间（秒）
      */
     var readTimeout: Long = 30
-    
+
     /**
      * 写入超时时间（秒）
      */
     var writeTimeout: Long = 30
-    
+
     /**
      * 是否启用日志
      */
     var enableLogging: Boolean = true
-    
+
     /**
      * App Token
      */
     var appToken: String? = null
-    
+
     /**
      * 通用请求头
      */
     var commonHeaders: MutableMap<String, String> = mutableMapOf()
-    
+
     /**
      * 初始化网络配置
      * 
@@ -69,7 +71,7 @@ object NetworkBroadConfig {
         this.writeTimeout = writeTimeout
         this.enableLogging = enableLogging
     }
-    
+
     /**
      * 设置基础URL
      * 
@@ -78,7 +80,7 @@ object NetworkBroadConfig {
     fun setBaseUrl(baseUrl: String) {
         this.defaultBaseUrl = baseUrl
     }
-    
+
     /**
      * 设置超时时间
      * 
@@ -95,7 +97,7 @@ object NetworkBroadConfig {
         this.readTimeout = readTimeout
         this.writeTimeout = writeTimeout
     }
-    
+
     /**
      * 设置日志开关
      * 
@@ -104,7 +106,7 @@ object NetworkBroadConfig {
     fun setLoggingEnabled(enable: Boolean) {
         this.enableLogging = enable
     }
-    
+
     /**
      * 设置App Token
      * 
@@ -113,7 +115,7 @@ object NetworkBroadConfig {
     fun updateAppToken(token: String?) {
         this.appToken = token
     }
-    
+
     /**
      * 添加通用请求头
      * 
@@ -123,7 +125,7 @@ object NetworkBroadConfig {
     fun addCommonHeader(key: String, value: String) {
         this.commonHeaders[key] = value
     }
-    
+
     /**
      * 移除通用请求头
      * 
@@ -132,14 +134,14 @@ object NetworkBroadConfig {
     fun removeCommonHeader(key: String) {
         this.commonHeaders.remove(key)
     }
-    
+
     /**
      * 清空所有通用请求头
      */
     fun clearCommonHeaders() {
         this.commonHeaders.clear()
     }
-    
+
     /**
      * 批量设置通用请求头
      * 
@@ -153,11 +155,17 @@ object NetworkBroadConfig {
 
     //此处转换成app业务接口的多语言参数
     fun getNetAppLanguage(): String {
-        if (getSystemLocal(getAppContext(null)).language.startsWith("zh")) {
-            //中文
-            return "zh-CN"
-        } else {
+//        if (getSystemLocal(getAppContext(null)).language.startsWith("zh")) {
+//            //中文
+//            return "zh-CN"
+//        } else {
+//            return "en"
+//        }
+        val strValue = getLanList(getAppLanguageKey(getAppContext(null)))
+        if ("en-US" == strValue || strValue.isEmpty()) {
             return "en"
+        } else {
+            return "zh-CN"
         }
     }
 }
