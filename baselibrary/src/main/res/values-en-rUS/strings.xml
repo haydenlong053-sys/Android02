@@ -179,4 +179,7 @@
     <string name="mine_faq">FAQ</string>
     <string name="mine_system_settings">System Settings</string>
 
+    <string name="msg_group_members">Group Members</string>
+    <string name="msg_group_services">Group Services</string>
+    <string name="msg_personal_settings">Personal Settings</string>
 </resources>

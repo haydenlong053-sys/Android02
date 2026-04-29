@@ -17,7 +17,7 @@
             android:padding="16dp"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="群成员"
+            android:text="@string/msg_group_members"
             />
         <View
             android:layout_width="match_parent"
