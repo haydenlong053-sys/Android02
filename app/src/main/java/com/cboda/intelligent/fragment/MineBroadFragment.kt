@@ -60,6 +60,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+@Deprecated("废弃")
 class MineBroadFragment : BaseLazyBroadFragment() {
     private var isVip by mutableStateOf(false)
     private var vipExpireText by mutableStateOf("")

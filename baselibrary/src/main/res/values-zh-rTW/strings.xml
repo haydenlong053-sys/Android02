@@ -157,4 +157,25 @@
     <string name="credit_score_des1">開通SeekWeb官方會員尊享特權，可加速信用分，還享有六大專屬權益</string>
     <string name="credit_score_open_premium_number">靚號開通</string>
     <string name="credit_score_des2">可根據自己需求在商城「我的」-「IM靚號」處選購靚號</string>
+    <string name="credit_score_func">信用說明</string>
+    <string name="registered_less_than_days">帳號註冊未滿%1$s天，訊息禁止包含連結；開通會員或購買靚號可提前滿足條件</string>
+    <string name="collect">收藏</string>
+    <string name="credit_prefix2">信用:</string>
+    <string name="register_time_prefix2">註冊時間:</string>
+    <string name="del_coll_title">要刪除這個收藏嗎？</string>
+    <string name="msg_score_unit3">分</string>
+    <string name="remove_blacklist"> 解除</string>
+    <string name="mine_vip_time_to">有效期至</string>
+
+    <!-- Mine page (new) -->
+    <string name="mine_vip_limited_offer">會員限時特惠</string>
+    <string name="mine_open_now">立即開通</string>
+    <string name="mine_seekweb4_vip_member">SeekWeb4 VIP會員</string>
+    <string name="mine_assets">資產</string>
+    <string name="mine_square">廣場</string>
+    <string name="mine_customer_service">客服</string>
+    <string name="mine_favorite">收藏</string>
+    <string name="mine_safe_center">安全中心</string>
+    <string name="mine_faq">常見問題</string>
+    <string name="mine_system_settings">系統設定</string>
 </resources>
