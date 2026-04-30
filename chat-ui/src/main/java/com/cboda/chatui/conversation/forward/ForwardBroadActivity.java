@@ -17,8 +17,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.chatui.R;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.common.OperateBroadResult;
@@ -28,6 +30,7 @@ import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.utils.Util;
 import com.cboda.chatui.utils.WfcTextBroadUtils;
+
 import cn.wildfirechat.message.CompositeMessageContent;
 import cn.wildfirechat.message.ImageMessageContent;
 import cn.wildfirechat.message.Message;
@@ -39,6 +42,8 @@ import cn.wildfirechat.model.NullUserInfo;
 import cn.wildfirechat.model.UserInfo;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
+
 import com.cboda.baselibrary.common.MyEventCodeEnum;
 
 public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity {
@@ -89,9 +94,9 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
                 } else if (!(finalUserInfo instanceof NullUserInfo) && !TextUtils.isEmpty(finalUserInfo.displayName)) {
                     forward(finalUserInfo.displayName, finalUserInfo.portrait, conversation);
                 } else {
-                    GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversation.target, null, friendSmailListBean -> {
+                    RealmUtil.INSTANCE.findUserData(conversation.target, friendSmailListBean -> {
                         if (friendSmailListBean != null) {
-                            finalUserInfo.portrait = friendSmailListBean.icon;
+                            finalUserInfo.portrait = friendSmailListBean.userImg;
                             if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
                                 finalUserInfo.displayName = friendSmailListBean.remarkName;
                             } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
@@ -103,9 +108,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
                         forward(finalUserInfo.displayName, finalUserInfo.portrait, conversation);
                         return null;
                     });
-
                 }
-
                 break;
             case Group:
                 GroupInfo groupInfo = groupViewModel.getGroupInfo(conversation.target, false);
@@ -123,17 +126,17 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
             Message message = messages.get(0);
             if (message.content instanceof ImageMessageContent) {
                 Bitmap thumbnail = ((ImageMessageContent) message.content).getThumbnail();
-                if (thumbnail==null){
-                    view.bind2(targetName, targetPortrait, ((ImageMessageContent) message.content).remoteUrl,((int) ((ImageMessageContent) message.content).getImageWidth()),((int) ((ImageMessageContent) message.content).getImageHeight()));
-                }else {
+                if (thumbnail == null) {
+                    view.bind2(targetName, targetPortrait, ((ImageMessageContent) message.content).remoteUrl, ((int) ((ImageMessageContent) message.content).getImageWidth()), ((int) ((ImageMessageContent) message.content).getImageHeight()));
+                } else {
                     view.bind(targetName, targetPortrait, thumbnail);
                 }
 
             } else if (message.content instanceof VideoMessageContent) {
                 Bitmap thumbnail = ((VideoMessageContent) message.content).getThumbnail();
-                if (thumbnail==null){
-                    view.bind2(targetName, targetPortrait, ((VideoMessageContent) message.content).remoteUrl,0,0);
-                }else {
+                if (thumbnail == null) {
+                    view.bind2(targetName, targetPortrait, ((VideoMessageContent) message.content).remoteUrl, 0, 0);
+                } else {
                     view.bind3(targetName, targetPortrait, thumbnail);
                 }
             } else if (message.content instanceof CompositeMessageContent) {
@@ -144,7 +147,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
         } else {
             view.bind(targetName, targetPortrait, getString(R.string.msg_forward_one_by_one_with_count, messages.size()));
         }
-        ShareBroadPop sharePop =new ShareBroadPop(this,view);
+        ShareBroadPop sharePop = new ShareBroadPop(this, view);
         sharePop.setSureInvoke(new Function0<Unit>() {
             @Override
             public Unit invoke() {
@@ -162,7 +165,7 @@ public class ForwardBroadActivity extends PickOrCreateConversationBroadActivity 
                             @Override
                             public void onChanged(@Nullable OperateBroadResult<Integer> integerOperateResult) {
                                 if (integerOperateResult.isSuccess()) {
-                                    EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.RELOAD_FORWARD_MESSAGE.getValue(),"",""));
+                                    EventBus.getDefault().post(new MyBroadEvent(MyEventCodeEnum.RELOAD_FORWARD_MESSAGE.getValue(), "", ""));
                                     Toast.makeText(ForwardBroadActivity.this, "转发成功", Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {

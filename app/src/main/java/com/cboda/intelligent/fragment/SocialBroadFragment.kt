@@ -1,5 +1,6 @@
 package com.cboda.intelligent.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -60,8 +61,6 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.cboda.intelligent.R
-import com.cboda.intelligent.model.SocialBroadCircle
-import com.cboda.intelligent.model.SocialContact
 import com.cboda.intelligent.viewmodel.SocialViewBroadModel
 import kotlinx.coroutines.launch
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,6 +82,8 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import androidx.compose.ui.viewinterop.AndroidView
+import com.cboda.baselibrary.bean.SocialBroadCircle
+import com.cboda.baselibrary.bean.SocialContact
 
 enum class CircleInteractionBroadMode {
     WithAllSingleSelect, // 有“全部”选项，单选
@@ -271,6 +272,7 @@ fun SocialScreen(
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true)
 @Composable
 private fun SocialScreenPreview() {
@@ -281,6 +283,7 @@ private fun SocialScreenPreview() {
     )
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true, name = "圈子交互：有“全部”")
 @Composable
 private fun SocialScreenPreview_WithAll() {
@@ -292,6 +295,7 @@ private fun SocialScreenPreview_WithAll() {
     )
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true, name = "圈子交互：无“全部”，可取消")
 @Composable
 private fun SocialScreenPreview_ToggleNoAll() {
@@ -598,7 +602,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                 modifier = Modifier.size(48.dp),
                 factory = { context -> VpGradeView(context) },
                 update = { view ->
-                    view.setData2(
+                    view.setData(
                         contact.icon,
                         !TextUtils.isEmpty(contact.lianghao),
                         contact.isvip == "1",
@@ -628,7 +632,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                         ) {
                             Text(
 //                                text = contact.characterTags,
-                                text = goTempTranslateString(LocalContext.current, contact.characterTags),
+                                text = goTempTranslateString(LocalContext.current, contact.characterTags ?: ""),
                                 fontSize = 11.sp,
                                 color = Color(0xFF3B47DD),
                                 overflow = TextOverflow.Ellipsis,

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ConversationInfoBroadType;
@@ -76,7 +77,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         nameTextView.setText(name);
 
         // 加载群头像
-        loadGroupPortrait(groupInfo, conversationInfo.conversation.target, portrait);
+        loadGroupPortrait(conversationInfo.conversation.target, portrait);
         GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target, null, smallGroupBean -> {
 //            if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
 //                gradeTv.setVisibility(View.VISIBLE);
@@ -97,19 +98,19 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         });
     }
 
-    private void loadGroupPortrait(GroupInfo groupInfo, String groupId, String portrait) {
+    private void loadGroupPortrait(String groupId, String portrait) {
         if (!TextUtils.isEmpty(groupId)) {
             GlobalBroadInfo.INSTANCE.getGroupData(null, stringGlobalSmallGroupBroadBeanHashMap -> {
                 GlobalSmallGroupBroadBean globalSmallGroupBroadBean = stringGlobalSmallGroupBroadBeanHashMap.get(groupId);
-                loadGroupPortrait2(groupInfo, groupId, (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.getIcon())) ? globalSmallGroupBroadBean.getIcon() : portrait);
+                loadGroupPortrait2(groupId, (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.getIcon())) ? globalSmallGroupBroadBean.getIcon() : portrait);
                 return null;
             });
         } else {
-            loadGroupPortrait2(groupInfo, groupId, portrait);
+            loadGroupPortrait2(groupId, portrait);
         }
     }
 
-    private void loadGroupPortrait2(GroupInfo groupInfo, String groupId, String portrait) {
+    private void loadGroupPortrait2(String groupId, String portrait) {
         // 如果群头像URL有效，直接加载
         if (!TextUtils.isEmpty(portrait) && (portrait.startsWith("http") || portrait.startsWith("file://"))) {
             Glide
@@ -151,7 +152,7 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
 
 
         // 如果群头像为空或无效，获取群成员信息并生成组合头像
-        if (groupInfo != null && !TextUtils.isEmpty(groupId)) {
+        if (!TextUtils.isEmpty(groupId)) {
             // 先显示占位图
             vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
 
@@ -182,13 +183,12 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
                         if (userInfo != null && !TextUtils.isEmpty(userInfo.portrait)) {
                             avatarUrls.add(userInfo.portrait);
                         } else if (userInfo != null) {
-                            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(userInfo.uid, null, globalFriendBean -> {
+                            RealmUtil.INSTANCE.findUserData(userInfo.uid, globalFriendBean -> {
                                 if (globalFriendBean != null) {
-                                    avatarUrls.add(globalFriendBean.icon);
+                                    avatarUrls.add(globalFriendBean.userImg);
                                 }
                                 return null;
                             });
-
                         }
                     }
 

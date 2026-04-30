@@ -22,18 +22,22 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.UserInfoBean;
 import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.plugin.PluginLayout;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
+import com.cboda.chatui.utils.E;
 import com.google.gson.Gson;
 import com.cboda.chatemoji.EmotionBroadEvent;
 
@@ -161,7 +165,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             }
 
         } else if (MyEventCodeEnum.USER_INFO.getValue().equals(myImEvent.type)) {
-            MyCommonBroadResult yoinghu = gson.fromJson(myImEvent.params1, MyCommonBroadResult.class);
+            UserInfoBean yoinghu = gson.fromJson(myImEvent.params1, UserInfoBean.class);
             if (yoinghu != null && !TextUtils.isEmpty(yoinghu.getChatImg())) {
                 conversationBroadFragment.setConversationBackgroundImage(yoinghu.getChatImg());
             }
@@ -272,17 +276,20 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             rightView.setVisibility(View.VISIBLE);
         } else {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), conversationBroad.target, "", null);
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, bean -> {
-                if (null != bean && null != bean.grade && null != bean.registerDay) {
-                    titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
-                    TextView titleGrade = findViewById(R.id.titleGrade);
-                    TextView titleTime = findViewById(R.id.titleTime);
-                    titleGrade.setText(getString(com.cboda.baselibrary.R.string.credit_prefix2) + formatWithBigDecimal(bean.grade) + getString(R.string.msg_score_unit2));
-                    titleTime.setText(getString(com.cboda.baselibrary.R.string.register_time_prefix2) + bean.registerDay + getString(R.string.msg_days_unit2));
-                } else {
-                    titleGradeAndTimeBroad.setVisibility(View.GONE);
+            RealmUtil.INSTANCE.findUserData(conversationBroad.target, new Function1<FriendBean, Unit>() {
+                @Override
+                public Unit invoke(FriendBean bean) {
+                    if (null != bean && null != bean.grade && null != bean.registerDay) {
+                        titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
+                        TextView titleGrade = findViewById(R.id.titleGrade);
+                        TextView titleTime = findViewById(R.id.titleTime);
+                        titleGrade.setText(getString(com.cboda.baselibrary.R.string.credit_prefix2) + formatWithBigDecimal(bean.grade) + getString(R.string.msg_score_unit2));
+                        titleTime.setText(getString(com.cboda.baselibrary.R.string.register_time_prefix2) + bean.registerDay + getString(R.string.msg_days_unit2));
+                    } else {
+                        titleGradeAndTimeBroad.setVisibility(View.GONE);
+                    }
+                    return null;
                 }
-                return null;
             });
         }
     }
@@ -323,6 +330,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.SINGLE_CHAT_MORE.getValue(), conversationBroad.target, "", null);
                     } else {
                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GROUP_CHAT_HOME.getValue(), conversationBroad.target, "", null);
+//                        E.INSTANCE.getAllListUserData(conversationBroad.target);
                     }
 
                 }

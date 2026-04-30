@@ -34,7 +34,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
 
     private var userInfoBean: UserInfoBean? = null
     private var closeEyesIsGone: Boolean = true
-    private var widthIsBig = true
+    private var widthIsBig = false
 
     fun setData(data: UserInfoBean) {
         userInfoBean = data
@@ -51,7 +51,16 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
                 binding.userImg.loadImg(userInfo.userImg)
                 binding.userName.text = userInfo.name
                 binding.userId.text = "ID:${userInfo.showId}"
-                if (userInfo.loginQrcode.endsWith(".jpg")) {
+                if (!TextUtils.isEmpty(userInfo.loginNewQrCode)) {
+                    if (widthIsBig) {
+                        val lp = binding.qrCode.layoutParams
+                        lp.width = dp2px(200f)
+                        lp.height = dp2px(200f)
+                        binding.qrCode.layoutParams = lp
+                    }
+                    widthIsBig = false
+                    binding.qrCode.loadImg(CodeUtils.createQRCode(userInfo.loginNewQrCode, dp2px(260f)), null)
+                } else if (userInfo.loginQrcode.endsWith(".jpg")) {
                     if (!widthIsBig) {
                         val lp = binding.qrCode.layoutParams
                         lp.width = dp2px(260f)
@@ -111,6 +120,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
                 viewModel.resetQrCode().observe(this) {
                     if (null != it && !TextUtils.isEmpty(it)) {
                         userInfoBean?.loginQrcode = it
+                        userInfoBean?.loginNewQrCode = it
                         setData()
                     }
                 }

@@ -2,12 +2,15 @@ package com.cboda.intelligent.activity
 
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import cn.wildfirechat.remote.ChatManager
+import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.bumptech.glide.Glide
+import com.cboda.baselibrary.utils.loadImg
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -19,6 +22,7 @@ import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.GlideLoaderBroadHelper
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.king.zxing.util.CodeUtils
 
 class QunCodeBroadActivity : BaseSimpleBroadActivity() {
     private var qunId = ""
@@ -48,7 +52,10 @@ class QunCodeBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.gonggaoLiveData?.observe(this) {
             it.data?.apply {
                 tvusername?.text = this.name ?: ""
-                if (this.qrcode?.isNotEmpty() == true) {
+                if (!TextUtils.isEmpty(this.tQrcode)) {
+//                    GlideLoaderBroadHelper.loadUrl(this@QunCodeBroadActivity, this.qrcode ?: "", erweima)
+                    erweima.loadImg(CodeUtils.createQRCode(this.tQrcode, dp2px(260f)), null)
+                } else if (this.qrcode?.isNotEmpty() == true) {
                     GlideLoaderBroadHelper.loadUrl(this@QunCodeBroadActivity, this.qrcode ?: "", erweima)
                 }
                 val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
@@ -140,7 +147,7 @@ class QunCodeBroadActivity : BaseSimpleBroadActivity() {
                                         permissions: List<String>,
                                         allGranted: Boolean
                                     ) {
-                                       goNest()
+                                        goNest()
                                     }
 
                                     override fun onDenied(

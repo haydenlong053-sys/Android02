@@ -13,6 +13,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
 
     class CommonResult {
+        var tQrcode=""
         var eqno = ""
         var creditScoreNewUserDays = ""
         var creditScoreNewInGroupDays: Int = 0

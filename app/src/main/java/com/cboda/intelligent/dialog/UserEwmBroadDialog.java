@@ -1,9 +1,13 @@
 package com.cboda.intelligent.dialog;
 
+import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
+import static com.scwang.smart.refresh.layout.util.SmartUtil.dp2px;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +26,7 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.utils.BitmapBroadUtils1;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.intelligent.utils.ToastBroadUtil;
+import com.king.zxing.util.CodeUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -32,10 +37,10 @@ public class UserEwmBroadDialog extends Dialog {
     ImageView ivQrcode;
     RoundedImageView ivIcon;
     FrameLayout flSave;
-    TextView tvSave,tvName,tvId;
+    TextView tvSave, tvName, tvId;
     private Context context;      // 上下文
 
-    public UserEwmBroadDialog(final Context context, String qrcode, String icon,String name,String id) {
+    public UserEwmBroadDialog(final Context context, String qrcode, String tQrcode, String icon, String name, String id) {
         super(context, com.cboda.baselibrary.R.style.Theme_dialog); //dialog的样式
         this.context = context;
         Window window = getWindow();
@@ -50,16 +55,20 @@ public class UserEwmBroadDialog extends Dialog {
         //要达到背景全变暗的效果，需设置getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 否则，背景无效果
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         //遍历控件id,添加点击事件
-        ivQrcode  = (ImageView) findViewById(R.id.ivQrcode);
-        ivIcon  = (RoundedImageView) findViewById(R.id.ivIcon);
-        tvSave  = (TextView) findViewById(R.id.tvSave);
+        ivQrcode = (ImageView) findViewById(R.id.ivQrcode);
+        ivIcon = (RoundedImageView) findViewById(R.id.ivIcon);
+        tvSave = (TextView) findViewById(R.id.tvSave);
         tvName = (TextView) findViewById(R.id.tvName);
         tvId = (TextView) findViewById(R.id.tvId);
         flSave = (FrameLayout) findViewById(R.id.flSave);
-        GlideBroadUtil.setImag(context,qrcode,ivQrcode);
-        GlideBroadUtil.setImag(context,icon,ivIcon);
+        if (!TextUtils.isEmpty(tQrcode)) {
+            loadImg(ivQrcode, CodeUtils.createQRCode(tQrcode, dp2px(260f)), null);
+        } else {
+            GlideBroadUtil.setImag(context, qrcode, ivQrcode);
+        }
+        GlideBroadUtil.setImag(context, icon, ivIcon);
         tvName.setText(name);
-        tvId.setText("账户ID："+id);
+        tvId.setText("账户ID：" + id);
         tvSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +84,7 @@ public class UserEwmBroadDialog extends Dialog {
                             ToastBroadUtil.show(context.getString(R.string.tipSaveSuccess));
                             dismiss();
                         }
-                    },1000);
+                    }, 1000);
                 } else {
                     new NormalBroadDialog(context, context.getString(R.string.温馨提示),
                             context.getString(R.string.save_image_permission_request),
@@ -96,7 +105,7 @@ public class UserEwmBroadDialog extends Dialog {
                                                     ToastBroadUtil.show(context.getString(R.string.tipSaveSuccess));
                                                     dismiss();
                                                 }
-                                            },1000);
+                                            }, 1000);
                                         }
 
                                         @Override

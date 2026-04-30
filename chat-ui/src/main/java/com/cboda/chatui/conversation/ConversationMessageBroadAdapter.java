@@ -14,6 +14,7 @@ import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppStr;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getSysLast;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor2;
@@ -40,12 +41,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ThreadUtils;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.bean.UserGroupBean;
 import com.cboda.baselibrary.utils.JavaBroadUtil;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
@@ -479,138 +483,91 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
 //        ImageView vipMirrorCredit = itemView.findViewById(R.id.vipMirrorCredit);
 //        AppRoundBroadImage portraitImageView = itemView.findViewById(R.id.portraitImageView);
         if (null != message) {
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(message.message.sender, null, friendSmailListBean -> {
-                boolean haveGradeData = false;
-                if (null != friendSmailListBean) {
-                    haveGradeData = true;
-                    singleVgView.setData5(friendSmailListBean.isNiceNum, friendSmailListBean.isVip, message.message.conversation.type == Conversation.ConversationType.Group ? friendSmailListBean.grade : null, friendSmailListBean.registerDay);
-//                    portraitTv.setText(formatWithBigDecimal(friendSmailListBean.grade) + fragment.getString(R.string.message_grade_unit));
-//                    vipMirrorCredit.setVisibility(friendSmailListBean.isVip ? View.VISIBLE : View.GONE);
-//                    if (friendSmailListBean.isVip) {
-//                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.color_FAD27C, 1f);
-//                    } else {
-//                        portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
-//                    }
-//                    if (friendSmailListBean.isNiceNum) {
-//                        setBackColor2(portraitTv, com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black);
-//                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.color_FAE77C);
-//                    } else {
-//                        int registrationDayScore = anyToInt(MMKVBroadUtils.Companion.getSqlStrData(USER_REGISTRATION_DAY_SCORE, ""));
-//                        int registrationDay = anyToInt(friendSmailListBean.registerDay);
-//                        if (registrationDay < registrationDayScore) {
-//                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
-//                        } else {
-//                            setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_956BEC, com.cboda.baselibrary.R.color.color_7A66FA);
-//                        }
-//                        setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
-//                    }
-                } else {
-//                    portraitTv.setVisibility(View.GONE);
-//                    vipMirrorCredit.setVisibility(View.GONE);
-//                    setBackColor(portraitTv, com.cboda.baselibrary.R.color.color_D5271E);
-//                    setTxtColor(portraitTv, com.cboda.baselibrary.R.color.white);
-//                    portraitImageView.setBorderWidthAndColor(com.cboda.baselibrary.R.color.transparent, 0f);
-                    singleVgView.setData5(null, null, null, null);
-                }
-                if (message.message.sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
-                    if (!TextUtils.isEmpty(message.message.content.extra)) {
-                        MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
-                        if (msgExtra.isMeetingImage().equals("1")) {
-//                            portraitImageLayout.setVisibility(View.GONE);
-//                            portraitTv.setVisibility(View.GONE);
-                            singleVgView.setVisibility(View.GONE);
-                        } else {
-//                            portraitImageLayout.setVisibility(View.VISIBLE);
-                            singleVgView.setVisibility(View.VISIBLE);
-                            if (!haveGradeData) {
-//                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
-                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
-                            }
-//                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
-//                                portraitTv.setVisibility(View.VISIBLE);
-//                            } else {
-//                                portraitTv.setVisibility(View.GONE);
-//                            }
-                        }
-                    } else if (!haveGradeData) {
-                        singleVgView.setVisibility(View.VISIBLE);
-//                        if (messageViewModel.getUserGroupData() != null && messageViewModel.getUserGroupData().getGrade() != null && message.message.conversation.type == Conversation.ConversationType.Group) {
-//                            portraitTv.setText(formatWithBigDecimal(messageViewModel.getUserGroupData().getGrade()) + fragment.getString(R.string.message_grade_unit));
-//                            portraitTv.setVisibility(View.VISIBLE);
-//                        } else {
-//                            portraitTv.setVisibility(View.GONE);
-//                        }
-                        GlobalBroadInfo.INSTANCE.getFriendData(null, new Function1<HashMap<String, GlobalFriendBroadBean>, Unit>() {
-                            @Override
-                            public Unit invoke(HashMap<String, GlobalFriendBroadBean> stringGlobalFriendBroadBeanHashMap) {
-                                GlobalFriendBroadBean globalFriendBroadBean = stringGlobalFriendBroadBeanHashMap.get(message.message.sender);
-                                if (null != globalFriendBroadBean) {
-                                    singleVgView.setGradeData(globalFriendBroadBean.grade != null && message.message.conversation.type == Conversation.ConversationType.Group ? globalFriendBroadBean.grade : null);
-                                } else {
-                                    singleVgView.setGradeData(null);
-                                }
-                                return null;
-                            }
-                        });
+            String sender = message.message.sender;
+            TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
+//            eLogD("ConversationMessageBroadAdapterClass", "sender:" + sender);
+            if (sender.equals(MMKVBroadUtils.Companion.getKeFuId())) {
+                singleVgView.setData3(null, null, null, null);
+                singleVgView.setVisibility(View.VISIBLE);
+                joinTimeTv.setVisibility(View.GONE);
+            } else {
+                RealmUtil.INSTANCE.findUserData(sender, friendSmailListBean -> {
+                    boolean haveGradeData;
+                    if (null != friendSmailListBean) {
+                        haveGradeData = true;
+                        singleVgView.setData3(friendSmailListBean.isNiceNum, friendSmailListBean.isVip, message.message.conversation.type == Conversation.ConversationType.Group ? friendSmailListBean.grade : null, friendSmailListBean.registerDay);
                     } else {
-                        singleVgView.setVisibility(View.VISIBLE);
-//                        if (message.message.conversation.type == Conversation.ConversationType.Group) {
-//                            portraitTv.setVisibility(View.VISIBLE);
-//                        } else {
-//                            portraitTv.setVisibility(View.GONE);
-//                        }
+                        haveGradeData = false;
+                        singleVgView.setData3(null, null, null, null);
                     }
-                } else {
-                    TextView joinTimeTv = itemView.findViewById(R.id.joinTimeTv);
-                    if (!TextUtils.isEmpty(message.message.content.extra)) {
-                        MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
-                        if (msgExtra.isMeetingImage().equals("1")) {
-//                            portraitImageLayout.setVisibility(View.GONE);
-//                            portraitTv.setVisibility(View.GONE);
-                            singleVgView.setVisibility(View.GONE);
-                            joinTimeTv.setVisibility(View.GONE);
-                        } else {
-//                            portraitImageLayout.setVisibility(View.VISIBLE);
-                            singleVgView.setVisibility(View.VISIBLE);
-                            String joinGroupTime = msgExtra.getJoinGroupTime();
-//                            if (message.message.conversation.type == Conversation.ConversationType.Group) {
-//                                portraitTv.setVisibility(View.VISIBLE);
-//                            } else {
-//                                portraitTv.setVisibility(View.GONE);
-//                            }
-                            if (!haveGradeData) {
-//                                portraitTv.setText(formatWithBigDecimal(msgExtra.getGrade()) + fragment.getString(R.string.message_grade_unit));
-                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
-                            }
-                            joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
-                            try {
-                                long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
-//                            String joinGroupTimeBefore = TimeUtils.millis2String(timeLong, "yyyy-MM-dd");
-                                String joinGroupTimeBefore = TimeBroadBroadUtils.getJoinFormatTime(timeLong);
-                                joinTimeTv.setText(joinGroupTimeBefore + fragment.getString(R.string.message_joined_group));
-                                if ((currentTimeMillis - timeLong) < inGroupDaysMs) {
-                                    joinTimeTv.setSelected(true);
-                                } else {
-                                    joinTimeTv.setSelected(false);
+//                eLogD("ConversationMessageBroadAdapterClass", "haveGradeData:" + haveGradeData);
+                    if (sender.equals(MMKVBroadUtils.Companion.getRealUserId())) {
+                        if (!TextUtils.isEmpty(message.message.content.extra)) {
+                            MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
+                            if (msgExtra.isMeetingImage().equals("1")) {
+                                singleVgView.setVisibility(View.GONE);
+                            } else {
+                                singleVgView.setVisibility(View.VISIBLE);
+                                if (!haveGradeData) {
+                                    singleVgView.setData3(msgExtra.isNice().equals("1"), msgExtra.isVip().equals("1"), message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null, msgExtra.getRDay());
+//                                singleVgView.setGradeData(message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null);
                                 }
-                            } catch (Exception e) {
-                                toLog(e, "joinGroupTime");
+                            }
+                        } else if (!haveGradeData) {
+                            singleVgView.setVisibility(View.VISIBLE);
+                            singleVgView.setGradeData(null);
+                        } else {
+                            singleVgView.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (!TextUtils.isEmpty(message.message.content.extra)) {
+                            MsgBroadExtra msgExtra = fromJson2(message.message.content.extra, MsgBroadExtra.class);
+                            if (msgExtra.isMeetingImage().equals("1")) {
+                                singleVgView.setVisibility(View.GONE);
                                 joinTimeTv.setVisibility(View.GONE);
-                            }
-                        }
-                    } else {
-                        singleVgView.setVisibility(View.VISIBLE);
-                        joinTimeTv.setVisibility(View.GONE);
-//                        if (!haveGradeData) {
-//                            portraitTv.setVisibility(View.GONE);
-//                        } else if (message.message.conversation.type == Conversation.ConversationType.Group) {
-//                            portraitTv.setVisibility(View.VISIBLE);
-//                        }
-                    }
-                }
+                            } else {
+                                singleVgView.setVisibility(View.VISIBLE);
+                                if (!haveGradeData) {
+                                    singleVgView.setData3(msgExtra.isNice().equals("1"), msgExtra.isVip().equals("1"), message.message.conversation.type == Conversation.ConversationType.Group ? msgExtra.getGrade() : null, msgExtra.getRDay());
+                                }
+                                if (message.message.conversation.type == Conversation.ConversationType.Group) {
+                                    UserGroupBean userGroupBean = new UserGroupBean();
+                                    userGroupBean.setGroupId(message.message.conversation.target);
+                                    userGroupBean.setUserId(sender);
+                                    RealmUtil.INSTANCE.findUserGroupData(userGroupBean, userGroupBean1 -> {
+                                        if (null != userGroupBean1 && null != userGroupBean1.getJoinTime() && 0L != userGroupBean1.getJoinTime()) {
+                                            joinTimeTv.setVisibility(View.VISIBLE);
+                                            long timeLong = userGroupBean1.getJoinTime();
+                                            String joinGroupTimeBefore = TimeBroadBroadUtils.getJoinFormatTime(timeLong);
+                                            joinTimeTv.setText(joinGroupTimeBefore + getAppStr(R.string.message_joined_group, joinTimeTv.getContext()));
+                                            joinTimeTv.setSelected((currentTimeMillis - timeLong) < inGroupDaysMs);
+                                        } else {
+                                            String joinGroupTime = msgExtra.getJoinGroupTime();
+                                            joinTimeTv.setVisibility(TextUtils.isEmpty(joinGroupTime) ? View.GONE : View.VISIBLE);
+                                            try {
+                                                long timeLong = TimeUtils.string2Millis(joinGroupTime, "yyyy-MM-dd HH:mm:ss");
+                                                String joinGroupTimeBefore = TimeBroadBroadUtils.getJoinFormatTime(timeLong);
+                                                joinTimeTv.setText(joinGroupTimeBefore + getAppStr(R.string.message_joined_group, joinTimeTv.getContext()));
+                                                joinTimeTv.setSelected((currentTimeMillis - timeLong) < inGroupDaysMs);
+                                            } catch (Exception e) {
+                                                joinTimeTv.setVisibility(View.GONE);
+                                            }
+                                        }
+                                        return null;
+                                    });
 
-                return null;
-            });
+                                }
+                            }
+                        } else {
+                            singleVgView.setVisibility(View.VISIBLE);
+                            joinTimeTv.setVisibility(View.GONE);
+                        }
+                    }
+                    return null;
+                });
+            }
+        } else {
+            singleVgView.setData(null, null, null, null, null);
         }
 
 

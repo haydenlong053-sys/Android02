@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
+import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.baselibrary.bean.UserInfoBean
@@ -23,8 +24,11 @@ import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.anyToDouble
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
@@ -50,7 +54,7 @@ import okhttp3.Response
 import java.lang.Exception
 import kotlin.jvm.java
 
-class LoginViewBroadModel : BaseViewBroadModel() {
+open class LoginViewBroadModel : BaseViewBroadModel() {
 
 
     fun checkSafe(userInfoBean: UserInfoBean?, context: Context?, block: () -> Unit = {}) {
@@ -155,16 +159,9 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                 try {
                     val result = NetworkBroadRepository.postEncrypted("api/userInfo", UserInfoBean::class.java, params)
                     result.onSuccess { data ->
+//                        MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
+                        RealmUtil.addUserData(data)
                         data?.let {
-                            val bean = GlobalFriendBroadBean()
-                            bean.userId = data.id
-                            bean.icon = data.userImg
-                            bean.nickName = data.name
-                            bean.grade = anyToDouble(data.grade)
-                            bean.registerDay = anyToInt(data.registerDayBean?.registrationDays ?: "")
-                            bean.isVip = data.isVip == "1"
-                            bean.isNiceNum = !TextUtils.isEmpty(data.niceNumberId)
-                            MMKVBroadUtils.saveUserData(bean)
                             liveData.postValue(data)
                         }
                     }.onFailure { _, msg ->
@@ -530,6 +527,7 @@ class LoginViewBroadModel : BaseViewBroadModel() {
                             newIntent.putExtra("imtoken", resultBean.imtoken)
                             newIntent.putExtra("idno", resultBean.idno)
                             newIntent.putExtra("qrcode", resultBean.qrcode)
+                            newIntent.putExtra("qrCodeNew", resultBean.tQrcode2)
                             newIntent.putExtra("account", account)
                             newIntent.putExtra("pwd", pwd)
                             mContext.startActivity(newIntent)

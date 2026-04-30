@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'realm-android'
 //    id 'com.google.gms.google-services'
 //    id 'com.google.firebase.crashlytics'
 //    id 'maven-publish'
@@ -98,6 +99,7 @@ dependencies {
     implementation libs.kotlin.stdlib
     implementation libs.androidx.appcompat
     implementation libs.material
+    implementation 'io.realm:realm-android-library:10.19.0'
     if (libsinfo.enableCrash) implementation libs.bugly
 //    if (!libsinfo.enableCrash) implementation platform('com.google.firebase:firebase-bom:34.12.0')
 //    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-crashlytics-ndk'

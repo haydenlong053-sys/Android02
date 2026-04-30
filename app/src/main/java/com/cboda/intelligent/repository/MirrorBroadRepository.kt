@@ -4,7 +4,7 @@ import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.NetworkBroadResult
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SignInfoViewBroadModel
-import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

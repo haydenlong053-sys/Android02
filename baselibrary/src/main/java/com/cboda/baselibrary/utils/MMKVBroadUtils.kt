@@ -4,12 +4,8 @@ import android.content.Context
 import android.text.TextUtils
 import com.blankj.utilcode.util.FileUtils
 import com.cboda.baselibrary.R
-import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
-import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
-import com.cboda.baselibrary.bean.GlobalBroadInfo
-import com.cboda.baselibrary.bean.GlobalBroadInfo.getFriendData
 import com.cboda.baselibrary.bean.GlobalBroadInfo.getGroupData
 import com.cboda.baselibrary.bean.GlobalBroadInfo.myGroupListData
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
@@ -42,7 +38,7 @@ class MMKVBroadUtils {
         const val DEV_INPUT_BASE_URL = "devInputBaseUrl"
         const val SEARCH_KEY = "searchHistoryKey"
         const val USER_ID_KEY = "userIdKey"
-
+        const val USER_LOGIN_DATA = "userLoginData"
         const val USER_SEND_LINK = "userSendLink"
 
         const val USER_CREDIT_SCORE_NEW_USER_DAYS = "userCreditScoreNewUserDays"
@@ -355,14 +351,14 @@ class MMKVBroadUtils {
             MMKV.initialize(context)
         }
 
-        fun saveUserData(data: GlobalFriendBroadBean) {
-            val list = arrayListOf<GlobalFriendBroadBean>()
-            list.add(data)
-            saveUserListData(list)
-        }
+//        fun saveUserData(data: GlobalFriendBroadBean) {
+//            val list = arrayListOf<GlobalFriendBroadBean>()
+//            list.add(data)
+//            saveUserListData(list)
+//        }
 
 
-        fun saveUserData(list: List<CommonDataListBroadBean.CommonBean>?) {
+//        fun saveUserData(list: List<CommonDataListBroadBean.CommonBean>?) {
 //            val glList = arrayListOf<GlobalFriendBroadBean>()
 //            list?.let {
 //                list.forEach { item ->
@@ -378,56 +374,56 @@ class MMKVBroadUtils {
 //                }
 //                saveUserListData(glList)
 //            }
-        }
+//        }
 
-        fun saveUserData(data: CommonResultBroadBean.CommonResult?) {
-            data?.also {
-                val bean = GlobalFriendBroadBean()
-                bean.userId = data.id
-                bean.nickName = data.name
-                bean.remarkName = data.remarkName
-                data.registerDayBean?.registDay?.also { bean.registerDay = it }
-                bean.grade = data.grade
-                bean.icon = data.icon
-                bean.isVip = data.isvip == "1"
-                bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
-                saveUserData(bean)
-            }
-        }
-
-
-        fun saveUserListData(list: List<GlobalFriendBroadBean>, viewModelScope: CoroutineScope? = null) {
-            getFriendData(viewModelScope) { map ->
-                viewModelScope?.launch {
-                    withContext(Dispatchers.IO) {
-                        saveUserData(list, map)
-                    }
-                } ?: let {
-                    GlobalScope.launch(Dispatchers.IO) {
-                        saveUserData(list, map)
-                    }
-                }
-            }
-        }
+//        fun saveUserData(data: CommonResultBroadBean.CommonResult?) {
+//            data?.also {
+//                val bean = GlobalFriendBroadBean()
+//                bean.userId = data.id
+//                bean.nickName = data.name
+//                bean.remarkName = data.remarkName
+//                data.registerDayBean?.registDay?.also { bean.registerDay = it }
+//                bean.grade = data.grade
+//                bean.icon = data.icon
+//                bean.isVip = data.isvip == "1"
+//                bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
+//                saveUserData(bean)
+//            }
+//        }
 
 
-        fun saveUserData(list: List<GlobalFriendBroadBean>, map: HashMap<String, GlobalFriendBroadBean>) {
-            list.forEach { item ->
-                if (!TextUtils.isEmpty(item.userId)) {
-                    val bean = GlobalFriendBroadBean()
-                    bean.registerDay = item.registerDay
-                    bean.grade = item.grade
-                    bean.icon = item.icon
-                    bean.nickName = item.nickName
-                    bean.remarkName = item.remarkName
-                    bean.isVip = item.isVip
-                    bean.isNiceNum = item.isNiceNum
-                    map[item.userId ?: ""] = bean
-                }
-            }
-            MMKV.defaultMMKV().encode(KEY_FRIEND_LIST_DATA, toJson2(map))
-            GlobalBroadInfo.myFriendListBean = map
-        }
+//        fun saveUserListData(list: List<GlobalFriendBroadBean>, viewModelScope: CoroutineScope? = null) {
+//            getFriendData(viewModelScope) { map ->
+//                viewModelScope?.launch {
+//                    withContext(Dispatchers.IO) {
+//                        saveUserData(list, map)
+//                    }
+//                } ?: let {
+//                    GlobalScope.launch(Dispatchers.IO) {
+//                        saveUserData(list, map)
+//                    }
+//                }
+//            }
+//        }
+
+
+//        fun saveUserData(list: List<GlobalFriendBroadBean>, map: HashMap<String, GlobalFriendBroadBean>) {
+//            list.forEach { item ->
+//                if (!TextUtils.isEmpty(item.userId)) {
+//                    val bean = GlobalFriendBroadBean()
+//                    bean.registerDay = item.registerDay
+//                    bean.grade = item.grade
+//                    bean.icon = item.icon
+//                    bean.nickName = item.nickName
+//                    bean.remarkName = item.remarkName
+//                    bean.isVip = item.isVip
+//                    bean.isNiceNum = item.isNiceNum
+//                    map[item.userId ?: ""] = bean
+//                }
+//            }
+//            MMKV.defaultMMKV().encode(KEY_FRIEND_LIST_DATA, toJson2(map))
+//            GlobalBroadInfo.myFriendListBean = map
+//        }
 
         fun getFriendListData(): HashMap<String, GlobalFriendBroadBean> {
 
@@ -582,7 +578,6 @@ class MMKVBroadUtils {
         fun getNewInGroupDays(): Int {
             return getMmKv()?.decodeInt(CREDIT_SCORE_NEW_IN_GROUP_DAYS) ?: 0
         }
-
 
         private var mkv: MMKV? = null
         private fun getMmKv(): MMKV? {

@@ -49,3 +49,38 @@ class GlobalFriendBroadBean {
     }
 
 }
+
+class FriendBean {
+    var id = ""
+
+    @JvmField
+    var registerDay: String? = null
+
+    @JvmField
+    var grade: String? = null
+
+    @JvmField
+    var userImg: String? = null
+
+    @JvmField
+    var nickName: String? = null
+
+    @JvmField
+    var remarkName: String? = null
+
+    @JvmField
+    var isVip: Boolean? = null
+
+    @JvmField
+    var isNiceNum: Boolean? = null
+
+    @JvmField
+    var sex: String? = null
+}
+
+class UserGroupBean {
+    var userId = ""
+    var groupId = ""
+    var groupNickName: String? = null
+    var joinTime: Long? = null
+}

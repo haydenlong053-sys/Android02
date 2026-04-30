@@ -11,6 +11,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.anyToInt
@@ -33,7 +34,7 @@ import com.cboda.intelligent.databinding.NewMirrorBroadFragmentBinding
 import com.cboda.intelligent.dialog.pop.CreditScoreActivateBroadPop
 import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
-import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.showGuidePasswordTip
@@ -47,7 +48,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         savedInstanceState: Bundle?
     ) = NewMirrorBroadFragmentBinding.inflate(inflater, parent, false)
 
-    private var userInfo: UserInfoBroadModel? = null
+    private var userInfo: UserInfoBean? = null
 
     override fun initListener() {
         super.initListener()
@@ -62,12 +63,12 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         binding.layoutMirrorCredit.click {
             userInfo?.gradeStatus?.let {
                 //信用分状态 1、已开通 0:未开通
-                if (it == 1) {
+                if (it == "1") {
                     JumpBroadUtils.startCreditScoreActivity(requireContext())
                 } else {
                     CreditScoreActivateBroadPop(requireContext()).apply {
                         sureInvoke = {
-                            if (userInfo?.hasPaypwd == "1") {
+                            if (userInfo?.hasPayPwd == "1") {
                                 PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
                                     lifecycleScope.launch {
                                         viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
@@ -131,7 +132,8 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             binding.tvMirrorCreditScore.text = formatWithBigDecimal(userInfo?.grade)
             binding.mViewPremiumNumber.isVisible = (userInfo?.isLiang == "1")
             binding.idTv.isInvisible = binding.mViewPremiumNumber.isVisible
-            binding.vipMirrorCredit.isVisible = userInfo?.isvip == "1"
+            binding.vipMirrorCredit.isVisible = userInfo?.isVip == "1"
+            val registrationDay = anyToInt(userInfo?.registerDayBean?.registrationDays ?: 0)
             if (userInfo?.isLiang == "1") {
                 binding.layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black)
                 binding.tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
@@ -139,7 +141,6 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 binding.tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
             } else {
                 val registrationDayScore = anyToInt(userInfo?.registerDayBean?.registrationDayScore ?: "")
-                val registrationDay = anyToInt(userInfo?.registerDayBean?.registDay ?: 0)
                 if (registrationDay < registrationDayScore) {
                     binding.layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.color_2DFF0000)
                     binding.tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
@@ -153,21 +154,21 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 }
             }
             if (userInfo?.isLiang == "1") {
-                binding.mTvPremiumNumber.text = "ID:${userInfo?.lianghao}"
+                binding.mTvPremiumNumber.text = "ID:${userInfo?.niceNumberId}"
                 if (!binding.mViewAnimateNumb.isAnimating) {
                     binding.mViewAnimateNumb.playAnimation()
                 }
             } else {
-                binding.idTv.text = "ID:${if (!TextUtils.isEmpty(userInfo?.idno)) userInfo?.idno else userInfo?.mId}"
+                binding.idTv.text = "ID:${if (!TextUtils.isEmpty(userInfo?.showId)) userInfo?.showId else userInfo?.realityId}"
                 if (binding.mViewAnimateNumb.isAnimating) {
                     binding.mViewAnimateNumb.pauseAnimation()
                 }
             }
             binding.vocationalTv.isGone = TextUtils.isEmpty(userInfo?.vocational)
             binding.vocationalTv.text = userInfo?.vocational
-            val registerDay = userInfo?.registerDayBean?.registDay
+            val registerDay = userInfo?.registerDayBean?.registrationDays
             binding.daysTv.isGone = registerDay == null
-            binding.daysTv.text = "${registerDay}${getString(R.string.days_unit)}"
+            binding.daysTv.text = "${registrationDay}${getString(R.string.days_unit)}"
             val memberInterestList = userInfo?.memberInterestList ?: arrayOf()
             binding.hobbyTv1.isVisible = memberInterestList.isNotEmpty()
             binding.hobbyTv2.isVisible = memberInterestList.size > 1
