@@ -54,7 +54,7 @@ public class SingleConversationViewBroadHolder extends ConversationViewBroadHold
         this.portrait = userInfo.portrait;
         RealmUtil.INSTANCE.findUserData(conversationInfo.conversation.target, friendSmailListBean -> {
             String name = getMyUserDisplayName(userInfo, friendSmailListBean);
-            if (friendSmailListBean != null) {
+            if (friendSmailListBean != null && !conversationInfo.conversation.target.equals(MMKVBroadUtils.Companion.getKeFuId())) {
                 vipGradeView.setData(portrait, friendSmailListBean.isNiceNum, friendSmailListBean.isVip, friendSmailListBean.grade, friendSmailListBean.registerDay);
             } else {
                 vipGradeView.setData(portrait, null, null, null, null);

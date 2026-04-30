@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:layout_marginBottom="4dp"
-    android:paddingLeft="16dp">
+    android:paddingLeft="16dp"
+    app:shape_radius="@dimen/dp_12"
+    app:shape_solidColor="#C3D3FA">
 
     <ImageView
         android:id="@+id/iv_check_cnv"
@@ -17,18 +19,16 @@
         android:visibility="gone" />
 
     <!--头像-->
-    <com.cboda.baselibrary.view.AppRoundBroadImage
+    <com.cboda.baselibrary.widge.VpGradeView
         android:id="@+id/portraitImageView"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iv_check_cnv"
-        app:app_round_round_type="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@mipmap/ic_head_broad_defaut" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,9 +73,9 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="会话名称"
-                        android:textColor="@color/color_title_conversation_list"
-                        android:textSize="16sp" />
+                        android:textColor="#FF000CA2"
+                        android:textSize="16sp"
+                        tools:text="会话名称" />
 
                     <TextView
                         android:id="@+id/organizationGroupIndicator"
@@ -93,10 +93,11 @@
                         android:textSize="10sp"
                         android:visibility="gone"
                         tools:visibility="visible" />
+
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
 
                 </TableRow>
@@ -109,9 +110,9 @@
                 android:layout_marginStart="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="12:01"
                 android:textColor="@color/color_content_conversation_list"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="12:01" />
         </LinearLayout>
 
         <!--消息-->
@@ -166,35 +167,36 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/contentTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/nameTimeTv"
+                        android:layout_marginEnd="15dp"
                         android:ellipsize="marquee"
                         android:singleLine="true"
                         android:textColor="@color/color_content_conversation_list"
                         android:textSize="13sp"
-                        android:layout_marginEnd="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/nameTimeTv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="[草稿]" />
 
                     <com.hjq.shape.view.ShapeTextView
                         android:id="@+id/nameTimeTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/unreadCountTextView"
                         android:layout_marginEnd="4dp"
-                        app:layout_goneMarginEnd="0dp"
                         android:paddingHorizontal="@dimen/dp_4"
                         android:paddingVertical="@dimen/dp_1"
                         android:textColor="#3B47DD"
                         android:textSize="11sp"
                         android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/unreadCountTextView"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginEnd="0dp"
                         app:shape_radius="@dimen/dp_4"
                         app:shape_solidColor="#1F3B47DD"
                         tools:text="30天"
@@ -205,28 +207,28 @@
                         android:id="@+id/unreadCountTextView"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/redDotView"
                         android:background="@drawable/shape_red_broad_dot"
                         android:gravity="center"
                         android:text="99"
                         android:textColor="@color/white"
                         android:textSize="11sp"
                         android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/redDotView"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:visibility="visible" />
 
                     <View
                         android:id="@+id/redDotView"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:background="@drawable/shape_red_broad_dot"
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
@@ -235,4 +237,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</com.hjq.shape.layout.ShapeRelativeLayout>

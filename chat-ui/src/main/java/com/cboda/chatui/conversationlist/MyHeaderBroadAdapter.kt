@@ -8,11 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.chatui.R
 import com.cboda.baselibrary.bean.GlobalNoticeBroadBean
+import com.cboda.baselibrary.widge.VpGradeView
 
-class MyHeaderBroadAdapter(var globalNoticeBean: GlobalNoticeBroadBean?,val clickListener:(globalNoticeBean: GlobalNoticeBroadBean?)-> Unit ={}) : RecyclerView.Adapter<MyHeaderBroadAdapter.VH>() {
+class MyHeaderBroadAdapter(var globalNoticeBean: GlobalNoticeBroadBean?, val clickListener: (globalNoticeBean: GlobalNoticeBroadBean?) -> Unit = {}) : RecyclerView.Adapter<MyHeaderBroadAdapter.VH>() {
     private var nameTextView: TextView? = null
     private var timeTextView: TextView? = null
-    private var portraitImageView: ImageView? = null
+    private var portraitImageView: VpGradeView? = null
     private var silentImageView: ImageView? = null
     private var unreadCountTextView: TextView? = null
     private var redDotView: View? = null
@@ -34,13 +35,14 @@ class MyHeaderBroadAdapter(var globalNoticeBean: GlobalNoticeBroadBean?,val clic
         // 绑定头部数据
 //        holder.itemView.findViewById<TextView>(R.id.tv_title).text = "热门推荐"
         //        itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : R.drawable.selector_common_broad_item);
-        holder.itemView.setBackgroundResource(R.drawable.selector_stick_top_broad_item)
+//        holder.itemView.setBackgroundResource(R.drawable.selector_stick_top_broad_item)
         nameTextView?.text = holder.itemView.context.getString(R.string.sys_notice_info)
-        portraitImageView?.setImageResource(com.cboda.baselibrary.R.mipmap.chat_broad_logo)
+//        portraitImageView?.setImageResource(com.cboda.baselibrary.R.mipmap.chat_broad_logo)
+        portraitImageView?.getUserImgView()?.setImageResource(com.cboda.baselibrary.R.mipmap.icon_app_notice)
         contentTextView?.text = globalNoticeBean?.noticeTitle ?: ""
         timeTextView?.text = globalNoticeBean?.createTime ?: ""
         holder.itemView.setOnClickListener {
-            clickListener.invoke(globalNoticeBean?:GlobalNoticeBroadBean())
+            clickListener.invoke(globalNoticeBean ?: GlobalNoticeBroadBean())
         }
 
     }

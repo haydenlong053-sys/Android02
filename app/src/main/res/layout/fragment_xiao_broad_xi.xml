@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="@dimen/dp_62">
 
             <androidx.compose.ui.platform.ComposeView
                 android:id="@+id/ivManager"
@@ -97,7 +97,8 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_6" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

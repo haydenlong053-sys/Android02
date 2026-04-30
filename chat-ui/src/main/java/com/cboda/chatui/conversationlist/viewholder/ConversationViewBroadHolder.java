@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.conversationlist.viewholder;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColor;
+
 import android.content.Context;
 import android.content.Intent;
 import android.text.style.ImageSpan;
@@ -35,6 +37,7 @@ import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.third.utils.MyTimeFormatter;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.chatui.utils.WfcTextBroadUtils;
+import com.hjq.shape.layout.ShapeRelativeLayout;
 import com.hjq.shape.view.ShapeTextView;
 
 import cn.wildfirechat.message.Message;
@@ -60,7 +63,8 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
     //    protected AppRoundBroadImage portraitImageView;
     protected ImageView silentImageView;
     protected TextView unreadCountTextView;
-    protected View redDotView;
+    protected View redDotView, bottomLine;
+    protected ShapeRelativeLayout itemLayout;
     protected TextView contentTextView;
     protected TextView promptTextView, nameTimeTv;
 //    protected ShapeTextView gradeTv;
@@ -112,6 +116,8 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         silentImageView = itemView.findViewById(R.id.slient);
         unreadCountTextView = itemView.findViewById(R.id.unreadCountTextView);
         redDotView = itemView.findViewById(R.id.redDotView);
+        itemLayout = itemView.findViewById(R.id.itemLayout);
+        bottomLine = itemView.findViewById(R.id.bottomLine);
         contentTextView = itemView.findViewById(R.id.contentTextView);
         promptTextView = itemView.findViewById(R.id.promptTextView);
         statusImageView = itemView.findViewById(R.id.statusImageView);
@@ -142,9 +148,10 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         timeTextView.setText(MyTimeFormatter.getSessionTimeString(conversationInfo.timestamp, timeTextView.getContext()));
         silentImageView.setVisibility(conversationInfo.isSilent ? View.VISIBLE : View.GONE);
         statusImageView.setVisibility(View.GONE);
-
 //        itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : R.drawable.selector_common_broad_item);
-        itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : 0);
+//        itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : 0);
+        setBackColor(itemLayout, conversationInfo.top > 0 ? com.cboda.baselibrary.R.color.color_C4E1FA : com.cboda.baselibrary.R.color.transparent);
+        bottomLine.setVisibility(conversationInfo.top > 0 ? View.GONE : View.VISIBLE);
         redDotView.setVisibility(View.GONE);
 //        ELogUtilKt.eLogD(APP_TAG,conversationInfo.conversation.target+conversationInfo.isSilent+"-未读数--"+conversationInfo.unreadCount.unread);
         if (conversationInfo.isSilent) {

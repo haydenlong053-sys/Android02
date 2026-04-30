@@ -400,6 +400,8 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
                     return null;
                 });
             }
+        } else {
+            sendMessageAfter(conversation, content);
         }
     }
 
