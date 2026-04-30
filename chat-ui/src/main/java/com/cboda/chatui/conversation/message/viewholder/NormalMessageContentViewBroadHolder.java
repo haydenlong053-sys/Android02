@@ -513,7 +513,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 //        } else {
 //            nameTextView.setText(displayName[0]);
 //        }
-        E.INSTANCE.getUserName(sender, conversation.target, false, s -> {
+        E.INSTANCE.getUserName(sender, conversation.target, false,conversation.type== Conversation.ConversationType.Group, s -> {
             nameTextView.setText(s);
             return null;
         });

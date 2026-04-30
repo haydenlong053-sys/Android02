@@ -821,7 +821,7 @@ public class ConversationBroadFragment extends Fragment implements
 //                if (null != getName) {
 //                    addBarrageData(getName, barrageBean.getGiftType(), false);
 //                } else {
-                E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                E.INSTANCE.getUserName(sender, conversationBroad.target, false, conversationBroad.type == Conversation.ConversationType.Group, userName -> {
 //                    nameMap.put(sender, userName);
                     addBarrageData(userName, barrageBean.getGiftType(), false);
                     return null;
@@ -880,7 +880,7 @@ public class ConversationBroadFragment extends Fragment implements
 //                        if (null != getName) {
 //                            addBarrageData(getName, integer, true);
 //                        } else {
-                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, conversationBroad.type == Conversation.ConversationType.Group, userName -> {
 //                                nameMap.put(sender, userName);
                                 addBarrageData(userName, action.getCode(), true);
                                 return null;
@@ -1263,11 +1263,11 @@ public class ConversationBroadFragment extends Fragment implements
                 List<String> uidList = new ArrayList<>();
                 for (int i = 0; i < uiMessages.size(); i++) {
                     String senderId = uiMessages.get(i).message.sender;
-                    if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId)) {
+                    if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId) && !MMKVBroadUtils.Companion.getKeFuId().equals(senderId)) {
                         uidList.add(senderId);
                     }
                 }
-                E.INSTANCE.getListUserData(conversationBroad.target, uidList);
+                E.INSTANCE.getListUserDataNotCall(conversationBroad.target, uidList);
             }
 
             ThreadUtils.runOnUiThread(() -> {

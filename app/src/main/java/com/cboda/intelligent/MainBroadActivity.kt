@@ -46,6 +46,7 @@ import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.bean.BarrageBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.FriendBean
+import com.cboda.baselibrary.bean.UserGroupBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.common.BridgeImEnum
 import com.cboda.baselibrary.event.AppBroadEvent
@@ -62,6 +63,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_CREDIT_SCORE_NE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_REGISTRATION_DAY_SCORE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
@@ -82,6 +84,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
+import com.cboda.chatui.utils.E
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.ExpandableBottomBar
@@ -681,7 +684,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         ChatManager.Instance().addOnReceiveMessageListener(object : OnReceiveMessageListener {
             override fun onReceiveMessage(messages: MutableList<Message>?, hasMore: Boolean) {
                 try {
-                    messages?.forEachIndexed { index, message ->
+//                    val uidList = arrayListOf<Pair<String, String>>()
+                    val uidMap = HashMap<String, ArrayList<String>>()
+                    messages?.forEachIndexed { _, message ->
                         eLogD(
                             "MainBroadActivityClass",
                             "sender:" + message.sender + ", conversationType:" + message.conversation.type.value + ", conversationId:" + message.conversation.target + ", messageId" + message.messageId + ", messageContent:" + toJson2(
@@ -689,6 +694,15 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                             )
                         )
                         eLogD(APP_TAG, "MessageContent===" + message.content + "--messageContentType==" + message.content.messageContentType)
+
+                        if (message.conversation.type == ConversationType.Group) {
+                            if (message.sender != getRealUserId() && message.sender != MMKVBroadUtils.getKeFuId()) {
+                                val getList = uidMap[message.conversation.target]
+                                val uidList = getList ?: arrayListOf()
+                                uidList.add(message.sender)
+                                uidMap[message.conversation.target] = uidList
+                            }
+                        }
                         if (message.sender == "admin" && message.content is NoticeInformMessageContent) {
                             val bean = message.content as NoticeInformMessageContent
 //                            Log.d(APP_TAG,"NoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")
@@ -867,6 +881,10 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
                         }
                     }
+                    if (uidMap.isNotEmpty()) {
+                        E.getMapUserData(uidMap)
+                    }
+
                 } catch (e: Exception) {
                     eLogD("野火", "收到自定义通知消息异常---> $e")
                 }

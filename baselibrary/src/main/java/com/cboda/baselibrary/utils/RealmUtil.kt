@@ -39,6 +39,7 @@ object RealmUtil {
         }
     }
 
+
     fun addUserData(list: List<SocialContact>?, viewModelScope: CoroutineScope? = null) {
         list?.let {
             if (list.isNotEmpty()) {
@@ -58,6 +59,27 @@ object RealmUtil {
 ////                            }
 //                        }
 //                    }
+                        data?.let {
+                            updateList.add(data)
+                        } ?: let {
+                            updateList.add(getUserRealm(item))
+                        }
+                    }
+                    if (updateList.isNotEmpty()) {
+                        realm.insertOrUpdate(updateList)
+                    }
+                }
+            }
+        }
+    }
+
+    fun addUserData2(list: List<GroupUserBean>?, viewModelScope: CoroutineScope? = null) {
+        list?.let {
+            if (list.isNotEmpty()) {
+                val updateList = arrayListOf<UserRealm>()
+                getRealm()?.executeTransactionAsync { realm ->
+                    list.forEach { item ->
+                        val data = realm.where(UserRealm::class.java)?.equalTo("id", item.userId)?.findFirst()
                         data?.let {
                             updateList.add(data)
                         } ?: let {
@@ -412,6 +434,32 @@ object RealmUtil {
             friendBean
         }
     }
+
+    private fun getUserRealm(friendBean: GroupUserBean?): UserRealm {
+        val createUserRealm = UserRealm()
+        friendBean?.let {
+            createUserRealm.id = friendBean.userId
+            createUserRealm.isVip = friendBean.isVip == "1"
+            if (!TextUtils.isEmpty(friendBean.grade)) {
+                createUserRealm.grade = friendBean.grade ?: ""
+            }
+            if (!TextUtils.isEmpty(friendBean.icon)) {
+                createUserRealm.userImg = friendBean.icon ?: ""
+            }
+            if (!TextUtils.isEmpty(friendBean.registDay)) {
+                createUserRealm.registerDay = friendBean.registDay ?: ""
+            }
+            if (!TextUtils.isEmpty(friendBean.name)) {
+                createUserRealm.nickName = friendBean.name ?: ""
+            }
+            createUserRealm.isNiceNum = friendBean.isLiang == "1"
+            if (!TextUtils.isEmpty(friendBean.sex)) {
+                createUserRealm.sex = friendBean.sex ?: ""
+            }
+        }
+        return createUserRealm
+    }
+
 
     fun getUserGroupBean(getUserGroupBean: UserGroupBean?, groupUserBean: GroupUserBean?): UserGroupBean? {
         return groupUserBean?.let {
