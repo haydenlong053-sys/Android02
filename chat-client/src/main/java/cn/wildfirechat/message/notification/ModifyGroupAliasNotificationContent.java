@@ -34,37 +34,38 @@ public class ModifyGroupAliasNotificationContent extends GroupNotificationMessag
 
     @Override
     public String formatNotification(Message message) {
-        StringBuilder sb = new StringBuilder();
-        if (fromSelf) {
-            sb.append("你");
-        } else {
-            UserInfo userInfo = ChatManager.Instance().getUserInfo(operateUser, groupId, false);
-            if (!TextUtils.isEmpty(memberId) && !TextUtils.isEmpty(userInfo.groupAlias)) {
-                sb.append(userInfo.groupAlias);
-            } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
-                sb.append(userInfo.friendAlias);
-            } else if (!TextUtils.isEmpty(userInfo.displayName)) {
-                sb.append(userInfo.displayName);
-            } else {
-                sb.append(operateUser);
-            }
-        }
-        sb.append("修改");
-        if (!TextUtils.isEmpty(memberId)) {
-            UserInfo userInfo = ChatManager.Instance().getUserInfo(memberId, false);
-            if (!TextUtils.isEmpty(userInfo.friendAlias)) {
-                sb.append(userInfo.friendAlias);
-            } else if (!TextUtils.isEmpty(userInfo.displayName)) {
-                sb.append(userInfo.displayName);
-            } else {
-                sb.append(memberId);
-            }
-            sb.append("的");
-        }
-        sb.append("群昵称为");
-        sb.append(alias);
-
-        return sb.toString();
+//        StringBuilder sb = new StringBuilder();
+//        if (fromSelf) {
+//            sb.append("你");
+//        } else {
+//            UserInfo userInfo = ChatManager.Instance().getUserInfo(operateUser, groupId, false);
+//            if (!TextUtils.isEmpty(memberId) && !TextUtils.isEmpty(userInfo.groupAlias)) {
+//                sb.append(userInfo.groupAlias);
+//            } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
+//                sb.append(userInfo.friendAlias);
+//            } else if (!TextUtils.isEmpty(userInfo.displayName)) {
+//                sb.append(userInfo.displayName);
+//            } else {
+//                sb.append(operateUser);
+//            }
+//        }
+//        sb.append("修改");
+//        if (!TextUtils.isEmpty(memberId)) {
+//            UserInfo userInfo = ChatManager.Instance().getUserInfo(memberId, false);
+//            if (!TextUtils.isEmpty(userInfo.friendAlias)) {
+//                sb.append(userInfo.friendAlias);
+//            } else if (!TextUtils.isEmpty(userInfo.displayName)) {
+//                sb.append(userInfo.displayName);
+//            } else {
+//                sb.append(memberId);
+//            }
+//            sb.append("的");
+//        }
+//        sb.append("群昵称为");
+//        sb.append(alias);
+//
+//        return sb.toString();
+        return "";
     }
 
     @Override

@@ -68,6 +68,7 @@ import cn.wildfirechat.message.UnknownMessageContent;
 import cn.wildfirechat.message.VideoMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessageStatus;
+import cn.wildfirechat.message.notification.ModifyGroupAliasNotificationContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ReadEntry;
 import cn.wildfirechat.remote.ChatManager;
@@ -140,7 +141,9 @@ public class MessageViewBroadModel extends ViewModel implements OnReceiveMessage
     public void onReceiveMessage(List<Message> messages, boolean hasMore) {
         if (messageLiveData != null && messages != null) {
             for (Message msg : messages) {
-                if (msg.content instanceof ChangeGroupPortraitNotificationContent) {
+//                if (msg.content instanceof ChangeGroupPortraitNotificationContent) {
+                if (msg.content instanceof ChangeGroupPortraitNotificationContent
+                        || msg.content instanceof ModifyGroupAliasNotificationContent) {
                     continue;
                 }
                 postNewMessage(new UiBroadMessage(msg));

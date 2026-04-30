@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.utils.AppBroadUtils
@@ -48,19 +49,20 @@ class QunNichengBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "qunichenguSuc" -> {
-//                    ChatManager.Instance().modifyGroupAlias(qunid,
-//                        edtBeizhu?.text?.trim()?.toString() ?: "",
-//                        arrayListOf<Int>(),null,object : GeneralCallback {
-//                            override fun onSuccess() {
-//                                AppBroadUtils.debug("野火","修改群昵称onSuccess ---> ")
-//                            }
-//
-//                            override fun onFail(errorCode: Int) {
-//                                AppBroadUtils.debug("野火","修改群那你成onFail ---> $errorCode")
-//                            }
-//
-//                        }
-//                    )
+                    ChatManager.Instance().modifyGroupAlias(
+                        qunid,
+                        edtBeizhu?.text?.trim()?.toString() ?: "",
+                        arrayListOf<Int>(), null, object : GeneralCallback {
+                            override fun onSuccess() {
+                                eLogD("野火", "修改群昵称onSuccess ---> ")
+                            }
+
+                            override fun onFail(errorCode: Int) {
+                                eLogD("野火", "修改群那你成onFail ---> $errorCode")
+                            }
+
+                        }
+                    )
                     finish()
                 }
             }

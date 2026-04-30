@@ -44,6 +44,7 @@ import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessageStatus;
 import cn.wildfirechat.message.notification.ChangeGroupPortraitNotificationContent;
+import cn.wildfirechat.message.notification.ModifyGroupAliasNotificationContent;
 import cn.wildfirechat.message.notification.NotificationMessageContent;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
@@ -143,9 +144,16 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
 
         ivCheckCnv.setVisibility(isSelectMode ? View.VISIBLE : View.GONE);
         ivCheckCnv.setImageResource(conversationInfo.isSelect ? R.mipmap.ic_check_cnv_broad_select : R.mipmap.ic_check_cnv_broad_normal);
-
 //        timeTextView.setText(TimeBroadBroadUtils.getMsgFormatTime(conversationInfo.timestamp));
-        timeTextView.setText(MyTimeFormatter.getSessionTimeString(conversationInfo.timestamp, timeTextView.getContext()));
+        Message previewMessage = conversationInfo.lastMessage;
+        if (isHiddenConversationNotification(previewMessage)) {
+            previewMessage = findLastDisplayableMessage(conversationInfo);
+        }
+
+        long previewTimestamp = previewMessage != null && previewMessage.serverTime > 0
+                ? previewMessage.serverTime : conversationInfo.timestamp;
+        timeTextView.setText(MyTimeFormatter.getSessionTimeString(previewTimestamp, timeTextView.getContext()));
+//        timeTextView.setText(MyTimeFormatter.getSessionTimeString(conversationInfo.timestamp, timeTextView.getContext()));
         silentImageView.setVisibility(conversationInfo.isSilent ? View.VISIBLE : View.GONE);
         statusImageView.setVisibility(View.GONE);
 //        itemView.setBackgroundResource(conversationInfo.top > 0 ? R.drawable.selector_stick_top_broad_item : R.drawable.selector_common_broad_item);
@@ -186,18 +194,20 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
                 promptTextView.setVisibility(View.GONE);
             }
             setViewVisibility(R.id.contentTextView, View.VISIBLE);
-            if (conversationInfo.lastMessage != null && conversationInfo.lastMessage.content != null) {
+            if (previewMessage != null && previewMessage.content != null) {
                 String content = "";
-                Message lastMessage = conversationInfo.lastMessage;
+                Message lastMessage = previewMessage;
                 // 更新群头像通知不在会话列表中展示摘要
                 if (!(lastMessage.content instanceof ChangeGroupPortraitNotificationContent)) {
+//                         && !(lastMessage.content instanceof ModifyGroupAliasNotificationContent)) {
                     // the message maybe invalid
                     try {
                         if (conversationInfo.conversation.type == Conversation.ConversationType.Group
                                 && lastMessage.direction == MessageDirection.Receive
                                 && !(lastMessage.content instanceof NotificationMessageContent)) {
                             GroupViewBroadModel groupViewModel = new ViewModelProvider(fragment).get(GroupViewBroadModel.class);
-                            String senderDisplayName = groupViewModel.getGroupMemberDisplayName(conversationInfo.conversation.target, conversationInfo.lastMessage.sender);
+//                            String senderDisplayName = groupViewModel.getGroupMemberDisplayName(conversationInfo.conversation.target, conversationInfo.lastMessage.sender);
+                            String senderDisplayName = groupViewModel.getGroupMemberDisplayName(conversationInfo.conversation.target, lastMessage.sender);
                             content = senderDisplayName + ":" + lastMessage.digest();
                         } else {
                             content = lastMessage.digest();
@@ -361,6 +371,26 @@ public abstract class ConversationViewBroadHolder extends RecyclerView.ViewHolde
         }
 
         return false;
+    }
+
+    private boolean isHiddenConversationNotification(Message message) {
+        return message != null
+                && (message.content instanceof ChangeGroupPortraitNotificationContent
+                || message.content instanceof ModifyGroupAliasNotificationContent);
+    }
+
+    private Message findLastDisplayableMessage(ConversationInfo conversationInfo) {
+        List<Message> latestMessages = ChatManager.Instance().getMessages(
+                conversationInfo.conversation, 0, true, 20, "");
+        if (latestMessages == null || latestMessages.isEmpty()) {
+            return null;
+        }
+        for (Message message : latestMessages) {
+            if (!isHiddenConversationNotification(message)) {
+                return message;
+            }
+        }
+        return null;
     }
 
     protected <T extends View> T getView(int viewId) {
