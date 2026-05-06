@@ -111,31 +111,31 @@ object DeviceBroadUtil {
         if (TextUtils.isEmpty(allDeviceId)) {
             val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_ALL_ID)
             if (TextUtils.isEmpty(sqlData)) {
-                if (newDeviceId) {
+//                if (newDeviceId) {
+//                    val dId = getDeviceId(context)
+//                    allDeviceId = if (TextUtils.isEmpty(dId)) {
+//                        val mWId = getWidevineId()
+//                        if (TextUtils.isEmpty(mWId)) {
+//                            getDeviceUUId()
+//                        } else {
+//                            mWId
+//                        }
+//                    } else {
+//                        dId
+//                    }
+//                } else {
+                val mWId = getWidevineId()
+                allDeviceId = if (TextUtils.isEmpty(mWId)) {
                     val dId = getDeviceId(context)
-                    allDeviceId = if (TextUtils.isEmpty(dId)) {
-                        val mWId = getWidevineId()
-                        if (TextUtils.isEmpty(mWId)) {
-                            getDeviceUUId()
-                        } else {
-                            mWId
-                        }
+                    if (TextUtils.isEmpty(dId)) {
+                        getDeviceUUId()
                     } else {
                         dId
                     }
                 } else {
-                    val mWId = getWidevineId()
-                    allDeviceId = if (TextUtils.isEmpty(mWId)) {
-                        val dId = getDeviceId(context)
-                        if (TextUtils.isEmpty(dId)) {
-                            getDeviceUUId()
-                        } else {
-                            dId
-                        }
-                    } else {
-                        mWId
-                    }
+                    mWId
                 }
+//                }
                 MMKVBroadUtils.saveSqlStrData(DEVICE_ALL_ID, allDeviceId)
             } else {
                 allDeviceId = sqlData
@@ -158,7 +158,7 @@ object DeviceBroadUtil {
         return deviceUId
     }
 
-    private fun getDeviceId(context: Context? = null): String {
+    fun getDeviceId(context: Context? = null): String {
         if (TextUtils.isEmpty(deviceId)) {
             try {
                 val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_ID)
