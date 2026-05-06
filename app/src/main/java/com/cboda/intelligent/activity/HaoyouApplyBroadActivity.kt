@@ -133,10 +133,10 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
                 ToastBroadUtils.show(getString(R.string.fasonghaouyoushenqingtips))
                 return@setOnClickListener
             }
-            if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
-                ToastBroadUtils.show(getString(R.string.shezhibneizhutispa))
-                return@setOnClickListener
-            }
+//            if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
+//                ToastBroadUtils.show(getString(R.string.shezhibneizhutispa))
+//                return@setOnClickListener
+//            }
             if (circleAdapter.getSelectedId() == -1) {
                 ToastBroadUtils.show(getString(R.string.social_select_circle))
                 return@setOnClickListener
@@ -171,8 +171,8 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
     private fun checkData() {
         val canGo = if (type == "1" && edtshenqing?.text?.trim().isNullOrEmpty()) {
             false
-        } else if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
-            false
+//        } else if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
+//            false
         } else if (circleAdapter.getSelectedId() == -1) {
             false
         } else {

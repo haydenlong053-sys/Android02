@@ -323,7 +323,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             JumpBroadUtils.startHaoyouApplyActivity(
                 this,
                 otherUid,
-                friendName?.text?.toString() ?: "",
+                "",
                 source,
                 "",
                 "1"
@@ -341,7 +341,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             JumpBroadUtils.startHaoyouApplyActivity(
                 this,
                 "",
-                oldName,
+                yonghubena?.bei ?: "",
                 "",
                 "${yonghubena?.characterTagsId ?: -1}",
                 "3",

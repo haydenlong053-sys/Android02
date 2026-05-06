@@ -146,7 +146,7 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
                         JumpBroadUtils.startHaoyouApplyActivity(
                             this,
                             "",
-                            mDataList[positio].getDisplayName() ?: "",
+                            "",
                             "",
                             "",
                             "2",
