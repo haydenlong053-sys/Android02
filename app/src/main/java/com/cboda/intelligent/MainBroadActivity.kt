@@ -45,8 +45,6 @@ import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.bean.BarrageBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.cboda.baselibrary.bean.FriendBean
-import com.cboda.baselibrary.bean.UserGroupBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.common.BridgeImEnum
 import com.cboda.baselibrary.event.AppBroadEvent
@@ -60,7 +58,6 @@ import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_CREDIT_SCORE_NEW_USER_DAYS
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_REGISTRATION_DAY_SCORE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
@@ -91,7 +88,6 @@ import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.fragment.CleverBodyBroadFragment
 import com.cboda.intelligent.fragment.MessageBroadFragment
-import com.cboda.intelligent.fragment.MineBroadFragment
 import com.cboda.intelligent.fragment.NewMineBroadFragment
 import com.cboda.intelligent.fragment.NewMirrorBroadFragment
 import com.cboda.intelligent.fragment.TongXunLuBroadFragment
@@ -835,7 +831,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                         .post(AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true))
                                     //非自己名义发送的消息才响铃
                                     if (message.sender != MMKVBroadUtils.getRealUserId()) {
-                                        TiXingBroadUtils.tixing(this@MainBroadActivity)
+                                        TiXingBroadUtils.imMsgReminder(this@MainBroadActivity)
 
                                     }
                                 }
@@ -846,7 +842,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                             fragment.reflushTongxunlu()
                                         }
                                     }
-                                    TiXingBroadUtils.tixing(this@MainBroadActivity)
+                                    TiXingBroadUtils.imMsgReminder(this@MainBroadActivity)
                                 }
 
                                 1005 -> {

@@ -5,6 +5,7 @@ import android.content.Context.VIBRATOR_SERVICE
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Vibrator
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.SharePrefBroadBroadUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
@@ -15,17 +16,17 @@ class TiXingBroadUtils {
         private var mediaPlayer: MediaPlayer? = null
 
         const val RING_FOUND = "item_found.mp3"
-        const val RING_INSTANT = "instant_message.mp3"
-        const val RING_TIXING = "tixing.mp3"
 
-        fun tixing(context: Context?) {
-            val ringFileName = SharePrefBroadBroadUtil.getString(
-                context,
-                SharePrefBroadBroadUtil.RING_FILE_NAME_KEY,
-                RING_FOUND
-            )
+        //野火消息提醒（声音+震动）
+        fun imMsgReminder(context: Context?) {
             try {
-                //震动
+//                val ringFileName = SharePrefBroadBroadUtil.getString(
+//                    context,
+//                    SharePrefBroadBroadUtil.RING_FILE_NAME_KEY,
+//                    RING_FOUND
+//                )
+                val ringFileName = MMKVBroadUtils.getSqlStrData(SharePrefBroadBroadUtil.RING_FILE_NAME_KEY,RING_FOUND)
+                    //震动
                 if (vibrator == null) {
                     vibrator = context?.getSystemService(VIBRATOR_SERVICE) as Vibrator
                 }
