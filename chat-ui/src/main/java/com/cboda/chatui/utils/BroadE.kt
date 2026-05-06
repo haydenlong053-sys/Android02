@@ -24,6 +24,30 @@ object E {
 //        eLogD(APP_TAG,"userId==$userId---groupId==$groupId,")
         var displayName: String? = ""
         var displayName2 = ""
+//        var displayName3: String? = ""
+//        var displayName5 = ""
+//        if (isGroup && !TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(userId)) {
+//            val userGroupBean = UserGroupBean()
+//            userGroupBean.groupId = groupId
+//            userGroupBean.userId = userId
+//            RealmUtil.findUserGroupData(userGroupBean) { getUserGroupBean ->
+//                getUserGroupBean?.let {
+//                    if (null != getUserGroupBean.groupNickName && !TextUtils.isEmpty(getUserGroupBean.groupNickName)) {
+//                        displayName3 = getUserGroupBean.groupNickName
+//                    }
+//                }
+//                val userInfo = ChatManager.Instance().getUserInfo(userId, groupId, refresh)
+//                if (userInfo != null) {
+//                    if (!TextUtils.isEmpty(userInfo.groupAlias)) {
+//                        displayName5 = userInfo.groupAlias
+//                    } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
+//                        displayName5 = userInfo.friendAlias
+//                    } else if (!TextUtils.isEmpty(userInfo.displayName)) {
+//                        displayName5 = userInfo.displayName
+//                    }
+//                }
+//            }
+//        }
         RealmUtil.findUserData(userId) { friendBean ->
             friendBean?.let {
                 if (null != friendBean.remarkName && !TextUtils.isEmpty(friendBean.remarkName)) {
@@ -33,6 +57,7 @@ object E {
                     displayName2 = friendBean.nickName ?: ""
                 }
             }
+//            eLogD("EClass", "1:$displayName ,2:$displayName2 ,3:$displayName3 ,5:$displayName5")
             if (!TextUtils.isEmpty(displayName)) {
                 callBack.invoke(displayName ?: "")
             } else {
