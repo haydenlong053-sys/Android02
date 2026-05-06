@@ -111,31 +111,31 @@ object DeviceBroadUtil {
         if (TextUtils.isEmpty(allDeviceId)) {
             val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_ALL_ID)
             if (TextUtils.isEmpty(sqlData)) {
-//                if (newDeviceId) {
-//                    val dId = getDeviceId(context)
-//                    allDeviceId = if (TextUtils.isEmpty(dId)) {
-//                        val mWId = getWidevineId()
-//                        if (TextUtils.isEmpty(mWId)) {
-//                            getDeviceUUId()
-//                        } else {
-//                            mWId
-//                        }
-//                    } else {
-//                        dId
-//                    }
-//                } else {
-                val mWId = getWidevineId()
-                allDeviceId = if (TextUtils.isEmpty(mWId)) {
+                if (newDeviceId) {
                     val dId = getDeviceId(context)
-                    if (TextUtils.isEmpty(dId)) {
-                        getDeviceUUId()
+                    allDeviceId = if (TextUtils.isEmpty(dId)) {
+                        val mWId = getWidevineId()
+                        if (TextUtils.isEmpty(mWId)) {
+                            getDeviceUUId()
+                        } else {
+                            mWId
+                        }
                     } else {
                         dId
                     }
                 } else {
-                    mWId
+                    val mWId = getWidevineId()
+                    allDeviceId = if (TextUtils.isEmpty(mWId)) {
+                        val dId = getDeviceId(context)
+                        if (TextUtils.isEmpty(dId)) {
+                            getDeviceUUId()
+                        } else {
+                            dId
+                        }
+                    } else {
+                        mWId
+                    }
                 }
-//                }
                 MMKVBroadUtils.saveSqlStrData(DEVICE_ALL_ID, allDeviceId)
             } else {
                 allDeviceId = sqlData
