@@ -190,10 +190,9 @@ object DeviceBroadUtil {
                         .replace(":", "").replace(".", "")
                         .replace("=", "").replace("\\", "")
                         .replace("+", "").replace("_", "").trim()
-                    if (canEncrypt) {
-                        deviceId = encryptMD5ToString(deviceIdBefore4)
-                        MMKVBroadUtils.saveSqlStrData(DEVICE_ID, deviceId)
-                    } else {
+                    deviceId = encryptMD5ToString(deviceIdBefore4)
+                    MMKVBroadUtils.saveSqlStrData(DEVICE_ID, deviceId)
+                    if (!canEncrypt) {
                         return deviceIdBefore4
                     }
                 } else {
