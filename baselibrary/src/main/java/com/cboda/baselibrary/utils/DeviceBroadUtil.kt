@@ -31,10 +31,11 @@ object DeviceBroadUtil {
     private var allDeviceId = ""
     private var sysAndroidId = ""
 
-    fun getAndroidId(context: Context? = null): String {
+    fun getAndroidId(context: Context? = null, isEncrypt: Boolean = true): String {
         val getAndroidId = when (BuildConfig.DEVICE_ID_TYPE) {
             1 -> getSysAndroidId(context)
-            2 -> getAllDeviceId()
+            2 -> if (isEncrypt) encryptMD5ToString(getAllDeviceId(context)) else getAllDeviceId(context)
+            3 -> if (isEncrypt) encryptMD5ToString(getDeviceId(context)) else getDeviceId(context)
             else -> getDeviceUUId()
         }
         return getAndroidId
@@ -60,7 +61,7 @@ object DeviceBroadUtil {
                         e.toLog(TAG)
                     }
                 }
-                this.sysAndroidId = if (TextUtils.isEmpty(androidId)) getAllDeviceId() else androidId
+                this.sysAndroidId = if (TextUtils.isEmpty(androidId)) getDeviceUUId() else androidId
                 MMKVBroadUtils.saveSqlStrData(DEVICE_SYS_AID, sysAndroidId)
             } else {
                 sysAndroidId = sqlData
@@ -105,20 +106,20 @@ object DeviceBroadUtil {
         }
     }
 
-    private fun getAllDeviceId(): String {
+    private fun getAllDeviceId(context: Context? = null): String {
         if (TextUtils.isEmpty(allDeviceId)) {
             val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_ALL_ID)
             if (TextUtils.isEmpty(sqlData)) {
                 val mWId = getWidevineId()
                 allDeviceId = if (TextUtils.isEmpty(mWId)) {
-                    val dId = getDeviceId()
+                    val dId = getDeviceId(context)
                     if (TextUtils.isEmpty(dId)) {
                         getDeviceUUId()
                     } else {
                         dId
                     }
                 } else {
-                    mWId
+                    mWId + getDeviceId(context)
                 }
                 MMKVBroadUtils.saveSqlStrData(DEVICE_ALL_ID, allDeviceId)
             } else {
@@ -142,7 +143,7 @@ object DeviceBroadUtil {
         return deviceUId
     }
 
-    fun getDeviceId(): String {
+    private fun getDeviceId(context: Context? = null): String {
         if (TextUtils.isEmpty(deviceId)) {
             try {
                 val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_ID)
@@ -165,7 +166,7 @@ object DeviceBroadUtil {
                     val allDeviceId =
                         board + brand + device + display + host + id + manufacturer + model + product + tags + type + user + finGerPrintLength
                     val deviceIdBefore =
-                        allDeviceId.toString().trim() + finGerPrint.trim()
+                        allDeviceId.toString().trim() + finGerPrint.trim() + getSysAndroidId(context)
                     val deviceIdBefore2 = deviceIdBefore.replace("release-keys", "").trim()
                     val matcher = pattern.matcher(deviceIdBefore2)
                     val deviceIdBefore4 = matcher.replaceAll("")
@@ -173,8 +174,8 @@ object DeviceBroadUtil {
                         .replace(":", "").replace(".", "")
                         .replace("=", "").replace("\\", "")
                         .replace("+", "").replace("_", "").trim()
-//                    deviceId = deviceIdBefore4
-                    deviceId = encryptMD5ToString(deviceIdBefore4)
+                    deviceId = deviceIdBefore4
+//                    deviceId = encryptMD5ToString(deviceIdBefore4)
                     MMKVBroadUtils.saveSqlStrData(DEVICE_ID, deviceId)
                 } else {
                     deviceId = sqlData
@@ -195,7 +196,8 @@ object DeviceBroadUtil {
                     try {
                         mediaDrm = MediaDrm(UUID.fromString("edef8ba9-79d6-4ace-a3c8-27dcd51d21ed"))
                         val deviceId = mediaDrm.getPropertyByteArray(MediaDrm.PROPERTY_DEVICE_UNIQUE_ID)
-                        wId = encryptMD5ToString(deviceId.joinToString("") { "%02x".format(it) })
+                        wId = deviceId.joinToString("") { "%02x".format(it) }
+//                        wId = encryptMD5ToString(deviceId.joinToString("") { "%02x".format(it) } + getDeviceId())
                         MMKVBroadUtils.saveSqlStrData(DEVICE_WID, wId)
                     } catch (e: Exception) {
                         e.toLog(TAG)
