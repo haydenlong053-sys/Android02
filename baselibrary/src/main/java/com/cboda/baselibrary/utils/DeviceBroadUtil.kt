@@ -31,7 +31,7 @@ object DeviceBroadUtil {
     private var deviceUId = ""
     private var allDeviceId = ""
     private var sysAndroidId = ""
-    private var newDeviceId = true
+    private val newDeviceId = true
 
     fun getAndroidId(context: Context? = null): String {
         val getAndroidId = when (BuildConfig.DEVICE_ID_TYPE) {
@@ -158,11 +158,11 @@ object DeviceBroadUtil {
         return deviceUId
     }
 
-    fun getDeviceId(context: Context? = null): String {
-        if (TextUtils.isEmpty(deviceId)) {
+    fun getDeviceId(context: Context? = null, canEncrypt: Boolean = true): String {
+        if (TextUtils.isEmpty(deviceId) || !canEncrypt) {
             try {
                 val sqlData = MMKVBroadUtils.getSqlStrData(DEVICE_ID)
-                if (TextUtils.isEmpty(sqlData)) {
+                if (TextUtils.isEmpty(sqlData) || !canEncrypt) {
                     val pattern = Pattern.compile("\\s*|\t|\r|\n")
                     val board = Build.BOARD.length % 10
                     val brand = getDeviceBrand().length % 10
@@ -190,8 +190,12 @@ object DeviceBroadUtil {
                         .replace(":", "").replace(".", "")
                         .replace("=", "").replace("\\", "")
                         .replace("+", "").replace("_", "").trim()
-                    deviceId = encryptMD5ToString(deviceIdBefore4)
-                    MMKVBroadUtils.saveSqlStrData(DEVICE_ID, deviceId)
+                    if (canEncrypt) {
+                        deviceId = encryptMD5ToString(deviceIdBefore4)
+                        MMKVBroadUtils.saveSqlStrData(DEVICE_ID, deviceId)
+                    } else {
+                        return deviceIdBefore4
+                    }
                 } else {
                     deviceId = sqlData
                 }
