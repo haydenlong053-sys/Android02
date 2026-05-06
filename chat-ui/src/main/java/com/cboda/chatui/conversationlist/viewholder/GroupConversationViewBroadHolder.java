@@ -28,6 +28,7 @@ import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.ConversationInfoBroadType;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
+import com.cboda.chatui.utils.E;
 import com.cboda.chatui.utils.GroupAvatarBroadLoader;
 
 import cn.wildfirechat.model.Conversation;
@@ -77,7 +78,8 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         nameTextView.setText(name);
 
         // 加载群头像
-        loadGroupPortrait(conversationInfo.conversation.target, portrait);
+//        loadGroupPortrait(conversationInfo.conversation.target, portrait);
+        E.INSTANCE.loadGroupImg(vipGradeView.getUserImgView(), conversationInfo.conversation.target, portrait);
         GlobalBroadInfo.INSTANCE.queryGroupInfo(conversationInfo.conversation.target, null, smallGroupBean -> {
 //            if (null != smallGroupBean && null != smallGroupBean.getGroupDays()) {
 //                gradeTv.setVisibility(View.VISIBLE);
@@ -98,120 +100,120 @@ public class GroupConversationViewBroadHolder extends ConversationViewBroadHolde
         });
     }
 
-    private void loadGroupPortrait(String groupId, String portrait) {
-        if (!TextUtils.isEmpty(groupId)) {
-            GlobalBroadInfo.INSTANCE.getGroupData(null, stringGlobalSmallGroupBroadBeanHashMap -> {
-                GlobalSmallGroupBroadBean globalSmallGroupBroadBean = stringGlobalSmallGroupBroadBeanHashMap.get(groupId);
-                loadGroupPortrait2(groupId, (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.getIcon())) ? globalSmallGroupBroadBean.getIcon() : portrait);
-                return null;
-            });
-        } else {
-            loadGroupPortrait2(groupId, portrait);
-        }
-    }
-
-    private void loadGroupPortrait2(String groupId, String portrait) {
-        // 如果群头像URL有效，直接加载
-        if (!TextUtils.isEmpty(portrait) && (portrait.startsWith("http") || portrait.startsWith("file://"))) {
-            Glide
-                    .with(fragment)
-                    .load(portrait)
-                    .placeholder(R.mipmap.ic_group_broad_chat)
-                    .into(vipGradeView.getUserImgView());
-//        }else {
-//            try {
-//                JSONObject object =new JSONObject(portrait);
-//                if (object.has("members")) {
-//                    JSONArray members = object.getJSONArray("members");
-//                    List<String> avatars=new ArrayList<>();
-//                    for (int i = 0; i < members.length(); i++) {
-//                        JSONObject member = members.getJSONObject(i);
-//                        if (member.has("avatarUrl")){
-//                            avatars.add(member.getString("avatarUrl"));
+//    private void loadGroupPortrait(String groupId, String portrait) {
+//        if (!TextUtils.isEmpty(groupId)) {
+//            GlobalBroadInfo.INSTANCE.getGroupData(null, stringGlobalSmallGroupBroadBeanHashMap -> {
+//                GlobalSmallGroupBroadBean globalSmallGroupBroadBean = stringGlobalSmallGroupBroadBeanHashMap.get(groupId);
+//                loadGroupPortrait2(groupId, (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.getIcon())) ? globalSmallGroupBroadBean.getIcon() : portrait);
+//                return null;
+//            });
+//        } else {
+//            loadGroupPortrait2(groupId, portrait);
+//        }
+//    }
 //
+//    private void loadGroupPortrait2(String groupId, String portrait) {
+//        // 如果群头像URL有效，直接加载
+//        if (!TextUtils.isEmpty(portrait) && (portrait.startsWith("http") || portrait.startsWith("file://"))) {
+//            Glide
+//                    .with(fragment)
+//                    .load(portrait)
+//                    .placeholder(R.mipmap.ic_group_broad_chat)
+//                    .into(vipGradeView.getUserImgView());
+////        }else {
+////            try {
+////                JSONObject object =new JSONObject(portrait);
+////                if (object.has("members")) {
+////                    JSONArray members = object.getJSONArray("members");
+////                    List<String> avatars=new ArrayList<>();
+////                    for (int i = 0; i < members.length(); i++) {
+////                        JSONObject member = members.getJSONObject(i);
+////                        if (member.has("avatarUrl")){
+////                            avatars.add(member.getString("avatarUrl"));
+////
+////                        }
+////                    }
+////                    GroupAvatarBroadLoader.INSTANCE.loadToImageView(fragment.getActivity(), avatars,portraitImageView, groupInfo.target);
+////
+////                }else {
+////                    Glide
+////                            .with(fragment)
+////                            .load(portrait)
+////                            .placeholder(R.mipmap.ic_group_chat)
+////                            .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(fragment.getContext(), 4)))
+////                            .into(portraitImageView);
+////                }
+////            } catch (JSONException e) {
+////                throw new RuntimeException(e);
+////            }
+////        }
+//
+//
+//            return;
+//        }
+//
+//
+//        // 如果群头像为空或无效，获取群成员信息并生成组合头像
+//        if (!TextUtils.isEmpty(groupId)) {
+//            // 先显示占位图
+//            vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
+//
+//            // 异步获取群成员信息
+//            ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, new GetGroupMembersCallback() {
+//                @Override
+//                public void onSuccess(List<GroupMember> groupMembers) {
+//                    if (groupMembers == null || groupMembers.isEmpty()) {
+//                        return;
+//                    }
+//
+//                    // 获取最多9个成员的用户ID
+//                    List<String> memberIds = new ArrayList<>();
+//                    int maxCount = Math.min(groupMembers.size(), 9);
+//                    for (int i = 0; i < maxCount; i++) {
+//                        memberIds.add(groupMembers.get(i).memberId);
+//                    }
+//
+//                    // 获取用户信息（包括头像）
+//                    List<UserInfo> userInfos = ChatManagerBroadHolder.gChatManager.getUserInfos(memberIds, groupId);
+//                    if (userInfos == null || userInfos.isEmpty()) {
+//                        return;
+//                    }
+//
+//                    // 提取头像URL列表
+//                    List<String> avatarUrls = new ArrayList<>();
+//                    for (UserInfo userInfo : userInfos) {
+//                        if (userInfo != null && !TextUtils.isEmpty(userInfo.portrait)) {
+//                            avatarUrls.add(userInfo.portrait);
+//                        } else if (userInfo != null) {
+//                            RealmUtil.INSTANCE.findUserData(userInfo.uid, globalFriendBean -> {
+//                                if (globalFriendBean != null) {
+//                                    avatarUrls.add(globalFriendBean.userImg);
+//                                }
+//                                return null;
+//                            });
 //                        }
 //                    }
-//                    GroupAvatarBroadLoader.INSTANCE.loadToImageView(fragment.getActivity(), avatars,portraitImageView, groupInfo.target);
 //
-//                }else {
-//                    Glide
-//                            .with(fragment)
-//                            .load(portrait)
-//                            .placeholder(R.mipmap.ic_group_chat)
-//                            .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(fragment.getContext(), 4)))
-//                            .into(portraitImageView);
+//                    // 如果有头像URL，使用GroupAvatarLoader加载组合头像
+//                    if (!avatarUrls.isEmpty() && fragment.getActivity() != null) {
+//                        GroupAvatarBroadLoader.INSTANCE.loadGroupImageView(
+//                                fragment.getActivity(),
+//                                avatarUrls,
+//                                vipGradeView.getUserImgView(),
+//                                groupId
+//                        );
+//                    }
 //                }
-//            } catch (JSONException e) {
-//                throw new RuntimeException(e);
-//            }
+//
+//                @Override
+//                public void onFail(int errorCode) {
+//                    // 获取失败，保持占位图
+//                }
+//            });
+//        } else {
+//            // 没有群信息，显示默认占位图
+//            vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
 //        }
-
-
-            return;
-        }
-
-
-        // 如果群头像为空或无效，获取群成员信息并生成组合头像
-        if (!TextUtils.isEmpty(groupId)) {
-            // 先显示占位图
-            vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
-
-            // 异步获取群成员信息
-            ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, new GetGroupMembersCallback() {
-                @Override
-                public void onSuccess(List<GroupMember> groupMembers) {
-                    if (groupMembers == null || groupMembers.isEmpty()) {
-                        return;
-                    }
-
-                    // 获取最多9个成员的用户ID
-                    List<String> memberIds = new ArrayList<>();
-                    int maxCount = Math.min(groupMembers.size(), 9);
-                    for (int i = 0; i < maxCount; i++) {
-                        memberIds.add(groupMembers.get(i).memberId);
-                    }
-
-                    // 获取用户信息（包括头像）
-                    List<UserInfo> userInfos = ChatManagerBroadHolder.gChatManager.getUserInfos(memberIds, groupId);
-                    if (userInfos == null || userInfos.isEmpty()) {
-                        return;
-                    }
-
-                    // 提取头像URL列表
-                    List<String> avatarUrls = new ArrayList<>();
-                    for (UserInfo userInfo : userInfos) {
-                        if (userInfo != null && !TextUtils.isEmpty(userInfo.portrait)) {
-                            avatarUrls.add(userInfo.portrait);
-                        } else if (userInfo != null) {
-                            RealmUtil.INSTANCE.findUserData(userInfo.uid, globalFriendBean -> {
-                                if (globalFriendBean != null) {
-                                    avatarUrls.add(globalFriendBean.userImg);
-                                }
-                                return null;
-                            });
-                        }
-                    }
-
-                    // 如果有头像URL，使用GroupAvatarLoader加载组合头像
-                    if (!avatarUrls.isEmpty() && fragment.getActivity() != null) {
-                        GroupAvatarBroadLoader.INSTANCE.loadGroupImageView(
-                                fragment.getActivity(),
-                                avatarUrls,
-                                vipGradeView.getUserImgView(),
-                                groupId
-                        );
-                    }
-                }
-
-                @Override
-                public void onFail(int errorCode) {
-                    // 获取失败，保持占位图
-                }
-            });
-        } else {
-            // 没有群信息，显示默认占位图
-            vipGradeView.getUserImgView().setImageResource(R.mipmap.ic_group_broad_chat);
-        }
-    }
+//    }
 
 }

@@ -1,53 +1,94 @@
 package com.cboda.chatui.utils
 
 import android.text.TextUtils
+import android.widget.ImageView
+import cn.wildfirechat.model.GroupMember
 import cn.wildfirechat.remote.ChatManager
+import cn.wildfirechat.remote.GetGroupMembersCallback
 import com.cboda.baselibrary.bean.FriendBean
+import com.cboda.baselibrary.bean.GlobalBroadInfo
 import com.cboda.baselibrary.bean.GroupUserBean
 import com.cboda.baselibrary.bean.UserGroupBean
 import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncrypted
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
-import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
-import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.fromListJson2
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.toJson2
-import com.cboda.baselibrary.utils.toLog
+import com.cboda.chatui.ChatManagerBroadHolder
+import com.cboda.chatui.R
 
 object E {
 
+    //加载群头像（portrait：头像url）
+    fun loadGroupImg(imageView: ImageView?, groupId: String?, portrait: String? = null) {
+        imageView?.let {
+            if (null != groupId && !TextUtils.isEmpty(groupId)) {
+                GlobalBroadInfo.getGroupData(null) { stringGlobalSmallGroupBroadBeanHashMap ->
+                    val globalSmallGroupBroadBean = stringGlobalSmallGroupBroadBeanHashMap[groupId]
+                    if (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.icon)) {
+                        imageView.loadGroupImg2(globalSmallGroupBroadBean.icon)
+                    } else if (null != portrait && !TextUtils.isEmpty(portrait) && !portrait.startsWith("file://")) {
+                        imageView.loadGroupImg2(portrait)
+                    } else {
+                        imageView.loadGroupImg2()
+                        ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, object : GetGroupMembersCallback {
+                            override fun onSuccess(groupMembers: List<GroupMember?>?) {
+                                groupMembers?.let {
+                                    if (groupMembers.isNotEmpty()) {
+                                        val memberIds = arrayListOf<String>()
+                                        groupMembers.forEach { item ->
+                                            //   // 获取最多30个成员的用户ID
+                                            if (null != item && !TextUtils.isEmpty(item.memberId) && memberIds.size < 30) {
+                                                memberIds.add(item.memberId)
+                                            }
+                                        }
+                                        // 获取用户信息（包括头像）
+                                        val userInfos = ChatManagerBroadHolder.gChatManager.getUserInfos(memberIds, groupId)
+                                        if (null != userInfos && userInfos.isNotEmpty()) {
+                                            memberIds.clear()
+                                            userInfos.forEach { item ->
+                                                // 获取最多9个成员的用户头像
+                                                if (null != item && !TextUtils.isEmpty(item.portrait) && memberIds.size < 9) {
+                                                    memberIds.add(item.portrait)
+                                                } else if (null != item && !TextUtils.isEmpty(item.uid) && memberIds.size < 9) {
+                                                    RealmUtil.findUserData(item.uid) { globalFriendBean ->
+                                                        if (null != globalFriendBean && null != globalFriendBean.userImg && !TextUtils.isEmpty(globalFriendBean.userImg)) {
+                                                            memberIds.add(globalFriendBean.userImg ?: "")
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            GroupAvatarBroadLoader.load(imageView.context, memberIds, imageView, groupId)
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            override fun onFail(errorCode: Int) {
+                                imageView.loadGroupImg2()
+                            }
+                        })
+                    }
+                }
+            } else {
+                imageView.loadGroupImg2(portrait)
+            }
+        }
+    }
+
+    private fun ImageView.loadGroupImg2(url: String? = "") {
+        this.loadImg(url, R.mipmap.ic_group_broad_chat)
+    }
+
     fun getUserName(userId: String, groupId: String, refresh: Boolean = false, isGroup: Boolean = false, callBack: (String) -> Unit) {
         //   缓存userInfo
-//        eLogD(APP_TAG,"userId==$userId---groupId==$groupId,")
         var displayName: String? = ""
         var displayName2 = ""
-//        var displayName3: String? = ""
-//        var displayName5 = ""
-//        if (isGroup && !TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(userId)) {
-//            val userGroupBean = UserGroupBean()
-//            userGroupBean.groupId = groupId
-//            userGroupBean.userId = userId
-//            RealmUtil.findUserGroupData(userGroupBean) { getUserGroupBean ->
-//                getUserGroupBean?.let {
-//                    if (null != getUserGroupBean.groupNickName && !TextUtils.isEmpty(getUserGroupBean.groupNickName)) {
-//                        displayName3 = getUserGroupBean.groupNickName
-//                    }
-//                }
-//                val userInfo = ChatManager.Instance().getUserInfo(userId, groupId, refresh)
-//                if (userInfo != null) {
-//                    if (!TextUtils.isEmpty(userInfo.groupAlias)) {
-//                        displayName5 = userInfo.groupAlias
-//                    } else if (!TextUtils.isEmpty(userInfo.friendAlias)) {
-//                        displayName5 = userInfo.friendAlias
-//                    } else if (!TextUtils.isEmpty(userInfo.displayName)) {
-//                        displayName5 = userInfo.displayName
-//                    }
-//                }
-//            }
-//        }
         RealmUtil.findUserData(userId) { friendBean ->
             friendBean?.let {
                 if (null != friendBean.remarkName && !TextUtils.isEmpty(friendBean.remarkName)) {
@@ -106,9 +147,7 @@ object E {
         if (!TextUtils.isEmpty(groupId)) {
             val map = mapOf("id" to groupId)
             postEncryptedList(
-                "api/groupUserList",
-                map,
-                object : NetworkBroadUtils.ListCallback<Any> {
+                "api/groupUserList", map, object : NetworkBroadUtils.ListCallback<Any> {
                     override fun onSuccess(list: List<Any>?, totalCount: Int, totalPage: Int) {
 //                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
                         val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
@@ -171,9 +210,7 @@ object E {
             val uids = uidList.toTypedArray()
             val map = mapOf("id" to groupId, "uids" to uids)
             postEncryptedList(
-                "api/groupUsersInfoBatch",
-                map,
-                object : NetworkBroadUtils.ListCallback<GroupUserBean> {
+                "api/groupUsersInfoBatch", map, object : NetworkBroadUtils.ListCallback<GroupUserBean> {
                     override fun onSuccess(list: List<GroupUserBean>?, totalCount: Int, totalPage: Int) {
                         //                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
                         val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
@@ -236,15 +273,12 @@ object E {
 
 
     fun getDetailUserData(
-        userGroupBean: UserGroupBean,
-        callBack: (bean: GroupUserBean?) -> Unit = {}
+        userGroupBean: UserGroupBean, callBack: (bean: GroupUserBean?) -> Unit = {}
     ) {
         if (!TextUtils.isEmpty(userGroupBean.groupId) && !TextUtils.isEmpty(userGroupBean.userId)) {
             val map = mapOf("id" to userGroupBean.groupId, "uid" to userGroupBean.userId)
             postEncrypted(
-                UrlBroadConstants.GROUP_ME_USER,
-                map,
-                object : NetworkBroadUtils.NetworkCallback<Any> {
+                UrlBroadConstants.GROUP_ME_USER, map, object : NetworkBroadUtils.NetworkCallback<Any> {
                     override fun onSuccess(data: Any?) {
                         val groupUserBean = fromJson2(toJson2(data), GroupUserBean::class.java)
                         RealmUtil.addUserGroupData(userGroupBean, groupUserBean)
