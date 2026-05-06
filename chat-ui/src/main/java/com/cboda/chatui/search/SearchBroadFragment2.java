@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.bean.GlobalFriendListBroadBean;
 import com.cboda.baselibrary.common.UrlBroadConstants;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
@@ -39,11 +40,12 @@ import java.util.Map;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.conversation.ConversationBroadActivity;
+
 import cn.wildfirechat.model.Conversation;
 
 public class SearchBroadFragment2 extends Fragment {
     RecyclerView recyclerView;
-//    LinearLayout emptyLinearLayout;
+    //    LinearLayout emptyLinearLayout;
 //    LinearLayout descLinearLayout;
     private SearchResultBroadAdapter2 adapter;
     private MyFriendBroadAdapter myFriendAdapter;
@@ -144,11 +146,11 @@ public class SearchBroadFragment2 extends Fragment {
                                 if (myFriendAdapter != null) {
                                     try {
                                         if (list != null && !list.isEmpty()) {
-                                            Gson gson = new Gson();
+                                            Gson gson = GsonUtils.getGson();
                                             String jsonStr = gson.toJson(list);
                                             List<GlobalFriendListBroadBean> friendList = gson.fromJson(jsonStr, new TypeToken<List<GlobalFriendListBroadBean>>() {
                                             }.getType());
-                                            myFriendAdapter.updateData(friendList,mKeyword);
+                                            myFriendAdapter.updateData(friendList, mKeyword);
                                         } else {
                                             myFriendAdapter.updateData(new ArrayList<>(), mKeyword);
                                         }
