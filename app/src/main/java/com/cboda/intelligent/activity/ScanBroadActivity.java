@@ -436,7 +436,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
                 @Override
                 public void onSuccess(Response response, ResultBroadBean resultBean) {
-                    if (jumpSource == ScanJumpBroadEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, DeviceBroadUtil.INSTANCE.getAndroidId(ScanBroadActivity.this, true))) {
+                    if (jumpSource == ScanJumpBroadEnum.Login.getSourceType() && !TextUtils.equals(resultBean.eqno, DeviceBroadUtil.INSTANCE.getAndroidId(ScanBroadActivity.this))) {
                         EventBus.getDefault().post(new AppBroadEvent<>(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean));
                     } else {
                         AppBroadUtils.Companion.imLogin(ScanBroadActivity.this, resultBean.apptoken, resultBean.userId, resultBean.imtoken, "ScanBroadActivity");

@@ -48,7 +48,7 @@ class CrashLoaderProxy : CrashLoad {
         try {
             val strategy = com.tencent.bugly.crashreport.CrashReport.UserStrategy(context)
             strategy.deviceModel = DeviceBroadUtil.getDeviceBrand()
-            strategy.deviceID = DeviceBroadUtil.getAndroidId(context, isEncrypt = false)
+            strategy.deviceID = DeviceBroadUtil.getAndroidId(context)
             strategy.isEnableCatchAnrTrace = getIsDebug() // 设置anr时是否获取系统trace文件，默认为false
             strategy.isEnableRecordAnrMainStack = true// 设置是否获取anr过程中的主线程堆栈，默认为true
             com.tencent.bugly.crashreport.CrashReport.initCrashReport(

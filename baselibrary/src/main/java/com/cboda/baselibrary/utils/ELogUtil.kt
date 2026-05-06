@@ -158,14 +158,14 @@ private fun log3(tag: String?, msg: String, type: Int) {
             2, 6, 7 -> {
                 Log.d(tag ?: eLogTag, msg)
                 if (type == 7) {
-//                    buglyServer?.onBgReport("$tag:$msg")
+                    crashReportLog("$tag:$msg")
                 } else if (type == 6) {
-//                    buglyServer?.onBgReport("$tag:$msg")
+                    crashReportLog("$tag:$msg")
                 }
             }
         }
     } else if (type == 6) {
-//        buglyServer?.onBgReport("$tag:$msg")
+        crashReportLog("$tag:$msg")
     }
 }
 
@@ -234,7 +234,7 @@ fun Exception.toLog(tag: String?, canPush: Boolean = true): String {
         sw.close()
         tag?.also { eLogD(tag, errorStr) }
         if (canPush && !getIsDebug()) {
-//            buglyServer?.onBgReport("$tag:$errorStr")
+            crashReportLog("$tag:$errorStr")
         }
         errorStr
     } else {
@@ -252,7 +252,7 @@ fun Throwable.toLog(tag: String?, canPush: Boolean = true): String {
         sw.close()
         tag?.also { eLogD(tag, errorStr) }
         if (canPush && !getIsDebug()) {
-//            buglyServer?.onBgReport("$tag:$errorStr")
+           crashReportLog("$tag:$errorStr")
         }
         errorStr
     } else {
