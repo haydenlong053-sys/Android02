@@ -611,11 +611,11 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 }
 
                 ConnectionStatus.ConnectionStatusNotLicensed -> {
-                    AppBroadUtils.debug("野火", " 专业版IM服务没有授权或者授权过期！！！-->")
+                    eLogD("野火", " 专业版IM服务没有授权或者授权过期！！！-->")
                 }
 
                 ConnectionStatus.ConnectionStatusTimeInconsistent -> {
-                    AppBroadUtils.debug("野火", " 服务器和客户端时间相差太大！！！-->")
+                   eLogD("野火", " 服务器和客户端时间相差太大！！！-->")
                 }
             }
 
