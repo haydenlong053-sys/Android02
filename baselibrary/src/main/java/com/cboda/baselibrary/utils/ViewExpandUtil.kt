@@ -500,7 +500,7 @@ fun getUuIdMd5(): String {
     return try {
         encryptMD5ToString(getUuIdCreate())
     } catch (e: Exception) {
-//        e.toLog(tAG)
+        e.toLog(tAG)
         "defaultUUId"
     }
 }

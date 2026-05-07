@@ -32,6 +32,8 @@ class MMKVBroadUtils {
         const val DEVICE_AID = "deviceAndroidId"
         const val DEVICE_WID = "deviceWId"
         const val DEVICE_ALL_ID = "deviceAllId"
+
+        const val DEVICE_ALL_NOT_ENCRYPT_ID = "deviceAllNotEncryptId"
         const val DEVICE_SYS_AID = "deviceSysAndroidId"
         const val DEVICE_UID = "deviceUId"
         const val NET_TYPE = "appNetType"
