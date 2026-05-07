@@ -611,7 +611,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 }
 
                 ConnectionStatus.ConnectionStatusTimeInconsistent -> {
-                   eLogD("野火", " 服务器和客户端时间相差太大！！！-->")
+                    eLogD("野火", " 服务器和客户端时间相差太大！！！-->")
                 }
             }
 
@@ -682,7 +682,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             override fun onReceiveMessage(messages: MutableList<Message>?, hasMore: Boolean) {
                 try {
 //                    val uidList = arrayListOf<Pair<String, String>>()
-                    val uidMap = HashMap<String, ArrayList<String>>()
+                    val uidMap = HashMap<String, HashMap<String, String>>()
                     messages?.forEachIndexed { _, message ->
                         eLogD(
                             "MainBroadActivityClass",
@@ -695,8 +695,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         if (message.conversation.type == ConversationType.Group) {
                             if (message.sender != getRealUserId() && message.sender != MMKVBroadUtils.getKeFuId()) {
                                 val getList = uidMap[message.conversation.target]
-                                val uidList = getList ?: arrayListOf()
-                                uidList.add(message.sender)
+                                val uidList = getList ?: HashMap()
+                                uidList[message.sender] = message.sender
                                 uidMap[message.conversation.target] = uidList
                             }
                         }
