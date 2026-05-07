@@ -1260,11 +1260,11 @@ public class ConversationBroadFragment extends Fragment implements
             adapterBroad.setMessages(uiMessages);
             //初始化消息获取最新消息的发送者信息
             if (conversationBroad.type == Conversation.ConversationType.Group) {
-                List<String> uidList = new ArrayList<>();
+                HashMap<String, String> uidList = new HashMap<>();
                 for (int i = 0; i < uiMessages.size(); i++) {
                     String senderId = uiMessages.get(i).message.sender;
                     if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId) && !MMKVBroadUtils.Companion.getKeFuId().equals(senderId)) {
-                        uidList.add(senderId);
+                        uidList.put(senderId, senderId);
                     }
                 }
                 E.INSTANCE.getListUserDataNotCall(conversationBroad.target, uidList);
