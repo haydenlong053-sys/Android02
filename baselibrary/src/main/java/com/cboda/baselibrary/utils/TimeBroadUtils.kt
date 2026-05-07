@@ -1,10 +1,21 @@
 package com.cboda.baselibrary.utils
 
+import android.os.Build
+import android.os.SystemClock
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 object TimeBroadBroadUtils {
+
+    fun getDeviceOpenTime(): Long {
+        return try {
+            anyToInt((System.currentTimeMillis() - SystemClock.elapsedRealtime()) / 100L).toLong()
+        } catch (e: Exception) {
+            e.toLog("TimeBroadBroadUtilsClass")
+            0L
+        }
+    }
 
     /**
      * 格式化日期

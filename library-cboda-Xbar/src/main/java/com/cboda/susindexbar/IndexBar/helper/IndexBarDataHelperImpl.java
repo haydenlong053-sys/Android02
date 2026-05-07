@@ -96,7 +96,8 @@ public class IndexBarDataHelperImpl implements IIndexBarDataHelper {
                 } else if (!rhs.isNeedToPinyin()) {
                     return 0;
                 } else if (lhs.getBaseIndexTag().equals("#")) {
-                    return 1;
+                    // 两边都是 '#' 时必须返回 0，避免比较器违反自反/反对称等契约
+                    return rhs.getBaseIndexTag().equals("#") ? 0 : 1;
                 } else if (rhs.getBaseIndexTag().equals("#")) {
                     return -1;
                 } else {

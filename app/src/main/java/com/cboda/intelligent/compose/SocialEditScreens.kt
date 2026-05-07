@@ -53,7 +53,7 @@
 //import androidx.compose.ui.tooling.preview.Preview
 //import com.cboda.intelligent.R
 //import com.cboda.intelligent.utils.ToastBroadUtil
-//import com.cboda.intelligent.model.SocialBroadCircle
+//import com.cboda.baselibrary.bean.SocialBroadCircle
 //import com.cboda.intelligent.utils.goTempTranslateString
 //import com.cboda.intelligent.viewmodel.SocialViewBroadModel
 //

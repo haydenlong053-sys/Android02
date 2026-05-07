@@ -14,7 +14,7 @@ import com.cboda.intelligent.model.PaymentPasswordStatusResponse
 import com.cboda.intelligent.model.PaymentPasswordVerifyRequest
 import com.cboda.intelligent.model.PaymentPasswordVerifyResponse
 import com.cboda.intelligent.model.PriceQueryResponse
-import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

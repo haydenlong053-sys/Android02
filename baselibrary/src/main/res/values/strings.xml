@@ -183,4 +183,6 @@
     <string name="msg_group_members">Group Members</string>
     <string name="msg_group_services">Group Services</string>
     <string name="msg_personal_settings">Personal Settings</string>
+    <string name="min_gan_ci_hit">请输入敏感词，多个敏感词用英文符号 “ @ ” 进行和分割</string>
+    <string name="min_gan_ci_hit2">·多个敏感词请用英文符号 “ @ ” 隔开</string>
 </resources>

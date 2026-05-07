@@ -2,6 +2,7 @@ package com.cboda.baselibrary.app
 
 import android.app.Application
 import android.content.Context
+import com.cboda.baselibrary.utils.RealmUtil.initRealm
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.select.picture.utils.LanguageUtil.getLanguageContext
 import com.cboda.select.picture.utils.LanguageUtil.initLanguage
@@ -15,6 +16,7 @@ open class UtilBroadApplication : Application() {
         super.onCreate()
         cxt = this
         initLanguage(this)
+        initRealm(this)
     }
 
     override fun attachBaseContext(base: Context?) {

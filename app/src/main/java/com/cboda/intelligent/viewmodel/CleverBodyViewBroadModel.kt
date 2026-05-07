@@ -12,7 +12,7 @@ import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.model.SignInfoViewBroadModel
-import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -43,38 +43,38 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
         return liveData
     }
 
-    fun getUserInfo(): SingleLiveBroadData<UserInfoBroadModel?> {
-        val liveData = SingleLiveBroadData<UserInfoBroadModel?>()
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    val result = NetworkBroadRepository.postEncrypted(
-                        UrlBroadBroadConstants.GET_USER_INFO,
-                        UserInfoBroadModel::class.java, HashMap<String, Any>()
-                    )
-                    result.onSuccess { data ->
-                        data?.let {
-                            val bean = GlobalFriendBroadBean()
-                            bean.userId = data.id
-                            bean.icon = data.icon
-                            bean.nickName = data.name
-                            bean.grade = data.grade
-                            bean.registerDay = data.registerDayBean?.registDay
-                            bean.isVip = data.isvip == "1"
-                            bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
-                            MMKVBroadUtils.saveUserData(bean)
-                        }
-                        liveData.postValue(data)
-                    }.onFailure { _, _ ->
-                        liveData.postValue(null)
-                    }.onError { _ ->
-                        liveData.postValue(null)
-                    }
-                } catch (_: Exception) {
-                    liveData.postValue(null)
-                }
-            }
-        }
-        return liveData
-    }
+//    fun getUserInfo(): SingleLiveBroadData<UserInfoBroadModel?> {
+//        val liveData = SingleLiveBroadData<UserInfoBroadModel?>()
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                try {
+//                    val result = NetworkBroadRepository.postEncrypted(
+//                        UrlBroadBroadConstants.GET_USER_INFO,
+//                        UserInfoBroadModel::class.java, HashMap<String, Any>()
+//                    )
+//                    result.onSuccess { data ->
+//                        data?.let {
+//                            val bean = GlobalFriendBroadBean()
+//                            bean.userId = data.id
+//                            bean.icon = data.icon
+//                            bean.nickName = data.name
+//                            bean.grade = data.grade
+//                            bean.registerDay = data.registerDayBean?.registDay
+//                            bean.isVip = data.isvip == "1"
+//                            bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
+//                            MMKVBroadUtils.saveUserData(bean)
+//                        }
+//                        liveData.postValue(data)
+//                    }.onFailure { _, _ ->
+//                        liveData.postValue(null)
+//                    }.onError { _ ->
+//                        liveData.postValue(null)
+//                    }
+//                } catch (_: Exception) {
+//                    liveData.postValue(null)
+//                }
+//            }
+//        }
+//        return liveData
+//    }
 }

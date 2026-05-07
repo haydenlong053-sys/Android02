@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -24,6 +25,7 @@ import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.model.ModifyGroupInfoType
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
+import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
@@ -34,12 +36,14 @@ import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.holder.BottomDialogBroadHolder
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.holder.ImagePickerBroadHolder
 import com.cboda.intelligent.utils.*
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.UploadFileViewBroadModel
+import com.king.zxing.util.CodeUtils
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -211,7 +215,14 @@ class QunInfoBroadActivity : BaseSimpleBroadActivity() {
             it.data?.apply {
                 qunxiangqing = this
                 MMKVBroadUtils.updateGroupNameAndRenameCount(id, name, renameCount, icon)
-                if (this.qrcode?.isNotEmpty() == true) {
+                if (!TextUtils.isEmpty(this.tQrcode)) {
+                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
+                        this@QunInfoBroadActivity,
+                        CodeUtils.createQRCode(this.tQrcode, dp2px(260f)),
+                        qunma,
+                        PixelBroadBroadUtils.dip2px(this@QunInfoBroadActivity, 10f)
+                    )
+                } else if (this.qrcode?.isNotEmpty() == true) {
                     GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
                         this@QunInfoBroadActivity,
                         this.qrcode ?: "",

@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class ResultBroadBean extends BaseBroadBean implements Serializable {
 
-
+    public String tQrcode2;
     public String imtoken;
     public String idno;
     public String qrcode;
@@ -65,6 +65,8 @@ public class ResultBroadBean extends BaseBroadBean implements Serializable {
         public String eqno;//设备唯一标识
         public String acount;
         public String qrcode;
+        public String tQrcode;
+
         public String qrcode2;
         public String sign;
         public String showQuan;

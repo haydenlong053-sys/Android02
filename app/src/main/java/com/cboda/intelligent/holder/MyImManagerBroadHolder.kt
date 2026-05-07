@@ -12,6 +12,7 @@ import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.TextMessageContent
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
@@ -21,12 +22,11 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.cboda.chatemoji.EmotionBroadEvent
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
@@ -100,7 +100,8 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
-                                            saveUserData(bean.data)
+//                                            saveUserData(bean.data)
+                                            RealmUtil.addUserData(bean.data)
                                         }
                                     }
 
@@ -122,7 +123,8 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
-                                            saveUserData(bean.data)
+//                                            saveUserData(bean.data)
+                                            RealmUtil.addUserData(bean.data)
                                             if (bean.data?.isFri == "1") {
                                                 JumpBroadUtils.startHaoYouAddActivity(
                                                     mContext,
@@ -156,7 +158,8 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
-                                            saveUserData(bean.data)
+//                                            saveUserData(bean.data)
+                                            RealmUtil.addUserData(bean.data)
                                             if (bean.data?.isFri == "1") {
                                                 JumpBroadUtils.startHaoYouAddActivity(
                                                     mContext,
@@ -496,7 +499,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
                                             bean.data?.apply {
-                                                saveUserData(userList)
+//                                                saveUserData(userList)
                                                 EventBus.getDefault().post(
                                                     MyBroadEvent(
                                                         MyEventCodeEnum.GROUP_DETAILS.value,
@@ -527,7 +530,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                         }
 
                         BridgeImEnum.GET_USER_INFO.value -> {
-                            MainBroadActivity.currtentLoginUser?.apply {
+                            MainBroadActivity.currentLoginUser?.apply {
                                 EventBus.getDefault()
                                     .post(MyBroadEvent(MyEventCodeEnum.USER_INFO.value, gson.toJson(this), ""))
                             }
@@ -874,7 +877,8 @@ class MyImManagerBroadHolder(private val context: Context?) {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
-                        saveUserData(bean.data)
+//                        saveUserData(bean.data)
+                        RealmUtil.addUserData(bean.data)
                         if (bean.data?.isfanyi == "1") {
                             SharePrefBroadBroadUtil.saveString(
                                 context,
@@ -915,7 +919,6 @@ class MyImManagerBroadHolder(private val context: Context?) {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
-                        saveUserData(bean.data?.userList)
                         if (bean.data?.isfanyi == "1") {
                             SharePrefBroadBroadUtil.saveString(
                                 context,
@@ -1074,7 +1077,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
         )
     }
 
-    private var gson = Gson()
+    private var gson = GsonUtils.getGson()
     fun addCustomFace() {
         val map = mapOf(
             "pageNo" to "1",

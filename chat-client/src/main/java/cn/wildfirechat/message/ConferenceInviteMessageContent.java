@@ -19,7 +19,6 @@ import cn.wildfirechat.message.core.ContentTag;
 import cn.wildfirechat.message.core.MessagePayload;
 import cn.wildfirechat.message.core.PersistFlag;
 
-import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Call_Start;
 import static cn.wildfirechat.message.core.MessageContentBroadType.ContentType_Conference_Invite;
 
 import androidx.core.content.ContextCompat;

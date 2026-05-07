@@ -1,6 +1,8 @@
 package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.clipViewOutlineRound;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.isSubmitCanGo2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showCommonTip;
@@ -371,7 +373,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             }).show(getSupportFragmentManager(), "");
         }
         if (view.getId() == R.id.llErweima && bean != null && bean.data != null) {
-            new UserEwmBroadDialog(this, bean.data.qrcode, bean.data.icon, bean.data.name, bean.data.idno).show();
+            new UserEwmBroadDialog(this, bean.data.qrcode,bean.data.tQrcode, bean.data.icon, bean.data.name, bean.data.idno).show();
         }
         if (view.getId() == R.id.llQianming && bean != null && bean.data != null) {
             intent = new Intent(this, QianMingBroadActivity.class);
@@ -622,7 +624,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         return options;
     }
 
-    private Gson mGson;
+//    private Gson mGson;
 
     /**
      * 用户信息
@@ -650,10 +652,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 dismissLoading();
                 bean = resultBean;
-                if (mGson == null) {
-                    mGson = new Gson();
-                }
-                oldBean = mGson.fromJson(mGson.toJson(bean), bean.getClass());
+                oldBean = fromJson2(toJson2(bean), bean.getClass());
                 showSaveButtonUI(false);
                 setInfo();
             }

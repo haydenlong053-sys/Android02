@@ -29,13 +29,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.SharePrefBroadBroadUtil
+import com.cboda.chatui.bridge.TiXingBroadUtils.Companion.RING_FOUND
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import java.io.IOException
 
 class MessageSoundBroadActivity : BaseSimpleBroadActivity() {
-    
+
     private var mediaPlayer: MediaPlayer? = null
 
     override fun getLayoutId(): Int {
@@ -53,14 +55,14 @@ class MessageSoundBroadActivity : BaseSimpleBroadActivity() {
     override fun useStatusBarDarkFont(): Boolean {
         return true
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         setContent {
             MessageSoundScreen(
                 onSave = { selectedSound ->
-                    SharePrefBroadBroadUtil.saveString(this, SharePrefBroadBroadUtil.RING_FILE_NAME_KEY, selectedSound)
+                    MMKVBroadUtils.saveSqlStrData(SharePrefBroadBroadUtil.RING_FILE_NAME_KEY, selectedSound)
                     finish()
                 },
                 onPlaySound = { soundFile ->
@@ -72,7 +74,7 @@ class MessageSoundBroadActivity : BaseSimpleBroadActivity() {
             )
         }
     }
-    
+
     private fun playSound(soundFile: String) {
         try {
             mediaPlayer?.release()
@@ -87,7 +89,7 @@ class MessageSoundBroadActivity : BaseSimpleBroadActivity() {
             e.printStackTrace()
         }
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer?.release()
@@ -104,23 +106,23 @@ fun MessageSoundScreen(
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
-    
+
     // 获取状态栏高度
     val statusBarHeight = with(density) {
         WindowInsets.statusBars.getTop(density).toDp()
     }
-    
+
     // 音频文件列表
     val soundFiles = listOf(
         "tixing.mp3" to "叮当",
         "item_found.mp3" to "清脆",
         "instant_message.mp3" to "叮咚"
     )
-    
+
     // 获取当前选中的音频文件
-    val currentSound = SharePrefBroadBroadUtil.getString(context, SharePrefBroadBroadUtil.RING_FILE_NAME_KEY, "item_found.mp3")
+    val currentSound = MMKVBroadUtils.getSqlStrData(SharePrefBroadBroadUtil.RING_FILE_NAME_KEY, RING_FOUND)
     var selectedSound by remember { mutableStateOf(currentSound) }
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -140,7 +142,7 @@ fun MessageSoundScreen(
                 contentScale = ContentScale.FillWidth,
                 alignment = Alignment.TopCenter
             )
-            
+
             // 标题栏内容 - 在50dp高度内垂直居中，但整体位于状态栏下方
             Box(
                 modifier = Modifier
@@ -159,7 +161,7 @@ fun MessageSoundScreen(
                         .clickable { onBack() },
                     colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color.White)
                 )
-                
+
                 // 标题 - 居中
                 Text(
                     text = "消息提示音",
@@ -168,7 +170,7 @@ fun MessageSoundScreen(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
                 )
-                
+
                 // 保存按钮 - 右对齐
                 Button(
                     onClick = { onSave(selectedSound) },
@@ -188,7 +190,7 @@ fun MessageSoundScreen(
                 }
             }
         }
-        
+
         // 音频选择列表
         LazyColumn(
             modifier = Modifier
@@ -201,7 +203,7 @@ fun MessageSoundScreen(
                     fileName = fileName,
                     displayName = displayName,
                     isSelected = selectedSound == fileName,
-                    onSelect = { 
+                    onSelect = {
                         selectedSound = fileName
                         onPlaySound(fileName)
                     }
@@ -236,7 +238,7 @@ fun SoundItem(
                 fontSize = 15.sp,
                 color = colorResource(id = R.color.color_text0)
             )
-            
+
             if (isSelected) {
                 Image(
                     painter = painterResource(id = R.mipmap.btn_checkbox_broad_press),
@@ -245,7 +247,7 @@ fun SoundItem(
                 )
             }
         }
-        
+
         // 分隔线
         Box(
             modifier = Modifier

@@ -2,14 +2,17 @@ package com.cboda.intelligent.dialog.pop
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import cn.wildfirechat.remote.ChatManager
+import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.loadImg
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -20,11 +23,12 @@ import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.king.zxing.util.CodeUtils
 import razerdp.basepopup.BasePopupWindow
 
 //群保存二维码提示pop
-class SaveGroupQrCodeBroadPop(val context: Context,val qunId: String) : BasePopupWindow(context) {
-//    private val scope = MainScope() // 创建主线程的协程作用域
+class SaveGroupQrCodeBroadPop(val context: Context, val qunId: String) : BasePopupWindow(context) {
+    //    private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: CommViewBroadModel? = null
     private var binding: DialogPopSaveGroupBroadQrcodeBinding = DialogPopSaveGroupBroadQrcodeBinding.inflate(
         LayoutInflater.from(context)
@@ -94,12 +98,14 @@ class SaveGroupQrCodeBroadPop(val context: Context,val qunId: String) : BasePopu
             // 获取该 Activity 作用域的 ViewModel
             viewModel = ViewModelProvider(activity).get<CommViewBroadModel>(CommViewBroadModel::class.java)
             // 现在可以使用 viewModel 进行数据操作
-            eLogD(APP_TAG,"viewModel=="+viewModel)
+            eLogD(APP_TAG, "viewModel==" + viewModel)
             viewModel?.gonggaoLiveData?.observe(context) {
                 it.data?.apply {
                     binding.mTvName.text = this.name ?: ""
                     binding.mTvId.text = "账号ID：${this.idno}"
-                    if (this.qrcode?.isNotEmpty() == true) {
+                    if (!TextUtils.isEmpty(this.tQrcode)) {
+                        binding.mIvQrCodeAuth.loadImg(CodeUtils.createQRCode(this.tQrcode, dp2px(260f)), null)
+                    } else if (this.qrcode?.isNotEmpty() == true) {
                         GlideBroadUtil.setImag(context, this.qrcode ?: "", binding.mIvQrCodeAuth)
                     }
                     val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)

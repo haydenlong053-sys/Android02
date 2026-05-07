@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.os.RemoteException;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -54,8 +56,10 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cboda.baselibrary.bean.CommonResultBroadBean;
 import com.cboda.baselibrary.bean.DanmakuItem;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.UserGroupBean;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
@@ -74,6 +78,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,6 +87,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.widge.CountPillView;
 import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.baselibrary.widge.VerticalDanmakuView;
@@ -680,7 +686,7 @@ public class ConversationBroadFragment extends Fragment implements
             this.recyclerViewBroad.setAdapter(this.adapterBroad);
         }
 
-        // TODO 要支持在线状态是才监听
+        //  要支持在线状态是才监听
         if ((conversation.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(conversation.target))
                 || conversation.type == Conversation.ConversationType.Group) {
             userOnlineStateBroadViewModel.watchUserOnlineState(conversation.type.getValue(), new String[]{conversation.target});
@@ -815,7 +821,7 @@ public class ConversationBroadFragment extends Fragment implements
 //                if (null != getName) {
 //                    addBarrageData(getName, barrageBean.getGiftType(), false);
 //                } else {
-                E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                E.INSTANCE.getUserName(sender, conversationBroad.target, false, conversationBroad.type == Conversation.ConversationType.Group, userName -> {
 //                    nameMap.put(sender, userName);
                     addBarrageData(userName, barrageBean.getGiftType(), false);
                     return null;
@@ -874,7 +880,7 @@ public class ConversationBroadFragment extends Fragment implements
 //                        if (null != getName) {
 //                            addBarrageData(getName, integer, true);
 //                        } else {
-                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, conversationBroad.type == Conversation.ConversationType.Group, userName -> {
 //                                nameMap.put(sender, userName);
                                 addBarrageData(userName, action.getCode(), true);
                                 return null;
@@ -1077,7 +1083,7 @@ public class ConversationBroadFragment extends Fragment implements
             updateGroupMuteStatus();
             MeetCallManager.getInstance().unregisterEngineEvent(this);
             MeetCallManager.getInstance().registerEngineEvent(this);
-            eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
+//            eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
             if (MeetCallManager.getInstance().isCallingState()) {
                 if (null != danmakuIv) {
                     danmakuIv.setVisibility(VISIBLE);
@@ -1119,7 +1125,16 @@ public class ConversationBroadFragment extends Fragment implements
             EnterChannelChatMessageContent content = new EnterChannelChatMessageContent();
             messageBroadViewModel.sendMessage(conversation, content, false);
         } else if (conversation.type == Conversation.ConversationType.Group) {
-            messageBroadViewModel.getMsgDetailUserData(conversation.target);
+            UserGroupBean userGroupBean = new UserGroupBean();
+            userGroupBean.setGroupId(conversation.target);
+            userGroupBean.setUserId(MMKVBroadUtils.Companion.getRealUserId());
+            messageBroadViewModel.getMsgDetailUserData(userGroupBean);
+            Looper.myQueue().addIdleHandler(() -> {
+                // 在这里执行你的任务
+                E.INSTANCE.getAllListUserData(conversation.target);
+                // 返回 false 表示处理完成后不再调用
+                return false;
+            });
         }
 
         ConversationInfo conversationInfo = ChatManager.Instance().getConversation(conversation);
@@ -1241,8 +1256,20 @@ public class ConversationBroadFragment extends Fragment implements
         adapterBroad.setReadEntries(ChatManager.Instance().getConversationRead(conversationBroad));
         messages.observe(this, uiMessages -> {
             swipeRefreshLayoutBroad.setRefreshing(false);
-
+            eLogD(TAG, "uiMessagesSize3:" + uiMessages.size());
             adapterBroad.setMessages(uiMessages);
+            //初始化消息获取最新消息的发送者信息
+            if (conversationBroad.type == Conversation.ConversationType.Group) {
+                List<String> uidList = new ArrayList<>();
+                for (int i = 0; i < uiMessages.size(); i++) {
+                    String senderId = uiMessages.get(i).message.sender;
+                    if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId) && !MMKVBroadUtils.Companion.getKeFuId().equals(senderId)) {
+                        uidList.add(senderId);
+                    }
+                }
+                E.INSTANCE.getListUserDataNotCall(conversationBroad.target, uidList);
+            }
+
             ThreadUtils.runOnUiThread(() -> {
                 adapterBroad.notifyDataSetChanged();
             });
@@ -1393,41 +1420,38 @@ public class ConversationBroadFragment extends Fragment implements
 
         if (conversationBroad.type == Conversation.ConversationType.Single) {
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversationBroad.target, false);
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                @Override
-                public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
-                    if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-                        conversationBroadTitle = MMKVBroadUtils.Companion.getKeFuName();
-                    } else if (friendSmailListBean != null) {
-                        if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                            conversationBroadTitle = friendSmailListBean.remarkName;
-                        } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                            conversationBroadTitle = friendSmailListBean.nickName;
-                        } else {
-                            if (userInfo == null) {
-                                conversationBroadTitle = "";
-                            }
-                        }
-                    } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
-                        conversationBroadTitle = userInfo.friendAlias;
-                    } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
-                        conversationBroadTitle = userInfo.displayName;
+            RealmUtil.INSTANCE.findUserData(conversationBroad.target, friendSmailListBean -> {
+                if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+                    conversationBroadTitle = MMKVBroadUtils.Companion.getKeFuName();
+                } else if (friendSmailListBean != null) {
+                    if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                        conversationBroadTitle = friendSmailListBean.remarkName;
+                    } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                        conversationBroadTitle = friendSmailListBean.nickName;
                     } else {
                         if (userInfo == null) {
                             conversationBroadTitle = "";
                         }
                     }
-                    eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
-                    UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
-                    if (userOnlineState != null) {
-                        String onlineDesc = userOnlineState.desc();
-                        if (!TextUtils.isEmpty(onlineDesc)) {
-                            conversationBroadTitle += " (" + onlineDesc + ")";
-                        }
+                } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+                    conversationBroadTitle = userInfo.friendAlias;
+                } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
+                    conversationBroadTitle = userInfo.displayName;
+                } else {
+                    if (userInfo == null) {
+                        conversationBroadTitle = "";
                     }
-                    setActivityTitle(conversationBroadTitle);
-                    return null;
                 }
+                eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
+                UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
+                if (userOnlineState != null) {
+                    String onlineDesc = userOnlineState.desc();
+                    if (!TextUtils.isEmpty(onlineDesc)) {
+                        conversationBroadTitle += " (" + onlineDesc + ")";
+                    }
+                }
+                setActivityTitle(conversationBroadTitle);
+                return null;
             });
         } else if (conversationBroad.type == Conversation.ConversationType.Group) {
             if (groupInfoBroad != null) {
@@ -1665,6 +1689,7 @@ public class ConversationBroadFragment extends Fragment implements
     public void reloadMessage() {
         conversationBroadViewModel.getMessages(conversationBroad, channelPrivateBroadChatUser).observe(this, uiMessages -> {
             adapterBroad.setMessages(uiMessages);
+            eLogD(TAG, "uiMessagesSize1:" + uiMessages.size());
             adapterBroad.notifyDataSetChanged();
         });
     }
@@ -1674,6 +1699,7 @@ public class ConversationBroadFragment extends Fragment implements
             for (int i = 0; i < uiMessages.size(); i++) {
                 uiMessages.get(i).message.status = MessageStatus.Sent;
             }
+            eLogD(TAG, "uiMessagesSize2:" + uiMessages.size());
             adapterBroad.setMessages(uiMessages);
             adapterBroad.notifyDataSetChanged();
         });

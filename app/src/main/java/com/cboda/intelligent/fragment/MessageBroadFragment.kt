@@ -54,6 +54,7 @@ import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
@@ -113,8 +114,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         setBottomViewHeight()
         var result = 0
         val resourceId = resources.getIdentifier(
-            "status_bar_height",
-            "dimen", "android"
+            "status_bar_height", "dimen", "android"
         )
         if (resourceId > 0) {
             result = resources.getDimensionPixelSize(resourceId)
@@ -173,19 +173,14 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                                 saoyisao()
                             } else {
                                 val holder3 = CommanConfimBroadHolder(
-                                    activity,
-                                    getString(R.string.温馨提示),
-                                    getString(R.string.camera_permission_request, AppBroadUtils.getAppName(activity!!)),
-                                    getString(R.string.agree),
-                                    getString(R.string.jujuele)
+                                    activity, getString(R.string.温馨提示), getString(R.string.camera_permission_request, AppBroadUtils.getAppName(activity!!)), getString(R.string.agree), getString(R.string.jujuele)
                                 )
                                 holder3.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                                     override fun onClickConfim(isConfim: Boolean) {
                                         if (isConfim) {
-                                            XXPermissions.with(activity!!)
-                                                .permission(Permission.CAMERA).request { _, _ ->
-                                                    saoyisao()
-                                                }
+                                            XXPermissions.with(activity!!).permission(Permission.CAMERA).request { _, _ ->
+                                                saoyisao()
+                                            }
                                         }
                                     }
                                 }
@@ -235,16 +230,20 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     private fun initFriendList() {
         eLogD(APP_TAG, "initFriendList-----------")
         lifecycleScope.launch {
-            friendViewModel.fetchFriendShipList().observe(viewLifecycleOwner) { mList ->
-                eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.size}")
-                if (mList.isNotEmpty()) {
-                    MMKVBroadUtils.saveUserListData(mList, lifecycleScope)
-                }
-            }
+            friendViewModel.fetchFriendShipList()
+//                .observe(viewLifecycleOwner) { mList ->
+//                eLogD("getGroupListDataClass", "fetchFriendShipList-----------${mList.first.size}")
+//                if (mList.first.isNotEmpty()) {
+//                    MMKVBroadUtils.saveUserListData(mList.first, lifecycleScope)
+//                }
+//                if (mList.second.isNotEmpty()) {
+//                    RealmUtil.addUserData(mList.second, lifecycleScope)
+//                }
+//            }
             friendViewModel.fetchGroupList().observe(viewLifecycleOwner) { mList ->
                 eLogD("getGroupListDataClass", "fetchGroupList-----------${mList.size}")
                 if (mList.isNotEmpty()) {
-                   MMKVBroadUtils.saveGroupList(mList,lifecycleScope)
+                    MMKVBroadUtils.saveGroupList(mList, lifecycleScope)
                 }
             }
         }
@@ -253,30 +252,24 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 
     private fun initNoticeMsg() {
         lifecycleScope.launch {
-            noticeViewModel.getNoticeInfoList(1, CommonBroadConfig.pageSize_100)
-                .observe(viewLifecycleOwner) { mList ->
-                    if (mList.list?.isNotEmpty() == true) {
-                        eLogD(
-                            APP_TAG,
-                            "mList.list!![0].noticeTitle==" + mList.list!![0].noticeTitle
-                        )
-                        val noticeBean = GlobalNoticeBroadBean(
-                            mList.list!![0].id,
-                            mList.list!![0].createTime,
-                            mList.list!![0].noticeTitle
-                        )
+            noticeViewModel.getNoticeInfoList(1, CommonBroadConfig.pageSize_100).observe(viewLifecycleOwner) { mList ->
+                if (mList.list?.isNotEmpty() == true) {
+                    eLogD(
+                        APP_TAG, "mList.list!![0].noticeTitle==" + mList.list!![0].noticeTitle
+                    )
+                    val noticeBean = GlobalNoticeBroadBean(
+                        mList.list!![0].id, mList.list!![0].createTime, mList.list!![0].noticeTitle
+                    )
 
-                        eLogD(
-                            APP_TAG,
-                            "mNoticeBean==" + noticeBean.noticeTitle
-                        )
-                        conversationSingleFragment?.setGlobalNoticeBean(noticeBean)
-                        val infoBeans =
-                            mList.list?.filter { bean -> !bean.isRead && bean.forcePopup && bean.status }
+                    eLogD(
+                        APP_TAG, "mNoticeBean==" + noticeBean.noticeTitle
+                    )
+                    conversationSingleFragment?.setGlobalNoticeBean(noticeBean)
+                    val infoBeans = mList.list?.filter { bean -> !bean.isRead && bean.forcePopup && bean.status }
 //                            mList.list?.filter { bean ->  bean.status }
-                        showNoticeMsgDialog(infoBeans)
-                    }
+                    showNoticeMsgDialog(infoBeans)
                 }
+            }
         }
     }
 
@@ -295,8 +288,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     private val badgeCounts = intArrayOf(anyToInt(singleCount), anyToInt(myGroupCount), anyToInt(otherGroupCount), anyToInt(socialCount))
     private var indicatorAdapt: BadgeIndicatorAdapter? = null
     private fun initMagicIndicator() {
-        val mResIds =
-            intArrayOf(R.string.conversation_tab, R.string.private_group_tab, R.string.public_group_tab, R.string.friend_tab)
+        val mResIds = intArrayOf(R.string.conversation_tab, R.string.private_group_tab, R.string.public_group_tab, R.string.friend_tab)
         magicIndicator.setBackgroundColor(Color.TRANSPARENT)
         val commonNavigator = CommonBroadNavigator(requireContext())
         commonNavigator.isAdjustMode = LanguageUtil.getLanList(MMKVBroadUtils.getAppLanguageKey(requireContext())).startsWith("zh")
@@ -305,10 +297,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         commonNavigator.adapter = indicatorAdapt
         magicIndicator.navigator = commonNavigator
         bindIndicatorAndViewPager(
-            magicIndicator,
-            viewPager,
-            indicatorAdapt,
-            magicIndicatorNeedOnPageScrolled = true
+            magicIndicator, viewPager, indicatorAdapt, magicIndicatorNeedOnPageScrolled = true
         )
     }
 
@@ -458,37 +447,30 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 //        titles.add(getString(R.string.friend_tab))
         managerBar.setContent {
             val asState = uiViewModel.uiState.collectAsState()
-            FloatManagerBar(
-                showAllSelect = !asState.value.isAllSelect,
-                showAllRead = asState.value.isAllRead,
-                enableDelete = asState.value.enableDelete,
-                toSelectAll = {
-                    if (it) {
-                        uiViewModel.selectAll()
-                    } else {
-                        uiViewModel.cancelSelectAll()
-                    }
-                },
-                toSelectRead = {
-                    if (it) {
-                        uiViewModel.markAllAsRead()
+            FloatManagerBar(showAllSelect = !asState.value.isAllSelect, showAllRead = asState.value.isAllRead, enableDelete = asState.value.enableDelete, toSelectAll = {
+                if (it) {
+                    uiViewModel.selectAll()
+                } else {
+                    uiViewModel.cancelSelectAll()
+                }
+            }, toSelectRead = {
+                if (it) {
+                    uiViewModel.markAllAsRead()
 
-                    } else {
-                        uiViewModel.markSingleAsRead()
-                    }
-                    isManagerClick = false
-                    uiViewModel.updateBottomState(false)
-                },
-                toDelete = {
-                    uiViewModel.deleteSelected()
-                    isManagerClick = false
-                    uiViewModel.updateBottomState(false)
-                })
+                } else {
+                    uiViewModel.markSingleAsRead()
+                }
+                isManagerClick = false
+                uiViewModel.updateBottomState(false)
+            }, toDelete = {
+                uiViewModel.deleteSelected()
+                isManagerClick = false
+                uiViewModel.updateBottomState(false)
+            })
         }
         ivManager.setContent {
             BlurButton(
-                size = 50.dp, iconPainter = painterResource(R.mipmap.ic_manager_broad_black),
-                expanded = isManagerClick, onExpandedChange = {
+                size = 50.dp, iconPainter = painterResource(R.mipmap.ic_manager_broad_black), expanded = isManagerClick, onExpandedChange = {
                     val currentIndex = viewPager.currentItem
                     if (currentIndex == 3) {
                         return@BlurButton
@@ -518,8 +500,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         ivMore.setContent {
 //            XiaoXiMoreBroadHolder(context, ivMore)
             BlurFabButton(
-                size = 50.dp,
-                addIconPainter = painterResource(R.mipmap.ic_add_broad_black)
+                size = 50.dp, addIconPainter = painterResource(R.mipmap.ic_add_broad_black)
             ) { dismiss ->
                 MorePopUp(onItemClick = { index ->
                     when (index) {
@@ -541,19 +522,14 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                                 saoyisao()
                             } else {
                                 val holder3 = CommanConfimBroadHolder(
-                                    activity,
-                                    getString(R.string.温馨提示),
-                                    getString(R.string.camera_permission_request, AppBroadUtils.getAppName(requireContext())),
-                                    getString(R.string.agree),
-                                    getString(R.string.jujuele)
+                                    activity, getString(R.string.温馨提示), getString(R.string.camera_permission_request, AppBroadUtils.getAppName(requireContext())), getString(R.string.agree), getString(R.string.jujuele)
                                 )
                                 holder3.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                                     override fun onClickConfim(isConfim: Boolean) {
                                         if (isConfim) {
-                                            XXPermissions.with(activity!!)
-                                                .permission(Permission.CAMERA).request { _, _ ->
-                                                    saoyisao()
-                                                }
+                                            XXPermissions.with(activity!!).permission(Permission.CAMERA).request { _, _ ->
+                                                saoyisao()
+                                            }
                                         }
                                     }
                                 }

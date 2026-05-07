@@ -377,7 +377,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
         tvSwitch = findViewById(R.id.tvSwitch);
         tvAboutVersion = findViewById(R.id.tvAboutVersion);
         if (tvAboutVersion != null) {
-            tvAboutVersion.setText("v"+ AppBroadUtils.Companion.getVersion(this));
+            tvAboutVersion.setText("v" + AppBroadUtils.Companion.getVersion(this));
         }
     }
 

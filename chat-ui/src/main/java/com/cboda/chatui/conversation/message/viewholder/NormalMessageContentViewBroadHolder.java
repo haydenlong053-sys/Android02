@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.bumptech.glide.Glide;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.AppServiceBroadProvider;
 import com.cboda.chatui.ChatManagerBroadHolder;
@@ -411,7 +413,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
     }
 
     private void setSenderAvatar(Message item) {
-        // TODO get user info from viewModel
+        //  get user info from viewModel
         final String[] portraitUrl = {null};
         if (item.conversation.type == Conversation.ConversationType.Channel && item.direction == MessageDirection.Receive) {
             ChannelInfo channelInfo = ChatManager.Instance().getChannelInfo(item.conversation.target, false);
@@ -428,17 +430,13 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
         }
 
         if (portraitUrl[0] == null) {
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(item.sender, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                @Override
-                public Unit invoke(GlobalFriendBroadBean bean) {
-                    if (bean != null) {
-                        portraitUrl[0] = bean.icon;
-                        setImgData(portraitUrl[0]);
-                    }
-                    return null;
+            RealmUtil.INSTANCE.findUserData(item.sender, bean -> {
+                if (bean != null) {
+                    portraitUrl[0] = bean.userImg;
+                    setImgData(portraitUrl[0]);
                 }
+                return null;
             });
-
         }
 
     }
@@ -515,7 +513,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 //        } else {
 //            nameTextView.setText(displayName[0]);
 //        }
-        E.INSTANCE.getUserName(sender, conversation.target, false, s -> {
+        E.INSTANCE.getUserName(sender, conversation.target, false,conversation.type== Conversation.ConversationType.Group, s -> {
             nameTextView.setText(s);
             return null;
         });

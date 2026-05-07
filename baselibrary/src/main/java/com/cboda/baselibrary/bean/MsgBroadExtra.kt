@@ -6,7 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MsgBroadExtra(
-    val grade: Double = 0.0,
-    val joinGroupTime: String = "",
-    val isMeetingImage: String = ""
+    val grade: String = "",//信用分
+    val joinGroupTime: String = "",//入群时间
+    val isMeetingImage: String = "",//是否会议大图
+    val rDay: String = "",//注册天数
+    val isVip: String = "0",//是否vip
+    val isNice: String = "0",//是否靓号
+    val gName: String = ""//用户在群里的昵称
 ) : Parcelable

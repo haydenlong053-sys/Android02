@@ -69,6 +69,7 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
                         gongnenglay?.isVisible = uid != BroadConstant.getRealUid()
                         initData()
                     }
+
                     "2" -> {
                         //管理
                         if (type == "1" || type == "2") {
@@ -80,10 +81,11 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
                             gongnenglay?.isVisible = true
                         }
                     }
+
                     else -> {
                         shezhijinyan?.isVisible = false
                         gongnenglay?.isVisible = false
-                        if (qunxiangqing?.openQysl=="1"){
+                        if (qunxiangqing?.openQysl == "1") {
                             tianjiadaotongxun?.isVisible = false
                         }
                     }
@@ -103,9 +105,9 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
                 tvname?.text = this.bei ?: ""
                 tvnicheng?.text = StringBroadUtils.format(getString(R.string.nichengshi), "${this.name}")
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
-                if (this@QunGerenPageBroadActivity.uid == MMKVBroadUtils.getRealUserId()){
+                if (this@QunGerenPageBroadActivity.uid == MMKVBroadUtils.getRealUserId()) {
                     tianjiadaotongxun?.isVisible = false
-                }else if (this.isFri == "1" || uid == BroadConstant.getRealUid()) {
+                } else if (this.isFri == "1" || uid == BroadConstant.getRealUid()) {
                     tianjiadaotongxun?.isVisible = false
                 } else {
                     tianjiadaotongxun?.isVisible = true
@@ -159,7 +161,7 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
             JumpBroadUtils.startHaoyouApplyActivity(
                 this,
                 uid,
-                duifang?.name ?: "",
+                "",
                 source,
                 qunid,
                 "1"
@@ -190,26 +192,26 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
                         val conversation = Conversation()
                         conversation.type = Conversation.ConversationType.Group
                         conversation.target = qunid
-                       val xiaoxiList = ChatManager.Instance().searchMessageByTypesAndTimes(
+                        val xiaoxiList = ChatManager.Instance().searchMessageByTypesAndTimes(
                             conversation,
                             "",
                             arrayListOf<Int>(),
-                            System.currentTimeMillis() - 10*60*1000,
+                            System.currentTimeMillis() - 10 * 60 * 1000,
                             System.currentTimeMillis(),
                             true,
                             0,
                             0,
                             uid
                         )
-                        AppBroadUtils.debug("野火","撤回消息数量--> ${xiaoxiList?.size}")
+                        AppBroadUtils.debug("野火", "撤回消息数量--> ${xiaoxiList?.size}")
                         xiaoxiList?.forEachIndexed { index, message ->
-                            ChatManager.Instance().recallMessage(message,object : GeneralCallback{
+                            ChatManager.Instance().recallMessage(message, object : GeneralCallback {
                                 override fun onSuccess() {
-                                   AppBroadUtils.debug("野火","撤回消息-->onSuccess")
+                                    AppBroadUtils.debug("野火", "撤回消息-->onSuccess")
                                 }
 
                                 override fun onFail(errorCode: Int) {
-                                    AppBroadUtils.debug("野火","撤回消息-->onFail:: $errorCode")
+                                    AppBroadUtils.debug("野火", "撤回消息-->onFail:: $errorCode")
                                 }
                             })
                         }
