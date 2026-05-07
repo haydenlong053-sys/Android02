@@ -20,6 +20,9 @@ import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.R
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.isNotEmpty
 
 object E {
 
@@ -173,13 +176,19 @@ object E {
         }
     }
 
-    fun getMapUserData(uIdMap: HashMap<String, ArrayList<String>>) {
+    fun getMapUserData(uIdMap: HashMap<String, HashMap<String, String>>) {
         if (uIdMap.isNotEmpty()) {
             val uIdList = arrayListOf<UIDListBean>()
-            uIdMap.forEach { (groupId, list) ->
-                if (list.isNotEmpty() && !TextUtils.isEmpty(groupId)) {
+            uIdMap.forEach { (groupId, item) ->
+                if (item.isNotEmpty() && !TextUtils.isEmpty(groupId)) {
                     val uIDListBean = UIDListBean()
                     uIDListBean.groupId = groupId
+                    val list = arrayListOf<String>()
+                    item.forEach { (_, value) ->
+                        if (!TextUtils.isEmpty(value)) {
+                            list.add(value)
+                        }
+                    }
                     uIDListBean.uidList = list
                     uIdList.add(uIDListBean)
                 }
@@ -195,19 +204,22 @@ object E {
         if (uIdList.size > listPos) {
             val uIDListBean = uIdList[listPos]
             val uids = uIDListBean.uidList
-            if (uids.size <= 1) {
-                val userGroupBean = UserGroupBean()
-                userGroupBean.userId = uids[0]
-                userGroupBean.groupId = uIDListBean.groupId
-                getDetailUserData(userGroupBean) {
-                    getUIDListData(uIdList, listPos + 1)
+            if (uids.isNotEmpty()) {
+                if (uids.size <= 1) {
+                    val userGroupBean = UserGroupBean()
+                    userGroupBean.userId = uids[0]
+                    userGroupBean.groupId = uIDListBean.groupId
+                    getDetailUserData(userGroupBean) {
+                        getUIDListData(uIdList, listPos + 1)
+                    }
+                } else {
+                    getListUserData(uIDListBean.groupId, uids) {
+                        getUIDListData(uIdList, listPos + 1)
+                    }
                 }
             } else {
-                getListUserData(uIDListBean.groupId, uids) {
-                    getUIDListData(uIdList, listPos + 1)
-                }
+                getUIDListData(uIdList, listPos + 1)
             }
-
         }
     }
 
@@ -241,39 +253,24 @@ object E {
         }
     }
 
-    fun getListUserDataNotCall(groupId: String?, uidList: List<String?>?) {
-        if (!TextUtils.isEmpty(groupId) && !uidList.isNullOrEmpty()) {
-            if (uidList.size <= 1) {
-                val userGroupBean = UserGroupBean()
-                userGroupBean.userId = uidList[0] ?: ""
-                userGroupBean.groupId = groupId ?: ""
-                getDetailUserData(userGroupBean)
-            } else {
-                getListUserData(groupId, uidList)
+    fun getListUserDataNotCall(groupId: String?, uidList: HashMap<String, String>) {
+        if (!TextUtils.isEmpty(groupId) && uidList.isNotEmpty()) {
+            val list = arrayListOf<String>()
+            uidList.forEach { (_, value) ->
+                if (!TextUtils.isEmpty(value)) {
+                    list.add(value)
+                }
             }
-
-//            val uids = uidList.filterNotNull().filter { it.isNotBlank() && !it.contains(MMKVBroadUtils.getKeFuId()) && !it.contains(MMKVBroadUtils.getKeFuId()) }.distinct().toTypedArray()
-//            val map = mapOf("id" to groupId, "uids" to uids)
-//            postEncryptedList(
-//                "api/groupUsersInfoBatch",
-//                map,
-//                object : NetworkBroadUtils.ListCallback<GroupUserBean> {
-//                    override fun onSuccess(list: List<GroupUserBean>?, totalCount: Int, totalPage: Int) {
-//                        //                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
-//                        val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
-//                        RealmUtil.addUserGroupData(groupId, groupList)
-//                        RealmUtil.addUserData2(groupList)
-//                    }
-//
-//                    override fun onFailure(code: Int, message: String) {
-////                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
-//                    }
-//
-//                    override fun onError(throwable: Throwable) {
-////                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
-//                    }
-//
-//                })
+            if (list.isNotEmpty()) {
+                if (list.size <= 1) {
+                    val userGroupBean = UserGroupBean()
+                    userGroupBean.userId = list[0]
+                    userGroupBean.groupId = groupId ?: ""
+                    getDetailUserData(userGroupBean)
+                } else {
+                    getListUserData(groupId, list)
+                }
+            }
         }
     }
 
