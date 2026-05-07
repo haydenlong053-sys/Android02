@@ -34,45 +34,51 @@ object E {
                     } else if (null != portrait && !TextUtils.isEmpty(portrait) && !portrait.startsWith("file://")) {
                         imageView.loadGroupImg2(portrait)
                     } else {
-                        imageView.loadGroupImg2()
-                        ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, object : GetGroupMembersCallback {
-                            override fun onSuccess(groupMembers: List<GroupMember?>?) {
-                                groupMembers?.let {
-                                    if (groupMembers.isNotEmpty()) {
-                                        val memberIds = arrayListOf<String>()
-                                        groupMembers.forEach { item ->
-                                            //   // 获取最多30个成员的用户ID
-                                            if (null != item && !TextUtils.isEmpty(item.memberId) && memberIds.size < 30) {
-                                                memberIds.add(item.memberId)
+                        val groupInfo = ChatManager.Instance().getGroupInfo(groupId, false)
+                        val getPortrait = groupInfo?.portrait
+                        if (null != getPortrait && !TextUtils.isEmpty(getPortrait) && !getPortrait.startsWith("file://")) {
+                            imageView.loadGroupImg2(getPortrait)
+                        } else {
+                            imageView.loadGroupImg2()
+                            ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, object : GetGroupMembersCallback {
+                                override fun onSuccess(groupMembers: List<GroupMember?>?) {
+                                    groupMembers?.let {
+                                        if (groupMembers.isNotEmpty()) {
+                                            val memberIds = arrayListOf<String>()
+                                            groupMembers.forEach { item ->
+                                                //   // 获取最多30个成员的用户ID
+                                                if (null != item && !TextUtils.isEmpty(item.memberId) && memberIds.size < 30) {
+                                                    memberIds.add(item.memberId)
+                                                }
                                             }
-                                        }
-                                        // 获取用户信息（包括头像）
-                                        val userInfos = ChatManagerBroadHolder.gChatManager.getUserInfos(memberIds, groupId)
-                                        if (null != userInfos && userInfos.isNotEmpty()) {
-                                            memberIds.clear()
-                                            userInfos.forEach { item ->
-                                                // 获取最多9个成员的用户头像
-                                                if (null != item && !TextUtils.isEmpty(item.portrait) && memberIds.size < 9) {
-                                                    memberIds.add(item.portrait)
-                                                } else if (null != item && !TextUtils.isEmpty(item.uid) && memberIds.size < 9) {
-                                                    RealmUtil.findUserData(item.uid) { globalFriendBean ->
-                                                        if (null != globalFriendBean && null != globalFriendBean.userImg && !TextUtils.isEmpty(globalFriendBean.userImg)) {
-                                                            memberIds.add(globalFriendBean.userImg ?: "")
+                                            // 获取用户信息（包括头像）
+                                            val userInfos = ChatManagerBroadHolder.gChatManager.getUserInfos(memberIds, groupId)
+                                            if (null != userInfos && userInfos.isNotEmpty()) {
+                                                memberIds.clear()
+                                                userInfos.forEach { item ->
+                                                    // 获取最多9个成员的用户头像
+                                                    if (null != item && !TextUtils.isEmpty(item.portrait) && memberIds.size < 9) {
+                                                        memberIds.add(item.portrait)
+                                                    } else if (null != item && !TextUtils.isEmpty(item.uid) && memberIds.size < 9) {
+                                                        RealmUtil.findUserData(item.uid) { globalFriendBean ->
+                                                            if (null != globalFriendBean && null != globalFriendBean.userImg && !TextUtils.isEmpty(globalFriendBean.userImg)) {
+                                                                memberIds.add(globalFriendBean.userImg ?: "")
+                                                            }
                                                         }
                                                     }
                                                 }
+                                                GroupAvatarBroadLoader.load(imageView.context, memberIds, imageView, groupId)
                                             }
-                                            GroupAvatarBroadLoader.load(imageView.context, memberIds, imageView, groupId)
                                         }
                                     }
+
                                 }
 
-                            }
-
-                            override fun onFail(errorCode: Int) {
-                                imageView.loadGroupImg2()
-                            }
-                        })
+                                override fun onFail(errorCode: Int) {
+                                    imageView.loadGroupImg2()
+                                }
+                            })
+                        }
                     }
                 }
             } else {

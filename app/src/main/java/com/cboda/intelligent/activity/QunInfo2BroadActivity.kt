@@ -33,6 +33,7 @@ import com.cboda.baselibrary.utils.loadImg
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.ConversationViewBroadModel
+import com.cboda.chatui.utils.E.loadGroupImg
 import com.cboda.chatui.utils.GroupAvatarBroadLoader
 import com.cboda.chatui.utils.MyIMActivityBroadUtils
 import com.cboda.intelligent.R
@@ -264,7 +265,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 //                    mIvGroupAvatar.loadImg(this.icon ?: "")
 //
 //                }
-                //此处参考泽伟写的展示群头像逻辑
+
                 val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
                 // 提取头像URL列表
                 val avatarUrls: MutableList<String> = java.util.ArrayList<String>()
@@ -286,7 +287,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
                 } else {
                     mIvGroupAvatar.loadImg(this.icon)
                 }
-
+                loadGroupImg(mIvGroupAvatar,qunId,this.icon)
 
                 qunmingceng?.text = this.name ?: ""
                 mTvGroupName?.text = this.name ?: ""
