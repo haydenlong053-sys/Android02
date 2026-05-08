@@ -1,8 +1,11 @@
 package com.cboda.chatui.utils
 
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.TextUtils
 import android.widget.ImageView
 import cn.wildfirechat.model.GroupMember
+import cn.wildfirechat.model.UserInfo
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GetGroupMembersCallback
 import com.cboda.baselibrary.bean.FriendBean
@@ -20,6 +23,7 @@ import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.R
+import com.cboda.chatui.conversation.mention.MentionBroadSpan
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.isNotEmpty
@@ -151,6 +155,43 @@ object E {
         }
     }
 
+
+//    private SpannableString mentionSpannable(UserInfo userInfo) {
+//
+//        String text = "@" + ChatManager.Instance().getGroupMemberDisplayName2(userInfo, conversationBroad.type == Conversation.ConversationType.Group ? conversationBroad.target : "") + " ";
+//        SpannableString spannableString = new SpannableString(text);
+//        spannableString.setSpan(new MentionBroadSpan(userInfo.uid), 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//        return spannableString;
+//    }
+
+    fun mentionImSpannable(userInfo: UserInfo?, groupId: String, callBack: (SpannableString) -> Unit) {
+        getGroupMemberDisplayName(userInfo, groupId) { userName ->
+            val spannableString = SpannableString("@$userName ")
+            userInfo?.let {
+                spannableString.setSpan(MentionBroadSpan(userInfo.uid), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+            callBack.invoke(spannableString)
+        }
+    }
+
+    private fun getGroupMemberDisplayName(userInfo: UserInfo?, groupId: String, callBack: (String) -> Unit) {
+        userInfo?.let {
+            if (!TextUtils.isEmpty(groupId)) {
+                val userGroupBean = UserGroupBean()
+                userGroupBean.groupId = groupId
+                userGroupBean.userId = userInfo.uid
+                RealmUtil.findUserGroupData(userGroupBean) { getUserGroupBean ->
+                    if (null != getUserGroupBean && null != getUserGroupBean.groupNickName && !TextUtils.isEmpty(getUserGroupBean.groupNickName)) {
+                        callBack.invoke(getUserGroupBean.groupNickName ?: "")
+                    } else {
+                        callBack.invoke(ChatManager.Instance().getGroupMemberDisplayName(userInfo))
+                    }
+                }
+            } else {
+                callBack.invoke(ChatManager.Instance().getGroupMemberDisplayName(userInfo))
+            }
+        } ?: callBack.invoke("")
+    }
 
     fun getAllListUserData(groupId: String?) {
         if (!TextUtils.isEmpty(groupId)) {

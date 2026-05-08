@@ -617,6 +617,7 @@ public class ConversationBroadFragment extends Fragment implements
         tvPhoneLoginBroad = view.findViewById(R.id.tvPhoneLogin);
         inputPanelBroad = view.findViewById(R.id.inputPanelFrameLayout);
         mViewInterceptBroad = view.findViewById(R.id.mViewIntercept);
+
         if ("tousu".equals(fromPage)) {
             tvPhoneLoginBroad.setVisibility(VISIBLE);
             inputPanelBroad.setVisibility(GONE);
@@ -1545,10 +1546,22 @@ public class ConversationBroadFragment extends Fragment implements
             return;
         }
         if (conversationBroad.type == Conversation.ConversationType.Group) {
-            SpannableString spannableString = mentionSpannable(userInfo);
-            int position = inputPanelBroad.editText.getSelectionEnd();
-            inputPanelBroad.editText.getEditableText().append(" ");
-            inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+
+
+            E.INSTANCE.mentionImSpannable(userInfo, conversationBroad.target, new Function1<SpannableString, Unit>() {
+                @Override
+                public Unit invoke(SpannableString spannableString) {
+                    int position = inputPanelBroad.editText.getSelectionEnd();
+                    inputPanelBroad.editText.getEditableText().append(" ");
+                    inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+                    return null;
+                }
+            });
+
+//            SpannableString spannableString = mentionSpannable(userInfo);
+//            int position = inputPanelBroad.editText.getSelectionEnd();
+//            inputPanelBroad.editText.getEditableText().append(" ");
+//            inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
         } else {
             inputPanelBroad.editText.getEditableText().append(userBroadViewModel.getUserDisplayName(userInfo));
         }
@@ -1569,14 +1582,26 @@ public class ConversationBroadFragment extends Fragment implements
                 SpannableString spannableString;
                 if (isMentionAll) {
                     spannableString = mentionAllSpannable();
+                    int position = inputPanelBroad.editText.getSelectionEnd();
+                    position = position > 0 ? position - 1 : 0;
+                    inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
                 } else {
                     String userId = data.getStringExtra("userId");
                     UserInfo userInfo = userBroadViewModel.getUserInfo(userId, this.groupInfoBroad.target, false);
-                    spannableString = mentionSpannable(userInfo);
+//                    spannableString = mentionSpannable(userInfo);
+                    E.INSTANCE.mentionImSpannable(userInfo, conversationBroad.type == Conversation.ConversationType.Group ? conversationBroad.target : "", new Function1<SpannableString, Unit>() {
+                        @Override
+                        public Unit invoke(SpannableString spannableString) {
+                            int position = inputPanelBroad.editText.getSelectionEnd();
+                            position = position > 0 ? position - 1 : 0;
+                            inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+                            return null;
+                        }
+                    });
+
+
                 }
-                int position = inputPanelBroad.editText.getSelectionEnd();
-                position = position > 0 ? position - 1 : 0;
-                inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+
 
             } else if (requestCode == REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT || requestCode == REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT) {
                 onPickGroupMemberToVoipChat(data, requestCode == REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT);
@@ -1591,12 +1616,12 @@ public class ConversationBroadFragment extends Fragment implements
         return spannableString;
     }
 
-    private SpannableString mentionSpannable(UserInfo userInfo) {
-        String text = "@" + ChatManager.Instance().getGroupMemberDisplayName(userInfo) + " ";
-        SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(new MentionBroadSpan(userInfo.uid), 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        return spannableString;
-    }
+//    private SpannableString mentionSpannable(UserInfo userInfo) {
+//        String text = "@" + ChatManager.Instance().getGroupMemberDisplayName(userInfo) + " ";
+//        SpannableString spannableString = new SpannableString(text);
+//        spannableString.setSpan(new MentionBroadSpan(userInfo.uid), 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//        return spannableString;
+//    }
 
     @Override
     public void onPause() {
