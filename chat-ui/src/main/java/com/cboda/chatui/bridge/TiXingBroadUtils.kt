@@ -21,7 +21,9 @@ class TiXingBroadUtils {
         //野火消息提醒（声音+震动）
         fun imMsgReminder(context: Context?) {
             try {
-                if (!MeetCallManager.getInstance().isCallingState()) {
+                val isCallingState = MeetCallManager.getInstance().isCallingState()
+//                eLogD("TiXingBroadUtilsClass", "收到信息：$isCallingState")
+                if (!isCallingState) {
 //                val ringFileName = SharePrefBroadBroadUtil.getString(
 //                    context,
 //                    SharePrefBroadBroadUtil.RING_FILE_NAME_KEY,
