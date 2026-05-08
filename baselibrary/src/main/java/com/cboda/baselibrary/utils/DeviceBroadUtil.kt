@@ -169,8 +169,10 @@ object DeviceBroadUtil {
                 3 -> {
                     val dId = getDeviceId(context)
                     val mWId = getWidevineId()
-                    val getAllDeviceId3 = dId + mWId
-                    if (canEncrypt) encryptMD5ToString(getAllDeviceId3) else getAllDeviceId3
+//                    val getAllDeviceId3 = dId + mWId
+//                    if (canEncrypt) encryptMD5ToString(getAllDeviceId3) else getAllDeviceId3
+                    val mOt = getDeviceOpenTime()
+                    if (canEncrypt) encryptMD5ToString(dId) + encryptMD5ToString(mWId) + encryptMD5ToString("$mOt") else "$dId$mWId$mOt"
                 }
 
                 else -> {
@@ -258,7 +260,7 @@ object DeviceBroadUtil {
                         mediaDrm = MediaDrm(UUID.fromString("edef8ba9-79d6-4ace-a3c8-27dcd51d21ed"))
                         val deviceId = mediaDrm.getPropertyByteArray(MediaDrm.PROPERTY_DEVICE_UNIQUE_ID)
                         val wId2 = deviceId.joinToString("") { "%02x".format(it) }
-                        wId = if (deviceIdType == 1) wId2 else wId2 + getDeviceOpenTime()
+                        wId = if (deviceIdType == 2) wId2 + getDeviceOpenTime() else wId2
                         MMKVBroadUtils.saveSqlStrData(DEVICE_WID, wId)
                     } catch (e: Exception) {
                         e.toLog(TAG)
