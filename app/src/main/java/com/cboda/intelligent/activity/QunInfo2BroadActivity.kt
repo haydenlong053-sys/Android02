@@ -266,27 +266,6 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 //
 //                }
 
-                val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
-                // 提取头像URL列表
-                val avatarUrls: MutableList<String> = java.util.ArrayList<String>()
-                if (this.userList != null && this.userList?.isNotEmpty() == true) {
-                    for (broadBean in this.userList) {
-                        avatarUrls.add(broadBean.icon ?: "")
-                    }
-                }
-                if (TextUtils.isEmpty(this.icon) && groupInfo != null && !TextUtils.isEmpty(groupInfo.portrait)) {
-                    mIvGroupAvatar.loadImg(groupInfo.portrait)
-
-                } else if (TextUtils.isEmpty(this.icon) && !avatarUrls.isEmpty()) {
-                    GroupAvatarBroadLoader.loadToImageView(
-                        this@QunInfo2BroadActivity,
-                        avatarUrls,
-                        mIvGroupAvatar,
-                        qunId
-                    )
-                } else {
-                    mIvGroupAvatar.loadImg(this.icon)
-                }
                 loadGroupImg(mIvGroupAvatar,qunId,this.icon)
 
                 qunmingceng?.text = this.name ?: ""
