@@ -38,6 +38,7 @@ import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.showGuidePasswordTip
+import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import kotlinx.coroutines.launch
 
@@ -61,33 +62,32 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         }
         binding.ivMirrorAvatar.setOnClickListener(userInfoClick)
         binding.layoutMirrorCredit.click {
-            userInfo?.gradeStatus?.let {
-                //信用分状态 1、已开通 0:未开通
-                if (it == "1") {
-                    JumpBroadUtils.startCreditScoreActivity(requireContext())
-                } else {
-                    CreditScoreActivateBroadPop(requireContext()).apply {
-                        sureInvoke = {
-                            if (userInfo?.hasPayPwd == "1") {
-                                PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
-                                    lifecycleScope.launch {
-                                        viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
-                                            if (bool) {
-                                                ToastBroadUtils.show("激活成功")
-                                                onResume()
-                                            }
+            //信用分状态 1、已开通 0:未开通
+            if (anyToInt(userInfo?.gradeStatus) == 1) {
+                JumpBroadUtils.startCreditScoreActivity(requireContext())
+            } else {
+                CreditScoreActivateBroadPop(requireContext()).apply {
+                    sureInvoke = {
+                        if (anyToInt(userInfo?.hasPayPwd) == 1) {
+                            PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
+                                lifecycleScope.launch {
+                                    viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
+                                        if (bool) {
+                                            showToastMain("激活成功")
+                                            onResume()
                                         }
                                     }
+                                }
 
 
-                                }, isCheckPassword = false).showPopupWindow()
-                            } else {
-                                showGuidePasswordTip(context)
-                            }
+                            }, isCheckPassword = false).showPopupWindow()
+                        } else {
+                            showGuidePasswordTip(context)
                         }
-                    }.showPopupWindow()
-                }
+                    }
+                }.showPopupWindow()
             }
+
         }
         binding.idTv.setOnClickListener(userInfoClick)
         binding.vocationalTv.setOnClickListener(userInfoClick)
