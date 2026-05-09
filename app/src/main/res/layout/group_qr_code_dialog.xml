@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:background="@color/black"
+    tools:layout_height="match_parent">
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/mLlSaveView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/white"
+        tools:ignore="UselessParent">
+
+        <com.cboda.baselibrary.view.AppRoundBroadImage
+            android:id="@+id/groupImg"
+            android:layout_width="@dimen/dp_62"
+            android:layout_height="@dimen/dp_62"
+            android:layout_marginStart="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_32"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/groupName"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_15"
+            android:ellipsize="middle"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/groupImg"
+            app:layout_constraintTop_toTopOf="@id/groupImg"
+            tools:text="某某科技财富群" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/groupId"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/groupName"
+            app:layout_constraintStart_toStartOf="@id/groupName"
+            app:layout_constraintTop_toBottomOf="@id/groupName"
+            tools:text="群ID：374545" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/groupCodeImg"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_200"
+            app:layout_constraintBottom_toBottomOf="@id/mViewDash"
+            app:layout_constraintEnd_toEndOf="@id/mViewDash"
+            app:layout_constraintStart_toStartOf="@id/mViewDash"
+            app:layout_constraintTop_toTopOf="@id/mViewDash" />
+
+        <View
+            android:id="@+id/mViewDash"
+            android:layout_width="@dimen/dp_220"
+            android:layout_height="@dimen/dp_220"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_32"
+            android:background="@drawable/bg_mine_dash_broad_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupId" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/groupTip"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_0"
+            android:layout_marginTop="@dimen/dp_24"
+            android:gravity="center"
+            android:text="@string/scan_qrcode_join_group"
+            android:textColor="@color/black_65"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/mViewDash"
+            app:layout_constraintStart_toStartOf="@id/mViewDash"
+            app:layout_constraintTop_toBottomOf="@id/mViewDash" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/saveGroupCode"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_46"
+            android:layout_marginHorizontal="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_24"
+            android:gravity="center"
+            android:text="@string/点击保存二维码"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupTip"
+            app:shape_endColor="#375FDD"
+            app:shape_radius="@dimen/dp_16"
+            app:shape_startColor="#629CF8" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_32"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/saveGroupCode" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+</FrameLayout>

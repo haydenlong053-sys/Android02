@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import com.blankj.utilcode.util.ActivityUtils
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
@@ -56,6 +57,8 @@ import com.cboda.intelligent.activity.ZhuanZhangPageBroadActivity
 import com.cboda.intelligent.activity.ZhuanzhangBroadActivity
 import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
+import com.cboda.intelligent.dialog.GroupQrCodeDialog
+import com.cboda.intelligent.dialog.pop.SaveGroupQrCodeBroadPop
 
 
 class JumpBroadUtils {
@@ -351,12 +354,14 @@ class JumpBroadUtils {
             context?.startActivity(intent)
         }
 
-        fun startQunCodeActivity(context: Context?, qunid: String) {
-            val intent = Intent(context, QunCodeBroadActivity::class.java)
-            intent.putExtra("qunid", qunid)
-            context?.startActivity(intent)
+        fun startQunCodeActivity(context: Context?, qunid: String, qunxiangqing: CommonResultBroadBean.CommonResult?) {
+//            val intent = Intent(context, QunCodeBroadActivity::class.java)
+//            intent.putExtra("qunid", qunid)
+//            context?.startActivity(intent)
+            val groupQrCodeDialog = GroupQrCodeDialog(getAppContext(context), qunid, qunxiangqing)
+            groupQrCodeDialog.showPopupWindow()
 //            context?.let {
-//                SaveGroupQrCodeBroadPop(it,qunid).showPopupWindow()
+//                SaveGroupQrCodeBroadPop(it, qunid).showPopupWindow()
 //            }
         }
 

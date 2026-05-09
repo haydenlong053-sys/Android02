@@ -697,7 +697,8 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 
 
         mIvGroupQrcode?.setOnClickListener {
-            JumpBroadUtils.startQunCodeActivity(this, qunId)
+//            qunxiangqing: CommonResultBroadBean.CommonResult? = null
+            JumpBroadUtils.startQunCodeActivity(this, qunId,qunxiangqing)
         }
 
         zhuanrangqun?.setOnClickListener {

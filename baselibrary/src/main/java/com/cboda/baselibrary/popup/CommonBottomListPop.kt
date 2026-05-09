@@ -45,7 +45,7 @@ class CommonBottomListPop(val context: Context, val list: List<ComBottomListBean
         }
     }
 
-    private class ComposeAdapter() : BaseBroadAdapter<ComBottomListBean>(R.layout.item_bottom_list_layout) {
+    private class ComposeAdapter : BaseBroadAdapter<ComBottomListBean>(R.layout.item_bottom_list_layout) {
 
         override fun onBindData(holder: BaseViewHolder, bean: ComBottomListBean) {
             holder.apply {
