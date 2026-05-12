@@ -187,6 +187,6 @@
     <string name="min_gan_ci_hit2">·多个敏感词请用英文符号 “ @ ” 隔开</string>
     <string name="scan_qrcode_join_group">扫描上方二维码即可加入群聊</string>
     <string name="set_group_name">设置群聊名称</string>
-
+    <string name="gb_content">公告内容</string>
 
 </resources>
