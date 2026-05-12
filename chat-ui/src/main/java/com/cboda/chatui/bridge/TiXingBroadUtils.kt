@@ -22,7 +22,7 @@ class TiXingBroadUtils {
         fun imMsgReminder(context: Context?) {
             try {
                 val isCallingState = MeetCallManager.getInstance().isCallingState()
-//                eLogD("TiXingBroadUtilsClass", "收到信息：$isCallingState")
+                eLogD("TiXingBroadUtilsClass", "收到信息：$isCallingState")
                 if (!isCallingState) {
 //                val ringFileName = SharePrefBroadBroadUtil.getString(
 //                    context,

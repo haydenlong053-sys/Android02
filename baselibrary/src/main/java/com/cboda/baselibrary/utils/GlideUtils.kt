@@ -267,6 +267,10 @@ fun ImageView.loadGifImage(any: Any?, width: Int, height: Int) {
     }
 }
 
+fun ImageView.loadImg(url: String?) {
+    this.loadImg(url, R.mipmap.ic_head_broad_defaut)
+}
+
 
 fun ImageView.loadImg(url: String?, errorImg: Int = R.mipmap.ic_head_broad_defaut) {
     if (!TextUtils.isEmpty(url)) {

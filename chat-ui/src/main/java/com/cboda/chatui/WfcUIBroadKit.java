@@ -296,7 +296,7 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
             if (conversation == null) {
                 return;
             }
-
+            eLogD("WfcUIBroadKit", "conversation_type:" + conversation.type.getValue());
             // 检查录音权限，如果没有权限则不启动VoipCallService，避免闪退
             if (!hasRecordAudioPermission(application)) {
                 eLogD("WfcUIBroadKit", "RECORD_AUDIO permission not granted, cannot start VoipCallBroadService");

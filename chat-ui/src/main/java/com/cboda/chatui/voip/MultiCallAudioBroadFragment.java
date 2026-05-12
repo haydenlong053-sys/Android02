@@ -5,6 +5,7 @@
 package com.cboda.chatui.voip;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,21 +31,31 @@ import java.util.List;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.user.UserViewBroadModel;
+import com.cboda.chatui.utils.E;
+
 import cn.wildfirechat.avenginekit.AVAudioManager;
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.avenginekit.PeerConnectionClient;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+import eightbitlab.com.blurview.BlurTarget;
+import eightbitlab.com.blurview.BlurView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit.CallSessionCallback {
     TextView durationTextView;
     GridLayout audioContainerGridLayout;
     ImageView speakerImageView;
     ImageView muteImageView;
-
+    private ImageView backgroundImageView;
+    private BlurTarget target;
+    private BlurView blurView;
     private List<String> participants;
     private UserInfo me;
+    private String groupId = "";
     private UserViewBroadModel userViewModel;
+    private View incomingActionContainer, connectedContainer;
 
     public static final String TAG = "MultiCallVideoBroadFragment";
 
@@ -64,6 +75,8 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
         view.findViewById(R.id.muteImageView).setOnClickListener(_v -> mute());
         view.findViewById(R.id.speakerImageView).setOnClickListener(_v -> speaker());
         view.findViewById(R.id.hangupImageView).setOnClickListener(_v -> hangup());
+        view.findViewById(R.id.hangupLinearLayout).setOnClickListener(_v -> hangup());
+        view.findViewById(R.id.acceptLinearLayout).setOnClickListener(_v -> accept());
     }
 
     private void bindViews(View view) {
@@ -71,9 +84,17 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
         audioContainerGridLayout = view.findViewById(R.id.audioContainerGridLayout);
         speakerImageView = view.findViewById(R.id.speakerImageView);
         muteImageView = view.findViewById(R.id.muteImageView);
+        target = view.findViewById(R.id.target);
+        blurView = view.findViewById(R.id.blurView);
+        backgroundImageView = view.findViewById(R.id.backgroundImageView);
+        incomingActionContainer = view.findViewById(R.id.incomingActionContainer);
+        connectedContainer = view.findViewById(R.id.connectedContainer);
     }
 
     private void init() {
+        boolean isComing = getArguments().getBoolean("isComing");
+        incomingActionContainer.setVisibility(isComing ? View.VISIBLE : View.GONE);
+        connectedContainer.setVisibility(isComing ? View.GONE : View.VISIBLE);
         userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
         AVEngineKit.CallSession session = AVEngineKit.Instance().getCurrentSession();
         if (session == null) {
@@ -87,18 +108,20 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
         updateParticipantStatus(session);
         updateCallDuration();
 
-        AVAudioManager  audioManager = AVEngineKit.Instance().getAVAudioManager();
+        AVAudioManager audioManager = AVEngineKit.Instance().getAVAudioManager();
         speakerImageView.setSelected(audioManager.getSelectedAudioDevice() == AVAudioManager.AudioDevice.SPEAKER_PHONE);
     }
 
     private void initParticipantsView(AVEngineKit.CallSession session) {
-
+        groupId = session.getConversation().target;
+        E.INSTANCE.loadGroupImg(backgroundImageView, groupId, null);
+        blurView.setupWith(target).setFrameClearDrawable(getActivity().getWindow().getDecorView().getBackground()).setBlurRadius(20f);
         me = userViewModel.getUserInfo(userViewModel.getUserId(), false);
 
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int with = dm.widthPixels;
 
-        audioContainerGridLayout.getLayoutParams().height = with;
+//        audioContainerGridLayout.getLayoutParams().height = with;
         audioContainerGridLayout.removeAllViews();
 
         // session里面的participants包含除自己外的所有人
@@ -109,12 +132,22 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
         for (UserInfo userInfo : participantUserInfos) {
             VoipCallBroadItem voipCallItem = new VoipCallBroadItem(getActivity());
             voipCallItem.setTag(userInfo.uid);
-
-            voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(size, size));
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(size, ViewGroup.LayoutParams.WRAP_CONTENT);
+            voipCallItem.setLayoutParams(layoutParams);
             voipCallItem.getStatusTextView().setText(R.string.call_broad_connecting);
-            Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
+//            Glide.with(voipCallItem).load(userInfo.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
+            loadUserData(voipCallItem, userInfo);
             audioContainerGridLayout.addView(voipCallItem);
         }
+    }
+
+
+    private void loadUserData(VoipCallBroadItem voipCallItem, UserInfo userInfo) {
+        loadImg(voipCallItem.getPortraitImageView(), userInfo.portrait);
+        E.INSTANCE.getUserName(userInfo.uid, groupId, false, true, s -> {
+            voipCallItem.getUserNameTv().setText(s);
+            return null;
+        });
     }
 
     private void updateParticipantStatus(AVEngineKit.CallSession session) {
@@ -155,16 +188,25 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
         if (session != null && session.getState() == AVEngineKit.CallState.Connected) {
             AVAudioManager audioManager = AVEngineKit.Instance().getAVAudioManager();
             AVAudioManager.AudioDevice currentAudioDevice = audioManager.getSelectedAudioDevice();
-            if(currentAudioDevice == AVAudioManager.AudioDevice.WIRED_HEADSET ||currentAudioDevice == AVAudioManager.AudioDevice.BLUETOOTH){
+            if (currentAudioDevice == AVAudioManager.AudioDevice.WIRED_HEADSET || currentAudioDevice == AVAudioManager.AudioDevice.BLUETOOTH) {
                 return;
             }
-            if(currentAudioDevice == AVAudioManager.AudioDevice.SPEAKER_PHONE){
+            if (currentAudioDevice == AVAudioManager.AudioDevice.SPEAKER_PHONE) {
                 audioManager.selectAudioDevice(AVAudioManager.AudioDevice.EARPIECE);
                 speakerImageView.setSelected(false);
-            }else {
+            } else {
                 audioManager.selectAudioDevice(AVAudioManager.AudioDevice.SPEAKER_PHONE);
                 speakerImageView.setSelected(true);
             }
+        }
+    }
+
+    void accept() {
+        AVEngineKit.CallSession session = AVEngineKit.Instance().getCurrentSession();
+        if (session != null && session.getState() != AVEngineKit.CallState.Idle) {
+            session.answerCall(session.isAudioOnly());
+            incomingActionContainer.setVisibility(View.GONE);
+            connectedContainer.setVisibility(View.VISIBLE);
         }
     }
 
@@ -217,7 +259,9 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
                 voipCallItem.setLayoutParams(new ViewGroup.LayoutParams(with / 3, with / 3));
 
                 voipCallItem.getStatusTextView().setText(R.string.call_broad_connecting);
-                Glide.with(voipCallItem).load(info.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
+
+//                Glide.with(voipCallItem).load(info.portrait).placeholder(R.mipmap.avatar_broad_def).into(voipCallItem.getPortraitImageView());
+                loadUserData(voipCallItem, info);
                 audioContainerGridLayout.addView(voipCallItem, i);
                 break;
             }
@@ -296,7 +340,7 @@ public class MultiCallAudioBroadFragment extends Fragment implements AVEngineKit
 
     @Override
     public void didAudioDeviceChanged(AVAudioManager.AudioDevice device) {
-        if(device == AVAudioManager.AudioDevice.WIRED_HEADSET || device == AVAudioManager.AudioDevice.EARPIECE || device == AVAudioManager.AudioDevice.BLUETOOTH) {
+        if (device == AVAudioManager.AudioDevice.WIRED_HEADSET || device == AVAudioManager.AudioDevice.EARPIECE || device == AVAudioManager.AudioDevice.BLUETOOTH) {
             speakerImageView.setSelected(false);
         } else {
             speakerImageView.setSelected(true);

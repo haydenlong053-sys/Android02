@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/backgroundImageView"
+    <eightbitlab.com.blurview.BlurTarget
+        android:id="@+id/target"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        tools:src="@mipmap/default_broad_header" />
+        android:background="@color/red0">
+
+        <ImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_head_broad_defaut" />
+        <!--Your main content here-->
+
+    </eightbitlab.com.blurview.BlurTarget>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:blurOverlayColor="#80000000"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#c0000000">
+        tools:background="#c0000000">
 
         <ImageView
             android:id="@+id/minimizeImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="20dp"
+            android:layout_width="@dimen/dp_72"
+            android:layout_height="@dimen/dp_72"
+            android:layout_marginTop="@dimen/dp_40"
+            android:padding="@dimen/dp_24"
+            android:scaleType="centerCrop"
             android:src="@drawable/av_broad_minimize"
             android:visibility="visible" />
 
@@ -34,28 +53,32 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
+            <com.cboda.baselibrary.view.AppRoundBroadImage
                 android:id="@+id/portraitImageView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="80dp"
-                android:src="@mipmap/avatar_broad_def" />
+                android:layout_width="@dimen/dp_88"
+                android:layout_height="@dimen/dp_88"
+                android:layout_marginTop="@dimen/dp_102"
+                app:app_round_border_color="@color/white"
+                app:app_round_border_width="@dimen/dp_1"
+                tools:src="@mipmap/ic_head_broad_defaut" />
 
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="voip"
-                android:textColor="@color/white" />
+                android:layout_marginTop="@dimen/dp_12"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                tools:text="voip" />
 
             <TextView
                 android:id="@+id/descTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/dp_24"
                 android:text="@string/call_broad__invite"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <include
@@ -64,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_114"
             android:visibility="visible" />
 
         <include
@@ -72,6 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_114"
             android:visibility="gone" />
 
     </RelativeLayout>

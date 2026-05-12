@@ -49,6 +49,7 @@ import com.cboda.intelligent.activity.QunUserList2BroadActivity
 import com.cboda.intelligent.activity.QunUserListBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
+import com.cboda.intelligent.activity.TestActivity
 import com.cboda.intelligent.activity.TouSuLeiXingBroadActivity
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.activity.XuanQunJinYanBroadActivity
@@ -105,7 +106,19 @@ class JumpBroadUtils {
             }
         }
 
-
+        fun toTestActivity(context: Context? = null) {
+            val mContext = getAppContext(context)
+//            val haveLoginQrCodeAct = ActivityUtils.getActivityList().any { it is LoginQrCodeActivity }
+//            if (haveLoginQrCodeAct) {
+//                ActivityUtils.finishActivity(LoginQrCodeActivity::class.java)
+//            }
+            val intent = Intent(mContext, TestActivity::class.java)
+            mContext.startActivity(intent)
+//            ActivityUtils.getActivityList().forEach {
+//                val actName = it.javaClass.simpleName
+//                eLogD(tAG, "actName2:$actName")
+//            }
+        }
         fun startLoginActivity(context: Context?) {
             val intent = Intent(context, NewEquipmentBroadActivity::class.java)
             context?.startActivity(intent)

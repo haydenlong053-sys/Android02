@@ -1,25 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/portraitImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:src="@mipmap/avatar_broad_def" />
-
-    <TextView
-        android:id="@+id/statusTextView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="接通中"
-        android:textColor="@color/red6" />
+        tools:background="@color/black">
+
+        <com.cboda.baselibrary.view.AppRoundBroadImage
+            android:id="@+id/portraitImageView"
+            android:layout_width="@dimen/dp_88"
+            android:layout_height="@dimen/dp_88"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            app:app_round_border_color="@color/white"
+            app:app_round_border_width="@dimen/dp_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/avatar_broad_def" />
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/red6"
+            app:layout_constraintBottom_toBottomOf="@id/portraitImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/portraitImageView"
+            tools:text="接通中" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/userNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/portraitImageView"
+            tools:text="TRUMP" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userNameTv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.cboda.chatui.voip.ZoomableFrameBroadLayout
         android:id="@+id/videoContainer"
@@ -36,9 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Test"
         android:textColor="@color/red0"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:text="Test">
 
     </TextView>
 </merge>
