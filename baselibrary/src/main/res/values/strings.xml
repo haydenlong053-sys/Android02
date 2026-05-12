@@ -188,5 +188,6 @@
     <string name="scan_qrcode_join_group">扫描上方二维码即可加入群聊</string>
     <string name="set_group_name">设置群聊名称</string>
     <string name="gb_content">公告内容</string>
-
+    <string name="my_group_nick_name">我的群昵称</string>
+    <string name="group_nick_name">群昵称</string>
 </resources>

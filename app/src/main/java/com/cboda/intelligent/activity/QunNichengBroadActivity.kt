@@ -3,6 +3,7 @@ package com.cboda.intelligent.activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
@@ -13,11 +14,13 @@ import cn.wildfirechat.remote.GeneralCallback
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.R
+import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
-class QunNichengBroadActivity : BaseSimpleBroadActivity() {
+class QunNichengBroadActivity : BaseSimple2BroadActivity() {
 
     private var qunid = ""
     private var beizhu = ""
@@ -41,8 +44,9 @@ class QunNichengBroadActivity : BaseSimpleBroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRootBgColor(R.color.white)
         initViews()
-        getToolbarTitle()?.text = getString(R.string.shezhinichengb)
+        getToolbarTitle()?.text = getString(com.cboda.baselibrary.R.string.group_nick_name)
         qunid = intent?.getStringExtra("qunid") ?: ""
         beizhu = intent?.getStringExtra("beizhu") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
@@ -97,6 +101,12 @@ class QunNichengBroadActivity : BaseSimpleBroadActivity() {
             viewModel?.shezhiqunnicheng(this, qunid, edtBeizhu?.text?.trim()?.toString() ?: "")
 
         }
+        findViewById<View>(R.id.tvPhoneCancel).click {
+            finish()
+        }
     }
 
+    override fun showTransparentTopTitleLayout(): Boolean {
+        return true
+    }
 }
