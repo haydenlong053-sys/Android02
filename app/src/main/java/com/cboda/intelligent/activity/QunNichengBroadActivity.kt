@@ -28,11 +28,11 @@ class QunNichengBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var tvPhoneLogin: TextView
     private lateinit var ivqingchu: AppCompatImageView
     private lateinit var edtBeizhu: EditText
-    private lateinit var tbeizhu:
-            TextView
+//    private lateinit var tbeizhu:
+//            TextView
 
     private fun initViews() {
-        tbeizhu = findViewById(R.id.tbeizhu)
+//        tbeizhu = findViewById(R.id.tbeizhu)
         edtBeizhu = findViewById(R.id.edtBeizhu)
         ivqingchu = findViewById(R.id.ivqingchu)
         tvPhoneLogin = findViewById(R.id.tvPhoneLogin)
@@ -78,7 +78,7 @@ class QunNichengBroadActivity : BaseSimple2BroadActivity() {
         ivqingchu?.setOnClickListener {
             edtBeizhu?.setText("")
         }
-        tbeizhu?.text = getString(R.string.nichengb)
+//        tbeizhu?.text = getString(R.string.nichengb)
         edtBeizhu?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
