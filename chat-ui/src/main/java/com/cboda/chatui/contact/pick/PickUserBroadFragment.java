@@ -151,8 +151,8 @@ public abstract class PickUserBroadFragment extends BaseUserListBroadFragment im
         }
         searchUserFrameLayout.setVisibility(View.VISIBLE);
         getChildFragmentManager().beginTransaction()
-            .replace(R.id.searchFrameLayout, searchAndPickUserFragment)
-            .commit();
+                .replace(R.id.searchFrameLayout, searchAndPickUserFragment)
+                .commit();
         isSearchFragmentShowing = true;
     }
 
@@ -191,6 +191,7 @@ public abstract class PickUserBroadFragment extends BaseUserListBroadFragment im
         } else {
             pickedUserAdapter.removeUser(userInfo);
         }
+        pickedUserRecyclerView.setVisibility(!pickedUserAdapter.users.isEmpty() ? View.VISIBLE : View.GONE);
         handleHintView(false);
         handleEditText();
     }

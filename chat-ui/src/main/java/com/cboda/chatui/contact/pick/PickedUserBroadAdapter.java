@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.contact.pick;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

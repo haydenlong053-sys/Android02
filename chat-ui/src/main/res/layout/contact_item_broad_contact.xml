@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,17 +37,17 @@
             android:clickable="false"
             android:visibility="gone" />
 
-        <ImageView
+        <com.cboda.baselibrary.view.AppRoundBroadImage
             android:id="@+id/portraitImageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
             android:scaleType="centerCrop"
-            android:src="@mipmap/avatar_broad_def" />
+            tools:src="@mipmap/avatar_broad_def" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -56,19 +57,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="wfc"
-                android:textColor="@color/color_text_main"
-                android:textSize="16sp" />
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                tools:text="wfc" />
 
             <TextView
                 android:id="@+id/descTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="wfc desc"
-                android:textColor="@color/gray11"
-                android:textSize="11sp"
-                android:visibility="gone" />
+                android:textColor="@color/black_65"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="wfc desc"
+                tools:visibility="visible" />
         </LinearLayout>
 
     </LinearLayout>

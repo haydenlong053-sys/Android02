@@ -37,6 +37,8 @@ public class UserListBroadAdapter extends RecyclerView.Adapter<RecyclerView.View
     protected OnHeaderClickListener onHeaderClickListener;
     protected OnFooterClickListener onFooterClickListener;
 
+    private String TAG = "UserListBroadAdapterClass";
+
     public UserListBroadAdapter(Fragment fragment) {
         super();
         this.fragment = fragment;

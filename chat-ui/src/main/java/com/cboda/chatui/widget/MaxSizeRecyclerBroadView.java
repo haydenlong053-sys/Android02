@@ -13,8 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.chatui.R;
+import com.hjq.shape.layout.ShapeRecyclerView;
 
-public class MaxSizeRecyclerBroadView extends RecyclerView {
+public class MaxSizeRecyclerBroadView extends ShapeRecyclerView {
     private int mMaxWidth;
     private int mMaxHeight;
 
