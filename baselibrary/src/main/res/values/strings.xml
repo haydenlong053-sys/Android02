@@ -190,4 +190,8 @@
     <string name="gb_content">公告内容</string>
     <string name="my_group_nick_name">我的群昵称</string>
     <string name="group_nick_name">群昵称</string>
+    <string name="group_manager">群管理员</string>
+    <string name="group_manager_title1">管理员可协助群主管理群聊，拥有发布群公告移除群成员等能力。</string>
+    <string name="group_manager_title2">只有群主具备设置管理员、解散群聊的能力。</string>
+    <!--    管理员可协助群主管理群聊，拥有发布群公告移除群成员等能力。只有群主具备设置管理员、解散群聊的能力。-->
 </resources>

@@ -17,7 +17,6 @@ import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.compose.navgraph.WTRoute;
-import com.cboda.baselibrary.popup.CommonTipBroadPop;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.dialog.NormalBroadDialog;
 import com.cboda.intelligent.utils.BaseBroadCallback;
