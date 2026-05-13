@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
@@ -18,7 +19,7 @@ class QunManagerBroadActivity : BaseSimple2BroadActivity() {
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: QunGuanLiBroadAdapter? = null
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
-    private lateinit var tvPhoneLogin: ShapeConstraintBroadLayout
+    private lateinit var tvPhoneLogin: View
     private lateinit var recyclerView: RecyclerView
 
     private fun initViews() {
@@ -36,7 +37,7 @@ class QunManagerBroadActivity : BaseSimple2BroadActivity() {
         initViews()
         qunId = intent?.getStringExtra("qunid") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
-        getToolbarTitle()?.text = getString(R.string.qunguanliyuan)
+//        getToolbarTitle()?.text = getString(R.string.qunguanliyuan)
 
         viewModel?.guanliListLiveData?.observe(this) {
             it.dataList?.apply {

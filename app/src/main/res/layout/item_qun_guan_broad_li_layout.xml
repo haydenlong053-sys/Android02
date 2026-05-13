@@ -4,72 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@color/bg_main"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="@color/black"
+    tools:layout_height="match_parent">
 
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-       >
+        android:layout_height="@dimen/dp_64"
+        android:layout_marginTop="@dimen/dp_8"
+        app:shape_radius="@dimen/dp_8"
+        app:shape_solidColor="@color/white"
+        tools:layout_marginTop="@dimen/dp_300">
 
-        <ImageView
+        <com.cboda.baselibrary.view.AppRoundBroadImage
             android:id="@+id/ivTouxiang"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_marginStart="25dp"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginStart="@dimen/dp_16"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/black" />
 
         <TextView
             android:id="@+id/tvname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="13dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="@dimen/dp_12"
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="1"
-            android:textColor="@color/color_text0"
-            android:textSize="16sp"
+            android:textColor="@color/black_90"
+            android:textSize="17sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvname2"
             app:layout_constraintEnd_toStartOf="@+id/rightLayout"
             app:layout_constraintStart_toEndOf="@+id/ivTouxiang"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="亚历克斯福建省大不大方水电费哈吉斯发送" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvname2"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black_65"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rightLayout"
+            app:layout_constraintStart_toStartOf="@id/tvname"
+            app:layout_constraintTop_toBottomOf="@id/tvname"
+            tools:text="群昵称：HHH"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/rightLayout"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="@dimen/dp_1"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
                 android:id="@+id/tvNotAgree"
-                android:layout_width="65dp"
-                android:layout_height="28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:ellipsize="end"
+                android:padding="@dimen/dp_15"
                 android:text="@string/yichuuser"
-                android:textColor="@color/color_yichu"
-                android:textSize="13sp"
+                android:textColor="@color/color_3B47DD"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvAgree"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvContent"
-                app:shapeCornersRadius="7dp"
-                app:shapeStrokeWidth="1dp"
-                app:shapeStrokeColor="@color/color_yichu" />
+                app:shapeStrokeWidth="1dp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
 
 </LinearLayout>
