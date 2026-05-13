@@ -17,6 +17,8 @@ class LoginBean {
     var loginAccount = ""
 
     var loginPwd = ""
+
+    var secondVerifyType: Int = 0
 }
 
 class LoginIdBean() {
