@@ -56,7 +56,6 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.adapter.InterestBroadAdapter;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.dialog.UserEwmBroadDialog;
-import com.cboda.baselibrary.popup.CommonTipBroadPop;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.dialog.NormalBroadDialog;
 import com.cboda.intelligent.dialog.SexDialogBroadFra;
