@@ -46,6 +46,7 @@ import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
 import com.cboda.intelligent.activity.QunUserList2BroadActivity
 import com.cboda.intelligent.activity.QunUserListBroadActivity
+import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
 import com.cboda.intelligent.activity.TouSuLeiXingBroadActivity
@@ -474,6 +475,22 @@ class JumpBroadUtils {
                 startForResult.launch(intent)
             } else {
                 context?.startActivity(intent)
+            }
+        }
+
+
+        fun toScanActivity(
+            jumpSource: Int,
+            context: Context? = null,
+            startForResult: ActivityResultLauncher<Intent>? = null
+        ) {
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, ScanBroadActivity::class.java)
+            intent.putExtra("jumpSource", jumpSource)
+            if (null != startForResult) {
+                startForResult.launch(intent)
+            } else {
+                mContext.startActivity(intent)
             }
         }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.LoginBean
+import com.cboda.baselibrary.bean.LoginIdBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -22,6 +23,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
@@ -29,6 +31,7 @@ import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.anyToDouble
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.toJson2
+import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.PushInfo2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
@@ -46,6 +49,7 @@ import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.model.SafeCenterBroadBean
 import com.cboda.intelligent.net.manager.UserServerBroadManager
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.showGuidePasswordTip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -205,12 +209,11 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                             }
                         } ?: liveData.postValue(null)
 //                        eLogD("LoginViewBroadModelClass", "getScanLoginDetail:${toJson2(data)}")
-
                     }.onFailure { _, msg ->
                         showToastMain(msg)
                         liveData.postValue(null)
                     }.onError { error ->
-                        showToastMain("${error.message}")
+                        showToastMain(R.string.httperror)
                         liveData.postValue(null)
                     }
                 } catch (_: kotlin.Exception) {
@@ -220,6 +223,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         }
         return liveData
     }
+
 
     fun getScanLoginDetail(linkId: String): SingleLiveBroadData<LoginBean?> {
         val params = hashMapOf("idno" to linkId, "eqno" to getAndroidId())
@@ -403,6 +407,67 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             resultBean.imtoken,
             "NewEquipmentBroadActivity"
         )
+    }
+
+    fun pwdLogin2(account: String, pwd: String, code: String = "", payPwd: String? = "", googleCode: String? = "", securityQuestion: String? = "", block: (ResultBroadBean) -> Unit = {}) {
+        if (TextUtils.isEmpty(account)) {
+            showToastMain(R.string.please_enter_account)
+            return
+        }
+        if (TextUtils.isEmpty(pwd)) {
+            showToastMain(R.string.please_enter_password)
+            return
+        }
+        val mContext = getAppContext()
+        val model = "${getDeviceBrand()} ${getDeviceModel()}"
+        val param =
+            hashMapOf(
+                "acc" to account,
+                "pwd" to pwd,
+                "code" to code,
+                "eqno" to getAndroidId(),
+                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
+                "type" to 2,
+                "model" to model
+            )
+        if (!TextUtils.isEmpty(payPwd)) {
+            param["paywd"] = payPwd
+        }
+        if (!TextUtils.isEmpty(googleCode)) {
+            param["googleCode"] = googleCode
+        }
+        if (!TextUtils.isEmpty(securityQuestion)) {
+            param["mbda"] = securityQuestion
+        }
+//        eLogD("LoginViewModelClass_pwdLoginMap", param)
+        UserServerBroadManager.accLogin(
+            mContext,
+            param,
+            callBack = object : SpotsCallBroadBack<String>(mContext) {
+                override fun onSuccess(response: Response?, result: String?) {
+                    if (!TextUtils.isEmpty(result)) {
+                        val resultBean = fromJson2(result, ResultBroadBean::class.java)
+                        block.invoke(resultBean)
+//                        if (resultBean.code == "200" && resultBean.success) {
+//                            imLogin(resultBean, mContext)
+//                        } else if (!TextUtils.isEmpty(resultBean.msg)) {
+//                            showToastMain(resultBean.msg)
+//                        }
+                    } else {
+                        showToastMain(com.cboda.baselibrary.R.string.service_error_data_null)
+                    }
+                }
+
+                override fun onError(
+                    response: Response?,
+                    code: Int,
+                    e: Exception?
+                ) {
+
+                }
+
+            })
+
     }
 
     fun pwdLogin(account: String, pwd: String, code: String = "", payPwd: String = "", googleCode: String = "", securityQuestion: String = "") {

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:shape_solidColor="@color/color_121E42"
+    app:shape_strokeColor="#28FFFFFF"
+    app:shape_strokeWidth="@dimen/dp_0.5"
+    app:shape_topLeftRadius="@dimen/dp_18"
+    app:shape_topRightRadius="@dimen/dp_18">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/securityVerificationClose"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginTop="@dimen/dp_6"
+        android:padding="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_auth_broad_close2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/securityVerificationRight"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:padding="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_auth_broad_go2"
+        app:layout_constraintBottom_toBottomOf="@id/securityVerificationClose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/securityVerificationClose"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/securityVerificationTitle"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/securityVerificationClose"
+        app:layout_constraintEnd_toStartOf="@id/securityVerificationRight"
+        app:layout_constraintStart_toEndOf="@id/securityVerificationClose"
+        app:layout_constraintTop_toTopOf="@id/securityVerificationClose"
+        tools:text="选择一种验证方式" />
+
+    <Space
+        android:id="@+id/space1"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/securityVerificationClose" />
+
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/view2"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/space1"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="#1B2C58"
+        app:shape_strokeColor="#2B467B"
+        app:shape_strokeWidth="@dimen/dp_0.5" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv2"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_pay_password_broad_auth2"
+        app:layout_constraintBottom_toBottomOf="@id/view2"
+        app:layout_constraintStart_toStartOf="@id/view2"
+        app:layout_constraintTop_toTopOf="@id/view2" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRight2"
+        android:layout_width="@dimen/dp_14"
+        android:layout_height="@dimen/dp_14"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_icon_auth_broad_ok"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/view2"
+        app:layout_constraintEnd_toEndOf="@id/view2"
+        app:layout_constraintTop_toTopOf="@id/view2"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv2"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/mine_pay_password2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@id/view2"
+        app:layout_constraintEnd_toStartOf="@id/ivRight2"
+        app:layout_constraintStart_toEndOf="@id/iv2"
+        app:layout_constraintTop_toTopOf="@id/view2" />
+
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/view3"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view2"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="#1B2C58"
+        app:shape_strokeColor="#2B467B"
+        app:shape_strokeWidth="@dimen/dp_0.5" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv3"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_security_broad_auth2"
+        app:layout_constraintBottom_toBottomOf="@id/view3"
+        app:layout_constraintStart_toStartOf="@id/view3"
+        app:layout_constraintTop_toTopOf="@id/view3" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRight3"
+        android:layout_width="@dimen/dp_14"
+        android:layout_height="@dimen/dp_14"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_icon_auth_broad_ok"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/view3"
+        app:layout_constraintEnd_toEndOf="@id/view3"
+        app:layout_constraintTop_toTopOf="@id/view3"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv3"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/mine_security_auth2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@id/view3"
+        app:layout_constraintEnd_toStartOf="@id/ivRight3"
+        app:layout_constraintStart_toEndOf="@id/iv3"
+        app:layout_constraintTop_toTopOf="@id/view3" />
+
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/view1"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view3"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="#1B2C58"
+        app:shape_strokeColor="#2B467B"
+        app:shape_strokeWidth="@dimen/dp_0.5" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv1"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_google_broad_auth2"
+        app:layout_constraintBottom_toBottomOf="@id/view1"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toTopOf="@id/view1" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRight1"
+        android:layout_width="@dimen/dp_14"
+        android:layout_height="@dimen/dp_14"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_icon_auth_broad_ok"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/view1"
+        app:layout_constraintEnd_toEndOf="@id/view1"
+        app:layout_constraintTop_toTopOf="@id/view1"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv1"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/mine_google_auth2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@id/view1"
+        app:layout_constraintEnd_toStartOf="@id/ivRight1"
+        app:layout_constraintStart_toEndOf="@id/iv1"
+        app:layout_constraintTop_toTopOf="@id/view1" />
+
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_273"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view1" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="view3,iv3,tv3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="view2,iv2,tv2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="view1,iv1,tv1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+</com.hjq.shape.layout.ShapeConstraintLayout>
