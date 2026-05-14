@@ -52,6 +52,9 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
         binding.group2.isGone = !loginBean.existPayPassword
         binding.group3.isGone = !loginBean.existMbName
         loginIdBean.linkId = loginBean.linkId
+        binding.securityVerificationClose.click {
+            dismiss()
+        }
         binding.view1.click {
             val tipPop = AuthCodeBroadPop(
                 context,
@@ -60,8 +63,8 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
             )
             tipPop.backInvokeStr = { googleCode ->
                 eLogD(tAG, "googleCode:$googleCode")
-                postIdLogin(googleCode = googleCode)
                 tipPop.dismiss()
+                postIdLogin(googleCode = googleCode)
             }
             tipPop.showPopupWindow()
         }
@@ -73,8 +76,8 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
             )
             tipPop.backPwdInvoke = { payPwd ->
                 eLogD(tAG, "payPwd:$payPwd")
-                postIdLogin(payPwd = payPwd)
                 tipPop.dismiss()
+                postIdLogin(payPwd = payPwd)
             }
             tipPop.showPopupWindow()
         }
@@ -82,8 +85,8 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
             val tipPop = AuthQuestionBroadPop(context, SafeJumpBroadEnum.OnlyReturn.sourceType, true, securityQuestion = loginBean.securityQuestion)
             tipPop.backInvokeStr = { securityQuestion ->
                 eLogD(tAG, "securityQuestion:$securityQuestion")
-                postIdLogin(securityQuestion = securityQuestion)
                 tipPop.dismiss()
+                postIdLogin(securityQuestion = securityQuestion)
             }
             tipPop.showPopupWindow()
         }
@@ -91,8 +94,6 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
 
 
     private fun postIdLogin(googleCode: String? = null, payPwd: String? = null, securityQuestion: String? = null) {
-
-
         if (!TextUtils.isEmpty(loginBean.linkId)) {
             val params = hashMapOf("id" to loginBean.linkId, "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(), "type" to 2)
             if (!TextUtils.isEmpty(googleCode)) {
