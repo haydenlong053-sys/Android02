@@ -149,6 +149,8 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
                 loginIdBean.securityQuestion = securityQuestion ?: ""
                 binding.ivRight3.isVisible = true
             }
+        } else if (null != resultBean && !TextUtils.isEmpty(resultBean.msg)) {
+            showToastMain(resultBean.msg)
         } else {
             showToastMain(R.string.server_error)
         }
