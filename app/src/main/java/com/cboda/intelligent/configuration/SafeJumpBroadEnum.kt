@@ -19,4 +19,6 @@ enum class SafeJumpBroadEnum(val sourceType: Int) {
     EthPasswordAuth(12),
 
     ChangeLoginPassword(13),//修改密码回调
+
+    OnlyReturn(14),//只回调
 }

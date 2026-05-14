@@ -17,9 +17,24 @@ class LoginBean {
     var loginAccount = ""
 
     var loginPwd = ""
+    var secondVerifyType: Int = 0
 }
 
-class LoginIdBean() {
+
+class LoginReturnBean: java.io.Serializable {
+    @SerializedName("apptoken")
+    var appToken = ""
+
+    @SerializedName("imtoken")
+    var imToken = ""
+
+    var userId = ""
+    var code: String? = null
+    var success = false
+    var msg: String? = null
+}
+
+class LoginIdBean {
     var securityQuestion = ""
     var payPwd = ""
     var oldDevCode = ""

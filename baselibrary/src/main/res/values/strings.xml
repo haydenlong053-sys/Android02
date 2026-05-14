@@ -193,4 +193,13 @@
     <string name="group_manager">群管理员</string>
     <string name="group_manager_title1">管理员可协助群主管理群聊，拥有发布群公告移除群成员等能力。</string>
     <string name="group_manager_title2">只有群主具备设置管理员、解散群聊的能力。</string>
+
+    <string name="mine_google_auth2">谷歌验证器验证</string>
+    <string name="mine_pay_password2">支付密码验证</string>
+    <string name="mine_security_auth2">密保问题验证</string>
+    <string name="choose_yz">选择一种验证方式</string>
+    <string name="choose_all_yz">请输入所有验证</string>
+
+    <string name="server_error">服务异常，请稍后重试!</string>
+
 </resources>

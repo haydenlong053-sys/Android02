@@ -125,6 +125,8 @@ class AuthPasswordBroadPop(
                             showToastMain(context.getString(R.string.两次密码不一致))
                         }
 
+                    } else if (SafeJumpBroadEnum.OnlyReturn.sourceType == jumpSource) {
+                        backPwdInvoke.invoke(text)
                     } else {
                         // 获取该 Activity 作用域的 ViewModel
                         viewModel =

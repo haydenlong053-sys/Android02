@@ -31,6 +31,7 @@ import com.cboda.baselibrary.event.AppEventBroadCode;
 import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.chatui.group.GroupViewBroadModel;
+import com.cboda.intelligent.dialog.pop.SecurityVerificationPopup;
 import com.cboda.intelligent.utils.GsonBroadUtil;
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel;
 import com.google.zxing.Result;
@@ -426,7 +427,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         }
         //82环境使用老登录
 //        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
-        if (HttpsBroadConfig.currentHostHttpUrlType < 1000) {
+        if (HttpsBroadConfig.currentHostHttpUrlType != 2) {
             Map<String, Object> param = new HashMap<>();
             param.put("id", linkId);
             param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
@@ -454,12 +455,19 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             loginViewBroadModel.getScanLoginDetail(linkId).observe(this, loginBean -> {
                 if (null != loginBean) {
 //                loginBean.setType("scanLogin");
+//                    loginBean.setLinkId(linkId);
+//                    loginBean.setHaveOldDeviceCode(true);
+//                    Intent newIntent = new Intent(ScanBroadActivity.this, LoginVerificationActivity.class);
+//                    newIntent.putExtra("loginBean", toJson2(loginBean));
+//                    startActivity(newIntent);
+//                    finish();
                     loginBean.setLinkId(linkId);
-                    loginBean.setHaveOldDeviceCode(true);
-                    Intent newIntent = new Intent(ScanBroadActivity.this, LoginVerificationActivity.class);
+                    Intent newIntent = new Intent();
                     newIntent.putExtra("loginBean", toJson2(loginBean));
-                    startActivity(newIntent);
+                    setResult(RESULT_OK, newIntent);
                     finish();
+//                    SecurityVerificationPopup securityDialog = new SecurityVerificationPopup(ScanBroadActivity.this, loginBean);
+//                    securityDialog.showPopupWindow();
                 } else {
                     restartScan();
                     showToastMain(R.string.scan_login_request_failed);

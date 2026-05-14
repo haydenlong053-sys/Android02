@@ -46,7 +46,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
     private fun setData() {
         mBinding?.let {
             //82环境使用老登录隐藏二维码刷新
-//            binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE
+            binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType != 2
             userInfoBean?.let { userInfo ->
                 binding.userImg.loadImg(userInfo.userImg)
                 binding.userName.text = userInfo.name
@@ -150,7 +150,7 @@ class LoginQrCodeFragment : BaseBroadFragment<LoginQrCodeFragmentBinding, LoginV
                 }
                 binding.save.isGone = false
                 //82环境使用老登录隐藏二维码刷新
-//                binding.requestQrCode.isGone = false
+                binding.requestQrCode.isGone = HttpsBroadConfig.currentHostHttpUrlType != 2
             }, 500)
         }
     }

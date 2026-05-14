@@ -2,10 +2,13 @@ package com.cboda.intelligent.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig.updateAppToken
@@ -13,16 +16,20 @@ import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.databinding.ActivityNewBroadEquipmentBinding
 import com.cboda.intelligent.dialog.pop.AuthWayBroadPop
+import com.cboda.intelligent.dialog.pop.SecurityVerificationPopup
 import com.cboda.intelligent.net.BroadUrl
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.imLogin
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startH5Activity
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.toScanActivity
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.click
 import com.cboda.select.picture.utils.LanguageUtil
@@ -178,6 +185,28 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         setLanguageIsShow(false)
         updatePwdFragment.updateAccount(updatePwdAccount)
     }
+
+    fun toScan() {
+        toScanActivity(ScanJumpBroadEnum.Login.sourceType, this@NewEquipmentBroadActivity, startForResult)
+    }
+
+
+    fun openSecurityDialog(loginBean: LoginBean) {
+        val securityDialog = SecurityVerificationPopup(this@NewEquipmentBroadActivity, loginBean)
+        securityDialog.showPopupWindow()
+    }
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                val loginBeanStr = it.data?.getStringExtra("loginBean")
+                if (!TextUtils.isEmpty(loginBeanStr)) {
+                    val loginBean = fromJson2(loginBeanStr, LoginBean::class.java)
+                    openSecurityDialog(loginBean)
+                }
+            }
+
+        }
 
     fun toRegistered(isSelectLoginFragment: Boolean = false) {
         this.isSelectLoginFragment = isSelectLoginFragment

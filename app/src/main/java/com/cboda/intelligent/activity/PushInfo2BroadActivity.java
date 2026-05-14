@@ -131,11 +131,11 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         pwd = getIntent().getStringExtra("pwd");
         initViews();
         //82环境登录隐藏二维码刷新
-//        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
-//            requestQrCode.setVisibility(View.GONE);
-//        } else {
-//            requestQrCode.setVisibility(View.VISIBLE);
-//        }
+        if (HttpsBroadConfig.currentHostHttpUrlType != 2) {
+            requestQrCode.setVisibility(View.GONE);
+        } else {
+            requestQrCode.setVisibility(View.VISIBLE);
+        }
         BarUtils.addMarginTopEqualStatusBarHeight(myToolView);
         tvMyTitle.setText(getResources().getString(R.string.m_account_info));
         mIvMyBack.setOnClickListener(new OnSingleClickBroadListener() {
@@ -403,6 +403,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         mIvBlur.setVisibility(View.GONE);
         mViewDash.setVisibility(View.VISIBLE);
         ivQrcode.setVisibility(View.VISIBLE);
+        requestQrCode.setVisibility(View.GONE);
         BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(mViewRootBg), this);
         ToastBroadUtil.show(getString(R.string.tipSaveSuccess));
 

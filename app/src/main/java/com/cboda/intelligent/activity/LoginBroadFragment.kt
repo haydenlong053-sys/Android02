@@ -63,7 +63,7 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
             val loginPwd = binding.loginPwd.text.toString()
             //82环境使用老登录
 //            if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
-            if (HttpsBroadConfig.currentHostHttpUrlType < 1000) {
+            if (HttpsBroadConfig.currentHostHttpUrlType != 2) {
                 viewModel.pwdLogin(
                     loginAccount,
                     loginPwd
@@ -76,9 +76,10 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
                     if (null != loginBean) {
                         loginBean.loginAccount = loginAccount
                         loginBean.loginPwd = loginPwd
-                        val bundle = Bundle()
-                        bundle.putString("loginBean", toJson2(loginBean))
-                        viewModel.startAct<LoginVerificationActivity>(bundle)
+                        (activity as NewEquipmentBroadActivity).openSecurityDialog(loginBean)
+//                        val bundle = Bundle()
+//                        bundle.putString("loginBean", toJson2(loginBean))
+//                        viewModel.startAct<LoginVerificationActivity>(bundle)
                     }
                 }
             }

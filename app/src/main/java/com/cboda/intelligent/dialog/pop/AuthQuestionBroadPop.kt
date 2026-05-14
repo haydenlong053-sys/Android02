@@ -18,6 +18,7 @@ import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.databinding.DialogPopAuthBroadQuestionBinding
 import com.cboda.intelligent.utils.BaseBroadCallback
+import com.cboda.intelligent.utils.SoftKeyBoardBroadUtils
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.SafeCenterViewBroadModel
 import kotlinx.coroutines.MainScope
@@ -28,13 +29,16 @@ import okhttp3.Response
 
 
 //密保问题验证
-class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroadEnum.None.sourceType, val isDeepColor: Boolean = false, val account: String? = null) :
+class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroadEnum.None.sourceType, val isDeepColor: Boolean = false, val account: String? = null, val securityQuestion: String? = null) :
     BaseBottomBroadPop(context) {
     private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: SafeCenterViewBroadModel? = null
 
     @JvmField
     var backInvoke: () -> Unit = {}
+
+
+    var backInvokeStr: (String) -> Unit = {}
     private var binding: DialogPopAuthBroadQuestionBinding = DialogPopAuthBroadQuestionBinding.inflate(
         LayoutInflater.from(context)
     )
@@ -61,7 +65,7 @@ class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpB
     private fun initDeepColor() {
         if (isDeepColor) {
             binding.mViewTopBg.setBackgroundResource(R.drawable.bg_rect_deep_only_top_broad_18dp)
-            binding.mIvClose.setImageResource(R.mipmap.ic_auth_broad_close2)
+            binding.mIvClose.setImageResource(com.cboda.baselibrary.R.mipmap.ic_auth_broad_close2)
             binding.mIvGo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             binding.mTvTitle.setTextColor(ContextCompat.getColor(context, R.color.white))
             binding.mTvDes2.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_white_65))
@@ -82,35 +86,49 @@ class AuthQuestionBroadPop(val context: Context, val jumpSource: Int = SafeJumpB
             viewModel =
                 ViewModelProvider(activity).get<SafeCenterViewBroadModel>(SafeCenterViewBroadModel::class.java)
             // 现在可以使用 viewModel 进行数据操作
-            if (jumpSource == SafeJumpBroadEnum.LoginForgetPassword.sourceType) {
-                scope.launch {
-                    viewModel?.goSecurityInfo(account)?.observe(activity) {
-                        binding.mTvSecurityName.text = it.securityQuestions
+            when (jumpSource) {
+                SafeJumpBroadEnum.LoginForgetPassword.sourceType -> {
+                    scope.launch {
+                        viewModel?.goSecurityInfo(account)?.observe(activity) {
+                            binding.mTvSecurityName.text = it.securityQuestions
+                        }
                     }
+
                 }
+                SafeJumpBroadEnum.OnlyReturn.sourceType -> {
+                    binding.mTvSecurityName.text = securityQuestion ?: ""
+                    binding.mEtAnswer.postDelayed({
+                        SoftKeyBoardBroadUtils.openSoftKeyBoard(binding.mEtAnswer)
+                    }, 100L)
 
-            } else {
-                viewModel?.userInfo(activity, object : BaseBroadCallback<ResultBroadBean>() {
-                    override fun onError(response: Response, code: Int, e: Exception) {}
-                    override fun onSuccess(response: Response?, t: ResultBroadBean) {
-                        binding.mTvSecurityName.text = t.data.mbName
+                }
+                else -> {
+                    viewModel?.userInfo(activity, object : BaseBroadCallback<ResultBroadBean>() {
+                        override fun onError(response: Response, code: Int, e: Exception) {}
+                        override fun onSuccess(response: Response?, t: ResultBroadBean) {
+                            binding.mTvSecurityName.text = t.data.mbName
 
-                    }
+                        }
 
-                    override fun onBeforeRequest(request: Request?) {
-                    }
+                        override fun onBeforeRequest(request: Request?) {
+                        }
 
-                    override fun onFailure(request: Request?, e: java.lang.Exception?) {
-                    }
+                        override fun onFailure(request: Request?, e: java.lang.Exception?) {
+                        }
 
-                    override fun onResponse(response: Response?) {
-                    }
-                })
+                        override fun onResponse(response: Response?) {
+                        }
+                    })
+                }
             }
 
 
             binding.mTvSubmit.setOnClickListener {
-                if (binding.mTvSecurityName.text.trim()
+                if (jumpSource == SafeJumpBroadEnum.OnlyReturn.sourceType) {
+                    if (binding.mEtAnswer.text.trim().isNotEmpty()) {
+                        backInvokeStr.invoke(binding.mEtAnswer.text.trim().toString())
+                    }
+                } else if (binding.mTvSecurityName.text.trim()
                         .isNotEmpty() && binding.mEtAnswer.text.trim().isNotEmpty()
                 ) {
                     scope.launch {

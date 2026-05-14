@@ -8,10 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.KeyboardUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.intelligent.R
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.databinding.DialogPopAuthBroadCodeBinding
+import com.cboda.intelligent.utils.SoftKeyBoardBroadUtils
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.utils.pasteToEditText
 import com.cboda.intelligent.viewmodel.SafeCenterViewBroadModel
@@ -21,12 +24,13 @@ import kotlinx.coroutines.launch
 
 
 //谷歌验证码验证pop
-class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroadEnum.None.sourceType,val isDeepColor : Boolean=false,val account:String?=null,) :
+class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroadEnum.None.sourceType, val isDeepColor: Boolean = false, val account: String? = null) :
     BaseBottomBroadPop(context) {
     private val scope = MainScope() // 创建主线程的协程作用域
     private var viewModel: SafeCenterViewBroadModel? = null
 
     var transferInvoke: () -> Unit = {}
+    var backInvokeStr: (String) -> Unit = {}
     private var binding: DialogPopAuthBroadCodeBinding = DialogPopAuthBroadCodeBinding.inflate(
         LayoutInflater.from(context)
     )
@@ -44,14 +48,14 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
     }
 
     private fun initDeepColor() {
-        if (isDeepColor){
+        if (isDeepColor) {
             binding.mViewTopBg.setBackgroundResource(R.drawable.bg_rect_deep_only_top_broad_18dp)
-            binding.mIvClose.setImageResource(R.mipmap.ic_auth_broad_close2)
+            binding.mIvClose.setImageResource(com.cboda.baselibrary.R.mipmap.ic_auth_broad_close2)
 //            binding.mIvGo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
-            binding.mTvTitle.setTextColor(ContextCompat.getColor(context,R.color.white))
-            binding.mTvDes2.setTextColor(ContextCompat.getColor(context,R.color.white))
+            binding.mTvTitle.setTextColor(ContextCompat.getColor(context, R.color.white))
+            binding.mTvDes2.setTextColor(ContextCompat.getColor(context, R.color.white))
             binding.mLlGoogleAuthCopy.setBackgroundResource(R.drawable.bg_rect_save_deep_edit_broad_16dp)
-            binding.mEtCode.setTextColor(ContextCompat.getColor(context,R.color.white))
+            binding.mEtCode.setTextColor(ContextCompat.getColor(context, R.color.white))
             binding.mEtCode.setHintTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_629CF8_35))
             binding.mTvCopy.setTextColor(ContextCompat.getColor(context, com.cboda.baselibrary.R.color.color_C83FF5))
 
@@ -63,17 +67,26 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
             dismiss()
         }
         binding.mTvCopy.setOnClickListener {
-            pasteToEditText(binding.mEtCode)
+            pasteToEditText(binding.mEtCode, true)
         }
         binding.mTvNext.isSubmitCanGo(false)
         binding.mEtCode.addTextChangedListener { editable ->
-            binding.mTvNext.isSubmitCanGo(binding.mEtCode.text.trim().toString().length==6)
+            binding.mTvNext.isSubmitCanGo(binding.mEtCode.text.trim().toString().length == 6)
         }
     }
 
     private fun initData() {
+        if (jumpSource == SafeJumpBroadEnum.OnlyReturn.sourceType) {
+            binding.mEtCode.postDelayed({
+                SoftKeyBoardBroadUtils.openSoftKeyBoard(binding.mEtCode)
+            }, 100L)
+        }
         binding.mTvNext.setOnClickListener {
-            if (context is AppCompatActivity && binding.mEtCode.text.trim().isNotEmpty()) {
+            if (jumpSource == SafeJumpBroadEnum.OnlyReturn.sourceType) {
+                if (binding.mEtCode.text.trim().isNotEmpty()) {
+                    backInvokeStr.invoke(binding.mEtCode.text.toString().trim())
+                }
+            } else if (context is AppCompatActivity && binding.mEtCode.text.trim().isNotEmpty()) {
                 val activity = context
                 // 获取该 Activity 作用域的 ViewModel
                 viewModel =
@@ -87,7 +100,7 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
                     else {
                         0
                     }
-                    viewModel?.goValidateTwoFactor(binding.mEtCode.text.trim().toString(), type,account)
+                    viewModel?.goValidateTwoFactor(binding.mEtCode.text.trim().toString(), type, account)
                         ?.observe(activity) {
                             dismiss()
                             when (jumpSource) {
@@ -106,16 +119,20 @@ class AuthCodeBroadPop(val context: Context, val jumpSource: Int = SafeJumpBroad
                                 SafeJumpBroadEnum.TransferAuthSure.sourceType -> {
                                     transferInvoke.invoke()
                                 }
+
                                 SafeJumpBroadEnum.ChangeMachineAuth.sourceType -> {
                                     transferInvoke.invoke()
                                 }
+
                                 SafeJumpBroadEnum.LoginNewMachine.sourceType -> {
                                     transferInvoke.invoke()
                                 }
+
                                 SafeJumpBroadEnum.LoginForgetPassword.sourceType -> {
                                     transferInvoke.invoke()
                                 }
-                                SafeJumpBroadEnum.ChangeLoginPassword.sourceType->{
+
+                                SafeJumpBroadEnum.ChangeLoginPassword.sourceType -> {
                                     transferInvoke.invoke()
                                 }
                             }
