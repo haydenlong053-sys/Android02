@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
@@ -65,6 +66,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
             val data = result.data
             val returnValue = data?.getStringExtra("address")
             mBind?.mEtInputAddress?.text = returnValue
+            mBind?.mEtInputAddress2?.setText(returnValue)
         }
     }
 
@@ -78,12 +80,19 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
         flag = intent.getIntExtra("type", 0)
         mBind = (binding as? ActivityBroadTransferBinding)
         EventBus.getDefault().register(this)
+        mBind?.mEtInputAddress?.isGone = flag != 1
+        mBind?.mEtInputAddress2?.isGone = flag != 0
+        mBind?.mTvPaste?.isGone = flag != 0
+        mBind?.mIvPaste?.isGone = flag != 1
         getToolbarTitle()?.text = if (flag == 1) {
             getResources().getString(R.string.提现)
         } else {
             getResources().getString(R.string.mine_transfer)
         }
         mBind?.mClMoneyAddress?.isVisible = (flag == 0)
+
+
+
         getRightImg()?.setImageResource(R.mipmap.ic_tranfer_broad_record)
         mBind?.mLlSysCurrency?.isSelected = true
 
@@ -121,9 +130,12 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
             }
         }
         mBind?.mTvPaste?.setOnClickListener {
-//            pasteToEditText(mBind?.mEtInputAddress!!)
+            pasteToEditText(mBind?.mEtInputAddress2!!)
         }
         mBind?.mEtInputAddress?.addTextChangedListener { editable ->
+            checkNestBtn()
+        }
+        mBind?.mEtInputAddress2?.addTextChangedListener { editable ->
             checkNestBtn()
         }
         mBind?.mLlInputAddress?.click {
@@ -136,8 +148,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
         }
 
         mBind?.mTvSubmit?.setOnClickListener {
-            val inputAddressString =
-                mBind?.mEtInputAddress?.text?.trim().toString()
+            val inputAddressString = if (flag == 1) mBind?.mEtInputAddress?.text?.trim().toString() else mBind?.mEtInputAddress2?.text?.trim().toString()
             val inputMoneyString =
                 mBind?.mEtInputMoney?.text?.trim().toString()
             if (flag == 0 && inputAddressString == mBind?.mTvMoneyAddressKey?.text.toString()) {
@@ -182,8 +193,9 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun checkNestBtn() {
+
         if (mBind?.mEtInputMoney?.text?.trim()?.toString()
-                ?.isNotEmpty() == true && mBind?.mEtInputAddress?.text?.trim()?.toString()
+                ?.isNotEmpty() == true && (if (flag == 0) mBind?.mEtInputAddress2?.text?.trim()?.toString() else mBind?.mEtInputAddress?.text?.trim()?.toString())
                 ?.isNotEmpty() == true
         ) {
             mBind?.mTvSubmit?.isSubmitCanGo(true)
@@ -256,7 +268,8 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
             } else {
                 1
             }
-            viewModel.getRateInfo(query, typeTransfer, mBind?.mEtInputAddress?.text?.trim()?.toString() ?: "").observe(this@TransferBroadActivity) {
+
+            viewModel.getRateInfo(query, typeTransfer, (if (flag == 1) mBind?.mEtInputAddress?.text?.trim().toString() else mBind?.mEtInputAddress2?.text?.trim().toString()) ?: "").observe(this@TransferBroadActivity) {
                 mBind?.mTvActualAmount?.text =
                     (it.actualAmount.toString() + getString(R.string.webX_name))
                 mBind?.mTvHandlingFee?.text =
@@ -276,6 +289,12 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
             mBind?.mEtInputAddress?.text = linkString.replace(
                 CommonBroadConfig.seekWeb4,
                 ""
+            )
+            mBind?.mEtInputAddress2?.setText(
+                linkString.replace(
+                    CommonBroadConfig.seekWeb4,
+                    ""
+                )
             )
         }
         lifecycleScope.launch {
@@ -318,8 +337,7 @@ class TransferBroadActivity : BaseSimple2BroadActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onAppEventReceiver(event: TransferEventBroadBean) {
-        val inputAddressString =
-            mBind?.mEtInputAddress?.text?.trim().toString()
+        val inputAddressString = if (flag == 1) mBind?.mEtInputAddress?.text?.trim().toString() else mBind?.mEtInputAddress2?.text?.trim().toString()
         val inputMoneyString =
             mBind?.mEtInputMoney?.text?.trim().toString()
         if (event.isFinishAction && inputAddressString.isNotEmpty() && inputMoneyString.isNotEmpty()) {
