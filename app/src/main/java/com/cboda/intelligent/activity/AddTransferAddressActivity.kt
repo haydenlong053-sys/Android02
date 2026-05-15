@@ -23,7 +23,7 @@ class AddTransferAddressActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBind = (binding as? AddTransferAddressActivityBinding)
-        getToolbarTitle()?.text = getString(R.string.mine_t_Withdrawal_address)
+        getToolbarTitle()?.text = getString(R.string.wt_transfer_to_address)
         getRightImg()?.click {
             showAddPop(false)
         }

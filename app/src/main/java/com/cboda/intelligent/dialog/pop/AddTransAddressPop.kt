@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
+import androidx.compose.ui.text.toLowerCase
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
@@ -46,7 +47,7 @@ class AddTransAddressPop(val context: Context) : BaseBottomBroadPop(context) {
             binding.mTvSubmit.click {
                 val address = binding.mEtInputAddress.text.toString().trim()
                 if (!TextUtils.isEmpty(address)) {
-                    if (!address.startsWith("0x", true)) {
+                    if (!address.lowercase().startsWith("wx", true)) {
                         ToastBroadUtils.show(context.getString(R.string.add_trans_receiving_address_format_error))
                         return@click
                     }
