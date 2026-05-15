@@ -76,6 +76,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
+import com.cboda.baselibrary.widge.NestedViewPager
 import com.cboda.intelligent.widge.BadgeIndicatorAdapter
 import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 import com.cboda.select.picture.utils.LanguageUtil
@@ -431,7 +432,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         ivAdd = view.findViewById(R.id.ivAdd)
         ivsousuo = view.findViewById(R.id.ivsousuo)
         magicIndicator = view.findViewById(R.id.magicIndicator)
-        viewPager = view.findViewById(R.id.viewPager)
+        viewPager = view.findViewById<NestedViewPager>(R.id.viewPager).viewPager2
         ivsudu = view.findViewById(R.id.ivsudu)
         ivkefu = view.findViewById(R.id.ivkefu)
         ivMore = view.findViewById(R.id.ivMore)

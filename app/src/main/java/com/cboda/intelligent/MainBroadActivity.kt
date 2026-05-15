@@ -23,7 +23,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import cn.wildfirechat.client.ConnectionStatus
 import cn.wildfirechat.message.MeetEndMessageContent
 import cn.wildfirechat.message.MeetStartMessageContent
@@ -62,6 +62,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_REGISTRATION_DA
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.RealmUtil
+import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
@@ -82,6 +83,9 @@ import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
 import com.cboda.chatui.utils.E
+import com.cboda.intelligent.activity.LoginBroadFragment
+import com.cboda.intelligent.activity.RegisteredBroadFragment
+import com.cboda.intelligent.activity.SelectLoginBroadFragment
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.ExpandableBottomBar
@@ -137,7 +141,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var tvXiaoxi: TextView
     private lateinit var tvXiaoxiNum: MyUnreadCountTextBroadView
     private lateinit var ivXiaoxi: AppCompatImageView
-    private lateinit var viewPager: MyViewBroadPager
+    private lateinit var viewPager: ViewPager2
 
     private val uIViewModel: HomeUIViewModel by viewModels()
     private val quickMeetViewModel: QuickMeetViewBroadModel by viewModels()
@@ -255,22 +259,28 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             isBottomBarExpanded = false
         }
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
+//        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+//            override fun onPageScrolled(
+//                position: Int,
+//                positionOffset: Float,
+//                positionOffsetPixels: Int
+//            ) {
+//            }
+//
+//            override fun onPageSelected(position: Int) {
+//                selectedIndex = position
+//            }
+//
+//            override fun onPageScrollStateChanged(state: Int) {
+//            }
+//        })
 
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
                 selectedIndex = position
             }
-
-            override fun onPageScrollStateChanged(state: Int) {
-            }
         })
-
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -888,15 +898,25 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             }
         })
 
-        viewPager?.apply {
-            adapter = FragmentBroadAdapter(fragmentList, supportFragmentManager)
-            setScroll(true)
-            offscreenPageLimit = fragmentList.size
-            if (fragmentList.size == 4) {
-                setCurrentItem(2, false)
-            }
-        }
 
+//        viewPager?.apply {
+//            adapter = FragmentBroadAdapter(fragmentList, supportFragmentManager)
+//            adapter = FragmentBroadAdapter(fragmentList, supportFragmentManager)
+//            setScroll(true)
+//            offscreenPageLimit = fragmentList.size
+//            if (fragmentList.size == 4) {
+//                setCurrentItem(2, false)
+//            }
+//        }
+
+        val adapter = Vp2FragmentBroadAdapter(this)
+        adapter.setData(fragmentList)
+        viewPager.isUserInputEnabled = true
+        viewPager.offscreenPageLimit = fragmentList.size
+        viewPager.adapter = adapter
+        if (fragmentList.size == 4) {
+            viewPager.setCurrentItem(2, false)
+        }
 
         userViewModel = ViewModelProvider(this)[UserViewBroadModel::class.java]
 //        viewModel?.getUserInfo(this, "")
