@@ -62,7 +62,7 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
                 isDeepColor = true
             )
             tipPop.backInvokeStr = { googleCode ->
-                eLogD(tAG, "googleCode:$googleCode")
+//                eLogD(tAG, "googleCode:$googleCode")
                 tipPop.dismiss()
                 postIdLogin(googleCode = googleCode)
             }
@@ -75,7 +75,7 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
                 isDeepColor = true
             )
             tipPop.backPwdInvoke = { payPwd ->
-                eLogD(tAG, "payPwd:$payPwd")
+//                eLogD(tAG, "payPwd:$payPwd")
                 tipPop.dismiss()
                 postIdLogin(payPwd = payPwd)
             }
@@ -84,7 +84,7 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
         binding.view3.click {
             val tipPop = AuthQuestionBroadPop(context, SafeJumpBroadEnum.OnlyReturn.sourceType, true, securityQuestion = loginBean.securityQuestion)
             tipPop.backInvokeStr = { securityQuestion ->
-                eLogD(tAG, "securityQuestion:$securityQuestion")
+//                eLogD(tAG, "securityQuestion:$securityQuestion")
                 tipPop.dismiss()
                 postIdLogin(securityQuestion = securityQuestion)
             }
@@ -110,7 +110,7 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
             }
             OkHttpBroadHelper.getInstance().post_json(context, HttpsBroadConfig.appBaseUrl + "/idLogin", params.toMap(), object : SpotsCallBroadBack<ResultBroadBean>(context) {
                 override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
-                    eLogD(tAG, "resultBean:${toJson2(resultBean)}")
+//                    eLogD(tAG, "resultBean:${toJson2(resultBean)}")
                     checkResultBroadBean(googleCode, payPwd, securityQuestion, resultBean)
                 }
 

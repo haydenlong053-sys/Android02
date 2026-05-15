@@ -281,20 +281,20 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                         Any::class.java, param
                     )
                     result.onSuccess { data ->
-                        eLogD("updatePasswordClass", "onSuccess")
+//                        eLogD("updatePasswordClass", "onSuccess")
                         liveData.postValue(true)
                         dismissLoading()
                     }.onFailure { code, message ->
-                        eLogD("updatePasswordClass", "onFailure:$code ,$message")
+//                        eLogD("updatePasswordClass", "onFailure:$code ,$message")
                         dismissLoading()
                         showToastMain(message)
                     }.onError { error ->
-                        eLogD("updatePasswordClass", "onError:${error.message}")
+//                        eLogD("updatePasswordClass", "onError:${error.message}")
                         dismissLoading()
                         showToastMain("${error.message}")
                     }
                 } catch (e: kotlin.Exception) {
-                    eLogD("updatePasswordClass", "catch:${e.message}")
+//                    eLogD("updatePasswordClass", "catch:${e.message}")
                     dismissLoading()
                 }
             }

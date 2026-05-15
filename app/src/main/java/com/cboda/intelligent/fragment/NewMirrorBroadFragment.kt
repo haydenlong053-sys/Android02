@@ -35,6 +35,7 @@ import com.cboda.intelligent.dialog.pop.CreditScoreActivateBroadPop
 import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.baselibrary.bean.UserInfoBroadModel
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.showGuidePasswordTip
@@ -62,32 +63,33 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         }
         binding.ivMirrorAvatar.setOnClickListener(userInfoClick)
         binding.layoutMirrorCredit.click {
-            //信用分状态 1、已开通 0:未开通
-            if (anyToInt(userInfo?.gradeStatus) == 1) {
-                JumpBroadUtils.startCreditScoreActivity(requireContext())
-            } else {
-                CreditScoreActivateBroadPop(requireContext()).apply {
-                    sureInvoke = {
-                        if (anyToInt(userInfo?.hasPayPwd) == 1) {
-                            PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
-                                lifecycleScope.launch {
-                                    viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
-                                        if (bool) {
-                                            showToastMain("激活成功")
-                                            onResume()
+            if (!HttpsBroadConfig.isReviewEnv) {
+                //信用分状态 1、已开通 0:未开通
+                if (anyToInt(userInfo?.gradeStatus) == 1) {
+                    JumpBroadUtils.startCreditScoreActivity(requireContext())
+                } else {
+                    CreditScoreActivateBroadPop(requireContext()).apply {
+                        sureInvoke = {
+                            if (anyToInt(userInfo?.hasPayPwd) == 1) {
+                                PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
+                                    lifecycleScope.launch {
+                                        viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
+                                            if (bool) {
+                                                showToastMain(com.cboda.baselibrary.R.string.activation_successful)
+                                                onResume()
+                                            }
                                         }
                                     }
-                                }
 
 
-                            }, isCheckPassword = false).showPopupWindow()
-                        } else {
-                            showGuidePasswordTip(context)
+                                }, isCheckPassword = false).showPopupWindow()
+                            } else {
+                                showGuidePasswordTip(context)
+                            }
                         }
-                    }
-                }.showPopupWindow()
+                    }.showPopupWindow()
+                }
             }
-
         }
         binding.idTv.setOnClickListener(userInfoClick)
         binding.vocationalTv.setOnClickListener(userInfoClick)
@@ -127,7 +129,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             it?.let {
                 userInfo = it
             }
-            eLogD("NewMirrorViewBroadModelClass", "userInfo:${toJson2(userInfo)}")
+//            eLogD("NewMirrorViewBroadModelClass", "userInfo:${toJson2(userInfo)}")
             binding.ivMirrorAvatar.setImageResource(if (userInfo?.sex == "2") R.drawable.ic_mirror_broad_female else R.drawable.ic_mirror_broad_male)
             binding.tvMirrorCreditScore.text = formatWithBigDecimal(userInfo?.grade)
             binding.mViewPremiumNumber.isVisible = (userInfo?.isLiang == "1")
