@@ -131,6 +131,14 @@ fun View.isSubmitCanGo(
 ) {
     this.isEnabled = boolean
     this.isSelected = boolean
+    this.isSubmitCanGo2(boolean,negativeBg,positiveBg)
+}
+
+fun View.isSubmitCanGo2(
+    boolean: Boolean,
+    @DrawableRes negativeBg: Int = R.drawable.bg_rect_submit_no_broad_16dp,
+    @DrawableRes positiveBg: Int = R.drawable.bg_rect_submit_broad_16dp,
+) {
     this.setBackgroundResource(if (boolean) positiveBg else negativeBg)
 }
 

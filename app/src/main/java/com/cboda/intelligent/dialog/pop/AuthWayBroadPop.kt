@@ -63,11 +63,11 @@ class AuthWayBroadPop(
                     binding.mLlSecurity.isVisible = !it.securityId.isNullOrEmpty()
 
                     binding.mViewAddGoogle.isVisible = it.twoFactorCode.isNullOrEmpty()
-                    binding.mViewGoogle.isVisible = !it.twoFactorCode.isNullOrEmpty()
+//                    binding.mViewGoogle.isVisible = !it.twoFactorCode.isNullOrEmpty()
                     binding.mViewAddPassword.isVisible = it.payPassword.isNullOrEmpty()
-                    binding.mViewPassword.isVisible = !it.payPassword.isNullOrEmpty()
+//                    binding.mViewPassword.isVisible = !it.payPassword.isNullOrEmpty()
                     binding.mViewAddSecurity.isVisible = it.securityId.isNullOrEmpty()
-                    binding.mViewSecurity.isVisible = !it.securityId.isNullOrEmpty()
+//                    binding.mViewSecurity.isVisible = !it.securityId.isNullOrEmpty()
                 }
             }
 
@@ -91,10 +91,15 @@ class AuthWayBroadPop(
                             binding.mLlSecurity.isVisible = !it.securityId.isNullOrEmpty()
 
                             binding.mViewAddGoogle.isVisible = it.twoFactorCode.isNullOrEmpty()
+
                             binding.mViewGoogle.isVisible = !it.twoFactorCode.isNullOrEmpty()
+
                             binding.mViewAddPassword.isVisible = it.payPassword.isNullOrEmpty()
+
                             binding.mViewPassword.isVisible = !it.payPassword.isNullOrEmpty()
+
                             binding.mViewAddSecurity.isVisible = it.securityId.isNullOrEmpty()
+
                             binding.mViewSecurity.isVisible = !it.securityId.isNullOrEmpty()
                         }
 
