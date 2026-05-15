@@ -3,8 +3,8 @@ ext {
             applicationId    : "com.cboda.intelligent",
             minSdk           : 29,
             compileSdk       : 36,
-            versionCode      : 344,
-            versionName      : "3.4.4",
+            versionCode      : 345,
+            versionName      : "3.4.5",
             buildToolsVersion: "33.0.3",
 
 
@@ -47,7 +47,7 @@ ext {
             storeFile        : "google_play_us.jks",
             storePassword    : "Aa663366",
             keyAlias         : "uscbodabroadintelligent",
-            deviceIdType     : "3",
+            deviceIdType     : "2",
             appEnvironment   : "5",
             crashKey         : "03a4cc2bab",
             enableCrash      : "true",
