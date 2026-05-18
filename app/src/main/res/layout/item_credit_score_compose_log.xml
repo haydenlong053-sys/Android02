@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_71"
+    android:paddingEnd="@dimen/dp_16">
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0.5"
+        android:layout_marginStart="@dimen/dp_16"
+        android:background="@color/black_12"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/itemImg"
+        android:layout_width="@dimen/dp_38"
+        android:layout_height="@dimen/dp_38"
+        android:layout_marginStart="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/credit_score6" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/itemContent"
+        app:layout_constraintStart_toEndOf="@id/itemImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="在线时长" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemPointTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_00AC56"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/itemTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="+0.24" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemTimeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_65"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemPointTv"
+        android:layout_marginTop="@dimen/dp_5"
+        tools:text="2026-01-24" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:textColor="@color/black_65"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/itemTitle"
+        app:layout_constraintTop_toBottomOf="@id/itemTitle"
+        tools:text="基础：+0.2/天" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/color_19A200"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/itemContent"
+        app:layout_constraintTop_toTopOf="@id/itemContent"
+        tools:text="会员+10%" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemDesc2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/color_19A200"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/itemDesc"
+        app:layout_constraintTop_toTopOf="@id/itemDesc"
+        app:layout_constraintEnd_toStartOf="@id/itemTimeTv"
+        android:lines="1"
+        android:ellipsize="end"
+        tools:text="靓号+10%" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

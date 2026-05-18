@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
     <color name="white65">#99FFFFFF</color>
     <color name="white35">#59FFFFFF</color>
     <color name="white30">#B3FFFFFF</color>
 
+    <color name="color_C4E1FA">#C4E1FA</color>
+    <color name="color_31231A">#31231A</color>
+    <color name="color_956BEC">#956BEC</color>
+    <color name="color_7A66FA">#7A66FA</color>
+    <color name="color_FAE77C">#FAE77C</color>
+    <color name="color_FAD27C">#FAD27C</color>
+    <color name="color_031256">#031256</color>
+    <color name="color_4F6FF3_20">#334F6FF3</color>
+    <color name="color_D5271E">#D5271E</color>
+    <color name="color_FFB789_20">#33FFB789</color>
+    <color name="color_FFCA69">#FFCA69</color>
     <color name="color_F4A32B">#F4A32B</color>
     <color name="color_19A200">#19A200</color>
     <color name="color_717171">#717171</color>
@@ -31,6 +44,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="color_2DFF0000">#2DFF0000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black_or_white">#FF000000</color>
     <color name="black_or_white_65">#A5000000</color>
@@ -129,9 +143,17 @@
     <color name="color_64748B">#64748B</color>
     <color name="color_3FCA37">#3FCA37</color>
     <color name="color_EE7171">#EE7171</color>
-
     <color name="color_6672ff">#6672FF</color>
     <color name="color_EB534B_35">#59EB534B</color>
+    <color name="color_EB534B_16">#28EB534B</color>
     <color name="color_D4AF37">#D4AF37</color>
     <color name="color_white_85">#D8FFFFFF</color>
+
+    <color name="color_B73BDD">#B73BDD</color>
+    <color name="color_6A76FF">#6A76FF</color>
+    <color name="color_53CC90">#53CC90</color>
+    <color name="color_45BEDD">#45BEDD</color>
+    <color name="color_AA68FF">#AA68FF</color>
+    <color name="color_EE56D4">#EE56D4</color>
+
 </resources>

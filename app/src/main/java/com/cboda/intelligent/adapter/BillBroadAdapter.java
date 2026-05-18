@@ -2,6 +2,7 @@ package com.cboda.intelligent.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,10 +55,10 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
         if (!TextUtils.isEmpty(list.get(position).state) && !TextUtils.isEmpty(list.get(position).money)) {
             if (list.get(position).state.equals("1")) {
                 holder.tvPrice.setText("+" + list.get(position).money + context.getString(R.string.yuanqian));
-//            holder.tvPrice.setTextColor(Color.parseColor("#333333"));
+            holder.tvPrice.setTextColor(Color.parseColor("#3B47DD"));
             } else {
                 holder.tvPrice.setText("-" + list.get(position).money + context.getString(R.string.yuanqian));
-//            holder.tvPrice.setTextColor(Color.parseColor("#FF5145"));
+            holder.tvPrice.setTextColor(Color.parseColor("#EB534B"));
             }
         }
         if (!TextUtils.isEmpty(list.get(position).type)) {
@@ -73,11 +74,16 @@ public class BillBroadAdapter extends RecyclerView.Adapter<BillBroadAdapter.MyHo
                     break;
                 case "4":
                     holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_qiandao);
+                    break;
                 case "5":
                     holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_meeting);
                     break;
                 case "6":
                     holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_gift);
+                    break;
+                case "7":
+                case "8":
+                    holder.imIcon.setImageResource(R.mipmap.ic_bill_broad_point);
                     break;
             }
         }

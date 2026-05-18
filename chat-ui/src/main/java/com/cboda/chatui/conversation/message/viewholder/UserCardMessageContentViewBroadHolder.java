@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.conversation.message.viewholder;
 
+import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,13 +22,15 @@ import com.cboda.chatui.annotation.MessageContentBroadType;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
+
 import cn.wildfirechat.message.CardMessageContent;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 
 @MessageContentBroadType(value = {
-    CardMessageContent.class,
+        CardMessageContent.class,
 
 })
 @EnableContextBroadMenu
@@ -44,27 +48,29 @@ public class UserCardMessageContentViewBroadHolder extends NormalMessageContentV
     }
 
     private void bindEvents(View itemView) {
-       itemView.findViewById(R.id.contentLayout).setOnClickListener(_v -> onUserCardClick());
+        itemView.findViewById(R.id.contentLayout).setOnClickListener(_v -> onUserCardClick());
     }
 
     private void bindViews(View itemView) {
-        portraitImageView =itemView.findViewById(R.id.userCardPortraitImageView);
-        nameTextView =itemView.findViewById(R.id.userCardNameTextView);
-        userIdTextView =itemView.findViewById(R.id.userIdTextView);
+        portraitImageView = itemView.findViewById(R.id.userCardPortraitImageView);
+        nameTextView = itemView.findViewById(R.id.userCardNameTextView);
+        userIdTextView = itemView.findViewById(R.id.userIdTextView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onBind(UiBroadMessage message) {
         userCardMessageContent = (CardMessageContent) message.message.content;
         nameTextView.setText(userCardMessageContent.getDisplayName());
-        userIdTextView.setText(userCardMessageContent.getName());
-        userIdTextView.setVisibility(View.GONE);
-        Glide
-            .with(fragment)
-            .load(userCardMessageContent.getPortrait())
-            .transforms(new CenterCrop(), new RoundedCorners(10))
-            .placeholder(R.mipmap.avatar_broad_def)
-            .into(portraitImageView);
+        if (TextUtils.isEmpty(userCardMessageContent.getIdno())){
+            userIdTextView.setText("");
+        }else {
+            userIdTextView.setText("ID:" + userCardMessageContent.getIdno());
+        }
+        Glide.with(fragment)
+                .load(userCardMessageContent.getPortrait())
+                .placeholder(R.mipmap.avatar_broad_def)
+                .into(portraitImageView);
     }
 
     void onUserCardClick() {
@@ -72,6 +78,6 @@ public class UserCardMessageContentViewBroadHolder extends NormalMessageContentV
         UserInfo userInfo = ChatManager.Instance().getUserInfo(userCardMessageContent.getTarget(), false);
 //        intent.putExtra("userInfo", userInfo);
 //        fragment.startActivity(intent);
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), BridgeImEnum.ADD_FRIEND.getValue(),userInfo.uid,"",null);
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(fragment.getContext(), BridgeImEnum.ADD_FRIEND.getValue(), userInfo.uid, "", null);
     }
 }

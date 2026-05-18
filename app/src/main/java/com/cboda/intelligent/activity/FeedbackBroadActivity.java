@@ -4,14 +4,20 @@ import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.utils.ViewExpandUtilKt;
+import com.cboda.intelligent.adapter.UpLoadImage2BroadAdapter;
+import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -30,6 +36,7 @@ import com.cboda.intelligent.utils.GlideBroadBroadEngine;
 import com.cboda.intelligent.utils.ListBroadUtil;
 import com.cboda.intelligent.utils.StringBroadUtil;
 import com.cboda.intelligent.utils.ToastBroadUtil;
+import com.hjq.shape.view.ShapeTextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,24 +48,31 @@ import java.util.Map;
 import okhttp3.Response;
 import top.zibin.luban.Luban;
 
-public class FeedbackBroadActivity extends BaseSimpleBroadActivity {
+public class FeedbackBroadActivity extends BaseSimple2BroadActivity {
 
-    private UpLoadImageBroadAdapter imageAdapter;
+    private UpLoadImage2BroadAdapter imageAdapter;
     private List<String> images = new ArrayList<>();
     private EditText etContent;
     private RecyclerView ryImage;
     private EditText etCall;
-    private TextView tvSubmit;
+    private ShapeTextView tvSubmit;
+
+    @Override
+    public boolean showBgTopTitleLayout() {
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRootBgColor(R.color.white);
         getToolbarTitle().setText(getResources().getString(R.string.意见反馈));
         initViews();
-        ryImage.setLayoutManager(new GridLayoutManager(this, 3));
-        imageAdapter = new UpLoadImageBroadAdapter(this, images, 3, 120);
+//        ryImage.setLayoutManager(new GridLayoutManager(this, 3));
+        ryImage.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
+        imageAdapter = new UpLoadImage2BroadAdapter(this, images, 3);
         ryImage.setAdapter(imageAdapter);
-        imageAdapter.setOnItemClickListener(new UpLoadImageBroadAdapter.OnItemClickListener() {
+        imageAdapter.setOnItemClickListener(new UpLoadImage2BroadAdapter.OnItemClickListener() {
             @Override
             public void OnDeleteClick(int position) {
                 if (images.size() > position)
@@ -120,6 +134,15 @@ public class FeedbackBroadActivity extends BaseSimpleBroadActivity {
             }
             fankui(imgs);
         });
+    }
+
+    private void checkGo() {
+        if (StringBroadUtil.isEmpty(etContent.getText().toString()) || etContent.getText().toString().length() < 15 || StringBroadUtil.isEmpty(etCall.getText().toString())) {
+            ViewExpandUtilKt.isSubmitCanGo3(tvSubmit, false);
+        } else {
+            ViewExpandUtilKt.isSubmitCanGo3(tvSubmit, true);
+        }
+
     }
 
     /**
@@ -218,5 +241,25 @@ public class FeedbackBroadActivity extends BaseSimpleBroadActivity {
         ryImage = findViewById(R.id.ryImage);
         etCall = findViewById(R.id.etCall);
         tvSubmit = findViewById(R.id.tvSubmit);
+
+        etContent.addTextChangedListener(watcher);
+        etCall.addTextChangedListener(watcher);
     }
+
+    private final TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            checkGo();
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+    };
 }

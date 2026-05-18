@@ -73,7 +73,9 @@ class AuthPasswordBroadPop(
         //注意此处有粘性的event事件需要在初始化view之后调用
         EventBus.getDefault().register(this)
         keyboardHelper = KeyboardHelper(context as Activity, mViewRoot)
-        SoftKeyBoardBroadUtils.openSoftKeyBoard(pswEdit)
+        pswEdit.postDelayed({
+            SoftKeyBoardBroadUtils.openSoftKeyBoard(pswEdit)
+        }, 100L)
         keyboardHelper.enable()
         mIvClose.setOnClickListener {
             dismiss()
@@ -125,6 +127,8 @@ class AuthPasswordBroadPop(
                             showToastMain(context.getString(R.string.两次密码不一致))
                         }
 
+                    } else if (SafeJumpBroadEnum.OnlyReturn.sourceType == jumpSource) {
+                        backPwdInvoke.invoke(text)
                     } else {
                         // 获取该 Activity 作用域的 ViewModel
                         viewModel =

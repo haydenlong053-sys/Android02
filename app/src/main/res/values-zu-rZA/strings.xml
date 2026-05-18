@@ -508,4 +508,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">Sawubona, %1$s</string>
+    <string name="credit_score_member_benefits">Izinzuzo zobulungu</string>
+    <string name="credit_score_member_not_open">Ubumbano abukakavulwa</string>
+    <string name="credit_score_nice_number_benefits">Izinzuzo zenombolo ekhethekile</string>
+    <string name="credit_score_nice_number_not_open">Inombolo ekhethekile ayikakavulwa</string>
+    <string name="credit_score_hint_very_poor">Isikolo sakho sesikweletu sibi kakhulu, sicela usithuthukise!</string>
+    <string name="credit_score_hint_excellent">Isikolo sakho sesikweletu sihle kakhulu, qhubeka njalo!</string>
+    <string name="credit_score_hint_good">Isikolo sakho sesikweletu sihle, qhubeka nokuzikhandla!</string>
+    <string name="credit_score_hint_normal">Isikolo sakho sesikweletu siphakathi, zame kakhulu!</string>
+    <string name="credit_score_title">Isikolo sesikweletu</string>
+    <string name="credit_score_tab_compose">Ukwakhiwa kwesikweletu</string>
+    <string name="credit_score_tab_record">Umlando wezinguquko</string>
 </resources>

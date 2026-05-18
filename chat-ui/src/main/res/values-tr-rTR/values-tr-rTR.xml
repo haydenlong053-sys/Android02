@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">Senkronize ediliyor...</string>
     <string name="connection_status_failed">Bağlantı başarısız</string>
 
+    <string name="chat_recommend_friend">Arkadaş öner</string>
+    <string name="chat_add_friend">Arkadaş ekle</string>
 </resources>

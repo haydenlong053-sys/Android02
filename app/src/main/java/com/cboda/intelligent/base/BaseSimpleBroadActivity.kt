@@ -334,6 +334,10 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
         return rightIcon
     }
 
+    open fun getTopBgView(): ImageView? {
+        return mIvBgTop
+    }
+
     /**
      * 是否显示顶部导航
      */

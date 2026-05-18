@@ -10,10 +10,11 @@ import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveUserData
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.*
+import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.holder.SendCustomBroadMsg
 import com.cboda.intelligent.utils.OKGoBroadHelper
 import org.json.JSONObject
@@ -59,7 +60,8 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
-                        saveUserData(bean.data)
+//                        saveUserData(bean.data)
+                        RealmUtil.addUserData(bean.data)
                         imUserLiveData.value = bean
                     }
                 }
@@ -682,23 +684,28 @@ class CommViewBroadModel : FriendViewBroadModel() {
     }
 
 
-    fun getQunUser(context: Context?, id: String) {
+    var qunUserListPageLiveData = MutableLiveData<CommonDataListBroadBean>()
+    var qunUserListPageLiveData2 = MutableLiveData<CommonDataListBroadBean>()
+
+    fun getQunUserPage(context: Context?, id: String, showLoading: Boolean = false) {
 
         val map = mapOf(
             "id" to id,
+            "pageNo" to "1",
+            "pageSize" to "500"
         )
 
         okGoHelper.post(
             context,
-            "/groupUserList",
+            "/groupUserListPage",
             JSONObject(map).toString(),
             CommonDataListBroadBean(),
             showToast = true,
-            showLoading = false,
+            showLoading = showLoading,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonDataListBroadBean) {
-                        qunUserListLiveData.value = bean
+                        qunUserListPageLiveData.value = bean
                     }
                 }
 
@@ -707,6 +714,60 @@ class CommViewBroadModel : FriendViewBroadModel() {
             },
         )
     }
+
+    fun getQunUserPage2(context: Context?, id: String, pageNo: Int, pageSize: Int) {
+
+        val map = mapOf(
+            "id" to id,
+            "pageNo" to pageNo,
+            "pageSize" to pageSize
+        )
+
+        okGoHelper.post(
+            context,
+            "/groupUserListPage",
+            JSONObject(map).toString(),
+            CommonDataListBroadBean(),
+            showToast = true,
+            showLoading = (pageNo == 1),
+            callBack = object : OKGoBroadHelper.RequestCallBack {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is CommonDataListBroadBean) {
+                        qunUserListPageLiveData2.value = bean
+                    }
+                }
+
+                override fun onFail(bean: BaseBroadResponse?) {
+                }
+            },
+        )
+    }
+
+//    fun getQunUser(context: Context?, id: String, showLoading: Boolean = false) {
+//
+//        val map = mapOf(
+//            "id" to id,
+//        )
+//
+//        okGoHelper.post(
+//            context,
+//            "/groupUserList",
+//            JSONObject(map).toString(),
+//            CommonDataListBroadBean(),
+//            showToast = true,
+//            showLoading = showLoading,
+//            callBack = object : OKGoBroadHelper.RequestCallBack {
+//                override fun onSuccess(bean: BaseBroadResponse?) {
+//                    if (bean is CommonDataListBroadBean) {
+//                        qunUserListLiveData.value = bean
+//                    }
+//                }
+//
+//                override fun onFail(bean: BaseBroadResponse?) {
+//                }
+//            },
+//        )
+//    }
 
     fun getxitonggaonggao(context: Context?, id: String) {
 
@@ -804,12 +865,13 @@ class CommViewBroadModel : FriendViewBroadModel() {
         url: String,
         id: String,
         type: String,
-        name: String
+        name: String,
+        pageSize: Int = CommonBroadConfig.pageSize_100
     ) {
 
         val map = mapOf(
             "pageNo" to pageNo,
-            "pageSize" to "10",
+            "pageSize" to pageSize,
             "id" to id,
             "type" to type,
             "groupId" to id,
@@ -1272,19 +1334,17 @@ class CommViewBroadModel : FriendViewBroadModel() {
         )
     }
 
-    fun gonggaoxiangqing(context: Context?, qunid: String) {
-
+    fun gonggaoxiangqing(context: Context?, qunid: String, showLoading: Boolean = false) {
         val map = mapOf(
             "id" to qunid,
         )
-
         okGoHelper.post(
             context,
             "/groupInfo",
             JSONObject(map).toString(),
             CommonResultBroadBean(),
             showToast = true,
-            showLoading = false,
+            showLoading = showLoading,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
@@ -1365,7 +1425,8 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
-                        saveUserData(bean.data)
+//                        saveUserData(bean.data)
+                        RealmUtil.addUserData(bean.data)
                         keFuData.value = bean
                     }
                 }

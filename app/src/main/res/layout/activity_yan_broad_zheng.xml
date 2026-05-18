@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main"
+    android:background="@color/bg_main2"
     android:orientation="vertical">
 
     <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginEnd="23dp"
-        app:shapeCornersRadius="20dp"
-        app:shapeSolidColor="@color/color_input_bg">
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        app:shapeCornersRadius="8dp"
+        app:shapeSolidColor="@color/white">
 
         <EditText
             android:id="@+id/edtSousuo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
-            android:drawableLeft="@mipmap/ic_broad_search2"
-            android:drawablePadding="8dp"
+            android:drawableStart="@mipmap/ic_broad_search2"
+            android:drawablePadding="4dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:imeOptions="actionSearch"
-            android:paddingStart="20dp"
-            android:singleLine="true"
             android:hint="@string/sousuonicheng"
-            android:textColorHint="#868686"
-            android:textColor="#868686"
-            android:textSize="13sp" />
+            android:imeOptions="actionSearch"
+            android:paddingStart="12dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_45"
+            android:textSize="14sp"
+            tools:ignore="Autofill,TextFields,TouchTargetSizeCheck" />
 
     </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
 
@@ -41,7 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_main_space"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

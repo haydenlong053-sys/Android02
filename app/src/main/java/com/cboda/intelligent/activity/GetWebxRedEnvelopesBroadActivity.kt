@@ -12,6 +12,7 @@ import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.toJson2
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
+import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.LingQuUserBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
@@ -126,18 +127,19 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                         sendUserId = it1.uid ?: ""
                         sendUserName = it1.name ?: ""
                     }
-                    GlobalBroadInfo.queryMyFriendInfo(sender, lifecycleScope) { it2 ->
-                        val remarkName = it2?.remarkName
-                        if (!TextUtils.isEmpty(remarkName)) {
-                            userName.text = getString(
-                                R.string.webx_red_envelope_from_user,
-                                remarkName
-                            )
-                        } else if (!TextUtils.isEmpty(it1.name)) {
-                            userName.text = getString(
-                                R.string.webx_red_envelope_from_user,
-                                it1.name
-                            )
+                    RealmUtil.findUserData(sender) { it2 ->
+                        it2?.let {
+                            if (!TextUtils.isEmpty(it2.remarkName)) {
+                                userName.text = getString(
+                                    R.string.webx_red_envelope_from_user,
+                                    it2.remarkName
+                                )
+                            } else if (!TextUtils.isEmpty(it2.nickName)) {
+                                userName.text = getString(
+                                    R.string.webx_red_envelope_from_user,
+                                    it2.nickName
+                                )
+                            }
                         }
                     }
                     Glide.with(this@GetWebxRedEnvelopesBroadActivity)

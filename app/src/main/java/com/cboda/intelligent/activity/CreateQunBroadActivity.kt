@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cboda.baselibrary.shapeview.shape.ShapeTextBroadView
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunMemberBroadAdapter
@@ -21,7 +20,7 @@ import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
-import com.cboda.susindexbar.IndexBar.widget.IndexBar
+import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 
 class CreateQunBroadActivity : BaseSimpleBroadActivity() {
 
@@ -34,8 +33,8 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
     private var mDataList3 = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var mAdapter2: YiXuanQunMemberBroadAdapter? = null
     private lateinit var tvSideBarHint: TextView
-    private lateinit var indexBar: IndexBar
-    private lateinit var tvAgree: ShapeTextBroadView
+    private lateinit var indexBar: IndexBar2
+    private lateinit var tvAgree: TextView
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView

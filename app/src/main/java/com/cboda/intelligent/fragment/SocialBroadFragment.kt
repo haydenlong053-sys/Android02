@@ -1,6 +1,8 @@
 package com.cboda.intelligent.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +30,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -50,7 +51,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -61,31 +61,29 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.cboda.intelligent.R
-import com.cboda.intelligent.model.SocialBroadCircle
-import com.cboda.intelligent.model.SocialContact
 import com.cboda.intelligent.viewmodel.SocialViewBroadModel
 import kotlinx.coroutines.launch
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.Dp
-import com.cboda.chatui.utils.PinyinBroadUtils
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.cboda.chatui.contact.ContactViewBroadModel
-import coil.compose.AsyncImage
-import coil.request.CachePolicy
-import coil.request.ImageRequest
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
+import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import androidx.compose.ui.viewinterop.AndroidView
+import com.cboda.baselibrary.bean.SocialBroadCircle
+import com.cboda.baselibrary.bean.SocialContact
 
 enum class CircleInteractionBroadMode {
     WithAllSingleSelect, // 有“全部”选项，单选
@@ -142,7 +140,7 @@ class SocialFragment : Fragment() {
     }
 
     private fun navigateToFriendInfoPage(userId: String) {
-        JumpBroadUtils.startHaoYouAddActivity(requireContext(), userId,"2")
+        JumpBroadUtils.startHaoYouAddActivity(requireContext(), userId, "2")
     }
 
     override fun onResume() {
@@ -205,7 +203,7 @@ fun SocialScreen(
                 val explanationText = state.selectedCircleTag?.let { tag ->
                     state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
                 } ?: stringResource(R.string.all)
-                CharacterExplanation(text = explanationText)
+                CharacterExplanation(text = explanationText, state.selectedCircleTag, state.contactsAll.size, state.filteredContacts.size)
             }
             state.indexLetters.forEach { letter ->
                 stickyHeader(key = "header_$letter") {
@@ -274,6 +272,7 @@ fun SocialScreen(
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true)
 @Composable
 private fun SocialScreenPreview() {
@@ -284,6 +283,7 @@ private fun SocialScreenPreview() {
     )
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true, name = "圈子交互：有“全部”")
 @Composable
 private fun SocialScreenPreview_WithAll() {
@@ -295,6 +295,7 @@ private fun SocialScreenPreview_WithAll() {
     )
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true, name = "圈子交互：无“全部”，可取消")
 @Composable
 private fun SocialScreenPreview_ToggleNoAll() {
@@ -484,7 +485,7 @@ private fun CirclesRow(
                     //此处文案翻译临时处理，后端接口文案一直是中文
                     Chip(
 //                        text = c.characterTags,
-                        text = goTempTranslateString(LocalContext.current,c.characterTags),
+                        text = goTempTranslateString(LocalContext.current, c.characterTags),
                         selected = isSelected,
                         onClick = { onSelect(if (isSelected) null else c.characterTags) },
                         minWidth = minChipWidth
@@ -497,15 +498,30 @@ private fun CirclesRow(
 }
 
 @Composable
-private fun CharacterExplanation(text: String) {
-    Box(
+private fun CharacterExplanation(text: String, selectedCircleTag: String?, size: Int, size1: Int) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
 //            .background(Color(0xFFF7F8FA))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+        val strTemp = if (selectedCircleTag.isNullOrEmpty()) {
+            "$size${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
+        } else {
+            "$size1${stringResource(com.cboda.chatui.R.string.msg_person_unit)}"
+        }
         Text(
-            text =  goTempTranslateString(LocalContext.current,text),
+            text = goTempTranslateString(LocalContext.current, text),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+            fontSize = 14.sp,
+            color = Color.Black.copy(0.65f),
+            lineHeight = TextUnit(19.6f, TextUnitType.Sp),
+            fontWeight = FontWeight.W400
+        )
+        Text(
+            text = strTemp,
             fontSize = 14.sp,
             color = Color.Black.copy(0.65f),
             lineHeight = TextUnit(19.6f, TextUnitType.Sp),
@@ -580,44 +596,21 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // 简易头像：首字母圆形背景
             val display = (contact.remarkName?.takeIf { it.isNotBlank() } ?: (contact.nickName
                 ?: contact.userId))
-            val initial = run {
-                val first = display.firstOrNull()
-                if (first == null) '#'
-                else {
-                    val py = PinyinBroadUtils.getPinyin(first.toString())
-                    val ch = py.firstOrNull()
-                    if (ch != null && ch.isLetter()) ch.uppercaseChar() else '#'
+            AndroidView(
+                modifier = Modifier.size(48.dp),
+                factory = { context -> VpGradeView(context) },
+                update = { view ->
+                    view.setData(
+                        contact.icon,
+                        !TextUtils.isEmpty(contact.lianghao),
+                        contact.isvip == "1",
+                        contact.grade,
+                        contact.registerDay
+                    )
                 }
-            }
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(contact.icon)
-                    .crossfade(true)
-                    .size(48, 48)          // 预设大小，防止 measure 反复计算
-                    .memoryCachePolicy(CachePolicy.ENABLED)
-                    .diskCachePolicy(CachePolicy.ENABLED)
-                    .build(),
-//                model = contact.icon,
-                contentDescription = stringResource(R.string.contact_avatar),
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape),
-                placeholder = painterResource(R.mipmap.ic_broad_head),  // 加载中
-                error = painterResource(R.mipmap.ic_broad_head),              // 加载失败
-                contentScale = ContentScale.Crop
             )
-
-//            Box(
-//                modifier = Modifier
-//                    .size(48.dp)
-//                    .background(Color(0xFFE6E7EB), CircleShape),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Text(text = initial.toString(), fontSize = 17.sp, color = Color.Black.copy(0.9f))
-//            }
 
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -631,13 +624,6 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                         modifier = Modifier.weight(1f, fill = true),
                     )
                     Spacer(Modifier.width(10.dp))
-                    Text(
-                        text = "${contact.grade ?: 0}${stringResource(R.string.score_unit)}",
-                        fontSize = 14.sp,
-                        color = Color(0xffEF7B05),
-                        fontWeight = FontWeight.W500
-                    )
-                    Spacer(Modifier.width(10.dp))
                     if (!contact.characterTags.isNullOrBlank()) {
                         Box(
                             modifier = Modifier
@@ -646,10 +632,10 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                         ) {
                             Text(
 //                                text = contact.characterTags,
-                                text = goTempTranslateString(LocalContext.current,contact.characterTags),
+                                text = goTempTranslateString(LocalContext.current, contact.characterTags ?: ""),
                                 fontSize = 11.sp,
                                 color = Color(0xFF3B47DD),
-                                overflow= TextOverflow.Ellipsis,
+                                overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                             )
                         }

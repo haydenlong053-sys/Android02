@@ -150,7 +150,8 @@ public class BroadUrl {
     public static String DEVICE_BIND = IP + "device/bind";
     //申请兑换靓号
     public static String EXCHANGE_APPLY = IP + "exchange/apply";
-
+    //删除收藏
+    public static String DEL_COLL = IP + "delColl";
     public static String getWebLanguageType() {
         if (LanguageUtil.INSTANCE.getSystemLocal(getAppContext(null)).getLanguage().startsWith("zh")) {
             //简体中文

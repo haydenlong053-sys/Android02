@@ -1,6 +1,10 @@
 package com.cboda.intelligent.activity
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -16,12 +20,14 @@ import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.intelligent.bean.ZhuanShuHongBaoBroadEvent
+import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.cboda.susindexbar.IndexBar.widget.IndexBar
+import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 import org.greenrobot.eventbus.EventBus
 import java.lang.StringBuilder
 
@@ -38,13 +44,15 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var mAdapter2: YiXuanQunMemberBroadAdapter? = null
     private var mManager: LinearLayoutManager? = null
     private lateinit var tvSideBarHint: TextView
-    private lateinit var indexBar: IndexBar
-    private lateinit var tvAgree: ShapeTextBroadView
+    private lateinit var indexBar: IndexBar2
+    private lateinit var tvAgree: TextView
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView
     private lateinit var edtSousuo:
             EditText
+    private val searchHandler by lazy { Handler(Looper.getMainLooper()) }
+    private var searchRunnable: Runnable? = null
 
     override fun showBgTopTitleLayout(): Boolean {
         return true
@@ -70,14 +78,18 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRootBgColor(R.color.white)
         initViews()
         fromPage = intent?.getStringExtra("fromPage") ?: ""
         qunId = intent?.getStringExtra("qunid") ?: ""
         userType = intent?.getStringExtra("userType") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         getToolbarTitle()?.text = getString(R.string.xuanzelianxiren)
+        indexBar.isVisible =true
         if (fromPage == "zhuanshuhongbao") {
             tvAgree?.isVisible = false
+        }else{
+            tvAgree.isSubmitCanGo(false)
         }
 
         viewModel?.chengyuanListLiveData?.observe(this) {
@@ -87,7 +99,12 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 if (this.isNotEmpty()) {
                     pageNo++
                 }
-                mDataList.addAll(this)
+                val existingUserIds = mDataList.mapNotNull { bean -> bean.userId }.toHashSet()
+                val dedupedList = this.filter { bean ->
+                    val userId = bean.userId
+                    !userId.isNullOrEmpty() && existingUserIds.add(userId)
+                }
+                mDataList.addAll(dedupedList)
 
                 if (fromPage == "remove") {
                     if (userType == "1") {
@@ -110,7 +127,6 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     .invalidate()
 
                 mAdapter?.setList(mDataList)
-
                 if (mDataList.isEmpty()) {
                     mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }
@@ -133,14 +149,25 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         edtSousuo.setOnEditorActionListener(TextView.OnEditorActionListener { textView, i, keyEvent ->
 
             if (i == EditorInfo.IME_ACTION_SEARCH) {
-                pageNo = 1
-                mDataList.clear()
-                request()
-                mDataList2.clear()
-                mAdapter2?.setList(mDataList2)
+                searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+                triggerSearch()
                 return@OnEditorActionListener true
             }
             false
+        })
+        edtSousuo.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+                searchRunnable = Runnable {
+                    triggerSearch()
+                }.also { runnable ->
+                    searchHandler.postDelayed(runnable, 1500L)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) = Unit
         })
 
         mManager = LinearLayoutManager(this)
@@ -176,6 +203,8 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 }
                 updateYiXuan()
             }
+            checkCanGo()
+
         }
 
 
@@ -238,6 +267,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 pageNo = 1
                 mDataList.clear()
+                checkCanGo()
                 request()
             }
 
@@ -247,6 +277,21 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
 
         })
         request()
+    }
+
+    private fun checkCanGo() {
+        if (fromPage == "zhuanshuhongbao") return
+        val canGo = mDataList.any { it.isSelect }
+        tvAgree.isSubmitCanGo(canGo)
+    }
+
+    private fun triggerSearch() {
+        pageNo = 1
+        mDataList.clear()
+        checkCanGo()
+        request()
+        mDataList2.clear()
+        mAdapter2?.setList(mDataList2)
     }
 
     private fun getPosByTag(txt: String): Int {
@@ -286,7 +331,7 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
         var type = ""
         when (fromPage) {
             "zhuanshuhongbao" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
             }
 
             "add" -> {
@@ -294,17 +339,17 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
             }
 
             "remove" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
                 type = "3"
             }
 
             "qunmanager" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
                 type = "3"
             }
 
             "qunyiyintonghua" -> {
-                url = "/groupUserList"
+                url = "/groupUserListPage"
             }
         }
         viewModel?.getQunMemberList(
@@ -315,5 +360,10 @@ class QunMemberListBroadActivity : BaseSimple2BroadActivity() {
             type,
             edtSousuo?.text?.toString()?.trim() ?: ""
         )
+    }
+
+    override fun onDestroy() {
+        searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+        super.onDestroy()
     }
 }

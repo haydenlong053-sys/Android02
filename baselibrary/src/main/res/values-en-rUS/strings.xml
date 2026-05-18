@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="v_version">version</string>
     <string name="camera">Camera</string>
     <string name="storage">Storage</string>
     <string name="read">Read</string>
@@ -114,4 +115,71 @@
     <string name="qr_code_expired">Your login QR code has expired. Please save a new QR code; otherwise you will not be able to sign in next time.</string>
 
     <string name="welcome_to_seek_four">Welcome to SeekWeb4</string>
+
+    <!-- Credit score activation dialog -->
+    <string name="credit_score_activate_dialog_title">Activate Credit Score</string>
+    <string name="credit_score_activate_dialog_subtitle">Credit score is a core indicator of a users reliability</string>
+    <string name="credit_score_activate_item_1">Build Trust:</string>
+    <string name="credit_score_activate_item_1_1">Enable efficient interactions</string>
+    <string name="credit_score_activate_item_2">Prevent Risks:</string>
+    <string name="credit_score_activate_item_2_1">Intelligently block fraud</string>
+    <string name="credit_score_activate_item_3">Dynamic Increase:</string>
+    <string name="credit_score_activate_item_3_1">The more active you are, the higher your credit score</string>
+    <string name="credit_score_activate_later">Maybe Later</string>
+    <string name="credit_score_activate_now">Activate Now</string>
+
+    <!-- Credit composition labels -->
+    <string name="credit_score_label_online_duration">Online Duration</string>
+    <string name="credit_score_label_online_duration_met">Online Duration Target Met</string>
+    <string name="credit_score_label_register_days">Registration Days</string>
+    <string name="credit_score_label_platform_contribution">Platform Contribution</string>
+    <string name="credit_score_label_violation_deduct">Violation Deduction</string>
+    <string name="credit_score_label_system_add">System Addition</string>
+    <string name="credit_score_label_system_deduct">System Deduction</string>
+    <string name="credit_score_label_invite_friend">Invite Friends</string>
+    <string name="credit_score_label_hold">Hold ODIC</string>
+    <string name="credit_score_label_guaranteed_transaction">Guaranteed Transaction</string>
+    <string name="credit_score_label_endorsement_gained">Endorsement Gained</string>
+
+    <!-- Credit score breakdown lines -->
+    <string name="credit_score_fmt_breakdown_base_usdt">Base: %1$s/USDT</string>
+    <string name="credit_score_fmt_breakdown_base_day">Base: %1$s/day</string>
+    <string name="credit_score_fmt_breakdown_base_p">Base: %1$s/person</string>
+    <string name="credit_score_fmt_breakdown_base_mei">Base: %1$s/piece</string>
+    <string name="credit_score_fmt_breakdown_base_fen">Base: %1$s/pts</string>
+    <string name="credit_score_fmt_breakdown_base">Base: %1$s</string>
+    <string name="credit_score_fmt_breakdown_base_quick">Base: %1$sx member acceleration</string>
+    <string name="credit_score_fmt_breakdown_vip_bonus">Member +%1$s</string>
+    <string name="credit_score_fmt_breakdown_nice_id_bonus">Premium Number +%1$s</string>
+
+    <string name="credit_score_go">Go</string>
+    <string name="credit_score_open_member">Activate Membership</string>
+    <string name="credit_score_des1">Activate official SeekWeb membership to enjoy exclusive privileges, accelerate credit score growth, and unlock six member benefits</string>
+    <string name="credit_score_open_premium_number">Activate Premium Number</string>
+    <string name="credit_score_des2">You can purchase a premium number in Mall - Me - I AM Premium Number based on your needs</string>
+    <string name="credit_score_func">Credit Guide</string>
+    <string name="registered_less_than_days">If the account is registered for less than %1$s days, messages cannot contain links; activating membership or purchasing a premium number can meet this requirement earlier.</string>
+    <string name="collect">Favorites</string>
+    <string name="credit_prefix2">Credit:</string>
+    <string name="register_time_prefix2">Registration time:</string>
+    <string name="del_coll_title">Delete this favorite?</string>
+    <string name="msg_score_unit3">pts</string>
+    <string name="remove_blacklist"> Remove</string>
+    <string name="mine_vip_time_to">Valid until</string>
+
+    <!-- Mine page (new) -->
+    <string name="mine_vip_limited_offer">Limited-Time VIP Offer</string>
+    <string name="mine_open_now">Activate Now</string>
+    <string name="mine_seekweb4_vip_member">SeekWeb4 VIP Member</string>
+    <string name="mine_assets">Assets</string>
+    <string name="mine_square">Square</string>
+    <string name="mine_customer_service">Customer Service</string>
+    <string name="mine_favorite">Favorites</string>
+    <string name="mine_safe_center">Security Center</string>
+    <string name="mine_faq">FAQ</string>
+    <string name="mine_system_settings">System Settings</string>
+
+    <string name="msg_group_members">Group Members</string>
+    <string name="msg_group_services">Group Services</string>
+    <string name="msg_personal_settings">Personal Settings</string>
 </resources>

@@ -21,6 +21,7 @@ import com.cboda.chatui.R;
 public class VoipCallBroadItem extends FrameLayout {
     public ImageView portraitImageView;
     public TextView statusTextView;
+    public TextView userNameTv;
     public ZoomableFrameBroadLayout videoContainer;
     private boolean enableVideoZoom = true;
 
@@ -54,8 +55,13 @@ public class VoipCallBroadItem extends FrameLayout {
         View view = inflate(context, R.layout.av_multi_call_broad_item, this);
         portraitImageView = view.findViewById(R.id.portraitImageView);
         statusTextView = view.findViewById(R.id.statusTextView);
+        userNameTv = view.findViewById(R.id.userNameTv);
         videoContainer = view.findViewById(R.id.videoContainer);
         videoContainer.setEnableZoom(enableVideoZoom);
+    }
+
+    public TextView getUserNameTv() {
+        return userNameTv;
     }
 
     public ImageView getPortraitImageView() {

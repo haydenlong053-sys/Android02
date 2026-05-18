@@ -13,6 +13,11 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
 
     class CommonResult {
+        var tQrcode=""
+        var eqno = ""
+        var creditScoreNewUserDays = ""
+        var creditScoreNewInGroupDays: Int = 0
+        var canSendLink = false
         var renameCount: Int = 0
         var joinTime: String = ""
         var fileType: String? = null
@@ -26,6 +31,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var isLiang: String? = null
         var grade: Double? = 0.0
         var characterTags: String? = null
+        var characterTagsId: Int = -1
         var remarkName: String? = null
         var bei: String? = null
         var name: String? = null
@@ -124,5 +130,8 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
     class RegisterDayBean {
         var registDay: Int = 0
+
+        @SerializedName("newUserDays")
+        var registrationDayScore = ""
     }
 }

@@ -4,64 +4,86 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/bg_main">
-    <TextView
+    android:background="@color/color_F2F3F5">
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tbeizhu"
-        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:text="@string/bveizhu"
-        android:textColor="@color/color_text0"
-        android:textSize="14sp"
-         />
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/my_group_nick_name"
+        android:textColor="@color/black_65"
+        android:textSize="14sp" />
 
 
-    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
-        android:layout_marginTop="13dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        app:shapeSolidColor="@color/color_input_bg"
-        app:shapeCornersRadius="5dp"
+
+
+
+
+
+
+
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_12"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/white">
 
         <EditText
-            android:layout_marginEnd="60dp"
-            android:paddingStart="29dp"
             android:id="@+id/edtBeizhu"
-            android:background="@null"
-            android:textColor="@color/color_text0"
-            android:textSize="14sp"
-            android:textColorHint="@color/color_text_content_hint"
-            android:hint="@string/bveizhutips"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/bveizhutips"
+            android:paddingHorizontal="@dimen/dp_16"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_35"
+            android:textSize="14sp" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/ivqingchu"
-            android:visibility="gone"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_broad_qingchu"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"/>
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
 
-    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
 
 
-
-    <TextView
+    <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tvPhoneLogin"
+        style="@style/btn_ok"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="40dp"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_32"
+        android:alpha="1"
         android:gravity="center"
-        android:text="@string/wancheng"
-        android:background="@mipmap/ic_bg_btn2_broad_01"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-      />
+        android:text="@string/mine_sure"
+        android:textSize="16sp" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tvPhoneCancel"
+        style="@style/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_24"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textSize="16sp" />
+
+
+
+
+
+
+
 </LinearLayout>

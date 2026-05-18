@@ -151,4 +151,17 @@
         <attr name="yc_bottomShow" format="boolean" />
     </declare-styleable>
 
+
+
+    <declare-styleable name="VpGradeView">
+        <attr name="user_img_width" format="dimension" />
+        <attr name="user_vip_width" format="dimension" />
+        <attr name="user_grade_height" format="dimension" />
+        <attr name="user_grade_pad" format="dimension" />
+        <attr name="user_grade_text_size" format="dimension" />
+        <attr name="user_vip_margin_bottom" format="dimension" />
+
+    </declare-styleable>
+
+
 </resources>

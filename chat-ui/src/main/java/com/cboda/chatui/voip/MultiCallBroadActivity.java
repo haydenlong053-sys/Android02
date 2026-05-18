@@ -4,6 +4,8 @@
 
 package com.cboda.chatui.voip;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import java.util.List;
 
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.group.PickGroupMemberBroadActivity;
+
 import cn.wildfirechat.avenginekit.AVAudioManager;
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.model.GroupInfo;
@@ -33,6 +36,7 @@ public class MultiCallBroadActivity extends VoipBaseBroadActivity {
     private static final int REQUEST_CODE_ADD_PARTICIPANT = 101;
     private String groupId;
     private AVEngineKit.CallSessionCallback currentCallSessionCallback;
+    private String TAG = "MultiCallBroadActivityClass";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,10 +64,20 @@ public class MultiCallBroadActivity extends VoipBaseBroadActivity {
 
         Fragment fragment;
         if (session.getState() == AVEngineKit.CallState.Incoming) {
-            fragment = new MultiCallIncomingBroadFragment();
-        } else if (session.isAudioOnly()) {
+            eLogD(TAG, "MultiCallIncomingBroadFragment");
+//            fragment = new MultiCallIncomingBroadFragment();
             fragment = new MultiCallAudioBroadFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isComing", true);
+            fragment.setArguments(bundle);
+        } else if (session.isAudioOnly()) {
+            eLogD(TAG, "MultiCallAudioBroadFragment");
+            fragment = new MultiCallAudioBroadFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isComing", false);
+            fragment.setArguments(bundle);
         } else {
+            eLogD(TAG, "MultiCallVideoBroadFragment");
             fragment = new MultiCallVideoBroadFragment();
         }
 
@@ -82,8 +96,8 @@ public class MultiCallBroadActivity extends VoipBaseBroadActivity {
         currentCallSessionCallback = (AVEngineKit.CallSessionCallback) fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-            .add(android.R.id.content, fragment)
-            .commit();
+                .add(android.R.id.content, fragment)
+                .commit();
     }
 
 
@@ -139,8 +153,8 @@ public class MultiCallBroadActivity extends VoipBaseBroadActivity {
                 currentCallSessionCallback = (AVEngineKit.CallSessionCallback) fragment;
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                    .replace(android.R.id.content, fragment)
-                    .commit();
+                        .replace(android.R.id.content, fragment)
+                        .commit();
             } else {
                 // never called
             }
@@ -215,8 +229,8 @@ public class MultiCallBroadActivity extends VoipBaseBroadActivity {
         currentCallSessionCallback = (AVEngineKit.CallSessionCallback) fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-            .replace(android.R.id.content, fragment)
-            .commit();
+                .replace(android.R.id.content, fragment)
+                .commit();
 
         session.answerCall(session.isAudioOnly());
     }

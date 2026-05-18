@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">Nag-sync...</string>
     <string name="connection_status_failed">Nabigo ang koneksyon</string>
 
+    <string name="chat_recommend_friend">Irekomenda ang mga kaibigan</string>
+    <string name="chat_add_friend">Magdagdag ng mga kaibigan</string>
 </resources>

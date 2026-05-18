@@ -3,8 +3,8 @@ ext {
             applicationId    : "com.cboda.intelligent",
             minSdk           : 29,
             compileSdk       : 36,
-            versionCode      : 308,
-            versionName      : "3.0.8",
+            versionCode      : 350,
+            versionName      : "3.5.0",
             buildToolsVersion: "33.0.3",
 
 
@@ -20,7 +20,7 @@ ext {
 //            isReviewEnv      : "false",
 
 
-//            //  // /***新版签名（旧版us环境）***/
+//            //  // /***新版签名（旧版us环境，上架google）***/
 //            storeFile        : "google_play_us.jks",
 //            storePassword    : "Aa663366",
 //            keyAlias         : "uscbodabroadintelligent",
@@ -31,6 +31,17 @@ ext {
 //            isDebug          : "false",
 //            isReviewEnv      : "true",
 
+
+            //  // /***新版签名（侧载用户香港环境）***/
+//            storeFile     : "google_play_us.jks",
+//            storePassword : "Aa663366",
+//            keyAlias      : "uscbodabroadintelligent",
+//            deviceIdType  : "2",
+//            appEnvironment: "5",
+//            crashKey      : "4c2e98635e",
+//            enableCrash   : "true",
+//            isDebug       : "false",
+//            isReviewEnv   : "false",
 
 //            //  // /***打包测试使用（可切环境）(appEnvironment: 0-82环境，1-https，2-fat环境，3-自定义环境，4-美区环境，5-香港环境，6-84环境)***/
             storeFile        : "google_play_us.jks",

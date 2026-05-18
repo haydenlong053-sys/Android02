@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
@@ -8,16 +9,17 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunGuanLiBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 
-class QunManagerBroadActivity:BaseSimpleBroadActivity() {
+class QunManagerBroadActivity : BaseSimple2BroadActivity() {
     private var qunId = ""
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: QunGuanLiBroadAdapter? = null
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
-    private lateinit var tvPhoneLogin: ShapeConstraintBroadLayout
+    private lateinit var tvPhoneLogin: View
     private lateinit var recyclerView: RecyclerView
 
     private fun initViews() {
@@ -31,10 +33,11 @@ class QunManagerBroadActivity:BaseSimpleBroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRootBgColor(R.color.white)
         initViews()
         qunId = intent?.getStringExtra("qunid") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
-        getToolbarTitle()?.text = getString(R.string.qunguanliyuan)
+//        getToolbarTitle()?.text = getString(R.string.qunguanliyuan)
 
         viewModel?.guanliListLiveData?.observe(this) {
             it.dataList?.apply {
@@ -47,7 +50,7 @@ class QunManagerBroadActivity:BaseSimpleBroadActivity() {
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "yichuguanliSuc" -> {
-                   request()
+                    request()
                 }
             }
         }
@@ -60,11 +63,11 @@ class QunManagerBroadActivity:BaseSimpleBroadActivity() {
         mAdapter?.setList(mDataList)
         mAdapter?.setOnItemClickListener { _, _, position ->
             if (mDataList.isEmpty()) return@setOnItemClickListener
-            viewModel?.yichuguanli(this,mDataList[position].userId?:"",qunId,"3")
+            viewModel?.yichuguanli(this, mDataList[position].userId ?: "", qunId, "3")
         }
 
         tvPhoneLogin?.setOnClickListener {
-            JumpBroadUtils.startQunMemberListActivity(this,qunId,"qunmanager")
+            JumpBroadUtils.startQunMemberListActivity(this, qunId, "qunmanager")
         }
 
     }
@@ -80,5 +83,9 @@ class QunManagerBroadActivity:BaseSimpleBroadActivity() {
             this,
             qunId
         )
+    }
+
+    override fun showTransparentTopTitleLayout(): Boolean {
+        return true
     }
 }

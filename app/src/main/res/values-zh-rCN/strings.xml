@@ -88,7 +88,7 @@
     <string name="shoukuan">收款</string>
     <string name="shoukuanshijian">收款时间</string>
     <string name="cunruyue">已收款，资金已存入余额</string>
-    <string name="xindepengyou">新的朋友</string>
+    <string name="xindepengyou">新增好友</string>
     <string name="ruqunyaoqing">入群邀请</string>
     <string name="sousuonicheng">搜索昵称/ID</string>
     <string name="sousuoqunlibieao">搜索群聊名称</string>
@@ -99,11 +99,11 @@
     <string name="chakanquanbuquncheng">查看更多群成员</string>
     <string name="shezhiquntouxiang">设置群头像</string>
     <string name="qunid">群聊ID</string>
-    <string name="shewweizhiding">设为置顶</string>
-    <string name="xiaoximiandarao">消息免打扰</string>
+    <string name="shewweizhiding">置顶聊天</string>
+    <string name="xiaoximiandarao">免打扰</string>
     <string name="qungonggapo">群公告</string>
     <string name="qubmingcheng">群聊名称</string>
-    <string name="wodequnnicheng">我的群昵称</string>
+    <string name="wodequnnicheng">群昵称</string>
     <string name="qunguanli">群管理</string>
     <string name="qunguanliyuan">群管理员</string>
     <string name="qunjinyan">群禁言</string>
@@ -442,7 +442,7 @@
     <string name="输入激活码">输入激活码</string>
     <string name="升级群聊">升级群聊</string>
     <string name="机器人定时消息">机器人定时消息</string>
-    <string name="欢迎成员">欢迎成员</string>
+    <string name="欢迎成员">欢迎新成员</string>
     <string name="立即升级">立即升级</string>
     <string name="群成员上限为1000人">群成员上限为1000人</string>
     <string name="群成员上限为10000人">群成员上限为10000人</string>
@@ -823,7 +823,7 @@
     <string name="please_complete_your_info">请补充你的信息</string>
     <string name="go_to_personal_info_settings">前往个人信息设置</string>
     <string name="ok">好的</string>
-    <string name="all">全部</string>
+    <string name="all">所有联系人</string>
     <string name="new_friend">新增好友</string>
     <string name="new_group_invite">新群邀请</string>
     <string name="contact_avatar">联系人头像</string>
@@ -1068,4 +1068,16 @@
     <string name="wt_select_wallet">选择钱包</string>
     <string name="wt_transfer_address_no_same_tip">收款地址和钱包地址不可一样</string>
     <string name="welcome_to_seekweb4">欢迎来到SeekWeb4</string>
+    <string name="credit_score_hi_nickname">HI,%1$s</string>
+    <string name="credit_score_member_benefits">会员权益</string>
+    <string name="credit_score_member_not_open">会员未开通</string>
+    <string name="credit_score_nice_number_benefits">靓号权益</string>
+    <string name="credit_score_nice_number_not_open">靓号未开通</string>
+    <string name="credit_score_hint_very_poor">信用很差，请努力提高！</string>
+    <string name="credit_score_hint_excellent">信用极好，请继续保持！</string>
+    <string name="credit_score_hint_good">信用不错，再接再厉！</string>
+    <string name="credit_score_hint_normal">信用一般，要加油哦！</string>
+    <string name="credit_score_title">信用分</string>
+    <string name="credit_score_tab_compose">信用构成</string>
+    <string name="credit_score_tab_record">变动记录</string>
 </resources>

@@ -15,6 +15,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.EditText
 import android.widget.TextView
@@ -55,9 +56,23 @@ import java.util.UUID
 
 private val tAG by lazy { "ViewExpandUtilClass" }
 
-fun String.removeTrailingZeros(): String {
-    // 匹配：末尾的连续0，并且如果这些0后面紧跟着小数点，则连小数点也一起移除
-    return this.replace(Regex("(\\.(?:[0-9]*[1-9])?)0+$"), "$1").replace(Regex("\\.$"), "")
+
+/**
+ * 使用java正则表达式去掉多余的.与0
+ *
+ * @param s
+ * @return
+ */
+fun subZeroAndDot(s: String?): String {
+    var s = s
+    if (TextUtils.isEmpty(s)) {
+        return ""
+    }
+    if (s!!.indexOf(".") > 0) {
+        s = s.replace("0+?$".toRegex(), "") //去掉多余的0
+        s = s.replace("[.]$".toRegex(), "") //如最后一位是.则去掉
+    }
+    return s
 }
 
 // 把这 10 行放进项目，以后所有点击都不用再担心重复
@@ -248,6 +263,15 @@ fun ShapeTextView.setBackColor(@ColorRes startColor: Int, @ColorRes endColor: In
     this.shapeDrawableBuilder.intoBackground()
 }
 
+fun ShapeTextView.setBackColor2(@ColorRes startColor: Int, @ColorRes centerColor: Int, @ColorRes endColor: Int) {
+    this.shapeDrawableBuilder.setSolidGradientColors(
+        getAppColor(this.context, startColor),
+        getAppColor(this.context, centerColor),
+        getAppColor(this.context, endColor)
+    )
+    this.shapeDrawableBuilder.intoBackground()
+}
+
 fun ShapeTextView.setBackColor(@ColorRes color: Int) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
     this.shapeDrawableBuilder.intoBackground()
@@ -345,14 +369,33 @@ fun ShapeEditText.setStrokeColor(@ColorRes strokeColor: Int) {
     this.shapeDrawableBuilder.intoBackground()
 }
 
-
 fun ShapeConstraintLayout.setBackColor(@ColorRes color: Int) {
     this.shapeDrawableBuilder.solidColor = getAppColor(this.context, color)
     this.shapeDrawableBuilder.intoBackground()
 }
 
+fun ShapeConstraintLayout.setBackColorAndStrokeColor(@ColorRes backColor: Int, @ColorRes strokeColor: Int) {
+    this.shapeDrawableBuilder.solidColor = getAppColor(this.context, backColor)
+    this.shapeDrawableBuilder.strokeColor = getAppColor(this.context, strokeColor)
+    this.shapeDrawableBuilder.intoBackground()
+}
+
 fun ShapeConstraintLayout.setBackColor2(color: Int) {
     this.shapeDrawableBuilder.solidColor = color
+    this.shapeDrawableBuilder.intoBackground()
+}
+
+
+fun ShapeConstraintLayout.setBackColor(
+    @ColorRes startColor: Int,
+    @ColorRes centerColor: Int,
+    @ColorRes endColor: Int
+) {
+    this.shapeDrawableBuilder.setSolidGradientColors(
+        getAppColor(this.context, startColor),
+        getAppColor(this.context, centerColor),
+        getAppColor(this.context, endColor)
+    )
     this.shapeDrawableBuilder.intoBackground()
 }
 
@@ -457,7 +500,7 @@ fun getUuIdMd5(): String {
     return try {
         encryptMD5ToString(getUuIdCreate())
     } catch (e: Exception) {
-//        e.toLog(tAG)
+        e.toLog(tAG)
         "defaultUUId"
     }
 }
@@ -977,9 +1020,9 @@ fun TextView.setTxtColor(@ColorRes color: Int) {
     this.setTextColor(getAppColor(this.context, color))
 }
 
-fun anyToInt(any: Any): Int {
+fun anyToInt(any: Any?): Int {
     return try {
-        anyToFloat(any).toInt()
+        anyToFloat(any ?: 0).toInt()
     } catch (e: Exception) {
         0
     }
@@ -990,6 +1033,14 @@ fun anyToFloat(any: Any): Float {
         any.toString().toFloat()
     } catch (e: Exception) {
         0f
+    }
+}
+
+fun anyToDouble(any: Any): Double {
+    return try {
+        any.toString().toDouble()
+    } catch (e: Exception) {
+        0.0
     }
 }
 
@@ -1125,7 +1176,50 @@ fun clipViewOutlineRound(view: View, radiusDp: Int) {
  * 去除小数点后面多余数字0（使用 BigDecimal 格式化适合金融场景）
  */
 fun formatWithBigDecimal(data: Any?): String {
-    return BigDecimal(data?.toString() ?: "0")
-        .stripTrailingZeros()
-        .toPlainString()
+    return try {
+        BigDecimal(data?.toString() ?: "0")
+            .stripTrailingZeros()
+            .toPlainString()
+    } catch (_: Exception) {
+        ""
+    }
 }
+
+fun ShapeTextView.isSubmitCanGo3(boolean: Boolean) {
+    this.alpha = if (boolean) 1f else 0.3f
+}
+
+fun ShapeTextView.isSubmitCanGo2(boolean: Boolean) {
+    this.isSubmitCanGo3(boolean)
+    this.isEnabled = boolean
+    this.isSelected = boolean
+}
+
+
+fun View.setMarginBottom(pxValue: Int?) {
+    if (pxValue != null && this.layoutParams is ViewGroup.MarginLayoutParams) {
+        val params = this.layoutParams as ViewGroup.MarginLayoutParams
+        params.bottomMargin = pxValue
+        this.setLayoutParams(params)
+    }
+}
+
+fun View.setPaddingHorizontal(px: Int) {
+    setPaddingRelative(px, paddingTop, px, paddingBottom)
+}
+
+
+fun getSysLast(list: List<Any?>?): Any? {
+    if (!list.isNullOrEmpty()) {
+        return list.get(list.size - 1)
+    }
+    return null
+} //    private static final String AES_KEY = HttpsBroadConfig.INSTANCE.getAppAesPwd();
+//
+//    public static String aesDecrypt(String encrypted) throws Exception {
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(AES_KEY.getBytes(), "AES");
+//        Cipher cipher = Cipher.getInstance("AES");
+//        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+//        byte[] original = cipher.doFinal(Base64.decode(encrypted, Base64.DEFAULT));
+//        return new String(original);
+//    }

@@ -508,4 +508,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">Hujambo, %1$s</string>
+    <string name="credit_score_member_benefits">Faida za uanachama</string>
+    <string name="credit_score_member_not_open">Uanachama haujawashwa</string>
+    <string name="credit_score_nice_number_benefits">Faida za namba maalum</string>
+    <string name="credit_score_nice_number_not_open">Namba maalum haijawashwa</string>
+    <string name="credit_score_hint_very_poor">Alama yako ya mkopo ni mbaya sana, tafadhali iboreshe!</string>
+    <string name="credit_score_hint_excellent">Alama yako ya mkopo ni bora sana, endelea hivyo!</string>
+    <string name="credit_score_hint_good">Alama yako ya mkopo ni nzuri, endelea kujitahidi!</string>
+    <string name="credit_score_hint_normal">Alama yako ya mkopo ni ya kawaida, ongeza juhudi!</string>
+    <string name="credit_score_title">Alama ya mikopo</string>
+    <string name="credit_score_tab_compose">Muundo wa mikopo</string>
+    <string name="credit_score_tab_record">Historia ya mabadiliko</string>
 </resources>

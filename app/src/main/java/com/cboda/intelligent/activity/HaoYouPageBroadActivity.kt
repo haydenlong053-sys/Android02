@@ -6,48 +6,52 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.shinichi.library.ImagePreview
+import cn.wildfirechat.model.Conversation
+import cn.wildfirechat.remote.ChatManager
+import com.airbnb.lottie.LottieAnimationView
+import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData
+import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.clipViewOutlineRound
+import com.cboda.baselibrary.utils.formatWithBigDecimal
+import com.cboda.baselibrary.utils.setBackColor
+import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
+import com.cboda.baselibrary.utils.setTxtColor
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.ConversationViewBroadModel
 import com.cboda.chatui.utils.MyIMActivityBroadUtils
-import cn.wildfirechat.model.Conversation
-import cn.wildfirechat.remote.ChatManager
-import com.cboda.baselibrary.utils.SpanBroadUtils
-import com.gyf.immersionbar.ImmersionBar
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.PengYouQuanBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
-import com.cboda.baselibrary.bean.CommonDataListBroadBean
-import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.intelligent.utils.GlideLoaderBroadHelper
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtils
+import com.cboda.intelligent.utils.goTempTranslateString
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
-import androidx.core.graphics.toColorInt
-import androidx.core.view.isGone
-import androidx.core.view.isInvisible
-import com.airbnb.lottie.LottieAnimationView
-import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.clipViewOutlineRound
-import com.cboda.intelligent.utils.goTempTranslateString
+import com.gyf.immersionbar.ImmersionBar
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
+import com.hjq.shape.layout.ShapeConstraintLayout
 
 
 class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
@@ -166,9 +170,10 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     ivMirrorSex.setImageResource(if (sex == "1") R.drawable.ic_mirror_broad_male else R.drawable.ic_mirror_broad_female)
 
                 }
+                ivMirrorSex.isVisible = true
                 val isFriend = "1" == it.data?.isFri
                 otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
-                findViewById<ImageView>(R.id.iv_float_more).isGone =
+                findViewById<ImageView>(R.id.iv_float_more).isInvisible =
                     otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
                 findViewById<TextView>(R.id.addFriend).isGone =
                     isFriend || otherUid == MMKVBroadUtils.getRealUserId()
@@ -217,34 +222,51 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     friendNickName.text = getString(R.string.nickname_with_prefix, name ?: "")
                     friendNickName.isGone = false
                 }
-                if (this.isLiang=="1"){
-                    tvTagName.isInvisible=true
-                    mViewPremiumNumber.isVisible =true
-                    mTvPremiumNumber.text= "${getString(R.string.user_id_prefix)}${this.lianghao}"
-                    if (!mViewAnimateNumb.isAnimating){
+                if (this.isLiang == "1") {
+                    tvTagName.isInvisible = true
+                    mViewPremiumNumber.isVisible = true
+                    mTvPremiumNumber.text = "${getString(R.string.user_id_prefix)}${this.lianghao}"
+                    if (!mViewAnimateNumb.isAnimating) {
                         mViewAnimateNumb.playAnimation()
                     }
 
-                }else{
+                } else {
                     tvTagName.isVisible = true
-                    mViewPremiumNumber.isVisible =false
-                    if (mViewAnimateNumb.isAnimating){
+                    mViewPremiumNumber.isVisible = false
+                    if (mViewAnimateNumb.isAnimating) {
                         mViewAnimateNumb.pauseAnimation()
                     }
                 }
 
                 friendName.text = showName
-                findViewById<LinearLayout>(R.id.ll_grade).visibility = View.VISIBLE
-                val tvGrade = findViewById<TextView>(R.id.tv_grade)
-                val fullGradeString = "${grade}${getString(R.string.score_unit)}"
-                tvGrade.text = SpanBroadUtils.small(fullGradeString, getString(R.string.score_unit), 12f, "#031256".toColorInt())
-
-
+                val layoutMirrorCredit = findViewById<ShapeConstraintLayout>(R.id.layoutMirrorCredit)
+                val tvMirrorCreditScore = findViewById<TextView>(R.id.tvMirrorCreditScore)
+                val tvMirrorCreditScoreValue = findViewById<TextView>(R.id.tvMirrorCreditScoreValue)
+                val tvMirrorCreditLabel = findViewById<TextView>(R.id.tvMirrorCreditLabel)
+                tvMirrorCreditScore.text = formatWithBigDecimal(grade)
+                val vipMirrorCredit = findViewById<ImageView>(R.id.vipMirrorCredit)
+                vipMirrorCredit.isVisible = isvip == "1"
+                ivLiang.isVisible = (isLiang != null && isLiang == "1")
+                tvID.setTxtColor(if (isLiang != null && isLiang == "1") R.color.color_text_liang else R.color.color_text_content)
                 if (isLiang != null && isLiang == "1") {
-                    ivLiang?.visibility = View.VISIBLE
-                    tvID?.setTextColor(resources.getColor(R.color.color_text_liang))
+                    layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.black, com.cboda.baselibrary.R.color.color_31231A, com.cboda.baselibrary.R.color.black)
+                    tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
+                    tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
+                    tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_FFCA69)
                 } else {
-                    ivLiang?.visibility = View.GONE
+                    val registrationDayScore = anyToInt(getSqlStrData(MMKVBroadUtils.USER_REGISTRATION_DAY_SCORE, ""))
+                    val registrationDay = anyToInt(registerDayBean?.registDay ?: 0)
+                    if (registrationDay < registrationDayScore) {
+                        layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.color_2DFF0000)
+                        tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
+                        tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
+                        tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_D5271E)
+                    } else {
+                        layoutMirrorCredit.setBackColor(com.cboda.baselibrary.R.color.color_4F6FF3_20)
+                        tvMirrorCreditScore.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
+                        tvMirrorCreditScoreValue.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
+                        tvMirrorCreditLabel.setTxtColor(com.cboda.baselibrary.R.color.color_031256)
+                    }
                 }
 
                 tvID?.text = "${getString(R.string.user_id_prefix)}${this.idno}"
@@ -252,7 +274,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 tvnicheng?.text = StringBroadUtils.format(getString(R.string.nichengshi), "${this.name}")
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
                 qianmingname?.text = this.sign ?: ""
-                beizhuname?.text = goTempTranslateString(this@HaoYouPageBroadActivity,this.characterTags?: "")
+                beizhuname?.text = goTempTranslateString(this@HaoYouPageBroadActivity, this.characterTags ?: "")
                 pengyouquanlay?.isVisible = this.isOpenQuan == "1"
 
                 if (BroadConstant.getRealUid() == this.id) {
@@ -301,20 +323,29 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             JumpBroadUtils.startHaoyouApplyActivity(
                 this,
                 otherUid,
-                friendName?.text?.toString() ?: "",
+                "",
                 source,
-                ""
+                "",
+                "1"
             )
         }
         beizhulay?.setOnClickListener {
-//            JumpBroadUtils.startHaoYouBeizhuActivity(this, otherUid, beizhuname?.text?.toString() ?: "")
             val oldName = friendName?.text?.toString() ?: ""
-            CircleAndRemarkBroadActivity.toPage(
+//            CircleAndRemarkBroadActivity.toPage(
+//                this,
+//                startForResult,
+//                oldName,
+//                beizhuname?.text?.toString() ?: "",
+//                CircleAndRemarkBroadActivity.TYPE_EDIT
+//            )
+            JumpBroadUtils.startHaoyouApplyActivity(
                 this,
-                startForResult,
-                oldName,
-                beizhuname?.text?.toString() ?: "",
-                CircleAndRemarkBroadActivity.TYPE_EDIT
+                "",
+                yonghubena?.bei ?: "",
+                "",
+                "${yonghubena?.characterTagsId ?: -1}",
+                "3",
+                startForResult
             )
         }
 
@@ -426,7 +457,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (mViewAnimateNumb.isAnimating){
+        if (mViewAnimateNumb.isAnimating) {
             mViewAnimateNumb.pauseAnimation()
         }
     }
@@ -444,8 +475,6 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     val circleId = it.getIntExtra("circleId", -1)
                     val remarkName = it.getStringExtra("remark")
                     toEditFriendInfo(circleId, remarkName ?: "")
-
-
                 }
             }
 

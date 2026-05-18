@@ -15,12 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.chatui.R;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.user.UserViewBroadModel;
@@ -77,21 +79,18 @@ public class ConversationViewBroadHolder extends RecyclerView.ViewHolder {
                     nameTextView.setText(displayName[0]);
                     Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
                 } else {
-                    GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversation.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                        @Override
-                        public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
-                            if (friendSmailListBean != null) {
-                                portrait = friendSmailListBean.icon;
-                                if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                                    displayName[0] = friendSmailListBean.remarkName;
-                                } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                                    displayName[0] = friendSmailListBean.nickName;
-                                }
+                    RealmUtil.INSTANCE.findUserData(conversation.target, friendSmailListBean -> {
+                        if (friendSmailListBean != null) {
+                            portrait = friendSmailListBean.userImg;
+                            if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                                displayName[0] = friendSmailListBean.remarkName;
+                            } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                                displayName[0] = friendSmailListBean.nickName;
                             }
-                            nameTextView.setText(displayName[0]);
-                            Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
-                            return null;
                         }
+                        nameTextView.setText(displayName[0]);
+                        Glide.with(fragment).load(portrait).apply(new RequestOptions().centerCrop().placeholder(R.mipmap.avatar_broad_def)).into(portraitImageView);
+                        return null;
                     });
                 }
             }

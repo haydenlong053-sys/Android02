@@ -42,7 +42,7 @@ public class HyyBroadAdapter extends RecyclerView.Adapter<HyyBroadAdapter.MyHold
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_hyy, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_broad_hyy2, parent, false);
         return new MyHolder(view);
     }
 
@@ -57,12 +57,14 @@ public class HyyBroadAdapter extends RecyclerView.Adapter<HyyBroadAdapter.MyHold
             imageAdapter.setOnItemClickListener(new ImageBroadAdapter.OnItemClickListener() {
                 @Override
                 public void OnItemClick(int firstposition) {
-                    ImagePreview
-                            .getInstance()
-                            .setContext(context)
-                            .setIndex(firstposition)
-                            .setImageList(list.get(position).imgs)
-                            .start();
+//                    ImagePreview
+//                            .getInstance()
+//                            .setContext(context)
+//                            .setIndex(firstposition)
+//                            .setImageList(list.get(position).imgs)
+//                            .start();
+                    onItemClickListener.OnItemDeleteClickListener(position);
+
                 }
             });
         }else
@@ -84,6 +86,13 @@ public class HyyBroadAdapter extends RecyclerView.Adapter<HyyBroadAdapter.MyHold
             @Override
             public void onClick(View view) {
                 onItemClickListener.OnItemClickListener(position);
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.OnItemDeleteClickListener(position);
+                return true;
             }
         });
 

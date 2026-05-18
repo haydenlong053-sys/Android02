@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.event.DoubleMessageBroadEvent;
 import com.cboda.baselibrary.event.UnreadCountBroadEvent;
 
@@ -37,6 +38,7 @@ import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.viewmodel.SettingViewBroadModel;
 import com.cboda.chatui.widget.ProgressBroadFragment;
+
 import cn.wildfirechat.client.ConnectionStatus;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
@@ -99,7 +101,7 @@ public class ConversationListBroadFragment extends ProgressBroadFragment {
     private int unreadGroupCount;
 
     private void init() {
-        adapter = new ConversationListBroadAdapter(this,false);
+        adapter = new ConversationListBroadAdapter(this, false);
         if (onClickConversationItemListener != null) {
             adapter.setOnClickConversationItemListener(onClickConversationItemListener);
         }
@@ -135,7 +137,9 @@ public class ConversationListBroadFragment extends ProgressBroadFragment {
             public void onChanged(List<UserInfo> userInfos) {
                 int start = layoutManager.findFirstVisibleItemPosition();
                 int end = layoutManager.findLastVisibleItemPosition();
-                adapter.notifyItemRangeChanged(start, end - start + 1);
+                ThreadUtils.runOnUiThread(() -> {
+                    adapter.notifyItemRangeChanged(start, end - start + 1);
+                });
             }
         });
         GroupViewBroadModel groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
@@ -144,7 +148,9 @@ public class ConversationListBroadFragment extends ProgressBroadFragment {
             public void onChanged(List<GroupInfo> groupInfos) {
                 int start = layoutManager.findFirstVisibleItemPosition();
                 int end = layoutManager.findLastVisibleItemPosition();
-                adapter.notifyItemRangeChanged(start, end - start + 1);
+                ThreadUtils.runOnUiThread(() -> {
+                    adapter.notifyItemRangeChanged(start, end - start + 1);
+                });
             }
         });
 

@@ -3,6 +3,7 @@ package com.cboda.intelligent.activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
@@ -13,11 +14,13 @@ import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
+import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
-class QunNameBroadActivity : BaseSimpleBroadActivity() {
+class QunNameBroadActivity : BaseSimple2BroadActivity() {
     private var qunId = ""
     private var qunName = ""
     private var viewModel: CommViewBroadModel? = null
@@ -39,6 +42,7 @@ class QunNameBroadActivity : BaseSimpleBroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViews()
+        setRootBgColor(R.color.white)
         qunId = intent?.getStringExtra("qunid") ?: ""
         qunName = intent?.getStringExtra("qunName") ?: ""
         getToolbarTitle()?.text = getString(R.string.qubmingcheng)
@@ -47,15 +51,16 @@ class QunNameBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "xiugaiqunmingSuc" -> {
-                    ChatManager.Instance().modifyGroupInfo(qunId,
+                    ChatManager.Instance().modifyGroupInfo(
+                        qunId,
                         ModifyGroupInfoType.Modify_Group_Name, edtBeizhu?.text?.trim()?.toString() ?: "",
-                        arrayListOf<Int>(),null,object : GeneralCallback {
+                        arrayListOf<Int>(), null, object : GeneralCallback {
                             override fun onSuccess() {
-                                AppBroadUtils.debug("野火","修改群名称onSuccess ---> ")
+                                AppBroadUtils.debug("野火", "修改群名称onSuccess ---> ")
                             }
 
                             override fun onFail(errorCode: Int) {
-                                AppBroadUtils.debug("野火","修改群名称onFail ---> $errorCode")
+                                AppBroadUtils.debug("野火", "修改群名称onFail ---> $errorCode")
                             }
 
                         }
@@ -66,7 +71,7 @@ class QunNameBroadActivity : BaseSimpleBroadActivity() {
         }
         if (qunName.isNotEmpty()) {
             edtBeizhu?.setText(qunName)
-            ivqingchu?.isVisible = true
+//            ivqingchu?.isVisible = true
         }
         ivqingchu?.setOnClickListener {
             edtBeizhu?.setText("")
@@ -76,7 +81,7 @@ class QunNameBroadActivity : BaseSimpleBroadActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                ivqingchu?.isVisible = edtBeizhu?.text?.trim()?.toString()?.isNotEmpty() == true
+//                ivqingchu?.isVisible = edtBeizhu?.text?.trim()?.toString()?.isNotEmpty() == true
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -93,5 +98,12 @@ class QunNameBroadActivity : BaseSimpleBroadActivity() {
             viewModel?.xiugaiqunmingc(this, qunId, edtBeizhu?.text?.trim()?.toString() ?: "")
 
         }
+        findViewById<View>(R.id.tvPhoneCancel).click {
+            finish()
+        }
+    }
+
+    override fun showTransparentTopTitleLayout(): Boolean {
+        return true
     }
 }

@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout.LayoutParams
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageView
@@ -375,7 +376,7 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
         return tvTitle
     }
 
-    open fun setRootBgColor(@ColorInt int: Int) {
+    open fun setRootBgColor(@ColorRes int: Int) {
         mViewRootBg.setBackgroundColor(getAppColor(this, int))
     }
 

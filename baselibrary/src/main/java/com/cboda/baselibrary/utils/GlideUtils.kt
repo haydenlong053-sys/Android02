@@ -267,8 +267,12 @@ fun ImageView.loadGifImage(any: Any?, width: Int, height: Int) {
     }
 }
 
-
 fun ImageView.loadImg(url: String?) {
+    this.loadImg(url, R.mipmap.ic_head_broad_defaut)
+}
+
+
+fun ImageView.loadImg(url: String?, errorImg: Int = R.mipmap.ic_head_broad_defaut) {
     if (!TextUtils.isEmpty(url)) {
         var mContext = this.context
         if (mContext is Activity) {
@@ -288,10 +292,10 @@ fun ImageView.loadImg(url: String?) {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(this)
         } else {
-            Glide.with(mContext).load(url).apply(RequestOptions().error(R.mipmap.ic_head_broad_defaut).placeholder(R.mipmap.ic_head_broad_defaut)).into(this)
+            Glide.with(mContext).load(url).apply(RequestOptions().error(errorImg).placeholder(errorImg)).into(this)
         }
     } else {
-        this.setImageResource(R.mipmap.ic_head_broad_defaut)
+        this.setImageResource(errorImg)
     }
 }
 

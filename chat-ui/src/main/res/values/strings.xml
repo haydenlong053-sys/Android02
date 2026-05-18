@@ -420,4 +420,8 @@
     <!-- 新会议相关-->
     <string name="chat_meet_service_notification">Meeting foreground service notification</string>
     <string name="chat_meet_service_tip">Tap to return to the app</string>
+
+    <!--    个人名片vh-->
+    <string name="chat_recommend_friend">Recommend Friends</string>
+    <string name="chat_add_friend">Add Friends</string>
 </resources>

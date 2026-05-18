@@ -1,7 +1,10 @@
 package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.clipViewOutlineRound;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.isSubmitCanGo2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showCommonTip;
 import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
@@ -53,7 +56,6 @@ import com.cboda.intelligent.R;
 import com.cboda.intelligent.adapter.InterestBroadAdapter;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.dialog.UserEwmBroadDialog;
-import com.cboda.baselibrary.popup.CommonTipBroadPop;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.dialog.NormalBroadDialog;
 import com.cboda.intelligent.dialog.SexDialogBroadFra;
@@ -370,7 +372,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             }).show(getSupportFragmentManager(), "");
         }
         if (view.getId() == R.id.llErweima && bean != null && bean.data != null) {
-            new UserEwmBroadDialog(this, bean.data.qrcode, bean.data.icon, bean.data.name, bean.data.idno).show();
+            new UserEwmBroadDialog(this, bean.data.qrcode,bean.data.tQrcode, bean.data.icon, bean.data.name, bean.data.idno).show();
         }
         if (view.getId() == R.id.llQianming && bean != null && bean.data != null) {
             intent = new Intent(this, QianMingBroadActivity.class);
@@ -621,7 +623,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         return options;
     }
 
-    private Gson mGson;
+//    private Gson mGson;
 
     /**
      * 用户信息
@@ -649,10 +651,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 dismissLoading();
                 bean = resultBean;
-                if (mGson == null) {
-                    mGson = new Gson();
-                }
-                oldBean = mGson.fromJson(mGson.toJson(bean), bean.getClass());
+                oldBean = fromJson2(toJson2(bean), bean.getClass());
                 showSaveButtonUI(false);
                 setInfo();
             }
@@ -751,9 +750,11 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     }
 
     private void showSaveButtonUI(boolean isModify) {
-        mBinding.tvSave.setBackgroundResource(!isModify ? R.drawable.bg_btn_broad_outline : R.drawable.bg_btn_broad_blue);
-        mBinding.tvSave.setTextColor(ContextCompat.getColor(UserInfoBroadActivity.this, !isModify ? com.cboda.chatui.R.color.color_3B47DD : R.color.white));
-        mBinding.tvSave.setEnabled(isModify);
+        isSubmitCanGo2(mBinding.tvSave, isModify);
+//        mBinding.tvSave.setAlpha(isModify ? 1f : 0.3f);
+//        mBinding.tvSave.setBackgroundResource(!isModify ? R.drawable.bg_btn_broad_outline : R.drawable.bg_btn_broad_blue);
+//        mBinding.tvSave.setTextColor(ContextCompat.getColor(UserInfoBroadActivity.this, !isModify ? com.cboda.chatui.R.color.color_3B47DD : R.color.white));
+//        mBinding.tvSave.setEnabled(isModify);
 
     }
 

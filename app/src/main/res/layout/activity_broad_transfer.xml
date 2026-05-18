@@ -170,6 +170,8 @@
         >
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            tools:visibility="visible"
             android:id="@+id/mEtInputAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -184,9 +186,25 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             tools:ignore="TouchTargetSizeCheck" />
-
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/mEtInputAddress2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center|start"
+            android:hint="@string/mine_input_money_address"
+            android:text=""
+            android:importantForAutofill="no"
+            android:padding="16dp"
+            android:textColorHint="@color/black_35"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
         <TextView
             android:visibility="gone"
+            tools:visibility="visible"
             android:id="@+id/mTvPaste"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -197,6 +215,9 @@
             android:textSize="14sp"
             />
         <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:id="@+id/mIvPaste"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/dp_50"
             android:src="@mipmap/ic_auth_broad_go"

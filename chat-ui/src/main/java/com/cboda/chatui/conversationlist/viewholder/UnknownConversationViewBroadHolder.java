@@ -29,11 +29,12 @@ public class UnknownConversationViewBroadHolder extends ConversationViewBroadHol
 
     @Override
     protected void onBindConversationInfo(ConversationInfo conversationInfo) {
-        Glide
-                .with(fragment)
-                .load(R.mipmap.avatar_broad_def)
-                .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(4)))
-                .into(portraitImageView);
+//        Glide
+//                .with(fragment)
+//                .load(R.mipmap.avatar_broad_def)
+//                .transforms(new CenterCrop(), new RoundedCorners(UIBroadUtils.dip2Px(4)))
+//                .into(portraitImageView);
+        vipGradeView.setData("", null, null, null, null);
         nameTextView.setText("未知会话类型(" + conversationInfo.conversation.type.getValue() + ")或线路(" + conversationInfo.conversation.line + ")");
     }
 

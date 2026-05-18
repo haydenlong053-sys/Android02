@@ -1,7 +1,12 @@
 package com.cboda.intelligent.activity;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_CREDIT_SCORE_NEW_USER_DAYS;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -16,16 +21,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.GlideUtilsKt;
+import com.cboda.baselibrary.utils.JavaBroadUtil;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.VideoThumbnailUtils;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.conversation.forward.ForwardBroadActivity;
 import com.cboda.intelligent.R;
+import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.MyCollectBroadAdapter;
+import com.cboda.intelligent.dialog.DelCollPop;
 import com.cboda.select.picture.entity.DataListBroadBean;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.utils.BaseBroadCallback;
@@ -53,11 +63,12 @@ import cn.wildfirechat.remote.ChatManager;
 import cn.wildfirechat.remote.SendMessageCallback;
 import cn.wildfirechat.utils.WeChatImageUtils;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
+public class MyCollectBroadActivity extends BaseSimple2BroadActivity {
 
 
     private MyCollectBroadAdapter myCollectAdapter;
@@ -74,199 +85,265 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
         return R.layout.activity_my_broad_collect;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
-        getToolbarTitle().setText(getResources().getString(R.string.我的收藏));
-
+        getToolbarTitle().setText(getResources().getString(com.cboda.baselibrary.R.string.collect));
+        setRootBgColor(com.cboda.chatui.R.color.white);
         myCollectAdapter = new MyCollectBroadAdapter(this, listBeans);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         ryCollect.setLayoutManager(linearLayoutManager);
         ryCollect.setAdapter(myCollectAdapter);
+//        String canSendLink = MMKVBroadUtils.Companion.getSqlStrData(USER_SEND_LINK, "false");
         myCollectAdapter.setOnItemClickListener(new MyCollectBroadAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int position) {
-                DataListBroadBean dataListBean = listBeans.get(position);
-                if (dataListBean.info == null || "null".equals(dataListBean.info)) {
-                    ToastBroadUtils.show("服务器查询数据失败" + dataListBean.info);
-                    return;
-                }
+                if (listBeans.size() > position && position >= 0) {
+                    DataListBroadBean dataListBean = listBeans.get(position);
+                    if (dataListBean.info == null || "null".equals(dataListBean.info)) {
+                        ToastBroadUtils.show("服务器查询数据失败" + dataListBean.info);
+                        return;
+                    }
 
-                // 从 Intent 获取 qunid 和 uid
-                Intent intent = getIntent();
-                String qunid = intent != null ? intent.getStringExtra("qunid") : null;
-                String uid = intent != null ? intent.getStringExtra("uid") : null;
+                    // 从 Intent 获取 qunid 和 uid
+                    Intent intent = getIntent();
+                    String qunid = intent != null ? intent.getStringExtra("qunid") : null;
+                    String uid = intent != null ? intent.getStringExtra("uid") : null;
 
-                // 判断是单聊还是群聊
-                Conversation conversation = new Conversation();
-                if (!TextUtils.isEmpty(qunid)) {
-                    // 群聊
-                    conversation.type = Conversation.ConversationType.Group;
-                    conversation.target = qunid;
-                } else if (!TextUtils.isEmpty(uid)) {
-                    // 单聊
-                    conversation.type = Conversation.ConversationType.Single;
-                    conversation.target = uid;
-                } else {
+                    // 判断是单聊还是群聊
+                    Conversation conversation = new Conversation();
+                    if (!TextUtils.isEmpty(qunid)) {
+                        // 群聊
+                        conversation.type = Conversation.ConversationType.Group;
+                        conversation.target = qunid;
+                    } else if (!TextUtils.isEmpty(uid)) {
+                        // 单聊
+                        conversation.type = Conversation.ConversationType.Single;
+                        conversation.target = uid;
+                    } else {
 //                    ToastBroadUtils.show("缺少会话信息（qunid 或 uid）");
-                    return;
-                }
+                        return;
+                    }
 
-                // 根据类型创建消息内容并发送
-                String type = dataListBean.type;
-                if ("1".equals(type)) {
-                    // 文字消息
-                    TextMessageContent textContent = new TextMessageContent(dataListBean.info);
-                    sendMessage(conversation, textContent);
-                } else if ("2".equals(type)) {
-                    // 图片消息
-                    GlideUtilsKt.getBitmapFromUrl(MyCollectBroadActivity.this, dataListBean.info, new Function1<Bitmap, Unit>() {
-                        @Override
-                        public Unit invoke(Bitmap bitmap) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (bitmap == null) {
-                                        ToastBroadUtils.show("图片加载失败");
-                                    } else {
-                                        ImageMessageContent imageContent = new ImageMessageContent(dataListBean.info, bitmap.getWidth(), bitmap.getHeight());
-                                        sendMessage(conversation, imageContent);
-                                    }
-                                }
-                            });
-                            return null;
+                    // 根据类型创建消息内容并发送
+                    String type = dataListBean.type;
+                    if ("1".equals(type)) {
+                        String msgContent = dataListBean.info.toString();
+                        String day = JavaBroadUtil.containsLinkReturnDay(msgContent);
+                        if (!TextUtils.isEmpty(day)) {
+                            ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                            return;
                         }
-                    });
-                } else if ("3".equals(type)) {
-                    // 视频消息
-                    showLoading();
-                    VideoThumbnailUtils.getVideoFirstFrame(MyCollectBroadActivity.this, dataListBean.info, new VideoThumbnailUtils.ThumbnailCallback() {
-                        @Override
-                        public void onSuccess(Bitmap bitmap) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dismissLoading();
-                                    VideoMessageContent videoContent;
-                                    if (TextUtils.isEmpty(dataListBean.miao)) {
-                                        videoContent = new VideoMessageContent(dataListBean.info, 0, 0, 0);
-                                    } else {
-                                        videoContent = new VideoMessageContent(dataListBean.info, Long.parseLong(dataListBean.miao), 0, 0);
-                                    }
-                                    // 将 Bitmap 转换为 byte[] 作为缩略图
-                                    if (bitmap != null) {
-                                        int[] imageSize = WeChatImageUtils.getImageSizeByOrgSizeToWeChat2(bitmap.getWidth(), bitmap.getHeight());
-                                        Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, imageSize[0] / 2, imageSize[1] / 2);
-                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                        thumbnail.compress(Bitmap.CompressFormat.JPEG, 75, baos);
-                                        byte[] thumbnailBytes = baos.toByteArray();
-                                        ELogUtilKt.eLogD(APP_TAG, "size==>" + thumbnailBytes.length / 1024 + "kb");
-                                        videoContent.setThumbnailBytes(thumbnailBytes);
-                                    }
-                                    sendMessage(conversation, videoContent);
-                                }
-                            });
-                        }
+                        // 文字消息
+                        TextMessageContent textContent = new TextMessageContent(msgContent);
+                        sendMessage(conversation, textContent);
 
-                        @Override
-                        public void onError(String error) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dismissLoading();
-                                    // 即使获取缩略图失败，也发送消息
-                                    VideoMessageContent videoContent;
-                                    if (TextUtils.isEmpty(dataListBean.miao)) {
-                                        videoContent = new VideoMessageContent(dataListBean.info, 0, 0, 0);
-                                    } else {
-                                        videoContent = new VideoMessageContent(dataListBean.info, Long.parseLong(dataListBean.miao), 0, 0);
+                    } else if ("2".equals(type)) {
+                        // 图片消息
+                        GlideUtilsKt.getBitmapFromUrl(MyCollectBroadActivity.this, dataListBean.info, new Function1<Bitmap, Unit>() {
+                            @Override
+                            public Unit invoke(Bitmap bitmap) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (bitmap == null) {
+                                            ToastBroadUtils.show("图片加载失败");
+                                        } else {
+                                            ImageMessageContent imageContent = new ImageMessageContent(dataListBean.info, bitmap.getWidth(), bitmap.getHeight());
+                                            sendMessage(conversation, imageContent);
+                                        }
                                     }
-                                    sendMessage(conversation, videoContent);
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    ToastBroadUtils.show("暂不支持的分享类型");
+                                });
+                                return null;
+                            }
+                        });
+                    } else if ("3".equals(type)) {
+                        // 视频消息
+                        showLoading();
+                        VideoThumbnailUtils.getVideoFirstFrame(MyCollectBroadActivity.this, dataListBean.info, new VideoThumbnailUtils.ThumbnailCallback() {
+                            @Override
+                            public void onSuccess(Bitmap bitmap) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dismissLoading();
+                                        VideoMessageContent videoContent;
+                                        if (TextUtils.isEmpty(dataListBean.miao)) {
+                                            videoContent = new VideoMessageContent(dataListBean.info, 0, 0, 0);
+                                        } else {
+                                            videoContent = new VideoMessageContent(dataListBean.info, Long.parseLong(dataListBean.miao), 0, 0);
+                                        }
+                                        // 将 Bitmap 转换为 byte[] 作为缩略图
+                                        if (bitmap != null) {
+                                            int[] imageSize = WeChatImageUtils.getImageSizeByOrgSizeToWeChat2(bitmap.getWidth(), bitmap.getHeight());
+                                            Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, imageSize[0] / 2, imageSize[1] / 2);
+                                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                            thumbnail.compress(Bitmap.CompressFormat.JPEG, 75, baos);
+                                            byte[] thumbnailBytes = baos.toByteArray();
+                                            ELogUtilKt.eLogD(APP_TAG, "size==>" + thumbnailBytes.length / 1024 + "kb");
+                                            videoContent.setThumbnailBytes(thumbnailBytes);
+                                        }
+                                        sendMessage(conversation, videoContent);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dismissLoading();
+                                        // 即使获取缩略图失败，也发送消息
+                                        VideoMessageContent videoContent;
+                                        if (TextUtils.isEmpty(dataListBean.miao)) {
+                                            videoContent = new VideoMessageContent(dataListBean.info, 0, 0, 0);
+                                        } else {
+                                            videoContent = new VideoMessageContent(dataListBean.info, Long.parseLong(dataListBean.miao), 0, 0);
+                                        }
+                                        sendMessage(conversation, videoContent);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        ToastBroadUtils.show("暂不支持的分享类型");
+                    }
                 }
             }
 
             @Override
             public void OnItemChildClickListener(View view, int position) {
-                DataListBroadBean dataListBean = listBeans.get(position);
-                if (dataListBean.info == null || "null".equals(dataListBean.info)) {
-                    ToastBroadUtils.show("服务器查询数据失败" + dataListBean.info);
-                } else if ("1".equals(dataListBean.type)) {
-                    Message message = new Message();
-                    message.content = new TextMessageContent(dataListBean.info);
-                    Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
-                    intent.putExtra("message", message);
-                    startActivity(intent);
-                } else if ("2".equals(dataListBean.type)) {
-                    GlideUtilsKt.getBitmapFromUrl(MyCollectBroadActivity.this, dataListBean.info, new Function1<Bitmap, Unit>() {
-                        @Override
-                        public Unit invoke(Bitmap bitmap) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (bitmap == null) {
-                                        ToastBroadUtils.show("图片错误null");
-                                    } else {
-                                        Message message = new Message();
-                                        message.content = new ImageMessageContent(dataListBean.info, bitmap.getWidth(), bitmap.getHeight());
-                                        Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
-                                        intent.putExtra("message", message);
-                                        startActivity(intent);
-                                    }
-                                }
-                            });
-                            return null;
+                if (listBeans.size() > position && position >= 0) {
+                    DataListBroadBean dataListBean = listBeans.get(position);
+                    if (dataListBean.info == null || "null".equals(dataListBean.info)) {
+                        ToastBroadUtils.show("服务器查询数据失败" + dataListBean.info);
+                    } else if ("1".equals(dataListBean.type)) {
+                        String day = JavaBroadUtil.containsLinkReturnDay(dataListBean.info);
+                        if (!TextUtils.isEmpty(day)) {
+                            ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                            return;
                         }
-                    });
-
-                } else if ("3".equals(dataListBean.type)) {
-                    showLoading();
-                    VideoThumbnailUtils.getVideoFirstFrame(MyCollectBroadActivity.this, dataListBean.info, new VideoThumbnailUtils.ThumbnailCallback() {
-                        @Override
-                        public void onSuccess(Bitmap bitmap) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dismissLoading();
-                                    if (bitmap == null) {
-                                        ToastBroadUtils.show("视频错误null");
-                                    } else {
-                                        Message message = new Message();
-                                        if (TextUtils.isEmpty(dataListBean.miao)) {
-                                            message.content = new VideoMessageContent(dataListBean.info, 0, 0, 0);
+                        Message message = new Message();
+                        message.content = new TextMessageContent(dataListBean.info);
+                        Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
+                        intent.putExtra("message", message);
+                        startActivity(intent);
+                    } else if ("2".equals(dataListBean.type)) {
+                        GlideUtilsKt.getBitmapFromUrl(MyCollectBroadActivity.this, dataListBean.info, new Function1<Bitmap, Unit>() {
+                            @Override
+                            public Unit invoke(Bitmap bitmap) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (bitmap == null) {
+                                            ToastBroadUtils.show("图片错误null");
                                         } else {
-                                            message.content = new VideoMessageContent(dataListBean.info, Long.parseLong(dataListBean.miao), 0, 0);
+                                            Message message = new Message();
+                                            message.content = new ImageMessageContent(dataListBean.info, bitmap.getWidth(), bitmap.getHeight());
+                                            Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
+                                            intent.putExtra("message", message);
+                                            startActivity(intent);
                                         }
-                                        // 将 Bitmap 转换为 byte[]
-                                        int[] imageSize = WeChatImageUtils.getImageSizeByOrgSizeToWeChat2(bitmap.getWidth(), bitmap.getHeight());
-                                        Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, imageSize[0] / 2, imageSize[1] / 2);
-                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                        thumbnail.compress(Bitmap.CompressFormat.JPEG, 75, baos);
-                                        byte[] thumbnailBytes = baos.toByteArray();
-                                        ELogUtilKt.eLogD(APP_TAG, "size==>" + thumbnailBytes.length / 1024 + "kb");
-                                        ((VideoMessageContent) message.content).setThumbnailBytes(thumbnailBytes);
-                                        Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
-                                        intent.putExtra("message", message);
-                                        startActivity(intent);
                                     }
-                                }
-                            });
-                        }
+                                });
+                                return null;
+                            }
+                        });
 
-                        @Override
-                        public void onError(String error) {
-                            dismissLoading();
-                        }
-                    });
-                } else {
-                    ToastBroadUtils.show("暂不支持的转发类型");
+                    } else if ("3".equals(dataListBean.type)) {
+                        showLoading();
+                        VideoThumbnailUtils.getVideoFirstFrame(MyCollectBroadActivity.this, dataListBean.info, new VideoThumbnailUtils.ThumbnailCallback() {
+                            @Override
+                            public void onSuccess(Bitmap bitmap) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dismissLoading();
+                                        if (bitmap == null) {
+                                            ToastBroadUtils.show("视频错误null");
+                                        } else {
+                                            Message message = new Message();
+                                            if (TextUtils.isEmpty(dataListBean.miao)) {
+                                                message.content = new VideoMessageContent(dataListBean.info, 0, 0, 0);
+                                            } else {
+                                                message.content = new VideoMessageContent(dataListBean.info, Long.parseLong(dataListBean.miao), 0, 0);
+                                            }
+                                            // 将 Bitmap 转换为 byte[]
+                                            int[] imageSize = WeChatImageUtils.getImageSizeByOrgSizeToWeChat2(bitmap.getWidth(), bitmap.getHeight());
+                                            Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, imageSize[0] / 2, imageSize[1] / 2);
+                                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                            thumbnail.compress(Bitmap.CompressFormat.JPEG, 75, baos);
+                                            byte[] thumbnailBytes = baos.toByteArray();
+                                            ELogUtilKt.eLogD(APP_TAG, "size==>" + thumbnailBytes.length / 1024 + "kb");
+                                            ((VideoMessageContent) message.content).setThumbnailBytes(thumbnailBytes);
+                                            Intent intent = new Intent(MyCollectBroadActivity.this, ForwardBroadActivity.class);
+                                            intent.putExtra("message", message);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                dismissLoading();
+                            }
+                        });
+                    } else {
+                        ToastBroadUtils.show("暂不支持的转发类型");
+                    }
                 }
+            }
+
+            @Override
+            public void OnItemDelClickListener(View view, int position) {
+                DelCollPop delCollPop = new DelCollPop(MyCollectBroadActivity.this);
+                delCollPop.backInvoke = () -> {
+                    if (listBeans.size() > position && position >= 0) {
+                        DataListBroadBean dataListBean = listBeans.get(position);
+                        Map<String, Object> param = new HashMap<>();
+                        param.put("ids", dataListBean.id);
+                        OkHttpBroadHelper.getInstance().post_json(MyCollectBroadActivity.this, BroadUrl.DEL_COLL, param, new BaseBroadCallback<ResultBroadBean>() {
+                            @Override
+                            public void onBeforeRequest(Request request) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Request request, Exception e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Response response) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                                if (listBeans.size() > position && position >= 0) {
+                                    listBeans.remove(position);
+                                }
+                                ThreadUtils.runOnUiThread(() -> {
+                                    if (myCollectAdapter.getItemCount() > position && position >= 0) {
+                                        myCollectAdapter.notifyItemRemoved(position);
+                                    } else {
+                                        myCollectAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(Response response, int code, Exception e) {
+                            }
+                        });
+                    }
+                    return null;
+                };
+                delCollPop.showPopupWindow();
             }
         });
 
@@ -338,8 +415,9 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
                     }
                 }
                 listBeans.addAll(filteredList);
-                myCollectAdapter.notifyDataSetChanged();
-
+                ThreadUtils.runOnUiThread(() -> {
+                    myCollectAdapter.notifyDataSetChanged();
+                });
                 if (listBeans.size() == 0) {
                     llNoData.setVisibility(View.VISIBLE);
                 } else {
@@ -432,6 +510,10 @@ public class MyCollectBroadActivity extends BaseSimpleBroadActivity {
         });
     }
 
+    @Override
+    public boolean showTransparentTopTitleLayout() {
+        return true;
+    }
 
     private void initViews() {
         ivNoData = findViewById(R.id.ivNoData);

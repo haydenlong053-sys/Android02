@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 
@@ -37,6 +38,7 @@ import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.viewmodel.SettingViewBroadModel;
 import com.cboda.chatui.widget.ProgressBroadFragment;
+
 import cn.wildfirechat.client.ConnectionStatus;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.ConversationInfo;
@@ -123,22 +125,22 @@ public class ConversationGroupBroadFragment extends ProgressBroadFragment {
                 @Override
                 public void onClickConversationItemNew(ConversationInfo conversationInfo, int position) {
                     if (isSelectMode) {
+                        if (adapter.getData().size() > position && position >= 0) {
+                            // 传递数据项与适配器位置，避免越界并确保刷新正确的行
+                            adapter.selectConversation(adapter.getData().get(position), position);
+                            boolean isSelectAll = adapter.getData().size() == adapter.getSelectInfos().size();
+                            boolean isAllRead = (adapter.getData().size() == adapter.getSelectInfos().size()) || adapter.getSelectInfos().isEmpty();
+                            boolean enableDelete = !adapter.getSelectInfos().isEmpty();
+                            uiViewModel.updateBottomBtnState(isSelectAll, isAllRead, enableDelete);
+                            if (adapter.getSelectInfos().isEmpty()) {
+                                //如果选择是空 则代表可以点击全已读 传全部数据过去让点击事件获取全部会话
+                                uiViewModel.updateSelectConversations(adapter.getData());
 
-                        // 传递数据项与适配器位置，避免越界并确保刷新正确的行
-                        adapter.selectConversation(adapter.getData().get(position), position);
-                        boolean isSelectAll = adapter.getData().size() == adapter.getSelectInfos().size();
-                        boolean isAllRead = (adapter.getData().size() == adapter.getSelectInfos().size()) || adapter.getSelectInfos().isEmpty();
-                        boolean enableDelete = !adapter.getSelectInfos().isEmpty();
-                        uiViewModel.updateBottomBtnState(isSelectAll, isAllRead, enableDelete);
-                        if (adapter.getSelectInfos().isEmpty()) {
-                            //如果选择是空 则代表可以点击全已读 传全部数据过去让点击事件获取全部会话
-                            uiViewModel.updateSelectConversations(adapter.getData());
-
-                        } else {
-                            //如果不是空 则传真实的
-                            uiViewModel.updateSelectConversations(adapter.getSelectInfos());
+                            } else {
+                                //如果不是空 则传真实的
+                                uiViewModel.updateSelectConversations(adapter.getSelectInfos());
+                            }
                         }
-
 
                     } else {
                         // 点击会话
@@ -211,7 +213,9 @@ public class ConversationGroupBroadFragment extends ProgressBroadFragment {
             public void onChanged(List<UserInfo> userInfos) {
                 int start = layoutManager.findFirstVisibleItemPosition();
                 int end = layoutManager.findLastVisibleItemPosition();
-                adapter.notifyItemRangeChanged(start, end - start + 1);
+                ThreadUtils.runOnUiThread(() -> {
+                    adapter.notifyItemRangeChanged(start, end - start + 1);
+                });
             }
         });
         GroupViewBroadModel groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
@@ -220,7 +224,9 @@ public class ConversationGroupBroadFragment extends ProgressBroadFragment {
             public void onChanged(List<GroupInfo> groupInfos) {
                 int start = layoutManager.findFirstVisibleItemPosition();
                 int end = layoutManager.findLastVisibleItemPosition();
-                adapter.notifyItemRangeChanged(start, end - start + 1);
+                ThreadUtils.runOnUiThread(() -> {
+                    adapter.notifyItemRangeChanged(start, end - start + 1);
+                });
             }
         });
 

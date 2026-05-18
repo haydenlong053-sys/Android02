@@ -506,4 +506,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">হাই, %1$s</string>
+    <string name="credit_score_member_benefits">মেম্বার সুবিধা</string>
+    <string name="credit_score_member_not_open">মেম্বারশিপ চালু নয়</string>
+    <string name="credit_score_nice_number_benefits">প্রিমিয়াম নম্বর সুবিধা</string>
+    <string name="credit_score_nice_number_not_open">প্রিমিয়াম নম্বর চালু নয়</string>
+    <string name="credit_score_hint_very_poor">আপনার ক্রেডিট খুবই খারাপ, উন্নতি করার চেষ্টা করুন!</string>
+    <string name="credit_score_hint_excellent">আপনার ক্রেডিট চমৎকার, এভাবেই চালিয়ে যান!</string>
+    <string name="credit_score_hint_good">আপনার ক্রেডিট ভালো, চালিয়ে যান!</string>
+    <string name="credit_score_hint_normal">আপনার ক্রেডিট সাধারণ, আরও চেষ্টা করুন!</string>
+    <string name="credit_score_title">ক্রেডিট স্কোর</string>
+    <string name="credit_score_tab_compose">ক্রেডিট গঠন</string>
+    <string name="credit_score_tab_record">পরিবর্তনের ইতিহাস</string>
 </resources>

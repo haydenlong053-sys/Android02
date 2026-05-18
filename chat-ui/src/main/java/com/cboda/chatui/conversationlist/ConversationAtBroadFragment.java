@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import java.util.Arrays;
 import java.util.List;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.WfcUIBroadKit;
 import com.cboda.chatui.conversation.ConversationBroadActivity;
@@ -31,6 +32,7 @@ import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.viewmodel.SettingViewBroadModel;
 import com.cboda.chatui.widget.ProgressBroadFragment;
+
 import cn.wildfirechat.client.ConnectionStatus;
 import cn.wildfirechat.message.TextMessageContent;
 import cn.wildfirechat.model.Conversation;
@@ -58,7 +60,7 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
     private LinearLayoutManager layoutManager;
     private OnClickConversationItemBroadListener onClickConversationItemListener;
 
-    private  boolean isSelectMode=false;
+    private boolean isSelectMode = false;
     private HomeUIViewModel uiViewModel;
 
     @Override
@@ -88,30 +90,30 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
             if (socialAction instanceof SocialAction.SelectAll) {
                 // 在此处理全选逻辑
                 adapter.selectConversationByList(adapter.getData());
-                uiViewModel.updateBottomBtnState(true,true,true);
+                uiViewModel.updateBottomBtnState(true, true, true);
             } else if (socialAction instanceof SocialAction.CancelSelectAll) {
                 // 在此处理取消全选逻辑
                 adapter.cancelSelectAll();
-                uiViewModel.updateBottomBtnState(false,true,false);
+                uiViewModel.updateBottomBtnState(false, true, false);
             } else if (socialAction instanceof SocialAction.MarkAllAsRead) {
                 // 在此处理全部已读逻辑
                 changeOnlyThisMode(false);
                 adapter.selectConversationByList(adapter.getData());
                 clearUnRead();
-            } else if(socialAction instanceof  SocialAction.MarkSingleAsRead){
+            } else if (socialAction instanceof SocialAction.MarkSingleAsRead) {
                 changeOnlyThisMode(false);
                 clearUnRead();
-            }else if (socialAction instanceof SocialAction.DeleteSelected) {
+            } else if (socialAction instanceof SocialAction.DeleteSelected) {
                 // 在此处理删除已选逻辑
                 changeOnlyThisMode(false);
                 deleteConversations();
-            }else if (socialAction instanceof  SocialAction.CloseSelect){
+            } else if (socialAction instanceof SocialAction.CloseSelect) {
                 adapter.closeSelect();
-                uiViewModel.updateBottomBtnState(false,true,false);
+                uiViewModel.updateBottomBtnState(false, true, false);
             }
         });
 
-        if (adapter!=null){
+        if (adapter != null) {
             adapter.setOnClickConversationItemListener(new OnClickConversationItemBroadListener() {
                 @Override
                 public void onClickConversationItem(ConversationInfo conversationInfo) {
@@ -120,27 +122,24 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
 
                 @Override
                 public void onClickConversationItemNew(ConversationInfo conversationInfo, int position) {
-                    if (isSelectMode){
+                    if (isSelectMode) {
+                        if (adapter.getData().size() > position && position >= 0) {
+                            // 传递数据项与适配器位置，避免越界并确保刷新正确的行
+                            adapter.selectConversation(adapter.getData().get(position), position);
+                            boolean isSelectAll = adapter.getData().size() == adapter.getSelectInfos().size();
+                            boolean isAllRead = (adapter.getData().size() == adapter.getSelectInfos().size()) || adapter.getSelectInfos().isEmpty();
+                            boolean enableDelete = !adapter.getSelectInfos().isEmpty();
+                            uiViewModel.updateBottomBtnState(isSelectAll, isAllRead, enableDelete);
+                            if (adapter.getSelectInfos().isEmpty()) {
+                                //如果选择是空 则代表可以点击全已读 传全部数据过去让点击事件获取全部会话
+                                uiViewModel.updateSelectConversations(adapter.getData());
 
-                        // 传递数据项与适配器位置，避免越界并确保刷新正确的行
-                        adapter.selectConversation(adapter.getData().get(position), position);
-                        boolean isSelectAll=adapter.getData().size()==adapter.getSelectInfos().size();
-                        boolean isAllRead=(adapter.getData().size()==adapter.getSelectInfos().size())||adapter.getSelectInfos().isEmpty();
-                        boolean enableDelete= !adapter.getSelectInfos().isEmpty();
-                        uiViewModel.updateBottomBtnState(isSelectAll,isAllRead,enableDelete);
-                        if (adapter.getSelectInfos().isEmpty()){
-                            //如果选择是空 则代表可以点击全已读 传全部数据过去让点击事件获取全部会话
-                            uiViewModel.updateSelectConversations(adapter.getData());
-
-                        }else {
-                            //如果不是空 则传真实的
-                            uiViewModel.updateSelectConversations(adapter.getSelectInfos());
+                            } else {
+                                //如果不是空 则传真实的
+                                uiViewModel.updateSelectConversations(adapter.getSelectInfos());
+                            }
                         }
-
-
-
-
-                    }else {
+                    } else {
                         // 点击会话
                         Intent intent = new Intent(getActivity(), ConversationBroadActivity.class);
                         intent.putExtra("conversation", conversationInfo.conversation);
@@ -174,7 +173,7 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
     }
 
     private void init() {
-        adapter = new ConversationListBroadAdapter(this,false);
+        adapter = new ConversationListBroadAdapter(this, false);
         if (onClickConversationItemListener != null) {
             adapter.setOnClickConversationItemListener(onClickConversationItemListener);
         }
@@ -187,10 +186,10 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
 //                    conversationInfos.remove(i);
 //                    i--;
 //                }
-                if (conversationInfos.get(i).unreadCount.unreadMention == 0){
+                if (conversationInfos.get(i).unreadCount.unreadMention == 0) {
                     conversationInfos.remove(i);
                     i--;
-                }else {
+                } else {
 //                    if (conversationInfos.get(i).unreadCount.unreadMentionAll!=0){
 //                        conversationInfos.remove(i);
 //                        i--;
@@ -214,7 +213,9 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
             public void onChanged(List<UserInfo> userInfos) {
                 int start = layoutManager.findFirstVisibleItemPosition();
                 int end = layoutManager.findLastVisibleItemPosition();
-                adapter.notifyItemRangeChanged(start, end - start + 1);
+                ThreadUtils.runOnUiThread(() -> {
+                    adapter.notifyItemRangeChanged(start, end - start + 1);
+                });
             }
         });
         GroupViewBroadModel groupViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
@@ -223,7 +224,9 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
             public void onChanged(List<GroupInfo> groupInfos) {
                 int start = layoutManager.findFirstVisibleItemPosition();
                 int end = layoutManager.findLastVisibleItemPosition();
-                adapter.notifyItemRangeChanged(start, end - start + 1);
+                ThreadUtils.runOnUiThread(() -> {
+                    adapter.notifyItemRangeChanged(start, end - start + 1);
+                });
             }
         });
 
@@ -301,25 +304,27 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
     @Override
-    public void updateUIMode(String tag,boolean selectModel) {
-        if (!tag.equals("atMe")){
+    public void updateUIMode(String tag, boolean selectModel) {
+        if (!tag.equals("atMe")) {
             return;
         }
         changeOnlyThisMode(selectModel);
 
 
     }
-    private  void changeOnlyThisMode(boolean selectModel) {
-        this.isSelectMode=selectModel;
+
+    private void changeOnlyThisMode(boolean selectModel) {
+        this.isSelectMode = selectModel;
         adapter.updateSelectMode(selectModel);
     }
 
     /**
      * 标记已读
      */
-    private  void clearUnRead(){
-        if (adapter ==null) return;
+    private void clearUnRead() {
+        if (adapter == null) return;
         List<ConversationInfo> selectInfos = adapter.getSelectInfos();
         for (ConversationInfo selectInfo : selectInfos) {
             conversationListViewModel.clearConversationUnread(selectInfo);
@@ -332,11 +337,11 @@ public class ConversationAtBroadFragment extends ProgressBroadFragment {
         }, 200);
     }
 
-    private  void deleteConversations(){
-        if (adapter ==null) return;
+    private void deleteConversations() {
+        if (adapter == null) return;
         List<ConversationInfo> selectInfos = adapter.getSelectInfos();
         for (ConversationInfo selectInfo : selectInfos) {
-            conversationListViewModel.removeConversation(selectInfo,false);
+            conversationListViewModel.removeConversation(selectInfo, false);
         }
         ChatManager.Instance().getMainHandler().postDelayed(new Runnable() {
             @Override

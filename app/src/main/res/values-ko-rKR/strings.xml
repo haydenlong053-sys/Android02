@@ -505,4 +505,16 @@
     <string name="add_trans_dialog_title_disabled">일시적으로 사용할 수 없습니다</string>
     <string name="add_trans_dialog_msg_contact_cs">고객 서비스 008로 문의하세요</string>
 
+    <string name="credit_score_hi_nickname">안녕하세요, %1$s</string>
+    <string name="credit_score_member_benefits">멤버십 혜택</string>
+    <string name="credit_score_member_not_open">멤버십이 활성화되지 않았습니다</string>
+    <string name="credit_score_nice_number_benefits">프리미엄 번호 혜택</string>
+    <string name="credit_score_nice_number_not_open">프리미엄 번호가 활성화되지 않았습니다</string>
+    <string name="credit_score_hint_very_poor">신용 점수가 매우 낮습니다. 개선해 보세요!</string>
+    <string name="credit_score_hint_excellent">신용 점수가 매우 우수합니다. 계속 유지하세요!</string>
+    <string name="credit_score_hint_good">신용 점수가 좋습니다. 계속 노력하세요!</string>
+    <string name="credit_score_hint_normal">신용 점수가 보통입니다. 더 힘내세요!</string>
+    <string name="credit_score_title">신용 점수</string>
+    <string name="credit_score_tab_compose">신용 구성</string>
+    <string name="credit_score_tab_record">변동 내역</string>
 </resources>

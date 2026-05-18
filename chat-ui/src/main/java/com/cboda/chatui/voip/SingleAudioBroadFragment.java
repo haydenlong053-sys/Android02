@@ -5,9 +5,14 @@
 package com.cboda.chatui.voip;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
 
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +24,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.webrtc.StatsReport;
 
+import com.cboda.baselibrary.bean.FriendBean;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.chatui.R;
 import com.cboda.chatui.glide.BlurBroadTransformation;
 import com.cboda.chatui.user.UserViewBroadModel;
@@ -33,6 +41,10 @@ import cn.wildfirechat.avenginekit.AVAudioManager;
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+import eightbitlab.com.blurview.BlurTarget;
+import eightbitlab.com.blurview.BlurView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.CallSessionCallback {
     private AVEngineKit gEngineKit;
@@ -40,15 +52,17 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
     ImageView backgroundImageView;
 
     ImageView portraitImageView;
+
+    private BlurTarget target;
+    private BlurView blurView;
     TextView nameTextView;
     ImageView muteImageView;
     ImageView spearImageView;
     ViewGroup incomingActionContainer;
     ViewGroup outgoingActionContainer;
     TextView descTextView;
-    TextView durationTextView;
 
-    private static final String TAG = "AudioFragment";
+    private static final String TAG = "SingleAudioBroadFragmentClass";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +89,8 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
     }
 
     private void bindViews(View view) {
+        target = view.findViewById(R.id.target);
+        blurView = view.findViewById(R.id.blurView);
         backgroundImageView = view.findViewById(R.id.backgroundImageView);
         portraitImageView = view.findViewById(R.id.portraitImageView);
         nameTextView = view.findViewById(R.id.nameTextView);
@@ -83,7 +99,6 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
         incomingActionContainer = view.findViewById(R.id.incomingActionContainer);
         outgoingActionContainer = view.findViewById(R.id.outgoingActionContainer);
         descTextView = view.findViewById(R.id.descTextView);
-        durationTextView = view.findViewById(R.id.durationTextView);
     }
 
     @Override
@@ -97,8 +112,7 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
             if (state == AVEngineKit.CallState.Connected) {
                 incomingActionContainer.setVisibility(View.GONE);
                 outgoingActionContainer.setVisibility(View.VISIBLE);
-                descTextView.setVisibility(View.GONE);
-                durationTextView.setVisibility(View.VISIBLE);
+                descTextView.setVisibility(View.VISIBLE);
             } else if (state == AVEngineKit.CallState.Idle) {
                 if (getActivity() == null) {
                     return;
@@ -243,9 +257,8 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
             return;
         }
         if (session.getState() == AVEngineKit.CallState.Connected) {
-            descTextView.setVisibility(View.GONE);
+            descTextView.setVisibility(View.VISIBLE);
             outgoingActionContainer.setVisibility(View.VISIBLE);
-            durationTextView.setVisibility(View.VISIBLE);
         } else {
             if (session.getState() == AVEngineKit.CallState.Outgoing) {
                 descTextView.setText(R.string.call_broad_waiting);
@@ -258,18 +271,28 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
             }
         }
         String targetId = session.getParticipantIds().get(0);
-        UserInfo userInfo = ChatManager.Instance().getUserInfo(targetId, false);
-        updateUserInfoViews(userInfo);
-
-        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
-        userViewModel.userInfoLiveData().observe(getViewLifecycleOwner(), userInfos -> {
-            for (UserInfo info : userInfos) {
-                if (info.uid.equals(targetId)) {
-                    updateUserInfoViews(info);
-                    break;
-                }
+        RealmUtil.INSTANCE.findUserData(targetId, friendBean -> {
+            if (null != friendBean) {
+                eLogD(TAG, "friendBean!=null");
+                updateUserInfo(friendBean.userImg, TextUtils.isEmpty(friendBean.remarkName) ? friendBean.nickName : friendBean.remarkName);
+            } else {
+                eLogD(TAG, "friendBean=null");
+                UserInfo userInfo = ChatManager.Instance().getUserInfo(targetId, false);
+                updateUserInfo(userInfo.portrait, ChatManager.Instance().getUserDisplayName(userInfo));
             }
+            return null;
         });
+//        UserInfo userInfo = ChatManager.Instance().getUserInfo(targetId, false);
+//        updateUserInfoViews(userInfo);
+//        UserViewBroadModel userViewModel = new ViewModelProvider(this).get(UserViewBroadModel.class);
+//        userViewModel.userInfoLiveData().observe(getViewLifecycleOwner(), userInfos -> {
+//            for (UserInfo info : userInfos) {
+//                if (info.uid.equals(targetId)) {
+//                    updateUserInfoViews(info);
+//                    break;
+//                }
+//            }
+//        });
         muteImageView.setSelected(session.isAudioMuted());
         updateCallDuration();
 
@@ -277,17 +300,28 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
         spearImageView.setSelected(audioManager.getSelectedAudioDevice() == AVAudioManager.AudioDevice.SPEAKER_PHONE);
     }
 
-    private void updateUserInfoViews(UserInfo userInfo) {
-        Glide.with(this)
-                .load(userInfo.portrait)
-                .placeholder(R.mipmap.avatar_broad_def)
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
-                .into(portraitImageView);
-        Glide.with(this)
-                .load(userInfo.portrait)
-                .apply(RequestOptions.bitmapTransform(new BlurBroadTransformation(10)))
-                .into(backgroundImageView);
-        nameTextView.setText(ChatManager.Instance().getUserDisplayName(userInfo));
+    //    private void updateUserInfoViews(UserInfo userInfo) {
+//        Glide.with(this)
+//                .load(userInfo.portrait)
+//                .placeholder(R.mipmap.avatar_broad_def)
+//                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
+//                .into(portraitImageView);
+//        Glide.with(this)
+//                .load(userInfo.portrait)
+//                .apply(RequestOptions.bitmapTransform(new BlurBroadTransformation(10)))
+//                .into(backgroundImageView);
+//        nameTextView.setText(ChatManager.Instance().getUserDisplayName(userInfo));
+//    }
+    private void updateUserInfo(String userImg, String userName) {
+        loadImg(portraitImageView, userImg, com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut);
+        loadImg(backgroundImageView, userImg, com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut);
+        nameTextView.setText(userName);
+        blurView.setupWith(target).setFrameClearDrawable(getActivity().getWindow().getDecorView().getBackground()).setBlurRadius(20f);
+//        blurView.setVisibility(View.GONE);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            RenderEffect blur = RenderEffect.createBlurEffect(106f, 106f, Shader.TileMode.CLAMP);
+//            backgroundImageView.setRenderEffect(blur);
+//        }
     }
 
     private void runOnUiThread(Runnable runnable) {
@@ -309,7 +343,7 @@ public class SingleAudioBroadFragment extends Fragment implements AVEngineKit.Ca
             } else {
                 text = String.format("%02d:%02d", s / 60, (s % 60));
             }
-            durationTextView.setText(text);
+            descTextView.setText(text);
         }
         handler.postDelayed(this::updateCallDuration, 1000);
     }

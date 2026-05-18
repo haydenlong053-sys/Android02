@@ -36,6 +36,7 @@ public class CardMessageContent extends MessageContent {
     private String displayName;
     private String portrait;
     private String from;
+    private String idno="";
 
     public CardMessageContent() {
     }
@@ -47,6 +48,15 @@ public class CardMessageContent extends MessageContent {
         this.portrait = portrait;
         this.from = from;
     }
+    public CardMessageContent(int type, String target, String displayName, String portrait, String from,String idno) {
+        this.type = type;
+        this.target = target;
+        this.displayName = displayName;
+        this.portrait = portrait;
+        this.from = from;
+        this.idno = idno;
+    }
+
 
     public String getTarget() {
         return target;
@@ -96,6 +106,14 @@ public class CardMessageContent extends MessageContent {
         this.from = from;
     }
 
+    public String getIdno() {
+        return idno;
+    }
+
+    public void setIdno(String idno) {
+        this.idno = idno;
+    }
+
     @Override
     public MessagePayload encode() {
         MessagePayload payload = super.encode();
@@ -107,6 +125,7 @@ public class CardMessageContent extends MessageContent {
             objWrite.put("d", displayName);
             objWrite.put("p", portrait);
             objWrite.put("f", from);
+            objWrite.put("idno", idno);
 
             payload.binaryContent = objWrite.toString().getBytes();
         } catch (JSONException e) {
@@ -127,6 +146,7 @@ public class CardMessageContent extends MessageContent {
                 displayName = jsonObject.optString("d");
                 portrait = jsonObject.optString("p");
                 from = jsonObject.optString("f");
+                idno = jsonObject.optString("idno");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -162,6 +182,7 @@ public class CardMessageContent extends MessageContent {
         dest.writeString(this.displayName != null ? this.displayName : "");
         dest.writeString(this.portrait != null ? this.portrait : "");
         dest.writeString(this.from != null ? this.from : "");
+        dest.writeString(this.idno != null ? this.idno : "");
     }
 
     protected CardMessageContent(Parcel in) {
@@ -172,6 +193,7 @@ public class CardMessageContent extends MessageContent {
         this.displayName = in.readString();
         this.portrait = in.readString();
         this.from = in.readString();
+        this.idno = in.readString();
     }
 
     public static final Creator<CardMessageContent> CREATOR = new Creator<CardMessageContent>() {

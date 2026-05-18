@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="v_version">版本</string>
     <string name="camera">相機</string>
     <string name="storage">儲存</string>
     <string name="read">讀取</string>
@@ -114,4 +115,70 @@
     <string name="qr_code_expired">您的登入 QR 碼已失效，請儲存新的 QR 碼，否則下次將無法登入。</string>
 
     <string name="welcome_to_seek_four">歡迎來到SeekWeb4</string>
+
+    <!-- 啟用信用評分彈窗 -->
+    <string name="credit_score_activate_dialog_title">啟用信用評分</string>
+    <string name="credit_score_activate_dialog_subtitle">信用分是衡量使用者可靠度的核心指標</string>
+    <string name="credit_score_activate_item_1">建立互信:</string>
+    <string name="credit_score_activate_item_1_1">促成高效往來</string>
+    <string name="credit_score_activate_item_2">防禦風險:</string>
+    <string name="credit_score_activate_item_2_1">智慧攔截詐騙</string>
+    <string name="credit_score_activate_item_3">動態增分:</string>
+    <string name="credit_score_activate_item_3_1">活躍度越高,信用值越高</string>
+    <string name="credit_score_activate_later">稍後再說</string>
+    <string name="credit_score_activate_now">立即啟用</string>
+
+    <!-- 信用構成：維度名稱（與 CreditScoreComposeTypeBroadEnum 對應展示） -->
+    <string name="credit_score_label_online_duration">在線時長</string>
+    <string name="credit_score_label_online_duration_met">在線時長達標</string>
+    <string name="credit_score_label_register_days">註冊天數</string>
+    <string name="credit_score_label_platform_contribution">平台貢獻</string>
+    <string name="credit_score_label_violation_deduct">違規扣除</string>
+    <string name="credit_score_label_system_add">系統添加</string>
+    <string name="credit_score_label_system_deduct">系統扣減</string>
+    <string name="credit_score_label_invite_friend">邀請好友</string>
+    <string name="credit_score_label_hold">持有ODIC</string>
+    <string name="credit_score_label_guaranteed_transaction">擔保交易</string>
+    <string name="credit_score_label_endorsement_gained">獲得背書</string>
+
+    <!-- 信用分拆解行文案（基礎 / 會員加成 / 靚號加成） -->
+    <string name="credit_score_fmt_breakdown_base_usdt">基礎：%1$s/USDT</string>
+    <string name="credit_score_fmt_breakdown_base_day">基礎：%1$s/天</string>
+    <string name="credit_score_fmt_breakdown_base_p">基礎：%1$s/人</string>
+    <string name="credit_score_fmt_breakdown_base_mei">基礎：%1$s/枚</string>
+    <string name="credit_score_fmt_breakdown_base_fen">基礎：%1$s/分</string>
+    <string name="credit_score_fmt_breakdown_base">基礎：%1$s</string>
+    <string name="credit_score_fmt_breakdown_base_quick">基礎：%1$s倍會員加速</string>
+    <string name="credit_score_fmt_breakdown_vip_bonus">會員+%1$s</string>
+    <string name="credit_score_fmt_breakdown_nice_id_bonus">靚號+%1$s</string>
+
+    <string name="credit_score_go">前往</string>
+    <string name="credit_score_open_member">開通會員</string>
+    <string name="credit_score_des1">開通SeekWeb官方會員尊享特權，可加速信用分，還享有六大專屬權益</string>
+    <string name="credit_score_open_premium_number">靚號開通</string>
+    <string name="credit_score_des2">可根據自己需求在商城「我的」-「IM靚號」處選購靚號</string>
+    <string name="credit_score_func">信用說明</string>
+    <string name="registered_less_than_days">帳號註冊未滿%1$s天，訊息禁止包含連結；開通會員或購買靚號可提前滿足條件</string>
+    <string name="collect">收藏</string>
+    <string name="credit_prefix2">信用:</string>
+    <string name="register_time_prefix2">註冊時間:</string>
+    <string name="del_coll_title">要刪除這個收藏嗎？</string>
+    <string name="msg_score_unit3">分</string>
+    <string name="remove_blacklist"> 解除</string>
+    <string name="mine_vip_time_to">有效期至</string>
+
+    <!-- Mine page (new) -->
+    <string name="mine_vip_limited_offer">會員限時特惠</string>
+    <string name="mine_open_now">立即開通</string>
+    <string name="mine_seekweb4_vip_member">SeekWeb4 VIP會員</string>
+    <string name="mine_assets">資產</string>
+    <string name="mine_square">廣場</string>
+    <string name="mine_customer_service">客服</string>
+    <string name="mine_favorite">收藏</string>
+    <string name="mine_safe_center">安全中心</string>
+    <string name="mine_faq">常見問題</string>
+    <string name="mine_system_settings">系統設定</string>
+    <string name="msg_group_members">群成員</string>
+    <string name="msg_group_services">群內服務</string>
+    <string name="msg_personal_settings">個人設定</string>
 </resources>

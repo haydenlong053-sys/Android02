@@ -102,12 +102,12 @@ class SearchUserBroadActivity : BaseSimpleBroadActivity() {
             smartLayout?.finishRefresh()
             smartLayout?.finishLoadMore()
             it.dataList?.apply {
-                if (this.isNotEmpty()) {
-                    pageNo++
-                }
+//                if (this.isNotEmpty()) {
+//                    pageNo++
+//                }
+                mDataList.clear()
                 mDataList.addAll(this)
                 mAdapter?.setList(mDataList)
-
                 if (mDataList.isEmpty()) {
                     mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
                 }

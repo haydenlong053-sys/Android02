@@ -63,11 +63,11 @@ class AuthWayBroadPop(
                     binding.mLlSecurity.isVisible = !it.securityId.isNullOrEmpty()
 
                     binding.mViewAddGoogle.isVisible = it.twoFactorCode.isNullOrEmpty()
-                    binding.mViewGoogle.isVisible = !it.twoFactorCode.isNullOrEmpty()
+//                    binding.mViewGoogle.isVisible = !it.twoFactorCode.isNullOrEmpty()
                     binding.mViewAddPassword.isVisible = it.payPassword.isNullOrEmpty()
-                    binding.mViewPassword.isVisible = !it.payPassword.isNullOrEmpty()
+//                    binding.mViewPassword.isVisible = !it.payPassword.isNullOrEmpty()
                     binding.mViewAddSecurity.isVisible = it.securityId.isNullOrEmpty()
-                    binding.mViewSecurity.isVisible = !it.securityId.isNullOrEmpty()
+//                    binding.mViewSecurity.isVisible = !it.securityId.isNullOrEmpty()
                 }
             }
 
@@ -91,10 +91,15 @@ class AuthWayBroadPop(
                             binding.mLlSecurity.isVisible = !it.securityId.isNullOrEmpty()
 
                             binding.mViewAddGoogle.isVisible = it.twoFactorCode.isNullOrEmpty()
+
                             binding.mViewGoogle.isVisible = !it.twoFactorCode.isNullOrEmpty()
+
                             binding.mViewAddPassword.isVisible = it.payPassword.isNullOrEmpty()
+
                             binding.mViewPassword.isVisible = !it.payPassword.isNullOrEmpty()
+
                             binding.mViewAddSecurity.isVisible = it.securityId.isNullOrEmpty()
+
                             binding.mViewSecurity.isVisible = !it.securityId.isNullOrEmpty()
                         }
 
@@ -124,7 +129,7 @@ class AuthWayBroadPop(
     private fun initDeepColor() {
         if (isDeepColor) {
             binding.mViewTopBg.setBackgroundResource(R.drawable.bg_rect_deep_only_top_broad_18dp)
-            binding.mIvClose.setImageResource(R.mipmap.ic_auth_broad_close2)
+            binding.mIvClose.setImageResource(com.cboda.baselibrary.R.mipmap.ic_auth_broad_close2)
             binding.mIvGo.imageTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             binding.mTvTitle.setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -132,13 +137,13 @@ class AuthWayBroadPop(
             binding.mLlPassWord.setBackgroundResource(R.drawable.bg_rect_save_deep_broad_16dp)
             binding.mLlSecurity.setBackgroundResource(R.drawable.bg_rect_save_deep_broad_16dp)
 
-            binding.mTvGoogleText.setLeftImgAndTextColor(R.mipmap.ic_google_broad_auth2, R.color.white)
+            binding.mTvGoogleText.setLeftImgAndTextColor(com.cboda.baselibrary.R.mipmap.ic_google_broad_auth2, R.color.white)
             binding.mTvPasswordText.setLeftImgAndTextColor(
-                R.mipmap.ic_pay_password_broad_auth2,
+                com.cboda.baselibrary.R.mipmap.ic_pay_password_broad_auth2,
                 R.color.white
             )
             binding.mTvSecurityText.setLeftImgAndTextColor(
-                R.mipmap.ic_security_broad_auth2,
+                com.cboda.baselibrary.R.mipmap.ic_security_broad_auth2,
                 R.color.white
             )
         }

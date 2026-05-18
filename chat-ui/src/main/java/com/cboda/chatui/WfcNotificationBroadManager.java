@@ -63,7 +63,7 @@ public class WfcNotificationBroadManager {
 
     private void showNotification(Context context, String tag, int id, String title, String content, PendingIntent pendingIntent) {
         eLogD("野火","通知---> "+title+"  "+content);
-        TiXingBroadUtils.Companion.tixing(context);
+        TiXingBroadUtils.Companion.imMsgReminder(context);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "wfc_notification";

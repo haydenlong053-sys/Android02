@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.chatui.utils.E;
 import com.cboda.chatui.utils.GroupAvatarBroadLoader;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
@@ -92,10 +93,10 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.fanhui){
+        if (view.getId() == R.id.fanhui) {
             finish();
         }
-        if (view.getId() == R.id.tvKt){
+        if (view.getId() == R.id.tvKt) {
             if (isvip.equals("0")) {
                 startActivity(new Intent(this, HyzxBroadActivity.class));
             } else {
@@ -164,31 +165,7 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 bean = resultBean;
                 tvName.setText(bean.data.name);
-                GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(id, false);
-//                ELogUtilKt.eLogD(APP_TAG,"groupInfo.portrait==="+groupInfo.portrait);
-
-                // 提取头像URL列表
-                List<String> avatarUrls = new ArrayList<>();
-                if (bean.data.userList!=null && !bean.data.userList.isEmpty()){
-                    for (CircleCommListBroadBean broadBean : bean.data.userList) {
-                        avatarUrls.add(broadBean.icon);
-                    }
-                }
-                if (TextUtils.isEmpty(bean.data.icon) && groupInfo!=null && !TextUtils.isEmpty(groupInfo.portrait)) {
-                    GlideBroadUtil.setImag(SjqlBroadActivity.this, groupInfo.portrait, ivIcon);
-                } else if (TextUtils.isEmpty(bean.data.icon)  && !avatarUrls.isEmpty()){
-                    GroupAvatarBroadLoader.INSTANCE.loadToImageView(
-                            SjqlBroadActivity.this,
-                            avatarUrls,
-                            ivIcon,
-                            id
-                    );
-                }else {
-                    GlideBroadUtil.setImag(SjqlBroadActivity.this, bean.data.icon, ivIcon);
-                }
-
-
-
+                E.INSTANCE.loadGroupImg(ivIcon, id, bean.data.icon);
                 if (isvip.equals("0")) {
                     tvKt.setText(getString(R.string.群主还未成为会员));
                     tvKt.setBackgroundResource(R.mipmap.ic_bg_btn2_broad_01);

@@ -4,17 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.click
-import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.getIsDebug
-import com.cboda.baselibrary.utils.showCommonBottomListPop
-import com.cboda.baselibrary.utils.showCommonStrTip
-import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.databinding.SelectLoginBroadFragmentBinding
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 
@@ -51,9 +45,20 @@ class SelectLoginBroadFragment : BaseBroadFragment<SelectLoginBroadFragmentBindi
 
     private val scanClick = object : OnSingleClickBroadListener() {
         override fun onSingleClick(v: View?) {
-            val bundle = Bundle()
-            bundle.putInt("jumpSource", ScanJumpBroadEnum.Login.sourceType)
-            viewModel.startAct<ScanBroadActivity>(bundle)
+//            val bundle = Bundle()
+//            bundle.putInt("jumpSource", ScanJumpBroadEnum.Login.sourceType)
+//            viewModel.startAct<ScanBroadActivity>(bundle)
+            (activity as NewEquipmentBroadActivity).toScan()
+
+//            val loginBean = LoginBean()
+//            loginBean.twoFactorCode = true
+//            loginBean.existPayPassword = true
+//            loginBean.existMbName = true
+//            loginBean.securityQuestion = "你的警号"
+//            val securityVerificationPopup = SecurityVerificationPopup(activity ?: requireContext(), loginBean)
+//            securityVerificationPopup.showPopupWindow()
+
+
 //            val list = arrayListOf<ComBottomListBean>()
 //
 //            list.add(ComBottomListBean().apply {

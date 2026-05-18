@@ -16,7 +16,6 @@ import com.cboda.baselibrary.utils.setTxt
 import com.blankj.utilcode.util.FileUtils
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.intelligent.R
-import com.cboda.intelligent.activity.TestActivity
 import com.cboda.intelligent.adapter.AIImgBroadAdapter
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.AiAllFragmentBinding

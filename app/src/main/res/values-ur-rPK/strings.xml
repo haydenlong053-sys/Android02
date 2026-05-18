@@ -513,4 +513,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">ہیلو، %1$s</string>
+    <string name="credit_score_member_benefits">رکنیت کے فوائد</string>
+    <string name="credit_score_member_not_open">رکنیت فعال نہیں ہے</string>
+    <string name="credit_score_nice_number_benefits">پریمیم نمبر کے فوائد</string>
+    <string name="credit_score_nice_number_not_open">پریمیم نمبر فعال نہیں ہے</string>
+    <string name="credit_score_hint_very_poor">آپ کا کریڈٹ بہت کمزور ہے، براہِ کرم اسے بہتر کریں!</string>
+    <string name="credit_score_hint_excellent">آپ کا کریڈٹ بہترین ہے، ایسے ہی جاری رکھیں!</string>
+    <string name="credit_score_hint_good">آپ کا کریڈٹ اچھا ہے، کوشش جاری رکھیں!</string>
+    <string name="credit_score_hint_normal">آپ کا کریڈٹ معمولی ہے، مزید محنت کریں!</string>
+    <string name="credit_score_title">کریڈٹ اسکور</string>
+    <string name="credit_score_tab_compose">کریڈٹ کی ساخت</string>
+    <string name="credit_score_tab_record">تبدیلیوں کی تاریخ</string>
 </resources>

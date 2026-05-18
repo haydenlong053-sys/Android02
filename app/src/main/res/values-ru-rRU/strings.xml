@@ -506,4 +506,16 @@
     <string name="add_trans_dialog_title_disabled">Временно недоступно</string>
     <string name="add_trans_dialog_msg_contact_cs">Обратитесь в службу поддержки 008</string>
 
+    <string name="credit_score_hi_nickname">Привет, %1$s</string>
+    <string name="credit_score_member_benefits">Преимущества участника</string>
+    <string name="credit_score_member_not_open">Подписка не активирована</string>
+    <string name="credit_score_nice_number_benefits">Преимущества премиум-номера</string>
+    <string name="credit_score_nice_number_not_open">Премиум-номер не активирован</string>
+    <string name="credit_score_hint_very_poor">Ваш кредитный рейтинг очень низкий, постарайтесь его улучшить!</string>
+    <string name="credit_score_hint_excellent">Ваш кредитный рейтинг отличный, продолжайте в том же духе!</string>
+    <string name="credit_score_hint_good">Ваш кредитный рейтинг хороший, продолжайте стараться!</string>
+    <string name="credit_score_hint_normal">Ваш кредитный рейтинг средний, приложите больше усилий!</string>
+    <string name="credit_score_title">Кредитный рейтинг</string>
+    <string name="credit_score_tab_compose">Структура кредита</string>
+    <string name="credit_score_tab_record">История изменений</string>
 </resources>

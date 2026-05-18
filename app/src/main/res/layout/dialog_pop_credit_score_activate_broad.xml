@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:background="@color/black">
+
+    <LinearLayout
+        android:id="@+id/mLlContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:background="@drawable/bg_dialog_credit_score_activate_gradient_broad"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_24"
+        android:paddingBottom="@dimen/dp_24">
+
+        <TextView
+            android:id="@+id/mTvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/credit_score_activate_dialog_title"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="激活信用评分" />
+
+        <TextView
+            android:id="@+id/mTvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:gravity="center"
+            android:text="@string/credit_score_activate_dialog_subtitle"
+            android:textColor="@color/black_65"
+            android:textSize="@dimen/sp_14"
+            tools:text="信用分是衡量用户可靠度的核心指标" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:paddingStart="@dimen/dp_29"
+            android:paddingEnd="@dimen/dp_6"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_14"
+                    android:layout_height="@dimen/dp_14"
+                    android:importantForAccessibility="no"
+                    android:src="@mipmap/ic_credit_score_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:text="@string/credit_score_activate_item_1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/credit_score_activate_item_1_1"
+                    android:textColor="@color/black_65"
+                    android:textSize="@dimen/sp_14"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_14"
+                    android:layout_height="@dimen/dp_14"
+                    android:importantForAccessibility="no"
+                    android:src="@mipmap/ic_credit_score_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:text="@string/credit_score_activate_item_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/credit_score_activate_item_2_1"
+                    android:textColor="@color/black_65"
+                    android:textSize="@dimen/sp_14"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_14"
+                    android:layout_height="@dimen/dp_14"
+                    android:importantForAccessibility="no"
+                    android:src="@mipmap/ic_credit_score_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:text="@string/credit_score_activate_item_3"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/credit_score_activate_item_3_1"
+                    android:textColor="@color/black_65"
+                    android:textSize="@dimen/sp_14"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:paddingHorizontal="@dimen/dp_24"
+            android:orientation="horizontal">
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/mTvCancel"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_46"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="@string/credit_score_activate_later"
+                android:textColor="@color/color_3B47DD"
+                android:textSize="@dimen/sp_stander"
+                app:shape_radius="@dimen/dp_16"
+                app:shape_solidColor="@color/white"
+                app:shape_strokeColor="@color/color_3B47DD"
+                app:shape_strokeWidth="@dimen/dp_1" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/mTvSure"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_46"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="@string/credit_score_activate_now"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_stander"
+                app:shape_radius="@dimen/dp_16"
+                app:shape_solidColor="@color/color_3B47DD" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

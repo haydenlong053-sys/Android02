@@ -12,6 +12,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
+import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.CreateRoomBroadBean
 import com.cboda.intelligent.bean.GroupMeetingBroadBean
 import com.cboda.intelligent.bean.KickListBroadBean
@@ -103,7 +104,7 @@ class OKGoBroadHelper {
                             }
                         }
                     } catch (e: Exception) {
-                        eLogD("OKGoHelperClass解析异常", "--->$e")
+                        e.toLog("OKGoHelperClass解析异常")
                     }
 
                 }

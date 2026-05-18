@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:background="@drawable/bg_bubble_broad_send"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contentLayout"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter">
+        android:layout_width="@dimen/dp_239"
+        android:layout_height="@dimen/dp_124"
+        android:background="@drawable/bg_chat_user_card_send"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="12dp"
+        >
 
-        <ImageView
+        <com.cboda.baselibrary.view.AppRoundBroadImage
             android:id="@+id/userCardPortraitImageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="6dp"
-            android:src="@mipmap/avatar_broad_def" />
+            android:scaleType="centerCrop"
+            android:src="@mipmap/avatar_broad_def"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <TextView
             android:id="@+id/userCardNameTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/userCardPortraitImageView"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/userCardPortraitImageView"
-            android:layout_alignBottom="@id/userCardPortraitImageView"
-            android:gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@id/userCardPortraitImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/userCardPortraitImageView"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
             android:ellipsize="end"
-            android:textColor="#ffffff"
             android:maxLines="1"
-            android:text="用用户名用户名用户名用户名用户名用户名用户名用户名户名"
-            android:textSize="18sp" />
+            android:textColor="@color/black"
+            tools:text="用用户名用户名用户名用户名用户名用户名用户名用户名户名"
+            android:textSize="16sp" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/userIdTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/userCardPortraitImageView"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="2dp"
-            android:layout_toRightOf="@id/userCardPortraitImageView"
+            app:layout_constraintStart_toStartOf="@id/userCardNameTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userCardNameTextView"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="wfchat_id"
-            android:textSize="12sp" />
+            tools:text="wfchat_id"
+            android:textSize="12sp"
+            android:textColor="@color/black_65"
+            />
+        <com.hjq.shape.view.ShapeTextView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userCardPortraitImageView"
+            android:layout_marginTop="16dp"
+            android:textSize="14sp"
+            android:textColor="@color/black_65"
+            android:text="@string/chat_recommend_friend"
+            android:gravity="center"
+            app:shape_strokeColor="@color/black_65"
+            app:shape_strokeWidth="0.5dp"
+            app:shape_radius="16dp"
+            />
 
-        <View
-            android:id="@+id/dividerLine"
-            style="@style/Line"
-            android:layout_width="210dp"
-            android:layout_height="0.5px"
-            android:layout_below="@id/userCardPortraitImageView"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="6dp"
-            android:visibility="visible" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dividerLine"
-            android:maxLines="1"
-            android:text="@string/msg_personal_card_name"
-            android:textColor="#ffffff"
-            android:textSize="12sp" />
-
-    </RelativeLayout>
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

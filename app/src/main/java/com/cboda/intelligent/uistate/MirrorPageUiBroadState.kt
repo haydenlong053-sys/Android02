@@ -1,6 +1,6 @@
 package com.cboda.intelligent.uistate
 
-import com.cboda.intelligent.model.UserInfoBroadModel
+import com.cboda.baselibrary.bean.UserInfoBroadModel
 
 /**
  * 镜像页面的ui状态管理

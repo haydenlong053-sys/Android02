@@ -14,4 +14,5 @@ class GlobalSmallGroupBroadBean {
     var groupDays: Int? = null
     var renameCount: Int? = null
     var name = ""
+    var icon = ""
 }

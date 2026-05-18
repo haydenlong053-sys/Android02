@@ -58,14 +58,17 @@ public class ImageBroadAdapter extends RecyclerView.Adapter<ImageBroadAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.ivImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (null != onItemClickListener) {
-                    onItemClickListener.OnItemClick(position);
+        if (null != onItemClickListener){
+            holder.ivImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (null != onItemClickListener) {
+                        onItemClickListener.OnItemClick(position);
+                    }
                 }
-            }
-        });
+            });
+        }
+
         ViewGroup.LayoutParams layoutParams = holder.ivImage.getLayoutParams();
         layoutParams.width = (ScreenBroadBroadUtil.getScreenWidth(context) - AppBroadUtil.dip2px(context, space)) / lineNum;
         layoutParams.height = layoutParams.width;

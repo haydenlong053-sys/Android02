@@ -166,7 +166,8 @@
 
         <activity
             android:name="com.cboda.intelligent.activity.CreditScoreActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.LoginVerificationActivity"
             android:exported="false" />
@@ -195,6 +196,7 @@
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.FeedbackBroadActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.AboutUsBroadActivity"
@@ -426,10 +428,13 @@
             android:name="com.cboda.intelligent.activity.VerifyBroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cboda.intelligent.activity.QunInfoBroadActivity"
+            android:name="com.cboda.intelligent.activity.QunInfo2BroadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunUserListBroadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.QunUserList2BroadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunTouSuBroadActivity"
@@ -439,7 +444,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunMemberListBroadActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name="com.cboda.intelligent.activity.QunNameBroadActivity"
             android:screenOrientation="portrait" />
@@ -490,9 +496,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.CreateQunBroadActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.cboda.intelligent.activity.HaoYouAddBroadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.SearchUserBroadActivity"
@@ -546,9 +549,9 @@
         <!--            android:screenOrientation="portrait"-->
         <!--            android:supportsPictureInPicture="true"-->
         <!--            android:windowSoftInputMode="adjustNothing" />-->
-        <activity
-            android:name="com.cboda.intelligent.activity.CircleAndRemarkBroadActivity"
-            android:screenOrientation="portrait" />
+        <!--        <activity-->
+        <!--            android:name="com.cboda.intelligent.activity.CircleAndRemarkBroadActivity"-->
+        <!--            android:screenOrientation="portrait" />-->
         <activity
             android:name="com.cboda.intelligent.activity.UserProfileInfoBroadActivity"
             android:screenOrientation="portrait" />

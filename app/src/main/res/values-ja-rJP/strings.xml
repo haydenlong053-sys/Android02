@@ -505,4 +505,16 @@
     <string name="add_trans_dialog_title_disabled">一時的に操作できません</string>
     <string name="add_trans_dialog_msg_contact_cs">カスタマーサポート008までお問い合わせください</string>
 
+    <string name="credit_score_hi_nickname">こんにちは、%1$s</string>
+    <string name="credit_score_member_benefits">会員特典</string>
+    <string name="credit_score_member_not_open">会員未開通</string>
+    <string name="credit_score_nice_number_benefits">プレミアム番号特典</string>
+    <string name="credit_score_nice_number_not_open">プレミアム番号未開通</string>
+    <string name="credit_score_hint_very_poor">信用スコアがとても低いです。改善を頑張りましょう！</string>
+    <string name="credit_score_hint_excellent">信用スコアが非常に良いです。この調子で！</string>
+    <string name="credit_score_hint_good">信用スコアは良好です。引き続き頑張りましょう！</string>
+    <string name="credit_score_hint_normal">信用スコアは普通です。もう少し頑張りましょう！</string>
+    <string name="credit_score_title">信用スコア</string>
+    <string name="credit_score_tab_compose">信用構成</string>
+    <string name="credit_score_tab_record">変動履歴</string>
 </resources>

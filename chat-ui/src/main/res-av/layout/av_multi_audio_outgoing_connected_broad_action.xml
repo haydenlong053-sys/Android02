@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black"
-    android:gravity="center"
+    android:layout_height="wrap_content"
+    tools:background="@color/black"
+    android:gravity="bottom|center_horizontal"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/durationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        tools:text="00:00" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,8 +29,9 @@
 
             <ImageView
                 android:id="@+id/muteImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_68"
+                android:layout_height="@dimen/dp_68"
+                android:scaleType="centerCrop"
                 android:src="@drawable/av_mute_broad_selector" />
 
             <TextView
@@ -50,8 +52,9 @@
 
             <ImageView
                 android:id="@+id/speakerImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_68"
+                android:layout_height="@dimen/dp_68"
+                android:scaleType="centerCrop"
                 android:src="@drawable/av_speaker_broad_selector" />
 
             <TextView
@@ -72,8 +75,9 @@
 
             <ImageView
                 android:id="@+id/hangupImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_68"
+                android:layout_height="@dimen/dp_68"
+                android:scaleType="centerCrop"
                 android:src="@drawable/av_hangup_broad_selector" />
 
             <TextView

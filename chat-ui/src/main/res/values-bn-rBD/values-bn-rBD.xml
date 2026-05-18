@@ -184,4 +184,6 @@
     <string name="chat_meet_service_notification">মিটিং ফোরগ্রাউন্ড পরিষেবা বিজ্ঞপ্তি</string>
     <string name="chat_meet_service_tip">অ্যাপে ফিরে যেতে ট্যাপ করুন</string>
 
+    <string name="chat_recommend_friend">বন্ধু সুপারিশ করুন</string>
+    <string name="chat_add_friend">বন্ধু যোগ করুন</string>
 </resources>

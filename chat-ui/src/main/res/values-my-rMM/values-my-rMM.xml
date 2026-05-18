@@ -180,4 +180,6 @@
     <string name="connection_status_syncing">ထပ်တူပြုနေသည်...</string>
     <string name="connection_status_failed">ချိတ်ဆက်မှု မအောင်မြင်ပါ</string>
 
+    <string name="chat_recommend_friend">သူငယ်ချင်း အကြံပြုရန်</string>
+    <string name="chat_add_friend">သူငယ်ချင်း ထည့်ရန်</string>
 </resources>

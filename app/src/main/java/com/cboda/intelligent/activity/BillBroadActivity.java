@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.intelligent.R;
+import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.adapter.BillBroadAdapter;
 import com.cboda.select.picture.entity.DataListBroadBean;
@@ -30,7 +31,7 @@ import java.util.Map;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class BillBroadActivity extends BaseSimpleBroadActivity {
+public class BillBroadActivity extends BaseSimple2BroadActivity {
 
     private BillBroadAdapter billAdapter;
     private List<DataListBroadBean> listBeans = new ArrayList<>();
@@ -44,6 +45,16 @@ public class BillBroadActivity extends BaseSimpleBroadActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.activity_broad_bill;
+    }
+
+//    @Override
+//    public boolean showBgTopTitleLayout() {
+//        return true;
+//    }
+
+    @Override
+    public boolean showTransparentTopTitleLayout() {
+        return  true;
     }
 
     @Override

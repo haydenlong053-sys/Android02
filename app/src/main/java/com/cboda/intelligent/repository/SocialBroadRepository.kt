@@ -1,14 +1,17 @@
 package com.cboda.intelligent.repository
 
+import android.text.TextUtils
 import cn.wildfirechat.remote.ChatManager
+import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
-import com.cboda.intelligent.model.SocialBroadCircle
-import com.cboda.intelligent.model.SocialContact
-import com.cboda.intelligent.model.SocialFriendRequest
+import com.cboda.baselibrary.bean.SocialBroadCircle
+import com.cboda.baselibrary.bean.SocialContact
+import com.cboda.baselibrary.bean.SocialFriendRequest
+import com.cboda.baselibrary.utils.RealmUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -82,6 +85,8 @@ class SocialBroadRepository {
                 SocialContact::class.java, body
             )
             result.onSuccess { data ->
+                RealmUtil.addUserData(data?.list)
+                //eLogD(APP_TAG,"好友总数："+data?.totalCount)
                 list = data?.list ?: emptyList()
 
             }.onFailure { code, message ->

@@ -185,4 +185,6 @@
     <string name="connection_status_syncing">กำลังซิงค์...</string>
     <string name="connection_status_failed">การเชื่อมต่อล้มเหลว</string>
 
+    <string name="chat_recommend_friend">แนะนำเพื่อน</string>
+    <string name="chat_add_friend">เพิ่มเพื่อน</string>
 </resources>

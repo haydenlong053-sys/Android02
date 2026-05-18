@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
 import com.bumptech.glide.Glide;
@@ -35,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.cboda.baselibrary.bean.MsgBroadExtra;
+import com.cboda.baselibrary.utils.RealmUtil;
+import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.AppServiceBroadProvider;
 import com.cboda.chatui.ChatManagerBroadHolder;
 import com.cboda.chatui.BroadConfig;
@@ -81,11 +84,13 @@ import kotlin.jvm.functions.Function1;
  * 普通消息
  */
 public abstract class NormalMessageContentViewBroadHolder extends MessageContentViewBroadHolder {
-    ImageView portraitImageView;
+    //    ImageView portraitImageView;
+    VpGradeView singleVgView;
     LinearLayout errorLinearLayout;
     TextView nameTextView;
     ProgressBar progressBar;
     CheckBox checkBox;
+    View nameLayout;
 
     @Nullable
     ImageView singleReceiptImageView;
@@ -114,7 +119,9 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
     }
 
     private void bindViews(View itemView) {
-        portraitImageView = itemView.findViewById(R.id.portraitImageView);
+//        portraitImageView = itemView.findViewById(R.id.portraitImageView);
+        nameLayout = itemView.findViewById(R.id.nameLayout);
+        singleVgView = itemView.findViewById(R.id.singleVgView);
         errorLinearLayout = itemView.findViewById(R.id.errorLinearLayout);
         nameTextView = itemView.findViewById(R.id.nameTextView);
         progressBar = itemView.findViewById(R.id.progressBar);
@@ -406,7 +413,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
     }
 
     private void setSenderAvatar(Message item) {
-        // TODO get user info from viewModel
+        //  get user info from viewModel
         final String[] portraitUrl = {null};
         if (item.conversation.type == Conversation.ConversationType.Channel && item.direction == MessageDirection.Receive) {
             ChannelInfo channelInfo = ChatManager.Instance().getChannelInfo(item.conversation.target, false);
@@ -423,35 +430,34 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
         }
 
         if (portraitUrl[0] == null) {
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(item.sender, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                @Override
-                public Unit invoke(GlobalFriendBroadBean bean) {
-                    if (bean != null) {
-                        portraitUrl[0] = bean.icon;
-                        setImgData(portraitUrl[0]);
-                    }
-                    return null;
+            RealmUtil.INSTANCE.findUserData(item.sender, bean -> {
+                if (bean != null) {
+                    portraitUrl[0] = bean.userImg;
+                    setImgData(portraitUrl[0]);
                 }
+                return null;
             });
-
         }
 
     }
 
 
     private void setImgData(String portraitUrl) {
-        if (portraitImageView != null) {
+        if (singleVgView != null) {
             //默认头像
-            Glide.with(fragment)
-                    .load(portraitUrl == null ? "" : portraitUrl)
-                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
-                    .into(portraitImageView);
+//            Glide.with(fragment)
+//                    .load(portraitUrl == null ? "" : portraitUrl)
+//                    .placeholder(com.cboda.baselibrary.R.mipmap.ic_logo_broad_login)
+//                    .into(portraitImageView);
+            singleVgView.loadUserImg(portraitUrl);
         }
+
     }
 
     private void setSenderName(Message item) {
         if (item.conversation.type == Conversation.ConversationType.Single) {
             nameTextView.setVisibility(View.GONE);
+            nameLayout.setVisibility(View.GONE);
         } else if (item.conversation.type == Conversation.ConversationType.Group) {
             showGroupMemberAlias(message.message.conversation, message.message, message.message.sender);
         } else {
@@ -464,13 +470,16 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
         String hideGroupNickName = userViewModel.getUserSetting(UserSettingScope.GroupHideNickname, conversation.target);
         if ((!TextUtils.isEmpty(hideGroupNickName) && !"1".equals(hideGroupNickName)) || message.direction == MessageDirection.Send) {
             nameTextView.setVisibility(View.GONE);
+            nameLayout.setVisibility(View.GONE);
             return;
         }
         if (!TextUtils.isEmpty(message.content.extra)) {
             MsgBroadExtra msgExtra = fromJson2(message.content.extra, MsgBroadExtra.class);
             nameTextView.setVisibility(msgExtra.isMeetingImage().equals("1") ? View.GONE : View.VISIBLE);
+            nameLayout.setVisibility(msgExtra.isMeetingImage().equals("1") ? View.GONE : View.VISIBLE);
         } else {
             nameTextView.setVisibility(View.VISIBLE);
+            nameLayout.setVisibility(View.VISIBLE);
         }
 
         // TODO optimize 缓存userInfo吧
@@ -504,7 +513,7 @@ public abstract class NormalMessageContentViewBroadHolder extends MessageContent
 //        } else {
 //            nameTextView.setText(displayName[0]);
 //        }
-        E.INSTANCE.getUserName(sender, conversation.target, false, s -> {
+        E.INSTANCE.getUserName(sender, conversation.target, false,conversation.type== Conversation.ConversationType.Group, s -> {
             nameTextView.setText(s);
             return null;
         });

@@ -204,4 +204,6 @@
     <string name="chat_meet_service_notification">Notification du service de réunion au premier plan</string>
     <string name="chat_meet_service_tip">Touchez pour revenir à l\'application</string>
 
+    <string name="chat_recommend_friend">Recommander des amis</string>
+    <string name="chat_add_friend">Ajouter des amis</string>
 </resources>

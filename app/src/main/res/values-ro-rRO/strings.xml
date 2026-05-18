@@ -508,4 +508,16 @@
     <string name="add_trans_dialog_title_disabled">Indisponibil temporar</string>
     <string name="add_trans_dialog_msg_contact_cs">Contactați serviciul clienți 008</string>
 
+    <string name="credit_score_hi_nickname">Salut, %1$s</string>
+    <string name="credit_score_member_benefits">Beneficii de membru</string>
+    <string name="credit_score_member_not_open">Abonamentul nu este activat</string>
+    <string name="credit_score_nice_number_benefits">Beneficii număr premium</string>
+    <string name="credit_score_nice_number_not_open">Numărul premium nu este activat</string>
+    <string name="credit_score_hint_very_poor">Creditul tău este foarte slab, încearcă să îl îmbunătățești!</string>
+    <string name="credit_score_hint_excellent">Creditul tău este excelent, continuă așa!</string>
+    <string name="credit_score_hint_good">Creditul tău este bun, continuă să progresezi!</string>
+    <string name="credit_score_hint_normal">Creditul tău este mediu, continuă să te străduiești!</string>
+    <string name="credit_score_title">Scor de credit</string>
+    <string name="credit_score_tab_compose">Componența creditului</string>
+    <string name="credit_score_tab_record">Istoric modificări</string>
 </resources>

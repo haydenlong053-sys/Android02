@@ -13,13 +13,14 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.baselibrary.common.BridgeImEnum
+import com.cboda.intelligent.base.BaseSimple2BroadActivity
 
-class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
+class QunGongGaoBroadActivity : BaseSimple2BroadActivity() {
 
     private var qunId = ""
     private var qunName = ""
     private var viewModel: CommViewBroadModel? = null
-    private lateinit var rightLayout: LinearLayoutCompat
+//    private lateinit var rightLayout: LinearLayoutCompat
     private lateinit var tvAgree: TextView
     private lateinit var tvNotAgree: TextView
     private lateinit var tvNumHint: TextView
@@ -31,7 +32,7 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
         tvNumHint = findViewById(R.id.tvNumHint)
         tvNotAgree = findViewById(R.id.tvNotAgree)
         tvAgree = findViewById(R.id.tvAgree)
-        rightLayout = findViewById(R.id.rightLayout)
+//        rightLayout = findViewById(R.id.rightLayout)
     }
 
 
@@ -41,6 +42,7 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRootBgColor(R.color.white)
         initViews()
         qunId = intent?.getStringExtra("qunid") ?: ""
         qunName = intent?.getStringExtra("qunName") ?: ""
@@ -50,7 +52,7 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "xiugaigonggaoSuc" -> {
-                    MyCommonBroadBridge.getInstance()?.setMyBridgeMethod(this@QunGongGaoBroadActivity, BridgeImEnum.GET_GROUP_DETAILS.value,qunId,"",null)
+                    MyCommonBroadBridge.getInstance()?.setMyBridgeMethod(this@QunGongGaoBroadActivity, BridgeImEnum.GET_GROUP_DETAILS.value, qunId, "", null)
 
 //                    val v2TIMGroupInfo =  V2TIMGroupInfo()
 //                    v2TIMGroupInfo.groupID = qunId
@@ -104,5 +106,9 @@ class QunGongGaoBroadActivity:BaseSimpleBroadActivity() {
 
             viewModel?.xiugaigonggao(this, qunId, edtBeizhu?.text?.trim()?.toString() ?: "")
         }
+    }
+
+    override fun showTransparentTopTitleLayout(): Boolean {
+        return true
     }
 }

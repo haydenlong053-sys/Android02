@@ -8,55 +8,108 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/qungonggao"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.cboda.chatui.MarqueeTextBroadView
-            android:id="@+id/gonggaoxinxi"
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/qungonggao"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="23dp"
-            android:layout_marginEnd="10dp"
-            android:clickable="true"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告"
-            android:textColor="@color/color_text_gonggao"
-            android:textSize="13sp" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:visibility="gone"
+            app:shape_radius="@dimen/dp_18"
+            app:shape_solidColor="#3DEB534B"
+            tools:visibility="visible">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/qunMeetingNotice"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:visibility="gone">
+            <com.cboda.chatui.MarqueeTextBroadView
+                android:id="@+id/gonggaoxinxi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                tools:text="群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告" />
+        </com.hjq.shape.layout.ShapeLinearLayout>
 
-        <com.cboda.chatui.MarqueeTextBroadView
-            android:id="@+id/tvQunMeeting"
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/qunMeetingNotice"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="23dp"
-            android:layout_marginEnd="10dp"
-            android:clickable="true"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_4"
+            android:visibility="gone"
+            app:shape_radius="@dimen/dp_18"
+            app:shape_solidColor="#3DEB534B"
+            tools:visibility="visible">
+
+            <com.cboda.chatui.MarqueeTextBroadView
+                android:id="@+id/tvQunMeeting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                tools:text="群通知：已经开启语音房，点击可加入点击可加入点击可加入点击可加入点击可加入!" />
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/mViewMeetJoin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_4"
             android:gravity="center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="群通知：已经开启语音房，点击可加入!"
-            android:textColor="@color/color_text_gonggao"
-            android:textSize="13sp" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:shape_radius="@dimen/dp_16"
+            app:shape_solidColor="#3D3B47DD"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/mTvMeetPeople"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_weight="1"
+                android:text="@string/msg_meeting_active_count"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/mTvMeetJoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:paddingHorizontal="@dimen/dp_12"
+                android:paddingVertical="@dimen/dp_5"
+                android:text="@string/msg_meeting_join"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:shape_radius="@dimen/dp_16"
+                app:shape_solidColor="@color/color_3B47DD" />
+
+        </com.hjq.shape.layout.ShapeLinearLayout>
+    </LinearLayout>
 
     <!--内容-->
     <FrameLayout
@@ -163,7 +216,8 @@
                 android:id="@+id/inputPanelFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_24" />
+
+                />
 
             <TextView
                 android:id="@+id/tvPhoneLogin"
@@ -231,43 +285,6 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <com.hjq.shape.layout.ShapeLinearLayout
-            android:id="@+id/mViewMeetJoin"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_36"
-            android:layout_marginHorizontal="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_4"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:shape_radius="@dimen/dp_16"
-            app:shape_solidColor="@color/color_EB534B_35"
-            tools:visibility="visible">
-
-            <TextView
-                android:id="@+id/mTvMeetPeople"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_weight="1"
-                android:text="@string/msg_meeting_active_count"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_14" />
-
-            <com.hjq.shape.view.ShapeTextView
-                android:id="@+id/mTvMeetJoin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_5"
-                android:paddingHorizontal="@dimen/dp_12"
-                android:paddingVertical="@dimen/dp_5"
-                android:text="@string/msg_meeting_join"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:shape_radius="@dimen/dp_16"
-                app:shape_solidColor="@color/color_EB534B" />
-
-        </com.hjq.shape.layout.ShapeLinearLayout>
 
     </FrameLayout>
 

@@ -507,4 +507,16 @@
     <string name="add_trans_dialog_title_disabled">Sementara tidak tersedia</string>
     <string name="add_trans_dialog_msg_contact_cs">Silakan hubungi layanan pelanggan 008</string>
 
+    <string name="credit_score_hi_nickname">Hai, %1$s</string>
+    <string name="credit_score_member_benefits">Manfaat keanggotaan</string>
+    <string name="credit_score_member_not_open">Keanggotaan belum diaktifkan</string>
+    <string name="credit_score_nice_number_benefits">Manfaat nomor premium</string>
+    <string name="credit_score_nice_number_not_open">Nomor premium belum diaktifkan</string>
+    <string name="credit_score_hint_very_poor">Skor kredit Anda sangat buruk, mohon tingkatkan!</string>
+    <string name="credit_score_hint_excellent">Skor kredit Anda sangat baik, pertahankan!</string>
+    <string name="credit_score_hint_good">Skor kredit Anda baik, teruskan usahanya!</string>
+    <string name="credit_score_hint_normal">Skor kredit Anda sedang, tetap semangat!</string>
+    <string name="credit_score_title">Skor Kredit</string>
+    <string name="credit_score_tab_compose">Komposisi Kredit</string>
+    <string name="credit_score_tab_record">Riwayat Perubahan</string>
 </resources>

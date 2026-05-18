@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity;
 
 import static com.blankj.utilcode.util.SizeUtils.dp2px;
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
@@ -80,6 +81,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
     private String uid;
     private String userSign;
     private String imtoken, idno, qrcode, account, pwd;
+    private String qrCodeNew = "";
     private ResultBroadBean ptbean;
     private RoundedImageView riIcon;
     private RelativeLayout rlIcon;
@@ -124,11 +126,12 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         imtoken = getIntent().getStringExtra("imtoken");
         idno = getIntent().getStringExtra("idno");
         qrcode = getIntent().getStringExtra("qrcode");
+        qrCodeNew = getIntent().getStringExtra("qrCodeNew");
         account = getIntent().getStringExtra("account");
         pwd = getIntent().getStringExtra("pwd");
         initViews();
         //82环境登录隐藏二维码刷新
-        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+        if (HttpsBroadConfig.currentHostHttpUrlType != 2) {
             requestQrCode.setVisibility(View.GONE);
         } else {
             requestQrCode.setVisibility(View.VISIBLE);
@@ -199,7 +202,9 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
 
 
     private void setQrcodeData() {
-        if (qrcode.endsWith(".jpg")) {
+        if (!TextUtils.isEmpty(qrCodeNew)) {
+            loadImg(ivQrcode, CodeUtils.createQRCode(qrCodeNew, dp2px(260f)), null);
+        } else if (qrcode.endsWith(".jpg")) {
             GlideBroadUtil.setImag(PushInfo2BroadActivity.this, qrcode, ivQrcode);
         } else {
             loadImg(ivQrcode, CodeUtils.createQRCode(qrcode, dp2px(260f)), null);
@@ -354,6 +359,9 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
             loginViewModel.resetQrCode().observe(this, s -> {
                 NetworkBroadConfig.INSTANCE.updateAppToken("");
                 if (null != s && !TextUtils.isEmpty(s)) {
+                    if (!s.endsWith(".jpg")) {
+                        qrCodeNew = s;
+                    }
                     qrcode = s;
                     setQrcodeData();
                 }
@@ -395,6 +403,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
         mIvBlur.setVisibility(View.GONE);
         mViewDash.setVisibility(View.VISIBLE);
         ivQrcode.setVisibility(View.VISIBLE);
+        requestQrCode.setVisibility(View.GONE);
         BitmapBroadUtils1.saveBitmap2(BitmapBroadUtils1.convertMeasureBitmap(mViewRootBg), this);
         ToastBroadUtil.show(getString(R.string.tipSaveSuccess));
 

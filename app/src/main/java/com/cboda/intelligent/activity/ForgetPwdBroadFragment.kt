@@ -15,6 +15,7 @@ import com.cboda.intelligent.dialog.pop.AuthWayBroadPop
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.databinding.ForgetPwdBroadFragmentBinding
 import com.cboda.intelligent.utils.isSubmitCanGo
+import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import kotlinx.coroutines.launch
 
@@ -35,7 +36,7 @@ class ForgetPwdBroadFragment : BaseBroadFragment<ForgetPwdBroadFragmentBinding, 
             lifecycleScope.launch {
                 viewModel.checkAccount(binding.loginAccount.text.toString()).observe(this@ForgetPwdBroadFragment){
                     if (it.twoFactorCode.isNullOrEmpty() && it.securityId.isNullOrEmpty() && it.payPassword.isNullOrEmpty()){
-                        ToastBroadUtils.show(R.string.m_query_fail)
+                        showToastMain(R.string.m_query_fail)
                     }else{
                         val authWayPop = AuthWayBroadPop(requireContext(), SafeJumpBroadEnum.LoginForgetPassword.sourceType, true,it,binding.loginAccount.text.toString())
                         authWayPop.transferInvoke = {

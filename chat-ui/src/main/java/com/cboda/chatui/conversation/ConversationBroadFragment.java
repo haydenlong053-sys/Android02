@@ -14,6 +14,7 @@ import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static com.cboda.chatui.voip.conference.GiftChatRoomHelper.getGiftChatRoomId;
 
 import android.annotation.SuppressLint;
@@ -21,6 +22,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.os.RemoteException;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -53,11 +56,14 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cboda.baselibrary.bean.CommonResultBroadBean;
 import com.cboda.baselibrary.bean.DanmakuItem;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.UserGroupBean;
 import com.cboda.baselibrary.event.FanYiBroadEvent;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.JavaBroadUtil;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.bumptech.glide.Glide;
 
@@ -72,6 +78,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,6 +87,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.widge.CountPillView;
 import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.baselibrary.widge.VerticalDanmakuView;
@@ -129,6 +137,7 @@ import cn.wildfirechat.message.Message;
 import cn.wildfirechat.message.MessageContent;
 import cn.wildfirechat.message.MultiCallOngoingMessageContent;
 import cn.wildfirechat.message.SoundMessageContent;
+import cn.wildfirechat.message.TextMessageContent;
 import cn.wildfirechat.message.TypingMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessageStatus;
@@ -454,7 +463,9 @@ public class ConversationBroadFragment extends Fragment implements
         public void onChanged(Conversation conversation) {
             if (conversation.equals(ConversationBroadFragment.this.conversationBroad)) {
                 adapterBroad.setMessages(null);
-                adapterBroad.notifyDataSetChanged();
+                ThreadUtils.runOnUiThread(() -> {
+                    adapterBroad.notifyDataSetChanged();
+                });
             }
         }
     };
@@ -471,7 +482,9 @@ public class ConversationBroadFragment extends Fragment implements
             }
             int start = layoutBroadManager.findFirstVisibleItemPosition();
             int end = layoutBroadManager.findLastVisibleItemPosition();
-            adapterBroad.notifyItemRangeChanged(start, end - start + 1, userInfos);
+            ThreadUtils.runOnUiThread(() -> {
+                adapterBroad.notifyItemRangeChanged(start, end - start + 1, userInfos);
+            });
         }
     };
 
@@ -512,7 +525,9 @@ public class ConversationBroadFragment extends Fragment implements
                     groupInfoBroad = info;
                     updateGroupMuteStatus();
                     setTitle();
-                    adapterBroad.notifyDataSetChanged();
+                    ThreadUtils.runOnUiThread(() -> {
+                        adapterBroad.notifyDataSetChanged();
+                    });
                     break;
                 }
             }
@@ -602,6 +617,7 @@ public class ConversationBroadFragment extends Fragment implements
         tvPhoneLoginBroad = view.findViewById(R.id.tvPhoneLogin);
         inputPanelBroad = view.findViewById(R.id.inputPanelFrameLayout);
         mViewInterceptBroad = view.findViewById(R.id.mViewIntercept);
+
         if ("tousu".equals(fromPage)) {
             tvPhoneLoginBroad.setVisibility(VISIBLE);
             inputPanelBroad.setVisibility(GONE);
@@ -671,7 +687,7 @@ public class ConversationBroadFragment extends Fragment implements
             this.recyclerViewBroad.setAdapter(this.adapterBroad);
         }
 
-        // TODO 要支持在线状态是才监听
+        //  要支持在线状态是才监听
         if ((conversation.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(conversation.target))
                 || conversation.type == Conversation.ConversationType.Group) {
             userOnlineStateBroadViewModel.watchUserOnlineState(conversation.type.getValue(), new String[]{conversation.target});
@@ -806,7 +822,7 @@ public class ConversationBroadFragment extends Fragment implements
 //                if (null != getName) {
 //                    addBarrageData(getName, barrageBean.getGiftType(), false);
 //                } else {
-                E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                E.INSTANCE.getUserName(sender, conversationBroad.target, false, conversationBroad.type == Conversation.ConversationType.Group, userName -> {
 //                    nameMap.put(sender, userName);
                     addBarrageData(userName, barrageBean.getGiftType(), false);
                     return null;
@@ -865,7 +881,7 @@ public class ConversationBroadFragment extends Fragment implements
 //                        if (null != getName) {
 //                            addBarrageData(getName, integer, true);
 //                        } else {
-                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, userName -> {
+                            E.INSTANCE.getUserName(sender, conversationBroad.target, false, conversationBroad.type == Conversation.ConversationType.Group, userName -> {
 //                                nameMap.put(sender, userName);
                                 addBarrageData(userName, action.getCode(), true);
                                 return null;
@@ -1014,7 +1030,9 @@ public class ConversationBroadFragment extends Fragment implements
             boolean show = "1".equals(userBroadViewModel.getUserSetting(UserSettingScope.GroupHideNickname, groupInfoBroad.target));
             if (showGroupMemberNameBroad != show) {
                 showGroupMemberNameBroad = show;
-                adapterBroad.notifyDataSetChanged();
+                ThreadUtils.runOnUiThread(() -> {
+                    adapterBroad.notifyDataSetChanged();
+                });
             }
             reloadMessage();
         };
@@ -1066,7 +1084,7 @@ public class ConversationBroadFragment extends Fragment implements
             updateGroupMuteStatus();
             MeetCallManager.getInstance().unregisterEngineEvent(this);
             MeetCallManager.getInstance().registerEngineEvent(this);
-            eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
+//            eLogD(TAG, "isCallingState:" + MeetCallManager.getInstance().isCallingState());
             if (MeetCallManager.getInstance().isCallingState()) {
                 if (null != danmakuIv) {
                     danmakuIv.setVisibility(VISIBLE);
@@ -1108,8 +1126,16 @@ public class ConversationBroadFragment extends Fragment implements
             EnterChannelChatMessageContent content = new EnterChannelChatMessageContent();
             messageBroadViewModel.sendMessage(conversation, content, false);
         } else if (conversation.type == Conversation.ConversationType.Group) {
-            messageBroadViewModel.getMsgDetailUserData(conversation.target);
-
+            UserGroupBean userGroupBean = new UserGroupBean();
+            userGroupBean.setGroupId(conversation.target);
+            userGroupBean.setUserId(MMKVBroadUtils.Companion.getRealUserId());
+            messageBroadViewModel.getMsgDetailUserData(userGroupBean);
+            Looper.myQueue().addIdleHandler(() -> {
+                // 在这里执行你的任务
+                E.INSTANCE.getAllListUserData(conversation.target);
+                // 返回 false 表示处理完成后不再调用
+                return false;
+            });
         }
 
         ConversationInfo conversationInfo = ChatManager.Instance().getConversation(conversation);
@@ -1189,8 +1215,9 @@ public class ConversationBroadFragment extends Fragment implements
         messages.addAll(newMessages);
         ChatManager.Instance().getMainHandler().post(() -> {
             adapterBroad.setMessages(messages);
-            adapterBroad.notifyDataSetChanged();
-
+            ThreadUtils.runOnUiThread(() -> {
+                adapterBroad.notifyDataSetChanged();
+            });
             if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {
@@ -1230,10 +1257,23 @@ public class ConversationBroadFragment extends Fragment implements
         adapterBroad.setReadEntries(ChatManager.Instance().getConversationRead(conversationBroad));
         messages.observe(this, uiMessages -> {
             swipeRefreshLayoutBroad.setRefreshing(false);
-
+            eLogD(TAG, "uiMessagesSize3:" + uiMessages.size());
             adapterBroad.setMessages(uiMessages);
-            adapterBroad.notifyDataSetChanged();
+            //初始化消息获取最新消息的发送者信息
+            if (conversationBroad.type == Conversation.ConversationType.Group) {
+                HashMap<String, String> uidList = new HashMap<>();
+                for (int i = 0; i < uiMessages.size(); i++) {
+                    String senderId = uiMessages.get(i).message.sender;
+                    if (!TextUtils.isEmpty(senderId) && !MMKVBroadUtils.Companion.getRealUserId().equals(senderId) && !MMKVBroadUtils.Companion.getKeFuId().equals(senderId)) {
+                        uidList.put(senderId, senderId);
+                    }
+                }
+                E.INSTANCE.getListUserDataNotCall(conversationBroad.target, uidList);
+            }
 
+            ThreadUtils.runOnUiThread(() -> {
+                adapterBroad.notifyDataSetChanged();
+            });
             if (adapterBroad.getItemCount() > 1) {
                 int initialMessagePosition;
                 if (focusMessageId != -1) {
@@ -1254,6 +1294,7 @@ public class ConversationBroadFragment extends Fragment implements
         if (groupInfoBroad == null || groupMemberBroad == null) {
             return;
         }
+
         if (groupInfoBroad.mute == 1
                 && groupMemberBroad.type != GroupMember.GroupMemberType.Owner
                 && groupMemberBroad.type != GroupMember.GroupMemberType.Manager
@@ -1380,41 +1421,38 @@ public class ConversationBroadFragment extends Fragment implements
 
         if (conversationBroad.type == Conversation.ConversationType.Single) {
             UserInfo userInfo = ChatManagerBroadHolder.gChatManager.getUserInfo(conversationBroad.target, false);
-            GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                @Override
-                public Unit invoke(GlobalFriendBroadBean friendSmailListBean) {
-                    if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
-                        conversationBroadTitle = MMKVBroadUtils.Companion.getKeFuName();
-                    } else if (friendSmailListBean != null) {
-                        if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
-                            conversationBroadTitle = friendSmailListBean.remarkName;
-                        } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
-                            conversationBroadTitle = friendSmailListBean.nickName;
-                        } else {
-                            if (userInfo == null) {
-                                conversationBroadTitle = "";
-                            }
-                        }
-                    } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
-                        conversationBroadTitle = userInfo.friendAlias;
-                    } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
-                        conversationBroadTitle = userInfo.displayName;
+            RealmUtil.INSTANCE.findUserData(conversationBroad.target, friendSmailListBean -> {
+                if (MMKVBroadUtils.Companion.getKeFuId() != null && conversationBroad.target.contains(MMKVBroadUtils.Companion.getKeFuId())) {
+                    conversationBroadTitle = MMKVBroadUtils.Companion.getKeFuName();
+                } else if (friendSmailListBean != null) {
+                    if (!TextUtils.isEmpty(friendSmailListBean.remarkName)) {
+                        conversationBroadTitle = friendSmailListBean.remarkName;
+                    } else if (!TextUtils.isEmpty(friendSmailListBean.nickName)) {
+                        conversationBroadTitle = friendSmailListBean.nickName;
                     } else {
                         if (userInfo == null) {
                             conversationBroadTitle = "";
                         }
                     }
-                    eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
-                    UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
-                    if (userOnlineState != null) {
-                        String onlineDesc = userOnlineState.desc();
-                        if (!TextUtils.isEmpty(onlineDesc)) {
-                            conversationBroadTitle += " (" + onlineDesc + ")";
-                        }
+                } else if (userInfo != null && !TextUtils.isEmpty(userInfo.friendAlias)) {
+                    conversationBroadTitle = userInfo.friendAlias;
+                } else if (userInfo != null && !(userInfo instanceof NullUserInfo) && !TextUtils.isEmpty(userInfo.displayName)) {
+                    conversationBroadTitle = userInfo.displayName;
+                } else {
+                    if (userInfo == null) {
+                        conversationBroadTitle = "";
                     }
-                    setActivityTitle(conversationBroadTitle);
-                    return null;
                 }
+                eLogD(APP_TAG, "conversationTitle===" + conversationBroadTitle);
+                UserOnlineState userOnlineState = ChatManager.Instance().getUserOnlineStateMap().get(userInfo.uid);
+                if (userOnlineState != null) {
+                    String onlineDesc = userOnlineState.desc();
+                    if (!TextUtils.isEmpty(onlineDesc)) {
+                        conversationBroadTitle += " (" + onlineDesc + ")";
+                    }
+                }
+                setActivityTitle(conversationBroadTitle);
+                return null;
             });
         } else if (conversationBroad.type == Conversation.ConversationType.Group) {
             if (groupInfoBroad != null) {
@@ -1508,10 +1546,22 @@ public class ConversationBroadFragment extends Fragment implements
             return;
         }
         if (conversationBroad.type == Conversation.ConversationType.Group) {
-            SpannableString spannableString = mentionSpannable(userInfo);
-            int position = inputPanelBroad.editText.getSelectionEnd();
-            inputPanelBroad.editText.getEditableText().append(" ");
-            inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+
+
+            E.INSTANCE.mentionImSpannable(userInfo, conversationBroad.target, new Function1<SpannableString, Unit>() {
+                @Override
+                public Unit invoke(SpannableString spannableString) {
+                    int position = inputPanelBroad.editText.getSelectionEnd();
+                    inputPanelBroad.editText.getEditableText().append(" ");
+                    inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+                    return null;
+                }
+            });
+
+//            SpannableString spannableString = mentionSpannable(userInfo);
+//            int position = inputPanelBroad.editText.getSelectionEnd();
+//            inputPanelBroad.editText.getEditableText().append(" ");
+//            inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
         } else {
             inputPanelBroad.editText.getEditableText().append(userBroadViewModel.getUserDisplayName(userInfo));
         }
@@ -1532,14 +1582,26 @@ public class ConversationBroadFragment extends Fragment implements
                 SpannableString spannableString;
                 if (isMentionAll) {
                     spannableString = mentionAllSpannable();
+                    int position = inputPanelBroad.editText.getSelectionEnd();
+                    position = position > 0 ? position - 1 : 0;
+                    inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
                 } else {
                     String userId = data.getStringExtra("userId");
                     UserInfo userInfo = userBroadViewModel.getUserInfo(userId, this.groupInfoBroad.target, false);
-                    spannableString = mentionSpannable(userInfo);
+//                    spannableString = mentionSpannable(userInfo);
+                    E.INSTANCE.mentionImSpannable(userInfo, conversationBroad.type == Conversation.ConversationType.Group ? conversationBroad.target : "", new Function1<SpannableString, Unit>() {
+                        @Override
+                        public Unit invoke(SpannableString spannableString) {
+                            int position = inputPanelBroad.editText.getSelectionEnd();
+                            position = position > 0 ? position - 1 : 0;
+                            inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+                            return null;
+                        }
+                    });
+
+
                 }
-                int position = inputPanelBroad.editText.getSelectionEnd();
-                position = position > 0 ? position - 1 : 0;
-                inputPanelBroad.editText.getEditableText().replace(position, position + 1, spannableString);
+
 
             } else if (requestCode == REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT || requestCode == REQUEST_BROAD_CODE_GROUP_VIDEO_CHAT) {
                 onPickGroupMemberToVoipChat(data, requestCode == REQUEST_BROAD_CODE_GROUP_AUDIO_CHAT);
@@ -1554,12 +1616,12 @@ public class ConversationBroadFragment extends Fragment implements
         return spannableString;
     }
 
-    private SpannableString mentionSpannable(UserInfo userInfo) {
-        String text = "@" + ChatManager.Instance().getGroupMemberDisplayName(userInfo) + " ";
-        SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(new MentionBroadSpan(userInfo.uid), 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        return spannableString;
-    }
+//    private SpannableString mentionSpannable(UserInfo userInfo) {
+//        String text = "@" + ChatManager.Instance().getGroupMemberDisplayName(userInfo) + " ";
+//        SpannableString spannableString = new SpannableString(text);
+//        spannableString.setSpan(new MentionBroadSpan(userInfo.uid), 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//        return spannableString;
+//    }
 
     @Override
     public void onPause() {
@@ -1620,7 +1682,9 @@ public class ConversationBroadFragment extends Fragment implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMsgReceive(FanYiBroadEvent fanYiEvent) {
-        adapterBroad.notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            adapterBroad.notifyDataSetChanged();
+        });
     }
 
     boolean onBackPressed() {
@@ -1650,6 +1714,7 @@ public class ConversationBroadFragment extends Fragment implements
     public void reloadMessage() {
         conversationBroadViewModel.getMessages(conversationBroad, channelPrivateBroadChatUser).observe(this, uiMessages -> {
             adapterBroad.setMessages(uiMessages);
+            eLogD(TAG, "uiMessagesSize1:" + uiMessages.size());
             adapterBroad.notifyDataSetChanged();
         });
     }
@@ -1659,6 +1724,7 @@ public class ConversationBroadFragment extends Fragment implements
             for (int i = 0; i < uiMessages.size(); i++) {
                 uiMessages.get(i).message.status = MessageStatus.Sent;
             }
+            eLogD(TAG, "uiMessagesSize2:" + uiMessages.size());
             adapterBroad.setMessages(uiMessages);
             adapterBroad.notifyDataSetChanged();
         });
@@ -1826,7 +1892,9 @@ public class ConversationBroadFragment extends Fragment implements
         inputPanelBroad.setVisibility(GONE);
         message.isChecked = true;
         adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_CHECKABLE);
-        adapterBroad.notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            adapterBroad.notifyDataSetChanged();
+        });
         multiMessageActionContainerLinearLayoutBroad.setVisibility(VISIBLE);
         setupMultiMessageAction();
     }
@@ -1836,7 +1904,9 @@ public class ConversationBroadFragment extends Fragment implements
         multiMessageActionContainerLinearLayoutBroad.setVisibility(GONE);
         adapterBroad.setMode(ConversationMessageBroadAdapter.MODE_NORMAL);
         adapterBroad.clearMessageCheckStatus();
-        adapterBroad.notifyDataSetChanged();
+        ThreadUtils.runOnUiThread(() -> {
+            adapterBroad.notifyDataSetChanged();
+        });
     }
 
     public void setInputText(String text) {
@@ -1851,7 +1921,23 @@ public class ConversationBroadFragment extends Fragment implements
             @Override
             public void onSingleClick(View v) {
                 if (!actions.isEmpty() && actions.size() > 1) {
-                    goSelectMoreAction(actions.get(1));
+                    List<UiBroadMessage> checkMsg = adapterBroad.getCheckedMessages();
+                    boolean isGo = true;
+                    String day = "";
+                    for (UiBroadMessage uiBroadMessage : checkMsg) {
+                        if (uiBroadMessage.message.content instanceof TextMessageContent) {
+                            String msgContent = ((TextMessageContent) uiBroadMessage.message.content).getContent();
+                            day = JavaBroadUtil.containsLinkReturnDay(msgContent);
+                            if (!TextUtils.isEmpty(day)) {
+                                isGo = false;
+                            }
+                        }
+                    }
+                    if (isGo) {
+                        goSelectMoreAction(actions.get(1));
+                    } else {
+                        com.cboda.baselibrary.toast.ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+                    }
                 }
             }
         });
@@ -1866,6 +1952,7 @@ public class ConversationBroadFragment extends Fragment implements
         });
         multiMessageActionContainerLinearLayoutBroad.addView(inflateView);
     }
+
 
     private void goSelectMoreAction(MultiMessageBroadAction action) {
         action.onBind(ConversationBroadFragment.this, conversationBroad);

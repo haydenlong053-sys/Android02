@@ -2,7 +2,9 @@ package com.cboda.intelligent.utils
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import com.blankj.utilcode.util.ActivityUtils
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
@@ -10,6 +12,7 @@ import com.cboda.chatui.search.SearchPortalBroadActivity
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.activity.AiCheckResultBroadActivity
 import com.cboda.intelligent.activity.CreateQunBroadActivity
+import com.cboda.intelligent.activity.CreditScoreActivity
 import com.cboda.intelligent.activity.DsxxAddBroadActivity
 import com.cboda.intelligent.activity.DsxxBroadActivity
 import com.cboda.intelligent.activity.FaHongBaoBroadActivity
@@ -33,7 +36,7 @@ import com.cboda.intelligent.activity.QunGerenJInyanTimeBroadActivity
 import com.cboda.intelligent.activity.QunGerenPageBroadActivity
 import com.cboda.intelligent.activity.QunGongGaoBroadActivity
 import com.cboda.intelligent.activity.QunGonggaoInfoBroadActivity
-import com.cboda.intelligent.activity.QunInfoBroadActivity
+import com.cboda.intelligent.activity.QunInfo2BroadActivity
 import com.cboda.intelligent.activity.QunJinYanBroadActivity
 import com.cboda.intelligent.activity.QunJinYanMemberBroadActivity
 import com.cboda.intelligent.activity.QunListBroadActivity
@@ -42,9 +45,12 @@ import com.cboda.intelligent.activity.QunMemberListBroadActivity
 import com.cboda.intelligent.activity.QunNameBroadActivity
 import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
+import com.cboda.intelligent.activity.QunUserList2BroadActivity
 import com.cboda.intelligent.activity.QunUserListBroadActivity
+import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
+import com.cboda.intelligent.activity.TestActivity
 import com.cboda.intelligent.activity.TouSuLeiXingBroadActivity
 import com.cboda.intelligent.activity.VerifyBroadActivity
 import com.cboda.intelligent.activity.XuanQunJinYanBroadActivity
@@ -53,6 +59,8 @@ import com.cboda.intelligent.activity.ZhuanZhangPageBroadActivity
 import com.cboda.intelligent.activity.ZhuanzhangBroadActivity
 import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
+import com.cboda.intelligent.dialog.GroupQrCodeDialog
+import com.cboda.intelligent.dialog.pop.SaveGroupQrCodeBroadPop
 
 
 class JumpBroadUtils {
@@ -77,9 +85,9 @@ class JumpBroadUtils {
             val mContext = getAppContext(context)
             var checkActName = "MainBroadActivity"
             //82环境登录后不自动跳转到登录二维码页面
-            val intent = if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
+            val intent = if (HttpsBroadConfig.currentHostHttpUrlType < 1000) {
                 Intent(mContext, MainBroadActivity::class.java)
-            } else if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity") {
+            } else if (type == "SplashBroadActivity" || type == "LoginVerificationActivity" || type == "NewEquipmentBroadActivity" || type == "ScanBroadActivity") {
                 checkActName = "LoginQrCodeActivity"
                 Intent(mContext, LoginQrCodeActivity::class.java)
             } else {
@@ -99,7 +107,19 @@ class JumpBroadUtils {
             }
         }
 
-
+        fun toTestActivity(context: Context? = null) {
+            val mContext = getAppContext(context)
+//            val haveLoginQrCodeAct = ActivityUtils.getActivityList().any { it is LoginQrCodeActivity }
+//            if (haveLoginQrCodeAct) {
+//                ActivityUtils.finishActivity(LoginQrCodeActivity::class.java)
+//            }
+            val intent = Intent(mContext, TestActivity::class.java)
+            mContext.startActivity(intent)
+//            ActivityUtils.getActivityList().forEach {
+//                val actName = it.javaClass.simpleName
+//                eLogD(tAG, "actName2:$actName")
+//            }
+        }
         fun startLoginActivity(context: Context?) {
             val intent = Intent(context, NewEquipmentBroadActivity::class.java)
             context?.startActivity(intent)
@@ -228,7 +248,7 @@ class JumpBroadUtils {
         }
 
         fun startQunInfoActivity(context: Context?, qunId: String) {
-            val intent = Intent(context, QunInfoBroadActivity::class.java)
+            val intent = Intent(context, QunInfo2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }
@@ -264,7 +284,7 @@ class JumpBroadUtils {
         }
 
         fun startQunUserListActivity(context: Context?, qunId: String) {
-            val intent = Intent(context, QunUserListBroadActivity::class.java)
+            val intent = Intent(context, QunUserList2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }
@@ -348,12 +368,14 @@ class JumpBroadUtils {
             context?.startActivity(intent)
         }
 
-        fun startQunCodeActivity(context: Context?, qunid: String) {
-            val intent = Intent(context, QunCodeBroadActivity::class.java)
-            intent.putExtra("qunid", qunid)
-            context?.startActivity(intent)
+        fun startQunCodeActivity(context: Context?, qunid: String, qunxiangqing: CommonResultBroadBean.CommonResult?) {
+//            val intent = Intent(context, QunCodeBroadActivity::class.java)
+//            intent.putExtra("qunid", qunid)
+//            context?.startActivity(intent)
+            val groupQrCodeDialog = GroupQrCodeDialog(getAppContext(context), qunid, qunxiangqing)
+            groupQrCodeDialog.showPopupWindow()
 //            context?.let {
-//                SaveGroupQrCodeBroadPop(it,qunid).showPopupWindow()
+//                SaveGroupQrCodeBroadPop(it, qunid).showPopupWindow()
 //            }
         }
 
@@ -457,14 +479,37 @@ class JumpBroadUtils {
             uid: String,
             userName: String,
             source: String,
-            qunid: String
+            qunid: String,
+            type: String,
+            startForResult: ActivityResultLauncher<Intent>? = null
         ) {
             val intent = Intent(context, HaoyouApplyBroadActivity::class.java)
             intent.putExtra("userName", userName)
             intent.putExtra("uid", uid)
             intent.putExtra("source", source)
             intent.putExtra("qunid", qunid)
-            context?.startActivity(intent)
+            intent.putExtra("type", type)
+            if (null != startForResult) {
+                startForResult.launch(intent)
+            } else {
+                context?.startActivity(intent)
+            }
+        }
+
+
+        fun toScanActivity(
+            jumpSource: Int,
+            context: Context? = null,
+            startForResult: ActivityResultLauncher<Intent>? = null
+        ) {
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, ScanBroadActivity::class.java)
+            intent.putExtra("jumpSource", jumpSource)
+            if (null != startForResult) {
+                startForResult.launch(intent)
+            } else {
+                mContext.startActivity(intent)
+            }
         }
 
         fun startInputTipsActivity3(context: Context?, uid: String, qunid: String) {
@@ -529,5 +574,10 @@ class JumpBroadUtils {
             context.startActivity(intent)
         }
 
+        //跳转信用分页
+        fun startCreditScoreActivity(context: Context?) {
+            val intent = Intent(context, CreditScoreActivity::class.java)
+            context?.startActivity(intent)
+        }
     }
 }

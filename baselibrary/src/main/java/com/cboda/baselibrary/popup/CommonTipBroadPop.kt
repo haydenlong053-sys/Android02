@@ -8,9 +8,7 @@ import android.view.View
 import androidx.core.view.isGone
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.databinding.CommonTipBroadPopBinding
-import com.cboda.baselibrary.utils.setBackColor
 import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
-import com.cboda.baselibrary.utils.setTxt
 import com.cboda.baselibrary.utils.setTxtColor
 import razerdp.basepopup.BasePopupWindow
 

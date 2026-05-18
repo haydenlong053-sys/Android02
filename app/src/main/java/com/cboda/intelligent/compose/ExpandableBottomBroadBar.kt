@@ -138,7 +138,7 @@ fun ExpandableBottomBar(
                 .padding(horizontal = horizontalPadding, vertical = 0.dp)
                 .height(BarHeight)
                 .width(widthDp)
-                .shadow(4.dp, RoundedCornerShape(cornerRadius), clip = false)
+                .shadow(2.dp, RoundedCornerShape(cornerRadius), clip = false)
 
 //                .clip(RoundedCornerShape(cornerRadius))
 //                                .blur(if (expanded) 6.dp else 6.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)

@@ -506,4 +506,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">Sannu, %1$s</string>
+    <string name="credit_score_member_benefits">Fa’idodin memba</string>
+    <string name="credit_score_member_not_open">Ba a kunna membanci ba</string>
+    <string name="credit_score_nice_number_benefits">Fa’idodin lamba ta musamman</string>
+    <string name="credit_score_nice_number_not_open">Ba a kunna lamba ta musamman ba</string>
+    <string name="credit_score_hint_very_poor">Makin amincinka ya yi rauni sosai, ka yi kokarin inganta shi!</string>
+    <string name="credit_score_hint_excellent">Makin amincinka ya yi kyau kwarai, ka ci gaba!</string>
+    <string name="credit_score_hint_good">Makin amincinka yana da kyau, ka ci gaba da kokari!</string>
+    <string name="credit_score_hint_normal">Makin amincinka matsakaici ne, ka kara himma!</string>
+    <string name="credit_score_title">Matsayin Kirediti</string>
+    <string name="credit_score_tab_compose">Tsarin Kirediti</string>
+    <string name="credit_score_tab_record">Tarihin Sauye-sauye</string>
 </resources>

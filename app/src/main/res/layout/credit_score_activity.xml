@@ -36,13 +36,16 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userHint"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
         android:textColor="@color/black_65"
         android:textSize="12sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintStart_toStartOf="@id/userName"
         app:layout_constraintTop_toBottomOf="@id/userName"
+        app:layout_constraintEnd_toStartOf="@id/circleProgress"
         tools:text="信用不错，再接再厉！" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -65,6 +68,9 @@
         app:layout_constraintEnd_toEndOf="@id/userMemberImg"
         app:layout_constraintStart_toStartOf="@id/userMemberImg"
         app:layout_constraintTop_toBottomOf="@id/userMemberImg"
+        android:maxWidth="@dimen/dp_80"
+        android:lines="1"
+        android:ellipsize="end"
         tools:text="会员权益"
         tools:textColor="@color/color_B25900" />
 
@@ -87,6 +93,9 @@
         app:layout_constraintEnd_toEndOf="@id/userNiceNumImg"
         app:layout_constraintStart_toStartOf="@id/userNiceNumImg"
         app:layout_constraintTop_toTopOf="@id/userMemberTv"
+        android:maxWidth="@dimen/dp_80"
+        android:lines="1"
+        android:ellipsize="end"
         tools:text="会员权益"
         tools:textColor="@color/color_B25900" />
 
@@ -99,9 +108,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:progress_background_color="@color/white"
-        app:progress_end_color="@color/color_926DF0"
+        app:progress_start_color="@color/color_926DF0"
         app:progress_shader="sweep"
-        app:progress_start_color="@color/color_3B47DD"
+        app:progress_end_color="@color/color_3B47DD"
         app:progress_stroke_cap="round"
         app:progress_stroke_width="@dimen/dp_11"
         app:progress_style="solid_line"
@@ -135,12 +144,14 @@
 
     <com.hjq.shape.view.ShapeView
         android:id="@+id/shapeView"
-        android:layout_width="@dimen/dp_192"
-        android:layout_height="@dimen/dp_42"
+        android:layout_width="@dimen/dp_296"
+        android:layout_height="@dimen/dp_62"
         android:layout_marginTop="@dimen/dp_162"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:shape_shadowColor="#739e9e9e"
+        app:shape_shadowSize="@dimen/dp_10"
         app:shape_radius="@dimen/dp_21"
         app:shape_solidColor="@color/white" />
 
@@ -148,6 +159,7 @@
         android:id="@+id/magicIndicator"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
+        android:layout_margin="@dimen/dp_10"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center"
@@ -162,6 +174,23 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="-10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shapeView" />
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/layerMember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="userMemberImg,userMemberTv"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/layerPremiumNumb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="userNiceNumImg,userNiceNumTv"
+        tools:ignore="MissingConstraints" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

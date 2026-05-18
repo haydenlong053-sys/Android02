@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.SystemClock
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Base64
 import android.view.View
@@ -38,13 +39,15 @@ fun copyToClipboard(context: Context, text: String?) {
 }
 
 // 方法1：直接替换内容
-fun pasteToEditText(editText: EditText) {
+fun pasteToEditText(editText: EditText, canReplaceAllData: Boolean = false) {
     val context = editText.context
     val clipboardText = ClipboardPasteBroadUtils.getTextFromClipboard(context)
     if (clipboardText != null) {
+        if (canReplaceAllData && !TextUtils.isEmpty(clipboardText)) {
+            editText.setText("")
+        }
         val start = editText.selectionStart
         val end = editText.selectionEnd
-
         // 替换选中的文本，或者插入到光标位置
         editText.text.replace(
             minOf(start, end),
@@ -128,6 +131,14 @@ fun View.isSubmitCanGo(
 ) {
     this.isEnabled = boolean
     this.isSelected = boolean
+    this.isSubmitCanGo2(boolean,negativeBg,positiveBg)
+}
+
+fun View.isSubmitCanGo2(
+    boolean: Boolean,
+    @DrawableRes negativeBg: Int = R.drawable.bg_rect_submit_no_broad_16dp,
+    @DrawableRes positiveBg: Int = R.drawable.bg_rect_submit_broad_16dp,
+) {
     this.setBackgroundResource(if (boolean) positiveBg else negativeBg)
 }
 

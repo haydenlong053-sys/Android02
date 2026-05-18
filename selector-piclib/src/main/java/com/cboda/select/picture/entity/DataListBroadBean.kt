@@ -8,6 +8,17 @@ import java.io.Serializable
  * @Type:
  */
 class DataListBroadBean : Serializable {
+
+    var idno: String? = null
+
+    var isLiang: String? = null
+
+    var isvip: String? = null
+
+    var grade: Double? = null
+
+    var registDay: Int? = null
+
     @JvmField
     var isChecked: Boolean = false
 

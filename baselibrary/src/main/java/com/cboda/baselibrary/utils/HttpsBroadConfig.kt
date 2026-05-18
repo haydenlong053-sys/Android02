@@ -30,6 +30,8 @@ object HttpsBroadConfig {
     const val appIceServer = "turn:turn.seekweb4.net:3478"
     const val appIceUserName = "seekweb4"
 
+    const val H5_BEAUTIFUL = "https://www.web4x.net"//信用分H5链接
+
     @JvmField
     var appWebHost = "https://app.seekweb4.net" //协议默认用美区
     private val netItems = arrayListOf(
@@ -71,7 +73,7 @@ object HttpsBroadConfig {
                 appImServerHost = "im.seekweb4.ai"
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api.seekweb4.ai"
-                appAesPwd = "f81q30ryiacasda1"
+                appAesPwd = "PgGMe2BWyp8G3SFxdn5fDjL5rFUoTYm1"
                 appWebHost = appHost
             }
 
@@ -144,7 +146,7 @@ object HttpsBroadConfig {
     }
 
 
-    private fun getNetType() = MMKV.defaultMMKV().decodeInt(NET_TYPE, RELEASE_TYPE)
+    private fun getNetType() = MMKV.defaultMMKV().decodeInt(NET_TYPE, FAT_TYPE)
 
     fun getDevType() = netItems[getNetType()]
 

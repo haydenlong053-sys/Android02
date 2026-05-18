@@ -5,47 +5,57 @@
     android:id="@+id/messageRootLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="5dp">
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="2dp">
+        android:paddingBottom="2dp"
+        tools:ignore="RtlHardcoded">
 
         <!-- 人物头像 -->
-        <include layout="@layout/include_broad_avatar" />
+        <com.cboda.baselibrary.widge.VpGradeView
+            android:id="@+id/singleVgView"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_54"
+            android:layout_marginTop="@dimen/dp_5"
+            app:user_img_width="@dimen/dp_42"
+            app:user_vip_width="@dimen/dp_20" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
             android:orientation="vertical">
 
             <!-- 昵称，当在群组中则要显示 -->
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/nameLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:orientation="horizontal">
+                android:layout_marginStart="@dimen/dp_10"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_5">
 
                 <TextView
                     android:id="@+id/nameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxWidth="150dp"
                     android:ellipsize="end"
+                    android:maxWidth="150dp"
                     android:maxLength="20"
                     android:singleLine="true"
                     android:textColor="#666666"
                     android:textSize="12sp"
                     android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="imndx"
                     tools:visibility="visible" />
 
@@ -53,17 +63,21 @@
                     android:id="@+id/joinTimeTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="@dimen/dp_4"
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="1dp"
-                    android:textColor="#3B47DD"
                     android:textSize="10sp"
                     android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@id/nameTextView"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:shape_radius="4dp"
                     app:shape_solidColor="#1E3B47DD"
+                    app:shape_solidSelectedColor="#1ED5271E"
+                    app:shape_textColor="#3B47DD"
+                    app:shape_textSelectedColor="#D5271E"
                     tools:text="2014年12月30日入群"
                     tools:visibility="visible" />
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <LinearLayout
@@ -76,7 +90,7 @@
                     android:id="@+id/contentFrameLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp">
+                    android:layout_marginStart="@dimen/dp_10">
 
                     <ViewStub
                         android:id="@+id/contentViewStub"
@@ -129,10 +143,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="@dimen/dp_10"
             android:clickable="false"
             android:visibility="gone"
-            tools:visibility="visible"
-            />
+            tools:visibility="visible" />
 
         <CheckBox
             android:id="@+id/tousucheckbox"
@@ -141,7 +155,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/item_margin_left_and_right"
+            tools:visibility="visible"
             android:clickable="false"
             android:visibility="gone" />
 
@@ -159,7 +175,7 @@
         android:paddingRight="5dp"
         android:paddingBottom="5dp"
         android:textColor="@color/gray11"
-        android:textSize="14sp"
+        android:textSize="11sp"
         tools:text="下午 5点" />
 
 </com.cboda.chatui.conversation.message.MessageItemBroadView>

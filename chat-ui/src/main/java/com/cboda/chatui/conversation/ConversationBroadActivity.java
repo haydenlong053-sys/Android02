@@ -5,6 +5,7 @@
 package com.cboda.chatui.conversation;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showMeetLeaveTip;
 
 import android.annotation.SuppressLint;
@@ -21,18 +22,22 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
+import com.cboda.baselibrary.bean.UserInfoBean;
 import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.plugin.PluginLayout;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
+import com.cboda.chatui.utils.E;
 import com.google.gson.Gson;
 import com.cboda.chatemoji.EmotionBroadEvent;
 
@@ -120,11 +125,11 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (qunXiangqing != null && !TextUtils.isEmpty(qunXiangqing.getGonggao())) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
                 conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + qunXiangqing.getGonggao());
-                MMKVBroadUtils.Companion.saveGroupNotice(qunXiangqing.getId(),qunXiangqing.getGonggao());
+                MMKVBroadUtils.Companion.saveGroupNotice(qunXiangqing.getId(), qunXiangqing.getGonggao());
             } else {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.GONE);
-                if (qunXiangqing != null){
-                    MMKVBroadUtils.Companion.saveGroupNotice(qunXiangqing.getId(),"");
+                if (qunXiangqing != null) {
+                    MMKVBroadUtils.Companion.saveGroupNotice(qunXiangqing.getId(), "");
                 }
             }
 
@@ -155,12 +160,12 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             if (conversationBroad.target.equals(myImEvent.params2)) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
                 conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + myImEvent.params1);
-                MMKVBroadUtils.Companion.saveGroupNotice(conversationBroad.target,myImEvent.params1);
+                MMKVBroadUtils.Companion.saveGroupNotice(conversationBroad.target, myImEvent.params1);
                 MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.UPDATE_ANNOUNCEMENT.getValue(), myImEvent.params1, "", null);
             }
 
         } else if (MyEventCodeEnum.USER_INFO.getValue().equals(myImEvent.type)) {
-            MyCommonBroadResult yoinghu = gson.fromJson(myImEvent.params1, MyCommonBroadResult.class);
+            UserInfoBean yoinghu = gson.fromJson(myImEvent.params1, UserInfoBean.class);
             if (yoinghu != null && !TextUtils.isEmpty(yoinghu.getChatImg())) {
                 conversationBroadFragment.setConversationBackgroundImage(yoinghu.getChatImg());
             }
@@ -169,7 +174,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             mIvBack2.setVisibility(View.GONE);
             rightView.setVisibility(View.VISIBLE);
         } else if (MyEventCodeEnum.UPDATE_SEND_TIME.getValue().equals(myImEvent.type)) {
-            if (conversationBroad!=null && conversationBroad.type.getValue() == Conversation.ConversationType.Group.getValue()){
+            if (conversationBroad != null && conversationBroad.type.getValue() == Conversation.ConversationType.Group.getValue()) {
                 MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_DETAILS.getValue(), conversationBroad.target, "", null);
             }
         } else if (MyEventCodeEnum.BANNED.getValue().equals(myImEvent.type)) {
@@ -214,7 +219,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             MeetingInviteMessageContent inviteMessageContent =
                     new Gson().fromJson(json, MeetingInviteMessageContent.class);
             if (inviteMessageContent != null && conversationBroadFragment != null) {
-                conversationBroadFragment.messageBroadViewModel.sendMessage(conversationBroad, inviteMessageContent,false);
+                conversationBroadFragment.messageBroadViewModel.sendMessage(conversationBroad, inviteMessageContent, false);
             }
 
 
@@ -271,22 +276,21 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             rightView.setVisibility(View.VISIBLE);
         } else {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), conversationBroad.target, "", null);
-             GlobalBroadInfo.INSTANCE.queryMyFriendInfo(conversationBroad.target, null, new Function1<GlobalFriendBroadBean, Unit>() {
-                 @Override
-                 public Unit invoke(GlobalFriendBroadBean bean) {
-                     if (null != bean && null != bean.grade && null != bean.registerDay) {
-                         titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
-                         TextView titleGrade = findViewById(R.id.titleGrade);
-                         TextView titleTime = findViewById(R.id.titleTime);
-                         titleGrade.setText(getString(R.string.credit_prefix) + bean.grade + getString(R.string.msg_score_unit2));
-                         titleTime.setText(getString(R.string.register_time_prefix) + bean.registerDay + getString(R.string.msg_days_unit2));
-                     } else {
-                         titleGradeAndTimeBroad.setVisibility(View.GONE);
-                     }
-                     return null;
-                 }
-             });
-
+            RealmUtil.INSTANCE.findUserData(conversationBroad.target, new Function1<FriendBean, Unit>() {
+                @Override
+                public Unit invoke(FriendBean bean) {
+                    if (null != bean && null != bean.grade && null != bean.registerDay) {
+                        titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
+                        TextView titleGrade = findViewById(R.id.titleGrade);
+                        TextView titleTime = findViewById(R.id.titleTime);
+                        titleGrade.setText(getString(com.cboda.baselibrary.R.string.credit_prefix2) + formatWithBigDecimal(bean.grade) + getString(R.string.msg_score_unit2));
+                        titleTime.setText(getString(com.cboda.baselibrary.R.string.register_time_prefix2) + bean.registerDay + getString(R.string.msg_days_unit2));
+                    } else {
+                        titleGradeAndTimeBroad.setVisibility(View.GONE);
+                    }
+                    return null;
+                }
+            });
         }
     }
 
@@ -326,6 +330,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.SINGLE_CHAT_MORE.getValue(), conversationBroad.target, "", null);
                     } else {
                         MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GROUP_CHAT_HOME.getValue(), conversationBroad.target, "", null);
+//                        E.INSTANCE.getAllListUserData(conversationBroad.target);
                     }
 
                 }
@@ -365,8 +370,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             public void handleOnBackPressed() {
                 if (!conversationBroadFragment.onBackPressed()) {
                     if (conversationBroad != null
-                        && conversationBroad.type == Conversation.ConversationType.Group
-                        && MeetCallManager.getInstance().isCallingState()) {
+                            && conversationBroad.type == Conversation.ConversationType.Group
+                            && MeetCallManager.getInstance().isCallingState()) {
                         showMyMeetLeaveTip();
                     } else {
                         finish();
@@ -381,7 +386,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private void checkMeeting() {
         if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group && MeetCallManager.getInstance().isCallingState()) {
             showMyMeetLeaveTip();
-        }else {
+        } else {
             finish();
         }
     }
@@ -399,7 +404,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
     //群聊页先取本地缓存的群公告数据
     private void showCacheGroupNoticeData() {
-        if (conversationBroad!=null &&conversationBroad.type == Conversation.ConversationType.Group){
+        if (conversationBroad != null && conversationBroad.type == Conversation.ConversationType.Group) {
             String groupNotice = MMKVBroadUtils.Companion.getGroupNotice(conversationBroad.target);
             if (!TextUtils.isEmpty(groupNotice)) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
@@ -451,7 +456,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             meetPlugin.setHasMeetInfoInvoke(new Function1<QuickMeetInfoBean, Unit>() {
                 @Override
                 public Unit invoke(QuickMeetInfoBean quickMeetBean) {
-                    if (MeetCallManager.getInstance().isIdleState()){
+                    if (MeetCallManager.getInstance().isIdleState()) {
                         if (conversationBroadFragment != null && conversationBroadFragment.isAdded()) {
                             conversationBroadFragment.showMeetJoinUi(quickMeetBean);
                         }
@@ -465,7 +470,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             BaseLiveDataEventKt.meetEndMsgLiveData.observe(this, new Observer<String>() {
                 @Override
                 public void onChanged(String groupId) {
-                    if (conversationBroadFragment != null && conversationBroadFragment.isAdded() &&TextUtils.equals(conversationBroad.target,groupId)) {
+                    if (conversationBroadFragment != null && conversationBroadFragment.isAdded() && TextUtils.equals(conversationBroad.target, groupId)) {
                         conversationBroadFragment.hideMeetJoinUi();
                     }
 

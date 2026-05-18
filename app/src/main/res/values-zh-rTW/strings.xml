@@ -1070,4 +1070,16 @@
     <string name="wt_transfer_address_no_same_tip">收款地址與錢包地址不可相同</string>
     <string name="welcome_to_seekweb4">歡迎來到SeekWeb4</string>
 
+    <string name="credit_score_hi_nickname">HI,%1$s</string>
+    <string name="credit_score_member_benefits">會員權益</string>
+    <string name="credit_score_member_not_open">會員未開通</string>
+    <string name="credit_score_nice_number_benefits">靚號權益</string>
+    <string name="credit_score_nice_number_not_open">靚號未開通</string>
+    <string name="credit_score_hint_very_poor">信用很差，請努力提高！</string>
+    <string name="credit_score_hint_excellent">信用極好，請繼續保持！</string>
+    <string name="credit_score_hint_good">信用不錯，再接再厲！</string>
+    <string name="credit_score_hint_normal">信用一般，要加油哦！</string>
+    <string name="credit_score_title">信用分</string>
+    <string name="credit_score_tab_compose">信用構成</string>
+    <string name="credit_score_tab_record">變動記錄</string>
 </resources>

@@ -45,9 +45,6 @@
     <string name="bottom_bar_intelligent">Ai</string>
     <string name="bottom_bar_social">Social</string>
     <string name="bottom_bar_center">Me</string>
-    <string name="credit_score_title">信用分</string>
-    <string name="credit_score_tab_compose">信用构成</string>
-    <string name="credit_score_tab_record">变动记录</string>
     <string name="wenxintishi">Warm reminder</string>
     <string name="qitashebeidenglu">Account has been logged in on another device</string>
     <string name="queding">Confirm</string>
@@ -1072,4 +1069,16 @@
     <string name="wt_transfer_address_no_same_tip">The receiving address cannot be the same as the wallet address</string>
     <string name="welcome_to_seekweb4">Welcome to SeekWeb4</string>
 
+    <string name="credit_score_hi_nickname">HI,%1$s</string>
+    <string name="credit_score_member_benefits">Membership Benefits</string>
+    <string name="credit_score_member_not_open">Membership Not Activated</string>
+    <string name="credit_score_nice_number_benefits">Premium Number Benefits</string>
+    <string name="credit_score_nice_number_not_open">Premium Number Not Activated</string>
+    <string name="credit_score_hint_very_poor">Your credit is very poor. Please work hard to improve!</string>
+    <string name="credit_score_hint_excellent">Your credit is excellent. Keep it up!</string>
+    <string name="credit_score_hint_good">Your credit is good. Keep going!</string>
+    <string name="credit_score_hint_normal">Your credit is average. Keep pushing!</string>
+    <string name="credit_score_title">Credit Score</string>
+    <string name="credit_score_tab_compose">Credit Composition</string>
+    <string name="credit_score_tab_record">Change History</string>
 </resources>

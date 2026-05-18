@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="start"
-            android:hint="@string/mingancihit"
+            android:hint="@string/min_gan_ci_hit"
             android:padding="15dp"
             android:paddingEnd="15dp"
             android:textColor="@color/color_text0"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:text="@string/mingancihit2"
+        android:text="@string/min_gan_ci_hit2"
         android:textColor="@color/color_text_content_hint"
         android:textSize="14sp"
         />

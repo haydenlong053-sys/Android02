@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="@color/black">
+
+
+    <eightbitlab.com.blurview.BlurTarget
+        android:id="@+id/target"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/red0">
+
+        <ImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_head_broad_defaut" />
+        <!--Your main content here-->
+
+    </eightbitlab.com.blurview.BlurTarget>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:blurOverlayColor="#80000000"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/audioConTopLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/minimizeImageView"
@@ -19,7 +46,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:src="@drawable/av_broad_minimize"
-            android:tint="@color/white" />
+            app:tint="@color/white" />
 
         <View
             android:layout_width="wrap_content"
@@ -33,24 +60,45 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:src="@drawable/ic_broad_tab_add"
-            android:tint="@color/white" />
+            android:visibility="gone"
+            app:tint="@color/white" />
 
     </LinearLayout>
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/audioContainerGridLayout"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_gravity="center"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_30"
         android:animateLayoutChanges="true"
         app:alignmentMode="alignBounds"
         app:columnCount="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/audioConTopLayout"
         app:orientation="horizontal"
         app:rowCount="3"
-        app:useDefaultMargins="false">
+        app:useDefaultMargins="false" />
 
-    </androidx.gridlayout.widget.GridLayout>
 
-    <include layout="@layout/av_multi_audio_outgoing_connected_broad_action" />
+    <include
+        android:id="@+id/connectedContainer"
+        layout="@layout/av_multi_audio_outgoing_connected_broad_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_114"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
 
-</LinearLayout>
+    <include
+        android:id="@+id/incomingActionContainer"
+        layout="@layout/av_p2p_audio_incoming_broad_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_114"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

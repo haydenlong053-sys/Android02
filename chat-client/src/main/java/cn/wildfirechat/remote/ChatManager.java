@@ -134,6 +134,7 @@ import cn.wildfirechat.message.NoticeInformMessageContent;
 import cn.wildfirechat.message.NoticeMessageContent;
 import cn.wildfirechat.message.PTTSoundMessageContent;
 import cn.wildfirechat.message.PTextMessageContent;
+import cn.wildfirechat.message.PrivateNoticeInformMessageContent;
 import cn.wildfirechat.message.SoundMessageContent;
 import cn.wildfirechat.message.StickerMessageContent;
 import cn.wildfirechat.message.TextMessageContent;
@@ -2172,7 +2173,11 @@ public class ChatManager {
      */
     public long connect(String userId, String token) {
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(token) || TextUtils.isEmpty(SERVER_HOST)) {
-            Toast.makeText(getApplicationContext(), "服务器错误：imtoken为空", Toast.LENGTH_SHORT).show();
+            String msgCenter = "imToken";
+            if (TextUtils.isEmpty(userId)) {
+                msgCenter = "imUserId";
+            }
+            Toast.makeText(getApplicationContext(), "服务器错误：" + msgCenter + "为空", Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("userId, token and im_server_host must not be empty!");
         }
         this.userId = userId;
@@ -9045,6 +9050,7 @@ public class ChatManager {
         //测试公告消息
         registerMessageContent(NoticeInformMessageContent.class);
         registerMessageContent(NoticeMessageContent.class);
+        registerMessageContent(PrivateNoticeInformMessageContent.class);
         //极速直播消息--倒计时10分钟提示
         registerMessageContent(MeetingPreEndTipMessageContent.class);
         registerMessageContent(MeetStartMessageContent.class);

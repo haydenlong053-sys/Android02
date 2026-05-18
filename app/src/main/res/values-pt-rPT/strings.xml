@@ -508,4 +508,16 @@
     <string name="add_trans_dialog_title_disabled">Indisponível temporariamente</string>
     <string name="add_trans_dialog_msg_contact_cs">Contacte o apoio ao cliente 008</string>
 
+    <string name="credit_score_hi_nickname">Olá, %1$s</string>
+    <string name="credit_score_member_benefits">Benefícios de membro</string>
+    <string name="credit_score_member_not_open">Assinatura não ativada</string>
+    <string name="credit_score_nice_number_benefits">Benefícios do número premium</string>
+    <string name="credit_score_nice_number_not_open">Número premium não ativado</string>
+    <string name="credit_score_hint_very_poor">O seu crédito é muito fraco, tente melhorá-lo!</string>
+    <string name="credit_score_hint_excellent">O seu crédito é excelente, continue assim!</string>
+    <string name="credit_score_hint_good">O seu crédito é bom, continue a esforçar-se!</string>
+    <string name="credit_score_hint_normal">O seu crédito é normal, continue a melhorar!</string>
+    <string name="credit_score_title">Pontuação de crédito</string>
+    <string name="credit_score_tab_compose">Composição do crédito</string>
+    <string name="credit_score_tab_record">Histórico de alterações</string>
 </resources>

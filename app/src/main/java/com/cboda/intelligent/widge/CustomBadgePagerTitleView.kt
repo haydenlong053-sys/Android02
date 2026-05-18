@@ -5,19 +5,27 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.core.view.isInvisible
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.utils.setTxt
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleBroadView
 import com.cboda.intelligent.R
+import com.cboda.select.picture.utils.LanguageUtil
 
 class CustomBadgePagerTitleView(context: Context) : BadgePagerTitleBroadView(context) {
 
     private val titleText: TextView
     private val badgeText: TextView
-
     init {
+        val isAdjustMode = LanguageUtil.getLanList(MMKVBroadUtils.getAppLanguageKey(context)).startsWith("zh")
+        val resource =if (isAdjustMode){
+            R.layout.layout_item_badge_title_zh
+        }else{
+            R.layout.layout_item_badge_title
+        }
+
         val view = LayoutInflater.from(context)
-            .inflate(R.layout.layout_item_badge_title, this, true)
+            .inflate(resource, this, true)
         titleText = view.findViewById(R.id.tvTitle)
         badgeText = view.findViewById(R.id.tvBadge)
     }

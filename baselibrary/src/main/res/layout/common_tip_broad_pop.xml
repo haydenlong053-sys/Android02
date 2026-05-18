@@ -7,19 +7,29 @@
     android:layout_gravity="center"
     tools:background="@color/black">
 
-    <com.hjq.shape.layout.ShapeLinearLayout
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:id="@+id/mLlSaveView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_40"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_24"
         app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/white"
         app:shape_strokeColor="@color/white"
         app:shape_strokeWidth="@dimen/dp_05"
-        app:shape_solidColor="@color/white"
         tools:ignore="UselessParent">
 
+
+        <com.hjq.shape.view.ShapeView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_64"
+            app:shape_angle="270"
+            app:shape_endColor="@color/transparent"
+            app:shape_startColor="#3F8CCAFF"
+            app:shape_topLeftRadius="@dimen/dp_16"
+            app:shape_topRightRadius="@dimen/dp_16" />
 
         <TextView
             android:id="@+id/mTvTitle"
@@ -30,6 +40,9 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="该账号交易限制" />
 
         <TextView
@@ -41,6 +54,9 @@
             android:gravity="center"
             android:textColor="@color/black_65"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mTvTitle"
             tools:text="请联系客服008号" />
 
         <LinearLayout
@@ -48,7 +64,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="24dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mTvDes">
 
             <com.hjq.shape.view.ShapeTextView
                 android:id="@+id/mTvCancel"
@@ -79,6 +97,6 @@
         </LinearLayout>
 
 
-    </com.hjq.shape.layout.ShapeLinearLayout>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
 
 </FrameLayout>

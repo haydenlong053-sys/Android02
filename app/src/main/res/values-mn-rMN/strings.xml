@@ -509,4 +509,16 @@
     <string name="add_trans_dialog_title_disabled">Temporarily unavailable</string>
     <string name="add_trans_dialog_msg_contact_cs">Please contact customer service 008</string>
 
+    <string name="credit_score_hi_nickname">Сайн уу, %1$s</string>
+    <string name="credit_score_member_benefits">Гишүүний эрх</string>
+    <string name="credit_score_member_not_open">Гишүүнчлэл идэвхжээгүй байна</string>
+    <string name="credit_score_nice_number_benefits">Премиум дугаарын эрх</string>
+    <string name="credit_score_nice_number_not_open">Премиум дугаар идэвхжээгүй байна</string>
+    <string name="credit_score_hint_very_poor">Таны зээлийн үнэлгээ маш муу байна, сайжруулахыг хичээгээрэй!</string>
+    <string name="credit_score_hint_excellent">Таны зээлийн үнэлгээ маш сайн байна, үргэлжлүүлээрэй!</string>
+    <string name="credit_score_hint_good">Таны зээлийн үнэлгээ сайн байна, цаашид ч хичээгээрэй!</string>
+    <string name="credit_score_hint_normal">Таны зээлийн үнэлгээ дундаж байна, илүү хичээгээрэй!</string>
+    <string name="credit_score_title">Зээлийн оноо</string>
+    <string name="credit_score_tab_compose">Зээлийн бүтэц</string>
+    <string name="credit_score_tab_record">Өөрчлөлтийн түүх</string>
 </resources>

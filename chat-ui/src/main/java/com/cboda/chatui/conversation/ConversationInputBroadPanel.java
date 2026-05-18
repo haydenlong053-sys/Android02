@@ -4,6 +4,10 @@
 
 package com.cboda.chatui.conversation;
 
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_CREDIT_SCORE_NEW_USER_DAYS;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.USER_SEND_LINK;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
 import static com.cboda.chatui.conversation.ConversationBroadFragment.REQUEST_BROAD_PICK_MENTION_CONTACT;
 
 import android.Manifest;
@@ -47,6 +51,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.JavaBroadUtil;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatemoji.EmotionBroadLayout;
 import com.cboda.chatemoji.IEmotionExtClickBroadListener;
@@ -57,6 +63,7 @@ import com.cboda.chatemoji.MoonBroadUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.cboda.chatui.BroadConfig;
 import com.cboda.chatui.R;
@@ -142,6 +149,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     private boolean isPttMode = false;
 
     private OnConversationInputPanelStateChangeListener onConversationInputPanelStateChangeListener;
+
 
     public ConversationInputBroadPanel(@NonNull Context context) {
         super(context);
@@ -371,9 +379,9 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         audioImageView.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
-                if (MeetCallManager.getInstance().isCallingState()){
+                if (MeetCallManager.getInstance().isCallingState()) {
                     ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_func_unavailable);
-                }else {
+                } else {
                     showRecordPanel(v);
                 }
 
@@ -502,7 +510,8 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     }
 
     void afterInputTextChanged(Editable editable) {
-        if (editText.getText().toString().trim().length() > 0) {
+        String inputStr = editText.getText().toString();
+        if (inputStr.trim().length() > 0) {
             if (activity.getCurrentFocus() == editText) {
                 notifyTyping(TypingMessageContent.TYPING_TEXT);
             }
@@ -635,13 +644,16 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
         if (TextUtils.isEmpty(content)) {
             return;
         }
-
+        String day = JavaBroadUtil.containsLinkReturnDay(content.toString());
+        if (!TextUtils.isEmpty(day)) {
+            ToastBroadUtils.show(String.format(getAppContext(null).getString(com.cboda.baselibrary.R.string.registered_less_than_days), day));
+            return;
+        }
         TextMessageContent txtContent = new TextMessageContent(content.toString().trim());
         if (this.quoteInfo != null) {
             txtContent.setQuoteInfo(quoteInfo);
         }
         clearQuoteMessage();
-
         if (conversation.type == Conversation.ConversationType.Group) {
             MentionBroadSpan[] mentions = content.getSpans(0, content.length(), MentionBroadSpan.class);
             if (mentions != null && mentions.length > 0) {
@@ -798,7 +810,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     private void showEmotionLayout() {
         audioButton.setVisibility(View.GONE);
         emotionImageView.setImageResource(R.mipmap.ic_chat_broad_keyboard);
-        rootLinearLayout.show(editText, emotionContainerFrameLayout);
+        rootLinearLayout.show(editText, emotionContainerFrameLayout,0);
         if (onConversationInputPanelStateChangeListener != null) {
             onConversationInputPanelStateChangeListener.onInputPanelExpanded();
         }
@@ -812,7 +824,8 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     }
 
     private void showConversationExtension() {
-        rootLinearLayout.show(editText, extContainerFrameLayout);
+        rootLinearLayout.show(editText, extContainerFrameLayout,1);
+        extImageView.setImageResource(R.mipmap.ic_msg_broad_add_off);
         if (audioButton.isShown()) {
             hideAudioButton();
         }
@@ -822,6 +835,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     }
 
     private void hideConversationExtension() {
+        extImageView.setImageResource(R.mipmap.ic_msg_broad_add);
         if (onConversationInputPanelStateChangeListener != null) {
             onConversationInputPanelStateChangeListener.onInputPanelCollapsed();
         }
@@ -830,6 +844,7 @@ public class ConversationInputBroadPanel extends FrameLayout implements IEmotion
     void closeConversationInputPanel() {
         extension.reset();
         emotionImageView.setImageResource(R.mipmap.ic_msg_broad_emo);
+        extImageView.setImageResource(R.mipmap.ic_msg_broad_add);
         rootLinearLayout.hideAttachedInput(true);
         rootLinearLayout.hideCurrentInput(editText);
     }
