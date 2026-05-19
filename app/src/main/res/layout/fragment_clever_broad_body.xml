@@ -47,7 +47,7 @@
         app:layout_constraintTop_toTopOf="@id/shapeView" />
 
 
-    <FrameLayout
+    <com.cboda.baselibrary.widge.NestedViewPager
         android:id="@+id/viewPagerLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
