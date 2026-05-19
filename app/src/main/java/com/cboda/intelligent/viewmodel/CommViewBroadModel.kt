@@ -9,9 +9,12 @@ import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.*
 import com.cboda.intelligent.configuration.CommonBroadConfig
@@ -1348,6 +1351,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
+                        groupDataLiveData.postValue(bean)
                         gonggaoLiveData.value = bean
                     }
                 }
@@ -1775,6 +1779,33 @@ class CommViewBroadModel : FriendViewBroadModel() {
             },
 
             )
+    }
+
+
+    fun setCommercialFunction(qid: String, boolean: Boolean, context: Context? = null): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        val map = mapOf(
+            "id" to qid,
+            "state" to if (boolean) "1" else "0"
+        )
+        okGoHelper.post(
+            getAppContext(context),
+            "/setGroupShop",
+            JSONObject(map).toString(),
+            NoResultBroadBean(),
+            callBack = object : OKGoBroadHelper.RequestCallBack {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is NoResultBroadBean) {
+                        liveData.postValue(boolean)
+                    }
+                }
+
+                override fun onFail(bean: BaseBroadResponse?) {
+                }
+            },
+
+            )
+        return liveData
     }
 
     fun setGroupFanyi(context: Context?, qid: String, state: String) {

@@ -36,7 +36,7 @@ public class TimeBroadBroadUtils {
 
         if (nowCalendar.get(Calendar.YEAR) == msgCalendar.get(Calendar.YEAR)) {
             if (nowCalendar.get(Calendar.DAY_OF_YEAR) == msgCalendar.get(Calendar.DAY_OF_YEAR)) {
-                //早上、下午、晚上 1:40
+                // 1:40
                 return getTime(msgTime);
             } else if (msgCalendar.get(Calendar.DAY_OF_YEAR) + 1 == nowCalendar.get(Calendar.DAY_OF_YEAR)) {
                 //昨天

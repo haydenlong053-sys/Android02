@@ -24,6 +24,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.groupDataLiveData
 import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -194,7 +195,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                     callBack = object : OKGoBroadHelper.RequestCallBack {
                                         override fun onSuccess(bean: BaseBroadResponse?) {
                                             if (bean is CommonResultBroadBean) {
-
+                                                groupDataLiveData.postValue(bean)
                                                 if (bean.data?.userType == "3" && bean.data?.openQzts == "1") {
                                                     ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
                                                 } else {
@@ -498,6 +499,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
                                     override fun onSuccess(bean: BaseBroadResponse?) {
                                         if (bean is CommonResultBroadBean) {
+                                            groupDataLiveData.postValue(bean)
                                             bean.data?.apply {
 //                                                saveUserData(userList)
                                                 EventBus.getDefault().post(
@@ -507,6 +509,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                                         ""
                                                     )
                                                 )
+
 //                                                updateGroupDetailLiveData.postValue(this)
                                             }
                                         }
@@ -669,6 +672,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                         override fun onSuccess(bean: BaseBroadResponse?) {
                                             dismissLoadingWfc()
                                             if (bean is CommonResultBroadBean) {
+                                                groupDataLiveData.postValue(bean)
                                                 if (bean.data?.userType == "1" || bean.data?.userType == "2") {
 //                                                                MeetingBroadHolder.openMeetingDialog(
 //                                                                    mContext,
@@ -919,6 +923,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is CommonResultBroadBean) {
+                        groupDataLiveData.postValue(bean)
                         if (bean.data?.isfanyi == "1") {
                             SharePrefBroadBroadUtil.saveString(
                                 context,
@@ -1102,7 +1107,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 //                                dataList.add(commonBean.emoji?:"")
 //                            }
 //                        }
-                        eLogD(APP_TAG,"addCustomFace----")
+                        eLogD(APP_TAG, "addCustomFace----")
                         //废弃，暂未使用自定义表情列表功能EmotionBroadEvent
 //                        EventBus.getDefault().post(EmotionBroadEvent("biaoqiangneirong", gson.toJson(bean)))
                     }

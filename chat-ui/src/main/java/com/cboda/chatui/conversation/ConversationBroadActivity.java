@@ -134,6 +134,8 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             }
 
             if (conversationBroad.type == Conversation.ConversationType.Group) {
+
+
                 if (qunXiangqing != null && conversationBroadFragment.messageBroadViewModel != null) {
                     if ("3".equals(qunXiangqing.getUserType())) {
                         conversationBroadFragment.messageBroadViewModel.shifouLanjie = true;

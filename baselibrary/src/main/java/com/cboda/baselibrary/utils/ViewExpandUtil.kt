@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blankj.utilcode.util.ActivityUtils
@@ -39,6 +40,7 @@ import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.hjq.shape.layout.ShapeConstraintLayout
 import com.hjq.shape.layout.ShapeLinearLayout
@@ -1208,6 +1210,19 @@ fun View.setPaddingHorizontal(px: Int) {
     setPaddingRelative(px, paddingTop, px, paddingBottom)
 }
 
+// 跳转到外部浏览器
+fun startOutH5Activity(url: String? = "", context: Context? = null) {
+    val intent = Intent(Intent.ACTION_VIEW, (url ?: "").toUri())
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    try {
+        getAppContext(context).startActivity(intent)
+    } catch (e: Exception) {
+        e.toLog(tAG)
+        crashReportLog("打开浏览器失败:$url")
+        ToastBroadUtils.show(R.string.website_exception)
+    }
+
+}
 
 fun getSysLast(list: List<Any?>?): Any? {
     if (!list.isNullOrEmpty()) {

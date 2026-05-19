@@ -13,7 +13,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
 
 
     class CommonResult {
-        var tQrcode=""
+        var tQrcode = ""
         var eqno = ""
         var creditScoreNewUserDays = ""
         var creditScoreNewInGroupDays: Int = 0
@@ -49,7 +49,9 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var isBlack: String? = null
         var isfanyi: String? = null
         var fantime: String? = null
-
+        var isshop: String? = null
+        var showShop: String? = null
+        var shopLink: String? = null
 
         var time: String? = null
         var money: String? = null

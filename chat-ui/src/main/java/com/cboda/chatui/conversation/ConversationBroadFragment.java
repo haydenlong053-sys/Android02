@@ -8,6 +8,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getMeetUpMicMsgLiveData;
 import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.getUpdateBarrageDataLiveData;
+import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.groupDataLiveData;
 import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePicture;
 import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
@@ -88,6 +89,7 @@ import java.util.Set;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.utils.RealmUtil;
+import com.cboda.baselibrary.utils.ViewExpandUtilKt;
 import com.cboda.baselibrary.widge.CountPillView;
 import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.baselibrary.widge.VerticalDanmakuView;
@@ -247,9 +249,21 @@ public class ConversationBroadFragment extends Fragment implements
     public MarqueeTextBroadView gonggaoxinxiBroad;
     public MarqueeTextBroadView tvQunMeetingBroad;
     private View mViewMeetJoin;
+    private View shopIv;
     private TextView mTvMeetJoin, mTvMeetPeople;
     private boolean isGag = false;
     private boolean oldGag = false;
+    private String shopUrl;
+
+
+    private void setGroupData(CommonResultBroadBean groupData) {
+        if (null != groupData && null != groupData.getData() && !TextUtils.isEmpty(groupData.getData().getId()) && null != conversationBroad
+                && !TextUtils.isEmpty(conversationBroad.target) && conversationBroad.type == Conversation.ConversationType.Group
+                && conversationBroad.target.equals(groupData.getData().getId()) && null != shopIv) {
+            shopUrl = groupData.getData().getShopLink();
+            shopIv.setVisibility(anyToInt(groupData.getData().getShowShop()) == 1 ? VISIBLE : GONE);
+        }
+    }
 
     @Override
     public void onMeetTotalPersonCount(@NotNull String chanelId, int personCount) {
@@ -599,6 +613,7 @@ public class ConversationBroadFragment extends Fragment implements
     public String fromPage;
 
     private void bindViews(View view) {
+        shopIv = view.findViewById(R.id.shopIv);
         mViewMeetJoin = view.findViewById(R.id.mViewMeetJoin);
         mTvMeetPeople = view.findViewById(R.id.mTvMeetPeople);
         mTvMeetJoin = view.findViewById(R.id.mTvMeetJoin);
@@ -830,6 +845,11 @@ public class ConversationBroadFragment extends Fragment implements
 //                }
 
             }
+        });
+        groupDataLiveData.observe(getViewLifecycleOwner(), this::setGroupData);
+        click(shopIv, () -> {
+            ViewExpandUtilKt.startOutH5Activity(shopUrl, getActivity());
+            return null;
         });
 //        getUpdateGroupDetailLiveData().observe(getViewLifecycleOwner(), commonResult -> {
 //            boolean gag = commonResult.getAllJy().equals("1");

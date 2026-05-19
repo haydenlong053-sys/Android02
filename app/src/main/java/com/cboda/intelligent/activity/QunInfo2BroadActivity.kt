@@ -28,7 +28,10 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
@@ -66,6 +69,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private var pageNo = 1
     private var uploadViewModel: UploadFileViewBroadModel? = null
     private var qunxiangqing: CommonResultBroadBean.CommonResult? = null
+    private var groupData: CommonResultBroadBean? = null
     private var jiangetime = 0
     private var conversationViewModel: ConversationViewBroadModel? = null
     private lateinit var tuichuquan: TextView
@@ -119,7 +123,8 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private lateinit var mIvGroupAvatar: ImageView
     private lateinit var chakangebngduo: TextView
     private lateinit var recyclerView: RecyclerView
-
+    private lateinit var commercialFunctionLayout: View
+    private lateinit var commercialFunctionSwitch: SwitchCompat
     private fun initViews() {
         recyclerView = findViewById(R.id.recyclerView)
         chakangebngduo = findViewById(R.id.chakangebngduo)
@@ -171,6 +176,8 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
         qunguanlilay = findViewById(R.id.qunguanlilay)
         jiesanqun = findViewById(R.id.jiesanqun)
         tuichuquan = findViewById(R.id.tuichuquan)
+        commercialFunctionLayout = findViewById(R.id.commercialFunctionLayout)
+        commercialFunctionSwitch = findViewById(R.id.commercialFunctionSwitch)
     }
 
     override fun getLayoutId(): Int {
@@ -218,7 +225,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
             holder.show()
         }
         val groupInfo = ChatManager.Instance().getGroupInfo(qunId, false)
-        findViewById<TextView>(R.id.mTvGroupMemberCount).text ="群成员(${(groupInfo?.memberCount?:0)-1})"
+        findViewById<TextView>(R.id.mTvGroupMemberCount).text = "群成员(${(groupInfo?.memberCount ?: 0) - 1})"
 
         conversationViewModel = WfcUIBroadKit.getAppScopeViewModel(
             ConversationViewBroadModel::class.java
@@ -249,6 +256,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
             }
         }
         viewModel?.gonggaoLiveData?.observe(this) {
+            groupData = it
             it.data?.apply {
                 qunxiangqing = this
                 MMKVBroadUtils.updateGroupNameAndRenameCount(id, name, renameCount, icon)
@@ -266,8 +274,9 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 //
 //                }
 
-                loadGroupImg(mIvGroupAvatar,qunId,this.icon)
-
+                loadGroupImg(mIvGroupAvatar, qunId, this.icon)
+                commercialFunctionLayout.isGone = TextUtils.isEmpty(this.isshop)
+                commercialFunctionSwitch.isChecked = anyToInt(this.isshop) == 1
                 qunmingceng?.text = this.name ?: ""
                 mTvGroupName?.text = this.name ?: ""
                 qunid?.text = "${getString(com.cboda.baselibrary.R.string.msg_group_id)}${this.idno ?: ""}"
@@ -415,7 +424,22 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
         chakangebngduo?.setOnClickListener {
             JumpBroadUtils.startQunUserListActivity(this, qunId)
         }
+        commercialFunctionSwitch.click {
+            val checkEd = commercialFunctionSwitch.isChecked
+            viewModel?.setCommercialFunction(qunId, checkEd)?.observe(this@QunInfo2BroadActivity) {
+                commercialFunctionSwitch.isChecked = it
+                groupData?.let { it3 ->
+                    qunxiangqing?.let { it2 ->
+                        it2.isshop = if (it) "1" else "0"
+                        it2.showShop = if (it) "1" else "0"
+                        it3.data = it2
+                        groupDataLiveData.postValue(it3)
+                    }
+                }
 
+
+            }
+        }
         jianhao?.setOnClickListener {
             jiangetime--
             if (jiangetime <= 0) {
@@ -698,7 +722,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 
         mIvGroupQrcode?.setOnClickListener {
 //            qunxiangqing: CommonResultBroadBean.CommonResult? = null
-            JumpBroadUtils.startQunCodeActivity(this, qunId,qunxiangqing)
+            JumpBroadUtils.startQunCodeActivity(this, qunId, qunxiangqing)
         }
 
         zhuanrangqun?.setOnClickListener {

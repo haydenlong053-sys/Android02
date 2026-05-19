@@ -2,6 +2,7 @@ package com.cboda.intelligent.utils
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.bean.CommonResultBroadBean
@@ -61,6 +62,7 @@ import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.dialog.GroupQrCodeDialog
 import com.cboda.intelligent.dialog.pop.SaveGroupQrCodeBroadPop
+import androidx.core.net.toUri
 
 
 class JumpBroadUtils {
@@ -120,6 +122,7 @@ class JumpBroadUtils {
 //                eLogD(tAG, "actName2:$actName")
 //            }
         }
+
         fun startLoginActivity(context: Context?) {
             val intent = Intent(context, NewEquipmentBroadActivity::class.java)
             context?.startActivity(intent)
@@ -146,13 +149,15 @@ class JumpBroadUtils {
             context?.startActivity(intent)
         }
 
-        fun startH5Activity(context: Context?, url: String = "", fromPage: String = "") {
+        fun startH5Activity(context: Context? = null, url: String = "", fromPage: String = "") {
             eLogD("startH5Activity", "url:$url")
-            val intent = Intent(context, H5BroadActivity::class.java)
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, H5BroadActivity::class.java)
             intent.putExtra("url", url)
             intent.putExtra("fromPage", fromPage)
-            context?.startActivity(intent)
+            mContext.startActivity(intent)
         }
+
 
 //        fun startHaoYouPageActivity(context: Context?, uid: String) {
 //            val intent = Intent(context, HaoYouPageBroadActivity::class.java)

@@ -1,6 +1,7 @@
 package com.cboda.baselibrary.utils
 
 import com.cboda.baselibrary.bean.BarrageBean
+import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean.CommonResult
 
 val clearUserDataLiveData: BusLiveBroadData<Boolean> by lazy(LazyThreadSafetyMode.NONE) {
@@ -37,3 +38,8 @@ val meetSeatChangeMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafety
 //群内有人结束了会议的通知消息
 @JvmField
 val meetEndMsgLiveData: BusLiveBroadData<String> = LiveDataBroadBroadBus.getInstance().with("meetEndMsg")
+
+
+//群数据变更通知
+@JvmField
+val groupDataLiveData: BusLiveBroadData<CommonResultBroadBean> = LiveDataBroadBroadBus.getInstance().with("groupDataUpdate")
