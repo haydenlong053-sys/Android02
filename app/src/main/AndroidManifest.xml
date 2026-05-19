@@ -465,6 +465,9 @@
             android:name="com.cboda.intelligent.activity.XuanQunJinYanBroadActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.cboda.intelligent.activity.AiActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.cboda.intelligent.activity.QunJinYanMemberBroadActivity"
             android:screenOrientation="portrait" />
         <activity

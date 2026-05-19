@@ -63,6 +63,8 @@ import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.dialog.GroupQrCodeDialog
 import com.cboda.intelligent.dialog.pop.SaveGroupQrCodeBroadPop
 import androidx.core.net.toUri
+import com.cboda.intelligent.activity.AiActivity
+import com.cboda.intelligent.activity.AiCheckRecordBroadActivity
 
 
 class JumpBroadUtils {
@@ -158,6 +160,17 @@ class JumpBroadUtils {
             mContext.startActivity(intent)
         }
 
+        fun toAiCheckRecordAct(context: Context? = null){
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, AiCheckRecordBroadActivity::class.java)
+            mContext.startActivity(intent)
+        }
+
+        fun toAiActivity(context: Context? = null) {
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, AiActivity::class.java)
+            mContext.startActivity(intent)
+        }
 
 //        fun startHaoYouPageActivity(context: Context?, uid: String) {
 //            val intent = Intent(context, HaoYouPageBroadActivity::class.java)

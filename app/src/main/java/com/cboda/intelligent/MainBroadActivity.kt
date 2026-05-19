@@ -91,6 +91,7 @@ import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.fragment.CleverBodyBroadFragment
+import com.cboda.intelligent.fragment.GpFragment
 import com.cboda.intelligent.fragment.MessageBroadFragment
 import com.cboda.intelligent.fragment.NewMineBroadFragment
 import com.cboda.intelligent.fragment.NewMirrorBroadFragment
@@ -101,6 +102,7 @@ import com.cboda.intelligent.holder.XitonggaonggaoBroadHolder
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.toLoginQrCodeAct
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -186,9 +188,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                     text = stringResource(id = R.string.bottom_bar_mirror)
                 ),
                 ExpandableBottomBarBroadItem(
-                    icon = painterResource(id = R.drawable.ic_ai_tab_broad_mirror),
-                    selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_broad_pre),
-                    text = stringResource(id = R.string.bottom_bar_intelligent)
+                    icon = painterResource(id = R.drawable.ic_gc_tab_mirror),
+                    selectedIcon = painterResource(id = R.drawable.ic_gc_tab_mirror_pre),
+                    text = stringResource(id = com.cboda.baselibrary.R.string.bottom_bar_gc)
                 )
             )
 //            if (!HttpsBroadConfig.isReviewEnv) {
@@ -662,7 +664,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        fragmentList.add(MirrorBroadFragment.getInstance())
 
         fragmentList.add(NewMirrorBroadFragment())
-        fragmentList.add(CleverBodyBroadFragment())
+        fragmentList.add(GpFragment())
+//        fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
 //        if (!HttpsBroadConfig.isReviewEnv) {
         fragmentList.add(messageFragment)
