@@ -915,7 +915,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         val adapter = Vp2FragmentBroadAdapter(this)
         adapter.setData(fragmentList)
         viewPager.isUserInputEnabled = true
-        viewPager.offscreenPageLimit = fragmentList.size
+//        viewPager.offscreenPageLimit = fragmentList.size
+        viewPager.offscreenPageLimit = 1
         viewPager.adapter = adapter
         if (fragmentList.size == 4) {
             viewPager.setCurrentItem(2, false)
