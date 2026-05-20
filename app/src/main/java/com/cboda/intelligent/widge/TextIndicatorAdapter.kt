@@ -1,4 +1,5 @@
 package com.cboda.intelligent.widge
+
 import com.cboda.intelligent.R
 import android.content.Context
 import android.content.res.ColorStateList
@@ -11,6 +12,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
+import androidx.annotation.LayoutRes
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter
@@ -18,6 +20,7 @@ import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IP
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indicators.LinePagerBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleBroadView
+
 class TextIndicatorAdapter : CommonNavigatorBroadAdapter {
     private val mTitles: IntArray?
 
@@ -34,14 +37,21 @@ class TextIndicatorAdapter : CommonNavigatorBroadAdapter {
     private val mMinScale = 1.0f
     private val textSize: Int
     private var isEnableScaleAnim = true
+    private var mLayout = 0
+    private var mLineWidth = 0.0
+
 //    private var magicItemWidth: Float = 0f
 
     constructor(
         context: Context,
         titles: IntArray?,
-        @DimenRes fontSize: Int = com.cboda.baselibrary.R.dimen.dp_16
+        @DimenRes fontSize: Int = com.cboda.baselibrary.R.dimen.dp_16,
+        @LayoutRes layout: Int = R.layout.text_indicator_broad_tv,
+        lineWidth: Double = 32.0
     ) {
         mTitles = titles
+        mLayout = layout
+        mLineWidth = lineWidth
         mSelectedColor = getAppColor(context, com.cboda.baselibrary.R.color.color_3B47DD)
         mNormalColor = getAppColor(context, com.cboda.baselibrary.R.color.black_65)
         mIndicatorColor = ArrayList()
@@ -69,9 +79,9 @@ class TextIndicatorAdapter : CommonNavigatorBroadAdapter {
 
     override fun getTitleView(context: Context, index: Int): IPagerTitleView {
         val pagerTitleView = CommonPagerTitleBroadView(context)
-        // load custom layout
+        // load custom layout。@LayoutRes
         val itemLayout = LayoutInflater.from(context).inflate(
-            R.layout.text_indicator_broad_tv,
+            mLayout,
             pagerTitleView, false
         )
         val titleText = itemLayout.findViewById<TextView>(R.id.textIndicatorTitleTv)
@@ -176,7 +186,7 @@ class TextIndicatorAdapter : CommonNavigatorBroadAdapter {
         val indicator = LinePagerBroadIndicator(context)
         indicator.mode = LinePagerBroadIndicator.MODE_EXACTLY
         indicator.lineHeight = UIBroadUtil.dip2px(context, 2.0).toFloat()
-        indicator.lineWidth = UIBroadUtil.dip2px(context, 32.0).toFloat()
+        indicator.lineWidth = UIBroadUtil.dip2px(context, mLineWidth).toFloat()
         indicator.roundRadius = UIBroadUtil.dip2px(context, 2.0).toFloat()
         indicator.startInterpolator = AccelerateInterpolator()
         indicator.endInterpolator = DecelerateInterpolator(2.0f)

@@ -206,4 +206,7 @@
     <string name="website_exception">网址异常！</string>
     <string name="bottom_bar_gc">广场</string>
     <string name="circle_friend">朋友圈</string>
+    <string name="square_world">世界</string>
+    <string name="square_hot">热门</string>
+    <string name="square_my_attention">我的关注</string>
 </resources>
