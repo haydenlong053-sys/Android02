@@ -1,13 +1,16 @@
 package com.cboda.intelligent.widge
 
+import android.annotation.SuppressLint
 import com.cboda.intelligent.R
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.utils.setBackColor
@@ -45,21 +48,34 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
     private var mIndicatorColor: MutableList<Int>
     private val mMinScale = 1.0f
     private val textSize: Int
+    private var mIndicatorRadius = 0.0
     private var isEnableScaleAnim = true
+    private var mSelectedTextIsBold = false
+    private var mNormalTextIsBold = false
 //    private var magicItemWidth: Float = 0f
 
+    @SuppressLint("ResourceAsColor")
     constructor(
         context: Context,
         titles: IntArray?,
+        @ColorRes selectedColor: Int = com.cboda.baselibrary.R.color.color_3B47DD,
+        @ColorRes normalColor: Int = com.cboda.baselibrary.R.color.color_white_85,
+        @ColorRes indicatorColor: Int = com.cboda.baselibrary.R.color.white,
+        indicatorRadius: Double = 8.0,
+        selectedTextIsBold: Boolean = false,
+        normalTextIsBold: Boolean = false,
         @DimenRes fontSize: Int = com.cboda.baselibrary.R.dimen.dp_15
     ) {
         mTitles = titles
+        mIndicatorRadius = indicatorRadius
+        mSelectedTextIsBold = selectedTextIsBold
+        mNormalTextIsBold = normalTextIsBold
         mBackSelectedColor = com.cboda.baselibrary.R.color.white
         mBackNormalColor = com.cboda.baselibrary.R.color.transparent
-        mSelectedColor = getAppColor(context, com.cboda.baselibrary.R.color.color_3B47DD)
-        mNormalColor = getAppColor(context, com.cboda.baselibrary.R.color.color_white_85)
+        mSelectedColor = getAppColor(context, selectedColor)
+        mNormalColor = getAppColor(context, normalColor)
         mIndicatorColor = ArrayList()
-        mIndicatorColor.add(getAppColor(context, com.cboda.baselibrary.R.color.white))
+        mIndicatorColor.add(getAppColor(context, indicatorColor))
         textSize = context.resources.getDimensionPixelSize(fontSize)
     }
 
@@ -92,6 +108,7 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
         val titleText = itemLayout.findViewById<TextView>(R.id.textBackIndicatorTitleTv)
 //        val shapeView = itemLayout.findViewById<View>(R.id.shapeView)
 //        titleText.post {
+
         titleText.setText(mTitles!![index])
 //        }
 //        titleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
@@ -106,6 +123,9 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
                 }
                 // 选中背景由 WrapPagerBroadIndicator 随滑动绘制，此处保持透明
 //                backLayout.setBackColor(com.cboda.baselibrary.R.color.transparent)
+                if (mSelectedTextIsBold) {
+                    titleText.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+                }
 //                titleText.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
             }
 
@@ -118,6 +138,9 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
 //                backLayout.setBackColor(com.cboda.baselibrary.R.color.transparent)
 //                titleText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL)
 //                bottomIv.imageTintList = ColorStateList.valueOf(mNormalColor)
+                if (mNormalTextIsBold) {
+                    titleText.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+                }
             }
 
             override fun onLeave(
@@ -207,7 +230,7 @@ class TextBackIndicatorAdapter : CommonNavigatorBroadAdapter {
         val indicator = LinePager2Indicator(context)
         indicator.mode = LinePager2Indicator.MODE_FULL_CELL
         indicator.fillColor = mIndicatorColor[0]
-        indicator.roundRadius = UIBroadUtil.dip2px(context, 8.0).toFloat()
+        indicator.roundRadius = UIBroadUtil.dip2px(context, mIndicatorRadius).toFloat()
         indicator.setStartInterpolator(AccelerateInterpolator())
         indicator.setEndInterpolator(DecelerateInterpolator(2.0f))
         return indicator
