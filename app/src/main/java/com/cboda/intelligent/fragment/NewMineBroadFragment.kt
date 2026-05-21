@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
@@ -140,10 +141,10 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
             binding.mTvOpenVipDes2.visibility = View.GONE
             binding.mTvVipEndTime.visibility = View.GONE
             binding.mTvOpenVipDes1.visibility = View.VISIBLE
-            binding.layoutViewMoney.visibility = View.GONE
+            binding.layoutViewMoney.isGone = false
             return
         }
-
+        binding.layoutViewMoney.isGone = false
         if (isVip) {
             binding.cardVip.setImageResource(R.drawable.ic_mine_bg_has_vip)
             binding.mTvOpenVip.visibility = View.GONE
@@ -177,7 +178,7 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
                     val vipFlag = data.isvip ?: "0"
                     val vipTimeRaw = data.vipTime ?: ""
                     val vipTimeText = if (vipFlag == "1" && vipTimeRaw.isNotEmpty()) {
-                          getString(com.cboda.baselibrary.R.string.mine_vip_time_to)+" "+vipTimeRaw
+                        getString(com.cboda.baselibrary.R.string.mine_vip_time_to) + " " + vipTimeRaw
                     } else {
                         ""
                     }
