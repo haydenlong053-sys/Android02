@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main2"
-    >
+    android:background="@color/bg_main2">
 
     <ImageView
         android:id="@+id/ivTopBg"
@@ -24,11 +23,11 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_mine_bg_no_vip"
         app:layout_constraintDimensionRatio="H,345:150"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_mine_bg_no_vip" />
 
     <TextView
         android:id="@+id/mTvOpenVipDes1"
@@ -41,12 +40,11 @@
         android:lines="1"
         android:text="@string/mine_vip_limited_offer"
         android:textColor="#FFD3A9"
-        android:textStyle="bold"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/cardVip"
         app:layout_constraintStart_toStartOf="@id/cardVip"
-        app:layout_constraintTop_toTopOf="@id/cardVip"
-        />
+        app:layout_constraintTop_toTopOf="@id/cardVip" />
 
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/mTvOpenVip"
@@ -138,7 +136,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <ImageView
                         android:layout_width="32dp"
