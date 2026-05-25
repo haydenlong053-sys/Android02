@@ -169,10 +169,10 @@ object DeviceBroadUtil {
                 val mWId = getWidevineId()
                 val openTime = getDeviceOpenTime()
                 val openTimeStr = openTime.toString()
-                val aesKey = if (!TextUtils.isEmpty(aId) && aId.length == 16) {
-                    aId
-                } else if (openTimeStr.length > 8) {
+                val aesKey = if (openTimeStr.length > 8) {
                     (openTimeStr + openTimeStr).substring(0, 16)
+                } else if (!TextUtils.isEmpty(aId) && aId.length == 16) {
+                    aId
                 } else {
                     getDeviceUUId().substring(0, 16)
                 }
@@ -190,7 +190,7 @@ object DeviceBroadUtil {
                 val jmId3 = aesEncrypt(jmId2, aesKey = aesKey, flags = Base64.NO_WRAP).replace("/", "").replace("=", "").replace("+", "")
                 val jmId5 = aesEncrypt(jmId, aesKey = aesKey, flags = Base64.NO_WRAP).replace("/", "").replace("=", "").replace("+", "")
                 val jmId6 = encryptMD5ToString(jmId3 + jmId5)
-                getAllDeviceId1 = (jmId3.substring(0, 7) + jmId6 + jmId + jmId5.takeLast(11)).uppercase()
+                getAllDeviceId1 = (jmId3.substring(0, 9) + jmId6 + jmId + jmId5.takeLast(9)).uppercase()
             }
 
             5 -> {
