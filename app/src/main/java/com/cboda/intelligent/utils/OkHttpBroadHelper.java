@@ -189,7 +189,7 @@ public class OkHttpBroadHelper {
                     String resultStr = response.body().string();
                     String resultStrAes = "";
                     try {
-                        resultStrAes = EncryptUtil.INSTANCE.aesDecrypt(resultStr, "AES", null);
+                        resultStrAes = EncryptUtil.INSTANCE.aesDecrypt(resultStr, "AES", null, null);
                     } catch (Exception e) {
 //                        throw new RuntimeException(e);
                         eLogD(TAG, "http--http", "--->Exception " + e);
@@ -235,7 +235,7 @@ public class OkHttpBroadHelper {
         if (methodType == HttpMethodType.POST) {
             Map<String, Object> paramsAes = new HashMap<>();
             try {
-                paramsAes.put("encrData", EncryptUtil.INSTANCE.aesEncrypt(GsonUtils.getGson().toJson(params), "AES", null));
+                paramsAes.put("encrData", EncryptUtil.INSTANCE.aesEncrypt(GsonUtils.getGson().toJson(params), "AES", null, null));
             } catch (Exception e) {
                 toLog(e, TAG);
             }
