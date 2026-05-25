@@ -8,6 +8,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
+import com.cboda.baselibrary.utils.crashReportLog
+import com.cboda.baselibrary.utils.getAllEnDeviceId
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.utils.updatePayPwdDataLiveData
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
@@ -95,6 +97,8 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
     private fun getData() {
         viewModel.getUserInfo().observe(this) {
             CrashFactory.crashLoad.crashU(this@LoginQrCodeActivity, it.realityId, it.deviceId)
+            val crashId = if (it.realityId == it.showId) it.realityId else "${it.realityId},${it.showId}"
+            crashReportLog("LA:$crashId,${getAllEnDeviceId(this@LoginQrCodeActivity)}")
             loginQrCodeFragment.setData(it)
             accountDetailFragment.setData(it)
         }
