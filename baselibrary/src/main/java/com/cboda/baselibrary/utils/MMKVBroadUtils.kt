@@ -36,6 +36,8 @@ class MMKVBroadUtils {
         const val DEVICE_ALL_NOT_ENCRYPT_ID = "deviceAllNotEncryptId"
         const val DEVICE_SYS_AID = "deviceSysAndroidId"
         const val DEVICE_UID = "deviceUId"
+
+        const val DEVICE_START_TIME = "deviceStartTime"
         const val NET_TYPE = "appNetType"
         const val DEV_INPUT_BASE_URL = "devInputBaseUrl"
         const val SEARCH_KEY = "searchHistoryKey"
@@ -569,6 +571,24 @@ class MMKVBroadUtils {
                 e.toLog("MMKVBroadUtilsClass")
             }
 
+        }
+
+
+        fun getSqlLongData(key: String, defaultValue: Long = 0L): Long {
+            return try {
+                getMmKv()?.decodeLong(key) ?: defaultValue
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+                0L
+            }
+        }
+
+        fun saveSqlLongData(key: String, value: Long? = null) {
+            try {
+                getMmKv()?.encode(key, value ?: 0L)
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+            }
         }
 
         //配置-新入群天数
