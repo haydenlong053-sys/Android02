@@ -75,6 +75,8 @@ object UrlBroadBroadConstants {
      */
     const val SIGN_INFO = "api/signInfo"
 
+    /** 广场帖子列表 */
+    const val SQUARE_POST_LIST = "api/piamom/square/list"
 
     /**
      * 好友相关

@@ -1080,4 +1080,12 @@
     <string name="credit_score_title">信用分</string>
     <string name="credit_score_tab_compose">信用构成</string>
     <string name="credit_score_tab_record">变动记录</string>
+    <string name="square_publish_tip">发布到广场需质押 %1$s ODIC 以保证信息质量</string>
+    <string name="square_publish_input_hint">请输入</string>
+    <string name="square_publish_who_can_comment">谁可以评论</string>
+    <string name="square_publish_everyone">所有人</string>
+    <string name="square_publish_submit">质押并发布</string>
+    <string name="square_publish_submit_moments">发布</string>
+    <string name="square_staked_format">已质押 %1$s ODIC</string>
+    <string name="square_score_format">%1$s分</string>
 </resources>

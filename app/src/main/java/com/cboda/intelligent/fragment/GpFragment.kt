@@ -11,6 +11,8 @@ import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.GpFragmentBinding
+import com.cboda.intelligent.dialog.pop.SquarePublishPopup
+import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
 import com.cboda.intelligent.widge.TextBackIndicatorAdapter
 
@@ -22,10 +24,18 @@ class GpFragment : BaseBroadFragment<GpFragmentBinding, CleverBodyViewBroadModel
         setBottomViewHeight()
     }
 
+    override fun initListener() {
+        mBinding?.gpAddView?.click {
+            val squarePublishPopup = SquarePublishPopup(requireContext())
+            squarePublishPopup.showPopupWindow()
+        }
+    }
+
     fun setBottomHeight(height: Int) {
         marginBottom = height
         setBottomViewHeight()
     }
+
     private fun setBottomViewHeight() {
         mBinding?.gpView1?.let {
             val layoutParams = it.layoutParams

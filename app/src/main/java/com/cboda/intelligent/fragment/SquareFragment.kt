@@ -17,12 +17,12 @@ class SquareFragment : BaseBroadFragment<SquareFragmentBinding, CleverBodyViewBr
 
     override fun initView() {
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
-        vp2FragmentAdapter.addFragment(SquareChildFragment())
-        vp2FragmentAdapter.addFragment(SquareChildFragment())
-        vp2FragmentAdapter.addFragment(SquareChildFragment())
+        vp2FragmentAdapter.addFragment(SquareChildFragment.newInstance(SquareChildFragment.TAB_WORLD))
+        vp2FragmentAdapter.addFragment(SquareChildFragment.newInstance(SquareChildFragment.TAB_HOT))
+        vp2FragmentAdapter.addFragment(SquareChildFragment.newInstance(SquareChildFragment.TAB_FOLLOW))
         mBinding?.sqViewPager?.viewPager2?.adapter = vp2FragmentAdapter
         mBinding?.sqViewPager?.viewPager2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        mBinding?.sqViewPager?.viewPager2?.isUserInputEnabled = false
+        mBinding?.sqViewPager?.viewPager2?.isUserInputEnabled = true
         mBinding?.sqViewPager?.viewPager2?.offscreenPageLimit = 1//vp2FragmentAdapter.getData().size
         mBinding?.sqViewPager?.viewPager2?.isSaveEnabled = false
         val mResIds =

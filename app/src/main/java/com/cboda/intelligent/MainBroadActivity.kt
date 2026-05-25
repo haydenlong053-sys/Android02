@@ -925,7 +925,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         viewPager.offscreenPageLimit = 1
         viewPager.adapter = adapter
         if (fragmentList.size == 4) {
-            viewPager.setCurrentItem(2, false)
+            viewPager.setCurrentItem(1, false)
         }
 
         userViewModel = ViewModelProvider(this)[UserViewBroadModel::class.java]

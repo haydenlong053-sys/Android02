@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f5f5f5">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivTopBg"
@@ -56,6 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.hjq.shape.view.ShapeImageView
+        android:id="@+id/gpAddView"
         android:layout_width="@dimen/dp_46"
         android:layout_height="@dimen/dp_46"
         android:layout_marginEnd="@dimen/dp_15"

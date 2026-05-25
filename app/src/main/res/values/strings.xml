@@ -1081,4 +1081,12 @@
     <string name="credit_score_title">Credit Score</string>
     <string name="credit_score_tab_compose">Credit Composition</string>
     <string name="credit_score_tab_record">Change History</string>
+    <string name="square_publish_tip">Posting to Square requires staking %1$s ODIC to ensure information quality</string>
+    <string name="square_publish_input_hint">Please enter</string>
+    <string name="square_publish_who_can_comment">Who can comment</string>
+    <string name="square_publish_everyone">Everyone</string>
+    <string name="square_publish_submit">Stake and publish</string>
+    <string name="square_publish_submit_moments">Publish</string>
+    <string name="square_staked_format">Staked %1$s ODIC</string>
+    <string name="square_score_format">%1$s pts</string>
 </resources>

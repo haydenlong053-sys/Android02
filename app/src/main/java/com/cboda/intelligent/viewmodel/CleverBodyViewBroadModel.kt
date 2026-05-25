@@ -1,18 +1,17 @@
 package com.cboda.intelligent.viewmodel
 
-import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
-import com.cboda.baselibrary.bean.GlobalFriendBroadBean
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+import com.cboda.baselibrary.network.repository.NetworkListBroadResult
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.base.BaseViewBroadModel
-import com.cboda.baselibrary.livedata.SingleLiveBroadData
-import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.cboda.intelligent.bean.SquarePostBean
+import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.model.SignInfoViewBroadModel
-import com.cboda.baselibrary.bean.UserInfoBroadModel
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -77,4 +76,45 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
 //        }
 //        return liveData
 //    }
+
+    /**
+     * 广场帖子列表（分页）
+     * tabType: 0=世界 1=热门 2=我的关注
+     */
+    fun getSquarePostList(
+        tabType: Int,
+        pageNo: Int,
+        pageSize: Int = CommonBroadConfig.pageSize_20,
+    ): SingleLiveBroadData<NetworkListBroadResult<SquarePostBean>> {
+        val liveData = SingleLiveBroadData<NetworkListBroadResult<SquarePostBean>>()
+        val params = hashMapOf<String, Any>(
+            "tabType" to tabType,
+            "pageNo" to pageNo,
+            "pageSize" to pageSize,
+        )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    NetworkBroadRepository.postEncryptedList2(
+                        UrlBroadBroadConstants.SQUARE_POST_LIST,
+                        SquarePostBean::class.java,
+                        params,
+                    ).onSuccess { result ->
+                        liveData.postValue(
+                            result ?: NetworkListBroadResult(emptyList(), 0, 1),
+                        )
+                    }.onFailure { _, _ ->
+//                        liveData.postValue(buildMockSquarePostList(tabType, pageNo, pageSize))
+                    }.onError {
+//                        liveData.postValue(buildMockSquarePostList(tabType, pageNo, pageSize))
+                    }
+                } catch (_: Exception) {
+//                    liveData.postValue(buildMockSquarePostList(tabType, pageNo, pageSize))
+                }
+            }
+        }
+        return liveData
+    }
+
+
 }
