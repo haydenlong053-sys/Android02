@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingPermission,ProtectedPermissions,ForegroundServicesPolicy,SmsAndCallLogPolicy,SystemPermissionTypo,ScopedStorage,PhotoAndVideoPolicy,UnnecessaryRequiredFeature,DiscouragedApi,LockedOrientationActivity">
+    tools:ignore="MissingPermission,ProtectedPermissions,ExactAlarmPolicy,ForegroundServicesPolicy,SmsAndCallLogPolicy,SystemPermissionTypo,ScopedStorage,PhotoAndVideoPolicy,UnnecessaryRequiredFeature,DiscouragedApi,LockedOrientationActivity">
 
     <uses-permission
         android:name="android.permission.INSTALL_FAILED_USER_RESTRICTED"
@@ -68,6 +68,9 @@
         tools:node="remove" />
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.USE_EXACT_ALARM"
         tools:node="remove" />
     <!--    <uses-permission-->
     <!--        android:name="android.permission.FOREGROUND_SERVICE"-->

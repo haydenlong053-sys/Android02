@@ -427,7 +427,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         }
         //82环境使用老登录
 //        if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
-        if (HttpsBroadConfig.currentHostHttpUrlType != 2) {
+        if (HttpsBroadConfig.currentHostHttpUrlType > 1000) {
             Map<String, Object> param = new HashMap<>();
             param.put("id", linkId);
             param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
@@ -447,7 +447,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
                 @Override
                 public void onError(Response response, int code, Exception e) {
-                    ToastBroadUtil.show(getString(R.string.scan_login_request_failed));
+                    showToastMain(getString(R.string.scan_login_request_failed));
                     restartScan();
                 }
             });

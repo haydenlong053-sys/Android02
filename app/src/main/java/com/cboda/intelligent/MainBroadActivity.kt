@@ -64,7 +64,9 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.crashReportLog
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAllEnDeviceId
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
 import com.cboda.baselibrary.utils.meetSeatChangeMsgLiveData
@@ -509,6 +511,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         viewModel?.getUserInfo()?.observe(this@MainBroadActivity) { data ->
             currentLoginUser = data
             CrashFactory.crashLoad.crashU(this@MainBroadActivity, data.realityId, data.deviceId)
+            val crashId = if (data.realityId == data.showId) data.realityId else "${data.realityId},${data.showId}"
+            crashReportLog("LA:$crashId,${getAllEnDeviceId(this@MainBroadActivity)}")
 //            MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
             RealmUtil.addUserData(data)
             MMKVBroadUtils.saveUserImg(data.userImg)

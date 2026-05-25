@@ -69,6 +69,7 @@ import java.util.concurrent.CountDownLatch;
 import cn.wildfirechat.ErrorCode;
 import cn.wildfirechat.UserSource;
 import cn.wildfirechat.client.ClientService;
+import cn.wildfirechat.comm.MarsExactAlarmHelper;
 import cn.wildfirechat.client.ConnectionStatus;
 import cn.wildfirechat.client.ICreateChannelCallback;
 import cn.wildfirechat.client.ICreateSecretChatCallback;
@@ -453,6 +454,13 @@ public class ChatManager {
                 }
                 try {
                     mClient.setForeground(1);
+                    int status = INST.getConnectionStatus();
+                    if (!TextUtils.isEmpty(INST.userId)
+                            && !TextUtils.isEmpty(INST.token)
+                            && (status == ConnectionStatus.ConnectionStatusUnconnected
+                            || status == ConnectionStatus.ConnectionStatusLogout)) {
+                        mClient.connect(INST.userId, INST.token);
+                    }
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -474,6 +482,7 @@ public class ChatManager {
         });
 
         INST.checkRemoteService();
+        MarsExactAlarmHelper.registerPermissionListener(context);
 
         INST.cleanLogFiles();
         INST.registerCoreMessageContents();

@@ -46,6 +46,7 @@ import com.cboda.baselibrary.utils.GsonUtilsKt;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.tencent.mars.BaseEvent;
 import com.tencent.mars.Mars;
+import com.tencent.mars.comm.Alarm;
 import com.tencent.mars.app.AppLogic;
 import com.tencent.mars.proto.ProtoLogic;
 import com.tencent.mars.sdt.SdtLogic;
@@ -3921,8 +3922,7 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         Mars.onDestroy();
         AppLogic.setCallBack(null);
         SdtLogic.setCallBack(null);
-        // Receiver may not registered
-//        Alarm.resetAlarm(this);
+        Alarm.resetAlarm(this);
         ProtoLogic.setUserInfoUpdateCallback(null);
         ProtoLogic.setSettingUpdateCallback(null);
         ProtoLogic.setFriendListUpdateCallback(null);

@@ -62,11 +62,45 @@ android {
     }
 }
 
+def patchedBroadChatAar = layout.buildDirectory.file('patched/broad_chat.aar')
+
+def patchBroadChatAarTask = tasks.register('patchBroadChatAar') {
+    def srcAar = file('libs/broad_chat.aar')
+    inputs.file srcAar
+    outputs.file patchedBroadChatAar
+    doLast {
+        def tmpDir = new File(layout.buildDirectory.get().asFile, 'patched/aar_unpacked')
+        def jarDir = new File(layout.buildDirectory.get().asFile, 'patched/classes_unpacked')
+        tmpDir.deleteDir()
+        jarDir.deleteDir()
+        tmpDir.mkdirs()
+        copy {
+            from zipTree(srcAar)
+            into tmpDir
+        }
+        jarDir.mkdirs()
+        copy {
+            from zipTree(new File(tmpDir, 'classes.jar'))
+            into jarDir
+        }
+        fileTree(jarDir) {
+            include 'com/tencent/mars/comm/Alarm*.class'
+        }.each { it.delete() }
+        ant.jar(destfile: new File(tmpDir, 'classes.jar'), basedir: jarDir)
+        def outAar = patchedBroadChatAar.get().asFile
+        outAar.parentFile.mkdirs()
+        ant.zip(destfile: outAar, basedir: tmpDir)
+    }
+}
+
+tasks.named('preBuild').configure { dependsOn patchBroadChatAarTask }
+
 
 dependencies {
 //    api 'com.cboda.chat:broadChat:1.0.0'
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    api files('libs/broad_chat.aar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // implementation：仅 chat-client 内部合并，不向 app 传递 build 产物路径，避免 collect*Dependencies 任务链校验失败
+    implementation files(patchedBroadChatAar.map { it.asFile })
     api libs.okhttp3
     api project(':baselibrary')
     implementation libs.kotlinx.coroutines
