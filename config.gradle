@@ -24,7 +24,7 @@ ext {
 //            storeFile        : "google_play_us.jks",
 //            storePassword    : "Aa663366",
 //            keyAlias         : "uscbodabroadintelligent",
-//            deviceIdType     : "2",
+//            deviceIdType     : "3",
 //            appEnvironment   : "5",
 //            crashKey         : "4c2e98635e",
 //            enableCrash      : "false",
