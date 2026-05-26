@@ -36,20 +36,12 @@ object DeviceBroadUtil {
     private var allDeviceId = ""
     private var sysAndroidId = ""
     private var notEncryptId = ""
-    private var deviceIdType = 0
+    private const val deviceIdType = BuildConfig.DEVICE_ID_TYPE
 //    private var deviceStartTime = 0L
 
-    fun getAndroidId(context: Context? = null): String {
-        deviceIdType = BuildConfig.DEVICE_ID_TYPE
-        val getAndroidId = getAllDeviceId(context, true)
-        return getAndroidId
-    }
+    fun getAndroidId(context: Context? = null) = getAllDeviceId(context, true)
 
-    fun grtReleaseId(context: Context? = null): String {
-        deviceIdType = BuildConfig.DEVICE_ID_TYPE
-        val getAndroidId = getAllDeviceId(context, false)
-        return getAndroidId
-    }
+    fun grtReleaseId(context: Context? = null) = getAllDeviceId(context, false)
 
     @SuppressLint("HardwareIds")
     private fun getSysAndroidId(context: Context? = null): String {
@@ -169,13 +161,24 @@ object DeviceBroadUtil {
                 val mWId = getWidevineId()
                 val openTime = getDeviceOpenTime()
                 val openTimeStr = openTime.toString()
-                val aesKey = if (openTimeStr.length > 8) {
-                    (openTimeStr + openTimeStr).substring(0, 16)
-                } else if (!TextUtils.isEmpty(aId) && aId.length == 16) {
-                    aId
-                } else {
-                    getDeviceUUId().substring(0, 16)
-                }
+                val aesKey =
+//                    if (HttpsBroadConfig.isReviewEnv) {
+//                    if (!TextUtils.isEmpty(aId) && aId.length == 16) {
+//                        aId
+//                    } else if (openTimeStr.length > 8) {
+//                        (openTimeStr + openTimeStr).substring(0, 16)
+//                    } else {
+//                        getDeviceUUId().substring(0, 16)
+//                    }
+//                } else {
+                    if (openTimeStr.length > 8) {
+                        (openTimeStr + openTimeStr).substring(0, 16)
+                    } else if (!TextUtils.isEmpty(aId) && aId.length == 16) {
+                        aId
+                    } else {
+                        getDeviceUUId().substring(0, 16)
+                    }
+//                }
                 val jmId = if (!TextUtils.isEmpty(aId)) {
                     aId
                 } else {
