@@ -221,7 +221,13 @@ fun ExpandableBottomBar(
                                 selectedIcon = item.selectedIcon ?: item.icon,
                                 label = item.text,
                                 selected = selectedIndex == index,
-                                onClick = { onItemSelected(index) },
+                                onClick = {
+                                    if (selectedIndex == index) {
+                                        onExpandedChange(false)
+                                    } else {
+                                        onItemSelected(index)
+                                    }
+                                },
                                 badgeCount = parseBadgeStr(item.badge)
                             )
                         }
