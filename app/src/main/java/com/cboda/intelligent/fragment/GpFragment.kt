@@ -15,9 +15,24 @@ import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
 import com.cboda.intelligent.widge.TextBackIndicatorAdapter
 
 class GpFragment : BaseBroadFragment<GpFragmentBinding, CleverBodyViewBroadModel>() {
+    private var marginBottom = 0
     override fun initView() {
         addHeight(binding.shapeView)
         initViewPagerAndIndicator()
+        setBottomViewHeight()
+    }
+
+    fun setBottomHeight(height: Int) {
+        marginBottom = height
+        setBottomViewHeight()
+    }
+    private fun setBottomViewHeight() {
+        mBinding?.gpView1?.let {
+            val layoutParams = it.layoutParams
+            layoutParams.height = marginBottom
+            it.layoutParams = layoutParams
+        }
+
     }
 
     private fun initViewPagerAndIndicator() {

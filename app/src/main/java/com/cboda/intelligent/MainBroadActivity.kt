@@ -463,6 +463,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             layoutParams.height = dp2px(12f) + it
             bottomView.layoutParams = layoutParams
             (messageFragment as MessageBroadFragment).setBottomHeight(it)
+            gpFragment.setBottomHeight(it)
         }
 //        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
         //82环境登录后不自动跳转到登录二维码页面
@@ -663,12 +664,13 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
 
     private val messageFragment = MessageBroadFragment.getInstance()
+    private val gpFragment = GpFragment()
     private fun initMyIm() {
 
 //        fragmentList.add(MirrorBroadFragment.getInstance())
 
         fragmentList.add(NewMirrorBroadFragment())
-        fragmentList.add(GpFragment())
+        fragmentList.add(gpFragment)
 //        fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
 //        if (!HttpsBroadConfig.isReviewEnv) {
