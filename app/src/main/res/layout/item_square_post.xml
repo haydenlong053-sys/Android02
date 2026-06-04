@@ -89,7 +89,11 @@
         app:layout_constraintTop_toBottomOf="@id/squareContent"
         tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        app:shape_solidColor="#FFF7F8FA"
+        app:shape_strokeColor="#283B47DD"
+        app:shape_radius="@dimen/dp_12"
+        app:shape_strokeWidth="@dimen/dp_1"
         android:id="@+id/squareYyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,30 +109,28 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="3"
+            android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="方方：就是单纯的想发个朋友圈看看哈有多少人在关注我就是单纯的想发个朋友圈看看哈有多少人在关注我人在关人在关人在关人在关人人看看哈有多少人在关注我人在关人在关人在关人在关人人在"
-            tools:textColor="#FF110F67" />
+            tools:text="方方：就是单纯的想发个朋友圈看看哈有多少人在关注我就是单纯的想发个朋友圈看看哈有多少人在关注我人在关人在关人在关人在关人人看看哈有多少人在关注我人在关人在关人在关人在关人人在" />
 
-        <androidx.recyclerview.widget.RecyclerView
+
+        <LinearLayout
             android:id="@+id/squareYyImageList"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_11"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
+            android:orientation="vertical"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/squareYyContent"
             tools:visibility="visible" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
 
     <com.hjq.shape.layout.ShapeLinearLayout
         android:id="@+id/squarePledgeBadge"
-        android:visibility="gone"
-        tools:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
@@ -136,10 +138,12 @@
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/dp_10"
         android:paddingVertical="@dimen/dp_6"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/squareYyLayout"
         app:shape_radius="@dimen/dp_14"
-        app:shape_solidColor="@color/color_3B47DD_12">
+        app:shape_solidColor="@color/color_3B47DD_12"
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/dp_14"

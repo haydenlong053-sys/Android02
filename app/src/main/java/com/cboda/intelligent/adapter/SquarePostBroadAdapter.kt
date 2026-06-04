@@ -1,6 +1,15 @@
 package com.cboda.intelligent.adapter
 
+import android.R.attr.text
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
+import android.widget.TextView
+import androidx.core.view.isGone
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.setTxtColor
 import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.SquarePostBean
@@ -8,6 +17,7 @@ import com.cboda.intelligent.utils.TimeBroadUtils
 import com.cboda.intelligent.widge.SquarePostImageLayoutHelper
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import androidx.core.graphics.toColorInt
 
 class SquarePostBroadAdapter :
     BaseQuickAdapter<SquarePostBean, BaseViewHolder>(R.layout.item_square_post) {
@@ -41,10 +51,36 @@ class SquarePostBroadAdapter :
                 getView(R.id.squareImageContainer),
                 item.imgs,
             )
-
+            setGone(R.id.squareYyLayout, item.quote == null)
             if (item.quote != null) {
-           
+                setYyTxtContent(getView(R.id.squareYyContent), item.quote.name, item.quote.content)
+                SquarePostImageLayoutHelper.bind(
+                    getView(R.id.squareYyImageList),
+                    item.quote.imageUrls,
+                )
             }
         }
+    }
+
+
+    private fun setYyTxtContent(textView: TextView, name: String, content: String) {
+        textView.isGone = TextUtils.isEmpty(content)
+        if (!TextUtils.isEmpty(content)) {
+            val textBefore = "$name："
+            val spannable = SpannableString(textBefore + content)
+
+// 设置前 5 个字符为红色
+            val redColor = "#FF110F67".toColorInt() // 或者 Color.parseColor("#FF0000")
+            spannable.setSpan(
+                ForegroundColorSpan(redColor),
+                0,      // 开始索引（包含）
+                textBefore.length,      // 结束索引（不包含）
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+// 给 TextView 设置
+            textView.text = spannable
+        }
+
     }
 }

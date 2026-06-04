@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
@@ -20,8 +22,11 @@ class GpFragment : BaseBroadFragment<GpFragmentBinding, CleverBodyViewBroadModel
     private var marginBottom = 0
     override fun initView() {
         addHeight(binding.shapeView)
+        addHeight(binding.userImg)
+        addHeight(binding.shapeRightView)
         initViewPagerAndIndicator()
         setBottomViewHeight()
+        binding.userImg.loadImg(MMKVBroadUtils.getUserImg())
     }
 
     override fun initListener() {
