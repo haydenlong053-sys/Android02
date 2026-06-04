@@ -4,6 +4,7 @@ import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.SquarePostBean
+import com.cboda.intelligent.utils.TimeBroadUtils
 import com.cboda.intelligent.widge.SquarePostImageLayoutHelper
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -26,7 +27,7 @@ class SquarePostBroadAdapter :
                 item.grade,
                 item.registDay,
             )
-            setText(R.id.squarePublishTime, item.time)
+            setText(R.id.squarePublishTime, TimeBroadUtils.formatSquarePublishTime(item.time))
             setText(R.id.squareContent, item.content)
             setText(R.id.squareViewCount, anyToInt(item.viewCount).toString())
             setText(R.id.squareCommentCount, anyToInt(item.commentCount).toString())

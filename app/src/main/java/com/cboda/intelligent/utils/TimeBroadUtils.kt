@@ -137,7 +137,7 @@ class TimeBroadUtils {
         fun getLiveTime(time: Long): String {
             return if (time <= 0) {
                 ""
-            } else {
+} else {
                 val hour = time.toInt() / (60 * 60 * 1000)
                 val minute = time.toInt() / (60 * 1000) % 60
                 val seconds = time.toInt() / 1000 % 60
@@ -180,6 +180,44 @@ class TimeBroadUtils {
                 }
 
                 stringBuffer.toString()
+            }
+        }
+
+        /**
+         * 广场帖子发布时间展示：
+         * - 1 小时内：1/5/15 分钟前，之后每 5 分钟一档
+         * - 1～24 小时：N 小时前
+         * - 超过 24 小时：yyyy-MM-dd
+         */
+        fun formatSquarePublishTime(
+            time: String?,
+            nowMillis: Long = System.currentTimeMillis(),
+        ): String {
+            if (time.isNullOrBlank()) return ""
+            val publishMillis = dateToStamp(time)
+            if (publishMillis <= 0L) return time
+
+            val diff = nowMillis - publishMillis
+            if (diff < 0) {
+                return getFormatTime(Date(publishMillis))
+            }
+
+            return when {
+                diff < HOUR -> formatSquareMinutesAgo(diff / MINUTE)
+                diff < DAY -> "${(diff / HOUR).coerceAtLeast(1)}小时前"
+                else -> getFormatTime(Date(publishMillis))
+            }
+        }
+
+        private fun formatSquareMinutesAgo(minutes: Long): String {
+            return when {
+                minutes < 1 -> "1分钟前"
+                minutes < 5 -> "5分钟前"
+                minutes < 15 -> "15分钟前"
+                else -> {
+                    val displayMinutes = ((minutes + 4) / 5) * 5
+                    "${displayMinutes.coerceAtMost(60)}分钟前"
+                }
             }
         }
     }
