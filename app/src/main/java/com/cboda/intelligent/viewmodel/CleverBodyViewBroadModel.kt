@@ -88,9 +88,9 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
     ): SingleLiveBroadData<NetworkListBroadResult<SquarePostBean>> {
         val liveData = SingleLiveBroadData<NetworkListBroadResult<SquarePostBean>>()
         val params = hashMapOf<String, Any>(
-            "tabType" to tabType,
-            "pageNo" to pageNo,
-            "pageSize" to pageSize,
+            "listType" to tabType.toString(),
+            "pageNo" to pageNo.toString(),
+            "pageSize" to pageSize.toString(),
         )
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

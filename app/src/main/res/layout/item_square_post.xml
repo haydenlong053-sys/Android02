@@ -77,13 +77,12 @@
         app:layout_constraintTop_toBottomOf="@id/squareAvatarWrap"
         tools:text="就是单纯的想发个朋友圈看看哈有多少人在关注我" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/squareImageList"
+    <LinearLayout
+        android:id="@+id/squareImageContainer"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_2"
-        android:nestedScrollingEnabled="false"
-        android:overScrollMode="never"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +96,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:padding="@dimen/dp_12"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/squareImageList"
+        app:layout_constraintTop_toBottomOf="@id/squareImageContainer"
         tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatTextView
