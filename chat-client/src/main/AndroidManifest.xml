@@ -10,7 +10,8 @@
     <uses-permission
         android:name="android.permission.SCHEDULE_EXACT_ALARM"
         android:maxSdkVersion="32" />
-<!--    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />-->
+    <!--去除闹钟权限-->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application android:extractNativeLibs="true">
         <service android:name="cn.wildfirechat.client.ClientService" />

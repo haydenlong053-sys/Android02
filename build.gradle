@@ -72,16 +72,17 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+//去除闹钟权限
 // Gradle 8+：collect*Dependencies 会扫描子模块 build 产物，需显式依赖 patchBroadChatAar
-subprojects { sub ->
-    sub.afterEvaluate {
-        sub.tasks.matching { task ->
-            task.name.startsWith('collect') && task.name.endsWith('Dependencies')
-        }.configureEach { task ->
-            def chatClient = rootProject.findProject(':chat-client')
-            if (chatClient != null) {
-                task.dependsOn(chatClient.tasks.named('patchBroadChatAar'))
-            }
-        }
-    }
-}
+//subprojects { sub ->
+//    sub.afterEvaluate {
+//        sub.tasks.matching { task ->
+//            task.name.startsWith('collect') && task.name.endsWith('Dependencies')
+//        }.configureEach { task ->
+//            def chatClient = rootProject.findProject(':chat-client')
+//            if (chatClient != null) {
+//                task.dependsOn(chatClient.tasks.named('patchBroadChatAar'))
+//            }
+//        }
+//    }
+//}

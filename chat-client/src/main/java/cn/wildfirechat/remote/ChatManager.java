@@ -40,6 +40,8 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileDescriptor;
@@ -454,12 +456,15 @@ public class ChatManager {
                 }
                 try {
                     mClient.setForeground(1);
-                    int status = INST.getConnectionStatus();
-                    if (!TextUtils.isEmpty(INST.userId)
-                            && !TextUtils.isEmpty(INST.token)
-                            && (status == ConnectionStatus.ConnectionStatusUnconnected
-                            || status == ConnectionStatus.ConnectionStatusLogout)) {
-                        mClient.connect(INST.userId, INST.token);
+                    if (HttpsBroadConfig.isReviewEnv) {
+                        //            去除闹钟权限
+                        int status = INST.getConnectionStatus();
+                        if (!TextUtils.isEmpty(INST.userId)
+                                && !TextUtils.isEmpty(INST.token)
+                                && (status == ConnectionStatus.ConnectionStatusUnconnected
+                                || status == ConnectionStatus.ConnectionStatusLogout)) {
+                            mClient.connect(INST.userId, INST.token);
+                        }
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -482,7 +487,10 @@ public class ChatManager {
         });
 
         INST.checkRemoteService();
-        MarsExactAlarmHelper.registerPermissionListener(context);
+        if (HttpsBroadConfig.isReviewEnv) {
+//            去除闹钟权限
+            MarsExactAlarmHelper.registerPermissionListener(context);
+        }
 
         INST.cleanLogFiles();
         INST.registerCoreMessageContents();

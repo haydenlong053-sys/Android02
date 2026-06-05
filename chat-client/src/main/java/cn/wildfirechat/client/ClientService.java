@@ -3922,7 +3922,10 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         Mars.onDestroy();
         AppLogic.setCallBack(null);
         SdtLogic.setCallBack(null);
-        Alarm.resetAlarm(this);
+        if (HttpsBroadConfig.isReviewEnv) {
+            //去除闹钟权限
+            Alarm.resetAlarm(this);
+        }
         ProtoLogic.setUserInfoUpdateCallback(null);
         ProtoLogic.setSettingUpdateCallback(null);
         ProtoLogic.setFriendListUpdateCallback(null);
