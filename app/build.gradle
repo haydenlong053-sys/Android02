@@ -137,6 +137,7 @@ configurations.all {
 
 dependencies {
     api project(':chat-ui')
+    implementation project(':im_lib')
     implementation libs.accompanist.systemuicontroller
     // Wallet
     implementation libs.web3j.core

@@ -21,9 +21,9 @@ public final class EasyHttpBootstrap {
     public static void init(Application app) {
         ImLocalStore.init(app);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
         EasyConfig.with(okHttpClient)
                 .setLogEnabled(BuildConfig.DEBUG)

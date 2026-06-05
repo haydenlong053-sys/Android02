@@ -47,6 +47,7 @@ import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentVie
 import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
+import com.freddy.im.http.EasyHttpBootstrap
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.scwang.smart.refresh.footer.BallPulseFooter
@@ -141,6 +142,12 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         addActivityLifecycleCallbacks(lifeListener)
         clearUserDataLiveData.removeObserver(clearUserDataListener)
         clearUserDataLiveData.observeForever(clearUserDataListener)
+        initOriginalIm()
+
+    }
+
+    private fun initOriginalIm() {
+        EasyHttpBootstrap.init(this)
     }
 
     private val clearUserDataListener = Observer<Boolean> { _ ->

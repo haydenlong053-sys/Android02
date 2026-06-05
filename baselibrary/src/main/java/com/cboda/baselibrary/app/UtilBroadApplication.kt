@@ -19,6 +19,7 @@ open class UtilBroadApplication : Application() {
         initRealm(this)
     }
 
+
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(getLanguageContext(getAppContext(base), true))
     }
