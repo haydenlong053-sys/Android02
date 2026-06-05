@@ -60,7 +60,7 @@ class GpFragment : BaseBroadFragment<GpFragmentBinding, CleverBodyViewBroadModel
         vp2FragmentAdapter.addFragment(FriendCircleFragment())
         mBinding?.gpViewPagerLayout?.viewPager2?.adapter = vp2FragmentAdapter
         mBinding?.gpViewPagerLayout?.viewPager2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        mBinding?.gpViewPagerLayout?.viewPager2?.isUserInputEnabled = false
+        mBinding?.gpViewPagerLayout?.viewPager2?.isUserInputEnabled = true
         mBinding?.gpViewPagerLayout?.viewPager2?.offscreenPageLimit = 1//vp2FragmentAdapter.getData().size
         mBinding?.gpViewPagerLayout?.viewPager2?.isSaveEnabled = false
         val mResIds =
