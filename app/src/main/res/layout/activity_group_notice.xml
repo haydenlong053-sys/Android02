@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wechat_bg_page"
+    android:orientation="vertical"
+    tools:context=".group.GroupNoticeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wechat_bg_white"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/WeChatTextSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_notice_label" />
+
+        <EditText
+            android:id="@+id/et_notice"
+            style="@style/WeChatEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="top|start"
+            android:hint="@string/group_notice_hint"
+            android:inputType="textMultiLine"
+            android:minLines="6" />
+
+        <TextView
+            android:id="@+id/tv_notice_meta"
+            style="@style/WeChatTextCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:text="发布人：张三"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_save_notice"
+        style="@style/WeChatButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/group_notice_save" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/wechat_green"
+        android:visibility="gone" />
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.net.http.HttpResponseCache
 import android.os.Process
 import android.text.TextUtils
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.BroadConfig
 import com.cboda.chatui.WfcUIBroadKit
@@ -47,6 +48,7 @@ import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentVie
 import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
+import com.freddy.chat.im.ImAppLifecycleObserver
 import com.freddy.im.http.EasyHttpBootstrap
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
@@ -148,6 +150,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
 
     private fun initOriginalIm() {
         EasyHttpBootstrap.init(this)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(ImAppLifecycleObserver())
     }
 
     private val clearUserDataListener = Observer<Boolean> { _ ->

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.effective.android.panel.view.PanelSwitchLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/panel_switch_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wechat_bg_chat"
+    android:orientation="vertical"
+    app:animationSpeed="standard"
+    tools:context=".MessageListFragment">
+
+    <com.effective.android.panel.view.content.LinearContentContainer
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:auto_reset_area="@id/rv_messages"
+        app:auto_reset_enable="true"
+        app:edit_view="@id/et_content">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_messages"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.freddy.chat.widget.PanelResetRecyclerView
+                android:id="@+id/rv_messages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/wechat_bg_chat"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                tools:listitem="@layout/item_message" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_bar"
+            android:gravity="bottom"
+            android:minHeight="@dimen/wechat_input_bar_height"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp">
+
+            <ImageButton
+                android:id="@+id/btn_more"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/panel_more"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_chat_more" />
+
+            <EditText
+                android:id="@+id/et_content"
+                style="@style/WeChatEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/message_input_hint"
+                android:imeOptions="actionSend"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:minHeight="36dp" />
+
+            <ImageButton
+                android:id="@+id/btn_emotion"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/panel_emotion"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_chat_emoji" />
+
+            <ImageButton
+                android:id="@+id/btn_voice"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/panel_more_voice"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_msg_voice" />
+
+            <Button
+                android:id="@+id/btn_send"
+                style="@style/WeChatButtonPrimary"
+                android:layout_width="@dimen/wechat_send_btn_size"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:text="@string/send_message"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </com.effective.android.panel.view.content.LinearContentContainer>
+
+    <com.effective.android.panel.view.panel.PanelContainer
+        android:id="@+id/panel_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wechat_bg_input">
+
+        <com.effective.android.panel.view.panel.PanelView
+            android:id="@+id/panel_emotion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:panel_layout="@layout/panel_chat_emotion"
+            app:panel_toggle="true"
+            app:panel_trigger="@id/btn_emotion" />
+
+        <com.effective.android.panel.view.panel.PanelView
+            android:id="@+id/panel_more"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:panel_layout="@layout/panel_chat_more"
+            app:panel_toggle="true"
+            app:panel_trigger="@id/btn_more" />
+    </com.effective.android.panel.view.panel.PanelContainer>
+
+</com.effective.android.panel.view.PanelSwitchLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="56dp"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/wechat_list_item_padding_h"
+        android:paddingEnd="@dimen/wechat_list_item_padding_h">
+
+        <include
+            android:id="@+id/avatar"
+            layout="@layout/view_avatar"
+            android:layout_width="@dimen/wechat_avatar_size_small"
+            android:layout_height="@dimen/wechat_avatar_size_small" />
+
+        <TextView
+            android:id="@+id/tv_user_label"
+            style="@style/WeChatTextPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            tools:text="用户00b0..." />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="68dp"
+        android:background="@color/wechat_divider" />
+</LinearLayout>

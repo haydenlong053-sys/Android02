@@ -14,6 +14,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
     <style name="transparentFrameWindowStyle" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
@@ -36,9 +37,9 @@
 
     <style name="pop_animation" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/pop_broad_in</item>
-<!--
-        <item name="android:windowExitAnimation">@anim/pop_broad_out</item>
--->
+        <!--
+                <item name="android:windowExitAnimation">@anim/pop_broad_out</item>
+        -->
     </style>
 
     <style name="commentDialog">
@@ -78,8 +79,6 @@
     </style>
 
 
-
-
     <declare-styleable name="SlideView">
         <attr name="isEnd" format="boolean" />
     </declare-styleable>
@@ -106,5 +105,67 @@
         <item name="android:button">@drawable/check_password_broad_selector</item>
         <item name="android:padding">10dp</item>
     </style>
+
+    <!--    自研-->
+    <style name="WeChatActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="background">@color/wechat_toolbar</item>
+        <item name="titleTextStyle">@style/WeChatActionBarTitle</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="WeChatActionBarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/wechat_text_primary</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="WeChatTextPrimary">
+        <item name="android:textColor">@color/wechat_text_primary</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="WeChatTextSecondary">
+        <item name="android:textColor">@color/wechat_text_secondary</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="WeChatTextCaption">
+        <item name="android:textColor">@color/wechat_text_hint</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="WeChatButtonPrimary" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/bg_btn_primary</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:minHeight">44dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="WeChatButtonSecondary" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/wechat_green</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:minHeight">40dp</item>
+    </style>
+
+    <style name="WeChatEditText">
+        <item name="android:background">@drawable/bg_edit_text</item>
+        <item name="android:textColor">@color/wechat_text_primary</item>
+        <item name="android:textColorHint">@color/wechat_text_hint</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="WeChatSectionLabel">
+        <item name="android:textColor">@color/wechat_text_secondary</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">6dp</item>
+    </style>
+
 
 </resources>

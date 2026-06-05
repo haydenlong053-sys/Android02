@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wechat_bg_input"
+    android:columnCount="4"
+    android:padding="16dp"
+    android:rowCount="2">
+
+    <TextView
+        android:id="@+id/panel_more_album"
+        style="@style/PanelMoreItem"
+        android:drawableTop="@drawable/ic_msg_image"
+        android:text="@string/panel_more_album" />
+
+    <TextView
+        android:id="@+id/panel_more_camera"
+        style="@style/PanelMoreItem"
+        android:drawableTop="@drawable/ic_msg_video"
+        android:text="@string/panel_more_camera" />
+
+    <TextView
+        android:id="@+id/panel_more_file"
+        style="@style/PanelMoreItem"
+        android:drawableTop="@drawable/ic_msg_file"
+        android:text="@string/panel_more_file" />
+</GridLayout>
