@@ -90,10 +90,6 @@
         tools:visibility="visible" />
 
     <com.hjq.shape.layout.ShapeConstraintLayout
-        app:shape_solidColor="#FFF7F8FA"
-        app:shape_strokeColor="#283B47DD"
-        app:shape_radius="@dimen/dp_12"
-        app:shape_strokeWidth="@dimen/dp_1"
         android:id="@+id/squareYyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,6 +97,10 @@
         android:padding="@dimen/dp_12"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/squareImageContainer"
+        app:shape_radius="@dimen/dp_12"
+        app:shape_solidColor="#FFF7F8FA"
+        app:shape_strokeColor="#283B47DD"
+        app:shape_strokeWidth="@dimen/dp_1"
         tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -129,6 +129,28 @@
             tools:visibility="visible" />
     </com.hjq.shape.layout.ShapeConstraintLayout>
 
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/squarePlLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/squareYyLayout"
+        tools:visibility="visible">
+
+        <com.hjq.shape.view.ShapeView
+            android:layout_width="@dimen/dp_2"
+            android:layout_height="@dimen/dp_0"
+            app:shape_solidColor="#283B47DD" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/squarePlList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
     <com.hjq.shape.layout.ShapeLinearLayout
         android:id="@+id/squarePledgeBadge"
         android:layout_width="wrap_content"
@@ -140,7 +162,7 @@
         android:paddingVertical="@dimen/dp_6"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/squareYyLayout"
+        app:layout_constraintTop_toBottomOf="@id/squarePlLayout"
         app:shape_radius="@dimen/dp_14"
         app:shape_solidColor="@color/color_3B47DD_12"
         tools:visibility="visible">
@@ -246,11 +268,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/squareShareLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/dp_16"

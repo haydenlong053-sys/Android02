@@ -116,5 +116,40 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
         return liveData
     }
 
-
+    /**
+     * 朋友圈列表（分页）
+     * tabType: 0=世界 1=热门 2=我的关
+     */
+    fun getFriendPostList(
+        pageNo: Int,
+        pageSize: Int = CommonBroadConfig.pageSize_20,
+    ): SingleLiveBroadData<NetworkListBroadResult<SquarePostBean>> {
+        val liveData = SingleLiveBroadData<NetworkListBroadResult<SquarePostBean>>()
+        val params = hashMapOf<String, Any>(
+            "pageNo" to pageNo.toString(),
+            "pageSize" to pageSize.toString(),
+        )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    NetworkBroadRepository.postEncryptedList2(
+                        UrlBroadBroadConstants.FRIEND_POST_LIST,
+                        SquarePostBean::class.java,
+                        params,
+                    ).onSuccess { result ->
+                        liveData.postValue(
+                            result ?: NetworkListBroadResult(emptyList(), 0, 1),
+                        )
+                    }.onFailure { _, _ ->
+//                        liveData.postValue(buildMockSquarePostList(tabType, pageNo, pageSize))
+                    }.onError {
+//                        liveData.postValue(buildMockSquarePostList(tabType, pageNo, pageSize))
+                    }
+                } catch (_: Exception) {
+//                    liveData.postValue(buildMockSquarePostList(tabType, pageNo, pageSize))
+                }
+            }
+        }
+        return liveData
+    }
 }

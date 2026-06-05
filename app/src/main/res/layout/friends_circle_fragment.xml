@@ -3,4 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/smart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/llNoData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_140"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivNoData"
+                    android:layout_width="@dimen/dp_140"
+                    android:layout_height="@dimen/dp_140"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_empty_broad_bg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNoData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:gravity="center"
+                    android:text="@string/no_data"
+                    android:textColor="@color/color_text_content_hint"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/dp_12" />
+        </FrameLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

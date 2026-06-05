@@ -17,8 +17,8 @@ class SquareFragment : BaseBroadFragment<SquareFragmentBinding, CleverBodyViewBr
 
     override fun initView() {
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
-        vp2FragmentAdapter.addFragment(SquareChildFragment.newInstance(SquareChildFragment.TAB_WORLD))
         vp2FragmentAdapter.addFragment(SquareChildFragment.newInstance(SquareChildFragment.TAB_HOT))
+        vp2FragmentAdapter.addFragment(SquareChildFragment.newInstance(SquareChildFragment.TAB_WORLD))
         vp2FragmentAdapter.addFragment(SquareChildFragment.newInstance(SquareChildFragment.TAB_FOLLOW))
         mBinding?.sqViewPager?.viewPager2?.adapter = vp2FragmentAdapter
         mBinding?.sqViewPager?.viewPager2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -26,7 +26,7 @@ class SquareFragment : BaseBroadFragment<SquareFragmentBinding, CleverBodyViewBr
         mBinding?.sqViewPager?.viewPager2?.offscreenPageLimit = 1//vp2FragmentAdapter.getData().size
         mBinding?.sqViewPager?.viewPager2?.isSaveEnabled = false
         val mResIds =
-            intArrayOf(com.cboda.baselibrary.R.string.square_world, com.cboda.baselibrary.R.string.square_hot, com.cboda.baselibrary.R.string.square_my_attention)
+            intArrayOf(com.cboda.baselibrary.R.string.square_hot, com.cboda.baselibrary.R.string.square_world, com.cboda.baselibrary.R.string.square_my_attention)
         val commonNavigator = CommonBroadNavigator(requireContext())
         commonNavigator.isAdjustMode = false
         commonNavigator.isSkimOver = true

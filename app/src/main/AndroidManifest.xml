@@ -470,6 +470,25 @@
         <activity
             android:name="com.cboda.intelligent.activity.AiActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareNoticeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareExplanationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareAttentionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareBlackActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.QunJinYanMemberBroadActivity"
             android:screenOrientation="portrait" />

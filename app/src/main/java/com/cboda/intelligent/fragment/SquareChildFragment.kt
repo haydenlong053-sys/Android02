@@ -22,7 +22,7 @@ class SquareChildFragment :
     BaseBroadFragment<SquareChildFragmentBinding, CleverBodyViewBroadModel>() {
 
     private val tabType by lazy { arguments?.getInt(ARG_TAB_TYPE, TAB_WORLD) ?: TAB_WORLD }
-    private val mAdapter = SquarePostBroadAdapter()
+    private val mAdapter = SquarePostBroadAdapter("square")
     private var pageNo = 1
     private var totalPage = 1
 

@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import androidx.core.graphics.toColorInt
 
-class SquarePostBroadAdapter :
+class SquarePostBroadAdapter(val type: String) :
     BaseQuickAdapter<SquarePostBean, BaseViewHolder>(R.layout.item_square_post) {
 
     override fun onViewRecycled(holder: BaseViewHolder) {
@@ -43,7 +43,9 @@ class SquarePostBroadAdapter :
             setText(R.id.squareCommentCount, anyToInt(item.commentCount).toString())
             setText(R.id.squareLikeCount, anyToInt(item.likeCount).toString())
             setText(R.id.squareShareCount, anyToInt(item.quoteCount).toString())
-            setGone(R.id.squarePledgeBadge, anyToInt(item.odicStakeStatus) != 0)
+            setGone(R.id.squarePledgeBadge, anyToInt(item.odicStakeStatus) != 0 || type != "square")
+            setGone(R.id.squareShareLayout, type == "square")
+            setGone(R.id.squarePlLayout, type == "square")
             if (anyToInt(item.odicStakeStatus) == 0) {
                 setText(R.id.squarePledgeText, item.odicStakeLabel)
             }

@@ -11,6 +11,7 @@ import com.cboda.baselibrary.view.magicindicator.CommonBroadNavigator
 import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.SquareNoticeActivity
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.GpFragmentBinding
 import com.cboda.intelligent.dialog.pop.SquarePublishPopup
@@ -30,6 +31,9 @@ class GpFragment : BaseBroadFragment<GpFragmentBinding, CleverBodyViewBroadModel
     }
 
     override fun initListener() {
+        mBinding?.shapeRightView?.click {
+            viewModel.startAct<SquareNoticeActivity>()
+        }
         mBinding?.gpAddView?.click {
             val squarePublishPopup = SquarePublishPopup(requireContext())
             squarePublishPopup.showPopupWindow()
