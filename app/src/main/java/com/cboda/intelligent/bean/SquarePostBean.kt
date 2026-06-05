@@ -32,6 +32,7 @@ data class SquarePostBean(
     val registDay: String = "",
     val quoteCount: String = "",
     val quote: Duote? = null,
+    val commentList:List<CommentListBean>?=null
 //    "id": 2001,
 //    "userId": "uuid",
 //"content": "文字",
