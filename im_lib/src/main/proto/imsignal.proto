@@ -1,0 +1,276 @@
+syntax = "proto2";
+package im;
+
+option java_package = "com.freddy.im.signal";
+option java_outer_classname = "ImSignalProtos";
+
+//命令字定义
+enum Cmd {
+    //绑定用户到产连接通道
+    BIND_USER = 0x0001;
+    BIND_USER_RES = 0x8001;
+    //token失效
+    TOKEN_INVALID = 0x0002;
+    //上报用户进程
+    REPORT_USER_PROCESS=0x0003;
+    REPORT_USER_PROCESS_RES=0x8003;
+    //下线通知
+    OFFLINE=0x0004;
+
+    //发送消息
+    SEND_MSG = 0x0201;
+    SEND_MSG_RES = 0x8201;
+
+    //消息撤回
+    MSG_REPEAL=0x0202;
+    //消息转发
+    MSG_TRANSPOND=0x0203;
+    //新消息通知
+    NEW_MSGSIG = 0x0204;
+    //消息已读
+    MSG_READ=0x0207;
+    //推送消息
+    PUSH_MSG=0x0208;
+    //订阅号消息变更通知
+    SUB_MSG_CHANGESIG=0x0209;
+
+    //group信息变化
+    GROUP_CHANGE=0x0101;
+    //group成员变化
+    GROUP_MEMBER_CHANGE=0x0102;
+    //解散群通知
+    DISBANDED_GROUP=0x0103;
+    //转让群通知
+    TRANSFER_GROUP=0x0104;
+    //会话多端同步
+    CONV_MULTI_SYNC=0x0105;
+
+    //消息已读人数通知
+    COUNT_MSG_READ=0x0210;
+
+    //业务方通知
+    BUSI=0x0301;
+    //表情多端同步
+    FACE_MULTI_SYNC=0x0401;
+
+}
+
+//客户端类型定义
+enum ClientType {
+    ALL = 0x0000; //所有端
+
+    IPHONE  = 0x0001; //iphone
+    IPAD    = 0x0002; //ipad
+
+    ANDROID = 0x0101; //android
+
+    PC      = 0x0201; //PC
+
+    WEB     = 0x0301; //WEB
+}
+
+message ClientRequestHeader {
+    required int32 version = 1;
+    optional string userId = 2;
+    optional string token = 3;
+    required int32 clientType = 4;
+    required int32 cmd = 5;
+    optional string companyId = 6;
+}
+
+message ServerPushHeader {
+    required int32 version = 1;
+    required int32 cmd = 2;
+}
+
+message ResponseHeader {
+    required int32 version = 1;
+    required int32 cmd = 2;
+    required int32 code = 3;
+    optional string errorMsg = 4;
+}
+
+//客户端发送信令请求和接收的返回类型
+message SignalRequest {
+    required ClientRequestHeader header = 1;
+    optional bytes body = 2;
+}
+message SignalResponse {
+    required ResponseHeader header = 1;
+    optional bytes body = 2;
+}
+
+//服务器端推送的请求和返回的类型
+message SignalPush {
+    required ServerPushHeader header = 1;
+    optional bytes body = 2;
+}
+message SignalPushResponse {
+    required ResponseHeader header = 1;
+    optional bytes body = 2;
+}
+
+//信令转发
+message SignalTranspond{
+    message Target {
+        required string userId = 1;
+        optional string companyId = 2;
+        repeated int32  clientType = 3;
+        repeated string whiteToken = 4; //白名单，在这个列表里的才能转发
+        repeated string blackToken = 5; //黑名单，在这个列表外的才能转发 同时存在则不推送
+    }
+    message Header {
+        required int32 version = 1;
+        required int32 cmd = 2;
+        repeated Target targets = 3;
+    }
+    required Header header = 1;
+    optional bytes body = 2;
+}
+
+message SignalTranspondRes {
+    message UserClient {
+        required string userId = 1;
+        optional string companyId = 2;
+        required int32  clientType = 3;
+    }
+    repeated UserClient pushSuccesses = 1; //推送成功的用户客户端
+}
+
+//会话类型定义
+enum ConversationType {
+    PAIR = 1; //双人
+    MULTI = 2; //多人
+    SUBS = 3; //订阅号
+    FILE_ASST = 4; //文件助手
+    GROUP_ASST=5; //群助手
+    MAIL_ASST=6; //邮件助手
+}
+
+//发送消息
+message SendMsgReq {
+    required ConversationType conversation = 1; //会话类型
+    required string from = 2; //发送消息的userID
+    required string to = 3;  //接收消息的groupID或userId
+    required string contentType = 4;
+    required string content = 5;
+    required string clientMsgId = 6;
+    optional string customInfo=7;
+    optional string idempotentId=8;
+}
+
+message SendMsgRes {
+    required ConversationType conversation = 1; //会话类型
+    required string messageId = 2;
+}
+
+//新消息通知
+message NewMsgSignal {
+    message MsgSig {
+        required string messageId = 1;
+        required int32  unreadCount = 2;
+    }
+
+    repeated MsgSig signals = 1;
+}
+
+//群变化变化通知
+message GroupChangeSig{
+    repeated string groupList=1;
+}
+
+//成员变化通知
+message MemberChangeSig{
+    required string groupId=1;
+    repeated string enters=2;
+    repeated string leaves=3;
+    repeated string kickouts=4;
+}
+
+//消息已读通知
+message MessageReadSig{
+    required string messageId=1;
+}
+
+//消息撤回通知
+message MessageRepealSig{
+    required string messageId=1;
+}
+
+//解散群聊通知
+message DisbandedGroupSig{
+    required string groupId=1;
+    required string userId=2;
+}
+
+//转让群主通知
+message TransferGroupSig{
+    required string groupId=1;
+    required string newOwer=2;
+}
+
+//消息推送
+message MessagePushSig{
+    required string title=1;
+    required string desc=2;
+    required string content=3;
+}
+
+//用户进程
+message UserProcessSig{
+    required int32 processState=1; //0:后台,1:前台
+    optional int32 badge=2; //切到后台时上报角标
+}
+
+//绑定用户
+message BindUserSig{
+    required int32 operation=1;
+}
+
+message OfflineMsg{
+    required int32 code=1;
+    optional string reason=2;
+}
+
+//业务方推送信令
+message BusiSig{
+    required string data=1;
+}
+
+//会话多端同步
+message ConvMultiSync{
+    required string sessionId=1;
+    optional string readedPosition=2;
+    optional int32  muteNotify=3;
+    optional int32  convTop=4;
+    optional int32  deleteConv=5;
+}
+
+//表情多端同步
+message FaceMultiSync{
+    required string faceGroupId=1;
+    required string type=2;
+}
+
+//其他业务信令
+message OthBusiSig{
+    required int32  code=1;
+    required string data=2;
+}
+
+//消息已读人数通知
+message CountMsgReadSig{
+    required string messageId=1;
+    required int32  readPersonCount=2;
+}
+
+//平台类型
+enum Platform{
+    APP=0;
+    OA=1;
+    MERCHANT_WEB=5;
+    OPERATOR_WEB=6;
+    CRM=7;
+    MERCHANT_APP=8;
+}
+
