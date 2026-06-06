@@ -1,6 +1,5 @@
 package com.cboda.intelligent.adapter
 
-
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
@@ -20,11 +19,10 @@ import com.cboda.intelligent.bean.CommentListBean
 import com.cboda.intelligent.bean.SquarePostBean
 import com.cboda.intelligent.utils.TimeBroadUtils
 import com.cboda.intelligent.widge.SquarePostImageLayoutHelper
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
-class SquarePostDetailAdapter(val type: String) : BaseQuickAdapter<SquarePostBean, BaseViewHolder>(R.layout.square_post_detail_adapter) {
-
+class SquarePostDetailAdapter(val type: String) :
+    BaseBroadAdapter<SquarePostBean>(R.layout.square_post_detail_adapter) {
 
     private var detailComments: List<CommentListBean> = emptyList()
     private val itemHorizontalMarginPx = SizeUtils.dp2px(16f)
@@ -91,8 +89,8 @@ class SquarePostDetailAdapter(val type: String) : BaseQuickAdapter<SquarePostBea
         }
     }
 
-    override fun convert(holder: BaseViewHolder, item: SquarePostBean) {
-        bindPostItem(holder, item)
+    override fun onBindData(holder: BaseViewHolder, bean: SquarePostBean) {
+        bindPostItem(holder, bean)
     }
 
     private fun bindPostItem(holder: BaseViewHolder, item: SquarePostBean) {
