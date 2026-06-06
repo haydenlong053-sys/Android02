@@ -113,6 +113,8 @@
             layout="@layout/view_avatar"
             android:layout_width="@dimen/wechat_avatar_size_small"
             android:layout_height="@dimen/wechat_avatar_size_small"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
     </LinearLayout>
 </LinearLayout>

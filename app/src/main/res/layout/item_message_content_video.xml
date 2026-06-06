@@ -2,14 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <com.cboda.baselibrary.view.AppRoundBroadImage
         android:id="@+id/iv_video_cover"
         android:layout_width="@dimen/wechat_image_bubble_size"
         android:layout_height="@dimen/wechat_image_bubble_size"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
+        app:app_round_borderRadius="@dimen/dp_12"
+        app:app_round_borderRadius_type="1"
         tools:src="@drawable/bg_bubble_received" />
 
     <ImageView
@@ -20,7 +23,7 @@
         android:alpha="0.92"
         android:contentDescription="@null"
         android:src="@drawable/ic_msg_video"
-        android:tint="@android:color/black" />
+        app:tint="@android:color/black" />
 
     <TextView
         android:id="@+id/tv_video_duration"

@@ -30,12 +30,12 @@
     <dimen name="wechat_bubble_padding_v">10dp</dimen>
     <dimen name="wechat_list_item_padding_h">16dp</dimen>
     <dimen name="wechat_list_item_padding_v">12dp</dimen>
-    <dimen name="wechat_corner_radius">6dp</dimen>
+    <dimen name="wechat_corner_radius">12dp</dimen>
     <dimen name="wechat_corner_radius_btn">4dp</dimen>
     <dimen name="wechat_input_bar_height">52dp</dimen>
     <dimen name="wechat_send_btn_size">64dp</dimen>
     <dimen name="chat_panel_default_height">160dp</dimen>
-    <dimen name="wechat_image_bubble_size">176dp</dimen>
+    <dimen name="wechat_image_bubble_size">140dp</dimen>
     <dimen name="wechat_image_bubble_min">96dp</dimen>
     <dimen name="wechat_image_bubble_max">180dp</dimen>
 </resources>

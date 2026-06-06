@@ -2,16 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <com.cboda.baselibrary.view.AppRoundBroadImage
         android:id="@+id/iv_message_image"
         android:layout_width="@dimen/wechat_image_bubble_size"
         android:layout_height="@dimen/wechat_image_bubble_size"
         android:adjustViewBounds="true"
         android:contentDescription="@string/message_image_preview"
         android:scaleType="centerCrop"
-        tools:src="@mipmap/ic_launcher" />
+        app:app_round_borderRadius="@dimen/dp_12"
+        app:app_round_borderRadius_type="1"
+        tools:src="@color/black" />
 
 
 </FrameLayout>
