@@ -108,7 +108,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
     private String peerUserId;
     private String sessionId;
 
-    private TextView mTvTitle;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshMessages;
     private EditText etContent;
@@ -172,9 +171,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         } else {
             peerUserId = sessionItem.getOppositeUserId() != null ? sessionItem.getOppositeUserId() : "";
         }
-        mTvTitle = view.findViewById(R.id.mTvTitle);
-        String title = sessionItem.getSessionName();
-        mTvTitle.setText(TextUtils.isEmpty(title) ? getString(R.string.message_list_title) : title);
 
         recyclerView = view.findViewById(R.id.rv_messages);
         swipeRefreshMessages = view.findViewById(R.id.swipe_refresh_messages);

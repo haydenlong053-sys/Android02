@@ -6,13 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/mTvTitle"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        tools:text="title"
-        android:gravity="center"
-        />
 
     <com.effective.android.panel.view.PanelSwitchLayout
         android:id="@+id/panel_switch_layout"

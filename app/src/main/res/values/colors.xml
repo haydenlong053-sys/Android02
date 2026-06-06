@@ -102,10 +102,10 @@
     <color name="wechat_green">#07C160</color>
     <color name="wechat_green_pressed">#06AD56</color>
     <color name="wechat_green_bubble">#95EC69</color>
-    <color name="wechat_toolbar">#EDEDED</color>
-    <color name="wechat_status_bar">#EDEDED</color>
-    <color name="wechat_bg_page">#EDEDED</color>
-    <color name="wechat_bg_chat">#EDEDED</color>
+    <color name="wechat_toolbar">#F2F3F5</color>
+    <color name="wechat_status_bar">#F2F3F5</color>
+    <color name="wechat_bg_page">#F2F3F5</color>
+    <color name="wechat_bg_chat">#F2F3F5</color>
     <color name="wechat_bg_white">#FFFFFF</color>
     <color name="wechat_bg_input">#F7F7F7</color>
     <color name="wechat_divider">#E5E5E5</color>
