@@ -593,7 +593,7 @@
 
         <!--        自研-->
         <activity
-            android:name="com.freddy.chat.MainActivity"
+            android:name="com.freddy.chat.IMTestMainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.freddy.chat.ConversationListActivity"

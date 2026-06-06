@@ -85,14 +85,9 @@ import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
 import com.cboda.chatui.utils.E
-import com.cboda.intelligent.activity.LoginBroadFragment
-import com.cboda.intelligent.activity.RegisteredBroadFragment
-import com.cboda.intelligent.activity.SelectLoginBroadFragment
-import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
-import com.cboda.intelligent.fragment.CleverBodyBroadFragment
 import com.cboda.intelligent.fragment.GpFragment
 import com.cboda.intelligent.fragment.MessageBroadFragment
 import com.cboda.intelligent.fragment.NewMineBroadFragment
@@ -104,14 +99,15 @@ import com.cboda.intelligent.holder.XitonggaonggaoBroadHolder
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
-import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.toLoginQrCodeAct
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
-import com.cboda.intelligent.widge.MyViewBroadPager
+import com.freddy.chat.ConversationListFragment
+import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.chat.utils.WeChatUiHelper
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -462,7 +458,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             val layoutParams = bottomView.layoutParams
             layoutParams.height = dp2px(12f) + it
             bottomView.layoutParams = layoutParams
-            (messageFragment as MessageBroadFragment).setBottomHeight(it)
+//            (messageFragment as MessageBroadFragment).setBottomHeight(it)
             gpFragment.setBottomHeight(it)
         }
 //        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
@@ -531,6 +527,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
             tongxunluUnreadCount = (data.fris + data.gros).toString()
             ChatManager.Instance().qunshenqing = data.gros
+
+            IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
             eLogD("看看未读", "main$tongxunluUnreadCount")
             EventBus.getDefault().post(
                 UnreadCountBroadEvent(
@@ -675,6 +673,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        fragmentNameList.add("faxian")
 //        if (!HttpsBroadConfig.isReviewEnv) {
         fragmentList.add(messageFragment)
+//        fragmentList.add(ConversationListFragment.newInstance())
 //        }
 //        fragmentList.add(TongXunLuBroadFragment.getInstance())
 //        fragmentNameList.add("xiaoxi")

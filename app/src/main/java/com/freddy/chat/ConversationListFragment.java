@@ -97,6 +97,8 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         swipeRefreshConversations.setColorSchemeResources(R.color.wechat_green);
 
         showCachedConversations();
+        //同时获取服务器最近会话，防止本地卸载找不到会话的情况
+        loadConversationList();
     }
 
     @Override
@@ -177,17 +179,24 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
                 .show();
     }
 
+
     private void removeConversation(@NonNull String sessionId) {
         progressBar.setVisibility(View.VISIBLE);
         ImMessageHttpExample.requestRemoveConversation(sessionId, content -> runOnUiThreadSafe(() -> {
-            ImLocalStore.removeSessionCompletely(sessionId, () -> runOnUiThreadSafe(() -> {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(requireContext(), R.string.remove_conversation_success, Toast.LENGTH_SHORT).show();
-                applySessionRemoved(sessionId);
-            }));
+            progressBar.setVisibility(View.GONE);
+            goLocalDbRemoveConversation(sessionId);
+
         }), () -> runOnUiThreadSafe(() -> {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(requireContext(), R.string.remove_conversation_failed, Toast.LENGTH_SHORT).show();
+            goLocalDbRemoveConversation(sessionId);
+//            Toast.makeText(requireContext(), R.string.remove_conversation_failed, Toast.LENGTH_SHORT).show();
+        }));
+    }
+
+    private void goLocalDbRemoveConversation(String sessionId) {
+        ImLocalStore.removeSessionCompletely(sessionId, () -> runOnUiThreadSafe(() -> {
+            Toast.makeText(requireContext(), R.string.remove_conversation_success, Toast.LENGTH_SHORT).show();
+            applySessionRemoved(sessionId);
         }));
     }
 

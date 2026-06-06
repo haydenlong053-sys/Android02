@@ -24,6 +24,8 @@ public final class ImRealm {
     private static volatile boolean sdkInitialized;
     @Nullable
     private static volatile String currentUserId;
+    @Nullable
+    private static volatile RealmConfiguration activeUserConfig;
 
     private ImRealm() {
     }
@@ -76,14 +78,15 @@ public final class ImRealm {
                 return;
             }
             ImDbExecutor.drainPendingWrites();
-            closeRealmInstancesLocked();
+            closeRealmInstancesLocked(activeUserConfig);
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .name(realmFileNameForUser(userId))
                     .schemaVersion(SCHEMA_VERSION)
                     .deleteRealmIfMigrationNeeded()
                     .modules(new ImRealmModule())
                     .build();
-            Realm.setDefaultConfiguration(config);
+            // 勿调用 Realm.setDefaultConfiguration：会覆盖 baselibrary RealmUtil 的用户库（UserRealm 等）
+            activeUserConfig = config;
             currentUserId = userId;
         }
     }
@@ -94,29 +97,26 @@ public final class ImRealm {
     public static void closeForUser() {
         synchronized (ImRealm.class) {
             ImDbExecutor.drainPendingWrites();
-            closeRealmInstancesLocked();
+            closeRealmInstancesLocked(activeUserConfig);
+            activeUserConfig = null;
             currentUserId = null;
         }
     }
 
     public static Realm getRealm() {
-        if (!isUserBound()) {
+        if (!isUserBound() || activeUserConfig == null) {
             throw new IllegalStateException(
                     "No user Realm open. Call ImRealm.openForUser(userId) after login.");
         }
-        return Realm.getDefaultInstance();
+        return Realm.getInstance(activeUserConfig);
     }
 
-    private static void closeRealmInstancesLocked() {
-        if (!sdkInitialized) {
-            return;
-        }
-        RealmConfiguration config = Realm.getDefaultConfiguration();
-        if (config == null) {
+    private static void closeRealmInstancesLocked(@Nullable RealmConfiguration config) {
+        if (!sdkInitialized || config == null) {
             return;
         }
         try {
-            Realm realm = Realm.getDefaultInstance();
+            Realm realm = Realm.getInstance(config);
             if (!realm.isClosed()) {
                 realm.close();
             }

@@ -4,11 +4,11 @@ package com.cboda.baselibrary.utils
 import android.content.Intent
 import android.os.Process
 import android.text.TextUtils
+import com.blankj.utilcode.util.ThreadUtils
+import com.cboda.baselibrary.BuildConfig
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.DEV_INPUT_BASE_URL
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.NET_TYPE
-import com.blankj.utilcode.util.ThreadUtils
-import com.cboda.baselibrary.BuildConfig
 import com.tencent.mmkv.MMKV
 import kotlin.system.exitProcess
 
@@ -19,6 +19,7 @@ object HttpsBroadConfig {
         get():String {
             return "$appHost2/api"
         }
+    const val MY_IM_HOST: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"
     var appHost2 = ""
 
     //    var appBaseUrl2 = ""

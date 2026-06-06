@@ -80,6 +80,7 @@ import com.cboda.baselibrary.widge.NestedViewPager
 import com.cboda.intelligent.widge.BadgeIndicatorAdapter
 import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 import com.cboda.select.picture.utils.LanguageUtil
+import com.freddy.chat.ConversationListFragment
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -212,7 +213,8 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 //        fragments.add(ConversationListBroadFragment())
         conversationSingleFragment = ConversationSingleBroadFragment()
         fragments.add(conversationSingleFragment!!)
-        fragments.add(ConversationGroupBroadFragment())
+        fragments.add(ConversationListFragment.newInstance())
+//        fragments.add(ConversationGroupBroadFragment())
         fragments.add(ConversationOtherGroupBroadFragment())
         fragments.add(SocialFragment())
 

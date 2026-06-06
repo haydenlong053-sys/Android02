@@ -3,10 +3,12 @@ package com.cboda.intelligent.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
+import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startMainActivity
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.select.picture.utils.LanguageUtil
@@ -94,6 +96,7 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 //                            }
 //                        }
         } else {
+            AppBroadUtils.goLoginMyIm(MMKVBroadUtils.getUserAppToken(),MMKVBroadUtils.getRealUserId())
             startMainActivity(this@SplashBroadActivity, "SplashBroadActivity")
         }
         finish()

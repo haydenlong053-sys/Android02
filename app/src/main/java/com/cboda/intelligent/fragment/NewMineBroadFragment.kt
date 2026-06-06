@@ -28,6 +28,7 @@ import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.showGuidePasswordTip
 import com.cboda.intelligent.viewmodel.MineViewModel
+import com.freddy.chat.IMTestMainActivity
 import okhttp3.Request
 import okhttp3.Response
 import org.greenrobot.eventbus.EventBus
@@ -87,6 +88,7 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
         }
         binding.itemFaq.click {
             startActivity(Intent(requireContext(), IssueBroadActivity::class.java))
+//            startActivity(Intent(requireContext(), IMTestMainActivity::class.java))
         }
         binding.itemSettings.click {
             startActivity(Intent(requireContext(), UserSetBroadActivity::class.java))

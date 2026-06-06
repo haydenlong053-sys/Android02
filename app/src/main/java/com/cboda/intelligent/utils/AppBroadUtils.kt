@@ -9,8 +9,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import com.cboda.chatui.ChatManagerBroadHolder
-import com.cboda.chatui.conversation.ConversationBroadActivity
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.BroadConstant
@@ -18,9 +16,19 @@ import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.chatui.ChatManagerBroadHolder
+import com.cboda.chatui.conversation.ConversationBroadActivity
+import com.cboda.intelligent.activity.NewEquipmentBroadActivity
+import com.cboda.intelligent.app.MyBroadApp
+import com.cboda.intelligent.configuration.AppBroadConsts
+import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.im.IMSConfig
+import com.freddy.im.http.ImHttpConfig
+import com.freddy.im.signal.ImSignalProtos
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -28,9 +36,6 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.gyf.immersionbar.ImmersionBar
-import com.cboda.intelligent.app.MyBroadApp
-import com.cboda.intelligent.activity.NewEquipmentBroadActivity
-import com.cboda.intelligent.configuration.AppBroadConsts
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -214,13 +219,12 @@ class AppBroadUtils {
             MMKVBroadUtils.saveMyImToken(myImUserToken ?: "")
 
             NetworkBroadConfig.updateAppToken(apptoken)
-
-
+            goLoginMyIm(apptoken,uid)
+            //自研隐藏此处野火im
             //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
-            val connextStatus =
-                ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
+            val connextStatus = ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
             eLogD("野火", "connect----> $connextStatus --> }")
-//            txLogin()
+
             MyBroadApp.initOkGo()
             MainScope().launch {
                 delay(200)
@@ -238,6 +242,12 @@ class AppBroadUtils {
 //
 //            }
 
+        }
+
+        fun goLoginMyIm(apptoken: String?, userId: String?) {
+//            eLogD("EasyHttp", "setGlobalHeaders--> $userId  $apptoken")
+            IMSClientBootstrap.getInstance().init(userId, apptoken, HttpsBroadConfig.MY_IM_HOST, IMSConfig.APP_STATUS_FOREGROUND)
+            ImHttpConfig.setGlobalHeaders(apptoken, userId, ImSignalProtos.ClientType.ANDROID_VALUE)
         }
 
 

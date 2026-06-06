@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.intelligent.R;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.utils.WeChatUiHelper;
@@ -29,7 +30,8 @@ import com.freddy.im.signal.ImSignalProtos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+//仅测试IM登录使用
+public class IMTestMainActivity extends AppCompatActivity {
 
     public static final String[] USER_IDS = {
             "00b0eb2fe9274dfab271f6b16dfad9db",
@@ -40,11 +42,12 @@ public class MainActivity extends AppCompatActivity {
             "00b5a0b8920e4d3393035b50beda1ea0",
             "00b5a3d478c04650ab9dff92ece89d1e",
             "00b5fcc8c89745519e4fdfd1d9483347",
+            "1791854966a9485c8483ac3cce077ff6",
     };
 
     String userId = "";
     String token = "";
-    String hosts = "[{\"host\":\"95.40.9.142\", \"port\":1081}]";
+    String hosts = HttpsBroadConfig.MY_IM_HOST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
