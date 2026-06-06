@@ -25,10 +25,14 @@ import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.configuration.AppBroadConsts
+import com.freddy.chat.MessageListActivity
+import com.freddy.chat.SessionItemIntent
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.IMSConfig
 import com.freddy.im.http.ImHttpConfig
+import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.signal.ImSignalProtos
+import com.freddy.im.util.ImUtils
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -40,6 +44,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import kotlin.jvm.java
 
 
 class AppBroadUtils {
@@ -269,6 +274,18 @@ class AppBroadUtils {
                 ConversationBroadActivity::class.java
             )
             intent.putExtra("conversation", conversation)
+            context?.startActivity(intent)
+        }
+
+        //自研-进入单聊1791854966a9485c8483ac3cce077ff6!85a581c1b0e74647a23324326ca055da
+        fun goChatP2p(context: Context?, target: String,name: String?) {
+            val sessionItem = SessionItem()
+            sessionItem.sessionId = ImUtils.getP2pSessionIdId(MMKVBroadUtils.getRealUserId(),target)
+            sessionItem.conversation= ImSignalProtos.ConversationType.PAIR.number
+            sessionItem.oppositeUserId =target
+            sessionItem.sessionName =name
+            val intent = Intent(context ,MessageListActivity::class.java)
+            SessionItemIntent.putSessionItem(intent, sessionItem)
             context?.startActivity(intent)
         }
 

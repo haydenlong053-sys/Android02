@@ -99,18 +99,18 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         showCachedConversations();
         //同时获取服务器最近会话，防止本地卸载找不到会话的情况
         loadConversationList();
+        CEventCenter.registerEventListener(this, EVENTS);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        CEventCenter.registerEventListener(this, EVENTS);
     }
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
         CEventCenter.unregisterEventListener(this, EVENTS);
-        super.onStop();
+        super.onDestroyView();
     }
 
     private void showCachedConversations() {

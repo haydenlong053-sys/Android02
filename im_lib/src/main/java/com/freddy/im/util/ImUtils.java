@@ -37,4 +37,13 @@ public class ImUtils {
         return seqIdInit++;
     }
 
+//    1791854966a9485c8483ac3cce077ff6!85a581c1b0e74647a23324326ca055da
+    public static String getP2pSessionIdId(String aId,String bId){
+        if (aId.isEmpty() || bId.isEmpty()){
+            return "";
+        }
+        return  aId+"!"+bId;
+
+    }
+
 }

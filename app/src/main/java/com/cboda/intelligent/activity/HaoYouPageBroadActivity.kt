@@ -372,7 +372,10 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 }
             }
 
-            AppBroadUtils.goChat(this, otherUid, "")
+//            AppBroadUtils.goChat(this, otherUid, "")
+            AppBroadUtils.goChatP2p(this, otherUid,friendName?.text?.toString())
+
+
 
         }
         yuyintonghua?.setOnClickListener {
