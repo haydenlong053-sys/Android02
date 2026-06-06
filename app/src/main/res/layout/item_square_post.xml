@@ -58,11 +58,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_21"
+        android:layout_marginEnd="@dimen/dp_8"
         android:textColor="@color/black_45"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/squareMoreAction"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1分钟" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/squareMoreAction"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_21"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_circle_broad_more"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/squareContent"
@@ -139,16 +153,24 @@
         tools:visibility="visible">
 
         <com.hjq.shape.view.ShapeView
+            android:id="@+id/squarePlDivider"
             android:layout_width="@dimen/dp_2"
             android:layout_height="@dimen/dp_0"
+            app:layout_constraintBottom_toBottomOf="@id/squarePlList"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/squarePlList"
             app:shape_solidColor="#283B47DD" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/squarePlList"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_marginStart="@dimen/dp_8"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/squarePlDivider"
+            app:layout_constraintTop_toTopOf="parent" />
     </com.hjq.shape.layout.ShapeConstraintLayout>
 
     <com.hjq.shape.layout.ShapeLinearLayout

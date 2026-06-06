@@ -21,6 +21,7 @@ data class SquarePostBean(
     val commentCreditMin: String = "",
     val canComment: String = "",
     val name: String = "",
+    val sign: String = "",
     val icon: String = "",
     val grade: String = "",
 

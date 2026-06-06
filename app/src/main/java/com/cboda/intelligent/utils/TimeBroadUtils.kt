@@ -209,6 +209,16 @@ class TimeBroadUtils {
             }
         }
 
+        /** 详情页帖子头部展示日期：yyyy-MM-dd */
+        fun formatSquarePostDate(time: String?): String {
+            if (time.isNullOrBlank()) return ""
+            val publishMillis = dateToStamp(time)
+            if (publishMillis <= 0L) {
+                return time.take(10)
+            }
+            return getFormatTime(Date(publishMillis))
+        }
+
         private fun formatSquareMinutesAgo(minutes: Long): String {
             return when {
                 minutes < 1 -> "1分钟前"

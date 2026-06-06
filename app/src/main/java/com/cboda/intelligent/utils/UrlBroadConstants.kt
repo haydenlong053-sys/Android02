@@ -77,6 +77,10 @@ object UrlBroadBroadConstants {
 
     /** 广场帖子列表 */
     const val SQUARE_POST_LIST = "api/piamom/square/list"
+    /** 广场帖子详情 */
+    const val SQUARE_POST_DETAIL = "api/piamom/square/detail"
+    /** 广场帖子评论列表 */
+    const val SQUARE_POST_COMMENT_LIST = "api/piamom/square/comment/list"
     /** 朋友圈列表 */
     const val FRIEND_POST_LIST = "api/piamom/moment/feedList"
 

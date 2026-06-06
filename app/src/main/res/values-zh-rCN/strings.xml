@@ -321,6 +321,7 @@
     <string name="年">年</string>
     <string name="月">月</string>
     <string name="日">日</string>
+    <string name="square_comment_input_hint">请输入您的评论</string>
     <string name="详情">详情</string>
     <string name="已添加表情">已添加表情</string>
     <string name="删除">删除</string>

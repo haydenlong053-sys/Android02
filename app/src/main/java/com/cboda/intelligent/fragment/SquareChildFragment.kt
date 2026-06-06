@@ -8,7 +8,8 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
-import com.cboda.intelligent.adapter.SquarePostBroadAdapter
+import com.cboda.intelligent.activity.SquareDetailActivity
+import com.cboda.intelligent.adapter.SquarePostDetailAdapter
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.bean.SquarePostBean
 import com.cboda.intelligent.configuration.CommonBroadConfig
@@ -22,7 +23,7 @@ class SquareChildFragment :
     BaseBroadFragment<SquareChildFragmentBinding, CleverBodyViewBroadModel>() {
 
     private val tabType by lazy { arguments?.getInt(ARG_TAB_TYPE, TAB_WORLD) ?: TAB_WORLD }
-    private val mAdapter = SquarePostBroadAdapter("square")
+    private val mAdapter = SquarePostDetailAdapter("square")
     private var pageNo = 1
     private var totalPage = 1
 
@@ -38,6 +39,16 @@ class SquareChildFragment :
             adapter = mAdapter
         }
         initRefreshLayout()
+    }
+
+    override fun initListener() {
+        mAdapter.setOnItemClickListener { _, _, position ->
+            val post = mAdapter.getItem(position)
+            val postId = post.id.trim()
+            if (postId.isNotEmpty()) {
+                viewModel.startAct<SquareDetailActivity>()
+            }
+        }
     }
 
     private fun initRefreshLayout() {
