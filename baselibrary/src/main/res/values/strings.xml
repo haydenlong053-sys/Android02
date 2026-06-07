@@ -209,4 +209,7 @@
     <string name="square_world">世界</string>
     <string name="square_hot">热门</string>
     <string name="square_my_attention">我的关注</string>
+    <string name="mine_assets2">积分</string>
+    <string name="mine_assets3">平台积分</string>
+    <string name="mine_sys_point2">平台积分</string>
 </resources>

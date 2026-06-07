@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:ios="false">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/noticeItemContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16">
+
+        <FrameLayout
+            android:id="@+id/noticeAvatarWrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.cboda.baselibrary.widge.VpGradeView
+                android:id="@+id/noticeAvatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:user_img_width="@dimen/dp_48" />
+
+            <com.hjq.shape.view.ShapeView
+                android:id="@+id/noticeUnreadDot"
+                android:layout_width="@dimen/dp_8"
+                android:layout_height="@dimen/dp_8"
+                android:layout_gravity="end|top"
+                android:layout_marginTop="@dimen/dp_2"
+                android:layout_marginEnd="@dimen/dp_2"
+                android:visibility="gone"
+                app:shape_radius="@dimen/dp_4"
+                app:shape_solidColor="@color/color_D5271E"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/noticeUserName"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black_90"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/noticeTime"
+            app:layout_constraintStart_toEndOf="@id/noticeAvatarWrap"
+            app:layout_constraintTop_toTopOf="@id/noticeAvatarWrap"
+            tools:text="诚信走天下" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/noticeTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_45"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/noticeUserName"
+            tools:text="1小时前" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/noticeContent"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_4"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/black_45"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/noticeAvatarWrap"
+            app:layout_constraintTop_toBottomOf="@id/noticeUserName"
+            tools:text="评论了你：生活不止远方的苟且，还是今天和明天" />
+
+        <View
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_0.5"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@color/black_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/noticeContent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/noticeDeleteBtn"
+        android:layout_width="@dimen/dp_72"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/square_notice_delete"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:shape_bottomRightRadius="@dimen/dp_12"
+        app:shape_solidColor="@color/swipe_action_delete_bg"
+        app:shape_topRightRadius="@dimen/dp_12" />
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

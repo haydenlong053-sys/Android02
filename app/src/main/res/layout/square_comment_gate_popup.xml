@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:shape_solidColor="@color/white"
+    app:shape_topLeftRadius="@dimen/dp_18"
+    app:shape_topRightRadius="@dimen/dp_18">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/commentGateBack"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginTop="@dimen/dp_6"
+        android:padding="@dimen/dp_14"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_broad_back2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/commentGateTitle"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/square_comment_gate_title"
+        android:textColor="@color/black_90"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/commentGateBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/commentGateBack" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/commentGateSubtitle"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_4"
+        android:gravity="center"
+        android:text="@string/square_comment_gate_subtitle"
+        android:textColor="@color/black_45"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentGateBack" />
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/gateEveryoneOption"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_20"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentGateSubtitle"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/colorF7F8FA">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/gateEveryoneIcon"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/ic_comment_gate_everyone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gateEveryoneTitle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:text="@string/square_comment_gate_everyone_title"
+            android:textColor="@color/black_90"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/gateEveryoneIcon"
+            app:layout_constraintTop_toTopOf="@id/gateEveryoneIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="@string/square_comment_gate_everyone_desc"
+            android:textColor="@color/black_45"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/gateEveryoneIcon"
+            app:layout_constraintTop_toBottomOf="@id/gateEveryoneTitle" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/gateVipOption"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gateEveryoneOption"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/colorF7F8FA">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/gateVipIcon"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/ic_comment_gate_vip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gateVipTitle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:text="@string/square_comment_gate_vip_title"
+            android:textColor="@color/black_90"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/gateVipIcon"
+            app:layout_constraintTop_toTopOf="@id/gateVipIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="@string/square_comment_gate_vip_desc"
+            android:textColor="@color/black_45"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/gateVipIcon"
+            app:layout_constraintTop_toBottomOf="@id/gateVipTitle" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/gateCreditOption"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gateVipOption"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/colorF7F8FA">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/gateCreditIcon"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/ic_comment_gate_credit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gateCreditTitle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:text="@string/square_comment_gate_credit_title"
+            android:textColor="@color/black_90"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/creditMinLayout"
+            app:layout_constraintStart_toEndOf="@id/gateCreditIcon"
+            app:layout_constraintTop_toTopOf="@id/gateCreditIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="@string/square_comment_gate_credit_desc"
+            android:textColor="@color/black_45"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/gateCreditIcon"
+            app:layout_constraintTop_toBottomOf="@id/gateCreditTitle" />
+
+        <LinearLayout
+            android:id="@+id/creditMinLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/gateCreditTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/gateCreditTitle"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/square_comment_gate_credit_min_label"
+                android:textColor="@color/black_45"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/creditMinValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_4"
+                android:textColor="@color/color_3B47DD"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="60" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/square_comment_gate_credit_score_unit"
+                android:textColor="@color/black_45"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/creditSeekBar"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:max="939"
+            android:progress="0"
+            android:progressDrawable="@drawable/square_comment_gate_seekbar_progress"
+            android:splitTrack="false"
+            android:thumb="@drawable/square_comment_gate_seekbar_thumb"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gateCreditIcon"
+            tools:visibility="visible" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/commentGateSave"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        android:gravity="center"
+        android:text="@string/square_comment_gate_save"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gateCreditOption"
+        app:shape_radius="@dimen/dp_24"
+        app:shape_solidColor="@color/color_3B47DD" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_32"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentGateSave" />
+</com.hjq.shape.layout.ShapeConstraintLayout>

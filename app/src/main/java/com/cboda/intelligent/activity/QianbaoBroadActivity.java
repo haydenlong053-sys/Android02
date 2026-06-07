@@ -67,7 +67,7 @@ public class QianbaoBroadActivity extends BaseSimple2BroadActivity implements Vi
             llWallet.setVisibility(View.GONE);
             walletView.setVisibility(View.GONE);
         }
-        mTvSysCurrency.setText(String.format(getString(R.string.mine_sys_currency), getString(R.string.webX_name)));
+//        mTvSysCurrency.setText(String.format(getString(R.string.mine_sys_currency), getString(R.string.webX_name)));
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",
                 "dimen", "android");

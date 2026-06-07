@@ -9,7 +9,6 @@ import androidx.core.view.isGone
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
-import com.cboda.intelligent.activity.CiecelBroadActivity
 import com.cboda.intelligent.activity.HyzxBroadActivity
 import com.cboda.intelligent.activity.IssueBroadActivity
 import com.cboda.intelligent.activity.MyCollectBroadActivity
@@ -58,16 +57,13 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
             }
         }
 
-        // 顶部 3 个入口：资产、广场、客服（业务迁移保持原逻辑，客服入口暂不接新跳转）
+        // 顶部入口：资产、客服
         binding.layoutViewMoney?.click {
             if (isHasPassword) {
                 startActivity(Intent(requireContext(), QianbaoBroadActivity::class.java))
             } else {
                 showGuidePasswordTip(requireContext())
             }
-        }
-        binding.layoutViewSquare?.click {
-            startActivity(Intent(requireContext(), CiecelBroadActivity::class.java))
         }
         binding.layoutViewService?.click {
             MMKVBroadUtils.getKeFuId()?.let { it1 ->

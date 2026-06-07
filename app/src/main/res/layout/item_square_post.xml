@@ -266,6 +266,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/squareLikeLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -273,6 +274,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/squareLikeIcon"
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:scaleType="centerCrop"

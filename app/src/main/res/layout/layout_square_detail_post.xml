@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingHorizontal="@dimen/dp_16"
+    android:paddingBottom="@dimen/dp_16">
+
+    <com.cboda.baselibrary.widge.VpGradeView
+        android:id="@+id/squareAvatarWrap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/squareUserName"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black_90"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/squarePublishTime"
+        app:layout_constraintStart_toEndOf="@id/squareAvatarWrap"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="JOY Follow" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/squareUserBio"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_2"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black_65"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/squarePublishTime"
+        app:layout_constraintStart_toEndOf="@id/squareAvatarWrap"
+        app:layout_constraintTop_toBottomOf="@id/squareUserName"
+        tools:text="生活不止远方的苟且，还是今天和明天" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/squarePublishTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_21"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:textColor="@color/black_45"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/squareMoreAction"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2026-09-12" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/squareMoreAction"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_13"
+        android:padding="@dimen/dp_8"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_circle_broad_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/squareContent"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:lineSpacingExtra="@dimen/dp_2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/squareAvatarWrap"
+        tools:text="就是单纯的想发个朋友圈看看哈有多少人在关注我" />
+
+    <LinearLayout
+        android:id="@+id/squareImageContainer"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/squareContent"
+        tools:visibility="visible" />
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/squareYyLayout"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:padding="@dimen/dp_12"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/squareImageContainer"
+        app:shape_radius="@dimen/dp_12"
+        app:shape_solidColor="#FFF7F8FA"
+        app:shape_strokeColor="#283B47DD"
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/squareYyContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/squareYyImageList"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_11"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/squareYyContent" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

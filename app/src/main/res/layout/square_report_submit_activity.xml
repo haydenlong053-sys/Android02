@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorF7F8FA"
+    android:fillViewport="true"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_24">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/square_report_input_hint"
+            android:textColor="@color/black_65"
+            android:textSize="@dimen/sp_14" />
+
+        <com.hjq.shape.view.ShapeEditText
+            android:id="@+id/squareReportReasonInput"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_140"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="top|start"
+            android:hint="@string/square_report_input_placeholder"
+            android:inputType="textMultiLine"
+            android:maxLength="500"
+            android:padding="@dimen/dp_12"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_45"
+            android:textSize="@dimen/sp_14"
+            app:shape_radius="@dimen/dp_12"
+            app:shape_solidColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/square_report_upload_screenshot"
+            android:textColor="@color/black_65"
+            android:textSize="@dimen/sp_14" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/squareReportImageList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/squareReportSubmitBtn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_32"
+            android:gravity="center"
+            android:text="@string/square_report_submit"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:shape_radius="@dimen/dp_24"
+            app:shape_solidColor="#FFB8BCFF" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -98,6 +98,20 @@ interface BaseBroadApi {
         @Body body: Any
     ): Call<NetworkBroadResponse<Any>>
 
+    /**
+     * 加密 POST 请求，响应业务字段与 code/msg/success 同级（非 data 包裹）
+     */
+    @POST
+    @Headers(
+        "Content-Type: application/json",
+        "X-Encrypt-Request: true",
+        "X-Decrypt-Response: true"
+    )
+    fun postEncryptedFlat(
+        @Url url: String,
+        @Body body: Any
+    ): Call<Map<String, @JvmSuppressWildcards Any?>>
+
 
     /**
      * 加密POST请求（表单格式）

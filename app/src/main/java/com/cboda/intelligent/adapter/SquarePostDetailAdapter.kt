@@ -177,7 +177,11 @@ class SquarePostDetailAdapter(val type: String) :
 
     private fun buildDetailCommentName(comment: CommentListBean): CharSequence {
         val name = comment.name.orEmpty()
-        val replyTarget = comment.sign.orEmpty()
+        var replyTarget = ""
+        val parentId = anyToInt(comment.parentId)
+        if (parentId != 0) {
+            replyTarget = data.find { anyToInt(it.id) == parentId }?.name ?: ""
+        }
         if (replyTarget.isBlank()) {
             if (name.isEmpty()) return ""
             return SpannableString(name).apply {

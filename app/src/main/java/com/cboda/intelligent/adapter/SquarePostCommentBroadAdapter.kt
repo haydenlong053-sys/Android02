@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.widget.TextView
 import androidx.core.graphics.toColorInt
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.CommentListBean
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -23,13 +24,17 @@ class SquarePostCommentBroadAdapter :
     private fun buildCommentSpannable(comment: CommentListBean): CharSequence {
         val name = comment.name.orEmpty()
         val content = comment.content.orEmpty()
-        val replyTarget = comment.sign.orEmpty()
+        val parentId = anyToInt(comment.parentId)
         if (TextUtils.isEmpty(name) && TextUtils.isEmpty(content)) {
             return ""
         }
 
         val colon = "："
         val replyPrefix = "回复"
+        var replyTarget = ""
+        if (parentId != 0) {
+            replyTarget = data.find { it.id == parentId }?.name ?: ""
+        }
         val fullText = if (replyTarget.isNotBlank()) {
             "$name$colon$replyPrefix$replyTarget$content"
         } else {

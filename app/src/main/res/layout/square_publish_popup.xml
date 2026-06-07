@@ -130,31 +130,64 @@
         app:layout_constraintStart_toStartOf="@id/publishInputBg"
         app:layout_constraintTop_toTopOf="@id/publishInputBg" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/publishMediaList"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        android:minHeight="@dimen/dp_72"
+        android:nestedScrollingEnabled="false"
+        android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/publishInputBg" />
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/publishQuoteLayout"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
+        android:padding="@dimen/dp_12"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/publishMediaList"
+        app:shape_radius="@dimen/dp_12"
+        app:shape_solidColor="#FFF7F8FA"
+        app:shape_strokeColor="#283B47DD"
+        app:shape_strokeWidth="@dimen/dp_1"
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/publishQuoteContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="吴彦祖：今天的真不错！ [图片] [图片]" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
     <com.hjq.shape.view.ShapeView
         android:id="@+id/publishAddMedia"
-        android:layout_width="@dimen/dp_72"
-        android:layout_height="@dimen/dp_72"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_12"
-        android:clickable="true"
-        android:focusable="true"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/publishInputBg"
-        app:shape_radius="@dimen/dp_12"
-        app:shape_solidColor="@color/colorF7F8FA" />
+        app:layout_constraintTop_toBottomOf="@id/publishInputBg" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/publishAddMediaIcon"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_gp_add"
-        app:layout_constraintBottom_toBottomOf="@id/publishAddMedia"
-        app:layout_constraintEnd_toEndOf="@id/publishAddMedia"
-        app:layout_constraintStart_toStartOf="@id/publishAddMedia"
-        app:layout_constraintTop_toTopOf="@id/publishAddMedia"
-        app:tint="@color/black"
-        tools:ignore="ContentDescription" />
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/publishInputBg" />
 
     <com.hjq.shape.view.ShapeView
         android:id="@+id/publishCommentRow"
@@ -166,7 +199,7 @@
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/publishAddMedia"
+        app:layout_constraintTop_toBottomOf="@id/publishQuoteLayout"
         app:shape_radius="@dimen/dp_16"
         app:shape_solidColor="@color/color_3B47DD_12"
         app:shape_strokeColor="#E2E3FF"

@@ -482,7 +482,22 @@
             android:name="com.cboda.intelligent.activity.SquareDetailActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.cboda.intelligent.activity.MomentDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareReportTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareReportSubmitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareReportExplanationActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.cboda.intelligent.activity.SquareUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.SquareFollowerListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.SquareAttentionActivity"

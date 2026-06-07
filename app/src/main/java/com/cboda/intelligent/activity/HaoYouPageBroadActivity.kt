@@ -359,9 +359,10 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         }
 
         pengyouquanlay?.setOnClickListener {
-            val intent = Intent(this, MyCircleBroadActivity::class.java)
-            intent.putExtra("id", otherUid)
-            startActivity(intent)
+//            val intent = Intent(this, MyCircleBroadActivity::class.java)
+//            intent.putExtra("id", otherUid)
+//            startActivity(intent)
+            SquareUserActivity.start(this, otherUid)
         }
 
         faxiaoxi?.setOnClickListener {

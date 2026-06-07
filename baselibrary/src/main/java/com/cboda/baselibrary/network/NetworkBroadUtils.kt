@@ -55,6 +55,15 @@ object NetworkBroadUtils {
     }
 
     /**
+     * 扁平响应回调（业务字段与 code/msg/success 同级）
+     */
+    interface FlatMapCallback {
+        fun onSuccess(map: Map<String, Any?>)
+        fun onFailure(code: Int, message: String)
+        fun onError(throwable: Throwable)
+    }
+
+    /**
      * 列表请求回调接口
      */
     interface ListCallback<T> {
@@ -397,6 +406,19 @@ object NetworkBroadUtils {
     }
 
     /**
+     * 加密 POST 请求，响应为扁平 JSON（业务字段不在 data 节点内）
+     */
+    fun postEncryptedFlat(
+        url: String,
+        body: Any,
+        callback: FlatMapCallback,
+    ) {
+        val api = createApi()
+        val fullUrl = buildFullUrl(NetworkBroadConfig.defaultBaseUrl, url)
+        executeFlatMapCall(api.postEncryptedFlat(fullUrl, body), callback)
+    }
+
+    /**
      * 加密POST请求（表单格式，泛型版本）
      *
      * @param T 期望的响应数据类型
@@ -602,6 +624,43 @@ object NetworkBroadUtils {
             }
 
             override fun onFailure(call: Call<NetworkBroadResponse<T>>, t: Throwable) {
+                mainHandler.post {
+                    callback.onError(t)
+                }
+            }
+        })
+    }
+
+    private fun executeFlatMapCall(
+        call: Call<Map<String, Any?>>,
+        callback: FlatMapCallback,
+    ) {
+        call.enqueue(object : Callback<Map<String, Any?>> {
+            override fun onResponse(
+                call: Call<Map<String, Any?>>,
+                response: Response<Map<String, Any?>>,
+            ) {
+                mainHandler.post {
+                    if (!response.isSuccessful) {
+                        callback.onFailure(response.code(), response.message())
+                        return@post
+                    }
+                    val map = response.body()
+                    if (map == null) {
+                        callback.onFailure(-1, "响应数据为空")
+                        return@post
+                    }
+                    val code = (map["code"] as? Number)?.toInt() ?: 0
+                    val success = map["success"] as? Boolean ?: false
+                    if (code == 200 && success) {
+                        callback.onSuccess(map)
+                    } else {
+                        callback.onFailure(code, map["msg"]?.toString() ?: "请求失败")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Map<String, Any?>>, t: Throwable) {
                 mainHandler.post {
                     callback.onError(t)
                 }

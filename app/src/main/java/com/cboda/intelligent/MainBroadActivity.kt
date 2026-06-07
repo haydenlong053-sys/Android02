@@ -90,6 +90,7 @@ import com.cboda.intelligent.activity.RegisteredBroadFragment
 import com.cboda.intelligent.activity.SelectLoginBroadFragment
 import com.cboda.intelligent.adapter.FragmentBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
+import com.cboda.intelligent.bean.SquareMessageUnreadBroadEvent
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.fragment.CleverBodyBroadFragment
@@ -874,6 +875,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                         )
                                     }
                                 }
+                                6015 -> {
+                                    EventBus.getDefault().post(SquareMessageUnreadBroadEvent())
+                                }
 //                                MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE -> {
 ////                                    eLogD("MainBroadActivityClass", "MESSAGE_CONTENT_TYPE_GROUP_BARRAGE")
 //                                    if (message.content is UnknownMessageContent) {
@@ -925,7 +929,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         viewPager.offscreenPageLimit = 1
         viewPager.adapter = adapter
         if (fragmentList.size == 4) {
-            viewPager.setCurrentItem(1, false)
+            viewPager.setCurrentItem(2, false)
         }
 
         userViewModel = ViewModelProvider(this)[UserViewBroadModel::class.java]

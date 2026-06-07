@@ -21,6 +21,10 @@ class NetworkListBroadResponse2<T>(
      * 总页数
      */
     var totalPage: Int = 0,
+    /**
+     * 未读消息总数
+     */
+    var unreadCount: Int = 0,
     var dataList: List<T>? = null,
 ) : NetworkBroadResponse<List<T>>(code, msg, success, data) {
 
