@@ -655,6 +655,10 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             JumpBroadUtils.startMyCollectActivity(mContext, params ?: "", params2 ?: "")
                         }
 
+                        BridgeImEnum.AI_ANTI_FRAUD.value -> {
+                            JumpBroadUtils.startAiActivity(mContext)
+                        }
+
                         BridgeImEnum.MEETING_ROOM.value -> {
                             if (MeetCallManager.getInstance().isIdleState()) {
                                 showLoadingWfc()

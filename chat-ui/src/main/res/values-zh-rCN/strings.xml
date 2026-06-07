@@ -300,6 +300,7 @@
     <string name="msg_red_envelope">红包</string>
     <string name="msg_business_card">名片</string>
     <string name="msg_meeting_room">会议室</string>
+    <string name="msg_anti_fraud">防诈骗</string>
     <string name="msg_transfer">转账</string>
     <string name="msg_personal_card">[个人名片]</string>
     <string name="msg_personal_card_name">个人名片</string>

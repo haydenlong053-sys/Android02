@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.chatui.bridge.IMCommonBroadResult;
+import com.cboda.chatui.conversation.ext.AiAntiFraudBroadExt;
 import com.cboda.chatui.conversation.ext.CollectBroadExt;
 import com.cboda.chatui.conversation.ext.FileBroadExt;
 import com.cboda.chatui.conversation.ext.HongBaoBroadExt;
@@ -85,6 +86,8 @@ public class ConversationExtBroadManager {
         if (type != Conversation.ConversationType.Single) {
             registerExt(MeetingBroadExt.class);
         }
+
+        registerExt(AiAntiFraudBroadExt.class);
     }
 
     public void registerExt(Class<? extends ConversationBroadExt> clazz) {

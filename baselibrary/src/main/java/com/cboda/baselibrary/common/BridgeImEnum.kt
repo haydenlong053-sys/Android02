@@ -116,7 +116,10 @@ enum class BridgeImEnum(val value: String) {
     MEETING_ROOM("huiyishi"),
 
     // 会议
-    MEETING("meeting");
+    MEETING("meeting"),
+
+    // AI反诈
+    AI_ANTI_FRAUD("aifanzha");
 
     companion object {
         /**
