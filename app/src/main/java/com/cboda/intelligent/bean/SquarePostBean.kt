@@ -1,5 +1,7 @@
 package com.cboda.intelligent.bean
 
+import com.cboda.intelligent.utils.SquarePostMediaBroadHelper
+
 data class SquarePostBean(
     val id: String = "",
     val userId: String = "",
@@ -38,13 +40,43 @@ data class SquarePostBean(
     val imageUrls: Array<String>? = null,
     val commentList: List<CommentListBean>? = null
 ) {
-    fun displayImages(): Array<String>? {
+    /** 广场：图片优先 imgs，其次 imageUrls */
+    private fun squareMediaUrls(): List<String> {
         val fromImgs = imgs?.filter { it.isNotBlank() }.orEmpty()
-        if (fromImgs.isNotEmpty()) return fromImgs.toTypedArray()
-        val fromUrls = imageUrls?.filter { it.isNotBlank() }.orEmpty()
-        if (fromUrls.isNotEmpty()) return fromUrls.toTypedArray()
+        if (fromImgs.isNotEmpty()) return fromImgs
+        return imageUrls?.filter { it.isNotBlank() }.orEmpty()
+    }
+
+    /** 朋友圈：仅使用 imageUrls */
+    private fun momentMediaUrls(): List<String> {
+        return imageUrls?.filter { it.isNotBlank() }.orEmpty()
+    }
+
+    /** 广场视频地址，来自 video 字段 */
+    fun squareVideoUrl(): String = video.trim()
+
+    /** 朋友圈视频地址，来自 imageUrls 中识别出的视频 */
+    fun momentVideoUrl(): String {
+        return momentMediaUrls()
+            .firstOrNull { SquarePostMediaBroadHelper.isVideoUrl(it) }
+            .orEmpty()
+    }
+
+    /** 广场展示图片（不含 video 字段，仅过滤 URL 列表中的视频后缀） */
+    fun squareDisplayImages(): Array<String>? {
+        val images = squareMediaUrls().filter { !SquarePostMediaBroadHelper.isVideoUrl(it) }
+        if (images.isNotEmpty()) return images.toTypedArray()
         return null
     }
+
+    /** 朋友圈展示图片，来自 imageUrls 中非视频项 */
+    fun momentDisplayImages(): Array<String>? {
+        val images = momentMediaUrls().filter { !SquarePostMediaBroadHelper.isVideoUrl(it) }
+        if (images.isNotEmpty()) return images.toTypedArray()
+        return null
+    }
+
+    fun displayImages(): Array<String>? = squareDisplayImages()
+
+    fun videoUrl(): String = squareVideoUrl()
 }
-
-

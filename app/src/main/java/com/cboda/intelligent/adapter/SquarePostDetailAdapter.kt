@@ -137,10 +137,20 @@ class SquarePostDetailAdapter(val type: String) :
             if (anyToInt(item.odicStakeStatus) == 0) {
                 setText(R.id.squarePledgeText, item.odicStakeLabel)
             }
+            val displayImages = if (type == TYPE_FRIEND) {
+                item.momentDisplayImages()
+            } else {
+                item.squareDisplayImages()
+            }
+            val videoUrl = if (type == TYPE_FRIEND) {
+                item.momentVideoUrl()
+            } else {
+                item.squareVideoUrl()
+            }
             SquarePostImageLayoutHelper.bindPostMedia(
                 getView(R.id.squareImageContainer),
-                item.displayImages(),
-                item.video,
+                displayImages,
+                videoUrl.takeIf { it.isNotBlank() },
             )
             setGone(R.id.squareYyLayout, item.quote == null)
             item.quote?.let { quote ->

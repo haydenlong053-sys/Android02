@@ -303,8 +303,8 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
         postView.squareYyLayout.isGone = true
         SquarePostImageLayoutHelper.bindPostMedia(
             postView.squareImageContainer,
-            post.displayImages(),
-            post.video,
+            post.momentDisplayImages(),
+            post.momentVideoUrl().takeIf { it.isNotBlank() },
         )
     }
 
