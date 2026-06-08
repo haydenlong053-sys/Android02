@@ -7,9 +7,6 @@ package com.freddy.im;
  * <b>
  * <p>@Description:     IMS默认配置，若不使用默认配置，应提供set方法给应用层设置</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/05 05:38</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 public class IMSConfig {
     public static final int SEND_STATUS_DEFAULT = 0;

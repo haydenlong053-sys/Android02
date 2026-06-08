@@ -2,9 +2,6 @@ package com.freddy.chat.event;
 
 /**
  * 事件对象池
- *
- * Created by Freddy on 2015/11/3.
- * chenshichao@outlook.com
  */
 public class CEvenObjPool extends ObjectPool<CEvent> {
 

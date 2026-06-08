@@ -10,9 +10,6 @@ import com.freddy.im.netty.NettyTcpClient;
  * <b>
  * <p>@Description:     ims实例工厂方法</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/03/31 20:54</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 public class IMSClientFactory {
 

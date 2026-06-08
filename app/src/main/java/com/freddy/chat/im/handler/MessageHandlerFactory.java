@@ -11,9 +11,6 @@ import com.freddy.im.MessageType;
  * <b>
  * <p>@Description:     消息处理handler工厂</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/10 03:44</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 @Deprecated
 public class MessageHandlerFactory {

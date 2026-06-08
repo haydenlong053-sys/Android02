@@ -2,9 +2,6 @@ package com.freddy.chat.event;
 
 /**
  * 对象池
- *
- * Created by Freddy on 2015/11/3.
- * chenshichao@outlook.com
  */
 public abstract class ObjectPool<T extends PoolableObject> {
     /**

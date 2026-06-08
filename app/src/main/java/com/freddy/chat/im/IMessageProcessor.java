@@ -16,9 +16,6 @@ import java.util.List;
  * <b>
  * <p>@Description:     消息处理器接口</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/10 00:11</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 public interface IMessageProcessor {
 

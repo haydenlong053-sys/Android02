@@ -1,8 +1,7 @@
 package com.freddy.chat.event;
 
 /**
- * Created by Freddy on 2015/11/4.
- * chenshichao@outlook.com
+ * Created by
  */
 public class Events {
 

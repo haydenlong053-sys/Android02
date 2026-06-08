@@ -11,9 +11,6 @@ import com.freddy.im.bean.AppMessage;
  * <b>
  * <p>@Description:     类描述</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/10 03:43</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 @Deprecated
 public class GroupChatMessageHandler extends AbstractMessageHandler {

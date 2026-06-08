@@ -9,9 +9,6 @@ import java.util.List;
 
 /**
  * 事件中心服务（实现类似系统广播的功能）
- *
- * Created by Freddy on 2015/11/3.
- * chenshichao@outlook.com
  */
 public class CEventCenter {
 

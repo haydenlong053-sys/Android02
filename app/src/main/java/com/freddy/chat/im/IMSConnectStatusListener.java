@@ -9,9 +9,6 @@ import com.freddy.im.listener.IMSConnectStatusCallback;
  * <b>
  * <p>@Description:     类描述</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/08 00:31</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 public class IMSConnectStatusListener implements IMSConnectStatusCallback {
 

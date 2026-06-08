@@ -9,9 +9,6 @@ import com.freddy.chat.utils.StringUtil;
  * <b>
  * <p>@Description:     消息基类</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/10 00:02</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 @Deprecated
 public class BaseMessage {

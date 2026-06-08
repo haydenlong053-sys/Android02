@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:shape_radius="@dimen/dp_30"
+            app:shape_solidColor="@color/color_bg_input">
+
+            <LinearLayout
+                android:id="@+id/inputContainerLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp">
+
+                <ImageView
+                    android:id="@+id/extImageView"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="5dp"
+                    android:contentDescription="@string/panel_more"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_msg_broad_add" />
+
+                <ImageView
+                    android:id="@+id/mIvVoiceCancel"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="5dp"
+                    android:contentDescription="@string/voice_cancel"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_msg_voice_broad_cancel"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <EditText
+                            android:id="@+id/editText"
+                            style="@style/WeChatEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/shape_session_text_broad_input2"
+                            android:gravity="center_vertical"
+                            android:hint="@string/msg_input"
+                            android:imeOptions="actionSend"
+                            android:inputType="textMultiLine"
+                            android:maxLines="5"
+                            android:minHeight="42dp"
+                            android:paddingVertical="@dimen/dp_6"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="40dp"
+                            android:textColor="@color/color_text0"
+                            android:textColorHint="@color/black35"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/emotionImageView"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="5dp"
+                            android:contentDescription="@string/panel_emotion"
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_msg_broad_emo" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/audioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/shape_session_msg_voice_broad_bg"
+                        android:visibility="gone"
+                        tools:visibility="gone">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/mViewAnimateVoice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:lottie_autoPlay="false"
+                            app:lottie_fileName="voice_data.json"
+                            app:lottie_loop="true" />
+                    </FrameLayout>
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/audioImageView"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/panel_more_voice"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_msg_broad_voice" />
+
+                <ImageView
+                    android:id="@+id/mIvVoiceSend"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/send"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_msg_voice_broad_send"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/sendButton"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:background="@drawable/shape_session_btn_broad_send"
+                    android:gravity="center"
+                    android:text="@string/send"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_16" />
+    </LinearLayout>
+</merge>

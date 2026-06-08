@@ -69,11 +69,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * TimeUnit（线程活动保持时间的单位）：可选的单位有天（DAYS），小时（HOURS），分钟（MINUTES），
  * 毫秒(MILLISECONDS)，微秒(MICROSECONDS, 千分之一毫秒)和毫微秒(NANOSECONDS, 千分之一微秒)。</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/2/3 15:35</p>
- * <p>@email:           chenshichao@outlook.com</p>
- *
- * @see ://www.infoq.com/cn/articles/java-threadPool
  */
 public class CThreadPoolExecutor {
 

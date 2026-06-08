@@ -7,9 +7,6 @@ package com.freddy.im.listener;
  * <b>
  * <p>@Description:     IMS连接状态回调</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/03/31 20:07</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 public interface IMSConnectStatusCallback {
 

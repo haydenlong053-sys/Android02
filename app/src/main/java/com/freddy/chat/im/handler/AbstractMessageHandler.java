@@ -9,9 +9,6 @@ import com.freddy.im.bean.AppMessage;
  * <b>
  * <p>@Description:     抽象的MessageHandler</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/10 03:41</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 @Deprecated
 public abstract class AbstractMessageHandler implements IMessageHandler {

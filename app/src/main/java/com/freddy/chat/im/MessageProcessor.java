@@ -26,9 +26,6 @@ import java.util.List;
  * <b>
  * <p>@Description:     消息处理器</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/10 03:27</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 public class MessageProcessor implements IMessageProcessor {
 

@@ -1,25 +1,15 @@
 package com.freddy.chat;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -27,9 +17,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -39,11 +27,6 @@ import com.cboda.select.picture.config.PictureMimeType;
 import com.cboda.select.picture.config.SelectMimeType;
 import com.cboda.select.picture.entity.LocalMedia;
 import com.cboda.select.picture.interfaces.OnResultCallbackListener;
-import com.effective.android.panel.PanelSwitchHelper;
-import com.effective.android.panel.interfaces.ContentScrollMeasurer;
-import com.effective.android.panel.interfaces.PanelHeightMeasurer;
-import com.effective.android.panel.interfaces.listener.OnPanelChangeListener;
-import com.effective.android.panel.view.panel.IPanelView;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
@@ -71,6 +54,7 @@ import com.freddy.im.listener.OnHttpImListener;
 import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.chat.widget.MessageListInputBroadPanel;
 import com.cboda.intelligent.R;
 
 import java.io.File;
@@ -90,12 +74,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         return fragment;
     }
 
-    private static final String[] CHAT_EMOTIONS = {
-            "😀", "😁", "😂", "🤣", "😊", "😍", "😘", "😎",
-            "🙂", "😉", "😢", "😭", "😡", "👍", "👎", "🙏",
-            "👏", "🎉", "❤️", "💔", "🔥", "✨", "🌹", "🎁"
-    };
-
     private static final String[] EVENTS = {
             Events.CHAT_MESSAGE,
             Events.CHAT_MESSAGE_UPDATE,
@@ -110,21 +88,11 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshMessages;
-    private EditText etContent;
+    private MessageListInputBroadPanel inputPanel;
     private MessageListAdapter adapter;
-    @Nullable
-    private PanelSwitchHelper panelSwitchHelper;
 
     private boolean isGroupChat;
-    @Nullable
-    private ImageButton btnVoice;
     private ActivityResultLauncher<String[]> filePickerLauncher;
-    private ActivityResultLauncher<String> recordPermissionLauncher;
-    @Nullable
-    private MediaRecorder mediaRecorder;
-    @Nullable
-    private File recordingFile;
-    private long recordingStartElapsedMs;
 
     /** 本地是否可能还有更早一页（用于下拉刷新） */
     private boolean hasMoreHistory;
@@ -136,15 +104,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.OpenDocument(),
                 this::onFilePicked);
-        recordPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                granted -> {
-                    if (granted) {
-                        toggleVoiceRecording();
-                    } else {
-                        Toast.makeText(requireContext(), R.string.voice_permission_denied, Toast.LENGTH_SHORT).show();
-                    }
-                });
         sessionItem = SessionItemIntent.getSessionItem(getArguments());
     }
 
@@ -174,9 +133,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
 
         recyclerView = view.findViewById(R.id.rv_messages);
         swipeRefreshMessages = view.findViewById(R.id.swipe_refresh_messages);
-        etContent = view.findViewById(R.id.et_content);
-        Button btnSend = view.findViewById(R.id.btn_send);
-        btnVoice = view.findViewById(R.id.btn_voice);
+        inputPanel = view.findViewById(R.id.input_panel);
 
         adapter = new MessageListAdapter(
                 isGroupChat,
@@ -189,26 +146,48 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         swipeRefreshMessages.setOnRefreshListener(this::onPullLoadOlder);
         swipeRefreshMessages.setColorSchemeResources(R.color.wechat_green);
 
-        btnSend.setOnClickListener(v -> sendMsg());
-        if (btnVoice != null) {
-            btnVoice.setOnClickListener(v -> onVoiceEntryClick());
-        }
-        updateVoiceButtonState(false);
-        etContent.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEND
-                    || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
-                    && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                sendMsg();
-                return true;
+        inputPanel.init(this, view.findViewById(R.id.mViewIntercept), new MessageListInputBroadPanel.Callback() {
+            @Override
+            public void onSendText(@NonNull String text) {
+                sendMsg(text);
             }
-            return false;
+
+            @Override
+            public boolean canSendVoice() {
+                return !TextUtils.isEmpty(peerUserId);
+            }
+
+            @Override
+            public void onVoiceRecorded(@NonNull File audioFile, int durationSec) {
+                sendVoiceMessage(audioFile, durationSec);
+            }
+
+            @Override
+            public void onOpenAlbum() {
+                openPictureAlbum();
+            }
+
+            @Override
+            public void onOpenCamera() {
+                openPictureCamera();
+            }
+
+            @Override
+            public void onOpenFile() {
+                openFilePicker();
+            }
+
+            @Override
+            public void onKeyboardOrPanelShown() {
+                scrollToLatest();
+            }
         });
         requireActivity().getOnBackPressedDispatcher().addCallback(
                 getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {
                     @Override
                     public void handleOnBackPressed() {
-                        if (panelSwitchHelper != null && panelSwitchHelper.hookSystemBackByPanelSwitcher()) {
+                        if (inputPanel.handleBackPressed()) {
                             return;
                         }
                         setEnabled(false);
@@ -225,7 +204,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
     public void onStart() {
         super.onStart();
         CEventCenter.registerEventListener(this, EVENTS);
-        initPanelSwitchHelper();
     }
 
     @Override
@@ -309,202 +287,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
     }
 
     private void hideInputPanelIfShowing() {
-        if (panelSwitchHelper == null) {
-            return;
+        if (inputPanel != null) {
+            inputPanel.hidePanelIfShowing();
         }
-        if (panelSwitchHelper.isKeyboardState() || panelSwitchHelper.isPanelState()) {
-            panelSwitchHelper.resetState();
-        }
-    }
-
-    private void initPanelSwitchHelper() {
-        if (panelSwitchHelper != null) {
-            return;
-        }
-        int panelHeight = getResources().getDimensionPixelSize(R.dimen.chat_panel_default_height);
-        panelSwitchHelper = new PanelSwitchHelper.Builder(requireActivity())
-                .addContentScrollMeasurer(new ContentScrollMeasurer() {
-                    @Override
-                    public int getScrollDistance(int defaultDistance) {
-                        return defaultDistance;
-                    }
-
-                    @Override
-                    public int getScrollViewId() {
-                        return R.id.rv_messages;
-                    }
-                })
-                .addPanelHeightMeasurer(new PanelHeightMeasurer() {
-                    @Override
-                    public boolean synchronizeKeyboardHeight() {
-                        return true;
-                    }
-
-                    @Override
-                    public int getTargetPanelDefaultHeight() {
-                        return panelHeight;
-                    }
-
-                    @Override
-                    public int getPanelTriggerId() {
-                        return R.id.btn_emotion;
-                    }
-                })
-                .addPanelHeightMeasurer(new PanelHeightMeasurer() {
-                    @Override
-                    public boolean synchronizeKeyboardHeight() {
-                        return false;
-                    }
-
-                    @Override
-                    public int getTargetPanelDefaultHeight() {
-                        return panelHeight;
-                    }
-
-                    @Override
-                    public int getPanelTriggerId() {
-                        return R.id.btn_more;
-                    }
-                })
-                .addPanelChangeListener(new OnPanelChangeListener() {
-                    @Override
-                    public void onKeyboard() {
-                        scrollToLatest();
-                    }
-
-                    @Override
-                    public void onNone() {
-                    }
-
-                    @Override
-                    public void onPanel(IPanelView panelView) {
-                        scrollToLatest();
-                    }
-
-                    @Override
-                    public void onPanelSizeChange(IPanelView panelView, boolean portrait,
-                                                  int oldWidth, int oldHeight, int width, int height) {
-                    }
-                })
-                .contentScrollOutsideEnable(true)
-                .logTrack(true)
-                .build(false);
-        setupEmotionPanel();
-        setupMorePanel();
-    }
-
-    private void setupEmotionPanel() {
-        RecyclerView rv = requireView().findViewById(R.id.rv_panel_emotion);
-        if (rv == null) {
-            return;
-        }
-        rv.setLayoutManager(new GridLayoutManager(requireContext(), 8));
-        rv.setAdapter(new EmotionPanelAdapter(CHAT_EMOTIONS, emoji -> {
-            int start = etContent.getSelectionStart();
-            if (start < 0) {
-                start = etContent.getText().length();
-            }
-            etContent.getText().insert(start, emoji);
-        }));
-    }
-
-    private void setupMorePanel() {
-        View album = requireView().findViewById(R.id.panel_more_album);
-        View camera = requireView().findViewById(R.id.panel_more_camera);
-        View file = requireView().findViewById(R.id.panel_more_file);
-        if (album != null) {
-            album.setOnClickListener(v -> openPictureAlbum());
-        }
-        if (camera != null) {
-            camera.setOnClickListener(v -> openPictureCamera());
-        }
-        if (file != null) {
-            file.setOnClickListener(v -> openFilePicker());
-        }
-    }
-
-    private void onVoiceEntryClick() {
-        hideInputPanelIfShowing();
-        if (TextUtils.isEmpty(peerUserId)) {
-            Toast.makeText(requireContext(), R.string.voice_record_failed, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (mediaRecorder != null) {
-            stopVoiceRecordingAndSend();
-            return;
-        }
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO)
-                == PackageManager.PERMISSION_GRANTED) {
-            toggleVoiceRecording();
-            return;
-        }
-        if (recordPermissionLauncher != null) {
-            recordPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
-        } else {
-            Toast.makeText(requireContext(), R.string.voice_permission_denied, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void toggleVoiceRecording() {
-        if (mediaRecorder == null) {
-            startVoiceRecording();
-        } else {
-            stopVoiceRecordingAndSend();
-        }
-    }
-
-    private void startVoiceRecording() {
-        try {
-            File out = new File(requireContext().getCacheDir(), "voice_" + System.currentTimeMillis() + ".m4a");
-            MediaRecorder recorder = new MediaRecorder();
-            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-            recorder.setAudioEncodingBitRate(64000);
-            recorder.setAudioSamplingRate(16000);
-            recorder.setOutputFile(out.getAbsolutePath());
-            recorder.prepare();
-            recorder.start();
-            mediaRecorder = recorder;
-            recordingFile = out;
-            recordingStartElapsedMs = SystemClock.elapsedRealtime();
-            updateVoiceButtonState(true);
-            Toast.makeText(requireContext(), R.string.voice_record_start, Toast.LENGTH_SHORT).show();
-            if (panelSwitchHelper != null) {
-                panelSwitchHelper.resetState();
-            }
-        } catch (Exception e) {
-            releaseRecorderQuietly();
-            updateVoiceButtonState(false);
-            Toast.makeText(requireContext(), R.string.voice_record_failed, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void stopVoiceRecordingAndSend() {
-        MediaRecorder recorder = mediaRecorder;
-        File voiceFile = recordingFile;
-        long startMs = recordingStartElapsedMs;
-        mediaRecorder = null;
-        recordingFile = null;
-        recordingStartElapsedMs = 0L;
-        updateVoiceButtonState(false);
-        if (recorder == null || voiceFile == null) {
-            releaseRecorderQuietly();
-            return;
-        }
-        try {
-            recorder.stop();
-        } catch (Exception ignored) {
-            // stop 可能因时长过短抛错，按失败处理
-        }
-        releaseRecorderQuietly(recorder);
-        if (!voiceFile.isFile() || voiceFile.length() <= 0) {
-            Toast.makeText(requireContext(), R.string.voice_record_failed, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        int durationSec = Math.max(1, (int) ((SystemClock.elapsedRealtime() - startMs + 999) / 1000));
-        Toast.makeText(requireContext(), R.string.voice_record_stop, Toast.LENGTH_SHORT).show();
-        sendVoiceMessage(voiceFile, durationSec);
     }
 
     private void openFilePicker() {
@@ -784,8 +569,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
             adapter.appendMessages(Collections.singletonList(message));
             scrollToLatest();
         }, false);
-        if (panelSwitchHelper != null) {
-            panelSwitchHelper.resetState();
+        if (inputPanel != null) {
+            inputPanel.resetPanelState();
         }
     }
 
@@ -873,28 +658,28 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         });
     }
 
-  /** 原 MainActivity#sendMsg */
-    private void sendMsg() {
-        String text = etContent.getText().toString().trim();
+    private void sendMsg(@NonNull String text) {
         if (text.isEmpty() || TextUtils.isEmpty(peerUserId)) {
             return;
         }
 
-        AppMessage message = MessageBuilder.buildTextMessage(sessionId,sessionItem.getConversation(), peerUserId, text);
+        AppMessage message = MessageBuilder.buildTextMessage(
+                sessionId, sessionItem.getConversation(), peerUserId, text);
         MessageProcessor.getInstance().sendMsg(message, () -> {
             adapter.appendMessages(Collections.singletonList(message));
             scrollToLatest();
         });
-        etContent.setText("");
-        if (panelSwitchHelper != null) {
-            panelSwitchHelper.resetState();
+        if (inputPanel != null) {
+            inputPanel.clearInput();
+            inputPanel.resetPanelState();
         }
     }
 
     @Override
     public void onDestroyView() {
-        releaseRecorderQuietly();
-        panelSwitchHelper = null;
+        if (inputPanel != null) {
+            inputPanel.onDestroy();
+        }
         super.onDestroyView();
     }
 
@@ -914,42 +699,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
             return;
         }
         requireActivity().runOnUiThread(action);
-    }
-
-    private void releaseRecorderQuietly() {
-        MediaRecorder recorder = mediaRecorder;
-        mediaRecorder = null;
-        releaseRecorderQuietly(recorder);
-        recordingFile = null;
-        recordingStartElapsedMs = 0L;
-        updateVoiceButtonState(false);
-    }
-
-    private static void releaseRecorderQuietly(@Nullable MediaRecorder recorder) {
-        if (recorder == null) {
-            return;
-        }
-        try {
-            recorder.reset();
-        } catch (Exception ignored) {
-        }
-        try {
-            recorder.release();
-        } catch (Exception ignored) {
-        }
-    }
-
-    private void updateVoiceButtonState(boolean recording) {
-        if (btnVoice == null) {
-            return;
-        }
-        btnVoice.setActivated(recording);
-        btnVoice.setAlpha(recording ? 1f : 0.72f);
-        if (recording) {
-            btnVoice.setColorFilter(ContextCompat.getColor(requireContext(), R.color.wechat_green));
-        } else {
-            btnVoice.clearColorFilter();
-        }
     }
 
     @Override
@@ -1003,50 +752,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
             adapter.appendMessages(matched);
             scrollToLatest();
         });
-    }
-
-    private static final class EmotionPanelAdapter extends RecyclerView.Adapter<EmotionPanelAdapter.Holder> {
-
-        private final String[] emotions;
-        private final OnEmotionClickListener listener;
-
-        interface OnEmotionClickListener {
-            void onEmotionClick(String emoji);
-        }
-
-        EmotionPanelAdapter(String[] emotions, OnEmotionClickListener listener) {
-            this.emotions = emotions;
-            this.listener = listener;
-        }
-
-        @NonNull
-        @Override
-        public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_panel_emotion, parent, false);
-            return new Holder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull Holder holder, int position) {
-            String emoji = emotions[position];
-            holder.tvEmotion.setText(emoji);
-            holder.itemView.setOnClickListener(v -> listener.onEmotionClick(emoji));
-        }
-
-        @Override
-        public int getItemCount() {
-            return emotions.length;
-        }
-
-        static final class Holder extends RecyclerView.ViewHolder {
-            final TextView tvEmotion;
-
-            Holder(@NonNull View itemView) {
-                super(itemView);
-                tvEmotion = itemView.findViewById(R.id.tv_emotion);
-            }
-        }
     }
 
     private List<AppMessage> filterForSession(List<AppMessage> batch) {

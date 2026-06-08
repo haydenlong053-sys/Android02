@@ -10,9 +10,6 @@ import java.util.concurrent.Executors;
  * <b>
  * <p>@Description:     线程池工厂，负责重连和心跳线程调度</p>
  * </b>
- * <p>@author:          FreddyChen</p>
- * <p>@date:            2019/04/05 05:12</p>
- * <p>@email:           chenshichao@outlook.com</p>
  */
 public class ExecutorServiceFactory {
 
