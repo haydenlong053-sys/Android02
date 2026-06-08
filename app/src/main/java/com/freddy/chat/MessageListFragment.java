@@ -339,7 +339,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
                 .setMaxSelectNum(9)
                 .setMaxVideoSelectNum(1)
                 .isWithSelectVideoImage(false)
-                .isDisplayCamera(true)
+                .isDisplayCamera(false)
                 .forResult(pictureResultCallback());
     }
 
