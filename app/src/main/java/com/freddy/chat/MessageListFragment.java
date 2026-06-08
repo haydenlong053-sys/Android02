@@ -387,6 +387,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
                     }
                 })
                 .contentScrollOutsideEnable(true)
+                .logTrack(true)
                 .build(false);
         setupEmotionPanel();
         setupMorePanel();
