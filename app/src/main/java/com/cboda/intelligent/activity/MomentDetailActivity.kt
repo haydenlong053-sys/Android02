@@ -196,7 +196,7 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
     private fun deletePost() {
         if (postId.isBlank()) return
         lifecycleScope.launch {
-            viewModel.deleteMomentPost(postId).observe(this@MomentDetailActivity) { success ->
+            viewModel.deleteMomentPost(postId, false).observe(this@MomentDetailActivity) { success ->
                 if (success != true) return@observe
                 ToastBroadUtil.show(getString(R.string.square_post_delete_success))
                 EventBus.getDefault().post(SquarePostDeleteBroadEvent(postId.trim()))

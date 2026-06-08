@@ -381,7 +381,7 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
     }
 
     /** 删除动态（广场/朋友圈） */
-    fun deleteMomentPost(postId: String): SingleLiveBroadData<Boolean> {
+    fun deleteMomentPost(postId: String, isSquare: Boolean = false): SingleLiveBroadData<Boolean> {
         val liveData = SingleLiveBroadData<Boolean>()
         val params = hashMapOf<String, Any>(
             "id" to anyToInt(postId.trim()).toString(),
@@ -390,7 +390,7 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
             withContext(Dispatchers.IO) {
                 try {
                     NetworkBroadRepository.postEncrypted2(
-                        UrlBroadBroadConstants.MOMENT_POST_DELETE,
+                        if (isSquare) UrlBroadBroadConstants.SQUARE_POST_DELETE else UrlBroadBroadConstants.MOMENT_POST_DELETE,
                         Any::class.java,
                         params,
                     ).onSuccess {
@@ -406,7 +406,7 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
     }
 
     /** @see deleteMomentPost */
-    fun deleteSquarePost(postId: String): SingleLiveBroadData<Boolean> = deleteMomentPost(postId)
+    fun deleteSquarePost(postId: String): SingleLiveBroadData<Boolean> = deleteMomentPost(postId, true)
 
     /** 朋友圈动态置顶/取消置顶 */
     fun pinMomentPost(postId: String, pin: Boolean): SingleLiveBroadData<Boolean> {

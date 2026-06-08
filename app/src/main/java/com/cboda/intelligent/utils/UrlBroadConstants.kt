@@ -109,8 +109,12 @@ object UrlBroadBroadConstants {
     const val MOMENT_POST_COMMENT = "api/piamom/moment/comment"
     /** 朋友圈动态置顶/取消置顶 */
     const val MOMENT_POST_PIN = "api/piamom/moment/pin"
-    /** 删除动态（广场/朋友圈） */
+    /** 删除动态（朋友圈） */
     const val MOMENT_POST_DELETE = "api/piamom/moment/delete"
+
+    /** 删除动态（广场） */
+    const val SQUARE_POST_DELETE = "api/piamom/square/delete"
+
     /** 朋友圈列表 */
     const val FRIEND_POST_LIST = "api/piamom/moment/feedList"
     /** 用户主页信息 */
