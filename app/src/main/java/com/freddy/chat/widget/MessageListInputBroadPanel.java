@@ -383,7 +383,7 @@ public class MessageListInputBroadPanel extends FrameLayout
     }
 
     private void updateSendButtonVisibility() {
-        boolean hasText = editText.getText() != null && editText.getText().toString().trim().length() > 0;
+        boolean hasText = editText.getText() != null && !editText.getText().toString().trim().isEmpty();
         sendButton.setVisibility(hasText ? VISIBLE : GONE);
         extImageView.setVisibility(hasText ? GONE : VISIBLE);
     }
