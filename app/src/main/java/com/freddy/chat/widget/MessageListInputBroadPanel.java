@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -26,11 +25,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.chatemoji.EmotionBroadLayout;
+import com.cboda.chatemoji.IEmotionSelectedBroadListener;
 import com.cboda.chatui.audio.AudioRecorderBroadPanel;
 import com.cboda.intelligent.R;
 import com.effective.android.panel.PanelSwitchHelper;
@@ -45,13 +44,8 @@ import java.io.File;
  * 自研消息列表底部输入面板，UI 与录音交互对齐野火 {@code ConversationInputBroadPanel}，
  * 键盘/表情/更多面板切换仍由 {@link PanelSwitchHelper} 驱动。
  */
-public class MessageListInputBroadPanel extends FrameLayout implements DefaultLifecycleObserver {
-
-    private static final String[] CHAT_EMOTIONS = {
-            "😀", "😁", "😂", "🤣", "😊", "😍", "😘", "😎",
-            "🙂", "😉", "😢", "😭", "😡", "👍", "👎", "🙏",
-            "👏", "🎉", "❤️", "💔", "🔥", "✨", "🌹", "🎁"
-    };
+public class MessageListInputBroadPanel extends FrameLayout
+        implements DefaultLifecycleObserver, IEmotionSelectedBroadListener {
 
     public interface Callback {
         void onSendText(@NonNull String text);
@@ -92,6 +86,8 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
     private AudioRecorderBroadPanel audioRecorderPanel;
     @Nullable
     private ActivityResultLauncher<String> recordPermissionLauncher;
+    @Nullable
+    private EmotionBroadLayout emotionBroadLayout;
 
     public MessageListInputBroadPanel(@NonNull Context context) {
         this(context, null);
@@ -407,7 +403,8 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
         if (panelSwitchHelper != null || fragment == null) {
             return;
         }
-        int panelHeight = getResources().getDimensionPixelSize(R.dimen.chat_panel_default_height);
+        int emotionPanelHeight = getResources().getDimensionPixelSize(R.dimen.chat_panel_emotion_height);
+        int morePanelHeight = getResources().getDimensionPixelSize(R.dimen.chat_panel_more_height);
         panelSwitchHelper = new PanelSwitchHelper.Builder(fragment.requireActivity())
                 .addContentScrollMeasurer(new ContentScrollMeasurer() {
                     @Override
@@ -428,7 +425,7 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
 
                     @Override
                     public int getTargetPanelDefaultHeight() {
-                        return panelHeight;
+                        return emotionPanelHeight;
                     }
 
                     @Override
@@ -444,7 +441,7 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
 
                     @Override
                     public int getTargetPanelDefaultHeight() {
-                        return panelHeight;
+                        return morePanelHeight;
                     }
 
                     @Override
@@ -455,15 +452,18 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
                 .addPanelChangeListener(new OnPanelChangeListener() {
                     @Override
                     public void onKeyboard() {
+                        resetPanelTriggerIcons();
                         notifyPanelShown();
                     }
 
                     @Override
                     public void onNone() {
+                        resetPanelTriggerIcons();
                     }
 
                     @Override
                     public void onPanel(IPanelView panelView) {
+                        updatePanelTriggerIcons(panelView);
                         notifyPanelShown();
                     }
 
@@ -473,7 +473,7 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
                     }
                 })
                 .contentScrollOutsideEnable(true)
-                .logTrack(true)
+//                .logTrack(true)
                 .build(false);
     }
 
@@ -487,18 +487,66 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
         if (fragment == null) {
             return;
         }
-        RecyclerView rv = fragment.requireView().findViewById(R.id.rv_panel_emotion);
-        if (rv == null) {
+        emotionBroadLayout = fragment.requireView().findViewById(R.id.emotionLayout);
+        if (emotionBroadLayout == null) {
             return;
         }
-        rv.setLayoutManager(new GridLayoutManager(getContext(), 8));
-        rv.setAdapter(new EmotionPanelAdapter(CHAT_EMOTIONS, emoji -> {
+        emotionBroadLayout.setEmotionAddVisiable(false);
+        emotionBroadLayout.setEmotionSettingVisiable(false);
+        emotionBroadLayout.setStickerVisible(false);
+        emotionBroadLayout.setEmotionSelectedListener(this);
+    }
+
+    private void resetPanelTriggerIcons() {
+        emotionImageView.setImageResource(com.cboda.chatui.R.mipmap.ic_msg_broad_emo);
+        extImageView.setImageResource(com.cboda.chatui.R.mipmap.ic_msg_broad_add);
+    }
+
+    private void updatePanelTriggerIcons(@Nullable IPanelView panelView) {
+        if (!(panelView instanceof View)) {
+            resetPanelTriggerIcons();
+            return;
+        }
+        int panelId = ((View) panelView).getId();
+        if (panelId == R.id.panel_emotion) {
+            emotionImageView.setImageResource(com.cboda.chatui.R.mipmap.ic_chat_broad_keyboard);
+            extImageView.setImageResource(com.cboda.chatui.R.mipmap.ic_msg_broad_add);
+        } else if (panelId == R.id.panel_more) {
+            extImageView.setImageResource(com.cboda.chatui.R.mipmap.ic_msg_broad_add_off);
+            emotionImageView.setImageResource(com.cboda.chatui.R.mipmap.ic_msg_broad_emo);
+        } else {
+            resetPanelTriggerIcons();
+        }
+    }
+
+    @Override
+    public void onEmojiSelected(String key) {
+        if (editText.getText() == null) {
+            return;
+        }
+        if ("/DEL".equals(key)) {
+            editText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+            return;
+        }
+        try {
+            int code = Integer.decode(key);
+            char[] chars = Character.toChars(code);
+            StringBuilder value = new StringBuilder();
+            for (char ch : chars) {
+                value.append(ch);
+            }
             int start = editText.getSelectionStart();
             if (start < 0) {
                 start = editText.getText().length();
             }
-            editText.getText().insert(start, emoji);
-        }));
+            editText.getText().insert(start, value.toString());
+        } catch (NumberFormatException ignored) {
+        }
+    }
+
+    @Override
+    public void onStickerSelected(String categoryName, String stickerName, String stickerBitmapPath) {
+        // 自研 IM 暂不支持贴图消息
     }
 
     private void setupMorePanel() {
@@ -511,6 +559,7 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
         View file = root.findViewById(R.id.panel_more_file);
         if (album != null) {
             album.setOnClickListener(v -> {
+                resetPanelState();
                 if (callback != null) {
                     callback.onOpenAlbum();
                 }
@@ -518,6 +567,7 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
         }
         if (camera != null) {
             camera.setOnClickListener(v -> {
+                resetPanelState();
                 if (callback != null) {
                     callback.onOpenCamera();
                 }
@@ -525,54 +575,11 @@ public class MessageListInputBroadPanel extends FrameLayout implements DefaultLi
         }
         if (file != null) {
             file.setOnClickListener(v -> {
+                resetPanelState();
                 if (callback != null) {
                     callback.onOpenFile();
                 }
             });
-        }
-    }
-
-    private static final class EmotionPanelAdapter extends RecyclerView.Adapter<EmotionPanelAdapter.Holder> {
-
-        private final String[] emotions;
-        private final OnEmotionClickListener listener;
-
-        interface OnEmotionClickListener {
-            void onEmotionClick(String emoji);
-        }
-
-        EmotionPanelAdapter(String[] emotions, OnEmotionClickListener listener) {
-            this.emotions = emotions;
-            this.listener = listener;
-        }
-
-        @NonNull
-        @Override
-        public Holder onCreateViewHolder(@NonNull android.view.ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_panel_emotion, parent, false);
-            return new Holder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull Holder holder, int position) {
-            String emoji = emotions[position];
-            holder.tvEmotion.setText(emoji);
-            holder.itemView.setOnClickListener(v -> listener.onEmotionClick(emoji));
-        }
-
-        @Override
-        public int getItemCount() {
-            return emotions.length;
-        }
-
-        static final class Holder extends RecyclerView.ViewHolder {
-            final TextView tvEmotion;
-
-            Holder(@NonNull View itemView) {
-                super(itemView);
-                tvEmotion = itemView.findViewById(R.id.tv_emotion);
-            }
         }
     }
 }

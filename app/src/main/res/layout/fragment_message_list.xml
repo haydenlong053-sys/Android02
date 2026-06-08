@@ -64,7 +64,7 @@
             android:id="@+id/panel_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/wechat_bg_input">
+            android:background="@drawable/bg_panel_white_16dp">
 
             <com.effective.android.panel.view.panel.PanelView
                 android:id="@+id/panel_emotion"
