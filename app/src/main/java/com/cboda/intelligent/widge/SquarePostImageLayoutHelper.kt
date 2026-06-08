@@ -16,6 +16,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.makeramen.roundedimageview.RoundedImageView
+import cc.shinichi.library.ImagePreview
 import java.util.WeakHashMap
 
 /**
@@ -44,12 +45,17 @@ object SquarePostImageLayoutHelper {
 
     private val bindStates = WeakHashMap<LinearLayout, BindState>()
 
-    fun bindPostMedia(container: LinearLayout, images: Array<String>?, videoUrl: String?) {
+    fun bindPostMedia(
+        container: LinearLayout,
+        images: Array<String>?,
+        videoUrl: String?,
+        enableImagePreview: Boolean = false,
+    ) {
         val video = videoUrl?.trim().orEmpty()
         if (video.isNotEmpty()) {
             bindVideo(container, video)
         } else {
-            bind(container, images)
+            bind(container, images, enableImagePreview)
         }
     }
 
@@ -117,7 +123,21 @@ object SquarePostImageLayoutHelper {
         )
     }
 
-    fun bind(container: LinearLayout, imgS: Array<String>?) {
+    fun openImagePreview(context: Context, images: List<String>, index: Int) {
+        if (images.isEmpty()) return
+        val safeIndex = index.coerceIn(0, images.lastIndex)
+        ImagePreview.getInstance()
+            .setContext(context)
+            .setIndex(safeIndex)
+            .setImageList(ArrayList(images))
+            .start()
+    }
+
+    fun bind(
+        container: LinearLayout,
+        imgS: Array<String>?,
+        enableImagePreview: Boolean = false,
+    ) {
         val state = bindState(container)
         cancelPending(container, state)
 
@@ -148,7 +168,7 @@ object SquarePostImageLayoutHelper {
             }
             state.lastBindKey = bindKey
             state.lastContainerWidth = width
-            render(container, validImages, width)
+            render(container, validImages, width, enableImagePreview)
         }
 
         val width = resolveContainerWidth(container)
@@ -210,9 +230,15 @@ object SquarePostImageLayoutHelper {
         return ScreenUtils.getScreenWidth() - itemHorizontalInsetPx
     }
 
-    private fun render(container: LinearLayout, images: List<String>, containerWidth: Int) {
+    private fun render(
+        container: LinearLayout,
+        images: List<String>,
+        containerWidth: Int,
+        enableImagePreview: Boolean = false,
+    ) {
         container.removeAllViews()
         val rows = splitImagesByRows(images)
+        var imageIndex = 0
         rows.forEachIndexed { rowIndex, rowImages ->
             val columnCount = rowImages.size
             val itemSize = calculateItemSize(containerWidth, columnCount)
@@ -242,6 +268,13 @@ object SquarePostImageLayoutHelper {
                     itemSize,
                     itemSize,
                 )
+                if (enableImagePreview) {
+                    val previewIndex = imageIndex
+                    imageView.setOnClickListener {
+                        openImagePreview(container.context, images, previewIndex)
+                    }
+                }
+                imageIndex++
             }
             container.addView(rowLayout)
         }

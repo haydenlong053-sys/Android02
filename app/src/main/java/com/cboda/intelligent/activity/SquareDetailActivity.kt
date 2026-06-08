@@ -374,6 +374,7 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
             postView.squareImageContainer,
             post.squareDisplayImages(),
             post.squareVideoUrl().takeIf { it.isNotBlank() },
+            enableImagePreview = true,
         )
         val quote = post.quote
         postView.squareYyLayout.isGone = quote == null
@@ -382,6 +383,7 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
             SquarePostImageLayoutHelper.bind(
                 postView.squareYyImageList,
                 SquarePostQuoteBroadHelper.quoteImageUrls(quote),
+                enableImagePreview = true,
             )
         }
     }

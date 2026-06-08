@@ -305,6 +305,7 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
             postView.squareImageContainer,
             post.momentDisplayImages(),
             post.momentVideoUrl().takeIf { it.isNotBlank() },
+            enableImagePreview = true,
         )
     }
 
