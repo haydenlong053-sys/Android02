@@ -15,6 +15,7 @@ import com.cboda.intelligent.bean.CommentListBean
 import com.cboda.intelligent.bean.ReportConfigBean
 import com.cboda.intelligent.bean.SquareHotConfigBean
 import com.cboda.intelligent.bean.SquarePostBean
+import com.cboda.intelligent.bean.SquarePostDetailLoadBroadResult
 import com.cboda.intelligent.bean.SquareFollowerUserBean
 import com.cboda.intelligent.bean.SquareMessageBean
 import com.cboda.intelligent.bean.SquareUserProfileBean
@@ -164,8 +165,8 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
     }
 
     /** 广场帖子详情 */
-    fun getSquarePostDetail(postId: String): SingleLiveBroadData<SquarePostBean?> {
-        val liveData = SingleLiveBroadData<SquarePostBean?>()
+    fun getSquarePostDetail(postId: String): SingleLiveBroadData<SquarePostDetailLoadBroadResult> {
+        val liveData = SingleLiveBroadData<SquarePostDetailLoadBroadResult>()
         val params = hashMapOf<String, Any>("id" to anyToInt(postId).toString())
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -175,14 +176,14 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
                         SquarePostBean::class.java,
                         params,
                     ).onSuccess { result ->
-                        liveData.postValue(result)
-                    }.onFailure { _, _ ->
-//                        liveData.postValue(buildMockSquarePostDetail(postId))
+                        liveData.postValue(SquarePostDetailLoadBroadResult(post = result))
+                    }.onFailure { code, message ->
+                        if (code == 200 && message.isNotBlank()) {
+                            liveData.postValue(SquarePostDetailLoadBroadResult(emptyMessage = message))
+                        }
                     }.onError {
-//                        liveData.postValue(buildMockSquarePostDetail(postId))
                     }
                 } catch (_: Exception) {
-//                    liveData.postValue(buildMockSquarePostDetail(postId))
                 }
             }
         }
@@ -226,8 +227,8 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
     }
 
     /** 朋友圈动态详情 */
-    fun getMomentPostDetail(postId: String): SingleLiveBroadData<SquarePostBean?> {
-        val liveData = SingleLiveBroadData<SquarePostBean?>()
+    fun getMomentPostDetail(postId: String): SingleLiveBroadData<SquarePostDetailLoadBroadResult> {
+        val liveData = SingleLiveBroadData<SquarePostDetailLoadBroadResult>()
         val params = hashMapOf<String, Any>("id" to anyToInt(postId.trim()).toString())
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -237,9 +238,11 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
                         SquarePostBean::class.java,
                         params,
                     ).onSuccess { result ->
-                        liveData.postValue(result)
-                    }.onFailure { _, message ->
-                        showToastMain(message)
+                        liveData.postValue(SquarePostDetailLoadBroadResult(post = result))
+                    }.onFailure { code, message ->
+                        if (code == 200 && message.isNotBlank()) {
+                            liveData.postValue(SquarePostDetailLoadBroadResult(emptyMessage = message))
+                        }
                     }.onError { }
                 } catch (_: Exception) {
                 }

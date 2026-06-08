@@ -272,8 +272,8 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
 
     private fun refreshPostCommentCount() {
         lifecycleScope.launch {
-            viewModel.getSquarePostDetail(postId).observe(this@SquareDetailActivity) { post ->
-                post?.let { bindBottomBar(it) }
+            viewModel.getSquarePostDetail(postId).observe(this@SquareDetailActivity) { result ->
+                result.post?.let { bindBottomBar(it) }
             }
         }
     }
@@ -304,10 +304,15 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
             return
         }
         lifecycleScope.launch {
-            viewModel.getSquarePostDetail(postId).observe(this@SquareDetailActivity) { post ->
+            viewModel.getSquarePostDetail(postId).observe(this@SquareDetailActivity) { result ->
+                val emptyMessage = result.emptyMessage
+                if (!emptyMessage.isNullOrBlank()) {
+                    showEmpty(true, emptyMessage)
+                    return@observe
+                }
+                val post = result.post
                 if (post == null) {
-                    ToastBroadUtil.show(getString(R.string.square_post_not_found))
-                    finish()
+                    showEmpty(true)
                     return@observe
                 }
                 bindPost(post)
@@ -489,9 +494,12 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
             ?.toTypedArray()
     }
 
-    private fun showEmpty(show: Boolean) {
+    private fun showEmpty(show: Boolean, message: String? = null) {
         mBinding?.llNoData?.isVisible = show
         mBinding?.smart?.isVisible = !show
+        mBinding?.squareDetailBottomBar?.isVisible = !show
+        mBinding?.squareDetailNoDataText?.text =
+            message?.takeIf { it.isNotBlank() } ?: getString(R.string.no_data)
     }
 
     companion object {

@@ -119,8 +119,8 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
 
     private fun reloadPostDetail() {
         lifecycleScope.launch {
-            viewModel.getMomentPostDetail(postId).observe(this@MomentDetailActivity) { post ->
-                post ?: return@observe
+            viewModel.getMomentPostDetail(postId).observe(this@MomentDetailActivity) { result ->
+                val post = result.post ?: return@observe
                 currentPost = post
                 bindBottomBar(post)
                 bindComments(post.commentList.orEmpty())
@@ -263,10 +263,15 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
             return
         }
         lifecycleScope.launch {
-            viewModel.getMomentPostDetail(postId).observe(this@MomentDetailActivity) { post ->
+            viewModel.getMomentPostDetail(postId).observe(this@MomentDetailActivity) { result ->
+                val emptyMessage = result.emptyMessage
+                if (!emptyMessage.isNullOrBlank()) {
+                    showEmpty(true, emptyMessage)
+                    return@observe
+                }
+                val post = result.post
                 if (post == null) {
-                    ToastBroadUtil.show(getString(R.string.square_post_not_found))
-                    finish()
+                    showEmpty(true)
                     return@observe
                 }
                 bindPost(post)
@@ -404,9 +409,12 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
         }
     }
 
-    private fun showEmpty(show: Boolean) {
+    private fun showEmpty(show: Boolean, message: String? = null) {
         mBinding?.llNoData?.isVisible = show
         mBinding?.smart?.isVisible = !show
+        mBinding?.squareDetailBottomBar?.isVisible = !show
+        mBinding?.squareDetailNoDataText?.text =
+            message?.takeIf { it.isNotBlank() } ?: getString(R.string.no_data)
     }
 
     companion object {
