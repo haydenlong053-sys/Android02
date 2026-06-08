@@ -1,14 +1,19 @@
 package com.cboda.intelligent.widge
 
 import android.content.Context
+import android.content.Intent
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
+import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.makeramen.roundedimageview.RoundedImageView
 import java.util.WeakHashMap
@@ -38,6 +43,79 @@ object SquarePostImageLayoutHelper {
     )
 
     private val bindStates = WeakHashMap<LinearLayout, BindState>()
+
+    fun bindPostMedia(container: LinearLayout, images: Array<String>?, videoUrl: String?) {
+        val video = videoUrl?.trim().orEmpty()
+        if (video.isNotEmpty()) {
+            bindVideo(container, video)
+        } else {
+            bind(container, images)
+        }
+    }
+
+    fun bindVideo(container: LinearLayout, videoUrl: String) {
+        val video = videoUrl.trim()
+        if (video.isEmpty()) {
+            unbind(container)
+            return
+        }
+        val state = bindState(container)
+        cancelPending(container, state)
+        container.isVisible = true
+        val bindKey = "video|$video"
+        val generation = state.generation + 1
+        state.generation = generation
+
+        fun tryRender(force: Boolean = false) {
+            if (state.generation != generation) return
+            val width = resolveContainerWidth(container)
+            if (width <= 0) return
+            if (!force &&
+                state.lastBindKey == bindKey &&
+                state.lastContainerWidth == width &&
+                container.childCount > 0
+            ) {
+                return
+            }
+            state.lastBindKey = bindKey
+            state.lastContainerWidth = width
+            renderVideo(container, video, width)
+        }
+
+        val width = resolveContainerWidth(container)
+        if (width > 0) {
+            tryRender(force = true)
+            return
+        }
+
+        val layoutListener = View.OnLayoutChangeListener { view, _, _, _, _, _, _, _, _ ->
+            if (state.generation != generation) return@OnLayoutChangeListener
+            val resolvedWidth = resolveContainerWidth(view)
+            if (resolvedWidth <= 0) return@OnLayoutChangeListener
+            cancelLayoutListener(container, state)
+            tryRender(force = true)
+        }
+        state.layoutListener = layoutListener
+        container.addOnLayoutChangeListener(layoutListener)
+
+        val pendingRunnable = Runnable {
+            if (state.generation != generation) return@Runnable
+            tryRender(force = true)
+        }
+        state.pendingRunnable = pendingRunnable
+        container.post(pendingRunnable)
+    }
+
+    fun openVideoPlayer(context: Context, videoUrl: String) {
+        val video = videoUrl.trim()
+        if (video.isEmpty()) return
+        context.startActivity(
+            Intent(context, VideoPlayOnlyBroadActivity::class.java).apply {
+                putExtra("video", video)
+                putExtra("videoImage", video)
+            },
+        )
+    }
 
     fun bind(container: LinearLayout, imgS: Array<String>?) {
         val state = bindState(container)
@@ -223,6 +301,42 @@ object SquarePostImageLayoutHelper {
             start += columnCount
         }
         return rows
+    }
+
+    private fun renderVideo(container: LinearLayout, videoUrl: String, containerWidth: Int) {
+        container.removeAllViews()
+        val itemSize = containerWidth
+        val frameLayout = FrameLayout(container.context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+            )
+            setOnClickListener {
+                openVideoPlayer(container.context, videoUrl)
+            }
+        }
+        val coverView = createImageView(container.context)
+        frameLayout.addView(
+            coverView,
+            FrameLayout.LayoutParams(itemSize, itemSize),
+        )
+        val playIconSize = SizeUtils.dp2px(40f)
+        val playIcon = ImageView(container.context).apply {
+            scaleType = ImageView.ScaleType.CENTER_INSIDE
+            setImageResource(R.mipmap.ic_broad_video)
+        }
+        frameLayout.addView(
+            playIcon,
+            FrameLayout.LayoutParams(playIconSize, playIconSize, Gravity.CENTER),
+        )
+        container.addView(frameLayout)
+        GlideBroadUtil.setImagOverSize(
+            container.context,
+            videoUrl,
+            coverView,
+            itemSize,
+            itemSize,
+        )
     }
 
     private fun calculateItemSize(containerWidth: Int, columnCount: Int): Int {

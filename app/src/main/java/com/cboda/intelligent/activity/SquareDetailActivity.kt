@@ -370,9 +370,10 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
         postView.squareContent.text = post.content
         postView.squareUserBio.isGone = post.sign.isBlank()
         postView.squareUserBio.text = post.sign
-        SquarePostImageLayoutHelper.bind(
+        SquarePostImageLayoutHelper.bindPostMedia(
             postView.squareImageContainer,
-            post.imgs,
+            post.displayImages(),
+            post.video,
         )
         val quote = post.quote
         postView.squareYyLayout.isGone = quote == null

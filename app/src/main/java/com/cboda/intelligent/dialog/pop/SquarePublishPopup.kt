@@ -439,8 +439,7 @@ class SquarePublishPopup(
             } else {
                 viewModel.publishMomentPost(
                     content = content,
-                    imageUrls = imageUrls,
-                    video = videoUrl,
+                    imageUrls = videoUrl.ifBlank { imageUrls },
                     quoteRefType = quoteRefType,
                     quoteRefId = quoteRefId,
                 )

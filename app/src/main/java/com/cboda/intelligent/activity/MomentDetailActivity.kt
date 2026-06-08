@@ -301,9 +301,10 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
         postView.squareUserBio.isGone = post.sign.isBlank()
         postView.squareUserBio.text = post.sign
         postView.squareYyLayout.isGone = true
-        SquarePostImageLayoutHelper.bind(
+        SquarePostImageLayoutHelper.bindPostMedia(
             postView.squareImageContainer,
             post.displayImages(),
+            post.video,
         )
     }
 

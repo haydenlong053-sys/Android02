@@ -137,9 +137,10 @@ class SquarePostDetailAdapter(val type: String) :
             if (anyToInt(item.odicStakeStatus) == 0) {
                 setText(R.id.squarePledgeText, item.odicStakeLabel)
             }
-            SquarePostImageLayoutHelper.bind(
+            SquarePostImageLayoutHelper.bindPostMedia(
                 getView(R.id.squareImageContainer),
-                item.imgs,
+                item.displayImages(),
+                item.video,
             )
             setGone(R.id.squareYyLayout, item.quote == null)
             item.quote?.let { quote ->

@@ -862,7 +862,6 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
     fun publishMomentPost(
         content: String,
         imageUrls: String,
-        video: String = "",
         quoteRefType: String = "",
         quoteRefId: String = "",
     ): SingleLiveBroadData<Boolean> {
@@ -870,7 +869,6 @@ class CleverBodyViewBroadModel : BaseViewBroadModel() {
         val params = hashMapOf<String, Any>(
             "content" to content,
             "imageUrls" to imageUrls,
-            "video" to video,
             "quoteRefType" to quoteRefType,
             "quoteRefId" to anyToInt(quoteRefId).toString(),
         )
