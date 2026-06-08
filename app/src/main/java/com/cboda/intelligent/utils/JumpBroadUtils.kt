@@ -161,7 +161,7 @@ class JumpBroadUtils {
             mContext.startActivity(intent)
         }
 
-        fun toAiCheckRecordAct(context: Context? = null){
+        fun toAiCheckRecordAct(context: Context? = null) {
             val mContext = getAppContext(context)
             val intent = Intent(mContext, AiCheckRecordBroadActivity::class.java)
             mContext.startActivity(intent)
@@ -314,9 +314,10 @@ class JumpBroadUtils {
             context?.startActivity(intent)
         }
 
-        fun startQunUserListActivity(context: Context?, qunId: String) {
+        fun startQunUserListActivity(context: Context?, qunId: String, openQyKj: String?) {
             val intent = Intent(context, QunUserList2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
+            intent.putExtra("openQyKj", openQyKj ?: "")
             context?.startActivity(intent)
         }
 
