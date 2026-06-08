@@ -9,8 +9,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
+import com.cboda.baselibrary.utils.CropBroadBean
+import com.cboda.baselibrary.utils.CompressionBroadUtil
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.chooseVideoAndImg
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setBackColor
 import com.cboda.intelligent.R
@@ -21,7 +25,6 @@ import com.cboda.intelligent.bean.SquarePostPublishBroadEvent
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.databinding.SquarePublishPopupBinding
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
-import com.cboda.intelligent.holder.ImagePickerBroadHolder
 import com.cboda.intelligent.utils.showGuidePasswordTip
 import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.utils.SquareCommentGateBroadHelper
@@ -31,10 +34,12 @@ import com.cboda.intelligent.utils.showLoading
 import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
 import com.cboda.intelligent.viewmodel.UploadFileViewBroadModel
 import com.cboda.select.picture.config.PictureMimeType
+import com.cboda.select.picture.config.SelectMimeType
 import com.cboda.select.picture.entity.LocalMedia
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
+import java.util.LinkedList
 
 class SquarePublishPopup(
     private val activity: FragmentActivity,
@@ -52,8 +57,8 @@ class SquarePublishPopup(
     private var publishType = PUBLISH_TYPE_SQUARE
     private var odicStakeAmount: String = DEFAULT_PLEDGE_AMOUNT
     private val mediaPaths = mutableListOf<String>()
+    private var videoPath: String? = null
     private var mediaAdapter: SelectPicBroadAdapter? = null
-    private var imagePickerHolder: ImagePickerBroadHolder? = null
     private var isPublishing = false
     private var forwardQuotePost: SquarePostBean? = null
     private var quoteRefId: String = ""
@@ -64,6 +69,7 @@ class SquarePublishPopup(
     private data class PublishDraft(
         val content: String = "",
         val mediaPaths: List<String> = emptyList(),
+        val videoPath: String? = null,
         val quoteRefId: String = "",
         val quoteRefType: String = "",
         val forwardQuotePost: SquarePostBean? = null,
@@ -143,6 +149,7 @@ class SquarePublishPopup(
         val draft = PublishDraft(
             content = binding.publishContentInput.text?.toString().orEmpty(),
             mediaPaths = mediaPaths.toList(),
+            videoPath = videoPath,
             quoteRefId = quoteRefId,
             quoteRefType = quoteRefType,
             forwardQuotePost = forwardQuotePost,
@@ -167,6 +174,7 @@ class SquarePublishPopup(
         binding.publishContentInput.setText(draft.content)
         mediaPaths.clear()
         mediaPaths.addAll(draft.mediaPaths)
+        videoPath = draft.videoPath
         quoteRefId = draft.quoteRefId
         quoteRefType = draft.quoteRefType
         forwardQuotePost = draft.forwardQuotePost
@@ -249,58 +257,103 @@ class SquarePublishPopup(
         mediaAdapter?.setOnItemChildClickListener { _, view, _ ->
             if (view.id != R.id.deleteIcon1) return@setOnItemChildClickListener
             val path = view.tag as? String ?: return@setOnItemChildClickListener
-            mediaPaths.remove(path)
+            if (SelectPicBroadAdapter.isVideoItem(path)) {
+                videoPath = null
+            } else {
+                mediaPaths.remove(path)
+            }
             refreshMediaList()
         }
         mediaAdapter?.setOnItemClickListener { _, _, position ->
-            if (position == mediaPaths.size) {
-                openImagePicker()
+            val item = mediaAdapter?.getItem(position) ?: return@setOnItemClickListener
+            if (item == SelectPicBroadAdapter.ADD_ITEM) {
+                openMediaPicker()
             }
         }
         refreshMediaList()
     }
 
     private fun refreshMediaList() {
-        val displayList = mediaPaths.toMutableList()
-        if (displayList.size < MAX_MEDIA_COUNT) {
-            displayList.add(ADD_ITEM)
+        val displayList = mutableListOf<String>()
+        val currentVideoPath = videoPath
+        if (!currentVideoPath.isNullOrBlank()) {
+            displayList.add(SelectPicBroadAdapter.wrapVideoPath(currentVideoPath))
+        } else {
+            displayList.addAll(mediaPaths)
+            if (displayList.size < MAX_MEDIA_COUNT) {
+                displayList.add(SelectPicBroadAdapter.ADD_ITEM)
+            }
         }
         mediaAdapter?.setList(displayList)
     }
 
-    private fun openImagePicker() {
+    private fun openMediaPicker() {
+        if (!videoPath.isNullOrBlank()) {
+            return
+        }
         val leftCount = MAX_MEDIA_COUNT - mediaPaths.size
         if (leftCount <= 0) {
             showToastMain(context.getString(R.string.square_publish_max_images, MAX_MEDIA_COUNT))
             return
         }
-        if (imagePickerHolder == null) {
-            imagePickerHolder = ImagePickerBroadHolder(activity)
-            imagePickerHolder?.callBack = object : ImagePickerBroadHolder.OnResultCallback {
-                override fun onResult(result: ArrayList<LocalMedia>?) {
-                    appendSelectedImages(result)
-                }
-
-                override fun onCancel() = Unit
-            }
+        val chooseType = if (mediaPaths.isNotEmpty()) {
+            BroadConstant.TYPE_PIC
+        } else {
+            BroadConstant.TYPE_ALL_INT
         }
-        imagePickerHolder?.show(
-            isVideo = false,
-            isSingle = false,
-            isNumber = leftCount,
-            isGif = false,
-        )
+        chooseVideoAndImg(
+            canCamera = true,
+            canChooseGif = false,
+            chooseType = chooseType,
+            imgMaxNum = leftCount,
+            imgMinNum = 1,
+            videoMaxNum = 1,
+            videoMinNum = 1,
+            recordVideoMaxSecond = 30,
+            recordVideoMinSecond = 3,
+            filterVideoMaxSecond = 31,
+            maxFileSize = null,
+            withSelectVideoImage = false,
+            needCrop = false,
+            cropBean = CropBroadBean(),
+            selectList = null,
+        ) { pairs ->
+            handleChooseMediaResult(pairs)
+        }
     }
 
-    private fun appendSelectedImages(result: ArrayList<LocalMedia>?) {
+    private fun handleChooseMediaResult(pairs: LinkedList<Pair<String, LocalMedia>>?) {
+        if (pairs.isNullOrEmpty()) return
+        val firstPair = pairs.first()
+        val firstPath = firstPair.first
+        val firstMedia = firstPair.second
+        if (firstPath.isBlank() || firstMedia == null || !File(firstPath).exists()) {
+            return
+        }
+        val isVideo = PictureMimeType.getMimeType(firstMedia.mimeType) == SelectMimeType.TYPE_VIDEO
+        if (isVideo) {
+            if (mediaPaths.isNotEmpty()) {
+                showToastMain(context.getString(R.string.square_publish_video_image_conflict))
+                return
+            }
+            compressSelectedVideo(firstPath)
+            return
+        }
+        if (!videoPath.isNullOrBlank()) {
+            showToastMain(context.getString(R.string.square_publish_video_image_conflict))
+            return
+        }
         val leftCount = MAX_MEDIA_COUNT - mediaPaths.size
         if (leftCount <= 0) return
-        val selectedList = result.orEmpty()
-        val imagePaths = selectedList
-            .filter { isImageMedia(it) }
-            .mapNotNull { media -> media.realPath.takeIf { it.isNotBlank() } }
+        val imagePaths = pairs
+            .filter { pair ->
+                pair.second?.let { media ->
+                    PictureMimeType.getMimeType(media.mimeType) != SelectMimeType.TYPE_VIDEO
+                } == true && pair.first.isNotBlank() && File(pair.first).exists()
+            }
+            .map { it.first }
             .take(leftCount)
-        if (imagePaths.isEmpty() && selectedList.isNotEmpty()) {
+        if (imagePaths.isEmpty()) {
             showToastMain(context.getString(R.string.square_publish_image_only))
             return
         }
@@ -308,16 +361,26 @@ class SquarePublishPopup(
         refreshMediaList()
     }
 
-    private fun isImageMedia(media: LocalMedia): Boolean {
-        val mimeType = media.mimeType
-        if (mimeType.isNullOrBlank()) return true
-        return !PictureMimeType.isHasVideo(mimeType) && !PictureMimeType.isHasAudio(mimeType)
+    private fun compressSelectedVideo(rawPath: String) {
+        CompressionBroadUtil.sendVideoCompress(rawPath, context) { resultPath, errorMsg ->
+            if (!resultPath.isNullOrBlank()) {
+                videoPath = resultPath
+                mediaPaths.clear()
+                refreshMediaList()
+            } else if (!errorMsg.isNullOrBlank()) {
+                showToastMain(errorMsg)
+            }
+        }
+    }
+
+    private fun hasMedia(): Boolean {
+        return mediaPaths.isNotEmpty() || !videoPath.isNullOrBlank()
     }
 
     private fun handlePublishClick() {
         if (isPublishing) return
         val content = binding.publishContentInput.text?.toString()?.trim().orEmpty()
-        if (content.isBlank() && mediaPaths.isEmpty() && quoteRefId.isBlank()) {
+        if (content.isBlank() && !hasMedia() && quoteRefId.isBlank()) {
             showToastMain(context.getString(R.string.square_publish_empty))
             return
         }
@@ -350,11 +413,12 @@ class SquarePublishPopup(
         binding.publishSubmit.isEnabled = false
         showLoading()
         activity.lifecycleScope.launch {
-            val imageUrls = uploadImages()
-            if (imageUrls == null) {
+            val mediaUploadResult = uploadMedia()
+            if (mediaUploadResult == null) {
                 resetPublishState()
                 return@launch
             }
+            val (imageUrls, videoUrl) = mediaUploadResult
             val commentGateTypes = SquareCommentGateBroadHelper.buildCommentGateTypes(squareDraft.commentGateTypes)
             val commentCreditMin = SquareCommentGateBroadHelper.buildCommentCreditMin(
                 squareDraft.commentGateTypes,
@@ -364,6 +428,7 @@ class SquarePublishPopup(
                 viewModel.publishSquarePost(
                     content = content,
                     imageUrls = imageUrls,
+                    video = videoUrl,
                     odicStake = odicStakeAmount,
                     payPwd = payPwd,
                     commentGateTypes = commentGateTypes,
@@ -375,6 +440,7 @@ class SquarePublishPopup(
                 viewModel.publishMomentPost(
                     content = content,
                     imageUrls = imageUrls,
+                    video = videoUrl,
                     quoteRefType = quoteRefType,
                     quoteRefId = quoteRefId,
                 )
@@ -389,16 +455,33 @@ class SquarePublishPopup(
         }
     }
 
-    private suspend fun uploadImages(): String? {
-        if (mediaPaths.isEmpty()) return ""
+    private suspend fun uploadMedia(): Pair<String, String>? {
+        val currentVideoPath = videoPath?.takeIf { it.isNotBlank() }
+        if (!currentVideoPath.isNullOrBlank()) {
+            val file = File(currentVideoPath)
+            if (!file.exists()) {
+                return Pair("", "")
+            }
+            val uploadResult = uploadViewModel.uploadSyn(file)
+            if (uploadResult?.url.isNullOrBlank()) {
+                showToastMain(uploadResult?.erroToaastInfo.orEmpty())
+                return null
+            }
+            return Pair("", uploadResult?.url.orEmpty())
+        }
+        if (mediaPaths.isEmpty()) {
+            return Pair("", "")
+        }
         val files = mediaPaths.map { File(it) }.filter { it.exists() }
-        if (files.isEmpty()) return ""
+        if (files.isEmpty()) {
+            return Pair("", "")
+        }
         val uploadResult = uploadViewModel.uploadListSyn(files)
         if (uploadResult?.urls.isNullOrEmpty()) {
             showToastMain(uploadResult?.erroToaastInfo.orEmpty())
             return null
         }
-        return uploadResult?.urls.orEmpty().joinToString("|")
+        return Pair(uploadResult?.urls.orEmpty().joinToString("|"), "")
     }
 
     private fun resetPublishState() {
@@ -439,6 +522,5 @@ class SquarePublishPopup(
         const val DEFAULT_PLEDGE_AMOUNT = "2.0"
         private const val MAX_MEDIA_COUNT = 9
         private const val MEDIA_SPAN_COUNT = 4
-        private const val ADD_ITEM = "add"
     }
 }

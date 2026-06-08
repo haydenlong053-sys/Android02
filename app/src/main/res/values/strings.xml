@@ -1105,9 +1105,13 @@
     <string name="square_publish_everyone">Everyone</string>
     <string name="square_publish_submit">Stake and publish</string>
     <string name="square_publish_submit_moments">Publish</string>
-    <string name="square_publish_empty">Please enter content or select images</string>
+    <string name="square_publish_empty">Please enter content or select images or a video</string>
     <string name="square_publish_max_images">You can select up to %1$d images</string>
     <string name="square_publish_image_only">Only images are supported</string>
+    <string name="square_publish_video_only">Only videos are supported</string>
+    <string name="square_publish_add_image">Images</string>
+    <string name="square_publish_add_video">Video</string>
+    <string name="square_publish_video_image_conflict">Images and video cannot be selected at the same time</string>
     <string name="square_publish_success">Published successfully</string>
     <string name="square_comment_gate_title">Set comment threshold</string>
     <string name="square_comment_gate_subtitle">Multiple options can be combined; only users who meet the conditions can comment</string>

@@ -10,9 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="103dp"
         android:layout_marginTop="13dp"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
          />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/videoPlayIcon"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_32"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_broad_video"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/pic"
+        app:layout_constraintEnd_toEndOf="@id/pic"
+        app:layout_constraintStart_toStartOf="@id/pic"
+        app:layout_constraintTop_toTopOf="@id/pic" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/deleteIcon1"

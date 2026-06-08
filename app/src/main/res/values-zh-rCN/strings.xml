@@ -1104,9 +1104,13 @@
     <string name="square_publish_everyone">所有人</string>
     <string name="square_publish_submit">质押并发布</string>
     <string name="square_publish_submit_moments">发布</string>
-    <string name="square_publish_empty">请输入内容或选择图片</string>
+    <string name="square_publish_empty">请输入内容或选择图片/视频</string>
     <string name="square_publish_max_images">最多只能选择%1$d张图片</string>
     <string name="square_publish_image_only">仅支持选择图片</string>
+    <string name="square_publish_video_only">仅支持选择视频</string>
+    <string name="square_publish_add_image">图片</string>
+    <string name="square_publish_add_video">视频</string>
+    <string name="square_publish_video_image_conflict">图片和视频不能同时选择</string>
     <string name="square_publish_success">发布成功</string>
     <string name="square_comment_gate_title">设置评论门槛</string>
     <string name="square_comment_gate_subtitle">支持多项叠加，只有符合条件的才能评论</string>
