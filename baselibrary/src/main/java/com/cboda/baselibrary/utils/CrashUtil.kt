@@ -165,7 +165,9 @@ fun crashReport(errorMsg: String?) {
 }
 
 fun crashReport(throwable: Throwable?) {
-    CrashFactory.crashLoad.crashReport(false, throwable)
+    if (!getIsDebug()) {
+        CrashFactory.crashLoad.crashReport(false, throwable)
+    }
 }
 
 
@@ -174,7 +176,9 @@ fun crashReportLog(errorMsg: String?) {
 }
 
 fun crashReportLog(throwable: Throwable?) {
-    CrashFactory.crashLoad.crashReport(true, throwable)
+    if (!getIsDebug()) {
+        CrashFactory.crashLoad.crashReport(true, throwable)
+    }
 }
 
 fun getAllEnDeviceId(context: Context) = DeviceBroadUtil.getAndroidId(context) + " # " + DeviceBroadUtil.grtReleaseId(context)
