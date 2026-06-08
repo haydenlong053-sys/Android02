@@ -34,6 +34,7 @@ import com.cboda.intelligent.dialog.pop.SquarePostReportPopup
 import com.cboda.intelligent.dialog.pop.SquarePublishPopup
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.utils.SquarePostLikeBroadHelper
+import com.cboda.intelligent.utils.SquarePostQuoteBroadHelper
 import com.cboda.intelligent.utils.TimeBroadUtils
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
@@ -371,10 +372,10 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
         val quote = post.quote
         postView.squareYyLayout.isGone = quote == null
         if (quote != null) {
-            bindQuoteContent(postView.squareYyContent, quote.name, quote.content)
+            SquarePostQuoteBroadHelper.bindQuote(postView.squareYyContent, quote)
             SquarePostImageLayoutHelper.bind(
                 postView.squareYyImageList,
-                quote.imageUrls,
+                SquarePostQuoteBroadHelper.quoteImageUrls(quote),
             )
         }
     }
@@ -466,20 +467,6 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
         val id = userId.trim()
         if (id.isNotEmpty()) {
             SquareUserActivity.start(this, id)
-        }
-    }
-
-    private fun bindQuoteContent(textView: TextView, name: String, content: String) {
-        textView.isGone = TextUtils.isEmpty(content)
-        if (content.isNotEmpty()) {
-            val spannable = SpannableString("$name：$content")
-            spannable.setSpan(
-                ForegroundColorSpan(nameColor),
-                0,
-                name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-            )
-            textView.text = spannable
         }
     }
 

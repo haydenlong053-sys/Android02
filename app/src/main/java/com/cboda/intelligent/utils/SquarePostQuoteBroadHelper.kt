@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
 import com.cboda.baselibrary.R as BaseR
+import com.cboda.intelligent.bean.Duote
 import com.cboda.intelligent.bean.SquarePostBean
 
 object SquarePostQuoteBroadHelper {
@@ -15,6 +16,27 @@ object SquarePostQuoteBroadHelper {
     const val QUOTE_REF_TYPE_MOMENT = "moment"
 
     private val nameColor = "#FF110F67".toColorInt()
+
+    fun bindQuote(textView: TextView, quote: Duote) {
+        val name = quote.name.orEmpty()
+        val content = quote.content.orEmpty()
+        if (name.isBlank() && content.isBlank() && quote.lostTip.isNotBlank()) {
+            textView.isGone = false
+            textView.text = quote.lostTip
+            return
+        }
+        val imageCount = quote.imageUrls.orEmpty().count { it.isNotBlank() }
+        bindQuoteText(textView, name, content, imageCount)
+    }
+
+    fun quoteImageUrls(quote: Duote): Array<String>? {
+        val name = quote.name.orEmpty()
+        val content = quote.content.orEmpty()
+        if (name.isBlank() && content.isBlank() && quote.lostTip.isNotBlank()) {
+            return null
+        }
+        return quote.imageUrls
+    }
 
     fun bindQuoteText(
         textView: TextView,

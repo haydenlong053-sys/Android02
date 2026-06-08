@@ -1,11 +1,5 @@
 package com.cboda.intelligent.adapter
 
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
-import android.widget.TextView
-import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +9,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.CommentListBean
 import com.cboda.intelligent.bean.SquarePostBean
 import com.cboda.intelligent.utils.SquarePostLikeBroadHelper
+import com.cboda.intelligent.utils.SquarePostQuoteBroadHelper
 import com.cboda.intelligent.utils.TimeBroadUtils
 import com.cboda.intelligent.widge.SquarePostImageLayoutHelper
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -22,8 +17,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
 class SquarePostBroadAdapter(val type: String) :
     BaseQuickAdapter<SquarePostBean, BaseViewHolder>(R.layout.item_square_post) {
-
-    private val nameColor = "#FF110F67".toColorInt()
 
     init {
         addChildClickViewIds(R.id.squareLikeLayout, R.id.squareAvatarWrap, R.id.squareShareLayout)
@@ -79,11 +72,11 @@ class SquarePostBroadAdapter(val type: String) :
                 limitImages(item.displayImages()),
             )
             setGone(R.id.squareYyLayout, item.quote == null)
-            if (item.quote != null) {
-                setYyTxtContent(getView(R.id.squareYyContent), item.quote.name, item.quote.content)
+            item.quote?.let { quote ->
+                SquarePostQuoteBroadHelper.bindQuote(getView(R.id.squareYyContent), quote)
                 SquarePostImageLayoutHelper.bind(
                     getView(R.id.squareYyImageList),
-                    limitImages(item.quote.imageUrls),
+                    limitImages(SquarePostQuoteBroadHelper.quoteImageUrls(quote)),
                 )
             }
         }
@@ -124,18 +117,4 @@ class SquarePostBroadAdapter(val type: String) :
         adapter.setList(commentList)
     }
 
-    private fun setYyTxtContent(textView: TextView, name: String, content: String) {
-        textView.isGone = TextUtils.isEmpty(content)
-        if (!TextUtils.isEmpty(content)) {
-            val textBefore = "$name："
-            val spannable = SpannableString(textBefore + content)
-            spannable.setSpan(
-                ForegroundColorSpan(nameColor),
-                0,
-                name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-            )
-            textView.text = spannable
-        }
-    }
 }

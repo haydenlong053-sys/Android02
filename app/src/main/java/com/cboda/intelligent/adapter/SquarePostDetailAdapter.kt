@@ -17,6 +17,8 @@ import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.CommentListBean
 import com.cboda.intelligent.bean.SquarePostBean
+import com.cboda.intelligent.utils.SquarePostLikeBroadHelper
+import com.cboda.intelligent.utils.SquarePostQuoteBroadHelper
 import com.cboda.intelligent.utils.TimeBroadUtils
 import com.cboda.intelligent.widge.SquarePostImageLayoutHelper
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -140,11 +142,11 @@ class SquarePostDetailAdapter(val type: String) :
                 item.imgs,
             )
             setGone(R.id.squareYyLayout, item.quote == null)
-            if (item.quote != null) {
-                setYyTxtContent(getView(R.id.squareYyContent), item.quote.name, item.quote.content)
+            item.quote?.let { quote ->
+                SquarePostQuoteBroadHelper.bindQuote(getView(R.id.squareYyContent), quote)
                 SquarePostImageLayoutHelper.bind(
                     getView(R.id.squareYyImageList),
-                    item.quote.imageUrls,
+                    SquarePostQuoteBroadHelper.quoteImageUrls(quote),
                 )
             }
         }
@@ -244,18 +246,4 @@ class SquarePostDetailAdapter(val type: String) :
         adapter.setList(commentList)
     }
 
-    private fun setYyTxtContent(textView: TextView, name: String, content: String) {
-        textView.isGone = TextUtils.isEmpty(content)
-        if (!TextUtils.isEmpty(content)) {
-            val textBefore = "$name："
-            val spannable = SpannableString(textBefore + content)
-            spannable.setSpan(
-                ForegroundColorSpan(nameColor),
-                0,
-                name.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-            )
-            textView.text = spannable
-        }
-    }
 }
