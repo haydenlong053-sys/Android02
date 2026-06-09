@@ -23,7 +23,7 @@ public final class ImageMessageVH extends BaseMessageVH {
     public final AppRoundBroadImage ivMessageImage;
 
     public ImageMessageVH(@NonNull View itemView) {
-        super(itemView, R.layout.item_message_content_image, false);
+        super(itemView, R.layout.item_message_content_image, true);
         ivMessageImage = (AppRoundBroadImage) contentView;
     }
 

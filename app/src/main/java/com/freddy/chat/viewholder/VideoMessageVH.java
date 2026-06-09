@@ -29,7 +29,7 @@ public final class VideoMessageVH extends BaseMessageVH {
     private final TextView tvVideoDuration;
 
     public VideoMessageVH(@NonNull View itemView) {
-        super(itemView, R.layout.item_message_content_video, false);
+        super(itemView, R.layout.item_message_content_video, true);
         ivVideoCover = contentView.findViewById(R.id.iv_video_cover);
         ivVideoPlay = contentView.findViewById(R.id.iv_video_play);
         tvVideoDuration = contentView.findViewById(R.id.tv_video_duration);

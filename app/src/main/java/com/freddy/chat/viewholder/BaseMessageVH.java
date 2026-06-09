@@ -138,6 +138,13 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
                 : com.cboda.chatui.R.drawable.bg_bubble_broad_receive);
     }
 
+    protected void applyWhiteBubbleBackground(@NonNull View target, boolean sentByMe) {
+        target.setBackgroundResource(sentByMe
+                ? com.cboda.chatui.R.drawable.bg_bubble_broad_send_white
+                : com.cboda.chatui.R.drawable.bg_bubble_broad_receive);
+    }
+
+
     private void bindReadReceipt(@NonNull AppMessage message,
                                  @NonNull MessageViewHolderContext context,
                                  boolean sentByMe) {

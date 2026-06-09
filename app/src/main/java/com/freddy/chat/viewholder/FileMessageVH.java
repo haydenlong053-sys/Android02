@@ -34,7 +34,7 @@ public final class FileMessageVH extends BaseMessageVH {
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
         bindCommon(message, position, context);
         boolean sentByMe = message.isSender(context.currentUserId);
-        applyBroadBubbleBackground(fileRoot, sentByMe);
+        applyWhiteBubbleBackground(fileRoot, sentByMe);
 
         String fileName = MediaMessageContentUtil.resolveFileName(message.getContent());
         long sizeBytes = MediaMessageContentUtil.resolveFileSizeBytes(message.getContent(), sentByMe);
