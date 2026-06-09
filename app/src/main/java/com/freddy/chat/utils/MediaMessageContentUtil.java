@@ -70,6 +70,51 @@ public final class MediaMessageContentUtil {
         return remote != null ? remote : "";
     }
 
+    public static int resolveVoiceDurationSec(@Nullable String contentJson) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null || !obj.has("duration") || !obj.get("duration").isJsonPrimitive()) {
+            return 0;
+        }
+        try {
+            return Math.max(0, obj.get("duration").getAsInt());
+        } catch (Exception ignored) {
+            return 0;
+        }
+    }
+
+    @NonNull
+    public static String resolveFileName(@Nullable String contentJson) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null) {
+            return "";
+        }
+        String name = readString(obj, "msg");
+        if (!TextUtils.isEmpty(name)) {
+            return name;
+        }
+        String url = readString(obj, KEY_URL);
+        if (TextUtils.isEmpty(url)) {
+            return "";
+        }
+        int slash = url.lastIndexOf('/');
+        return slash >= 0 ? url.substring(slash + 1) : url;
+    }
+
+    public static long resolveFileSizeBytes(@Nullable String contentJson, boolean sentByMe) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj != null && obj.has("size") && obj.get("size").isJsonPrimitive()) {
+            try {
+                return Math.max(0L, obj.get("size").getAsLong());
+            } catch (Exception ignored) {
+            }
+        }
+        String localPath = resolveDisplayUrl(contentJson, sentByMe);
+        if (isUsableLocalPath(localPath)) {
+            return new File(localPath).length();
+        }
+        return 0L;
+    }
+
     @NonNull
     public static String resolveDisplayThumbUrl(@Nullable String contentJson, boolean sentByMe) {
         JsonObject obj = parseObject(contentJson);

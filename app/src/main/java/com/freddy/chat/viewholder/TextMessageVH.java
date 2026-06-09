@@ -1,57 +1,56 @@
 package com.freddy.chat.viewholder;
 
+import android.text.Editable;
+import android.text.Spannable;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
+import com.cboda.chatemoji.LQREmotionBroadKit;
+import com.cboda.chatemoji.MoonBroadUtils;
 import com.cboda.intelligent.R;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.bean.AppMessage;
 
 public class TextMessageVH extends BaseMessageVH {
-    public final ImageView ivContentType;
     public final TextView tvMessage;
 
     public TextMessageVH(@NonNull View itemView) {
-        super(itemView, R.layout.item_message_content_text);
-        ivContentType = contentView.findViewById(R.id.iv_content_type);
+        super(itemView, R.layout.item_message_content_text, false);
         tvMessage = contentView.findViewById(R.id.tv_message);
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
         bindCommon(message, position, context);
-        tvMessage.setVisibility(View.VISIBLE);
+        boolean sentByMe = message.isSender(context.currentUserId);
+        applyBroadBubbleBackground(tvMessage, sentByMe);
+        if (sentByMe) {
+            tvMessage.setTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.white));
+            tvMessage.setLinkTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.white));
+        } else {
+            int textColor = ContextCompat.getColor(itemView.getContext(), com.cboda.chatui.R.color.color_text0);
+            tvMessage.setTextColor(textColor);
+            tvMessage.setLinkTextColor(textColor);
+        }
         bindMessageBody(message, context);
-        bindDefaultContentTypeIcon(message.getMsgContentType());
     }
 
     protected final void bindMessageBody(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {
-        tvMessage.setText(WeChatUiHelper.formatMessageBody(
-                message, context.currentUserId, context.buildUserDisplayNameMap()));
-    }
-
-    protected final void showContentTypeIcon(int iconRes) {
-        ivContentType.setVisibility(View.VISIBLE);
-        ivContentType.setImageResource(iconRes);
-    }
-
-    protected final void hideContentTypeIcon() {
-        ivContentType.setVisibility(View.GONE);
-    }
-
-    protected void bindDefaultContentTypeIcon(int msgContentType) {
-        if (WeChatUiHelper.isVoiceMessage(msgContentType)) {
-            showContentTypeIcon(R.drawable.ic_msg_voice);
-        } else if (WeChatUiHelper.isImageMessage(msgContentType)) {
-            showContentTypeIcon(R.drawable.ic_msg_image);
-        } else if (WeChatUiHelper.isVideoMessage(msgContentType)) {
-            showContentTypeIcon(R.drawable.ic_msg_video);
-        } else if (WeChatUiHelper.isFileMessage(msgContentType)) {
-            showContentTypeIcon(R.drawable.ic_msg_file);
-        } else {
-            hideContentTypeIcon();
+        String body = WeChatUiHelper.formatMessageBody(
+                message, context.currentUserId, context.buildUserDisplayNameMap());
+        tvMessage.setText(body);
+        try {
+            CharSequence text = tvMessage.getText();
+            if (text instanceof Spannable) {
+                MoonBroadUtils.replaceEmoticons(
+                        LQREmotionBroadKit.getContext(),
+                        (Editable) text,
+                        0,
+                        text.length());
+            }
+        } catch (Exception ignored) {
         }
     }
 }

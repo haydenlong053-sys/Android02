@@ -13,9 +13,6 @@ public final class MapMessageVH extends TextMessageVH {
 
     @Override
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
-        bindCommon(message, position, context);
-        tvMessage.setVisibility(View.VISIBLE);
-        bindMessageBody(message, context);
-        hideContentTypeIcon();
+        super.bind(message, position, context);
     }
 }

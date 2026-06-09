@@ -680,6 +680,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         if (inputPanel != null) {
             inputPanel.onDestroy();
         }
+        if (adapter != null) {
+            adapter.release();
+        }
         super.onDestroyView();
     }
 

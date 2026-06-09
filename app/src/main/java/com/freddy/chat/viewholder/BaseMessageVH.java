@@ -33,10 +33,17 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
     public final TextView tvTimeInline;
     public final TextView tvReadStatus;
     public final FrameLayout flMessageContentHost;
-    public final View contentView;
+    public View contentView;
+
+    private final boolean hostBubbleEnabled;
 
     public BaseMessageVH(@NonNull View itemView, @LayoutRes int contentLayoutRes) {
+        this(itemView, contentLayoutRes, true);
+    }
+
+    public BaseMessageVH(@NonNull View itemView, @LayoutRes int contentLayoutRes, boolean hostBubbleEnabled) {
         super(itemView);
+        this.hostBubbleEnabled = hostBubbleEnabled;
         tvTimeDivider = itemView.findViewById(R.id.tv_time_divider);
         tvNickname = itemView.findViewById(R.id.tv_nickname);
         avatarLeft = itemView.findViewById(R.id.avatar_left);
@@ -47,6 +54,11 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         tvTimeInline = itemView.findViewById(R.id.tv_time_inline);
         tvReadStatus = itemView.findViewById(R.id.tv_read_status);
         flMessageContentHost = itemView.findViewById(R.id.fl_message_content_host);
+        inflateContentLayout(contentLayoutRes);
+    }
+
+    protected void inflateContentLayout(@LayoutRes int contentLayoutRes) {
+        flMessageContentHost.removeAllViews();
         contentView = LayoutInflater.from(itemView.getContext())
                 .inflate(contentLayoutRes, flMessageContentHost, false);
         flMessageContentHost.addView(contentView, new FrameLayout.LayoutParams(
@@ -71,14 +83,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             tvTimeDivider.setVisibility(View.GONE);
         }
 
-        String timeLabel = WeChatUiHelper.formatMessageTime(message.getTimestamp());
-        if (!timeLabel.isEmpty()) {
-            tvTimeInline.setVisibility(View.VISIBLE);
-            tvTimeInline.setText(timeLabel);
-            tvTimeInline.setGravity(sentByMe ? Gravity.END : Gravity.START);
-        } else {
-            tvTimeInline.setVisibility(View.GONE);
-        }
+        tvTimeInline.setVisibility(View.GONE);
 
         if (sentByMe) {
             tvNickname.setVisibility(View.GONE);
@@ -86,8 +91,8 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             avatarRight.setVisibility(View.VISIBLE);
             AvatarViews.bind(avatarRight, context.selfAvatarUrl, "我", null);
             alignMessageColumn(Gravity.END);
-            bubbleRow.setGravity(Gravity.BOTTOM);
-            flMessageContentHost.setBackgroundResource(R.drawable.bg_bubble_sent);
+            bubbleRow.setGravity(Gravity.BOTTOM | Gravity.END);
+            applyHostBubbleBackground(true);
             progress.setVisibility(message.getSendStatus() == IMSConfig.SEND_STATUS_SENDING
                     ? View.VISIBLE : View.GONE);
             bindReadReceipt(message, context, true);
@@ -111,10 +116,26 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         String nickLabel = member != null ? member.getNickname() : null;
         AvatarViews.bind(avatarLeft, avatarUrl, nickLabel, senderId);
         alignMessageColumn(Gravity.START);
-        bubbleRow.setGravity(Gravity.START);
-        flMessageContentHost.setBackgroundResource(R.drawable.bg_bubble_received);
+        bubbleRow.setGravity(Gravity.BOTTOM | Gravity.START);
+        applyHostBubbleBackground(false);
         progress.setVisibility(View.GONE);
         tvReadStatus.setVisibility(View.GONE);
+    }
+
+    protected void applyHostBubbleBackground(boolean sentByMe) {
+        if (!hostBubbleEnabled) {
+            flMessageContentHost.setBackgroundResource(0);
+            return;
+        }
+        flMessageContentHost.setBackgroundResource(sentByMe
+                ? com.cboda.chatui.R.drawable.bg_bubble_broad_send
+                : com.cboda.chatui.R.drawable.bg_bubble_broad_receive);
+    }
+
+    protected void applyBroadBubbleBackground(@NonNull View target, boolean sentByMe) {
+        target.setBackgroundResource(sentByMe
+                ? com.cboda.chatui.R.drawable.bg_bubble_broad_send
+                : com.cboda.chatui.R.drawable.bg_bubble_broad_receive);
     }
 
     private void bindReadReceipt(@NonNull AppMessage message,

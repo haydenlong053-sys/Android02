@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/videoContentLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="2dp">
 
     <com.cboda.baselibrary.view.AppRoundBroadImage
         android:id="@+id/iv_video_cover"
-        android:layout_width="@dimen/wechat_image_bubble_size"
-        android:layout_height="@dimen/wechat_image_bubble_size"
+        android:layout_width="@dimen/dp_140"
+        android:layout_height="@dimen/dp_140"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
         app:app_round_borderRadius="@dimen/dp_12"
         app:app_round_borderRadius_type="1"
-        tools:src="@drawable/bg_bubble_received" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:src="@color/black" />
 
     <ImageView
         android:id="@+id/iv_video_play"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_gravity="center"
-        android:alpha="0.92"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
         android:contentDescription="@null"
-        android:src="@drawable/ic_msg_video"
-        app:tint="@android:color/black" />
+        android:src="@mipmap/img_video_play_broad_session" />
 
     <TextView
         android:id="@+id/tv_video_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="6dp"
-        android:background="@drawable/bg_message_system"
-        android:paddingStart="6dp"
-        android:paddingTop="2dp"
-        android:paddingEnd="6dp"
-        android:paddingBottom="2dp"
-        android:textColor="@android:color/white"
-        android:textSize="11sp"
+        android:layout_alignEnd="@id/iv_video_cover"
+        android:layout_alignBottom="@id/iv_video_cover"
+        android:layout_margin="4dp"
+        android:padding="2dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
         tools:text="00:12" />
-
-</FrameLayout>
+</RelativeLayout>

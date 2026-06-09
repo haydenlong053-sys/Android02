@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.freddy.chat.event.MessageReadStateEvent;
+import com.freddy.chat.media.VoiceMessagePlayer;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageReadUiState;
 import com.freddy.chat.utils.WeChatUiHelper;
@@ -59,6 +60,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private final List<AppMessage> items = new ArrayList<>();
     @NonNull
     private final MessageReadUiState readUiState = new MessageReadUiState();
+    @NonNull
+    private final VoiceMessagePlayer voiceMessagePlayer = VoiceMessagePlayer.getInstance();
 
     public MessageListAdapter(boolean isGroupChat,
                               @Nullable String peerAvatarUrl,
@@ -66,6 +69,12 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
         this.selfAvatarUrl = selfAvatarUrl;
+        voiceMessagePlayer.setListener(clientMsgId -> notifyDataSetChanged());
+    }
+
+    public void release() {
+        voiceMessagePlayer.setListener(null);
+        voiceMessagePlayer.stop();
     }
 
     public void setGroupMembers(@Nullable Map<String, GroupMemberItem> members) {
@@ -321,7 +330,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (holder instanceof ImageMessageVH) {
             ((ImageMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof VoiceMessageVH) {
-            ((VoiceMessageVH) holder).bind(m, position, context);
+            ((VoiceMessageVH) holder).bind(m, position, context, voiceMessagePlayer);
         } else if (holder instanceof VideoMessageVH) {
             ((VideoMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof FileMessageVH) {

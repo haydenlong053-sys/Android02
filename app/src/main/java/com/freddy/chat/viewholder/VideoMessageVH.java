@@ -2,7 +2,6 @@ package com.freddy.chat.viewholder;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,8 +12,9 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.freddy.chat.MessageVideoPreviewActivity;
+import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.intelligent.R;
+import com.freddy.chat.MessageVideoPreviewActivity;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.im.bean.AppMessage;
 import com.google.gson.JsonObject;
@@ -24,12 +24,14 @@ import java.util.Locale;
 
 public final class VideoMessageVH extends BaseMessageVH {
 
-    private final ImageView ivVideoCover;
+    private final AppRoundBroadImage ivVideoCover;
+    private final ImageView ivVideoPlay;
     private final TextView tvVideoDuration;
 
     public VideoMessageVH(@NonNull View itemView) {
-        super(itemView, R.layout.item_message_content_video);
+        super(itemView, R.layout.item_message_content_video, true);
         ivVideoCover = contentView.findViewById(R.id.iv_video_cover);
+        ivVideoPlay = contentView.findViewById(R.id.iv_video_play);
         tvVideoDuration = contentView.findViewById(R.id.tv_video_duration);
     }
 
@@ -38,17 +40,14 @@ public final class VideoMessageVH extends BaseMessageVH {
         boolean sentByMe = message.isSender(context.currentUserId);
         applyVideoBubbleSize(message);
         String coverUrl = MediaMessageContentUtil.resolveCoverDisplayUrl(message.getContent(), sentByMe);
-        Log.d("zhanglong", "getContent--->" + message.getContent());
 
         Glide.with(ivVideoCover.getContext())
                 .load(coverUrl)
-                .placeholder(R.drawable.bg_bubble_received)
-                .error(R.drawable.bg_bubble_received)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivVideoCover);
 
-        String duration = formatDuration(extractDurationSec(message));
-        tvVideoDuration.setText(duration);
+        tvVideoDuration.setText(formatDuration(extractDurationSec(message)));
+        ivVideoPlay.setVisibility(View.VISIBLE);
 
         String playUrl = MediaMessageContentUtil.resolveVideoPlayUrl(message.getContent(), sentByMe);
         View.OnClickListener openPreview = v -> {
@@ -61,16 +60,17 @@ public final class VideoMessageVH extends BaseMessageVH {
         };
         contentView.setOnClickListener(openPreview);
         ivVideoCover.setOnClickListener(openPreview);
+        ivVideoPlay.setOnClickListener(openPreview);
     }
 
     private void applyVideoBubbleSize(@NonNull AppMessage message) {
+        int size = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_140);
         int min = itemView.getResources().getDimensionPixelSize(R.dimen.wechat_image_bubble_min);
         int max = itemView.getResources().getDimensionPixelSize(R.dimen.wechat_image_bubble_max);
-        int fallback = itemView.getResources().getDimensionPixelSize(R.dimen.wechat_image_bubble_size);
         int dw = extractDimension(message, "dw");
         int dh = extractDimension(message, "dh");
-        int targetW = fallback;
-        int targetH = fallback;
+        int targetW = size;
+        int targetH = size;
         if (dw > 0 && dh > 0) {
             float ratio = dw * 1f / dh;
             if (ratio >= 1f) {
@@ -102,17 +102,8 @@ public final class VideoMessageVH extends BaseMessageVH {
     }
 
     private static int extractDurationSec(@Nullable AppMessage message) {
-        if (message == null || TextUtils.isEmpty(message.getContent())) {
-            return 0;
-        }
-        try {
-            JsonObject obj = JsonParser.parseString(message.getContent()).getAsJsonObject();
-            if (obj.has("duration") && obj.get("duration").isJsonPrimitive()) {
-                return Math.max(0, obj.get("duration").getAsInt());
-            }
-        } catch (Exception ignored) {
-        }
-        return 0;
+        return MediaMessageContentUtil.resolveVoiceDurationSec(
+                message != null ? message.getContent() : null);
     }
 
     @NonNull
