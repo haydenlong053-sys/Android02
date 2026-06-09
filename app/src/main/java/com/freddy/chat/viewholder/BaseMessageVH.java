@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -13,29 +14,42 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.widge.VpGradeView;
+import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.intelligent.R;
-import com.freddy.chat.utils.AvatarViews;
+import com.freddy.chat.im.MessageReadUiState;
+import com.freddy.chat.utils.MessageAvatarBinder;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.IMSConfig;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.model.im.GroupMemberItem;
+import com.hjq.shape.view.ShapeTextView;
 
 public class BaseMessageVH extends RecyclerView.ViewHolder {
-    public final TextView tvTimeDivider;
     public final TextView tvNickname;
-    public final View avatarLeft;
-    public final View avatarRight;
+    public final ConstraintLayout nameLayout;
+    public final ShapeTextView joinTimeTv;
+    public final VpGradeView avatarLeft;
+    public final VpGradeView avatarRight;
     public final LinearLayout messageColumn;
     public final LinearLayout bubbleRow;
+    public final LinearLayout errorLinearLayout;
     public final ProgressBar progress;
-    public final TextView tvTimeInline;
-    public final TextView tvReadStatus;
+    public final TextView timeTextView;
+    public final ImageView singleReceiptImageView;
+    public final FrameLayout groupReceiptFrameLayout;
+    public final ProgressBar readProgressBar;
     public final FrameLayout flMessageContentHost;
     public View contentView;
 
     private final boolean hostBubbleEnabled;
+    @Nullable
+    private AppMessage boundMessage;
+    @Nullable
+    private MessageViewHolderContext boundContext;
 
     public BaseMessageVH(@NonNull View itemView, @LayoutRes int contentLayoutRes) {
         this(itemView, contentLayoutRes, true);
@@ -44,16 +58,21 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
     public BaseMessageVH(@NonNull View itemView, @LayoutRes int contentLayoutRes, boolean hostBubbleEnabled) {
         super(itemView);
         this.hostBubbleEnabled = hostBubbleEnabled;
-        tvTimeDivider = itemView.findViewById(R.id.tv_time_divider);
         tvNickname = itemView.findViewById(R.id.tv_nickname);
+        nameLayout = itemView.findViewById(R.id.name_layout);
+        joinTimeTv = itemView.findViewById(R.id.join_time_tv);
         avatarLeft = itemView.findViewById(R.id.avatar_left);
         avatarRight = itemView.findViewById(R.id.avatar_right);
         messageColumn = itemView.findViewById(R.id.message_column);
         bubbleRow = itemView.findViewById(R.id.bubble_row);
+        errorLinearLayout = itemView.findViewById(R.id.error_linear_layout);
         progress = itemView.findViewById(R.id.progress);
-        tvTimeInline = itemView.findViewById(R.id.tv_time_inline);
-        tvReadStatus = itemView.findViewById(R.id.tv_read_status);
+        timeTextView = itemView.findViewById(R.id.time_text_view);
+        singleReceiptImageView = itemView.findViewById(R.id.single_receipt_image_view);
+        groupReceiptFrameLayout = itemView.findViewById(R.id.group_receipt_frame_layout);
+        readProgressBar = itemView.findViewById(R.id.read_progress_bar);
         flMessageContentHost = itemView.findViewById(R.id.fl_message_content_host);
+        errorLinearLayout.setOnClickListener(v -> onRetryClick());
         inflateContentLayout(contentLayoutRes);
     }
 
@@ -66,35 +85,26 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
     }
 
     public void bindCommon(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
+        boundMessage = message;
+        boundContext = context;
         boolean sentByMe = message.isSender(context.currentUserId);
         String senderId = message.getFromId();
         GroupMemberItem member = context.resolveMember(senderId);
         AppMessage prev = context.getPrevMessage(position);
 
-        long currentMillis = WeChatUiHelper.normalizeToMillis(message.getTimestamp());
-        long prevMillis = 0L;
-        if (prev != null && !WeChatUiHelper.isSystemMessage(prev)) {
-            prevMillis = WeChatUiHelper.normalizeToMillis(prev.getTimestamp());
-        }
-        if (WeChatUiHelper.shouldShowTimeDivider(prevMillis, currentMillis)) {
-            tvTimeDivider.setVisibility(View.VISIBLE);
-            tvTimeDivider.setText(WeChatUiHelper.formatMessageTime(message.getTimestamp()));
-        } else {
-            tvTimeDivider.setVisibility(View.GONE);
-        }
-
-        tvTimeInline.setVisibility(View.GONE);
+        bindMessageTime(message, sentByMe);
+        updateContentHostMargin(sentByMe);
 
         if (sentByMe) {
-            tvNickname.setVisibility(View.GONE);
+            nameLayout.setVisibility(View.GONE);
             avatarLeft.setVisibility(View.GONE);
             avatarRight.setVisibility(View.VISIBLE);
-            AvatarViews.bind(avatarRight, context.selfAvatarUrl, "我", null);
+            MessageAvatarBinder.bindAvatar(avatarRight, context.selfAvatarUrl, context.currentUserId, context.isGroupChat);
             alignMessageColumn(Gravity.END);
+            alignTimeTextView(Gravity.END);
             bubbleRow.setGravity(Gravity.BOTTOM | Gravity.END);
             applyHostBubbleBackground(true);
-            progress.setVisibility(message.getSendStatus() == IMSConfig.SEND_STATUS_SENDING
-                    ? View.VISIBLE : View.GONE);
+            bindSendStatus(message);
             bindReadReceipt(message, context, true);
             return;
         }
@@ -102,24 +112,84 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         boolean showNickname = context.isGroupChat
                 && MessageViewHolderContext.shouldShowGroupNickname(prev, senderId, context.currentUserId);
         if (showNickname) {
+            nameLayout.setVisibility(View.VISIBLE);
             tvNickname.setVisibility(View.VISIBLE);
             tvNickname.setText(resolveDisplayName(member, senderId));
-            tvNickname.setGravity(Gravity.START);
+            MessageAvatarBinder.bindJoinTime(joinTimeTv, true, member, context.sessionId, senderId);
         } else {
+            nameLayout.setVisibility(View.GONE);
             tvNickname.setVisibility(View.GONE);
+            joinTimeTv.setVisibility(View.GONE);
         }
         avatarLeft.setVisibility(View.VISIBLE);
         avatarRight.setVisibility(View.GONE);
         String avatarUrl = member != null && !TextUtils.isEmpty(member.getHeadPortrait())
                 ? member.getHeadPortrait()
                 : context.peerAvatarUrl;
-        String nickLabel = member != null ? member.getNickname() : null;
-        AvatarViews.bind(avatarLeft, avatarUrl, nickLabel, senderId);
+        MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, senderId, context.isGroupChat);
         alignMessageColumn(Gravity.START);
+        alignTimeTextView(Gravity.START);
         bubbleRow.setGravity(Gravity.BOTTOM | Gravity.START);
         applyHostBubbleBackground(false);
         progress.setVisibility(View.GONE);
-        tvReadStatus.setVisibility(View.GONE);
+        errorLinearLayout.setVisibility(View.GONE);
+        hideReadReceipt();
+    }
+
+    private void bindMessageTime(@NonNull AppMessage message, boolean sentByMe) {
+        long millis = WeChatUiHelper.normalizeToMillis(message.getTimestamp());
+        if (millis <= 0L) {
+            timeTextView.setVisibility(View.GONE);
+            return;
+        }
+        timeTextView.setVisibility(View.VISIBLE);
+        timeTextView.setText(TimeBroadBroadUtils.getMsgFormatTime(millis));
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) timeTextView.getLayoutParams();
+        if (lp instanceof LinearLayout.LayoutParams) {
+            LinearLayout.LayoutParams rowLp = (LinearLayout.LayoutParams) lp;
+            int margin = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_60);
+            if (sentByMe) {
+                rowLp.gravity = Gravity.END;
+                rowLp.setMarginStart(0);
+                rowLp.setMarginEnd(margin);
+            } else {
+                rowLp.gravity = Gravity.START;
+                rowLp.setMarginStart(margin);
+                rowLp.setMarginEnd(0);
+            }
+            timeTextView.setLayoutParams(rowLp);
+        }
+    }
+
+    private void alignTimeTextView(int gravity) {
+        ViewGroup.LayoutParams lp = timeTextView.getLayoutParams();
+        if (lp instanceof LinearLayout.LayoutParams) {
+            ((LinearLayout.LayoutParams) lp).gravity = gravity;
+            timeTextView.setLayoutParams(lp);
+        }
+    }
+
+    private void bindSendStatus(@NonNull AppMessage message) {
+        int status = message.getSendStatus();
+        if (status == IMSConfig.SEND_STATUS_SENDING) {
+            progress.setVisibility(View.VISIBLE);
+            errorLinearLayout.setVisibility(View.GONE);
+            return;
+        }
+        if (status == IMSConfig.SEND_STATUS_FAILED) {
+            progress.setVisibility(View.GONE);
+            errorLinearLayout.setVisibility(View.VISIBLE);
+            return;
+        }
+        progress.setVisibility(View.GONE);
+        errorLinearLayout.setVisibility(View.GONE);
+    }
+
+    private void onRetryClick() {
+        if (boundMessage == null || boundContext == null || boundContext.retryListener == null) {
+            return;
+        }
+        boundContext.retryListener.onRetryFailedMessage(boundMessage);
     }
 
     protected void applyHostBubbleBackground(boolean sentByMe) {
@@ -144,33 +214,69 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
                 : com.cboda.chatui.R.drawable.bg_bubble_broad_receive);
     }
 
-
     private void bindReadReceipt(@NonNull AppMessage message,
                                  @NonNull MessageViewHolderContext context,
                                  boolean sentByMe) {
-        if (!sentByMe) {
-            tvReadStatus.setVisibility(View.GONE);
+        if (!sentByMe || !MessageReadUiState.supportsReadReceipt(message)) {
+            hideReadReceipt();
             return;
         }
-        tvReadStatus.setGravity(Gravity.END);
+        int sendStatus = message.getSendStatus();
+        if (sendStatus == IMSConfig.SEND_STATUS_SENDING
+                || sendStatus == IMSConfig.SEND_STATUS_FAILED) {
+            hideReadReceipt();
+            return;
+        }
         if (context.isGroupChat) {
-            int percent = context.readUiState.getGroupReadPercent(
-                    message, context.currentUserId, context.groupMemberCount);
-            if (percent < 0) {
-                tvReadStatus.setVisibility(View.GONE);
-                return;
-            }
-            tvReadStatus.setVisibility(View.VISIBLE);
-            tvReadStatus.setText(itemView.getContext().getString(
-                    R.string.message_read_group_percent, percent));
+            bindGroupReadReceipt(message, context);
+        } else {
+            bindSingleReadReceipt(message, context);
+        }
+    }
+
+    private void bindSingleReadReceipt(@NonNull AppMessage message,
+                                       @NonNull MessageViewHolderContext context) {
+        groupReceiptFrameLayout.setVisibility(View.GONE);
+        singleReceiptImageView.setVisibility(View.VISIBLE);
+        if (context.readUiState.shouldShowPeerRead(message, context.currentUserId)) {
+            singleReceiptImageView.setImageResource(
+                    com.cboda.chatui.R.drawable.bg_circle_read_broad_icon);
+        } else {
+            singleReceiptImageView.setImageResource(
+                    com.cboda.chatui.R.drawable.bg_circle_unread_broad_icon);
+        }
+    }
+
+    private void bindGroupReadReceipt(@NonNull AppMessage message,
+                                      @NonNull MessageViewHolderContext context) {
+        singleReceiptImageView.setVisibility(View.GONE);
+        int readCount = context.readUiState.getGroupReadCount(message, context.currentUserId);
+        if (readCount < 0 || context.groupMemberCount <= 0) {
+            groupReceiptFrameLayout.setVisibility(View.GONE);
             return;
         }
-        if (context.readUiState.shouldShowPeerRead(message, context.currentUserId)) {
-            tvReadStatus.setVisibility(View.VISIBLE);
-            tvReadStatus.setText(R.string.message_read_peer);
+        groupReceiptFrameLayout.setVisibility(View.VISIBLE);
+        int max = Math.max(context.groupMemberCount - 1, 1);
+        readProgressBar.setMax(max);
+        readProgressBar.setProgress(Math.min(readCount, max));
+    }
+
+    private void hideReadReceipt() {
+        singleReceiptImageView.setVisibility(View.GONE);
+        groupReceiptFrameLayout.setVisibility(View.GONE);
+    }
+
+    private void updateContentHostMargin(boolean sentByMe) {
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) flMessageContentHost.getLayoutParams();
+        int margin = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_10);
+        if (sentByMe) {
+            lp.setMarginStart(0);
+            lp.setMarginEnd(margin);
         } else {
-            tvReadStatus.setVisibility(View.GONE);
+            lp.setMarginStart(margin);
+            lp.setMarginEnd(0);
         }
+        flMessageContentHost.setLayoutParams(lp);
     }
 
     private void alignMessageColumn(int gravity) {

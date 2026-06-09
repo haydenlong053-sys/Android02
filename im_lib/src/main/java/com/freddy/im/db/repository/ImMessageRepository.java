@@ -243,6 +243,17 @@ public final class ImMessageRepository {
 
     public void markOutgoingSendFailed(@Nullable String clientMsgId,
                                        @Nullable OnMessageUpdatedCallback onUpdated) {
+        updateOutgoingSendStatus(clientMsgId, IMSConfig.SEND_STATUS_FAILED, onUpdated);
+    }
+
+    public void markOutgoingResending(@Nullable String clientMsgId,
+                                      @Nullable OnMessageUpdatedCallback onUpdated) {
+        updateOutgoingSendStatus(clientMsgId, IMSConfig.SEND_STATUS_SENDING, onUpdated);
+    }
+
+    private void updateOutgoingSendStatus(@Nullable String clientMsgId,
+                                          int sendStatus,
+                                          @Nullable OnMessageUpdatedCallback onUpdated) {
         if (TextUtils.isEmpty(clientMsgId) || !ImRealm.isUserBound()) {
             return;
         }
@@ -255,7 +266,7 @@ public final class ImMessageRepository {
                             .equalTo("clientMsgId", id)
                             .findFirst();
                     if (entity != null) {
-                        entity.setSendStatus(IMSConfig.SEND_STATUS_FAILED);
+                        entity.setSendStatus(sendStatus);
                     }
                 });
             } finally {

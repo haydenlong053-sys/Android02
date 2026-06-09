@@ -20,6 +20,7 @@ import com.freddy.chat.viewholder.ImageMessageVH;
 import com.freddy.chat.viewholder.MapMessageVH;
 import com.freddy.chat.viewholder.MergeTransMessageVH;
 import com.freddy.chat.viewholder.MessageViewHolderContext;
+import com.freddy.chat.viewholder.OnMessageRetryListener;
 import com.freddy.chat.viewholder.SystemMessageVH;
 import com.freddy.chat.viewholder.TextMessageVH;
 import com.freddy.chat.viewholder.VideoMessageVH;
@@ -54,6 +55,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private final String peerAvatarUrl;
     @Nullable
     private final String selfAvatarUrl;
+    @Nullable
+    private final String sessionId;
+    @Nullable
+    private final OnMessageRetryListener retryListener;
 
     private final Map<String, GroupMemberItem> membersByUserId = new HashMap<>();
 
@@ -65,10 +70,14 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public MessageListAdapter(boolean isGroupChat,
                               @Nullable String peerAvatarUrl,
-                              @Nullable String selfAvatarUrl) {
+                              @Nullable String selfAvatarUrl,
+                              @Nullable String sessionId,
+                              @Nullable OnMessageRetryListener retryListener) {
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
         this.selfAvatarUrl = selfAvatarUrl;
+        this.sessionId = sessionId;
+        this.retryListener = retryListener;
         voiceMessagePlayer.setListener(clientMsgId -> notifyDataSetChanged());
     }
 
@@ -322,7 +331,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 membersByUserId,
                 items,
                 readUiState,
-                resolveGroupMemberCount());
+                resolveGroupMemberCount(),
+                sessionId,
+                retryListener);
         if (holder instanceof SystemMessageVH) {
             ((SystemMessageVH) holder).bind(m, context);
             return;

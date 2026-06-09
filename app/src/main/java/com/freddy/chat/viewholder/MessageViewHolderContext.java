@@ -29,6 +29,10 @@ public final class MessageViewHolderContext {
     @NonNull
     public final MessageReadUiState readUiState;
     public final int groupMemberCount;
+    @Nullable
+    public final String sessionId;
+    @Nullable
+    public final OnMessageRetryListener retryListener;
 
     public MessageViewHolderContext(boolean isGroupChat,
                                     @Nullable String peerAvatarUrl,
@@ -37,7 +41,9 @@ public final class MessageViewHolderContext {
                                     @NonNull Map<String, GroupMemberItem> membersByUserId,
                                     @NonNull List<AppMessage> items,
                                     @NonNull MessageReadUiState readUiState,
-                                    int groupMemberCount) {
+                                    int groupMemberCount,
+                                    @Nullable String sessionId,
+                                    @Nullable OnMessageRetryListener retryListener) {
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
         this.selfAvatarUrl = selfAvatarUrl;
@@ -46,6 +52,8 @@ public final class MessageViewHolderContext {
         this.items = items;
         this.readUiState = readUiState;
         this.groupMemberCount = groupMemberCount;
+        this.sessionId = sessionId;
+        this.retryListener = retryListener;
     }
 
     @Nullable

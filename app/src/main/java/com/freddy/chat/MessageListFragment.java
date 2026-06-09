@@ -40,6 +40,7 @@ import com.freddy.chat.media.PictureSelectorCompressEngine;
 import com.freddy.chat.media.PictureSelectorGlideEngine;
 import com.freddy.chat.media.PictureSelectorSandboxEngine;
 import com.freddy.chat.utils.CThreadPoolExecutor;
+import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.chat.utils.MediaUploadFileResolver;
 import com.freddy.chat.utils.VideoCoverUtil;
 import com.freddy.chat.utils.WeChatUiHelper;
@@ -138,7 +139,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         adapter = new MessageListAdapter(
                 isGroupChat,
                 WeChatUiHelper.resolveAvatarUrl(sessionItem),
-                IMSClientBootstrap.getInstance().getCurrentUserAvatarUrl());
+                IMSClientBootstrap.getInstance().getCurrentUserAvatarUrl(),
+                sessionId,
+                this::resendFailedMessage);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
         setupDismissPanelOnListTouch();
@@ -588,6 +591,148 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
     private void onMediaUploadFailed(@Nullable String clientMsgId, int toastResId) {
         Toast.makeText(requireContext(), toastResId, Toast.LENGTH_SHORT).show();
         ImLocalStore.markOutgoingSendFailed(clientMsgId, updated -> {
+            if (updated != null) {
+                runOnUiThreadSafe(() -> adapter.updateMessage(updated));
+            }
+        });
+    }
+
+    private void resendFailedMessage(@NonNull AppMessage message) {
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        if (!message.isSender(currentUserId)) {
+            return;
+        }
+        ImLocalStore.markOutgoingResending(message.getClientMsgId(), updated -> {
+            AppMessage toResend = updated != null ? updated : message;
+            runOnUiThreadSafe(() -> adapter.updateMessage(toResend));
+            dispatchResend(toResend);
+        });
+    }
+
+    private void dispatchResend(@NonNull AppMessage message) {
+        int contentType = message.getMsgContentType();
+        if (WeChatUiHelper.isImageMessage(contentType)) {
+            resendImageMessage(message);
+        } else if (WeChatUiHelper.isVoiceMessage(contentType)) {
+            resendVoiceMessage(message);
+        } else if (WeChatUiHelper.isFileMessage(contentType)) {
+            resendFileMessage(message);
+        } else if (WeChatUiHelper.isVideoMessage(contentType)) {
+            resendVideoMessage(message);
+        } else {
+            MessageProcessor.getInstance().transmitOutgoingMessage(message);
+        }
+    }
+
+    private void resendImageMessage(@NonNull AppMessage message) {
+        if (MediaMessageContentUtil.hasRemoteUrl(message.getContent())) {
+            MessageProcessor.getInstance().transmitOutgoingMessage(message);
+            return;
+        }
+        final String localPath = MediaMessageContentUtil.resolveLocalUrl(message.getContent());
+        if (!MediaMessageContentUtil.isUsableLocalFile(localPath)) {
+            onResendLocalFileMissing(message);
+            return;
+        }
+        retryMediaUpload(message, new File(localPath), (msg, upload) ->
+                MessageBuilder.applyImageUpload(msg, localPath, upload), R.string.picture_upload_failed);
+    }
+
+    private void resendVoiceMessage(@NonNull AppMessage message) {
+        if (MediaMessageContentUtil.hasRemoteUrl(message.getContent())) {
+            MessageProcessor.getInstance().transmitOutgoingMessage(message);
+            return;
+        }
+        final String localPath = MediaMessageContentUtil.resolveLocalUrl(message.getContent());
+        if (!MediaMessageContentUtil.isUsableLocalFile(localPath)) {
+            onResendLocalFileMissing(message);
+            return;
+        }
+        final int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
+        retryMediaUpload(message, new File(localPath), (msg, upload) ->
+                MessageBuilder.applyVoiceUpload(msg, duration, localPath, upload.getUrl()),
+                R.string.voice_upload_failed);
+    }
+
+    private void resendFileMessage(@NonNull AppMessage message) {
+        if (MediaMessageContentUtil.hasRemoteUrl(message.getContent())) {
+            MessageProcessor.getInstance().transmitOutgoingMessage(message);
+            return;
+        }
+        final String localPath = MediaMessageContentUtil.resolveLocalUrl(message.getContent());
+        if (!MediaMessageContentUtil.isUsableLocalFile(localPath)) {
+            onResendLocalFileMissing(message);
+            return;
+        }
+        final String fileName = MediaMessageContentUtil.resolveFileName(message.getContent());
+        retryMediaUpload(message, new File(localPath), (msg, upload) ->
+                MessageBuilder.applyFileUpload(msg, fileName, localPath, upload.getUrl()),
+                R.string.file_upload_failed);
+    }
+
+    private void resendVideoMessage(@NonNull AppMessage message) {
+        if (MediaMessageContentUtil.hasRemoteUrl(message.getContent())) {
+            MessageProcessor.getInstance().transmitOutgoingMessage(message);
+            return;
+        }
+        final String localVideoPath = MediaMessageContentUtil.resolveLocalUrl(message.getContent());
+        if (!MediaMessageContentUtil.isUsableLocalFile(localVideoPath)) {
+            onResendLocalFileMissing(message);
+            return;
+        }
+        File videoFile = new File(localVideoPath);
+        String localCoverPath = MediaMessageContentUtil.resolveLocalCoverUrl(message.getContent());
+        File coverFile = MediaMessageContentUtil.isUsableLocalFile(localCoverPath)
+                ? new File(localCoverPath) : null;
+        if (coverFile == null || !coverFile.isFile()) {
+            VideoCoverUtil.Meta meta = VideoCoverUtil.extract(localVideoPath);
+            if (meta != null && meta.coverFile != null && meta.coverFile.isFile()) {
+                coverFile = meta.coverFile;
+                localCoverPath = coverFile.getAbsolutePath();
+            }
+        }
+        if (coverFile == null || !coverFile.isFile()) {
+            onResendLocalFileMissing(message);
+            return;
+        }
+        final int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
+        final int dw = MediaMessageContentUtil.resolveVideoWidth(message.getContent());
+        final int dh = MediaMessageContentUtil.resolveVideoHeight(message.getContent());
+        final String coverPath = localCoverPath;
+        String groupId = isGroupChat ? sessionId : null;
+        ImMessageHttpExample.uploadVideoBatch(
+                coverFile,
+                videoFile,
+                groupId,
+                new OnHttpImListener<VideoBatchUploadResult>() {
+                    @Override
+                    public void onHttpImSuccess(@NonNull VideoBatchUploadResult result) {
+                        runOnUiThreadSafe(() -> onVideoBatchUploadSuccess(
+                                message, duration, localVideoPath, coverPath, dw, dh, result));
+                    }
+                },
+                () -> runOnUiThreadSafe(() ->
+                        onMediaUploadFailed(message.getClientMsgId(), R.string.video_upload_failed)));
+    }
+
+    private void retryMediaUpload(@NonNull AppMessage message,
+                                  @NonNull File file,
+                                  @NonNull UploadContentPatcher patcher,
+                                  int uploadFailedToastRes) {
+        String groupId = isGroupChat ? sessionId : null;
+        ImMessageHttpExample.uploadFile(file, groupId, new OnHttpImListener<UploadRes>() {
+            @Override
+            public void onHttpImSuccess(@NonNull UploadRes result) {
+                runOnUiThreadSafe(() -> onMediaUploadSuccess(message, result, patcher));
+            }
+        }, () -> runOnUiThreadSafe(() ->
+                onMediaUploadFailed(message.getClientMsgId(), uploadFailedToastRes)));
+    }
+
+    private void onResendLocalFileMissing(@NonNull AppMessage message) {
+        runOnUiThreadSafe(() -> Toast.makeText(requireContext(),
+                R.string.message_resend_local_missing, Toast.LENGTH_SHORT).show());
+        ImLocalStore.markOutgoingSendFailed(message.getClientMsgId(), updated -> {
             if (updated != null) {
                 runOnUiThreadSafe(() -> adapter.updateMessage(updated));
             }

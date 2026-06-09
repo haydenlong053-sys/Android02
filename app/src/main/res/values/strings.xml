@@ -1184,6 +1184,7 @@
     <string name="video_preview_failed">视频无法播放</string>
     <string name="message_read_peer">已读</string>
     <string name="message_read_group_percent">%d%%已读</string>
+    <string name="message_resend_local_missing">本地文件不存在，无法重发</string>
     <string name="file_pick_failed">文件选择失败</string>
     <string name="file_upload_failed">文件上传失败</string>
     <string name="voice_permission_denied">未授予录音权限</string>

@@ -136,6 +136,63 @@ public final class MediaMessageContentUtil {
     }
 
 
+    @NonNull
+    public static String resolveLocalUrl(@Nullable String contentJson) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null) {
+            return "";
+        }
+        return readString(obj, KEY_LOCAL_URL);
+    }
+
+    @NonNull
+    public static String resolveLocalCoverUrl(@Nullable String contentJson) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null) {
+            return "";
+        }
+        return readString(obj, KEY_LOCAL_COVER_URL);
+    }
+
+    @NonNull
+    public static String resolveRemoteUrl(@Nullable String contentJson) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null) {
+            return "";
+        }
+        return readString(obj, KEY_URL);
+    }
+
+    public static boolean hasRemoteUrl(@Nullable String contentJson) {
+        String url = resolveRemoteUrl(contentJson);
+        return !TextUtils.isEmpty(url)
+                && (url.startsWith("http://") || url.startsWith("https://"));
+    }
+
+    public static boolean isUsableLocalFile(@Nullable String path) {
+        return isUsableLocalPath(path);
+    }
+
+    public static int resolveVideoWidth(@Nullable String contentJson) {
+        return readIntField(contentJson, "dw", 180);
+    }
+
+    public static int resolveVideoHeight(@Nullable String contentJson) {
+        return readIntField(contentJson, "dh", 120);
+    }
+
+    private static int readIntField(@Nullable String contentJson, @NonNull String key, int fallback) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null || !obj.has(key) || !obj.get(key).isJsonPrimitive()) {
+            return fallback;
+        }
+        try {
+            return Math.max(0, obj.get(key).getAsInt());
+        } catch (Exception ignored) {
+            return fallback;
+        }
+    }
+
     private static boolean isUsableLocalPath(@Nullable String path) {
         if (TextUtils.isEmpty(path)) {
             return false;

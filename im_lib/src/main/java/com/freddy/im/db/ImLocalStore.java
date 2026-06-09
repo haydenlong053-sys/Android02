@@ -186,6 +186,11 @@ public final class ImLocalStore {
         ImMessageRepository.getInstance().markOutgoingSendFailed(clientMsgId, onUpdated);
     }
 
+    public static void markOutgoingResending(@Nullable String clientMsgId,
+                                             @Nullable ImMessageRepository.OnMessageUpdatedCallback onUpdated) {
+        ImMessageRepository.getInstance().markOutgoingResending(clientMsgId, onUpdated);
+    }
+
     /**
      * 加载会话「最新」一页本地消息，最多 {@link #MESSAGE_PAGE_SIZE} 条（按 {@code sequenceId} 升序展示）。
      * <p>

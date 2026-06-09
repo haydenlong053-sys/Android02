@@ -5,7 +5,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.IMSConfig;
+import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.message.ImMessageManager;
 
@@ -70,32 +72,36 @@ public final class MessageReadUiState {
         return peerReadUpToSeq >= 0 && seq > 0 && seq <= peerReadUpToSeq;
     }
 
-    /**
-     * @return 0–100；无数据返回 -1
-     */
-    public int getGroupReadPercent(@NonNull AppMessage message,
-                                   @Nullable String currentUserId,
-                                   int groupMemberCount) {
-        if (!message.isSender(currentUserId)) {
-            return -1;
+    /** 是否展示已读回执（对齐野火 Persist_And_Count 类消息）。 */
+    public static boolean supportsReadReceipt(@NonNull AppMessage message) {
+        if (WeChatUiHelper.isSystemMessage(message)) {
+            return false;
         }
-        if (!isDelivered(message)) {
+        int type = message.getMsgContentType();
+        return type == MessageType.MessageContentType.TEXT.getMsgContentType()
+                || WeChatUiHelper.isImageMessage(type)
+                || WeChatUiHelper.isVoiceMessage(type)
+                || WeChatUiHelper.isVideoMessage(type)
+                || WeChatUiHelper.isFileMessage(type);
+    }
+
+    /**
+     * 群聊已读人数；不可展示时返回 -1。
+     */
+    public int getGroupReadCount(@NonNull AppMessage message,
+                                 @Nullable String currentUserId) {
+        if (!message.isSender(currentUserId) || !isDelivered(message)) {
             return -1;
         }
         String msgId = message.getMsgId();
-        if (TextUtils.isEmpty(msgId)) {
-            return -1;
+        Integer count = null;
+        if (!TextUtils.isEmpty(msgId)) {
+            count = groupReadCountByMsgId.get(msgId);
         }
-        Integer count = groupReadCountByMsgId.get(msgId);
         if (count == null) {
             count = message.getReadPersonCount();
         }
-        if (count <= 0) {
-            return -1;
-        }
-        int total = Math.max(groupMemberCount, 1);
-        int percent = (int) Math.round(count * 100.0 / total);
-        return Math.min(100, Math.max(0, percent));
+        return Math.max(0, count);
     }
 
     private static boolean isDelivered(@NonNull AppMessage message) {
