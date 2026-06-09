@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/dp_2">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/row_container"
@@ -13,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/dp_5">
+        android:paddingBottom="@dimen/dp_2">
 
         <com.cboda.baselibrary.widge.VpGradeView
             android:id="@+id/avatar_left"
@@ -29,8 +28,7 @@
             android:id="@+id/message_column"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_5"
-            android:layout_marginEnd="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -160,7 +158,6 @@
                     android:id="@+id/fl_message_content_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
                     tools:background="@drawable/bg_bubble_received"
                     tools:layout_height="100dp"
                     tools:layout_width="176dp" />
@@ -183,7 +180,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingHorizontal="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:paddingBottom="5dp"
         android:textColor="@color/gray11"
         android:textSize="11sp"

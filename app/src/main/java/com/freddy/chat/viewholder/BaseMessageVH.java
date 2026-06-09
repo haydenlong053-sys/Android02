@@ -34,6 +34,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
     public final ShapeTextView joinTimeTv;
     public final VpGradeView avatarLeft;
     public final VpGradeView avatarRight;
+    public final LinearLayout rowContainer;
     public final LinearLayout messageColumn;
     public final LinearLayout bubbleRow;
     public final LinearLayout errorLinearLayout;
@@ -63,6 +64,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         joinTimeTv = itemView.findViewById(R.id.join_time_tv);
         avatarLeft = itemView.findViewById(R.id.avatar_left);
         avatarRight = itemView.findViewById(R.id.avatar_right);
+        rowContainer = itemView.findViewById(R.id.row_container);
         messageColumn = itemView.findViewById(R.id.message_column);
         bubbleRow = itemView.findViewById(R.id.bubble_row);
         errorLinearLayout = itemView.findViewById(R.id.error_linear_layout);
@@ -93,6 +95,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         AppMessage prev = context.getPrevMessage(position);
 
         bindMessageTime(message, sentByMe);
+        updateRowInsets(sentByMe);
         updateContentHostMargin(sentByMe);
 
         if (sentByMe) {
@@ -266,14 +269,26 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         groupReceiptFrameLayout.setVisibility(View.GONE);
     }
 
+    private void updateRowInsets(boolean sentByMe) {
+        int bottom = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_2);
+        if (sentByMe) {
+            int horizontal = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_5);
+            rowContainer.setPadding(horizontal, 0, horizontal, bottom);
+        } else {
+            int horizontal = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_16);
+            rowContainer.setPadding(horizontal, 0, horizontal, bottom);
+        }
+    }
+
     private void updateContentHostMargin(boolean sentByMe) {
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) flMessageContentHost.getLayoutParams();
-        int margin = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_10);
         if (sentByMe) {
             lp.setMarginStart(0);
-            lp.setMarginEnd(margin);
+            lp.setMarginEnd(itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_4));
         } else {
-            lp.setMarginStart(margin);
+            int marginStart = itemView.getResources()
+                    .getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_10);
+            lp.setMarginStart(marginStart);
             lp.setMarginEnd(0);
         }
         flMessageContentHost.setLayoutParams(lp);
