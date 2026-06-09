@@ -152,7 +152,7 @@ public class MessageBuilder {
         message.setContent(wrapVoiceContentAsJson(durationSec, remoteUrl, localPath));
     }
 
-    /** 文件消息 content：{@code {"url":"https://...","msg":"name.ext"}} */
+    /** 文件消息 content：{@code {"url":"https://...","msg":"name.ext","size":12345}} */
     @NonNull
     public static AppMessage buildFileMessage(@Nullable String sessionId,
                                               int conversationType,
@@ -230,11 +230,27 @@ public class MessageBuilder {
     private static String wrapFileContentAsJson(@NonNull String fileName,
                                                 @NonNull String remoteUrl,
                                                 @Nullable String localPath) {
-        Map<String, Object> body = new LinkedHashMap<>(3);
+        Map<String, Object> body = new LinkedHashMap<>(4);
         body.put(MediaMessageContentUtil.KEY_URL, remoteUrl);
         body.put("msg", fileName);
         putLocalUrl(body, localPath);
+        long sizeBytes = resolveLocalFileSizeBytes(localPath);
+        if (sizeBytes > 0L) {
+            body.put("size", sizeBytes);
+        }
         return AppGson.get().toJson(body);
+    }
+
+    private static long resolveLocalFileSizeBytes(@Nullable String localPath) {
+        if (TextUtils.isEmpty(localPath)) {
+            return 0L;
+        }
+        String trimmed = localPath.trim();
+        if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+            return 0L;
+        }
+        File file = new File(trimmed);
+        return file.isFile() ? file.length() : 0L;
     }
 
     @NonNull
