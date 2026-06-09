@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.intelligent.R;
 import com.freddy.chat.MessageVideoPreviewActivity;
@@ -29,13 +30,14 @@ public final class VideoMessageVH extends BaseMessageVH {
     private final TextView tvVideoDuration;
 
     public VideoMessageVH(@NonNull View itemView) {
-        super(itemView, R.layout.item_message_content_video, true);
+        super(itemView, R.layout.item_message_content_video, false);
         ivVideoCover = contentView.findViewById(R.id.iv_video_cover);
         ivVideoPlay = contentView.findViewById(R.id.iv_video_play);
         tvVideoDuration = contentView.findViewById(R.id.tv_video_duration);
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
+        ELogUtilKt.eLogD("zhanglong", "视频消息getContent--->" + message.getContent());
         bindCommon(message, position, context);
         boolean sentByMe = message.isSender(context.currentUserId);
         applyVideoBubbleSize(message);
@@ -43,6 +45,7 @@ public final class VideoMessageVH extends BaseMessageVH {
 
         Glide.with(ivVideoCover.getContext())
                 .load(coverUrl)
+                .placeholder(R.drawable.bg_bubble_received)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivVideoCover);
 

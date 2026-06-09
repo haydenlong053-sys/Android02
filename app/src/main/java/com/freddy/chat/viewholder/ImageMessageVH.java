@@ -23,7 +23,7 @@ public final class ImageMessageVH extends BaseMessageVH {
     public final AppRoundBroadImage ivMessageImage;
 
     public ImageMessageVH(@NonNull View itemView) {
-        super(itemView, R.layout.item_message_content_image, true);
+        super(itemView, R.layout.item_message_content_image, false);
         ivMessageImage = (AppRoundBroadImage) contentView;
     }
 
@@ -37,7 +37,8 @@ public final class ImageMessageVH extends BaseMessageVH {
 
         Glide.with(ivMessageImage.getContext())
                 .load(imgUrl)
-                .thumbnail(Glide.with(ivMessageImage.getContext()).load(thumbnailsImg))
+                .placeholder(R.drawable.bg_bubble_received)
+                .thumbnail(Glide.with(ivMessageImage.getContext()).load(thumbnailsImg).placeholder(R.drawable.bg_bubble_received) )
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivMessageImage);
 
