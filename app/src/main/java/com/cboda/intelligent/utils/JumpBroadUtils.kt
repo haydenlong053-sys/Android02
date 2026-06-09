@@ -64,6 +64,7 @@ import com.cboda.intelligent.dialog.GroupQrCodeDialog
 import com.cboda.intelligent.dialog.pop.SaveGroupQrCodeBroadPop
 import androidx.core.net.toUri
 import com.cboda.intelligent.activity.AiActivity
+import com.cboda.intelligent.activity.AiAntiFraudBroadActivity
 import com.cboda.intelligent.activity.AiCheckRecordBroadActivity
 
 
@@ -160,13 +161,25 @@ class JumpBroadUtils {
             mContext.startActivity(intent)
         }
 
-        fun toAiCheckRecordAct(context: Context? = null){
+        fun toAiCheckRecordAct(context: Context? = null) {
             val mContext = getAppContext(context)
             val intent = Intent(mContext, AiCheckRecordBroadActivity::class.java)
             mContext.startActivity(intent)
         }
 
         fun toAiActivity(context: Context? = null) {
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, AiActivity::class.java)
+            mContext.startActivity(intent)
+        }
+
+        fun startAiAntiFraudActivity(context: Context? = null) {
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, AiAntiFraudBroadActivity::class.java)
+            mContext.startActivity(intent)
+        }
+
+        fun startAiActivity(context: Context? = null) {
             val mContext = getAppContext(context)
             val intent = Intent(mContext, AiActivity::class.java)
             mContext.startActivity(intent)
@@ -301,9 +314,10 @@ class JumpBroadUtils {
             context?.startActivity(intent)
         }
 
-        fun startQunUserListActivity(context: Context?, qunId: String) {
+        fun startQunUserListActivity(context: Context?, qunId: String, openQyKj: String?) {
             val intent = Intent(context, QunUserList2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
+            intent.putExtra("openQyKj", openQyKj ?: "")
             context?.startActivity(intent)
         }
 

@@ -3,6 +3,8 @@ package com.cboda.intelligent.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
@@ -12,12 +14,18 @@ import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.SquareNoticeActivity
+import com.cboda.intelligent.activity.SquareUserActivity
 import com.cboda.intelligent.base.BaseBroadFragment
+import com.cboda.intelligent.bean.SquareMessageUnreadBroadEvent
 import com.cboda.intelligent.databinding.GpFragmentBinding
 import com.cboda.intelligent.dialog.pop.SquarePublishPopup
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
 import com.cboda.intelligent.widge.TextBackIndicatorAdapter
+import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class GpFragment : BaseBroadFragment<GpFragmentBinding, CleverBodyViewBroadModel>() {
     private var marginBottom = 0
@@ -35,8 +43,47 @@ class GpFragment : BaseBroadFragment<GpFragmentBinding, CleverBodyViewBroadModel
             viewModel.startAct<SquareNoticeActivity>()
         }
         mBinding?.gpAddView?.click {
-            val squarePublishPopup = SquarePublishPopup(requireContext())
-            squarePublishPopup.showPopupWindow()
+            SquarePublishPopup(requireActivity()).showPopupWindow()
+        }
+        mBinding?.userImg?.click {
+            val userId = MMKVBroadUtils.getRealUserId().orEmpty().trim()
+            SquareUserActivity.start(requireContext(), userId)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onDestroyView() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
+        super.onDestroyView()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSquareMessageUnreadChanged(event: SquareMessageUnreadBroadEvent) {
+        refreshUnreadNotice()
+    }
+
+    override fun lazyLoad() {
+        refreshUnreadNotice()
+    }
+
+    override fun onResumeTwo() {
+        refreshUnreadNotice()
+    }
+
+    private fun refreshUnreadNotice() {
+        lifecycleScope.launch {
+            viewModel.getMessageUnreadCount()
+                .observe(this@GpFragment) { unreadCount ->
+                    mBinding?.unReadNotice?.isVisible = unreadCount > 0
+                }
         }
     }
 

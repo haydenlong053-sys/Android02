@@ -48,10 +48,23 @@
         android:layout_height="@dimen/dp_20"
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_squre_tx"
-        app:layout_constraintStart_toStartOf="@id/shapeRightView"
         app:layout_constraintBottom_toBottomOf="@id/shapeRightView"
         app:layout_constraintEnd_toEndOf="@id/shapeRightView"
+        app:layout_constraintStart_toStartOf="@id/shapeRightView"
         app:layout_constraintTop_toTopOf="@id/shapeRightView" />
+
+    <com.hjq.shape.view.ShapeView
+        android:id="@+id/unReadNotice"
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_18"
+        android:layout_marginEnd="@dimen/dp_18"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/shapeRightView"
+        app:layout_constraintTop_toTopOf="@id/shapeRightView"
+        app:shape_radius="@dimen/dp_8"
+        app:shape_solidColor="#EB534B"
+        tools:visibility="visible" />
 
     <com.hjq.shape.view.ShapeView
         android:id="@+id/shapeView"

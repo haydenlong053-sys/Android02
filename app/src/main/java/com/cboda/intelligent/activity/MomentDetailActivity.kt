@@ -1,0 +1,433 @@
+package com.cboda.intelligent.activity
+
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.core.graphics.toColorInt
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.widge.VpGradeView
+import com.cboda.intelligent.R
+import com.cboda.intelligent.base.BaseSimple2BroadActivity
+import com.cboda.intelligent.bean.CommentListBean
+import com.cboda.intelligent.bean.SquarePostBean
+import com.cboda.intelligent.bean.SquarePostDeleteBroadEvent
+import com.cboda.intelligent.bean.SquarePostTopBroadEvent
+import com.cboda.intelligent.databinding.LayoutSquareDetailPostBinding
+import com.cboda.intelligent.databinding.SquareDetailActivityBinding
+import com.cboda.intelligent.dialog.InputDialogBroadFra
+import com.cboda.intelligent.dialog.pop.SquarePostOwnerActionPopup
+import com.cboda.intelligent.dialog.pop.SquarePostReportPopup
+import com.cboda.intelligent.holder.CommanConfimBroadHolder
+import com.cboda.intelligent.utils.SquarePostLikeBroadHelper
+import com.cboda.intelligent.utils.TimeBroadUtils
+import com.cboda.intelligent.utils.ToastBroadUtil
+import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
+import com.cboda.intelligent.widge.SquarePostImageLayoutHelper
+import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+
+class MomentDetailActivity : BaseSimple2BroadActivity() {
+
+    private var mBinding: SquareDetailActivityBinding? = null
+    private var postBinding: LayoutSquareDetailPostBinding? = null
+    private val viewModel: CleverBodyViewBroadModel by viewModels()
+    private var postId: String = ""
+    private val commentList = mutableListOf<CommentListBean>()
+    private val nameColor = "#FF110F67".toColorInt()
+    private var replyParentId: String = "0"
+    private var currentPost: SquarePostBean? = null
+    private var reportPopup: SquarePostReportPopup? = null
+    private var ownerActionPopup: SquarePostOwnerActionPopup? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mBinding = binding as? SquareDetailActivityBinding
+        postBinding = mBinding?.squareDetailPost
+        setRootBgColor(R.color.white)
+        getToolbarTitle()?.setText(R.string.详情)
+        postId = intent.getStringExtra(EXTRA_POST_ID).orEmpty()
+        viewModel.recordMomentPostView(postId)
+        initView()
+        initCommentInput()
+        initMoreAction()
+        initLikeAction()
+        loadPostDetail()
+    }
+
+    override fun onDestroy() {
+        reportPopup?.dismiss()
+        reportPopup = null
+        ownerActionPopup?.dismiss()
+        ownerActionPopup = null
+        postBinding?.squareImageContainer?.let { SquarePostImageLayoutHelper.unbind(it) }
+        super.onDestroy()
+    }
+
+    override fun getViewBindingClass() = SquareDetailActivityBinding::class.java
+    override fun showTransparentTopTitleLayout() = false
+    override fun useViewBinding() = true
+    override fun showOrHideTitleLayout() = true
+    override fun useStatusBarDarkFont() = true
+    override fun showBgTopTitleLayout() = true
+
+    private fun initView() {
+        mBinding?.smart?.setEnableRefresh(false)
+        mBinding?.smart?.setEnableLoadMore(false)
+        mBinding?.squareDetailShareLayout?.isGone = true
+    }
+
+    private fun initCommentInput() {
+        mBinding?.squareDetailCommentInput?.setOnClickListener {
+            replyParentId = "0"
+            showCommentInputDialog()
+        }
+    }
+
+    private fun showCommentInputDialog(replyName: String = "") {
+        InputDialogBroadFra()
+            .setShaixuanClick(replyName, object : InputDialogBroadFra.OnShaixuanClick {
+                override fun onShaixuanClick(content: String) {
+                    submitComment(content, replyParentId)
+                }
+            })
+            .show(supportFragmentManager, TAG_COMMENT_INPUT)
+    }
+
+    private fun submitComment(content: String, parentId: String) {
+        if (postId.isBlank()) return
+        lifecycleScope.launch {
+            viewModel.postMomentComment(postId, content, parentId)
+                .observe(this@MomentDetailActivity) { success ->
+                    if (success != true) return@observe
+                    replyParentId = "0"
+                    ToastBroadUtil.show(getString(R.string.fasongshenqing))
+                    reloadPostDetail()
+                }
+        }
+    }
+
+    private fun reloadPostDetail() {
+        lifecycleScope.launch {
+            viewModel.getMomentPostDetail(postId).observe(this@MomentDetailActivity) { result ->
+                val post = result.post ?: return@observe
+                currentPost = post
+                bindBottomBar(post)
+                bindComments(post.commentList.orEmpty())
+            }
+        }
+    }
+
+    private fun initMoreAction() {
+        postBinding?.squareMoreAction?.setOnClickListener { anchor ->
+            val post = currentPost ?: return@setOnClickListener
+            if (isOwnPost(post)) {
+                showOwnerActionPopup(anchor)
+            } else {
+                showReportPopup(anchor)
+            }
+        }
+    }
+
+    private fun isOwnPost(post: SquarePostBean): Boolean {
+        val currentUserId = MMKVBroadUtils.getRealUserId().orEmpty().trim()
+        val authorId = post.userId.trim()
+        return currentUserId.isNotEmpty() && authorId.isNotEmpty() && currentUserId == authorId
+    }
+
+    private fun showReportPopup(anchor: View) {
+        if (reportPopup?.isShowing() == true) {
+            reportPopup?.dismiss()
+            return
+        }
+        reportPopup = SquarePostReportPopup(this, anchor)
+        reportPopup?.show {
+            SquareReportTypeActivity.start(
+                context = this,
+                targetType = SquareReportTypeActivity.TARGET_TYPE_MOMENT,
+                targetId = postId,
+            )
+        }
+    }
+
+    private fun showOwnerActionPopup(anchor: View) {
+        val post = currentPost ?: return
+        if (ownerActionPopup?.isShowing() == true) {
+            ownerActionPopup?.dismiss()
+            return
+        }
+        ownerActionPopup = SquarePostOwnerActionPopup(this, anchor)
+        ownerActionPopup?.show(
+            isTop = post.isTop,
+            onDeleteClick = { confirmDeletePost() },
+            onTopClick = { toggleTopPost() },
+        )
+    }
+
+    private fun confirmDeletePost() {
+        if (postId.isBlank()) return
+        val holder = CommanConfimBroadHolder(
+            this,
+            getString(R.string.wenxintishi),
+            getString(R.string.square_post_delete_confirm),
+            getString(R.string.shanchu),
+            getString(R.string.quxiao),
+        )
+        holder.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
+            override fun onClickConfim(isConfim: Boolean) {
+                if (isConfim) {
+                    deletePost()
+                }
+            }
+        }
+        holder.show()
+    }
+
+    private fun deletePost() {
+        if (postId.isBlank()) return
+        lifecycleScope.launch {
+            viewModel.deleteMomentPost(postId, false).observe(this@MomentDetailActivity) { success ->
+                if (success != true) return@observe
+                ToastBroadUtil.show(getString(R.string.square_post_delete_success))
+                EventBus.getDefault().post(SquarePostDeleteBroadEvent(postId.trim()))
+                finish()
+            }
+        }
+    }
+
+    private fun toggleTopPost() {
+        val post = currentPost ?: return
+        if (postId.isBlank()) return
+        val top = post.isTop != 1
+        lifecycleScope.launch {
+            viewModel.pinMomentPost(postId, top).observe(this@MomentDetailActivity) { success ->
+                if (success != true) return@observe
+                val newIsTop = if (top) 1 else 0
+                currentPost = post.copy(isTop = newIsTop)
+                ToastBroadUtil.show(
+                    getString(
+                        if (top) {
+                            R.string.square_post_top_success
+                        } else {
+                            R.string.square_post_untop_success
+                        },
+                    ),
+                )
+                EventBus.getDefault().post(
+                    SquarePostTopBroadEvent(
+                        postId = postId.trim(),
+                        isTop = newIsTop,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun initLikeAction() {
+        mBinding?.squareDetailLikeLayout?.setOnClickListener {
+            toggleLike()
+        }
+    }
+
+    private fun toggleLike() {
+        val post = currentPost ?: return
+        if (postId.isBlank()) return
+        val like = post.isLike != 1
+        lifecycleScope.launch {
+            viewModel.likeMomentPost(postId, like).observe(this@MomentDetailActivity) { success ->
+                if (success != true) return@observe
+                currentPost = SquarePostLikeBroadHelper.buildUpdatedPost(post, like)
+                bindBottomBar(currentPost!!)
+                SquarePostLikeBroadHelper.notifyLikeChanged(
+                    postId = postId,
+                    isLike = currentPost!!.isLike,
+                    likeCount = currentPost!!.likeCount,
+                )
+            }
+        }
+    }
+
+    private fun loadPostDetail() {
+        if (postId.isBlank()) {
+            showEmpty(true)
+            return
+        }
+        lifecycleScope.launch {
+            viewModel.getMomentPostDetail(postId).observe(this@MomentDetailActivity) { result ->
+                val emptyMessage = result.emptyMessage
+                if (!emptyMessage.isNullOrBlank()) {
+                    showEmpty(true, emptyMessage)
+                    return@observe
+                }
+                val post = result.post
+                if (post == null) {
+                    showEmpty(true)
+                    return@observe
+                }
+                bindPost(post)
+                currentPost = post
+                bindBottomBar(post)
+                bindComments(post.commentList.orEmpty())
+                showEmpty(false)
+            }
+        }
+    }
+
+    private fun bindPost(post: SquarePostBean) {
+        val postView = postBinding ?: return
+        postView.squareAvatarWrap.setData(
+            post.icon,
+            anyToInt(post.isLiang) == 1,
+            anyToInt(post.isvip) == 1,
+            post.grade,
+            post.registDay,
+        )
+        postView.squareAvatarWrap.setOnClickListener {
+            openUserProfile(post.userId)
+        }
+        postView.squareUserName.text = post.name
+        postView.squarePublishTime.text = TimeBroadUtils.formatSquarePostDate(post.time)
+        postView.squareContent.text = post.content
+        postView.squareUserBio.isGone = post.sign.isBlank()
+        postView.squareUserBio.text = post.sign
+        postView.squareYyLayout.isGone = true
+        SquarePostImageLayoutHelper.bindPostMedia(
+            postView.squareImageContainer,
+            post.momentDisplayImages(),
+            post.momentVideoUrl().takeIf { it.isNotBlank() },
+            enableImagePreview = true,
+        )
+    }
+
+    private fun bindComments(comments: List<CommentListBean>) {
+        commentList.clear()
+        commentList.addAll(comments)
+        val container = mBinding?.squareDetailCommentContainer ?: return
+        container.removeAllViews()
+        if (commentList.isEmpty()) {
+            container.isGone = true
+            return
+        }
+        container.isVisible = true
+        val inflater = LayoutInflater.from(this)
+        commentList.forEachIndexed { index, comment ->
+            val itemView = inflater.inflate(R.layout.item_square_detail_comment, container, false)
+            bindCommentItem(itemView, comment, index == commentList.lastIndex)
+            container.addView(itemView)
+        }
+    }
+
+    private fun bindCommentItem(itemView: View, comment: CommentListBean, isLast: Boolean) {
+        itemView.findViewById<VpGradeView>(R.id.squareDetailCommentAvatar).apply {
+            setData(
+                comment.icon,
+                anyToInt(comment.isLiang) == 1,
+                anyToInt(comment.isvip) == 1,
+                comment.grade,
+                comment.registDay,
+            )
+            setOnClickListener {
+                openUserProfile(comment.userId, SquareUserActivity.TAB_MOMENT)
+            }
+        }
+        itemView.findViewById<TextView>(R.id.squareDetailCommentName).text =
+            buildDetailCommentName(comment)
+        itemView.findViewById<TextView>(R.id.squareDetailCommentTime).text =
+            TimeBroadUtils.formatSquarePublishTime(comment.time)
+        itemView.findViewById<TextView>(R.id.squareDetailCommentContent).apply {
+            text = comment.content
+            setOnClickListener {
+                replyParentId = comment.parentIdForReply().ifBlank { "0" }
+                showCommentInputDialog(replyName = comment.name.orEmpty())
+            }
+        }
+        itemView.findViewById<View>(R.id.squareDetailCommentDivider).isGone = isLast
+    }
+
+    private fun buildDetailCommentName(comment: CommentListBean): CharSequence {
+        val name = comment.name.orEmpty()
+        var replyTarget = ""
+        val parentId = anyToInt(comment.parentId)
+        if (parentId != 0) {
+            replyTarget = commentList.find { anyToInt(it.id) == parentId }?.name ?: ""
+        }
+        if (replyTarget.isBlank()) {
+            if (name.isEmpty()) return ""
+            return SpannableString(name).apply {
+                setSpan(
+                    ForegroundColorSpan(nameColor),
+                    0,
+                    name.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+                )
+            }
+        }
+        val replyPrefix = "回复"
+        val fullText = name + replyPrefix + replyTarget
+        val spannable = SpannableString(fullText)
+        if (name.isNotEmpty()) {
+            spannable.setSpan(
+                ForegroundColorSpan(nameColor),
+                0,
+                name.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
+        }
+        val targetStart = name.length + replyPrefix.length
+        val targetEnd = targetStart + replyTarget.length
+        spannable.setSpan(
+            ForegroundColorSpan(nameColor),
+            targetStart,
+            targetEnd,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+        )
+        return spannable
+    }
+
+    private fun openUserProfile(userId: String, initialTab: Int = SquareUserActivity.TAB_SQUARE) {
+        val id = userId.trim()
+        if (id.isNotEmpty()) {
+            SquareUserActivity.start(this, id, initialTab)
+        }
+    }
+
+    private fun bindBottomBar(post: SquarePostBean) {
+        mBinding?.squareDetailBottomCommentCount?.text =
+            anyToInt(post.commentCount).toString()
+        mBinding?.squareDetailBottomLikeCount?.text =
+            anyToInt(post.likeCount).toString()
+        mBinding?.squareDetailLikeIcon?.let {
+            SquarePostLikeBroadHelper.bindLikeIcon(it, post.isLike)
+        }
+    }
+
+    private fun showEmpty(show: Boolean, message: String? = null) {
+        mBinding?.llNoData?.isVisible = show
+        mBinding?.smart?.isVisible = !show
+        mBinding?.squareDetailBottomBar?.isVisible = !show
+        mBinding?.squareDetailNoDataText?.text =
+            message?.takeIf { it.isNotBlank() } ?: getString(R.string.no_data)
+    }
+
+    companion object {
+        private const val EXTRA_POST_ID = "postId"
+        private const val TAG_COMMENT_INPUT = "momentCommentInput"
+
+        fun start(context: Context, postId: String) {
+            context.startActivity(
+                Intent(context, MomentDetailActivity::class.java)
+                    .putExtra(EXTRA_POST_ID, postId),
+            )
+        }
+    }
+}

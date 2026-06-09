@@ -422,7 +422,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
         }
 
         chakangebngduo?.setOnClickListener {
-            JumpBroadUtils.startQunUserListActivity(this, qunId)
+            JumpBroadUtils.startQunUserListActivity(this, qunId,qunxiangqing?.openQykj)
         }
         commercialFunctionSwitch.click {
             val checkEd = commercialFunctionSwitch.isChecked

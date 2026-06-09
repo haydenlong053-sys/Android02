@@ -708,6 +708,30 @@ object NetworkBroadRepository {
         )
     }
 
+    /** 加密 POST，扁平响应（业务字段与 code/msg/success 同级） */
+    suspend fun postEncryptedFlat2(
+        url: String,
+        body: Any,
+    ): NetworkBroadResult<Map<String, Any?>> = suspendCancellableCoroutine { continuation ->
+        NetworkBroadUtils.postEncryptedFlat(
+            url = url,
+            body = body,
+            callback = object : NetworkBroadUtils.FlatMapCallback {
+                override fun onSuccess(map: Map<String, Any?>) {
+                    continuation.resume(NetworkBroadResult.BroadSuccess(map))
+                }
+
+                override fun onFailure(code: Int, message: String) {
+                    continuation.resume(NetworkBroadResult.BroadFailure(code, message))
+                }
+
+                override fun onError(throwable: Throwable) {
+                    continuation.resume(NetworkBroadResult.BroadError(throwable))
+                }
+            },
+        )
+    }
+
 
     /**
      * 协程版本的列表 POST 请求

@@ -12,6 +12,7 @@ import com.cboda.select.picture.config.SelectModeConfig
 import com.cboda.select.picture.entity.LocalMedia
 import com.cboda.select.picture.interfaces.OnResultCallbackListener
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.GlideBroadBroadEngine
 import com.cboda.intelligent.R
 
 /**
@@ -137,51 +138,34 @@ class ImagePickerBroadHolder(private val activity: Context?) {
         isGif: Boolean? = false,
         isSingle: Boolean = false
     ) {
-//        var glideEngine = GlideBroadBroadEngine().createGlideEngine()
-//        //相册
-//        PictureSelector.create(activity) //在Fragment中使用则是 fragment.this
-//            ?.openGallery(if (isVideo) SelectMimeType.ofVideo() else SelectMimeType.ofImage()) //全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-//            ?.setImageEngine(glideEngine)
-//            ?.setMaxVideoSelectNum(1) //视频最大选择数量
-//            ?.setMaxSelectNum(isNumber?:1)
-//            ?.setMinSelectNum(1)
-//            ?.setMinVideoSelectNum(1) //视频最小选择数量
-//            ?.isPreviewVideo(true) //是否支持预览视频
-//            ?.isGif(isGif?:false) //是否显示gif文件
-//            ?.setFilterVideoMinSecond(2)
-//            ?.isMaxSelectEnabledMask(true) //达到最大选择数是否开启禁选蒙层
-//            ?.setImageSpanCount(3) // 每行显示个数 int
-//            ?.isDisplayCamera(false) // 是否显示拍照按钮 true or false
-//            ?.forResult(object :
-//                OnResultCallbackListener<LocalMedia> {
-//                override fun onResult(result: ArrayList<LocalMedia>?) {
-//                    if (result?.isNotEmpty() == true) {
-//                        callBack?.onResult(result)
-//                    }
-//                }
-//
-//                override fun onCancel() {
-//                    callBack?.onCancel()
-//                }
-//                }) //结果回调onActivityResult code
-
-
-        PictureSelector.create(activity)
-            ?.openSystemGallery(if (isVideo) SelectMimeType.ofVideo() else SelectMimeType.ofImage())
-            ?.setSelectionMode(if (isSingle) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
-            ?.forSystemResult(object :
-                OnResultCallbackListener<LocalMedia> {
-                override fun onResult(result: ArrayList<LocalMedia>?) {
-                    if (result?.isNotEmpty() == true) {
-                        callBack?.onResult(result)
-                    }
+        val callback = object : OnResultCallbackListener<LocalMedia> {
+            override fun onResult(result: ArrayList<LocalMedia>?) {
+                if (result?.isNotEmpty() == true) {
+                    callBack?.onResult(result)
                 }
+            }
 
-                override fun onCancel() {
-                    callBack?.onCancel()
-                }
-
-            })
+            override fun onCancel() {
+                callBack?.onCancel()
+            }
+        }
+        if (isVideo) {
+            PictureSelector.create(activity)
+                ?.openSystemGallery(SelectMimeType.ofVideo())
+                ?.setSelectionMode(if (isSingle) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
+                ?.forSystemResult(callback)
+        } else {
+            PictureSelector.create(activity)
+                ?.openGallery(SelectMimeType.ofImage())
+                ?.setImageEngine(GlideBroadBroadEngine.createGlideEngine())
+                ?.setMaxSelectNum(isNumber ?: 1)
+                ?.setMinSelectNum(1)
+                ?.isGif(isGif ?: false)
+                ?.isWithSelectVideoImage(false)
+                ?.isDisplayCamera(false)
+                ?.setSelectionMode(if (isSingle) SelectModeConfig.SINGLE else SelectModeConfig.MULTIPLE)
+                ?.forResult(callback)
+        }
     }
 
     interface OnResultCallback {

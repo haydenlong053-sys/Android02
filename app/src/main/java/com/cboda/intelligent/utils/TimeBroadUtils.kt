@@ -209,6 +209,35 @@ class TimeBroadUtils {
             }
         }
 
+        /** 消息中心时间：1 小时内分钟档、24 小时内 N 小时前、更早 yyyy-MM-dd HH:mm */
+        fun formatNoticeTime(
+            time: String?,
+            nowMillis: Long = System.currentTimeMillis(),
+        ): String {
+            if (time.isNullOrBlank()) return ""
+            val publishMillis = dateToStamp(time)
+            if (publishMillis <= 0L) return time.take(16)
+
+            val diff = nowMillis - publishMillis
+            if (diff < 0) return time.take(16)
+
+            return when {
+                diff < HOUR -> formatSquareMinutesAgo(diff / MINUTE)
+                diff < DAY -> "${(diff / HOUR).coerceAtLeast(1)}小时前"
+                else -> time.take(16)
+            }
+        }
+
+        /** 详情页帖子头部展示日期：yyyy-MM-dd */
+        fun formatSquarePostDate(time: String?): String {
+            if (time.isNullOrBlank()) return ""
+            val publishMillis = dateToStamp(time)
+            if (publishMillis <= 0L) {
+                return time.take(10)
+            }
+            return getFormatTime(Date(publishMillis))
+        }
+
         private fun formatSquareMinutesAgo(minutes: Long): String {
             return when {
                 minutes < 1 -> "1分钟前"

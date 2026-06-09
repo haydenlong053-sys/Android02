@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_12"
+    android:padding="@dimen/dp_16"
+    app:shape_radius="@dimen/dp_16"
+    app:shape_solidColor="@color/white"
+    app:shape_strokeColor="#E8EAFF"
+    app:shape_strokeWidth="@dimen/dp_0.5">
+
+    <com.cboda.baselibrary.widge.VpGradeView
+        android:id="@+id/followerAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:user_img_width="@dimen/dp_48" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/followerName"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black_90"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/blackBtn"
+        app:layout_constraintStart_toEndOf="@id/followerAvatar"
+        app:layout_constraintTop_toTopOf="@id/followerAvatar"
+        tools:text="JOY Follow" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/followerSign"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black_45"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/blackBtn"
+        app:layout_constraintStart_toEndOf="@id/followerAvatar"
+        app:layout_constraintTop_toBottomOf="@id/followerName"
+        tools:text="生活不止远方的苟且，还是今天和明天" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/blackBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_28"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:gravity="center"
+        android:minWidth="@dimen/dp_56"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:text="@string/square_user_block"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/followerAvatar"
+        app:layout_constraintEnd_toStartOf="@id/followBtn"
+        app:layout_constraintTop_toTopOf="@id/followerAvatar"
+        app:shape_radius="@dimen/dp_14" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/followBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_28"
+        android:gravity="center"
+        android:minWidth="@dimen/dp_56"
+        android:paddingHorizontal="@dimen/dp_12"
+        android:text="@string/square_user_follow"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/followerAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/followerAvatar"
+        app:shape_radius="@dimen/dp_14" />
+</com.hjq.shape.layout.ShapeConstraintLayout>

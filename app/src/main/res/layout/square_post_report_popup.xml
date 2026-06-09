@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/dp_12"
+        android:layout_height="@dimen/dp_7"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:rotation="180"
+        android:src="@mipmap/ic_broad_sanjiaoxing" />
+
+    <com.hjq.shape.layout.ShapeLinearLayout
+        android:id="@+id/squareReportRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:minWidth="@dimen/dp_120"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/dp_16"
+        android:paddingVertical="@dimen/dp_12"
+        app:shape_radius="@dimen/dp_12"
+        app:shape_solidColor="#FF2B3158">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:src="@drawable/ic_square_report" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/squareReportAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:text="@string/square_report"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </com.hjq.shape.layout.ShapeLinearLayout>
+</LinearLayout>

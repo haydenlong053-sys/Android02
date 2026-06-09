@@ -41,12 +41,10 @@ import com.cboda.baselibrary.bean.OssFileBroadBean;
 import com.cboda.baselibrary.common.UrlBroadConstants;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
 import com.cboda.baselibrary.utils.DeviceBroadUtil;
-import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.GsonUtilsKt;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.tencent.mars.BaseEvent;
 import com.tencent.mars.Mars;
-import com.tencent.mars.comm.Alarm;
 import com.tencent.mars.app.AppLogic;
 import com.tencent.mars.proto.ProtoLogic;
 import com.tencent.mars.sdt.SdtLogic;
@@ -3922,10 +3920,10 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         Mars.onDestroy();
         AppLogic.setCallBack(null);
         SdtLogic.setCallBack(null);
-        if (HttpsBroadConfig.isReviewEnv) {
-            //去除闹钟权限
-            Alarm.resetAlarm(this);
-        }
+//        if (HttpsBroadConfig.isReviewEnv) {
+//            //去除闹钟权限
+//            com.tencent.mars.comm.Alarm.resetAlarm(this);
+//        }
         ProtoLogic.setUserInfoUpdateCallback(null);
         ProtoLogic.setSettingUpdateCallback(null);
         ProtoLogic.setFriendListUpdateCallback(null);

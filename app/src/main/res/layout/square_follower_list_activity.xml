@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main2"
+    android:orientation="vertical">
+
+    <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        app:shapeCornersRadius="@dimen/dp_20"
+        app:shapeSolidColor="@color/white">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableStart="@mipmap/ic_broad_search2"
+            android:drawablePadding="@dimen/dp_8"
+            android:gravity="center_vertical"
+            android:hint="@string/square_follower_search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/dp_16"
+            android:textColor="@color/black_90"
+            android:textColorHint="@color/black_45"
+            android:textSize="13sp" />
+    </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/smart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_12">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/llNoData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_140"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp_140"
+                    android:layout_height="@dimen/dp_140"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_empty_broad_bg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:gravity="center"
+                    android:text="@string/no_data"
+                    android:textColor="@color/color_text_content_hint"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_12" />
+        </FrameLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>

@@ -7,15 +7,27 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
+import com.cboda.intelligent.activity.MomentDetailActivity
+import com.cboda.intelligent.activity.SquareUserActivity
 import com.cboda.intelligent.adapter.SquarePostBroadAdapter
 import com.cboda.intelligent.base.BaseBroadFragment
+import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.SquarePostBean
+import com.cboda.intelligent.bean.SquarePostDeleteBroadEvent
+import com.cboda.intelligent.bean.SquarePostLikeBroadEvent
+import com.cboda.intelligent.bean.SquarePostPublishBroadEvent
+import com.cboda.intelligent.bean.SquarePostTopBroadEvent
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.databinding.FriendsCircleFragmentBinding
+import com.cboda.intelligent.dialog.pop.SquarePublishPopup
+import com.cboda.intelligent.utils.SquarePostLikeBroadHelper
 import com.cboda.intelligent.viewmodel.CleverBodyViewBroadModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import kotlin.collections.orEmpty
 
 class FriendCircleFragment : BaseBroadFragment<FriendsCircleFragmentBinding, CleverBodyViewBroadModel>() {
@@ -28,6 +40,98 @@ class FriendCircleFragment : BaseBroadFragment<FriendsCircleFragmentBinding, Cle
             adapter = mAdapter
         }
         initRefreshLayout()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
+        super.onDestroyView()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSquarePostPublished(event: SquarePostPublishBroadEvent) {
+        if (event.publishType != SquarePublishPopup.PUBLISH_TYPE_MOMENTS) return
+        pageNo = 1
+        totalPage = 1
+        mBinding?.smart?.setEnableLoadMore(true)
+        mBinding?.smart?.setNoMoreData(false)
+        loadSquarePostList()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSquarePostLikeChanged(event: SquarePostLikeBroadEvent) {
+        mAdapter.updateLikeState(event.postId, event.isLike, event.likeCount)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSquarePostDeleted(event: SquarePostDeleteBroadEvent) {
+        pageNo = 1
+        totalPage = 1
+        mBinding?.smart?.setEnableLoadMore(true)
+        mBinding?.smart?.setNoMoreData(false)
+        loadSquarePostList()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSquarePostTopChanged(event: SquarePostTopBroadEvent) {
+        pageNo = 1
+        totalPage = 1
+        mBinding?.smart?.setEnableLoadMore(true)
+        mBinding?.smart?.setNoMoreData(false)
+        loadSquarePostList()
+    }
+
+    override fun initListener() {
+        mAdapter.setOnItemClickListener { _, _, position ->
+            val postId = mAdapter.getItem(position).id.trim()
+            if (postId.isNotEmpty()) {
+                MomentDetailActivity.start(requireContext(), postId)
+            }
+        }
+        mAdapter.setOnItemChildClickListener { _, view, position ->
+            when (view.id) {
+                R.id.squareLikeLayout -> toggleLike(mAdapter.getItem(position), position)
+                R.id.squareAvatarWrap -> openUserProfile(mAdapter.getItem(position).userId)
+            }
+        }
+    }
+
+    private fun openUserProfile(userId: String) {
+        val id = userId.trim()
+        if (id.isNotEmpty()) {
+            SquareUserActivity.start(requireContext(), id)
+        }
+    }
+
+    private fun toggleLike(item: SquarePostBean, position: Int) {
+        val postId = item.id.trim()
+        if (postId.isEmpty()) return
+        val like = item.isLike != 1
+        lifecycleScope.launch {
+            viewModel.likeMomentPost(postId, like).observe(this@FriendCircleFragment) { success ->
+                if (success != true) return@observe
+                val newItem = SquarePostLikeBroadHelper.buildUpdatedPost(item, like)
+                mAdapter.data[position] = newItem
+                mAdapter.notifyItemChanged(position)
+                SquarePostLikeBroadHelper.notifyLikeChanged(
+                    postId = postId,
+                    isLike = newItem.isLike,
+                    likeCount = newItem.likeCount,
+                )
+            }
+        }
     }
 
     private fun initRefreshLayout() {

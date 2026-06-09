@@ -19,6 +19,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 
 class QunUserList2BroadActivity : BaseSimpleBroadActivity() {
     private var qunId = ""
+    private var openQyKj = ""
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: QunUserBroadAdapter? = null
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
@@ -42,7 +43,7 @@ class QunUserList2BroadActivity : BaseSimpleBroadActivity() {
         super.onCreate(savedInstanceState)
         initViews()
         qunId = intent?.getStringExtra("qunid") ?: ""
-
+        openQyKj = intent?.getStringExtra("openQyKj") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         viewModel?.qunUserListPageLiveData2?.observe(this) {
             smartLayout.finishRefresh()
@@ -55,7 +56,15 @@ class QunUserList2BroadActivity : BaseSimpleBroadActivity() {
                 if (this.isNotEmpty()) {
                     pageNo++
                 }
-                mDataList.addAll(this)
+                if (openQyKj == "1") {
+                    this.forEach { item ->
+                        if (item.type == "1" || item.type == "2") {
+                            mDataList.add(item)
+                        }
+                    }
+                } else {
+                    mDataList.addAll(this)
+                }
                 mAdapter?.setList(mDataList)
             }
             llNoData.visibility = if (mDataList.isEmpty()) View.VISIBLE else View.GONE
@@ -107,6 +116,7 @@ class QunUserList2BroadActivity : BaseSimpleBroadActivity() {
     }
 
     private fun getQunUserPage2() {
+
         viewModel?.getQunUserPage2(this, qunId, pageNo, CommonBroadConfig.pageSize_40)
     }
 

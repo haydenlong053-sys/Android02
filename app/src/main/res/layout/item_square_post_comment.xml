@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/squareCommentText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:lineSpacingExtra="@dimen/dp_2"
+    android:textColor="@color/black"
+    android:textSize="@dimen/sp_14"
+    tools:text="陈冉：这是真的吗" />

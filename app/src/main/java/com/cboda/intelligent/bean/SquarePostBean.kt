@@ -1,5 +1,7 @@
 package com.cboda.intelligent.bean
 
+import com.cboda.intelligent.utils.SquarePostMediaBroadHelper
+
 data class SquarePostBean(
     val id: String = "",
     val userId: String = "",
@@ -21,6 +23,7 @@ data class SquarePostBean(
     val commentCreditMin: String = "",
     val canComment: String = "",
     val name: String = "",
+    val sign: String = "",
     val icon: String = "",
     val grade: String = "",
 
@@ -32,38 +35,48 @@ data class SquarePostBean(
     val registDay: String = "",
     val quoteCount: String = "",
     val quote: Duote? = null,
-//    "id": 2001,
-//    "userId": "uuid",
-//"content": "文字",
-//"type": "1", // 1图片 2视频
-//"imgs": [
-//"https://a.jpg"
-//], // 图片数组
-//"video": "", // 视频URL，type=2时有值
-//"odicStake": "2.00", // 该帖质押ODIC金额
-//"viewCount": 100,
-//"likeCount": 10,
-//"commentCount": 3,
-//"time": "2026-05-19 14:30:25", // 含时分秒
-//"isLike": "0",
-//"commentGateTypes": "1,2", // 评论门槛 1普通 2会员 3信用分，逗号可多选
-//"commentCreditMin": 60, // 信用分门槛，未选3时可能为空字符串
-//"canComment": "1", // 当前用户能否评论 0否 1是
-//"commentGateTip": "", // 不能评论时的提示，canComment=0时有值
-//"odicStakeStatus": "", //0 质押中 / 1 已退还 / 2 举报没收
-//"stakeRefundTime": "", // 退还时间，未退还为空 ""
-//"odicStakeLabel": "", // 展示文案，如 已质押 2 ODIC
-//"name": "昵称",
-//"icon": "https://xxx/a.jpg",
-//"sign": "",
-//"isvip": "0",
-//"isLiang": "0",
-//"lianghao": "",
-//"idno": "",
-//"grade": "0",
-//"creditScore": "0",
-//"gradeStatus": 0
+    val isLike: Int = 0,
+    val isTop: Int = 0,
+    val imageUrls: Array<String>? = null,
+    val commentList: List<CommentListBean>? = null
+) {
+    /** 广场：图片优先 imgs，其次 imageUrls */
+    private fun squareMediaUrls(): List<String> {
+        val fromImgs = imgs?.filter { it.isNotBlank() }.orEmpty()
+        if (fromImgs.isNotEmpty()) return fromImgs
+        return imageUrls?.filter { it.isNotBlank() }.orEmpty()
+    }
 
-)
+    /** 朋友圈：仅使用 imageUrls */
+    private fun momentMediaUrls(): List<String> {
+        return imageUrls?.filter { it.isNotBlank() }.orEmpty()
+    }
 
+    /** 广场视频地址，来自 video 字段 */
+    fun squareVideoUrl(): String = video.trim()
 
+    /** 朋友圈视频地址，来自 imageUrls 中识别出的视频 */
+    fun momentVideoUrl(): String {
+        return momentMediaUrls()
+            .firstOrNull { SquarePostMediaBroadHelper.isVideoUrl(it) }
+            .orEmpty()
+    }
+
+    /** 广场展示图片（不含 video 字段，仅过滤 URL 列表中的视频后缀） */
+    fun squareDisplayImages(): Array<String>? {
+        val images = squareMediaUrls().filter { !SquarePostMediaBroadHelper.isVideoUrl(it) }
+        if (images.isNotEmpty()) return images.toTypedArray()
+        return null
+    }
+
+    /** 朋友圈展示图片，来自 imageUrls 中非视频项 */
+    fun momentDisplayImages(): Array<String>? {
+        val images = momentMediaUrls().filter { !SquarePostMediaBroadHelper.isVideoUrl(it) }
+        if (images.isNotEmpty()) return images.toTypedArray()
+        return null
+    }
+
+    fun displayImages(): Array<String>? = squareDisplayImages()
+
+    fun videoUrl(): String = squareVideoUrl()
+}

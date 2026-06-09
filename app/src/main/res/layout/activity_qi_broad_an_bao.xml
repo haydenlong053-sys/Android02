@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="@string/我的钱包"
+                android:text="@string/mine_assets3"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/mine_sys_currency"
+                    android:text="@string/mine_assets2"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/mine_sys_point"
+                    android:text="@string/mine_sys_point2"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </LinearLayout>
