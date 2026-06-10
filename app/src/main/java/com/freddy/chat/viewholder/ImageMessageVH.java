@@ -1,6 +1,5 @@
 package com.freddy.chat.viewholder;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.intelligent.R;
-import com.freddy.chat.MessageImagePreviewActivity;
+import com.freddy.chat.media.MessageMediaPreviewHelper;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.im.bean.AppMessage;
 import com.google.gson.JsonObject;
@@ -42,12 +41,8 @@ public final class ImageMessageVH extends BaseMessageVH {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(ivMessageImage);
 
-        ivMessageImage.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), MessageImagePreviewActivity.class);
-            intent.putExtra(MessageImagePreviewActivity.EXTRA_IMAGE_PATH, imgUrl);
-            intent.putExtra(MessageImagePreviewActivity.EXTRA_THUMB_IMAGE_PATH, thumbnailsImg);
-            v.getContext().startActivity(intent);
-        });
+        ivMessageImage.setOnClickListener(v -> MessageMediaPreviewHelper.previewImages(
+                v.getContext(), context.items, message, context.currentUserId));
     }
 
     private void applyImageBubbleSize(@NonNull AppMessage message) {

@@ -641,15 +641,6 @@
             android:name="com.freddy.chat.MessageListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.freddy.chat.MessageImagePreviewActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="com.freddy.chat.MessageVideoPreviewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"

@@ -9,9 +9,12 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.bumptech.glide.Glide;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
@@ -102,24 +105,28 @@ public class VideoPlayOnlyBroadActivity extends BaseSimpleBroadActivity {
         long messageId = getIntent().getLongExtra("messageId",0);
         ELogUtilKt.eLogD(APP_TAG,"video_url==="+video+"--messageId="+messageId);
         showLoading();
-        if (messageId > 0){
+        if (messageId > 0) {
             try {
                 ThreadUtils.executeByCached(new ThreadUtils.SimpleTask<Message>() {
                     @Override
-                    public Message doInBackground()  {
+                    public Message doInBackground() {
                         return ChatManager.Instance().getMessage(messageId);
                     }
+
                     @Override
                     public void onSuccess(Message message) {
-                        // 使用 message 更新 UI
-                        if (message!=null && message.content instanceof VideoMessageContent){
-                            GlideBroadUtil.loadBitmapThumbnail(VideoPlayOnlyBroadActivity.this,((VideoMessageContent) message.content).getThumbnail(), mIvTemp);
+                        if (message != null && message.content instanceof VideoMessageContent) {
+                            GlideBroadUtil.loadBitmapThumbnail(VideoPlayOnlyBroadActivity.this,
+                                    ((VideoMessageContent) message.content).getThumbnail(), mIvTemp);
                         }
                     }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (!TextUtils.isEmpty(videoImage)) {
+            mIvTemp.setVisibility(View.VISIBLE);
+            Glide.with(this).load(videoImage).into(mIvTemp);
         }
 //        if (thumbnail!=null &&thumbnail.getWidth()>0 && thumbnail.getHeight()>0){
 //            ELogUtilKt.eLogD(APP_TAG,"w=="+thumbnail.getWidth());

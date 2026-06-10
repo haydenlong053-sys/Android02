@@ -1,6 +1,5 @@
 package com.freddy.chat.viewholder;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.intelligent.R;
-import com.freddy.chat.MessageVideoPreviewActivity;
+import com.freddy.chat.media.MessageMediaPreviewHelper;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.im.bean.AppMessage;
 import com.google.gson.JsonObject;
@@ -52,15 +51,8 @@ public final class VideoMessageVH extends BaseMessageVH {
         tvVideoDuration.setText(formatDuration(extractDurationSec(message)));
         ivVideoPlay.setVisibility(View.VISIBLE);
 
-        String playUrl = MediaMessageContentUtil.resolveVideoPlayUrl(message.getContent(), sentByMe);
-        View.OnClickListener openPreview = v -> {
-            if (TextUtils.isEmpty(playUrl)) {
-                return;
-            }
-            Intent intent = new Intent(v.getContext(), MessageVideoPreviewActivity.class);
-            intent.putExtra(MessageVideoPreviewActivity.EXTRA_VIDEO_PATH, playUrl);
-            v.getContext().startActivity(intent);
-        };
+        View.OnClickListener openPreview = v -> MessageMediaPreviewHelper.previewVideo(
+                v.getContext(), message, context.currentUserId);
         contentView.setOnClickListener(openPreview);
         ivVideoCover.setOnClickListener(openPreview);
         ivVideoPlay.setOnClickListener(openPreview);
