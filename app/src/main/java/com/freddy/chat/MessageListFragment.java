@@ -58,6 +58,7 @@ import com.freddy.im.listener.OnHttpImListener;
 import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.chat.menu.MessageContextMenuHelper;
 import com.freddy.chat.menu.MessageListActions;
 import com.freddy.chat.menu.MessageListMode;
@@ -896,7 +897,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     @Override
     public void onCopyMessage(@NonNull AppMessage message) {
-        String text = message.getContent();
+        String text = MessageContentFormatter.extractPlainText(message.getContent());
         if (TextUtils.isEmpty(text)) {
             return;
         }

@@ -228,6 +228,14 @@ public final class MessageContentFormatter {
         return text != null ? text : "";
     }
 
+    /**
+     * 从文本消息 {@code content} 提取可复制纯文本（JSON 取 {@code msg}，否则返回原文）。
+     */
+    @NonNull
+    public static String extractPlainText(@Nullable String content) {
+        return extractTextFromContent(content);
+    }
+
     @NonNull
     private static String extractTextFromContent(@Nullable String raw) {
         if (TextUtils.isEmpty(raw)) {
