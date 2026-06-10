@@ -18,6 +18,7 @@ import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.signal.ImSignalProtos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -169,11 +170,26 @@ public class MessageProcessor implements IMessageProcessor {
             return;
         }
         ImLocalStore.saveOutgoingMessage(message, () -> {
+            dispatchOutgoingPersisted(message);
             if (onUiAfterOutgoingPersisted != null) {
                 CThreadPoolExecutor.runOnMainThread(onUiAfterOutgoingPersisted);
             }
             if (transmitImmediately) {
                 CThreadPoolExecutor.runInBackground(() -> transmitOutgoingMessage(message));
+            }
+        });
+    }
+
+    /**
+     * 外发消息落库后通知消息列表刷新（与会话内 {@code adapter.appendMessages} 等价，供转发等场景复用）。
+     */
+    private void dispatchOutgoingPersisted(@NonNull final AppMessage message) {
+        CThreadPoolExecutor.runInBackground(() -> {
+            try {
+                CEventCenter.dispatchEvent(
+                        Events.CHAT_MESSAGE, 0, 0, Collections.singletonList(message));
+            } catch (Exception e) {
+                Log.e(TAG, "外发消息落库后分发失败，reason=" + e.getMessage());
             }
         });
     }

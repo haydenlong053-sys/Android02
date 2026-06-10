@@ -33,6 +33,7 @@ import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.message.ImMessageManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -337,6 +338,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     public void updateMessage(@NonNull AppMessage message) {
         int index = indexOfMessage(message);
         if (index < 0) {
+            appendMessages(Collections.singletonList(message));
             return;
         }
         items.set(index, message);

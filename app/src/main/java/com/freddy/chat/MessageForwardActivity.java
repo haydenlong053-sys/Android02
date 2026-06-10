@@ -3,7 +3,12 @@ package com.freddy.chat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,39 +17,59 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.freddy.im.MessageType;
+import com.cboda.chatui.conversation.forward.ForwardPromptBroadView;
+import com.cboda.chatui.dialog.ShareBroadPop;
+import com.freddy.chat.forward.ForwardMode;
+import com.freddy.chat.forward.MessageForwardHelper;
+import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.ImMessageHttpExample;
 import com.freddy.im.http.model.im.ConversationListContent;
 import com.freddy.im.http.model.im.SessionItem;
-import com.freddy.im.http.model.im.TranspondMessageParam;
 import com.freddy.im.listener.OnHttpImListener;
 import com.cboda.intelligent.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
+
 /**
- * 选择会话转发消息（对齐野火 {@code ForwardBroadActivity}，对接 §4.6 transpond）。
+ * 选择会话转发消息（对齐野火 {@code ForwardBroadActivity} + {@code PickOrCreateConversationBroadActivity}）。
  */
 public class MessageForwardActivity extends AppCompatActivity {
 
     public static final String EXTRA_MSG_IDS = "msg_ids";
-    public static final String EXTRA_CONTENT_TYPE = "content_type";
+    public static final String EXTRA_FORWARD_MODE = "forward_mode";
+    public static final String EXTRA_SOURCE_SESSION_ID = "source_session_id";
+    public static final String EXTRA_SOURCE_IS_GROUP = "source_is_group";
+    public static final String EXTRA_SOURCE_PEER_NAME = "source_peer_name";
 
     private ConversationListAdapter adapter;
-    private SwipeRefreshLayout swipeRefresh;
+    private List<AppMessage> sourceMessages = new ArrayList<>();
+    private ForwardMode forwardMode = ForwardMode.ONE_BY_ONE;
+    private boolean sourceIsGroup;
+    @Nullable
+    private String sourcePeerName;
 
     @NonNull
     public static Intent buildIntent(@NonNull Context context,
                                      @NonNull List<String> msgIds,
-                                     @Nullable String contentType) {
+                                     @NonNull ForwardMode mode,
+                                     @Nullable String sourceSessionId,
+                                     boolean sourceIsGroup,
+                                     @Nullable String sourcePeerName) {
         Intent intent = new Intent(context, MessageForwardActivity.class);
         intent.putStringArrayListExtra(EXTRA_MSG_IDS, new ArrayList<>(msgIds));
-        if (!TextUtils.isEmpty(contentType)) {
-            intent.putExtra(EXTRA_CONTENT_TYPE, contentType);
+        intent.putExtra(EXTRA_FORWARD_MODE, mode.name());
+        if (!TextUtils.isEmpty(sourceSessionId)) {
+            intent.putExtra(EXTRA_SOURCE_SESSION_ID, sourceSessionId);
+        }
+        intent.putExtra(EXTRA_SOURCE_IS_GROUP, sourceIsGroup);
+        if (!TextUtils.isEmpty(sourcePeerName)) {
+            intent.putExtra(EXTRA_SOURCE_PEER_NAME, sourcePeerName);
         }
         return intent;
     }
@@ -57,9 +82,14 @@ public class MessageForwardActivity extends AppCompatActivity {
             finish();
             return;
         }
-        setContentView(R.layout.activity_message_forward);
+        forwardMode = parseForwardMode(getIntent().getStringExtra(EXTRA_FORWARD_MODE));
+        sourceIsGroup = getIntent().getBooleanExtra(EXTRA_SOURCE_IS_GROUP, false);
+        sourcePeerName = getIntent().getStringExtra(EXTRA_SOURCE_PEER_NAME);
+        String sourceSessionId = getIntent().getStringExtra(EXTRA_SOURCE_SESSION_ID);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        setContentView(com.cboda.chatui.R.layout.pick_or_create_conversation_broad_activity);
+
+        Toolbar toolbar = findViewById(com.cboda.chatui.R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -67,42 +97,71 @@ public class MessageForwardActivity extends AppCompatActivity {
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        RecyclerView recyclerView = findViewById(R.id.rv_sessions);
-        swipeRefresh = findViewById(R.id.swipe_refresh);
+        FrameLayout container = findViewById(com.cboda.chatui.R.id.containerFrameLayout);
+        RecyclerView recyclerView = new RecyclerView(this);
+        recyclerView.setLayoutParams(new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        if (container != null) {
+            container.addView(recyclerView);
+        }
+
         adapter = new ConversationListAdapter();
         adapter.setOnSessionClickListener(this::onTargetSessionPicked);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh.setOnRefreshListener(this::loadSessions);
-        swipeRefresh.setColorSchemeResources(R.color.wechat_green);
+        EditText searchEditText = findViewById(com.cboda.chatui.R.id.searchEditText);
+        if (searchEditText != null) {
+            searchEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    adapter.filterByKeyword(s != null ? s.toString() : "");
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+        }
+
+        loadSourceMessages(sourceSessionId, msgIds);
         ImLocalStore.loadSessions(cached -> runOnUiThread(() -> {
             if (!cached.isEmpty()) {
                 adapter.setNewData(cached);
             }
         }));
-        loadSessions();
+//        loadSessions();
     }
 
-    private void loadSessions() {
-        ImMessageHttpExample.requestGetConversationList(0, 0, new OnHttpImListener<ConversationListContent>() {
-            @Override
-            public void onHttpImSuccess(@NonNull ConversationListContent content) {
-                runOnUiThread(() -> finishLoad(content.getSessionList(), false));
-            }
-        }, () -> runOnUiThread(() -> finishLoad(null, true)));
-    }
-
-    private void finishLoad(@Nullable List<SessionItem> list, boolean failed) {
-        swipeRefresh.setRefreshing(false);
-        if (list != null && !list.isEmpty()) {
-            adapter.setNewData(list);
-            ImLocalStore.saveSessions(list);
-        } else if (failed && adapter.getItemCount() <= 0) {
-            Toast.makeText(this, R.string.conversation_list_empty, Toast.LENGTH_SHORT).show();
+    private void loadSourceMessages(@Nullable String sourceSessionId, @NonNull List<String> msgIds) {
+        if (TextUtils.isEmpty(sourceSessionId)) {
+            return;
         }
+        ImLocalStore.loadMessages(sourceSessionId, all -> runOnUiThread(() ->
+                sourceMessages = MessageForwardHelper.filterMessagesByIds(all, msgIds)));
     }
+
+//    private void loadSessions() {
+//        ImMessageHttpExample.requestGetConversationList(0, 0, new OnHttpImListener<ConversationListContent>() {
+//            @Override
+//            public void onHttpImSuccess(@NonNull ConversationListContent content) {
+//                runOnUiThread(() -> finishLoad(content.getSessionList(), false));
+//            }
+//        }, () -> runOnUiThread(() -> finishLoad(null, true)));
+//    }
+
+//    private void finishLoad(@Nullable List<SessionItem> list, boolean failed) {
+//        if (list != null && !list.isEmpty()) {
+//            adapter.setNewData(list);
+//            ImLocalStore.saveSessions(list);
+//        } else if (failed && adapter.getItemCount() <= 0) {
+//            Toast.makeText(this, R.string.conversation_list_empty, Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     private void onTargetSessionPicked(@NonNull SessionItem session) {
         ArrayList<String> msgIds = getIntent().getStringArrayListExtra(EXTRA_MSG_IDS);
@@ -110,43 +169,67 @@ public class MessageForwardActivity extends AppCompatActivity {
             finish();
             return;
         }
-        String to = resolveTargetId(session);
-        if (TextUtils.isEmpty(to)) {
+        if (TextUtils.isEmpty(MessageForwardHelper.resolveTargetId(session))) {
             Toast.makeText(this, R.string.message_forward_failed, Toast.LENGTH_SHORT).show();
             return;
         }
-        TranspondMessageParam param = new TranspondMessageParam();
-        param.setMsgIdlist(msgIds);
-        param.setTo(to);
-        param.setConversation(session.getConversation());
-        String contentType = getIntent().getStringExtra(EXTRA_CONTENT_TYPE);
-        if (TextUtils.isEmpty(contentType)) {
-            contentType = String.valueOf(MessageType.MessageContentType.TEXT.getMsgContentType());
-        }
-        param.setContentType(contentType);
+        showForwardConfirmDialog(session);
+    }
 
-        ImMessageHttpExample.requestTranspondMessage(param, new OnHttpImListener<Boolean>() {
+    private void showForwardConfirmDialog(@NonNull SessionItem target) {
+        ForwardPromptBroadView promptView = new ForwardPromptBroadView(this);
+        List<AppMessage> previewMessages = sourceMessages.isEmpty()
+                ? buildPlaceholderMessages(getIntent().getStringArrayListExtra(EXTRA_MSG_IDS))
+                : sourceMessages;
+        MessageForwardHelper.bindForwardPrompt(promptView, target, previewMessages, forwardMode,
+                sourceIsGroup, sourcePeerName);
+
+        ShareBroadPop sharePop = new ShareBroadPop(this, promptView);
+        sharePop.setSureInvoke(new Function0<Unit>() {
             @Override
-            public void onHttpImSuccess(@NonNull Boolean result) {
-                runOnUiThread(() -> {
+            public Unit invoke() {
+                performForward(target, promptView.getEditText(), previewMessages);
+                return Unit.INSTANCE;
+            }
+        });
+        sharePop.showPopupWindow();
+    }
+
+    @NonNull
+    private List<AppMessage> buildPlaceholderMessages(@Nullable ArrayList<String> msgIds) {
+        List<AppMessage> placeholders = new ArrayList<>();
+        if (msgIds == null) {
+            return placeholders;
+        }
+        for (String msgId : msgIds) {
+            AppMessage message = new AppMessage();
+            message.setMsgId(msgId);
+            message.setMsgContentType(com.freddy.im.MessageType.MessageContentType.TEXT.getMsgContentType());
+            placeholders.add(message);
+        }
+        return placeholders;
+    }
+
+    private void performForward(@NonNull SessionItem target,
+                                @Nullable String extraText,
+                                @NonNull List<AppMessage> messages) {
+        MessageForwardHelper.executeForward(forwardMode, messages, target, extraText,
+                () -> runOnUiThread(() -> {
                     Toast.makeText(MessageForwardActivity.this,
                             R.string.message_forward_success, Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);
                     finish();
-                });
-            }
-        }, () -> runOnUiThread(() ->
-                Toast.makeText(this, R.string.message_forward_failed, Toast.LENGTH_SHORT).show()));
+                }),
+                () -> runOnUiThread(() ->
+                        Toast.makeText(MessageForwardActivity.this,
+                                R.string.message_forward_failed, Toast.LENGTH_SHORT).show()));
     }
 
-    @Nullable
-    private static String resolveTargetId(@NonNull SessionItem session) {
-        if (MessageType.isGroupChat(session.getConversation())) {
-            return session.getSessionId();
+    @NonNull
+    private static ForwardMode parseForwardMode(@Nullable String raw) {
+        if (ForwardMode.MERGE.name().equals(raw)) {
+            return ForwardMode.MERGE;
         }
-        if (!TextUtils.isEmpty(session.getOppositeUserId())) {
-            return session.getOppositeUserId();
-        }
-        return session.getSessionId();
+        return ForwardMode.ONE_BY_ONE;
     }
 }

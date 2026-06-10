@@ -59,6 +59,7 @@ import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.chat.forward.ForwardMode;
 import com.freddy.chat.menu.MessageContextMenuHelper;
 import com.freddy.chat.menu.MessageListActions;
 import com.freddy.chat.menu.MessageListMode;
@@ -928,8 +929,32 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Toast.makeText(requireContext(), R.string.message_forward_failed, Toast.LENGTH_SHORT).show();
             return;
         }
-        String contentType = resolveForwardContentType(messages);
-        startActivity(MessageForwardActivity.buildIntent(requireContext(), msgIds, contentType));
+        if (messages.size() > 1) {
+            showForwardModeChooser(messages, msgIds);
+            return;
+        }
+        launchForwardActivity(messages, msgIds, ForwardMode.ONE_BY_ONE);
+    }
+
+    private void showForwardModeChooser(@NonNull List<AppMessage> messages,
+                                        @NonNull List<String> msgIds) {
+        new AlertDialog.Builder(requireContext())
+                .setItems(new CharSequence[]{
+                        getString(com.cboda.chatui.R.string.msg_forward_one_by_one),
+                        getString(com.cboda.chatui.R.string.msg_forward_merge)
+                }, (dialog, which) -> {
+                    ForwardMode mode = which == 0 ? ForwardMode.ONE_BY_ONE : ForwardMode.MERGE;
+                    launchForwardActivity(messages, msgIds, mode);
+                })
+                .show();
+    }
+
+    private void launchForwardActivity(@NonNull List<AppMessage> messages,
+                                       @NonNull List<String> msgIds,
+                                       @NonNull ForwardMode mode) {
+        String peerName = isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(sessionItem);
+        startActivity(MessageForwardActivity.buildIntent(
+                requireContext(), msgIds, mode, sessionId, isGroupChat, peerName));
         if (isInMultiSelectMode()) {
             exitMultiSelectMode();
         }
@@ -1033,16 +1058,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
         }
         return msgIds;
-    }
-
-    @Nullable
-    private String resolveForwardContentType(@NonNull List<AppMessage> messages) {
-        for (AppMessage message : messages) {
-            if (message != null) {
-                return String.valueOf(message.getMsgContentType());
-            }
-        }
-        return null;
     }
 
     private void runOnUiThreadSafe(@NonNull Runnable action) {

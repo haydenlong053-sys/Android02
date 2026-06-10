@@ -1,5 +1,6 @@
 package com.freddy.chat;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,10 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         boolean onSessionLongClick(SessionItem sessionItem);
     }
 
+    private final List<SessionItem> allItems = new ArrayList<>();
     private final List<SessionItem> items = new ArrayList<>();
+    @Nullable
+    private String filterKeyword = "";
     private OnSessionClickListener onSessionClickListener;
     private OnSessionLongClickListener onSessionLongClickListener;
 
@@ -45,9 +49,35 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
 
     public void setNewData(List<SessionItem> sessionList) {
-        items.clear();
+        allItems.clear();
         if (sessionList != null) {
-            items.addAll(sessionList);
+            allItems.addAll(sessionList);
+        }
+        applyFilter();
+    }
+
+    public void filterByKeyword(@Nullable String keyword) {
+        filterKeyword = keyword != null ? keyword.trim().toLowerCase() : "";
+        applyFilter();
+    }
+
+    private void applyFilter() {
+        items.clear();
+        if (TextUtils.isEmpty(filterKeyword)) {
+            items.addAll(allItems);
+        } else {
+            for (SessionItem session : allItems) {
+                if (session == null) {
+                    continue;
+                }
+                String name = session.getSessionName() != null
+                        ? session.getSessionName().toLowerCase() : "";
+                String username = session.getUsername() != null
+                        ? session.getUsername().toLowerCase() : "";
+                if (name.contains(filterKeyword) || username.contains(filterKeyword)) {
+                    items.add(session);
+                }
+            }
         }
         notifyDataSetChanged();
     }
@@ -85,26 +115,24 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
                 continue;
             }
             int index = -1;
-            for (int i = 0; i < items.size(); i++) {
-                if (update.getSessionId().equals(items.get(i).getSessionId())) {
+            for (int i = 0; i < allItems.size(); i++) {
+                if (update.getSessionId().equals(allItems.get(i).getSessionId())) {
                     index = i;
                     break;
                 }
             }
             if (index >= 0) {
-                items.set(index, update);
-                notifyItemChanged(index);
+                allItems.set(index, update);
             } else {
-                items.add(0, update);
-                notifyItemInserted(0);
+                allItems.add(0, update);
             }
         }
         sortByRecent();
     }
 
     private void sortByRecent() {
-        items.sort((a, b) -> Long.compare(b.getLastMessageTime(), a.getLastMessageTime()));
-        notifyDataSetChanged();
+        allItems.sort((a, b) -> Long.compare(b.getLastMessageTime(), a.getLastMessageTime()));
+        applyFilter();
     }
 
     @NonNull

@@ -30,6 +30,32 @@ public class MessageBuilder {
         return buildTextMessage(null,conversationType,toId,content);
     }
 
+    /**
+     * 逐条转发：复制源消息内容与类型，构造发往目标会话的新消息（走 SEND_MSG 信令）。
+     */
+    @NonNull
+    public static AppMessage buildForwardedMessage(@NonNull AppMessage source,
+                                                   @Nullable String targetSessionId,
+                                                   int targetConversationType,
+                                                   @NonNull String targetToId) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        AppMessage message = new AppMessage();
+        if (!TextUtils.isEmpty(targetSessionId)) {
+            message.setConversationId(targetSessionId);
+        }
+        message.setClientMsgId(UUID.randomUUID().toString());
+        message.setMsgContentType(source.getMsgContentType());
+        message.setFromId(userId);
+        message.setToId(targetToId);
+        message.setTimestamp(System.currentTimeMillis());
+        message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(targetConversationType));
+        message.setContent(source.getContent() != null ? source.getContent() : "");
+        message.setCustomInfo(source.getCustomInfo());
+        message.setExtend(source.getExtend());
+        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+        return message;
+    }
+
     public static AppMessage buildTextMessage(String sessionId,int conversationType,String toId, String content) {
         String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
         AppMessage message = new AppMessage();
