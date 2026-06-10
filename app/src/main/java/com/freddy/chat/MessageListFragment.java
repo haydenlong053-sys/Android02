@@ -10,9 +10,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -31,6 +33,7 @@ import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
 import com.freddy.chat.event.MessageReadStateEvent;
+import com.freddy.chat.event.MessageRepealEvent;
 import com.freddy.chat.group.GroupInfoActivity;
 import com.freddy.chat.group.GroupIntent;
 import com.freddy.chat.im.IMSClientBootstrap;
@@ -55,7 +58,12 @@ import com.freddy.im.listener.OnHttpImListener;
 import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.chat.menu.MessageContextMenuHelper;
+import com.freddy.chat.menu.MessageListActions;
+import com.freddy.chat.menu.MessageListMode;
 import com.freddy.chat.widget.MessageListInputBroadPanel;
+import com.freddy.im.db.mapper.MessageRealmMapper;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.intelligent.R;
 
 import java.io.File;
@@ -66,7 +74,7 @@ import java.util.List;
 /**
  * 消息列表 Fragment，可嵌入宿主 Activity 或通过 {@link MessageListActivity} 展示。
  */
-public class MessageListFragment extends Fragment implements I_CEventListener {
+public class MessageListFragment extends Fragment implements I_CEventListener, MessageListActions {
 
     @NonNull
     public static MessageListFragment newInstance(@NonNull SessionItem sessionItem) {
@@ -80,7 +88,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
             Events.CHAT_MESSAGE_UPDATE,
             Events.GROUP_MEMBERS_UPDATED,
             Events.SESSION_REMOVED,
-            Events.MESSAGE_READ_STATE_CHANGED
+            Events.MESSAGE_READ_STATE_CHANGED,
+            Events.MESSAGE_REPEAL
     };
 
     private SessionItem sessionItem;
@@ -91,6 +100,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
     private SwipeRefreshLayout swipeRefreshMessages;
     private MessageListInputBroadPanel inputPanel;
     private MessageListAdapter adapter;
+    @Nullable
+    private FrameLayout multiMessageActionContainer;
 
     private boolean isGroupChat;
     private ActivityResultLauncher<String[]> filePickerLauncher;
@@ -142,8 +153,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
                 IMSClientBootstrap.getInstance().getCurrentUserAvatarUrl(),
                 sessionId,
                 this::resendFailedMessage);
+        adapter.setMessageActions(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
+        multiMessageActionContainer = view.findViewById(R.id.multi_message_action_container);
         setupDismissPanelOnListTouch();
 
         swipeRefreshMessages.setOnRefreshListener(this::onPullLoadOlder);
@@ -190,6 +203,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
                 new OnBackPressedCallback(true) {
                     @Override
                     public void handleOnBackPressed() {
+                        if (isInMultiSelectMode()) {
+                            exitMultiSelectMode();
+                            return;
+                        }
                         if (inputPanel.handleBackPressed()) {
                             return;
                         }
@@ -842,6 +859,189 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
         }
     }
 
+    public boolean isInMultiSelectMode() {
+        return adapter != null && adapter.getMode() == MessageListMode.CHECKABLE;
+    }
+
+    public boolean onBackPressed() {
+        if (isInMultiSelectMode()) {
+            exitMultiSelectMode();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int getListMode() {
+        return adapter != null ? adapter.getMode() : MessageListMode.NORMAL;
+    }
+
+    @Override
+    public boolean isMessageChecked(@NonNull AppMessage message) {
+        return adapter != null && adapter.isMessageChecked(message);
+    }
+
+    @Override
+    public void onRecallMessage(@NonNull AppMessage message) {
+        if (TextUtils.isEmpty(message.getMsgId())) {
+            Toast.makeText(requireContext(), R.string.message_recall_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ImMessageHttpExample.requestRepealMessage(message.getMsgId(), success -> runOnUiThreadSafe(() ->
+                applyRecallUi(message.getMsgId())), () -> runOnUiThreadSafe(() ->
+                Toast.makeText(requireContext(), R.string.message_recall_failed, Toast.LENGTH_SHORT).show()));
+    }
+
+    @Override
+    public void onCopyMessage(@NonNull AppMessage message) {
+        String text = message.getContent();
+        if (TextUtils.isEmpty(text)) {
+            return;
+        }
+        MessageContextMenuHelper.copyTextToClipboard(requireContext(), text);
+    }
+
+    @Override
+    public void onEnterMultiSelectMode(@NonNull AppMessage message) {
+        if (inputPanel != null) {
+            inputPanel.setVisibility(View.GONE);
+        }
+        adapter.checkMessage(message);
+        adapter.setMode(MessageListMode.CHECKABLE);
+        showMultiMessageActionBar();
+    }
+
+    @Override
+    public void onDeleteMessage(@NonNull AppMessage message) {
+        List<AppMessage> targets = Collections.singletonList(message);
+        deleteMessagesLocally(targets);
+        adapter.removeMessages(targets);
+    }
+
+    @Override
+    public void onForwardMessages(@NonNull List<AppMessage> messages) {
+        List<String> msgIds = collectForwardableMsgIds(messages);
+        if (msgIds.isEmpty()) {
+            Toast.makeText(requireContext(), R.string.message_forward_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String contentType = resolveForwardContentType(messages);
+        startActivity(MessageForwardActivity.buildIntent(requireContext(), msgIds, contentType));
+        if (isInMultiSelectMode()) {
+            exitMultiSelectMode();
+        }
+    }
+
+    @Override
+    public void onToggleMessageChecked(@NonNull AppMessage message, boolean checked) {
+        adapter.setMessageChecked(message, checked);
+    }
+
+    @Override
+    public void onExitMultiSelectMode() {
+        exitMultiSelectMode();
+    }
+
+    private void exitMultiSelectMode() {
+        if (inputPanel != null) {
+            inputPanel.setVisibility(View.VISIBLE);
+        }
+        if (multiMessageActionContainer != null) {
+            multiMessageActionContainer.setVisibility(View.GONE);
+            multiMessageActionContainer.removeAllViews();
+        }
+        adapter.setMode(MessageListMode.NORMAL);
+    }
+
+    private void showMultiMessageActionBar() {
+        if (multiMessageActionContainer == null) {
+            return;
+        }
+        multiMessageActionContainer.setVisibility(View.VISIBLE);
+        multiMessageActionContainer.removeAllViews();
+        View bar = LayoutInflater.from(requireContext())
+                .inflate(com.cboda.chatui.R.layout.conversation_layout_select_more,
+                        multiMessageActionContainer, false);
+        bar.findViewById(com.cboda.chatui.R.id.mLLShare).setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                List<AppMessage> checked = adapter.getCheckedMessages();
+                if (checked.isEmpty()) {
+                    exitMultiSelectMode();
+                    return;
+                }
+                onForwardMessages(checked);
+            }
+        });
+        bar.findViewById(com.cboda.chatui.R.id.mLLDelete).setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                List<AppMessage> checked = adapter.getCheckedMessages();
+                if (checked.isEmpty()) {
+                    exitMultiSelectMode();
+                    return;
+                }
+                new AlertDialog.Builder(requireContext())
+                        .setMessage(R.string.message_delete_confirm)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(android.R.string.ok, (d, w) -> {
+                            deleteMessagesLocally(checked);
+                            adapter.removeMessages(checked);
+                            exitMultiSelectMode();
+                        })
+                        .show();
+            }
+        });
+        multiMessageActionContainer.addView(bar);
+    }
+
+    private void applyRecallUi(@NonNull String msgId) {
+        ImLocalStore.applyMessageRepeal(msgId, recalled -> runOnUiThreadSafe(() -> {
+            if (recalled != null) {
+                adapter.replaceOrUpdateMessage(recalled);
+            } else {
+                adapter.removeByMsgId(msgId);
+            }
+        }));
+    }
+
+    private void deleteMessagesLocally(@NonNull List<AppMessage> messages) {
+        List<String> clientMsgIds = new ArrayList<>();
+        for (AppMessage message : messages) {
+            if (message == null) {
+                continue;
+            }
+            String key = MessageRealmMapper.clientMsgIdForPersist(message);
+            if (!TextUtils.isEmpty(key)) {
+                clientMsgIds.add(key);
+            }
+        }
+        if (!clientMsgIds.isEmpty()) {
+            ImLocalStore.deleteMessagesByClientMsgIds(clientMsgIds, null);
+        }
+    }
+
+    @NonNull
+    private List<String> collectForwardableMsgIds(@NonNull List<AppMessage> messages) {
+        List<String> msgIds = new ArrayList<>();
+        for (AppMessage message : messages) {
+            if (message != null && !TextUtils.isEmpty(message.getMsgId())) {
+                msgIds.add(message.getMsgId());
+            }
+        }
+        return msgIds;
+    }
+
+    @Nullable
+    private String resolveForwardContentType(@NonNull List<AppMessage> messages) {
+        for (AppMessage message : messages) {
+            if (message != null) {
+                return String.valueOf(message.getMsgContentType());
+            }
+        }
+        return null;
+    }
+
     private void runOnUiThreadSafe(@NonNull Runnable action) {
         if (!isAdded()) {
             return;
@@ -863,6 +1063,21 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
             if (isGroupChat && sessionId.equals(groupId)) {
                 loadGroupMembers();
             }
+            return;
+        }
+        if (Events.MESSAGE_REPEAL.equals(topic) && obj instanceof MessageRepealEvent) {
+            MessageRepealEvent event = (MessageRepealEvent) obj;
+            if (!matchesRepealEvent(event)) {
+                return;
+            }
+            CThreadPoolExecutor.runOnMainThread(() -> {
+                AppMessage recalled = event.getRecalledMessage();
+                if (recalled != null) {
+                    adapter.replaceOrUpdateMessage(recalled);
+                } else {
+                    adapter.removeByMsgId(event.getMessageId());
+                }
+            });
             return;
         }
         if (Events.MESSAGE_READ_STATE_CHANGED.equals(topic) && obj instanceof MessageReadStateEvent) {
@@ -910,6 +1125,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener {
             }
         }
         return out;
+    }
+
+    private boolean matchesRepealEvent(@NonNull MessageRepealEvent event) {
+        if (!TextUtils.isEmpty(sessionId) && sessionId.equals(event.getSessionId())) {
+            return true;
+        }
+        return adapter.containsMessageId(event.getMessageId());
     }
 
     private boolean matchesReadStateEvent(@NonNull MessageReadStateEvent event) {

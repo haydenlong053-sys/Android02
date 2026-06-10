@@ -17,7 +17,9 @@ import com.freddy.im.http.api.GetMessageListApi;
 import com.freddy.im.http.api.GetSpecifyMembersApi;
 import com.freddy.im.http.api.GetUserListApi;
 import com.freddy.im.http.api.RemoveConversationApi;
+import com.freddy.im.http.api.RepealMessageApi;
 import com.freddy.im.http.api.ReportMessageReadApi;
+import com.freddy.im.http.api.TranspondMessageApi;
 import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.freddy.im.http.model.im.FileUploadParam;
 import com.freddy.im.http.model.im.ConversationLastMsgMap;
@@ -28,6 +30,7 @@ import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.MessageListContent;
 import com.freddy.im.http.model.im.ReportReadContent;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.http.model.im.TranspondMessageParam;
 import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.http.model.im.UserInfoListRes;
 import com.freddy.im.http.model.im.VideoBatchUploadResult;
@@ -789,6 +792,93 @@ public final class ImMessageHttpExample {
             return "video/3gpp";
         }
         return "video/mp4";
+    }
+
+    /**
+     * GET {@code api/im/message/repeal/{messageId}}：撤回消息（§4.4）。
+     */
+    public static void requestRepealMessage(@NonNull String messageId,
+                                          @Nullable OnHttpImListener<Boolean> callback,
+                                          @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(messageId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.get(ApplicationLifecycle.getInstance())
+                .api(new RepealMessageApi().setMessageId(messageId))
+                .request(new OnHttpListener<BaseMsgResponse<Boolean>>() {
+                    @Override
+                    public void onHttpSuccess(@NonNull BaseMsgResponse<Boolean> result) {
+                        if (!result.isSuccess()) {
+                            Log.e(MY_TAG, "repeal 业务错误: errorCode=" + result.getErrorCode()
+                                    + " msg=" + result.getErrorMsg());
+                            if (onFail != null) {
+                                onFail.run();
+                            }
+                            return;
+                        }
+                        if (callback != null) {
+                            callback.onHttpImSuccess(Boolean.TRUE);
+                        }
+                    }
+
+                    @Override
+                    public void onHttpFail(@NonNull Throwable throwable) {
+                        Log.e(MY_TAG, "repeal 请求失败: " + throwable.getMessage());
+                        if (onFail != null) {
+                            onFail.run();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * POST {@code api/im/message/transpond}：转发消息（§4.6）。
+     */
+    public static void requestTranspondMessage(@NonNull TranspondMessageParam param,
+                                               @Nullable OnHttpImListener<Boolean> callback,
+                                               @Nullable Runnable onFail) {
+        if (param == null
+                || param.getMsgIdlist() == null
+                || param.getMsgIdlist().isEmpty()
+                || TextUtils.isEmpty(param.getTo())) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new TranspondMessageApi()
+                        .setMsgIdlist(param.getMsgIdlist())
+                        .setTo(param.getTo())
+                        .setConversation(param.getConversation())
+                        .setContentType(param.getContentType()))
+                .request(new OnHttpListener<BaseMsgResponse<Boolean>>() {
+                    @Override
+                    public void onHttpSuccess(@NonNull BaseMsgResponse<Boolean> result) {
+                        if (!result.isSuccess()) {
+                            Log.e(MY_TAG, "transpond 业务错误: errorCode=" + result.getErrorCode()
+                                    + " msg=" + result.getErrorMsg());
+                            if (onFail != null) {
+                                onFail.run();
+                            }
+                            return;
+                        }
+                        if (callback != null) {
+                            callback.onHttpImSuccess(Boolean.TRUE);
+                        }
+                    }
+
+                    @Override
+                    public void onHttpFail(@NonNull Throwable throwable) {
+                        Log.e(MY_TAG, "transpond 请求失败: " + throwable.getMessage());
+                        if (onFail != null) {
+                            onFail.run();
+                        }
+                    }
+                });
     }
 
     /**

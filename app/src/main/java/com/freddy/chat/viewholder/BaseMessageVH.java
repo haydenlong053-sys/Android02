@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,9 @@ import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.intelligent.R;
 import com.freddy.chat.im.MessageReadUiState;
+import com.freddy.chat.menu.MessageContextMenuHelper;
+import com.freddy.chat.menu.MessageListActions;
+import com.freddy.chat.menu.MessageMenuPolicy;
 import com.freddy.chat.utils.MessageAvatarBinder;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.IMSConfig;
@@ -44,6 +48,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
     public final FrameLayout groupReceiptFrameLayout;
     public final ProgressBar readProgressBar;
     public final FrameLayout flMessageContentHost;
+    public final CheckBox checkbox;
     public View contentView;
 
     private final boolean hostBubbleEnabled;
@@ -51,6 +56,8 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
     private AppMessage boundMessage;
     @Nullable
     private MessageViewHolderContext boundContext;
+    @Nullable
+    private View.OnLongClickListener contextMenuLongClickListener;
 
     public BaseMessageVH(@NonNull View itemView, @LayoutRes int contentLayoutRes) {
         this(itemView, contentLayoutRes, true);
@@ -74,6 +81,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         groupReceiptFrameLayout = itemView.findViewById(R.id.group_receipt_frame_layout);
         readProgressBar = itemView.findViewById(R.id.read_progress_bar);
         flMessageContentHost = itemView.findViewById(R.id.fl_message_content_host);
+        checkbox = itemView.findViewById(R.id.checkbox);
         errorLinearLayout.setOnClickListener(v -> onRetryClick());
         inflateContentLayout(contentLayoutRes);
     }
@@ -97,6 +105,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         bindMessageTime(message, sentByMe);
         updateRowInsets(sentByMe);
         updateContentHostMargin(sentByMe);
+        bindSelectionMode(message, context);
 
         if (sentByMe) {
             nameLayout.setVisibility(View.GONE);
@@ -300,6 +309,86 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         if (lp instanceof LinearLayout.LayoutParams) {
             ((LinearLayout.LayoutParams) lp).gravity = gravity;
             bubbleRow.setLayoutParams(lp);
+        }
+    }
+
+    private void bindSelectionMode(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {
+        if (context.isCheckableMode() && MessageMenuPolicy.canMultiSelect(message)) {
+            checkbox.setVisibility(View.VISIBLE);
+            checkbox.setChecked(context.isMessageChecked(message));
+            itemView.setOnClickListener(v -> toggleChecked(message, context));
+            itemView.setOnLongClickListener(null);
+            flMessageContentHost.setOnLongClickListener(null);
+            if (contentView != null) {
+                contentView.setOnLongClickListener(null);
+            }
+            return;
+        }
+        checkbox.setVisibility(View.GONE);
+        itemView.setOnClickListener(null);
+        bindContextMenu(message, context);
+    }
+
+    private void toggleChecked(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {
+        MessageListActions actions = context.messageActions;
+        if (actions == null) {
+            return;
+        }
+        boolean next = !context.isMessageChecked(message);
+        actions.onToggleMessageChecked(message, next);
+        checkbox.setChecked(next);
+    }
+
+    private void bindContextMenu(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {
+        if (!MessageMenuPolicy.supportsContextMenu(message) || context.messageActions == null) {
+            contextMenuLongClickListener = null;
+            itemView.setOnLongClickListener(null);
+            flMessageContentHost.setOnLongClickListener(null);
+            if (contentView != null) {
+                contentView.setOnLongClickListener(null);
+            }
+            return;
+        }
+        contextMenuLongClickListener = v -> {
+            int[] location = new int[2];
+            v.getLocationOnScreen(location);
+            MessageContextMenuHelper.show(
+                    v,
+                    location[1],
+                    message,
+                    context.currentUserId,
+                    context.messageActions);
+            return true;
+        };
+        flMessageContentHost.setOnLongClickListener(contextMenuLongClickListener);
+        if (contentView != null) {
+            contentView.setOnLongClickListener(contextMenuLongClickListener);
+            propagateLongClickToClickableChildren(contentView, contextMenuLongClickListener);
+        }
+        itemView.setOnLongClickListener(contextMenuLongClickListener);
+    }
+
+    /**
+     * 子 ViewHolder 在 content 上设置 {@code OnClickListener} 后调用，避免可点击子 View 吞掉长按。
+     */
+    protected final void refreshContextMenuLongClickOnContent() {
+        if (contextMenuLongClickListener == null || contentView == null) {
+            return;
+        }
+        contentView.setOnLongClickListener(contextMenuLongClickListener);
+        propagateLongClickToClickableChildren(contentView, contextMenuLongClickListener);
+    }
+
+    private static void propagateLongClickToClickableChildren(@NonNull View view,
+                                                              @NonNull View.OnLongClickListener listener) {
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                propagateLongClickToClickableChildren(group.getChildAt(i), listener);
+            }
+        }
+        if (view.isClickable() || view.hasOnClickListeners()) {
+            view.setOnLongClickListener(listener);
         }
     }
 

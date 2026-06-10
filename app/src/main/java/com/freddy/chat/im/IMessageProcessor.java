@@ -67,4 +67,7 @@ public interface IMessageProcessor {
 
     /** 群聊 0x0210：消息已读人数变更。 */
     void notifyGroupMessageReadCount(@NonNull String messageId, int readPersonCount);
+
+    /** 0x0202 / HTTP repeal：消息已撤回并替换为系统提示。 */
+    void notifyMessageRepealed(@NonNull String messageId, @Nullable AppMessage recalledMessage);
 }

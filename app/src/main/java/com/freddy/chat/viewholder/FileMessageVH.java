@@ -48,6 +48,7 @@ public final class FileMessageVH extends BaseMessageVH {
         fileIconImageView.setImageResource(FileBroadUtils.getFileTypeImageResId(fileName));
 
         fileRoot.setOnClickListener(v -> openFile(v, message, sentByMe));
+        refreshContextMenuLongClickOnContent();
     }
 
     private void openFile(@NonNull View anchor, @NonNull AppMessage message, boolean sentByMe) {

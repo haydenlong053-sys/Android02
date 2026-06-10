@@ -13,7 +13,10 @@ import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.media.VoiceMessagePlayer;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageReadUiState;
+import com.freddy.chat.menu.MessageListActions;
+import com.freddy.chat.menu.MessageListMode;
 import com.freddy.chat.utils.WeChatUiHelper;
+import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.chat.viewholder.BaseMessageVH;
 import com.freddy.chat.viewholder.FileMessageVH;
 import com.freddy.chat.viewholder.ImageMessageVH;
@@ -26,7 +29,6 @@ import com.freddy.chat.viewholder.TextMessageVH;
 import com.freddy.chat.viewholder.VideoMessageVH;
 import com.freddy.chat.viewholder.VoiceMessageVH;
 import com.freddy.im.bean.AppMessage;
-import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.message.ImMessageManager;
 
@@ -59,10 +61,14 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private final String sessionId;
     @Nullable
     private final OnMessageRetryListener retryListener;
+    @Nullable
+    private MessageListActions messageActions;
 
     private final Map<String, GroupMemberItem> membersByUserId = new HashMap<>();
+    private final Set<String> checkedClientMsgIds = new HashSet<>();
 
     private final List<AppMessage> items = new ArrayList<>();
+    private int listMode = MessageListMode.NORMAL;
     @NonNull
     private final MessageReadUiState readUiState = new MessageReadUiState();
     @NonNull
@@ -79,6 +85,92 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         this.sessionId = sessionId;
         this.retryListener = retryListener;
         voiceMessagePlayer.setListener(clientMsgId -> notifyDataSetChanged());
+    }
+
+    public void setMessageActions(@Nullable MessageListActions messageActions) {
+        this.messageActions = messageActions;
+    }
+
+    public int getMode() {
+        return listMode;
+    }
+
+    public void setMode(int mode) {
+        if (listMode == mode) {
+            return;
+        }
+        listMode = mode;
+        if (mode == MessageListMode.NORMAL) {
+            clearMessageCheckStatus();
+        }
+        notifyDataSetChanged();
+    }
+
+    public void clearMessageCheckStatus() {
+        checkedClientMsgIds.clear();
+    }
+
+    public boolean isMessageChecked(@NonNull AppMessage message) {
+        String key = MessageRealmMapper.clientMsgIdForPersist(message);
+        return !TextUtils.isEmpty(key) && checkedClientMsgIds.contains(key);
+    }
+
+    public void setMessageChecked(@NonNull AppMessage message, boolean checked) {
+        String key = MessageRealmMapper.clientMsgIdForPersist(message);
+        if (TextUtils.isEmpty(key)) {
+            return;
+        }
+        if (checked) {
+            checkedClientMsgIds.add(key);
+        } else {
+            checkedClientMsgIds.remove(key);
+        }
+    }
+
+    public void checkMessage(@NonNull AppMessage message) {
+        setMessageChecked(message, true);
+    }
+
+    @NonNull
+    public List<AppMessage> getCheckedMessages() {
+        List<AppMessage> checked = new ArrayList<>();
+        for (AppMessage message : items) {
+            if (message != null && isMessageChecked(message)) {
+                checked.add(message);
+            }
+        }
+        return checked;
+    }
+
+    public void removeMessages(@NonNull List<AppMessage> messages) {
+        if (messages.isEmpty()) {
+            return;
+        }
+        Set<String> keys = new HashSet<>();
+        for (AppMessage message : messages) {
+            if (message == null) {
+                continue;
+            }
+            String key = MessageRealmMapper.clientMsgIdForPersist(message);
+            if (!TextUtils.isEmpty(key)) {
+                keys.add(key);
+            }
+        }
+        if (keys.isEmpty()) {
+            return;
+        }
+        for (int i = items.size() - 1; i >= 0; i--) {
+            AppMessage existing = items.get(i);
+            if (existing == null) {
+                continue;
+            }
+            String key = MessageRealmMapper.clientMsgIdForPersist(existing);
+            if (!TextUtils.isEmpty(key) && keys.contains(key)) {
+                items.remove(i);
+                checkedClientMsgIds.remove(key);
+                notifyItemRemoved(i);
+            }
+        }
     }
 
     public void release() {
@@ -235,18 +327,68 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     public void updateMessage(@NonNull AppMessage message) {
-        String clientMsgId = message.getClientMsgId();
-        if (TextUtils.isEmpty(clientMsgId)) {
+        int index = indexOfMessage(message);
+        if (index < 0) {
             return;
         }
-        for (int i = 0; i < items.size(); i++) {
+        items.set(index, message);
+        notifyItemChanged(index);
+    }
+
+    public void replaceOrUpdateMessage(@NonNull AppMessage message) {
+        int index = indexOfMessage(message);
+        if (index < 0 && !TextUtils.isEmpty(message.getMsgId())) {
+            index = indexOfMsgId(message.getMsgId());
+        }
+        if (index < 0) {
+            return;
+        }
+        items.set(index, message);
+        notifyItemChanged(index);
+    }
+
+    public void removeByMsgId(@NonNull String msgId) {
+        if (TextUtils.isEmpty(msgId)) {
+            return;
+        }
+        for (int i = items.size() - 1; i >= 0; i--) {
             AppMessage existing = items.get(i);
-            if (clientMsgId.equals(existing.getClientMsgId())) {
-                items.set(i, message);
-                notifyItemChanged(i);
+            if (existing != null && msgId.equals(existing.getMsgId())) {
+                String key = MessageRealmMapper.clientMsgIdForPersist(existing);
+                if (!TextUtils.isEmpty(key)) {
+                    checkedClientMsgIds.remove(key);
+                }
+                items.remove(i);
+                notifyItemRemoved(i);
                 return;
             }
         }
+    }
+
+    private int indexOfMessage(@NonNull AppMessage message) {
+        String clientMsgId = message.getClientMsgId();
+        if (!TextUtils.isEmpty(clientMsgId)) {
+            for (int i = 0; i < items.size(); i++) {
+                AppMessage existing = items.get(i);
+                if (existing != null && clientMsgId.equals(existing.getClientMsgId())) {
+                    return i;
+                }
+            }
+        }
+        return indexOfMsgId(message.getMsgId());
+    }
+
+    private int indexOfMsgId(@Nullable String msgId) {
+        if (TextUtils.isEmpty(msgId)) {
+            return -1;
+        }
+        for (int i = 0; i < items.size(); i++) {
+            AppMessage existing = items.get(i);
+            if (existing != null && msgId.equals(existing.getMsgId())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -333,7 +475,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 readUiState,
                 resolveGroupMemberCount(),
                 sessionId,
-                retryListener);
+                retryListener,
+                messageActions,
+                listMode);
         if (holder instanceof SystemMessageVH) {
             ((SystemMessageVH) holder).bind(m, context);
             return;

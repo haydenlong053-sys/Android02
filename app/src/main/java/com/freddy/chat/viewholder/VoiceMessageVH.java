@@ -84,6 +84,7 @@ public final class VoiceMessageVH extends BaseMessageVH {
                 player.play(message.getClientMsgId(), path);
             }
         });
+        refreshContextMenuLongClickOnContent();
     }
 
     private void updateAnimation(boolean playing, boolean sentByMe) {

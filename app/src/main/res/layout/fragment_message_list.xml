@@ -50,11 +50,25 @@
                     android:visibility="gone" />
             </FrameLayout>
 
-            <com.freddy.chat.widget.MessageListInputBroadPanel
-                android:id="@+id/input_panel"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/wechat_bg_chat" />
+                android:layout_height="wrap_content">
+
+                <com.freddy.chat.widget.MessageListInputBroadPanel
+                    android:id="@+id/input_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/wechat_bg_chat" />
+
+                <FrameLayout
+                    android:id="@+id/multi_message_action_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:paddingVertical="@dimen/dp_8"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </FrameLayout>
         </com.effective.android.panel.view.content.LinearContentContainer>
 
         <com.effective.android.panel.view.panel.PanelContainer

@@ -191,6 +191,18 @@ public final class ImLocalStore {
         ImMessageRepository.getInstance().markOutgoingResending(clientMsgId, onUpdated);
     }
 
+    /** 批量删除本地消息（仅删库，不通知 UI）。 */
+    public static void deleteMessagesByClientMsgIds(@Nullable List<String> clientMsgIds,
+                                                    @Nullable Runnable onCommit) {
+        ImMessageRepository.getInstance().deleteByClientMsgIds(clientMsgIds, onCommit);
+    }
+
+    /** 按服务端 msgId 将本地消息替换为撤回系统提示。 */
+    public static void applyMessageRepeal(@NonNull String msgId,
+                                          @Nullable ImMessageRepository.OnMessageUpdatedCallback onUpdated) {
+        ImMessageRepository.getInstance().applyRecallByMsgId(msgId, onUpdated);
+    }
+
     /**
      * 加载会话「最新」一页本地消息，最多 {@link #MESSAGE_PAGE_SIZE} 条（按 {@code sequenceId} 升序展示）。
      * <p>

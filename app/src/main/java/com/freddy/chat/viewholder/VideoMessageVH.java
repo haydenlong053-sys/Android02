@@ -56,6 +56,7 @@ public final class VideoMessageVH extends BaseMessageVH {
         contentView.setOnClickListener(openPreview);
         ivVideoCover.setOnClickListener(openPreview);
         ivVideoPlay.setOnClickListener(openPreview);
+        refreshContextMenuLongClickOnContent();
     }
 
     private void applyVideoBubbleSize(@NonNull AppMessage message) {

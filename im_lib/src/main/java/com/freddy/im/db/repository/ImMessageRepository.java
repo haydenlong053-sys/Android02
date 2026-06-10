@@ -14,6 +14,7 @@ import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -374,6 +375,98 @@ public final class ImMessageRepository {
         target.setSendStatus(source.getSendStatus());
         target.setReadPersonCount(source.getReadPersonCount());
         return target;
+    }
+
+    /**
+     * 按服务端 {@code msgId} 将消息替换为撤回系统提示；未找到时回调 {@code null}。
+     */
+    public void applyRecallByMsgId(@NonNull String msgId,
+                                   @Nullable OnMessageUpdatedCallback onUpdated) {
+        if (TextUtils.isEmpty(msgId) || !ImRealm.isUserBound()) {
+            if (onUpdated != null) {
+                onUpdated.onUpdated(null);
+            }
+            return;
+        }
+        final String id = msgId;
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            AppMessage updated = null;
+            try {
+                realm.executeTransaction(r -> {
+                    MessageEntity entity = r.where(MessageEntity.class)
+                            .equalTo("msgId", id)
+                            .findFirst();
+                    if (entity == null) {
+                        return;
+                    }
+                    AppMessage original = MessageRealmMapper.toAppMessage(entity);
+                    AppMessage recalled = MessageRepealHelper.toRecallNotification(original);
+                    entity.setMsgType(recalled.getMsgType());
+                    entity.setMsgContentType(recalled.getMsgContentType());
+                    entity.setContent(recalled.getContent());
+                    entity.setSendStatus(recalled.getSendStatus());
+                    entity.setReadPersonCount(recalled.getReadPersonCount());
+                });
+                MessageEntity entity = realm.where(MessageEntity.class)
+                        .equalTo("msgId", id)
+                        .findFirst();
+                if (entity != null) {
+                    updated = MessageRealmMapper.toAppMessage(realm.copyFromRealm(entity));
+                }
+            } finally {
+                realm.close();
+            }
+            final AppMessage result = updated;
+            if (onUpdated != null) {
+                onUpdated.onUpdated(result);
+            }
+        });
+    }
+
+    /**
+     * 按 {@code clientMsgId} 批量删除本地消息。
+     */
+    public void deleteByClientMsgIds(@Nullable List<String> clientMsgIds,
+                                     @Nullable Runnable afterCommit) {
+        if (clientMsgIds == null || clientMsgIds.isEmpty() || !ImRealm.isUserBound()) {
+            if (afterCommit != null) {
+                afterCommit.run();
+            }
+            return;
+        }
+        final List<String> ids = new ArrayList<>();
+        for (String id : clientMsgIds) {
+            if (!TextUtils.isEmpty(id)) {
+                ids.add(id);
+            }
+        }
+        if (ids.isEmpty()) {
+            if (afterCommit != null) {
+                afterCommit.run();
+            }
+            return;
+        }
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            try {
+                realm.executeTransaction(r -> {
+                    for (String id : ids) {
+                        MessageEntity entity = r.where(MessageEntity.class)
+                                .equalTo("clientMsgId", id)
+                                .findFirst();
+                        if (entity != null) {
+                            entity.deleteFromRealm();
+                        }
+                    }
+                });
+                if (afterCommit != null) {
+                    afterCommit.run();
+                }
+            } finally {
+                realm.close();
+            }
+        });
     }
 
     /**

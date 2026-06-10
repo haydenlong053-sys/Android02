@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.chat.im.MessageReadUiState;
+import com.freddy.chat.menu.MessageListActions;
+import com.freddy.chat.menu.MessageListMode;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.model.im.GroupMemberItem;
@@ -33,6 +35,9 @@ public final class MessageViewHolderContext {
     public final String sessionId;
     @Nullable
     public final OnMessageRetryListener retryListener;
+    @Nullable
+    public final MessageListActions messageActions;
+    public final int listMode;
 
     public MessageViewHolderContext(boolean isGroupChat,
                                     @Nullable String peerAvatarUrl,
@@ -43,7 +48,9 @@ public final class MessageViewHolderContext {
                                     @NonNull MessageReadUiState readUiState,
                                     int groupMemberCount,
                                     @Nullable String sessionId,
-                                    @Nullable OnMessageRetryListener retryListener) {
+                                    @Nullable OnMessageRetryListener retryListener,
+                                    @Nullable MessageListActions messageActions,
+                                    int listMode) {
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
         this.selfAvatarUrl = selfAvatarUrl;
@@ -54,6 +61,16 @@ public final class MessageViewHolderContext {
         this.groupMemberCount = groupMemberCount;
         this.sessionId = sessionId;
         this.retryListener = retryListener;
+        this.messageActions = messageActions;
+        this.listMode = listMode;
+    }
+
+    public boolean isCheckableMode() {
+        return listMode == MessageListMode.CHECKABLE;
+    }
+
+    public boolean isMessageChecked(@NonNull AppMessage message) {
+        return messageActions != null && messageActions.isMessageChecked(message);
     }
 
     @Nullable

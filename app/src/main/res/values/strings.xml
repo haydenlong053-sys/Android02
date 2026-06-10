@@ -1166,6 +1166,10 @@
     <string name="conversation_name_fallback">未命名会话</string>
     <string name="message_list_title">消息</string>
     <string name="message_input_hint">输入消息</string>
+    <string name="message_forward_success">转发成功</string>
+    <string name="message_forward_failed">转发失败</string>
+    <string name="message_recall_failed">撤回失败</string>
+    <string name="message_delete_confirm">确定删除选中的消息吗？</string>
     <string name="send_message">发送</string>
     <string name="panel_emotion">表情</string>
     <string name="panel_more">更多</string>

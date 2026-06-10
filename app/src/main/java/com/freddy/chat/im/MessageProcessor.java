@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.MessageReadStateEvent;
+import com.freddy.chat.event.MessageRepealEvent;
 import com.freddy.chat.utils.CThreadPoolExecutor;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
@@ -256,6 +257,22 @@ public class MessageProcessor implements IMessageProcessor {
                 CEventCenter.dispatchEvent(Events.MESSAGE_READ_STATE_CHANGED, 0, 0, event);
             } catch (Exception e) {
                 Log.e(TAG, "已读状态分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void notifyMessageRepealed(@NonNull String messageId, @Nullable AppMessage recalledMessage) {
+        if (TextUtils.isEmpty(messageId)) {
+            return;
+        }
+        String sessionId = ImMessageManager.extractConversationAnchor(messageId);
+        final MessageRepealEvent event = new MessageRepealEvent(messageId, sessionId, recalledMessage);
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.MESSAGE_REPEAL, 0, 0, event);
+            } catch (Exception e) {
+                Log.e(TAG, "撤回状态分发失败，reason=" + e.getMessage());
             }
         });
     }

@@ -16,4 +16,6 @@ public class Events {
     public static final String SESSION_REMOVED = "session_removed";
     /** 消息已读状态变更；payload 为 {@link MessageReadStateEvent} */
     public static final String MESSAGE_READ_STATE_CHANGED = "message_read_state_changed";
+    /** 消息撤回；payload 为 {@link MessageRepealEvent} */
+    public static final String MESSAGE_REPEAL = "message_repeal";
 }

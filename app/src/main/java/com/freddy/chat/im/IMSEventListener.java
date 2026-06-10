@@ -3,6 +3,7 @@ package com.freddy.chat.im;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.cboda.intelligent.app.MyBroadApp;
@@ -149,6 +150,29 @@ public class IMSEventListener implements OnEventListener {
                 Log.e(TAG, "解析 MessageReadSig 失败", e);
             }
         }
+        // 消息撤回：0x0202 MessageRepealSig
+        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.MSG_REPEAL_VALUE && push.hasBody()) {
+            try {
+                ImSignalProtos.MessageRepealSig sig = ImSignalProtos.MessageRepealSig.parseFrom(
+                        push.getBody().toByteArray());
+                String messageId = sig.getMessageId();
+                Log.d(TAG, "MSG_REPEAL messageId=" + messageId);
+                if (TextUtils.isEmpty(messageId)) {
+                    return;
+                }
+                com.freddy.im.db.ImLocalStore.applyMessageRepeal(messageId, recalled -> {
+                    if (recalled != null) {
+                        MessageProcessor.getInstance().notifyMessageRepealed(messageId, recalled);
+                        return;
+                    }
+                    ImMessageManager.getInstance().fetchNewMessageList(messageId,
+                            batch -> MessageProcessor.getInstance().receiveMsg(batch));
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "解析 MessageRepealSig 失败", e);
+            }
+        }
+
         // 群聊 0x0210：已读人数变动
         if (push.getHeader().getCmd() == ImSignalProtos.Cmd.COUNT_MSG_READ_VALUE && push.hasBody()) {
             try {
