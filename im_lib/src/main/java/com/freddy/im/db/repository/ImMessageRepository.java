@@ -12,6 +12,7 @@ import com.freddy.im.db.SessionLastMessageSync;
 import com.freddy.im.db.ImRealm;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.mapper.MessageRealmMapper;
+import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageRepealHelper;
@@ -392,7 +393,9 @@ public final class ImMessageRepository {
         ImDbExecutor.runWrite(() -> {
             Realm realm = ImRealm.getRealm();
             AppMessage updated = null;
+            SessionItem sessionUpdate = null;
             try {
+                final SessionItem[] sessionHolder = new SessionItem[1];
                 realm.executeTransaction(r -> {
                     MessageEntity entity = r.where(MessageEntity.class)
                             .equalTo("msgId", id)
@@ -407,7 +410,9 @@ public final class ImMessageRepository {
                     entity.setContent(recalled.getContent());
                     entity.setSendStatus(recalled.getSendStatus());
                     entity.setReadPersonCount(recalled.getReadPersonCount());
+                    sessionHolder[0] = SessionLastMessageSync.applyRecallPreviewInTransaction(r, id, recalled);
                 });
+                sessionUpdate = sessionHolder[0];
                 MessageEntity entity = realm.where(MessageEntity.class)
                         .equalTo("msgId", id)
                         .findFirst();
@@ -416,6 +421,9 @@ public final class ImMessageRepository {
                 }
             } finally {
                 realm.close();
+            }
+            if (sessionUpdate != null) {
+                ImLocalStore.dispatchSessionPreviewUpdated(Collections.singletonList(sessionUpdate));
             }
             final AppMessage result = updated;
             if (onUpdated != null) {

@@ -1147,14 +1147,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         return isGroupChat && adapter.containsMessageId(event.getMessageId());
     }
 
-    private boolean belongsToSession(AppMessage m) {
+    private boolean belongsToSession(@Nullable AppMessage m) {
+        if (m == null) {
+            return false;
+        }
         if (!TextUtils.isEmpty(sessionId) && sessionId.equals(m.getConversationId())) {
             return true;
-        }
-        if (!TextUtils.isEmpty(peerUserId)) {
-            if (peerUserId.equals(m.getFromId()) || peerUserId.equals(m.getToId())) {
-                return true;
-            }
         }
         if (!TextUtils.isEmpty(sessionId) && m.getMsgId() != null) {
             String anchor = ImMessageManager.extractConversationAnchor(m.getMsgId());
@@ -1162,7 +1160,20 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 return true;
             }
         }
-        return false;
+        if (isGroupChat) {
+            return !TextUtils.isEmpty(sessionId) && sessionId.equals(m.getToId());
+        }
+        // 单聊：必须同时包含「自己」和「当前会话对方」，避免对方发给第三人的消息误入本会话
+        if (TextUtils.isEmpty(peerUserId)) {
+            return false;
+        }
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        if (TextUtils.isEmpty(currentUserId)) {
+            return false;
+        }
+        boolean involvesPeer = peerUserId.equals(m.getFromId()) || peerUserId.equals(m.getToId());
+        boolean involvesSelf = currentUserId.equals(m.getFromId()) || currentUserId.equals(m.getToId());
+        return involvesPeer && involvesSelf;
     }
 
 }

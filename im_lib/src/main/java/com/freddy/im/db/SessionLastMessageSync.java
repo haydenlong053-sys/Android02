@@ -19,6 +19,7 @@ import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.signal.ImSignalProtos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -95,6 +96,28 @@ public final class SessionLastMessageSync {
             delta.put(sessionId, delta.getOrDefault(sessionId, 0) + 1);
         }
         return delta;
+    }
+
+    /**
+     * 消息撤回后，若被撤回的是会话最近一条，则刷新会话摘要（须在 Realm 写事务内调用）。
+     */
+    @Nullable
+    public static SessionItem applyRecallPreviewInTransaction(@NonNull Realm realm,
+                                                              @NonNull String msgId,
+                                                              @NonNull AppMessage recalledMessage) {
+        String sessionId = resolveSessionId(recalledMessage);
+        if (TextUtils.isEmpty(sessionId)) {
+            return null;
+        }
+        SessionEntity session = realm.where(SessionEntity.class)
+                .equalTo("sessionId", sessionId)
+                .findFirst();
+        if (session == null || !matchesLastMessageId(session.getLastMessageId(), msgId, recalledMessage)) {
+            return null;
+        }
+        fillLastMessageFields(session, recalledMessage);
+        session.setLastMessageContent(previewContent(recalledMessage, session));
+        return SessionRealmMapper.toSessionItem(realm.copyFromRealm(session));
     }
 
     @NonNull
@@ -258,8 +281,44 @@ public final class SessionLastMessageSync {
 
     @NonNull
     private static String previewContent(@NonNull AppMessage message) {
+        return previewContent(message, null);
+    }
+
+    @NonNull
+    private static String previewContent(@NonNull AppMessage message, @Nullable SessionEntity session) {
         return MessageContentFormatter.formatDisplayText(message,
-                ImRealm.getCurrentUserId(), null);
+                ImRealm.getCurrentUserId(), buildPreviewNameMap(session));
+    }
+
+    @Nullable
+    private static Map<String, String> buildPreviewNameMap(@Nullable SessionEntity session) {
+        if (session == null) {
+            return null;
+        }
+        if (session.getConversation() == MessageType.GROUP_CHAT.getMsgType()) {
+            return null;
+        }
+        String peerId = session.getOppositeUserId();
+        String peerName = session.getSessionName();
+        if (TextUtils.isEmpty(peerId) || TextUtils.isEmpty(peerName)) {
+            return null;
+        }
+        Map<String, String> map = new HashMap<>(1);
+        map.put(peerId, peerName);
+        return map;
+    }
+
+    private static boolean matchesLastMessageId(@Nullable String lastMessageId,
+                                                @NonNull String msgId,
+                                                @NonNull AppMessage message) {
+        if (TextUtils.isEmpty(lastMessageId)) {
+            return false;
+        }
+        if (lastMessageId.equals(msgId)) {
+            return true;
+        }
+        String clientMsgId = message.getClientMsgId();
+        return !TextUtils.isEmpty(clientMsgId) && lastMessageId.equals(clientMsgId);
     }
 
     static boolean isNewerMessage(@NonNull AppMessage candidate, @NonNull AppMessage current) {
