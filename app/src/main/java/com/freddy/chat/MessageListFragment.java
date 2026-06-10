@@ -152,6 +152,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 WeChatUiHelper.resolveAvatarUrl(sessionItem),
                 IMSClientBootstrap.getInstance().getCurrentUserAvatarUrl(),
                 sessionId,
+                isGroupChat ? null : peerUserId,
+                isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(sessionItem),
                 this::resendFailedMessage);
         adapter.setMessageActions(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

@@ -34,6 +34,10 @@ public final class MessageViewHolderContext {
     @Nullable
     public final String sessionId;
     @Nullable
+    public final String peerUserId;
+    @Nullable
+    public final String peerDisplayName;
+    @Nullable
     public final OnMessageRetryListener retryListener;
     @Nullable
     public final MessageListActions messageActions;
@@ -48,6 +52,8 @@ public final class MessageViewHolderContext {
                                     @NonNull MessageReadUiState readUiState,
                                     int groupMemberCount,
                                     @Nullable String sessionId,
+                                    @Nullable String peerUserId,
+                                    @Nullable String peerDisplayName,
                                     @Nullable OnMessageRetryListener retryListener,
                                     @Nullable MessageListActions messageActions,
                                     int listMode) {
@@ -60,6 +66,8 @@ public final class MessageViewHolderContext {
         this.readUiState = readUiState;
         this.groupMemberCount = groupMemberCount;
         this.sessionId = sessionId;
+        this.peerUserId = peerUserId;
+        this.peerDisplayName = peerDisplayName;
         this.retryListener = retryListener;
         this.messageActions = messageActions;
         this.listMode = listMode;
@@ -91,11 +99,16 @@ public final class MessageViewHolderContext {
 
     @NonNull
     public Map<String, String> buildUserDisplayNameMap() {
-        Map<String, String> map = new HashMap<>(membersByUserId.size());
+        Map<String, String> map = new HashMap<>(membersByUserId.size() + 1);
         for (Map.Entry<String, GroupMemberItem> e : membersByUserId.entrySet()) {
             if (e.getValue() != null && !TextUtils.isEmpty(e.getValue().getNickname())) {
                 map.put(e.getKey(), e.getValue().getNickname());
             }
+        }
+        if (!isGroupChat
+                && !TextUtils.isEmpty(peerUserId)
+                && !TextUtils.isEmpty(peerDisplayName)) {
+            map.putIfAbsent(peerUserId, peerDisplayName);
         }
         return map;
     }

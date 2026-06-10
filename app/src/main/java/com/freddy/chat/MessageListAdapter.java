@@ -60,6 +60,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     @Nullable
     private final String sessionId;
     @Nullable
+    private final String peerUserId;
+    @Nullable
+    private final String peerDisplayName;
+    @Nullable
     private final OnMessageRetryListener retryListener;
     @Nullable
     private MessageListActions messageActions;
@@ -78,11 +82,15 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                               @Nullable String peerAvatarUrl,
                               @Nullable String selfAvatarUrl,
                               @Nullable String sessionId,
+                              @Nullable String peerUserId,
+                              @Nullable String peerDisplayName,
                               @Nullable OnMessageRetryListener retryListener) {
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
         this.selfAvatarUrl = selfAvatarUrl;
         this.sessionId = sessionId;
+        this.peerUserId = peerUserId;
+        this.peerDisplayName = peerDisplayName;
         this.retryListener = retryListener;
         voiceMessagePlayer.setListener(clientMsgId -> notifyDataSetChanged());
     }
@@ -475,6 +483,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 readUiState,
                 resolveGroupMemberCount(),
                 sessionId,
+                peerUserId,
+                peerDisplayName,
                 retryListener,
                 messageActions,
                 listMode);

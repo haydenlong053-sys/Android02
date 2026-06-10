@@ -67,6 +67,24 @@ public final class WeChatUiHelper {
         return session.getIcon().trim();
     }
 
+    /** 单聊对方展示名（优先 sessionName，用于系统消息 ${userId} 占位符替换）。 */
+    @NonNull
+    public static String resolvePeerDisplayName(@Nullable SessionItem session) {
+        if (session == null) {
+            return "";
+        }
+        if (!TextUtils.isEmpty(session.getSessionName())) {
+            return session.getSessionName().trim();
+        }
+        if (!TextUtils.isEmpty(session.getUsername())) {
+            return session.getUsername().trim();
+        }
+        if (!TextUtils.isEmpty(session.getOppositeUserId())) {
+            return session.getOppositeUserId();
+        }
+        return "";
+    }
+
     public static long normalizeToMillis(long timestamp) {
         if (timestamp <= 0L) {
             return 0L;
