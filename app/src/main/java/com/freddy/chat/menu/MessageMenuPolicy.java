@@ -59,6 +59,11 @@ public final class MessageMenuPolicy {
                 || MessageType.MessageContentType.isText(type);
     }
 
+    /** 对齐野火长按「收藏」：文本 / 图片 / 视频 / 语音（需有可收藏内容）。 */
+    public static boolean canCollect(@NonNull AppMessage message) {
+        return !TextUtils.isEmpty(com.freddy.chat.collect.MessageCollectHelper.buildCollectParams(message));
+    }
+
     public static boolean canMultiSelect(@NonNull AppMessage message) {
         return supportsContextMenu(message);
     }

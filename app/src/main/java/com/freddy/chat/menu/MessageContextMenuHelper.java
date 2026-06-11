@@ -42,6 +42,10 @@ public final class MessageContextMenuHelper {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_copy,
                     () -> actions.onCopyMessage(message)));
         }
+        if (MessageMenuPolicy.canCollect(message)) {
+            menuActions.add(action(context, com.cboda.chatui.R.string.message_collect,
+                    () -> actions.onCollectMessage(message)));
+        }
         if (MessageMenuPolicy.canMultiSelect(message)) {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_select_more,
                     () -> actions.onEnterMultiSelectMode(message)));

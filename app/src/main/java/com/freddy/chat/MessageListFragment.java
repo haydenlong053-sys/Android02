@@ -29,6 +29,7 @@ import com.cboda.select.picture.config.PictureMimeType;
 import com.cboda.select.picture.config.SelectMimeType;
 import com.cboda.select.picture.entity.LocalMedia;
 import com.cboda.select.picture.interfaces.OnResultCallbackListener;
+import com.freddy.chat.collect.MessageCollectHelper;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
@@ -65,7 +66,9 @@ import com.freddy.chat.menu.MessageListActions;
 import com.freddy.chat.menu.MessageListMode;
 import com.freddy.chat.widget.MessageListInputBroadPanel;
 import com.freddy.im.db.mapper.MessageRealmMapper;
+import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.intelligent.R;
 
 import java.io.File;
@@ -198,10 +201,31 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
 
             @Override
+            public void onOpenCollect() {
+                openCollectFolder();
+            }
+
+            @Override
+            public void onOpenBusinessCard() {
+                openBusinessCardPicker();
+            }
+
+            @Override
+            public void onOpenMeetingRoom() {
+                openMeetingRoom();
+            }
+
+            @Override
+            public void onOpenAntiFraud() {
+                openAntiFraud();
+            }
+
+            @Override
             public void onKeyboardOrPanelShown() {
                 scrollToLatest();
             }
         });
+        inputPanel.configureMorePanel(isGroupChat);
         requireActivity().getOnBackPressedDispatcher().addCallback(
                 getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {
@@ -923,6 +947,21 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     @Override
+    public void onCollectMessage(@NonNull AppMessage message) {
+        String params = MessageCollectHelper.buildCollectParams(message);
+        if (TextUtils.isEmpty(params)) {
+            Toast.makeText(requireContext(), R.string.message_collect_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+                requireContext(),
+                BridgeImEnum.COLLECT.getValue(),
+                message.getFromId(),
+                params,
+                null);
+    }
+
+    @Override
     public void onForwardMessages(@NonNull List<AppMessage> messages) {
         List<String> msgIds = collectForwardableMsgIds(messages);
         if (msgIds.isEmpty()) {
@@ -1058,6 +1097,39 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
         }
         return msgIds;
+    }
+
+    private void openCollectFolder() {
+        if (isGroupChat) {
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), "", sessionId, null);
+        } else {
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), peerUserId, "", null);
+        }
+    }
+
+    private void openBusinessCardPicker() {
+        if (isGroupChat) {
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), "", sessionId, null);
+        } else {
+            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), peerUserId, "", null);
+        }
+    }
+
+    private void openMeetingRoom() {
+        if (!isGroupChat) {
+            return;
+        }
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+                requireActivity(), BridgeImEnum.MEETING_ROOM.getValue(), "", sessionId, null);
+    }
+
+    private void openAntiFraud() {
+        MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+                requireActivity(), BridgeImEnum.AI_ANTI_FRAUD.getValue(), "", "", null);
     }
 
     private void runOnUiThreadSafe(@NonNull Runnable action) {

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     app:shape_solidColor="@color/white"
     app:shape_topLeftRadius="@dimen/dp_16"
     app:shape_topRightRadius="@dimen/dp_16">
@@ -11,106 +12,103 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="@dimen/dp_16">
+        >
 
+        <!-- 第1行：相册 / 拍摄 / 收藏夹 / 文件 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <RelativeLayout
+            <include
                 android:id="@+id/panel_more_album"
+                layout="@layout/panel_chat_more_item"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground">
+                android:layout_weight="1" />
 
-                <ImageView
-                    android:id="@+id/panel_more_album_icon"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_centerInParent="true"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_func_broad_pic" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/panel_more_album_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="1dp"
-                    android:text="@string/msg_album"
-                    android:textColor="@color/black_65"
-                    android:textSize="11sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
+            <include
                 android:id="@+id/panel_more_camera"
+                layout="@layout/panel_chat_more_item"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground">
+                android:layout_weight="1" />
 
-                <ImageView
-                    android:id="@+id/panel_more_camera_icon"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_centerInParent="true"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_func_broad_shot" />
+            <include
+                android:id="@+id/panel_more_collect"
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/panel_more_camera_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="1dp"
-                    android:text="@string/shot"
-                    android:textColor="@color/black_65"
-                    android:textSize="11sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
+            <include
                 android:id="@+id/panel_more_file"
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/panel_chat_more_item"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="?attr/selectableItemBackground">
+                android:visibility="invisible"
+                tools:visibility="visible"
+                />
 
-                <ImageView
-                    android:id="@+id/panel_more_file_icon"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_centerInParent="true"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_func_broad_file" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/panel_more_file_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="1dp"
-                    android:text="@string/file"
-                    android:textColor="@color/black_65"
-                    android:textSize="11sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
         </LinearLayout>
 
-        <View
+        <!-- 第2行：名片 / 会议室 / 防诈骗 -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/panel_more_user_card"
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+
+            <include
+                android:id="@+id/panel_more_anti_fraud"
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/panel_more_meeting"
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <include
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                />
+
+            <include
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 </com.hjq.shape.layout.ShapeFrameLayout>

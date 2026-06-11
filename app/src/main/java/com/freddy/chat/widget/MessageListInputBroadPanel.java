@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -60,6 +61,14 @@ public class MessageListInputBroadPanel extends FrameLayout
 
         void onOpenFile();
 
+        void onOpenCollect();
+
+        void onOpenBusinessCard();
+
+        void onOpenMeetingRoom();
+
+        void onOpenAntiFraud();
+
         void onKeyboardOrPanelShown();
     }
 
@@ -88,6 +97,7 @@ public class MessageListInputBroadPanel extends FrameLayout
     private ActivityResultLauncher<String> recordPermissionLauncher;
     @Nullable
     private EmotionBroadLayout emotionBroadLayout;
+    private boolean showMeetingRoomEntry = true;
 
     public MessageListInputBroadPanel(@NonNull Context context) {
         this(context, null);
@@ -118,6 +128,18 @@ public class MessageListInputBroadPanel extends FrameLayout
         initPanelSwitchHelper();
         setupEmotionPanel();
         setupMorePanel();
+    }
+
+    /** 群聊显示「会议室」，单聊隐藏（对齐野火 {@code MeetingBroadExt#filter}）。 */
+    public void configureMorePanel(boolean showMeetingRoom) {
+        showMeetingRoomEntry = showMeetingRoom;
+        if (fragment == null) {
+            return;
+        }
+        View meeting = fragment.requireView().findViewById(R.id.panel_more_meeting);
+        if (meeting != null) {
+            meeting.setVisibility(showMeetingRoom ? VISIBLE : INVISIBLE);
+        }
     }
 
     @NonNull
@@ -554,32 +576,86 @@ public class MessageListInputBroadPanel extends FrameLayout
             return;
         }
         View root = fragment.requireView();
-        View album = root.findViewById(R.id.panel_more_album);
-        View camera = root.findViewById(R.id.panel_more_camera);
-        View file = root.findViewById(R.id.panel_more_file);
-        if (album != null) {
-            album.setOnClickListener(v -> {
-                resetPanelState();
-                if (callback != null) {
-                    callback.onOpenAlbum();
-                }
-            });
+        bindMoreItem(root.findViewById(R.id.panel_more_album),
+                com.cboda.chatui.R.mipmap.ic_func_broad_pic,
+                com.cboda.chatui.R.string.msg_album,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenAlbum();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_camera),
+                com.cboda.chatui.R.mipmap.ic_func_broad_shot,
+                com.cboda.chatui.R.string.shot,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenCamera();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_collect),
+                com.cboda.chatui.R.mipmap.ic_func_broad_collect,
+                com.cboda.chatui.R.string.收藏夹,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenCollect();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_file),
+                com.cboda.chatui.R.mipmap.ic_func_broad_file,
+                com.cboda.chatui.R.string.file,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenFile();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_user_card),
+                com.cboda.chatui.R.mipmap.ic_user_broad_card,
+                com.cboda.chatui.R.string.msg_business_card,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenBusinessCard();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_meeting),
+                com.cboda.chatui.R.mipmap.ic_func_broad_meeting,
+                com.cboda.chatui.R.string.msg_meeting_room,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenMeetingRoom();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_anti_fraud),
+                com.cboda.chatui.R.mipmap.ic_func_broad_anti_fraud,
+                com.cboda.chatui.R.string.msg_anti_fraud,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenAntiFraud();
+                    }
+                });
+        configureMorePanel(showMeetingRoomEntry);
+    }
+
+    private void bindMoreItem(@Nullable View itemRoot,
+                              int iconRes,
+                              int titleRes,
+                              @NonNull Runnable action) {
+        if (itemRoot == null) {
+            return;
         }
-        if (camera != null) {
-            camera.setOnClickListener(v -> {
-                resetPanelState();
-                if (callback != null) {
-                    callback.onOpenCamera();
-                }
-            });
+        ImageView icon = itemRoot.findViewById(R.id.panel_more_item_icon);
+        TextView title = itemRoot.findViewById(R.id.panel_more_item_title);
+        if (icon != null) {
+            icon.setImageResource(iconRes);
         }
-        if (file != null) {
-            file.setOnClickListener(v -> {
-                resetPanelState();
-                if (callback != null) {
-                    callback.onOpenFile();
-                }
-            });
+        if (title != null) {
+            title.setText(titleRes);
         }
+        itemRoot.setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                resetPanelState();
+                action.run();
+            }
+        });
     }
 }
