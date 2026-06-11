@@ -14,11 +14,16 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.cboda.baselibrary.bean.FriendBean;
+import com.cboda.baselibrary.bean.UserInfoBean;
 import com.cboda.baselibrary.common.BridgeImEnum;
+import com.cboda.baselibrary.common.MyEventCodeEnum;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.utils.RealmUtil;
+import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
@@ -27,6 +32,12 @@ import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.im.http.model.im.SessionItem;
 import com.cboda.intelligent.R;
 import com.freddy.im.signal.ImSignalProtos;
+import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -59,15 +70,15 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRootBgColor(com.cboda.chatui.R.color.color_F2F3F5);
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         sessionItem = SessionItemIntent.getSessionItem(getIntent());
         if (sessionItem == null) {
             finish();
             return;
         }
         initView();
-        initData();
         attachMessageListFragment(sessionItem);
+        initData();
     }
 
 
@@ -130,13 +141,39 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
 
     private void initData() {
         if (sessionItem != null) {
-            pageTitle.setText(sessionItem.getSessionName());
+            if (sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
+                String sessionName = sessionItem.getSessionName() + "(" + (sessionItem.getMemCount()) + getString(com.cboda.chatui.R.string.msg_person_unit) + ")";
+                pageTitle.setText(sessionName);
+            } else {
+                pageTitle.setText(sessionItem.getSessionName());
+            }
         }
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showCacheGroupNoticeData();
+    }
+
+    //群聊页先取本地缓存的群公告数据
+    private void showCacheGroupNoticeData() {
+        if (sessionItem != null && sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
+            String groupNotice = MMKVBroadUtils.Companion.getGroupNotice(sessionItem.getSessionId());
+            if (!TextUtils.isEmpty(groupNotice)) {
+                messageListFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
+                messageListFragment.gonggaoxinxiBroad.setText(getString(com.cboda.chatui.R.string.group_announcement_prefix) + groupNotice);
+
+            } else {
+                messageListFragment.qungonggaoBroad.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
     private void attachMessageListFragment(@NonNull SessionItem sessionItem) {
-        MessageListFragment messageListFragment = MessageListFragment.newInstance(sessionItem);
+        messageListFragment = MessageListFragment.newInstance(sessionItem);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, messageListFragment)
@@ -206,10 +243,23 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgReceive(MyBroadEvent myImEvent) {
+        if (MyEventCodeEnum.UPDATE_ANNOUNCEMENT.getValue().equals(myImEvent.type)) {
+            if (messageListFragment!=null && sessionItem != null && sessionItem.getSessionId().equals(myImEvent.params2)) {
+                messageListFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
+                messageListFragment.gonggaoxinxiBroad.setText(getString(com.cboda.chatui.R.string.group_announcement_prefix) + myImEvent.params1);
+                MMKVBroadUtils.Companion.saveGroupNotice(sessionItem.getSessionId(), myImEvent.params1);
+                MyCommonBroadBridge.getInstance().setMyBridgeMethod(MessageListActivity.this, BridgeImEnum.UPDATE_ANNOUNCEMENT.getValue(), myImEvent.params1, "", null);
+            }
+
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
 

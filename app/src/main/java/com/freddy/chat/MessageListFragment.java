@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.cboda.chatui.MarqueeTextBroadView;
 import com.cboda.select.picture.basic.PictureSelector;
 import com.cboda.select.picture.config.PictureMimeType;
 import com.cboda.select.picture.config.SelectMimeType;
@@ -113,6 +115,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     /** 本地是否可能还有更早一页（用于下拉刷新） */
     private boolean hasMoreHistory;
+    public View qungonggaoBroad;
+    public MarqueeTextBroadView gonggaoxinxiBroad;
+    private View mViewMeetJoin;
+    private TextView mTvMeetJoin, mTvMeetPeople;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,6 +157,11 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         recyclerView = view.findViewById(R.id.rv_messages);
         swipeRefreshMessages = view.findViewById(R.id.swipe_refresh_messages);
         inputPanel = view.findViewById(R.id.input_panel);
+        mViewMeetJoin = view.findViewById(R.id.mViewMeetJoin);
+        mTvMeetPeople = view.findViewById(R.id.mTvMeetPeople);
+        mTvMeetJoin = view.findViewById(R.id.mTvMeetJoin);
+        gonggaoxinxiBroad = view.findViewById(R.id.gonggaoxinxi);
+        qungonggaoBroad = view.findViewById(R.id.qungonggao);
 
         adapter = new MessageListAdapter(
                 isGroupChat,

@@ -7,6 +7,79 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/qungonggao"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:visibility="gone"
+            app:shape_radius="@dimen/dp_18"
+            app:shape_solidColor="#3DEB534B"
+            tools:visibility="visible">
+
+            <com.cboda.chatui.MarqueeTextBroadView
+                android:id="@+id/gonggaoxinxi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                tools:text="群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告群公告：群公告" />
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/mViewMeetJoin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_4"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:shape_radius="@dimen/dp_16"
+            app:shape_solidColor="#3D3B47DD"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/mTvMeetPeople"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_weight="1"
+                android:text="@string/msg_meeting_active_count"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/mTvMeetJoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:paddingHorizontal="@dimen/dp_12"
+                android:paddingVertical="@dimen/dp_5"
+                android:text="@string/msg_meeting_join"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:shape_radius="@dimen/dp_16"
+                app:shape_solidColor="@color/color_3B47DD" />
+
+        </com.hjq.shape.layout.ShapeLinearLayout>
+    </LinearLayout>
+
+
     <com.effective.android.panel.view.PanelSwitchLayout
         android:id="@+id/panel_switch_layout"
         android:layout_width="match_parent"
