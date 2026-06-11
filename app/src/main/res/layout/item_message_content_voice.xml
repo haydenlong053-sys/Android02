@@ -4,8 +4,36 @@
     android:id="@+id/voice_root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/voice_meta_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/playStatusIndicatorStart"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/shape_red_broad_dot"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/durationTextViewStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text0"
+            android:textSize="14sp"
+            tools:text="6''" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/audioContentLayout"
@@ -25,21 +53,32 @@
             android:contentDescription="@null" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/durationTextView"
+    <LinearLayout
+        android:id="@+id/voice_meta_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:textColor="@color/color_text0"
-        android:textSize="14sp"
-        tools:text="6''" />
-
-    <View
-        android:id="@+id/playStatusIndicator"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/shape_red_broad_dot"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/durationTextViewEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text0"
+            android:textSize="14sp"
+            tools:text="6''" />
+
+        <View
+            android:id="@+id/playStatusIndicatorEnd"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/shape_red_broad_dot"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
 </LinearLayout>

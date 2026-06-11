@@ -20,18 +20,26 @@ import com.freddy.im.bean.AppMessage;
 
 public final class VoiceMessageVH extends BaseMessageVH {
     private final LinearLayout voiceRoot;
+    private final LinearLayout voiceMetaStart;
+    private final LinearLayout voiceMetaEnd;
     private final RelativeLayout audioContentLayout;
     private final ImageView audioImageView;
-    private final TextView durationTextView;
-    private final View playStatusIndicator;
+    private final TextView durationTextViewStart;
+    private final TextView durationTextViewEnd;
+    private final View playStatusIndicatorStart;
+    private final View playStatusIndicatorEnd;
 
     public VoiceMessageVH(@NonNull View itemView) {
         super(itemView, R.layout.item_message_content_voice, false);
         voiceRoot = contentView.findViewById(R.id.voice_root);
+        voiceMetaStart = contentView.findViewById(R.id.voice_meta_start);
+        voiceMetaEnd = contentView.findViewById(R.id.voice_meta_end);
         audioContentLayout = contentView.findViewById(R.id.audioContentLayout);
         audioImageView = contentView.findViewById(R.id.audioImageView);
-        durationTextView = contentView.findViewById(R.id.durationTextView);
-        playStatusIndicator = contentView.findViewById(R.id.playStatusIndicator);
+        durationTextViewStart = contentView.findViewById(R.id.durationTextViewStart);
+        durationTextViewEnd = contentView.findViewById(R.id.durationTextViewEnd);
+        playStatusIndicatorStart = contentView.findViewById(R.id.playStatusIndicatorStart);
+        playStatusIndicatorEnd = contentView.findViewById(R.id.playStatusIndicatorEnd);
     }
 
     public void bind(@NonNull AppMessage message,
@@ -41,13 +49,16 @@ public final class VoiceMessageVH extends BaseMessageVH {
         bindCommon(message, position, context);
         boolean sentByMe = message.isSender(context.currentUserId);
         int durationSec = Math.max(1, MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent()));
-        durationTextView.setText(durationSec + "''");
+        String durationLabel = durationSec + "''";
+        durationTextViewStart.setText(durationLabel);
+        durationTextViewEnd.setText(durationLabel);
 
         int increment = resolveWidthIncrement(itemView.getResources().getDisplayMetrics(), durationSec);
         ViewGroup.LayoutParams params = audioContentLayout.getLayoutParams();
         params.width = dip2px(65) + increment;
         audioContentLayout.setLayoutParams(params);
 
+        applyVoiceMetadataSide(sentByMe);
         applyBroadBubbleBackground(audioContentLayout, sentByMe);
         if (sentByMe) {
             voiceRoot.setGravity(Gravity.END);
@@ -58,7 +69,6 @@ public final class VoiceMessageVH extends BaseMessageVH {
             iconLp.setMarginStart(0);
             iconLp.setMarginEnd(dip2px(15));
             audioImageView.setLayoutParams(iconLp);
-            playStatusIndicator.setVisibility(View.GONE);
         } else {
             voiceRoot.setGravity(Gravity.START);
             audioImageView.setBackgroundResource(com.cboda.chatui.R.drawable.audio_animation_left_broad_list);
@@ -68,7 +78,6 @@ public final class VoiceMessageVH extends BaseMessageVH {
             iconLp.setMarginEnd(0);
             iconLp.setMarginStart(dip2px(15));
             audioImageView.setLayoutParams(iconLp);
-            playStatusIndicator.setVisibility(View.VISIBLE);
         }
 
         boolean playing = player.isPlaying(message.getClientMsgId());
@@ -85,6 +94,19 @@ public final class VoiceMessageVH extends BaseMessageVH {
             }
         });
         refreshContextMenuLongClickOnContent();
+    }
+
+    /** 发送方显示左侧时长，接收方显示右侧时长；未读红点暂不展示。 */
+    private void applyVoiceMetadataSide(boolean sentByMe) {
+        playStatusIndicatorStart.setVisibility(View.GONE);
+        playStatusIndicatorEnd.setVisibility(View.GONE);
+        if (sentByMe) {
+            voiceMetaStart.setVisibility(View.VISIBLE);
+            voiceMetaEnd.setVisibility(View.GONE);
+        } else {
+            voiceMetaStart.setVisibility(View.GONE);
+            voiceMetaEnd.setVisibility(View.VISIBLE);
+        }
     }
 
     private void updateAnimation(boolean playing, boolean sentByMe) {
