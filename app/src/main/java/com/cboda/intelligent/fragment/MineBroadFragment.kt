@@ -37,6 +37,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.ui.shape.TopRoundedBottomArcShape
 import com.cboda.intelligent.base.BaseLazyBroadFragment
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.BaseBroadCallback
@@ -47,7 +48,6 @@ import okhttp3.Response
 import com.cboda.intelligent.activity.QianbaoBroadActivity
 import com.cboda.intelligent.activity.SafeCenterBroadActivity
 import com.cboda.intelligent.activity.CiecelBroadActivity
-import com.cboda.intelligent.activity.MyCollectBroadActivity
 import com.cboda.intelligent.activity.IssueBroadActivity
 import com.cboda.intelligent.activity.UserSetBroadActivity
 import com.cboda.intelligent.activity.HyzxBroadActivity
@@ -347,12 +347,7 @@ private fun MenuContainer(isHasPassword: Boolean) {
                                     )
                                 )
 
-                                R.string.我的收藏 -> context.startActivity(
-                                    Intent(
-                                        context,
-                                        MyCollectBroadActivity::class.java
-                                    )
-                                )
+                                R.string.我的收藏 -> JumpBroadUtils.startImMyCollectActivity(context)
 
                                 R.string.常见问题 -> context.startActivity(
                                     Intent(

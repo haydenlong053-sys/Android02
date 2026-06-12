@@ -2,6 +2,7 @@ package com.cboda.intelligent.holder
 
 import android.content.Context
 import android.content.Intent
+import android.se.omapi.Session
 import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.chatui.conversation.message.model.UiBroadMessage
@@ -58,7 +59,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
     //自研用的
     private fun setBridge2() {
         MyCommonBroadBridge2.getInstance()?.setMyImCommonListener2(object : MyCommonBroadBridge2.MyImCommonListener2{
-            override fun goBridgeMethod(mContext: Context?, type: String?, params: String?, params2: String?, msg: AppMessage?) {
+            override fun goBridgeMethod(mContext: Context?, type: String?, params: String?, params2: String?,sessionId: String? ,msg: AppMessage?) {
                 eLogD("自研桥接", "---> $type  $params  $params2")
                 when(type){
                     BridgeImEnum.COLLECT.value -> {
@@ -77,7 +78,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                     }
 
                     BridgeImEnum.COLLECT_IM.value -> {
-                        JumpBroadUtils.startMyCollectActivity(mContext, params ?: "", params2 ?: "")
+                        JumpBroadUtils.startImMyCollectActivity(mContext, params ?: "", params2 ?: "",sessionId?:"")
                     }
 
 

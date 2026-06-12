@@ -44,10 +44,11 @@ public final class MessageCollectHelper {
             int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
             return contentJson + "|" + TYPE_VIDEO + "|" + duration;
         }
-        if (MessageContentFormatter.isVoiceMessage(type)) {
-            int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
-            return contentJson + "|" + TYPE_VOICE + "|" + duration;
-        }
+        //语音类消息不开启收藏
+//        if (MessageContentFormatter.isVoiceMessage(type)) {
+//            int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
+//            return contentJson + "|" + TYPE_VOICE + "|" + duration;
+//        }
         return null;
     }
 }

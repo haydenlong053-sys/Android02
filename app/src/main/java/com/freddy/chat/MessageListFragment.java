@@ -970,6 +970,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 BridgeImEnum.COLLECT.getValue(),
                 message.getFromId(),
                 params,
+                message.getConversationId(),
                 message);
     }
 
@@ -1114,10 +1115,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private void openCollectFolder() {
         if (isGroupChat) {
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
-                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), "", sessionId, null);
+                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), "", sessionId, sessionId,null);
         } else {
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
-                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), peerUserId, "", null);
+                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), peerUserId, "", sessionId,null);
         }
     }
 

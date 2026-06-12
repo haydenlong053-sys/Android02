@@ -31,6 +31,7 @@ import com.cboda.intelligent.activity.HyyBroadActivity
 import com.cboda.intelligent.activity.LoginQrCodeActivity
 import com.cboda.intelligent.activity.MinGanCiBroadActivity
 import com.cboda.intelligent.activity.MyCollectBroadActivity
+import com.freddy.chat.collect.CollectIntent
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
 import com.cboda.intelligent.activity.QunCodeBroadActivity
 import com.cboda.intelligent.activity.QunGerenJInyanTimeBroadActivity
@@ -136,6 +137,11 @@ class JumpBroadUtils {
             intent.putExtra("qunid", qunid)
             intent.putExtra("uid", uid)
             context?.startActivity(intent)
+        }
+
+        /** 自研收藏夹（聊天内带 uid/qunid 可点选发送；「我的」页无会话参数仅浏览/转发/删除）。 */
+        fun startImMyCollectActivity(context: Context?, uid: String = "", qunid: String = "",sessionId: String="") {
+            context?.startActivity(CollectIntent.build(context, uid, qunid,sessionId))
         }
 
 

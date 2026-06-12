@@ -46,6 +46,9 @@ public class MessageForwardActivity extends AppCompatActivity {
     public static final String EXTRA_SOURCE_SESSION_ID = "source_session_id";
     public static final String EXTRA_SOURCE_IS_GROUP = "source_is_group";
     public static final String EXTRA_SOURCE_PEER_NAME = "source_peer_name";
+    public static final String EXTRA_INLINE_MESSAGE_CONTENT = "inline_message_content";
+    public static final String EXTRA_INLINE_MESSAGE_CONTENT_TYPE = "inline_message_content_type";
+    public static final String INLINE_COLLECT_MSG_ID = "inline_collect";
 
     private ConversationListAdapter adapter;
     private List<AppMessage> sourceMessages = new ArrayList<>();
@@ -71,6 +74,20 @@ public class MessageForwardActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(sourcePeerName)) {
             intent.putExtra(EXTRA_SOURCE_PEER_NAME, sourcePeerName);
         }
+        return intent;
+    }
+
+    /** 收藏夹等场景：无本地 msgId，直接携带内容与类型转发。 */
+    @NonNull
+    public static Intent buildInlineForwardIntent(@NonNull Context context,
+                                                  @NonNull AppMessage message) {
+        Intent intent = new Intent(context, MessageForwardActivity.class);
+        intent.putExtra(EXTRA_INLINE_MESSAGE_CONTENT,
+                message.getContent() != null ? message.getContent() : "");
+        intent.putExtra(EXTRA_INLINE_MESSAGE_CONTENT_TYPE, message.getMsgContentType());
+        ArrayList<String> msgIds = new ArrayList<>();
+        msgIds.add(INLINE_COLLECT_MSG_ID);
+        intent.putStringArrayListExtra(EXTRA_MSG_IDS, msgIds);
         return intent;
     }
 
@@ -129,6 +146,7 @@ public class MessageForwardActivity extends AppCompatActivity {
         }
 
         loadSourceMessages(sourceSessionId, msgIds);
+        loadInlineSourceMessageIfNeeded();
         ImLocalStore.loadSessions(cached -> runOnUiThread(() -> {
             if (!cached.isEmpty()) {
                 adapter.setNewData(cached);
@@ -143,6 +161,21 @@ public class MessageForwardActivity extends AppCompatActivity {
         }
         ImLocalStore.loadMessages(sourceSessionId, all -> runOnUiThread(() ->
                 sourceMessages = MessageForwardHelper.filterMessagesByIds(all, msgIds)));
+    }
+
+    private void loadInlineSourceMessageIfNeeded() {
+        String inlineContent = getIntent().getStringExtra(EXTRA_INLINE_MESSAGE_CONTENT);
+        if (TextUtils.isEmpty(inlineContent)) {
+            return;
+        }
+        AppMessage message = new AppMessage();
+        message.setMsgId(INLINE_COLLECT_MSG_ID);
+        message.setContent(inlineContent);
+        message.setMsgContentType(getIntent().getIntExtra(
+                EXTRA_INLINE_MESSAGE_CONTENT_TYPE,
+                com.freddy.im.MessageType.MessageContentType.TEXT.getMsgContentType()));
+        sourceMessages = new ArrayList<>();
+        sourceMessages.add(message);
     }
 
 //    private void loadSessions() {

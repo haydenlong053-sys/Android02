@@ -28,14 +28,14 @@ public class MyCommonBroadBridge2 {
         this.imCommonListener = imCommonListener;
     }
 
-    public void setMyBridgeMethod2(Context mContext, String type, String params, String params2, AppMessage msg) {
+    public void setMyBridgeMethod2(Context mContext, String type, String params, String params2, String sessionId, AppMessage msg) {
         if (imCommonListener != null) {
-            imCommonListener.goBridgeMethod(mContext, type, params, params2,msg);
+            imCommonListener.goBridgeMethod(mContext, type, params, params2, sessionId, msg);
         }
     }
 
     public interface MyImCommonListener2 {
-        void goBridgeMethod(Context mContext, String type, String params, String params2, AppMessage msg);
+        void goBridgeMethod(Context mContext, String type, String params, String params2, String sessionId, AppMessage msg);
     }
 
 }

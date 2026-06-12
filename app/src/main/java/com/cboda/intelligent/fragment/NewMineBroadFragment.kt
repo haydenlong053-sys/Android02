@@ -11,7 +11,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.HyzxBroadActivity
 import com.cboda.intelligent.activity.IssueBroadActivity
-import com.cboda.intelligent.activity.MyCollectBroadActivity
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.activity.QianbaoBroadActivity
 import com.cboda.intelligent.activity.SafeCenterBroadActivity
 import com.cboda.intelligent.activity.UserSetBroadActivity
@@ -73,7 +73,7 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
         }
 
         binding.itemFavorite.click {
-            startActivity(Intent(requireContext(), MyCollectBroadActivity::class.java))
+            JumpBroadUtils.startImMyCollectActivity(requireContext())
         }
         binding.itemSafeCenter.click {
             if (isHasPassword) {
