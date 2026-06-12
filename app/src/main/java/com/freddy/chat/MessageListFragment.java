@@ -254,22 +254,11 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                         closeHost();
                     }
                 });
+        CEventCenter.registerEventListener(this, EVENTS);
         if (isGroupChat) {
             loadGroupMembers();
         }
         loadLocalMessages();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        CEventCenter.registerEventListener(this, EVENTS);
-    }
-
-    @Override
-    public void onStop() {
-        CEventCenter.unregisterEventListener(this, EVENTS);
-        super.onStop();
     }
 
     @Override
@@ -879,6 +868,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     @Override
     public void onDestroyView() {
+        CEventCenter.unregisterEventListener(this, EVENTS);
         if (inputPanel != null) {
             inputPanel.onDestroy();
         }
@@ -1202,7 +1192,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             if (!belongsToSession(message)) {
                 return;
             }
-            CThreadPoolExecutor.runOnMainThread(() -> adapter.updateMessage(message));
+            CThreadPoolExecutor.runOnMainThread(() -> {
+                int countBefore = adapter.getItemCount();
+                adapter.updateMessage(message);
+                if (adapter.getItemCount() > countBefore) {
+                    scrollToLatest();
+                }
+            });
             return;
         }
         if (!Events.CHAT_MESSAGE.equals(topic) || !(obj instanceof List)) {
