@@ -80,6 +80,47 @@ class MyImManagerBroadHolder(private val context: Context?) {
                     BridgeImEnum.COLLECT_IM.value -> {
                         JumpBroadUtils.startImMyCollectActivity(mContext, params ?: "", params2 ?: "",sessionId?:"")
                     }
+                    BridgeImEnum.BUSINESS_CARD.value -> {
+                        if (params2?.isNotEmpty() == true) {
+                            val map = mapOf(
+                                "id" to (params2),
+                            )
+                            okGoHelper.post(
+                                context,
+                                "/groupInfo",
+                                JSONObject(map).toString(),
+                                CommonResultBroadBean(),
+                                callBack = object : OKGoBroadHelper.RequestCallBack {
+                                    override fun onSuccess(bean: BaseBroadResponse?) {
+                                        if (bean is CommonResultBroadBean) {
+                                            groupDataLiveData.postValue(bean)
+                                            if (bean.data?.userType == "3" && bean.data?.openQzts == "1") {
+                                                ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
+                                            } else {
+                                                JumpBroadUtils.startHaoyouListActivity(
+                                                    mContext,
+                                                    params ?: "",
+                                                    params2 ?: "",
+                                                    sessionId
+                                                )
+                                            }
+                                        }
+                                    }
+
+                                    override fun onFail(bean: BaseBroadResponse?) {
+                                    }
+                                },
+                            )
+                        } else {
+                            JumpBroadUtils.startHaoyouListActivity(
+                                mContext,
+                                params ?: "",
+                                params2 ?: "",
+                                sessionId
+                            )
+
+                        }
+                    }
 
 
                 }

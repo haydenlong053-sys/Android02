@@ -1124,11 +1124,11 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void openBusinessCardPicker() {
         if (isGroupChat) {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
-                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), "", sessionId, null);
+            MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
+                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), "", sessionId, sessionId,null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
-                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), sessionId, "", null);
+            MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
+                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), peerUserId, "", sessionId,null);
         }
     }
 

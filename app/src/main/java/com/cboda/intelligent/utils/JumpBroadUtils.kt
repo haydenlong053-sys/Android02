@@ -505,10 +505,11 @@ class JumpBroadUtils {
 //            }
         }
 
-        fun startHaoyouListActivity(context: Context?, uid: String, qunid: String) {
+        fun startHaoyouListActivity(context: Context?, uid: String, qunid: String,sessionId: String?="") {
             val intent = Intent(context, HaoyouListBroadActivity::class.java)
             intent.putExtra("qunid", qunid)
             intent.putExtra("uid", uid)
+            intent.putExtra("sessionId", sessionId)
             context?.startActivity(intent)
         }
 
