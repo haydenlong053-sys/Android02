@@ -42,15 +42,51 @@ import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.StringBroadUtil
 import com.cboda.intelligent.utils.*
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
+import com.freddy.im.MyCommonBroadBridge2
+import com.freddy.im.bean.AppMessage
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
 class MyImManagerBroadHolder(private val context: Context?) {
     init {
         setBridge()
+        setBridge2()
     }
 
     private var okGoHelper = OKGoBroadHelper()
+
+    //自研用的
+    private fun setBridge2() {
+        MyCommonBroadBridge2.getInstance()?.setMyImCommonListener2(object : MyCommonBroadBridge2.MyImCommonListener2{
+            override fun goBridgeMethod(mContext: Context?, type: String?, params: String?, params2: String?, msg: AppMessage?) {
+                eLogD("自研桥接", "---> $type  $params  $params2")
+                when(type){
+                    BridgeImEnum.COLLECT.value -> {
+                        val paraList = params2?.split("|")
+                        if (paraList?.size == 3) {
+                            shoucang(
+                                mContext,
+                                params ?: "",
+                                paraList!![0],
+                                paraList[1],
+                                paraList[2]
+                            )
+                        } else {
+                            shoucang(mContext, params ?: "", paraList!![0], paraList[1])
+                        }
+                    }
+
+                    BridgeImEnum.COLLECT_IM.value -> {
+                        JumpBroadUtils.startMyCollectActivity(mContext, params ?: "", params2 ?: "")
+                    }
+
+
+                }
+            }
+
+        })
+    }
+
 
     private fun setBridge() {
         MyCommonBroadBridge.getInstance()
@@ -789,6 +825,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
             })
     }
+
 
     fun removeBeforeFirstSpace(input: String): String? {
         val spaceIndex = input.indexOf(' ')

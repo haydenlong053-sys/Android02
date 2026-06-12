@@ -102,22 +102,8 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
             if (mDataList.isEmpty()) return@setOnItemClickListener
             val sendCustomMsg = SendCustomBroadMsg()
             if (uid.isNotEmpty()) {
-//                sendCustomMsg.sendMingPianMsg(
-//                    this@HaoyouListBroadActivity,
-//                    mDataList[position].userId?:"",
-//                    mDataList[position].icon?:"",
-//                    mDataList[position].name?:"",
-//                    uid,
-//                )
                 sendCustomMsg.sendMyImMingPian("", mDataList[position].userId?:"",uid, mDataList[position].name?:"",mDataList[position].icon?:"",this,mDataList[position].idno?:"")
             } else {
-//                sendCustomMsg.sendQunMingPianMsg(
-//                    this@HaoyouListBroadActivity,
-//                    mDataList[position].userId?:"",
-//                    mDataList[position].icon?:"",
-//                    mDataList[position].name?:"",
-//                    qunId,
-//                )
                 sendCustomMsg.sendMyImMingPian("1", mDataList[position].userId?:"",qunId,mDataList[position].name?:"",mDataList[position].icon?:"",this,mDataList[position].idno?:"")
             }
             finish()

@@ -30,38 +30,23 @@ public final class MessageCollectHelper {
     @Nullable
     public static String buildCollectParams(@NonNull AppMessage message) {
         int type = message.getMsgContentType();
-        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
-        boolean sentByMe = message.isSender(currentUserId);
-
+        String contentJson =message.getContent();
+        if (TextUtils.isEmpty(contentJson)) {
+            return null;
+        }
         if (MessageType.MessageContentType.isText(type)) {
-            String text = MessageContentFormatter.extractPlainText(message.getContent());
-            if (TextUtils.isEmpty(text)) {
-                return null;
-            }
-            return text + "|" + TYPE_TEXT;
+            return contentJson + "|" + TYPE_TEXT;
         }
         if (MessageContentFormatter.isImageMessage(type)) {
-            String url = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
-            if (TextUtils.isEmpty(url)) {
-                return null;
-            }
-            return url + "|" + TYPE_IMAGE;
+            return contentJson + "|" + TYPE_IMAGE;
         }
         if (MessageContentFormatter.isVideoMessage(type)) {
-            String url = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
-            if (TextUtils.isEmpty(url)) {
-                return null;
-            }
             int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
-            return url + "|" + TYPE_VIDEO + "|" + duration;
+            return contentJson + "|" + TYPE_VIDEO + "|" + duration;
         }
         if (MessageContentFormatter.isVoiceMessage(type)) {
-            String url = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
-            if (TextUtils.isEmpty(url)) {
-                return null;
-            }
             int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
-            return url + "|" + TYPE_VOICE + "|" + duration;
+            return contentJson + "|" + TYPE_VOICE + "|" + duration;
         }
         return null;
     }

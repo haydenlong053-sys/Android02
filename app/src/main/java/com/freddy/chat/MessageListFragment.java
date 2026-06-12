@@ -51,6 +51,7 @@ import com.freddy.chat.utils.MediaUploadFileResolver;
 import com.freddy.chat.utils.VideoCoverUtil;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.MessageType;
+import com.freddy.im.MyCommonBroadBridge2;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.ImMessageHttpExample;
@@ -964,12 +965,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Toast.makeText(requireContext(), R.string.message_collect_failed, Toast.LENGTH_SHORT).show();
             return;
         }
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+        MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
                 requireContext(),
                 BridgeImEnum.COLLECT.getValue(),
                 message.getFromId(),
                 params,
-                null);
+                message);
     }
 
     @Override
@@ -1112,10 +1113,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void openCollectFolder() {
         if (isGroupChat) {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+            MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
                     requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), "", sessionId, null);
         } else {
-            MyCommonBroadBridge.getInstance().setMyBridgeMethod(
+            MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
                     requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), peerUserId, "", null);
         }
     }
@@ -1126,7 +1127,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), "", sessionId, null);
         } else {
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(
-                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), peerUserId, "", null);
+                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), sessionId, "", null);
         }
     }
 
