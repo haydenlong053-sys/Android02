@@ -146,6 +146,10 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isMapMessage(msgContentType);
     }
 
+    public static boolean isCardMessage(int msgContentType) {
+        return MessageContentFormatter.isCardMessage(msgContentType);
+    }
+
     public static boolean isVoiceSessionPreview(@Nullable SessionItem session) {
         return session != null && matchesContentType(session.getLastContentType(),
                 MessageType.MessageContentType.VOICE.getMsgContentType(), "voice");

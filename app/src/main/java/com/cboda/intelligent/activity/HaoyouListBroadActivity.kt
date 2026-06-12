@@ -10,7 +10,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
-import com.cboda.intelligent.holder.SendCustomBroadMsg
+import com.freddy.chat.card.CardMessageSender
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -20,6 +20,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
     private var qunId = ""
     private var uid = ""
+    private var sessionId = ""
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: QunMemberBroadAdapter? = null
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
@@ -44,6 +45,7 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
         initViews()
         uid = intent?.getStringExtra("uid") ?: ""
         qunId = intent?.getStringExtra("qunid") ?: ""
+        sessionId = intent?.getStringExtra("sessionId") ?: ""
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         getToolbarTitle()?.text = getString(R.string.xuanzelianxiren)
 
@@ -100,14 +102,34 @@ class HaoyouListBroadActivity : BaseSimpleBroadActivity() {
         mAdapter?.setList(mDataList)
         mAdapter?.setOnItemClickListener { _, _, position ->
             if (mDataList.isEmpty()) return@setOnItemClickListener
-            val sendCustomMsg = SendCustomBroadMsg()
+            val item = mDataList[position]
+            val cardUserId = item.userId ?: ""
+            val displayName = item.name ?: ""
+            val portrait = item.icon ?: ""
+            val idno = item.idno ?: ""
             if (uid.isNotEmpty()) {
-                sendCustomMsg.sendMyImMingPian("", mDataList[position].userId?:"",uid, mDataList[position].name?:"",mDataList[position].icon?:"",this,mDataList[position].idno?:"")
+                CardMessageSender.send(
+                    activity = this,
+                    isGroupChat = false,
+                    toId = uid,
+                    sessionId = sessionId.takeIf { it.isNotEmpty() },
+                    cardUserId = cardUserId,
+                    displayName = displayName,
+                    portrait = portrait,
+                    idno = idno,
+                )
             } else {
-                sendCustomMsg.sendMyImMingPian("1", mDataList[position].userId?:"",qunId,mDataList[position].name?:"",mDataList[position].icon?:"",this,mDataList[position].idno?:"")
+                CardMessageSender.send(
+                    activity = this,
+                    isGroupChat = true,
+                    toId = qunId,
+                    sessionId = sessionId.takeIf { it.isNotEmpty() } ?: qunId,
+                    cardUserId = cardUserId,
+                    displayName = displayName,
+                    portrait = portrait,
+                    idno = idno,
+                )
             }
-            finish()
-
         }
 
         smartLayout?.setEnableLoadMore(false)

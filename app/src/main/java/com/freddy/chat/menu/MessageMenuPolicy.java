@@ -56,6 +56,7 @@ public final class MessageMenuPolicy {
                 || MessageContentFormatter.isVideoMessage(type)
                 || MessageContentFormatter.isFileMessage(type)
                 || MessageContentFormatter.isMapMessage(type)
+                || MessageContentFormatter.isCardMessage(type)
                 || MessageType.MessageContentType.isText(type);
     }
 

@@ -18,6 +18,7 @@ import com.freddy.chat.menu.MessageListMode;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.chat.viewholder.BaseMessageVH;
+import com.freddy.chat.viewholder.CardMessageVH;
 import com.freddy.chat.viewholder.FileMessageVH;
 import com.freddy.chat.viewholder.ImageMessageVH;
 import com.freddy.chat.viewholder.MapMessageVH;
@@ -51,6 +52,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int VIEW_TYPE_FILE = 5;
     private static final int VIEW_TYPE_MAP = 6;
     private static final int VIEW_TYPE_MERGE_TRANS = 7;
+    private static final int VIEW_TYPE_CARD = 8;
     private static final int VIEW_TYPE_UNKNOWN = 99;
 
     private final boolean isGroupChat;
@@ -427,6 +429,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (WeChatUiHelper.isMapMessage(contentType)) {
             return VIEW_TYPE_MAP;
         }
+        if (WeChatUiHelper.isCardMessage(contentType)) {
+            return VIEW_TYPE_CARD;
+        }
         return VIEW_TYPE_TEXT;
     }
 
@@ -447,6 +452,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             case VIEW_TYPE_VIDEO:
             case VIEW_TYPE_FILE:
             case VIEW_TYPE_MAP:
+            case VIEW_TYPE_CARD:
             case VIEW_TYPE_MERGE_TRANS:
             case VIEW_TYPE_TEXT:
             case VIEW_TYPE_UNKNOWN:
@@ -463,6 +469,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
                 if (viewType == VIEW_TYPE_MAP) {
                     return new MapMessageVH(v);
+                }
+                if (viewType == VIEW_TYPE_CARD) {
+                    return new CardMessageVH(v);
                 }
                 if (viewType == VIEW_TYPE_MERGE_TRANS) {
                     return new MergeTransMessageVH(v);
@@ -504,6 +513,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             ((FileMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof MapMessageVH) {
             ((MapMessageVH) holder).bind(m, position, context);
+        } else if (holder instanceof CardMessageVH) {
+            ((CardMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof MergeTransMessageVH) {
             ((MergeTransMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof TextMessageVH) {

@@ -5,7 +5,7 @@ import com.freddy.im.signal.ImSignalProtos;
 /**
  * IM 消息类型定义（会话 {@link #msgType}、内容 {@link MessageContentType}），全局统一使用。
  * <p>
- * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、300 文件、400 语音、500 视频、600 地图。
+ * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、300 文件、400 语音、500 视频、600 地图、700 个人名片。
  */
 public enum MessageType {
 
@@ -52,7 +52,9 @@ public enum MessageType {
         /** 视频 video/* */
         VIDEO(500),
         /** 地图 text/map */
-        MAP(600);
+        MAP(600),
+        /** 个人名片 card */
+        CARD(700);
 
         private final int msgContentType;
 
@@ -90,6 +92,10 @@ public enum MessageType {
 
         public static boolean isMergeTranspond(int type) {
             return type == MERGE_TRANSPOND.msgContentType;
+        }
+
+        public static boolean isCard(int type) {
+            return type == CARD.msgContentType;
         }
     }
 }

@@ -74,6 +74,10 @@ public final class MessageContentFormatter {
         return MessageType.MessageContentType.isMergeTranspond(msgContentType);
     }
 
+    public static boolean isCardMessage(int msgContentType) {
+        return MessageType.MessageContentType.isCard(msgContentType);
+    }
+
     @NonNull
     public static String formatDisplayText(@NonNull AppMessage message,
                                            @Nullable String currentUserId,
@@ -102,6 +106,9 @@ public final class MessageContentFormatter {
         }
         if (isMapMessage(type)) {
             return "[位置]";
+        }
+        if (isCardMessage(type)) {
+            return "[个人名片]";
         }
         if (isMergeTranspondMessage(type)) {
             return formatMergeTranspondDisplay(message.getContent());
@@ -155,6 +162,9 @@ public final class MessageContentFormatter {
         }
         if (isMapMessage(type)) {
             return "[位置]";
+        }
+        if (isCardMessage(type)) {
+            return "[个人名片]";
         }
         if (isMergeTranspondMessage(type)) {
             return formatMergeTranspondDisplay(content);

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.chat.utils.AppGson;
+import com.freddy.chat.utils.CardMessageContentUtil;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.chat.utils.StringUtil;
 import com.freddy.im.IMSConfig;
@@ -222,6 +223,51 @@ public class MessageBuilder {
         message.setContent(wrapVoiceContentAsJson(durationSec, remoteUrl, remoteUrl));
         message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
         return message;
+    }
+
+    /** 个人名片消息 contentType=700。 */
+    @NonNull
+    public static AppMessage buildCardMessage(@Nullable String sessionId,
+                                              int conversationType,
+                                              @NonNull String toId,
+                                              @NonNull String cardUserId,
+                                              @NonNull String displayName,
+                                              @Nullable String portrait,
+                                              @Nullable String idno) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        AppMessage message = new AppMessage();
+        if (!TextUtils.isEmpty(sessionId)) {
+            message.setConversationId(sessionId);
+        }
+        message.setClientMsgId(UUID.randomUUID().toString());
+        message.setMsgContentType(MessageType.MessageContentType.CARD.getMsgContentType());
+        message.setFromId(userId);
+        message.setToId(toId);
+        message.setTimestamp(System.currentTimeMillis());
+        message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(conversationType));
+        message.setContent(wrapCardContentAsJson(cardUserId, displayName, portrait, idno, userId));
+        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+        return message;
+    }
+
+    @NonNull
+    private static String wrapCardContentAsJson(@NonNull String cardUserId,
+                                                @NonNull String displayName,
+                                                @Nullable String portrait,
+                                                @Nullable String idno,
+                                                @NonNull String fromUserId) {
+        Map<String, Object> body = new LinkedHashMap<>(6);
+        body.put("msg", CardMessageContentUtil.MSG_CARD);
+        body.put("userId", cardUserId);
+        body.put("displayName", displayName);
+        if (!TextUtils.isEmpty(portrait)) {
+            body.put("portrait", portrait);
+        }
+        if (!TextUtils.isEmpty(idno)) {
+            body.put("idno", idno);
+        }
+        body.put("from", fromUserId);
+        return AppGson.get().toJson(body);
     }
 
     /** 文本消息 content 包装为 {@code {"msg":"..."}} */
