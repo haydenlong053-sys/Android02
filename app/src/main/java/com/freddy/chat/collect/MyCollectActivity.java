@@ -262,7 +262,8 @@ public class MyCollectActivity extends BaseSimple2BroadActivity {
                         }
                         if (resultBean.dataList != null) {
                             for (DataListBroadBean bean : resultBean.dataList) {
-                                if (!CollectContentParser.TYPE_VOICE.equals(bean.type)) {
+                                if (!CollectContentParser.TYPE_VOICE.equals(bean.type)
+                                        && CollectContentParser.isJsonObjectInfo(bean.info)) {
                                     listBeans.add(bean);
                                 }
                             }

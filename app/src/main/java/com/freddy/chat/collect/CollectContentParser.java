@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.im.message.MessageContentFormatter;
+import com.google.gson.JsonParser;
 
 /**
  * 收藏项 {@code info} 展示解析：优先按自研消息 JSON，兼容野火纯 URL / 纯文本。
@@ -88,6 +89,22 @@ public final class CollectContentParser {
                 || TYPE_IMAGE.equals(collectType)
                 || TYPE_VIDEO.equals(collectType)
                 || TYPE_VOICE.equals(collectType);
+    }
+
+    /** {@code info} 是否为 JSON 对象字符串（自研收藏 content 格式）。 */
+    public static boolean isJsonObjectInfo(@Nullable String info) {
+        if (TextUtils.isEmpty(info) || "null".equalsIgnoreCase(info.trim())) {
+            return false;
+        }
+        String trimmed = info.trim();
+        if (!trimmed.startsWith("{")) {
+            return false;
+        }
+        try {
+            return JsonParser.parseString(trimmed).isJsonObject();
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 
     private static boolean isHttpUrl(@NonNull String raw) {

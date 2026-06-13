@@ -2,12 +2,8 @@ package com.cboda.intelligent.holder
 
 import android.content.Context
 import android.content.Intent
-import android.se.omapi.Session
-import com.cboda.chatui.bridge.MyCommonBroadBridge
-import com.cboda.chatui.bridge.MyBroadEvent
-import com.cboda.chatui.conversation.message.model.UiBroadMessage
-import com.cboda.baselibrary.common.BridgeImEnum
-import com.cboda.baselibrary.common.MyEventCodeEnum
+import android.text.TextUtils
+import android.util.Log
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.message.Message
 import cn.wildfirechat.message.TextMessageContent
@@ -15,9 +11,11 @@ import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.GeneralCallback
 import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.bean.BaseBroadResponse
+import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.cboda.baselibrary.bean.BroadConstant
+import com.cboda.baselibrary.common.BridgeImEnum
+import com.cboda.baselibrary.common.MyEventCodeEnum
 import com.cboda.baselibrary.event.FanYiBroadEvent
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
@@ -26,25 +24,30 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.groupDataLiveData
-import com.google.gson.Gson
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
+import com.cboda.chatui.bridge.MyBroadEvent
+import com.cboda.chatui.bridge.MyCommonBroadBridge
+import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.QuickMeetingCreateActivity
+import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity
 import com.cboda.intelligent.bean.MeetingDetailBroadBean
 import com.cboda.intelligent.bean.NoResultBroadBean
-import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity
-import com.cboda.intelligent.utils.UrlBroadBroadConstants
-import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
-import com.cboda.intelligent.utils.StringBroadUtil
 import com.cboda.intelligent.utils.*
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
 import com.freddy.im.MyCommonBroadBridge2
 import com.freddy.im.bean.AppMessage
+import com.freddy.im.db.repository.ImSessionRepository
+import com.freddy.im.http.GroupDetailFetcher
+import com.freddy.im.http.GroupVoSessionMapper
+import com.freddy.im.http.ImMessageHttpExample
+import com.freddy.im.http.model.im.GroupVo
+import com.freddy.im.listener.OnHttpImListener
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
@@ -82,36 +85,29 @@ class MyImManagerBroadHolder(private val context: Context?) {
                     }
                     BridgeImEnum.BUSINESS_CARD.value -> {
                         if (params2?.isNotEmpty() == true) {
-                            val map = mapOf(
-                                "id" to (params2),
-                            )
-                            okGoHelper.post(
-                                context,
-                                "/groupInfo",
-                                JSONObject(map).toString(),
-                                CommonResultBroadBean(),
-                                callBack = object : OKGoBroadHelper.RequestCallBack {
-                                    override fun onSuccess(bean: BaseBroadResponse?) {
-                                        if (bean is CommonResultBroadBean) {
-                                            groupDataLiveData.postValue(bean)
-                                            if (bean.data?.userType == "3" && bean.data?.openQzts == "1") {
-                                                ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
-                                            } else {
-                                                JumpBroadUtils.startHaoyouListActivity(
-                                                    mContext,
-                                                    params ?: "",
-                                                    params2 ?: "",
-                                                    sessionId
-                                                )
-                                            }
+                            //群聊
+                            if (sessionId?.isNotEmpty() == true){
+                                ImMessageHttpExample.requestGetGroupDetail(sessionId, object : OnHttpImListener<GroupVo> {
+                                    override fun onHttpImSuccess(group: GroupVo) {
+//                                        groupDataLiveData.postValue(bean)
+                                        if (group.userType == "3" && group.openQzts == "1") {
+                                            ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
+                                        } else {
+                                            JumpBroadUtils.startHaoyouListActivity(
+                                                mContext,
+                                                params ?: "",
+                                                params2 ?: "",
+                                                sessionId
+                                            )
                                         }
                                     }
+                                }, Runnable {
+                                    ToastBroadUtils.show("获取群详情失败")
+                                })
+                            }
 
-                                    override fun onFail(bean: BaseBroadResponse?) {
-                                    }
-                                },
-                            )
                         } else {
+                            //单聊
                             JumpBroadUtils.startHaoyouListActivity(
                                 mContext,
                                 params ?: "",
