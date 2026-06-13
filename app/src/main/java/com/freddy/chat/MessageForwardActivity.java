@@ -20,14 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.chatui.conversation.forward.ForwardPromptBroadView;
 import com.cboda.chatui.dialog.ShareBroadPop;
+import com.freddy.chat.forward.ForwardConversationListAdapter;
 import com.freddy.chat.forward.ForwardMode;
 import com.freddy.chat.forward.MessageForwardHelper;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
-import com.freddy.im.http.ImMessageHttpExample;
-import com.freddy.im.http.model.im.ConversationListContent;
 import com.freddy.im.http.model.im.SessionItem;
-import com.freddy.im.listener.OnHttpImListener;
 import com.cboda.intelligent.R;
 
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ public class MessageForwardActivity extends AppCompatActivity {
     public static final String EXTRA_INLINE_MESSAGE_CONTENT_TYPE = "inline_message_content_type";
     public static final String INLINE_COLLECT_MSG_ID = "inline_collect";
 
-    private ConversationListAdapter adapter;
+    private ForwardConversationListAdapter adapter;
     private List<AppMessage> sourceMessages = new ArrayList<>();
     private ForwardMode forwardMode = ForwardMode.ONE_BY_ONE;
     private boolean sourceIsGroup;
@@ -104,17 +102,17 @@ public class MessageForwardActivity extends AppCompatActivity {
         sourcePeerName = getIntent().getStringExtra(EXTRA_SOURCE_PEER_NAME);
         String sourceSessionId = getIntent().getStringExtra(EXTRA_SOURCE_SESSION_ID);
 
-        setContentView(com.cboda.chatui.R.layout.pick_or_create_conversation_broad_activity);
+        setContentView(R.layout.activity_message_forward_pick_conversation);
 
-        Toolbar toolbar = findViewById(com.cboda.chatui.R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(getString(com.cboda.chatui.R.string.message_forward));
+            getSupportActionBar().setTitle(getString(com.cboda.chatui.R.string.msg_share_to));
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        FrameLayout container = findViewById(com.cboda.chatui.R.id.containerFrameLayout);
+        FrameLayout container = findViewById(R.id.containerFrameLayout);
         RecyclerView recyclerView = new RecyclerView(this);
         recyclerView.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -122,12 +120,12 @@ public class MessageForwardActivity extends AppCompatActivity {
             container.addView(recyclerView);
         }
 
-        adapter = new ConversationListAdapter();
+        adapter = new ForwardConversationListAdapter();
         adapter.setOnSessionClickListener(this::onTargetSessionPicked);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        EditText searchEditText = findViewById(com.cboda.chatui.R.id.searchEditText);
+        EditText searchEditText = findViewById(R.id.searchEditText);
         if (searchEditText != null) {
             searchEditText.addTextChangedListener(new TextWatcher() {
                 @Override

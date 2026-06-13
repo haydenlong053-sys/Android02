@@ -1166,6 +1166,8 @@
     <string name="conversation_name_fallback">未命名会话</string>
     <string name="message_list_title">消息</string>
     <string name="message_input_hint">输入消息</string>
+    <string name="message_forward">转发</string>
+    <string name="message_forward_search_hint">搜索</string>
     <string name="message_forward_success">转发成功</string>
     <string name="message_forward_failed">转发失败</string>
     <string name="message_collect_failed">收藏失败</string>

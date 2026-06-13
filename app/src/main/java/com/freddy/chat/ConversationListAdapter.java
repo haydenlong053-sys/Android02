@@ -1,6 +1,5 @@
 package com.freddy.chat;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.intelligent.R;
 import com.freddy.chat.utils.AvatarViews;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.http.model.im.SessionItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.cboda.intelligent.R;
 
 /**
- * 会话列表：{@link SessionItem} + 按 sessionId 聚合的未读数。
+ * 主会话列表 {@link ConversationListFragment} 专用。
+ * 转发选会话请使用 {@link com.freddy.chat.forward.ForwardConversationListAdapter}。
  */
 public final class ConversationListAdapter extends RecyclerView.Adapter<ConversationListAdapter.VH> {
 
@@ -32,60 +32,30 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         boolean onSessionLongClick(SessionItem sessionItem);
     }
 
-    private final List<SessionItem> allItems = new ArrayList<>();
     private final List<SessionItem> items = new ArrayList<>();
     @Nullable
-    private String filterKeyword = "";
     private OnSessionClickListener onSessionClickListener;
+    @Nullable
     private OnSessionLongClickListener onSessionLongClickListener;
 
-    public void setOnSessionClickListener(OnSessionClickListener listener) {
+    public void setOnSessionClickListener(@Nullable OnSessionClickListener listener) {
         this.onSessionClickListener = listener;
     }
 
-    public void setOnSessionLongClickListener(OnSessionLongClickListener listener) {
+    public void setOnSessionLongClickListener(@Nullable OnSessionLongClickListener listener) {
         this.onSessionLongClickListener = listener;
     }
 
-
-    public void setNewData(List<SessionItem> sessionList) {
-        allItems.clear();
-        if (sessionList != null) {
-            allItems.addAll(sessionList);
-        }
-        applyFilter();
-    }
-
-    public void filterByKeyword(@Nullable String keyword) {
-        filterKeyword = keyword != null ? keyword.trim().toLowerCase() : "";
-        applyFilter();
-    }
-
-    private void applyFilter() {
+    public void setNewData(@Nullable List<SessionItem> sessionList) {
         items.clear();
-        if (TextUtils.isEmpty(filterKeyword)) {
-            items.addAll(allItems);
-        } else {
-            for (SessionItem session : allItems) {
-                if (session == null) {
-                    continue;
-                }
-                String name = session.getSessionName() != null
-                        ? session.getSessionName().toLowerCase() : "";
-                String username = session.getUsername() != null
-                        ? session.getUsername().toLowerCase() : "";
-                if (name.contains(filterKeyword) || username.contains(filterKeyword)) {
-                    items.add(session);
-                }
-            }
+        if (sessionList != null) {
+            items.addAll(sessionList);
         }
         notifyDataSetChanged();
     }
 
     /**
      * 从列表中移除会话（仅 UI 层内存列表，不触发网络刷新）。
-     *
-     * @return 是否成功移除
      */
     public boolean removeBySessionId(@Nullable String sessionId) {
         if (sessionId == null || sessionId.isEmpty()) {
@@ -102,10 +72,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         return false;
     }
 
-
-    /**
-     * 合并/更新部分会话（群变更等），按 sessionId 匹配。
-     */
+    /** 合并/更新部分会话（群变更、拉取列表等），按 sessionId 匹配后按最近消息时间排序。 */
     public void mergeSessions(@Nullable List<SessionItem> updates) {
         if (updates == null || updates.isEmpty()) {
             return;
@@ -115,24 +82,20 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
                 continue;
             }
             int index = -1;
-            for (int i = 0; i < allItems.size(); i++) {
-                if (update.getSessionId().equals(allItems.get(i).getSessionId())) {
+            for (int i = 0; i < items.size(); i++) {
+                if (update.getSessionId().equals(items.get(i).getSessionId())) {
                     index = i;
                     break;
                 }
             }
             if (index >= 0) {
-                allItems.set(index, update);
+                items.set(index, update);
             } else {
-                allItems.add(0, update);
+                items.add(0, update);
             }
         }
-        sortByRecent();
-    }
-
-    private void sortByRecent() {
-        allItems.sort((a, b) -> Long.compare(b.getLastMessageTime(), a.getLastMessageTime()));
-        applyFilter();
+        items.sort((a, b) -> Long.compare(b.getLastMessageTime(), a.getLastMessageTime()));
+        notifyDataSetChanged();
     }
 
     @NonNull
