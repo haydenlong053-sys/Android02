@@ -10,10 +10,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.chatui.utils.FileBroadUtils;
 import com.cboda.intelligent.R;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.util.ImUtils;
 
 import java.io.File;
 
@@ -32,6 +34,7 @@ public final class FileMessageVH extends BaseMessageVH {
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
+        ELogUtilKt.eLogD("zhanglong", "文件消息getContent--->" + message.getContent());
         bindCommon(message, position, context);
         boolean sentByMe = message.isSender(context.currentUserId);
         applyWhiteBubbleBackground(fileRoot, sentByMe);
@@ -41,7 +44,7 @@ public final class FileMessageVH extends BaseMessageVH {
         fileNameTextView.setText(fileName);
         if (sizeBytes > 0L) {
             fileSizeTextView.setVisibility(View.VISIBLE);
-            fileSizeTextView.setText(FileBroadUtils.getReadableFileSize((int) Math.min(sizeBytes, Integer.MAX_VALUE)));
+            fileSizeTextView.setText(ImUtils.getShowFileSize(sizeBytes));
         } else {
             fileSizeTextView.setVisibility(View.GONE);
         }

@@ -2,6 +2,7 @@ package com.freddy.im.util;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class ImUtils {
@@ -45,5 +46,31 @@ public class ImUtils {
         return  aId+"!"+bId;
 
     }
+
+    /**
+     * Get the file size in a human-readable string.
+     *
+     * @param size
+     * @return
+     * @author paulburke
+     */
+    public static String getShowFileSize(long size) {
+        if (size < 0) {
+            size = 0;
+        }
+        final long kb = 1024;
+        final DecimalFormat dec = new DecimalFormat("###.#");
+        if (size < kb) {
+            return size + " B";
+        }
+        if (size < kb * kb) {
+            return dec.format((double) size / kb) + " KB";
+        }
+        if (size < kb * kb * kb) {
+            return dec.format((double) size / (kb * kb)) + " MB";
+        }
+        return dec.format((double) size / (kb * kb * kb)) + " GB";
+    }
+
 
 }

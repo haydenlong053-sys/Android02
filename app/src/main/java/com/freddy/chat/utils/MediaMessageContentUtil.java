@@ -105,7 +105,8 @@ public final class MediaMessageContentUtil {
         if (obj != null && obj.has("size") && obj.get("size").isJsonPrimitive()) {
             try {
                 return Math.max(0L, obj.get("size").getAsLong());
-            } catch (Exception ignored) {
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
         String localPath = resolveDisplayUrl(contentJson, sentByMe);
