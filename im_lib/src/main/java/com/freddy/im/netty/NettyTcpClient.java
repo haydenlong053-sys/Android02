@@ -427,6 +427,8 @@ public class NettyTcpClient implements IMSClientInterface {
                     System.out.println("收到响应消息SEND_MSG_RES---getMessageId=" + smr.getMessageId());
                 } catch (InvalidProtocolBufferException ignored) {
                 }
+            }else{
+                System.out.println("收到响应消息SEND_MSG_RES的服务器报错回执---code=" + res.getHeader().getCode()+" "+res.getHeader().getErrorMsg());
             }
         }
     }

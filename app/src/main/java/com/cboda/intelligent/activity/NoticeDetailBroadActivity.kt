@@ -7,14 +7,12 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import com.cboda.chatui.conversation.forward.ForwardBroadActivity
-import cn.wildfirechat.message.Message
-import cn.wildfirechat.message.NoticeMessageContent
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.ActivityNoticeDetailBinding
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.viewmodel.NoticeViewBroadModel
+import com.freddy.chat.notice.NoticeForwardHelper
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
@@ -76,14 +74,7 @@ class NoticeDetailBroadActivity: BaseSimple2BroadActivity() {
             finish()
         }
         mBind?.toolbar?.mFlView?.setOnClickListener {
-            if (noticeInfoBean!=null){
-                val message = Message()
-                message.content= NoticeMessageContent(noticeInfoBean?.contentUrl,noticeInfoBean?.id,noticeInfoBean?.createTime,noticeInfoBean?.noticeTitle,noticeInfoBean?.previewContent,noticeInfoBean?.status?:false)
-                val intent = Intent(this@NoticeDetailBroadActivity, ForwardBroadActivity::class.java)
-                intent.putExtra("message",message)
-                this@NoticeDetailBroadActivity.startActivity(intent)
-            }
-
+            noticeInfoBean?.let { NoticeForwardHelper.startForward(this@NoticeDetailBroadActivity, it) }
         }
     }
 

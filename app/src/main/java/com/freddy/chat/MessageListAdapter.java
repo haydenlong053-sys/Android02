@@ -24,6 +24,7 @@ import com.freddy.chat.viewholder.ImageMessageVH;
 import com.freddy.chat.viewholder.MapMessageVH;
 import com.freddy.chat.viewholder.MergeTransMessageVH;
 import com.freddy.chat.viewholder.MessageViewHolderContext;
+import com.freddy.chat.viewholder.NoticeMessageVH;
 import com.freddy.chat.viewholder.OnMessageRetryListener;
 import com.freddy.chat.viewholder.SystemMessageVH;
 import com.freddy.chat.viewholder.TextMessageVH;
@@ -53,6 +54,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int VIEW_TYPE_MAP = 6;
     private static final int VIEW_TYPE_MERGE_TRANS = 7;
     private static final int VIEW_TYPE_CARD = 8;
+    private static final int VIEW_TYPE_NOTICE = 9;
     private static final int VIEW_TYPE_UNKNOWN = 99;
 
     private final boolean isGroupChat;
@@ -432,6 +434,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (WeChatUiHelper.isCardMessage(contentType)) {
             return VIEW_TYPE_CARD;
         }
+        if (WeChatUiHelper.isNoticeMessage(contentType)) {
+            return VIEW_TYPE_NOTICE;
+        }
         return VIEW_TYPE_TEXT;
     }
 
@@ -453,6 +458,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             case VIEW_TYPE_FILE:
             case VIEW_TYPE_MAP:
             case VIEW_TYPE_CARD:
+            case VIEW_TYPE_NOTICE:
             case VIEW_TYPE_MERGE_TRANS:
             case VIEW_TYPE_TEXT:
             case VIEW_TYPE_UNKNOWN:
@@ -472,6 +478,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
                 if (viewType == VIEW_TYPE_CARD) {
                     return new CardMessageVH(v);
+                }
+                if (viewType == VIEW_TYPE_NOTICE) {
+                    return new NoticeMessageVH(v);
                 }
                 if (viewType == VIEW_TYPE_MERGE_TRANS) {
                     return new MergeTransMessageVH(v);
@@ -515,6 +524,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             ((MapMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof CardMessageVH) {
             ((CardMessageVH) holder).bind(m, position, context);
+        } else if (holder instanceof NoticeMessageVH) {
+            ((NoticeMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof MergeTransMessageVH) {
             ((MergeTransMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof TextMessageVH) {

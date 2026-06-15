@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.chat.utils.AppGson;
 import com.freddy.chat.utils.CardMessageContentUtil;
+import com.freddy.chat.utils.NoticeMessageContentUtil;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.chat.utils.StringUtil;
 import com.freddy.im.IMSConfig;
@@ -248,6 +249,80 @@ public class MessageBuilder {
         message.setContent(wrapCardContentAsJson(cardUserId, displayName, portrait, idno, userId));
         message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
         return message;
+    }
+
+    /** 系统公告消息 contentType=710。 */
+    @NonNull
+    public static AppMessage buildNoticeMessage(@Nullable String sessionId,
+                                                int conversationType,
+                                                @NonNull String toId,
+                                                @Nullable String id,
+                                                @Nullable String contentUrl,
+                                                @Nullable String createTime,
+                                                @Nullable String noticeTitle,
+                                                @Nullable String previewContent,
+                                                int status) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        AppMessage message = new AppMessage();
+        if (!TextUtils.isEmpty(sessionId)) {
+            message.setConversationId(sessionId);
+        }
+        message.setClientMsgId(UUID.randomUUID().toString());
+        message.setMsgContentType(MessageType.MessageContentType.SYS_NOTICE.getMsgContentType());
+        message.setFromId(userId);
+        message.setToId(toId);
+        message.setTimestamp(System.currentTimeMillis());
+        message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(conversationType));
+        message.setContent(wrapNoticeContentAsJson(id, contentUrl, createTime, noticeTitle, previewContent, status));
+        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+        return message;
+    }
+
+    /** 公告列表/详情分享：仅构造内容与类型，供内联转发。 */
+    @NonNull
+    public static AppMessage buildForwardableNoticeMessage(@Nullable String id,
+                                                           @Nullable String contentUrl,
+                                                           @Nullable String createTime,
+                                                           @Nullable String noticeTitle,
+                                                           @Nullable String previewContent,
+                                                           int status) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        AppMessage message = new AppMessage();
+        message.setClientMsgId(UUID.randomUUID().toString());
+        message.setMsgContentType(MessageType.MessageContentType.SYS_NOTICE.getMsgContentType());
+        message.setFromId(userId);
+        message.setTimestamp(System.currentTimeMillis());
+        message.setContent(wrapNoticeContentAsJson(id, contentUrl, createTime, noticeTitle, previewContent, status));
+        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+        return message;
+    }
+
+    @NonNull
+    private static String wrapNoticeContentAsJson(@Nullable String id,
+                                                  @Nullable String contentUrl,
+                                                  @Nullable String createTime,
+                                                  @Nullable String noticeTitle,
+                                                  @Nullable String previewContent,
+                                                  int status) {
+        Map<String, Object> body = new LinkedHashMap<>(7);
+        body.put("msg", NoticeMessageContentUtil.MSG_ANNOUNCEMENT);
+        if (!TextUtils.isEmpty(id)) {
+            body.put("id", id);
+        }
+        if (!TextUtils.isEmpty(contentUrl)) {
+            body.put("contentUrl", contentUrl);
+        }
+        if (!TextUtils.isEmpty(createTime)) {
+            body.put("createTime", createTime);
+        }
+        if (!TextUtils.isEmpty(noticeTitle)) {
+            body.put("noticeTitle", noticeTitle);
+        }
+        if (!TextUtils.isEmpty(previewContent)) {
+            body.put("previewContent", previewContent);
+        }
+        body.put("status", status);
+        return AppGson.get().toJson(body);
     }
 
     @NonNull

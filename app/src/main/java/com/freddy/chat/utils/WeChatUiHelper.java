@@ -150,6 +150,10 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isCardMessage(msgContentType);
     }
 
+    public static boolean isNoticeMessage(int msgContentType) {
+        return MessageContentFormatter.isNoticeMessage(msgContentType);
+    }
+
     public static boolean isVoiceSessionPreview(@Nullable SessionItem session) {
         return session != null && matchesContentType(session.getLastContentType(),
                 MessageType.MessageContentType.VOICE.getMsgContentType(), "voice");
