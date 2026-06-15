@@ -1,26 +1,35 @@
 package com.cboda.intelligent.activity
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.getUuIdMd5
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunMemberBroadAdapter
 import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
-import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
+import com.cboda.susindexbar.IndexBar.widget.IndexBar2
+import com.freddy.im.http.ImMessageHttpExample
+import com.freddy.im.http.model.im.GroupVo
+import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.signal.ImSignalProtos
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
-import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 
 class CreateQunBroadActivity : BaseSimpleBroadActivity() {
 
@@ -90,7 +99,7 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
 //                    )
 //                    param.putString(TUIConstants.TUIChat.CHAT_ID, it.type2)
 //                    TUICore.startActivity(TUIConstants.TUIChat.GROUP_CHAT_ACTIVITY_NAME, param)
-                    AppBroadUtils.goChat(this, it.type2,"1")
+                    AppBroadUtils.goChat(this, it.type2, "1")
                     finish()
                 }
             }
@@ -151,14 +160,28 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
                 return@setOnClickListener
             }
             val str = StringBuilder()
+            val members = arrayListOf<String>()
             mDataList3.forEachIndexed { index, commonBean ->
+                if (!TextUtils.isEmpty(commonBean.userId)) {
+                    members.add(commonBean.userId ?: "")
+                }
                 str.append(commonBean.userId ?: "")
                 if (index != mDataList3.size - 1) {
                     str.append("|")
                 }
             }
 
-            viewModel?.chuangjainqun(this, str.toString())
+            ImMessageHttpExample.requestCreateGroup(
+                "测试群" + getUuIdMd5(),
+                members,
+                ImSignalProtos.ConversationType.MULTI_VALUE,
+                { //                        AppBroadUtils.goChat(this@CreateQunBroadActivity, group.type2, "1")
+                    showToastMain(R.string.create_group_success)
+                },
+                {
+                    showToastMain(R.string.create_group_failed)
+                })
+//            viewModel?.chuangjainqun(this, str.toString())
         }
         smartLayout?.setEnableLoadMore(false)
         smartLayout?.setEnableRefresh(false)
