@@ -1,5 +1,7 @@
 //package com.tencent.mars.comm;
 //
+//import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+//
 //import android.app.AlarmManager;
 //import android.app.PendingIntent;
 //import android.content.BroadcastReceiver;
@@ -10,7 +12,6 @@
 //import android.os.Process;
 //import android.os.SystemClock;
 //
-//import com.tencent.mars.xlog.Log;
 //
 //import java.util.Comparator;
 //import java.util.Iterator;
@@ -48,17 +49,17 @@
 //    public static boolean start(long id, int after, Context context) {
 //        long curtime = SystemClock.elapsedRealtime();
 //        if (after < 0) {
-//            Log.e(TAG, "id:%d, after:%d", id, after);
+//            eLogD(TAG, "id:%d, after:%d", id, after);
 //            return false;
 //        }
 //        if (context == null) {
-//            Log.e(TAG, "null==context, id:%d, after:%d", id, after);
+//            eLogD(TAG, "null==context, id:%d, after:%d", id, after);
 //            return false;
 //        }
 //        synchronized (alarm_waiting_set) {
 //            if (wakerlock == null) {
 //                wakerlock = new WakerLock(context);
-//                Log.i(TAG, "start new wakerlock");
+//                eLogD(TAG, "start new wakerlock");
 //            }
 //            if (bc_alarm == null) {
 //                bc_alarm = new Alarm();
@@ -70,7 +71,7 @@
 //            }
 //            for (Object[] entry : alarm_waiting_set) {
 //                if ((Long) entry[TSetData.ID.ordinal()] == id) {
-//                    Log.e(TAG, "id exist=%d", id);
+//                    eLogD(TAG, "id exist=%d", id);
 //                    return false;
 //                }
 //            }
@@ -86,18 +87,18 @@
 //
 //    public static boolean stop(long id, Context context) {
 //        if (context == null) {
-//            Log.e(TAG, "context==null");
+//            eLogD(TAG, "context==null");
 //            return false;
 //        }
 //        synchronized (alarm_waiting_set) {
 //            if (wakerlock == null) {
 //                wakerlock = new WakerLock(context);
-//                Log.i(TAG, "stop new wakerlock");
+//                eLogD(TAG, "stop new wakerlock");
 //            }
 //            if (bc_alarm == null) {
 //                bc_alarm = new Alarm();
 //                context.registerReceiver(bc_alarm, new IntentFilter());
-//                Log.i(TAG, "stop new Alarm");
+//                eLogD(TAG, "stop new Alarm");
 //            }
 //            Iterator<Object[]> it = alarm_waiting_set.iterator();
 //            while (it.hasNext()) {
@@ -116,7 +117,7 @@
 //    private static PendingIntent setAlarmMgr(long id, long time, Context context) {
 //        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 //        if (am == null) {
-//            Log.e(TAG, "am == null");
+//            eLogD(TAG, "am == null");
 //            return null;
 //        }
 //        Intent intent = new Intent();
@@ -143,10 +144,10 @@
 //                    am.setExact(type, time, pendingIntent);
 //                    return;
 //                } catch (SecurityException ignored) {
-//                    Log.w(TAG, "setExact denied, fallback to setAndAllowWhileIdle");
+//                    eLogD(TAG, "setExact denied, fallback to setAndAllowWhileIdle");
 //                }
 //            } else {
-//                Log.w(TAG, "canScheduleExactAlarms=false, use setAndAllowWhileIdle");
+//                eLogD(TAG, "canScheduleExactAlarms=false, use setAndAllowWhileIdle");
 //            }
 //            am.setAndAllowWhileIdle(type, time, pendingIntent);
 //            return;
@@ -154,7 +155,7 @@
 //        try {
 //            am.setExact(type, time, pendingIntent);
 //        } catch (SecurityException e) {
-//            Log.w(TAG, "setExact SecurityException, fallback to set");
+//            eLogD(TAG, "setExact SecurityException, fallback to set");
 //            am.set(type, time, pendingIntent);
 //        }
 //    }
@@ -162,11 +163,11 @@
 //    private static boolean cancelAlarmMgr(Context context, PendingIntent pendingIntent) {
 //        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 //        if (am == null) {
-//            Log.e(TAG, "am == null");
+//            eLogD(TAG, "am == null");
 //            return false;
 //        }
 //        if (pendingIntent == null) {
-//            Log.e(TAG, "pendingIntent == null");
+//            eLogD(TAG, "pendingIntent == null");
 //            return false;
 //        }
 //        am.cancel(pendingIntent);
@@ -185,7 +186,7 @@
 //            return;
 //        }
 //        if (pid != Process.myPid()) {
-//            Log.w(TAG, "onReceive id:%d, pid:%d, mypid:%d", id, pid, Process.myPid());
+//            eLogD(TAG, "onReceive id:%d, pid:%d, mypid:%d", id, pid, Process.myPid());
 //            return;
 //        }
 //        boolean found = false;
@@ -194,18 +195,18 @@
 //            while (it.hasNext()) {
 //                Object[] next = it.next();
 //                Long curId = (Long) next[TSetData.ID.ordinal()];
-//                Log.i(TAG, "onReceive id=%d, curId=%d", id, curId);
+//                eLogD(TAG, "onReceive id=%d, curId=%d", id, curId);
 //                if (!curId.equals(id)) {
 //                    continue;
 //                }
-//                Log.i(TAG, "onReceive find alarm id:%d, pid:%d, delta miss time:%d",
+//                eLogD(TAG, "onReceive find alarm id:%d, pid:%d, delta miss time:%d",
 //                        id, pid, SystemClock.elapsedRealtime() - (Long) next[TSetData.WAITTIME.ordinal()]);
 //                it.remove();
 //                found = true;
 //                break;
 //            }
 //            if (!found) {
-//                Log.e(TAG, "onReceive not found id:%d, pid:%d, alarm_waiting_set.size:%d",
+//                eLogD(TAG, "onReceive not found id:%d, pid:%d, alarm_waiting_set.size:%d",
 //                        id, pid, alarm_waiting_set.size());
 //            }
 //        }
