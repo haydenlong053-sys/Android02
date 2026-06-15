@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
@@ -77,9 +78,9 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         adapter.setOnSessionClickListener(sessionItem -> {
             sessionItem.setUnreadCount(0);
             adapter.mergeSessions(Collections.singletonList(sessionItem));
-            Intent intent = new Intent(requireContext(), MessageListActivity.class);
-            SessionItemIntent.putSessionItem(intent, sessionItem);
-            startActivity(intent);
+            JumpBroadUtils.Companion.startChatMsgActivity(requireContext(),sessionItem);
+
+
         });
         adapter.setOnSessionLongClickListener(sessionItem -> {
             confirmRemoveConversation(sessionItem);

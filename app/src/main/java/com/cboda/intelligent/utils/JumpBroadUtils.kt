@@ -2,7 +2,6 @@ package com.cboda.intelligent.utils
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.bean.CommonResultBroadBean
@@ -11,6 +10,9 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.search.SearchPortalBroadActivity
 import com.cboda.intelligent.MainBroadActivity
+import com.cboda.intelligent.activity.AiActivity
+import com.cboda.intelligent.activity.AiAntiFraudBroadActivity
+import com.cboda.intelligent.activity.AiCheckRecordBroadActivity
 import com.cboda.intelligent.activity.AiCheckResultBroadActivity
 import com.cboda.intelligent.activity.CreateQunBroadActivity
 import com.cboda.intelligent.activity.CreditScoreActivity
@@ -31,9 +33,7 @@ import com.cboda.intelligent.activity.HyyBroadActivity
 import com.cboda.intelligent.activity.LoginQrCodeActivity
 import com.cboda.intelligent.activity.MinGanCiBroadActivity
 import com.cboda.intelligent.activity.MyCollectBroadActivity
-import com.freddy.chat.collect.CollectIntent
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
-import com.cboda.intelligent.activity.QunCodeBroadActivity
 import com.cboda.intelligent.activity.QunGerenJInyanTimeBroadActivity
 import com.cboda.intelligent.activity.QunGerenPageBroadActivity
 import com.cboda.intelligent.activity.QunGongGaoBroadActivity
@@ -48,7 +48,6 @@ import com.cboda.intelligent.activity.QunNameBroadActivity
 import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
 import com.cboda.intelligent.activity.QunUserList2BroadActivity
-import com.cboda.intelligent.activity.QunUserListBroadActivity
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
@@ -62,11 +61,10 @@ import com.cboda.intelligent.activity.ZhuanzhangBroadActivity
 import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.dialog.GroupQrCodeDialog
-import com.cboda.intelligent.dialog.pop.SaveGroupQrCodeBroadPop
-import androidx.core.net.toUri
-import com.cboda.intelligent.activity.AiActivity
-import com.cboda.intelligent.activity.AiAntiFraudBroadActivity
-import com.cboda.intelligent.activity.AiCheckRecordBroadActivity
+import com.freddy.chat.MessageListActivity
+import com.freddy.chat.SessionItemIntent
+import com.freddy.chat.collect.CollectIntent
+import com.freddy.im.http.model.im.SessionItem
 
 
 class JumpBroadUtils {
@@ -618,5 +616,14 @@ class JumpBroadUtils {
             val intent = Intent(context, CreditScoreActivity::class.java)
             context?.startActivity(intent)
         }
+
+        //自研--进聊天页（内部通过session对象自己区分了单聊还是群里）
+        fun startChatMsgActivity(context: Context?, sessionItem: SessionItem) {
+            val intent = Intent(context ,MessageListActivity::class.java)
+            SessionItemIntent.putSessionItem(intent, sessionItem)
+            context?.startActivity(intent)
+
+        }
+
     }
 }
