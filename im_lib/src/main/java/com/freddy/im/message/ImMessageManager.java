@@ -268,4 +268,19 @@ public final class ImMessageManager {
             }
         });
     }
+
+    /**
+     * 发送失败（服务端错误回执或超时重发用尽）：更新本地发送状态并通知宿主刷新单条消息。
+     */
+    public void onSendMsgFailed(@NonNull String clientMsgId) {
+        if (TextUtils.isEmpty(clientMsgId)) {
+            return;
+        }
+        ImLocalStore.markOutgoingSendFailed(clientMsgId, updated -> {
+            OnOutgoingMessageListener listener = outgoingMessageListener;
+            if (listener != null && updated != null) {
+                listener.onOutgoingMessageUpdated(updated);
+            }
+        });
+    }
 }

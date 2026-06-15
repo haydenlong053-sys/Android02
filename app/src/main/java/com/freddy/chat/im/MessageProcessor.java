@@ -37,7 +37,7 @@ public class MessageProcessor implements IMessageProcessor {
         ImMessageManager.getInstance().setOnOutgoingMessageListener(message ->
                 CThreadPoolExecutor.runInBackground(() -> {
                     try {
-                        System.out.println("更新消息---》"+message.getMsgId());
+                        System.out.println("更新消息---》"+message.getMsgId()+" 消息状态-->"+message.getSendStatus());
                         CEventCenter.dispatchEvent(
                                 Events.CHAT_MESSAGE_UPDATE, 0, 0, message);
                     } catch (Exception e) {

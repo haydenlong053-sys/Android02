@@ -1,7 +1,13 @@
 package com.freddy.im;
 
+import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
+
 import com.freddy.im.interf.IMSClientInterface;
+import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.signal.ImSignalProtos;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,6 +36,7 @@ public class MsgTimeoutTimer {
             public void run() {
                 if (resendCount <= 0) {
                     timer.cancel();
+                    onResendExhausted();
                     return;
                 }
                 resendCount--;
@@ -48,5 +55,29 @@ public class MsgTimeoutTimer {
 
     public void sendNow() {
         imsClient.sendSignalRequest(request, false, transportSeqId);
+    }
+
+    /** 超时重发次数用尽：移除队列并标记本地发送失败。 */
+    private void onResendExhausted() {
+        imsClient.getMsgTimeoutTimerManager().remove(transportSeqId);
+        String clientMsgId = parseClientMsgId(request);
+        if (TextUtils.isEmpty(clientMsgId)) {
+            return;
+        }
+        ImMessageManager.getInstance().onSendMsgFailed(clientMsgId);
+    }
+
+    @Nullable
+    private static String parseClientMsgId(@Nullable ImSignalProtos.SignalRequest request) {
+        if (request == null || !request.hasBody()) {
+            return null;
+        }
+        try {
+            ImSignalProtos.SendMsgReq sendMsgReq = ImSignalProtos.SendMsgReq.parseFrom(
+                    request.getBody().toByteArray());
+            return sendMsgReq.getClientMsgId();
+        } catch (InvalidProtocolBufferException ignored) {
+            return null;
+        }
     }
 }
