@@ -1,5 +1,7 @@
 package com.freddy.im.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
@@ -9,7 +11,7 @@ import com.freddy.im.signal.ImSignalProtos;
 /**
  * IM SDK 统一消息载体（长连接、HTTP 拉取、宿主 UI 共用）。
  */
-public class AppMessage {
+public class AppMessage implements Parcelable {
 
     /** 对应 {@link ImSignalProtos.ConversationType} 的 number 值 */
     private int conversationType;
@@ -36,6 +38,9 @@ public class AppMessage {
 
     /** 群聊：已读人数（HTTP 列表或 0x0210 信令） */
     private int readPersonCount;
+
+    public AppMessage() {
+    }
 
     public int getConversationType() {
         return conversationType;
@@ -198,6 +203,66 @@ public class AppMessage {
                 && !TextUtils.isEmpty(fromId)
                 && TextUtils.equals(fromId, userId);
     }
+
+    protected AppMessage(Parcel in) {
+        conversationType = in.readInt();
+        conversationId = in.readString();
+        msgId = in.readString();
+        clientMsgId = in.readString();
+        msgType = in.readInt();
+        sendType = in.readString();
+        msgContentType = in.readInt();
+        fromId = in.readString();
+        toId = in.readString();
+        timestamp = in.readLong();
+        sequenceId = in.readLong();
+        statusReport = in.readInt();
+        extend = in.readString();
+        customInfo = in.readString();
+        extra = in.readString();
+        content = in.readString();
+        sendStatus = in.readInt();
+        readPersonCount = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(conversationType);
+        dest.writeString(conversationId);
+        dest.writeString(msgId);
+        dest.writeString(clientMsgId);
+        dest.writeInt(msgType);
+        dest.writeString(sendType);
+        dest.writeInt(msgContentType);
+        dest.writeString(fromId);
+        dest.writeString(toId);
+        dest.writeLong(timestamp);
+        dest.writeLong(sequenceId);
+        dest.writeInt(statusReport);
+        dest.writeString(extend);
+        dest.writeString(customInfo);
+        dest.writeString(extra);
+        dest.writeString(content);
+        dest.writeInt(sendStatus);
+        dest.writeInt(readPersonCount);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AppMessage> CREATOR = new Creator<AppMessage>() {
+        @Override
+        public AppMessage createFromParcel(Parcel in) {
+            return new AppMessage(in);
+        }
+
+        @Override
+        public AppMessage[] newArray(int size) {
+            return new AppMessage[size];
+        }
+    };
 
     @Override
     public String toString() {
