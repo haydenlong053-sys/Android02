@@ -30,6 +30,7 @@ import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.MessageListContent;
 import com.freddy.im.http.model.im.ReportReadContent;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.http.model.im.TranspondMessageContent;
 import com.freddy.im.http.model.im.TranspondMessageParam;
 import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.http.model.im.UserInfoListRes;
@@ -838,7 +839,7 @@ public final class ImMessageHttpExample {
      * POST {@code api/im/message/transpond}：转发消息（§4.6）。
      */
     public static void requestTranspondMessage(@NonNull TranspondMessageParam param,
-                                               @Nullable OnHttpImListener<Boolean> callback,
+                                               @Nullable OnHttpImListener<TranspondMessageContent> callback,
                                                @Nullable Runnable onFail) {
         if (param == null
                 || param.getMsgIdlist() == null
@@ -851,9 +852,9 @@ public final class ImMessageHttpExample {
         }
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(TranspondMessageApi.from(param))
-                .request(new OnHttpListener<BaseMsgResponse<Boolean>>() {
+                .request(new OnHttpListener<BaseMsgResponse<TranspondMessageContent>>() {
                     @Override
-                    public void onHttpSuccess(@NonNull BaseMsgResponse<Boolean> result) {
+                    public void onHttpSuccess(@NonNull BaseMsgResponse<TranspondMessageContent> result) {
                         if (!result.isSuccess()) {
                             Log.e(MY_TAG, "transpond 业务错误: errorCode=" + result.getErrorCode()
                                     + " msg=" + result.getErrorMsg());
@@ -862,8 +863,16 @@ public final class ImMessageHttpExample {
                             }
                             return;
                         }
+                        TranspondMessageContent content = result.getContent();
+                        if (content == null || TextUtils.isEmpty(content.getMessageId())) {
+                            Log.e(MY_TAG, "transpond content 为空或缺少 messageId");
+                            if (onFail != null) {
+                                onFail.run();
+                            }
+                            return;
+                        }
                         if (callback != null) {
-                            callback.onHttpImSuccess(Boolean.TRUE);
+                            callback.onHttpImSuccess(content);
                         }
                     }
 

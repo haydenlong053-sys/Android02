@@ -15,6 +15,7 @@ import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.ImMessageHttpExample;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.http.model.im.TranspondMessageContent;
 import com.freddy.im.http.model.im.TranspondMessageParam;
 import com.freddy.im.listener.OnHttpImListener;
 import com.freddy.im.message.MessageContentFormatter;
@@ -126,9 +127,9 @@ public final class MessageForwardHelper {
         }
         TranspondMessageParam param = buildParam(target, msgIds,
                 String.valueOf(MessageType.MessageContentType.MERGE_TRANSPOND.getMsgContentType()));
-        ImMessageHttpExample.requestTranspondMessage(param, new OnHttpImListener<Boolean>() {
+        ImMessageHttpExample.requestTranspondMessage(param, new OnHttpImListener<TranspondMessageContent>() {
             @Override
-            public void onHttpImSuccess(@NonNull Boolean result) {
+            public void onHttpImSuccess(@NonNull TranspondMessageContent result) {
                 onSuccess.run();
             }
         }, onFail);
