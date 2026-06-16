@@ -154,6 +154,10 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isNoticeMessage(msgContentType);
     }
 
+    public static boolean isMergeTranspondMessage(int msgContentType) {
+        return MessageContentFormatter.isMergeTranspondMessage(msgContentType);
+    }
+
     public static boolean isVoiceSessionPreview(@Nullable SessionItem session) {
         return session != null && matchesContentType(session.getLastContentType(),
                 MessageType.MessageContentType.VOICE.getMsgContentType(), "voice");

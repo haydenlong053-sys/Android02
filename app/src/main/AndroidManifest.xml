@@ -647,6 +647,9 @@
         <activity
             android:name="com.freddy.chat.MessageForwardActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.freddy.chat.merge.MergeTranspondDetailActivity"
+            android:screenOrientation="portrait" />
         <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"

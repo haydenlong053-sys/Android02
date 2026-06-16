@@ -437,6 +437,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (WeChatUiHelper.isNoticeMessage(contentType)) {
             return VIEW_TYPE_NOTICE;
         }
+        if (WeChatUiHelper.isMergeTranspondMessage(contentType)) {
+            return VIEW_TYPE_MERGE_TRANS;
+        }
         return VIEW_TYPE_TEXT;
     }
 

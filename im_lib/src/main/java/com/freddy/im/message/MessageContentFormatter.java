@@ -300,11 +300,18 @@ public final class MessageContentFormatter {
     @NonNull
     private static String formatMergeTranspondDisplay(@Nullable String raw) {
         JsonObject obj = parseJsonObject(raw);
-        if (obj != null && obj.has("messages") && obj.get("messages").isJsonArray()) {
-            JsonArray arr = obj.getAsJsonArray("messages");
-            int count = arr.size();
-            if (count > 0) {
-                return "[聊天记录] " + count + "条";
+        if (obj != null) {
+            JsonArray arr = null;
+            if (obj.has("messageList") && obj.get("messageList").isJsonArray()) {
+                arr = obj.getAsJsonArray("messageList");
+            } else if (obj.has("messages") && obj.get("messages").isJsonArray()) {
+                arr = obj.getAsJsonArray("messages");
+            }
+            if (arr != null) {
+                int count = arr.size();
+                if (count > 0) {
+                    return "[聊天记录] " + count + "条";
+                }
             }
         }
         return "[聊天记录]";
