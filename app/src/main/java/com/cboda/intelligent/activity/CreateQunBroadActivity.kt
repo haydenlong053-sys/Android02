@@ -19,6 +19,7 @@ import com.cboda.intelligent.adapter.QunMemberBroadAdapter
 import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
@@ -27,6 +28,7 @@ import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.signal.ImSignalProtos
+import com.freddy.im.util.groupToSession
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
@@ -170,13 +172,14 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
                     str.append("|")
                 }
             }
-
             ImMessageHttpExample.requestCreateGroup(
                 "测试群" + getUuIdMd5(),
                 members,
                 ImSignalProtos.ConversationType.MULTI_VALUE,
                 { //                        AppBroadUtils.goChat(this@CreateQunBroadActivity, group.type2, "1")
-                    showToastMain(R.string.create_group_success)
+                    JumpBroadUtils.startChatMsgActivity(groupToSession(it), this@CreateQunBroadActivity)
+                    finish()
+//                    showToastMain(R.string.create_group_success)
                 },
                 {
                     showToastMain(R.string.create_group_failed)

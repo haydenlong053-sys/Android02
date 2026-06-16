@@ -138,8 +138,8 @@ class JumpBroadUtils {
         }
 
         /** 自研收藏夹（聊天内带 uid/qunid 可点选发送；「我的」页无会话参数仅浏览/转发/删除）。 */
-        fun startImMyCollectActivity(context: Context?, uid: String = "", qunid: String = "",sessionId: String="") {
-            context?.startActivity(CollectIntent.build(context, uid, qunid,sessionId))
+        fun startImMyCollectActivity(context: Context?, uid: String = "", qunid: String = "", sessionId: String = "") {
+            context?.startActivity(CollectIntent.build(context, uid, qunid, sessionId))
         }
 
 
@@ -503,7 +503,7 @@ class JumpBroadUtils {
 //            }
         }
 
-        fun startHaoyouListActivity(context: Context?, uid: String, qunid: String,sessionId: String?="") {
+        fun startHaoyouListActivity(context: Context?, uid: String, qunid: String, sessionId: String? = "") {
             val intent = Intent(context, HaoyouListBroadActivity::class.java)
             intent.putExtra("qunid", qunid)
             intent.putExtra("uid", uid)
@@ -618,11 +618,13 @@ class JumpBroadUtils {
         }
 
         //自研--进聊天页（内部通过session对象自己区分了单聊还是群里）
-        fun startChatMsgActivity(context: Context?, sessionItem: SessionItem) {
-            val intent = Intent(context ,MessageListActivity::class.java)
-            SessionItemIntent.putSessionItem(intent, sessionItem)
-            context?.startActivity(intent)
-
+        fun startChatMsgActivity(sessionItem: SessionItem?, context: Context?) {
+            sessionItem?.let {
+                val mContext = getAppContext(context)
+                val intent = Intent(mContext, MessageListActivity::class.java)
+                SessionItemIntent.putSessionItem(intent, sessionItem)
+                mContext.startActivity(intent)
+            }
         }
 
     }

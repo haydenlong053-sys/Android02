@@ -33,6 +33,7 @@ import com.freddy.im.listener.OnHttpImListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import com.cboda.intelligent.R;
 
 /**
@@ -78,7 +79,7 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         adapter.setOnSessionClickListener(sessionItem -> {
             sessionItem.setUnreadCount(0);
             adapter.mergeSessions(Collections.singletonList(sessionItem));
-            JumpBroadUtils.Companion.startChatMsgActivity(requireContext(),sessionItem);
+            JumpBroadUtils.Companion.startChatMsgActivity(sessionItem, requireContext());
 
 
         });
