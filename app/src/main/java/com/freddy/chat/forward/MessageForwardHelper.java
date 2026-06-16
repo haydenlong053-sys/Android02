@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 转发确认预览与发送（逐条：{@link MessageProcessor#sendMsg}；合并：transpond）。
@@ -193,11 +194,15 @@ public final class MessageForwardHelper {
     private static TranspondMessageParam buildParam(@NonNull SessionItem target,
                                                     @NonNull List<String> msgIds,
                                                     @NonNull String contentType) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
         TranspondMessageParam param = new TranspondMessageParam();
         param.setMsgIdlist(msgIds);
-        param.setTo(resolveTargetId(target));
         param.setConversation(target.getConversation());
+        param.setFrom(userId);
+        param.setTo(resolveTargetId(target));
         param.setContentType(contentType);
+        param.setIdempotentId(UUID.randomUUID().toString());
+        param.setClientMsgId(UUID.randomUUID().toString());
         return param;
     }
 

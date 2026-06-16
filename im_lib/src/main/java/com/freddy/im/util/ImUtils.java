@@ -1,5 +1,7 @@
 package com.freddy.im.util;
 
+import com.freddy.im.signal.ImSignalProtos;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
@@ -94,5 +96,7 @@ public class ImUtils {
         return dec.format((double) size / (kb * kb * kb)) + " GB";
     }
 
-
+    public static ImSignalProtos.ConversationType getConversationTypeEnum(int conversationType) {
+        return ImSignalProtos.ConversationType.forNumber(conversationType);
+    }
 }

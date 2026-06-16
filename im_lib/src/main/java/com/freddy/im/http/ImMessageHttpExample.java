@@ -850,11 +850,7 @@ public final class ImMessageHttpExample {
             return;
         }
         EasyHttp.post(ApplicationLifecycle.getInstance())
-                .api(new TranspondMessageApi()
-                        .setMsgIdlist(param.getMsgIdlist())
-                        .setTo(param.getTo())
-                        .setConversation(param.getConversation())
-                        .setContentType(param.getContentType()))
+                .api(TranspondMessageApi.from(param))
                 .request(new OnHttpListener<BaseMsgResponse<Boolean>>() {
                     @Override
                     public void onHttpSuccess(@NonNull BaseMsgResponse<Boolean> result) {
