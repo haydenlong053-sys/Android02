@@ -43,8 +43,30 @@ public class ImUtils {
         if (aId.isEmpty() || bId.isEmpty()){
             return "";
         }
-        return  aId+"!"+bId;
+        return sessionIdWithOppositeUserId(aId, bId);
 
+    }
+
+    /**
+     * 生成与对端用户的会话 ID
+     * @return 会话 ID，格式：短ID!长ID 或 字典序较小的!较大的（长度相同时）
+     */
+    private static String sessionIdWithOppositeUserId(String a,String b) {
+        // 先比较长度（短的在前）
+        if (a.length() < b.length()) {
+            return a + "!" + b;
+        }
+        if (a.length() > b.length()) {
+            return b + "!" + a;
+        }
+
+        // 长度相同，按字符串大小（字典序，小的在前）
+        int cmp = a.compareTo(b);
+        if (cmp < 0) {
+            return a + "!" + b;
+        } else {
+            return b + "!" + a;
+        }
     }
 
     /**
