@@ -195,7 +195,7 @@ public final class MessageForwardHelper {
                                                     @NonNull String contentType) {
         TranspondMessageParam param = new TranspondMessageParam();
         param.setMsgIdlist(msgIds);
-        param.setTo(resolveTargetId(target));
+        param.setTo(target.getSessionId());
         param.setConversation(target.getConversation());
         param.setContentType(contentType);
         return param;
