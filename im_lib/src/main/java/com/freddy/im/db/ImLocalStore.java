@@ -191,7 +191,14 @@ public final class ImLocalStore {
         ImMessageRepository.getInstance().markOutgoingResending(clientMsgId, onUpdated);
     }
 
+    /** 批量删除本地消息；删到会话最后一条时重算摘要。 */
+    public static void deleteMessages(@Nullable List<AppMessage> messages,
+                                      @Nullable ImMessageRepository.OnMessagesDeletedCallback onDeleted) {
+        ImMessageRepository.getInstance().deleteMessages(messages, onDeleted);
+    }
+
     /** 批量删除本地消息（仅删库，不通知 UI）。 */
+    @Deprecated
     public static void deleteMessagesByClientMsgIds(@Nullable List<String> clientMsgIds,
                                                     @Nullable Runnable onCommit) {
         ImMessageRepository.getInstance().deleteByClientMsgIds(clientMsgIds, onCommit);

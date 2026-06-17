@@ -11,6 +11,7 @@ import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.SessionLastMessageSync;
 import com.freddy.im.db.ImRealm;
 import com.freddy.im.db.entity.MessageEntity;
+import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.model.im.SessionItem;
@@ -19,7 +20,9 @@ import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -208,6 +211,11 @@ public final class ImMessageRepository {
     /** {@link #markOutgoingSendSuccess} 写库完成后的回调。 */
     public interface OnMessageUpdatedCallback {
         void onUpdated(@NonNull AppMessage message);
+    }
+
+    /** {@link #deleteMessages} 写库完成后的回调。 */
+    public interface OnMessagesDeletedCallback {
+        void onDeleted(@NonNull List<AppMessage> deletedMessages);
     }
 
     /**
@@ -433,46 +441,113 @@ public final class ImMessageRepository {
     }
 
     /**
-     * 按 {@code clientMsgId} 批量删除本地消息。
+     * 批量删除本地消息；若删到会话最后一条则重算摘要，并回调已删快照。
      */
-    public void deleteByClientMsgIds(@Nullable List<String> clientMsgIds,
-                                     @Nullable Runnable afterCommit) {
-        if (clientMsgIds == null || clientMsgIds.isEmpty() || !ImRealm.isUserBound()) {
-            if (afterCommit != null) {
-                afterCommit.run();
+    public void deleteMessages(@Nullable List<AppMessage> messages,
+                               @Nullable OnMessagesDeletedCallback onDeleted) {
+        if (messages == null || messages.isEmpty() || !ImRealm.isUserBound()) {
+            if (onDeleted != null) {
+                onDeleted.onDeleted(Collections.emptyList());
             }
             return;
         }
-        final List<String> ids = new ArrayList<>();
-        for (String id : clientMsgIds) {
-            if (!TextUtils.isEmpty(id)) {
-                ids.add(id);
+        final List<String> persistKeys = new ArrayList<>();
+        for (AppMessage message : messages) {
+            if (message == null) {
+                continue;
+            }
+            String key = MessageRealmMapper.clientMsgIdForPersist(message);
+            if (!TextUtils.isEmpty(key)) {
+                persistKeys.add(key);
             }
         }
-        if (ids.isEmpty()) {
-            if (afterCommit != null) {
-                afterCommit.run();
+        if (persistKeys.isEmpty()) {
+            if (onDeleted != null) {
+                onDeleted.onDeleted(Collections.emptyList());
             }
             return;
         }
+        final List<String> ids = persistKeys;
         ImDbExecutor.runWrite(() -> {
             Realm realm = ImRealm.getRealm();
+            final List<AppMessage> deletedSnapshots = new ArrayList<>();
+            final List<SessionItem> sessionUpdates = new ArrayList<>();
             try {
                 realm.executeTransaction(r -> {
+                    Set<String> sessionsNeedingPreviewRefresh = new LinkedHashSet<>();
                     for (String id : ids) {
                         MessageEntity entity = r.where(MessageEntity.class)
                                 .equalTo("clientMsgId", id)
                                 .findFirst();
-                        if (entity != null) {
-                            entity.deleteFromRealm();
+                        if (entity == null) {
+                            entity = r.where(MessageEntity.class)
+                                    .equalTo("msgId", id)
+                                    .findFirst();
+                        }
+                        if (entity == null) {
+                            continue;
+                        }
+                        AppMessage snapshot = MessageRealmMapper.toAppMessage(entity);
+                        deletedSnapshots.add(snapshot);
+                        String sessionId = entity.getSessionId();
+                        if (!TextUtils.isEmpty(sessionId)) {
+                            SessionEntity session = r.where(SessionEntity.class)
+                                    .equalTo("sessionId", sessionId)
+                                    .findFirst();
+                            if (session != null
+                                    && SessionLastMessageSync.isSessionLastMessage(session, snapshot)) {
+                                sessionsNeedingPreviewRefresh.add(sessionId);
+                            }
+                        }
+                        entity.deleteFromRealm();
+                    }
+                    for (String sessionId : sessionsNeedingPreviewRefresh) {
+                        SessionItem updated = SessionLastMessageSync.refreshSessionPreviewAfterDelete(
+                                r, sessionId);
+                        if (updated != null) {
+                            sessionUpdates.add(updated);
                         }
                     }
                 });
-                if (afterCommit != null) {
-                    afterCommit.run();
-                }
             } finally {
                 realm.close();
+            }
+            if (!sessionUpdates.isEmpty()) {
+                ImLocalStore.dispatchSessionPreviewUpdated(sessionUpdates);
+            }
+            if (onDeleted != null) {
+                onDeleted.onDeleted(deletedSnapshots);
+            }
+        });
+    }
+
+    /**
+     * 按 {@code clientMsgId} 批量删除本地消息。
+     *
+     * @deprecated 请使用 {@link #deleteMessages(List, OnMessagesDeletedCallback)}。
+     */
+    @Deprecated
+    public void deleteByClientMsgIds(@Nullable List<String> clientMsgIds,
+                                     @Nullable Runnable afterCommit) {
+        if (clientMsgIds == null || clientMsgIds.isEmpty()) {
+            if (afterCommit != null) {
+                afterCommit.run();
+            }
+            return;
+        }
+        List<AppMessage> stubs = new ArrayList<>(clientMsgIds.size());
+        for (String id : clientMsgIds) {
+            if (TextUtils.isEmpty(id)) {
+                continue;
+            }
+            AppMessage stub = new AppMessage();
+            stub.setClientMsgId(id);
+            stub.setMsgId(id);
+            stubs.add(stub);
+        }
+        deleteMessages(stubs, deleted -> {
+            if (afterCommit != null) {
+                afterCommit.run();
             }
         });
     }

@@ -18,4 +18,6 @@ public class Events {
     public static final String MESSAGE_READ_STATE_CHANGED = "message_read_state_changed";
     /** 消息撤回；payload 为 {@link MessageRepealEvent} */
     public static final String MESSAGE_REPEAL = "message_repeal";
+    /** 本地消息删除；payload 为 {@link MessageDeletedEvent} */
+    public static final String MESSAGE_DELETED = "message_deleted";
 }

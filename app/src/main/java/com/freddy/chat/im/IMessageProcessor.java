@@ -70,4 +70,7 @@ public interface IMessageProcessor {
 
     /** 0x0202 / HTTP repeal：消息已撤回并替换为系统提示。 */
     void notifyMessageRepealed(@NonNull String messageId, @Nullable AppMessage recalledMessage);
+
+    /** 本地消息已删除。 */
+    void notifyMessagesDeleted(@NonNull List<AppMessage> deletedMessages);
 }

@@ -35,6 +35,7 @@ import com.freddy.chat.collect.MessageCollectHelper;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
+import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
 import com.freddy.chat.group.GroupInfoActivity;
@@ -68,7 +69,6 @@ import com.freddy.chat.menu.MessageContextMenuHelper;
 import com.freddy.chat.menu.MessageListActions;
 import com.freddy.chat.menu.MessageListMode;
 import com.freddy.chat.widget.MessageListInputBroadPanel;
-import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
@@ -97,7 +97,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Events.GROUP_MEMBERS_UPDATED,
             Events.SESSION_REMOVED,
             Events.MESSAGE_READ_STATE_CHANGED,
-            Events.MESSAGE_REPEAL
+            Events.MESSAGE_REPEAL,
+            Events.MESSAGE_DELETED
     };
 
     private SessionItem sessionItem;
@@ -943,9 +944,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     @Override
     public void onDeleteMessage(@NonNull AppMessage message) {
-        List<AppMessage> targets = Collections.singletonList(message);
-        deleteMessagesLocally(targets);
-        adapter.removeMessages(targets);
+        deleteMessagesLocally(Collections.singletonList(message));
     }
 
     @Override
@@ -1054,11 +1053,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 new AlertDialog.Builder(requireContext())
                         .setMessage(R.string.message_delete_confirm)
                         .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, (d, w) -> {
-                            deleteMessagesLocally(checked);
-                            adapter.removeMessages(checked);
-                            exitMultiSelectMode();
-                        })
+                        .setPositiveButton(android.R.string.ok, (d, w) ->
+                                deleteMessagesLocally(checked))
                         .show();
             }
         });
@@ -1076,19 +1072,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void deleteMessagesLocally(@NonNull List<AppMessage> messages) {
-        List<String> clientMsgIds = new ArrayList<>();
-        for (AppMessage message : messages) {
-            if (message == null) {
-                continue;
+        ImLocalStore.deleteMessages(messages, deleted -> {
+            if (deleted.isEmpty()) {
+                return;
             }
-            String key = MessageRealmMapper.clientMsgIdForPersist(message);
-            if (!TextUtils.isEmpty(key)) {
-                clientMsgIds.add(key);
-            }
-        }
-        if (!clientMsgIds.isEmpty()) {
-            ImLocalStore.deleteMessagesByClientMsgIds(clientMsgIds, null);
-        }
+            MessageProcessor.getInstance().notifyMessagesDeleted(deleted);
+        });
     }
 
     @NonNull
@@ -1173,6 +1162,20 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             });
             return;
         }
+        if (Events.MESSAGE_DELETED.equals(topic) && obj instanceof MessageDeletedEvent) {
+            MessageDeletedEvent event = (MessageDeletedEvent) obj;
+            if (!matchesDeletedEvent(event)) {
+                return;
+            }
+            CThreadPoolExecutor.runOnMainThread(() -> {
+                adapter.removeMessages(event.getDeletedMessages());
+                if (adapter.getMode() == MessageListMode.CHECKABLE
+                        && adapter.getCheckedMessages().isEmpty()) {
+                    exitMultiSelectMode();
+                }
+            });
+            return;
+        }
         if (Events.MESSAGE_READ_STATE_CHANGED.equals(topic) && obj instanceof MessageReadStateEvent) {
             MessageReadStateEvent event = (MessageReadStateEvent) obj;
             if (!matchesReadStateEvent(event)) {
@@ -1231,6 +1234,25 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             return true;
         }
         return adapter.containsMessageId(event.getMessageId());
+    }
+
+    private boolean matchesDeletedEvent(@NonNull MessageDeletedEvent event) {
+        if (!TextUtils.isEmpty(sessionId) && sessionId.equals(event.getSessionId())) {
+            return true;
+        }
+        for (AppMessage message : event.getDeletedMessages()) {
+            if (message == null) {
+                continue;
+            }
+            if (!TextUtils.isEmpty(message.getMsgId()) && adapter.containsMessageId(message.getMsgId())) {
+                return true;
+            }
+            String clientMsgId = message.getClientMsgId();
+            if (!TextUtils.isEmpty(clientMsgId) && adapter.containsMessageId(clientMsgId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean matchesReadStateEvent(@NonNull MessageReadStateEvent event) {

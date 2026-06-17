@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.im.db.mapper.SessionRealmMapper;
@@ -27,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * 消息落库后，将各会话「最新一条」摘要写入会话表。
@@ -96,6 +98,49 @@ public final class SessionLastMessageSync {
             delta.put(sessionId, delta.getOrDefault(sessionId, 0) + 1);
         }
         return delta;
+    }
+
+    /**
+     * 本地删除消息后，若被删消息为会话最近一条，则回查剩余最新一条并刷新摘要（须在 Realm 写事务内调用）。
+     */
+    @Nullable
+    public static SessionItem refreshSessionPreviewAfterDelete(@NonNull Realm realm,
+                                                                @NonNull String sessionId) {
+        if (TextUtils.isEmpty(sessionId)) {
+            return null;
+        }
+        SessionEntity session = realm.where(SessionEntity.class)
+                .equalTo("sessionId", sessionId)
+                .findFirst();
+        if (session == null) {
+            return null;
+        }
+        MessageEntity latest = realm.where(MessageEntity.class)
+                .equalTo("sessionId", sessionId)
+                .sort("sequenceId", Sort.DESCENDING)
+                .findFirst();
+        if (latest != null) {
+            AppMessage message = MessageRealmMapper.toAppMessage(latest);
+            fillLastMessageFields(session, message);
+        } else {
+            clearLastMessageFields(session);
+        }
+        return SessionRealmMapper.toSessionItem(realm.copyFromRealm(session));
+    }
+
+    /**
+     * 判断被删消息是否为当前会话摘要所指向的最后一条。
+     */
+    public static boolean isSessionLastMessage(@NonNull SessionEntity session,
+                                               @NonNull AppMessage deletedMessage) {
+        String lastMessageId = session.getLastMessageId();
+        if (TextUtils.isEmpty(lastMessageId)) {
+            return false;
+        }
+        String msgId = !TextUtils.isEmpty(deletedMessage.getMsgId())
+                ? deletedMessage.getMsgId()
+                : "";
+        return matchesLastMessageId(lastMessageId, msgId, deletedMessage);
     }
 
     /**
@@ -258,6 +303,15 @@ public final class SessionLastMessageSync {
             return true;
         }
         return sessionId.startsWith("g_");
+    }
+
+    private static void clearLastMessageFields(@NonNull SessionEntity entity) {
+        entity.setLastMessageId("");
+        entity.setLastMessageContent("");
+        entity.setLastContentType("");
+        entity.setLastCustomInfo("");
+        entity.setLastMsgType(0);
+        entity.setLastMessageTime(0L);
     }
 
     private static void fillLastMessageFields(@NonNull SessionEntity entity, @NonNull AppMessage message) {

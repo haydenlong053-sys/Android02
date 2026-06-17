@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
+import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
 import com.freddy.chat.utils.CThreadPoolExecutor;
@@ -291,6 +292,42 @@ public class MessageProcessor implements IMessageProcessor {
                 Log.e(TAG, "撤回状态分发失败，reason=" + e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void notifyMessagesDeleted(@NonNull List<AppMessage> deletedMessages) {
+        if (deletedMessages.isEmpty()) {
+            return;
+        }
+        String sessionId = resolveSessionIdForDeletedBatch(deletedMessages);
+        final MessageDeletedEvent event = new MessageDeletedEvent(sessionId, deletedMessages);
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.MESSAGE_DELETED, 0, 0, event);
+            } catch (Exception e) {
+                Log.e(TAG, "删除消息分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
+    @Nullable
+    private static String resolveSessionIdForDeletedBatch(@NonNull List<AppMessage> deletedMessages) {
+        for (AppMessage message : deletedMessages) {
+            if (message == null) {
+                continue;
+            }
+            if (!TextUtils.isEmpty(message.getConversationId())) {
+                return message.getConversationId();
+            }
+            String anchor = !TextUtils.isEmpty(message.getMsgId())
+                    ? message.getMsgId()
+                    : message.getClientMsgId();
+            String sessionId = ImMessageManager.extractConversationAnchor(anchor);
+            if (!TextUtils.isEmpty(sessionId)) {
+                return sessionId;
+            }
+        }
+        return null;
     }
 
 //    /**
