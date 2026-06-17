@@ -1,10 +1,12 @@
 package com.freddy.chat.forward;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.chatui.conversation.forward.ForwardPromptBroadView;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
@@ -18,6 +20,7 @@ import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.TranspondMessageContent;
 import com.freddy.im.http.model.im.TranspondMessageParam;
 import com.freddy.im.listener.OnHttpImListener;
+import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
 
 import java.util.ArrayList;
@@ -130,7 +133,14 @@ public final class MessageForwardHelper {
         ImMessageHttpExample.requestTranspondMessage(param, new OnHttpImListener<TranspondMessageContent>() {
             @Override
             public void onHttpImSuccess(@NonNull TranspondMessageContent result) {
-                onSuccess.run();
+                ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG,"getMessageId="+result.getMessageId());
+                ImMessageManager.getInstance().fetchNewMessageList(
+                        result.getMessageId(),
+                        batch -> {
+                            onSuccess.run();
+                            MessageProcessor.getInstance().receiveMsg(batch);
+                        });
+
             }
         }, onFail);
     }
