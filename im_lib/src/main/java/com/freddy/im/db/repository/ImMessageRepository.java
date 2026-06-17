@@ -9,6 +9,7 @@ import com.freddy.im.IMSConfig;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.SessionLastMessageSync;
+import com.freddy.im.db.SessionSyncCursor;
 import com.freddy.im.db.ImRealm;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
@@ -475,6 +476,7 @@ public final class ImMessageRepository {
             try {
                 realm.executeTransaction(r -> {
                     Set<String> sessionsNeedingPreviewRefresh = new LinkedHashSet<>();
+                    List<AppMessage> deleted = new ArrayList<>();
                     for (String id : ids) {
                         MessageEntity entity = r.where(MessageEntity.class)
                                 .equalTo("clientMsgId", id)
@@ -488,7 +490,7 @@ public final class ImMessageRepository {
                             continue;
                         }
                         AppMessage snapshot = MessageRealmMapper.toAppMessage(entity);
-                        deletedSnapshots.add(snapshot);
+                        deleted.add(snapshot);
                         String sessionId = entity.getSessionId();
                         if (!TextUtils.isEmpty(sessionId)) {
                             SessionEntity session = r.where(SessionEntity.class)
@@ -501,6 +503,9 @@ public final class ImMessageRepository {
                         }
                         entity.deleteFromRealm();
                     }
+                    if (!deleted.isEmpty()) {
+                        SessionSyncCursor.advanceInTransaction(r, deleted);
+                    }
                     for (String sessionId : sessionsNeedingPreviewRefresh) {
                         SessionItem updated = SessionLastMessageSync.refreshSessionPreviewAfterDelete(
                                 r, sessionId);
@@ -508,6 +513,7 @@ public final class ImMessageRepository {
                             sessionUpdates.add(updated);
                         }
                     }
+                    deletedSnapshots.addAll(deleted);
                 });
             } finally {
                 realm.close();

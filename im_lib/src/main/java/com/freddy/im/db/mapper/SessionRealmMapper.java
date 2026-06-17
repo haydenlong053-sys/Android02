@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freddy.im.db.SessionSyncCursor;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.http.model.im.SessionItem;
 
@@ -63,7 +64,10 @@ public final class SessionRealmMapper {
                 .findFirst();
         if (existing != null) {
             entity.setPeerReadUpToSeq(existing.getPeerReadUpToSeq());
+            entity.setSyncedMaxMsgId(existing.getSyncedMaxMsgId());
+            entity.setSyncedMaxSequence(existing.getSyncedMaxSequence());
         }
+        SessionSyncCursor.advanceFromServerLastMessage(entity, item.getLastMessageId());
         return entity;
     }
 

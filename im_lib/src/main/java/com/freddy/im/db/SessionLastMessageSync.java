@@ -195,6 +195,7 @@ public final class SessionLastMessageSync {
                 updated.add(item);
             }
         }
+        SessionSyncCursor.advanceInTransaction(realm, messages);
         return updated;
     }
 

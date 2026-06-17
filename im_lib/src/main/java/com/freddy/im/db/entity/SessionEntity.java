@@ -40,6 +40,10 @@ public class SessionEntity extends RealmObject {
     private int lastMsgType;
     /** 单聊：对方已读游标（messageId 末尾序列，该序列及之前己方消息视为已读） */
     private long peerReadUpToSeq;
+    /** 已从服务端同步到的最大 messageId（本地删除不回退） */
+    private String syncedMaxMsgId;
+    /** 已从服务端同步到的最大 sequence（与 {@link #syncedMaxMsgId} 对应） */
+    private long syncedMaxSequence;
 
     public String getSessionId() {
         return sessionId;
@@ -263,5 +267,21 @@ public class SessionEntity extends RealmObject {
 
     public void setPeerReadUpToSeq(long peerReadUpToSeq) {
         this.peerReadUpToSeq = peerReadUpToSeq;
+    }
+
+    public String getSyncedMaxMsgId() {
+        return syncedMaxMsgId;
+    }
+
+    public void setSyncedMaxMsgId(String syncedMaxMsgId) {
+        this.syncedMaxMsgId = syncedMaxMsgId;
+    }
+
+    public long getSyncedMaxSequence() {
+        return syncedMaxSequence;
+    }
+
+    public void setSyncedMaxSequence(long syncedMaxSequence) {
+        this.syncedMaxSequence = syncedMaxSequence;
     }
 }

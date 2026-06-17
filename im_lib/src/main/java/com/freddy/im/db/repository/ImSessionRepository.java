@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freddy.im.db.SessionSyncCursor;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.db.ImRealm;
@@ -114,6 +115,38 @@ public final class ImSessionRepository {
                 return null;
             }
             return SessionRealmMapper.toSessionItem(realm.copyFromRealm(entity));
+        } finally {
+            realm.close();
+        }
+    }
+
+    @Nullable
+    public SessionEntity queryEntityBySessionId(@Nullable String sessionId) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+            return null;
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            SessionEntity entity = realm.where(SessionEntity.class)
+                    .equalTo("sessionId", sessionId)
+                    .findFirst();
+            if (entity == null) {
+                return null;
+            }
+            return realm.copyFromRealm(entity);
+        } finally {
+            realm.close();
+        }
+    }
+
+    @Nullable
+    public String resolveMessageSyncAnchor(@Nullable String sessionId) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+            return null;
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            return SessionSyncCursor.resolveAnchorMsgId(realm, sessionId);
         } finally {
             realm.close();
         }

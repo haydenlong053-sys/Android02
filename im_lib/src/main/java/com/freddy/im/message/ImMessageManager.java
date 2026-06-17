@@ -9,7 +9,8 @@ import com.freddy.im.bean.AppMessage;
 import com.freddy.im.bean.ImMessageMapper;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
-import com.freddy.im.db.entity.MessageEntity;
+import com.freddy.im.db.SessionSyncCursor;
+import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.GroupDetailFetcher;
 import com.freddy.im.http.ImMessageHttpExample;
@@ -79,7 +80,7 @@ public final class ImMessageManager {
     }
 
     /**
-     * POST {@code im/message/getList}：按本地最大 sequence 与推送 messageId 计算 anchor/op 后拉取并落库。
+     * POST {@code im/message/getList}：按同步高水位与推送 messageId 计算 anchor/op 后拉取并落库。
      *
      * @param msgId       推送或业务侧的 messageId（形如 {@code uid1!uid2-1046}）
      * @param listener    落库成功后回调；可为 null
@@ -89,7 +90,7 @@ public final class ImMessageManager {
     }
 
     /**
-     * 按会话 {@code sessionId} 拉取消息：以本地该会话最大 sequence 对应 messageId 为锚点。
+     * 按会话 {@code sessionId} 拉取消息：以同步高水位 messageId 为锚点。
      */
     public void fetchNewMessageListBySessionId(SessionItem sessionItem,
                                                @Nullable OnNewMessageListListener listener) {
@@ -152,17 +153,21 @@ public final class ImMessageManager {
 
     private void proceedFetchNewMessageList(@NonNull String msgId,
                                             @Nullable OnNewMessageListListener listener) {
+        String sessionId = extractConversationAnchor(msgId);
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        String syncAnchor = ImLocalStore.resolveMessageSyncAnchor(sessionId);
+        if (SessionSyncCursor.isPushAlreadySynced(syncAnchor, msgId)) {
+            return;
+        }
         String queryMsgId;
         int anchor = 1;
         int op = 3;
-        String sessionId = extractConversationAnchor(msgId);
-        MessageEntity entity = ImLocalStore.queryMaxSequenceIdBySessionId(sessionId);
-        if (entity != null && !TextUtils.isEmpty(entity.getMsgId())) {
-            queryMsgId = entity.getMsgId();
+        if (!TextUtils.isEmpty(syncAnchor)) {
+            queryMsgId = syncAnchor;
         } else {
             queryMsgId = msgId;
-        }
-        if (entity == null) {
             anchor = 0;
         }
         requestMessageList(queryMsgId, anchor, op, listener);
@@ -174,19 +179,21 @@ public final class ImMessageManager {
 
     private void fetchNewMessageListBySessionIdOnRealmThread(@NonNull SessionItem sessionItem,
                                                               @Nullable OnNewMessageListListener listener) {
-        MessageEntity entity = ImLocalStore.queryMaxSequenceIdBySessionId(sessionItem.getSessionId());
-        if (entity != null && !TextUtils.isEmpty(entity.getMsgId()) && entity.getMsgId().equals(sessionItem.getLastMessageId())) {
-            //该会话在本地消息表已经是最新的了
+        String sessionId = sessionItem.getSessionId();
+        SessionEntity sessionEntity = ImSessionRepository.getInstance().queryEntityBySessionId(sessionId);
+        if (SessionSyncCursor.isCaughtUp(sessionEntity, sessionItem.getLastMessageId())) {
             return;
         }
+        String syncAnchor = ImLocalStore.resolveMessageSyncAnchor(sessionId);
         String queryMsgId;
-        if (entity ==null || TextUtils.isEmpty(entity.getMsgId())){
-            //该会话在本地消息表为空时，取服务器返回的selfReadPosition 为消息锚点拉取
-            queryMsgId=sessionItem.getSessionId()+"-"+sessionItem.getSelfReadPosition();
-        }else {
-            queryMsgId = entity.getMsgId();
+        int anchor = 1;
+        if (TextUtils.isEmpty(syncAnchor)) {
+            queryMsgId = sessionId + "-" + sessionItem.getSelfReadPosition();
+            anchor = 0;
+        } else {
+            queryMsgId = syncAnchor;
         }
-        requestMessageList(queryMsgId, 1, 3, listener);
+        requestMessageList(queryMsgId, anchor, 3, listener);
     }
 
     /**

@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.entity.MessageEntity;
+import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.repository.ImGroupMemberRepository;
 import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.db.repository.ImSessionRepository;
@@ -246,6 +247,17 @@ public final class ImLocalStore {
     @Nullable
     public static MessageEntity queryMaxSequenceIdBySessionId(@Nullable String sessionId) {
         return ImMessageRepository.getInstance().queryMaxSequenceIdBySessionId(sessionId);
+    }
+
+    /** 增量拉取锚点 messageId（同步高水位，本地删除不回退）。 */
+    @Nullable
+    public static String resolveMessageSyncAnchor(@Nullable String sessionId) {
+        return ImSessionRepository.getInstance().resolveMessageSyncAnchor(sessionId);
+    }
+
+    @Nullable
+    public static SessionEntity querySessionEntity(@Nullable String sessionId) {
+        return ImSessionRepository.getInstance().queryEntityBySessionId(sessionId);
     }
 
     /** 单聊：落库对方已读游标，提交后在当前线程执行 {@code afterCommit}。 */
