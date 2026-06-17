@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.freddy.im.db.SessionSyncCursor;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.http.model.im.SessionItem;
 
@@ -30,6 +29,7 @@ public final class SessionRealmMapper {
         entity.setIcon(item.getIcon());
         entity.setMemCount(item.getMemCount());
         entity.setUnreadCount(item.getUnreadCount());
+        entity.setUnPullCount(item.getUnPullCount());
         entity.setInternalFlag(item.getInternalFlag());
         entity.setTopNum(item.getTopNum());
         entity.setMuteNotify(item.isMuteNotify());
@@ -67,7 +67,6 @@ public final class SessionRealmMapper {
             entity.setSyncedMaxMsgId(existing.getSyncedMaxMsgId());
             entity.setSyncedMaxSequence(existing.getSyncedMaxSequence());
         }
-        SessionSyncCursor.advanceFromServerLastMessage(entity, item.getLastMessageId());
         return entity;
     }
 
@@ -82,6 +81,7 @@ public final class SessionRealmMapper {
         item.setIcon(entity.getIcon());
         item.setMemCount(entity.getMemCount());
         item.setUnreadCount(entity.getUnreadCount());
+        item.setUnPullCount(entity.getUnPullCount());
         item.setInternalFlag(entity.getInternalFlag());
         item.setTopNum(entity.getTopNum());
         item.setMuteNotify(entity.isMuteNotify());

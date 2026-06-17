@@ -27,7 +27,7 @@ public final class SessionSyncCursor {
     }
 
     /**
-     * 消息落库后推进各会话 syncedMax（只增不减）。
+     * 消息落库后推进各会话 syncedMax（只增不减；仅以本地已持久化消息为准）。
      */
     public static void advanceInTransaction(@NonNull Realm realm, @NonNull List<AppMessage> messages) {
         Map<String, AppMessage> latestBySession = pickLatestPerSession(messages);
@@ -37,25 +37,7 @@ public final class SessionSyncCursor {
     }
 
     /**
-     * 会话列表 HTTP 同步时，用服务端 lastMessageId 推进高水位（本地无消息体时仍保持锚点）。
-     */
-    public static void advanceFromServerLastMessage(@NonNull SessionEntity entity,
-                                                    @Nullable String serverLastMessageId) {
-        if (TextUtils.isEmpty(serverLastMessageId)) {
-            return;
-        }
-        long serverSeq = ImMessageManager.extractTrailingSequence(serverLastMessageId);
-        if (serverSeq == ImMessageManager.INVALID_SEQUENCE) {
-            return;
-        }
-        if (serverSeq > entity.getSyncedMaxSequence()) {
-            entity.setSyncedMaxSequence(serverSeq);
-            entity.setSyncedMaxMsgId(serverLastMessageId);
-        }
-    }
-
-    /**
-     * 解析增量拉取锚点 messageId：优先 syncedMax，其次会话摘要，再次本地可见最大条。
+     * 解析增量拉取锚点 messageId：优先 syncedMax，否则本地可见最大条（不用会话摘要 lastMessageId）。
      */
     @Nullable
     public static String resolveAnchorMsgId(@NonNull Realm realm, @NonNull String sessionId) {
@@ -68,9 +50,6 @@ public final class SessionSyncCursor {
         if (session != null && !TextUtils.isEmpty(session.getSyncedMaxMsgId())) {
             return session.getSyncedMaxMsgId();
         }
-        if (session != null && !TextUtils.isEmpty(session.getLastMessageId())) {
-            return session.getLastMessageId();
-        }
         MessageEntity localMax = realm.where(MessageEntity.class)
                 .equalTo("sessionId", sessionId)
                 .sort("sequenceId", Sort.DESCENDING)
@@ -82,10 +61,15 @@ public final class SessionSyncCursor {
     }
 
     /**
-     * 本地同步高水位是否已覆盖服务端会话摘要所指最后一条（无需再拉增量）。
+     * 本地是否已与服务端会话摘要对齐（有未读/未拉取时一律视为未对齐）。
      */
     public static boolean isCaughtUp(@Nullable SessionEntity session,
-                                     @Nullable String serverLastMessageId) {
+                                     @Nullable String serverLastMessageId,
+                                     int unreadCount,
+                                     int unPullCount) {
+        if (unPullCount > 0 || unreadCount > 0) {
+            return false;
+        }
         if (session == null || TextUtils.isEmpty(serverLastMessageId)) {
             return false;
         }
@@ -94,17 +78,16 @@ public final class SessionSyncCursor {
             return false;
         }
         long syncedSeq = session.getSyncedMaxSequence();
-        if (syncedSeq > 0L && syncedSeq >= serverSeq) {
-            return true;
-        }
-        String fallbackId = !TextUtils.isEmpty(session.getSyncedMaxMsgId())
-                ? session.getSyncedMaxMsgId()
-                : session.getLastMessageId();
-        if (TextUtils.isEmpty(fallbackId)) {
-            return false;
-        }
-        long fallbackSeq = ImMessageManager.extractTrailingSequence(fallbackId);
-        return fallbackSeq != ImMessageManager.INVALID_SEQUENCE && fallbackSeq >= serverSeq;
+        return syncedSeq > 0L && syncedSeq >= serverSeq;
+    }
+
+    /**
+     * @deprecated 请使用 {@link #isCaughtUp(SessionEntity, String, int, int)}。
+     */
+    @Deprecated
+    public static boolean isCaughtUp(@Nullable SessionEntity session,
+                                     @Nullable String serverLastMessageId) {
+        return isCaughtUp(session, serverLastMessageId, 0, 0);
     }
 
     /**

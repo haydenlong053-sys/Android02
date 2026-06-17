@@ -17,6 +17,8 @@ public class SessionEntity extends RealmObject {
     private String icon;
     private int memCount;
     private int unreadCount;
+    /** 服务端尚未拉取到本地的消息条数（来自会话列表接口） */
+    private int unPullCount;
     private int internalFlag;
     private long topNum;
     private boolean muteNotify;
@@ -107,6 +109,14 @@ public class SessionEntity extends RealmObject {
 
     public void setUnreadCount(int unreadCount) {
         this.unreadCount = unreadCount;
+    }
+
+    public int getUnPullCount() {
+        return unPullCount;
+    }
+
+    public void setUnPullCount(int unPullCount) {
+        this.unPullCount = unPullCount;
     }
 
     public int getInternalFlag() {

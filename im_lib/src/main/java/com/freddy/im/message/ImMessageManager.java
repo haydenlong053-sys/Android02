@@ -101,7 +101,7 @@ public final class ImMessageManager {
     }
 
     /**
-     * 会话列表拉取成功后：在后台对<strong>全部</strong> {@code unreadCount > 0} 的会话依次拉消息并落库（不阻塞主线程）。
+     * 会话列表拉取成功后：在后台对存在未读或未拉取消息的会话依次拉消息并落库。
      */
     public void syncUnreadMessagesForSessions(@Nullable List<SessionItem> sessions) {
         if (sessions == null || sessions.isEmpty()) {
@@ -109,7 +109,10 @@ public final class ImMessageManager {
         }
         ImDbExecutor.runRead(() -> {
             for (SessionItem sessionItem : sessions) {
-                if (sessionItem == null || sessionItem.getUnPullCount() <= 0) {
+                if (sessionItem == null) {
+                    continue;
+                }
+                if (sessionItem.getUnPullCount() <= 0 && sessionItem.getUnreadCount() <= 0) {
                     continue;
                 }
                 String sessionId = sessionItem.getSessionId();
@@ -181,7 +184,17 @@ public final class ImMessageManager {
                                                               @Nullable OnNewMessageListListener listener) {
         String sessionId = sessionItem.getSessionId();
         SessionEntity sessionEntity = ImSessionRepository.getInstance().queryEntityBySessionId(sessionId);
-        if (SessionSyncCursor.isCaughtUp(sessionEntity, sessionItem.getLastMessageId())) {
+        int unreadCount = sessionItem.getUnreadCount();
+        int unPullCount = sessionItem.getUnPullCount();
+        if (sessionEntity != null) {
+            unreadCount = Math.max(unreadCount, sessionEntity.getUnreadCount());
+            unPullCount = Math.max(unPullCount, sessionEntity.getUnPullCount());
+        }
+        if (SessionSyncCursor.isCaughtUp(
+                sessionEntity,
+                sessionItem.getLastMessageId(),
+                unreadCount,
+                unPullCount)) {
             return;
         }
         String syncAnchor = ImLocalStore.resolveMessageSyncAnchor(sessionId);

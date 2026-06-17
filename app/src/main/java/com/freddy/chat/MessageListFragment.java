@@ -797,10 +797,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     public void onResume() {
         super.onResume();
         ImActiveChatSession.setActive(sessionId);
-        sessionItem.setUnreadCount(0);
-        ImLocalStore.clearSessionUnread(sessionId);
         ImMessageManager.getInstance().fetchNewMessageListBySessionId(sessionItem,
                 batch -> MessageProcessor.getInstance().receiveMsg(batch));
+        sessionItem.setUnreadCount(0);
+        ImLocalStore.clearSessionUnread(sessionId);
     }
 
     @Override
