@@ -198,6 +198,12 @@ public final class ImLocalStore {
         ImMessageRepository.getInstance().deleteMessages(messages, onDeleted);
     }
 
+    /** 清空会话本地消息（保留会话与同步高水位，不回退增量锚点）。 */
+    public static void clearSessionMessages(@Nullable String sessionId,
+                                            @Nullable Runnable afterCommit) {
+        ImMessageRepository.getInstance().clearMessagesBySessionId(sessionId, afterCommit);
+    }
+
     /** 批量删除本地消息（仅删库，不通知 UI）。 */
     @Deprecated
     public static void deleteMessagesByClientMsgIds(@Nullable List<String> clientMsgIds,

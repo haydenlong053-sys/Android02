@@ -20,4 +20,6 @@ public class Events {
     public static final String MESSAGE_REPEAL = "message_repeal";
     /** 本地消息删除；payload 为 {@link MessageDeletedEvent} */
     public static final String MESSAGE_DELETED = "message_deleted";
+    /** 会话消息已清空；payload 为 {@code sessionId}（String） */
+    public static final String SESSION_MESSAGES_CLEARED = "session_messages_cleared";
 }

@@ -73,4 +73,7 @@ public interface IMessageProcessor {
 
     /** 本地消息已删除。 */
     void notifyMessagesDeleted(@NonNull List<AppMessage> deletedMessages);
+
+    /** 会话本地消息已清空。 */
+    void notifySessionMessagesCleared(@NonNull String sessionId);
 }

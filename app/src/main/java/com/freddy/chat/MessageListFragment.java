@@ -98,7 +98,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Events.SESSION_REMOVED,
             Events.MESSAGE_READ_STATE_CHANGED,
             Events.MESSAGE_REPEAL,
-            Events.MESSAGE_DELETED
+            Events.MESSAGE_DELETED,
+            Events.SESSION_MESSAGES_CLEARED
     };
 
     private SessionItem sessionItem;
@@ -1137,6 +1138,20 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             String removedId = (String) obj;
             if (!TextUtils.isEmpty(removedId) && removedId.equals(sessionId)) {
                 CThreadPoolExecutor.runOnMainThread(this::closeHost);
+            }
+            return;
+        }
+        if (Events.SESSION_MESSAGES_CLEARED.equals(topic) && obj instanceof String) {
+            String clearedId = (String) obj;
+            if (!TextUtils.isEmpty(clearedId) && clearedId.equals(sessionId)) {
+                CThreadPoolExecutor.runOnMainThread(() -> {
+                    adapter.clearAllMessages();
+                    hasMoreHistory = false;
+                    updateSwipeRefreshEnabled();
+                    if (adapter.getMode() == MessageListMode.CHECKABLE) {
+                        exitMultiSelectMode();
+                    }
+                });
             }
             return;
         }

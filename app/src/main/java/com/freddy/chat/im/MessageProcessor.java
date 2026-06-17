@@ -310,6 +310,21 @@ public class MessageProcessor implements IMessageProcessor {
         });
     }
 
+    @Override
+    public void notifySessionMessagesCleared(@NonNull String sessionId) {
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        final String id = sessionId;
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.SESSION_MESSAGES_CLEARED, 0, 0, id);
+            } catch (Exception e) {
+                Log.e(TAG, "清空会话消息分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
     @Nullable
     private static String resolveSessionIdForDeletedBatch(@NonNull List<AppMessage> deletedMessages) {
         for (AppMessage message : deletedMessages) {

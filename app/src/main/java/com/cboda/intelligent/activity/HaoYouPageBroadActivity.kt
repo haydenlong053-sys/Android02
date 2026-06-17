@@ -45,7 +45,9 @@ import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
+import com.cboda.intelligent.bean.ErrorBroadBean
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.freddy.chat.clear.SessionMessageClearHelper
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
@@ -400,12 +402,12 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             holder.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                 override fun onClickConfim(isConfim: Boolean) {
                     if (isConfim) {
-                        val conversation = Conversation()
-                        conversation.type = Conversation.ConversationType.Single
-                        conversation.line = 0
-                        conversation.target = otherUid
-//                        conversationViewModel?.clearRemoteConversationMessage(conversation)
-                        conversationViewModel?.clearConversationMessage(conversation)
+                        val currentUserId = MMKVBroadUtils.getRealUserId()?:""
+                        SessionMessageClearHelper.clearP2pMessages(currentUserId, otherUid) {
+                            runOnUiThread {
+                                viewModel?.errorLiveData?.value = ErrorBroadBean(type = "qingkongSuc")
+                            }
+                        }
                     }
                 }
             }

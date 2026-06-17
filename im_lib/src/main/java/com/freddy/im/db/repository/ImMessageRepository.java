@@ -591,4 +591,55 @@ public final class ImMessageRepository {
             }
         });
     }
+
+    /**
+     * 清空会话本地消息（保留会话行与同步高水位）；事务提交后执行 {@code afterCommit}。
+     */
+    public void clearMessagesBySessionId(@Nullable String sessionId,
+                                         @Nullable Runnable afterCommit) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+            if (afterCommit != null) {
+                afterCommit.run();
+            }
+            return;
+        }
+        final String id = sessionId;
+        ImDbExecutor.runWrite(() -> {
+            List<SessionItem> sessionUpdates = new ArrayList<>();
+            try {
+                Realm realm = ImRealm.getRealm();
+                try {
+                    realm.executeTransaction(r -> {
+                        MessageEntity maxEntity = r.where(MessageEntity.class)
+                                .equalTo("sessionId", id)
+                                .sort("sequenceId", Sort.DESCENDING)
+                                .findFirst();
+                        if (maxEntity != null) {
+                            SessionSyncCursor.advanceInTransaction(
+                                    r,
+                                    Collections.singletonList(
+                                            MessageRealmMapper.toAppMessage(maxEntity)));
+                        }
+                        r.where(MessageEntity.class)
+                                .equalTo("sessionId", id)
+                                .findAll()
+                                .deleteAllFromRealm();
+                        SessionItem updated = SessionLastMessageSync.refreshSessionPreviewAfterDelete(r, id);
+                        if (updated != null) {
+                            sessionUpdates.add(updated);
+                        }
+                    });
+                } finally {
+                    realm.close();
+                }
+            } finally {
+                if (!sessionUpdates.isEmpty()) {
+                    ImLocalStore.dispatchSessionPreviewUpdated(sessionUpdates);
+                }
+                if (afterCommit != null) {
+                    afterCommit.run();
+                }
+            }
+        });
+    }
 }

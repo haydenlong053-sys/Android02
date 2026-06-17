@@ -339,6 +339,13 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
+    public void clearAllMessages() {
+        items.clear();
+        checkedClientMsgIds.clear();
+        readUiState.seedFromMessages(items);
+        notifyDataSetChanged();
+    }
+
     public void updateMessage(@NonNull AppMessage message) {
         int index = indexOfMessage(message);
         if (index < 0) {
