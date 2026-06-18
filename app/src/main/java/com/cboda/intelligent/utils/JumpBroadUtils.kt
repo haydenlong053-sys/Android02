@@ -39,6 +39,7 @@ import com.cboda.intelligent.activity.QunGerenPageBroadActivity
 import com.cboda.intelligent.activity.QunGongGaoBroadActivity
 import com.cboda.intelligent.activity.QunGonggaoInfoBroadActivity
 import com.cboda.intelligent.activity.QunInfo2BroadActivity
+import com.cboda.intelligent.activity.QunInfo3BroadActivity
 import com.cboda.intelligent.activity.QunJinYanBroadActivity
 import com.cboda.intelligent.activity.QunJinYanMemberBroadActivity
 import com.cboda.intelligent.activity.QunListBroadActivity
@@ -283,7 +284,8 @@ class JumpBroadUtils {
         }
 
         fun startQunInfoActivity(context: Context?, qunId: String) {
-            val intent = Intent(context, QunInfo2BroadActivity::class.java)
+//            val intent = Intent(context, QunInfo2BroadActivity::class.java)
+            val intent = Intent(context, QunInfo3BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }
