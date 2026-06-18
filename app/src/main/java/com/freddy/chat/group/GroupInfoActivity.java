@@ -28,7 +28,10 @@ import com.freddy.im.listener.OnHttpImListener;
 
 import java.util.List;
 
-/** 群聊资料 / 管理页（微信风格）。 */
+/** 群聊资料 / 管理页（微信风格）。
+ * ui不完整，暂不使用，仅作自研参考
+ * */
+@Deprecated
 public class GroupInfoActivity extends AppCompatActivity {
 
     private String groupId;

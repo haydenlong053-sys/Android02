@@ -107,7 +107,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
                         JumpBroadUtils.Companion.startHaoYouAddActivity(MessageListActivity.this, sessionItem.getOppositeUserId(), "2");
 //                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.SINGLE_CHAT_MORE.getValue(), conversationBroad.target, "", null);
                     } else {
-                        JumpBroadUtils.Companion.startQunInfoActivity(MessageListActivity.this, sessionItem.getSessionId());
+                        JumpBroadUtils.Companion.startImQunInfoActivity(MessageListActivity.this, sessionItem.getSessionId());
 //                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GROUP_CHAT_HOME.getValue(), conversationBroad.target, "", null);
                     }
 

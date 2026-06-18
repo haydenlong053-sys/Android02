@@ -22,6 +22,7 @@ import com.freddy.im.listener.OnHttpImListener;
 import java.util.List;
 
 /** 我的群聊列表（§3.2）。 */
+@Deprecated
 public class GroupListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;

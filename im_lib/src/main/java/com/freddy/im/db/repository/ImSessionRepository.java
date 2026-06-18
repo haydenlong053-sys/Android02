@@ -101,6 +101,45 @@ public final class ImSessionRepository {
         });
     }
 
+    /**
+     * 更新会话置顶 / 免打扰本地字段，并通知列表刷新。
+     */
+    public void updateTopMuteThen(@Nullable String sessionId,
+                                  boolean top,
+                                  boolean muteNotify,
+                                  @Nullable Runnable afterCommit) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+            if (afterCommit != null) {
+                afterCommit.run();
+            }
+            return;
+        }
+        final String id = sessionId;
+        ImDbExecutor.runWrite(() -> {
+            List<SessionItem> updated = new ArrayList<>();
+            Realm realm = ImRealm.getRealm();
+            try {
+                realm.executeTransaction(r -> {
+                    SessionEntity entity = r.where(SessionEntity.class)
+                            .equalTo("sessionId", id)
+                            .findFirst();
+                    if (entity == null) {
+                        entity = r.createObject(SessionEntity.class, id);
+                    }
+                    entity.setTopNum(top ? System.currentTimeMillis() : 0L);
+                    entity.setMuteNotify(muteNotify);
+                    updated.add(SessionRealmMapper.toSessionItem(r.copyFromRealm(entity)));
+                });
+                if (afterCommit != null) {
+                    afterCommit.run();
+                }
+            } finally {
+                realm.close();
+            }
+            ImLocalStore.dispatchSessionPreviewUpdated(updated);
+        });
+    }
+
     @Nullable
     public SessionItem queryBySessionId(@Nullable String sessionId) {
         if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {

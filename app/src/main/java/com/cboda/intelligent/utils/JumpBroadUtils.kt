@@ -48,6 +48,14 @@ import com.cboda.intelligent.activity.QunNameBroadActivity
 import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
 import com.cboda.intelligent.activity.QunUserList2BroadActivity
+import com.cboda.intelligent.activity.im.ImGroupIntent
+import com.cboda.intelligent.activity.im.ImQunCodeBroadActivity
+import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
+import com.cboda.intelligent.activity.im.ImQunGongGaoBroadActivity
+import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity
+import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity
+import com.cboda.intelligent.activity.im.ImQunNameBroadActivity
+import com.cboda.intelligent.activity.im.ImQunUserList2BroadActivity
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
@@ -62,6 +70,7 @@ import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.dialog.GroupQrCodeDialog
 import com.freddy.chat.MessageListActivity
+import com.freddy.im.http.model.im.GroupVo
 import com.freddy.chat.SessionItemIntent
 import com.freddy.chat.collect.CollectIntent
 import com.freddy.im.http.model.im.SessionItem
@@ -287,6 +296,71 @@ class JumpBroadUtils {
             intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }
+        /** 自研 IM 群详情入口。 */
+        fun startImQunInfoActivity(context: Context?, qunId: String) {
+            val intent = Intent(context, ImQunInfo2BroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunUserListActivity(context: Context?, qunId: String, myRole: Int) {
+            val intent = Intent(context, ImQunUserList2BroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            intent.putExtra(ImGroupIntent.EXTRA_MY_ROLE, myRole)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunMemberListActivity(
+            context: Context?,
+            qunId: String,
+            fromPage: String,
+            userType: String
+        ) {
+            val intent = Intent(context, ImQunMemberListBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            intent.putExtra("fromPage", fromPage)
+            intent.putExtra("userType", userType)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunGongGaoActivity(context: Context?, qunId: String, notice: String) {
+            val intent = Intent(context, ImQunGongGaoBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            intent.putExtra(ImGroupIntent.EXTRA_NOTICE, notice)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunNameActivity(context: Context?, qunId: String, qunName: String) {
+            val intent = Intent(context, ImQunNameBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            intent.putExtra("qunName", qunName)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunCodeActivity(context: Context?, qunId: String, groupVo: GroupVo?) {
+            val intent = Intent(context, ImQunCodeBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            if (groupVo != null) {
+                intent.putExtra(ImGroupIntent.EXTRA_GROUP_VO, groupVo)
+            }
+            context?.startActivity(intent)
+        }
+
+        fun startImQunGerenPageActivity(
+            context: Context?,
+            qunId: String,
+            uid: String,
+            type: String,
+            myRole: Int
+        ) {
+            val intent = Intent(context, ImQunGerenPageBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            intent.putExtra("uid", uid)
+            intent.putExtra("type", type)
+            intent.putExtra(ImGroupIntent.EXTRA_MY_ROLE, myRole)
+            context?.startActivity(intent)
+        }
+
 
         fun startQunShengJiActivity(context: Context?, qunId: String) {
             val intent = Intent(context, SjqlBroadActivity::class.java)

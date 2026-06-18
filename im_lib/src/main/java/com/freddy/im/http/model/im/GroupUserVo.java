@@ -14,6 +14,7 @@ public class GroupUserVo {
     /** 接口部分场景返回 username */
     private String username;
     private int statusInGroup;
+    //角色 0:群主 1:管理员 2:普通成员
     private int role;
     private Long joinTime;
     private String headPortrait;

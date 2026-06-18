@@ -43,6 +43,7 @@ import com.hjq.http.listener.OnHttpListener;
 
 import java.util.Collections;
 import java.util.List;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
@@ -407,11 +408,29 @@ public final class ImGroupHttpExample {
                     }
                     return;
                 }
-                if (content instanceof List && ((List<?>) content).isEmpty() && !requireContent) {
-                    callback.onHttpImSuccess(content);
+                if (content instanceof List) {
+                    List<?> list = (List<?>) content;
+                    if (isListContentType(contentType)) {
+                        callback.onHttpImSuccess((T) list);
+                        return;
+                    }
+                    if (list.isEmpty()) {
+                        deliverEmptyContent(callback, contentType, onFail);
+                        return;
+                    }
+                    T single = resolveContent(list.get(0), contentType);
+                    if (single != null) {
+                        callback.onHttpImSuccess(single);
+                    } else {
+                        deliverEmptyContent(callback, contentType, onFail);
+                    }
                     return;
                 }
-                callback.onHttpImSuccess(content != null ? content : emptyFallback());
+                if (content != null) {
+                    callback.onHttpImSuccess(content);
+                } else {
+                    deliverEmptyContent(callback, contentType, onFail);
+                }
             }
 
             @Override
@@ -440,9 +459,40 @@ public final class ImGroupHttpExample {
         return TypeToken.getParameterized(List.class, itemClass).getType();
     }
 
+    private static boolean isListContentType(@NonNull Type contentType) {
+        if (contentType instanceof ParameterizedType) {
+            Type raw = ((ParameterizedType) contentType).getRawType();
+            return raw instanceof Class && List.class.isAssignableFrom((Class<?>) raw);
+        }
+        return contentType instanceof Class && List.class.isAssignableFrom((Class<?>) contentType);
+    }
+
     @SuppressWarnings("unchecked")
-    private static <T> T emptyFallback() {
-        return (T) Collections.emptyList();
+    private static <T> void deliverEmptyContent(@NonNull OnHttpImListener<T> callback,
+                                                @NonNull Type contentType,
+                                                @Nullable Runnable onFail) {
+        T empty = emptyContent(contentType);
+        if (empty != null) {
+            callback.onHttpImSuccess(empty);
+        } else if (onFail != null) {
+            onFail.run();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Nullable
+    private static <T> T emptyContent(@NonNull Type contentType) {
+        if (isListContentType(contentType)) {
+            return (T) Collections.emptyList();
+        }
+        if (contentType instanceof Class) {
+            try {
+                return (T) ((Class<?>) contentType).getDeclaredConstructor().newInstance();
+            } catch (ReflectiveOperationException ignored) {
+                return null;
+            }
+        }
+        return null;
     }
 
     private static <T> OnHttpListener<BaseMsgResponse<T>> getListener(

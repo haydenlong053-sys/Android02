@@ -38,8 +38,7 @@ import com.freddy.chat.event.I_CEventListener;
 import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
-import com.freddy.chat.group.GroupInfoActivity;
-import com.freddy.chat.group.GroupIntent;
+import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
 import com.freddy.chat.im.MessageProcessor;
@@ -274,8 +273,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_group_info && isGroupChat) {
-            Intent intent = new Intent(requireContext(), GroupInfoActivity.class);
-            GroupIntent.put(intent, sessionId);
+            Intent intent = new Intent(requireContext(), ImQunInfo2BroadActivity.class);
+            intent.putExtra("qunid", sessionId);
             startActivity(intent);
             return true;
         }

@@ -2,7 +2,6 @@ package com.cboda.intelligent.holder
 
 import android.content.Context
 import android.content.Intent
-import android.text.TextUtils
 import android.util.Log
 import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.message.Message
@@ -23,6 +22,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getFanYi
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.eLogI
 import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.chatui.bridge.MyCommonBroadBridge
@@ -40,11 +40,9 @@ import com.cboda.intelligent.utils.*
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
 import com.freddy.im.MyCommonBroadBridge2
 import com.freddy.im.bean.AppMessage
-import com.freddy.im.db.repository.ImSessionRepository
-import com.freddy.im.http.GroupDetailFetcher
-import com.freddy.im.http.GroupVoSessionMapper
-import com.freddy.im.http.ImMessageHttpExample
-import com.freddy.im.http.model.im.GroupVo
+import com.freddy.im.group.GroupRole
+import com.freddy.im.http.ImGroupHttpExample
+import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.listener.OnHttpImListener
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -86,31 +84,32 @@ class MyImManagerBroadHolder(private val context: Context?) {
                     BridgeImEnum.BUSINESS_CARD.value -> {
                         if (params2?.isNotEmpty() == true) {
                             //群聊
-//                            if (sessionId?.isNotEmpty() == true){
-//                                ImMessageHttpExample.requestGetGroupDetail(sessionId, object : OnHttpImListener<GroupVo> {
-//                                    override fun onHttpImSuccess(group: GroupVo) {
-////                                        groupDataLiveData.postValue(bean)
-//                                        if (group.userType == "3" && group.openQzts == "1") {
-//                                            ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
-//                                        } else {
-//                                            JumpBroadUtils.startHaoyouListActivity(
-//                                                mContext,
-//                                                params ?: "",
-//                                                params2 ?: "",
-//                                                sessionId
-//                                            )
-//                                        }
-//                                    }
-//                                }, Runnable {
-//                                    ToastBroadUtils.show("获取群详情失败")
-//                                })
-//                            }
-                            JumpBroadUtils.startHaoyouListActivity(
-                                mContext,
-                                params ?: "",
-                                params2 ?: "",
-                                sessionId
-                            )
+                            if (sessionId?.isNotEmpty() == true){
+                                val userId = MMKVBroadUtils.getRealUserId()?:""
+                                ImGroupHttpExample.requestGetSpecifyMembers(
+                                    sessionId, mutableListOf<String>(userId),
+                                    object : OnHttpImListener<MutableList<GroupUserVo>?> {
+                                        override fun onHttpImSuccess(members: MutableList<GroupUserVo>) {
+                                            if (members.isEmpty()) {
+                                                return
+                                            }
+                                            val groupUserVo = members[0]
+                                            // 以前的老逻辑还有一个开关判断，后续再完善 && group.openQzts == "1"
+                                            if (groupUserVo.role ==GroupRole.MEMBER ) {
+                                                ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
+                                            } else {
+                                                JumpBroadUtils.startHaoyouListActivity(
+                                                    mContext,
+                                                    params ?: "",
+                                                    params2 ?: "",
+                                                    sessionId
+                                                )
+                                            }
+                                        }
+                                    }, Runnable {
+                                        ToastBroadUtils.show("获取requestGetSpecifyMembers群成员信息失败")
+                                    })
+                            }
 
                         } else {
                             //单聊

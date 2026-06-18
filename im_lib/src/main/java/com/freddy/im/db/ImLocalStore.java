@@ -335,6 +335,12 @@ public final class ImLocalStore {
         ImSessionRepository.getInstance().clearUnreadCount(sessionId);
     }
 
+    public static void updateSessionTopMute(@Nullable String sessionId,
+                                            boolean top,
+                                            boolean muteNotify) {
+        ImSessionRepository.getInstance().updateTopMuteThen(sessionId, top, muteNotify, null);
+    }
+
     @NonNull
     public static List<SessionItem> loadSessions() {
         return ImSessionRepository.getInstance().queryAllAsDto();
