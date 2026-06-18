@@ -16,9 +16,6 @@ public class GroupVo implements java.io.Serializable {
     private String owerId;
 
 
-    private String userType;
-    private String openQzts;
-
     public String getId() {
         return id;
     }
@@ -75,19 +72,4 @@ public class GroupVo implements java.io.Serializable {
         this.owerId = owerId;
     }
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getOpenQzts() {
-        return openQzts;
-    }
-
-    public void setOpenQzts(String openQzts) {
-        this.openQzts = openQzts;
-    }
 }

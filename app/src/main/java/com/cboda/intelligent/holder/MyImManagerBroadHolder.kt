@@ -86,25 +86,31 @@ class MyImManagerBroadHolder(private val context: Context?) {
                     BridgeImEnum.BUSINESS_CARD.value -> {
                         if (params2?.isNotEmpty() == true) {
                             //群聊
-                            if (sessionId?.isNotEmpty() == true){
-                                ImMessageHttpExample.requestGetGroupDetail(sessionId, object : OnHttpImListener<GroupVo> {
-                                    override fun onHttpImSuccess(group: GroupVo) {
-//                                        groupDataLiveData.postValue(bean)
-                                        if (group.userType == "3" && group.openQzts == "1") {
-                                            ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
-                                        } else {
-                                            JumpBroadUtils.startHaoyouListActivity(
-                                                mContext,
-                                                params ?: "",
-                                                params2 ?: "",
-                                                sessionId
-                                            )
-                                        }
-                                    }
-                                }, Runnable {
-                                    ToastBroadUtils.show("获取群详情失败")
-                                })
-                            }
+//                            if (sessionId?.isNotEmpty() == true){
+//                                ImMessageHttpExample.requestGetGroupDetail(sessionId, object : OnHttpImListener<GroupVo> {
+//                                    override fun onHttpImSuccess(group: GroupVo) {
+////                                        groupDataLiveData.postValue(bean)
+//                                        if (group.userType == "3" && group.openQzts == "1") {
+//                                            ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
+//                                        } else {
+//                                            JumpBroadUtils.startHaoyouListActivity(
+//                                                mContext,
+//                                                params ?: "",
+//                                                params2 ?: "",
+//                                                sessionId
+//                                            )
+//                                        }
+//                                    }
+//                                }, Runnable {
+//                                    ToastBroadUtils.show("获取群详情失败")
+//                                })
+//                            }
+                            JumpBroadUtils.startHaoyouListActivity(
+                                mContext,
+                                params ?: "",
+                                params2 ?: "",
+                                sessionId
+                            )
 
                         } else {
                             //单聊
