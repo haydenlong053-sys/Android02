@@ -438,9 +438,6 @@
             android:name="com.cboda.intelligent.activity.QunInfo2BroadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cboda.intelligent.activity.QunInfo3BroadActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.cboda.intelligent.activity.QunUserListBroadActivity"
             android:screenOrientation="portrait" />
         <activity
