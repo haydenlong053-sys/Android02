@@ -213,9 +213,9 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 //        fragments.add(ConversationListBroadFragment())
         conversationSingleFragment = ConversationSingleBroadFragment()
         fragments.add(conversationSingleFragment!!)
+        fragments.add(ConversationGroupBroadFragment())
         fragments.add(ConversationListFragment.newInstance())
-//        fragments.add(ConversationGroupBroadFragment())
-        fragments.add(ConversationOtherGroupBroadFragment())
+//        fragments.add(ConversationOtherGroupBroadFragment())
         fragments.add(SocialFragment())
 
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
