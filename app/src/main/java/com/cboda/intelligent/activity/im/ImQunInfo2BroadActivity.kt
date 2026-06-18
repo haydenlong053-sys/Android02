@@ -57,6 +57,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private var allMembers: List<GroupUserVo> = emptyList()
     private var myRole: Int = GroupRole.MEMBER
     private var groupVo: GroupVo? = null
+    /** 首次 onResume 跳过成员刷新，避免与 onCreate 中 load() 重复请求 getAllMembers。 */
+    private var skipMembersRefreshOnResume = true
 
     private var viewModel: ImQunInfoViewModel? = null
     private var uploadViewModel: UploadFileViewBroadModel? = null
@@ -468,6 +470,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (skipMembersRefreshOnResume) {
+            skipMembersRefreshOnResume = false
+            return
+        }
         viewModel?.refreshMembers(qunId, currentUserId)
     }
 }

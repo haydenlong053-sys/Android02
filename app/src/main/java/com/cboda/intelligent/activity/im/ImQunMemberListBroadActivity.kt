@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
@@ -17,7 +18,9 @@ import com.cboda.intelligent.adapter.QunMemberBroadAdapter
 import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.isSubmitCanGo
+import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
+import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.ImMessageHttpExample
@@ -26,6 +29,7 @@ import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.UserInfoItem
 import com.freddy.im.http.model.im.UserInfoListRes
 import com.freddy.im.listener.OnHttpImListener
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
 /**
  * 自研加人/踢人（对齐野火 {@link com.cboda.intelligent.activity.QunMemberListBroadActivity}）。
@@ -39,10 +43,16 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private val mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private val mDataList3 = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var mAdapter2: YiXuanQunMemberBroadAdapter? = null
+    private var mManager: LinearLayoutManager? = null
+    private lateinit var tvSideBarHint: TextView
+    private lateinit var indexBar: IndexBar2
     private lateinit var tvAgree: TextView
+    private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView
     private lateinit var edtSousuo: EditText
+    private var viewModel: CommViewBroadModel? = null
+    private var pageNo = 1
 
     override fun showBgTopTitleLayout(): Boolean = true
     override fun getLayoutId(): Int = R.layout.activity_xu_broad_an_ze_lian_xi_ren
@@ -53,18 +63,27 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         fromPage = intent?.getStringExtra("fromPage") ?: ""
         qunId = intent?.getStringExtra("qunid") ?: ""
         userType = intent?.getStringExtra("userType") ?: ""
+        viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         tvAgree = findViewById(R.id.tvAgree)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView2 = findViewById(R.id.recyclerView2)
         edtSousuo = findViewById(R.id.edtSousuo)
-        findViewById<View>(R.id.indexBar)?.isVisible = fromPage == "add"
-        findViewById<View>(R.id.smartLayout)?.isVisible = false
+        smartLayout = findViewById(R.id.smartLayout)
+        indexBar = findViewById(R.id.indexBar)
+        tvSideBarHint = findViewById(R.id.tvSideBarHint)
+        indexBar.isVisible = fromPage == "add"
+        smartLayout.setEnableRefresh(false)
+        smartLayout.setEnableLoadMore(false)
 
         getToolbarTitle()?.text = getString(R.string.xuanzelianxiren)
         tvAgree.isSubmitCanGo(false)
 
+        mManager = LinearLayoutManager(this)
+        indexBar.setmPressedShowTextView(tvSideBarHint)
+            .setNeedRealIndex(true)
+            .setmLayoutManager(mManager)
         mAdapter = QunMemberBroadAdapter(R.layout.item_qun_member_broad_layout, fromPage)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = mManager
         recyclerView.adapter = mAdapter
         mAdapter?.setOnItemClickListener { _, _, position ->
             if (position !in mDataList.indices) return@setOnItemClickListener
@@ -99,15 +118,60 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 if (fromPage == "add") loadData()
             }
         })
+        viewModel?.chengyuanListLiveData?.observe(this) {
+            smartLayout?.finishRefresh()
+            smartLayout?.finishLoadMore()
+            it.dataList?.apply {
+                if (this.isNotEmpty()) {
+                    pageNo++
+                }
+                val existingUserIds = mDataList.mapNotNull { bean -> bean.userId }.toHashSet()
+                val dedupedList = this.filter { bean ->
+                    val userId = bean.userId
+                    !userId.isNullOrEmpty() && existingUserIds.add(userId)
+                }
+                mDataList.addAll(dedupedList)
+
+                if (fromPage == "remove") {
+                    if (userType == "1") {
+                        mDataList.forEachIndexed { index, commonBean ->
+                            if (commonBean.type == "1") {
+                                commonBean.isZy = "1"
+                            }
+                        }
+                    } else if (userType == "2") {
+                        mDataList.forEachIndexed { index, commonBean ->
+                            if (commonBean.type == "1" || commonBean.type == "2") {
+                                commonBean.isZy = "1"
+                            }
+                        }
+                    }
+
+                }
+                indexBar.setmSourceDatas(mDataList)
+                    .setHeaderViewCount(0)
+                    .invalidate()
+
+                mAdapter?.setList(mDataList)
+                if (mDataList.isEmpty()) {
+                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
+                }
+                if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
+                    smartLayout?.setEnableLoadMore(false)
+                }
+
+            }
+        }
         loadData()
     }
 
     private fun loadData() {
-        if (fromPage == "remove") {
-            loadRemoveCandidates()
-        } else if (fromPage == "add") {
-            loadAddCandidates()
-        }
+//        if (fromPage == "remove") {
+//            loadRemoveCandidates()
+//        } else if (fromPage == "add") {
+//            loadAddCandidates()
+//        }
+        loadAddCandidates()
     }
 
     private fun loadRemoveCandidates() {
@@ -133,28 +197,38 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun loadAddCandidates() {
-        val keyword = edtSousuo.text?.toString()?.trim().orEmpty()
-        ImMessageHttpExample.requestGetUserList(
-            if (keyword.isEmpty()) "用户" else keyword,
-            1,
-            50,
-            object : OnHttpImListener<BaseMsgResponse<UserInfoListRes>> {
-                override fun onHttpImSuccess(result: BaseMsgResponse<UserInfoListRes>) {
-                    val list = result.content?.userList ?: emptyList()
-                    runOnUiThread {
-                        mDataList.clear()
-                        list.forEach { user: UserInfoItem ->
-                            val bean = CommonDataListBroadBean.CommonBean()
-                            bean.userId = user.userId
-                            bean.name = user.userName
-                            bean.icon = user.icon ?: user.avatar ?: user.headImg ?: user.headUrl
-                            mDataList.add(bean)
-                        }
-                        mAdapter?.setList(mDataList)
-                    }
-                }
-            },
-            null
+        var url = ""
+        var type = ""
+        when (fromPage) {
+            "zhuanshuhongbao" -> {
+                url = "/groupUserListPage"
+            }
+
+            "add" -> {
+                url = "/friendList"
+            }
+
+            "remove" -> {
+                url = "/groupUserListPage"
+                type = "3"
+            }
+
+            "qunmanager" -> {
+                url = "/groupUserListPage"
+                type = "3"
+            }
+
+            "qunyiyintonghua" -> {
+                url = "/groupUserListPage"
+            }
+        }
+        viewModel?.getQunMemberList(
+            this,
+            pageNo.toString(),
+            url,
+            qunId,
+            type,
+            edtSousuo?.text?.toString()?.trim() ?: ""
         )
     }
 
