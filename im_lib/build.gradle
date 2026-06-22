@@ -49,6 +49,7 @@ dependencies {
 //    androidTestImplementation rootProject.ext.dependencies.test_espresso
 //    androidTestImplementation rootProject.ext.dependencies.test_androidx_junit
     api libs.protobuf.java
+    implementation libs.util.codex
     implementation files('libs/netty-tcp-4.1.33-1.0.jar')
 }
 

@@ -7,6 +7,7 @@ import com.freddy.im.db.ImLocalStore
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImConversationHttpExample
 import com.freddy.im.http.ImGroupHttpExample
+import com.freddy.im.http.model.im.GroupMemberListContent
 import com.freddy.im.http.model.im.GroupNoticeRes
 import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
@@ -85,24 +86,33 @@ class ImQunInfoViewModel : ViewModel() {
             }
         }, { publish() })
 
-        ImGroupHttpExample.requestGetAllMembers(groupId, object : OnHttpImListener<List<GroupUserVo>> {
-            override fun onHttpImSuccess(result: List<GroupUserVo>) {
-                members = result
+        ImGroupHttpExample.requestGetGroupMemberList(
+            groupId, 0, 13,
+            object : OnHttpImListener<GroupMemberListContent> {
+                override fun onHttpImSuccess(content: GroupMemberListContent) {
+                    members = content.members
+                    publish()
+                }
+            }, Runnable {
                 publish()
-            }
-        }, { publish() })
+            })
+
     }
 
     fun refreshMembers(groupId: String, currentUserId: String?) {
-        ImGroupHttpExample.requestGetAllMembers(groupId, object : OnHttpImListener<List<GroupUserVo>> {
-            override fun onHttpImSuccess(result: List<GroupUserVo>) {
-                val cur = _state.value ?: return
-                val myRole = ImGroupMemberUiMapper.resolveMyRole(
-                    result, currentUserId, cur.groupVo?.owerId
-                )
-                _state.postValue(cur.copy(members = result, myRole = myRole))
-            }
-        }, null)
+        ImGroupHttpExample.requestGetGroupMemberList(
+            groupId, 0, 13,
+            object : OnHttpImListener<GroupMemberListContent> {
+                override fun onHttpImSuccess(content: GroupMemberListContent) {
+                    val cur = _state.value ?: return
+                    val myRole = ImGroupMemberUiMapper.resolveMyRole(
+                        content.members, currentUserId, cur.groupVo?.owerId
+                    )
+                    _state.postValue(cur.copy(members = content.members, myRole = myRole))
+                }
+            }, Runnable {
+//                Log.w(ImGroupMemberChangeManager.TAG, ("memberList 失败 groupId=" + groupId + " anchor=" + anchor))
+            })
     }
 
     fun setSessionTop(groupId: String, top: Boolean, onDone: (Boolean) -> Unit) {

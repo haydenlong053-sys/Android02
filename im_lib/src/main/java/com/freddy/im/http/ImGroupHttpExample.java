@@ -35,6 +35,7 @@ import com.freddy.im.http.model.im.GroupUserVo;
 import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.InviteMemberItem;
 import com.freddy.im.listener.OnHttpImListener;
+import com.freddy.im.util.ImUtilKt;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hjq.http.EasyHttp;
@@ -114,7 +115,9 @@ public final class ImGroupHttpExample {
         if (anchor != null) {
             api.setAnchor(anchor);
         }
-        EasyHttp.post(ApplicationLifecycle.getInstance())
+
+//        Log.d("zhanglong", "getResumeActivity==" + ImUtilKt.getResumeActivity());
+        EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
                 .api(api)
                 .request(postListener("memberList", callback, onFail, true, GroupMemberListContent.class));
     }
@@ -172,8 +175,8 @@ public final class ImGroupHttpExample {
     }
 
     public static void requestLeaveGroup(@NonNull String groupId,
-                                        @NonNull OnHttpImListener<String> callback,
-                                        @Nullable Runnable onFail) {
+                                         @NonNull OnHttpImListener<String> callback,
+                                         @Nullable Runnable onFail) {
         if (TextUtils.isEmpty(groupId)) {
             if (onFail != null) {
                 onFail.run();

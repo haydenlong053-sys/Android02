@@ -1,6 +1,8 @@
 package com.freddy.im.util
 
 import android.text.TextUtils
+import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.ActivityUtils
 import com.freddy.im.db.repository.ImSessionRepository
 import com.freddy.im.http.GroupVoSessionMapper
 import com.freddy.im.http.model.im.GroupVo
@@ -17,4 +19,12 @@ fun groupToSession(group: GroupVo?): SessionItem? {
         }
     }
 
+}
+fun getResumeActivity(): AppCompatActivity? {
+    return try {
+        val activity = ActivityUtils.getTopActivity()
+        if (null != activity && activity is AppCompatActivity && !activity.isFinishing && !activity.isDestroyed) activity else null
+    } catch (e: Exception) {
+        null
+    }
 }
