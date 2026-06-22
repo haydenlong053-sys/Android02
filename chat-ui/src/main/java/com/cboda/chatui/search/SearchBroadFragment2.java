@@ -201,13 +201,25 @@ public class SearchBroadFragment2 extends Fragment {
             myFriendAdapter.setOnItemClickListener(new MyFriendBroadAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position, GlobalFriendListBroadBean bean) {
-                    if (getActivity() != null) {
-                        Intent intent = new Intent(getActivity(), ConversationBroadActivity.class);
-                        Conversation conversation = new Conversation(Conversation.ConversationType.Single, bean.getUserId(), 0);
-                        intent.putExtra("conversation", conversation);
-                        startActivity(intent);
-                        getActivity().finish();
+                    if (!(getActivity() instanceof SearchBroadActivity2)) {
+                        return;
                     }
+                    String userId = bean.getUserId();
+                    if (userId == null || userId.isEmpty()) {
+                        return;
+                    }
+                    String name = !TextUtils.isEmpty(bean.getRemarkName())
+                            ? bean.getRemarkName() : bean.getNickName();
+                    SearchBroadActivity2 activity = (SearchBroadActivity2) getActivity();
+                    if (activity.onSearchFriendItemClick(SearchBroadFragment2.this, userId, name)) {
+                        return;
+                    }
+                    Intent intent = new Intent(activity, ConversationBroadActivity.class);
+                    Conversation conversation = new Conversation(
+                            Conversation.ConversationType.Single, userId, 0);
+                    intent.putExtra("conversation", conversation);
+                    startActivity(intent);
+                    activity.finish();
                 }
             });
             // 2. 使用 ConcatAdapter 将它们按顺序拼接[citation:5]

@@ -354,6 +354,12 @@ public final class ImLocalStore {
         });
     }
 
+    /** 群聊会话名模糊搜索（Realm 本地，供搜索后台线程同步调用）。 */
+    @NonNull
+    public static List<SessionItem> searchGroupSessionsByName(@Nullable String keyword) {
+        return ImSessionRepository.getInstance().searchGroupSessionsByName(keyword);
+    }
+
     // ---------- 群成员 ----------
 
     public static void saveGroupMembersThen(@Nullable List<GroupMemberItem> members,

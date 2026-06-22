@@ -8,7 +8,7 @@ import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
-import com.cboda.chatui.search.SearchPortalBroadActivity
+import com.freddy.chat.search.ImSearchPortalBroadActivity
 import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.activity.AiActivity
 import com.cboda.intelligent.activity.AiAntiFraudBroadActivity
@@ -660,7 +660,7 @@ class JumpBroadUtils {
 //            context?.startActivity(intent)
             val intent = Intent(
                 context,
-                SearchPortalBroadActivity::class.java
+                ImSearchPortalBroadActivity::class.java
             )
             context?.startActivity(intent)
         }

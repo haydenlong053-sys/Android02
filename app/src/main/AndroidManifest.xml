@@ -438,6 +438,9 @@
             android:name="com.cboda.intelligent.activity.QunInfo2BroadActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.freddy.chat.search.ImSearchPortalBroadActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -310,4 +310,31 @@ public final class ImSessionRepository {
             realm.close();
         }
     }
+
+    /**
+     * 群聊会话：{@code sessionName} 包含关键字（忽略大小写）。
+     * 供搜索页后台线程调用。
+     */
+    @NonNull
+    public List<SessionItem> searchGroupSessionsByName(@Nullable String keyword) {
+        if (TextUtils.isEmpty(keyword) || !ImRealm.isUserBound()) {
+            return Collections.emptyList();
+        }
+        final String trimmed = keyword.trim();
+        Realm realm = ImRealm.getRealm();
+        try {
+            RealmResults<SessionEntity> results = realm.where(SessionEntity.class)
+                    .equalTo("conversation", com.freddy.im.MessageType.GROUP_CHAT.getMsgType())
+                    .contains("sessionName", trimmed, io.realm.Case.INSENSITIVE)
+                    .sort("topNum", Sort.DESCENDING, "lastMessageTime", Sort.DESCENDING)
+                    .findAll();
+            List<SessionItem> list = new ArrayList<>(results.size());
+            for (SessionEntity entity : results) {
+                list.add(SessionRealmMapper.toSessionItem(entity));
+            }
+            return list;
+        } finally {
+            realm.close();
+        }
+    }
 }

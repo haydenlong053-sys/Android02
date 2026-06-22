@@ -7,6 +7,10 @@ package com.cboda.chatui.search;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,4 +109,15 @@ public abstract class SearchBroadActivity2 extends WfcBaseNoToolbarBroadActivity
      * @param modules 是一个输出参数，用来添加希望搜索的{@link SearchableBroadModule}
      */
     protected abstract void initSearchModule(List<SearchableBroadModule> modules);
+
+    /**
+     * 搜索联系人列表项点击。app 层可覆写以跳转自研 IM。
+     *
+     * @return true 表示已处理，不再走野火默认跳转
+     */
+    protected boolean onSearchFriendItemClick(@NonNull Fragment fragment,
+                                              @NonNull String userId,
+                                              @Nullable String displayName) {
+        return false;
+    }
 }
