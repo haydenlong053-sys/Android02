@@ -10,6 +10,8 @@ import com.cboda.chatui.search.module.ContactSearchBroadModule;
 import com.cboda.chatui.search.module.ConversationSearchBroadModule2;
 import com.cboda.chatui.search.module.GroupSearchViewBroadModule2;
 
+//已废弃，改用自研
+@Deprecated
 public class SearchPortalBroadActivity extends SearchBroadActivity2 {
     @Override
     protected void initSearchModule(List<SearchableBroadModule> modules) {
