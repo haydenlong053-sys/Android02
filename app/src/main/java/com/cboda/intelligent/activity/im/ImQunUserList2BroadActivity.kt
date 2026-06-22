@@ -2,7 +2,6 @@ package com.cboda.intelligent.activity.im
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,15 +12,10 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunUserBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
-import com.freddy.im.db.ImLocalStore
-import com.freddy.im.db.mapper.GroupUserVoMapper
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
-import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.GroupMemberListContent
-import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.listener.OnHttpImListener
-import com.freddy.im.message.ImGroupMemberChangeManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
