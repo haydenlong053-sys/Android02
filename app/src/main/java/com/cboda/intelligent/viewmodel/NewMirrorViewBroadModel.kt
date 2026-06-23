@@ -3,6 +3,7 @@ package com.cboda.intelligent.viewmodel
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.FriendBean
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -29,6 +30,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewMirrorViewBroadModel : BaseViewBroadModel() {
+
+
+    fun createPayOrder(scene: String): SingleLiveBroadData<PayLsOrderBean?> {
+        val liveData = SingleLiveBroadData<PayLsOrderBean?>()
+        val params = hashMapOf<String, Any?>("scene" to scene, "chainId" to "97")
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.CREATE_LS_PAY_ORDER,
+                        PayLsOrderBean::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        liveData.postValue(data)
+                    }.onFailure { _, _ ->
+
+                    }.onError { _ ->
+
+                    }
+                } catch (_: Exception) {
+
+                }
+            }
+        }
+        return liveData
+    }
+
     /**
      * 开通信用分
      */
@@ -61,6 +89,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
         }
         return mLiveData
     }
+
 
     /**
      * 查询信用分详情

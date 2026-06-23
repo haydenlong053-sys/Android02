@@ -36,6 +36,7 @@ import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.utils.HttpsBroadConfig
+import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.showGuidePasswordTip
@@ -68,26 +69,36 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 if (anyToInt(userInfo?.gradeStatus) == 1) {
                     JumpBroadUtils.startCreditScoreActivity(requireContext())
                 } else {
-                    CreditScoreActivateBroadPop(requireContext()).apply {
-                        sureInvoke = {
-                            if (anyToInt(userInfo?.hasPayPwd) == 1) {
-                                PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
-                                    lifecycleScope.launch {
-                                        viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
-                                            if (bool) {
-                                                showToastMain(com.cboda.baselibrary.R.string.activation_successful)
-                                                onResume()
-                                            }
-                                        }
-                                    }
+//                    CreditScoreActivateBroadPop(requireContext()).apply {
+//                        sureInvoke = {
+//                            if (anyToInt(userInfo?.hasPayPwd) == 1) {
+//                                PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
+//                                    lifecycleScope.launch {
+//                                        viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
+//                                            if (bool) {
+//                                                showToastMain(com.cboda.baselibrary.R.string.activation_successful)
+//                                                onResume()
+//                                            }
+//                                        }
+//                                    }
+//
+//
+//                                }, isCheckPassword = false).showPopupWindow()
+//                            } else {
+//                                showGuidePasswordTip(context)
+//                            }
+//                        }
+//                    }.showPopupWindow()
 
-
-                                }, isCheckPassword = false).showPopupWindow()
-                            } else {
-                                showGuidePasswordTip(context)
-                            }
+                    val payPopup = PaymentMethodPopup(requireContext())
+                    payPopup.setOnSelected {
+                        viewModel.createPayOrder("credit_activate").observe(viewLifecycleOwner) { data ->
+                            eLogD("payOrderData", toJson2(data))
+//                            payPopup.dismiss()
                         }
-                    }.showPopupWindow()
+
+                    }
+                    payPopup.showPopupWindow()
                 }
             }
         }

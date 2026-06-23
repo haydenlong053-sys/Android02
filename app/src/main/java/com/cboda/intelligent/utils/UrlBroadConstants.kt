@@ -198,4 +198,6 @@ object UrlBroadBroadConstants {
     const val CREDIT_CREDITCONSTITUTELIST = "api/credit/creditConstituteList" // 查询信用构成列表
     const val CREDIT_GETLOGPAGE = "api/credit/getLogPage" // 信用分记录分页
 
+    const val CREATE_LS_PAY_ORDER = "api/wallet/pay/prepare" // 链上支付创建支付单
+
 }
