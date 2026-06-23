@@ -4,9 +4,11 @@ import android.Manifest
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Outline
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
 import android.text.Editable
@@ -55,9 +57,22 @@ import java.io.FileOutputStream
 import java.math.BigDecimal
 import java.util.Random
 import java.util.UUID
+import kotlin.collections.isNotEmpty
 
 private val tAG by lazy { "ViewExpandUtilClass" }
 
+/**
+ * 拉起imToken并内置打开H5页面
+ * @param h5Url 你的支付/业务H5链接
+ */
+fun openH5InImToken(h5Url: String, context: Context? = null) {
+    // 1. 对H5链接进行URL编码
+    val encodeH5 = Uri.encode(h5Url)
+    // 2. 拼接imToken唤起协议
+    val scheme = "imtoken://dapp?url=$encodeH5"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(scheme))
+    getAppContext(context).startActivity(intent)
+}
 
 /**
  * 使用java正则表达式去掉多余的.与0

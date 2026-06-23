@@ -36,6 +36,7 @@ import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.utils.HttpsBroadConfig
+import com.cboda.baselibrary.utils.openH5InImToken
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
@@ -95,6 +96,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                         viewModel.createPayOrder("credit_activate").observe(viewLifecycleOwner) { data ->
                             eLogD("payOrderData", toJson2(data))
 //                            payPopup.dismiss()
+                            openH5InImToken("https://www.baidu.com", requireContext())
                         }
 
                     }
