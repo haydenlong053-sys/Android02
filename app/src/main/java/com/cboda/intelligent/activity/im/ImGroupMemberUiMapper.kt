@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity.im
 
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.freddy.im.group.GroupRole
+import com.freddy.im.http.model.im.GroupFriendBean
 import com.freddy.im.http.model.im.GroupUserVo
 
 object ImGroupMemberUiMapper {
@@ -20,6 +21,31 @@ object ImGroupMemberUiMapper {
         return members.mapNotNull { m ->
             if (m.userId.isNullOrEmpty()) null else toCommonBean(m)
         }
+    }
+
+    fun toCommonBean(friend: GroupFriendBean): CommonDataListBroadBean.CommonBean {
+        return CommonDataListBroadBean.CommonBean().apply {
+            id = friend.id
+            userId = friend.userId
+            name = friend.name
+            bei = friend.bei
+            icon = friend.icon
+            zimu = friend.zimu
+            sex = friend.sex
+            isvip = friend.isvip
+            isLiang = friend.isLiang
+            isZy = friend.isZy
+            idno = friend.idno
+        }
+    }
+
+    fun toCommonBeansFromGroupFriends(
+        friends: List<GroupFriendBean>?
+    ): ArrayList<CommonDataListBroadBean.CommonBean> {
+        if (friends.isNullOrEmpty()) return arrayListOf()
+        return friends.mapNotNull { friend ->
+            if (friend.userId.isNullOrEmpty()) null else toCommonBean(friend)
+        }.let { ArrayList(it) }
     }
 
     fun resolveMyRole(

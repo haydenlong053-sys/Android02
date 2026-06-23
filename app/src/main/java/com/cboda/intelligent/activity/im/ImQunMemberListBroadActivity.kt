@@ -1,6 +1,8 @@
 package com.cboda.intelligent.activity.im
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -21,13 +23,8 @@ import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.cboda.susindexbar.IndexBar.widget.IndexBar2
-import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
-import com.freddy.im.http.ImMessageHttpExample
-import com.freddy.im.http.model.im.BaseMsgResponse
-import com.freddy.im.http.model.im.GroupUserVo
-import com.freddy.im.http.model.im.UserInfoItem
-import com.freddy.im.http.model.im.UserInfoListRes
+import com.freddy.im.http.model.im.GroupFriendBean
 import com.freddy.im.listener.OnHttpImListener
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
@@ -53,6 +50,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var edtSousuo: EditText
     private var viewModel: CommViewBroadModel? = null
     private var pageNo = 1
+    private val searchHandler by lazy { Handler(Looper.getMainLooper()) }
+    private var searchRunnable: Runnable? = null
 
     override fun showBgTopTitleLayout(): Boolean = true
     override fun getLayoutId(): Int = R.layout.activity_xu_broad_an_ze_lian_xi_ren
@@ -107,16 +106,20 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         tvAgree.setOnClickListener { submit() }
         edtSousuo.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                loadData()
+                triggerSearch()
                 true
             } else false
         }
         edtSousuo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-            override fun afterTextChanged(s: Editable?) {
-                if (fromPage == "add") loadData()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+                if (fromPage != "add") return
+                searchRunnable = Runnable { triggerSearch() }.also { runnable ->
+                    searchHandler.postDelayed(runnable, 1500L)
+                }
             }
+            override fun afterTextChanged(s: Editable?) = Unit
         })
         viewModel?.chengyuanListLiveData?.observe(this) {
             smartLayout?.finishRefresh()
@@ -166,70 +169,96 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun loadData() {
-//        if (fromPage == "remove") {
-//            loadRemoveCandidates()
-//        } else if (fromPage == "add") {
-//            loadAddCandidates()
-//        }
-        loadAddCandidates()
+        if (fromPage == "add") {
+            loadAddGroupData()
+        } else {
+            loadCandidates()
+        }
     }
 
-    private fun loadRemoveCandidates() {
-        ImGroupHttpExample.requestGetAllMembers(qunId, object : OnHttpImListener<List<GroupUserVo>> {
-            override fun onHttpImSuccess(result: List<GroupUserVo>) {
+    private fun currentSearchKey(): String = edtSousuo.text?.toString()?.trim().orEmpty()
+
+    private fun triggerSearch() {
+        searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+        pageNo = 1
+        mDataList.clear()
+        mAdapter?.setList(mDataList)
+        checkCanGo()
+        loadData()
+    }
+
+    private fun loadAddGroupData() {
+        ImGroupHttpExample.requestGroupFriends(
+            qunId,
+            currentSearchKey(),
+            object : OnHttpImListener<List<GroupFriendBean>> {
+            override fun onHttpImSuccess(result: List<GroupFriendBean>) {
                 runOnUiThread {
+                    smartLayout.finishRefresh()
+                    smartLayout.finishLoadMore()
                     mDataList.clear()
-                    result.forEach { member ->
-                        val bean = ImGroupMemberUiMapper.toCommonBean(member)
-                        if (userType == "1" && member.role == GroupRole.OWNER) {
-                            bean.isZy = "1"
-                        } else if (userType == "2" && (member.role == GroupRole.OWNER || member.role == GroupRole.ADMIN)) {
-                            bean.isZy = "1"
-                        }
-                        if (member.role != GroupRole.OWNER) {
-                            mDataList.add(bean)
+                    val converted = ImGroupMemberUiMapper.toCommonBeansFromGroupFriends(result)
+                    val existingUserIds = hashSetOf<String>()
+                    val dedupedList = converted.filter { bean ->
+                        val userId = bean.userId
+                        !userId.isNullOrEmpty() && existingUserIds.add(userId)
+                    }
+                    val selectedIds = mDataList3.mapNotNull { it.userId }.toHashSet()
+                    dedupedList.forEach { bean ->
+                        if (bean.userId in selectedIds) {
+                            bean.isSelect = true
                         }
                     }
+                    mDataList.addAll(dedupedList)
+                    indexBar.setmSourceDatas(mDataList)
+                        .setHeaderViewCount(0)
+                        .invalidate()
                     mAdapter?.setList(mDataList)
+                    if (mDataList.isEmpty()) {
+                        mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
+                    }
+                    smartLayout.setEnableLoadMore(false)
                 }
             }
         }, null)
     }
 
-    private fun loadAddCandidates() {
-        var url = ""
-        var type = ""
-        when (fromPage) {
-            "zhuanshuhongbao" -> {
-                url = "/groupUserListPage"
-            }
+    private fun loadCandidates() {
 
-            "add" -> {
-                url = "/friendList"
-            }
+            var url = ""
+            var type = ""
+            when (fromPage) {
+                "zhuanshuhongbao" -> {
+                    url = "/groupUserListPage"
+                }
 
-            "remove" -> {
-                url = "/groupUserListPage"
-                type = "3"
-            }
+//                "add" -> {
+//                    url = "/friendList"
+//                }
 
-            "qunmanager" -> {
-                url = "/groupUserListPage"
-                type = "3"
-            }
+                "remove" -> {
+                    url = "/groupUserListPage"
+                    type = "3"
+                }
 
-            "qunyiyintonghua" -> {
-                url = "/groupUserListPage"
+                "qunmanager" -> {
+                    url = "/groupUserListPage"
+                    type = "3"
+                }
+
+                "qunyiyintonghua" -> {
+                    url = "/groupUserListPage"
+                }
             }
-        }
-        viewModel?.getQunMemberList(
-            this,
-            pageNo.toString(),
-            url,
-            qunId,
-            type,
-            edtSousuo?.text?.toString()?.trim() ?: ""
-        )
+            viewModel?.getQunMemberList(
+                this,
+                pageNo.toString(),
+                url,
+                qunId,
+                type,
+                currentSearchKey()
+            )
+
     }
 
     private fun updateYiXuan() {
@@ -260,6 +289,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     }
                 })
             }
+
             "add" -> {
                 ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
                     override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {

@@ -18,6 +18,7 @@ import com.freddy.im.http.api.GetGroupMemberListApi;
 import com.freddy.im.http.api.GetGroupNoticeApi;
 import com.freddy.im.http.api.GetGroupQrCodeApi;
 import com.freddy.im.http.api.GetSpecifyMembersApi;
+import com.freddy.im.http.api.GroupFriendsApi;
 import com.freddy.im.http.api.InviteInGroupApi;
 import com.freddy.im.http.api.KickOutGroupApi;
 import com.freddy.im.http.api.LeaveGroupApi;
@@ -27,6 +28,7 @@ import com.freddy.im.http.api.TransferGroupApi;
 import com.freddy.im.http.api.UpdateGroupNoticeApi;
 import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.freddy.im.http.model.im.GroupApplyInfoRes;
+import com.freddy.im.http.model.im.GroupFriendBean;
 import com.freddy.im.http.model.im.GroupListResp;
 import com.freddy.im.http.model.im.GroupMemberListContent;
 import com.freddy.im.http.model.im.GroupNoticeRes;
@@ -150,6 +152,22 @@ public final class ImGroupHttpExample {
                 .api(new AddGroupMembersApi().setGroupId(groupId).setMembers(members))
                 .request(postListener("addMembers", callback, onFail, true, GroupVo.class));
     }
+
+    public static void requestGroupFriends(@NonNull String groupId,
+                                           @Nullable String key,
+                                           @NonNull OnHttpImListener<List<GroupFriendBean>> callback,
+                                           @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new GroupFriendsApi().setGroupId(groupId).setId(groupId).setName(key).setKey(key))
+                .request(postListener("groupFriendList", callback, onFail, true, listOf(GroupFriendBean.class)));
+    }
+
 
     public static void requestModifyGroup(@NonNull String groupId,
                                           @Nullable String name,
