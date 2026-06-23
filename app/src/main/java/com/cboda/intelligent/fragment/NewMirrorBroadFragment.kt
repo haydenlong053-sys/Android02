@@ -36,6 +36,7 @@ import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.UserQrCodeTipBroadPop
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.utils.HttpsBroadConfig
+import com.cboda.baselibrary.utils.callMetaMaskWithEIP681
 import com.cboda.baselibrary.utils.openH5InImToken
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -96,7 +97,15 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                         viewModel.createPayOrder("credit_activate").observe(viewLifecycleOwner) { data ->
                             eLogD("payOrderData", toJson2(data))
 //                            payPopup.dismiss()
-                            openH5InImToken("https://www.baidu.com", requireContext())
+//                            openH5InImToken("https://www.baidu.com", requireContext())
+
+//                            val toAddress = "0x3C1CA9423bcf629B9adFDfb1a8a76C33A86AF4b2"
+//                            val chainId = "97" // 必须是整数
+//                            val value = "0x0"
+//                            val data = "0x6ec5caae00000000000000000000000000000000000000000000000000000000000000a000000000000000000000000066c77e0ebc459dbacc5157a5360604ebe12ba942000000000000000000000000000000000000000000000004c53ecdc18a6000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000133137383232323033393438353938323332373600000000000000000000000000"
+                            // 构建 URI (注意：data 字段非常长，部分钱包可能会截断)
+                            val ethereumUri = "ethereum:${data?.txParams?.to}@${anyToInt(data?.chainId)}?value=${data?.txParams?.value}&data=${data?.txParams?.data}"
+                            callMetaMaskWithEIP681(ethereumUri,requireContext())
                         }
 
                     }

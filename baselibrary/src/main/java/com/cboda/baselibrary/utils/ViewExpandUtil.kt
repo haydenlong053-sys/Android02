@@ -61,6 +61,20 @@ import kotlin.collections.isNotEmpty
 
 private val tAG by lazy { "ViewExpandUtilClass" }
 
+
+fun callMetaMaskWithEIP681(uriString: String, context: Context? = null) {
+
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uriString))
+    // 强制指定 MetaMask 包名，防止被其他钱包拦截
+    intent.setPackage("io.metamask")
+
+    // 添加 FLAG_ACTIVITY_NEW_TASK 防止在某些场景下崩溃
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+    getAppContext(context).startActivity(intent)
+
+}
+
 /**
  * 拉起imToken并内置打开H5页面
  * @param h5Url 你的支付/业务H5链接
