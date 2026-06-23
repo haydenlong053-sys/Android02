@@ -40,6 +40,7 @@ import com.blankj.utilcode.util.TimeUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.bean.ComBottomListBean
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.toast.ToastBroadUtils
@@ -60,6 +61,45 @@ import java.util.UUID
 import kotlin.collections.isNotEmpty
 
 private val tAG by lazy { "ViewExpandUtilClass" }
+
+
+fun callImTokenViaDeepLink(payBean: PayLsOrderBean, context: Context? = null) {
+    try {
+
+
+        // 2. 构建 Deep Link URI
+        // 推荐使用 imToken 官方协议，对长 data 支持更好
+        val uri = Uri.parse("imtokenv2://wallet/send")
+            .buildUpon()
+            .appendQueryParameter("to", payBean.txParams?.to)
+            .appendQueryParameter("value", payBean.txParams?.value)
+            .appendQueryParameter("data", payBean.txParams?.data)
+            .appendQueryParameter("chainId", anyToInt(payBean.chainId).toString())
+            .build()
+
+        /*
+         * 备选方案：使用 EIP-681 标准 (MetaMask/TrustWallet 等通用)
+         * val uri = Uri.parse("ethereum:$toAddress@$chainId?value=$value&data=$data")
+         */
+
+        // 3. 创建 Intent 并指定 imToken 包名
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setPackage("im.token.app") // imToken Android 版包名
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        getAppContext(context).startActivity(intent)
+        // 4. 检查并唤起
+//        if (intent.resolveActivity(context.packageManager) != null) {
+//            context.startActivity(intent)
+//        } else {
+//            Toast.makeText(context, "未安装 imToken，请先安装", Toast.LENGTH_SHORT).show()
+//            // 可选：跳转 imToken 下载页
+//            // context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://token.im/download")))
+//        }
+
+    } catch (e: Exception) {
+        e.toLog(tAG)
+    }
+}
 
 
 fun callMetaMaskWithEIP681(uriString: String, context: Context? = null) {
