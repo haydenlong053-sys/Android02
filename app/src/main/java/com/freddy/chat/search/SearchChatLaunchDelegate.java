@@ -16,4 +16,8 @@ public interface SearchChatLaunchDelegate {
                         @Nullable String displayName);
 
     void openGroupChat(@NonNull Fragment fragment, @NonNull SessionItem sessionItem);
+
+    void openChatAtMessage(@NonNull Fragment fragment,
+                           @NonNull SessionItem sessionItem,
+                           @NonNull String focusMsgId);
 }

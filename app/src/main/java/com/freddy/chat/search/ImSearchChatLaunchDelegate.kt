@@ -21,4 +21,14 @@ object ImSearchChatLaunchDelegate : SearchChatLaunchDelegate {
         JumpBroadUtils.startChatMsgActivity(sessionItem, fragment.activity)
         fragment.activity?.finish()
     }
+
+    override fun openChatAtMessage(
+        fragment: Fragment,
+        sessionItem: SessionItem,
+        focusMsgId: String
+    ) {
+        if (sessionItem.sessionId.isNullOrEmpty() || focusMsgId.isEmpty()) return
+        JumpBroadUtils.startChatMsgActivity(sessionItem, focusMsgId, fragment.activity)
+        fragment.activity?.finish()
+    }
 }

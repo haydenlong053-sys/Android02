@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.bean.ImConversationSearchResult;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.repository.ImGroupMemberRepository;
@@ -358,6 +359,75 @@ public final class ImLocalStore {
     @NonNull
     public static List<SessionItem> searchGroupSessionsByName(@Nullable String keyword) {
         return ImSessionRepository.getInstance().searchGroupSessionsByName(keyword);
+    }
+
+    /** 聊天记录搜索：每会话最近一条命中（Realm 本地，供搜索后台线程同步调用）。 */
+    @NonNull
+    public static List<ImConversationSearchResult> searchConversationsByMessageContent(
+            @Nullable String keyword) {
+        return ImMessageRepository.getInstance().searchConversationsByMessageContent(keyword);
+    }
+
+    /** 定位消息时加载：目标前一页 + 目标至最新消息（主线程回调）。 */
+    public static void loadMessagesForFocus(@Nullable String sessionId,
+                                            @Nullable String focusMsgId,
+                                            @NonNull OnFocusMessagesLoadCallback callback) {
+        ImDbExecutor.runRead(() -> {
+            List<AppMessage> messages;
+            boolean hasMore;
+            if (TextUtils.isEmpty(sessionId) || TextUtils.isEmpty(focusMsgId)) {
+                messages = loadMessages(sessionId);
+                hasMore = messages.size() >= MESSAGE_PAGE_SIZE;
+            } else {
+                AppMessage target = ImMessageRepository.getInstance().queryByMsgId(focusMsgId);
+                if (target == null || !sessionId.equals(target.getConversationId())) {
+                    messages = loadMessages(sessionId);
+                    hasMore = messages.size() >= MESSAGE_PAGE_SIZE;
+                } else {
+                    long targetSeq = target.getSequenceId();
+                    List<AppMessage> latestPage = ImMessageRepository.getInstance()
+                            .queryLatestPageBySessionId(sessionId, MESSAGE_PAGE_SIZE);
+                    if (containsMessageId(latestPage, focusMsgId)) {
+                        messages = latestPage;
+                        hasMore = !latestPage.isEmpty()
+                                && ImMessageRepository.getInstance().hasOlderMessages(
+                                sessionId, latestPage.get(0).getSequenceId());
+                    } else {
+                        List<AppMessage> older = ImMessageRepository.getInstance()
+                                .queryOlderPageBySessionId(sessionId, targetSeq, MESSAGE_PAGE_SIZE);
+                        List<AppMessage> fromTarget = ImMessageRepository.getInstance()
+                                .queryFromSequenceId(sessionId, targetSeq);
+                        messages = new ArrayList<>(older.size() + fromTarget.size());
+                        messages.addAll(older);
+                        messages.addAll(fromTarget);
+                        hasMore = !older.isEmpty()
+                                && ImMessageRepository.getInstance().hasOlderMessages(
+                                sessionId, older.get(0).getSequenceId());
+                    }
+                }
+            }
+            final List<AppMessage> result = messages;
+            final boolean more = hasMore;
+            MAIN_HANDLER.post(() -> callback.onLoaded(result, more));
+        });
+    }
+
+    private static boolean containsMessageId(@NonNull List<AppMessage> messages,
+                                             @NonNull String messageId) {
+        for (AppMessage message : messages) {
+            if (message == null) {
+                continue;
+            }
+            if (messageId.equals(message.getMsgId())
+                    || messageId.equals(message.getClientMsgId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public interface OnFocusMessagesLoadCallback {
+        void onLoaded(@NonNull List<AppMessage> messages, boolean hasMoreHistory);
     }
 
     // ---------- 群成员 ----------

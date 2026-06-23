@@ -173,7 +173,8 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
 
 
     private void attachMessageListFragment(@NonNull SessionItem sessionItem) {
-        messageListFragment = MessageListFragment.newInstance(sessionItem);
+        String focusMsgId = SessionItemIntent.getFocusMsgId(getIntent());
+        messageListFragment = MessageListFragment.newInstance(sessionItem, focusMsgId);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, messageListFragment)

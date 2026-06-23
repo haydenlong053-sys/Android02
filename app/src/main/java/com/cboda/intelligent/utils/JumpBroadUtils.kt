@@ -693,10 +693,18 @@ class JumpBroadUtils {
 
         //自研--进聊天页（内部通过session对象自己区分了单聊还是群里）
         fun startChatMsgActivity(sessionItem: SessionItem?, context: Context?) {
+            startChatMsgActivity(sessionItem, null, context)
+        }
+
+        fun startChatMsgActivity(
+            sessionItem: SessionItem?,
+            focusMsgId: String?,
+            context: Context?
+        ) {
             sessionItem?.let {
                 val mContext = getAppContext(context)
                 val intent = Intent(mContext, MessageListActivity::class.java)
-                SessionItemIntent.putSessionItem(intent, sessionItem)
+                SessionItemIntent.putSessionItem(intent, sessionItem, focusMsgId)
                 mContext.startActivity(intent)
             }
         }

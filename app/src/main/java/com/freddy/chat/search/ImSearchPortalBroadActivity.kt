@@ -3,6 +3,7 @@ package com.freddy.chat.search
 import androidx.fragment.app.Fragment
 import com.cboda.chatui.search.SearchBroadActivity2
 import com.cboda.chatui.search.SearchableBroadModule
+import com.freddy.chat.search.module.ImConversationSearchModule
 import com.freddy.chat.search.module.ImGroupSearchModule
 
 /**
@@ -12,6 +13,7 @@ class ImSearchPortalBroadActivity : SearchBroadActivity2() {
 
     override fun initSearchModule(modules: MutableList<SearchableBroadModule<*, *>>) {
         modules.add(ImGroupSearchModule())
+        modules.add(ImConversationSearchModule())
     }
 
     override fun onSearchFriendItemClick(

@@ -412,6 +412,23 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         return -1;
     }
 
+    public int findPositionByMessageId(@Nullable String messageId) {
+        if (TextUtils.isEmpty(messageId)) {
+            return -1;
+        }
+        int pos = indexOfMsgId(messageId);
+        if (pos >= 0) {
+            return pos;
+        }
+        for (int i = 0; i < items.size(); i++) {
+            AppMessage existing = items.get(i);
+            if (existing != null && messageId.equals(existing.getClientMsgId())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public int getItemViewType(int position) {
         AppMessage m = items.get(position);

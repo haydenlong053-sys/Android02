@@ -85,8 +85,14 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     @NonNull
     public static MessageListFragment newInstance(@NonNull SessionItem sessionItem) {
+        return newInstance(sessionItem, null);
+    }
+
+    @NonNull
+    public static MessageListFragment newInstance(@NonNull SessionItem sessionItem,
+                                                  @Nullable String focusMsgId) {
         MessageListFragment fragment = new MessageListFragment();
-        fragment.setArguments(SessionItemIntent.newArguments(sessionItem));
+        fragment.setArguments(SessionItemIntent.newArguments(sessionItem, focusMsgId));
         return fragment;
     }
 
@@ -104,6 +110,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private SessionItem sessionItem;
     private String peerUserId;
     private String sessionId;
+    @Nullable
+    private String focusMsgId;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshMessages;
@@ -130,6 +138,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 new ActivityResultContracts.OpenDocument(),
                 this::onFilePicked);
         sessionItem = SessionItemIntent.getSessionItem(getArguments());
+        focusMsgId = SessionItemIntent.getFocusMsgId(getArguments());
     }
 
     @Nullable
@@ -291,6 +300,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void loadLocalMessages() {
+        if (!TextUtils.isEmpty(focusMsgId)) {
+            loadMessagesForFocus(focusMsgId);
+            return;
+        }
         ImLocalStore.loadMessages(sessionId, cached -> {
             if (!isGroupChat) {
                 ImLocalStore.loadPeerReadUpToSeq(sessionId, peerSeq -> {
@@ -306,15 +319,48 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         });
     }
 
+    private void loadMessagesForFocus(@NonNull String msgId) {
+        ImLocalStore.loadMessagesForFocus(sessionId, msgId, (cached, hasMore) -> {
+            if (!isGroupChat) {
+                ImLocalStore.loadPeerReadUpToSeq(sessionId, peerSeq -> {
+                    if (peerSeq > 0) {
+                        adapter.getReadUiState().setPeerReadUpToSeq(peerSeq);
+                    }
+                    showLoadedMessages(cached, hasMore, msgId);
+                });
+                return;
+            }
+            adapter.getReadUiState().seedFromMessages(cached);
+            showLoadedMessages(cached, hasMore, msgId);
+        });
+    }
+
     private void showLoadedMessages(@NonNull List<AppMessage> cached) {
-        hasMoreHistory = cached.size() >= ImLocalStore.MESSAGE_PAGE_SIZE;
+        showLoadedMessages(cached, cached.size() >= ImLocalStore.MESSAGE_PAGE_SIZE, null);
+    }
+
+    private void showLoadedMessages(@NonNull List<AppMessage> cached,
+                                    boolean hasMore,
+                                    @Nullable String scrollToMsgId) {
+        hasMoreHistory = hasMore;
         updateSwipeRefreshEnabled();
         if (!cached.isEmpty()) {
             adapter.appendMessages(cached);
-            if (adapter.getItemCount() > 0) {
+            if (!TextUtils.isEmpty(scrollToMsgId)) {
+                scrollToMessage(scrollToMsgId);
+            } else if (adapter.getItemCount() > 0) {
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             }
         }
+    }
+
+    private void scrollToMessage(@NonNull String msgId) {
+        recyclerView.post(() -> {
+            int pos = adapter.findPositionByMessageId(msgId);
+            if (pos >= 0) {
+                recyclerView.scrollToPosition(pos);
+            }
+        });
     }
 
     private void setupDismissPanelOnListTouch() {

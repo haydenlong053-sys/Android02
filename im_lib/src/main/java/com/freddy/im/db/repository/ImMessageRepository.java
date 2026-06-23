@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.IMSConfig;
+import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.bean.ImConversationSearchResult;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.SessionLastMessageSync;
 import com.freddy.im.db.SessionSyncCursor;
@@ -14,16 +16,22 @@ import com.freddy.im.db.ImRealm;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.mapper.MessageRealmMapper;
+import com.freddy.im.db.mapper.SessionRealmMapper;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -35,6 +43,11 @@ public final class ImMessageRepository {
 
     /** 消息列表单页条数（与 {@link com.freddy.im.db.ImLocalStore#MESSAGE_PAGE_SIZE} 对齐） */
     public static final int DEFAULT_MESSAGE_PAGE_SIZE = 30;
+
+    /** 搜索定位后，从目标消息向最新加载的上限（含目标本身） */
+    public static final int FOCUS_FORWARD_MESSAGE_MAX = 1000;
+
+    private static final int SEARCH_MESSAGE_MAX_MATCHES = 30;
 
     private static final ImMessageRepository INSTANCE = new ImMessageRepository();
 
@@ -641,5 +654,168 @@ public final class ImMessageRepository {
                 }
             }
         });
+    }
+
+    /**
+     * 按文本消息 {@code content} 模糊搜索，最多取 {@link #SEARCH_MESSAGE_MAX_MATCHES} 条最近命中；
+     * 每个会话返回最近一条命中（结果按命中时间降序）。
+     */
+    @NonNull
+    public List<ImConversationSearchResult> searchConversationsByMessageContent(
+            @Nullable String keyword) {
+        if (TextUtils.isEmpty(keyword) || !ImRealm.isUserBound()) {
+            return Collections.emptyList();
+        }
+        String trimmed = keyword.trim();
+        if (trimmed.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            RealmResults<MessageEntity> results = realm.where(MessageEntity.class)
+                    .equalTo("msgContentType", MessageType.MessageContentType.TEXT.getMsgContentType())
+                    .notEqualTo("msgType", MessageContentFormatter.API_MSG_TYPE_SYSTEM)
+                    .contains("content", trimmed, Case.INSENSITIVE)
+                    .sort("sequenceId", Sort.DESCENDING)
+                    .limit(SEARCH_MESSAGE_MAX_MATCHES)
+                    .findAll();
+            Map<String, ImConversationSearchResult> map = new LinkedHashMap<>();
+            for (MessageEntity entity : results) {
+                String sessionId = entity.getSessionId();
+                if (TextUtils.isEmpty(sessionId)) {
+                    continue;
+                }
+                ImConversationSearchResult existing = map.get(sessionId);
+                if (existing != null) {
+                    existing.matchedCount++;
+                    continue;
+                }
+                ImConversationSearchResult result = new ImConversationSearchResult();
+                result.latestMatchedMessage = MessageRealmMapper.toAppMessage(
+                        realm.copyFromRealm(entity));
+                result.matchedCount = 1;
+                map.put(sessionId, result);
+            }
+            if (map.isEmpty()) {
+                return Collections.emptyList();
+            }
+            String[] sessionIds = map.keySet().toArray(new String[0]);
+            RealmResults<SessionEntity> sessionEntities = realm.where(SessionEntity.class)
+                    .in("sessionId", sessionIds)
+                    .findAll();
+            Map<String, SessionItem> sessionById = new HashMap<>(sessionEntities.size());
+            for (SessionEntity sessionEntity : sessionEntities) {
+                sessionById.put(sessionEntity.getSessionId(),
+                        SessionRealmMapper.toSessionItem(realm.copyFromRealm(sessionEntity)));
+            }
+            for (Map.Entry<String, ImConversationSearchResult> entry : map.entrySet()) {
+                String sessionId = entry.getKey();
+                ImConversationSearchResult result = entry.getValue();
+                SessionItem session = sessionById.get(sessionId);
+                if (session == null) {
+                    session = new SessionItem();
+                    session.setSessionId(sessionId);
+                    AppMessage latest = result.latestMatchedMessage;
+                    if (latest != null) {
+                        session.setConversation(latest.getConversationType());
+                    }
+                }
+                result.sessionItem = session;
+            }
+            return new ArrayList<>(map.values());
+        } finally {
+            realm.close();
+        }
+    }
+
+    @Nullable
+    public AppMessage queryByMsgId(@Nullable String msgId) {
+        if (TextUtils.isEmpty(msgId) || !ImRealm.isUserBound()) {
+            return null;
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            MessageEntity entity = realm.where(MessageEntity.class)
+                    .equalTo("msgId", msgId)
+                    .findFirst();
+            if (entity == null) {
+                entity = realm.where(MessageEntity.class)
+                        .equalTo("clientMsgId", msgId)
+                        .findFirst();
+            }
+            return entity != null
+                    ? MessageRealmMapper.toAppMessage(realm.copyFromRealm(entity)) : null;
+        } finally {
+            realm.close();
+        }
+    }
+
+    @NonNull
+    public List<AppMessage> queryFromSequenceId(@Nullable String sessionId, long sequenceId) {
+        return queryFromSequenceId(sessionId, sequenceId, FOCUS_FORWARD_MESSAGE_MAX);
+    }
+
+    /**
+     * 从 {@code sequenceId} 起向最新加载（升序），最多 {@code limit} 条（含起点消息）。
+     */
+    @NonNull
+    public List<AppMessage> queryFromSequenceId(@Nullable String sessionId,
+                                                long sequenceId,
+                                                int limit) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound() || limit <= 0) {
+            return Collections.emptyList();
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            RealmResults<MessageEntity> results = realm.where(MessageEntity.class)
+                    .equalTo("sessionId", sessionId)
+                    .greaterThanOrEqualTo("sequenceId", sequenceId)
+                    .sort("sequenceId", Sort.ASCENDING)
+                    .limit(limit)
+                    .findAll();
+            List<AppMessage> list = new ArrayList<>(results.size());
+            for (MessageEntity entity : results) {
+                list.add(MessageRealmMapper.toAppMessage(realm.copyFromRealm(entity)));
+            }
+            return list;
+        } finally {
+            realm.close();
+        }
+    }
+
+    @NonNull
+    public List<AppMessage> queryPageUpToSequenceId(@Nullable String sessionId,
+                                                    long sequenceId,
+                                                    int limit) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound() || limit <= 0) {
+            return Collections.emptyList();
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            RealmResults<MessageEntity> results = realm.where(MessageEntity.class)
+                    .equalTo("sessionId", sessionId)
+                    .lessThanOrEqualTo("sequenceId", sequenceId)
+                    .sort("sequenceId", Sort.DESCENDING)
+                    .limit(limit)
+                    .findAll();
+            return toAscendingAppMessages(realm, results);
+        } finally {
+            realm.close();
+        }
+    }
+
+    public boolean hasOlderMessages(@Nullable String sessionId, long boundarySequenceId) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+            return false;
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            return realm.where(MessageEntity.class)
+                    .equalTo("sessionId", sessionId)
+                    .lessThan("sequenceId", boundarySequenceId)
+                    .count() > 0;
+        } finally {
+            realm.close();
+        }
     }
 }
