@@ -109,7 +109,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 //                        }
 //                    }.showPopupWindow()
 //                    if (payLsOrderBean == null) {
-                    viewModel.createPayOrder("credit_activate", true, true).observe(viewLifecycleOwner) { data ->
+                    viewModel.createPayOrder(true, true).observe(viewLifecycleOwner) { data ->
 //                            eLogD("payOrderData", toJson2(data))
                         payLsOrderBean = data
                         showSelectPayMethod("")

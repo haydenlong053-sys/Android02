@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 
-class NewMirrorViewBroadModel : BaseViewBroadModel() {
+open class NewMirrorViewBroadModel : BaseViewBroadModel() {
 
 
     fun checkOrder(orderId: String?, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PriceConversion?> {
@@ -125,9 +125,9 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
         return liveData
     }
 
-    fun createPayOrder(scene: String, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {
+    fun createPayOrder( haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {
         val liveData = SingleLiveBroadData<PayLsOrderBean>()
-        val params = hashMapOf<String, Any?>("scene" to scene)
+        val params = hashMapOf<String, Any?>("scene" to "credit_activate")
         if (haveLoading) {
             showLoading()
         }
