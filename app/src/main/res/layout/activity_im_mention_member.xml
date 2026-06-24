@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true"
+    android:background="@color/bg_main"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white" />
+        android:layout_height="60dp"
+        android:gravity="center_vertical">
+
+        <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="23dp"
+            app:shapeCornersRadius="20dp"
+            app:shapeSolidColor="@color/color_input_bg">
+
+            <EditText
+                android:id="@+id/edtSousuo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableLeft="@mipmap/ic_broad_search2"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/sousuonichengbeizhu"
+                android:imeOptions="actionSearch"
+                android:paddingStart="20dp"
+                android:singleLine="true"
+                android:textColor="@color/color_text0"
+                android:textColorHint="@color/color_text0"
+                android:textSize="13sp" />
+
+        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_members"

@@ -29,7 +29,7 @@ public final class ImMentionHelper {
     @NonNull
     public static SpannableString buildMentionAllSpannable(@NonNull Context context) {
         String label = context.getString(com.cboda.chatui.R.string.msg_mention_all).trim();
-        String text = "@" + label;
+        String text = "@" + label+" ";
         SpannableString spannable = new SpannableString(text);
         spannable.setSpan(new MentionBroadSpan(true), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannable;
