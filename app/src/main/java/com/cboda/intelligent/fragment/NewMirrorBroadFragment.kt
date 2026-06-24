@@ -68,7 +68,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 
     private var userInfo: UserInfoBean? = null
     private var payLsOrderBean: PayLsOrderBean? = null
-    private var canPay = true
+    private var canPay = false
 
     //    private var bigDecimal1: BigDecimal? = null
     override fun initListener() {
@@ -131,6 +131,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                             if (data?.success == true) {
                                 viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(viewLifecycleOwner) { isSuccess ->
                                     if (isSuccess) {
+                                        canPay = false
                                         userInfo?.gradeStatus = "1"
                                         JumpBroadUtils.startCreditScoreActivity(requireContext())
                                     }
@@ -171,33 +172,56 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 
 
     private fun checkOrder() {
-        if (canPay) {
+        if (canPay && payLsOrderBean != null) {
             if (anyToInt(userInfo?.gradeStatus) != 1) {
                 viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(viewLifecycleOwner) { data ->
                     if (data?.success == true) {
                         viewModel.goOpenCredit(payLsOrderBean?.orderId, false, false).observe(viewLifecycleOwner) { isSuccess ->
                             if (isSuccess) {
+                                canPay = false
                                 userInfo?.gradeStatus = "1"
                                 JumpBroadUtils.startCreditScoreActivity(requireContext())
                             }
                         }
                     } else {
-                        showCommonStrTip("订单支付", "该订单是否支付成功？", "取消支付", "支付成功", requireContext()) {
-
+                        dismissLoading()
+                        showCommonStrTip("订单支付", "该订单是否支付成功？", "取消支付", "支付成功", requireContext(), isOutSideTouchable = false) { toCheck ->
+                            if (toCheck) {
+                                viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(viewLifecycleOwner) { data ->
+                                    if (data?.success == true) {
+                                        viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(viewLifecycleOwner) { isSuccess ->
+                                            if (isSuccess) {
+                                                canPay = false
+                                                userInfo?.gradeStatus = "1"
+                                                JumpBroadUtils.startCreditScoreActivity(requireContext())
+                                            }
+                                        }
+                                    } else {
+                                        dismissLoading()
+                                        showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", requireContext(), isOutSideTouchable = false) { toCheck2 ->
+                                            if (toCheck2) {
+                                                val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
+                                                if (TextUtils.isEmpty(getPrice2)) {
+                                                    viewModel.getActivatePrice(true, true).observe(viewLifecycleOwner) { getPrice1 ->
+                                                        if (getPrice1 == null) {
+                                                            showToastMain("金额获取失败，请稍后再试")
+                                                        } else {
+                                                            showSelectPayMethod(getPrice1)
+                                                        }
+                                                    }
+                                                } else {
+                                                    showSelectPayMethod(getPrice2)
+                                                }
+                                            } else {
+                                                canPay = false
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                canPay = false
+                            }
                         }
-//                        val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
-//                        if (TextUtils.isEmpty(getPrice2)) {
-//                            viewModel.getActivatePrice(false, true).observe(viewLifecycleOwner) { getPrice1 ->
-//                                if (getPrice1 == null) {
-//                                    showToastMain("金额获取失败，请稍后再试")
-//                                } else {
-//                                    showSelectPayMethod(getPrice1)
-//                                }
-//                            }
-//                        } else {
-//                            dismissLoading()
-//                            showSelectPayMethod(getPrice2)
-//                        }
                     }
                 }
             }
@@ -208,6 +232,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
     private fun showSelectPayMethod(price: String) {
         val payPopup = PaymentMethodPopup(requireContext())
         payPopup.setOnSelected {
+            canPay = true
             openData(payLsOrderBean, it, price)
             payPopup.dismiss()
         }
@@ -249,6 +274,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             binding.mTvMirrorSign.text = if (it) getString(R.string.已签到) else getString(R.string.签到)
         }
         getUserInfo()
+        checkOrder()
     }
 
     @SuppressLint("SetTextI18n")

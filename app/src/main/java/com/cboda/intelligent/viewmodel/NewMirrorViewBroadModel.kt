@@ -45,6 +45,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
+                    val priceConversion = PriceConversion()
                     val result = NetworkBroadRepository.postEncrypted(
                         UrlBroadBroadConstants.SELECT_ORDER,
                         PriceConversion::class.java, params
@@ -58,12 +59,16 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                         if (closeLoading) {
                             dismissLoading()
                         }
-                        showToastMain(message)
+                        priceConversion.priceOdic = message
+                        liveData.postValue(priceConversion)
+//                        showToastMain(message)
                     }.onError { error ->
+                        priceConversion.priceOdic = error.message ?: ""
                         if (closeLoading) {
                             dismissLoading()
                         }
-                        showToastMain("${error.message}")
+//                        showToastMain("${error.message}")
+                        liveData.postValue(priceConversion)
                     }
                 } catch (_: Exception) {
                     if (closeLoading) {
@@ -166,7 +171,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
      */
     fun goOpenCredit(orderId: String?, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<Boolean> {
         val mLiveData = SingleLiveBroadData<Boolean>()
-        val params = hashMapOf<String, Any?>("orderId" to orderId)
+        val params = hashMapOf<String, Any?>("orderId" to orderId, "payType" to "chain")
         if (haveLoading) {
             showLoading()
         }

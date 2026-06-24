@@ -1335,7 +1335,7 @@ fun showCommonTip(
         title, content, cancelBtn, sureBtn,
         R.color.white, R.color.white, R.color.black, R.color.black_65,
         R.color.color_3B47DDk, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD,
-        R.color.white, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD,
+        R.color.white, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD, true,
         mContext, block
     )
 }
@@ -1350,13 +1350,14 @@ fun showCommonTip(
     cancelStrokeColor: Int, sureStrokeColor: Int,
     cancelStartColor: Int, cancelEndColor: Int,
     sureStartColor: Int, sureEndColor: Int,
+    isOutSideTouchable: Boolean = true,
     context: Context? = null,
     block: (Boolean) -> Unit
 ): CommonTipBroadPop {
     val mContext = getAppContext(context)
     return showCommonStrTip(
         getAppStr(title, mContext), getAppStr(content, mContext), getAppStr(cancelBtn, mContext), getAppStr(sureBtn, mContext), mContext,
-        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor, block
+        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor, isOutSideTouchable, block
     )
 }
 
@@ -1365,14 +1366,14 @@ fun showCommonStrTip(
     titleColor: Int = R.color.black, contentColor: Int = R.color.black_65, cancelTvColor: Int = R.color.color_3B47DDk, sureTvColor: Int = R.color.white,
     cancelStrokeColor: Int = R.color.color_3B47DD, sureStrokeColor: Int = R.color.color_3B47DD,
     cancelStartColor: Int = R.color.white, cancelEndColor: Int = R.color.white,
-    sureStartColor: Int = R.color.color_3B47DD, sureEndColor: Int = R.color.color_3B47DD, block: (Boolean) -> Unit
+    sureStartColor: Int = R.color.color_3B47DD, sureEndColor: Int = R.color.color_3B47DD, isOutSideTouchable: Boolean = true, block: (Boolean) -> Unit
 ): CommonTipBroadPop {
     val mContext = getAppContext(context)
     val commonTipPop = CommonTipBroadPop(
         mContext,
         title,
         content,
-        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor
+        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor, isOutSideTouchable
     )
     commonTipPop.setCancelBtn(cancelBtn)
     commonTipPop.setSureBtn(sureBtn)
