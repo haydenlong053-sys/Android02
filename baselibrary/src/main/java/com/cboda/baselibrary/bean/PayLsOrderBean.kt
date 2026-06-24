@@ -30,8 +30,7 @@ class PriceConversion : Serializable {
 }
 
 class CreateGroupData : Serializable {
-    var groupId = ""//群 ID
-    var roomName = ""//会议室名称
-    var meetingTime = ""//时长（分钟），如 "30"
-    var meetingMaxUsers = ""//人数档位值，如 "100"
+    var groupIdNo = ""//群 ID
+    var durationConfigId=""//时长ID
+    var userTierConfigId=""//人数ID
 }

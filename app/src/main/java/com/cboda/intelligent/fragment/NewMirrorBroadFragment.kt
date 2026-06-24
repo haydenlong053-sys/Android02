@@ -88,31 +88,13 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 if (anyToInt(userInfo?.gradeStatus) == 1) {
                     JumpBroadUtils.startCreditScoreActivity(requireContext())
                 } else {
-//                    CreditScoreActivateBroadPop(requireContext()).apply {
-//                        sureInvoke = {
-//                            if (anyToInt(userInfo?.hasPayPwd) == 1) {
-//                                PasswordPricedPop(context = requireContext(), priceStr = userInfo?.gradePrice ?: "", backInvoke = { password ->
-//                                    lifecycleScope.launch {
-//                                        viewModel.goOpenCredit(password).observe(viewLifecycleOwner) { bool ->
-//                                            if (bool) {
-//                                                showToastMain(com.cboda.baselibrary.R.string.activation_successful)
-//                                                onResume()
-//                                            }
-//                                        }
-//                                    }
-//
-//
-//                                }, isCheckPassword = false).showPopupWindow()
-//                            } else {
-//                                showGuidePasswordTip(context)
-//                            }
-//                        }
-//                    }.showPopupWindow()
-//                    if (payLsOrderBean == null) {
-                    viewModel.createPayOrder(true, true).observe(viewLifecycleOwner) { data ->
+                    CreditScoreActivateBroadPop(requireContext()).apply {
+                        sureInvoke = {
+                            //                    if (payLsOrderBean == null) {
+                            viewModel.createPayOrder(true, true).observe(viewLifecycleOwner) { data ->
 //                            eLogD("payOrderData", toJson2(data))
-                        payLsOrderBean = data
-                        showSelectPayMethod("")
+                                payLsOrderBean = data
+                                showSelectPayMethod("")
 //                        if (payLsOrderBean == null) {
 //                            viewModel.getActivatePrice(false, true).observe(viewLifecycleOwner) { getPrice1 ->
 //                                payLsOrderBean = data
@@ -144,7 +126,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 //                                showSelectPayMethod(getPrice2)
 //                            }
 //                        }
-                    }
+                            }
 //                    } else {
 //                        viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(viewLifecycleOwner) { data ->
 //                            if (data?.success == true) {
@@ -173,6 +155,8 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 //                            }
 //                        }
 //                    }
+                        }
+                    }.showPopupWindow()
                 }
             }
         }
