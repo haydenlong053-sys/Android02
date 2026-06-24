@@ -34,7 +34,7 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
 
     fun createPayOrder(scene: String): SingleLiveBroadData<PayLsOrderBean?> {
         val liveData = SingleLiveBroadData<PayLsOrderBean?>()
-        val params = hashMapOf<String, Any?>("scene" to scene, "chainId" to "97")
+        val params = hashMapOf<String, Any?>("scene" to scene)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {

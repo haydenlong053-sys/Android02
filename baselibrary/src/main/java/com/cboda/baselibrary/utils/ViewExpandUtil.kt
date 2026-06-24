@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Outline
 import android.graphics.Typeface
@@ -57,6 +56,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.math.BigDecimal
 import java.util.Random
+import org.json.JSONObject
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.UUID
 import kotlin.collections.isNotEmpty
 
@@ -131,17 +133,75 @@ fun callMetaMaskWithEIP681(uriString: String, context: Context? = null) {
 
 
 /**
- * 拉起TokenPocket，内置浏览器加载业务H5
- * @param h5Url 支付/会员H5页面地址
- * @param chainId BSC测试网97 / BSC主网56
+ * 拉起 TokenPocket 内置 DApp 浏览器打开 H5。
+ * 官方格式：tpdapp://open?params={url,chain,source}，params 需 URLEncoder 编码。
+ * @see https://help.tokenpocket.pro/developer-en/wallet/pull-up-wallet-with-deeplink
  */
-fun openH5InTokenPocket(h5Url: String,context: Context? = null) {
-    // 1. 编码H5链接
-    val encodeUrl = Uri.encode(h5Url)
-    // 拼接TP DApp唤起scheme
-    val tpScheme = "tpdapp://open?url=$encodeUrl"
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tpScheme))
-    getAppContext(context).startActivity(intent)
+fun openH5InTokenPocket(h5Url: String, context: Context? = null, chainId: Int = 97) {
+    if (h5Url.isBlank()) {
+        ToastBroadUtils.show("支付链接为空")
+        return
+    }
+    val appContext = getAppContext(context)
+    val paramsJson = JSONObject().apply {
+        put("url", h5Url)
+        put("chain", resolveTokenPocketDappChain(chainId))
+        put("source", "SeekeWeb4X")
+    }.toString()
+    val encodedParams = URLEncoder.encode(paramsJson, StandardCharsets.UTF_8.name())
+    val encodedUrl = Uri.encode(h5Url)
+    val deepLinks = listOf(
+        "tpdapp://open?params=$encodedParams",
+        "tpdapp://open?url=$encodedUrl",
+    )
+    for (link in deepLinks) {
+        try {
+            val intentWithoutPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (launchTokenPocketIntent(appContext, intentWithoutPackage)) {
+                eLogD(tAG, "openH5InTokenPocket success link=$link params=$paramsJson")
+                return
+            }
+            val intentWithPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                setPackage(TOKEN_POCKET_PACKAGE)
+            }
+            if (launchTokenPocketIntent(appContext, intentWithPackage)) {
+                eLogD(tAG, "openH5InTokenPocket success with package link=$link")
+                return
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG)
+        }
+    }
+    ToastBroadUtils.show("无法打开 TokenPocket，请确认已安装最新版")
+}
+
+private const val TOKEN_POCKET_PACKAGE = "vip.mytokenpocket"
+
+private fun resolveTokenPocketDappChain(chainId: Int): String {
+    return when (chainId) {
+        1 -> "ETH"
+        56, 97 -> "BSC"
+        137 -> "POLYGON"
+        42161 -> "ARBITRUM"
+        10 -> "OPTIMISM"
+        else -> "BSC"
+    }
+}
+
+private fun launchTokenPocketIntent(context: Context, intent: Intent): Boolean {
+    return try {
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+            true
+        } else {
+            false
+        }
+    } catch (_: Exception) {
+        false
+    }
 }
 
 

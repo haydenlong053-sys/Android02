@@ -135,25 +135,21 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
     }
 
     private fun openData(data: PayLsOrderBean?, paymentMethod: PaymentMethodBroadBean) {
-        val h5Url = "https://pay.web4x.io/pay?amountDisplay=${data?.amountDisplay}" +
-                "&chainId=${anyToInt(data?.chainId)}" +
-                "&orderId=${data?.orderId}" +
-                "&tokenSymbol=ODIC"
-//                            https://pay.web4x.io/pay?amountDisplay=88&chainId=97.0&orderId=1782208107617984944&tokenSymbol=ODIC
+        if (data == null) {
+            ToastBroadUtils.show("订单数据为空")
+            return
+        }
+//        val tokenSymbol = data.tokenSymbol.ifBlank { "ODIC" }
+        val chainId = anyToInt(data.chainId)
+        val h5Url = "https://pay.web4x.io/pay?amountDisplay=${data.amountDisplay}" +
+                "&chainId=$chainId" +
+                "&orderId=${data.orderId}" +
+                "&tokenSymbol=ODIC&paymentType=2"
         eLogD("payOrderData_h5Url", h5Url)
         when (paymentMethod.id) {
-            IM_TOKEN -> {
-                openH5InImToken(h5Url, requireContext())
-            }
-
-            TP -> {
-                openH5InTokenPocket(h5Url, requireContext())
-            }
-
-
+            IM_TOKEN -> openH5InImToken(h5Url, requireContext())
+            TP -> openH5InTokenPocket(h5Url, requireContext(), chainId)
         }
-
-
     }
 
     private val userInfoClick = object : OnSingleClickBroadListener() {

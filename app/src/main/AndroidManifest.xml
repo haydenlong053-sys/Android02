@@ -159,6 +159,10 @@
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="tpoutside" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tpdapp" />
+        </intent>
     </queries>
 
     <application

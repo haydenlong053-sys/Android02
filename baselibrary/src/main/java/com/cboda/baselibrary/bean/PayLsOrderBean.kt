@@ -8,6 +8,7 @@ class PayLsOrderBean : Serializable {
     var orderId: String = ""
     var tokenSymbol: String = ""
     var wcUri: String = ""
+    var paymentType: String = "2"
     var txParams: PayLsOrderTxParams? = null
 
     class PayLsOrderTxParams : Serializable {
