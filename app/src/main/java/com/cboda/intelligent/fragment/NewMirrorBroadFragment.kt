@@ -99,25 +99,28 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 //                            }
 //                        }
 //                    }.showPopupWindow()
-                    if (payLsOrderBean == null) {
-                        viewModel.createPayOrder("credit_activate").observe(viewLifecycleOwner) { data ->
-                            eLogD("payOrderData", toJson2(data))
-                            payLsOrderBean = data
-                            val payPopup = PaymentMethodPopup(requireContext())
-                            payPopup.setOnSelected {
-                                openData(data, it)
-                                payPopup.dismiss()
-                            }
-                            payPopup.showPopupWindow()
-                        }
-                    } else {
-                        val payPopup = PaymentMethodPopup(requireContext())
-                        payPopup.setOnSelected {
-                            openData(payLsOrderBean, it)
-                            payPopup.dismiss()
-                        }
-                        payPopup.showPopupWindow()
+                    viewModel.getActivatePrice().observe(viewLifecycleOwner) { data ->
+                        eLogD("getActivatePriceData", toJson2(data))
                     }
+//                    if (payLsOrderBean == null) {
+//                        viewModel.createPayOrder("credit_activate").observe(viewLifecycleOwner) { data ->
+//                            eLogD("payOrderData", toJson2(data))
+//                            payLsOrderBean = data
+//                            val payPopup = PaymentMethodPopup(requireContext())
+//                            payPopup.setOnSelected {
+//                                openData(data, it)
+//                                payPopup.dismiss()
+//                            }
+//                            payPopup.showPopupWindow()
+//                        }
+//                    } else {
+//                        val payPopup = PaymentMethodPopup(requireContext())
+//                        payPopup.setOnSelected {
+//                            openData(payLsOrderBean, it)
+//                            payPopup.dismiss()
+//                        }
+//                        payPopup.showPopupWindow()
+//                    }
                 }
             }
         }
@@ -137,7 +140,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 
     private fun openData(data: PayLsOrderBean?, paymentMethod: PaymentMethodBroadBean) {
         if (data == null) {
-            ToastBroadUtils.show("订单数据为空")
+            showToastMain("订单数据为空")
             return
         }
 //        val tokenSymbol = data.tokenSymbol.ifBlank { "ODIC" }

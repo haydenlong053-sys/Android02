@@ -4,6 +4,7 @@ import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.PayLsOrderBean
+import com.cboda.baselibrary.bean.PriceConversion
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -32,6 +33,30 @@ import kotlinx.coroutines.withContext
 class NewMirrorViewBroadModel : BaseViewBroadModel() {
 
 
+    fun getActivatePrice(): SingleLiveBroadData<PriceConversion?> {
+        val liveData = SingleLiveBroadData<PriceConversion?>()
+        val params = hashMapOf<String, Any?>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.GET_ACTIVATE_PRICE,
+                        PriceConversion::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        liveData.postValue(data)
+                    }.onFailure { _, _ ->
+
+                    }.onError { _ ->
+
+                    }
+                } catch (_: Exception) {
+
+                }
+            }
+        }
+        return liveData
+    }
     fun createPayOrder(scene: String): SingleLiveBroadData<PayLsOrderBean?> {
         val liveData = SingleLiveBroadData<PayLsOrderBean?>()
         val params = hashMapOf<String, Any?>("scene" to scene)

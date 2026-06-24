@@ -200,4 +200,8 @@ object UrlBroadBroadConstants {
 
     const val CREATE_LS_PAY_ORDER = "api/wallet/pay/prepare" // 链上支付创建支付单
 
+
+    const val GET_ACTIVATE_PRICE = "api/credit/getActivatePrice" // 信用分价格汇率
+
+
 }

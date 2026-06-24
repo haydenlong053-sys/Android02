@@ -20,3 +20,8 @@ class PayLsOrderBean : Serializable {
         var value: String = ""
     }
 }
+
+class PriceConversion : Serializable {
+    var priceOdic: Double = 0.0
+    var priceUsdt: Double = 0.0
+}
