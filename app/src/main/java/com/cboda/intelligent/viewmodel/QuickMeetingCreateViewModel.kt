@@ -3,9 +3,16 @@ package com.cboda.intelligent.viewmodel
 import androidx.lifecycle.viewModelScope
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.bean.CreateGroupData
+import com.cboda.baselibrary.bean.PayLsOrderBean
+import com.cboda.baselibrary.bean.PriceConversion
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_ODIC
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.intelligent.model.CreateMeetingRequest
@@ -15,10 +22,17 @@ import com.cboda.intelligent.model.TimeOption
 import com.cboda.intelligent.model.UserTierBroadOption
 import com.cboda.intelligent.model.PaymentPasswordVerifyRequest
 import com.cboda.intelligent.repository.QuickMeetingRepository
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.cboda.intelligent.utils.dismissLoading
+import com.cboda.intelligent.utils.showLoading
+import com.cboda.intelligent.utils.showToastMain
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -226,6 +240,137 @@ class QuickMeetingCreateViewModel(
 
         // 验证通过，继续检查支付密码状态
         checkPaymentPasswordStatus(onError, onSuccessInvoke)
+    }
+
+
+    fun checkOrder(orderId: String?, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PriceConversion?> {
+        val liveData = SingleLiveBroadData<PriceConversion?>()
+        val params = hashMapOf<String, Any?>("orderId" to orderId)
+        if (haveLoading) {
+            showLoading()
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val priceConversion = PriceConversion()
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.SELECT_ORDER,
+                        PriceConversion::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        liveData.postValue(data)
+                    }.onFailure { _, message ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        priceConversion.priceOdic = message
+                        liveData.postValue(priceConversion)
+//                        showToastMain(message)
+                    }.onError { error ->
+                        priceConversion.priceOdic = error.message ?: ""
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+//                        showToastMain("${error.message}")
+                        liveData.postValue(priceConversion)
+                    }
+                } catch (_: Exception) {
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun getActivatePrice(haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<String?> {
+        val liveData = SingleLiveBroadData<String?>()
+        val params = hashMapOf<String, Any?>("amount" to "1")
+        if (haveLoading) {
+            showLoading()
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.GET_ACTIVATE_PRICE,
+                        PriceConversion::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        val bigDecimal = BigDecimal(data?.priceOdic)
+                        val bigDecimalStr = bigDecimal.toString()
+                        eLogD("getActivatePriceData_bigDecimal", bigDecimal)
+                        eLogD("getActivatePriceData_bigDecimalStr", bigDecimalStr)
+                        MMKVBroadUtils.saveSqlStrData(PRICE_ODIC, bigDecimalStr)
+                        liveData.postValue(bigDecimalStr)
+                    }.onFailure { _, _ ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        liveData.postValue(null)
+                    }.onError { _ ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        liveData.postValue(null)
+                    }
+                } catch (_: Exception) {
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
+                    liveData.postValue(null)
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun createPayOrder(createGroupData: CreateGroupData, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {
+        val liveData = SingleLiveBroadData<PayLsOrderBean>()
+        val params = hashMapOf<String, Any?>("scene" to "meeting_create", "bizParams" to createGroupData)
+        if (haveLoading) {
+            showLoading()
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.CREATE_LS_PAY_ORDER,
+                        PayLsOrderBean::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        data?.let {
+                            liveData.postValue(data)
+                        } ?: showToastMain("数据为空")
+                    }.onFailure { _, message ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain(message)
+                    }.onError { error ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain("${error.message}")
+                    }
+                } catch (_: Exception) {
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
+                }
+            }
+        }
+        return liveData
     }
 
     /**
