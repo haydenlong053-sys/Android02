@@ -11,11 +11,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * 从输入框 {@link MentionBroadSpan} 构造自研 IM {@code customInfo} JSON。
+ * 从输入框 {@link MentionBroadSpan} 构造自研 IM @ 报文。
+ * <p>
+ * content：{@code {"msg":"@${userId} 正文"}}<br>
+ * customInfo：{@code {"info":[{"type":"at","key":"userId","value":"群昵称"}]}}
  */
 public final class AtMentionCustomInfoBuilder {
 
@@ -31,24 +32,40 @@ public final class AtMentionCustomInfoBuilder {
     }
 
     /**
-     * 去掉 @ 段落后的正文（展示时由 {@code customInfo} 的 at 条目补全 @ 昵称）。
+     * 构造文本消息 {@code content.msg}：@ 段替换为 {@code @${userId}}，@所有人 为 {@code @所有人}。
      */
     @NonNull
-    public static String extractBodyText(@NonNull Editable editable) {
+    public static String buildMessageText(@NonNull Editable editable) {
         MentionBroadSpan[] spans = editable.getSpans(0, editable.length(), MentionBroadSpan.class);
         if (spans == null || spans.length == 0) {
             return editable.toString().trim();
         }
-        StringBuilder sb = new StringBuilder(editable.toString());
-        Arrays.sort(spans, (a, b) -> Integer.compare(editable.getSpanStart(b), editable.getSpanStart(a)));
+        Arrays.sort(spans, (a, b) -> Integer.compare(editable.getSpanStart(a), editable.getSpanStart(b)));
+        StringBuilder result = new StringBuilder();
+        int lastEnd = 0;
         for (MentionBroadSpan span : spans) {
             int start = editable.getSpanStart(span);
             int end = editable.getSpanEnd(span);
-            if (start >= 0 && end > start && end <= sb.length()) {
-                sb.delete(start, end);
+            if (end <= lastEnd) {
+                continue;
             }
+            if (start > lastEnd) {
+                result.append(editable.subSequence(lastEnd, start));
+            }
+            if (span.isMentionAll()) {
+                result.append("@所有人 ");
+            } else {
+                String uid = span.getUid();
+                if (!TextUtils.isEmpty(uid)) {
+                    result.append("@${").append(uid).append("} ");
+                }
+            }
+            lastEnd = end;
         }
-        return sb.toString().trim();
+        if (lastEnd < editable.length()) {
+            result.append(editable.subSequence(lastEnd, editable.length()));
+        }
+        return result.toString().trim();
     }
 
     @Nullable
@@ -58,7 +75,6 @@ public final class AtMentionCustomInfoBuilder {
             return null;
         }
         JsonArray info = new JsonArray();
-        Set<String> addedAtUserIds = new HashSet<>();
         Arrays.sort(spans, (a, b) -> Integer.compare(editable.getSpanStart(a), editable.getSpanStart(b)));
         for (MentionBroadSpan span : spans) {
             if (span.isMentionAll()) {
@@ -77,19 +93,11 @@ public final class AtMentionCustomInfoBuilder {
             if (label.startsWith("@")) {
                 label = label.substring(1).trim();
             }
-//            JsonObject sysAt = new JsonObject();
-//            sysAt.addProperty("type", "sysAt");
-//            sysAt.addProperty("key", uid);
-//            sysAt.addProperty("value", label);
-//            info.add(sysAt);
-            if (!addedAtUserIds.contains(uid)) {
-                JsonObject at = new JsonObject();
-                at.addProperty("type", "at");
-                at.addProperty("userId", uid);
-                at.addProperty("name", label);
-                info.add(at);
-                addedAtUserIds.add(uid);
-            }
+            JsonObject at = new JsonObject();
+            at.addProperty("type", "at");
+            at.addProperty("key", uid);
+            at.addProperty("value", label);
+            info.add(at);
         }
         if (info.size() == 0) {
             return null;

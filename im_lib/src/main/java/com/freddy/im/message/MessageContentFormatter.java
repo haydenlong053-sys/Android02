@@ -239,13 +239,15 @@ public final class MessageContentFormatter {
                                             @Nullable String currentUserId,
                                             @Nullable Map<String, String> userIdToDisplayName) {
         String text = extractTextFromContent(raw);
+        if (TextUtils.isEmpty(text)) {
+            return "";
+        }
+        if (!PLACEHOLDER_USER.matcher(text).find()) {
+            return text;
+        }
         Map<String, String> nameMap = mergeDisplayNameMaps(
                 userIdToDisplayName, buildKeyToLabelMapFromCustomInfo(customInfoJson));
-        if (!TextUtils.isEmpty(text) && PLACEHOLDER_USER.matcher(text).find()) {
-            text = substituteUserPlaceholders(text, currentUserId, nameMap);
-        }
-        text = appendAtMentions(text, customInfoJson, currentUserId, nameMap);
-        return text != null ? text : "";
+        return substituteUserPlaceholders(text, currentUserId, nameMap);
     }
 
     /**
@@ -318,46 +320,6 @@ public final class MessageContentFormatter {
     }
 
     @NonNull
-    private static String appendAtMentions(@Nullable String text,
-                                           @Nullable String customInfoJson,
-                                           @Nullable String currentUserId,
-                                           @Nullable Map<String, String> userIdToDisplayName) {
-        String base = text != null ? text : "";
-        JsonObject custom = parseJsonObject(customInfoJson);
-        if (custom == null || !custom.has("info") || !custom.get("info").isJsonArray()) {
-            return base;
-        }
-        JsonArray info = custom.getAsJsonArray("info");
-        StringBuilder atPart = new StringBuilder();
-        for (JsonElement el : info) {
-            if (!el.isJsonObject()) {
-                continue;
-            }
-            JsonObject item = el.getAsJsonObject();
-            String type = item.has("type") ? item.get("type").getAsString() : "";
-            if ("atAll".equalsIgnoreCase(type)) {
-                atPart.append("@所有人 ");
-                continue;
-            }
-            if ("at".equalsIgnoreCase(type) && item.has("userId")) {
-                String uid = item.get("userId").getAsString();
-                String label = resolveDisplayName(uid, currentUserId, userIdToDisplayName);
-                if (uid.equals(label) && item.has("name")){
-                    label = item.get("name").getAsString();
-                }
-                atPart.append('@').append(label).append(' ');
-            }
-        }
-        if (atPart.length() == 0) {
-            return base;
-        }
-        if (base.isEmpty()) {
-            return atPart.toString().trim();
-        }
-        return atPart.toString().trim() + " " + base;
-    }
-
-    @NonNull
     private static String substituteUserPlaceholders(@NonNull String template,
                                                      @Nullable String currentUserId,
                                                      @Nullable Map<String, String> userIdToDisplayName) {
@@ -392,7 +354,7 @@ public final class MessageContentFormatter {
     }
 
     /**
-     * 从 customInfo 解析占位符映射：{@code sysAt} 的 key 为用户 id，value 为展示名。
+     * 从 customInfo 解析 userId → 展示名：{@code at}、{@code sysAt} 的 key/value。
      */
     @Nullable
     private static Map<String, String> buildKeyToLabelMapFromCustomInfo(@Nullable String customInfoJson) {
@@ -407,7 +369,7 @@ public final class MessageContentFormatter {
             }
             JsonObject item = el.getAsJsonObject();
             String type = item.has("type") ? item.get("type").getAsString() : "";
-            if (!"sysAt".equalsIgnoreCase(type)) {
+            if (!"at".equalsIgnoreCase(type) && !"sysAt".equalsIgnoreCase(type)) {
                 continue;
             }
             if (!item.has("key") || !item.has("value")) {

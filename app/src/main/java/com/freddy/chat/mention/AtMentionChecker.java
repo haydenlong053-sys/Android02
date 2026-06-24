@@ -53,9 +53,9 @@ public final class AtMentionChecker {
             if ("atAll".equalsIgnoreCase(type)) {
                 return true;
             }
-            if ("at".equalsIgnoreCase(type) && item.has("userId")) {
-                String userId = item.get("userId").getAsString();
-                if (currentUserId.equals(userId)) {
+            if ("at".equalsIgnoreCase(type) && item.has("key")) {
+                String key = item.get("key").getAsString();
+                if (currentUserId.equals(key)) {
                     return true;
                 }
             }

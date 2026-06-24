@@ -42,6 +42,13 @@ public final class AtMentionSpanUtil {
                 highlightAllTokens(spannable, color);
                 continue;
             }
+            if ("at".equalsIgnoreCase(type) && item.has("value")) {
+                String value = item.get("value").getAsString();
+                if (!TextUtils.isEmpty(value)) {
+                    highlightToken(spannable, "@" + value, color);
+                }
+                continue;
+            }
             if ("sysAt".equalsIgnoreCase(type) && item.has("value")) {
                 String value = item.get("value").getAsString();
                 if (!TextUtils.isEmpty(value)) {

@@ -498,7 +498,7 @@ public class MessageListInputBroadPanel extends FrameLayout
             return;
         }
         Editable editable = editText.getText();
-        String body = AtMentionCustomInfoBuilder.extractBodyText(editable);
+        String body = AtMentionCustomInfoBuilder.buildMessageText(editable);
         String customInfo = AtMentionCustomInfoBuilder.buildCustomInfoFromSpans(editable);
         if (TextUtils.isEmpty(body) && TextUtils.isEmpty(customInfo)) {
             return;
