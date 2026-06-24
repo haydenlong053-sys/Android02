@@ -119,16 +119,77 @@ fun callMetaMaskWithEIP681(uriString: String, context: Context? = null) {
 
 
 /**
- * 唤起MetaMask，内置浏览器加载业务支付H5
- * @param h5Url 你的订单/会员支付H5地址
+ * 唤起 MetaMask 内置 DApp 浏览器打开 H5。
+ * 官方格式：https://link.metamask.io/dapp/{dappUrl}（dappUrl 不含 https://）
+ * @see https://docs.metamask.io/metamask-connect/evm/guides/metamask-exclusive/use-deeplinks/
  */
 fun openH5InMetaMask(h5Url: String, context: Context? = null) {
-    // 1. 对H5链接做UTF-8编码，防止参数丢失、页面空白
-    val encodeUrl = Uri.encode(h5Url)
-    // 拼接MetaMask专属DApp唤起Scheme
-    val mmScheme = "metamask://dapp?url=$encodeUrl"
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mmScheme))
-    getAppContext(context).startActivity(intent)
+    if (h5Url.isBlank()) {
+        ToastBroadUtils.show("支付链接为空")
+        return
+    }
+    val appContext = getAppContext(context)
+    val dappPath = buildMetaMaskDappPath(h5Url)
+    val encodedFullUrl = Uri.encode(h5Url)
+    val deepLinks = listOf(
+        "https://link.metamask.io/dapp/$dappPath",
+        "https://metamask.app.link/dapp/$dappPath",
+        "metamask://dapp/browse/$encodedFullUrl",
+    )
+    for (link in deepLinks) {
+        try {
+            val intentWithoutPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (launchMetaMaskIntent(appContext, intentWithoutPackage)) {
+                eLogD(tAG, "openH5InMetaMask success link=$link")
+                return
+            }
+            val intentWithPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                setPackage(META_MASK_PACKAGE)
+            }
+            if (launchMetaMaskIntent(appContext, intentWithPackage)) {
+                eLogD(tAG, "openH5InMetaMask success with package link=$link")
+                return
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG)
+        }
+    }
+    ToastBroadUtils.show("无法打开 MetaMask，请确认已安装并在系统设置中允许打开链接")
+}
+
+private const val META_MASK_PACKAGE = "io.metamask"
+
+/** 将完整 H5 URL 转为 MetaMask dapp 路径，如 pay.web4x.io/pay?orderId=xxx */
+private fun buildMetaMaskDappPath(h5Url: String): String {
+    val uri = h5Url.toUri()
+    val host = uri.host?.trim().orEmpty()
+    if (host.isEmpty()) {
+        return h5Url.removePrefix("https://").removePrefix("http://")
+    }
+    return buildString {
+        append(host)
+        uri.encodedPath?.takeIf { it.isNotBlank() && it != "/" }?.let { append(it) }
+        uri.encodedQuery?.takeIf { it.isNotBlank() }?.let { query ->
+            append('?')
+            append(query)
+        }
+    }
+}
+
+private fun launchMetaMaskIntent(context: Context, intent: Intent): Boolean {
+    return try {
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+            true
+        } else {
+            false
+        }
+    } catch (_: Exception) {
+        false
+    }
 }
 
 

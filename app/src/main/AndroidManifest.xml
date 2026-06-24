@@ -157,6 +157,12 @@
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+            <data
+                android:host="link.metamask.io"
+                android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
             <data android:scheme="tpoutside" />
         </intent>
         <intent>
