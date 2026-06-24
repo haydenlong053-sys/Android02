@@ -44,6 +44,7 @@ import com.cboda.baselibrary.utils.openH5InTokenPocket
 import com.cboda.intelligent.bean.PaymentMethodBroadBean
 import com.cboda.intelligent.bean.PaymentMethodDefaults.IM_TOKEN
 import com.cboda.intelligent.bean.PaymentMethodDefaults.META_MASK
+import com.cboda.intelligent.bean.PaymentMethodDefaults.TP
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
@@ -145,7 +146,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                 openH5InImToken(h5Url, requireContext())
             }
 
-            META_MASK -> {
+            TP -> {
                 openH5InTokenPocket(h5Url, requireContext())
             }
 
