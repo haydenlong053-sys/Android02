@@ -14,6 +14,8 @@ import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_ODIC
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
@@ -29,13 +31,56 @@ import com.cboda.intelligent.utils.showToastMain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 
 class NewMirrorViewBroadModel : BaseViewBroadModel() {
 
 
-    fun getActivatePrice(): SingleLiveBroadData<PriceConversion?> {
+    fun checkOrder(orderId: String?, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PriceConversion?> {
         val liveData = SingleLiveBroadData<PriceConversion?>()
-        val params = hashMapOf<String, Any?>()
+        val params = hashMapOf<String, Any?>("orderId" to orderId)
+        if (haveLoading) {
+            showLoading()
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.SELECT_ORDER,
+                        PriceConversion::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        liveData.postValue(data)
+                    }.onFailure { _, message ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain(message)
+                    }.onError { error ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain("${error.message}")
+                    }
+                } catch (_: Exception) {
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun getActivatePrice(haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<String?> {
+        val liveData = SingleLiveBroadData<String?>()
+        val params = hashMapOf<String, Any?>("amount" to "1")
+        if (haveLoading) {
+            showLoading()
+        }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
@@ -44,22 +89,43 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                         PriceConversion::class.java, params
                     )
                     result.onSuccess { data ->
-                        liveData.postValue(data)
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        val bigDecimal = BigDecimal(data?.priceOdic)
+                        val bigDecimalStr = bigDecimal.toString()
+                        eLogD("getActivatePriceData_bigDecimal", bigDecimal)
+                        eLogD("getActivatePriceData_bigDecimalStr", bigDecimalStr)
+                        MMKVBroadUtils.saveSqlStrData(PRICE_ODIC, bigDecimalStr)
+                        liveData.postValue(bigDecimalStr)
                     }.onFailure { _, _ ->
-
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        liveData.postValue(null)
                     }.onError { _ ->
-
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        liveData.postValue(null)
                     }
                 } catch (_: Exception) {
-
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
+                    liveData.postValue(null)
                 }
             }
         }
         return liveData
     }
-    fun createPayOrder(scene: String): SingleLiveBroadData<PayLsOrderBean?> {
-        val liveData = SingleLiveBroadData<PayLsOrderBean?>()
+
+    fun createPayOrder(scene: String, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {
+        val liveData = SingleLiveBroadData<PayLsOrderBean>()
         val params = hashMapOf<String, Any?>("scene" to scene)
+        if (haveLoading) {
+            showLoading()
+        }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
@@ -68,14 +134,27 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
                         PayLsOrderBean::class.java, params
                     )
                     result.onSuccess { data ->
-                        liveData.postValue(data)
-                    }.onFailure { _, _ ->
-
-                    }.onError { _ ->
-
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        data?.let {
+                            liveData.postValue(data)
+                        } ?: showToastMain("数据为空")
+                    }.onFailure { _, message ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain(message)
+                    }.onError { error ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain("${error.message}")
                     }
                 } catch (_: Exception) {
-
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
                 }
             }
         }
@@ -85,31 +164,41 @@ class NewMirrorViewBroadModel : BaseViewBroadModel() {
     /**
      * 开通信用分
      */
-    suspend fun goOpenCredit(paypwd: String?): SingleLiveBroadData<Boolean> {
-        showLoading()
+    fun goOpenCredit(orderId: String?, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<Boolean> {
         val mLiveData = SingleLiveBroadData<Boolean>()
-        val params = hashMapOf<String, Any?>("paypwd" to paypwd)
+        val params = hashMapOf<String, Any?>("orderId" to orderId)
+        if (haveLoading) {
+            showLoading()
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    NetworkBroadRepository.postEncrypted2(
+                        UrlBroadBroadConstants.CREDIT_ACTIVATECREDIT,
+                        Any::class.java,
+                        params
+                    ).onSuccess { userInfo ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        mLiveData.postValue(true)
+                    }.onFailure { _, message ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain(message)
+                    }.onError { error ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain("${error.message}")
+                    }
 
-        withContext(Dispatchers.IO) {
-            try {
-                NetworkBroadRepository.postEncrypted2(
-                    UrlBroadBroadConstants.CREDIT_ACTIVATECREDIT,
-                    Any::class.java,
-                    params
-                ).onSuccess { userInfo ->
-                    dismissLoading()
-                    mLiveData.postValue(true)
-
-                }.onFailure { code, message ->
-                    dismissLoading()
-                    showToastMain(message)
-
-                }.onError {
-                    dismissLoading()
+                } catch (e: Exception) {
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
                 }
-
-            } catch (e: Exception) {
-                dismissLoading()
             }
         }
         return mLiveData
