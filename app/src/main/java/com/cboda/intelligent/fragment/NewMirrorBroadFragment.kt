@@ -40,6 +40,7 @@ import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.callImTokenViaDeepLink
 import com.cboda.baselibrary.utils.callMetaMaskWithEIP681
 import com.cboda.baselibrary.utils.openH5InImToken
+import com.cboda.baselibrary.utils.openH5InMetaMask
 import com.cboda.baselibrary.utils.openH5InTokenPocket
 import com.cboda.intelligent.bean.PaymentMethodBroadBean
 import com.cboda.intelligent.bean.PaymentMethodDefaults.IM_TOKEN
@@ -149,6 +150,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         when (paymentMethod.id) {
             IM_TOKEN -> openH5InImToken(h5Url, requireContext())
             TP -> openH5InTokenPocket(h5Url, requireContext(), chainId)
+            META_MASK -> openH5InMetaMask(h5Url, requireContext())
         }
     }
 

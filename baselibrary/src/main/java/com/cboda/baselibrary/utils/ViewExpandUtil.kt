@@ -118,18 +118,18 @@ fun callMetaMaskWithEIP681(uriString: String, context: Context? = null) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * 唤起MetaMask，内置浏览器加载业务支付H5
+ * @param h5Url 你的订单/会员支付H5地址
+ */
+fun openH5InMetaMask(h5Url: String, context: Context? = null) {
+    // 1. 对H5链接做UTF-8编码，防止参数丢失、页面空白
+    val encodeUrl = Uri.encode(h5Url)
+    // 拼接MetaMask专属DApp唤起Scheme
+    val mmScheme = "metamask://dapp?url=$encodeUrl"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mmScheme))
+    getAppContext(context).startActivity(intent)
+}
 
 
 /**
@@ -203,16 +203,6 @@ private fun launchTokenPocketIntent(context: Context, intent: Intent): Boolean {
         false
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /**
