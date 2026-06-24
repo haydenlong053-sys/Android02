@@ -41,6 +41,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_ODIC
 import com.cboda.baselibrary.utils.callImTokenViaDeepLink
 import com.cboda.baselibrary.utils.callMetaMaskWithEIP681
+import com.cboda.baselibrary.utils.mul
 import com.cboda.baselibrary.utils.openH5InImToken
 import com.cboda.baselibrary.utils.openH5InMetaMask
 import com.cboda.baselibrary.utils.openH5InTokenPocket
@@ -107,52 +108,71 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 //                            }
 //                        }
 //                    }.showPopupWindow()
-                    if (payLsOrderBean == null) {
-                        viewModel.createPayOrder("credit_activate", true, false).observe(viewLifecycleOwner) { data ->
+//                    if (payLsOrderBean == null) {
+                    viewModel.createPayOrder("credit_activate", true, true).observe(viewLifecycleOwner) { data ->
 //                            eLogD("payOrderData", toJson2(data))
-                            payLsOrderBean = data
-                            viewModel.getActivatePrice(false, true).observe(viewLifecycleOwner) { getPrice1 ->
-//                                eLogD("getActivatePriceData_getPrice1", getPrice1)
-                                if (getPrice1 == null) {
-                                    val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
-//                                    eLogD("getActivatePriceData_getPrice2", getPrice2)
-                                    if (TextUtils.isEmpty(getPrice2)) {
-                                        showToastMain("金额获取失败，请稍后再试")
-                                    } else {
-                                        showSelectPayMethod(getPrice2)
-                                    }
-                                } else {
-                                    showSelectPayMethod(getPrice1)
-                                }
-                            }
-                        }
-                    } else {
-                        viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(viewLifecycleOwner) { data ->
-                            if (data?.success == true) {
-                                viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(viewLifecycleOwner) { isSuccess ->
-                                    if (isSuccess) {
-                                        canPay = false
-                                        userInfo?.gradeStatus = "1"
-                                        JumpBroadUtils.startCreditScoreActivity(requireContext())
-                                    }
-                                }
-                            } else {
-                                val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
-                                if (TextUtils.isEmpty(getPrice2)) {
-                                    viewModel.getActivatePrice(false, true).observe(viewLifecycleOwner) { getPrice1 ->
-                                        if (getPrice1 == null) {
-                                            showToastMain("金额获取失败，请稍后再试")
-                                        } else {
-                                            showSelectPayMethod(getPrice1)
-                                        }
-                                    }
-                                } else {
-                                    dismissLoading()
-                                    showSelectPayMethod(getPrice2)
-                                }
-                            }
-                        }
+                        payLsOrderBean = data
+                        showSelectPayMethod("")
+//                        if (payLsOrderBean == null) {
+//                            viewModel.getActivatePrice(false, true).observe(viewLifecycleOwner) { getPrice1 ->
+//                                payLsOrderBean = data
+////                                eLogD("getActivatePriceData_getPrice1", getPrice1)
+//                                if (getPrice1 == null) {
+//                                    val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
+////                                    eLogD("getActivatePriceData_getPrice2", getPrice2)
+//                                    if (TextUtils.isEmpty(getPrice2)) {
+//                                        showToastMain("金额获取失败，请稍后再试")
+//                                    } else {
+//                                        showSelectPayMethod(getPrice2)
+//                                    }
+//                                } else {
+//                                    showSelectPayMethod(getPrice1)
+//                                }
+//                            }
+//                        } else {
+//                            val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
+//                            if (TextUtils.isEmpty(getPrice2)) {
+//                                viewModel.getActivatePrice(false, true).observe(viewLifecycleOwner) { getPrice1 ->
+//                                    if (getPrice1 == null) {
+//                                        showToastMain("金额获取失败，请稍后再试")
+//                                    } else {
+//                                        showSelectPayMethod(getPrice1)
+//                                    }
+//                                }
+//                            } else {
+//                                dismissLoading()
+//                                showSelectPayMethod(getPrice2)
+//                            }
+//                        }
                     }
+//                    } else {
+//                        viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(viewLifecycleOwner) { data ->
+//                            if (data?.success == true) {
+//                                viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(viewLifecycleOwner) { isSuccess ->
+//                                    if (isSuccess) {
+//                                        canPay = false
+//                                        payLsOrderBean = null
+//                                        userInfo?.gradeStatus = "1"
+//                                        JumpBroadUtils.startCreditScoreActivity(requireContext())
+//                                    }
+//                                }
+//                            } else {
+//                                val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
+//                                if (TextUtils.isEmpty(getPrice2)) {
+//                                    viewModel.getActivatePrice(false, true).observe(viewLifecycleOwner) { getPrice1 ->
+//                                        if (getPrice1 == null) {
+//                                            showToastMain("金额获取失败，请稍后再试")
+//                                        } else {
+//                                            showSelectPayMethod(getPrice1)
+//                                        }
+//                                    }
+//                                } else {
+//                                    dismissLoading()
+//                                    showSelectPayMethod(getPrice2)
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
         }
@@ -179,19 +199,21 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                         viewModel.goOpenCredit(payLsOrderBean?.orderId, false, false).observe(viewLifecycleOwner) { isSuccess ->
                             if (isSuccess) {
                                 canPay = false
+                                payLsOrderBean = null
                                 userInfo?.gradeStatus = "1"
                                 JumpBroadUtils.startCreditScoreActivity(requireContext())
                             }
                         }
                     } else {
                         dismissLoading()
-                        showCommonStrTip("订单支付", "该订单是否支付成功？", "取消支付", "支付成功", requireContext(), isOutSideTouchable = false) { toCheck ->
+                        showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", requireContext(), isOutSideTouchable = false) { toCheck ->
                             if (toCheck) {
                                 viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(viewLifecycleOwner) { data ->
                                     if (data?.success == true) {
                                         viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(viewLifecycleOwner) { isSuccess ->
                                             if (isSuccess) {
                                                 canPay = false
+                                                payLsOrderBean = null
                                                 userInfo?.gradeStatus = "1"
                                                 JumpBroadUtils.startCreditScoreActivity(requireContext())
                                             }
@@ -200,25 +222,28 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                                         dismissLoading()
                                         showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", requireContext(), isOutSideTouchable = false) { toCheck2 ->
                                             if (toCheck2) {
-                                                val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
-                                                if (TextUtils.isEmpty(getPrice2)) {
-                                                    viewModel.getActivatePrice(true, true).observe(viewLifecycleOwner) { getPrice1 ->
-                                                        if (getPrice1 == null) {
-                                                            showToastMain("金额获取失败，请稍后再试")
-                                                        } else {
-                                                            showSelectPayMethod(getPrice1)
-                                                        }
-                                                    }
-                                                } else {
-                                                    showSelectPayMethod(getPrice2)
-                                                }
+                                                showSelectPayMethod("")
+//                                                val getPrice2 = MMKVBroadUtils.getSqlStrData(PRICE_ODIC)
+//                                                if (TextUtils.isEmpty(getPrice2)) {
+//                                                    viewModel.getActivatePrice(true, true).observe(viewLifecycleOwner) { getPrice1 ->
+//                                                        if (getPrice1 == null) {
+//                                                            showToastMain("金额获取失败，请稍后再试")
+//                                                        } else {
+//                                                            showSelectPayMethod(getPrice1)
+//                                                        }
+//                                                    }
+//                                                } else {
+//                                                    showSelectPayMethod(getPrice2)
+//                                                }
                                             } else {
+                                                payLsOrderBean = null
                                                 canPay = false
                                             }
                                         }
                                     }
                                 }
                             } else {
+                                payLsOrderBean = null
                                 canPay = false
                             }
                         }
@@ -244,9 +269,13 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
             showToastMain("订单数据为空")
             return
         }
+//        val endPrice = mul(bigDecimal, data.priceUsdt)
+//        eLogD("payOrderData_bigDecimal", bigDecimal)
+//        eLogD("payOrderData_amountDisplay", data.amountDisplay)
+//        eLogD("payOrderData_endPrice", endPrice)
 //        val tokenSymbol = data.tokenSymbol.ifBlank { "ODIC" }
         val chainId = anyToInt(data.chainId)
-        val h5Url = "https://pay.web4x.io/pay?amountDisplay=$bigDecimal" +
+        val h5Url = "https://pay.web4x.io/pay?amountDisplay=${data.priceOdic}" +
                 "&chainId=$chainId" +
                 "&orderId=${data.orderId}" +
                 "&tokenSymbol=ODIC&paymentType=2"

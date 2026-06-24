@@ -4,6 +4,8 @@ import java.io.Serializable
 
 class PayLsOrderBean : Serializable {
     var amountDisplay: String = ""
+    var priceUsdt: String = ""
+    var priceOdic: String = ""
     var chainId: String = ""
     var orderId: String = ""
     var tokenSymbol: String = ""

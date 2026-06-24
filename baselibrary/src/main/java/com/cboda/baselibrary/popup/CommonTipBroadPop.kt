@@ -35,6 +35,8 @@ class CommonTipBroadPop(
         contentView = binding.root
         popupGravity = Gravity.CENTER
         isOutSideTouchable = getOutSideTouchable
+        setOutSideDismiss(getOutSideTouchable)
+        setBackPressEnable(getOutSideTouchable)
     }
 
     override fun onViewCreated(contentView: View) {
