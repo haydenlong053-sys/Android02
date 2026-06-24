@@ -115,17 +115,98 @@ fun callMetaMaskWithEIP681(uriString: String, context: Context? = null) {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
- * 拉起imToken并内置打开H5页面
- * @param h5Url 你的支付/业务H5链接
+ * 拉起TokenPocket，内置浏览器加载业务H5
+ * @param h5Url 支付/会员H5页面地址
+ * @param chainId BSC测试网97 / BSC主网56
+ */
+fun openH5InTokenPocket(h5Url: String,context: Context? = null) {
+    // 1. 编码H5链接
+    val encodeUrl = Uri.encode(h5Url)
+    // 拼接TP DApp唤起scheme
+    val tpScheme = "tpdapp://open?url=$encodeUrl"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tpScheme))
+    getAppContext(context).startActivity(intent)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 拉起 ImToken 并在内置 DApp 浏览器打开 H5。
+ * 官方格式见：https://imtoken.gitbook.io/developers/products/deep-linking
  */
 fun openH5InImToken(h5Url: String, context: Context? = null) {
-    // 1. 对H5链接进行URL编码
-    val encodeH5 = Uri.encode(h5Url)
-    // 2. 拼接imToken唤起协议
-    val scheme = "imtoken://dapp?url=$encodeH5"
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(scheme))
-    getAppContext(context).startActivity(intent)
+    if (h5Url.isBlank()) {
+        ToastBroadUtils.show("支付链接为空")
+        return
+    }
+    val appContext = getAppContext(context)
+    val encodedUrl = Uri.encode(h5Url)
+    val deepLinks = listOf(
+        "imtokenv2://navigate/DappView?url=$encodedUrl",
+        "imtokenv2://navigate?screen=DappView&url=$encodedUrl",
+    )
+    for (link in deepLinks) {
+        try {
+            val intentWithoutPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (launchImTokenIntent(appContext, intentWithoutPackage)) {
+                eLogD(tAG, "openH5InImToken success link=$link")
+                return
+            }
+            val intentWithPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                setPackage(IM_TOKEN_PACKAGE)
+            }
+            if (launchImTokenIntent(appContext, intentWithPackage)) {
+                eLogD(tAG, "openH5InImToken success with package link=$link")
+                return
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG)
+        }
+    }
+    ToastBroadUtils.show("无法打开 ImToken，请确认已安装最新版")
+}
+
+private const val IM_TOKEN_PACKAGE = "im.token.app"
+
+private fun launchImTokenIntent(context: Context, intent: Intent): Boolean {
+    return try {
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+            true
+        } else {
+            false
+        }
+    } catch (_: Exception) {
+        false
+    }
 }
 
 /**

@@ -137,6 +137,29 @@
     <!--        tools:ignore="ProtectedPermissions" />-->
     <!--    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />-->
 
+    <queries>
+        <package android:name="im.token.app" />
+        <package android:name="io.metamask" />
+        <package android:name="vip.mytokenpocket" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="imtokenv2" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="metamask" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data
+                android:host="metamask.app.link"
+                android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tpoutside" />
+        </intent>
+    </queries>
 
     <application
         android:name="com.cboda.intelligent.app.MyBroadApp"

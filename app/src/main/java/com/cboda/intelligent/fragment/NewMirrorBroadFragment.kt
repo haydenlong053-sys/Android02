@@ -11,6 +11,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
@@ -39,6 +40,10 @@ import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.callImTokenViaDeepLink
 import com.cboda.baselibrary.utils.callMetaMaskWithEIP681
 import com.cboda.baselibrary.utils.openH5InImToken
+import com.cboda.baselibrary.utils.openH5InTokenPocket
+import com.cboda.intelligent.bean.PaymentMethodBroadBean
+import com.cboda.intelligent.bean.PaymentMethodDefaults.IM_TOKEN
+import com.cboda.intelligent.bean.PaymentMethodDefaults.META_MASK
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
@@ -55,7 +60,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
     ) = NewMirrorBroadFragmentBinding.inflate(inflater, parent, false)
 
     private var userInfo: UserInfoBean? = null
-
+    private var payLsOrderBean: PayLsOrderBean? = null
     override fun initListener() {
         super.initListener()
         clipViewOutlineRound(binding.mViewPremiumNumber, 20)
@@ -92,22 +97,25 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 //                            }
 //                        }
 //                    }.showPopupWindow()
-
-                    val payPopup = PaymentMethodPopup(requireContext())
-                    payPopup.setOnSelected {
+                    if (payLsOrderBean == null) {
                         viewModel.createPayOrder("credit_activate").observe(viewLifecycleOwner) { data ->
                             eLogD("payOrderData", toJson2(data))
-//                            payPopup.dismiss()
-//                            openH5InImToken("https://www.baidu.com", requireContext())
-
-
-//                            val ethereumUri = "ethereum:${data?.txParams?.to}@${anyToInt(data?.chainId)}?value=${data?.txParams?.value}&data=${data?.txParams?.data}"
-//                            callMetaMaskWithEIP681(ethereumUri,requireContext())
-                            data?.let { callImTokenViaDeepLink(it, requireContext()) }
+                            payLsOrderBean = data
+                            val payPopup = PaymentMethodPopup(requireContext())
+                            payPopup.setOnSelected {
+                                openData(data, it)
+                                payPopup.dismiss()
+                            }
+                            payPopup.showPopupWindow()
                         }
-
+                    } else {
+                        val payPopup = PaymentMethodPopup(requireContext())
+                        payPopup.setOnSelected {
+                            openData(payLsOrderBean, it)
+                            payPopup.dismiss()
+                        }
+                        payPopup.showPopupWindow()
                     }
-                    payPopup.showPopupWindow()
                 }
             }
         }
@@ -123,6 +131,28 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         updatePayPwdDataLiveData.observe(this) {
             getUserInfo()
         }
+    }
+
+    private fun openData(data: PayLsOrderBean?, paymentMethod: PaymentMethodBroadBean) {
+        val h5Url = "https://pay.web4x.io/pay?amountDisplay=${data?.amountDisplay}" +
+                "&chainId=${anyToInt(data?.chainId)}" +
+                "&orderId=${data?.orderId}" +
+                "&tokenSymbol=ODIC"
+//                            https://pay.web4x.io/pay?amountDisplay=88&chainId=97.0&orderId=1782208107617984944&tokenSymbol=ODIC
+        eLogD("payOrderData_h5Url", h5Url)
+        when (paymentMethod.id) {
+            IM_TOKEN -> {
+                openH5InImToken(h5Url, requireContext())
+            }
+
+            META_MASK -> {
+                openH5InTokenPocket(h5Url, requireContext())
+            }
+
+
+        }
+
+
     }
 
     private val userInfoClick = object : OnSingleClickBroadListener() {
