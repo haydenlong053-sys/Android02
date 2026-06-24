@@ -124,6 +124,9 @@ public class MessageListInputBroadPanel extends FrameLayout
     public void init(@NonNull Fragment fragment,
                      @Nullable View interceptView,
                      @NonNull Callback callback) {
+        if (panelSwitchHelper != null) {
+            onDestroy();
+        }
         this.fragment = fragment;
         this.interceptView = interceptView;
         this.callback = callback;
@@ -507,12 +510,15 @@ public class MessageListInputBroadPanel extends FrameLayout
     }
 
     private void initPanelSwitchHelper() {
-        if (panelSwitchHelper != null || fragment == null) {
+        if (panelSwitchHelper != null || fragment == null || !fragment.isAdded()) {
+            return;
+        }
+        if (fragment.requireView().findViewById(R.id.panel_switch_layout) == null) {
             return;
         }
         int emotionPanelHeight = getResources().getDimensionPixelSize(R.dimen.chat_panel_emotion_height);
         int morePanelHeight = getResources().getDimensionPixelSize(R.dimen.chat_panel_more_height);
-        panelSwitchHelper = new PanelSwitchHelper.Builder(fragment.requireActivity())
+        panelSwitchHelper = new PanelSwitchHelper.Builder(fragment)
                 .addContentScrollMeasurer(new ContentScrollMeasurer() {
                     @Override
                     public int getScrollDistance(int defaultDistance) {

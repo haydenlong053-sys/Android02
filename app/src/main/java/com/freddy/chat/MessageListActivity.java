@@ -77,7 +77,12 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
             return;
         }
         initView();
-        attachMessageListFragment(sessionItem);
+        if (savedInstanceState == null) {
+            attachMessageListFragment(sessionItem);
+        } else {
+            messageListFragment = (MessageListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_container);
+        }
         initData();
     }
 
