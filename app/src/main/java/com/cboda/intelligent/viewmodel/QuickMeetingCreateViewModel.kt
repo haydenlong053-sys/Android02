@@ -206,7 +206,7 @@ class QuickMeetingCreateViewModel(
                 .onSuccess { response ->
                     response?.let {
                         _uiState.value = _uiState.value.copy(
-                            currentPrice = response.liveAmount?.toDouble() ?: 0.0,
+                            currentPrice = response.priceOdic?.toDouble() ?: 0.0,
                             originalPrice = response.meetingTokens?.toDouble() ?: 0.0,
                             availableTokens = response.currentAmount?.toDouble() ?: 0.0,
                             isPriceLoading = false
@@ -330,6 +330,19 @@ class QuickMeetingCreateViewModel(
             }
         }
         return liveData
+    }
+
+    fun getCreateMeetingValidationError(): String? {
+        return validateMeetingForm().errorMessage
+    }
+
+    fun buildCreateGroupData(): CreateGroupData {
+        val currentState = _uiState.value
+        return CreateGroupData().apply {
+            groupIdNo = currentState.groupId
+            durationConfigId = (currentState.selectedDuration?.id ?: 0).toString()
+            userTierConfigId = (currentState.selectedUserTier?.id ?: 0).toString()
+        }
     }
 
     fun createPayOrder(createGroupData: CreateGroupData, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {

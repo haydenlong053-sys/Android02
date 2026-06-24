@@ -61,10 +61,18 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 创建直播
      */
-    suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String, durationConfigId: Int, userTierConfigId: Int): SingleLiveBroadData<QuickDetailMeetBean> {
+    suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String, durationConfigId: Int, userTierConfigId: Int, orderId: String?): SingleLiveBroadData<QuickDetailMeetBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo, "channelId" to groupIdNo, "channelName" to channelName, "durationConfigId" to durationConfigId, "userTierConfigId" to userTierConfigId)
+        val params = hashMapOf(
+            "groupIdNo" to groupIdNo,
+            "channelId" to groupIdNo,
+            "channelName" to channelName,
+            "durationConfigId" to durationConfigId,
+            "userTierConfigId" to userTierConfigId,
+            "payType" to "chain",
+            "orderId" to orderId
+        )
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(
@@ -265,7 +273,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     suspend fun queryMeetTotalPersonCount(groupId: String?): SingleLiveBroadData<String> {
 //        showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<String>()
-        val params = hashMapOf("groupIdNo" to groupId,"channelName" to groupId)
+        val params = hashMapOf("groupIdNo" to groupId, "channelName" to groupId)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.getEncrypted2<String>(UrlMeetConstants.QUICK_MEET_TOTAL_COUNT, params)
