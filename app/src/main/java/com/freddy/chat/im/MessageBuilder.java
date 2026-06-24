@@ -58,10 +58,18 @@ public class MessageBuilder {
         return message;
     }
 
-    public static AppMessage buildTextMessage(String sessionId,int conversationType,String toId, String content) {
+    public static AppMessage buildTextMessage(String sessionId, int conversationType, String toId, String content) {
+        return buildTextMessage(sessionId, conversationType, toId, content, null);
+    }
+
+    public static AppMessage buildTextMessage(String sessionId,
+                                              int conversationType,
+                                              String toId,
+                                              String content,
+                                              @Nullable String customInfo) {
         String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
         AppMessage message = new AppMessage();
-        if (!TextUtils.isEmpty(sessionId)){
+        if (!TextUtils.isEmpty(sessionId)) {
             message.setConversationId(sessionId);
         }
         message.setClientMsgId(UUID.randomUUID().toString());
@@ -71,6 +79,9 @@ public class MessageBuilder {
         message.setTimestamp(System.currentTimeMillis());
         message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(conversationType));
         message.setContent(wrapTextContentAsJson(content));
+        if (!TextUtils.isEmpty(customInfo)) {
+            message.setCustomInfo(customInfo);
+        }
         message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
         return message;
     }

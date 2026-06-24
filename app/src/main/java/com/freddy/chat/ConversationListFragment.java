@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.event.CEventCenter;
+import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
 import com.freddy.chat.group.GroupListActivity;
@@ -76,6 +77,7 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         Button btnCreateGroup = view.findViewById(R.id.btn_create_group);
 
         adapter = new ConversationListAdapter();
+        adapter.setCurrentUserId(IMSClientBootstrap.getInstance().getCurrentUserId());
         adapter.setOnSessionClickListener(sessionItem -> {
             sessionItem.setUnreadCount(0);
             adapter.mergeSessions(Collections.singletonList(sessionItem));

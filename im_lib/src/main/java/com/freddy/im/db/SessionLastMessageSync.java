@@ -16,11 +16,8 @@ import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.MessageType;
 import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImMessageManager;
-import com.freddy.im.message.MessageContentFormatter;
-import com.freddy.im.signal.ImSignalProtos;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -161,7 +158,6 @@ public final class SessionLastMessageSync {
             return null;
         }
         fillLastMessageFields(session, recalledMessage);
-        session.setLastMessageContent(previewContent(recalledMessage, session));
         return SessionRealmMapper.toSessionItem(realm.copyFromRealm(session));
     }
 
@@ -334,33 +330,13 @@ public final class SessionLastMessageSync {
         }
     }
 
+    /**
+     * 存原始 {@link AppMessage#getContent()}，展示时由 {@link com.freddy.im.message.MessageContentFormatter#formatSessionPreview} 统一格式化一次。
+     */
     @NonNull
     private static String previewContent(@NonNull AppMessage message) {
-        return previewContent(message, null);
-    }
-
-    @NonNull
-    private static String previewContent(@NonNull AppMessage message, @Nullable SessionEntity session) {
-        return MessageContentFormatter.formatDisplayText(message,
-                ImRealm.getCurrentUserId(), buildPreviewNameMap(session));
-    }
-
-    @Nullable
-    private static Map<String, String> buildPreviewNameMap(@Nullable SessionEntity session) {
-        if (session == null) {
-            return null;
-        }
-        if (session.getConversation() == MessageType.GROUP_CHAT.getMsgType()) {
-            return null;
-        }
-        String peerId = session.getOppositeUserId();
-        String peerName = session.getSessionName();
-        if (TextUtils.isEmpty(peerId) || TextUtils.isEmpty(peerName)) {
-            return null;
-        }
-        Map<String, String> map = new HashMap<>(1);
-        map.put(peerId, peerName);
-        return map;
+        String content = message.getContent();
+        return content != null ? content : "";
     }
 
     private static boolean matchesLastMessageId(@Nullable String lastMessageId,

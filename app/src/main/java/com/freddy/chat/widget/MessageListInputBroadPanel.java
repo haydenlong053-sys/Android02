@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.Editable;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -33,6 +34,8 @@ import com.cboda.chatemoji.EmotionBroadLayout;
 import com.cboda.chatemoji.IEmotionSelectedBroadListener;
 import com.cboda.chatui.audio.AudioRecorderBroadPanel;
 import com.cboda.intelligent.R;
+import com.cboda.chatui.conversation.mention.MentionBroadSpan;
+import com.freddy.chat.mention.AtMentionCustomInfoBuilder;
 import com.effective.android.panel.PanelSwitchHelper;
 import com.effective.android.panel.interfaces.ContentScrollMeasurer;
 import com.effective.android.panel.interfaces.PanelHeightMeasurer;
@@ -49,7 +52,7 @@ public class MessageListInputBroadPanel extends FrameLayout
         implements DefaultLifecycleObserver, IEmotionSelectedBroadListener {
 
     public interface Callback {
-        void onSendText(@NonNull String text);
+        void onSendText(@NonNull String text, @Nullable String customInfo);
 
         boolean canSendVoice();
 
@@ -98,6 +101,9 @@ public class MessageListInputBroadPanel extends FrameLayout
     @Nullable
     private EmotionBroadLayout emotionBroadLayout;
     private boolean showMeetingRoomEntry = true;
+    private boolean mentionEnabled;
+    @Nullable
+    private Runnable mentionPicker;
 
     public MessageListInputBroadPanel(@NonNull Context context) {
         this(context, null);
@@ -140,6 +146,30 @@ public class MessageListInputBroadPanel extends FrameLayout
         if (meeting != null) {
             meeting.setVisibility(showMeetingRoom ? VISIBLE : INVISIBLE);
         }
+    }
+
+    /** 群聊 @ 成员：输入 {@code @} 弹出选择页，长按头像由外部插入片段。 */
+    public void configureMention(boolean enabled, @Nullable Runnable onPickMentionMember) {
+        mentionEnabled = enabled;
+        mentionPicker = onPickMentionMember;
+    }
+
+    public void insertMention(@NonNull CharSequence mentionText) {
+        Editable editable = editText.getText();
+        if (editable == null) {
+            return;
+        }
+        int position = editText.getSelectionEnd();
+        if (position < 0) {
+            position = editable.length();
+        }
+        if (position > 0 && editable.charAt(position - 1) == '@') {
+            editable.replace(position - 1, position, mentionText);
+        } else {
+            editable.insert(position, mentionText);
+        }
+        editText.requestFocus();
+        updateSendButtonVisibility();
     }
 
     @NonNull
@@ -307,6 +337,18 @@ public class MessageListInputBroadPanel extends FrameLayout
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mentionEnabled || editText == null || !editText.isFocused()) {
+                    return;
+                }
+                if (before == 0 && count == 1 && s.charAt(start) == '@' && mentionPicker != null) {
+                    mentionPicker.run();
+                }
+                if (before == 1 && count == 0) {
+                    handleMentionSpanDelete(start);
+                }
+                if (before == 0 && count > 0) {
+                    handleMentionSpanInsert(start);
+                }
             }
 
             @Override
@@ -404,21 +446,64 @@ public class MessageListInputBroadPanel extends FrameLayout
         return audioButton != null && audioButton.getVisibility() == VISIBLE;
     }
 
+    private void handleMentionSpanDelete(int start) {
+        Editable text = editText.getText();
+        if (text == null) {
+            return;
+        }
+        MentionBroadSpan[] spans = text.getSpans(0, text.length(), MentionBroadSpan.class);
+        if (spans == null) {
+            return;
+        }
+        for (MentionBroadSpan span : spans) {
+            if (text.getSpanEnd(span) == start
+                    && text.getSpanFlags(span) == Spanned.SPAN_INCLUSIVE_EXCLUSIVE) {
+                text.delete(text.getSpanStart(span), text.getSpanEnd(span));
+                text.removeSpan(span);
+                break;
+            } else if (start >= text.getSpanStart(span) && start < text.getSpanEnd(span)) {
+                text.removeSpan(span);
+                break;
+            }
+        }
+    }
+
+    private void handleMentionSpanInsert(int start) {
+        Editable text = editText.getText();
+        if (text == null) {
+            return;
+        }
+        MentionBroadSpan[] spans = text.getSpans(0, text.length(), MentionBroadSpan.class);
+        if (spans == null) {
+            return;
+        }
+        for (MentionBroadSpan span : spans) {
+            if (start >= text.getSpanStart(span) && start < text.getSpanEnd(span)) {
+                text.removeSpan(span);
+                break;
+            }
+        }
+    }
+
     private void updateSendButtonVisibility() {
-        boolean hasText = editText.getText() != null && !editText.getText().toString().trim().isEmpty();
-        sendButton.setVisibility(hasText ? VISIBLE : GONE);
-        extImageView.setVisibility(hasText ? GONE : VISIBLE);
+        Editable editable = editText.getText();
+        boolean hasText = editable != null && !editable.toString().trim().isEmpty();
+        boolean hasMention = AtMentionCustomInfoBuilder.hasMentions(editable);
+        sendButton.setVisibility(hasText || hasMention ? VISIBLE : GONE);
+        extImageView.setVisibility(hasText || hasMention ? GONE : VISIBLE);
     }
 
     private void dispatchSend() {
         if (callback == null || editText.getText() == null) {
             return;
         }
-        String text = editText.getText().toString().trim();
-        if (TextUtils.isEmpty(text)) {
+        Editable editable = editText.getText();
+        String body = AtMentionCustomInfoBuilder.extractBodyText(editable);
+        String customInfo = AtMentionCustomInfoBuilder.buildCustomInfoFromSpans(editable);
+        if (TextUtils.isEmpty(body) && TextUtils.isEmpty(customInfo)) {
             return;
         }
-        callback.onSendText(text);
+        callback.onSendText(body, customInfo);
     }
 
     private void initPanelSwitchHelper() {

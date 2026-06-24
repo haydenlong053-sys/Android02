@@ -1263,6 +1263,7 @@
     <string name="group_add_member_select">选择要邀请的用户</string>
     <string name="group_add_member_confirm">确认添加</string>
     <string name="group_add_member_empty">请选择成员</string>
+    <string name="im_mention_pick_title">选择提醒的人</string>
     <string name="group_add_member_success">成员添加成功</string>
     <string name="group_add_member_failed">添加成员失败</string>
     <string name="group_notice_title">群公告</string>

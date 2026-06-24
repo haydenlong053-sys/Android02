@@ -139,6 +139,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
                 ? member.getHeadPortrait()
                 : context.peerAvatarUrl;
         MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, senderId, context.isGroupChat);
+        bindAvatarMentionLongClick(context, sentByMe, member, senderId);
         alignMessageColumn(Gravity.START);
         alignTimeTextView(Gravity.START);
         bubbleRow.setGravity(Gravity.BOTTOM | Gravity.START);
@@ -146,6 +147,24 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         progress.setVisibility(View.GONE);
         errorLinearLayout.setVisibility(View.GONE);
         hideReadReceipt();
+    }
+
+    private void bindAvatarMentionLongClick(@NonNull MessageViewHolderContext context,
+                                            boolean sentByMe,
+                                            @Nullable GroupMemberItem member,
+                                            @Nullable String senderId) {
+        if (!context.isGroupChat || sentByMe || context.mentionMemberListener == null) {
+            avatarLeft.setOnLongClickListener(null);
+            return;
+        }
+        avatarLeft.setOnLongClickListener(v -> {
+            String name = resolveDisplayName(member, senderId);
+            if (!TextUtils.isEmpty(senderId) && !TextUtils.isEmpty(name)) {
+                context.mentionMemberListener.onMentionMember(senderId, name);
+                return true;
+            }
+            return false;
+        });
     }
 
     private void bindMessageTime(@NonNull AppMessage message, boolean sentByMe) {

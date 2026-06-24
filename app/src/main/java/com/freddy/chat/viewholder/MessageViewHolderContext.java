@@ -41,7 +41,13 @@ public final class MessageViewHolderContext {
     public final OnMessageRetryListener retryListener;
     @Nullable
     public final MessageListActions messageActions;
+    @Nullable
+    public final OnMentionMemberListener mentionMemberListener;
     public final int listMode;
+
+    public interface OnMentionMemberListener {
+        void onMentionMember(@NonNull String userId, @NonNull String displayName);
+    }
 
     public MessageViewHolderContext(boolean isGroupChat,
                                     @Nullable String peerAvatarUrl,
@@ -56,6 +62,7 @@ public final class MessageViewHolderContext {
                                     @Nullable String peerDisplayName,
                                     @Nullable OnMessageRetryListener retryListener,
                                     @Nullable MessageListActions messageActions,
+                                    @Nullable OnMentionMemberListener mentionMemberListener,
                                     int listMode) {
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
@@ -70,6 +77,7 @@ public final class MessageViewHolderContext {
         this.peerDisplayName = peerDisplayName;
         this.retryListener = retryListener;
         this.messageActions = messageActions;
+        this.mentionMemberListener = mentionMemberListener;
         this.listMode = listMode;
     }
 

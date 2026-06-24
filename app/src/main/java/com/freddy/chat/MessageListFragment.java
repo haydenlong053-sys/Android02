@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.chatui.MarqueeTextBroadView;
 import com.cboda.select.picture.basic.PictureSelector;
 import com.cboda.select.picture.config.PictureMimeType;
@@ -42,6 +43,9 @@ import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
 import com.freddy.chat.im.MessageProcessor;
+import com.freddy.chat.mention.ImMentionContract;
+import com.freddy.chat.mention.ImMentionHelper;
+import com.freddy.chat.mention.ImMentionMemberActivity;
 import com.freddy.chat.media.PictureSelectorCompressEngine;
 import com.freddy.chat.media.PictureSelectorGlideEngine;
 import com.freddy.chat.media.PictureSelectorSandboxEngine;
@@ -55,6 +59,7 @@ import com.freddy.im.MyCommonBroadBridge2;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.ImMessageHttpExample;
+import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.http.model.im.VideoBatchUploadResult;
@@ -63,6 +68,7 @@ import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.im.group.GroupRole;
 import com.freddy.chat.forward.ForwardMode;
 import com.freddy.chat.menu.MessageContextMenuHelper;
 import com.freddy.chat.menu.MessageListActions;
@@ -121,7 +127,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private FrameLayout multiMessageActionContainer;
 
     private boolean isGroupChat;
+    private int myGroupRole = GroupRole.MEMBER;
     private ActivityResultLauncher<String[]> filePickerLauncher;
+    private ActivityResultLauncher<Intent> mentionPickerLauncher;
 
     /** 本地是否可能还有更早一页（用于下拉刷新） */
     private boolean hasMoreHistory;
@@ -137,6 +145,26 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.OpenDocument(),
                 this::onFilePicked);
+        mentionPickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() != android.app.Activity.RESULT_OK
+                            || result.getData() == null
+                            || inputPanel == null) {
+                        return;
+                    }
+                    Intent data = result.getData();
+                    if (data.getBooleanExtra(ImMentionContract.EXTRA_MENTION_ALL, false)) {
+                        inputPanel.insertMention(ImMentionHelper.buildMentionAllSpannable(requireContext()));
+                        return;
+                    }
+                    String userId = data.getStringExtra(ImMentionContract.EXTRA_USER_ID);
+                    String displayName = data.getStringExtra(ImMentionContract.EXTRA_DISPLAY_NAME);
+                    if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(displayName)) {
+                        inputPanel.insertMention(
+                                ImMentionHelper.buildMentionSpannable(userId, displayName));
+                    }
+                });
         sessionItem = SessionItemIntent.getSessionItem(getArguments());
         focusMsgId = SessionItemIntent.getFocusMsgId(getArguments());
     }
@@ -183,6 +211,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(sessionItem),
                 this::resendFailedMessage);
         adapter.setMessageActions(this);
+        if (isGroupChat) {
+            adapter.setMentionMemberListener((userId, displayName) -> {
+                if (inputPanel != null) {
+                    inputPanel.insertMention(ImMentionHelper.buildMentionSpannable(userId, displayName));
+                }
+            });
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
         multiMessageActionContainer = view.findViewById(R.id.multi_message_action_container);
@@ -193,8 +228,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
         inputPanel.init(this, view.findViewById(R.id.mViewIntercept), new MessageListInputBroadPanel.Callback() {
             @Override
-            public void onSendText(@NonNull String text) {
-                sendMsg(text);
+            public void onSendText(@NonNull String text, @Nullable String customInfo) {
+                sendMsg(text, customInfo);
             }
 
             @Override
@@ -248,6 +283,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
         });
         inputPanel.configureMorePanel(isGroupChat);
+        if (isGroupChat) {
+            inputPanel.configureMention(true, this::launchMentionPicker);
+        }
         requireActivity().getOnBackPressedDispatcher().addCallback(
                 getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {
@@ -293,10 +331,25 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private void loadGroupMembers() {
         ImLocalStore.loadGroupMembersMap(sessionId, map -> {
             adapter.setGroupMembers(map);
+            String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+            GroupMemberItem self = map.get(currentUserId);
+            if (self != null) {
+                myGroupRole = self.getRole();
+            }
             if (map.isEmpty()) {
                 ImGroupMemberChangeManager.getInstance().fetchAllMembersPaginated(sessionId);
             }
         });
+    }
+
+    private void launchMentionPicker() {
+        if (!isAdded() || TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        Intent intent = new Intent(requireContext(), ImMentionMemberActivity.class);
+        intent.putExtra(ImMentionContract.EXTRA_GROUP_ID, sessionId);
+        intent.putExtra(ImMentionContract.EXTRA_SHOW_MENTION_ALL, GroupRole.isOwnerOrAdmin(myGroupRole));
+        mentionPickerLauncher.launch(intent);
     }
 
     private void loadLocalMessages() {
@@ -896,13 +949,17 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         });
     }
 
-    private void sendMsg(@NonNull String text) {
-        if (text.isEmpty() || TextUtils.isEmpty(peerUserId)) {
+    private void sendMsg(@NonNull String text, @Nullable String customInfo) {
+        if (TextUtils.isEmpty(text) && TextUtils.isEmpty(customInfo)) {
+            return;
+        }
+        if (TextUtils.isEmpty(peerUserId)) {
             return;
         }
 
         AppMessage message = MessageBuilder.buildTextMessage(
-                sessionId, sessionItem.getConversation(), peerUserId, text);
+                sessionId, sessionItem.getConversation(), peerUserId, text, customInfo);
+        ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG,"message.getContent()="+message.getContent()+"------"+"message.getCustomInfo()="+message.getCustomInfo());
         MessageProcessor.getInstance().sendMsg(message, () -> {
             adapter.appendMessages(Collections.singletonList(message));
             scrollToLatest();

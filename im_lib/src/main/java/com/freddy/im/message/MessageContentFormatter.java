@@ -342,6 +342,9 @@ public final class MessageContentFormatter {
             if ("at".equalsIgnoreCase(type) && item.has("userId")) {
                 String uid = item.get("userId").getAsString();
                 String label = resolveDisplayName(uid, currentUserId, userIdToDisplayName);
+                if (uid.equals(label) && item.has("name")){
+                    label = item.get("name").getAsString();
+                }
                 atPart.append('@').append(label).append(' ');
             }
         }

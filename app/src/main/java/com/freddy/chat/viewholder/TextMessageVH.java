@@ -2,6 +2,7 @@ package com.freddy.chat.viewholder;
 
 import android.text.Editable;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import com.cboda.chatemoji.LQREmotionBroadKit;
 import com.cboda.chatemoji.MoonBroadUtils;
 import com.cboda.intelligent.R;
+import com.freddy.chat.mention.AtMentionSpanUtil;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.bean.AppMessage;
 
@@ -40,7 +42,13 @@ public class TextMessageVH extends BaseMessageVH {
     protected final void bindMessageBody(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {
         String body = WeChatUiHelper.formatMessageBody(
                 message, context.currentUserId, context.buildUserDisplayNameMap());
-        tvMessage.setText(body);
+        boolean sentByMe = message.isSender(context.currentUserId);
+        int mentionColor = sentByMe
+                ? ContextCompat.getColor(itemView.getContext(), android.R.color.white)
+                : ContextCompat.getColor(itemView.getContext(), R.color.wechat_link);
+        Spannable spannable = new SpannableString(body);
+        AtMentionSpanUtil.applyMentionHighlight(spannable, message.getCustomInfo(), mentionColor);
+        tvMessage.setText(spannable);
         try {
             CharSequence text = tvMessage.getText();
             if (text instanceof Spannable) {

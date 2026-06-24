@@ -72,6 +72,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private final OnMessageRetryListener retryListener;
     @Nullable
     private MessageListActions messageActions;
+    @Nullable
+    private MessageViewHolderContext.OnMentionMemberListener mentionMemberListener;
 
     private final Map<String, GroupMemberItem> membersByUserId = new HashMap<>();
     private final Set<String> checkedClientMsgIds = new HashSet<>();
@@ -102,6 +104,11 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void setMessageActions(@Nullable MessageListActions messageActions) {
         this.messageActions = messageActions;
+    }
+
+    public void setMentionMemberListener(
+            @Nullable MessageViewHolderContext.OnMentionMemberListener mentionMemberListener) {
+        this.mentionMemberListener = mentionMemberListener;
     }
 
     public int getMode() {
@@ -534,6 +541,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 peerDisplayName,
                 retryListener,
                 messageActions,
+                mentionMemberListener,
                 listMode);
         if (holder instanceof SystemMessageVH) {
             ((SystemMessageVH) holder).bind(m, context);

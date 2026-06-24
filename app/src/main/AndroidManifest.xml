@@ -670,6 +670,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name="com.freddy.chat.mention.ImMentionMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name="com.freddy.chat.MessageForwardActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -1,5 +1,8 @@
 package com.freddy.chat;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.intelligent.R;
+import com.freddy.chat.mention.AtMentionChecker;
 import com.freddy.chat.utils.AvatarViews;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.http.model.im.SessionItem;
@@ -34,12 +39,18 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
     private final List<SessionItem> items = new ArrayList<>();
     @Nullable
+    private String currentUserId;
+    @Nullable
     private OnSessionClickListener onSessionClickListener;
     @Nullable
     private OnSessionLongClickListener onSessionLongClickListener;
 
     public void setOnSessionClickListener(@Nullable OnSessionClickListener listener) {
         this.onSessionClickListener = listener;
+    }
+
+    public void setCurrentUserId(@Nullable String currentUserId) {
+        this.currentUserId = currentUserId;
     }
 
     public void setOnSessionLongClickListener(@Nullable OnSessionLongClickListener listener) {
@@ -116,7 +127,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         holder.tvName.setText(displayName);
         AvatarViews.bind(holder.avatar, WeChatUiHelper.resolveAvatarUrl(s), displayName, s.getSessionId());
 
-        holder.tvSubtitle.setText(WeChatUiHelper.formatSessionPreview(s));
+        holder.tvSubtitle.setText(buildSubtitle(holder, s));
         if (WeChatUiHelper.isVoiceSessionPreview(s)) {
             holder.ivPreviewType.setVisibility(View.VISIBLE);
             holder.ivPreviewType.setImageResource(R.drawable.ic_msg_voice);
@@ -146,6 +157,24 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             }
             return false;
         });
+    }
+
+    @NonNull
+    private CharSequence buildSubtitle(@NonNull VH holder, @NonNull SessionItem session) {
+        String preview = WeChatUiHelper.formatSessionPreview(session);
+        if (AtMentionChecker.isMentioningMe(session, currentUserId)) {
+            String prefix = holder.itemView.getContext().getString(com.cboda.chatui.R.string.someone_mentioned_me);
+            String text = prefix + preview;
+            SpannableString spannable = new SpannableString(text);
+            int red = ContextCompat.getColor(holder.itemView.getContext(), com.cboda.chatui.R.color.red7);
+            spannable.setSpan(
+                    new ForegroundColorSpan(red),
+                    0,
+                    prefix.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return spannable;
+        }
+        return preview;
     }
 
     @Override
