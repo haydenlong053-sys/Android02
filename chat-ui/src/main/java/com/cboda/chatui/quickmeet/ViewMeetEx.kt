@@ -7,6 +7,7 @@ import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.requestPermission
@@ -73,6 +74,10 @@ fun showMeetPreEndTip(time: String?, amount: String?, block: () -> Unit = {}) {
         e.printStackTrace()
     }
 }
+
+
+
+
 
 //下麦弹窗
 fun showDownMicDialog(context: Context? = null, block: (Int, ComBottomListBean) -> Unit): CommonBottomListPop {

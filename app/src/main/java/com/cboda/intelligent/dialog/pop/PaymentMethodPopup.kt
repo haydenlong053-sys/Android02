@@ -19,9 +19,8 @@ import razerdp.basepopup.BasePopupWindow
  */
 class PaymentMethodPopup(
     context: Context,
-    private val methods: List<PaymentMethodBroadBean> = PaymentMethodDefaults.defaultList(),
 //    private val initialSelectedId: String? = PaymentMethodDefaults.META_MASK
-) : BaseBottomBroadPop(context) {
+) : BasePopupWindow(context) {
 
     private val binding = PaymentMethodPopupBinding.inflate(LayoutInflater.from(context))
     private val adapter = PaymentMethodBroadAdapter()
@@ -34,12 +33,14 @@ class PaymentMethodPopup(
 
     init {
         contentView = binding.root
+        popupGravity = Gravity.BOTTOM
         setBackgroundColor(Color.parseColor("#8f000000"))
     }
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
 //        adapter.setSelectedId(initialSelectedId)
+        val methods = PaymentMethodDefaults.defaultList()
         binding.paymentMethodList.layoutManager = LinearLayoutManager(context)
         binding.paymentMethodList.adapter = adapter
         adapter.setList(methods)

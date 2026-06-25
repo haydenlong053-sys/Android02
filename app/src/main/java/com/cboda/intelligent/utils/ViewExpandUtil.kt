@@ -19,8 +19,12 @@ import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getResumeActivity
+import com.cboda.intelligent.bean.PaymentMethodBroadBean
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.activityList
 import com.lzy.okgo.utils.HttpUtils.runOnUiThread
 import kotlinx.coroutines.channels.awaitClose
@@ -87,6 +91,20 @@ fun showToastMain(message: String) {
     runOnUiThread { ToastBroadUtil.show(message) }
 }
 
+fun showSelectPayMethodPop(block: (PaymentMethodBroadBean) -> Unit = {}) {
+    eLogD("createYsGroupPayOrder", "showSelectPayMethod")
+    getResumeActivity()?.let { mContext ->
+        eLogD("createYsGroupPayOrder", "showSelectPayMethod:${mContext.javaClass.simpleName}")
+        val payPopup = PaymentMethodPopup(mContext)
+        payPopup.setOnSelected { paymentMethod ->
+            payPopup.dismiss()
+            block.invoke(paymentMethod)
+        }
+        payPopup.showPopupWindow()
+    }
+}
+
+
 // 扩展函数版本 - 推荐
 fun String.maskWithLastChar(): String {
     return when {
@@ -131,7 +149,7 @@ fun View.isSubmitCanGo(
 ) {
     this.isEnabled = boolean
     this.isSelected = boolean
-    this.isSubmitCanGo2(boolean,negativeBg,positiveBg)
+    this.isSubmitCanGo2(boolean, negativeBg, positiveBg)
 }
 
 fun View.isSubmitCanGo2(
