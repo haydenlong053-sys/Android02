@@ -4,15 +4,12 @@ import androidx.annotation.NonNull;
 
 import com.hjq.http.config.IRequestApi;
 
-import java.util.List;
-
 /** POST {@code api/im/group/addMembers} */
 public final class GroupFriendsApi implements IRequestApi {
 
     private String groupId;
     private String id;
-    private String key;
-    private String name;
+    private String keyword;
 
     @NonNull
     @Override
@@ -30,13 +27,9 @@ public final class GroupFriendsApi implements IRequestApi {
         return this;
     }
 
-    public GroupFriendsApi setKey(String key) {
-        this.key = key;
+    public GroupFriendsApi setKeyword(String keyword) {
+        this.keyword = keyword;
         return this;
     }
 
-    public GroupFriendsApi setName(String name) {
-        this.name = name;
-        return this;
-    }
 }

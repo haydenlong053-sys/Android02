@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.http.api.AddGroupMembersApi;
-import com.freddy.im.http.api.ApplyInGroupApi;
 import com.freddy.im.http.api.ApproveInGroupApi;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.DisbandGroupApi;
@@ -164,7 +163,7 @@ public final class ImGroupHttpExample {
             return;
         }
         EasyHttp.post(ApplicationLifecycle.getInstance())
-                .api(new GroupFriendsApi().setGroupId(groupId).setId(groupId).setName(key).setKey(key))
+                .api(new GroupFriendsApi().setGroupId(groupId).setId(groupId).setKeyword(key))
                 .request(postListener("groupFriendList", callback, onFail, true, listOf(GroupFriendBean.class)));
     }
 
