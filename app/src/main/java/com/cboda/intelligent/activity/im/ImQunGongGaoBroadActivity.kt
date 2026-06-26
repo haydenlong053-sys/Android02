@@ -5,13 +5,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
+import com.cboda.baselibrary.common.MyEventCodeEnum
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.saveGroupNotice
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.BaseMsgResponse
 import com.freddy.im.listener.OnHttpImListener
+import org.greenrobot.eventbus.EventBus
 
 /** 自研群公告编辑（对齐野火 {@link com.cboda.intelligent.activity.QunGongGaoBroadActivity}）。 */
 class ImQunGongGaoBroadActivity : BaseSimple2BroadActivity() {
@@ -53,7 +56,17 @@ class ImQunGongGaoBroadActivity : BaseSimple2BroadActivity() {
             ImGroupHttpExample.requestUpdateGroupNotice(qunId, content,
                 object : OnHttpImListener<BaseMsgResponse<Void>> {
                     override fun onHttpImSuccess(result: BaseMsgResponse<Void>) {
-                        runOnUiThread { finish() }
+                        runOnUiThread {
+                            saveGroupNotice(qunId, content)
+                            EventBus.getDefault().post(
+                                MyBroadEvent(
+                                    MyEventCodeEnum.UPDATE_ANNOUNCEMENT.value,
+                                    content,
+                                    qunId
+                                )
+                            )
+                            finish()
+                        }
                     }
                 }, {
                     runOnUiThread {

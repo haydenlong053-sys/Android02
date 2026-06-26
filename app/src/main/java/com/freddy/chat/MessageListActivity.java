@@ -29,7 +29,10 @@ import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
+import com.freddy.im.http.ImGroupHttpExample;
+import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.listener.OnHttpImListener;
 import com.cboda.intelligent.R;
 import com.freddy.im.signal.ImSignalProtos;
 import com.google.gson.Gson;
@@ -45,7 +48,7 @@ import kotlin.jvm.functions.Function1;
 /**
  * 消息列表容器 Activity，内部承载 {@link MessageListFragment}。
  */
-public class MessageListActivity extends BaseSimple2BroadActivity {
+public class MessageListActivity extends BaseSimple2BroadActivity implements GroupNoticeHost {
     private boolean isInitialized = false;
     private MessageListFragment messageListFragment;
     private View pageTitleLeftIcon;
@@ -55,6 +58,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
     public MeetPlugin meetPlugin;
     private String fromPageBroad;
     private SessionItem sessionItem;
+    private boolean isFirst =true;
 
     @Override
     public boolean showOrHideTitleLayout() {
@@ -159,21 +163,72 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        showCacheGroupNoticeData();
+        applyCachedGroupNotice();
     }
 
-    //群聊页先取本地缓存的群公告数据
-    private void showCacheGroupNoticeData() {
-        if (sessionItem != null && sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
-            String groupNotice = MMKVBroadUtils.Companion.getGroupNotice(sessionItem.getSessionId());
-            if (!TextUtils.isEmpty(groupNotice)) {
-                messageListFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
-                messageListFragment.gonggaoxinxiBroad.setText(getString(com.cboda.chatui.R.string.group_announcement_prefix) + groupNotice);
-
-            } else {
-                messageListFragment.qungonggaoBroad.setVisibility(View.GONE);
-            }
+    @Override
+    public void applyCachedGroupNotice() {
+        if (sessionItem == null
+                || sessionItem.getConversation() != ImSignalProtos.ConversationType.MULTI_VALUE) {
+            return;
         }
+        String groupNotice = MMKVBroadUtils.Companion.getGroupNotice(sessionItem.getSessionId());
+        updateGroupNoticeUi(groupNotice, false);
+    }
+
+    @Override
+    public void fetchGroupNoticeFromServer() {
+        if (sessionItem == null
+                || sessionItem.getConversation() != ImSignalProtos.ConversationType.MULTI_VALUE
+                || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        final String groupId = sessionItem.getSessionId();
+        ImGroupHttpExample.requestGetGroupNotice(groupId, new OnHttpImListener<GroupNoticeRes>() {
+            @Override
+            public void onHttpImSuccess(@NonNull GroupNoticeRes result) {
+                runOnUiThread(() -> {
+                    if (sessionItem == null || !groupId.equals(sessionItem.getSessionId())) {
+                        return;
+                    }
+                    String content = result.getContent() != null ? result.getContent().trim() : "";
+                    updateGroupNoticeUi(content, true);
+                });
+            }
+        }, () -> { });
+    }
+
+    @Override
+    public void updateGroupNoticeUi(@Nullable String notice, boolean persist) {
+        if (messageListFragment == null
+                || messageListFragment.qungonggaoBroad == null
+                || messageListFragment.gonggaoxinxiBroad == null
+                || sessionItem == null
+                || sessionItem.getConversation() != ImSignalProtos.ConversationType.MULTI_VALUE) {
+            return;
+        }
+        if (TextUtils.isEmpty(notice)) {
+            messageListFragment.qungonggaoBroad.setVisibility(View.GONE);
+            messageListFragment.gonggaoxinxiBroad.setText("");
+            if (persist) {
+                MMKVBroadUtils.Companion.saveGroupNotice(sessionItem.getSessionId(), "");
+            }
+            return;
+        }
+        messageListFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
+        messageListFragment.gonggaoxinxiBroad.setText(
+                getString(com.cboda.chatui.R.string.group_announcement_prefix) + notice);
+        if (persist) {
+            MMKVBroadUtils.Companion.saveGroupNotice(sessionItem.getSessionId(), notice);
+        }
+    }
+
+    @Override
+    public void openGroupNoticeDetail() {
+        if (sessionItem == null || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        JumpBroadUtils.Companion.startImQunGongGaoViewActivity(this, sessionItem.getSessionId());
     }
 
 
@@ -213,8 +268,10 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
         if (null != sessionItem && null != sessionItem.getSessionId()) {
             if (sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
                 titleGradeAndTimeBroad.setVisibility(View.GONE);
-//            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this,"huoququnxiangqing",conversation.target,"",null);
-//                MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_GROUP_MEETING.getValue(), conversationBroad.target, "", null);
+                if (isFirst) {
+                    isFirst = false;
+                    fetchGroupNoticeFromServer();
+                }
             } else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.PAIR_VALUE) {
                 getUserData();
             }
@@ -252,13 +309,9 @@ public class MessageListActivity extends BaseSimple2BroadActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMsgReceive(MyBroadEvent myImEvent) {
         if (MyEventCodeEnum.UPDATE_ANNOUNCEMENT.getValue().equals(myImEvent.type)) {
-            if (messageListFragment!=null && sessionItem != null && sessionItem.getSessionId().equals(myImEvent.params2)) {
-                messageListFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
-                messageListFragment.gonggaoxinxiBroad.setText(getString(com.cboda.chatui.R.string.group_announcement_prefix) + myImEvent.params1);
-                MMKVBroadUtils.Companion.saveGroupNotice(sessionItem.getSessionId(), myImEvent.params1);
-                MyCommonBroadBridge.getInstance().setMyBridgeMethod(MessageListActivity.this, BridgeImEnum.UPDATE_ANNOUNCEMENT.getValue(), myImEvent.params1, "", null);
+            if (sessionItem != null && sessionItem.getSessionId().equals(myImEvent.params2)) {
+                updateGroupNoticeUi(myImEvent.params1, true);
             }
-
         }
     }
 

@@ -53,6 +53,9 @@ enum Cmd {
     //表情多端同步
     FACE_MULTI_SYNC=0x0401;
 
+    //其他业务信令（群公告等，body 为 OthBusiSig）
+    OTH_BUSI=0x0501;
+
 }
 
 //客户端类型定义

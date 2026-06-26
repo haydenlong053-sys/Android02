@@ -121,6 +121,20 @@ public class MessageProcessor implements IMessageProcessor {
     }
 
     @Override
+    public void notifyGroupNoticeUpdated(@NonNull final String groupId) {
+        if (TextUtils.isEmpty(groupId)) {
+            return;
+        }
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.GROUP_NOTICE_UPDATED, 0, 0, groupId);
+            } catch (Exception e) {
+                Log.e(TAG, "群公告更新分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
+    @Override
     public void notifySessionsUpdated(final List<SessionItem> sessions) {
         if (sessions == null || sessions.isEmpty()) {
             return;

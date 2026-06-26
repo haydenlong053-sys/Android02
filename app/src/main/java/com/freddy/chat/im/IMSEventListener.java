@@ -13,6 +13,7 @@ import com.freddy.im.message.ImGroupChangeManager;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.signal.ImSignalProtos;
+import com.freddy.im.signal.OthBusiSigHelper;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -185,6 +186,19 @@ public class IMSEventListener implements OnEventListener {
                         sig.getReadPersonCount());
             } catch (Exception e) {
                 Log.e(TAG, "解析 CountMsgReadSig 失败", e);
+            }
+        }
+
+        // 0x0501 其他业务信令：OthBusiSig，群公告变更 code=1001 data={"groupId":"..."}
+        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.OTH_BUSI_VALUE && push.hasBody()) {
+            try {
+                String groupId = OthBusiSigHelper.parseGroupNoticeGroupId(push.getBody().toByteArray());
+                if (!TextUtils.isEmpty(groupId)) {
+                    Log.d(TAG, "OTH_BUSI group notice groupId=" + groupId);
+                    MessageProcessor.getInstance().notifyGroupNoticeUpdated(groupId);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "解析 OthBusiSig 失败", e);
             }
         }
 

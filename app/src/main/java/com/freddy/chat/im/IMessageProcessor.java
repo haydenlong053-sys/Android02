@@ -38,6 +38,11 @@ public interface IMessageProcessor {
     void notifyGroupMembersUpdated(@NonNull String groupId);
 
     /**
+     * 群公告变更信令（0x0501 code=1001）；事件 {@link Events#GROUP_NOTICE_UPDATED}，payload 为 groupId。
+     */
+    void notifyGroupNoticeUpdated(@NonNull String groupId);
+
+    /**
      * 本地会话已删除；事件 {@link Events#SESSION_REMOVED}，payload 为 sessionId。
      */
     void notifySessionRemoved(@NonNull String sessionId);

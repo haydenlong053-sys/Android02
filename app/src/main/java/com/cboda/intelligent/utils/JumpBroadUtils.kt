@@ -52,6 +52,7 @@ import com.cboda.intelligent.activity.im.ImGroupIntent
 import com.cboda.intelligent.activity.im.ImQunCodeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoBroadActivity
+import com.cboda.intelligent.activity.im.ImQunGongGaoInfoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity
 import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity
 import com.cboda.intelligent.activity.im.ImQunNameBroadActivity
@@ -327,6 +328,13 @@ class JumpBroadUtils {
             val intent = Intent(context, ImQunGongGaoBroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             intent.putExtra(ImGroupIntent.EXTRA_NOTICE, notice)
+            context?.startActivity(intent)
+        }
+
+        /** 自研群公告查看页（消息列表顶栏点击）。 */
+        fun startImQunGongGaoViewActivity(context: Context?, qunId: String) {
+            val intent = Intent(context, ImQunGongGaoInfoBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }
 

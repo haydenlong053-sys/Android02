@@ -106,6 +106,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Events.CHAT_MESSAGE,
             Events.CHAT_MESSAGE_UPDATE,
             Events.GROUP_MEMBERS_UPDATED,
+            Events.GROUP_NOTICE_UPDATED,
             Events.SESSION_REMOVED,
             Events.MESSAGE_READ_STATE_CHANGED,
             Events.MESSAGE_REPEAL,
@@ -201,6 +202,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         mTvMeetJoin = view.findViewById(R.id.mTvMeetJoin);
         gonggaoxinxiBroad = view.findViewById(R.id.gonggaoxinxi);
         qungonggaoBroad = view.findViewById(R.id.qungonggao);
+        if (isGroupChat) {
+            setupGroupNoticeInteraction();
+            if (getActivity() instanceof GroupNoticeHost) {
+                ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
+            }
+        }
 
         adapter = new MessageListAdapter(
                 isGroupChat,
@@ -340,6 +347,16 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 ImGroupMemberChangeManager.getInstance().fetchAllMembersPaginated(sessionId);
             }
         });
+    }
+
+    private void setupGroupNoticeInteraction() {
+        View.OnClickListener openNoticeListener = v -> {
+            if (getActivity() instanceof GroupNoticeHost) {
+                ((GroupNoticeHost) getActivity()).openGroupNoticeDetail();
+            }
+        };
+        gonggaoxinxiBroad.setOnClickListener(openNoticeListener);
+        qungonggaoBroad.setOnClickListener(openNoticeListener);
     }
 
     private void launchMentionPicker() {
@@ -899,6 +916,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 batch -> MessageProcessor.getInstance().receiveMsg(batch));
         sessionItem.setUnreadCount(0);
         ImLocalStore.clearSessionUnread(sessionId);
+        if (isGroupChat && getActivity() instanceof GroupNoticeHost) {
+            ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
+        }
     }
 
     @Override
@@ -1261,6 +1281,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             String groupId = (String) obj;
             if (isGroupChat && sessionId.equals(groupId)) {
                 loadGroupMembers();
+            }
+            return;
+        }
+        if (Events.GROUP_NOTICE_UPDATED.equals(topic) && obj instanceof String) {
+            String groupId = (String) obj;
+            if (isGroupChat && sessionId.equals(groupId) && getActivity() instanceof GroupNoticeHost && isAdded()) {
+                ((GroupNoticeHost) getActivity()).fetchGroupNoticeFromServer();
             }
             return;
         }
