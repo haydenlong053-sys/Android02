@@ -202,9 +202,9 @@ open class NewMirrorViewBroadModel : BaseViewBroadModel() {
         }
     }
 
-    fun createPayOrder(haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {
+    fun createPayOrder(scene: String, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {
         val liveData = SingleLiveBroadData<PayLsOrderBean>()
-        val params = hashMapOf<String, Any?>("scene" to "credit_activate")
+        val params = hashMapOf<String, Any?>("scene" to scene)
         if (haveLoading) {
             showLoading()
         }
