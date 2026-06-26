@@ -6,12 +6,14 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.AppUtils.isAppInstalled
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.baselibrary.utils.click
 import com.cboda.intelligent.adapter.PaymentMethodBroadAdapter
 import com.cboda.intelligent.bean.PaymentMethodBroadBean
 import com.cboda.intelligent.bean.PaymentMethodDefaults
 import com.cboda.intelligent.databinding.PaymentMethodPopupBinding
+import com.cboda.intelligent.utils.showToastMain
 import razerdp.basepopup.BasePopupWindow
 
 /**
@@ -49,8 +51,13 @@ class PaymentMethodPopup(
         binding.paymentMethodCancel.click { dismiss() }
         adapter.setOnItemClickListener { _, _, position ->
             val item = methods.getOrNull(position) ?: return@setOnItemClickListener
-            adapter.setSelectedId(item.id)
-            onSelected?.invoke(item)
+            if (isAppInstalled(item.packName)) {
+                adapter.setSelectedId(item.id)
+                onSelected?.invoke(item)
+            } else {
+                showToastMain("未安装应用，请先安装应用!")
+            }
+
 //            dismiss()
         }
     }

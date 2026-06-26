@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingPermission,ProtectedPermissions,ExactAlarmPolicy,ForegroundServicesPolicy,SmsAndCallLogPolicy,SystemPermissionTypo,ScopedStorage,PhotoAndVideoPolicy,UnnecessaryRequiredFeature,DiscouragedApi,LockedOrientationActivity">
+    <!-- 声明你需要查询的包名 -->
+<!--    <queries>-->
+<!--        <package android:name="io.metamask" />-->
+<!--        <package android:name="im.token.app" />-->
+<!--        <package android:name="vip.mytokenpocket" />-->
+<!--    </queries>-->
 
     <uses-permission
         android:name="android.permission.INSTALL_FAILED_USER_RESTRICTED"

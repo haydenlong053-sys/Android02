@@ -3,6 +3,7 @@ package com.cboda.intelligent
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -64,6 +65,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
+import com.cboda.baselibrary.utils.activityResumeLiveData
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.crashReportLog
 import com.cboda.baselibrary.utils.eLogD
@@ -483,6 +485,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 toLoginQrCodeAct(this)
             }
         }
+        activityResumeLiveData.observeForever {
+            checkOrder()
+        }
     }
 
 
@@ -514,8 +519,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         getUserInfo()
         eLogD(this.javaClass.simpleName, "getGroupInfos672")
         conversationListViewModel?.reloadConversationUnreadStatus()
-        checkOrder()
-
+//        checkOrder()
     }
 
 
@@ -1005,42 +1009,46 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     }
 
     private fun checkOrder() {
-        if (canPay && payLsOrderBean != null) {
+        if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
             newMirrorViewBroadModel.checkOrder(payLsOrderBean?.orderId, true, true) { data ->
                 if (data?.success == true) {
                     lifecycleScope.launch {
-                        quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
+                        quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId, payLsOrderBean?.orderId).observeForever {
                             canPay = false
                             payLsOrderBean = null
                             ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
                         }
                     }
                 } else {
-                    showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
-                        if (toCheck) {
-                            newMirrorViewBroadModel.checkOrder(payLsOrderBean?.orderId, true, true) { data ->
-                                if (data?.success == true) {
-                                    lifecycleScope.launch {
-                                        quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
-                                            canPay = false
-                                            payLsOrderBean = null
-                                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                    runOnUiThread {
+                        showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
+                            if (toCheck) {
+                                newMirrorViewBroadModel.checkOrder(payLsOrderBean?.orderId, true, true) { data ->
+                                    if (data?.success == true) {
+                                        lifecycleScope.launch {
+                                            quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId, payLsOrderBean?.orderId).observeForever {
+                                                canPay = false
+                                                payLsOrderBean = null
+                                                ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                                            }
                                         }
-                                    }
-                                } else {
-                                    showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", getResumeActivity(), isOutSideTouchable = false) { toCheck2 ->
-                                        if (toCheck2) {
-                                            showSelectPayMethod()
-                                        } else {
-                                            payLsOrderBean = null
-                                            canPay = false
+                                    } else {
+                                        runOnUiThread {
+                                            showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", getResumeActivity(), isOutSideTouchable = false) { toCheck2 ->
+                                                if (toCheck2) {
+                                                    showSelectPayMethod()
+                                                } else {
+                                                    payLsOrderBean = null
+                                                    canPay = false
+                                                }
+                                            }
                                         }
                                     }
                                 }
+                            } else {
+                                payLsOrderBean = null
+                                canPay = false
                             }
-                        } else {
-                            payLsOrderBean = null
-                            canPay = false
                         }
                     }
                 }

@@ -412,6 +412,20 @@ fun getResumeActivity(): AppCompatActivity? {
 }
 
 
+/**
+ * 判断指定包名的应用是否已安装
+ * @param context 上下文
+ * @param packageName 目标应用的包名
+ */
+fun isAppInstalled(packageName: String,context: Context?): Boolean {
+    return try {
+        // 获取应用信息，如果未安装会抛出 NameNotFoundException
+        getAppContext(context).packageManager.getPackageInfo(packageName, 0)
+        true
+    } catch (_: Exception) {
+        false
+    }
+}
 fun getAppDimension(context: Context? = null, res: Int): Float =
     getAppContext(context).resources.getDimension(res)
 

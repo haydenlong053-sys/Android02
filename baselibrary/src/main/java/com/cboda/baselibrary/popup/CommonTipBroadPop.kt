@@ -46,9 +46,8 @@ class CommonTipBroadPop(
             dismiss()
         }
         binding.mTvSure.setOnClickListener {
-            sureInvoke.invoke()
             dismiss()
-
+            sureInvoke.invoke()
         }
         initData()
 

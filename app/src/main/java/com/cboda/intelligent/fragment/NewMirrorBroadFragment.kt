@@ -176,11 +176,11 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
 
 
     private fun checkOrder() {
-        if (canPay && payLsOrderBean != null) {
+        if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
             if (anyToInt(userInfo?.gradeStatus) != 1) {
                 viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(viewLifecycleOwner) { data ->
                     if (data?.success == true) {
-                        viewModel.goOpenCredit(payLsOrderBean?.orderId, false, false).observe(viewLifecycleOwner) { isSuccess ->
+                        viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(viewLifecycleOwner) { isSuccess ->
                             if (isSuccess) {
                                 canPay = false
                                 payLsOrderBean = null

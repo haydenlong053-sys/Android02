@@ -132,10 +132,10 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 延长直播时间
      */
-    suspend fun goExtendQuickMeet(groupIdNo: String, durationConfigId: Int = 1): SingleLiveBroadData<QuickDetailMeetBean> {
+    suspend fun goExtendQuickMeet(groupIdNo: String, orderId: String?, durationConfigId: Int = 1): SingleLiveBroadData<QuickDetailMeetBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo, "durationConfigId" to durationConfigId)
+        val params = hashMapOf("groupIdNo" to groupIdNo, "durationConfigId" to durationConfigId, "orderId" to orderId, "payType" to "chain")
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(

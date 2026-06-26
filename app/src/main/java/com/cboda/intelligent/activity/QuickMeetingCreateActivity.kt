@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -162,7 +163,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
     }
 
     private fun checkOrder() {
-        if (canPay && payLsOrderBean != null) {
+        if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
             viewModel.checkOrder(payLsOrderBean?.orderId, true, true).observe(this) { data ->
                 if (data?.success == true) {
                     lifecycleScope.launch {

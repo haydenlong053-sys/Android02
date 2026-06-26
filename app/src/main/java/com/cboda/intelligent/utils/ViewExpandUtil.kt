@@ -3,6 +3,7 @@ package com.cboda.intelligent.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Looper
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextUtils
@@ -19,6 +20,7 @@ import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.intelligent.bean.PaymentMethodBroadBean
@@ -94,14 +96,38 @@ fun showToastMain(message: String) {
 fun showSelectPayMethodPop(block: (PaymentMethodBroadBean) -> Unit = {}) {
     eLogD("createYsGroupPayOrder", "showSelectPayMethod")
     getResumeActivity()?.let { mContext ->
-        eLogD("createYsGroupPayOrder", "showSelectPayMethod:${mContext.javaClass.simpleName}")
-        val payPopup = PaymentMethodPopup(mContext)
-        payPopup.setOnSelected { paymentMethod ->
-            payPopup.dismiss()
-            block.invoke(paymentMethod)
+        runOnUiThread {
+            eLogD("createYsGroupPayOrder", "showSelectPayMethod:${mContext.javaClass.simpleName}")
+            val payPopup = PaymentMethodPopup(mContext)
+            payPopup.setOnSelected { paymentMethod ->
+                payPopup.dismiss()
+                block.invoke(paymentMethod)
+            }
+            payPopup.showPopupWindow()
         }
-        payPopup.showPopupWindow()
     }
+
+
+//    val hostActivity = resolvePopupHostActivity(context)
+//    if (hostActivity == null) {
+//        eLogD("createYsGroupPayOrder", "showSelectPayMethodPop: no valid activity")
+//        ToastBroadUtils.show("无法打开支付弹窗")
+//        return
+//    }
+//    val showPopup = {
+//        eLogD("createYsGroupPayOrder", "showSelectPayMethodPop: ${hostActivity.javaClass.simpleName}")
+//        val payPopup = PaymentMethodPopup(hostActivity)
+//        payPopup.setOnSelected { paymentMethod ->
+//            payPopup.dismiss()
+//            block.invoke(paymentMethod)
+//        }
+//        payPopup.showPopupWindow()
+//    }
+//    if (Looper.myLooper() == Looper.getMainLooper()) {
+//        showPopup()
+//    } else {
+//        hostActivity.runOnUiThread { showPopup() }
+//    }
 }
 
 

@@ -43,3 +43,7 @@ val meetEndMsgLiveData: BusLiveBroadData<String> = LiveDataBroadBroadBus.getInst
 //群数据变更通知
 @JvmField
 val groupDataLiveData: BusLiveBroadData<CommonResultBroadBean> = LiveDataBroadBroadBus.getInstance().with("groupDataUpdate")
+
+
+@JvmField
+val activityResumeLiveData: BusLiveBroadData<Boolean> = LiveDataBroadBroadBus.getInstance().with("appResumedListener")

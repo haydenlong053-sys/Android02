@@ -43,6 +43,7 @@ import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
 import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.DeviceBroadUtil
+import com.cboda.baselibrary.utils.activityResumeLiveData
 import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentViewBroadHolder
 import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
@@ -148,6 +149,8 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
     }
     private val lifeListener = object : Utils.ActivityLifecycleCallbacks() {
         private val tAG = "newActivity"
+
+        //        private var activityCount = 0
         override fun onActivityCreated(activity: Activity) {
             super.onActivityCreated(activity)
 //            activity.window.decorView.systemUiVisibility = (
@@ -164,11 +167,17 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
 //                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 //                    )
             eLogD(tAG, "onResumed:${activity.javaClass.simpleName}")
+            activityResumeLiveData.postValue(true)
         }
 
         override fun onActivityStarted(activity: Activity) {
             super.onActivityStarted(activity)
             eLogD(tAG, "onStarted:${activity.javaClass.simpleName}")
+//            if (activityCount == 0) {
+//                // App从后台回到前台
+//                eLogD(tAG, "App从后台返回前台")
+//            }
+//            activityCount++
         }
 
         override fun onActivityPaused(activity: Activity) {
@@ -184,6 +193,11 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         override fun onActivityStopped(activity: Activity) {
             super.onActivityStopped(activity)
             eLogD(tAG, "onStopped:${activity.javaClass.simpleName}")
+//            activityCount--
+//            if (activityCount == 0) {
+//                // App进入后台
+//                eLogD(tAG, "App进入后台")
+//            }
         }
     }
 
