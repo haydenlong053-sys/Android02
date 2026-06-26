@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.intelligent.R;
@@ -23,6 +24,7 @@ import com.cboda.intelligent.net.BroadUrl;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.cboda.intelligent.utils.UrlBroadBroadConstants;
+import com.google.gson.reflect.TypeToken;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -140,11 +142,22 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
                 new NetworkBroadUtils.ListCallback<VipOpenPlanBroadBean>() {
                     @Override
                     public void onSuccess(@Nullable List<? extends VipOpenPlanBroadBean> list, int totalCount, int totalPage) {
-                        if (list == null || list.isEmpty() || list.get(0) == null) {
+                        if (list == null || list.isEmpty()) {
                             return;
                         }
-                        double priceUsdt = anyToDouble(list.get(0).priceUsdt);
-                        tvPay.setText(formatDirectPurchaseText(priceUsdt));
+                        try {
+                            List<VipOpenPlanBroadBean> planList = GsonUtils.getGson().fromJson(
+                                    GsonUtils.getGson().toJson(list),
+                                    new TypeToken<List<VipOpenPlanBroadBean>>() {
+                                    }.getType()
+                            );
+                            if (planList == null || planList.isEmpty() || planList.get(0) == null) {
+                                return;
+                            }
+                            double priceUsdt = anyToDouble(planList.get(0).priceUsdt);
+                            tvPay.setText(formatDirectPurchaseText(priceUsdt));
+                        } catch (Exception ignored) {
+                        }
                     }
 
                     @Override
