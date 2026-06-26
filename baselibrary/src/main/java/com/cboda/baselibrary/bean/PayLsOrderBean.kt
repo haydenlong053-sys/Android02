@@ -10,7 +10,7 @@ class PayLsOrderBean : Serializable {
     var orderId: String = ""
     var tokenSymbol: String = ""
     var wcUri: String = ""
-    var paymentType: String = "2"
+    var paymentType: Int = -1
     var txParams: PayLsOrderTxParams? = null
 
     class PayLsOrderTxParams : Serializable {
@@ -30,7 +30,9 @@ class PriceConversion : Serializable {
 }
 
 class CreateGroupData : Serializable {
-    var groupIdNo = ""//群 ID
-    var durationConfigId=""//时长ID
-    var userTierConfigId=""//人数ID
+    var groupIdNo: String? = null//群 ID
+    var durationConfigId: String? = null//时长ID
+    var userTierConfigId: String? = null//人数ID
+
+    var planId: String? = null
 }

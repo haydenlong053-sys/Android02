@@ -1,269 +1,327 @@
-package com.cboda.intelligent.activity;
+package com.cboda.intelligent.activity
 
-import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToDouble;
+import android.content.Intent
+import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.GsonUtils
+import com.cboda.baselibrary.bean.PayLsOrderBean
+import com.cboda.baselibrary.network.NetworkBroadUtils
+import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.HttpsBroadConfig
+import com.cboda.baselibrary.utils.anyToDouble
+import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getResumeActivity
+import com.cboda.baselibrary.utils.showCommonStrTip
+import com.cboda.chatui.quickmeet.MeetCallManager
+import com.cboda.intelligent.R
+import com.cboda.intelligent.base.BaseSimpleBroadActivity
+import com.cboda.intelligent.bean.ResultBroadBean
+import com.cboda.intelligent.bean.VipOpenPlanBroadBean
+import com.cboda.intelligent.dialog.InputJhmBroadDialog
+import com.cboda.intelligent.net.BroadUrl
+import com.cboda.intelligent.utils.GlideBroadUtil
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startCreateQunActivity
+import com.cboda.intelligent.utils.OkHttpBroadHelper
+import com.cboda.intelligent.utils.SpotsCallBroadBack
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.cboda.intelligent.utils.showSelectPayMethodPop
+import com.cboda.intelligent.utils.showToastMain
+import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
+import com.google.gson.reflect.TypeToken
+import com.makeramen.roundedimageview.RoundedImageView
+import kotlinx.coroutines.launch
+import okhttp3.Response
+import java.math.BigDecimal
+import kotlin.getValue
+import kotlin.math.round
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.appcompat.widget.AppCompatImageView;
-
-import com.blankj.utilcode.util.GsonUtils;
-import com.cboda.baselibrary.network.NetworkBroadUtils;
-import com.cboda.baselibrary.utils.HttpsBroadConfig;
-import com.cboda.intelligent.R;
-import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.bean.VipOpenPlanBroadBean;
-import com.cboda.intelligent.dialog.InputJhmBroadDialog;
-import com.cboda.intelligent.bean.ResultBroadBean;
-import com.cboda.intelligent.utils.OkHttpBroadHelper;
-import com.cboda.intelligent.utils.SpotsCallBroadBack;
-import com.cboda.intelligent.net.BroadUrl;
-import com.cboda.intelligent.utils.GlideBroadUtil;
-import com.cboda.intelligent.utils.JumpBroadUtils;
-import com.cboda.intelligent.utils.UrlBroadBroadConstants;
-import com.google.gson.reflect.TypeToken;
-import com.makeramen.roundedimageview.RoundedImageView;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.Response;
-
-public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
-
-
-    private ResultBroadBean bean;
-    private View viHead;
-    private AppCompatImageView imFinish;
-    private RoundedImageView ivIcon;
-    private TextView tvName;
-    private TextView tvVipState;
-    private TextView tvVipTime;
-    private TextView tvTq;
-    private TextView tvKt;
-    private TextView tvDh, tvPay;
-
-    @Override
-    public boolean showOrHideTitleLayout() {
-        return false;
+class HyzxBroadActivity : BaseSimpleBroadActivity(), View.OnClickListener {
+    private var bean: ResultBroadBean? = null
+    private var viHead: View? = null
+    private var imFinish: AppCompatImageView? = null
+    private var ivIcon: RoundedImageView? = null
+    private var tvName: TextView? = null
+    private var tvVipState: TextView? = null
+    private var tvVipTime: TextView? = null
+    private var tvTq: TextView? = null
+    private var tvKt: TextView? = null
+    private var tvDh: TextView? = null
+    private var tvPay: TextView? = null
+    private val newMirrorViewBroadModel: NewMirrorViewBroadModel by viewModels()
+    public override fun showOrHideTitleLayout(): Boolean {
+        return false
     }
 
-    @Override
-    protected boolean transparentStatus() {
-        return true;
+    override fun transparentStatus(): Boolean {
+        return true
     }
 
-    @Override
-    protected boolean fitsSystemWindows() {
-        return true;
+    override fun fitsSystemWindows(): Boolean {
+        return true
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initViews();
+    protected override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initViews()
         if (HttpsBroadConfig.isReviewEnv) {
-            tvDh.setVisibility(View.GONE);
-            tvPay.setVisibility(View.GONE);
+            tvDh!!.setVisibility(View.GONE)
+            tvPay!!.setVisibility(View.GONE)
         }
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height",
-                "dimen", "android");
+        var result = 0
+        val resourceId = getResources().getIdentifier(
+            "status_bar_height",
+            "dimen", "android"
+        )
         if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
+            result = getResources().getDimensionPixelSize(resourceId)
         }
-        LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) viHead.getLayoutParams(); //取控件textView当前的布局参数
-        linearParams.height = result;// 控件的高强制设成20
-        viHead.setLayoutParams(linearParams);
-        imFinish.setOnClickListener(this);
-        tvDh.setOnClickListener(this);
-        tvKt.setOnClickListener(this);
-        userInfo();
-        ptConfig();
-        loadVipOpenPlans();
+        val linearParams = viHead!!.getLayoutParams() as LinearLayout.LayoutParams //取控件textView当前的布局参数
+        linearParams.height = result // 控件的高强制设成20
+        viHead!!.setLayoutParams(linearParams)
+        imFinish!!.setOnClickListener(this)
+        tvDh!!.setOnClickListener(this)
+        tvKt!!.setOnClickListener(this)
+        tvPay?.setOnClickListener(this)
+        userInfo()
+        ptConfig()
+        loadVipOpenPlans()
     }
 
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_hy_broad_zx;
+    override fun getLayoutId(): Int {
+        return R.layout.activity_hy_broad_zx
     }
 
-    @Override
-    public void onClick(View view) {
-        Intent intent;
+    override fun onClick(view: View) {
         if (view.getId() == R.id.imFinish) {
-            finish();
-        }
-        if (view.getId() == R.id.tvDh) {
-            new InputJhmBroadDialog(this, new InputJhmBroadDialog.OnInputListener() {
-                @Override
-                public void onInput(String num) {
-                    duivip(num);
+            finish()
+        } else if (view.getId() == R.id.tvDh) {
+            InputJhmBroadDialog(this, object : InputJhmBroadDialog.OnInputListener {
+                override fun onInput(num: String?) {
+                    duivip(num)
                 }
-            }).show();
-        }
-        if (view.getId() == R.id.tvKt) {
-            JumpBroadUtils.Companion.startCreateQunActivity(this);
+            }).show()
+        } else if (view.getId() == R.id.tvKt) {
+            startCreateQunActivity(this)
+        } else if (view.getId() == R.id.tvPay) {
+            newMirrorViewBroadModel.createPayOrder("vip_open", true, true) {
+                payLsOrderBean = it
+                showSelectPayMethod()
+            }
         }
     }
 
 
-    private void ptConfig() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                tvTq.setText(resultBean.data.vipinfo);
+    override fun onResume() {
+        super.onResume()
+        checkOrder()
+    }
+
+    private fun checkOrder() {
+        if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
+            newMirrorViewBroadModel.checkOrder(payLsOrderBean?.orderId, true, false) { data ->
+                if (data?.success == true) {
+                    newMirrorViewBroadModel.openMember(payLsOrderBean?.orderId, true, true) {
+                        canPay = false
+                        payLsOrderBean = null
+                        userInfo()
+                    }
+                } else {
+                    com.cboda.intelligent.utils.dismissLoading()
+                    runOnUiThread {
+                        showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
+                            if (toCheck) {
+                                newMirrorViewBroadModel.checkOrder(payLsOrderBean?.orderId, true, true) { data ->
+                                    if (data?.success == true) {
+                                        newMirrorViewBroadModel.openMember(payLsOrderBean?.orderId, true, true) {
+                                            canPay = false
+                                            payLsOrderBean = null
+                                            userInfo()
+                                        }
+                                    } else {
+                                        runOnUiThread {
+                                            showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", getResumeActivity(), isOutSideTouchable = false) { toCheck2 ->
+                                                if (toCheck2) {
+                                                    showSelectPayMethod()
+                                                } else {
+                                                    payLsOrderBean = null
+                                                    canPay = false
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                payLsOrderBean = null
+                                canPay = false
+                            }
+                        }
+                    }
+                }
             }
 
-            @Override
-            public void onError(Response response, int code, Exception e) {
+        }
+    }
+
+    private fun showSelectPayMethod() {
+        eLogD("createYsGroupPayOrder", "showSelectPayMethod1")
+        showSelectPayMethodPop { paymentMethod ->
+            canPay = true
+            newMirrorViewBroadModel.openWalletPay(payLsOrderBean, paymentMethod, this)
+        }
+    }
+
+    private var payLsOrderBean: PayLsOrderBean? = null
+    private var canPay = false
+    private fun ptConfig() {
+        val param: MutableMap<String?, Any?> = HashMap<String?, Any?>()
+        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, object : SpotsCallBroadBack<ResultBroadBean?>(this) {
+
+            override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
+                tvTq?.text = resultBean?.data?.vipinfo
             }
-        });
+
+            override fun onError(response: Response?, code: Int, e: Exception?) {
+            }
+        })
     }
 
     /**
      * 获取会员开通套餐，展示第一条 priceUsdt
      */
-    private void loadVipOpenPlans() {
-        Map<String, Object> param = new HashMap<>();
-        NetworkBroadUtils.INSTANCE.postEncryptedList(
-                UrlBroadBroadConstants.VIP_OPEN_PLANS,
-                param,
-                new NetworkBroadUtils.ListCallback<VipOpenPlanBroadBean>() {
-                    @Override
-                    public void onSuccess(@Nullable List<? extends VipOpenPlanBroadBean> list, int totalCount, int totalPage) {
-                        if (list == null || list.isEmpty()) {
-                            return;
-                        }
-                        try {
-                            List<VipOpenPlanBroadBean> planList = GsonUtils.getGson().fromJson(
-                                    GsonUtils.getGson().toJson(list),
-                                    new TypeToken<List<VipOpenPlanBroadBean>>() {
-                                    }.getType()
-                            );
-                            if (planList == null || planList.isEmpty() || planList.get(0) == null) {
-                                return;
-                            }
-                            double priceUsdt = anyToDouble(planList.get(0).priceUsdt);
-                            tvPay.setText(formatDirectPurchaseText(priceUsdt));
-                        } catch (Exception ignored) {
-                        }
-                    }
+    private fun loadVipOpenPlans() {
+        val param: MutableMap<String?, Any?> = HashMap<String?, Any?>()
+        postEncryptedList<VipOpenPlanBroadBean?>(
+            UrlBroadBroadConstants.VIP_OPEN_PLANS,
+            param,
+            object : NetworkBroadUtils.ListCallback<VipOpenPlanBroadBean?> {
 
-                    @Override
-                    public void onFailure(int code, @NotNull String message) {
-                    }
 
-                    @Override
-                    public void onError(@NotNull Throwable throwable) {
+                override fun onSuccess(list: List<VipOpenPlanBroadBean?>?, totalCount: Int, totalPage: Int) {
+                    if (list == null || list.isEmpty()) {
+                        return
+                    }
+                    try {
+                        val planList = GsonUtils.getGson().fromJson<MutableList<VipOpenPlanBroadBean?>?>(
+                            GsonUtils.getGson().toJson(list),
+                            object : TypeToken<MutableList<VipOpenPlanBroadBean?>?>() {
+                            }.getType()
+                        )
+                        if (planList == null || planList.isEmpty() || planList.get(0) == null) {
+                            return
+                        }
+                        val priceUsdt = anyToDouble(planList.get(0)!!.priceUsdt)
+                        tvPay!!.setText(formatDirectPurchaseText(priceUsdt))
+                    } catch (ignored: Exception) {
                     }
                 }
-        );
+
+                override fun onFailure(code: Int, message: String) {
+                }
+
+                override fun onError(throwable: Throwable) {
+                }
+            }
+        )
     }
 
-    private String formatDirectPurchaseText(double priceUsdt) {
-        return "直接购买 " + formatUsdtPrice(priceUsdt) + " USDT";
+    private fun formatDirectPurchaseText(priceUsdt: Double): String {
+        return "直接购买 " + formatUsdtPrice(priceUsdt) + " USDT"
     }
 
-    private String formatUsdtPrice(double priceUsdt) {
+    private fun formatUsdtPrice(priceUsdt: Double): String {
         if (priceUsdt <= 0) {
-            return "0";
+            return "0"
         }
-        if (priceUsdt == Math.rint(priceUsdt)) {
-            return String.valueOf((long) priceUsdt);
+        if (priceUsdt == round(priceUsdt)) {
+            return priceUsdt.toLong().toString()
         }
-        return new BigDecimal(String.valueOf(priceUsdt)).stripTrailingZeros().toPlainString();
+        return BigDecimal(priceUsdt.toString()).stripTrailingZeros().toPlainString()
     }
 
     /**
      * 用户信息
      */
-    private void userInfo() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                bean = resultBean;
-                tvName.setText(bean.data.name);
+    private fun userInfo() {
+        val param: MutableMap<String?, Any?> = HashMap<String?, Any?>()
+        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, object : SpotsCallBroadBack<ResultBroadBean?>(this) {
+            override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
+                bean = resultBean
+                tvName?.setText(bean?.data?.name)
                 if (!HttpsBroadConfig.isReviewEnv) {
-                    if (1 == resultBean.data.vipRedeemEnabled) {
-                        tvDh.setVisibility(View.VISIBLE);
+                    if (1 == resultBean?.data?.vipRedeemEnabled && anyToInt(resultBean?.data?.isvip) != 1) {
+                        tvDh!!.setVisibility(View.VISIBLE)
                     } else {
-                        tvDh.setVisibility(View.GONE);
+                        tvDh!!.setVisibility(View.GONE)
                     }
-                    if (1 == resultBean.data.vipPurchaseEnabled) {
-                        tvPay.setVisibility(View.VISIBLE);
+                    if (1 == resultBean?.data?.vipPurchaseEnabled && anyToInt(resultBean?.data?.isvip) != 1) {
+                        tvPay!!.setVisibility(View.VISIBLE)
                     } else {
-                        tvPay.setVisibility(View.GONE);
+                        tvPay!!.setVisibility(View.GONE)
                     }
                 }
 
 
-                GlideBroadUtil.setImag(HyzxBroadActivity.this, bean.data.icon, ivIcon);
-                if (null != bean.data.isvip && bean.data.isvip.equals("1") && !HttpsBroadConfig.isReviewEnv) {
-                    tvVipState.setVisibility(View.GONE);
-                    tvVipTime.setVisibility(View.VISIBLE);
-                    tvVipTime.setText(bean.data.vipTime + getString(R.string.到期));
-                    tvKt.setVisibility(View.VISIBLE);
+                GlideBroadUtil.setImag(this@HyzxBroadActivity, bean!!.data.icon, ivIcon)
+                if (null != bean?.data?.isvip && bean?.data?.isvip == "1" && !HttpsBroadConfig.isReviewEnv) {
+                    tvVipState!!.setVisibility(View.GONE)
+                    tvVipTime!!.setVisibility(View.VISIBLE)
+                    tvVipTime!!.setText(bean!!.data.vipTime + getString(R.string.到期))
+                    tvKt!!.setVisibility(View.VISIBLE)
                 } else {
-                    tvVipState.setVisibility(View.VISIBLE);
-                    tvVipTime.setVisibility(View.GONE);
-                    tvKt.setVisibility(View.GONE);
+                    tvVipState!!.setVisibility(View.VISIBLE)
+                    tvVipTime!!.setVisibility(View.GONE)
+                    tvKt!!.setVisibility(View.GONE)
                 }
             }
 
-            @Override
-            public void onError(Response response, int code, Exception e) {
+
+            override fun onError(response: Response?, code: Int, e: Exception?) {
             }
-        });
+        })
     }
 
 
     /**
      * 兑换会员
-     *
+     * 
      * @param code
      */
-    private void duivip(String code) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("code", code);
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.duivip, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                userInfo();
+    private fun duivip(code: String?) {
+        val param: MutableMap<String?, Any?> = HashMap<String?, Any?>()
+        param.put("code", code)
+        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.duivip, param, object : SpotsCallBroadBack<ResultBroadBean?>(this) {
+            override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
+                userInfo()
             }
 
-            @Override
-            public void onError(Response response, int code, Exception e) {
+            override fun onError(response: Response?, code: Int, e: Exception?) {
             }
-        });
+        })
     }
 
-    private void initViews() {
-        viHead = findViewById(R.id.viHead);
-        imFinish = findViewById(R.id.imFinish);
-        ivIcon = findViewById(R.id.ivIcon);
-        tvName = findViewById(R.id.tvName);
-        tvVipState = findViewById(R.id.tvVipState);
-        tvVipTime = findViewById(R.id.tvVipTime);
-        tvTq = findViewById(R.id.tvTq);
-        tvKt = findViewById(R.id.tvKt);
-        tvDh = findViewById(R.id.tvDh);
-        tvPay = findViewById(R.id.tvPay);
+    private fun initViews() {
+        viHead = findViewById<View>(R.id.viHead)
+        imFinish = findViewById<AppCompatImageView>(R.id.imFinish)
+        ivIcon = findViewById<RoundedImageView?>(R.id.ivIcon)
+        tvName = findViewById<TextView>(R.id.tvName)
+        tvVipState = findViewById<TextView>(R.id.tvVipState)
+        tvVipTime = findViewById<TextView>(R.id.tvVipTime)
+        tvTq = findViewById<TextView>(R.id.tvTq)
+        tvKt = findViewById<TextView>(R.id.tvKt)
+        tvDh = findViewById<TextView>(R.id.tvDh)
+        tvPay = findViewById<TextView>(R.id.tvPay)
     }
 
-    @Override
-    protected boolean useStatusBarDarkFont() {
-        return false;
+    override fun useStatusBarDarkFont(): Boolean {
+        return false
     }
 }

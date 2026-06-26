@@ -91,7 +91,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
                     CreditScoreActivateBroadPop(requireContext()).apply {
                         sureInvoke = {
                             //                    if (payLsOrderBean == null) {
-                            viewModel.createPayOrder("credit_activate",true, true).observe(viewLifecycleOwner) { data ->
+                            viewModel.createPayOrder("credit_activate", true, true).observe(viewLifecycleOwner) { data ->
 //                            eLogD("payOrderData", toJson2(data))
                                 payLsOrderBean = data
                                 showSelectPayMethod("")
@@ -242,34 +242,12 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         val payPopup = PaymentMethodPopup(requireContext())
         payPopup.setOnSelected {
             canPay = true
-            openData(payLsOrderBean, it, price)
+            viewModel.openWalletPay(payLsOrderBean, it, requireContext())
             payPopup.dismiss()
         }
         payPopup.showPopupWindow()
     }
 
-    private fun openData(data: PayLsOrderBean?, paymentMethod: PaymentMethodBroadBean, bigDecimal: String) {
-        if (data == null) {
-            showToastMain("订单数据为空")
-            return
-        }
-//        val endPrice = mul(bigDecimal, data.priceUsdt)
-//        eLogD("payOrderData_bigDecimal", bigDecimal)
-//        eLogD("payOrderData_amountDisplay", data.amountDisplay)
-//        eLogD("payOrderData_endPrice", endPrice)
-//        val tokenSymbol = data.tokenSymbol.ifBlank { "ODIC" }
-        val chainId = anyToInt(data.chainId)
-        val h5Url = "https://pay.web4x.io/pay?amountDisplay=${data.priceOdic}" +
-                "&chainId=$chainId" +
-                "&orderId=${data.orderId}" +
-                "&tokenSymbol=ODIC&paymentType=2"
-        eLogD("payOrderData_h5Url", h5Url)
-        when (paymentMethod.id) {
-            IM_TOKEN -> openH5InImToken(h5Url, requireContext())
-            TP -> openH5InTokenPocket(h5Url, requireContext(), chainId)
-            META_MASK -> openH5InMetaMask(h5Url, requireContext())
-        }
-    }
 
     private val userInfoClick = object : OnSingleClickBroadListener() {
         override fun onSingleClick(v: View?) {

@@ -231,4 +231,7 @@ object UrlBroadBroadConstants {
 
     const val VIP_OPEN_PLANS = "api/vip/open/plans" // 会员开通套餐列表
 
+    const val OPEN_MEMBER = "api/vip/open/activate" // 开通会员
+
+
 }

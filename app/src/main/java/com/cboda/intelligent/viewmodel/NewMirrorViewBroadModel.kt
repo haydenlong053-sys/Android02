@@ -147,15 +147,56 @@ open class NewMirrorViewBroadModel : BaseViewBroadModel() {
             ToastBroadUtils.show("订单数据为空")
             return
         }
+        eLogD("openWalletPay_data", toJson2(data))
+        val priceOdic = BigDecimal(data.priceOdic)
         val chainId = anyToInt(data.chainId)
-        val h5Url = "https://pay.web4x.io/pay?amountDisplay=${data.priceOdic}" +
+        val h5Url = "https://pay.web4x.io/pay?amountDisplay=$priceOdic" +
                 "&chainId=$chainId" +
                 "&orderId=${data.orderId}" +
-                "&tokenSymbol=ODIC&paymentType=4"
+                "&tokenSymbol=ODIC&paymentType=${data.paymentType}"
+        eLogD("openWalletPay_h5Url", h5Url)
         when (paymentMethod.id) {
             IM_TOKEN -> openH5InImToken(h5Url, context)
             TP -> openH5InTokenPocket(h5Url, context, chainId)
             META_MASK -> openH5InMetaMask(h5Url, context)
+        }
+    }
+
+
+    fun openMember(orderId: String?, haveLoading: Boolean, closeLoading: Boolean, callBack: (Boolean) -> Unit) {
+        val params = hashMapOf<String, Any?>("payType" to "chain", "orderId" to orderId)
+        if (haveLoading) {
+            showLoading()
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.OPEN_MEMBER,
+                        Any::class.java, params
+                    )
+                    result.onSuccess {
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        callBack.invoke(true)
+                    }.onFailure { _, message ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain(message)
+                    }.onError { error ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain("${error.message}")
+                    }
+                } catch (_: Exception) {
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
+                }
+            }
         }
     }
 
@@ -202,9 +243,15 @@ open class NewMirrorViewBroadModel : BaseViewBroadModel() {
         }
     }
 
-    fun createPayOrder(scene: String, haveLoading: Boolean, closeLoading: Boolean): SingleLiveBroadData<PayLsOrderBean> {
+    fun createPayOrder(scene: String, haveLoading: Boolean, closeLoading: Boolean, callBack: (PayLsOrderBean) -> Unit = {}): SingleLiveBroadData<PayLsOrderBean> {
         val liveData = SingleLiveBroadData<PayLsOrderBean>()
-        val params = hashMapOf<String, Any?>("scene" to scene)
+        val params = if (scene == "vip_open") {
+            val createGroupData = CreateGroupData()
+            createGroupData.planId = "1"
+            hashMapOf<String, Any?>("scene" to scene, "bizParams" to createGroupData)
+        } else {
+            hashMapOf<String, Any?>("scene" to scene)
+        }
         if (haveLoading) {
             showLoading()
         }
@@ -221,6 +268,7 @@ open class NewMirrorViewBroadModel : BaseViewBroadModel() {
                         }
                         data?.let {
                             liveData.postValue(data)
+                            callBack.invoke(data)
                         } ?: showToastMain("数据为空")
                     }.onFailure { _, message ->
                         if (closeLoading) {

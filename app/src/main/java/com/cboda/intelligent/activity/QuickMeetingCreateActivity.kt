@@ -29,6 +29,7 @@ import com.cboda.baselibrary.utils.openH5InImToken
 import com.cboda.baselibrary.utils.openH5InMetaMask
 import com.cboda.baselibrary.utils.openH5InTokenPocket
 import com.cboda.baselibrary.utils.showCommonStrTip
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
@@ -44,6 +45,7 @@ import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.QuickMeetingCreateViewModel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback {
 
@@ -223,10 +225,13 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
             return
         }
         val chainId = anyToInt(data.chainId)
-        val h5Url = "https://pay.web4x.io/pay?amountDisplay=${data.priceOdic}" +
+        eLogD("openWalletPay_data2", toJson2(data))
+        val priceOdic = BigDecimal(data.priceOdic)
+        val h5Url = "https://pay.web4x.io/pay?amountDisplay=$priceOdic" +
                 "&chainId=$chainId" +
                 "&orderId=${data.orderId}" +
-                "&tokenSymbol=ODIC&paymentType=4"
+                "&tokenSymbol=ODIC&paymentType=${data.paymentType}"
+        eLogD("openWalletPay_h5Url2", h5Url)
         when (paymentMethod.id) {
             IM_TOKEN -> openH5InImToken(h5Url, this)
             TP -> openH5InTokenPocket(h5Url, this, chainId)
