@@ -8,12 +8,12 @@ import android.util.Log;
 
 import com.cboda.intelligent.app.MyBroadApp;
 import com.freddy.im.crypto.ImCryptoKeys;
+import com.freddy.chat.im.othbusi.OthBusiSigHandlers;
 import com.freddy.im.listener.OnEventListener;
 import com.freddy.im.message.ImGroupChangeManager;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.signal.ImSignalProtos;
-import com.freddy.im.signal.OthBusiSigHelper;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -189,17 +189,9 @@ public class IMSEventListener implements OnEventListener {
             }
         }
 
-        // 0x0501 其他业务信令：OthBusiSig，群公告变更 code=1001 data={"groupId":"..."}
+        // 0x0501 其他业务信令：OthBusiSig 按 code 分发
         if (push.getHeader().getCmd() == ImSignalProtos.Cmd.OTH_BUSI_VALUE && push.hasBody()) {
-            try {
-                String groupId = OthBusiSigHelper.parseGroupNoticeGroupId(push.getBody().toByteArray());
-                if (!TextUtils.isEmpty(groupId)) {
-                    Log.d(TAG, "OTH_BUSI group notice groupId=" + groupId);
-                    MessageProcessor.getInstance().notifyGroupNoticeUpdated(groupId);
-                }
-            } catch (Exception e) {
-                Log.e(TAG, "解析 OthBusiSig 失败", e);
-            }
+            OthBusiSigHandlers.get().dispatch(push.getBody().toByteArray());
         }
 
     }
