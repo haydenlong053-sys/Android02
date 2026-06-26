@@ -37,7 +37,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
     private TextView tvVipTime;
     private TextView tvTq;
     private TextView tvKt;
-    private TextView tvDh;
+    private TextView tvDh, tvPay;
 
     @Override
     public boolean showOrHideTitleLayout() {
@@ -60,8 +60,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
         initViews();
         if (HttpsBroadConfig.isReviewEnv) {
             tvDh.setVisibility(View.GONE);
-        } else {
-            tvDh.setVisibility(View.VISIBLE);
+            tvPay.setVisibility(View.GONE);
         }
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height",
@@ -129,6 +128,20 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 bean = resultBean;
                 tvName.setText(bean.data.name);
+                if (!HttpsBroadConfig.isReviewEnv) {
+                    if (1 == resultBean.data.vipRedeemEnabled) {
+                        tvDh.setVisibility(View.VISIBLE);
+                    } else {
+                        tvDh.setVisibility(View.GONE);
+                    }
+                    if (1 == resultBean.data.vipPurchaseEnabled) {
+                        tvPay.setVisibility(View.VISIBLE);
+                    } else {
+                        tvPay.setVisibility(View.GONE);
+                    }
+                }
+
+
                 GlideBroadUtil.setImag(HyzxBroadActivity.this, bean.data.icon, ivIcon);
                 if (null != bean.data.isvip && bean.data.isvip.equals("1") && !HttpsBroadConfig.isReviewEnv) {
                     tvVipState.setVisibility(View.GONE);
@@ -179,6 +192,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
         tvTq = findViewById(R.id.tvTq);
         tvKt = findViewById(R.id.tvKt);
         tvDh = findViewById(R.id.tvDh);
+        tvPay = findViewById(R.id.tvPay);
     }
 
     @Override
