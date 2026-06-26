@@ -45,7 +45,7 @@ public class TextMessageVH extends BaseMessageVH {
         boolean sentByMe = message.isSender(context.currentUserId);
         int mentionColor = sentByMe
                 ? ContextCompat.getColor(itemView.getContext(), android.R.color.white)
-                : ContextCompat.getColor(itemView.getContext(), R.color.wechat_link);
+                : ContextCompat.getColor(itemView.getContext(), com.cboda.chatui.R.color.color_text0);
         Spannable spannable = new SpannableString(body);
         AtMentionSpanUtil.applyMentionHighlight(spannable, message.getCustomInfo(), mentionColor);
         tvMessage.setText(spannable);
