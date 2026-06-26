@@ -229,4 +229,6 @@ object UrlBroadBroadConstants {
 
     const val SELECT_ORDER = "api/wallet/pay/poll"//查这笔链上支付有没有成功
 
+    const val VIP_OPEN_PLANS = "api/vip/open/plans" // 会员开通套餐列表
+
 }

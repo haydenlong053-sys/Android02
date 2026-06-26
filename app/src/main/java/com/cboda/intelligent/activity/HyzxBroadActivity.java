@@ -1,5 +1,7 @@
 package com.cboda.intelligent.activity;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToDouble;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +10,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.cboda.baselibrary.network.NetworkBroadUtils;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
+import com.cboda.intelligent.bean.VipOpenPlanBroadBean;
 import com.cboda.intelligent.dialog.InputJhmBroadDialog;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;
@@ -18,9 +22,15 @@ import com.cboda.intelligent.utils.SpotsCallBroadBack;
 import com.cboda.intelligent.net.BroadUrl;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.intelligent.utils.JumpBroadUtils;
+import com.cboda.intelligent.utils.UrlBroadBroadConstants;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Response;
@@ -76,6 +86,7 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
         tvKt.setOnClickListener(this);
         userInfo();
         ptConfig();
+        loadVipOpenPlans();
     }
 
 
@@ -116,6 +127,49 @@ public class HyzxBroadActivity extends BaseSimpleBroadActivity implements View.O
             public void onError(Response response, int code, Exception e) {
             }
         });
+    }
+
+    /**
+     * 获取会员开通套餐，展示第一条 priceUsdt
+     */
+    private void loadVipOpenPlans() {
+        Map<String, Object> param = new HashMap<>();
+        NetworkBroadUtils.INSTANCE.postEncryptedList(
+                UrlBroadBroadConstants.VIP_OPEN_PLANS,
+                param,
+                new NetworkBroadUtils.ListCallback<VipOpenPlanBroadBean>() {
+                    @Override
+                    public void onSuccess(@Nullable List<? extends VipOpenPlanBroadBean> list, int totalCount, int totalPage) {
+                        if (list == null || list.isEmpty() || list.get(0) == null) {
+                            return;
+                        }
+                        double priceUsdt = anyToDouble(list.get(0).priceUsdt);
+                        tvPay.setText(formatDirectPurchaseText(priceUsdt));
+                    }
+
+                    @Override
+                    public void onFailure(int code, @NotNull String message) {
+                    }
+
+                    @Override
+                    public void onError(@NotNull Throwable throwable) {
+                    }
+                }
+        );
+    }
+
+    private String formatDirectPurchaseText(double priceUsdt) {
+        return "直接购买 " + formatUsdtPrice(priceUsdt) + " USDT";
+    }
+
+    private String formatUsdtPrice(double priceUsdt) {
+        if (priceUsdt <= 0) {
+            return "0";
+        }
+        if (priceUsdt == Math.rint(priceUsdt)) {
+            return String.valueOf((long) priceUsdt);
+        }
+        return new BigDecimal(String.valueOf(priceUsdt)).stripTrailingZeros().toPlainString();
     }
 
     /**
