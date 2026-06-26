@@ -166,9 +166,9 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             String prefix = holder.itemView.getContext().getString(com.cboda.chatui.R.string.someone_mentioned_me);
             String text = prefix + preview;
             SpannableString spannable = new SpannableString(text);
-            int red = ContextCompat.getColor(holder.itemView.getContext(), com.cboda.chatui.R.color.red7);
+            int blue = ContextCompat.getColor(holder.itemView.getContext(), R.color.color_3B47DD);
             spannable.setSpan(
-                    new ForegroundColorSpan(red),
+                    new ForegroundColorSpan(blue),
                     0,
                     prefix.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
