@@ -25,6 +25,7 @@ import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.openH5InImToken
 import com.cboda.baselibrary.utils.openH5InMetaMask
 import com.cboda.baselibrary.utils.openH5InTokenPocket
@@ -141,12 +142,37 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                 ToastBroadUtils.show(validationError)
                 return@goPermissionAudioMeet
             }
-            viewModel.createPayOrder(viewModel.buildCreateGroupData(), true, true)
-                .observe(this@QuickMeetingCreateActivity) { order ->
-                    payLsOrderBean = order
-                    showSelectPayMethod()
-                }
+            viewModel.checkPayMeet(viewModel.buildCreateGroupData(false).groupIdNo).observe(this@QuickMeetingCreateActivity) { data ->
+                val paidUnused = data.paidUnused
+                paidUnused?.let { checkMeetBean ->
+                    if (checkMeetBean.remainSeconds > 0 && checkMeetBean.has) {
+                        showCommonStrTip("是否使用这笔订单创建会议？", "检测到你在本群有一笔已支付未使用的会议订单，该订单将保留", "新建会议", "使用该订单", getResumeActivity()) { toCheck ->
+                            if (toCheck) {
+                                lifecycleScope.launch {
+                                    viewModel.goCreateQuickMeet(checkMeetBean.groupIdNo, checkMeetBean.channelName, checkMeetBean.durationConfigId, checkMeetBean.userTierConfigId, checkMeetBean.orderId)
+                                        .observe(this@QuickMeetingCreateActivity) {
+                                            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                        }
+                                }
+                            } else {
+                                createOrder(true)
+                            }
+                        }
+                    } else {
+                        createOrder()
+                    }
+                } ?: createOrder()
+            }
+
         }
+    }
+
+    private fun createOrder(forceNewPay: Boolean = false) {
+        viewModel.createPayOrder(viewModel.buildCreateGroupData(forceNewPay), true, true)
+            .observe(this@QuickMeetingCreateActivity) { order ->
+                payLsOrderBean = order
+                showSelectPayMethod()
+            }
     }
 
     private fun showSelectPayMethod() {

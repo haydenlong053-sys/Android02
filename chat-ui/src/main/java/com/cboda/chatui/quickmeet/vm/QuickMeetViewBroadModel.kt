@@ -1,7 +1,11 @@
 package com.cboda.chatui.quickmeet.vm
 
+import android.text.TextUtils
+import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.bean.CreateGroupData
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -10,7 +14,10 @@ import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
+import com.cboda.baselibrary.utils.toLog
 import com.cboda.chatui.quickmeet.UrlMeetConstants
+import com.cboda.chatui.quickmeet.bean.CheckMeetPayBean
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.bean.SeatMicListBean
@@ -18,7 +25,9 @@ import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.jvm.java
 
 //极速直播
 open class QuickMeetViewBroadModel : BaseViewModel() {
@@ -87,6 +96,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
 
                 }.onFailure { code, message ->
                     dismissLoadingWfc()
+//                    safeCenterLiveData.postValue(QuickDetailMeetBean())
                     ToastBroadUtils.show(message)
                 }.onError {
                     dismissLoadingWfc()
@@ -298,6 +308,39 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             }
         }
         return safeCenterLiveData
+    }
+
+
+    fun checkPayMeet(groupIdNo: String? = null, callBack: (CheckMeetPayBean) -> Unit = {}): SingleLiveBroadData<CheckMeetPayBean> {
+        val liveData = SingleLiveBroadData<CheckMeetPayBean>()
+        val params = hashMapOf<String, Any?>()
+        if (!TextUtils.isEmpty(groupIdNo)) {
+            params["groupIdNo"] = groupIdNo
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlMeetConstants.PENDING_MEETING,
+                        CheckMeetPayBean::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        eLogD("checkPayMeet", toJson2(data))
+                        data?.let {
+                            liveData.postValue(it)
+                            callBack.invoke(it)
+                        } ?: eLogD("checkPayMeet", "onSuccess_data=null")
+                    }.onFailure { _, message ->
+                        eLogD("checkPayMeet", "onFailure_$message")
+                    }.onError { error ->
+                        eLogD("checkPayMeet", "onError_${error?.message}")
+                    }
+                } catch (e: Exception) {
+                    e.toLog("checkPayMeet_onException")
+                }
+            }
+        }
+        return liveData
     }
 
 }

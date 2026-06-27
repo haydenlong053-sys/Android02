@@ -86,8 +86,10 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.chatui.bridge.TiXingBroadUtils
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
+import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
+import com.cboda.chatui.quickmeet.bean.CheckMeetPayBean
 import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
@@ -488,9 +490,47 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         activityResumeLiveData.observeForever {
             checkOrder()
         }
+        checkMeetOrder()
     }
 
 
+    private fun checkMeetOrder() {
+        quickMeetViewBroadModel.checkPayMeet().observe(this@MainBroadActivity) { data ->
+            val paidUnused = data.paidUnused
+            paidUnused?.let { checkMeetBean ->
+                if (checkMeetBean.remainSeconds > 0 && checkMeetBean.has) {
+                    showCommonStrTip("是否继续创建会议？", "你有一笔已支付但未使用的会议订单，该订单将保留", "稍后处理", "继续开会", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
+                        if (toCheck) {
+//                            eLogD("MainBroadActivityClass", "toCheck")
+                            lifecycleScope.launch {
+//                                eLogD("MainBroadActivityClass", "goCreateQuickMeet")
+                                quickMeetViewModel.goCreateQuickMeet(checkMeetBean.groupIdNo, checkMeetBean.channelName, checkMeetBean.durationConfigId, checkMeetBean.userTierConfigId, checkMeetBean.orderId)
+                                    .observe(this@MainBroadActivity) {
+//                                        eLogD("MainBroadActivityClass", "callMeetAction_data:${toJson2(it)}")
+                                        AppBroadUtils.goChat(this@MainBroadActivity, paidUnused.groupIdNo, "1", it)
+                                    }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+//    private var paidUnused: CheckMeetPayBean.CheckMeetBean? = null
+
+//    override fun onEngineSetup() {
+//        showLoading()
+//        eLogD("MainBroadActivityClass", "onEngineSetup")
+//    }
+//
+//    override fun onRtcJoinChannelSuccess() {
+//        dismissLoading()
+//        eLogD("MainBroadActivityClass", "onRtcJoinChannelSuccess")//bca55f0479eb444c9b3fc9db50103f53 67c4838fd79746a18fb80825626ac3c9
+//        AppBroadUtils.goChat(this@MainBroadActivity, paidUnused?.groupIdNo ?: "", "1")
+//        paidUnused = null
+//    }
 //    private fun getsitonggonggao() {
 //        viewModel?.getxitonggaonggao(this, "1")
 //    }
@@ -509,6 +549,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     }
 
     private var viewModel: CommViewBroadModel? = null
+    private val quickMeetViewBroadModel: QuickMeetViewBroadModel by viewModels()
 
     private var conversationListViewModel: ConversationListViewBroadModel? = null
 

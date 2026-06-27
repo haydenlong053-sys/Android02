@@ -54,8 +54,7 @@ class QuickMeetingCreateViewModel(
     private fun loadMeetingConfig() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
-            repository.getMeetingConfig()
-                .onSuccess { config ->
+            repository.getMeetingConfig().onSuccess { config ->
                     config?.let {
                         // 为TimeOption添加基于索引的id（如果服务器没有返回id或id重复）
 //                        val processedTimeOptions = config.durationConfigList.mapIndexed { index, timeOption ->
@@ -73,28 +72,20 @@ class QuickMeetingCreateViewModel(
 //                        val updatedConfig = config.copy(durationConfigList = processedTimeOptions)
 
                         _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            config = config,
-                            allMic = config.allMembersMicOn,
-                            allMute = config.allMembersMuted,
-                            isNonPayPwd = config.autoRenewPayWithoutPassword
+                            isLoading = false, config = config, allMic = config.allMembersMicOn, allMute = config.allMembersMuted, isNonPayPwd = config.autoRenewPayWithoutPassword
                         )
 
 //                        eLogD("MeetingCreateViewBroadModel", "Processed TimeOptions: ${processedTimeOptions.map { "${it.durationName}(id=${it.id})" }}")
                     }
-                }
-                .onFailure { code, message, data ->
+                }.onFailure { code, message, data ->
                     eLogD("MeetingCreateViewBroadModel", "加载会议配置失败onFailure: $message, data: $data")
                     _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        error = message ?: "加载配置失败"
+                        isLoading = false, error = message ?: "加载配置失败"
                     )
-                }
-                .onError { error ->
+                }.onError { error ->
                     eLogD("MeetingCreateViewBroadModel", "加载会议配置失败onError: ${error.message}")
                     _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        error = error.message ?: "加载配置失败"
+                        isLoading = false, error = error.message ?: "加载配置失败"
                     )
                 }
         }
@@ -108,8 +99,7 @@ class QuickMeetingCreateViewModel(
         val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
 
         _uiState.value = _uiState.value.copy(
-            selectedDate = currentDate,
-            selectedTime = currentTime
+            selectedDate = currentDate, selectedTime = currentTime
         )
     }
 
@@ -202,8 +192,7 @@ class QuickMeetingCreateViewModel(
             // 设置价格加载状态
             _uiState.value = _uiState.value.copy(isPriceLoading = true)
 
-            repository.queryMeetingPrice(duration.id, userCount.id)
-                .onSuccess { response ->
+            repository.queryMeetingPrice(duration.id, userCount.id).onSuccess { response ->
                     response?.let {
                         _uiState.value = _uiState.value.copy(
                             currentPrice = response.priceOdic?.toDouble() ?: 0.0,
@@ -212,14 +201,12 @@ class QuickMeetingCreateViewModel(
                             isPriceLoading = false
                         )
                     }
-                }
-                .onFailure { code, msg, data ->
+                }.onFailure { code, msg, data ->
                     eLogD("MeetingCreateViewBroadModel", "价格查询失败onFailure: code=$code, msg=$msg, data=$data")
                     // 价格查询失败，保持原有价格，只取消加载状态
                     _uiState.value = _uiState.value.copy(isPriceLoading = false)
                     // 可以选择是否显示错误提示，这里暂时不显示
-                }
-                .onError {
+                }.onError {
                     _uiState.value = _uiState.value.copy(isPriceLoading = false)
                     // 可以选择是否显示错误提示，这里暂时不显示
                 }
@@ -254,8 +241,7 @@ class QuickMeetingCreateViewModel(
                 try {
                     val priceConversion = PriceConversion()
                     val result = NetworkBroadRepository.postEncrypted(
-                        UrlBroadBroadConstants.SELECT_ORDER,
-                        PriceConversion::class.java, params
+                        UrlBroadBroadConstants.SELECT_ORDER, PriceConversion::class.java, params
                     )
                     result.onSuccess { data ->
                         if (closeLoading) {
@@ -297,8 +283,7 @@ class QuickMeetingCreateViewModel(
             withContext(Dispatchers.IO) {
                 try {
                     val result = NetworkBroadRepository.postEncrypted(
-                        UrlBroadBroadConstants.GET_ACTIVATE_PRICE,
-                        PriceConversion::class.java, params
+                        UrlBroadBroadConstants.GET_ACTIVATE_PRICE, PriceConversion::class.java, params
                     )
                     result.onSuccess { data ->
                         if (closeLoading) {
@@ -336,12 +321,16 @@ class QuickMeetingCreateViewModel(
         return validateMeetingForm().errorMessage
     }
 
-    fun buildCreateGroupData(): CreateGroupData {
+    fun buildCreateGroupData(getForceNewPay: Boolean = false): CreateGroupData {
         val currentState = _uiState.value
         return CreateGroupData().apply {
             groupIdNo = currentState.groupId
             durationConfigId = (currentState.selectedDuration?.id ?: 0).toString()
             userTierConfigId = (currentState.selectedUserTier?.id ?: 0).toString()
+            roomName = currentState.roomName
+            if (getForceNewPay) {
+                forceNewPay = true
+            }
         }
     }
 
@@ -355,8 +344,7 @@ class QuickMeetingCreateViewModel(
             withContext(Dispatchers.IO) {
                 try {
                     val result = NetworkBroadRepository.postEncrypted(
-                        UrlBroadBroadConstants.CREATE_LS_PAY_ORDER,
-                        PayLsOrderBean::class.java, params
+                        UrlBroadBroadConstants.CREATE_LS_PAY_ORDER, PayLsOrderBean::class.java, params
                     )
                     result.onSuccess { data ->
                         if (closeLoading) {
@@ -439,8 +427,7 @@ class QuickMeetingCreateViewModel(
      * 验证结果数据类
      */
     private data class ValidationResult(
-        val isValid: Boolean,
-        val errorMessage: String?
+        val isValid: Boolean, val errorMessage: String?
     )
 
     /**
@@ -450,11 +437,9 @@ class QuickMeetingCreateViewModel(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
 
-            repository.checkPaymentPasswordStatus()
-                .onSuccess { response ->
+            repository.checkPaymentPasswordStatus().onSuccess { response ->
                     _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        hasPaymentPassword = response.hasPassword
+                        isLoading = false, hasPaymentPassword = response.hasPassword
                     )
                     if (response.hasPassword) {
                         // 已设置支付密码，显示密码输入弹窗
@@ -464,12 +449,10 @@ class QuickMeetingCreateViewModel(
                         _uiState.value = _uiState.value.copy(showSetPasswordDialog = true)
                     }
                     onSuccessInvoke.invoke(response.hasPassword)
-                }
-                .onFailure { error ->
+                }.onFailure { error ->
                     val errorMessage = error.message ?: "检查支付密码状态失败"
                     _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        error = errorMessage
+                        isLoading = false, error = errorMessage
                     )
                     onError(errorMessage)
                 }
@@ -482,18 +465,15 @@ class QuickMeetingCreateViewModel(
     fun verifyPaymentPassword(password: String, onSuccess: (CreateMeetingResponse?) -> Unit, onError: (String, Int) -> Unit) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
-                paymentPasswordLoading = true,
-                paymentPasswordError = null
+                paymentPasswordLoading = true, paymentPasswordError = null
             )
 
             val request = PaymentPasswordVerifyRequest(password)
-            repository.verifyPaymentPassword(request)
-                .onSuccess { response ->
+            repository.verifyPaymentPassword(request).onSuccess { response ->
                     if (response.success) {
                         // 密码验证成功，关闭弹窗并创建会议
                         _uiState.value = _uiState.value.copy(
-                            paymentPasswordLoading = false,
-                            showPaymentPasswordDialog = false
+                            paymentPasswordLoading = false, showPaymentPasswordDialog = false
                         )
                         createMeeting(onSuccess = {
                             onSuccess.invoke(it)
@@ -501,16 +481,13 @@ class QuickMeetingCreateViewModel(
                     } else {
                         // 密码验证失败，保持弹窗打开，显示错误信息
                         _uiState.value = _uiState.value.copy(
-                            paymentPasswordLoading = false,
-                            paymentPasswordError = response.message ?: "支付密码错误"
+                            paymentPasswordLoading = false, paymentPasswordError = response.message ?: "支付密码错误"
                         )
                     }
-                }
-                .onFailure { error ->
+                }.onFailure { error ->
                     val errorMessage = error.message ?: "验证支付密码失败"
                     _uiState.value = _uiState.value.copy(
-                        paymentPasswordLoading = false,
-                        paymentPasswordError = errorMessage
+                        paymentPasswordLoading = false, paymentPasswordError = errorMessage
                     )
                 }
         }
@@ -521,8 +498,7 @@ class QuickMeetingCreateViewModel(
      */
     fun dismissPaymentPasswordDialog() {
         _uiState.value = _uiState.value.copy(
-            showPaymentPasswordDialog = false,
-            paymentPasswordError = null
+            showPaymentPasswordDialog = false, paymentPasswordError = null
         )
     }
 
@@ -566,29 +542,19 @@ class QuickMeetingCreateViewModel(
             }
 
             val request = CreateMeetingRequest(
-                groupId = currentState.groupId,
-                ownerId = ChatManager.Instance().userId,
-                roomName = currentState.roomName,
-                startTime = startTimeTimestamp.toString(), // 使用毫秒级时间戳字符串
-                meetingTime = currentState.selectedDuration?.durationValue ?: 0,
-                meetingMaxUsers = maxParticipants,
-                allMic = currentState.allMic,
-                allMute = currentState.allMute,
-                isNonPayPwd = currentState.isNonPayPwd
+                groupId = currentState.groupId, ownerId = ChatManager.Instance().userId, roomName = currentState.roomName, startTime = startTimeTimestamp.toString(), // 使用毫秒级时间戳字符串
+                meetingTime = currentState.selectedDuration?.durationValue ?: 0, meetingMaxUsers = maxParticipants, allMic = currentState.allMic, allMute = currentState.allMute, isNonPayPwd = currentState.isNonPayPwd
             )
 
             eLogD("MeetingCreateViewBroadModel", "Creating meeting with timestamp: $startTimeTimestamp ms (${currentState.selectedDate} ${currentState.selectedTime})")
 
-            repository.createMeeting(request)
-                .onSuccess {
+            repository.createMeeting(request).onSuccess {
                     _uiState.value = _uiState.value.copy(isLoading = false)
                     onSuccess(it)
-                }
-                .onError {
+                }.onError {
                     _uiState.value = _uiState.value.copy(isLoading = false)
                     onError(it.message ?: "创建会议失败", -1)
-                }
-                .onFailure { code, message, data ->
+                }.onFailure { code, message, data ->
                     eLogD("MeetingCreateViewBroadModel", "创建会议失败onFailure: code=$code, message=$message, data=$data")
                     _uiState.value = _uiState.value.copy(isLoading = false)
                     if (data != null) {
@@ -634,8 +600,7 @@ class QuickMeetingCreateViewModel(
      */
     fun dismissCreateFailedDialog() {
         _uiState.value = _uiState.value.copy(
-            showCreateFailedDialog = false,
-            createFailedMessage = null
+            showCreateFailedDialog = false, createFailedMessage = null
         )
     }
 
@@ -644,8 +609,7 @@ class QuickMeetingCreateViewModel(
      */
     fun dismissValidationFailedDialog() {
         _uiState.value = _uiState.value.copy(
-            showValidationFailedDialog = false,
-            validationFailedMessage = null
+            showValidationFailedDialog = false, validationFailedMessage = null
         )
     }
 }

@@ -34,5 +34,7 @@ class CreateGroupData : Serializable {
     var durationConfigId: String? = null//时长ID
     var userTierConfigId: String? = null//人数ID
 
+    var roomName: String? = null //会议室名称
+    var forceNewPay: Boolean? = null
     var planId: String? = null
 }

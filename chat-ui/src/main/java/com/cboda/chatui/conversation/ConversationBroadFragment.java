@@ -13,9 +13,12 @@ import static com.cboda.baselibrary.utils.ChooseBroadPictureKt.chooseMsgOnePictu
 import static com.cboda.baselibrary.utils.ELogUtilKt.APP_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppContext;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showCommonStrTip;
 import static com.cboda.chatui.voip.conference.GiftChatRoomHelper.getGiftChatRoomId;
 
 import android.annotation.SuppressLint;
@@ -115,9 +118,12 @@ import com.cboda.chatui.group.PickGroupMemberBroadActivity;
 import com.cboda.chatui.quickmeet.CallEventCallback;
 import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.CallData;
+import com.cboda.chatui.quickmeet.bean.CallDirect;
+import com.cboda.chatui.quickmeet.bean.CheckMeetPayBean;
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
+import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel;
 import com.cboda.chatui.third.utils.ImageBroadUtils;
 import com.cboda.chatui.third.utils.UIBroadUtils;
 import com.cboda.chatui.user.UserViewBroadModel;
@@ -220,6 +226,7 @@ public class ConversationBroadFragment extends Fragment implements
     public MessageViewBroadModel messageBroadViewModel;
     private UserViewBroadModel userBroadViewModel;
     private GroupViewBroadModel groupBroadViewModel;
+//    private QuickMeetViewBroadModel quickMeetViewBroadModel;
     private ChatRoomViewBroadModel chatRoomBroadViewModel;
 
     private Handler handlerBroad = ThreadUtils.getMainHandler();
@@ -685,11 +692,11 @@ public class ConversationBroadFragment extends Fragment implements
         }
     }
 
-    public void setupConversation(Conversation conversation, String title, long focusMessageId, String target) {
-        setupConversation(conversation, title, focusMessageId, target, false);
-    }
+//    public void setupConversation(Conversation conversation, String title, long focusMessageId, String target) {
+//        setupConversation(conversation, title, focusMessageId, target, false, "");
+//    }
 
-    public void setupConversation(Conversation conversation, String title, long focusMessageId, String target, boolean isJoinedChatRoom) {
+    public void setupConversation(Conversation conversation, String title, long focusMessageId, String target, boolean isJoinedChatRoom, String quickDetailMeetBeanStr) {
         if (this.conversationBroad != null) {
             if ((this.conversationBroad.type == Conversation.ConversationType.Single && !ChatManager.Instance().isMyFriend(this.conversationBroad.target))
                     || this.conversationBroad.type == Conversation.ConversationType.Group) {
@@ -737,7 +744,34 @@ public class ConversationBroadFragment extends Fragment implements
             });
 
         }
+        if (!TextUtils.isEmpty(quickDetailMeetBeanStr) && conversation.type == Conversation.ConversationType.Group) {
+            QuickDetailMeetBean quickDetailMeetBean = fromJson2(quickDetailMeetBeanStr, QuickDetailMeetBean.class);
+            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, !TextUtils.isEmpty(quickDetailMeetBean.channelId) ? quickDetailMeetBean.channelId : conversation.target, quickDetailMeetBean.token != null ? quickDetailMeetBean.token : "", quickDetailMeetBean);
+        } else if (conversation.type == Conversation.ConversationType.Group) {
+//            quickMeetViewBroadModel.checkPayMeet(conversation.target, data -> {
+//                CheckMeetPayBean.CheckMeetBean checkMeetBean = data.getPaidUnused();
+//                if (null != checkMeetBean && checkMeetBean.getRemainSeconds() > 0L && checkMeetBean.getHas()) {
+////                        showCommonStrTip();
+//                }
+//                return null;
+//            });
 
+
+            //            viewModel.checkPayMeet(viewModel.buildCreateGroupData().groupIdNo).observe(this@QuickMeetingCreateActivity) { data ->
+//                val paidUnused = data.paidUnused
+//                paidUnused?.let { it ->
+//                    if (it.remainSeconds > 0 && it.has) {
+//                        lifecycleScope.launch {
+//                            viewModel.goCreateQuickMeet(it.groupIdNo, it.channelName, it.durationConfigId, it.userTierConfigId, it.orderId).observe(this@QuickMeetingCreateActivity) {
+//                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+//                            }
+//                        }
+//                    }
+//                }
+//
+//
+//            }
+        }
     }
 
     private void addBarrageData(String userName, int giftType, boolean isMeSend) {
@@ -1096,6 +1130,7 @@ public class ConversationBroadFragment extends Fragment implements
     private void setupConversation(Conversation conversation) {
         if (conversation.type == Conversation.ConversationType.Group) {
             groupBroadViewModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
+//            quickMeetViewBroadModel = new ViewModelProvider(this).get(QuickMeetViewBroadModel.class);
             initGroupObservers();
             groupBroadViewModel.getGroupMembers(conversation.target, true);
             groupInfoBroad = groupBroadViewModel.getGroupInfo(conversation.target, true);

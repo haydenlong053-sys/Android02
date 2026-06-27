@@ -21,6 +21,8 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -241,13 +243,13 @@ class AppBroadUtils {
         }
 
 
-        fun goChat(context: Context?, target: String, isGroup: String) {
+        fun goChat(context: Context?, target: String, isGroup: String, quickDetailMeetBean: QuickDetailMeetBean? = null) {
 //            val intent =
 //                Intent(context, LiXinTUIC2CChatActivity::class.java)
 //            intent.putExtra(TUIConstants.TUIChat.CHAT_TYPE, V2TIMConversation.V2TIM_C2C)
 //            intent.putExtra(TUIConstants.TUIChat.CHAT_ID, uid)
 //            context?.startActivity(intent)
-
+            eLogD("goChat", "isGroup:$isGroup ,target:$target")
             val conversation = Conversation()
             conversation.type =
                 if (isGroup == "1") Conversation.ConversationType.Group else Conversation.ConversationType.Single
@@ -259,6 +261,9 @@ class AppBroadUtils {
                 ConversationBroadActivity::class.java
             )
             intent.putExtra("conversation", conversation)
+            if (null != quickDetailMeetBean) {
+                intent.putExtra("quickDetailMeetBean", toJson2(quickDetailMeetBean))
+            }
             context?.startActivity(intent)
         }
 
