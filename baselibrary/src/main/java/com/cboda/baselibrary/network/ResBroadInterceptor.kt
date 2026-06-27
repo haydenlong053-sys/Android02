@@ -19,7 +19,12 @@ import java.util.concurrent.TimeUnit
  * 功能：仅仅只是打印响应结果
  */
 class ResBroadInterceptor(private val tAG: String) : Interceptor {
-//    private val jsonFormat by lazy { DefaultsFactory.createJsonFormatter() }
+
+    companion object {
+        /** 日志仅预览响应/请求体前 8KB，避免大 body + 并发请求导致 OOM */
+        private const val MAX_LOG_BODY_BYTES = 8 * 1024L
+        private const val MAX_LOG_MESSAGE_CHARS = 16 * 1024
+    }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -28,17 +33,11 @@ class ResBroadInterceptor(private val tAG: String) : Interceptor {
         val response = chain.proceed(request)
         try {
             logRequest(request, requestBody)
-            val responseBody = response.body
-            val source = responseBody?.source()
             val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs)
-            source?.request(Long.MAX_VALUE)
-            val buffer = source?.buffer
-            val contentType =
-                responseBody?.contentType() ?: "application/json;charset=UTF-8".toMediaTypeOrNull()
-            val charset = contentType?.charset(charsetUft8)
-            var resBody: String? = ""
-            if (null != charset) {
-                resBody = buffer?.clone()?.readString(charset)
+            val resBody = try {
+                response.peekBody(MAX_LOG_BODY_BYTES).string()
+            } catch (e: Exception) {
+                ""
             }
             var jmReqBody = ""
             try {
@@ -100,7 +99,16 @@ class ResBroadInterceptor(private val tAG: String) : Interceptor {
     }
 
     private val charsetUft8 = Charset.forName("utf-8")
+
+    private fun truncateForLog(message: String): String {
+        if (message.length <= MAX_LOG_MESSAGE_CHARS) {
+            return message
+        }
+        return message.take(MAX_LOG_MESSAGE_CHARS) +
+                "...[truncated, totalChars=${message.length}]"
+    }
+
     private fun log(message: String) {
-        eLogD(tAG, message)
+        eLogD(tAG, truncateForLog(message))
     }
 }
