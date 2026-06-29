@@ -23,6 +23,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
@@ -202,7 +203,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     val result = NetworkBroadRepository.postEncrypted("api/account/getAccountYz", LoginBean::class.java, params)
                     result.onSuccess { data ->
                         data?.also {
-                            if (!data.twoFactorCode && !data.existMbName && !data.existPayPassword) {
+                            if (!data.twoFactorCode && !data.existMbName && !data.existPayPassword && data.secondVerifyNeed == 0) {
                                 pwdLogin(account, pwd)
                             } else {
                                 liveData.postValue(data)
@@ -225,6 +226,32 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
     }
 
 
+    private fun idLogin(linkId: String, errMsg: String) {
+        val params = hashMapOf("id" to linkId, "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(), "type" to "2", "model" to "${getDeviceBrand()} ${getDeviceModel()}")
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncryptedFlat2("api/idLogin", params)
+                    result.onSuccess { map ->
+                        if (!TextUtils.isEmpty(map?.get("apptoken")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("userId")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("imtoken")?.toString() ?: "")) {
+                            AppBroadUtils.imLogin(getAppContext(null), map?.get("apptoken")?.toString(), map?.get("userId")?.toString(), map?.get("imtoken")?.toString(), "ScanBroadActivity")
+                        } else {
+                            showToastMain(errMsg)
+                        }
+                    }.onFailure { _, msg ->
+                        showToastMain(msg)
+                    }.onError { e ->
+                        showToastMain("${e.message}")
+                    }
+                } catch (_: kotlin.Exception) {
+
+                }
+            }
+        }
+
+
+    }
+
     fun getScanLoginDetail(linkId: String): SingleLiveBroadData<LoginBean?> {
         val params = hashMapOf("idno" to linkId, "eqno" to getAndroidId())
         val liveData = SingleLiveBroadData<LoginBean?>()
@@ -236,6 +263,8 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
 //                        eLogD("LoginViewBroadModelClass", "getScanLoginDetail:${toJson2(data)}")
                         if (data?.oldDevice == true) {
                             oneClickLogin()
+                        } else if (data?.secondVerifyNeed == 0 && !data.existMbName && !data.existPayPassword && !data.twoFactorCode) {
+                            idLogin(linkId, data.secondVerifyUnsetHint)
                         } else {
                             liveData.postValue(data)
                         }
