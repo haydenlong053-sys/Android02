@@ -92,11 +92,13 @@
             android:src="@mipmap/ic_broad_next" />
     </androidx.appcompat.widget.LinearLayoutCompat>
     <View
+        android:id="@+id/minganciDivider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         style="@style/Line2"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/zidongjinyanRow"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="62dp"
@@ -139,10 +141,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
+        android:id="@+id/zidongjinyanDivider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         style="@style/Line2"/>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

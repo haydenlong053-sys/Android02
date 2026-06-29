@@ -43,6 +43,11 @@ public interface IMessageProcessor {
     void notifyGroupNoticeUpdated(@NonNull String groupId);
 
     /**
+     * 群禁言状态变更；事件 {@link Events#GROUP_MUTE_UPDATED}，payload 为 groupId。
+     */
+    void notifyGroupMuteUpdated(@NonNull String groupId);
+
+    /**
      * 本地会话已删除；事件 {@link Events#SESSION_REMOVED}，payload 为 sessionId。
      */
     void notifySessionRemoved(@NonNull String sessionId);

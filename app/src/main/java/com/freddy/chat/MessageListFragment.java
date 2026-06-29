@@ -68,6 +68,7 @@ import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImGroupMemberChangeManager;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.group.GroupRole;
 import com.freddy.chat.forward.ForwardMode;
 import com.freddy.chat.menu.MessageContextMenuHelper;
@@ -107,6 +108,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Events.CHAT_MESSAGE_UPDATE,
             Events.GROUP_MEMBERS_UPDATED,
             Events.GROUP_NOTICE_UPDATED,
+            Events.GROUP_MUTE_UPDATED,
             Events.SESSION_REMOVED,
             Events.MESSAGE_READ_STATE_CHANGED,
             Events.MESSAGE_REPEAL,
@@ -206,6 +208,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             setupGroupNoticeInteraction();
             if (getActivity() instanceof GroupNoticeHost) {
                 ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
+            }
+            if (getActivity() instanceof GroupMuteHost) {
+                ((GroupMuteHost) getActivity()).fetchGroupMuteFromServer();
             }
         }
 
@@ -343,6 +348,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             if (self != null) {
                 myGroupRole = self.getRole();
             }
+            if (isAdded()) {
+                onGroupMuteStateReady();
+            }
             if (map.isEmpty()) {
                 ImGroupMemberChangeManager.getInstance().fetchAllMembersPaginated(sessionId);
             }
@@ -357,6 +365,28 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         };
         gonggaoxinxiBroad.setOnClickListener(openNoticeListener);
         qungonggaoBroad.setOnClickListener(openNoticeListener);
+    }
+
+    /** 群禁言数据就绪或角色变化后刷新底栏。 */
+    public void onGroupMuteStateReady() {
+        applyGroupMuteStatus(myGroupRole);
+    }
+
+    public void applyGroupMuteStatus(int role) {
+        if (!isGroupChat || inputPanel == null || !(getActivity() instanceof GroupMuteHost)) {
+            return;
+        }
+        GroupMuteHost host = (GroupMuteHost) getActivity();
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        GroupMuteEvaluator.UiState state = GroupMuteEvaluator.evaluate(
+                role, currentUserId, host.isGroupAllMuted(), host.getMutedMemberIds());
+        if (state == GroupMuteEvaluator.UiState.ALL_MUTED) {
+            inputPanel.disableInput(getString(com.cboda.chatui.R.string.group_all_muted_hint));
+        } else if (state == GroupMuteEvaluator.UiState.SELF_MUTED) {
+            inputPanel.disableInput(getString(com.cboda.chatui.R.string.group_self_muted_hint));
+        } else {
+            inputPanel.enableInput();
+        }
     }
 
     private void launchMentionPicker() {
@@ -1281,6 +1311,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             String groupId = (String) obj;
             if (isGroupChat && sessionId.equals(groupId)) {
                 loadGroupMembers();
+            }
+            return;
+        }
+        if (Events.GROUP_MUTE_UPDATED.equals(topic) && obj instanceof String) {
+            String groupId = (String) obj;
+            if (isGroupChat && sessionId.equals(groupId) && getActivity() instanceof MessageListActivity) {
+                ((MessageListActivity) getActivity()).refreshGroupMuteFromServer();
             }
             return;
         }

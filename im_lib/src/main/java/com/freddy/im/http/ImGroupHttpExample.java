@@ -22,7 +22,10 @@ import com.freddy.im.http.api.InviteInGroupApi;
 import com.freddy.im.http.api.KickOutGroupApi;
 import com.freddy.im.http.api.LeaveGroupApi;
 import com.freddy.im.http.api.ModifyGroupApi;
+import com.freddy.im.http.api.MutedMembersApi;
 import com.freddy.im.http.api.SearchGroupAsstApi;
+import com.freddy.im.http.api.SetAllMuteApi;
+import com.freddy.im.http.api.SetMembersMuteApi;
 import com.freddy.im.http.api.TransferGroupApi;
 import com.freddy.im.http.api.UpdateGroupNoticeApi;
 import com.freddy.im.http.model.im.BaseMsgResponse;
@@ -315,6 +318,59 @@ public final class ImGroupHttpExample {
         EasyHttp.get(ApplicationLifecycle.getInstance())
                 .api(new GetGroupNoticeApi().setGroupId(groupId))
                 .request(getListener("getGroupNotice", callback, onFail, false, GroupNoticeRes.class));
+    }
+
+    public static void requestSetAllMute(@NonNull String groupId,
+                                         boolean allMute,
+                                         @NonNull OnHttpImListener<Boolean> callback,
+                                         @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new SetAllMuteApi().setGroupId(groupId).setAllMute(allMute))
+                .request(postListener("setAllMute", callback, onFail, false, Boolean.class));
+    }
+
+    public static void requestSetMembersMute(@NonNull String groupId,
+                                             @NonNull List<String> userIds,
+                                             boolean mute,
+                                             @Nullable Long durationSec,
+                                             @NonNull OnHttpImListener<Boolean> callback,
+                                             @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId) || userIds.isEmpty()) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        SetMembersMuteApi api = new SetMembersMuteApi()
+                .setGroupId(groupId)
+                .setUserIds(userIds)
+                .setMute(mute);
+        if (mute && durationSec != null && durationSec > 0) {
+            api.setDuration(durationSec);
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(api)
+                .request(postListener("setMembersMute", callback, onFail, false, Boolean.class));
+    }
+
+    public static void requestMutedMembers(@NonNull String groupId,
+                                           @NonNull OnHttpImListener<List<String>> callback,
+                                           @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new MutedMembersApi().setGroupId(groupId))
+                .request(postListener("mutedMembers", callback, onFail, false, listOf(String.class)));
     }
 
     public static void requestUpdateGroupNotice(@NonNull String groupId,

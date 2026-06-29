@@ -14,7 +14,21 @@ public class GroupVo implements java.io.Serializable {
     private int memCount;
     /** 接口字段名为 {@code owerId}（群主） */
     private String owerId;
+    /** 全员禁言：0 未开启，1 开启（群详情接口返回） */
+    private int allMute;
 
+    /** @return 是否全员禁言 */
+    public boolean isAllMute() {
+        return allMute == 1;
+    }
+
+    public int getAllMute() {
+        return allMute;
+    }
+
+    public void setAllMute(int allMute) {
+        this.allMute = allMute;
+    }
 
     public String getId() {
         return id;

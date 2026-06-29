@@ -13,6 +13,7 @@ import com.freddy.im.db.SessionSyncCursor;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.GroupDetailFetcher;
+import com.freddy.im.http.ImGroupBizErrorCodes;
 import com.freddy.im.http.ImMessageHttpExample;
 import com.freddy.im.http.model.im.ImMessageItem;
 import com.freddy.im.http.model.im.MessageListContent;
@@ -293,6 +294,13 @@ public final class ImMessageManager {
      * 发送失败（服务端错误回执或超时重发用尽）：更新本地发送状态并通知宿主刷新单条消息。
      */
     public void onSendMsgFailed(@NonNull String clientMsgId) {
+        onSendMsgFailed(clientMsgId, -1, null);
+    }
+
+    /**
+     * 发送失败（服务端错误回执或超时重发用尽）：更新本地发送状态并通知宿主刷新单条消息。
+     */
+    public void onSendMsgFailed(@NonNull String clientMsgId, int errorCode, @Nullable String errorMsg) {
         if (TextUtils.isEmpty(clientMsgId)) {
             return;
         }
@@ -300,6 +308,9 @@ public final class ImMessageManager {
             OnOutgoingMessageListener listener = outgoingMessageListener;
             if (listener != null && updated != null) {
                 listener.onOutgoingMessageUpdated(updated);
+            }
+            if (listener != null && ImGroupBizErrorCodes.isMuteSendError(errorCode)) {
+                listener.onSendBizError(errorCode, errorMsg);
             }
         });
     }

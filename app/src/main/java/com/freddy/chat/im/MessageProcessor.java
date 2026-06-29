@@ -35,16 +35,33 @@ public class MessageProcessor implements IMessageProcessor {
     private static final String TAG = MessageProcessor.class.getSimpleName();
 
     private MessageProcessor() {
-        ImMessageManager.getInstance().setOnOutgoingMessageListener(message ->
-                CThreadPoolExecutor.runInBackground(() -> {
-                    try {
-                        System.out.println("更新消息---》"+message.getMsgId()+" 消息状态-->"+message.getSendStatus());
-                        CEventCenter.dispatchEvent(
-                                Events.CHAT_MESSAGE_UPDATE, 0, 0, message);
-                    } catch (Exception e) {
-                        Log.e(TAG, "发送成功消息分发失败，reason=" + e.getMessage());
+        ImMessageManager.getInstance().setOnOutgoingMessageListener(
+                new com.freddy.im.message.OnOutgoingMessageListener() {
+                    @Override
+                    public void onOutgoingMessageUpdated(@NonNull AppMessage message) {
+                        CThreadPoolExecutor.runInBackground(() -> {
+                            try {
+                                System.out.println("更新消息---》" + message.getMsgId()
+                                        + " 消息状态-->" + message.getSendStatus());
+                                CEventCenter.dispatchEvent(
+                                        Events.CHAT_MESSAGE_UPDATE, 0, 0, message);
+                            } catch (Exception e) {
+                                Log.e(TAG, "发送成功消息分发失败，reason=" + e.getMessage());
+                            }
+                        });
                     }
-                }));
+
+                    @Override
+                    public void onSendBizError(int errorCode, @Nullable String errorMsg) {
+                        if (!com.freddy.im.http.ImGroupBizErrorCodes.isMuteSendError(errorCode)) {
+                            return;
+                        }
+                        CThreadPoolExecutor.runOnMainThread(() -> {
+                            String text = !TextUtils.isEmpty(errorMsg) ? errorMsg : "发送失败";
+                            com.cboda.baselibrary.toast.ToastBroadUtils.show(text);
+                        });
+                    }
+                });
         ImLocalStore.setOnSessionPreviewUpdatedListener(this::notifySessionsUpdated);
         ImLocalStore.setOnGroupMembersUpdatedListener(this::notifyGroupMembersUpdated);
         ImLocalStore.setOnSessionRemovedListener(this::notifySessionRemoved);
@@ -130,6 +147,20 @@ public class MessageProcessor implements IMessageProcessor {
                 CEventCenter.dispatchEvent(Events.GROUP_NOTICE_UPDATED, 0, 0, groupId);
             } catch (Exception e) {
                 Log.e(TAG, "群公告更新分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void notifyGroupMuteUpdated(@NonNull final String groupId) {
+        if (TextUtils.isEmpty(groupId)) {
+            return;
+        }
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.GROUP_MUTE_UPDATED, 0, 0, groupId);
+            } catch (Exception e) {
+                Log.e(TAG, "群禁言更新分发失败，reason=" + e.getMessage());
             }
         });
     }

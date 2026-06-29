@@ -429,7 +429,10 @@ public class NettyTcpClient implements IMSClientInterface {
                 }
             } else {
                 if (sendMsgReq != null && !TextUtils.isEmpty(sendMsgReq.getClientMsgId())) {
-                    ImMessageManager.getInstance().onSendMsgFailed(sendMsgReq.getClientMsgId());
+                    int code = res.getHeader().getCode();
+                    String errorMsg = res.getHeader().hasErrorMsg() ? res.getHeader().getErrorMsg() : null;
+                    ImMessageManager.getInstance().onSendMsgFailed(
+                            sendMsgReq.getClientMsgId(), code, errorMsg);
                 }
                 System.out.println("收到响应消息SEND_MSG_RES的服务器报错回执---code=" + res.getHeader().getCode() + " " + res.getHeader().getErrorMsg());
             }
