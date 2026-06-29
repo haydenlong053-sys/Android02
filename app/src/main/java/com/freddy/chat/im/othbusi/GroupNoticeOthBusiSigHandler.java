@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.freddy.chat.im.MessageProcessor;
 import com.freddy.im.signal.OthBusiSigCodes;
@@ -21,7 +22,7 @@ public final class GroupNoticeOthBusiSigHandler implements OthBusiSigHandler {
     }
 
     @Override
-    public boolean handle(@NonNull String data) {
+    public boolean handle(@Nullable String data) {
         String groupId = OthBusiSigJson.readGroupId(data);
         if (TextUtils.isEmpty(groupId)) {
             return false;

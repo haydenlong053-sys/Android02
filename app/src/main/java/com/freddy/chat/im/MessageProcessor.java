@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
+import com.freddy.chat.event.GroupMuteUpdateEvent;
 import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
@@ -153,12 +154,18 @@ public class MessageProcessor implements IMessageProcessor {
 
     @Override
     public void notifyGroupMuteUpdated(@NonNull final String groupId) {
+        notifyGroupMuteUpdated(groupId, GroupMuteUpdateEvent.REFRESH_FROM_SERVER);
+    }
+
+    @Override
+    public void notifyGroupMuteUpdated(@NonNull final String groupId, final int allMute) {
         if (TextUtils.isEmpty(groupId)) {
             return;
         }
+        final GroupMuteUpdateEvent event = new GroupMuteUpdateEvent(groupId, allMute);
         CThreadPoolExecutor.runOnMainThread(() -> {
             try {
-                CEventCenter.dispatchEvent(Events.GROUP_MUTE_UPDATED, 0, 0, groupId);
+                CEventCenter.dispatchEvent(Events.GROUP_MUTE_UPDATED, 0, 0, event);
             } catch (Exception e) {
                 Log.e(TAG, "群禁言更新分发失败，reason=" + e.getMessage());
             }

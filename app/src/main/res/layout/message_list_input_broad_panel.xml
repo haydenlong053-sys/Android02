@@ -193,6 +193,15 @@
                         android:textColor="@color/black_45"
                         android:textSize="14sp" />
                 </com.hjq.shape.layout.ShapeFrameLayout>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_chat_mute_icon3" />
+
             </LinearLayout>
         </com.hjq.shape.layout.ShapeLinearLayout>
 

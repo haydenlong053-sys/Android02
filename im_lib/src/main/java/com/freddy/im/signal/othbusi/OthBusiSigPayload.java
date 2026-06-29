@@ -1,6 +1,7 @@
 package com.freddy.im.signal.othbusi;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.freddy.im.signal.ImSignalProtos;
 
@@ -10,10 +11,10 @@ import com.freddy.im.signal.ImSignalProtos;
 public final class OthBusiSigPayload {
 
     private final int code;
-    @NonNull
+    @Nullable
     private final String data;
 
-    public OthBusiSigPayload(int code, @NonNull String data) {
+    public OthBusiSigPayload(int code, @Nullable String data) {
         this.code = code;
         this.data = data;
     }
@@ -26,7 +27,7 @@ public final class OthBusiSigPayload {
         return code;
     }
 
-    @NonNull
+    @Nullable
     public String getData() {
         return data;
     }

@@ -29,12 +29,12 @@ public final class OthBusiSigDispatcher {
         }
         OthBusiSigHandler handler = handlers.get(payload.getCode());
         if (handler == null) {
-            Log.w(TAG, "未注册的 OthBusiSig code=" + payload.getCode());
+            Log.w(TAG, "未注册的 OthBusiSig code=" + payload.getCode()+"---data="+payload.getData());
             return;
         }
         try {
             if (!handler.handle(payload.getData())) {
-                Log.w(TAG, "OthBusiSig 处理未生效 code=" + payload.getCode());
+                Log.w(TAG, "OthBusiSig 处理未生效 code=" + payload.getCode()+"---data="+payload.getData());
             }
         } catch (Exception e) {
             Log.e(TAG, "OthBusiSig 处理异常 code=" + payload.getCode(), e);

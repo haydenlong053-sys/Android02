@@ -91,7 +91,7 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
                     }
                 }, {
                     runOnUiThread {
-                        ToastBroadUtils.show(getString(R.string.group_notice_save_failed))
+                        ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
                     }
                 })
         }
