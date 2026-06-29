@@ -33,6 +33,7 @@ import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.GroupNoticeRes;
+import com.freddy.im.http.model.im.GroupUserVo;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.listener.OnHttpImListener;
 import com.cboda.intelligent.R;
@@ -282,10 +283,10 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             }
         }, tryApply);
 
-        ImGroupHttpExample.requestMutedMembers(groupId, new OnHttpImListener<List<String>>() {
+        ImGroupHttpExample.requestMutedMembers(groupId, new OnHttpImListener<List<GroupUserVo>>() {
             @Override
-            public void onHttpImSuccess(@NonNull List<String> result) {
-                mutedHolder.addAll(GroupMuteEvaluator.copyMutedIds(result));
+            public void onHttpImSuccess(@NonNull List<GroupUserVo> result) {
+                mutedHolder.addAll(GroupMuteEvaluator.copyMutedIdsFromMembers(result));
                 tryApply.run();
             }
         }, tryApply);

@@ -85,7 +85,8 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
                 object : OnHttpImListener<Boolean> {
                     override fun onHttpImSuccess(result: Boolean) {
                         runOnUiThread {
-                            MessageProcessor.getInstance().notifyGroupMuteUpdated(qunId)
+                            ToastBroadUtils.show("禁言成功")
+//                            MessageProcessor.getInstance().notifyGroupMuteUpdated(qunId)
                             finish()
                         }
                     }

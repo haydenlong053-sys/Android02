@@ -360,7 +360,7 @@ public final class ImGroupHttpExample {
     }
 
     public static void requestMutedMembers(@NonNull String groupId,
-                                           @NonNull OnHttpImListener<List<String>> callback,
+                                           @NonNull OnHttpImListener<List<GroupUserVo>> callback,
                                            @Nullable Runnable onFail) {
         if (TextUtils.isEmpty(groupId)) {
             if (onFail != null) {
@@ -370,7 +370,7 @@ public final class ImGroupHttpExample {
         }
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new MutedMembersApi().setGroupId(groupId))
-                .request(postListener("mutedMembers", callback, onFail, false, listOf(String.class)));
+                .request(postListener("mutedMembers", callback, onFail, false, listOf(GroupUserVo.class)));
     }
 
     public static void requestUpdateGroupNotice(@NonNull String groupId,

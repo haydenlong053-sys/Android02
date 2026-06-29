@@ -5,8 +5,11 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freddy.im.http.model.im.GroupUserVo;
+
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** 群发言禁言状态判定（对齐野火 {@code updateGroupMuteStatus}）。 */
@@ -46,6 +49,20 @@ public final class GroupMuteEvaluator {
         for (String id : userIds) {
             if (!TextUtils.isEmpty(id)) {
                 set.add(id);
+            }
+        }
+        return set;
+    }
+
+    @NonNull
+    public static Set<String> copyMutedIdsFromMembers(@Nullable List<GroupUserVo> members) {
+        if (members == null || members.isEmpty()) {
+            return Collections.emptySet();
+        }
+        Set<String> set = new HashSet<>();
+        for (GroupUserVo member : members) {
+            if (member != null && !TextUtils.isEmpty(member.getUserId())) {
+                set.add(member.getUserId());
             }
         }
         return set;

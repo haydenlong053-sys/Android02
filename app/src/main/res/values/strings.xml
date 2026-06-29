@@ -1282,7 +1282,7 @@
     <string name="group_apply_approve">同意</string>
     <string name="group_apply_reject">拒绝</string>
     <string name="group_apply_action_success">操作成功</string>
-    <string name="group_apply_action_failed">操作失败</string>
+    <string name="group_apply_action_failed">操作失败,请稍后再试</string>
     <string name="my_groups">我的群聊</string>
     <string name="menu_group_info">群聊信息</string>
 
