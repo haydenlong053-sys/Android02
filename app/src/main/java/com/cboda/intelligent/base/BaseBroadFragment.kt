@@ -64,6 +64,9 @@ abstract class BaseBroadFragment<V : ViewBinding, VM : BaseViewBroadModel> : Bas
     protected open fun initViewModel() {}
 
     protected open fun beforeLayout() {}
+
+    protected open fun afterDestroyView() {}
+
     open fun <T : ViewModel> createViewModel(fragment: Fragment, cls: Class<T>): T {
         return ViewModelProvider(fragment)[cls]
     }
@@ -104,6 +107,7 @@ abstract class BaseBroadFragment<V : ViewBinding, VM : BaseViewBroadModel> : Bas
 
     override fun onDestroyView() {
         super.onDestroyView()
+        afterDestroyView()
         mBinding = null
     }
 }
