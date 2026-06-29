@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.chat.event.Events;
+import com.freddy.chat.event.GroupMuteUpdateEvent;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.model.im.SessionItem;
 
@@ -43,9 +44,14 @@ public interface IMessageProcessor {
     void notifyGroupNoticeUpdated(@NonNull String groupId);
 
     /**
-     * 群禁言状态变更；事件 {@link Events#GROUP_MUTE_UPDATED}，payload 为 groupId。
+     * 群禁言状态变更；事件 {@link Events#GROUP_MUTE_UPDATED}，payload 为 {@link GroupMuteUpdateEvent}。
      */
     void notifyGroupMuteUpdated(@NonNull String groupId);
+
+    /**
+     * 0x0501 code=1002 等场景：payload 携带 {@code allMute}（0/1），UI 可直接应用。
+     */
+    void notifyGroupMuteUpdated(@NonNull String groupId, int allMute);
 
     /**
      * 本地会话已删除；事件 {@link Events#SESSION_REMOVED}，payload 为 sessionId。

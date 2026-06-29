@@ -19,6 +19,7 @@ public final class OthBusiSigHandlers {
     private static OthBusiSigDispatcher create() {
         OthBusiSigDispatcher dispatcher = new OthBusiSigDispatcher();
         dispatcher.register(new GroupNoticeOthBusiSigHandler());
+        dispatcher.register(new GroupAllMuteOthBusiSigHandler());
         return dispatcher;
     }
 }

@@ -257,7 +257,6 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         groupMuteFetched = true;
         final String groupId = sessionItem.getSessionId();
         final AtomicInteger pending = new AtomicInteger(2);
-        final boolean[] allMuteHolder = new boolean[1];
         final Set<String> mutedHolder = new HashSet<>();
 
         Runnable tryApply = () -> {
@@ -268,7 +267,6 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                 if (sessionItem == null || !groupId.equals(sessionItem.getSessionId())) {
                     return;
                 }
-                groupAllMute = allMuteHolder[0];
                 mutedMemberIds = mutedHolder;
                 if (messageListFragment != null) {
                     messageListFragment.onGroupMuteStateReady();
@@ -279,8 +277,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         ImGroupHttpExample.requestGetGroupDetail(groupId, new OnHttpImListener<GroupVo>() {
             @Override
             public void onHttpImSuccess(@NonNull GroupVo result) {
-                // 群详情 content.allMute：0 未开启，1 开启
-                allMuteHolder[0] = result.isAllMute();
+                groupAllMute = result.isAllMute();
                 tryApply.run();
             }
         }, tryApply);
@@ -316,6 +313,14 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     public void refreshGroupMuteFromServer() {
         groupMuteFetched = false;
         fetchGroupMuteFromServer();
+    }
+
+    /** 0x0501 code=1002：信令已携带全员禁言态，直接刷新底栏。 */
+    public void applyGroupAllMute(boolean allMute) {
+        groupAllMute = allMute;
+        if (messageListFragment != null) {
+            messageListFragment.onGroupMuteStateReady();
+        }
     }
 
 

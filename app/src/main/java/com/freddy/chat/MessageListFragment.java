@@ -36,6 +36,7 @@ import com.freddy.chat.collect.MessageCollectHelper;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
+import com.freddy.chat.event.GroupMuteUpdateEvent;
 import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
@@ -1314,10 +1315,16 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
             return;
         }
-        if (Events.GROUP_MUTE_UPDATED.equals(topic) && obj instanceof String) {
-            String groupId = (String) obj;
-            if (isGroupChat && sessionId.equals(groupId) && getActivity() instanceof MessageListActivity) {
-                ((MessageListActivity) getActivity()).refreshGroupMuteFromServer();
+        if (Events.GROUP_MUTE_UPDATED.equals(topic) && obj instanceof GroupMuteUpdateEvent) {
+            GroupMuteUpdateEvent event = (GroupMuteUpdateEvent) obj;
+            if (isGroupChat && sessionId.equals(event.getGroupId())
+                    && getActivity() instanceof MessageListActivity) {
+                MessageListActivity activity = (MessageListActivity) getActivity();
+                if (event.shouldRefreshFromServer()) {
+                    activity.refreshGroupMuteFromServer();
+                } else {
+                    activity.applyGroupAllMute(event.isAllMuted());
+                }
             }
             return;
         }
