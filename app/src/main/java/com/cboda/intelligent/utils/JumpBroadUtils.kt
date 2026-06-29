@@ -54,9 +54,12 @@ import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoInfoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity
+import com.cboda.intelligent.activity.im.ImQunJinYanBroadActivity
+import com.cboda.intelligent.activity.im.ImQunJinYanMemberBroadActivity
 import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity
 import com.cboda.intelligent.activity.im.ImQunNameBroadActivity
 import com.cboda.intelligent.activity.im.ImQunUserList2BroadActivity
+import com.cboda.intelligent.activity.im.ImXuanQunJinYanBroadActivity
 import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
@@ -334,6 +337,24 @@ class JumpBroadUtils {
         /** 自研群公告查看页（消息列表顶栏点击）。 */
         fun startImQunGongGaoViewActivity(context: Context?, qunId: String) {
             val intent = Intent(context, ImQunGongGaoInfoBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunJinYanActivity(context: Context?, qunId: String) {
+            val intent = Intent(context, ImQunJinYanBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            context?.startActivity(intent)
+        }
+
+        fun startImXuanQunJinYanActivity(context: Context?, qunId: String) {
+            val intent = Intent(context, ImXuanQunJinYanBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunJinYanMemberActivity(context: Context?, qunId: String) {
+            val intent = Intent(context, ImQunJinYanMemberBroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }

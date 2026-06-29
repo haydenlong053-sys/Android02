@@ -24,4 +24,6 @@ public class Events {
     public static final String SESSION_MESSAGES_CLEARED = "session_messages_cleared";
     /** 群公告变更信令（0x0501 code=1001）；payload 为 {@code groupId}（String） */
     public static final String GROUP_NOTICE_UPDATED = "group_notice_updated";
+    /** 群禁言状态变更；payload 为 {@code groupId}（String） */
+    public static final String GROUP_MUTE_UPDATED = "group_mute_updated";
 }

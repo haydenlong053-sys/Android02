@@ -152,6 +152,48 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/disableInputTipView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="5dp"
+                    android:contentDescription="@null"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_chat_mute_icon1" />
+
+                <com.hjq.shape.layout.ShapeFrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:shape_radius="@dimen/dp_12"
+                    app:shape_solidColor="#E4E5E7">
+
+                    <com.hjq.shape.view.ShapeTextView
+                        android:id="@+id/disableInputTipTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableStart="@mipmap/ic_chat_mute_icon2"
+                        android:drawablePadding="@dimen/dp_4"
+                        android:singleLine="true"
+                        android:text="@string/group_all_muted_hint"
+                        android:textColor="@color/black_45"
+                        android:textSize="14sp" />
+                </com.hjq.shape.layout.ShapeFrameLayout>
+            </LinearLayout>
         </com.hjq.shape.layout.ShapeLinearLayout>
 
         <View

@@ -85,6 +85,9 @@ public class MessageListInputBroadPanel extends FrameLayout
     @Nullable
     private LottieAnimationView mViewAnimateVoice;
     private Button sendButton;
+    private View inputContainerLinearLayout;
+    private View disableInputTipView;
+    private TextView disableInputTipTextView;
 
     @Nullable
     private Fragment fragment;
@@ -191,6 +194,28 @@ public class MessageListInputBroadPanel extends FrameLayout
         }
     }
 
+    public void disableInput(@NonNull String tip) {
+        hidePanelIfShowing();
+        if (inputContainerLinearLayout != null) {
+            inputContainerLinearLayout.setVisibility(GONE);
+        }
+        if (disableInputTipView != null) {
+            disableInputTipView.setVisibility(VISIBLE);
+        }
+        if (disableInputTipTextView != null) {
+            disableInputTipTextView.setText(tip);
+        }
+    }
+
+    public void enableInput() {
+        if (inputContainerLinearLayout != null) {
+            inputContainerLinearLayout.setVisibility(VISIBLE);
+        }
+        if (disableInputTipView != null) {
+            disableInputTipView.setVisibility(GONE);
+        }
+    }
+
     public void hidePanelIfShowing() {
         if (isVoicePanelShowing()) {
             cancelMsgVoice(false);
@@ -249,6 +274,9 @@ public class MessageListInputBroadPanel extends FrameLayout
         audioButton = findViewById(R.id.audioButton);
         mViewAnimateVoice = findViewById(R.id.mViewAnimateVoice);
         sendButton = findViewById(R.id.sendButton);
+        inputContainerLinearLayout = findViewById(R.id.inputContainerLinearLayout);
+        disableInputTipView = findViewById(R.id.disableInputTipView);
+        disableInputTipTextView = findViewById(R.id.disableInputTipTextView);
     }
 
     private void registerPermissionLauncher(@NonNull Fragment fragment) {

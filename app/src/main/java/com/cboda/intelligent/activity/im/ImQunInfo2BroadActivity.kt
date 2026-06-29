@@ -138,7 +138,6 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
         wodequnnicheng.isGone = true
         findViewById<View>(R.id.qunguanliyuan)?.isGone = true
         findViewById<View>(R.id.guanlixian)?.isGone = true
-        findViewById<View>(R.id.qunjinmyan)?.isGone = true
         findViewById<View>(R.id.shengjiqun)?.isGone = true
         findViewById<View>(R.id.shengjiqunView)?.isGone = true
         findViewById<View>(R.id.jiqiren)?.isGone = true
@@ -241,10 +240,11 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
         zhuanrangqun.isVisible = GroupRole.isOwner(myRole)
         zhuanrangxian.isVisible = GroupRole.isOwner(myRole)
 
-        val canEdit = GroupRole.isOwnerOrAdmin(myRole)
-        shezhiquntou.isEnabled = canEdit
-        shezhiqunnicheng.isEnabled = canEdit
-        qungonggao.isEnabled = canEdit
+        val canManage = GroupRole.isOwnerOrAdmin(myRole)
+        shezhiquntou.isEnabled = canManage
+        shezhiqunnicheng.isEnabled = canManage
+        qungonggao.isEnabled = canManage
+        findViewById<View>(R.id.qunjinmyan)?.isVisible = canManage
 
         zhiding.isChecked = state.sessionPinned
         miaodarao.isChecked = state.sessionMuted
@@ -301,6 +301,13 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
         tuichuquan.setOnClickListener { confirmLeave() }
         qingkong.setOnClickListener { confirmClearChat() }
         zhuanrangqun.setOnClickListener { openTransferOwner() }
+        findViewById<View>(R.id.qunjinmyan)?.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) {
+                ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanli))
+                return@setOnClickListener
+            }
+            JumpBroadUtils.startImQunJinYanActivity(this, qunId)
+        }
     }
 
     private fun pickAndUploadAvatar() {

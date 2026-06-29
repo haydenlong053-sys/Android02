@@ -30,6 +30,8 @@ import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.im.http.ImGroupHttpExample;
+import com.freddy.im.group.GroupMuteEvaluator;
+import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.listener.OnHttpImListener;
@@ -41,6 +43,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -48,7 +56,8 @@ import kotlin.jvm.functions.Function1;
 /**
  * 消息列表容器 Activity，内部承载 {@link MessageListFragment}。
  */
-public class MessageListActivity extends BaseSimple2BroadActivity implements GroupNoticeHost {
+public class MessageListActivity extends BaseSimple2BroadActivity
+        implements GroupNoticeHost, GroupMuteHost {
     private boolean isInitialized = false;
     private MessageListFragment messageListFragment;
     private View pageTitleLeftIcon;
@@ -58,7 +67,11 @@ public class MessageListActivity extends BaseSimple2BroadActivity implements Gro
     public MeetPlugin meetPlugin;
     private String fromPageBroad;
     private SessionItem sessionItem;
-    private boolean isFirst =true;
+    private boolean isFirst = true;
+    private boolean groupMuteFetched;
+    private boolean groupAllMute;
+    @NonNull
+    private Set<String> mutedMemberIds = Collections.emptySet();
 
     @Override
     public boolean showOrHideTitleLayout() {
@@ -231,6 +244,80 @@ public class MessageListActivity extends BaseSimple2BroadActivity implements Gro
         JumpBroadUtils.Companion.startImQunGongGaoViewActivity(this, sessionItem.getSessionId());
     }
 
+    @Override
+    public void fetchGroupMuteFromServer() {
+        if (sessionItem == null
+                || sessionItem.getConversation() != ImSignalProtos.ConversationType.MULTI_VALUE
+                || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        if (groupMuteFetched) {
+            return;
+        }
+        groupMuteFetched = true;
+        final String groupId = sessionItem.getSessionId();
+        final AtomicInteger pending = new AtomicInteger(2);
+        final boolean[] allMuteHolder = new boolean[1];
+        final Set<String> mutedHolder = new HashSet<>();
+
+        Runnable tryApply = () -> {
+            if (pending.decrementAndGet() > 0) {
+                return;
+            }
+            runOnUiThread(() -> {
+                if (sessionItem == null || !groupId.equals(sessionItem.getSessionId())) {
+                    return;
+                }
+                groupAllMute = allMuteHolder[0];
+                mutedMemberIds = mutedHolder;
+                if (messageListFragment != null) {
+                    messageListFragment.onGroupMuteStateReady();
+                }
+            });
+        };
+
+        ImGroupHttpExample.requestGetGroupDetail(groupId, new OnHttpImListener<GroupVo>() {
+            @Override
+            public void onHttpImSuccess(@NonNull GroupVo result) {
+                // 群详情 content.allMute：0 未开启，1 开启
+                allMuteHolder[0] = result.isAllMute();
+                tryApply.run();
+            }
+        }, tryApply);
+
+        ImGroupHttpExample.requestMutedMembers(groupId, new OnHttpImListener<List<String>>() {
+            @Override
+            public void onHttpImSuccess(@NonNull List<String> result) {
+                mutedHolder.addAll(GroupMuteEvaluator.copyMutedIds(result));
+                tryApply.run();
+            }
+        }, tryApply);
+    }
+
+    @Override
+    public boolean isGroupAllMuted() {
+        return groupAllMute;
+    }
+
+    @NonNull
+    @Override
+    public Set<String> getMutedMemberIds() {
+        return mutedMemberIds;
+    }
+
+    @Override
+    public void applyGroupMuteToInput(int myGroupRole) {
+        if (messageListFragment != null) {
+            messageListFragment.applyGroupMuteStatus(myGroupRole);
+        }
+    }
+
+    /** 管理页变更禁言后刷新（可重复拉取）。 */
+    public void refreshGroupMuteFromServer() {
+        groupMuteFetched = false;
+        fetchGroupMuteFromServer();
+    }
+
 
     private void attachMessageListFragment(@NonNull SessionItem sessionItem) {
         String focusMsgId = SessionItemIntent.getFocusMsgId(getIntent());
@@ -271,6 +358,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity implements Gro
                 if (isFirst) {
                     isFirst = false;
                     fetchGroupNoticeFromServer();
+                    fetchGroupMuteFromServer();
                 }
             } else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.PAIR_VALUE) {
                 getUserData();
