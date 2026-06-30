@@ -16,6 +16,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.chat.utils.SessionDisplayEnricher
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.SessionItem
@@ -58,7 +59,23 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         swipeRefresh.setColorSchemeResources(R.color.wechat_green)
 
         parentViewModel.observeSessions(sessionCategory).observe(viewLifecycleOwner) { sessions ->
-            renderSessions(sessions)
+            if (!shouldEnrichSessionDisplay()) {
+                renderSessions(sessions)
+                return@observe
+            }
+            SessionDisplayEnricher.enrichSingleChatSessions(
+                sessions,
+                IMSClientBootstrap.getInstance().currentUserId,
+            ) { enriched ->
+                if (!isAdded) {
+                    return@enrichSingleChatSessions
+                }
+                val changed = collectDisplayInfoUpdates(sessions, enriched)
+                if (changed.isNotEmpty()) {
+                    parentViewModel.mergeSessions(changed)
+                }
+                renderSessions(enriched)
+            }
         }
         parentViewModel.loading.observe(viewLifecycleOwner) { loading ->
             if (loading == true && !swipeRefresh.isRefreshing && adapter.itemCount <= 0) {
@@ -75,6 +92,24 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
             return
         }
         // 自研 IM 会话列表暂不支持多选管理模式，后续可在此扩展。
+    }
+
+    protected open fun shouldEnrichSessionDisplay(): Boolean = false
+
+    private fun collectDisplayInfoUpdates(
+        original: List<SessionItem>?,
+        enriched: List<SessionItem>,
+    ): List<SessionItem> {
+        if (original.isNullOrEmpty()) {
+            return emptyList()
+        }
+        val originalById = original.associateBy { it.sessionId.orEmpty() }
+        return enriched.mapNotNull { item ->
+            val before = originalById[item.sessionId.orEmpty()] ?: return@mapNotNull null
+            val nameChanged = !TextUtils.equals(before.sessionName, item.sessionName)
+            val iconChanged = !TextUtils.equals(before.icon, item.icon)
+            if (nameChanged || iconChanged) item else null
+        }
     }
 
     private fun renderSessions(sessions: List<SessionItem>?) {
