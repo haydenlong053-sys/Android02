@@ -46,6 +46,7 @@ import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
 import com.cboda.intelligent.bean.ErrorBroadBean
+import com.cboda.intelligent.utils.AppBroadUtils.Companion.goChatP2p
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.freddy.chat.clear.SessionMessageClearHelper
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
@@ -376,9 +377,8 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             }
 
 //            AppBroadUtils.goChat(this, otherUid, "")
-            AppBroadUtils.goChatP2p(this, otherUid,friendName?.text?.toString())
-
-
+//            AppBroadUtils.goChatP2p(this, otherUid,friendName?.text?.toString())
+            goChatP2p(otherUid, friendName?.text?.toString(), this)
 
         }
         yuyintonghua?.setOnClickListener {
@@ -402,7 +402,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             holder.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
                 override fun onClickConfim(isConfim: Boolean) {
                     if (isConfim) {
-                        val currentUserId = MMKVBroadUtils.getRealUserId()?:""
+                        val currentUserId = MMKVBroadUtils.getRealUserId() ?: ""
                         SessionMessageClearHelper.clearP2pMessages(currentUserId, otherUid) {
                             runOnUiThread {
                                 viewModel?.errorLiveData?.value = ErrorBroadBean(type = "qingkongSuc")

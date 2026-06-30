@@ -20,6 +20,7 @@ import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
@@ -224,7 +225,7 @@ class AppBroadUtils {
             MMKVBroadUtils.saveMyImToken(myImUserToken ?: "")
 
             NetworkBroadConfig.updateAppToken(apptoken)
-            goLoginMyIm(apptoken,uid)
+            goLoginMyIm(apptoken, uid)
             //自研隐藏此处野火im
             //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
             val connextStatus = ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
@@ -278,15 +279,16 @@ class AppBroadUtils {
         }
 
         //自研-进入单聊1791854966a9485c8483ac3cce077ff6!85a581c1b0e74647a23324326ca055da
-        fun goChatP2p(context: Context?, target: String,name: String?) {
+        fun goChatP2p(target: String, name: String?, context: Context? = null) {
+            val mContext = getAppContext(context)
             val sessionItem = SessionItem()
-            sessionItem.sessionId = ImUtils.getP2pSessionIdId(MMKVBroadUtils.getRealUserId(),target)
-            sessionItem.conversation= ImSignalProtos.ConversationType.PAIR.number
-            sessionItem.oppositeUserId =target
-            sessionItem.sessionName =name
-            val intent = Intent(context ,MessageListActivity::class.java)
+            sessionItem.sessionId = ImUtils.getP2pSessionIdId(MMKVBroadUtils.getRealUserId(), target)
+            sessionItem.conversation = ImSignalProtos.ConversationType.PAIR.number
+            sessionItem.oppositeUserId = target
+            sessionItem.sessionName = name
+            val intent = Intent(mContext, MessageListActivity::class.java)
             SessionItemIntent.putSessionItem(intent, sessionItem)
-            context?.startActivity(intent)
+            mContext.startActivity(intent)
         }
 
 

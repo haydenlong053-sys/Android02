@@ -1,13 +1,6 @@
 package com.freddy.chat
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import com.cboda.intelligent.base.BaseBroadFragment
-import com.cboda.intelligent.databinding.ConversationSingleFragmentBinding
-import com.cboda.intelligent.viewmodel.ConversationParentViewModel
-
-//私群
-class ConversationGroupFragment : BaseBroadFragment<ConversationSingleFragmentBinding, ConversationParentViewModel>() {
-    override fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?) = ConversationSingleFragmentBinding.inflate(inflater, parent, false)
+/** 私群（本人创建的群）会话列表 */
+class ConversationGroupFragment : BaseConversationSessionFragment() {
+    override val sessionCategory: ConversationSessionCategory = ConversationSessionCategory.MY_GROUP
 }

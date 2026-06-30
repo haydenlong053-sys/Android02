@@ -21,9 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
-import com.cboda.chatui.conversationlist.ConversationGroupBroadFragment
-import com.cboda.chatui.conversationlist.ConversationOtherGroupBroadFragment
-import com.cboda.chatui.conversationlist.ConversationSingleBroadFragment
 import com.cboda.chatui.widget.ProgressBroadFragment
 import cn.wildfirechat.viewmodel.HomeUIViewModel
 import com.blankj.utilcode.util.ConvertUtils.dp2px
@@ -69,6 +66,7 @@ import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.badge.BadgeBroadRule
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleBroadView
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.cboda.intelligent.viewmodel.FriendViewBroadModel
 import com.cboda.intelligent.viewmodel.NoticeViewBroadModel
 import kotlinx.coroutines.Dispatchers
@@ -81,22 +79,32 @@ import com.cboda.intelligent.widge.BadgeIndicatorAdapter
 import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 import com.cboda.select.picture.utils.LanguageUtil
 import com.freddy.chat.ConversationGroupFragment
-import com.freddy.chat.ConversationListFragment
 import com.freddy.chat.ConversationOtherGroupFragment
 import com.freddy.chat.ConversationSingleFragment
+import com.freddy.chat.event.CEventCenter
+import com.freddy.chat.event.Events
+import com.freddy.chat.event.I_CEventListener
+import com.freddy.im.http.model.im.SessionItem
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MessageBroadFragment : BaseLazyBroadFragment() {
+class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
     companion object {
         fun getInstance(): Fragment {
             return MessageBroadFragment()
         }
+
+        private val IM_CHAT_EVENTS = arrayOf(
+            Events.NOTIFY_CONVERSATION_LIST,
+            Events.SESSION_LIST_UPDATED,
+            Events.SESSION_REMOVED,
+        )
     }
 
     private val uiViewModel: HomeUIViewModel by activityViewModels()
+    private val conversationViewModel: ConversationParentViewModel by activityViewModels()
 
     private var allCount = "0"
     private var singleCount = "0"
@@ -111,7 +119,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     //    var titles: ArrayList<String> = ArrayList()
     private val noticeViewModel: NoticeViewBroadModel by viewModels()
     private val friendViewModel: FriendViewBroadModel by viewModels()
-    private var conversationSingleFragment: ConversationSingleBroadFragment? = null
+    private var conversationSingleFragment: ConversationSingleFragment? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -129,6 +137,9 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         hometool?.layoutParams = linearParams
 
         EventBus.getDefault().register(this)
+        CEventCenter.registerEventListener(this, IM_CHAT_EVENTS)
+
+        observeConversationBadges()
 
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         viewModel?.pintaiLiveData?.observe(viewLifecycleOwner) {
@@ -214,15 +225,13 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 //        addFragment(fragment)
 
 //        fragments.add(ConversationListBroadFragment())
-//        conversationSingleFragment = ConversationSingleBroadFragment()
-//        fragments.add(conversationSingleFragment!!)
-//        fragments.add(ConversationGroupBroadFragment())
-//        fragments.add(ConversationOtherGroupBroadFragment())
-        fragments.add(ConversationSingleFragment())
+        conversationSingleFragment = ConversationSingleFragment()
+        fragments.add(conversationSingleFragment!!)
         fragments.add(ConversationGroupFragment())
         fragments.add(ConversationOtherGroupFragment())
         fragments.add(SocialFragment())
-//        fragments.add(ConversationListFragment.newInstance())
+
+        conversationViewModel.loadConversations()
 
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
         vp2FragmentAdapter.setData(fragments)
@@ -273,7 +282,6 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                     eLogD(
                         APP_TAG, "mNoticeBean==" + noticeBean.noticeTitle
                     )
-                    conversationSingleFragment?.setGlobalNoticeBean(noticeBean)
                     val infoBeans = mList.list?.filter { bean -> !bean.isRead && bean.forcePopup && bean.status }
 //                            mList.list?.filter { bean ->  bean.status }
                     showNoticeMsgDialog(infoBeans)
@@ -316,6 +324,42 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         badgeCounts[2] = anyToInt(otherGroupCount)
         badgeCounts[3] = anyToInt(socialCount)
         indicatorAdapt?.notifyDataSetChanged()
+    }
+
+    private fun observeConversationBadges() {
+        conversationViewModel.singleUnreadCount.observe(viewLifecycleOwner) { count ->
+            singleCount = count.toString()
+            updateBadges()
+        }
+        conversationViewModel.myGroupUnreadCount.observe(viewLifecycleOwner) { count ->
+            myGroupCount = count.toString()
+            updateBadges()
+        }
+        conversationViewModel.otherGroupUnreadCount.observe(viewLifecycleOwner) { count ->
+            otherGroupCount = count.toString()
+            updateBadges()
+        }
+    }
+
+    override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
+        when (topic) {
+            Events.NOTIFY_CONVERSATION_LIST -> conversationViewModel.loadConversations()
+            Events.SESSION_LIST_UPDATED -> {
+                @Suppress("UNCHECKED_CAST")
+                val updated = obj as? List<SessionItem> ?: return
+                conversationViewModel.mergeSessions(updated)
+            }
+            Events.SESSION_REMOVED -> {
+                val sessionId = obj as? String ?: return
+                conversationViewModel.removeSession(sessionId)
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        CEventCenter.unregisterEventListener(this, IM_CHAT_EVENTS)
+        EventBus.getDefault().unregister(this)
+        super.onDestroyView()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
