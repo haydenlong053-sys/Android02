@@ -4,6 +4,7 @@ package com.cboda.intelligent.utils;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppVersion;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -229,6 +230,8 @@ public class OkHttpBroadHelper {
         Request.Builder builder = new Request.Builder()
                 .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
                 .addHeader("Accept-Language", getAcceptLanguage())
+                .addHeader("App-Platform", "Android")
+                .addHeader("App-Version",  getAppVersion(null))
                 .url(url);
         String json = GsonUtils.getGson().toJson(params);
         eLogD(TAG, "http--json", json);
@@ -252,6 +255,8 @@ public class OkHttpBroadHelper {
         Request.Builder builder = new Request.Builder()
                 .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
                 .addHeader("Accept-Language", getAcceptLanguage())
+                .addHeader("App-Platform", "Android")
+                .addHeader("App-Version",  getAppVersion(null))
                 .url(url);
         RequestBody body = builderFiles(fileParams);
         builder.post(body);

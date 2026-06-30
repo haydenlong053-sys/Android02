@@ -1224,6 +1224,16 @@ fun startOutH5Activity(url: String? = "", context: Context? = null) {
 
 }
 
+fun getAppVersion(context: Context? = null): String {
+    try {
+        val mContext = getAppContext(context)
+        val packageInfo = mContext.packageManager.getPackageInfo(mContext.packageName, 0)
+        return packageInfo.versionName ?: ""
+    } catch (_: Exception) {
+        return ""
+    }
+}
+
 fun getSysLast(list: List<Any?>?): Any? {
     if (!list.isNullOrEmpty()) {
         return list.get(list.size - 1)

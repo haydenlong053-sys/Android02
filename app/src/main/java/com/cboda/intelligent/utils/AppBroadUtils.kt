@@ -21,6 +21,8 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.getAppVersion
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -54,17 +56,9 @@ class AppBroadUtils {
             return appName
         }
 
-        fun getVersion(context: Context?): String {
-            val manager: PackageManager? = context?.packageManager
-            var info: PackageInfo? = null
-            try {
-                info = manager?.getPackageInfo(
-                    context.packageName, 0
-                )
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return info?.versionName ?: ""
+
+        fun getVersion(context: Context? = null): String {
+            return getAppVersion(context)
         }
 
         @SuppressLint("HardwareIds")
