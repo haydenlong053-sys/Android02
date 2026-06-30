@@ -32,6 +32,7 @@ import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.IMSConfig
 import com.freddy.im.http.ImHttpConfig
 import com.freddy.im.http.model.im.SessionItem
+import com.freddy.im.db.ImLocalStore
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.ImUtils
 import com.google.zxing.BarcodeFormat
@@ -286,6 +287,7 @@ class AppBroadUtils {
             sessionItem.conversation = ImSignalProtos.ConversationType.PAIR.number
             sessionItem.oppositeUserId = target
             sessionItem.sessionName = name
+            ImLocalStore.saveSessions(listOf(sessionItem))
             val intent = Intent(mContext, MessageListActivity::class.java)
             SessionItemIntent.putSessionItem(intent, sessionItem)
             mContext.startActivity(intent)

@@ -66,6 +66,18 @@ public final class SessionRealmMapper {
             entity.setPeerReadUpToSeq(existing.getPeerReadUpToSeq());
             entity.setSyncedMaxMsgId(existing.getSyncedMaxMsgId());
             entity.setSyncedMaxSequence(existing.getSyncedMaxSequence());
+            if (TextUtils.isEmpty(item.getSessionName()) && !TextUtils.isEmpty(existing.getSessionName())) {
+                entity.setSessionName(existing.getSessionName());
+            }
+            if (TextUtils.isEmpty(item.getUsername()) && !TextUtils.isEmpty(existing.getUsername())) {
+                entity.setUsername(existing.getUsername());
+            }
+            if (TextUtils.isEmpty(item.getIcon()) && !TextUtils.isEmpty(existing.getIcon())) {
+                entity.setIcon(existing.getIcon());
+            }
+            if (TextUtils.isEmpty(item.getOppositeUserId()) && !TextUtils.isEmpty(existing.getOppositeUserId())) {
+                entity.setOppositeUserId(existing.getOppositeUserId());
+            }
         }
         return entity;
     }
