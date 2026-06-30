@@ -12,7 +12,7 @@ import com.freddy.im.util.ImUtils
 object ImSearchChatLaunchDelegate : SearchChatLaunchDelegate {
 
     override fun openSingleChat(fragment: Fragment, userId: String, displayName: String?) {
-        AppBroadUtils.goChatP2p(fragment.requireContext(),userId,displayName)
+        AppBroadUtils.goChatP2p(userId,displayName,fragment.requireContext())
         fragment.activity?.finish()
     }
 

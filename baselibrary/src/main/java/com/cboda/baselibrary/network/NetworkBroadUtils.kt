@@ -2,6 +2,7 @@ package com.cboda.baselibrary.network
 
 import android.os.Handler
 import android.os.Looper
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.network.api.BaseBroadApi
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.network.model.NetworkListBroadResponse
@@ -603,7 +604,7 @@ object NetworkBroadUtils {
                         val errorBody = response.errorBody()?.string()
                         eLogD(tAG, "errorBody==>$errorBody")
                         try {
-                            val gson = Gson()
+                            val gson = GsonUtils.getGson()
                             val errorResponse: NetworkBroadResponse<*>? =
                                 gson.fromJson(
                                     errorBody,
@@ -611,12 +612,12 @@ object NetworkBroadUtils {
                                 )
                             callback.onFailure(
                                 errorResponse?.code ?: response.code(),
-                                errorResponse?.msg ?: "API 错误",
+                                errorResponse?.msg ?: "",
                                 null
                             )
                         } catch (e: Exception) {
                             eLogD("NetworkBroadUtils", "解析错误响应失败: $errorBody", e)
-                            callback.onFailure(response.code(), "API 错误", null)
+                            callback.onFailure(response.code(), "", null)
                         }
 
                     }

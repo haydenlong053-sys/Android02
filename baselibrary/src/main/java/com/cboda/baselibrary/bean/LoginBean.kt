@@ -3,6 +3,10 @@ package com.cboda.baselibrary.bean
 import com.google.gson.annotations.SerializedName
 
 class LoginBean {
+    var secondVerifyNeed = -1
+
+    var secondVerifyUnsetHint = ""
+
     @SerializedName("mbname")
     var securityQuestion = ""
     var existMbName = false
@@ -21,7 +25,7 @@ class LoginBean {
 }
 
 
-class LoginReturnBean: java.io.Serializable {
+class LoginReturnBean : java.io.Serializable {
     @SerializedName("apptoken")
     var appToken = ""
 

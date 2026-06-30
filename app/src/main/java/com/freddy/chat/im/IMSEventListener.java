@@ -54,9 +54,9 @@ public class IMSEventListener implements OnEventListener {
             MessageProcessor.getInstance().notifyConversationList();
 
         }
-
     }
 
+    //收到信令
     @Override
     public void onSignalPush(ImSignalProtos.SignalPush push) {
         if (!push.hasHeader()) {

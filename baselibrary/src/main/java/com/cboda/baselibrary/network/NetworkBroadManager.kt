@@ -5,6 +5,7 @@ import com.cboda.baselibrary.network.interceptor.DecryptionBroadInterceptor
 import com.cboda.baselibrary.network.interceptor.EncryptionBroadInterceptor
 import com.cboda.baselibrary.network.interceptor.HeaderBroadInterceptor
 import com.cboda.baselibrary.utils.getIsDebug
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,7 +38,11 @@ object NetworkBroadManager {
      * 创建OkHttpClient
      */
     private fun createOkHttpClient(): OkHttpClient {
+        val dispatcher = Dispatcher().apply {
+            maxRequestsPerHost = 8
+        }
         val builder = OkHttpClient.Builder()
+            .dispatcher(dispatcher)
             .connectTimeout(NetworkBroadConfig.connectTimeout, TimeUnit.SECONDS)
             .readTimeout(NetworkBroadConfig.readTimeout, TimeUnit.SECONDS)
             .writeTimeout(NetworkBroadConfig.writeTimeout, TimeUnit.SECONDS)
