@@ -7,6 +7,7 @@ import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.databinding.ConversationSingleFragmentBinding
 import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 
+//私群
 class ConversationGroupFragment : BaseBroadFragment<ConversationSingleFragmentBinding, ConversationParentViewModel>() {
     override fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?) = ConversationSingleFragmentBinding.inflate(inflater, parent, false)
 }
