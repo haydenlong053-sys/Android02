@@ -5,8 +5,26 @@ import android.os.SystemClock
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 object TimeBroadBroadUtils {
+
+    fun getNowTimeHoursDifference(timestamp2: Long): Long {
+        return try {
+            val diffInMillis = abs(getNowTime() - timestamp2)
+            diffInMillis / (60 * 60 * 1000)
+        } catch (_: Exception) {
+            0L
+        }
+    }
+
+    fun getNowTime(): Long {
+        return try {
+            System.currentTimeMillis()
+        } catch (_: Exception) {
+            0L
+        }
+    }
 
     fun getDeviceOpenTime(): Long {
         return try {

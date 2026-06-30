@@ -77,6 +77,8 @@ class MMKVBroadUtils {
         const val KEY_FRIEND_LIST_DATA = "key_friend_list_data"
 
         const val KEY_GROUP_LIST_DATA = "key_group_list_data"
+
+        const val KEY_GROUP_DATE_LIST_DATA = "key_group_date_list_data"
         const val KEY_GROUP_NOTICE = "keyGroupNotice_"
         const val KEY_SAVE_COMPRESS_VIDEO = "keySaveCompressVideo"
 
@@ -508,6 +510,7 @@ class MMKVBroadUtils {
             }
         }
 
+
         fun getGroupListData(): HashMap<String, GlobalSmallGroupBroadBean> {
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_GROUP_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
@@ -518,6 +521,31 @@ class MMKVBroadUtils {
             }
         }
 
+
+        fun getGroupDateListData(): HashMap<String, Long> {
+            val decodeString = MMKV.defaultMMKV().decodeString(KEY_GROUP_DATE_LIST_DATA)
+            return if (decodeString?.isNotEmpty() == true) {
+                val type = object : TypeToken<HashMap<String, Long>>() {}
+                fromJsonTypeToken(decodeString, type)
+            } else {
+                HashMap()
+            }
+        }
+
+
+        fun getGroupSaveDateData(groupId: String?, map: HashMap<String, Long>? = null): Long? {
+            return if (!TextUtils.isEmpty(groupId)) {
+                val getMap = map ?: getGroupDateListData()
+                getMap[groupId]
+            } else {
+                null
+            }
+        }
+
+
+        fun saveGroupDate(map: HashMap<String, Long>? = null) {
+            MMKV.defaultMMKV().encode(KEY_GROUP_DATE_LIST_DATA, toJson2(map))
+        }
 
         //保存压缩视频
         fun saveCompressionVideo(originalPath: String, compressionPath: String): HashMap<String, String> {
