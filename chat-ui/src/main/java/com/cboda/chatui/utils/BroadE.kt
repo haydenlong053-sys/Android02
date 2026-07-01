@@ -20,6 +20,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getGroupDateListData
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getGroupSaveDateData
 import com.cboda.baselibrary.utils.RealmUtil
+import com.cboda.baselibrary.utils.RealmUtil.vagueFindGroup
 import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTime
 import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTimeHoursDifference
 import com.cboda.baselibrary.utils.eLogD
@@ -204,32 +205,45 @@ object E {
         if (!TextUtils.isEmpty(groupId)) {
             val saveMap = getGroupDateListData()
             val saveTime = getGroupSaveDateData(groupId, saveMap)
-            //距离上次调用获取群成员数据接口24小时后才能再次调接口
-            if (null != saveTime && getNowTimeHoursDifference(saveTime) < 24L) {
-                return
+            if (groupId == "b8121c31a75f4fdaafcf87392a7908c8" || groupId == "6bbedbc73b0f46d7891dbeacba250614") {
+                vagueFindGroup(groupId) { boolean ->
+                    if (!boolean) {
+                        getAllListUserData(groupId, saveMap)
+                    }
+                }
+            } else {
+                //距离上次调用获取群成员数据接口24小时后才能再次调接口
+                if (null != saveTime && getNowTimeHoursDifference(saveTime) < 48L) {
+                    return
+                }
+                getAllListUserData(groupId, saveMap)
             }
-            val map = mapOf("id" to groupId)
-            postEncryptedList(
-                "api/groupUserList", map, object : NetworkBroadUtils.ListCallback<Any> {
-                    override fun onSuccess(list: List<Any>?, totalCount: Int, totalPage: Int) {
-//                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
-                        val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
-                        RealmUtil.addUserGroupData(groupId, groupList)
-                        RealmUtil.addUserData2(groupList)
-                        saveMap[groupId ?: ""] = getNowTime()
-                        MMKVBroadUtils.saveGroupDate(saveMap)
-                    }
-
-                    override fun onFailure(code: Int, message: String) {
-//                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
-                    }
-
-                    override fun onError(throwable: Throwable) {
-//                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
-                    }
-
-                })
         }
+    }
+
+
+    private fun getAllListUserData(groupId: String?, saveMap: HashMap<String, Long>) {
+        val map = mapOf("id" to groupId)
+        postEncryptedList(
+            "api/groupUserList", map, object : NetworkBroadUtils.ListCallback<Any> {
+                override fun onSuccess(list: List<Any>?, totalCount: Int, totalPage: Int) {
+//                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
+                    val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
+                    RealmUtil.addUserGroupData(groupId, groupList)
+                    RealmUtil.addUserData2(groupList)
+                    saveMap[groupId ?: ""] = getNowTime()
+                    MMKVBroadUtils.saveGroupDate(saveMap)
+                }
+
+                override fun onFailure(code: Int, message: String) {
+//                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
+                }
+
+                override fun onError(throwable: Throwable) {
+//                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
+                }
+
+            })
     }
 
     fun getMapUserData(uIdMap: HashMap<String, HashMap<String, String>>) {
