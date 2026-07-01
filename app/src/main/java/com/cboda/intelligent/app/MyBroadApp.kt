@@ -44,6 +44,7 @@ import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
 import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.DeviceBroadUtil
+import com.cboda.baselibrary.utils.getAppVersion
 import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentViewBroadHolder
 import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
@@ -96,6 +97,8 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
             val headers = HttpHeaders()
             headers.put("apptoken", BroadConstant.getAppToken() ?: "")
             headers.put("sensorNo", DeviceBroadUtil.getAndroidId(mContext))
+            headers.put("App-Platform", "Android")
+            headers.put("App-Version", getAppVersion(null))
             // 多语言头
             headers.put("Accept-Language", NetworkBroadConfig.getNetAppLanguage())
             if (getIsDebug()) {

@@ -16,9 +16,16 @@ import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncrypted
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getGroupDateListData
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getGroupSaveDateData
 import com.cboda.baselibrary.utils.RealmUtil
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTime
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTimeHoursDifference
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.fromListJson2
+import com.cboda.baselibrary.utils.getIsDebug
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.ChatManagerBroadHolder
@@ -195,6 +202,12 @@ object E {
 
     fun getAllListUserData(groupId: String?) {
         if (!TextUtils.isEmpty(groupId)) {
+            val saveMap = getGroupDateListData()
+            val saveTime = getGroupSaveDateData(groupId, saveMap)
+            //距离上次调用获取群成员数据接口24小时后才能再次调接口
+            if (null != saveTime && getNowTimeHoursDifference(saveTime) < 24L) {
+                return
+            }
             val map = mapOf("id" to groupId)
             postEncryptedList(
                 "api/groupUserList", map, object : NetworkBroadUtils.ListCallback<Any> {
@@ -203,6 +216,8 @@ object E {
                         val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
                         RealmUtil.addUserGroupData(groupId, groupList)
                         RealmUtil.addUserData2(groupList)
+                        saveMap[groupId ?: ""] = getNowTime()
+                        MMKVBroadUtils.saveGroupDate(saveMap)
                     }
 
                     override fun onFailure(code: Int, message: String) {

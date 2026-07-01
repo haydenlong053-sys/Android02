@@ -35,6 +35,8 @@ import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.ImUtils
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.getAppVersion
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -66,17 +68,9 @@ class AppBroadUtils {
             return appName
         }
 
-        fun getVersion(context: Context?): String {
-            val manager: PackageManager? = context?.packageManager
-            var info: PackageInfo? = null
-            try {
-                info = manager?.getPackageInfo(
-                    context.packageName, 0
-                )
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return info?.versionName ?: ""
+
+        fun getVersion(context: Context? = null): String {
+            return getAppVersion(context)
         }
 
         @SuppressLint("HardwareIds")
