@@ -152,6 +152,17 @@ object RealmUtil {
     }
 
 
+    fun vagueFindGroup(groupId: String?, callBack: (Boolean) -> Unit) {
+        if (!TextUtils.isEmpty(groupId)) {
+            getRealm()?.executeTransactionAsync { realm ->
+                val data = realm.where(GroupUserRealm::class.java)?.beginsWith("id", groupId + "_")?.findFirst()
+                callBack.invoke(data != null)
+            }
+        } else {
+            callBack.invoke(false)
+        }
+    }
+
     fun addUserGroupData(groupId: String?, list: List<GroupUserBean>?, viewModelScope: CoroutineScope? = null) {
         list?.let {
             if (list.isNotEmpty() && !TextUtils.isEmpty(groupId)) {
