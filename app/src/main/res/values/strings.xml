@@ -115,6 +115,7 @@
     <string name="qunyuanguanliyanz">Member join group invitation management verification</string>
     <string name="wufasijiahao">Group members cannot privately add friends</string>
     <string name="kejianguanliy">Regular members can only see group owner and administrators</string>
+
     <string name="jiesanquan">Dissolve group chat</string>
     <string name="shanchutuichuqun">Delete and exit</string>
     <string name="tousuqun">Report</string>
@@ -1154,4 +1155,7 @@
     <string name="square_publish_rules_audit_title">Content review standards</string>
     <string name="square_publish_rules_audit_content">SeekWeb4 is committed to high-value information exchange. Spam, fake news, and personal attacks are strictly prohibited. Violations will result in forfeiture of the full pledge and restricted square access.</string>
     <string name="square_publish_rules_confirm">Read and understood</string>
+    <string name="AbsentKick">缺席自动移出</string>
+    <string name="absentkick_tip">连续%1$s次未进入群会议，系统将自动移出该成员</string>
+    <string name="look_rule_tip">查看规则</string>
 </resources>

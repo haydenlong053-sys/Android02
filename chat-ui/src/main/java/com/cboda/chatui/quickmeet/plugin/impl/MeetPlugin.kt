@@ -613,10 +613,21 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     override fun onRtcJoinChannelSuccess() {
         super.onRtcJoinChannelSuccess()
         dismissLoadingWfc()
+        upAttendanceCheckIn()
         showMeetMiniLayoutView()
 //        Toast.makeText(UtilBroadApplication.cxt.applicationContext, "Join channel success", Toast.LENGTH_SHORT).show()
-
     }
+
+    //进入会议上报给服务器记录次数
+    private fun upAttendanceCheckIn() {
+        activity.lifecycleScope.launch {
+            val channelId = MeetCallManager.getInstance().mCallData.channelId
+            viewModel?.goAttendanceCheckIn(channelId)?.observe(activity) { bean ->
+                eLogD(APP_TAG,"会议进入成功，上报服务器统计次数")
+            }
+        }
+    }
+
 
     override fun onRoomAudioVolumeIndication(speakers: Array<AudioVolumeInfo>?, totalVolume: Int) {
         if (totalVolume > 0 && mVoiceWaveView?.isAnimating() == false) {

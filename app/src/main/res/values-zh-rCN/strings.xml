@@ -1139,4 +1139,5 @@
     <string name="square_publish_rules_audit_title">内容审核标准</string>
     <string name="square_publish_rules_audit_content">SeekWeb4 致力于高净值信息交换。严禁发布垃圾广告、虚假新闻或人身攻击。违规将扣除全部质押金并限制广场权限。</string>
     <string name="square_publish_rules_confirm">已阅读并知晓</string>
+
 </resources>

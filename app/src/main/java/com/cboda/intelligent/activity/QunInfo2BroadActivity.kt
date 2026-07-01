@@ -30,14 +30,14 @@ import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
-import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.utils.showAbsentKickTip
+import com.cboda.baselibrary.utils.showMeetLeaveTip
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.ConversationViewBroadModel
 import com.cboda.chatui.utils.E.loadGroupImg
-import com.cboda.chatui.utils.GroupAvatarBroadLoader
 import com.cboda.chatui.utils.MyIMActivityBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunUserBroadAdapter2
@@ -46,7 +46,6 @@ import com.cboda.intelligent.holder.BottomDialogBroadHolder
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.holder.ImagePickerBroadHolder
 import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
@@ -77,6 +76,11 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
     private lateinit var qunguanlilay: LinearLayoutCompat
     private lateinit var kejianguanliView: View
     private lateinit var kejianguanli: SwitchCompat
+
+    private lateinit var mScAbsentKickView: View
+    private lateinit var mScAbsentKick: SwitchCompat
+    private lateinit var mTvLookRule: TextView
+    private lateinit var mTvRuleDes: TextView
     private lateinit var jiahao: AppCompatImageView
     private lateinit var tvjiangeshi: EditText
     private lateinit var jianhao: AppCompatImageView
@@ -173,6 +177,10 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
         jiahao = findViewById(R.id.jiahao)
         kejianguanli = findViewById(R.id.kejianguanli)
         kejianguanliView = findViewById(R.id.kejianguanliView)
+        mScAbsentKick = findViewById(R.id.mScAbsentKick)
+        mScAbsentKickView = findViewById(R.id.mScAbsentKickView)
+        mTvRuleDes = findViewById(R.id.mTvRuleDes)
+        mTvLookRule = findViewById(R.id.mTvLookRule)
         qunguanlilay = findViewById(R.id.qunguanlilay)
         jiesanqun = findViewById(R.id.jiesanqun)
         tuichuquan = findViewById(R.id.tuichuquan)
@@ -250,6 +258,10 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
                     viewModel?.gonggaoxiangqing(this, qunId)
                 }
 
+                "setGroupAbsentKick" -> {
+                    mScAbsentKick?.isChecked = (it.result == "1")
+                }
+
                 "zidongfanyisuc" -> {
                     zidongfanyi?.isChecked = !zidongfanyi!!.isChecked
                 }
@@ -299,9 +311,10 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
                 ruqunyanz?.isChecked = this.openQygl == "1"
                 wufajiahaoyou?.isChecked = this.openQysl == "1"
                 kejianguanli?.isChecked = this.openQykj == "1"
+                mScAbsentKick?.isChecked = this.openAbsentKick == "1"
                 zidongfanyi?.isChecked = this.isfanyi == "1"
 
-
+                mTvRuleDes?.text = String.format(getString(R.string.absentkick_tip),this.absentKickLimit)
                 jiangetime = if (this.jiange.isNullOrEmpty()) {
                     1
                 } else {
@@ -539,6 +552,19 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
                 if (kejianguanli?.isChecked == true) "0" else "1"
             )
         }
+        mScAbsentKickView?.setOnClickListener {
+            if (mScAbsentKick?.isChecked == false){
+                showAbsentKickTip(this) {
+                    goAbsentKick()
+                }
+            }else{
+                goAbsentKick()
+            }
+
+        }
+        mTvLookRule?.setOnClickListener {
+
+        }
         zidongfanyiView?.setOnClickListener {
             viewModel?.setGroupFanyi(this, qunId, if (zidongfanyi?.isChecked == true) "0" else "1")
         }
@@ -740,6 +766,14 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
         }
 
         miandarao()
+    }
+
+    private fun goAbsentKick() {
+        viewModel?.goAbsentKick(
+            this,
+            qunId,
+            if (mScAbsentKick?.isChecked == true) "0" else "1"
+        )
     }
 
     private fun miandarao() {
