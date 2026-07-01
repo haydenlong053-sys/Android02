@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'com.google.protobuf'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.android'
@@ -38,5 +37,8 @@ android {
 dependencies {
     implementation project(':im_lib')
     implementation project(':baselibrary')
-//    implementation "io.livekit:livekit-android:2.26.1"
+    // LiveKit 依赖 protobuf-javalite，与 im_lib 的 protobuf-java 运行时类冲突；3.25+ 的 protobuf-java 已包含 lite 运行时
+    implementation("io.livekit:livekit-android:2.26.1") {
+        exclude group: 'com.google.protobuf', module: 'protobuf-javalite'
+    }
 }
