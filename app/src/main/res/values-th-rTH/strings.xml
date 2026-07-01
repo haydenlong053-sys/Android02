@@ -518,4 +518,17 @@
     <string name="credit_score_title">คะแนนเครดิต</string>
     <string name="credit_score_tab_compose">องค์ประกอบเครดิต</string>
     <string name="credit_score_tab_record">ประวัติการเปลี่ยนแปลง</string>
+
+
+    <string name="AbsentKick">ลบออกอัตโนมัติเมื่อขาดประชุม</string>
+    <string name="absentkick_tip">หากไม่เข้าร่วมการประชุมกลุ่มติดต่อกัน %1$s ครั้ง สมาชิกจะถูกลบออกโดยอัตโนมัติ</string>
+    <string name="look_rule_tip">ดูกฎ</string>
+    <string name="absent_kick_rules_title">กฎการลบออกอัตโนมัติ</string>
+    <string name="absent_kick_card_title">ลบออกอัตโนมัติเมื่อขาดประชุม</string>
+    <string name="absent_kick_card_desc">หากสมาชิกไม่เข้าร่วมการประชุมกลุ่มตามจำนวนที่กำหนดติดต่อกัน ระบบจะลบออกโดยอัตโนมัติ</string>
+    <string name="absent_kick_current_rule">กฎปัจจุบัน</string>
+    <string name="absent_kick_rule_section">คำอธิบายกฎ</string>
+    <string name="absent_kick_warm_tip">ฟีเจอร์นี้มีไว้เพื่อเพิ่มการเข้าร่วมประชุมกลุ่มและสร้างบรรยากาศการสื่อสารที่ดีขึ้น</string>
+    <string name="absent_kick_rule_title_fallback">ขาดประชุมติดต่อกัน 5 ครั้ง</string>
+    <string name="absent_kick_rule_empty">ไม่มีคำอธิบายกฎ</string>
 </resources>

@@ -521,4 +521,17 @@
     <string name="credit_score_title">ခရက်ဒစ်အမှတ်</string>
     <string name="credit_score_tab_compose">ခရက်ဒစ်ဖွဲ့စည်းမှု</string>
     <string name="credit_score_tab_record">ပြောင်းလဲမှုမှတ်တမ်း</string>
+
+
+    <string name="AbsentKick">ပျက်ကွက်မှုကြောင့် အလိုအလျောက်ဖယ်ရှားခြင်း</string>
+    <string name="absentkick_tip">အုပ်စုအစည်းအဝေး %1$s ကြိမ်ဆက်တိုက် မတက်ရောက်ပါက အဖွဲ့ဝင်ကို အလိုအလျောက် ဖယ်ရှားမည်။</string>
+    <string name="look_rule_tip">စည်းမျဉ်းများကြည့်ရန်</string>
+    <string name="absent_kick_rules_title">အလိုအလျောက်ဖယ်ရှားမှု စည်းမျဉ်းများ</string>
+    <string name="absent_kick_card_title">ပျက်ကွက်မှုကြောင့် အလိုအလျောက်ဖယ်ရှားခြင်း</string>
+    <string name="absent_kick_card_desc">အဖွဲ့ဝင်သည် သတ်မှတ်ထားသော အစည်းအဝေးအရေအတွက်ဆက်တိုက် မတက်ရောက်ပါက စနစ်က အလိုအလျောက် ဖယ်ရှားမည်။</string>
+    <string name="absent_kick_current_rule">လက်ရှိစည်းမျဉ်း</string>
+    <string name="absent_kick_rule_section">စည်းမျဉ်းဖော်ပြချက်</string>
+    <string name="absent_kick_warm_tip">ဤလုပ်ဆောင်ချက်သည် အုပ်စုအစည်းအဝေးတွင် ပါဝင်မှုကို တိုးမြှင့်ပြီး ပိုမိုကောင်းမွန်သော ဆက်သွယ်ရေးပတ်ဝန်းကျင်ကို ဖန်တီးရန် ရည်ရွယ်သည်။</string>
+    <string name="absent_kick_rule_title_fallback">အစည်းအဝေး ၅ ကြိမ်ဆက်တိုက် ပျက်ကွက်</string>
+    <string name="absent_kick_rule_empty">စည်းမျဉ်းဖော်ပြချက် မရှိပါ</string>
 </resources>

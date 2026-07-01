@@ -524,4 +524,17 @@
     <string name="credit_score_title">Kredi Puanı</string>
     <string name="credit_score_tab_compose">Kredi Bileşimi</string>
     <string name="credit_score_tab_record">Değişiklik Geçmişi</string>
+
+
+    <string name="AbsentKick">Devamsızlıkta otomatik çıkarma</string>
+    <string name="absentkick_tip">Üst üste %1$s grup toplantısına katılmayan üye otomatik olarak çıkarılır.</string>
+    <string name="look_rule_tip">Kuralları görüntüle</string>
+    <string name="absent_kick_rules_title">Otomatik çıkarma kuralları</string>
+    <string name="absent_kick_card_title">Devamsızlıkta otomatik çıkarma</string>
+    <string name="absent_kick_card_desc">Bir üye belirlenen sayıda ardışık grup toplantısına katılmazsa sistem onu otomatik olarak çıkarır.</string>
+    <string name="absent_kick_current_rule">Geçerli kural</string>
+    <string name="absent_kick_rule_section">Kural açıklaması</string>
+    <string name="absent_kick_warm_tip">Bu özellik, grup toplantılarına katılımı artırmayı ve daha iyi bir iletişim ortamı oluşturmayı amaçlar.</string>
+    <string name="absent_kick_rule_title_fallback">Ardışık 5 toplantı kaçırıldı</string>
+    <string name="absent_kick_rule_empty">Kural açıklaması yok</string>
 </resources>

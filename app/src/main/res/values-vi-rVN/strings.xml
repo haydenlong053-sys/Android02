@@ -517,4 +517,17 @@
     <string name="credit_score_title">Điểm tín dụng</string>
     <string name="credit_score_tab_compose">Cơ cấu tín dụng</string>
     <string name="credit_score_tab_record">Lịch sử thay đổi</string>
+
+
+    <string name="AbsentKick">Tự động loại khi vắng họp</string>
+    <string name="absentkick_tip">Sau khi bỏ lỡ %1$s cuộc họp nhóm liên tiếp, thành viên sẽ bị tự động loại.</string>
+    <string name="look_rule_tip">Xem quy tắc</string>
+    <string name="absent_kick_rules_title">Quy tắc tự động loại</string>
+    <string name="absent_kick_card_title">Tự động loại khi vắng họp</string>
+    <string name="absent_kick_card_desc">Nếu thành viên không tham gia đủ số cuộc họp nhóm liên tiếp theo quy định, hệ thống sẽ tự động loại.</string>
+    <string name="absent_kick_current_rule">Quy tắc hiện tại</string>
+    <string name="absent_kick_rule_section">Mô tả quy tắc</string>
+    <string name="absent_kick_warm_tip">Tính năng này nhằm tăng mức tham gia họp nhóm và tạo môi trường giao tiếp tốt hơn.</string>
+    <string name="absent_kick_rule_title_fallback">Bỏ lỡ 5 cuộc họp liên tiếp</string>
+    <string name="absent_kick_rule_empty">Chưa có mô tả quy tắc</string>
 </resources>

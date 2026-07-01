@@ -517,4 +517,17 @@
     <string name="credit_score_title">Bonitätspunktzahl</string>
     <string name="credit_score_tab_compose">Bonitätszusammensetzung</string>
     <string name="credit_score_tab_record">Änderungsverlauf</string>
+
+
+    <string name="AbsentKick">Automatisches Entfernen bei Abwesenheit</string>
+    <string name="absentkick_tip">Nach %1$s aufeinanderfolgenden verpassten Gruppentreffen wird das Mitglied automatisch entfernt.</string>
+    <string name="look_rule_tip">Regeln anzeigen</string>
+    <string name="absent_kick_rules_title">Regeln für automatisches Entfernen</string>
+    <string name="absent_kick_card_title">Automatisches Entfernen bei Abwesenheit</string>
+    <string name="absent_kick_card_desc">Wenn ein Mitglied die festgelegte Anzahl aufeinanderfolgender Gruppentreffen verpasst, wird es automatisch entfernt.</string>
+    <string name="absent_kick_current_rule">Aktuelle Regel</string>
+    <string name="absent_kick_rule_section">Regelbeschreibung</string>
+    <string name="absent_kick_warm_tip">Diese Funktion soll die Teilnahme an Gruppentreffen verbessern und ein besseres Kommunikationsumfeld schaffen.</string>
+    <string name="absent_kick_rule_title_fallback">5 aufeinanderfolgende Treffen verpasst</string>
+    <string name="absent_kick_rule_empty">Keine Regelbeschreibung verfügbar</string>
 </resources>

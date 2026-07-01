@@ -525,4 +525,17 @@
     <string name="credit_score_title">کریڈٹ اسکور</string>
     <string name="credit_score_tab_compose">کریڈٹ کی ساخت</string>
     <string name="credit_score_tab_record">تبدیلیوں کی تاریخ</string>
+
+
+    <string name="AbsentKick">غیر حاضری پر خودکار ہٹانا</string>
+    <string name="absentkick_tip">مسلسل %1$s گروپ میٹنگز چھوڑنے پر ممبر خودکار طور پر ہٹا دیا جائے گا۔</string>
+    <string name="look_rule_tip">قواعد دیکھیں</string>
+    <string name="absent_kick_rules_title">خودکار ہٹانے کے قواعد</string>
+    <string name="absent_kick_card_title">غیر حاضری پر خودکار ہٹانا</string>
+    <string name="absent_kick_card_desc">اگر ممبر مقررہ تعداد میں مسلسل گروپ میٹنگز میں شرکت نہ کرے تو سسٹم خودکار طور پر ہٹا دے گا۔</string>
+    <string name="absent_kick_current_rule">موجودہ قاعدہ</string>
+    <string name="absent_kick_rule_section">قواعد کی وضاحت</string>
+    <string name="absent_kick_warm_tip">یہ فیچر گروپ میٹنگز میں شرکت بڑھانے اور بہتر مواصلاتی ماحول بنانے کے لیے ہے۔</string>
+    <string name="absent_kick_rule_title_fallback">مسلسل 5 میٹنگز چھوڑیں</string>
+    <string name="absent_kick_rule_empty">قواعد کی وضاحت دستیاب نہیں</string>
 </resources>

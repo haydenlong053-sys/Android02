@@ -518,4 +518,17 @@
     <string name="credit_score_title">Кредитный рейтинг</string>
     <string name="credit_score_tab_compose">Структура кредита</string>
     <string name="credit_score_tab_record">История изменений</string>
+
+
+    <string name="AbsentKick">Автоудаление за пропуски</string>
+    <string name="absentkick_tip">После %1$s пропусков групповых встреч подряд участник будет автоматически удалён.</string>
+    <string name="look_rule_tip">Просмотреть правила</string>
+    <string name="absent_kick_rules_title">Правила автоудаления</string>
+    <string name="absent_kick_card_title">Автоудаление за пропуски</string>
+    <string name="absent_kick_card_desc">Если участник пропустит заданное число встреч подряд, система автоматически удалит его.</string>
+    <string name="absent_kick_current_rule">Текущее правило</string>
+    <string name="absent_kick_rule_section">Описание правил</string>
+    <string name="absent_kick_warm_tip">Эта функция призвана повысить участие во встречах и улучшить коммуникацию в группе.</string>
+    <string name="absent_kick_rule_title_fallback">5 пропусков встреч подряд</string>
+    <string name="absent_kick_rule_empty">Описание правил отсутствует</string>
 </resources>

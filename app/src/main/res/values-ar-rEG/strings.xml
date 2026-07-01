@@ -517,4 +517,17 @@
     <string name="credit_score_title">درجة الائتمان</string>
     <string name="credit_score_tab_compose">تكوين الائتمان</string>
     <string name="credit_score_tab_record">سجل التغييرات</string>
+
+
+    <string name="AbsentKick">إزالة تلقائية بسبب الغياب</string>
+    <string name="absentkick_tip">بعد تفويت %1$s اجتماعات جماعية متتالية، سيتم إزالة العضو تلقائيًا.</string>
+    <string name="look_rule_tip">عرض القواعد</string>
+    <string name="absent_kick_rules_title">قواعد الإزالة التلقائية</string>
+    <string name="absent_kick_card_title">إزالة تلقائية بسبب الغياب</string>
+    <string name="absent_kick_card_desc">إذا فات العضو العدد المحدد من الاجتماعات المتتالية، ستقوم المنصة بإزالته تلقائيًا.</string>
+    <string name="absent_kick_current_rule">القاعدة الحالية</string>
+    <string name="absent_kick_rule_section">شرح القواعد</string>
+    <string name="absent_kick_warm_tip">تهدف هذه الميزة إلى تحسين حضور الاجتماعات الجماعية وخلق بيئة تواصل أفضل.</string>
+    <string name="absent_kick_rule_title_fallback">تفويت 5 اجتماعات متتالية</string>
+    <string name="absent_kick_rule_empty">لا يوجد شرح للقواعد</string>
 </resources>

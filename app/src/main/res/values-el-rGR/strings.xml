@@ -519,4 +519,17 @@
     <string name="credit_score_title">Βαθμολογία Πίστωσης</string>
     <string name="credit_score_tab_compose">Σύνθεση Πίστωσης</string>
     <string name="credit_score_tab_record">Ιστορικό Αλλαγών</string>
+
+
+    <string name="AbsentKick">Αυτόματη απομάκρυνση λόγω απουσίας</string>
+    <string name="absentkick_tip">Μετά από %1$s διαδοχικές απουσίες από ομαδικές συναντήσεις, το μέλος θα αφαιρεθεί αυτόματα.</string>
+    <string name="look_rule_tip">Προβολή κανόνων</string>
+    <string name="absent_kick_rules_title">Κανόνες αυτόματης απομάκρυνσης</string>
+    <string name="absent_kick_card_title">Αυτόματη απομάκρυνση λόγω απουσίας</string>
+    <string name="absent_kick_card_desc">Εάν ένα μέλος δεν συμμετάσχει στον καθορισμένο αριθμό διαδοχικών συναντήσεων, το σύστημα θα το αφαιρέσει αυτόματα.</string>
+    <string name="absent_kick_current_rule">Τρέχων κανόνας</string>
+    <string name="absent_kick_rule_section">Περιγραφή κανόνων</string>
+    <string name="absent_kick_warm_tip">Αυτή η λειτουργία στοχεύει να βελτιώσει τη συμμετοχή σε ομαδικές συναντήσεις και να δημιουργήσει καλύτερο περιβάλλον επικοινωνίας.</string>
+    <string name="absent_kick_rule_title_fallback">5 διαδοχικές απουσίες</string>
+    <string name="absent_kick_rule_empty">Δεν υπάρχει περιγραφή κανόνων</string>
 </resources>

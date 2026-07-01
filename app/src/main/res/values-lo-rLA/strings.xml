@@ -520,4 +520,17 @@
     <string name="credit_score_title">ຄະແນນສິນເຊື່ອ</string>
     <string name="credit_score_tab_compose">ອົງປະກອບສິນເຊື່ອ</string>
     <string name="credit_score_tab_record">ປະຫວັດການປ່ຽນແປງ</string>
+
+
+    <string name="AbsentKick">ລຶບອອກອັດຕະໂນມັດເມື່ອຂາດປະຊຸມ</string>
+    <string name="absentkick_tip">ຫຼັງຂາດປະຊຸມກຸ່ມ %1$s ຄັ້ງຕິດຕໍ່ກັນ ສະມາຊິກຈະຖືກລຶບອອກອັດຕະໂນມັດ.</string>
+    <string name="look_rule_tip">ເບິ່ງກົດລະບຽບ</string>
+    <string name="absent_kick_rules_title">ກົດລະບຽບການລຶບອອກອັດຕະໂນມັດ</string>
+    <string name="absent_kick_card_title">ລຶບອອກອັດຕະໂນມັດເມື່ອຂາດປະຊຸມ</string>
+    <string name="absent_kick_card_desc">ຖ້າສະມາຊິກບໍ່ເຂົ້າຮ່ວມປະຊຸມກຸ່ມຕາມຈຳນວນທີ່ກຳນົດຕິດຕໍ່ກັນ ລະບົບຈະລຶບອອກອັດຕະໂນມັດ.</string>
+    <string name="absent_kick_current_rule">ກົດລະບຽບປັດຈຸບັນ</string>
+    <string name="absent_kick_rule_section">ຄຳອະທິບາຍກົດລະບຽບ</string>
+    <string name="absent_kick_warm_tip">ຄຸນສົມບັດນີ້ມີເປົ້າໝາຍເພື່ອເພີ່ມການເຂົ້າຮ່ວມປະຊຸມກຸ່ມ ແລະ ສ້າງສະພາບແວດລ້ອມການສື່ສານທີ່ດີຂຶ້ນ.</string>
+    <string name="absent_kick_rule_title_fallback">ຂາດປະຊຸມ 5 ຄັ້ງຕິດຕໍ່ກັນ</string>
+    <string name="absent_kick_rule_empty">ບໍ່ມີຄຳອະທິບາຍກົດລະບຽບ</string>
 </resources>

@@ -520,4 +520,17 @@
     <string name="credit_score_title">Scor de credit</string>
     <string name="credit_score_tab_compose">Componența creditului</string>
     <string name="credit_score_tab_record">Istoric modificări</string>
+
+
+    <string name="AbsentKick">Eliminare automată pentru absență</string>
+    <string name="absentkick_tip">După %1$s întâlniri de grup consecutive ratate, membrul va fi eliminat automat.</string>
+    <string name="look_rule_tip">Vezi regulile</string>
+    <string name="absent_kick_rules_title">Reguli de eliminare automată</string>
+    <string name="absent_kick_card_title">Eliminare automată pentru absență</string>
+    <string name="absent_kick_card_desc">Dacă un membru nu participă la numărul stabilit de întâlniri consecutive, sistemul îl va elimina automat.</string>
+    <string name="absent_kick_current_rule">Regula curentă</string>
+    <string name="absent_kick_rule_section">Descrierea regulilor</string>
+    <string name="absent_kick_warm_tip">Această funcție urmărește să îmbunătățească participarea la întâlnirile de grup și să creeze un mediu de comunicare mai bun.</string>
+    <string name="absent_kick_rule_title_fallback">5 întâlniri consecutive ratate</string>
+    <string name="absent_kick_rule_empty">Nu există descriere a regulilor</string>
 </resources>

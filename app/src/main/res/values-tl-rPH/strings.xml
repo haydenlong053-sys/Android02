@@ -521,4 +521,17 @@
     <string name="credit_score_title">Iskor ng kredito</string>
     <string name="credit_score_tab_compose">Komposisyon ng kredito</string>
     <string name="credit_score_tab_record">Kasaysayan ng pagbabago</string>
+
+
+    <string name="AbsentKick">Awtomatikong alisin dahil sa pagliban</string>
+    <string name="absentkick_tip">Pagkatapos palampasin ang %1$s sunod-sunod na group meeting, awtomatikong aalisin ang miyembro.</string>
+    <string name="look_rule_tip">Tingnan ang mga panuntunan</string>
+    <string name="absent_kick_rules_title">Mga panuntunan sa awtomatikong pag-alis</string>
+    <string name="absent_kick_card_title">Awtomatikong alisin dahil sa pagliban</string>
+    <string name="absent_kick_card_desc">Kung hindi sumali ang miyembro sa itinakdang bilang ng sunod-sunod na meeting, awtomatikong aalisin siya ng system.</string>
+    <string name="absent_kick_current_rule">Kasalukuyang panuntunan</string>
+    <string name="absent_kick_rule_section">Paglalarawan ng panuntunan</string>
+    <string name="absent_kick_warm_tip">Layunin ng feature na ito na mapabuti ang pagdalo sa group meeting at lumikha ng mas magandang komunikasyon.</string>
+    <string name="absent_kick_rule_title_fallback">5 sunod-sunod na meeting na palampas</string>
+    <string name="absent_kick_rule_empty">Walang paglalarawan ng panuntunan</string>
 </resources>
