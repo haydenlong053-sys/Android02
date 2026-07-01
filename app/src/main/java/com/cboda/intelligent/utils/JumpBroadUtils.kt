@@ -11,6 +11,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.search.SearchPortalBroadActivity
 import com.cboda.intelligent.MainBroadActivity
+import com.cboda.intelligent.activity.AbsentKickRulesBroadActivity
 import com.cboda.intelligent.activity.AiCheckResultBroadActivity
 import com.cboda.intelligent.activity.CreateQunBroadActivity
 import com.cboda.intelligent.activity.CreditScoreActivity
@@ -281,6 +282,11 @@ class JumpBroadUtils {
         fun startQunInfoActivity(context: Context?, qunId: String) {
             val intent = Intent(context, QunInfo2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
+            context?.startActivity(intent)
+        }
+
+        fun startAbsentKickRulesActivity(context: Context?) {
+            val intent = Intent(context, AbsentKickRulesBroadActivity::class.java)
             context?.startActivity(intent)
         }
 

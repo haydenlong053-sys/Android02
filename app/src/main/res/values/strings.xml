@@ -1155,7 +1155,16 @@
     <string name="square_publish_rules_audit_title">Content review standards</string>
     <string name="square_publish_rules_audit_content">SeekWeb4 is committed to high-value information exchange. Spam, fake news, and personal attacks are strictly prohibited. Violations will result in forfeiture of the full pledge and restricted square access.</string>
     <string name="square_publish_rules_confirm">Read and understood</string>
+
     <string name="AbsentKick">缺席自动移出</string>
     <string name="absentkick_tip">连续%1$s次未进入群会议，系统将自动移出该成员</string>
     <string name="look_rule_tip">查看规则</string>
+    <string name="absent_kick_rules_title">自动移出规则</string>
+    <string name="absent_kick_card_title">缺席自动移出</string>
+    <string name="absent_kick_card_desc">成员连续未进入群会议达到设定次数，系统将自动移出该成员</string>
+    <string name="absent_kick_current_rule">当前规则</string>
+    <string name="absent_kick_rule_section">规则说明</string>
+    <string name="absent_kick_warm_tip">该功能旨在提升群会议参与度，营造更好的沟通氛围。</string>
+    <string name="absent_kick_rule_title_fallback">连续 5 次未参会</string>
+    <string name="absent_kick_rule_empty">暂无规则说明</string>
 </resources>

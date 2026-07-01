@@ -1,10 +1,9 @@
 package com.cboda.intelligent.bean
 
-import com.cboda.baselibrary.bean.BaseBroadResponse
-
+/** {@code api/absentKickRules} 响应 data。 */
 class AbsentKickRulesBean {
-    var id:String? = null
-    var groupId:String? = null
-    var isfin:String? = null
-    var answer:String? = null
+    var platformEnabled: Int? = null
+    var consecutiveMissLimit: Int? = null
+    var ruleTitle: String? = null
+    var descriptions: List<String>? = null
 }

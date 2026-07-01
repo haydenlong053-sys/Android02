@@ -563,7 +563,7 @@ class QunInfo2BroadActivity : BaseSimpleBroadActivity() {
 
         }
         mTvLookRule?.setOnClickListener {
-
+            JumpBroadUtils.startAbsentKickRulesActivity(this)
         }
         zidongfanyiView?.setOnClickListener {
             viewModel?.setGroupFanyi(this, qunId, if (zidongfanyi?.isChecked == true) "0" else "1")
