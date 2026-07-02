@@ -268,8 +268,10 @@ object E {
                             }
                         }
                     }
-                    uIDListBean.uidList = list
-                    uIdList.add(uIDListBean)
+                    if (list.isNotEmpty()) {
+                        uIDListBean.uidList = list
+                        uIdList.add(uIDListBean)
+                    }
                 }
             }
             if (uIdList.isNotEmpty()) {
