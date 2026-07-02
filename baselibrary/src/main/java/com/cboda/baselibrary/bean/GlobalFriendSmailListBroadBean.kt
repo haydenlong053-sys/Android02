@@ -83,4 +83,9 @@ class UserGroupBean {
     var groupId = ""
     var groupNickName: String? = null
     var joinTime: Long? = null
+    var extraBean = UserGroupExtraBean()
+}
+
+class UserGroupExtraBean {
+    var saveTime: Long = 0L
 }
