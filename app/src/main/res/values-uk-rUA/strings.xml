@@ -520,4 +520,17 @@
     <string name="credit_score_title">Кредитний рейтинг</string>
     <string name="credit_score_tab_compose">Структура кредиту</string>
     <string name="credit_score_tab_record">Історія змін</string>
+
+
+    <string name="AbsentKick">Автовидалення за пропуски</string>
+    <string name="absentkick_tip">Після %1$s пропусків групових зустрічей поспіль учасника буде автоматично видалено.</string>
+    <string name="look_rule_tip">Переглянути правила</string>
+    <string name="absent_kick_rules_title">Правила автовидалення</string>
+    <string name="absent_kick_card_title">Автовидалення за пропуски</string>
+    <string name="absent_kick_card_desc">Якщо учасник пропустить встановлену кількість зустрічей поспіль, система автоматично видалить його.</string>
+    <string name="absent_kick_current_rule">Поточне правило</string>
+    <string name="absent_kick_rule_section">Опис правил</string>
+    <string name="absent_kick_warm_tip">Ця функція покликана підвищити участь у групових зустрічах і покращити комунікацію.</string>
+    <string name="absent_kick_rule_title_fallback">5 пропусків зустрічей поспіль</string>
+    <string name="absent_kick_rule_empty">Опис правил відсутній</string>
 </resources>

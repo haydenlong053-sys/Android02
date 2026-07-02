@@ -520,4 +520,17 @@
     <string name="credit_score_title">Isikolo sesikweletu</string>
     <string name="credit_score_tab_compose">Ukwakhiwa kwesikweletu</string>
     <string name="credit_score_tab_record">Umlando wezinguquko</string>
+
+
+    <string name="AbsentKick">Susa ngokuzenzakalelayo ngenxa yokungabikhona</string>
+    <string name="absentkick_tip">Ngemva kokuphuthelwa yimihlangano yeqembu engu-%1$s elandelanayo, ilungu lizosuswa ngokuzenzakalelayo.</string>
+    <string name="look_rule_tip">Buka imithetho</string>
+    <string name="absent_kick_rules_title">Imithetho yokususa ngokuzenzakalelayo</string>
+    <string name="absent_kick_card_title">Susa ngokuzenzakalelayo ngenxa yokungabikhona</string>
+    <string name="absent_kick_card_desc">Uma ilungu lingahlangani nenani elibekiwe lemihlangano elandelanayo, isistimu lizolisusa ngokuzenzakalelayo.</string>
+    <string name="absent_kick_current_rule">Umthetho wamanje</string>
+    <string name="absent_kick_rule_section">Incazelo yemithetho</string>
+    <string name="absent_kick_warm_tip">Lesi sici lihlose ukuthuthukisa ukubamba iqhaza emihlanganweni yeqembu nokwakha indawo engcono yokuxhumana.</string>
+    <string name="absent_kick_rule_title_fallback">Kuphuthelwe imihlangano engu-5 elandelanayo</string>
+    <string name="absent_kick_rule_empty">Ayikho incazelo yemithetho</string>
 </resources>

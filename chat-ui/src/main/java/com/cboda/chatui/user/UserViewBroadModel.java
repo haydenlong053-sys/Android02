@@ -5,6 +5,7 @@
 package com.cboda.chatui.user;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -60,7 +61,7 @@ public class UserViewBroadModel extends ViewModel implements OnUserInfoUpdateLis
     public  void  getSyncUserInfos(List<String> userIds,String groupId){
         ChatManager.Instance().getWorkHandler().post(() -> {
             List<UserInfo> userInfos = ChatManager.Instance().getUserInfos(userIds, groupId);
-            eLogD("会话列表用户信息",new Gson().toJson(userInfos));
+            eLogD("会话列表用户信息", toJson2(userInfos));
             syncUserInfoLiveData.postValue(userInfos);
         });
     }

@@ -3,6 +3,7 @@ package com.cboda.baselibrary.network.interceptor
 import android.text.TextUtils
 import com.cboda.baselibrary.network.config.NetworkBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.getAppVersion
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.util.Locale
@@ -26,6 +27,9 @@ class HeaderBroadInterceptor : Interceptor {
 //        NetworkBroadConfig.appToken?.let { token ->
 //            SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, "")
 
+
+        requestBuilder.addHeader("App-Platform", "Android")
+        requestBuilder.addHeader("App-Version", getAppVersion(null))
         requestBuilder.addHeader("apptoken", appToken)
         requestBuilder.addHeader("token", appToken)
         //测试钱包专用 到时候要去掉

@@ -310,6 +310,34 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
         return safeCenterLiveData
     }
 
+    /**
+     * 进入会议上报给服务器记录次数
+     */
+    suspend fun goAttendanceCheckIn(groupIdNo: String): SingleLiveBroadData<Boolean> {
+        val mLiveData = SingleLiveBroadData<Boolean>()
+        val params = hashMapOf("groupIdNo" to groupIdNo)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlMeetConstants.QUICK_ATTENDANCE_CHECK_IN,
+                    Any::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    mLiveData.postValue(true)
+
+                }.onFailure { code, message ->
+//                    ToastBroadUtils.show(message)
+                }.onError {
+
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return mLiveData
+    }
+
 
     fun checkPayMeet(groupIdNo: String? = null, callBack: (CheckMeetPayBean) -> Unit = {}): SingleLiveBroadData<CheckMeetPayBean> {
         val liveData = SingleLiveBroadData<CheckMeetPayBean>()

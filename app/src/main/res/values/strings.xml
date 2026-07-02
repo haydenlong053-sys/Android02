@@ -115,6 +115,7 @@
     <string name="qunyuanguanliyanz">Member join group invitation management verification</string>
     <string name="wufasijiahao">Group members cannot privately add friends</string>
     <string name="kejianguanliy">Regular members can only see group owner and administrators</string>
+
     <string name="jiesanquan">Dissolve group chat</string>
     <string name="shanchutuichuqun">Delete and exit</string>
     <string name="tousuqun">Report</string>
@@ -1154,4 +1155,16 @@
     <string name="square_publish_rules_audit_title">Content review standards</string>
     <string name="square_publish_rules_audit_content">SeekWeb4 is committed to high-value information exchange. Spam, fake news, and personal attacks are strictly prohibited. Violations will result in forfeiture of the full pledge and restricted square access.</string>
     <string name="square_publish_rules_confirm">Read and understood</string>
+
+    <string name="AbsentKick">Auto-remove for absence</string>
+    <string name="absentkick_tip">After missing group meetings %1$s times in a row, the member will be automatically removed.</string>
+    <string name="look_rule_tip">View rules</string>
+    <string name="absent_kick_rules_title">Auto-removal rules</string>
+    <string name="absent_kick_card_title">Auto-remove for absence</string>
+    <string name="absent_kick_card_desc">If a member fails to join group meetings for the set number of consecutive times, the system will automatically remove them.</string>
+    <string name="absent_kick_current_rule">Current rule</string>
+    <string name="absent_kick_rule_section">Rule details</string>
+    <string name="absent_kick_warm_tip">This feature aims to improve group meeting participation and create a better communication environment.</string>
+    <string name="absent_kick_rule_title_fallback">Missed 5 consecutive meetings</string>
+    <string name="absent_kick_rule_empty">No rule details available</string>
 </resources>

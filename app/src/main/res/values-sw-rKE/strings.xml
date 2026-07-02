@@ -520,4 +520,17 @@
     <string name="credit_score_title">Alama ya mikopo</string>
     <string name="credit_score_tab_compose">Muundo wa mikopo</string>
     <string name="credit_score_tab_record">Historia ya mabadiliko</string>
+
+
+    <string name="AbsentKick">Ondoa kiotomatiki kwa kutokuwepo</string>
+    <string name="absentkick_tip">Baada ya kukosa mikutano %1$s mfululizo ya kikundi, mshiriki ataondolewa kiotomatiki.</string>
+    <string name="look_rule_tip">Angalia sheria</string>
+    <string name="absent_kick_rules_title">Sheria za kuondoa kiotomatiki</string>
+    <string name="absent_kick_card_title">Ondoa kiotomatiki kwa kutokuwepo</string>
+    <string name="absent_kick_card_desc">Ikiwa mshiriki hatashiriki idadi iliyowekwa ya mikutano mfululizo, mfumo utamwondoa kiotomatiki.</string>
+    <string name="absent_kick_current_rule">Sheria ya sasa</string>
+    <string name="absent_kick_rule_section">Maelezo ya sheria</string>
+    <string name="absent_kick_warm_tip">Kipengele hiki kinakusudia kuongeza ushiriki katika mikutano ya kikundi na kuunda mazingira bora ya mawasiliano.</string>
+    <string name="absent_kick_rule_title_fallback">Mikutano 5 mfululizo iliyokosekwa</string>
+    <string name="absent_kick_rule_empty">Hakuna maelezo ya sheria</string>
 </resources>

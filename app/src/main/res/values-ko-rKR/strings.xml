@@ -517,4 +517,17 @@
     <string name="credit_score_title">신용 점수</string>
     <string name="credit_score_tab_compose">신용 구성</string>
     <string name="credit_score_tab_record">변동 내역</string>
+
+
+    <string name="AbsentKick">결석 시 자동 제거</string>
+    <string name="absentkick_tip">그룹 회의에 연속 %1$s회 참석하지 않으면 해당 멤버가 자동으로 제거됩니다.</string>
+    <string name="look_rule_tip">규칙 보기</string>
+    <string name="absent_kick_rules_title">자동 제거 규칙</string>
+    <string name="absent_kick_card_title">결석 시 자동 제거</string>
+    <string name="absent_kick_card_desc">멤버가 설정된 횟수만큼 연속으로 그룹 회의에 참석하지 않으면 시스템이 자동으로 제거합니다.</string>
+    <string name="absent_kick_current_rule">현재 규칙</string>
+    <string name="absent_kick_rule_section">규칙 설명</string>
+    <string name="absent_kick_warm_tip">이 기능은 그룹 회의 참여를 높이고 더 나은 소통 환경을 조성하기 위한 것입니다.</string>
+    <string name="absent_kick_rule_title_fallback">연속 5회 미참석</string>
+    <string name="absent_kick_rule_empty">규칙 설명이 없습니다</string>
 </resources>

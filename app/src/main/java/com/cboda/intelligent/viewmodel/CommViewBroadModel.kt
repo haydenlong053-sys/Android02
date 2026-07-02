@@ -1781,6 +1781,29 @@ class CommViewBroadModel : FriendViewBroadModel() {
             )
     }
 
+    fun goAbsentKick(context: Context?, uid: String, state: String) {
+        val map = mapOf(
+            "id" to uid,
+            "state" to state
+        )
+        okGoHelper.post(
+            context,
+            "/setGroupAbsentKick",
+            JSONObject(map).toString(),
+            NoResultBroadBean(),
+            callBack = object : OKGoBroadHelper.RequestCallBack {
+                override fun onSuccess(bean: BaseBroadResponse?) {
+                    if (bean is NoResultBroadBean) {
+                        errorLiveData.value = ErrorBroadBean(result = state,type = "setGroupAbsentKick")
+                    }
+                }
+
+                override fun onFail(bean: BaseBroadResponse?) {
+                }
+            },
+
+            )
+    }
 
     fun setCommercialFunction(qid: String, boolean: Boolean, context: Context? = null): SingleLiveBroadData<Boolean> {
         val liveData = SingleLiveBroadData<Boolean>()

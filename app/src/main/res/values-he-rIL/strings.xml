@@ -518,4 +518,17 @@
     <string name="credit_score_title">ציון אשראי</string>
     <string name="credit_score_tab_compose">הרכב האשראי</string>
     <string name="credit_score_tab_record">היסטוריית שינויים</string>
+
+
+    <string name="AbsentKick">הסרה אוטומטית בגלל היעדרות</string>
+    <string name="absentkick_tip">לאחר %1$s פגישות קבוצה רצופות שלא נכח בהן, החבר יוסר אוטומטית.</string>
+    <string name="look_rule_tip">הצג כללים</string>
+    <string name="absent_kick_rules_title">כללי הסרה אוטומטית</string>
+    <string name="absent_kick_card_title">הסרה אוטומטית בגלל היעדרות</string>
+    <string name="absent_kick_card_desc">אם חבר לא ישתתף במספר הפגישות הרצופות שנקבע, המערכת תסיר אותו אוטומטית.</string>
+    <string name="absent_kick_current_rule">כלל נוכחי</string>
+    <string name="absent_kick_rule_section">הסבר כללים</string>
+    <string name="absent_kick_warm_tip">תכונה זו נועדה לשפר השתתפות בפגישות קבוצה וליצור סביבת תקשורת טובה יותר.</string>
+    <string name="absent_kick_rule_title_fallback">5 פגישות רצופות שלא נכחו</string>
+    <string name="absent_kick_rule_empty">אין הסבר כללים</string>
 </resources>

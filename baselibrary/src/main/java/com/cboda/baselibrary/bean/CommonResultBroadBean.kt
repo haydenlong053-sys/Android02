@@ -123,6 +123,8 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var mId: String? = null
 
         var profession: String? = null
+        var openAbsentKick: String? = null // 本群会议不参会自动踢人开关："0" / "1"
+        var absentKickLimit: String? = null // 全局连续未参会次数，如 5
 
         var memberInterestList: Array<String>? = null
 
