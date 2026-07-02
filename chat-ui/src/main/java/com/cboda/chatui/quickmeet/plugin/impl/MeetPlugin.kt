@@ -58,7 +58,7 @@ import kotlin.let
  * 会议最小化显示界面
  */
 class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallEventCallback, OnTouchHandleEvent {
-    private val intervalTime = 10000L
+    private val intervalTime = 15000L
     private var callingStateHeight = 0
     private var viewWidth = 0
     private var marginTop = 0
