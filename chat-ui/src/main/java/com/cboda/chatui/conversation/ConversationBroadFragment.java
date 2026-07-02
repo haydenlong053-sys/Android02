@@ -268,7 +268,9 @@ public class ConversationBroadFragment extends Fragment implements
     @Override
     public void onMeetTotalPersonCount(@NotNull String chanelId, int personCount) {
         if (null != countPillView && isAdded() && null != danmakuIv && danmakuIv.getVisibility() == VISIBLE) {
-            countPillView.setTarget(personCount, 500L);
+            if (personCount >0){
+                countPillView.setTarget(personCount, 500L);
+            }
             if (countPillView.getVisibility() == GONE && personCount > 0) {
                 countPillView.setVisibility(VISIBLE);
             }
