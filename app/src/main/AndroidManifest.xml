@@ -292,6 +292,10 @@
             android:name="com.cboda.intelligent.activity.SafeCenterBroadActivity"
             android:exported="false" />
         <activity
+            android:name="com.cboda.intelligent.activity.AbsentKickRulesBroadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.cboda.intelligent.activity.AiCheckResultBroadActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

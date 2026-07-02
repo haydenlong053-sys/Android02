@@ -520,4 +520,17 @@
     <string name="credit_score_title">क्रेडिट स्कोर</string>
     <string name="credit_score_tab_compose">क्रेडिट संरचना</string>
     <string name="credit_score_tab_record">परिवर्तन इतिहास</string>
+
+
+    <string name="AbsentKick">अनुपस्थितिमा स्वचालित हटाउने</string>
+    <string name="absentkick_tip">लगातार %1$s समूह बैठकमा नआएपछि सदस्य स्वचालित रूपमा हटाइनेछ।</string>
+    <string name="look_rule_tip">नियम हेर्नुहोस्</string>
+    <string name="absent_kick_rules_title">स्वचालित हटाउने नियम</string>
+    <string name="absent_kick_card_title">अनुपस्थितिमा स्वचालित हटाउने</string>
+    <string name="absent_kick_card_desc">सदस्यले निर्धारित संख्यामा लगातार समूह बैठकमा सहभागी नभएमा प्रणालीले स्वचालित रूपमा हटाउनेछ।</string>
+    <string name="absent_kick_current_rule">हालको नियम</string>
+    <string name="absent_kick_rule_section">नियम विवरण</string>
+    <string name="absent_kick_warm_tip">यो सुविधाले समूह बैठकमा सहभागिता बढाउन र राम्रो सञ्चार वातावरण बनाउन लक्ष्य राखेको छ।</string>
+    <string name="absent_kick_rule_title_fallback">लगातार ५ पटक बैठकमा अनुपस्थित</string>
+    <string name="absent_kick_rule_empty">नियम विवरण छैन</string>
 </resources>

@@ -520,4 +520,17 @@
     <string name="credit_score_title">Skor Kredit</string>
     <string name="credit_score_tab_compose">Komposisi Kredit</string>
     <string name="credit_score_tab_record">Riwayat Owah-owahan</string>
+
+
+    <string name="AbsentKick">Mbusak otomatis amarga ora rawuh</string>
+    <string name="absentkick_tip">Sawise ora melu rapat grup %1$s kali berturut-turut, anggota bakal dibusak otomatis.</string>
+    <string name="look_rule_tip">Deleng aturan</string>
+    <string name="absent_kick_rules_title">Aturan mbusak otomatis</string>
+    <string name="absent_kick_card_title">Mbusak otomatis amarga ora rawuh</string>
+    <string name="absent_kick_card_desc">Yen anggota ora melu rapat grup miturut jumlah sing ditemtokake, sistem bakal mbusak dheweke otomatis.</string>
+    <string name="absent_kick_current_rule">Aturan saiki</string>
+    <string name="absent_kick_rule_section">Katrangan aturan</string>
+    <string name="absent_kick_warm_tip">Fitur iki gawe nambah partisipasi rapat grup lan nggawe lingkungan komunikasi sing luwih apik.</string>
+    <string name="absent_kick_rule_title_fallback">Ora melu 5 rapat berturut-turut</string>
+    <string name="absent_kick_rule_empty">Ora ana katrangan aturan</string>
 </resources>

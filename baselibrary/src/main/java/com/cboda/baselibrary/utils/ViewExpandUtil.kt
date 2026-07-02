@@ -1159,6 +1159,22 @@ fun showMeetLeaveTip(context: Context? = null, block: () -> Unit = {}) {
     commonTipPop.showPopupWindow()
 }
 
+fun showAbsentKickTip(context: Context? = null, block: () -> Unit = {}) {
+    val mContext = getAppContext(context)
+    val commonTipPop = CommonTipBroadPop(
+        mContext,
+        mContext.getString(R.string.wenxintishi),
+        mContext.getString(R.string.tip_sure_again)
+    )
+    commonTipPop.setCancelBtn(mContext.getString(R.string.bs_quxiao))
+    commonTipPop.setSureBtn(mContext.getString(R.string.bs_mine_sure))
+    commonTipPop.sureInvoke = {
+        block.invoke()
+    }
+    commonTipPop.showPopupWindow()
+}
+
+
 //裁视图轮廓圆角
 fun clipViewOutlineRound(view: View, radiusDp: Int) {
     val radius = radiusDp * view.resources.displayMetrics.density

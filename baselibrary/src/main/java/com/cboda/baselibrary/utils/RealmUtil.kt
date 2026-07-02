@@ -9,9 +9,11 @@ import com.cboda.baselibrary.bean.GroupUserBean
 import com.cboda.baselibrary.bean.GroupUserRealm
 import com.cboda.baselibrary.bean.SocialContact
 import com.cboda.baselibrary.bean.UserGroupBean
+import com.cboda.baselibrary.bean.UserGroupExtraBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.bean.UserRealm
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTime
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.coroutines.CoroutineScope
@@ -196,6 +198,7 @@ object RealmUtil {
                     userGroupBean?.joinTime = data.joinTime
                 }
                 userGroupBean?.groupNickName = data.groupNickName
+                userGroupBean?.extraBean = fromJson2(data.extraJson, UserGroupExtraBean::class.java)
                 ThreadUtils.getMainHandler().post { callBack.invoke(userGroupBean) }
             } ?: ThreadUtils.getMainHandler().post { callBack.invoke(null) }
         }
@@ -239,6 +242,9 @@ object RealmUtil {
                     if (!TextUtils.isEmpty(userGroupBean.groupNickName)) {
                         groupUserRealm.groupNickName = userGroupBean.groupNickName ?: ""
                     }
+                    val userGroupExtraBean = UserGroupExtraBean()
+                    userGroupExtraBean.saveTime = getNowTime()
+                    groupUserRealm.extraJson = toJson2(userGroupExtraBean)
                 } ?: let {
                     val createUserRealm = realm.createObject(GroupUserRealm::class.java, id)
                     getUserGroupRealm(userGroupBean, createUserRealm)
@@ -255,6 +261,9 @@ object RealmUtil {
             if (!TextUtils.isEmpty(userGroupBean.groupNickName)) {
                 groupUserRealm.groupNickName = userGroupBean.groupNickName ?: ""
             }
+            val userGroupExtraBean = UserGroupExtraBean()
+            userGroupExtraBean.saveTime = getNowTime()
+            groupUserRealm.extraJson = toJson2(userGroupExtraBean)
         }
         return groupUserRealm
     }

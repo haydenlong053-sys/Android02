@@ -30,6 +30,9 @@ object UrlMeetConstants {
     //会议总人数
     const val QUICK_MEET_TOTAL_COUNT="api/quick/live/getJoinedUsers"
 
+    //会议进房上报
+    const val QUICK_ATTENDANCE_CHECK_IN="api/quick/live/attendance/checkIn"
+
 
 
 

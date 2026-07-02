@@ -212,7 +212,7 @@ object E {
                     }
                 }
             } else {
-                //距离上次调用获取群成员数据接口24小时后才能再次调接口
+                //距离上次调用获取群成员数据接口48小时后才能再次调接口
                 if (null != saveTime && getNowTimeHoursDifference(saveTime) < 48L) {
                     return
                 }
@@ -256,11 +256,22 @@ object E {
                     val list = arrayListOf<String>()
                     item.forEach { (_, value) ->
                         if (!TextUtils.isEmpty(value)) {
-                            list.add(value)
+                            val userGroupBean = UserGroupBean()
+                            userGroupBean.groupId = groupId
+                            userGroupBean.userId = value
+                            RealmUtil.findUserGroupData(userGroupBean) { returnUserGroupBean ->
+                                //距离上次调用获取群成员数据接口48小时后才能再次调接口
+                                if (null != returnUserGroupBean && returnUserGroupBean.joinTime != 0L && getNowTimeHoursDifference(returnUserGroupBean.joinTime ?: 0L) < 48L) {
+                                } else {
+                                    list.add(value)
+                                }
+                            }
                         }
                     }
-                    uIDListBean.uidList = list
-                    uIdList.add(uIDListBean)
+                    if (list.isNotEmpty()) {
+                        uIDListBean.uidList = list
+                        uIdList.add(uIDListBean)
+                    }
                 }
             }
             if (uIdList.isNotEmpty()) {

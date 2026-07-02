@@ -122,4 +122,17 @@
     <string name="credit_score_title">Ocena kredytowa</string>
     <string name="credit_score_tab_compose">Skład kredytu</string>
     <string name="credit_score_tab_record">Historia zmian</string>
+
+
+    <string name="AbsentKick">Automatyczne usunięcie za nieobecność</string>
+    <string name="absentkick_tip">Po %1$s kolejnych nieobecnościach na spotkaniach grupy członek zostanie automatycznie usunięty.</string>
+    <string name="look_rule_tip">Zobacz zasady</string>
+    <string name="absent_kick_rules_title">Zasady automatycznego usuwania</string>
+    <string name="absent_kick_card_title">Automatyczne usunięcie za nieobecność</string>
+    <string name="absent_kick_card_desc">Jeśli członek nie weźmie udziału w ustalonej liczbie kolejnych spotkań, system usunie go automatycznie.</string>
+    <string name="absent_kick_current_rule">Obecna zasada</string>
+    <string name="absent_kick_rule_section">Opis zasad</string>
+    <string name="absent_kick_warm_tip">Ta funkcja ma zwiększyć udział w spotkaniach grupy i poprawić komunikację.</string>
+    <string name="absent_kick_rule_title_fallback">5 kolejnych nieobecności</string>
+    <string name="absent_kick_rule_empty">Brak opisu zasad</string>
 </resources>

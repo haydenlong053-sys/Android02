@@ -519,4 +519,17 @@
     <string name="credit_score_title">Skor Kredit</string>
     <string name="credit_score_tab_compose">Komposisi Kredit</string>
     <string name="credit_score_tab_record">Riwayat Perubahan</string>
+
+
+    <string name="AbsentKick">Hapus otomatis karena absen</string>
+    <string name="absentkick_tip">Setelah melewatkan %1$s rapat grup berturut-turut, anggota akan dihapus secara otomatis.</string>
+    <string name="look_rule_tip">Lihat aturan</string>
+    <string name="absent_kick_rules_title">Aturan penghapusan otomatis</string>
+    <string name="absent_kick_card_title">Hapus otomatis karena absen</string>
+    <string name="absent_kick_card_desc">Jika anggota tidak hadir pada jumlah rapat grup berturut-turut yang ditetapkan, sistem akan menghapusnya secara otomatis.</string>
+    <string name="absent_kick_current_rule">Aturan saat ini</string>
+    <string name="absent_kick_rule_section">Penjelasan aturan</string>
+    <string name="absent_kick_warm_tip">Fitur ini bertujuan meningkatkan partisipasi rapat grup dan menciptakan lingkungan komunikasi yang lebih baik.</string>
+    <string name="absent_kick_rule_title_fallback">Melewatkan 5 rapat berturut-turut</string>
+    <string name="absent_kick_rule_empty">Tidak ada penjelasan aturan</string>
 </resources>

@@ -522,4 +522,17 @@
     <string name="credit_score_title">ਕਰੈਡਿਟ ਸਕੋਰ</string>
     <string name="credit_score_tab_compose">ਕਰੈਡਿਟ ਬਣਤਰ</string>
     <string name="credit_score_tab_record">ਤਬਦੀਲੀ ਇਤਿਹਾਸ</string>
+
+
+    <string name="AbsentKick">ਗੈਰਹਾਜ਼ਰੀ \'ਤੇ ਆਟੋ ਹਟਾਉਣਾ</string>
+    <string name="absentkick_tip">ਲਗਾਤਾਰ %1$s ਗਰੁੱਪ ਮੀਟਿੰਗਾਂ ਤੋਂ ਗੈਰਹਾਜ਼ਰ ਹੋਣ \'ਤੇ ਮੈਂਬਰ ਆਟੋਮੈਟਿਕ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।</string>
+    <string name="look_rule_tip">ਨਿਯਮ ਦੇਖੋ</string>
+    <string name="absent_kick_rules_title">ਆਟੋ ਹਟਾਉਣ ਦੇ ਨਿਯਮ</string>
+    <string name="absent_kick_card_title">ਗੈਰਹਾਜ਼ਰੀ \'ਤੇ ਆਟੋ ਹਟਾਉਣਾ</string>
+    <string name="absent_kick_card_desc">ਜੇ ਮੈਂਬਰ ਨਿਰਧਾਰਤ ਲਗਾਤਾਰ ਮੀਟਿੰਗਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੁੰਦਾ, ਸਿਸਟਮ ਉਸਨੂੰ ਆਟੋਮੈਟਿਕ ਹਟਾ ਦੇਵੇਗਾ।</string>
+    <string name="absent_kick_current_rule">ਮੌਜੂਦਾ ਨਿਯਮ</string>
+    <string name="absent_kick_rule_section">ਨਿਯਮ ਵੇਰਵਾ</string>
+    <string name="absent_kick_warm_tip">ਇਹ ਫੀਚਰ ਗਰੁੱਪ ਮੀਟਿੰਗਾਂ ਵਿੱਚ ਭਾਗੀਦਾਰੀ ਵਧਾਉਣ ਅਤੇ ਬਿਹਤਰ ਸੰਚਾਰ ਮਾਹੌਲ ਬਣਾਉਣ ਲਈ ਹੈ।</string>
+    <string name="absent_kick_rule_title_fallback">ਲਗਾਤਾਰ 5 ਮੀਟਿੰਗਾਂ ਤੋਂ ਗੈਰਹਾਜ਼ਰ</string>
+    <string name="absent_kick_rule_empty">ਕੋਈ ਨਿਯਮ ਵੇਰਵਾ ਨਹੀਂ</string>
 </resources>

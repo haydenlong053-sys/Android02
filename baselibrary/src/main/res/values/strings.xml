@@ -213,4 +213,6 @@
     <string name="mine_assets3">平台积分</string>
     <string name="mine_sys_point2">平台积分</string>
     <string name="conversation_tab2">新会</string>
+
+    <string name="tip_sure_again">确定开启会议多次缺席自动移出功能吗</string>
 </resources>

@@ -521,4 +521,17 @@
     <string name="credit_score_title">Skor Kredit</string>
     <string name="credit_score_tab_compose">Komposisi Kredit</string>
     <string name="credit_score_tab_record">Sejarah Perubahan</string>
+
+
+    <string name="AbsentKick">Alih keluar automatik kerana tidak hadir</string>
+    <string name="absentkick_tip">Selepas terlepas %1$s mesyuarat kumpulan berturut-turut, ahli akan dialih keluar secara automatik.</string>
+    <string name="look_rule_tip">Lihat peraturan</string>
+    <string name="absent_kick_rules_title">Peraturan pengalihan keluar automatik</string>
+    <string name="absent_kick_card_title">Alih keluar automatik kerana tidak hadir</string>
+    <string name="absent_kick_card_desc">Jika ahli tidak menghadiri bilangan mesyuarat berturut-turut yang ditetapkan, sistem akan mengalih keluar mereka secara automatik.</string>
+    <string name="absent_kick_current_rule">Peraturan semasa</string>
+    <string name="absent_kick_rule_section">Penerangan peraturan</string>
+    <string name="absent_kick_warm_tip">Ciri ini bertujuan meningkatkan penyertaan mesyuarat kumpulan dan mewujudkan persekitaran komunikasi yang lebih baik.</string>
+    <string name="absent_kick_rule_title_fallback">Terlepas 5 mesyuarat berturut-turut</string>
+    <string name="absent_kick_rule_empty">Tiada penerangan peraturan</string>
 </resources>
