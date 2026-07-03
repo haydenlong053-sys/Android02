@@ -24,7 +24,6 @@ android {
     }
 
 
-
     buildTypes {
         release {
             minifyEnabled false
@@ -51,6 +50,7 @@ dependencies {
     api libs.protobuf.java
     implementation libs.util.codex
     implementation files('libs/netty-tcp-4.1.33-1.0.jar')
+    implementation project(':baselibrary')
 }
 
 protobuf {

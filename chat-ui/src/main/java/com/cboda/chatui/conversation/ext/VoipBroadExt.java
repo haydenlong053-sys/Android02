@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
-import com.cboda.baselibrary.bean.GroupUserBean;
+import com.freddy.webtrc.bean.CallTokenBean;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 
 import com.cboda.chatui.R;
@@ -98,9 +98,9 @@ public class VoipBroadExt extends ConversationMidExt {
     }
 
     private void audioChat(String targetId) {
-        BroadE.INSTANCE.getCallToken(targetId, new Function1<GroupUserBean, Unit>() {
+        BroadE.INSTANCE.getCallToken(targetId, false, new Function1<CallTokenBean, Unit>() {
             @Override
-            public Unit invoke(GroupUserBean groupUserBean) {
+            public Unit invoke(CallTokenBean callTokenBean) {
                 return null;
             }
         });

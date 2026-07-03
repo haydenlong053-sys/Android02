@@ -1,5 +1,7 @@
 package com.freddy.im.http;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppVersion;
+
 import com.hjq.http.EasyConfig;
 
 /**
@@ -18,5 +20,7 @@ public final class ImHttpConfig {
         ec.addHeader("apptoken", appToken != null ? appToken : "");
         ec.addHeader("userId", userId != null ? userId : "");
         ec.addHeader("clientType", String.valueOf(clientType));
+        ec.addHeader("App-Platform", "Android");
+        ec.addHeader("App-Version",  getAppVersion(null));
     }
 }
