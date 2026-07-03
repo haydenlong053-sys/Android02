@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.intelligent.R
-import com.cboda.intelligent.utils.AppBroadUtils
 
 open class BaseDialogBroadFragment : DialogFragment() {
     /**
@@ -26,7 +26,7 @@ open class BaseDialogBroadFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.transparentFrameWindowStyle)
-        AppBroadUtils.debug("当前页面", this.javaClass.simpleName ?: "")
+        eLogD("当前页面", this.javaClass.simpleName ?: "")
     }
 
 

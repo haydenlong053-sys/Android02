@@ -202,7 +202,7 @@ class MeetingCreateViewBroadModel(
                 .onSuccess { response ->
                     response?.let {
                         _uiState.value = _uiState.value.copy(
-                            currentPrice = response.liveAmount?.toDouble()?:0.0,
+                            currentPrice = response.priceOdic?.toDouble()?:0.0,
                             originalPrice = response.meetingTokens?.toDouble()?:0.0,
                             availableTokens = response.currentAmount?.toDouble()?:0.0,
                             isPriceLoading = false

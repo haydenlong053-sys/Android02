@@ -3,6 +3,7 @@ package com.cboda.intelligent
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -45,6 +46,7 @@ import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SizeUtils.dp2px
 import com.cboda.baselibrary.bean.BarrageBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.common.BridgeImEnum
 import com.cboda.baselibrary.event.AppBroadEvent
@@ -63,14 +65,18 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getRealUserId
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
+import com.cboda.baselibrary.utils.activityResumeLiveData
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.crashReportLog
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAllEnDeviceId
+import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
 import com.cboda.baselibrary.utils.meetSeatChangeMsgLiveData
 import com.cboda.baselibrary.utils.meetUpMicMsgLiveData
+import com.cboda.baselibrary.utils.showCommonStrTip
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.updateBarrageDataLiveData
 import com.cboda.chatemoji.EmotionBroadEvent
@@ -80,7 +86,10 @@ import com.cboda.chatui.bridge.MyCommonBroadBridge
 import com.cboda.chatui.bridge.TiXingBroadUtils
 import com.cboda.chatui.conversationlist.ConversationListViewBroadModel
 import com.cboda.chatui.conversationlist.ConversationListViewModelBroadFactory
+import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
+import com.cboda.chatui.quickmeet.bean.CallDirect
+import com.cboda.chatui.quickmeet.bean.CheckMeetPayBean
 import com.cboda.chatui.quickmeet.showMeetPreEndTip
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.chatui.user.UserViewBroadModel
@@ -89,6 +98,8 @@ import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.bean.SquareMessageUnreadBroadEvent
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
+import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
+import com.cboda.intelligent.fragment.CleverBodyBroadFragment
 import com.cboda.intelligent.fragment.GpFragment
 import com.cboda.intelligent.fragment.MessageBroadFragment
 import com.cboda.intelligent.fragment.NewMineBroadFragment
@@ -103,7 +114,9 @@ import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.toLoginQrCodeAct
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
+import com.cboda.intelligent.utils.showSelectPayMethodPop
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
 import com.freddy.chat.ConversationListFragment
@@ -147,6 +160,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     private val uIViewModel: HomeUIViewModel by viewModels()
     private val quickMeetViewModel: QuickMeetViewBroadModel by viewModels()
 
+    private val newMirrorViewBroadModel: NewMirrorViewBroadModel by viewModels()
 
     override fun getLayoutId(): Int {
         return R.layout.main_activity
@@ -470,9 +484,50 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                 toLoginQrCodeAct(this)
             }
         }
+        activityResumeLiveData.observeForever {
+            checkOrder()
+        }
+        checkMeetOrder()
     }
 
 
+    private fun checkMeetOrder() {
+        quickMeetViewBroadModel.checkPayMeet().observe(this@MainBroadActivity) { data ->
+            val paidUnused = data.paidUnused
+            paidUnused?.let { checkMeetBean ->
+                if (checkMeetBean.remainSeconds > 0 && checkMeetBean.has) {
+                    showCommonStrTip("是否继续创建会议？", "你有一笔已支付但未使用的会议订单，该订单将保留", "稍后处理", "继续开会", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
+                        if (toCheck) {
+//                            eLogD("MainBroadActivityClass", "toCheck")
+                            lifecycleScope.launch {
+//                                eLogD("MainBroadActivityClass", "goCreateQuickMeet")
+                                quickMeetViewModel.goCreateQuickMeet(checkMeetBean.groupIdNo, checkMeetBean.channelName, checkMeetBean.durationConfigId, checkMeetBean.userTierConfigId, checkMeetBean.orderId)
+                                    .observe(this@MainBroadActivity) {
+//                                        eLogD("MainBroadActivityClass", "callMeetAction_data:${toJson2(it)}")
+                                        AppBroadUtils.goChat(this@MainBroadActivity, paidUnused.groupIdNo, "1", it)
+                                    }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+//    private var paidUnused: CheckMeetPayBean.CheckMeetBean? = null
+
+//    override fun onEngineSetup() {
+//        showLoading()
+//        eLogD("MainBroadActivityClass", "onEngineSetup")
+//    }
+//
+//    override fun onRtcJoinChannelSuccess() {
+//        dismissLoading()
+//        eLogD("MainBroadActivityClass", "onRtcJoinChannelSuccess")//bca55f0479eb444c9b3fc9db50103f53 67c4838fd79746a18fb80825626ac3c9
+//        AppBroadUtils.goChat(this@MainBroadActivity, paidUnused?.groupIdNo ?: "", "1")
+//        paidUnused = null
+//    }
 //    private fun getsitonggonggao() {
 //        viewModel?.getxitonggaonggao(this, "1")
 //    }
@@ -491,6 +546,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     }
 
     private var viewModel: CommViewBroadModel? = null
+    private val quickMeetViewBroadModel: QuickMeetViewBroadModel by viewModels()
 
     private var conversationListViewModel: ConversationListViewBroadModel? = null
 
@@ -501,7 +557,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
         getUserInfo()
         eLogD(this.javaClass.simpleName, "getGroupInfos672")
         conversationListViewModel?.reloadConversationUnreadStatus()
-
+//        checkOrder()
     }
 
 
@@ -754,12 +810,16 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                             runOnUiThread {
                                 if (MeetCallManager.getInstance().isCallingState() && MeetCallManager.getInstance().isOwner()) {
                                     showMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount) {
+                                        eLogD("createYsGroupPayOrder", "isCallingState:${MeetCallManager.getInstance().isCallingState()}")
                                         if (MeetCallManager.getInstance().isCallingState()) {
-                                            lifecycleScope.launch {
-                                                quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
-                                                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
-                                                }
+                                            //会议加时 延长会议
+                                            newMirrorViewBroadModel.createYsGroupPayOrder(MeetCallManager.getInstance().mCallData, true, true) { data ->
+                                                eLogD("createYsGroupPayOrder", "createYsGroupPayOrder_return_Success")
+                                                eLogD("createYsGroupPayOrder", "data:${toJson2(data)}")
+                                                payLsOrderBean = data
+                                                showSelectPayMethod()
                                             }
+
                                         }
                                     }
                                 }
@@ -874,6 +934,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                         )
                                     }
                                 }
+
                                 6015 -> {
                                     EventBus.getDefault().post(SquareMessageUnreadBroadEvent())
                                 }
@@ -980,6 +1041,66 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        }
     }
 
+    private fun showSelectPayMethod() {
+        eLogD("createYsGroupPayOrder", "showSelectPayMethod1")
+        showSelectPayMethodPop { paymentMethod ->
+            canPay = true
+            newMirrorViewBroadModel.openWalletPay(payLsOrderBean, paymentMethod, this@MainBroadActivity)
+        }
+    }
+
+    private fun checkOrder() {
+        if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
+            newMirrorViewBroadModel.checkOrder(payLsOrderBean?.orderId, true, true) { data ->
+                if (data?.success == true) {
+                    lifecycleScope.launch {
+                        quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId, payLsOrderBean?.orderId).observeForever {
+                            canPay = false
+                            payLsOrderBean = null
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                        }
+                    }
+                } else {
+                    runOnUiThread {
+                        showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
+                            if (toCheck) {
+                                newMirrorViewBroadModel.checkOrder(payLsOrderBean?.orderId, true, true) { data ->
+                                    if (data?.success == true) {
+                                        lifecycleScope.launch {
+                                            quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId, payLsOrderBean?.orderId).observeForever {
+                                                canPay = false
+                                                payLsOrderBean = null
+                                                ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                                            }
+                                        }
+                                    } else {
+                                        runOnUiThread {
+                                            showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", getResumeActivity(), isOutSideTouchable = false) { toCheck2 ->
+                                                if (toCheck2) {
+                                                    showSelectPayMethod()
+                                                } else {
+                                                    payLsOrderBean = null
+                                                    canPay = false
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                payLsOrderBean = null
+                                canPay = false
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    private var payLsOrderBean: PayLsOrderBean? = null
+    private var canPay = false
 
     override fun fitsSystemWindows() = true
 }

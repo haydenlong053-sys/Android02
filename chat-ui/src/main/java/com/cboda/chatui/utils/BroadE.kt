@@ -37,7 +37,7 @@ import kotlin.collections.component2
 import kotlin.collections.isNotEmpty
 
 object E {
-
+    private const val MAX_SAVE_TIME = 24L
     //加载群头像（portrait：头像url）
     fun loadGroupImg(imageView: ImageView?, groupId: String?, portrait: String? = null) {
         imageView?.let {
@@ -212,8 +212,8 @@ object E {
                     }
                 }
             } else {
-                //距离上次调用获取群成员数据接口48小时后才能再次调接口
-                if (null != saveTime && getNowTimeHoursDifference(saveTime) < 48L) {
+                //距离上次调用获取群成员数据接口24小时后才能再次调接口
+                if (null != saveTime && getNowTimeHoursDifference(saveTime) < MAX_SAVE_TIME) {
                     return
                 }
                 getAllListUserData(groupId, saveMap)
@@ -260,8 +260,8 @@ object E {
                             userGroupBean.groupId = groupId
                             userGroupBean.userId = value
                             RealmUtil.findUserGroupData(userGroupBean) { returnUserGroupBean ->
-                                //距离上次调用获取群成员数据接口48小时后才能再次调接口
-                                if (null != returnUserGroupBean && returnUserGroupBean.joinTime != 0L && getNowTimeHoursDifference(returnUserGroupBean.joinTime ?: 0L) < 48L) {
+                                //距离上次调用获取群成员数据接口24小时后才能再次调接口
+                                if (null != returnUserGroupBean && returnUserGroupBean.joinTime != 0L && getNowTimeHoursDifference(returnUserGroupBean.joinTime ?: 0L) < MAX_SAVE_TIME) {
                                 } else {
                                     list.add(value)
                                 }

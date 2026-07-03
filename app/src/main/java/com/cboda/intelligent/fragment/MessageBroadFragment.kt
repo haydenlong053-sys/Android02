@@ -2,6 +2,7 @@ package com.cboda.intelligent.fragment
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
@@ -558,6 +559,12 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
                 MorePopUp(onItemClick = { index ->
                     when (index) {
                         0 -> { // 搜索
+//                            val urlBefore = "https://metamask.app.link/send/"
+//                            val intent = Intent(
+//                                Intent.ACTION_VIEW,
+//                                Uri.parse(urlBefore+"0x8894E0a0c962CB723c1976a4421c95949bE2D4E3@56?value=1000000000000000")
+//                            )
+//                            startActivity(intent)
                             JumpBroadUtils.startSearchActivity(context)
                         }
 
@@ -596,6 +603,7 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
             }
         }
     }
+
 
     override fun onResume() {
         super.onResume()

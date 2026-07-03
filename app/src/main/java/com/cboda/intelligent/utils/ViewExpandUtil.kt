@@ -3,6 +3,7 @@ package com.cboda.intelligent.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Looper
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextUtils
@@ -19,8 +20,13 @@ import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.dialog.pop.AuthPasswordBroadPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
+import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getResumeActivity
+import com.cboda.intelligent.bean.PaymentMethodBroadBean
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
+import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.activityList
 import com.lzy.okgo.utils.HttpUtils.runOnUiThread
 import kotlinx.coroutines.channels.awaitClose
@@ -87,6 +93,44 @@ fun showToastMain(message: String) {
     runOnUiThread { ToastBroadUtil.show(message) }
 }
 
+fun showSelectPayMethodPop(block: (PaymentMethodBroadBean) -> Unit = {}) {
+    eLogD("createYsGroupPayOrder", "showSelectPayMethod")
+    getResumeActivity()?.let { mContext ->
+        runOnUiThread {
+            eLogD("createYsGroupPayOrder", "showSelectPayMethod:${mContext.javaClass.simpleName}")
+            val payPopup = PaymentMethodPopup(mContext)
+            payPopup.setOnSelected { paymentMethod ->
+                payPopup.dismiss()
+                block.invoke(paymentMethod)
+            }
+            payPopup.showPopupWindow()
+        }
+    }
+
+
+//    val hostActivity = resolvePopupHostActivity(context)
+//    if (hostActivity == null) {
+//        eLogD("createYsGroupPayOrder", "showSelectPayMethodPop: no valid activity")
+//        ToastBroadUtils.show("无法打开支付弹窗")
+//        return
+//    }
+//    val showPopup = {
+//        eLogD("createYsGroupPayOrder", "showSelectPayMethodPop: ${hostActivity.javaClass.simpleName}")
+//        val payPopup = PaymentMethodPopup(hostActivity)
+//        payPopup.setOnSelected { paymentMethod ->
+//            payPopup.dismiss()
+//            block.invoke(paymentMethod)
+//        }
+//        payPopup.showPopupWindow()
+//    }
+//    if (Looper.myLooper() == Looper.getMainLooper()) {
+//        showPopup()
+//    } else {
+//        hostActivity.runOnUiThread { showPopup() }
+//    }
+}
+
+
 // 扩展函数版本 - 推荐
 fun String.maskWithLastChar(): String {
     return when {
@@ -131,7 +175,7 @@ fun View.isSubmitCanGo(
 ) {
     this.isEnabled = boolean
     this.isSelected = boolean
-    this.isSubmitCanGo2(boolean,negativeBg,positiveBg)
+    this.isSubmitCanGo2(boolean, negativeBg, positiveBg)
 }
 
 fun View.isSubmitCanGo2(

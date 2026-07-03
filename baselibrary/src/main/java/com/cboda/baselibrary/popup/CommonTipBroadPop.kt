@@ -18,7 +18,7 @@ class CommonTipBroadPop(
     val titleColor: Int = R.color.black, val contentColor: Int = R.color.black_65, val cancelTvColor: Int = R.color.color_3B47DDk, val sureTvColor: Int = R.color.white,
     val cancelStrokeColor: Int = R.color.color_3B47DD, val sureStrokeColor: Int = R.color.color_3B47DD,
     val cancelStartColor: Int = R.color.white, val cancelEndColor: Int = R.color.white,
-    val sureStartColor: Int = R.color.color_3B47DD, val sureEndColor: Int = R.color.color_3B47DD
+    val sureStartColor: Int = R.color.color_3B47DD, val sureEndColor: Int = R.color.color_3B47DD, getOutSideTouchable: Boolean = true
 ) :
     BasePopupWindow(context) {
     //    private val scope = MainScope() // 创建主线程的协程作用域
@@ -34,7 +34,9 @@ class CommonTipBroadPop(
     init {
         contentView = binding.root
         popupGravity = Gravity.CENTER
-
+        isOutSideTouchable = getOutSideTouchable
+        setOutSideDismiss(getOutSideTouchable)
+        setBackPressEnable(getOutSideTouchable)
     }
 
     override fun onViewCreated(contentView: View) {
@@ -44,9 +46,8 @@ class CommonTipBroadPop(
             dismiss()
         }
         binding.mTvSure.setOnClickListener {
-            sureInvoke.invoke()
             dismiss()
-
+            sureInvoke.invoke()
         }
         initData()
 

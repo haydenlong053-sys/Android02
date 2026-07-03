@@ -77,38 +77,55 @@ object UrlBroadBroadConstants {
 
     /** 广场帖子列表 */
     const val SQUARE_POST_LIST = "api/piamom/square/list"
+
     /** 广场热门/发布配置 */
     const val SQUARE_HOT_CONFIG = "api/piamom/square/hotConfig"
+
     /** 广场帖子详情 */
     const val SQUARE_POST_DETAIL = "api/piamom/square/detail"
+
     /** 广场帖子浏览上报 */
     const val SQUARE_POST_VIEW = "api/piamom/square/view"
+
     /** 广场帖子评论列表 */
     const val SQUARE_POST_COMMENT_LIST = "api/piamom/square/commentList"
+
     /** 广场帖子发表评论 */
     const val SQUARE_POST_COMMENT = "api/piamom/square/comment"
+
     /** 广场帖子点赞/取消点赞 */
     const val SQUARE_POST_LIKE = "api/piamom/square/like"
+
     /** 广场帖子置顶/取消置顶 */
     const val SQUARE_POST_PIN = "api/piamom/square/pin"
+
     /** 举报类型配置列表 */
     const val SQUARE_REPORT_CONFIG_LIST = "api/piamom/report/configList"
+
     /** 提交举报 */
     const val SQUARE_REPORT_SUBMIT = "api/piamom/report/submit"
+
     /** 发布广场帖子 */
     const val SQUARE_POST_PUBLISH = "api/piamom/square/publish"
+
     /** 发布朋友圈 */
     const val MOMENT_POST_PUBLISH = "api/piamom/moment/publish"
+
     /** 朋友圈动态点赞/取消点赞 */
     const val MOMENT_POST_LIKE = "api/piamom/moment/like"
+
     /** 朋友圈动态详情 */
     const val MOMENT_POST_DETAIL = "api/piamom/moment/detail"
+
     /** 朋友圈动态浏览上报 */
     const val MOMENT_POST_VIEW = "api/piamom/moment/view"
+
     /** 朋友圈动态发表评论 */
     const val MOMENT_POST_COMMENT = "api/piamom/moment/comment"
+
     /** 朋友圈动态置顶/取消置顶 */
     const val MOMENT_POST_PIN = "api/piamom/moment/pin"
+
     /** 删除动态（朋友圈） */
     const val MOMENT_POST_DELETE = "api/piamom/moment/delete"
 
@@ -117,26 +134,37 @@ object UrlBroadBroadConstants {
 
     /** 朋友圈列表 */
     const val FRIEND_POST_LIST = "api/piamom/moment/feedList"
+
     /** 用户主页信息 */
     const val SQUARE_USER_PROFILE = "api/piamom/user/profile"
+
     /** 关注/取关用户 */
     const val SQUARE_USER_FOLLOW = "api/piamom/user/follow"
+
     /** 拉黑/解除拉黑用户 */
     const val SQUARE_USER_BLACK = "api/piamom/user/blacklist"
+
     /** 粉丝黑名单列表 */
     const val SQUARE_USER_BLACKLIST_LIST = "api/piamom/user/blacklistList"
+
     /** 用户主页广场列表 */
     const val SQUARE_USER_LIST = "api/piamom/square/userList"
+
     /** 用户主页朋友圈列表 */
     const val MOMENT_USER_LIST = "api/piamom/moment/userList"
+
     /** 用户粉丝列表 */
     const val SQUARE_USER_FOLLOWER_LIST = "api/piamom/user/followerList"
+
     /** 用户关注列表 */
     const val SQUARE_USER_FOLLOWING_LIST = "api/piamom/user/followingList"
+
     /** 消息中心列表 */
     const val SQUARE_USER_MESSAGE_LIST = "api/piamom/user/messageList"
+
     /** 消息中心一键去红点 */
     const val SQUARE_USER_MESSAGE_READ_ALL = "api/piamom/user/readMessage"
+
     /** 消息中心清空消息 */
     const val SQUARE_USER_DELETE_MESSAGE = "api/piamom/user/deleteMessage"
 
@@ -200,5 +228,14 @@ object UrlBroadBroadConstants {
 
     const val CREDIT_CREDITCONSTITUTELIST = "api/credit/creditConstituteList" // 查询信用构成列表
     const val CREDIT_GETLOGPAGE = "api/credit/getLogPage" // 信用分记录分页
+    const val CREATE_LS_PAY_ORDER = "api/wallet/pay/prepare" // 链上支付创建支付单
+    const val GET_ACTIVATE_PRICE = "api/wallet/pay/convertOdicPrice" // 价格汇率换算
+
+    const val SELECT_ORDER = "api/wallet/pay/poll"//查这笔链上支付有没有成功
+
+    const val VIP_OPEN_PLANS = "api/vip/open/plans" // 会员开通套餐列表
+
+    const val OPEN_MEMBER = "api/vip/open/activate" // 开通会员
+
 
 }

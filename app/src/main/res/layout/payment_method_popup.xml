@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="#80000000">
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_24"
+        app:shape_radius="@dimen/dp_16"
+        app:shape_solidColor="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/paymentMethodClose"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:padding="@dimen/dp_14"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_auth_broad_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/paymentMethodTitle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/payment_method_select_title"
+            android:textColor="@color/black_90"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/paymentMethodClose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/paymentMethodClose" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/paymentMethodList"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/paymentMethodClose"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_payment_method_option" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/paymentMethodCancel"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:gravity="center"
+            android:text="@string/quxiao"
+            android:textColor="@color/color_3B47DD"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/paymentMethodList"
+            app:shape_radius="@dimen/dp_24"
+            app:shape_solidColor="@color/white"
+            app:shape_strokeColor="@color/color_3B47DD"
+            app:shape_strokeWidth="@dimen/dp_1" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+</FrameLayout>

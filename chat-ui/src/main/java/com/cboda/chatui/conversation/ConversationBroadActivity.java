@@ -71,6 +71,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     private boolean isInitialized = false;
     private ConversationBroadFragment conversationBroadFragment;
     private Conversation conversationBroad;
+    private String quickDetailMeetBeanStr;
     private View pageTitleLeftIcon;
     private View pageTitleRightIcon, mIvBack2, rightView;
     private View titleGradeAndTimeBroad;
@@ -428,6 +429,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         conversationBroad = intent.getParcelableExtra("conversation");
+//        quickDetailMeetBeanStr = intent.getStringExtra("quickDetailMeetBean");
         if (conversationBroad == null) {
             finish();
             return;
@@ -436,12 +438,13 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         String channelPrivateChatUser = intent.getStringExtra("channelPrivateChatUser");
         String conversationTitle = intent.getStringExtra("conversationTitle");
         boolean isPreJoinedChatRoom = intent.getBooleanExtra("isPreJoinedChatRoom", false);
-        conversationBroadFragment.setupConversation(conversationBroad, conversationTitle, initialFocusedMessageId, channelPrivateChatUser, isPreJoinedChatRoom);
+        conversationBroadFragment.setupConversation(conversationBroad, conversationTitle, initialFocusedMessageId, channelPrivateChatUser, isPreJoinedChatRoom,quickDetailMeetBeanStr);
     }
 
     private void init() {
         Intent intent = getIntent();
         conversationBroad = intent.getParcelableExtra("conversation");
+        quickDetailMeetBeanStr = intent.getStringExtra("quickDetailMeetBean");
         String conversationTitle = intent.getStringExtra("conversationTitle");
         boolean isPreJoinedChatRoom = intent.getBooleanExtra("isPreJoinedChatRoom", false);
         //野火闪烁
@@ -483,7 +486,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
 
         MyCommonBroadBridge.getInstance().setMyBridgeMethod(ConversationBroadActivity.this, BridgeImEnum.GET_USER_INFO.getValue(), conversationBroad.target, "", null);
         ChatManager.Instance().shangcishijan = 0L;
-        conversationBroadFragment.setupConversation(conversationBroad, conversationTitle, initialFocusedMessageId, null, isPreJoinedChatRoom);
+        conversationBroadFragment.setupConversation(conversationBroad, conversationTitle, initialFocusedMessageId, null, isPreJoinedChatRoom,quickDetailMeetBeanStr);
 
         if (conversationBroad != null) {
             if (conversationBroad.type == Conversation.ConversationType.Single)

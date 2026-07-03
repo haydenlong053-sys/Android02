@@ -30,6 +30,7 @@ public class ResultBroadBean extends BaseBroadBean implements Serializable {
     public String totalPage;
     public String icon;
     public String name;
+
     public String backImg;
     public List<String> urls;
     public List<DataListBroadBean> dataList;
@@ -37,6 +38,8 @@ public class ResultBroadBean extends BaseBroadBean implements Serializable {
     public Data data;
 
     public class Data {
+        public int vipRedeemEnabled;
+        public int vipPurchaseEnabled;
         public String loginType;
         public String hasInvit;
         public String showFx;

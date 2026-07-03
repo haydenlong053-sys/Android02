@@ -17,7 +17,7 @@ data class UserTierBroadOption(
  * 时间选项
  */
 data class TimeOption(
-    val id:Int,
+    val id: Int,
     val durationName: String,
     val durationValue: Int // 分钟数
 )
@@ -38,7 +38,7 @@ data class MeetingConfig(
 
 data class BillingRuleBean(
     val roundingRule: String,
-    val unitPrice: Double=0.0
+    val unitPrice: Double = 0.0
 )
 
 /**
@@ -70,9 +70,9 @@ data class PaymentPasswordVerifyResponse(
 data class PriceQueryRequest(
     val ownerId: String,                    // 用户ID
     val meetingTime: String,                // 会议时长（分钟）
-    val meetingMaxUsers: String ,            // 最大用户数
-    val durationConfigId: Int=0,
-    val userTierConfigId: Int=0,
+    val meetingMaxUsers: String,            // 最大用户数
+    val durationConfigId: Int = 0,
+    val userTierConfigId: Int = 0,
 )
 
 /**
@@ -81,7 +81,8 @@ data class PriceQueryRequest(
 data class PriceQueryResponse(
     val liveAmount: String?,      // 直播金额
     val meetingTokens: String?,              // 原价
-    val currentAmount: String?             // 可用代币(当前金额)
+    val currentAmount: String?,             // 可用代币(当前金额)
+    val priceOdic: String?,
 )
 
 /**
@@ -100,8 +101,8 @@ data class CreateMeetingRequest(
 )
 
 data class CreateMeetingResponse(
-    val createout:Int?=-1,
-    val meeting:MeetingData?=null,
+    val createout: Int? = -1,
+    val meeting: MeetingData? = null,
 )
 
 /**
@@ -133,7 +134,7 @@ data class MeetingCreateUiState(
     // 验证失败弹窗相关
     val showValidationFailedDialog: Boolean = false,
     val validationFailedMessage: String? = null,
-    
+
     // 价格相关
     val currentPrice: Double = 0.0,         // 当前价格
     val originalPrice: Double = 0.0,        // 原价
@@ -144,7 +145,7 @@ data class MeetingCreateUiState(
     fun calculateTotalPrice(): Int {
         return currentPrice.toInt()
     }
-    
+
     // 计算原价（如果有折扣的话）
     fun calculateOriginalPrice(): Int? {
         return if (originalPrice > currentPrice && originalPrice > 0) {
@@ -153,14 +154,14 @@ data class MeetingCreateUiState(
             null
         }
     }
-    
+
     // 检查是否可以创建会议
     fun canCreateMeeting(): Boolean {
-        return roomName.isNotBlank() && 
-               selectedDate.isNotBlank() && 
-               selectedTime.isNotBlank() && 
-               selectedDuration != null && 
-               selectedUserTier != null &&
-               !isLoading
+        return roomName.isNotBlank() &&
+                selectedDate.isNotBlank() &&
+                selectedTime.isNotBlank() &&
+                selectedDuration != null &&
+                selectedUserTier != null &&
+                !isLoading
     }
 }

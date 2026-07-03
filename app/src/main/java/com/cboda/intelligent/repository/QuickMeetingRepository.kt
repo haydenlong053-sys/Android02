@@ -22,15 +22,15 @@ import kotlinx.coroutines.withContext
  * 会议相关的Repository
  */
 class QuickMeetingRepository {
-    
+
     /**
      * 获取会议配置信息
      */
     suspend fun getMeetingConfig(): NetworkBroadResult<MeetingConfig> = withContext(Dispatchers.IO) {
-          NetworkBroadRepository.postEncrypted2(UrlMeetConstants.QUICK_LIVE_CONFIG, MeetingConfig::class.java,hashMapOf<String, Any>())
+        NetworkBroadRepository.postEncrypted2(UrlMeetConstants.QUICK_LIVE_CONFIG, MeetingConfig::class.java, hashMapOf<String, Any>())
     }
 
-    
+
     /**
      * 检查用户是否设置了支付密码
      */
@@ -89,23 +89,23 @@ class QuickMeetingRepository {
      * 验证支付密码
      */
     suspend fun verifyPaymentPassword(request: PaymentPasswordVerifyRequest): Result<PaymentPasswordVerifyResponse> {
-        return  withContext(Dispatchers.IO){
-           try {
-               var result: Result<PaymentPasswordVerifyResponse>? = null
-               NetworkBroadRepository.postEncrypted(UrlBroadBroadConstants.CHECK_PAY_PASSWORD, Any::class.java, request)
-                   .onSuccess {
-                       result=Result.success(PaymentPasswordVerifyResponse(true,"验证成功"))
-                   }
-                   .onFailure { code, message, data ->
-                       result=Result.success(PaymentPasswordVerifyResponse(false,message))
-                   }
-                   .onError {
-                       result=Result.success(PaymentPasswordVerifyResponse(false,"未知错误"))
-                   }
-               result?:Result.failure(Exception("未知错误"))
-           }catch (e:Exception){
-               Result.failure(e)
-           }
+        return withContext(Dispatchers.IO) {
+            try {
+                var result: Result<PaymentPasswordVerifyResponse>? = null
+                NetworkBroadRepository.postEncrypted(UrlBroadBroadConstants.CHECK_PAY_PASSWORD, Any::class.java, request)
+                    .onSuccess {
+                        result = Result.success(PaymentPasswordVerifyResponse(true, "验证成功"))
+                    }
+                    .onFailure { code, message, data ->
+                        result = Result.success(PaymentPasswordVerifyResponse(false, message))
+                    }
+                    .onError {
+                        result = Result.success(PaymentPasswordVerifyResponse(false, "未知错误"))
+                    }
+                result ?: Result.failure(Exception("未知错误"))
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
         }
 //        return try {
 //            delay(800) // 模拟网络延迟
@@ -125,8 +125,8 @@ class QuickMeetingRepository {
     /**
      * 查询会议价格
      */
-    suspend fun queryMeetingPrice(durationConfigId: Int,userTierConfigId: Int): NetworkBroadResult<PriceQueryResponse> = withContext(Dispatchers.IO) {
-        val params = hashMapOf("durationConfigId" to durationConfigId,"userTierConfigId" to userTierConfigId)
+    suspend fun queryMeetingPrice(durationConfigId: Int, userTierConfigId: Int): NetworkBroadResult<PriceQueryResponse> = withContext(Dispatchers.IO) {
+        val params = hashMapOf("durationConfigId" to durationConfigId.toString(), "userTierConfigId" to userTierConfigId.toString(),"pricingMode" to "USDT")
         NetworkBroadRepository.postEncrypted2(UrlMeetConstants.QUICK_LIVE_CALCULATE, PriceQueryResponse::class.java, params)
 
     }
