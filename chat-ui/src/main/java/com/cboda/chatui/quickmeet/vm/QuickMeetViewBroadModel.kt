@@ -1,7 +1,11 @@
 package com.cboda.chatui.quickmeet.vm
 
+import android.text.TextUtils
+import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.bean.CreateGroupData
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -10,7 +14,10 @@ import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toJson2
+import com.cboda.baselibrary.utils.toLog
 import com.cboda.chatui.quickmeet.UrlMeetConstants
+import com.cboda.chatui.quickmeet.bean.CheckMeetPayBean
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.bean.SeatMicListBean
@@ -18,7 +25,9 @@ import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.jvm.java
 
 //极速直播
 open class QuickMeetViewBroadModel : BaseViewModel() {
@@ -61,10 +70,18 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 创建直播
      */
-    suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String, durationConfigId: Int, userTierConfigId: Int): SingleLiveBroadData<QuickDetailMeetBean> {
+    suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String, durationConfigId: Int, userTierConfigId: Int, orderId: String?): SingleLiveBroadData<QuickDetailMeetBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo, "channelId" to groupIdNo, "channelName" to channelName, "durationConfigId" to durationConfigId, "userTierConfigId" to userTierConfigId)
+        val params = hashMapOf(
+            "groupIdNo" to groupIdNo,
+            "channelId" to groupIdNo,
+            "channelName" to channelName,
+            "durationConfigId" to durationConfigId,
+            "userTierConfigId" to userTierConfigId,
+            "payType" to "chain",
+            "orderId" to orderId
+        )
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(
@@ -79,6 +96,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
 
                 }.onFailure { code, message ->
                     dismissLoadingWfc()
+//                    safeCenterLiveData.postValue(QuickDetailMeetBean())
                     ToastBroadUtils.show(message)
                 }.onError {
                     dismissLoadingWfc()
@@ -124,10 +142,10 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 延长直播时间
      */
-    suspend fun goExtendQuickMeet(groupIdNo: String, durationConfigId: Int = 1): SingleLiveBroadData<QuickDetailMeetBean> {
+    suspend fun goExtendQuickMeet(groupIdNo: String, orderId: String?, durationConfigId: Int = 1): SingleLiveBroadData<QuickDetailMeetBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo, "durationConfigId" to durationConfigId)
+        val params = hashMapOf("groupIdNo" to groupIdNo, "durationConfigId" to durationConfigId, "orderId" to orderId, "payType" to "chain")
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(
@@ -265,7 +283,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     suspend fun queryMeetTotalPersonCount(groupId: String?): SingleLiveBroadData<String> {
 //        showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<String>()
-        val params = hashMapOf("groupIdNo" to groupId,"channelName" to groupId)
+        val params = hashMapOf("groupIdNo" to groupId, "channelName" to groupId)
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.getEncrypted2<String>(UrlMeetConstants.QUICK_MEET_TOTAL_COUNT, params)
@@ -290,6 +308,67 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             }
         }
         return safeCenterLiveData
+    }
+
+    /**
+     * 进入会议上报给服务器记录次数
+     */
+    suspend fun goAttendanceCheckIn(groupIdNo: String): SingleLiveBroadData<Boolean> {
+        val mLiveData = SingleLiveBroadData<Boolean>()
+        val params = hashMapOf("groupIdNo" to groupIdNo)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlMeetConstants.QUICK_ATTENDANCE_CHECK_IN,
+                    Any::class.java,
+                    params
+                ).onSuccess { userInfo ->
+                    mLiveData.postValue(true)
+
+                }.onFailure { code, message ->
+//                    ToastBroadUtils.show(message)
+                }.onError {
+
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return mLiveData
+    }
+
+
+    fun checkPayMeet(groupIdNo: String? = null, callBack: (CheckMeetPayBean) -> Unit = {}): SingleLiveBroadData<CheckMeetPayBean> {
+        val liveData = SingleLiveBroadData<CheckMeetPayBean>()
+        val params = hashMapOf<String, Any?>()
+        if (!TextUtils.isEmpty(groupIdNo)) {
+            params["groupIdNo"] = groupIdNo
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlMeetConstants.PENDING_MEETING,
+                        CheckMeetPayBean::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        eLogD("checkPayMeet", toJson2(data))
+                        data?.let {
+                            liveData.postValue(it)
+                            callBack.invoke(it)
+                        } ?: eLogD("checkPayMeet", "onSuccess_data=null")
+                    }.onFailure { _, message ->
+                        eLogD("checkPayMeet", "onFailure_$message")
+                    }.onError { error ->
+                        eLogD("checkPayMeet", "onError_${error?.message}")
+                    }
+                } catch (e: Exception) {
+                    e.toLog("checkPayMeet_onException")
+                }
+            }
+        }
+        return liveData
     }
 
 }

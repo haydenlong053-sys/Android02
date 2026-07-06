@@ -518,4 +518,17 @@
     <string name="credit_score_title">Matsayin Kirediti</string>
     <string name="credit_score_tab_compose">Tsarin Kirediti</string>
     <string name="credit_score_tab_record">Tarihin Sauye-sauye</string>
+
+
+    <string name="AbsentKick">Cire ta atomatik saboda rashin halarta</string>
+    <string name="absentkick_tip">Bayan rashin halartar taron rukuni %1$s a jere, za a cire memba ta atomatik.</string>
+    <string name="look_rule_tip">Duba dokoki</string>
+    <string name="absent_kick_rules_title">Dokokin cirewa ta atomatik</string>
+    <string name="absent_kick_card_title">Cire ta atomatik saboda rashin halarta</string>
+    <string name="absent_kick_card_desc">Idan memba bai halarta taron rukuni a adadin da aka saita ba, tsarin zai cire shi ta atomatik.</string>
+    <string name="absent_kick_current_rule">Dokar yanzu</string>
+    <string name="absent_kick_rule_section">Bayanin dokoki</string>
+    <string name="absent_kick_warm_tip">Wannan fasalin yana nufin inganta halartar taron rukuni da ƙirƙirar kyakkyawan yanayin sadarwa.</string>
+    <string name="absent_kick_rule_title_fallback">Rashin halartar taruka 5 a jere</string>
+    <string name="absent_kick_rule_empty">Babu bayanin dokoki</string>
 </resources>

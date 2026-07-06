@@ -170,19 +170,36 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <TextView
+        <com.hjq.shape.view.ShapeTextView
             android:id="@+id/tvDh"
+            style="@style/btn_ok"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
+            android:layout_height="@dimen/dp_46"
+            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
-            android:background="@mipmap/ic_bg_btn1_broad_01"
+            android:alpha="1"
             android:gravity="center"
             android:text="@string/立即兑换"
-            android:textColor="#25A6FF"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
+            tools:visibility="visible"
+            android:visibility="gone" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/tvPay"
+            style="@style/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_46"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:alpha="1"
+            android:gravity="center"
+            android:text="直接购买"
+            android:textSize="16sp"
+            tools:visibility="visible"
+            android:visibility="gone" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30" />
     </LinearLayout>
 </RelativeLayout>

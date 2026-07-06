@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_12">
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/paymentOptionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:paddingHorizontal="@dimen/dp_14"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/color_F7F8FA">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/paymentOptionIcon"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:src="@mipmap/ic_payment_metamask" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/paymentOptionName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_14"
+            android:textColor="@color/black_90"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/paymentOptionIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="MetaMask" />
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/paymentOptionSelectedBadge"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_32"
+        android:layout_gravity="top|end"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_payment_method_selected_badge"
+        android:visibility="gone"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible" />
+</FrameLayout>

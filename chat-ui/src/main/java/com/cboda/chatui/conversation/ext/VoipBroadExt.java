@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
+import com.freddy.webtrc.bean.CallTokenBean;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 
 import com.cboda.chatui.R;
@@ -17,11 +18,14 @@ import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
+import com.freddy.webtrc.utils.BroadE;
 
 import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class VoipBroadExt extends ConversationMidExt {
 
@@ -94,7 +98,13 @@ public class VoipBroadExt extends ConversationMidExt {
     }
 
     private void audioChat(String targetId) {
-        WfcUIBroadKit.singleCall(activity, targetId, true);
+        BroadE.INSTANCE.getCallToken(targetId, false, new Function1<CallTokenBean, Unit>() {
+            @Override
+            public Unit invoke(CallTokenBean callTokenBean) {
+                return null;
+            }
+        });
+//        WfcUIBroadKit.singleCall(activity, targetId, true);
     }
 
     private void videoChat(String targetId) {

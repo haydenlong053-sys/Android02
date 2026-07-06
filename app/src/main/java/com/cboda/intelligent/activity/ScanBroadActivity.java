@@ -389,7 +389,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 //                                        );
 //                                        param.putString(TUIConstants.TUIChat.CHAT_ID, commonResultBean.groupId);
 //                                        TUICore.startActivity(TUIConstants.TUIChat.GROUP_CHAT_ACTIVITY_NAME, param);
-                                AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1");
+                                AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1",null);
                                 finish();
                             } else {
                                 ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner));
@@ -556,7 +556,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 //                                        );
 //                                        param.putString(TUIConstants.TUIChat.CHAT_ID, commonResultBean.groupId);
 //                                        TUICore.startActivity(TUIConstants.TUIChat.GROUP_CHAT_ACTIVITY_NAME, param);
-                                        AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1");
+                                        AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1",null);
                                         finish();
                                     } else {
                                         ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner));

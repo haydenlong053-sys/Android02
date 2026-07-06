@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.android'
+}
+apply from: '../config.gradle'
+
+android {
+    namespace 'com.freddy.webtrc'
+    compileSdkVersion libsinfo.compileSdk
+
+    defaultConfig {
+        minSdk libsinfo.minSdk
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+}
+
+dependencies {
+    implementation project(':im_lib')
+    implementation project(':baselibrary')
+    // LiveKit 依赖 protobuf-javalite，与 im_lib 的 protobuf-java 运行时类冲突；3.25+ 的 protobuf-java 已包含 lite 运行时
+    implementation("io.livekit:livekit-android:2.26.1") {
+        exclude group: 'com.google.protobuf', module: 'protobuf-javalite'
+    }
+}

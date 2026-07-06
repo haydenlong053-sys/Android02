@@ -522,4 +522,17 @@
     <string name="credit_score_title">Score de crédit</string>
     <string name="credit_score_tab_compose">Composition du crédit</string>
     <string name="credit_score_tab_record">Historique des changements</string>
+
+
+    <string name="AbsentKick">Retrait automatique pour absence</string>
+    <string name="absentkick_tip">Après %1$s absences consécutives aux réunions de groupe, le membre sera retiré automatiquement.</string>
+    <string name="look_rule_tip">Voir les règles</string>
+    <string name="absent_kick_rules_title">Règles de retrait automatique</string>
+    <string name="absent_kick_card_title">Retrait automatique pour absence</string>
+    <string name="absent_kick_card_desc">Si un membre manque le nombre défini de réunions consécutives, le système le retirera automatiquement.</string>
+    <string name="absent_kick_current_rule">Règle actuelle</string>
+    <string name="absent_kick_rule_section">Description des règles</string>
+    <string name="absent_kick_warm_tip">Cette fonction vise à améliorer la participation aux réunions de groupe et à créer un meilleur environnement de communication.</string>
+    <string name="absent_kick_rule_title_fallback">5 réunions consécutives manquées</string>
+    <string name="absent_kick_rule_empty">Aucune description de règle</string>
 </resources>

@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingPermission,ProtectedPermissions,ExactAlarmPolicy,ForegroundServicesPolicy,SmsAndCallLogPolicy,SystemPermissionTypo,ScopedStorage,PhotoAndVideoPolicy,UnnecessaryRequiredFeature,DiscouragedApi,LockedOrientationActivity">
+    <!-- 声明你需要查询的包名 -->
+<!--    <queries>-->
+<!--        <package android:name="io.metamask" />-->
+<!--        <package android:name="im.token.app" />-->
+<!--        <package android:name="vip.mytokenpocket" />-->
+<!--    </queries>-->
 
     <uses-permission
         android:name="android.permission.INSTALL_FAILED_USER_RESTRICTED"
@@ -137,6 +143,39 @@
     <!--        tools:ignore="ProtectedPermissions" />-->
     <!--    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />-->
 
+    <queries>
+        <package android:name="im.token.app" />
+        <package android:name="io.metamask" />
+        <package android:name="vip.mytokenpocket" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="imtokenv2" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="metamask" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data
+                android:host="metamask.app.link"
+                android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data
+                android:host="link.metamask.io"
+                android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tpoutside" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tpdapp" />
+        </intent>
+    </queries>
 
     <application
         android:name="com.cboda.intelligent.app.MyBroadApp"
@@ -291,6 +330,10 @@
         <activity
             android:name="com.cboda.intelligent.activity.SafeCenterBroadActivity"
             android:exported="false" />
+        <activity
+            android:name="com.cboda.intelligent.activity.AbsentKickRulesBroadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.cboda.intelligent.activity.AiCheckResultBroadActivity"
             android:exported="false"

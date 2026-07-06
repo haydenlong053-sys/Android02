@@ -1,6 +1,9 @@
 package com.cboda.chatui.quickmeet
 
 object UrlMeetConstants {
+    //会议待处理提醒查询（已付未用 / 已暂停 / 进行中）
+    const val PENDING_MEETING="api/quick/live/pendingMeeting"
+
     //直播信息查询
     const val QUICK_LIVE_INFO="api/quick/live/info"
     //获取会议配置
@@ -29,6 +32,9 @@ object UrlMeetConstants {
 
     //会议总人数
     const val QUICK_MEET_TOTAL_COUNT="api/quick/live/getJoinedUsers"
+
+    //会议进房上报
+    const val QUICK_ATTENDANCE_CHECK_IN="api/quick/live/attendance/checkIn"
 
 
 

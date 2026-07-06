@@ -13,6 +13,7 @@ import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.activity.AiActivity
 import com.cboda.intelligent.activity.AiAntiFraudBroadActivity
 import com.cboda.intelligent.activity.AiCheckRecordBroadActivity
+import com.cboda.intelligent.activity.AbsentKickRulesBroadActivity
 import com.cboda.intelligent.activity.AiCheckResultBroadActivity
 import com.cboda.intelligent.activity.CreateQunBroadActivity
 import com.cboda.intelligent.activity.CreditScoreActivity
@@ -298,6 +299,11 @@ class JumpBroadUtils {
         fun startQunInfoActivity(context: Context?, qunId: String) {
             val intent = Intent(context, QunInfo2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
+            context?.startActivity(intent)
+        }
+
+        fun startAbsentKickRulesActivity(context: Context?) {
+            val intent = Intent(context, AbsentKickRulesBroadActivity::class.java)
             context?.startActivity(intent)
         }
         /** 自研 IM 群详情入口。 */

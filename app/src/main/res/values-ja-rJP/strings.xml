@@ -517,4 +517,17 @@
     <string name="credit_score_title">信用スコア</string>
     <string name="credit_score_tab_compose">信用構成</string>
     <string name="credit_score_tab_record">変動履歴</string>
+
+
+    <string name="AbsentKick">欠席による自動退出</string>
+    <string name="absentkick_tip">グループ会議に連続%1$s回参加しなかった場合、メンバーは自動的に削除されます。</string>
+    <string name="look_rule_tip">ルールを見る</string>
+    <string name="absent_kick_rules_title">自動退出ルール</string>
+    <string name="absent_kick_card_title">欠席による自動退出</string>
+    <string name="absent_kick_card_desc">メンバーが設定回数連続でグループ会議に参加しなかった場合、システムが自動的に削除します。</string>
+    <string name="absent_kick_current_rule">現在のルール</string>
+    <string name="absent_kick_rule_section">ルール説明</string>
+    <string name="absent_kick_warm_tip">この機能はグループ会議への参加を促し、より良いコミュニケーション環境を作ることを目的としています。</string>
+    <string name="absent_kick_rule_title_fallback">連続5回未参加</string>
+    <string name="absent_kick_rule_empty">ルール説明はありません</string>
 </resources>

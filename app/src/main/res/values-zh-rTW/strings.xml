@@ -1082,4 +1082,17 @@
     <string name="credit_score_title">信用分</string>
     <string name="credit_score_tab_compose">信用構成</string>
     <string name="credit_score_tab_record">變動記錄</string>
+
+
+    <string name="AbsentKick">缺席自動移出</string>
+    <string name="absentkick_tip">連續%1$s次未進入群會議，系統將自動移出該成員</string>
+    <string name="look_rule_tip">查看規則</string>
+    <string name="absent_kick_rules_title">自動移出規則</string>
+    <string name="absent_kick_card_title">缺席自動移出</string>
+    <string name="absent_kick_card_desc">成員連續未進入群會議達到設定次數，系統將自動移出該成員</string>
+    <string name="absent_kick_current_rule">當前規則</string>
+    <string name="absent_kick_rule_section">規則說明</string>
+    <string name="absent_kick_warm_tip">此功能旨在提升群會議參與度，營造更好的溝通氛圍。</string>
+    <string name="absent_kick_rule_title_fallback">連續 5 次未參會</string>
+    <string name="absent_kick_rule_empty">暫無規則說明</string>
 </resources>

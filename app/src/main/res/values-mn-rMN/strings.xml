@@ -521,4 +521,17 @@
     <string name="credit_score_title">Зээлийн оноо</string>
     <string name="credit_score_tab_compose">Зээлийн бүтэц</string>
     <string name="credit_score_tab_record">Өөрчлөлтийн түүх</string>
+
+
+    <string name="AbsentKick">Тасалсан тохиолдолд автоматаар хасах</string>
+    <string name="absentkick_tip">Дараалан %1$s удаа бүлгийн уулзалтад оролцохгүй бол гишүүнийг автоматаар хасна.</string>
+    <string name="look_rule_tip">Дүрэм харах</string>
+    <string name="absent_kick_rules_title">Автоматаар хасах дүрэм</string>
+    <string name="absent_kick_card_title">Тасалсан тохиолдолд автоматаар хасах</string>
+    <string name="absent_kick_card_desc">Гишүүн тогтоосон тооны дараалан уулзалтад оролцохгүй бол систем автоматаар хасна.</string>
+    <string name="absent_kick_current_rule">Одоогийн дүрэм</string>
+    <string name="absent_kick_rule_section">Дүрмийн тайлбар</string>
+    <string name="absent_kick_warm_tip">Энэ функц бүлгийн уулзалтад илүү их оролцох, илүү сайн харилцааны орчныг бүрдүүлэх зорилготой.</string>
+    <string name="absent_kick_rule_title_fallback">Дараалан 5 удаа оролцоогүй</string>
+    <string name="absent_kick_rule_empty">Дүрмийн тайлбар байхгүй</string>
 </resources>

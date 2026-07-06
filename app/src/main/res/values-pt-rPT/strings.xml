@@ -520,4 +520,17 @@
     <string name="credit_score_title">Pontuação de crédito</string>
     <string name="credit_score_tab_compose">Composição do crédito</string>
     <string name="credit_score_tab_record">Histórico de alterações</string>
+
+
+    <string name="AbsentKick">Remoção automática por ausência</string>
+    <string name="absentkick_tip">Após faltar a %1$s reuniões de grupo consecutivas, o membro será removido automaticamente.</string>
+    <string name="look_rule_tip">Ver regras</string>
+    <string name="absent_kick_rules_title">Regras de remoção automática</string>
+    <string name="absent_kick_card_title">Remoção automática por ausência</string>
+    <string name="absent_kick_card_desc">Se um membro não participar do número definido de reuniões consecutivas, o sistema irá removê-lo automaticamente.</string>
+    <string name="absent_kick_current_rule">Regra atual</string>
+    <string name="absent_kick_rule_section">Descrição das regras</string>
+    <string name="absent_kick_warm_tip">Esta funcionalidade visa melhorar a participação nas reuniões de grupo e criar um melhor ambiente de comunicação.</string>
+    <string name="absent_kick_rule_title_fallback">5 reuniões consecutivas perdidas</string>
+    <string name="absent_kick_rule_empty">Sem descrição de regras</string>
 </resources>

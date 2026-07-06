@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -20,10 +21,16 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.getResumeActivity
+import com.cboda.baselibrary.utils.openH5InImToken
+import com.cboda.baselibrary.utils.openH5InMetaMask
+import com.cboda.baselibrary.utils.openH5InTokenPocket
+import com.cboda.baselibrary.utils.showCommonStrTip
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
@@ -31,13 +38,20 @@ import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.compose.*
-import com.cboda.intelligent.dialog.pop.PasswordPricedPop
+import com.cboda.intelligent.bean.PaymentMethodBroadBean
+import com.cboda.intelligent.bean.PaymentMethodDefaults.IM_TOKEN
+import com.cboda.intelligent.bean.PaymentMethodDefaults.META_MASK
+import com.cboda.intelligent.bean.PaymentMethodDefaults.TP
+import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.QuickMeetingCreateViewModel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback {
 
     private val viewModel: QuickMeetingCreateViewModel by viewModels()
+    private var payLsOrderBean: PayLsOrderBean? = null
 
     override fun getLayoutId(): Int = com.cboda.intelligent.R.layout.activity_quick_meet_create
 
@@ -91,14 +105,15 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                 viewModel = viewModel,
                 groupName,
                 onBack = { finish() },
+                onCreateClick = { startCreatePayOrderFlow() },
                 onPayAuthSuccess = {
-                    lifecycleScope.launch {
-                        val meetingCreateUiState = viewModel.uiState.value
-                        viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0)
-                            .observe(this@QuickMeetingCreateActivity) {
-                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "",it)
-                            }
-                    }
+//                    lifecycleScope.launch {
+//                        val meetingCreateUiState = viewModel.uiState.value
+//                        viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0)
+//                            .observe(this@QuickMeetingCreateActivity) {
+//                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+//                            }
+//                    }
 
                 }
             )
@@ -118,6 +133,137 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
         MeetCallManager.getInstance().unregisterEngineEvent(this)
         super.onDestroy()
     }
+
+    private var canPay = false
+    private fun startCreatePayOrderFlow() {
+        goPermissionAudioMeet {
+            val validationError = viewModel.getCreateMeetingValidationError()
+            if (!validationError.isNullOrBlank()) {
+                ToastBroadUtils.show(validationError)
+                return@goPermissionAudioMeet
+            }
+            viewModel.checkPayMeet(viewModel.buildCreateGroupData(false).groupIdNo).observe(this@QuickMeetingCreateActivity) { data ->
+                val paidUnused = data.paidUnused
+                paidUnused?.let { checkMeetBean ->
+                    if (checkMeetBean.remainSeconds > 0 && checkMeetBean.has) {
+                        showCommonStrTip("是否使用这笔订单创建会议？", "检测到你在本群有一笔已支付未使用的会议订单，该订单将保留", "新建会议", "使用该订单", getResumeActivity()) { toCheck ->
+                            if (toCheck) {
+                                lifecycleScope.launch {
+                                    viewModel.goCreateQuickMeet(checkMeetBean.groupIdNo, checkMeetBean.channelName, checkMeetBean.durationConfigId, checkMeetBean.userTierConfigId, checkMeetBean.orderId)
+                                        .observe(this@QuickMeetingCreateActivity) {
+                                            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                        }
+                                }
+                            } else {
+                                createOrder(true)
+                            }
+                        }
+                    } else {
+                        createOrder()
+                    }
+                } ?: createOrder()
+            }
+
+        }
+    }
+
+    private fun createOrder(forceNewPay: Boolean = false) {
+        viewModel.createPayOrder(viewModel.buildCreateGroupData(forceNewPay), true, true)
+            .observe(this@QuickMeetingCreateActivity) { order ->
+                payLsOrderBean = order
+                showSelectPayMethod()
+            }
+    }
+
+    private fun showSelectPayMethod() {
+        val payPopup = PaymentMethodPopup(this)
+        payPopup.setOnSelected { paymentMethod ->
+            canPay = true
+            openWalletPay(payLsOrderBean, paymentMethod)
+            payPopup.dismiss()
+        }
+        payPopup.showPopupWindow()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkOrder()
+    }
+
+    private fun checkOrder() {
+        if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
+            viewModel.checkOrder(payLsOrderBean?.orderId, true, true).observe(this) { data ->
+                if (data?.success == true) {
+                    lifecycleScope.launch {
+                        val meetingCreateUiState = viewModel.uiState.value
+                        viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0, payLsOrderBean?.orderId)
+                            .observe(this@QuickMeetingCreateActivity) {
+                                canPay = false
+                                payLsOrderBean = null
+                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                            }
+                    }
+                } else {
+                    showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", this, isOutSideTouchable = false) { toCheck ->
+                        if (toCheck) {
+                            viewModel.checkOrder(payLsOrderBean?.orderId, true, true).observe(this) { data ->
+                                if (data?.success == true) {
+                                    lifecycleScope.launch {
+                                        val meetingCreateUiState = viewModel.uiState.value
+                                        viewModel.goCreateQuickMeet(
+                                            groupId,
+                                            meetingCreateUiState.roomName,
+                                            meetingCreateUiState.selectedDuration?.id ?: 0,
+                                            meetingCreateUiState.selectedUserTier?.id ?: 0,
+                                            payLsOrderBean?.orderId
+                                        )
+                                            .observe(this@QuickMeetingCreateActivity) {
+                                                canPay = false
+                                                payLsOrderBean = null
+                                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                            }
+                                    }
+                                } else {
+                                    showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", this, isOutSideTouchable = false) { toCheck2 ->
+                                        if (toCheck2) {
+                                            showSelectPayMethod()
+                                        } else {
+                                            payLsOrderBean = null
+                                            canPay = false
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            payLsOrderBean = null
+                            canPay = false
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun openWalletPay(data: PayLsOrderBean?, paymentMethod: PaymentMethodBroadBean) {
+        if (data == null) {
+            ToastBroadUtils.show("订单数据为空")
+            return
+        }
+        val chainId = anyToInt(data.chainId)
+        eLogD("openWalletPay_data2", toJson2(data))
+        val priceOdic = BigDecimal(data.priceOdic)
+        val h5Url = "https://pay.web4x.io/pay?amountDisplay=$priceOdic" +
+                "&chainId=$chainId" +
+                "&orderId=${data.orderId}" +
+                "&tokenSymbol=ODIC&paymentType=${data.paymentType}"
+        eLogD("openWalletPay_h5Url2", h5Url)
+        when (paymentMethod.id) {
+            IM_TOKEN -> openH5InImToken(h5Url, this)
+            TP -> openH5InTokenPocket(h5Url, this, chainId)
+            META_MASK -> openH5InMetaMask(h5Url, this)
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -126,6 +272,7 @@ fun QuickMeetingCreateScreen(
     viewModel: QuickMeetingCreateViewModel,
     groupName: String,
     onBack: () -> Unit,
+    onCreateClick: () -> Unit,
     onPayAuthSuccess: () -> Unit
 ) {
     val context = LocalContext.current
@@ -251,24 +398,7 @@ fun QuickMeetingCreateScreen(
                 isLoading = uiState.isLoading,
                 isPriceLoading = uiState.isPriceLoading,
                 showPriceLoadingIndicator = true, // 可以设置为false来隐藏价格加载指示器
-                onCreateClick = {
-                    goPermissionAudioMeet(){
-                        viewModel.startCreateMeetingFlow(
-//                        onSuccess = onCreateSuccess,
-                            onError = { error ->
-                                ToastBroadUtils.show(error)
-                            },
-                            onSuccessInvoke = { hasPassword ->
-                                if (hasPassword) {
-                                    eLogD(APP_TAG, "展示支付密码弹窗----》")
-                                    PasswordPricedPop(getAppContext(), uiState.calculateTotalPrice().toString(), {
-                                        onPayAuthSuccess.invoke()
-                                    }).showPopupWindow()
-                                }
-                            }
-                        )
-                    }
-                }
+                onCreateClick = onCreateClick
             )
         }
     }

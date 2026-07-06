@@ -16,9 +16,17 @@ import com.cboda.baselibrary.common.UrlBroadConstants
 import com.cboda.baselibrary.network.NetworkBroadUtils
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncrypted
 import com.cboda.baselibrary.network.NetworkBroadUtils.postEncryptedList
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getGroupDateListData
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getGroupSaveDateData
 import com.cboda.baselibrary.utils.RealmUtil
+import com.cboda.baselibrary.utils.RealmUtil.vagueFindGroup
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTime
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTimeHoursDifference
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.baselibrary.utils.fromListJson2
+import com.cboda.baselibrary.utils.getIsDebug
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.ChatManagerBroadHolder
@@ -29,7 +37,7 @@ import kotlin.collections.component2
 import kotlin.collections.isNotEmpty
 
 object E {
-
+    private const val MAX_SAVE_TIME = 24L
     //加载群头像（portrait：头像url）
     fun loadGroupImg(imageView: ImageView?, groupId: String?, portrait: String? = null) {
         imageView?.let {
@@ -195,26 +203,47 @@ object E {
 
     fun getAllListUserData(groupId: String?) {
         if (!TextUtils.isEmpty(groupId)) {
-            val map = mapOf("id" to groupId)
-            postEncryptedList(
-                "api/groupUserList", map, object : NetworkBroadUtils.ListCallback<Any> {
-                    override fun onSuccess(list: List<Any>?, totalCount: Int, totalPage: Int) {
-//                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
-                        val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
-                        RealmUtil.addUserGroupData(groupId, groupList)
-                        RealmUtil.addUserData2(groupList)
+            val saveMap = getGroupDateListData()
+            val saveTime = getGroupSaveDateData(groupId, saveMap)
+            if (groupId == "b8121c31a75f4fdaafcf87392a7908c8" || groupId == "6bbedbc73b0f46d7891dbeacba250614") {
+                vagueFindGroup(groupId) { boolean ->
+                    if (!boolean) {
+                        getAllListUserData(groupId, saveMap)
                     }
-
-                    override fun onFailure(code: Int, message: String) {
-//                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
-                    }
-
-                    override fun onError(throwable: Throwable) {
-//                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
-                    }
-
-                })
+                }
+            } else {
+                //距离上次调用获取群成员数据接口24小时后才能再次调接口
+                if (null != saveTime && getNowTimeHoursDifference(saveTime) < MAX_SAVE_TIME) {
+                    return
+                }
+                getAllListUserData(groupId, saveMap)
+            }
         }
+    }
+
+
+    private fun getAllListUserData(groupId: String?, saveMap: HashMap<String, Long>) {
+        val map = mapOf("id" to groupId)
+        postEncryptedList(
+            "api/groupUserList", map, object : NetworkBroadUtils.ListCallback<Any> {
+                override fun onSuccess(list: List<Any>?, totalCount: Int, totalPage: Int) {
+//                        eLogD("getListUserDataClass", "success:${toJson2(list)}")
+                    val groupList = fromListJson2(toJson2(list), GroupUserBean::class.java)
+                    RealmUtil.addUserGroupData(groupId, groupList)
+                    RealmUtil.addUserData2(groupList)
+                    saveMap[groupId ?: ""] = getNowTime()
+                    MMKVBroadUtils.saveGroupDate(saveMap)
+                }
+
+                override fun onFailure(code: Int, message: String) {
+//                        eLogD("getListUserDataClass", "onFailure:$code ,$message")
+                }
+
+                override fun onError(throwable: Throwable) {
+//                        eLogD("getListUserDataClass", "onError:${throwable.toLog("groupMeUserClass")}")
+                }
+
+            })
     }
 
     fun getMapUserData(uIdMap: HashMap<String, HashMap<String, String>>) {
@@ -227,11 +256,22 @@ object E {
                     val list = arrayListOf<String>()
                     item.forEach { (_, value) ->
                         if (!TextUtils.isEmpty(value)) {
-                            list.add(value)
+                            val userGroupBean = UserGroupBean()
+                            userGroupBean.groupId = groupId
+                            userGroupBean.userId = value
+                            RealmUtil.findUserGroupData(userGroupBean) { returnUserGroupBean ->
+                                //距离上次调用获取群成员数据接口24小时后才能再次调接口
+                                if (null != returnUserGroupBean && returnUserGroupBean.joinTime != 0L && getNowTimeHoursDifference(returnUserGroupBean.joinTime ?: 0L) < MAX_SAVE_TIME) {
+                                } else {
+                                    list.add(value)
+                                }
+                            }
                         }
                     }
-                    uIDListBean.uidList = list
-                    uIdList.add(uIDListBean)
+                    if (list.isNotEmpty()) {
+                        uIDListBean.uidList = list
+                        uIdList.add(uIDListBean)
+                    }
                 }
             }
             if (uIdList.isNotEmpty()) {

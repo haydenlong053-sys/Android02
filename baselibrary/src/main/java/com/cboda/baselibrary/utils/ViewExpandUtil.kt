@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Outline
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
 import android.text.Editable
@@ -38,6 +39,7 @@ import com.blankj.utilcode.util.TimeUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.bean.ComBottomListBean
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.popup.CommonBottomListPop
 import com.cboda.baselibrary.popup.CommonTipBroadPop
 import com.cboda.baselibrary.toast.ToastBroadUtils
@@ -54,10 +56,269 @@ import java.io.File
 import java.io.FileOutputStream
 import java.math.BigDecimal
 import java.util.Random
+import org.json.JSONObject
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.UUID
+import kotlin.collections.isNotEmpty
 
 private val tAG by lazy { "ViewExpandUtilClass" }
 
+
+fun callImTokenViaDeepLink(payBean: PayLsOrderBean, context: Context? = null) {
+    try {
+
+
+        // 2. 构建 Deep Link URI
+        // 推荐使用 imToken 官方协议，对长 data 支持更好
+        val uri = Uri.parse("imtokenv2://wallet/send")
+            .buildUpon()
+            .appendQueryParameter("to", payBean.txParams?.to)
+            .appendQueryParameter("value", payBean.txParams?.value)
+            .appendQueryParameter("data", payBean.txParams?.data)
+            .appendQueryParameter("chainId", anyToInt(payBean.chainId).toString())
+            .build()
+
+        /*
+         * 备选方案：使用 EIP-681 标准 (MetaMask/TrustWallet 等通用)
+         * val uri = Uri.parse("ethereum:$toAddress@$chainId?value=$value&data=$data")
+         */
+
+        // 3. 创建 Intent 并指定 imToken 包名
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setPackage("im.token.app") // imToken Android 版包名
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        getAppContext(context).startActivity(intent)
+        // 4. 检查并唤起
+//        if (intent.resolveActivity(context.packageManager) != null) {
+//            context.startActivity(intent)
+//        } else {
+//            Toast.makeText(context, "未安装 imToken，请先安装", Toast.LENGTH_SHORT).show()
+//            // 可选：跳转 imToken 下载页
+//            // context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://token.im/download")))
+//        }
+
+    } catch (e: Exception) {
+        e.toLog(tAG)
+    }
+}
+
+
+fun callMetaMaskWithEIP681(uriString: String, context: Context? = null) {
+
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uriString))
+    // 强制指定 MetaMask 包名，防止被其他钱包拦截
+    intent.setPackage("io.metamask")
+
+    // 添加 FLAG_ACTIVITY_NEW_TASK 防止在某些场景下崩溃
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+    getAppContext(context).startActivity(intent)
+
+}
+
+
+/**
+ * 唤起 MetaMask 内置 DApp 浏览器打开 H5。
+ * 官方格式：https://link.metamask.io/dapp/{dappUrl}（dappUrl 不含 https://）
+ * @see https://docs.metamask.io/metamask-connect/evm/guides/metamask-exclusive/use-deeplinks/
+ */
+fun openH5InMetaMask(h5Url: String, context: Context? = null) {
+    if (h5Url.isBlank()) {
+        ToastBroadUtils.show("支付链接为空")
+        return
+    }
+    val appContext = getAppContext(context)
+    val dappPath = buildMetaMaskDappPath(h5Url)
+    val encodedFullUrl = Uri.encode(h5Url)
+    val deepLinks = listOf(
+        "https://link.metamask.io/dapp/$dappPath",
+        "https://metamask.app.link/dapp/$dappPath",
+        "metamask://dapp/browse/$encodedFullUrl",
+    )
+    for (link in deepLinks) {
+        try {
+            val intentWithoutPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (launchMetaMaskIntent(appContext, intentWithoutPackage)) {
+                eLogD(tAG, "openH5InMetaMask success link=$link")
+                return
+            }
+            val intentWithPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                setPackage(META_MASK_PACKAGE)
+            }
+            if (launchMetaMaskIntent(appContext, intentWithPackage)) {
+                eLogD(tAG, "openH5InMetaMask success with package link=$link")
+                return
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG)
+        }
+    }
+    ToastBroadUtils.show("无法打开 MetaMask，请确认已安装并在系统设置中允许打开链接")
+}
+
+private const val META_MASK_PACKAGE = "io.metamask"
+
+/** 将完整 H5 URL 转为 MetaMask dapp 路径，如 pay.web4x.io/pay?orderId=xxx */
+private fun buildMetaMaskDappPath(h5Url: String): String {
+    val uri = h5Url.toUri()
+    val host = uri.host?.trim().orEmpty()
+    if (host.isEmpty()) {
+        return h5Url.removePrefix("https://").removePrefix("http://")
+    }
+    return buildString {
+        append(host)
+        uri.encodedPath?.takeIf { it.isNotBlank() && it != "/" }?.let { append(it) }
+        uri.encodedQuery?.takeIf { it.isNotBlank() }?.let { query ->
+            append('?')
+            append(query)
+        }
+    }
+}
+
+private fun launchMetaMaskIntent(context: Context, intent: Intent): Boolean {
+    return try {
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+            true
+        } else {
+            false
+        }
+    } catch (_: Exception) {
+        false
+    }
+}
+
+
+/**
+ * 拉起 TokenPocket 内置 DApp 浏览器打开 H5。
+ * 官方格式：tpdapp://open?params={url,chain,source}，params 需 URLEncoder 编码。
+ * @see https://help.tokenpocket.pro/developer-en/wallet/pull-up-wallet-with-deeplink
+ */
+fun openH5InTokenPocket(h5Url: String, context: Context? = null, chainId: Int = 97) {
+    if (h5Url.isBlank()) {
+        ToastBroadUtils.show("支付链接为空")
+        return
+    }
+    val appContext = getAppContext(context)
+    val paramsJson = JSONObject().apply {
+        put("url", h5Url)
+        put("chain", resolveTokenPocketDappChain(chainId))
+        put("source", "SeekeWeb4X")
+    }.toString()
+    val encodedParams = URLEncoder.encode(paramsJson, StandardCharsets.UTF_8.name())
+    val encodedUrl = Uri.encode(h5Url)
+    val deepLinks = listOf(
+        "tpdapp://open?params=$encodedParams",
+        "tpdapp://open?url=$encodedUrl",
+    )
+    for (link in deepLinks) {
+        try {
+            val intentWithoutPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (launchTokenPocketIntent(appContext, intentWithoutPackage)) {
+                eLogD(tAG, "openH5InTokenPocket success link=$link params=$paramsJson")
+                return
+            }
+            val intentWithPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                setPackage(TOKEN_POCKET_PACKAGE)
+            }
+            if (launchTokenPocketIntent(appContext, intentWithPackage)) {
+                eLogD(tAG, "openH5InTokenPocket success with package link=$link")
+                return
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG)
+        }
+    }
+    ToastBroadUtils.show("无法打开 TokenPocket，请确认已安装最新版")
+}
+
+private const val TOKEN_POCKET_PACKAGE = "vip.mytokenpocket"
+
+private fun resolveTokenPocketDappChain(chainId: Int): String {
+    return when (chainId) {
+        1 -> "ETH"
+        56, 97 -> "BSC"
+        137 -> "POLYGON"
+        42161 -> "ARBITRUM"
+        10 -> "OPTIMISM"
+        else -> "BSC"
+    }
+}
+
+private fun launchTokenPocketIntent(context: Context, intent: Intent): Boolean {
+    return try {
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+            true
+        } else {
+            false
+        }
+    } catch (_: Exception) {
+        false
+    }
+}
+
+
+/**
+ * 拉起 ImToken 并在内置 DApp 浏览器打开 H5。
+ * 官方格式见：https://imtoken.gitbook.io/developers/products/deep-linking
+ */
+fun openH5InImToken(h5Url: String, context: Context? = null) {
+    if (h5Url.isBlank()) {
+        ToastBroadUtils.show("支付链接为空")
+        return
+    }
+    val appContext = getAppContext(context)
+    val encodedUrl = Uri.encode(h5Url)
+    val deepLinks = listOf(
+        "imtokenv2://navigate/DappView?url=$encodedUrl",
+        "imtokenv2://navigate?screen=DappView&url=$encodedUrl",
+    )
+    for (link in deepLinks) {
+        try {
+            val intentWithoutPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (launchImTokenIntent(appContext, intentWithoutPackage)) {
+                eLogD(tAG, "openH5InImToken success link=$link")
+                return
+            }
+            val intentWithPackage = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                setPackage(IM_TOKEN_PACKAGE)
+            }
+            if (launchImTokenIntent(appContext, intentWithPackage)) {
+                eLogD(tAG, "openH5InImToken success with package link=$link")
+                return
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG)
+        }
+    }
+    ToastBroadUtils.show("无法打开 ImToken，请确认已安装最新版")
+}
+
+private const val IM_TOKEN_PACKAGE = "im.token.app"
+
+private fun launchImTokenIntent(context: Context, intent: Intent): Boolean {
+    return try {
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+            true
+        } else {
+            false
+        }
+    } catch (_: Exception) {
+        false
+    }
+}
 
 /**
  * 使用java正则表达式去掉多余的.与0
@@ -151,6 +412,20 @@ fun getResumeActivity(): AppCompatActivity? {
 }
 
 
+/**
+ * 判断指定包名的应用是否已安装
+ * @param context 上下文
+ * @param packageName 目标应用的包名
+ */
+fun isAppInstalled(packageName: String,context: Context?): Boolean {
+    return try {
+        // 获取应用信息，如果未安装会抛出 NameNotFoundException
+        getAppContext(context).packageManager.getPackageInfo(packageName, 0)
+        true
+    } catch (_: Exception) {
+        false
+    }
+}
 fun getAppDimension(context: Context? = null, res: Int): Float =
     getAppContext(context).resources.getDimension(res)
 
@@ -1074,7 +1349,7 @@ fun showCommonTip(
         title, content, cancelBtn, sureBtn,
         R.color.white, R.color.white, R.color.black, R.color.black_65,
         R.color.color_3B47DDk, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD,
-        R.color.white, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD,
+        R.color.white, R.color.white, R.color.color_3B47DD, R.color.color_3B47DD, true,
         mContext, block
     )
 }
@@ -1089,13 +1364,14 @@ fun showCommonTip(
     cancelStrokeColor: Int, sureStrokeColor: Int,
     cancelStartColor: Int, cancelEndColor: Int,
     sureStartColor: Int, sureEndColor: Int,
+    isOutSideTouchable: Boolean = true,
     context: Context? = null,
     block: (Boolean) -> Unit
 ): CommonTipBroadPop {
     val mContext = getAppContext(context)
     return showCommonStrTip(
         getAppStr(title, mContext), getAppStr(content, mContext), getAppStr(cancelBtn, mContext), getAppStr(sureBtn, mContext), mContext,
-        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor, block
+        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor, isOutSideTouchable, block
     )
 }
 
@@ -1104,14 +1380,14 @@ fun showCommonStrTip(
     titleColor: Int = R.color.black, contentColor: Int = R.color.black_65, cancelTvColor: Int = R.color.color_3B47DDk, sureTvColor: Int = R.color.white,
     cancelStrokeColor: Int = R.color.color_3B47DD, sureStrokeColor: Int = R.color.color_3B47DD,
     cancelStartColor: Int = R.color.white, cancelEndColor: Int = R.color.white,
-    sureStartColor: Int = R.color.color_3B47DD, sureEndColor: Int = R.color.color_3B47DD, block: (Boolean) -> Unit
+    sureStartColor: Int = R.color.color_3B47DD, sureEndColor: Int = R.color.color_3B47DD, isOutSideTouchable: Boolean = true, block: (Boolean) -> Unit
 ): CommonTipBroadPop {
     val mContext = getAppContext(context)
     val commonTipPop = CommonTipBroadPop(
         mContext,
         title,
         content,
-        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor
+        backColor, strokeColor, titleColor, contentColor, cancelTvColor, sureTvColor, cancelStrokeColor, sureStrokeColor, cancelStartColor, cancelEndColor, sureStartColor, sureEndColor, isOutSideTouchable
     )
     commonTipPop.setCancelBtn(cancelBtn)
     commonTipPop.setSureBtn(sureBtn)
@@ -1158,6 +1434,22 @@ fun showMeetLeaveTip(context: Context? = null, block: () -> Unit = {}) {
     }
     commonTipPop.showPopupWindow()
 }
+
+fun showAbsentKickTip(context: Context? = null, block: () -> Unit = {}) {
+    val mContext = getAppContext(context)
+    val commonTipPop = CommonTipBroadPop(
+        mContext,
+        mContext.getString(R.string.wenxintishi),
+        mContext.getString(R.string.tip_sure_again)
+    )
+    commonTipPop.setCancelBtn(mContext.getString(R.string.bs_quxiao))
+    commonTipPop.setSureBtn(mContext.getString(R.string.bs_mine_sure))
+    commonTipPop.sureInvoke = {
+        block.invoke()
+    }
+    commonTipPop.showPopupWindow()
+}
+
 
 //裁视图轮廓圆角
 fun clipViewOutlineRound(view: View, radiusDp: Int) {
@@ -1222,6 +1514,16 @@ fun startOutH5Activity(url: String? = "", context: Context? = null) {
         ToastBroadUtils.show(R.string.website_exception)
     }
 
+}
+
+fun getAppVersion(context: Context? = null): String {
+    try {
+        val mContext = getAppContext(context)
+        val packageInfo = mContext.packageManager.getPackageInfo(mContext.packageName, 0)
+        return packageInfo.versionName ?: ""
+    } catch (_: Exception) {
+        return ""
+    }
 }
 
 fun getSysLast(list: List<Any?>?): Any? {
