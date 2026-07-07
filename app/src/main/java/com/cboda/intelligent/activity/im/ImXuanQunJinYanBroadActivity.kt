@@ -1,8 +1,14 @@
 package com.cboda.intelligent.activity.im
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +18,13 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.holder.SelectTypeBroadHolder
 import com.freddy.chat.im.IMSClientBootstrap
-import com.freddy.chat.im.MessageProcessor
 import com.freddy.chat.utils.AvatarViews
 import com.freddy.im.db.ImLocalStore
+import com.freddy.im.db.mapper.GroupUserVoMapper
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupMemberItem
+import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.listener.OnHttpImListener
 
 /** 选择成员并设置禁言时长。 */
@@ -29,7 +36,10 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var adapter: MutePickAdapter
     private lateinit var tvAgree: ShapeTextBroadView
     private lateinit var tvjinyan: TextView
+    private lateinit var edtSousuo: EditText
     private var durationType = DURATION_DAY
+    private val searchHandler by lazy { Handler(Looper.getMainLooper()) }
+    private var searchRunnable: Runnable? = null
 
     override fun getLayoutId(): Int = R.layout.activity_im_mute_pick_member
 
@@ -43,6 +53,7 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
 
         tvAgree = findViewById(R.id.tvAgree)
         tvjinyan = findViewById(R.id.tvjinyan)
+        edtSousuo = findViewById(R.id.edtSousuo)
         tvjinyan.text = getString(R.string.jinyanyitian)
 
         val durationHolder = SelectTypeBroadHolder(this, findViewById(R.id.jinyantian), gravity = Gravity.START)
@@ -74,6 +85,8 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
             adapter = this@ImXuanQunJinYanBroadActivity.adapter
         }
 
+        setupSearch()
+
         tvAgree.setOnClickListener {
             if (selectedIds.isEmpty()) {
                 ToastBroadUtils.show(getString(R.string.xuanquanyuanjinyanle))
@@ -86,7 +99,6 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
                     override fun onHttpImSuccess(result: Boolean) {
                         runOnUiThread {
                             ToastBroadUtils.show("禁言成功")
-//                            MessageProcessor.getInstance().notifyGroupMuteUpdated(qunId)
                             finish()
                         }
                     }
@@ -100,18 +112,91 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
         loadMembers()
     }
 
+    private fun setupSearch() {
+        edtSousuo.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                triggerSearch()
+                true
+            } else {
+                false
+            }
+        }
+        edtSousuo.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchRunnable?.let { searchHandler.removeCallbacks(it) }
+                searchRunnable = Runnable { triggerSearch() }.also {
+                    searchHandler.postDelayed(it, SEARCH_DEBOUNCE_MS)
+                }
+            }
+            override fun afterTextChanged(s: Editable?) = Unit
+        })
+    }
+
+    private fun currentSearchKey(): String = edtSousuo.text?.toString()?.trim().orEmpty()
+
+    private fun triggerSearch() {
+        searchRunnable?.let { searchHandler.removeCallbacks(it) }
+        val keyword = currentSearchKey()
+        if (keyword.isEmpty()) {
+            loadMembers()
+        } else {
+            searchMembers(keyword)
+        }
+    }
+
     private fun loadMembers() {
         val currentUserId = IMSClientBootstrap.getInstance().currentUserId
         ImLocalStore.loadGroupMembersMap(qunId) { map ->
-            displayMembers.clear()
-            map.values.forEach { member ->
-                if (member.userId == currentUserId) return@forEach
-                if (GroupRole.isOwnerOrAdmin(member.role)) return@forEach
-                displayMembers.add(member)
-            }
-            displayMembers.sortBy { it.nickname?.lowercase() ?: it.userId }
-            runOnUiThread { adapter.submit(displayMembers) }
+            val members = map.values.mapNotNull { member ->
+                if (member.userId == currentUserId) return@mapNotNull null
+                if (GroupRole.isOwnerOrAdmin(member.role)) return@mapNotNull null
+                member
+            }.sortedBy { it.nickname?.lowercase() ?: it.userId }
+            runOnUiThread { submitMembers(members) }
         }
+    }
+
+    private fun searchMembers(keyword: String) {
+        if (qunId.isEmpty()) return
+        ImGroupHttpExample.requestSearchMembers(
+            qunId,
+            keyword,
+            object : OnHttpImListener<List<GroupUserVo>> {
+                override fun onHttpImSuccess(result: List<GroupUserVo>) {
+                    if (keyword != currentSearchKey()) return
+                    val members = filterSelectableMembers(GroupUserVoMapper.toItems(qunId, result))
+                    runOnUiThread { submitMembers(members) }
+                }
+            },
+            {
+                runOnUiThread {
+                    if (keyword == currentSearchKey()) {
+                        submitMembers(emptyList())
+                    }
+                }
+            },
+        )
+    }
+
+    private fun filterSelectableMembers(members: List<GroupMemberItem>): List<GroupMemberItem> {
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        return members.filter { member ->
+            if (member.userId == currentUserId) return@filter false
+            if (GroupRole.isOwnerOrAdmin(member.role)) return@filter false
+            true
+        }.sortedBy { it.nickname?.lowercase() ?: it.userId }
+    }
+
+    private fun submitMembers(members: List<GroupMemberItem>) {
+        displayMembers.clear()
+        displayMembers.addAll(members)
+        adapter.submit(displayMembers)
+    }
+
+    override fun onDestroy() {
+        searchRunnable?.let { searchHandler.removeCallbacks(it) }
+        super.onDestroy()
     }
 
     private fun resolveDurationSec(type: Int): Long? = when (type) {
@@ -171,5 +256,6 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
         private const val DURATION_WEEK = 2
         private const val DURATION_MONTH = 3
         private const val DURATION_FOREVER = 4
+        private const val SEARCH_DEBOUNCE_MS = 600L
     }
 }

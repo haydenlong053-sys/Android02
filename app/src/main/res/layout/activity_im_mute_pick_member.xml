@@ -78,6 +78,42 @@
             app:shapeSolidColor="#9C1FFB" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical">
+
+        <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="23dp"
+            app:shapeCornersRadius="20dp"
+            app:shapeSolidColor="@color/color_input_bg">
+
+            <EditText
+                android:id="@+id/edtSousuo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableLeft="@mipmap/ic_broad_search2"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/sousuonichengbeizhu"
+                android:imeOptions="actionSearch"
+                android:paddingStart="20dp"
+                android:singleLine="true"
+                android:textColorHint="@color/color_text_content_hint"
+                android:textColor="@color/color_text_content"
+                android:textSize="13sp" />
+
+        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
