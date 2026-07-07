@@ -107,6 +107,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private static final String[] EVENTS = {
             Events.CHAT_MESSAGE,
             Events.CHAT_MESSAGE_UPDATE,
+            Events.SESSION_LIST_UPDATED,
             Events.GROUP_MEMBERS_UPDATED,
             Events.GROUP_NOTICE_UPDATED,
             Events.GROUP_MUTE_UPDATED,
@@ -1033,6 +1034,21 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         super.onDestroyView();
     }
 
+    private void mergeSessionItemFromUpdate(@NonNull SessionItem update) {
+        if (sessionItem == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(update.getSessionName())) {
+            sessionItem.setSessionName(update.getSessionName());
+        }
+        if (update.getMemCount() > 0) {
+            sessionItem.setMemCount(update.getMemCount());
+        }
+        if (!TextUtils.isEmpty(update.getIcon())) {
+            sessionItem.setIcon(update.getIcon());
+        }
+    }
+
     private void closeHost() {
         if (!isAdded()) {
             return;
@@ -1305,6 +1321,25 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                         exitMultiSelectMode();
                     }
                 });
+            }
+            return;
+        }
+        if (Events.SESSION_LIST_UPDATED.equals(topic) && obj instanceof List) {
+            @SuppressWarnings("unchecked")
+            List<SessionItem> updates = (List<SessionItem>) obj;
+            for (SessionItem update : updates) {
+                if (update == null || TextUtils.isEmpty(update.getSessionId())) {
+                    continue;
+                }
+                if (!sessionId.equals(update.getSessionId())) {
+                    continue;
+                }
+                mergeSessionItemFromUpdate(update);
+                if (getActivity() instanceof MessageListActivity) {
+                    CThreadPoolExecutor.runOnMainThread(() ->
+                            ((MessageListActivity) getActivity()).applySessionItemUpdated(update));
+                }
+                break;
             }
             return;
         }

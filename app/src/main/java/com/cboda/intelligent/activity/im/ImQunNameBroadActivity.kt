@@ -10,9 +10,11 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.click
+import com.freddy.chat.im.MessageProcessor
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.message.ImGroupChangeManager
 
 /** 自研改群名（对齐野火 {@link com.cboda.intelligent.activity.QunNameBroadActivity}）。 */
 class ImQunNameBroadActivity : BaseSimple2BroadActivity() {
@@ -49,6 +51,11 @@ class ImQunNameBroadActivity : BaseSimple2BroadActivity() {
             ImGroupHttpExample.requestModifyGroup(qunId, name, null, object : OnHttpImListener<GroupVo> {
                 override fun onHttpImSuccess(result: GroupVo) {
                     runOnUiThread { finish() }
+                    // 与 0x0101 GROUP_CHANGE 信令相同：拉群详情 → 入库 → SESSION_LIST_UPDATED
+//                    ImGroupChangeManager.getInstance().handleGroupChange(listOf(qunId)) { sessions ->
+//                        MessageProcessor.getInstance().notifySessionsUpdated(sessions)
+//                        runOnUiThread { finish() }
+//                    }
                 }
             }, {
                 runOnUiThread {

@@ -163,15 +163,37 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     }
 
     private void initData() {
-        if (sessionItem != null) {
-            if (sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
-                String sessionName = sessionItem.getSessionName() + "(" + (sessionItem.getMemCount()) + getString(com.cboda.chatui.R.string.msg_person_unit) + ")";
-                pageTitle.setText(sessionName);
-            } else {
-                pageTitle.setText(sessionItem.getSessionName());
-            }
-        }
+        refreshPageTitle();
+    }
 
+    /** 0x0101 群变更信令入库后刷新标题（{@link Events#SESSION_LIST_UPDATED}）。 */
+    public void applySessionItemUpdated(@NonNull SessionItem update) {
+        if (sessionItem == null || !update.getSessionId().equals(sessionItem.getSessionId())) {
+            return;
+        }
+        if (!TextUtils.isEmpty(update.getSessionName())) {
+            sessionItem.setSessionName(update.getSessionName());
+        }
+        if (update.getMemCount() > 0) {
+            sessionItem.setMemCount(update.getMemCount());
+        }
+        if (!TextUtils.isEmpty(update.getIcon())) {
+            sessionItem.setIcon(update.getIcon());
+        }
+        refreshPageTitle();
+    }
+
+    private void refreshPageTitle() {
+        if (sessionItem == null || pageTitle == null) {
+            return;
+        }
+        if (sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
+            String sessionName = sessionItem.getSessionName() + "(" + (sessionItem.getMemCount())
+                    + getString(com.cboda.chatui.R.string.msg_person_unit) + ")";
+            pageTitle.setText(sessionName);
+        } else {
+            pageTitle.setText(sessionItem.getSessionName());
+        }
     }
 
     @Override
