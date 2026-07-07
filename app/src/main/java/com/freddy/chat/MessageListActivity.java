@@ -166,7 +166,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         refreshPageTitle();
     }
 
-    /** 0x0101 群变更信令入库后刷新标题（{@link Events#SESSION_LIST_UPDATED}）。 */
+    /** 0x0101 群变更信令入库后刷新标题（{Events#SESSION_LIST_UPDATED}）。 */
     public void applySessionItemUpdated(@NonNull SessionItem update) {
         if (sessionItem == null || !update.getSessionId().equals(sessionItem.getSessionId())) {
             return;
