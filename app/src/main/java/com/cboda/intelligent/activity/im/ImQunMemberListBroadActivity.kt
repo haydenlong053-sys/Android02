@@ -23,6 +23,9 @@ import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.cboda.susindexbar.IndexBar.widget.IndexBar2
+import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.im.db.ImLocalStore
+import com.freddy.im.db.mapper.GroupUserVoMapper
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupFriendBean
 import com.freddy.im.listener.OnHttpImListener
@@ -104,75 +107,37 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         recyclerView2.adapter = mAdapter2
 
         tvAgree.setOnClickListener { submit() }
+        setupSearch()
+
+        loadData()
+    }
+
+    private fun setupSearch() {
         edtSousuo.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 triggerSearch()
                 true
-            } else false
+            } else {
+                false
+            }
         }
         edtSousuo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (fromPage != "add" && fromPage != "remove") return
                 searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
-                if (fromPage != "add") return
                 searchRunnable = Runnable { triggerSearch() }.also { runnable ->
-                    searchHandler.postDelayed(runnable, 1500L)
+                    searchHandler.postDelayed(runnable, SEARCH_DEBOUNCE_MS)
                 }
             }
             override fun afterTextChanged(s: Editable?) = Unit
         })
-        viewModel?.chengyuanListLiveData?.observe(this) {
-            smartLayout?.finishRefresh()
-            smartLayout?.finishLoadMore()
-            it.dataList?.apply {
-                if (this.isNotEmpty()) {
-                    pageNo++
-                }
-                val existingUserIds = mDataList.mapNotNull { bean -> bean.userId }.toHashSet()
-                val dedupedList = this.filter { bean ->
-                    val userId = bean.userId
-                    !userId.isNullOrEmpty() && existingUserIds.add(userId)
-                }
-                mDataList.addAll(dedupedList)
-
-                if (fromPage == "remove") {
-                    if (userType == "1") {
-                        mDataList.forEachIndexed { index, commonBean ->
-                            if (commonBean.type == "1") {
-                                commonBean.isZy = "1"
-                            }
-                        }
-                    } else if (userType == "2") {
-                        mDataList.forEachIndexed { index, commonBean ->
-                            if (commonBean.type == "1" || commonBean.type == "2") {
-                                commonBean.isZy = "1"
-                            }
-                        }
-                    }
-
-                }
-                indexBar.setmSourceDatas(mDataList)
-                    .setHeaderViewCount(0)
-                    .invalidate()
-
-                mAdapter?.setList(mDataList)
-                if (mDataList.isEmpty()) {
-                    mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
-                }
-                if (mDataList.size >= (it.totalCount ?: "0").toInt()) {
-                    smartLayout?.setEnableLoadMore(false)
-                }
-
-            }
-        }
-        loadData()
     }
 
     private fun loadData() {
-        if (fromPage == "add") {
-            loadAddGroupData()
-        } else {
-            loadCandidates()
+        when (fromPage) {
+            "add" -> loadAddGroupData()
+            "remove" -> loadRemoveMembers()
         }
     }
 
@@ -180,11 +145,23 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
 
     private fun triggerSearch() {
         searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
-        pageNo = 1
-        mDataList.clear()
-        mAdapter?.setList(mDataList)
-        checkCanGo()
-        loadData()
+        when (fromPage) {
+            "add" -> {
+                pageNo = 1
+                mDataList.clear()
+                mAdapter?.setList(mDataList)
+                checkCanGo()
+                loadAddGroupData()
+            }
+            "remove" -> {
+                val keyword = currentSearchKey()
+                if (keyword.isEmpty()) {
+                    loadRemoveMembers()
+                } else {
+                    searchRemoveMembers(keyword)
+                }
+            }
+        }
     }
 
     private fun loadAddGroupData() {
@@ -192,74 +169,93 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             qunId,
             currentSearchKey(),
             object : OnHttpImListener<List<GroupFriendBean>> {
-            override fun onHttpImSuccess(result: List<GroupFriendBean>) {
-                runOnUiThread {
-                    smartLayout.finishRefresh()
-                    smartLayout.finishLoadMore()
-                    mDataList.clear()
-                    val converted = ImGroupMemberUiMapper.toCommonBeansFromGroupFriends(result)
-                    val existingUserIds = hashSetOf<String>()
-                    val dedupedList = converted.filter { bean ->
-                        val userId = bean.userId
-                        !userId.isNullOrEmpty() && existingUserIds.add(userId)
-                    }
-                    val selectedIds = mDataList3.mapNotNull { it.userId }.toHashSet()
-                    dedupedList.forEach { bean ->
-                        if (bean.userId in selectedIds) {
-                            bean.isSelect = true
+                override fun onHttpImSuccess(result: List<GroupFriendBean>) {
+                    runOnUiThread {
+                        smartLayout.finishRefresh()
+                        smartLayout.finishLoadMore()
+                        mDataList.clear()
+                        val converted = ImGroupMemberUiMapper.toCommonBeansFromGroupFriends(result)
+                        val existingUserIds = hashSetOf<String>()
+                        val dedupedList = converted.filter { bean ->
+                            val userId = bean.userId
+                            !userId.isNullOrEmpty() && existingUserIds.add(userId)
                         }
+                        val selectedIds = mDataList3.mapNotNull { it.userId }.toHashSet()
+                        dedupedList.forEach { bean ->
+                            if (bean.userId in selectedIds) {
+                                bean.isSelect = true
+                            }
+                        }
+                        mDataList.addAll(dedupedList)
+                        indexBar.setmSourceDatas(mDataList)
+                            .setHeaderViewCount(0)
+                            .invalidate()
+                        mAdapter?.setList(mDataList)
+                        if (mDataList.isEmpty()) {
+                            mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
+                        }
+                        smartLayout.setEnableLoadMore(false)
+                        checkCanGo()
                     }
-                    mDataList.addAll(dedupedList)
-                    indexBar.setmSourceDatas(mDataList)
-                        .setHeaderViewCount(0)
-                        .invalidate()
-                    mAdapter?.setList(mDataList)
-                    if (mDataList.isEmpty()) {
-                        mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
-                    }
-                    smartLayout.setEnableLoadMore(false)
                 }
-            }
-        }, null)
+            }, null)
     }
 
-    private fun loadCandidates() {
-
-            var url = ""
-            var type = ""
-            when (fromPage) {
-                "zhuanshuhongbao" -> {
-                    url = "/groupUserListPage"
-                }
-
-//                "add" -> {
-//                    url = "/friendList"
-//                }
-
-                "remove" -> {
-                    url = "/groupUserListPage"
-                    type = "3"
-                }
-
-                "qunmanager" -> {
-                    url = "/groupUserListPage"
-                    type = "3"
-                }
-
-                "qunyiyintonghua" -> {
-                    url = "/groupUserListPage"
-                }
-            }
-            viewModel?.getQunMemberList(
-                this,
-                pageNo.toString(),
-                url,
-                qunId,
-                type,
-                currentSearchKey()
-            )
-
+    /** 踢人：本地群成员库加载（对齐 ImXuanQunJinYanBroadActivity）。 */
+    private fun loadRemoveMembers() {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImLocalStore.loadGroupMembersMap(qunId) { map ->
+            val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(map.values.toList())
+            val filtered = beans.filter { it.userId != currentUserId }
+            val result = ImGroupMemberUiMapper.applyRemoveKickRules(filtered, userType, currentUserId)
+            runOnUiThread { submitRemoveList(result) }
+        }
     }
+
+    /** 踢人：ES 模糊搜索群成员（api/im/group/searchMembers）。 */
+    private fun searchRemoveMembers(keyword: String) {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImGroupHttpExample.requestSearchMembers(
+            qunId,
+            keyword,
+            object : OnHttpImListener<List<com.freddy.im.http.model.im.GroupUserVo>> {
+                override fun onHttpImSuccess(result: List<com.freddy.im.http.model.im.GroupUserVo>) {
+                    if (keyword != currentSearchKey()) return
+                    val items = GroupUserVoMapper.toItems(qunId, result)
+                    val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(items)
+                        .filter { it.userId != currentUserId }
+                    val sorted = ImGroupMemberUiMapper.applyRemoveKickRules(beans, userType, currentUserId)
+                    runOnUiThread { submitRemoveList(sorted) }
+                }
+            },
+            {
+                runOnUiThread {
+                    if (keyword == currentSearchKey()) {
+                        submitRemoveList(emptyList())
+                    }
+                }
+            },
+        )
+    }
+
+    private fun submitRemoveList(beans: List<CommonDataListBroadBean.CommonBean>) {
+        val selectedIds = mDataList.filter { it.isSelect }.mapNotNull { it.userId }.toHashSet()
+        mDataList.clear()
+        beans.forEach { bean ->
+            if (bean.userId in selectedIds && bean.isZy != "1") {
+                bean.isSelect = true
+            }
+        }
+        mDataList.addAll(beans)
+        mAdapter?.setList(mDataList)
+        if (mDataList.isEmpty()) {
+            mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
+        }
+        checkCanGo()
+    }
+
 
     private fun updateYiXuan() {
         mAdapter2?.setList(mDataList3)
@@ -289,7 +285,6 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     }
                 })
             }
-
             "add" -> {
                 ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
                     override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {
@@ -302,5 +297,14 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 })
             }
         }
+    }
+
+    override fun onDestroy() {
+        searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
+        super.onDestroy()
+    }
+
+    companion object {
+        private const val SEARCH_DEBOUNCE_MS = 600L
     }
 }

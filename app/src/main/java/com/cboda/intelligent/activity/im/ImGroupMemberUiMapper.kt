@@ -3,6 +3,7 @@ package com.cboda.intelligent.activity.im
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.model.im.GroupFriendBean
+import com.freddy.im.http.model.im.GroupMemberItem
 import com.freddy.im.http.model.im.GroupUserVo
 
 object ImGroupMemberUiMapper {
@@ -14,6 +15,44 @@ object ImGroupMemberUiMapper {
         bean.icon = member.headPortrait
         bean.type = GroupRole.toWildfireUiType(member.role)
         return bean
+    }
+
+    fun toCommonBean(member: GroupMemberItem): CommonDataListBroadBean.CommonBean {
+        val bean = CommonDataListBroadBean.CommonBean()
+        bean.userId = member.userId
+        bean.name = member.nickname?.takeIf { it.isNotBlank() } ?: member.userId
+        bean.icon = member.headPortrait
+        bean.type = GroupRole.toWildfireUiType(member.role)
+        return bean
+    }
+
+    fun toCommonBeansFromMemberItems(
+        members: List<GroupMemberItem>?
+    ): List<CommonDataListBroadBean.CommonBean> {
+        if (members.isNullOrEmpty()) return emptyList()
+        return members.mapNotNull { member ->
+            if (member.userId.isNullOrEmpty()) null else toCommonBean(member)
+        }
+    }
+
+    /**
+     * 踢人页不可选规则（对齐野火 QunMemberListBroadActivity）：
+     * 群主不可踢自己；管理员不可踢群主/管理员。
+     */
+    fun applyRemoveKickRules(
+        members: List<CommonDataListBroadBean.CommonBean>,
+        operatorUserType: String,
+        currentUserId: String?
+    ): List<CommonDataListBroadBean.CommonBean> {
+        members.forEach { bean ->
+            bean.isZy = when {
+                !currentUserId.isNullOrEmpty() && bean.userId == currentUserId -> "1"
+                operatorUserType == "1" && bean.type == "1" -> "1"
+                operatorUserType == "2" && (bean.type == "1" || bean.type == "2") -> "1"
+                else -> null
+            }
+        }
+        return members.sortedBy { it.name?.lowercase() ?: it.userId.orEmpty() }
     }
 
     fun toCommonBeans(members: List<GroupUserVo>?): List<CommonDataListBroadBean.CommonBean> {
