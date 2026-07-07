@@ -220,7 +220,8 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
         }
 
         ivkefu?.setOnClickListener {
-            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChat(context, it1, "") }
+//            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChat(context, it1, "") }
+            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChatP2p( it1, "", context) }
         }
 //        val fragment = ConversationListBroadFragment()
 //        addFragment(fragment)
