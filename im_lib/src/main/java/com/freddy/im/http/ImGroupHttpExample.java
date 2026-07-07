@@ -189,7 +189,7 @@ public final class ImGroupHttpExample {
         if (!TextUtils.isEmpty(icon)) {
             api.setIcon(icon);
         }
-        EasyHttp.post(ApplicationLifecycle.getInstance())
+        EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
                 .api(api)
                 .request(postListener("modifyGroup", callback, onFail, true, GroupVo.class));
     }

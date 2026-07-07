@@ -327,8 +327,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         val holder = ImagePickerBroadHolder(this)
         holder.callBack = object : ImagePickerBroadHolder.OnResultCallback {
             override fun onResult(result: ArrayList<LocalMedia>?) {
+                showLoading()
                 val path = result?.firstOrNull()?.realPath ?: return
-                mIvGroupAvatar.setImageURI(android.net.Uri.parse("file://$path"))
                 imgCompression(this@ImQunInfo2BroadActivity, File(path)) { _, compressFile ->
                     compressFile ?: return@imgCompression
                     if (uploadViewModel == null) {
@@ -343,11 +343,15 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                         }
                         ImGroupHttpExample.requestModifyGroup(qunId, null, url, object : OnHttpImListener<GroupVo> {
                             override fun onHttpImSuccess(result: GroupVo) {
-                                runOnUiThread { viewModel?.load(qunId, currentUserId) }
+                                runOnUiThread {
+//                                    viewModel?.load(qunId, currentUserId)
+                                    dismissLoading()
+                                    ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                                }
                             }
                         }, {
                             runOnUiThread {
-                                ToastBroadUtils.show(getString(R.string.group_rename_failed))
+                                ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
                             }
                         })
                     }
