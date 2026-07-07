@@ -41,6 +41,7 @@ import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity;
+import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
 import com.freddy.chat.im.MessageProcessor;
@@ -225,6 +226,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(sessionItem),
                 this::resendFailedMessage);
         adapter.setMessageActions(this);
+        adapter.setPortraitClickListener(userId ->
+                JumpBroadUtils.Companion.startHaoYouAddActivity(requireContext(), userId, "2"));
         if (isGroupChat) {
             adapter.setMentionMemberListener((userId, displayName) -> {
                 if (inputPanel != null) {
