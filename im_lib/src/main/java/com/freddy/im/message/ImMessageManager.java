@@ -309,7 +309,7 @@ public final class ImMessageManager {
             if (listener != null && updated != null) {
                 listener.onOutgoingMessageUpdated(updated);
             }
-            if (listener != null && ImGroupBizErrorCodes.isMuteSendError(errorCode)) {
+            if (listener != null) {
                 listener.onSendBizError(errorCode, errorMsg);
             }
         });
