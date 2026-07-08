@@ -1,8 +1,9 @@
 package com.cboda.baselibrary.bean
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class UserInfoBean {
+class UserInfoBean : Serializable {
     @SerializedName("acount")
     var loginAccount = ""
 

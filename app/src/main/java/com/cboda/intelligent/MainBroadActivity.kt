@@ -59,6 +59,7 @@ import com.cboda.baselibrary.utils.AppPermissionBroadUtils
 import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.LOGIN_USER_DATA
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_CREDIT_SCORE_NEW_USER_DAYS
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_REGISTRATION_DAY_SCORE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_SEND_LINK
@@ -581,6 +582,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             MMKVBroadUtils.saveSqlStrData(USER_REGISTRATION_DAY_SCORE, registrationDayScoreInt.toString())
             SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", data.autoTranslation)
             MMKVBroadUtils.saveUserVip(data.isVip)
+            MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
             viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
             tongxunluUnreadCount = (data.fris + data.gros).toString()
             ChatManager.Instance().qunshenqing = data.gros

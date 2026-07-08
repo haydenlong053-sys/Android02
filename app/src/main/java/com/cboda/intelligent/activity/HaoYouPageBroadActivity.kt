@@ -387,7 +387,8 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             XXPermissions.with(this).permission(Permission.RECORD_AUDIO)
                 .request(object : OnPermissionCallback {
                     override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                        BroadE.getCallToken(otherUid) {}
+                        BroadE.startCall(otherUid) {}
+//                        BroadE.getCallToken(otherUid) {}
 //                        WfcUIBroadKit.singleCall(this@HaoYouPageBroadActivity, otherUid, true)
 
 

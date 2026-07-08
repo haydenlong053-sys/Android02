@@ -25,6 +25,7 @@ import kotlin.collections.get
  */
 class MMKVBroadUtils {
     companion object {
+        const val LOGIN_USER_DATA = "loginUserData"
         const val OLD_QR_CODE = "oldQrCode"
         const val DEVICE_BRAND = "deviceBrand"
         const val DEVICE_MODEL = "deviceModel"

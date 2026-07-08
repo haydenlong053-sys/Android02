@@ -1,5 +1,7 @@
 package com.freddy.chat.im;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -62,7 +64,7 @@ public class IMSEventListener implements OnEventListener {
         if (!push.hasHeader()) {
             return;
         }
-        System.out.println("收到服务端的onSignalPush信令响应cmd: " + push.getHeader().getCmd()  );
+        eLogD(TAG, "收到服务端的onSignalPush信令响应cmd: " + push.getHeader().getCmd());
 
         if (push.getHeader().getCmd() == ImSignalProtos.Cmd.NEW_MSGSIG_VALUE && push.hasBody()) {
             try {

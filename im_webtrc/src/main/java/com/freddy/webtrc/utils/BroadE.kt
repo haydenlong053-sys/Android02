@@ -43,4 +43,35 @@ object BroadE {
             )
         }
     }
+
+    fun startCall(
+        id: String?,
+        video: Boolean = false,
+        callBack: (bean: CallTokenBean?) -> Unit = {}
+    ) {
+        if (TextUtils.isEmpty(id)) {
+            callBack.invoke(null)
+            return
+        }
+        RealmUtil.findUserData(id) { friendBean ->
+            val roomName = getUuIdMd5()
+            ImCallHttpExample.requestCallStart(
+                id ?: "",
+                video,
+                object : OnHttpImListener<CallTokenContent> {
+                    override fun onHttpImSuccess(result: CallTokenContent) {
+                        eLogD("startCall_data", toJson2(result))
+                        callBack.invoke(
+                            CallTokenBean(
+                                token = result.token.orEmpty(),
+                                url = result.url.orEmpty(),
+                                roomName = result.roomName ?: roomName
+                            )
+                        )
+                    }
+                },
+                { callBack.invoke(null) }
+            )
+        }
+    }
 }

@@ -98,7 +98,7 @@ public class VoipBroadExt extends ConversationMidExt {
     }
 
     private void audioChat(String targetId) {
-        BroadE.INSTANCE.getCallToken(targetId, false, new Function1<CallTokenBean, Unit>() {
+        BroadE.INSTANCE.startCall(targetId, false, new Function1<CallTokenBean, Unit>() {
             @Override
             public Unit invoke(CallTokenBean callTokenBean) {
                 return null;
