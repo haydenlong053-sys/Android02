@@ -34,6 +34,7 @@ import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.GroupUserVo;
+import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.listener.OnHttpImListener;
 import com.cboda.intelligent.R;
@@ -48,8 +49,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -279,39 +278,47 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         }
         groupMuteFetched = true;
         final String groupId = sessionItem.getSessionId();
-        final AtomicInteger pending = new AtomicInteger(2);
-        final Set<String> mutedHolder = new HashSet<>();
-
-        Runnable tryApply = () -> {
-            if (pending.decrementAndGet() > 0) {
-                return;
-            }
-            runOnUiThread(() -> {
-                if (sessionItem == null || !groupId.equals(sessionItem.getSessionId())) {
-                    return;
-                }
-                mutedMemberIds = mutedHolder;
-                if (messageListFragment != null) {
-                    messageListFragment.onGroupMuteStateReady();
-                }
-            });
-        };
-
         ImGroupHttpExample.requestGetGroupDetail(groupId, new OnHttpImListener<GroupVo>() {
             @Override
             public void onHttpImSuccess(@NonNull GroupVo result) {
-                groupAllMute = result.isAllMute();
-                tryApply.run();
+                applyGroupDetailForMute(result);
             }
-        }, tryApply);
+        }, () -> fetchMutedMembersOnly(groupId));
+    }
 
+    @Override
+    public void applyGroupDetailForMute(@NonNull GroupVo group) {
+        if (sessionItem == null || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        if (!sessionItem.getSessionId().equals(group.getId())) {
+            return;
+        }
+        groupMuteFetched = true;
+        groupAllMute = group.isAllMute();
+        fetchMutedMembersOnly(sessionItem.getSessionId());
+    }
+
+    private void fetchMutedMembersOnly(@NonNull String groupId) {
         ImGroupHttpExample.requestMutedMembers(groupId, new OnHttpImListener<List<GroupUserVo>>() {
             @Override
             public void onHttpImSuccess(@NonNull List<GroupUserVo> result) {
-                mutedHolder.addAll(GroupMuteEvaluator.copyMutedIdsFromMembers(result));
-                tryApply.run();
+                runOnUiThread(() -> {
+                    if (sessionItem == null || !groupId.equals(sessionItem.getSessionId())) {
+                        return;
+                    }
+                    mutedMemberIds = GroupMuteEvaluator.copyMutedIdsFromMembers(result);
+                    if (messageListFragment != null) {
+                        messageListFragment.onGroupMuteStateReady();
+                    }
+                });
             }
-        }, tryApply);
+        }, () -> runOnUiThread(() -> {
+            if (sessionItem != null && groupId.equals(sessionItem.getSessionId())
+                    && messageListFragment != null) {
+                messageListFragment.onGroupMuteStateReady();
+            }
+        }));
     }
 
     @Override
@@ -386,7 +393,6 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                 if (isFirst) {
                     isFirst = false;
                     fetchGroupNoticeFromServer();
-                    fetchGroupMuteFromServer();
                 }
             } else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.PAIR_VALUE) {
                 getUserData();

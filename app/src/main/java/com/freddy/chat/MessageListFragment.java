@@ -67,7 +67,7 @@ import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.http.model.im.VideoBatchUploadResult;
 import com.freddy.im.listener.OnHttpImListener;
 import com.freddy.im.message.ImActiveChatSession;
-import com.freddy.im.message.ImGroupMemberChangeManager;
+import com.freddy.im.message.GroupMemberSyncHelper;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.group.GroupMuteEvaluator;
@@ -212,9 +212,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             if (getActivity() instanceof GroupNoticeHost) {
                 ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
             }
-            if (getActivity() instanceof GroupMuteHost) {
-                ((GroupMuteHost) getActivity()).fetchGroupMuteFromServer();
-            }
         }
 
         adapter = new MessageListAdapter(
@@ -347,19 +344,32 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void loadGroupMembers() {
         ImLocalStore.loadGroupMembersMap(sessionId, map -> {
-            adapter.setGroupMembers(map);
-            String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
-            GroupMemberItem self = map.get(currentUserId);
-            if (self != null) {
-                myGroupRole = self.getRole();
-            }
-            if (isAdded()) {
-                onGroupMuteStateReady();
-            }
-            if (map.isEmpty()) {
-                ImGroupMemberChangeManager.getInstance().fetchAllMembersPaginated(sessionId);
-            }
+            applyLocalGroupMembers(map);
+            GroupMemberSyncHelper.syncOnEnterGroupChat(
+                    sessionId,
+                    group -> {
+                        if (getActivity() instanceof GroupMuteHost) {
+                            ((GroupMuteHost) getActivity()).applyGroupDetailForMute(group);
+                        }
+                    },
+                    this::reloadGroupMembersFromLocal);
         });
+    }
+
+    private void reloadGroupMembersFromLocal() {
+        ImLocalStore.loadGroupMembersMap(sessionId, this::applyLocalGroupMembers);
+    }
+
+    private void applyLocalGroupMembers(@NonNull java.util.Map<String, GroupMemberItem> map) {
+        adapter.setGroupMembers(map);
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        GroupMemberItem self = map.get(currentUserId);
+        if (self != null) {
+            myGroupRole = self.getRole();
+        }
+        if (isAdded()) {
+            onGroupMuteStateReady();
+        }
     }
 
     private void setupGroupNoticeInteraction() {
@@ -1349,7 +1359,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         if (Events.GROUP_MEMBERS_UPDATED.equals(topic) && obj instanceof String) {
             String groupId = (String) obj;
             if (isGroupChat && sessionId.equals(groupId)) {
-                loadGroupMembers();
+                reloadGroupMembersFromLocal();
             }
             return;
         }

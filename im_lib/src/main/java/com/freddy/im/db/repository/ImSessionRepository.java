@@ -142,21 +142,41 @@ public final class ImSessionRepository {
 
     @Nullable
     public SessionItem queryBySessionId(@Nullable String sessionId) {
-        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+        SessionEntity entity = queryEntityBySessionId(sessionId);
+        if (entity == null) {
             return null;
         }
-        Realm realm = ImRealm.getRealm();
-        try {
-            SessionEntity entity = realm.where(SessionEntity.class)
-                    .equalTo("sessionId", sessionId)
-                    .findFirst();
-            if (entity == null) {
-                return null;
+        return SessionRealmMapper.toSessionItem(entity);
+    }
+
+    public void updateMemChgTimeThen(@NonNull String sessionId,
+                                    long memChgTime,
+                                    @Nullable Runnable afterCommit) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+            if (afterCommit != null) {
+                afterCommit.run();
             }
-            return SessionRealmMapper.toSessionItem(realm.copyFromRealm(entity));
-        } finally {
-            realm.close();
+            return;
         }
+        final String sid = sessionId;
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            try {
+                realm.executeTransaction(r -> {
+                    SessionEntity entity = r.where(SessionEntity.class)
+                            .equalTo("sessionId", sid)
+                            .findFirst();
+                    if (entity != null) {
+                        entity.setMemChgTime(memChgTime);
+                    }
+                });
+                if (afterCommit != null) {
+                    afterCommit.run();
+                }
+            } finally {
+                realm.close();
+            }
+        });
     }
 
     @Nullable

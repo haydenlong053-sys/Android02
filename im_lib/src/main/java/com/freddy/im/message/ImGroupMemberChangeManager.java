@@ -28,15 +28,35 @@ import java.util.Set;
  */
 public final class ImGroupMemberChangeManager {
 
-    private static final String TAG = "ImGroupMemberChange";
+    public static final String TAG = "ImGroupMemberChange";
 
     private static final ImGroupMemberChangeManager INSTANCE = new ImGroupMemberChangeManager();
+
+    /** 信令同步成员后是否对齐 {@code memChgTime}，默认关闭。 */
+    private boolean alignMemChgTimeAfterSignal;
 
     private ImGroupMemberChangeManager() {
     }
 
     public static ImGroupMemberChangeManager getInstance() {
         return INSTANCE;
+    }
+
+    public boolean isAlignMemChgTimeAfterSignal() {
+        return alignMemChgTimeAfterSignal;
+    }
+
+    public void setAlignMemChgTimeAfterSignal(boolean alignMemChgTimeAfterSignal) {
+        this.alignMemChgTimeAfterSignal = alignMemChgTimeAfterSignal;
+    }
+
+    private void maybeAlignMemChgTimeAfterSignal(@NonNull String groupId,
+                                                 @Nullable Runnable onComplete) {
+        if (alignMemChgTimeAfterSignal) {
+            GroupMemberSyncHelper.refreshMemChgTimeFromDetail(groupId, onComplete);
+        } else if (onComplete != null) {
+            onComplete.run();
+        }
     }
 
     public void handleMemberChange(@Nullable String groupId,
@@ -49,7 +69,8 @@ public final class ImGroupMemberChangeManager {
         final String gid = groupId.trim();
         List<String> removed = mergeUserIds(leaves, kickouts);
         if (!removed.isEmpty()) {
-            ImLocalStore.softDeleteGroupMembersThen(gid, removed, null);
+            ImLocalStore.softDeleteGroupMembersThen(gid, removed, () ->
+                    maybeAlignMemChgTimeAfterSignal(gid, null));
         }
         List<String> enterIds = dedupe(enters);
         if (enterIds.isEmpty()) {
@@ -57,7 +78,8 @@ public final class ImGroupMemberChangeManager {
         }
         String currentUserId = ImRealm.getCurrentUserId();
         if (containsUserId(enterIds, currentUserId)) {
-            fetchAllMembersPaginated(gid);
+            fetchAllMembersPaginated(gid, () ->
+                    maybeAlignMemChgTimeAfterSignal(gid, null));
         } else {
             fetchSpecifyMembers(gid, enterIds);
         }
@@ -67,31 +89,50 @@ public final class ImGroupMemberChangeManager {
      * 分页拉取群全量成员并入库（§3 {@code memberList}）；首页不传 anchor。
      */
     public void fetchAllMembersPaginated(@NonNull String groupId) {
+        fetchAllMembersPaginated(groupId, null);
+    }
+
+    public void fetchAllMembersPaginated(@NonNull String groupId,
+                                         @Nullable Runnable onFullSyncComplete) {
         if (TextUtils.isEmpty(groupId)) {
+            if (onFullSyncComplete != null) {
+                onFullSyncComplete.run();
+            }
             return;
         }
-        fetchMemberListPage(groupId.trim(), 0, GroupMemberListContent.DEFAULT_PAGE_SIZE);
+        fetchMemberListPage(groupId.trim(), 0, GroupMemberListContent.DEFAULT_PAGE_SIZE, onFullSyncComplete);
     }
 
     private void fetchMemberListPage(@NonNull String groupId,
-                                      int anchor,
-                                     int pageSize) {
+                                     int anchor,
+                                     int pageSize,
+                                     @Nullable Runnable onFullSyncComplete) {
         ImMessageHttpExample.requestGetGroupMemberList(groupId, anchor, pageSize,
                 new OnHttpImListener<GroupMemberListContent>() {
                     @Override
                     public void onHttpImSuccess(@NonNull GroupMemberListContent content) {
                         List<GroupUserVo> page = content.getMembers();
                         if (page == null || page.isEmpty()) {
+                            if (onFullSyncComplete != null) {
+                                onFullSyncComplete.run();
+                            }
                             return;
                         }
                         List<GroupMemberItem> items = GroupUserVoMapper.toItems(groupId, page);
-                        ImLocalStore.saveGroupMembersThen(items, groupId, null);
-                        if (content.hasNextPage(pageSize)) {
-                            fetchMemberListPage(groupId, content.getAnchor(), pageSize);
-                        }
+                        ImLocalStore.saveGroupMembersThen(items, groupId, () -> {
+                            if (content.hasNextPage(pageSize)) {
+                                fetchMemberListPage(groupId, content.getAnchor(), pageSize, onFullSyncComplete);
+                            } else if (onFullSyncComplete != null) {
+                                onFullSyncComplete.run();
+                            }
+                        });
                     }
-                }, () -> Log.w(TAG, "memberList 失败 groupId=" + groupId
-                        + " anchor=" + anchor));
+                }, () -> {
+                    Log.w(TAG, "memberList 失败 groupId=" + groupId + " anchor=" + anchor);
+                    if (onFullSyncComplete != null) {
+                        onFullSyncComplete.run();
+                    }
+                });
     }
 
     private void fetchSpecifyMembers(@NonNull String groupId, @NonNull List<String> userIds) {
@@ -103,7 +144,8 @@ public final class ImGroupMemberChangeManager {
                             return;
                         }
                         List<GroupMemberItem> items = GroupUserVoMapper.toItems(groupId, members);
-                        ImLocalStore.saveGroupMembersThen(items, groupId, null);
+                        ImLocalStore.saveGroupMembersThen(items, groupId, () ->
+                                maybeAlignMemChgTimeAfterSignal(groupId, null));
                     }
                 }, () -> Log.w(TAG, "getSpecifyMembers 失败 groupId=" + groupId));
     }

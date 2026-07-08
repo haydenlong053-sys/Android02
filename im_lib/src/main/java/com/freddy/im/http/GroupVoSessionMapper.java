@@ -35,6 +35,7 @@ public final class GroupVoSessionMapper {
         item.setConversation(conversation);
         item.setIcon(group.getIcon());
         item.setMemCount(group.getMemCount());
+        item.setMemChgTime(group.getMemChgTime());
         item.setOppositeUserId(groupId);
         item.setOwerId(group.getOwerId());
 
@@ -67,6 +68,9 @@ public final class GroupVoSessionMapper {
             }
             if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(existing.getOwerId())) {
                 item.setOwerId(existing.getOwerId());
+            }
+            if (item.getMemChgTime() <= 0L && existing.getMemChgTime() > 0L) {
+                item.setMemChgTime(existing.getMemChgTime());
             }
         }
         return item;
