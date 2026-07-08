@@ -163,6 +163,19 @@ public class MessageProcessor implements IMessageProcessor {
             return;
         }
         final GroupMuteUpdateEvent event = new GroupMuteUpdateEvent(groupId, allMute);
+        dispatchGroupMuteEvent(event);
+    }
+
+    @Override
+    public void notifyGroupMemberMuteUpdated(@NonNull final String groupId, final int mute) {
+        if (TextUtils.isEmpty(groupId)) {
+            return;
+        }
+        final GroupMuteUpdateEvent event = GroupMuteUpdateEvent.memberMute(groupId, mute);
+        dispatchGroupMuteEvent(event);
+    }
+
+    private void dispatchGroupMuteEvent(@NonNull final GroupMuteUpdateEvent event) {
         CThreadPoolExecutor.runOnMainThread(() -> {
             try {
                 CEventCenter.dispatchEvent(Events.GROUP_MUTE_UPDATED, 0, 0, event);

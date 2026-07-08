@@ -9,6 +9,9 @@ public final class OthBusiSigCodes {
     /** 全员禁言变更，data 为 {@code {"groupId":"...","allMute":0|1,"operator":"..."}}。 */
     public static final int GROUP_ALL_MUTE = 1002;
 
+    /** 指定成员禁言变更（推送给被禁言成员），data 为 {@code {"groupId":"...","mute":0|1,"operator":"..."}}。 */
+    public static final int GROUP_MEMBER_MUTE = 1003;
+
     private OthBusiSigCodes() {
     }
 }

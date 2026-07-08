@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.freddy.chat.im.MessageProcessor;
 import com.freddy.im.signal.OthBusiSigCodes;
 import com.freddy.im.signal.othbusi.OthBusiSigHandler;
@@ -30,7 +31,7 @@ public final class GroupAllMuteOthBusiSigHandler implements OthBusiSigHandler {
         if (TextUtils.isEmpty(groupId) || (allMute != 0 && allMute != 1)) {
             return false;
         }
-        Log.d(TAG, "groupId=" + groupId + " allMute=" + allMute);
+        ELogUtilKt.eLogD(TAG, "groupId=" + groupId + " allMute=" + allMute);
         MessageProcessor.getInstance().notifyGroupMuteUpdated(groupId, allMute);
         return true;
     }

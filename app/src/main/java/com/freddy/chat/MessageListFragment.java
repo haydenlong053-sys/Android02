@@ -1368,7 +1368,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             if (isGroupChat && sessionId.equals(event.getGroupId())
                     && getActivity() instanceof MessageListActivity) {
                 MessageListActivity activity = (MessageListActivity) getActivity();
-                if (event.shouldRefreshFromServer()) {
+                if (event.hasMemberMute()) {
+                    activity.applySelfMemberMute(event.isMemberMuted());
+                } else if (event.shouldRefreshFromServer()) {
                     activity.refreshGroupMuteFromServer();
                 } else {
                     activity.applyGroupAllMute(event.isAllMuted());

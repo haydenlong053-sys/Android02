@@ -54,6 +54,11 @@ public interface IMessageProcessor {
     void notifyGroupMuteUpdated(@NonNull String groupId, int allMute);
 
     /**
+     * 0x0501 code=1003：指定成员禁言变更（推送给被操作成员），payload 携带 {@code mute}（0/1）。
+     */
+    void notifyGroupMemberMuteUpdated(@NonNull String groupId, int mute);
+
+    /**
      * 本地会话已删除；事件 {@link Events#SESSION_REMOVED}，payload 为 sessionId。
      */
     void notifySessionRemoved(@NonNull String sessionId);

@@ -29,12 +29,12 @@ import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
+import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.GroupUserVo;
-import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.listener.OnHttpImListener;
 import com.cboda.intelligent.R;
@@ -348,6 +348,28 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     /** 0x0501 code=1002：信令已携带全员禁言态，直接刷新底栏。 */
     public void applyGroupAllMute(boolean allMute) {
         groupAllMute = allMute;
+        if (messageListFragment != null) {
+            messageListFragment.onGroupMuteStateReady();
+        }
+    }
+
+    /** 0x0501 code=1003：信令已携带当前用户成员禁言态，直接刷新底栏。 */
+    public void applySelfMemberMute(boolean muted) {
+        if (sessionItem == null || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        if (TextUtils.isEmpty(userId)) {
+            refreshGroupMuteFromServer();
+            return;
+        }
+        Set<String> ids = new HashSet<>(mutedMemberIds);
+        if (muted) {
+            ids.add(userId);
+        } else {
+            ids.remove(userId);
+        }
+        mutedMemberIds = ids;
         if (messageListFragment != null) {
             messageListFragment.onGroupMuteStateReady();
         }
