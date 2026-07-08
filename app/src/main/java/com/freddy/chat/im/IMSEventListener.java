@@ -192,7 +192,7 @@ public class IMSEventListener implements OnEventListener {
         }
 
         // 0x0501 其他业务信令：OthBusiSig 按 code 分发
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.OTH_BUSI_VALUE && push.hasBody()) {
+        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
             OthBusiSigHandlers.get().dispatch(push.getBody().toByteArray());
         }
 
