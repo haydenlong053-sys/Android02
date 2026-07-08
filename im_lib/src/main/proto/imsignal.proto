@@ -53,9 +53,11 @@ enum Cmd {
     //表情多端同步
     FACE_MULTI_SYNC=0x0401;
 
-    //其他业务信令（群公告等，body 为 OthBusiSig）
-    OTH_BUSI=0x0501;
+    //其他业务信令(现网已用,补回以与既有生成代码保持一致)
+    OTHER_BUSI=0x0501;
 
+    //语音/视频通话专用信令(取代用 OTHER_BUSI/OthBusiSig 承载通话)
+    CALL_SIGNAL=0x0502;
 }
 
 //客户端类型定义
@@ -148,6 +150,7 @@ enum ConversationType {
     FILE_ASST = 4; //文件助手
     GROUP_ASST=5; //群助手
     MAIL_ASST=6; //邮件助手
+    GOTO_ASST=7; //(现网已用,补回以与既有生成代码保持一致)
 }
 
 //发送消息
@@ -271,9 +274,49 @@ message CountMsgReadSig{
 enum Platform{
     APP=0;
     OA=1;
+    QZD_PC=2;
+    QZD_IPAD=4;
     MERCHANT_WEB=5;
     OPERATOR_WEB=6;
     CRM=7;
     MERCHANT_APP=8;
+}
+
+//======================= 语音/视频通话 =======================
+
+//通话信令类型(承载于 CallSignal.type,用 int32 传输以兼容未知值)
+enum CallSignalType{
+    CALL_INVITE=0;          //发起 / 邀请入会(单人或多人)
+    CALL_RINGING=1;         //被叫已收到(振铃回执)
+    CALL_ACCEPT=2;          //接受接听
+    CALL_REJECT=3;          //拒绝
+    CALL_CANCEL=4;          //主叫在接通前取消
+    CALL_BUSY=5;            //忙线(已在其他通话中)
+    CALL_HANGUP=6;          //挂断 / 离开本通
+    CALL_MEMBER_JOINED=7;   //多人:有人加入,通知房内成员
+    CALL_MEMBER_LEFT=8;     //多人:有人离开,通知房内成员
+    CALL_END=9;             //整通结束(房间销毁)
+    //mesh P2P 协商(用 SFU 时可不发以下三类)
+    CALL_OFFER=20;
+    CALL_ANSWER=21;
+    CALL_ICE=22;
+}
+
+//通话专用信令(cmd=CALL_SIGNAL)。客户端发送与服务端推送复用同一结构。
+message CallSignal{
+    required string callId=1;        //一通通话唯一ID(多人时即房间ID)
+    required int32  type=2;          //取值见 CallSignalType
+    required string fromUserId=3;    //信令来源用户
+    optional string fromUsername=4;
+    optional string fromUserIcon=5;
+    optional string toUserId=6;      //点对点投递目标(offer/answer/ice/单人邀请)
+    repeated string toUserIds=7;     //多人邀请的目标集合
+    optional string groupId=8;       //群通话归属群(可选)
+    optional string mediaType=9;     //audio / video
+    optional string mode=10;         //mesh / sfu
+    optional string roomName=11;     //SFU 房间名(如 LiveKit room)
+    optional string payload=12;      //SDP / ICE / 其他载荷(JSON 或字符串)
+    repeated string members=13;      //当前房间成员快照(加入时下发的 roster)
+    optional int64  timestamp=14;    //发起时间戳(ms)
 }
 
