@@ -15,6 +15,8 @@ public class SessionItem implements Serializable {
     private long createTime;
     private String icon;
     private int memCount;
+    /** 群成员变更时间（来自群详情 {@code memChgTime}，毫秒） */
+    private long memChgTime;
     private int unreadCount;
     private int unPullCount;
     private int internalFlag;
@@ -183,6 +185,14 @@ public class SessionItem implements Serializable {
 
     public int getMemCount() {
         return memCount;
+    }
+
+    public long getMemChgTime() {
+        return memChgTime;
+    }
+
+    public void setMemChgTime(long memChgTime) {
+        this.memChgTime = memChgTime;
     }
 
     public int getUnreadCount() {

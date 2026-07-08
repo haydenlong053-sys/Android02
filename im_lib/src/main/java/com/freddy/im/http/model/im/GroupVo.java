@@ -12,6 +12,8 @@ public class GroupVo implements java.io.Serializable {
     private String creator;
     private String icon;
     private int memCount;
+    /** 群成员变更时间（毫秒）；用于与本地比对后决定是否全量同步成员 */
+    private long memChgTime;
     /** 接口字段名为 {@code owerId}（群主） */
     private String owerId;
     /** 全员禁言：0 未开启，1 开启（群详情接口返回） */
@@ -76,6 +78,14 @@ public class GroupVo implements java.io.Serializable {
 
     public void setMemCount(int memCount) {
         this.memCount = memCount;
+    }
+
+    public long getMemChgTime() {
+        return memChgTime;
+    }
+
+    public void setMemChgTime(long memChgTime) {
+        this.memChgTime = memChgTime;
     }
 
     public String getOwerId() {

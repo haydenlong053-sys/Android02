@@ -32,6 +32,9 @@ import com.cboda.intelligent.viewmodel.UploadFileViewBroadModel
 import com.cboda.select.picture.entity.LocalMedia
 import com.freddy.chat.MessageListActivity
 import com.freddy.chat.clear.SessionMessageClearHelper
+import com.freddy.chat.event.CEventCenter
+import com.freddy.chat.event.Events
+import com.freddy.chat.event.I_CEventListener
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.utils.AvatarViews
 import com.freddy.im.db.ImLocalStore
@@ -40,6 +43,7 @@ import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.BaseMsgResponse
 import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
+import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnHttpImListener
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -48,7 +52,11 @@ import java.io.File
 /**
  * 自研 IM 群详情（UI 对齐野火 {@link com.cboda.intelligent.activity.QunInfo2BroadActivity}）。
  */
-class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
+class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
+
+    companion object {
+        private val GROUP_CHANGE_EVENTS = arrayOf(Events.SESSION_LIST_UPDATED)
+    }
 
     private var qunId = ""
     private var currentUserId: String? = null
@@ -204,6 +212,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
 
         bindClicks()
         viewModel?.load(qunId, currentUserId)
+        CEventCenter.registerEventListener(this, GROUP_CHANGE_EVENTS)
     }
 
     private fun showComplaintMenu() {
@@ -318,8 +327,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
         val holder = ImagePickerBroadHolder(this)
         holder.callBack = object : ImagePickerBroadHolder.OnResultCallback {
             override fun onResult(result: ArrayList<LocalMedia>?) {
+                showLoading()
                 val path = result?.firstOrNull()?.realPath ?: return
-                mIvGroupAvatar.setImageURI(android.net.Uri.parse("file://$path"))
                 imgCompression(this@ImQunInfo2BroadActivity, File(path)) { _, compressFile ->
                     compressFile ?: return@imgCompression
                     if (uploadViewModel == null) {
@@ -334,11 +343,15 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
                         }
                         ImGroupHttpExample.requestModifyGroup(qunId, null, url, object : OnHttpImListener<GroupVo> {
                             override fun onHttpImSuccess(result: GroupVo) {
-                                runOnUiThread { viewModel?.load(qunId, currentUserId) }
+                                runOnUiThread {
+//                                    viewModel?.load(qunId, currentUserId)
+                                    dismissLoading()
+                                    ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                                }
                             }
                         }, {
                             runOnUiThread {
-                                ToastBroadUtils.show(getString(R.string.group_rename_failed))
+                                ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
                             }
                         })
                     }
@@ -473,6 +486,35 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity() {
             }, {
                 ToastBroadUtils.show(getString(R.string.group_transfer_failed))
             })
+    }
+
+    private fun applyGroupSessionUpdate(update: SessionItem) {
+        val name = update.sessionName?.takeIf { it.isNotEmpty() } ?: return
+        mTvGroupName.text = name
+        qunmingceng.text = name
+        groupVo?.setName(name)
+        update.icon?.takeIf { it.isNotEmpty() }?.let { icon ->
+            mIvGroupAvatar.loadImg(icon)
+            groupVo?.setIcon(icon)
+        }
+        if (update.memCount > 0) {
+            findViewById<TextView>(R.id.mTvGroupMemberCount).text =
+                getString(com.cboda.baselibrary.R.string.msg_group_members) + "(" + update.memCount + ")"
+            groupVo?.setMemCount(update.memCount)
+        }
+    }
+
+    override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
+        if (topic != Events.SESSION_LIST_UPDATED) return
+        @Suppress("UNCHECKED_CAST")
+        val updates = obj as? List<SessionItem> ?: return
+        val update = updates.firstOrNull { it.sessionId == qunId } ?: return
+        runOnUiThread { applyGroupSessionUpdate(update) }
+    }
+
+    override fun onDestroy() {
+        CEventCenter.unregisterEventListener(this, GROUP_CHANGE_EVENTS)
+        super.onDestroy()
     }
 
     override fun onResume() {

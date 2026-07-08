@@ -41,6 +41,7 @@ import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity;
+import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
 import com.freddy.chat.im.MessageProcessor;
@@ -66,7 +67,7 @@ import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.http.model.im.VideoBatchUploadResult;
 import com.freddy.im.listener.OnHttpImListener;
 import com.freddy.im.message.ImActiveChatSession;
-import com.freddy.im.message.ImGroupMemberChangeManager;
+import com.freddy.im.message.GroupMemberSyncHelper;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.group.GroupMuteEvaluator;
@@ -107,6 +108,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private static final String[] EVENTS = {
             Events.CHAT_MESSAGE,
             Events.CHAT_MESSAGE_UPDATE,
+            Events.SESSION_LIST_UPDATED,
             Events.GROUP_MEMBERS_UPDATED,
             Events.GROUP_NOTICE_UPDATED,
             Events.GROUP_MUTE_UPDATED,
@@ -210,9 +212,6 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             if (getActivity() instanceof GroupNoticeHost) {
                 ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
             }
-            if (getActivity() instanceof GroupMuteHost) {
-                ((GroupMuteHost) getActivity()).fetchGroupMuteFromServer();
-            }
         }
 
         adapter = new MessageListAdapter(
@@ -224,6 +223,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(sessionItem),
                 this::resendFailedMessage);
         adapter.setMessageActions(this);
+        adapter.setPortraitClickListener(userId ->
+                JumpBroadUtils.Companion.startHaoYouAddActivity(requireContext(), userId, "2"));
         if (isGroupChat) {
             adapter.setMentionMemberListener((userId, displayName) -> {
                 if (inputPanel != null) {
@@ -343,19 +344,32 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void loadGroupMembers() {
         ImLocalStore.loadGroupMembersMap(sessionId, map -> {
-            adapter.setGroupMembers(map);
-            String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
-            GroupMemberItem self = map.get(currentUserId);
-            if (self != null) {
-                myGroupRole = self.getRole();
-            }
-            if (isAdded()) {
-                onGroupMuteStateReady();
-            }
-            if (map.isEmpty()) {
-                ImGroupMemberChangeManager.getInstance().fetchAllMembersPaginated(sessionId);
-            }
+            applyLocalGroupMembers(map);
+            GroupMemberSyncHelper.syncOnEnterGroupChat(
+                    sessionId,
+                    group -> {
+                        if (getActivity() instanceof GroupMuteHost) {
+                            ((GroupMuteHost) getActivity()).applyGroupDetailForMute(group);
+                        }
+                    },
+                    this::reloadGroupMembersFromLocal);
         });
+    }
+
+    private void reloadGroupMembersFromLocal() {
+        ImLocalStore.loadGroupMembersMap(sessionId, this::applyLocalGroupMembers);
+    }
+
+    private void applyLocalGroupMembers(@NonNull java.util.Map<String, GroupMemberItem> map) {
+        adapter.setGroupMembers(map);
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        GroupMemberItem self = map.get(currentUserId);
+        if (self != null) {
+            myGroupRole = self.getRole();
+        }
+        if (isAdded()) {
+            onGroupMuteStateReady();
+        }
     }
 
     private void setupGroupNoticeInteraction() {
@@ -1033,6 +1047,21 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         super.onDestroyView();
     }
 
+    private void mergeSessionItemFromUpdate(@NonNull SessionItem update) {
+        if (sessionItem == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(update.getSessionName())) {
+            sessionItem.setSessionName(update.getSessionName());
+        }
+        if (update.getMemCount() > 0) {
+            sessionItem.setMemCount(update.getMemCount());
+        }
+        if (!TextUtils.isEmpty(update.getIcon())) {
+            sessionItem.setIcon(update.getIcon());
+        }
+    }
+
     private void closeHost() {
         if (!isAdded()) {
             return;
@@ -1308,10 +1337,29 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
             return;
         }
+        if (Events.SESSION_LIST_UPDATED.equals(topic) && obj instanceof List) {
+            @SuppressWarnings("unchecked")
+            List<SessionItem> updates = (List<SessionItem>) obj;
+            for (SessionItem update : updates) {
+                if (update == null || TextUtils.isEmpty(update.getSessionId())) {
+                    continue;
+                }
+                if (!sessionId.equals(update.getSessionId())) {
+                    continue;
+                }
+                mergeSessionItemFromUpdate(update);
+                if (getActivity() instanceof MessageListActivity) {
+                    CThreadPoolExecutor.runOnMainThread(() ->
+                            ((MessageListActivity) getActivity()).applySessionItemUpdated(update));
+                }
+                break;
+            }
+            return;
+        }
         if (Events.GROUP_MEMBERS_UPDATED.equals(topic) && obj instanceof String) {
             String groupId = (String) obj;
             if (isGroupChat && sessionId.equals(groupId)) {
-                loadGroupMembers();
+                reloadGroupMembersFromLocal();
             }
             return;
         }
@@ -1320,7 +1368,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             if (isGroupChat && sessionId.equals(event.getGroupId())
                     && getActivity() instanceof MessageListActivity) {
                 MessageListActivity activity = (MessageListActivity) getActivity();
-                if (event.shouldRefreshFromServer()) {
+                if (event.hasMemberMute()) {
+                    activity.applySelfMemberMute(event.isMemberMuted());
+                } else if (event.shouldRefreshFromServer()) {
                     activity.refreshGroupMuteFromServer();
                 } else {
                     activity.applyGroupAllMute(event.isAllMuted());

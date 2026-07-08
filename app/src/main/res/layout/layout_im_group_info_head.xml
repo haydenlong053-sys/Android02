@@ -10,6 +10,7 @@
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:src="@mipmap/ic_head_broad_defaut"
+        android:scaleType="centerCrop"
         app:app_round_border_color="@color/white"
         app:app_round_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -43,10 +43,17 @@ public final class MessageViewHolderContext {
     public final MessageListActions messageActions;
     @Nullable
     public final OnMentionMemberListener mentionMemberListener;
+    @Nullable
+    public final OnPortraitClickListener portraitClickListener;
     public final int listMode;
 
     public interface OnMentionMemberListener {
         void onMentionMember(@NonNull String userId, @NonNull String displayName);
+    }
+
+    /** 消息头像点击（对齐野火 {@code OnPortraitClickListener}）。 */
+    public interface OnPortraitClickListener {
+        void onPortraitClick(@NonNull String userId);
     }
 
     public MessageViewHolderContext(boolean isGroupChat,
@@ -63,6 +70,7 @@ public final class MessageViewHolderContext {
                                     @Nullable OnMessageRetryListener retryListener,
                                     @Nullable MessageListActions messageActions,
                                     @Nullable OnMentionMemberListener mentionMemberListener,
+                                    @Nullable OnPortraitClickListener portraitClickListener,
                                     int listMode) {
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
@@ -78,6 +86,7 @@ public final class MessageViewHolderContext {
         this.retryListener = retryListener;
         this.messageActions = messageActions;
         this.mentionMemberListener = mentionMemberListener;
+        this.portraitClickListener = portraitClickListener;
         this.listMode = listMode;
     }
 

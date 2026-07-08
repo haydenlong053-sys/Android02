@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.cboda.intelligent.R;
@@ -118,6 +119,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             applyHostBubbleBackground(true);
             bindSendStatus(message);
             bindReadReceipt(message, context, true);
+            bindAvatarClick(context, senderId);
             return;
         }
 
@@ -140,6 +142,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
                 : context.peerAvatarUrl;
         MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, senderId, context.isGroupChat);
         bindAvatarMentionLongClick(context, sentByMe, member, senderId);
+        bindAvatarClick(context, senderId);
         alignMessageColumn(Gravity.START);
         alignTimeTextView(Gravity.START);
         bubbleRow.setGravity(Gravity.BOTTOM | Gravity.START);
@@ -165,6 +168,26 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             }
             return false;
         });
+    }
+
+    private void bindAvatarClick(@NonNull MessageViewHolderContext context,
+                                 @Nullable String senderId) {
+        if (context.isCheckableMode()) {
+            avatarLeft.setOnClickListener(null);
+            avatarRight.setOnClickListener(null);
+            return;
+        }
+        String keFuId = MMKVBroadUtils.Companion.getKeFuId();
+        if (context.portraitClickListener == null
+                || TextUtils.isEmpty(senderId)
+                || (!TextUtils.isEmpty(keFuId) && TextUtils.equals(senderId, keFuId))) {
+            avatarLeft.setOnClickListener(null);
+            avatarRight.setOnClickListener(null);
+            return;
+        }
+        View.OnClickListener listener = v -> context.portraitClickListener.onPortraitClick(senderId);
+        avatarLeft.setOnClickListener(listener);
+        avatarRight.setOnClickListener(listener);
     }
 
     private void bindMessageTime(@NonNull AppMessage message, boolean sentByMe) {

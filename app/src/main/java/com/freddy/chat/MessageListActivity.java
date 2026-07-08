@@ -29,6 +29,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
+import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupVo;
@@ -48,8 +49,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -163,15 +162,37 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     }
 
     private void initData() {
-        if (sessionItem != null) {
-            if (sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
-                String sessionName = sessionItem.getSessionName() + "(" + (sessionItem.getMemCount()) + getString(com.cboda.chatui.R.string.msg_person_unit) + ")";
-                pageTitle.setText(sessionName);
-            } else {
-                pageTitle.setText(sessionItem.getSessionName());
-            }
-        }
+        refreshPageTitle();
+    }
 
+    /** 0x0101 群变更信令入库后刷新标题（{Events#SESSION_LIST_UPDATED}）。 */
+    public void applySessionItemUpdated(@NonNull SessionItem update) {
+        if (sessionItem == null || !update.getSessionId().equals(sessionItem.getSessionId())) {
+            return;
+        }
+        if (!TextUtils.isEmpty(update.getSessionName())) {
+            sessionItem.setSessionName(update.getSessionName());
+        }
+        if (update.getMemCount() > 0) {
+            sessionItem.setMemCount(update.getMemCount());
+        }
+        if (!TextUtils.isEmpty(update.getIcon())) {
+            sessionItem.setIcon(update.getIcon());
+        }
+        refreshPageTitle();
+    }
+
+    private void refreshPageTitle() {
+        if (sessionItem == null || pageTitle == null) {
+            return;
+        }
+        if (sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE) {
+            String sessionName = sessionItem.getSessionName() + "(" + (sessionItem.getMemCount())
+                    + getString(com.cboda.chatui.R.string.msg_person_unit) + ")";
+            pageTitle.setText(sessionName);
+        } else {
+            pageTitle.setText(sessionItem.getSessionName());
+        }
     }
 
     @Override
@@ -257,39 +278,47 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         }
         groupMuteFetched = true;
         final String groupId = sessionItem.getSessionId();
-        final AtomicInteger pending = new AtomicInteger(2);
-        final Set<String> mutedHolder = new HashSet<>();
-
-        Runnable tryApply = () -> {
-            if (pending.decrementAndGet() > 0) {
-                return;
-            }
-            runOnUiThread(() -> {
-                if (sessionItem == null || !groupId.equals(sessionItem.getSessionId())) {
-                    return;
-                }
-                mutedMemberIds = mutedHolder;
-                if (messageListFragment != null) {
-                    messageListFragment.onGroupMuteStateReady();
-                }
-            });
-        };
-
         ImGroupHttpExample.requestGetGroupDetail(groupId, new OnHttpImListener<GroupVo>() {
             @Override
             public void onHttpImSuccess(@NonNull GroupVo result) {
-                groupAllMute = result.isAllMute();
-                tryApply.run();
+                applyGroupDetailForMute(result);
             }
-        }, tryApply);
+        }, () -> fetchMutedMembersOnly(groupId));
+    }
 
+    @Override
+    public void applyGroupDetailForMute(@NonNull GroupVo group) {
+        if (sessionItem == null || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        if (!sessionItem.getSessionId().equals(group.getId())) {
+            return;
+        }
+        groupMuteFetched = true;
+        groupAllMute = group.isAllMute();
+        fetchMutedMembersOnly(sessionItem.getSessionId());
+    }
+
+    private void fetchMutedMembersOnly(@NonNull String groupId) {
         ImGroupHttpExample.requestMutedMembers(groupId, new OnHttpImListener<List<GroupUserVo>>() {
             @Override
             public void onHttpImSuccess(@NonNull List<GroupUserVo> result) {
-                mutedHolder.addAll(GroupMuteEvaluator.copyMutedIdsFromMembers(result));
-                tryApply.run();
+                runOnUiThread(() -> {
+                    if (sessionItem == null || !groupId.equals(sessionItem.getSessionId())) {
+                        return;
+                    }
+                    mutedMemberIds = GroupMuteEvaluator.copyMutedIdsFromMembers(result);
+                    if (messageListFragment != null) {
+                        messageListFragment.onGroupMuteStateReady();
+                    }
+                });
             }
-        }, tryApply);
+        }, () -> runOnUiThread(() -> {
+            if (sessionItem != null && groupId.equals(sessionItem.getSessionId())
+                    && messageListFragment != null) {
+                messageListFragment.onGroupMuteStateReady();
+            }
+        }));
     }
 
     @Override
@@ -319,6 +348,28 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     /** 0x0501 code=1002：信令已携带全员禁言态，直接刷新底栏。 */
     public void applyGroupAllMute(boolean allMute) {
         groupAllMute = allMute;
+        if (messageListFragment != null) {
+            messageListFragment.onGroupMuteStateReady();
+        }
+    }
+
+    /** 0x0501 code=1003：信令已携带当前用户成员禁言态，直接刷新底栏。 */
+    public void applySelfMemberMute(boolean muted) {
+        if (sessionItem == null || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        if (TextUtils.isEmpty(userId)) {
+            refreshGroupMuteFromServer();
+            return;
+        }
+        Set<String> ids = new HashSet<>(mutedMemberIds);
+        if (muted) {
+            ids.add(userId);
+        } else {
+            ids.remove(userId);
+        }
+        mutedMemberIds = ids;
         if (messageListFragment != null) {
             messageListFragment.onGroupMuteStateReady();
         }
@@ -364,7 +415,6 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                 if (isFirst) {
                     isFirst = false;
                     fetchGroupNoticeFromServer();
-                    fetchGroupMuteFromServer();
                 }
             } else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.PAIR_VALUE) {
                 getUserData();

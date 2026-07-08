@@ -16,6 +16,8 @@ public class SessionEntity extends RealmObject {
     private long createTime;
     private String icon;
     private int memCount;
+    /** 群成员变更时间（毫秒，来自群详情 memChgTime） */
+    private long memChgTime;
     private int unreadCount;
     /** 服务端尚未拉取到本地的消息条数（来自会话列表接口） */
     private int unPullCount;
@@ -101,6 +103,14 @@ public class SessionEntity extends RealmObject {
 
     public void setMemCount(int memCount) {
         this.memCount = memCount;
+    }
+
+    public long getMemChgTime() {
+        return memChgTime;
+    }
+
+    public void setMemChgTime(long memChgTime) {
+        this.memChgTime = memChgTime;
     }
 
     public int getUnreadCount() {

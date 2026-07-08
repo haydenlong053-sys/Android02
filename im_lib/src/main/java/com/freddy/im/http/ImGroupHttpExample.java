@@ -24,6 +24,7 @@ import com.freddy.im.http.api.LeaveGroupApi;
 import com.freddy.im.http.api.ModifyGroupApi;
 import com.freddy.im.http.api.MutedMembersApi;
 import com.freddy.im.http.api.SearchGroupAsstApi;
+import com.freddy.im.http.api.SearchMembersApi;
 import com.freddy.im.http.api.SetAllMuteApi;
 import com.freddy.im.http.api.SetMembersMuteApi;
 import com.freddy.im.http.api.TransferGroupApi;
@@ -189,7 +190,7 @@ public final class ImGroupHttpExample {
         if (!TextUtils.isEmpty(icon)) {
             api.setIcon(icon);
         }
-        EasyHttp.post(ApplicationLifecycle.getInstance())
+        EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
                 .api(api)
                 .request(postListener("modifyGroup", callback, onFail, true, GroupVo.class));
     }
@@ -371,6 +372,24 @@ public final class ImGroupHttpExample {
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new MutedMembersApi().setGroupId(groupId))
                 .request(postListener("mutedMembers", callback, onFail, false, listOf(GroupUserVo.class)));
+    }
+
+    /**
+     * POST {@code api/im/group/searchMembers}：ES 模糊搜索群成员（文档 3.22）。
+     */
+    public static void requestSearchMembers(@NonNull String groupId,
+                                            @NonNull String keyword,
+                                            @NonNull OnHttpImListener<List<GroupUserVo>> callback,
+                                            @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId) || TextUtils.isEmpty(keyword)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new SearchMembersApi().setGroupId(groupId).setKeyword(keyword.trim()))
+                .request(postListener("searchMembers", callback, onFail, false, listOf(GroupUserVo.class)));
     }
 
     public static void requestUpdateGroupNotice(@NonNull String groupId,

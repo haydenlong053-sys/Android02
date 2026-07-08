@@ -28,6 +28,7 @@ public final class SessionRealmMapper {
         entity.setCreateTime(item.getCreateTime());
         entity.setIcon(item.getIcon());
         entity.setMemCount(item.getMemCount());
+        entity.setMemChgTime(item.getMemChgTime());
         entity.setUnreadCount(item.getUnreadCount());
         entity.setUnPullCount(item.getUnPullCount());
         entity.setInternalFlag(item.getInternalFlag());
@@ -92,6 +93,7 @@ public final class SessionRealmMapper {
         item.setCreateTime(entity.getCreateTime());
         item.setIcon(entity.getIcon());
         item.setMemCount(entity.getMemCount());
+        item.setMemChgTime(entity.getMemChgTime());
         item.setUnreadCount(entity.getUnreadCount());
         item.setUnPullCount(entity.getUnPullCount());
         item.setInternalFlag(entity.getInternalFlag());

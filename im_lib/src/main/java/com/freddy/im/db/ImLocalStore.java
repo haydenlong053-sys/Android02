@@ -342,6 +342,23 @@ public final class ImLocalStore {
         ImSessionRepository.getInstance().updateTopMuteThen(sessionId, top, muteNotify, null);
     }
 
+    /** 更新群会话已同步的 {@code memChgTime}（全量成员拉取成功后写入）。 */
+    public static void updateGroupMemChgTime(@NonNull String groupId,
+                                             long memChgTime,
+                                             @Nullable Runnable afterCommit) {
+        ImSessionRepository.getInstance().updateMemChgTimeThen(groupId, memChgTime, afterCommit);
+    }
+
+    /** 后台读取群会话本地 {@code memChgTime}，主线程回调。 */
+    public static void loadGroupMemChgTime(@NonNull String groupId,
+                                           @NonNull OnLoadCallback<Long> callback) {
+        ImDbExecutor.runRead(() -> {
+            SessionItem session = ImSessionRepository.getInstance().queryBySessionId(groupId);
+            long value = session != null ? session.getMemChgTime() : 0L;
+            MAIN_HANDLER.post(() -> callback.onLoaded(value));
+        });
+    }
+
     @NonNull
     public static List<SessionItem> loadSessions() {
         return ImSessionRepository.getInstance().queryAllAsDto();

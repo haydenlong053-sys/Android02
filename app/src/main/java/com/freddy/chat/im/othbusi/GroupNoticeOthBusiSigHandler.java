@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.freddy.chat.im.MessageProcessor;
 import com.freddy.im.signal.OthBusiSigCodes;
 import com.freddy.im.signal.othbusi.OthBusiSigHandler;
@@ -27,7 +28,7 @@ public final class GroupNoticeOthBusiSigHandler implements OthBusiSigHandler {
         if (TextUtils.isEmpty(groupId)) {
             return false;
         }
-        Log.d(TAG, "groupId=" + groupId);
+        ELogUtilKt.eLogD(TAG, "groupId=" + groupId);
         MessageProcessor.getInstance().notifyGroupNoticeUpdated(groupId);
         return true;
     }

@@ -74,6 +74,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private MessageListActions messageActions;
     @Nullable
     private MessageViewHolderContext.OnMentionMemberListener mentionMemberListener;
+    @Nullable
+    private MessageViewHolderContext.OnPortraitClickListener portraitClickListener;
 
     private final Map<String, GroupMemberItem> membersByUserId = new HashMap<>();
     private final Set<String> checkedClientMsgIds = new HashSet<>();
@@ -109,6 +111,11 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     public void setMentionMemberListener(
             @Nullable MessageViewHolderContext.OnMentionMemberListener mentionMemberListener) {
         this.mentionMemberListener = mentionMemberListener;
+    }
+
+    public void setPortraitClickListener(
+            @Nullable MessageViewHolderContext.OnPortraitClickListener portraitClickListener) {
+        this.portraitClickListener = portraitClickListener;
     }
 
     public int getMode() {
@@ -542,6 +549,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 retryListener,
                 messageActions,
                 mentionMemberListener,
+                portraitClickListener,
                 listMode);
         if (holder instanceof SystemMessageVH) {
             ((SystemMessageVH) holder).bind(m, context);
