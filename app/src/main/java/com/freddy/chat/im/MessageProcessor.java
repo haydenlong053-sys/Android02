@@ -54,9 +54,9 @@ public class MessageProcessor implements IMessageProcessor {
 
                     @Override
                     public void onSendBizError(int errorCode, @Nullable String errorMsg) {
-                        if (!com.freddy.im.http.ImGroupBizErrorCodes.isMuteSendError(errorCode)) {
-                            return;
-                        }
+//                        if (!com.freddy.im.http.ImGroupBizErrorCodes.isMuteSendError(errorCode)) {
+//                            return;
+//                        }
                         CThreadPoolExecutor.runOnMainThread(() -> {
                             String text = !TextUtils.isEmpty(errorMsg) ? errorMsg : "发送失败";
                             com.cboda.baselibrary.toast.ToastBroadUtils.show(text);
