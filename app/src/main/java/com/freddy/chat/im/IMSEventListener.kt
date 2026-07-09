@@ -105,7 +105,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         }
 
         // 群变更：0x0101 GroupChangeSig.groupList → 拉群详情 → 入库 → 通知 UI
-        if (push.header.cmd == ImSignalProtos.Cmd.GROUP_CHANGE_VALUE && push.hasBody()) {
+        else if (push.header.cmd == ImSignalProtos.Cmd.GROUP_CHANGE_VALUE && push.hasBody()) {
             try {
                 val sig = GroupChangeSig.parseFrom(
                     push.body.toByteArray()
@@ -120,7 +120,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
 
 
         // 群成员变更：0x0102 MemberChangeSig → 拉成员 / 软删除 → 入库 → 通知消息列表 UI
-        if (push.header.cmd == ImSignalProtos.Cmd.GROUP_MEMBER_CHANGE_VALUE && push.hasBody()) {
+        else if (push.header.cmd == ImSignalProtos.Cmd.GROUP_MEMBER_CHANGE_VALUE && push.hasBody()) {
             try {
                 val sig = MemberChangeSig.parseFrom(
                     push.body.toByteArray()
@@ -145,7 +145,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
 
 
         // 单聊 0x0207：对方已读，messageId 序列及之前己方消息展示已读
-        if (push.header.cmd == ImSignalProtos.Cmd.MSG_READ_VALUE && push.hasBody()) {
+        else if (push.header.cmd == ImSignalProtos.Cmd.MSG_READ_VALUE && push.hasBody()) {
             try {
                 val sig = MessageReadSig.parseFrom(
                     push.body.toByteArray()
@@ -159,7 +159,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         }
 
         // 消息撤回：0x0202 MessageRepealSig
-        if (push.header.cmd == ImSignalProtos.Cmd.MSG_REPEAL_VALUE && push.hasBody()) {
+        else if (push.header.cmd == ImSignalProtos.Cmd.MSG_REPEAL_VALUE && push.hasBody()) {
             try {
                 val sig = MessageRepealSig.parseFrom(
                     push.body.toByteArray()
@@ -185,7 +185,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
 
 
         // 群聊 0x0210：已读人数变动
-        if (push.header.cmd == ImSignalProtos.Cmd.COUNT_MSG_READ_VALUE && push.hasBody()) {
+        else if (push.header.cmd == ImSignalProtos.Cmd.COUNT_MSG_READ_VALUE && push.hasBody()) {
             try {
                 val sig = CountMsgReadSig.parseFrom(
                     push.body.toByteArray()
@@ -202,10 +202,19 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 eLogD(tAG, "解析 CountMsgReadSig 失败", e)
             }
         }
-
+        //语音通话
+        else if (push.header.cmd == ImSignalProtos.Cmd.CALL_SIGNAL_VALUE && push.hasBody()) {
+            val sign = ImSignalProtos.CallSignal.parseFrom(push.body.toByteArray())
+            eLogD(
+                tAG, ("callData_groupId:" + sign.groupId
+                        + " ,type=" + sign.type
+                        + " ,roomName=" + sign.roomName
+                        + " ,callId=" + sign.callId)
+            )
+        }
 
         // 0x0501 其他业务信令：OthBusiSig 按 code 分发
-        if (push.header.cmd == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
+        else if (push.header.cmd == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
             OthBusiSigHandlers.get().dispatch(push.body.toByteArray())
         }
     }
