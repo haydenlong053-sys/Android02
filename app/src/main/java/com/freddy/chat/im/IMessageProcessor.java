@@ -39,6 +39,11 @@ public interface IMessageProcessor {
     void notifyGroupMembersUpdated(@NonNull String groupId);
 
     /**
+     * 群成员角色变更（0x0501 code=1004）；事件 {@link Events#GROUP_MEMBERS_ROLE_UPDATE}，payload 为 groupId。
+     */
+    void notifyGroupMemberRolesUpdated(@NonNull String groupId);
+
+    /**
      * 群公告变更信令（0x0501 code=1001）；事件 {@link Events#GROUP_NOTICE_UPDATED}，payload 为 groupId。
      */
     void notifyGroupNoticeUpdated(@NonNull String groupId);

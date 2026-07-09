@@ -12,6 +12,8 @@ public class Events {
     public static final String SESSION_LIST_UPDATED = "session_list_updated";
     /** 群成员变更入库；payload 为 {@code groupId}（String） */
     public static final String GROUP_MEMBERS_UPDATED = "group_members_updated";
+    /** 群成员角色变更（0x0501 code=1004 设/撤管理员）；payload 为 {@code groupId}（String） */
+    public static final String GROUP_MEMBERS_ROLE_UPDATE = "group_members_role_update";
     /** 本地会话已删除；payload 为 {@code sessionId}（String） */
     public static final String SESSION_REMOVED = "session_removed";
     /** 消息已读状态变更；payload 为 {@link MessageReadStateEvent} */

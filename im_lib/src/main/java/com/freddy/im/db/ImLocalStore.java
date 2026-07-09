@@ -471,6 +471,14 @@ public final class ImLocalStore {
         });
     }
 
+    /** 信令 0x0501 code=1004：批量更新成员角色；完成后由调用方分发角色变更事件。 */
+    public static void updateGroupMemberRolesThen(@NonNull String groupId,
+                                                  @Nullable List<String> userIds,
+                                                  int role,
+                                                  @Nullable Runnable afterCommit) {
+        ImGroupMemberRepository.getInstance().updateRolesThen(groupId, userIds, role, afterCommit);
+    }
+
     @Nullable
     public static GroupMemberItem queryGroupMember(@NonNull String groupId, @NonNull String userId) {
         return ImGroupMemberRepository.getInstance().queryActiveMember(groupId, userId);

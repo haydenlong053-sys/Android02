@@ -11,6 +11,7 @@ import com.freddy.im.http.api.ApproveInGroupApi;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.DisbandGroupApi;
 import com.freddy.im.http.api.GetAllGroupMembersApi;
+import com.freddy.im.http.api.GetGroupManagersApi;
 import com.freddy.im.http.api.GetGroupDetailApi;
 import com.freddy.im.http.api.GetGroupListApi;
 import com.freddy.im.http.api.GetGroupMemberListApi;
@@ -26,6 +27,7 @@ import com.freddy.im.http.api.MutedMembersApi;
 import com.freddy.im.http.api.SearchGroupAsstApi;
 import com.freddy.im.http.api.SearchMembersApi;
 import com.freddy.im.http.api.SetAllMuteApi;
+import com.freddy.im.http.api.SetGroupManagerApi;
 import com.freddy.im.http.api.SetMembersMuteApi;
 import com.freddy.im.http.api.TransferGroupApi;
 import com.freddy.im.http.api.UpdateGroupNoticeApi;
@@ -372,6 +374,40 @@ public final class ImGroupHttpExample {
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new MutedMembersApi().setGroupId(groupId))
                 .request(postListener("mutedMembers", callback, onFail, false, listOf(GroupUserVo.class)));
+    }
+
+    public static void requestGetGroupManagers(@NonNull String groupId,
+                                               @NonNull String userId,
+                                               @NonNull OnHttpImListener<List<GroupUserVo>> callback,
+                                               @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId) || TextUtils.isEmpty(userId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new GetGroupManagersApi().setGroupId(groupId).setUserId(userId))
+                .request(postListener("managers", callback, onFail, false, listOf(GroupUserVo.class)));
+    }
+
+    public static void requestSetGroupManager(@NonNull String groupId,
+                                              @NonNull List<String> userIdList,
+                                              boolean manager,
+                                              @NonNull OnHttpImListener<String> callback,
+                                              @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId) || userIdList.isEmpty()) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new SetGroupManagerApi()
+                        .setGroupId(groupId)
+                        .setUserIdList(userIdList)
+                        .setManager(manager))
+                .request(postListener("setManager", callback, onFail, false, String.class));
     }
 
     /**

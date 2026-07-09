@@ -103,6 +103,41 @@ public final class ImGroupMemberRepository {
         });
     }
 
+    public void updateRolesThen(@NonNull String groupId,
+                                @Nullable List<String> userIds,
+                                int role,
+                                @Nullable Runnable afterCommit) {
+        List<String> ids = dedupeUserIds(userIds);
+        if (ids.isEmpty() || !ImRealm.isUserBound()) {
+            if (afterCommit != null) {
+                afterCommit.run();
+            }
+            return;
+        }
+        final String gid = groupId;
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            try {
+                realm.executeTransaction(r -> {
+                    for (String userId : ids) {
+                        GroupMemberEntity entity = r.where(GroupMemberEntity.class)
+                                .equalTo("memberKey", GroupMemberRealmMapper.memberKey(gid, userId))
+                                .equalTo("deleted", false)
+                                .findFirst();
+                        if (entity != null) {
+                            entity.setRole(role);
+                        }
+                    }
+                });
+                if (afterCommit != null) {
+                    afterCommit.run();
+                }
+            } finally {
+                realm.close();
+            }
+        });
+    }
+
     @Nullable
     public GroupMemberItem queryActiveMember(@NonNull String groupId, @NonNull String userId) {
         if (!ImRealm.isUserBound()) {

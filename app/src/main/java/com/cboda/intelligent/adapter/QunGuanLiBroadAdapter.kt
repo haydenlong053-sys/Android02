@@ -19,6 +19,12 @@ class QunGuanLiBroadAdapter(layoutResId: Int, private val type: String = "") :
 
         holder.setText(R.id.tvname, item.name?:"")
 
+        if (item.isZy == "1") {
+            holder.setGone(R.id.rightLayout, true)
+        } else {
+            holder.setVisible(R.id.rightLayout, true)
+        }
+
         if (type == "jiechujinyan") {
             holder.setText(R.id.tvNotAgree, context.getString(R.string.jiechujianyan))
         }

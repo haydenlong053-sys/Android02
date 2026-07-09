@@ -57,6 +57,7 @@ import com.cboda.intelligent.activity.im.ImQunGongGaoInfoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity
 import com.cboda.intelligent.activity.im.ImQunJinYanBroadActivity
 import com.cboda.intelligent.activity.im.ImQunJinYanMemberBroadActivity
+import com.cboda.intelligent.activity.im.ImQunManagerBroadActivity
 import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity
 import com.cboda.intelligent.activity.im.ImQunNameBroadActivity
 import com.cboda.intelligent.activity.im.ImQunUserList2BroadActivity
@@ -330,6 +331,12 @@ class JumpBroadUtils {
             intent.putExtra("qunid", qunId)
             intent.putExtra("fromPage", fromPage)
             intent.putExtra("userType", userType)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunManagerActivity(context: Context?, qunId: String) {
+            val intent = Intent(context, ImQunManagerBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }
 

@@ -55,6 +55,38 @@ object ImGroupMemberUiMapper {
         return members.sortedBy { it.name?.lowercase() ?: it.userId.orEmpty() }
     }
 
+    /**
+     * 设置管理员选人：仅普通成员可选（群主/已有管理员不可选）。
+     */
+    fun applySelectManagerRules(
+        members: List<CommonDataListBroadBean.CommonBean>
+    ): List<CommonDataListBroadBean.CommonBean> {
+        members.forEach { bean ->
+            bean.isZy = when (bean.type) {
+                "1", "2" -> "1"
+                else -> null
+            }
+        }
+        return members.sortedBy { it.name?.lowercase() ?: it.userId.orEmpty() }
+    }
+
+    /**
+     * 转让群主选人：当前群主与群主角色不可选，其余成员可选（对齐野火 ZhuanRangQunBroadActivity）。
+     */
+    fun applySelectNewOwnerRules(
+        members: List<CommonDataListBroadBean.CommonBean>,
+        currentUserId: String?
+    ): List<CommonDataListBroadBean.CommonBean> {
+        members.forEach { bean ->
+            bean.isZy = when {
+                !currentUserId.isNullOrEmpty() && bean.userId == currentUserId -> "1"
+                bean.type == "1" -> "1"
+                else -> null
+            }
+        }
+        return members.sortedBy { it.name?.lowercase() ?: it.userId.orEmpty() }
+    }
+
     fun toCommonBeans(members: List<GroupUserVo>?): List<CommonDataListBroadBean.CommonBean> {
         if (members.isNullOrEmpty()) return emptyList()
         return members.mapNotNull { m ->

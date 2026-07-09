@@ -110,6 +110,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Events.CHAT_MESSAGE_UPDATE,
             Events.SESSION_LIST_UPDATED,
             Events.GROUP_MEMBERS_UPDATED,
+            Events.GROUP_MEMBERS_ROLE_UPDATE,
             Events.GROUP_NOTICE_UPDATED,
             Events.GROUP_MUTE_UPDATED,
             Events.SESSION_REMOVED,
@@ -1356,7 +1357,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
             return;
         }
-        if (Events.GROUP_MEMBERS_UPDATED.equals(topic) && obj instanceof String) {
+        if ((Events.GROUP_MEMBERS_UPDATED.equals(topic)
+                || Events.GROUP_MEMBERS_ROLE_UPDATE.equals(topic)) && obj instanceof String) {
             String groupId = (String) obj;
             if (isGroupChat && sessionId.equals(groupId)) {
                 reloadGroupMembersFromLocal();
