@@ -55,7 +55,10 @@ import java.io.File
 class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     companion object {
-        private val GROUP_CHANGE_EVENTS = arrayOf(Events.SESSION_LIST_UPDATED)
+        private val GROUP_CHANGE_EVENTS = arrayOf(
+            Events.SESSION_LIST_UPDATED,
+            Events.GROUP_MEMBERS_ROLE_UPDATE,
+        )
     }
 
     private var qunId = ""
@@ -512,6 +515,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
+        if (topic == Events.GROUP_MEMBERS_ROLE_UPDATE && obj is String && obj == qunId) {
+            runOnUiThread { viewModel?.refreshMembersFromLocal(qunId, currentUserId) }
+            return
+        }
         if (topic != Events.SESSION_LIST_UPDATED) return
         @Suppress("UNCHECKED_CAST")
         val updates = obj as? List<SessionItem> ?: return

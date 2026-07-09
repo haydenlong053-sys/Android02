@@ -21,6 +21,7 @@ public final class OthBusiSigHandlers {
         dispatcher.register(new GroupNoticeOthBusiSigHandler());
         dispatcher.register(new GroupAllMuteOthBusiSigHandler());
         dispatcher.register(new GroupMemberMuteOthBusiSigHandler());
+        dispatcher.register(new GroupManagerRoleOthBusiSigHandler());
         return dispatcher;
     }
 }

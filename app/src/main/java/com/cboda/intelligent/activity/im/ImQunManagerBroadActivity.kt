@@ -2,7 +2,6 @@ package com.cboda.intelligent.activity.im
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
@@ -11,6 +10,9 @@ import com.cboda.intelligent.adapter.QunGuanLiBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
+import com.freddy.chat.event.CEventCenter
+import com.freddy.chat.event.Events
+import com.freddy.chat.event.I_CEventListener
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupUserVo
@@ -19,7 +21,11 @@ import com.freddy.im.listener.OnHttpImListener
 /**
  * 自研群管理员（对齐野火 {@link com.cboda.intelligent.activity.QunManagerBroadActivity}）。
  */
-class ImQunManagerBroadActivity : BaseSimple2BroadActivity() {
+class ImQunManagerBroadActivity : BaseSimple2BroadActivity(), I_CEventListener {
+
+    companion object {
+        private val EVENTS = arrayOf(Events.GROUP_MEMBERS_ROLE_UPDATE)
+    }
 
     private var qunId = ""
     private var mAdapter: QunGuanLiBroadAdapter? = null
@@ -51,6 +57,18 @@ class ImQunManagerBroadActivity : BaseSimple2BroadActivity() {
 
         tvPhoneLogin.setOnClickListener {
             JumpBroadUtils.startImQunMemberListActivity(this, qunId, "selectManager", "1")
+        }
+        CEventCenter.registerEventListener(this, EVENTS)
+    }
+
+    override fun onDestroy() {
+        CEventCenter.unregisterEventListener(this, EVENTS)
+        super.onDestroy()
+    }
+
+    override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
+        if (topic == Events.GROUP_MEMBERS_ROLE_UPDATE && obj is String && obj == qunId) {
+            runOnUiThread { loadManagers() }
         }
     }
 

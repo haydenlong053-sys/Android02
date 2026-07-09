@@ -5,8 +5,13 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * OthBusiSig.data 常用 JSON 字段读取。
@@ -53,6 +58,36 @@ public final class OthBusiSigJson {
             return obj.get(field).getAsInt();
         } catch (Exception ignored) {
             return defaultValue;
+        }
+    }
+
+    @NonNull
+    public static List<String> readStringList(@Nullable String data, @NonNull String field) {
+        if (TextUtils.isEmpty(data) || TextUtils.isEmpty(field)) {
+            return Collections.emptyList();
+        }
+        try {
+            JsonObject obj = JsonParser.parseString(data).getAsJsonObject();
+            if (obj == null || !obj.has(field) || obj.get(field).isJsonNull()) {
+                return Collections.emptyList();
+            }
+            JsonArray arr = obj.getAsJsonArray(field);
+            if (arr == null || arr.isEmpty()) {
+                return Collections.emptyList();
+            }
+            List<String> list = new ArrayList<>(arr.size());
+            for (int i = 0; i < arr.size(); i++) {
+                if (arr.get(i).isJsonNull()) {
+                    continue;
+                }
+                String value = arr.get(i).getAsString();
+                if (!TextUtils.isEmpty(value)) {
+                    list.add(value.trim());
+                }
+            }
+            return list;
+        } catch (Exception ignored) {
+            return Collections.emptyList();
         }
     }
 }

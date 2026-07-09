@@ -139,6 +139,20 @@ public class MessageProcessor implements IMessageProcessor {
     }
 
     @Override
+    public void notifyGroupMemberRolesUpdated(@NonNull final String groupId) {
+        if (TextUtils.isEmpty(groupId)) {
+            return;
+        }
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.GROUP_MEMBERS_ROLE_UPDATE, 0, 0, groupId);
+            } catch (Exception e) {
+                Log.e(TAG, "群成员角色变更分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
+    @Override
     public void notifyGroupNoticeUpdated(@NonNull final String groupId) {
         if (TextUtils.isEmpty(groupId)) {
             return;

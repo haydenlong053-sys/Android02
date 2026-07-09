@@ -115,6 +115,31 @@ class ImQunInfoViewModel : ViewModel() {
             })
     }
 
+    /** 信令更新本地成员角色后，从 Realm 刷新网格与 myRole。 */
+    fun refreshMembersFromLocal(groupId: String, currentUserId: String?) {
+        ImLocalStore.loadGroupMembersMap(groupId) { map ->
+            val members = map.values
+                .sortedBy { it.joinTime }
+                .map { item ->
+                    GroupUserVo().apply {
+                        userId = item.userId
+                        nickname = item.nickname
+                        headPortrait = item.headPortrait
+                        role = item.role
+                    }
+                }
+            val cur = _state.value ?: ImGroupInfoUiState()
+            val myRole = if (!currentUserId.isNullOrEmpty() && currentUserId == cur.groupVo?.owerId) {
+                GroupRole.OWNER
+            } else if (!currentUserId.isNullOrEmpty()) {
+                map[currentUserId]?.role ?: GroupRole.MEMBER
+            } else {
+                GroupRole.MEMBER
+            }
+            _state.postValue(cur.copy(members = members.take(13), myRole = myRole))
+        }
+    }
+
     fun setSessionTop(groupId: String, top: Boolean, onDone: (Boolean) -> Unit) {
         ImConversationHttpExample.requestSessionTop(groupId, top, object : OnHttpImListener<Boolean> {
             override fun onHttpImSuccess(result: Boolean) {

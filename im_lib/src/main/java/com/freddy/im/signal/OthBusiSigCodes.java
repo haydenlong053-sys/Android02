@@ -12,6 +12,9 @@ public final class OthBusiSigCodes {
     /** 指定成员禁言变更（推送给被禁言成员），data 为 {@code {"groupId":"...","mute":0|1,"operator":"..."}}。 */
     public static final int GROUP_MEMBER_MUTE = 1003;
 
+    /** 群管理员角色变更，data 为 {@code {"groupId":"...","userIdList":[...],"newRole":1|2}}（1 管理员，2 普通成员）。 */
+    public static final int GROUP_MANAGER_ROLE = 1004;
+
     private OthBusiSigCodes() {
     }
 }
