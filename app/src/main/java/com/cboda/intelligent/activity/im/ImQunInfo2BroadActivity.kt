@@ -144,8 +144,6 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         zidongfanyiView.isGone = true
         zidongfanyi.isGone = true
         wodequnnicheng.isGone = true
-        findViewById<View>(R.id.qunguanliyuan)?.isGone = true
-        findViewById<View>(R.id.guanlixian)?.isGone = true
         findViewById<View>(R.id.shengjiqun)?.isGone = true
         findViewById<View>(R.id.shengjiqunView)?.isGone = true
         findViewById<View>(R.id.jiqiren)?.isGone = true
@@ -248,6 +246,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         qunguanlilay.isVisible = GroupRole.isOwnerOrAdmin(myRole)
         zhuanrangqun.isVisible = GroupRole.isOwner(myRole)
         zhuanrangxian.isVisible = GroupRole.isOwner(myRole)
+        findViewById<View>(R.id.qunguanliyuan)?.isVisible = GroupRole.isOwner(myRole)
+        findViewById<View>(R.id.guanlixian)?.isVisible = GroupRole.isOwner(myRole)
 
         val canManage = GroupRole.isOwnerOrAdmin(myRole)
         shezhiquntou.isEnabled = canManage
@@ -316,6 +316,13 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 return@setOnClickListener
             }
             JumpBroadUtils.startImQunJinYanActivity(this, qunId)
+        }
+        findViewById<View>(R.id.qunguanliyuan)?.setOnClickListener {
+            if (!GroupRole.isOwner(myRole)) {
+                ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanli))
+                return@setOnClickListener
+            }
+            JumpBroadUtils.startImQunManagerActivity(this, qunId)
         }
     }
 

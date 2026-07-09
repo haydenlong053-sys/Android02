@@ -124,7 +124,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         edtSousuo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (fromPage != "add" && fromPage != "remove") return
+                if (fromPage != "add" && fromPage != "remove" && fromPage != "selectManager") return
                 searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
                 searchRunnable = Runnable { triggerSearch() }.also { runnable ->
                     searchHandler.postDelayed(runnable, SEARCH_DEBOUNCE_MS)
@@ -138,6 +138,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         when (fromPage) {
             "add" -> loadAddGroupData()
             "remove" -> loadRemoveMembers()
+            "selectManager" -> loadSelectManagerMembers()
         }
     }
 
@@ -159,6 +160,14 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     loadRemoveMembers()
                 } else {
                     searchRemoveMembers(keyword)
+                }
+            }
+            "selectManager" -> {
+                val keyword = currentSearchKey()
+                if (keyword.isEmpty()) {
+                    loadSelectManagerMembers()
+                } else {
+                    searchSelectManagerMembers(keyword)
                 }
             }
         }
@@ -256,6 +265,41 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         checkCanGo()
     }
 
+    /** 设置管理员：本地群成员库加载可候选普通成员。 */
+    private fun loadSelectManagerMembers() {
+        if (qunId.isEmpty()) return
+        ImLocalStore.loadGroupMembersMap(qunId) { map ->
+            val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(map.values.toList())
+            val result = ImGroupMemberUiMapper.applySelectManagerRules(beans)
+            runOnUiThread { submitRemoveList(result) }
+        }
+    }
+
+    /** 设置管理员：ES 模糊搜索群成员。 */
+    private fun searchSelectManagerMembers(keyword: String) {
+        if (qunId.isEmpty()) return
+        ImGroupHttpExample.requestSearchMembers(
+            qunId,
+            keyword,
+            object : OnHttpImListener<List<com.freddy.im.http.model.im.GroupUserVo>> {
+                override fun onHttpImSuccess(result: List<com.freddy.im.http.model.im.GroupUserVo>) {
+                    if (keyword != currentSearchKey()) return
+                    val items = GroupUserVoMapper.toItems(qunId, result)
+                    val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(items)
+                    val sorted = ImGroupMemberUiMapper.applySelectManagerRules(beans)
+                    runOnUiThread { submitRemoveList(sorted) }
+                }
+            },
+            {
+                runOnUiThread {
+                    if (keyword == currentSearchKey()) {
+                        submitRemoveList(emptyList())
+                    }
+                }
+            },
+        )
+    }
+
 
     private fun updateYiXuan() {
         mAdapter2?.setList(mDataList3)
@@ -284,6 +328,23 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                         ToastBroadUtils.show(getString(R.string.group_kick_failed))
                     }
                 })
+            }
+            "selectManager" -> {
+                ImGroupHttpExample.requestSetGroupManager(
+                    qunId,
+                    ids,
+                    true,
+                    object : OnHttpImListener<String> {
+                        override fun onHttpImSuccess(result: String) {
+                            runOnUiThread { finish() }
+                        }
+                    },
+                    {
+                        runOnUiThread {
+                            ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                        }
+                    },
+                )
             }
             "add" -> {
                 ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {

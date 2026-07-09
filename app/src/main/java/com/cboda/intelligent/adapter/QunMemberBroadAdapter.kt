@@ -80,7 +80,7 @@ class QunMemberBroadAdapter(layoutResId: Int, private var fromPage: String = "")
                         )
                     }
 
-                    "remove" -> {
+                    "remove", "selectManager" -> {
                         if (item.isZy == "1") {
                             holder.setGone(R.id.uxanzview, true)
                             holder.setGone(R.id.uxanzview2, false)
