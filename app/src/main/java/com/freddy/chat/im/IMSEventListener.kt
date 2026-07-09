@@ -1,282 +1,288 @@
-package com.freddy.chat.im;
+package com.freddy.chat.im
 
-import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
-
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.cboda.intelligent.app.MyBroadApp;
-import com.freddy.im.crypto.ImCryptoKeys;
-import com.freddy.chat.im.othbusi.OthBusiSigHandlers;
-import com.freddy.im.listener.OnEventListener;
-import com.freddy.im.message.ImGroupChangeManager;
-import com.freddy.im.message.ImGroupMemberChangeManager;
-import com.freddy.im.message.ImMessageManager;
-import com.freddy.im.signal.ImSignalProtos;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import android.content.Context
+import android.net.ConnectivityManager
+import android.text.TextUtils
+import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.toLog
+import com.freddy.chat.im.othbusi.OthBusiSigHandlers
+import com.freddy.im.bean.AppMessage
+import com.freddy.im.crypto.ImCryptoKeys
+import com.freddy.im.db.ImLocalStore
+import com.freddy.im.db.repository.ImMessageRepository.OnMessageUpdatedCallback
+import com.freddy.im.http.model.im.SessionItem
+import com.freddy.im.listener.OnEventListener
+import com.freddy.im.message.ImGroupChangeManager
+import com.freddy.im.message.ImGroupMemberChangeManager
+import com.freddy.im.message.ImMessageManager
+import com.freddy.im.signal.ImSignalProtos
+import com.freddy.im.signal.ImSignalProtos.CountMsgReadSig
+import com.freddy.im.signal.ImSignalProtos.GroupChangeSig
+import com.freddy.im.signal.ImSignalProtos.MemberChangeSig
+import com.freddy.im.signal.ImSignalProtos.MessageReadSig
+import com.freddy.im.signal.ImSignalProtos.MessageRepealSig
+import com.freddy.im.signal.ImSignalProtos.NewMsgSignal
+import com.freddy.im.signal.ImSignalProtos.NewMsgSignal.MsgSig
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.MutableList
+import kotlin.collections.MutableMap
+import kotlin.concurrent.Volatile
 
 /**
- * SeekWeb4 + imsignal 回调到应用层 {@link MessageProcessor}。
+ * SeekWeb4 + imsignal 回调到应用层 [MessageProcessor]。
  */
-public class IMSEventListener implements OnEventListener {
+class IMSEventListener(private val userId: String?, private val token: String?) : OnEventListener {
+    private val tAG = "IMSEventListener"
 
-    private static final String TAG = "IMSEventListener";
+    private val RSA_PUBLIC_ASSET = "public_key.pem"
 
-    private static final String RSA_PUBLIC_ASSET = "public_key.pem";
 
-    private final String userId;
-    private final String token;
+    @Volatile
+    private var rsaPublicKeyPem: String? = null
 
-    private volatile String rsaPublicKeyPem;
-
-    public IMSEventListener(String userId, String token) {
-        this.userId = userId;
-        this.token = token;
-    }
-
-    @Override
-    public void onSignalResponse(ImSignalProtos.SignalResponse res) {
-        if (!res.hasHeader()) {
-            return;
+    override fun onSignalResponse(res: ImSignalProtos.SignalResponse?) {
+        if (res?.hasHeader() == false) {
+            return
         }
-        int cmd = res.getHeader().getCmd();
-        if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE && res.getHeader().getCode() == 0) {
+        val cmd = res?.header?.cmd
+        if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE && res.header.code == 0) {
             //todo 第五步，连接成功刷新会话列表
-            MessageProcessor.getInstance().notifyConversationList();
-
+            MessageProcessor.getInstance().notifyConversationList()
         }
     }
 
-    //收到信令
-    @Override
-    public void onSignalPush(ImSignalProtos.SignalPush push) {
-        if (!push.hasHeader()) {
-            return;
+    override fun onSignalPush(push: ImSignalProtos.SignalPush?) {
+        if (!push!!.hasHeader()) {
+            return
         }
-        eLogD(TAG, "收到服务端的onSignalPush信令响应cmd: " + push.getHeader().getCmd());
+        eLogD(tAG, "收到服务端的onSignalPush信令响应cmd: " + push.header.cmd)
 
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.NEW_MSGSIG_VALUE && push.hasBody()) {
+        if (push.header.cmd == ImSignalProtos.Cmd.NEW_MSGSIG_VALUE && push.hasBody()) {
             try {
-                ImSignalProtos.NewMsgSignal nm = ImSignalProtos.NewMsgSignal.parseFrom(push.getBody().toByteArray());
+                val nm = NewMsgSignal.parseFrom(push.body.toByteArray())
                 // messageId 形如 uid1!uid2-1046：uid1!uid2 为会话锚点，1046 为序列号；同锚点只保留序列最大的 MsgSig
-                Map<String, ImSignalProtos.NewMsgSignal.MsgSig> bestByConversationAnchor = new LinkedHashMap<>();
-                for (int i = 0; i < nm.getSignalsCount(); i++) {
-                    ImSignalProtos.NewMsgSignal.MsgSig sig = nm.getSignals(i);
-                    String fullMessageId = sig.getMessageId();
-                    String anchor = ImMessageManager.extractConversationAnchor(fullMessageId);
+                val bestByConversationAnchor: MutableMap<String?, MsgSig?> = LinkedHashMap<String?, MsgSig?>()
+                for (i in 0..<nm.signalsCount) {
+                    val sig = nm.getSignals(i)
+                    val fullMessageId = sig.getMessageId()
+                    val anchor = ImMessageManager.extractConversationAnchor(fullMessageId)
                     if (anchor == null) {
-                        Log.w(TAG, "跳过无法解析锚点的 messageId: " + fullMessageId);
-                        continue;
+                        eLogD(tAG, "跳过无法解析锚点的 messageId: $fullMessageId")
+                        continue
                     }
-                    long seq = ImMessageManager.extractTrailingSequence(fullMessageId);
+                    val seq = ImMessageManager.extractTrailingSequence(fullMessageId)
                     if (seq == ImMessageManager.INVALID_SEQUENCE) {
-                        Log.w(TAG, "跳过无有效序列号的 messageId: " + fullMessageId);
-                        continue;
+                        eLogD(tAG, "跳过无有效序列号的 messageId: $fullMessageId")
+                        continue
                     }
-                    ImSignalProtos.NewMsgSignal.MsgSig existing = bestByConversationAnchor.get(anchor);
+                    val existing = bestByConversationAnchor[anchor]
                     if (existing == null) {
-                        bestByConversationAnchor.put(anchor, sig);
-                        continue;
+                        bestByConversationAnchor[anchor] = sig
+                        continue
                     }
-                    long existingSeq = ImMessageManager.extractTrailingSequence(existing.getMessageId());
+                    val existingSeq = ImMessageManager.extractTrailingSequence(existing.getMessageId())
                     if (seq > existingSeq) {
-                        bestByConversationAnchor.put(anchor, sig);
+                        bestByConversationAnchor[anchor] = sig
                     }
                 }
+                val deduped = bestByConversationAnchor.values
+                for (s in deduped) {
+                    eLogD(tAG, "NEW_MSGSIG 拉列表 messageId=" + s?.getMessageId() + " unread=" + s?.unreadCount)
+                    s?.getMessageId()?.let {
+                        ImMessageManager.getInstance().fetchNewMessageList(
+                            it
+                        ) { batch: MutableList<AppMessage?>? -> MessageProcessor.getInstance().receiveMsg(batch) }
+                    }
 
-                List<ImSignalProtos.NewMsgSignal.MsgSig> deduped = new ArrayList<>(bestByConversationAnchor.values());
-                for (ImSignalProtos.NewMsgSignal.MsgSig s : deduped) {
-                    Log.d(TAG, "NEW_MSGSIG 拉列表 messageId=" + s.getMessageId() + " unread=" + s.getUnreadCount());
-                    ImMessageManager.getInstance().fetchNewMessageList(
-                            s.getMessageId(),
-                            batch -> MessageProcessor.getInstance().receiveMsg(batch));
                 }
+            } catch (e: Exception) {
+                e.toLog(tAG + "_解析 NewMsgSignal 失败")
+            }
+        }
 
-            } catch (Exception e) {
-                Log.e(TAG, "解析 NewMsgSignal 失败", e);
-            }
-        }
         // 群变更：0x0101 GroupChangeSig.groupList → 拉群详情 → 入库 → 通知 UI
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.GROUP_CHANGE_VALUE && push.hasBody()) {
+        if (push.header.cmd == ImSignalProtos.Cmd.GROUP_CHANGE_VALUE && push.hasBody()) {
             try {
-                ImSignalProtos.GroupChangeSig sig = ImSignalProtos.GroupChangeSig.parseFrom(
-                        push.getBody().toByteArray());
-                List<String> groupList = sig.getGroupListList();
-                Log.d(TAG, "GROUP_CHANGE groupList size=" + (groupList != null ? groupList.size() : 0));
-                ImGroupChangeManager.getInstance().handleGroupChange(groupList, sessions ->
-                        MessageProcessor.getInstance().notifySessionsUpdated(sessions));
-            } catch (Exception e) {
-                Log.e(TAG, "解析 GroupChangeSig 失败", e);
+                val sig = GroupChangeSig.parseFrom(
+                    push.body.toByteArray()
+                )
+                val groupList: MutableList<String?> = sig.groupListList
+                eLogD(tAG, "GROUP_CHANGE groupList size=" + (groupList.size))
+                ImGroupChangeManager.getInstance().handleGroupChange(groupList) { sessions: MutableList<SessionItem?>? -> MessageProcessor.getInstance().notifySessionsUpdated(sessions) }
+            } catch (e: java.lang.Exception) {
+                eLogD(tAG, "解析 GroupChangeSig 失败", e)
             }
         }
+
 
         // 群成员变更：0x0102 MemberChangeSig → 拉成员 / 软删除 → 入库 → 通知消息列表 UI
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.GROUP_MEMBER_CHANGE_VALUE && push.hasBody()) {
+        if (push.header.cmd == ImSignalProtos.Cmd.GROUP_MEMBER_CHANGE_VALUE && push.hasBody()) {
             try {
-                ImSignalProtos.MemberChangeSig sig = ImSignalProtos.MemberChangeSig.parseFrom(
-                        push.getBody().toByteArray());
-                String groupId = sig.getGroupId();
-                Log.d(TAG, "GROUP_MEMBER_CHANGE groupId=" + groupId
-                        + " enters=" + sig.getEntersCount()
-                        + " leaves=" + sig.getLeavesCount()
-                        + " kickouts=" + sig.getKickoutsCount());
+                val sig = MemberChangeSig.parseFrom(
+                    push.body.toByteArray()
+                )
+                val groupId = sig.getGroupId()
+                eLogD(
+                    tAG, ("GROUP_MEMBER_CHANGE groupId=" + groupId
+                            + " enters=" + sig.entersCount
+                            + " leaves=" + sig.leavesCount
+                            + " kickouts=" + sig.kickoutsCount)
+                )
                 ImGroupMemberChangeManager.getInstance().handleMemberChange(
-                        groupId,
-                        sig.getEntersList(),
-                        sig.getLeavesList(),
-                        sig.getKickoutsList());
-            } catch (Exception e) {
-                Log.e(TAG, "解析 MemberChangeSig 失败", e);
+                    groupId,
+                    sig.entersList,
+                    sig.leavesList,
+                    sig.kickoutsList
+                )
+            } catch (e: Exception) {
+                eLogD(tAG, "解析 MemberChangeSig 失败", e)
             }
         }
+
 
         // 单聊 0x0207：对方已读，messageId 序列及之前己方消息展示已读
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.MSG_READ_VALUE && push.hasBody()) {
+        if (push.header.cmd == ImSignalProtos.Cmd.MSG_READ_VALUE && push.hasBody()) {
             try {
-                ImSignalProtos.MessageReadSig sig = ImSignalProtos.MessageReadSig.parseFrom(
-                        push.getBody().toByteArray());
-                String messageId = sig.getMessageId();
-                Log.d(TAG, "MSG_READ messageId=" + messageId);
-                MessageProcessor.getInstance().notifyPeerMessageRead(messageId);
-            } catch (Exception e) {
-                Log.e(TAG, "解析 MessageReadSig 失败", e);
+                val sig = MessageReadSig.parseFrom(
+                    push.body.toByteArray()
+                )
+                val messageId = sig.getMessageId()
+                eLogD(tAG, "MSG_READ messageId=$messageId")
+                MessageProcessor.getInstance().notifyPeerMessageRead(messageId)
+            } catch (e: Exception) {
+                eLogD(tAG, "解析 MessageReadSig 失败", e)
             }
         }
+
         // 消息撤回：0x0202 MessageRepealSig
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.MSG_REPEAL_VALUE && push.hasBody()) {
+        if (push.header.cmd == ImSignalProtos.Cmd.MSG_REPEAL_VALUE && push.hasBody()) {
             try {
-                ImSignalProtos.MessageRepealSig sig = ImSignalProtos.MessageRepealSig.parseFrom(
-                        push.getBody().toByteArray());
-                String messageId = sig.getMessageId();
-                Log.d(TAG, "MSG_REPEAL messageId=" + messageId);
+                val sig = MessageRepealSig.parseFrom(
+                    push.body.toByteArray()
+                )
+                val messageId = sig.getMessageId()
+                eLogD(tAG, "MSG_REPEAL messageId=$messageId")
                 if (TextUtils.isEmpty(messageId)) {
-                    return;
+                    return
                 }
-                com.freddy.im.db.ImLocalStore.applyMessageRepeal(messageId, recalled -> {
+                ImLocalStore.applyMessageRepeal(messageId, OnMessageUpdatedCallback { recalled: AppMessage? ->
                     if (recalled != null) {
-                        MessageProcessor.getInstance().notifyMessageRepealed(messageId, recalled);
-                        return;
+                        MessageProcessor.getInstance().notifyMessageRepealed(messageId, recalled)
+                        return@OnMessageUpdatedCallback
                     }
-                    ImMessageManager.getInstance().fetchNewMessageList(messageId,
-                            batch -> MessageProcessor.getInstance().receiveMsg(batch));
-                });
-            } catch (Exception e) {
-                Log.e(TAG, "解析 MessageRepealSig 失败", e);
+                    ImMessageManager.getInstance().fetchNewMessageList(
+                        messageId
+                    ) { batch: MutableList<AppMessage?>? -> MessageProcessor.getInstance().receiveMsg(batch) }
+                })
+            } catch (e: Exception) {
+                eLogD(tAG, "解析 MessageRepealSig 失败", e)
             }
         }
+
 
         // 群聊 0x0210：已读人数变动
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.COUNT_MSG_READ_VALUE && push.hasBody()) {
+        if (push.header.cmd == ImSignalProtos.Cmd.COUNT_MSG_READ_VALUE && push.hasBody()) {
             try {
-                ImSignalProtos.CountMsgReadSig sig = ImSignalProtos.CountMsgReadSig.parseFrom(
-                        push.getBody().toByteArray());
-                Log.d(TAG, "COUNT_MSG_READ messageId=" + sig.getMessageId()
-                        + " readPersonCount=" + sig.getReadPersonCount());
+                val sig = CountMsgReadSig.parseFrom(
+                    push.body.toByteArray()
+                )
+                eLogD(
+                    tAG, ("COUNT_MSG_READ messageId=" + sig.getMessageId()
+                            + " readPersonCount=" + sig.readPersonCount)
+                )
                 MessageProcessor.getInstance().notifyGroupMessageReadCount(
-                        sig.getMessageId(),
-                        sig.getReadPersonCount());
-            } catch (Exception e) {
-                Log.e(TAG, "解析 CountMsgReadSig 失败", e);
+                    sig.getMessageId(),
+                    sig.readPersonCount
+                )
+            } catch (e: Exception) {
+                eLogD(tAG, "解析 CountMsgReadSig 失败", e)
             }
         }
+
 
         // 0x0501 其他业务信令：OthBusiSig 按 code 分发
-        if (push.getHeader().getCmd() == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
-            OthBusiSigHandlers.get().dispatch(push.getBody().toByteArray());
+        if (push.header.cmd == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
+            OthBusiSigHandlers.get().dispatch(push.body.toByteArray())
         }
-
     }
 
-    @Override
-    public void onKeyNegotiateResponse(short transportCode) {
-        Log.d(TAG, "密钥协商传输层 code=" + transportCode);
+    override fun onKeyNegotiateResponse(transportCode: Short) {
+        eLogD(tAG, "密钥协商传输层 code=$transportCode")
     }
 
-    @Override
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) MyBroadApp.cxt.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = cm.getActiveNetworkInfo();
-        return info != null && info.isConnected();
+    override fun isNetworkAvailable(): Boolean {
+        val cm = UtilBroadApplication.cxt.getSystemService(Context.CONNECTIVITY_SERVICE)
+        return if (cm is ConnectivityManager) {
+            val info = cm.activeNetworkInfo
+            info != null && info.isConnected
+        } else false
     }
 
-    @Override
-    public int getReconnectInterval() {
-        return 0;
+    override fun getReconnectInterval(): Int {
+        return 0
     }
 
-    @Override
-    public int getConnectTimeout() {
-        return 0;
+    override fun getConnectTimeout(): Int {
+        return 0
     }
 
-    @Override
-    public int getForegroundHeartbeatInterval() {
-        return 0;
+    override fun getForegroundHeartbeatInterval(): Int {
+        return 0
     }
 
-    @Override
-    public int getBackgroundHeartbeatInterval() {
-        return 0;
+    override fun getBackgroundHeartbeatInterval(): Int {
+        return 0
     }
 
-    @Override
-    public int getResendCount() {
-        return 0;
+    override fun getResendCount(): Int {
+        return 0
     }
 
-    @Override
-    public int getResendInterval() {
-        return 0;
+    override fun getResendInterval(): Int {
+        return 0
     }
 
-    @Override
-    public String getUserId() {
-        return userId;
+    override fun getUserId(): String? {
+        return userId
     }
 
-    @Override
-    public String getBindToken() {
-        return token;
+    override fun getBindToken(): String? {
+        return token
     }
 
-    @Override
-    public String getRsaPublicKeyPem() {
+    override fun getRsaPublicKeyPem(): String? {
         if (rsaPublicKeyPem != null) {
-            return rsaPublicKeyPem;
+            return rsaPublicKeyPem
         }
-        synchronized (this) {
+        synchronized(this) {
             if (rsaPublicKeyPem != null) {
-                return rsaPublicKeyPem;
+                return rsaPublicKeyPem
             }
-            String pem;
-            try (InputStream in = MyBroadApp.cxt.getAssets().open(RSA_PUBLIC_ASSET);
-                 BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
-                StringBuilder sb = new StringBuilder(512);
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line).append('\n');
+            var pem: String?
+            try {
+                UtilBroadApplication.cxt.assets.open(RSA_PUBLIC_ASSET).use { `in` ->
+                    BufferedReader(InputStreamReader(`in`, StandardCharsets.UTF_8)).use { br ->
+                        val sb = StringBuilder(512)
+                        var line: String?
+                        while ((br.readLine().also { line = it }) != null) {
+                            sb.append(line).append('\n')
+                        }
+                        pem = sb.toString().trim { it <= ' ' }
+                    }
                 }
-                pem = sb.toString().trim();
-            } catch (Exception e) {
-                Log.e(TAG, "读取 assets/" + RSA_PUBLIC_ASSET + " 失败，回退 im_lib demo 公钥", e);
-                pem = ImCryptoKeys.demoPublicKeyPem();
+            } catch (e: Exception) {
+                e.toLog(tAG + "_读取 assets/$RSA_PUBLIC_ASSET 失败，回退 im_lib demo 公钥")
+                pem = ImCryptoKeys.demoPublicKeyPem()
             }
-            if (pem.isEmpty()) {
-                pem = ImCryptoKeys.demoPublicKeyPem();
+            if (pem?.isEmpty() == true) {
+                pem = ImCryptoKeys.demoPublicKeyPem()
             }
-            rsaPublicKeyPem = pem;
-            return rsaPublicKeyPem;
+            rsaPublicKeyPem = pem
+            return rsaPublicKeyPem
         }
     }
 }
