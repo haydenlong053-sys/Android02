@@ -13,35 +13,35 @@ import com.freddy.webtrc.bean.CallTokenBean
 object BroadE {
     fun getCallToken(
         id: String?,
+        roomName: String?,
+        userName: String?,
         video: Boolean = false,
         callBack: (bean: CallTokenBean?) -> Unit = {}
     ) {
-        if (TextUtils.isEmpty(id)) {
+        if (TextUtils.isEmpty(id) || TextUtils.isEmpty(roomName)) {
             callBack.invoke(null)
             return
         }
-        RealmUtil.findUserData(id) { friendBean ->
-            val roomName = getUuIdMd5()
-            ImCallHttpExample.requestCallToken(
-                id ?: "",
-                roomName,
-                video,
-                friendBean?.nickName,
-                object : OnHttpImListener<CallTokenContent> {
-                    override fun onHttpImSuccess(result: CallTokenContent) {
-                        eLogD("getCallToken_data", toJson2(result))
-                        callBack.invoke(
-                            CallTokenBean(
-                                token = result.token.orEmpty(),
-                                url = result.url.orEmpty(),
-                                roomName = result.roomName ?: roomName
-                            )
+        ImCallHttpExample.requestCallToken(
+            id ?: "",
+            roomName ?: "",
+            video,
+            userName ?: "",
+            object : OnHttpImListener<CallTokenContent> {
+                override fun onHttpImSuccess(result: CallTokenContent) {
+                    eLogD("getCallToken_data", toJson2(result))
+                    callBack.invoke(
+                        CallTokenBean(
+                            token = result.token.orEmpty(),
+                            url = result.url.orEmpty(),
+                            roomName = result.roomName
                         )
-                    }
-                },
-                { callBack.invoke(null) }
-            )
-        }
+                    )
+                }
+            },
+            { callBack.invoke(null) }
+        )
+
     }
 
     fun startCall(
@@ -53,25 +53,22 @@ object BroadE {
             callBack.invoke(null)
             return
         }
-        RealmUtil.findUserData(id) { friendBean ->
-            val roomName = getUuIdMd5()
-            ImCallHttpExample.requestCallStart(
-                id ?: "",
-                video,
-                object : OnHttpImListener<CallTokenContent> {
-                    override fun onHttpImSuccess(result: CallTokenContent) {
-                        eLogD("startCall_data", toJson2(result))
-                        callBack.invoke(
-                            CallTokenBean(
-                                token = result.token.orEmpty(),
-                                url = result.url.orEmpty(),
-                                roomName = result.roomName ?: roomName
-                            )
+        ImCallHttpExample.requestCallStart(
+            id ?: "",
+            video,
+            object : OnHttpImListener<CallTokenContent> {
+                override fun onHttpImSuccess(result: CallTokenContent) {
+                    eLogD("startCall_data", toJson2(result))
+                    callBack.invoke(
+                        CallTokenBean(
+                            token = result.token.orEmpty(),
+                            url = result.url.orEmpty(),
+                            roomName = result.roomName
                         )
-                    }
-                },
-                { callBack.invoke(null) }
-            )
-        }
+                    )
+                }
+            },
+            { callBack.invoke(null) }
+        )
     }
 }

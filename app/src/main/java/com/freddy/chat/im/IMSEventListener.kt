@@ -209,7 +209,8 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 tAG, ("callData_groupId:" + sign.groupId
                         + " ,type=" + sign.type
                         + " ,roomName=" + sign.roomName
-                        + " ,callId=" + sign.callId)
+                        + " ,callId=" + sign.callId
+                        + " ,mode=" + sign.mode)
             )
         }
 
