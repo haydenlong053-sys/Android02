@@ -11,6 +11,7 @@ import com.freddy.im.listener.OnHttpImListener
 import com.freddy.webtrc.bean.CallTokenBean
 
 object BroadE {
+    //获取token
     fun getCallToken(
         id: String?,
         roomName: String?,
@@ -44,6 +45,7 @@ object BroadE {
 
     }
 
+    //发起通话
     fun startCall(
         id: String?,
         video: Boolean = false,

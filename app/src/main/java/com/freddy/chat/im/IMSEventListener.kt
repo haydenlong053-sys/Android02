@@ -206,11 +206,13 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         else if (push.header.cmd == ImSignalProtos.Cmd.CALL_SIGNAL_VALUE && push.hasBody()) {
             val sign = ImSignalProtos.CallSignal.parseFrom(push.body.toByteArray())
             eLogD(
-                tAG, ("callData_groupId:" + sign.groupId
+                tAG, ("callData_fromUserId:" + sign.fromUserId
+                        + " ,fromUsername=" + sign.fromUsername
                         + " ,type=" + sign.type
                         + " ,roomName=" + sign.roomName
                         + " ,callId=" + sign.callId
-                        + " ,mode=" + sign.mode)
+                        + " ,mode=" + sign.mode
+                        + " ,fromUserIcon=" + sign.fromUserIcon)
             )
         }
 
