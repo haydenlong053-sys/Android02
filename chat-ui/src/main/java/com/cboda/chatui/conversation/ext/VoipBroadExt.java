@@ -9,11 +9,11 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
-import com.freddy.webtrc.bean.CallTokenBean;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.freddy.webtrc.bean.CallTokenBean;
+import com.freddy.webtrc.utils.CallUtil;
 
 import com.cboda.chatui.R;
-import com.cboda.chatui.WfcUIBroadKit;
 import com.cboda.chatui.annotation.ExtContextMenuBroadItem;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
@@ -98,17 +98,27 @@ public class VoipBroadExt extends ConversationMidExt {
     }
 
     private void audioChat(String targetId) {
-        BroadE.INSTANCE.startCall(targetId, false, new Function1<CallTokenBean, Unit>() {
-            @Override
-            public Unit invoke(CallTokenBean callTokenBean) {
-                return null;
-            }
-        });
+        startVoipCall(targetId, false);
 //        WfcUIBroadKit.singleCall(activity, targetId, true);
     }
 
     private void videoChat(String targetId) {
-        WfcUIBroadKit.singleCall(activity, targetId, false);
+        startVoipCall(targetId, true);
+//        WfcUIBroadKit.singleCall(activity, targetId, false);
+    }
+
+    private void startVoipCall(String targetId, boolean video) {
+        BroadE.INSTANCE.startCall(targetId, video, new Function1<CallTokenBean, Unit>() {
+            @Override
+            public Unit invoke(CallTokenBean callTokenBean) {
+                if (callTokenBean != null) {
+                    CallUtil.INSTANCE.joinRoom(callTokenBean.getUrl(), callTokenBean.getToken(), activity);
+                } else {
+                    ToastBroadUtils.show(activity.getString(R.string.call_network_error));
+                }
+                return Unit.INSTANCE;
+            }
+        });
     }
 
     @Override
