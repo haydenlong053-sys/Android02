@@ -5,6 +5,8 @@ import android.content.Context
 import android.text.TextUtils
 import com.cboda.baselibrary.utils.getAppContext
 import io.livekit.android.LiveKit
+import io.livekit.android.events.RoomEvent
+import io.livekit.android.events.collect
 import io.livekit.android.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -12,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 object CallUtil {
-
+    // scope: CoroutineScope
     @SuppressLint("StaticFieldLeak")
     private var callRoom: Room? = null
 
@@ -27,29 +29,85 @@ object CallUtil {
         return LiveKit.create(getAppContext(context))
     }
 
-    // scope: CoroutineScope
+    // 创建/加入通话
     fun joinRoom(url: String?, token: String?, context: Context? = null) {
         if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(token)) {
             GlobalScope.launch {
-                    withContext(Dispatchers.IO) {
-                        getCallRoom(context)?.connect(url ?: "", token ?: "")
+                withContext(Dispatchers.IO) {
+                    getCallRoom(context)?.connect(url ?: "", token ?: "")
+                }
+            }
+        }
+    }
+
+    //静音/打开麦克风
+    fun openOrCloseMicrophone(boolean: Boolean = false, context: Context? = null) {
+        GlobalScope.launch {
+            withContext(Dispatchers.IO) {
+                getCallRoom(context)?.localParticipant?.setMicrophoneEnabled(boolean)
+            }
+        }
+    }
+
+    //离开通话房间/结束通话
+    fun leaveRoom(context: Context? = null) {
+        getCallRoom(context)?.disconnect()
+    }
+
+    //通话监听
+    fun setCallListener(context: Context? = null, callBack: (RoomEvent) -> Unit) {
+        GlobalScope.launch {
+            withContext(Dispatchers.IO) {
+                getCallRoom(context)?.events?.collect { event ->
+                    when (event) {
+                        is RoomEvent.ParticipantConnected -> {
+                            // 有⼈进来 → 视为接通
+                            callBack.invoke(event)
+                        }
+
+                        is RoomEvent.ParticipantDisconnected -> {
+                            callBack.invoke(event)
+                        }
+
+                        is RoomEvent.TrackSubscribed -> {
+                            // 收到对⽅⾳/视频轨
+                            callBack.invoke(event)
+                        }
+
+                        is RoomEvent.TrackUnsubscribed -> {
+                            callBack.invoke(event)
+                        }
+
+                        is RoomEvent.ActiveSpeakersChanged -> {
+                            //event.speakers 正在说话,做⾼亮
+                            callBack.invoke(event)
+                        }
+
+                        is RoomEvent.Disconnected -> {
+                            //通话结束,关⻚⾯
+                            callBack.invoke(event)
+                        }
+
+                        is RoomEvent.FailedToConnect -> {
+                            //连接失败
+                            callBack.invoke(event)
+                        }
+
+                        else -> {
+                            callBack.invoke(event)
+                        }
                     }
                 }
             }
         }
+    }
 
-        fun openOrCloseMicrophone(boolean: Boolean = false, context: Context? = null) {
-            GlobalScope.launch {
-                withContext(Dispatchers.IO) {
-                    getCallRoom(context)?.localParticipant?.setMicrophoneEnabled(boolean)
-                }
-            }
-        }
+    //获取通话的人员信息
+    fun getCallPeopleList(context: Context? = null) {
+        val me = getCallRoom(context)?.localParticipant// 本地
+        val remotes = getCallRoom(context)?.remoteParticipants?.values // 远端
 
-        fun leaveRoom(context: Context? = null) {
-            getCallRoom(context)?.disconnect()
-        }
-
+    }
 
 //    lifecycleScope.launch {
 //        room.events.collect { event ->
@@ -77,4 +135,4 @@ object CallUtil {
 //    }
 
 
-    }
+}
