@@ -1,12 +1,13 @@
 package com.cboda.intelligent.activity.im
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SwitchCompat
@@ -70,6 +71,14 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private var groupVo: GroupVo? = null
     /** 首次 onResume 跳过成员刷新，避免与 onCreate 中 load() 重复请求 getAllMembers。 */
     private var skipMembersRefreshOnResume = true
+
+    private val selectNewOwnerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            viewModel?.load(qunId, currentUserId)
+        }
+    }
 
     private var viewModel: ImQunInfoViewModel? = null
     private var uploadViewModel: UploadFileViewBroadModel? = null
@@ -452,50 +461,16 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     private fun openTransferOwner() {
-        val candidates = allMembers.filter {
-            !it.userId.isNullOrEmpty() && it.userId != currentUserId && it.role != GroupRole.OWNER
-        }
-        if (candidates.isEmpty()) {
-            ToastBroadUtils.show(getString(R.string.group_transfer_no_candidate))
+        if (!GroupRole.isOwner(myRole)) {
+            ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanli))
             return
         }
-        val labels = candidates.map { "${it.displayName} (${it.userId})" }.toTypedArray()
-        android.app.AlertDialog.Builder(this)
-            .setTitle(R.string.group_row_transfer)
-            .setItems(labels) { _, which ->
-                val target = candidates[which]
-                confirmTransfer(target.userId ?: "", target.displayName)
-            }
-            .show()
-    }
-
-    private fun confirmTransfer(newOwnerId: String, displayName: String) {
-        CommanConfimBroadHolder(
-            this,
-            getString(R.string.group_row_transfer),
-            getString(R.string.group_transfer_confirm, displayName),
-            getString(R.string.queding),
-            getString(R.string.quxiao)
-        ).apply {
-            callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
-                override fun onClickConfim(isConfim: Boolean) {
-                    if (isConfim) doTransfer(newOwnerId)
-                }
-            }
-            show()
+        val intent = Intent(this, ImQunMemberListBroadActivity::class.java).apply {
+            putExtra("qunid", qunId)
+            putExtra("fromPage", "selectNewOwner")
+            putExtra("userType", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole))
         }
-    }
-
-    private fun doTransfer(newOwnerId: String) {
-        ImGroupHttpExample.requestTransferOwner(qunId, newOwnerId,
-            object : OnHttpImListener<BaseMsgResponse<Void>> {
-                override fun onHttpImSuccess(result: BaseMsgResponse<Void>) {
-                    Toast.makeText(this@ImQunInfo2BroadActivity, R.string.group_transfer_success, Toast.LENGTH_SHORT).show()
-                    viewModel?.load(qunId, currentUserId)
-                }
-            }, {
-                ToastBroadUtils.show(getString(R.string.group_transfer_failed))
-            })
+        selectNewOwnerLauncher.launch(intent)
     }
 
     private fun applyGroupSessionUpdate(update: SessionItem) {

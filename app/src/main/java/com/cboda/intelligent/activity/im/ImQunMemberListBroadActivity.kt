@@ -19,6 +19,7 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunMemberBroadAdapter
 import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
+import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
@@ -27,6 +28,7 @@ import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.db.mapper.GroupUserVoMapper
 import com.freddy.im.http.ImGroupHttpExample
+import com.freddy.im.http.model.im.BaseMsgResponse
 import com.freddy.im.http.model.im.GroupFriendBean
 import com.freddy.im.listener.OnHttpImListener
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -77,7 +79,11 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         smartLayout.setEnableRefresh(false)
         smartLayout.setEnableLoadMore(false)
 
-        getToolbarTitle()?.text = getString(R.string.xuanzelianxiren)
+        getToolbarTitle()?.text = when (fromPage) {
+            "selectManager" -> getString(R.string.qunguanliyuan)
+            "selectNewOwner" -> getString(R.string.xuanxinqunzhu)
+            else -> getString(R.string.xuanzelianxiren)
+        }
         tvAgree.isSubmitCanGo(false)
 
         mManager = LinearLayoutManager(this)
@@ -90,7 +96,13 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         mAdapter?.setOnItemClickListener { _, _, position ->
             if (position !in mDataList.indices) return@setOnItemClickListener
             if (mDataList[position].isZy == "1") return@setOnItemClickListener
-            mDataList[position].isSelect = !mDataList[position].isSelect
+            if (fromPage == "selectNewOwner") {
+                for (i in mDataList.indices) {
+                    mDataList[i].isSelect = i == position
+                }
+            } else {
+                mDataList[position].isSelect = !mDataList[position].isSelect
+            }
             mAdapter?.setList(mDataList)
             if (fromPage == "add") {
                 if (mDataList[position].isSelect) mDataList3.add(mDataList[position])
@@ -124,7 +136,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         edtSousuo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (fromPage != "add" && fromPage != "remove" && fromPage != "selectManager") return
+                if (fromPage != "add" && fromPage != "remove"
+                    && fromPage != "selectManager" && fromPage != "selectNewOwner") return
                 searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
                 searchRunnable = Runnable { triggerSearch() }.also { runnable ->
                     searchHandler.postDelayed(runnable, SEARCH_DEBOUNCE_MS)
@@ -139,6 +152,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             "add" -> loadAddGroupData()
             "remove" -> loadRemoveMembers()
             "selectManager" -> loadSelectManagerMembers()
+            "selectNewOwner" -> loadSelectNewOwnerMembers()
         }
     }
 
@@ -168,6 +182,14 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     loadSelectManagerMembers()
                 } else {
                     searchSelectManagerMembers(keyword)
+                }
+            }
+            "selectNewOwner" -> {
+                val keyword = currentSearchKey()
+                if (keyword.isEmpty()) {
+                    loadSelectNewOwnerMembers()
+                } else {
+                    searchSelectNewOwnerMembers(keyword)
                 }
             }
         }
@@ -300,6 +322,43 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         )
     }
 
+    /** 转让群主：本地群成员库加载可候选成员。 */
+    private fun loadSelectNewOwnerMembers() {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImLocalStore.loadGroupMembersMap(qunId) { map ->
+            val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(map.values.toList())
+            val result = ImGroupMemberUiMapper.applySelectNewOwnerRules(beans, currentUserId)
+            runOnUiThread { submitRemoveList(result) }
+        }
+    }
+
+    /** 转让群主：ES 模糊搜索群成员。 */
+    private fun searchSelectNewOwnerMembers(keyword: String) {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImGroupHttpExample.requestSearchMembers(
+            qunId,
+            keyword,
+            object : OnHttpImListener<List<com.freddy.im.http.model.im.GroupUserVo>> {
+                override fun onHttpImSuccess(result: List<com.freddy.im.http.model.im.GroupUserVo>) {
+                    if (keyword != currentSearchKey()) return
+                    val items = GroupUserVoMapper.toItems(qunId, result)
+                    val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(items)
+                    val sorted = ImGroupMemberUiMapper.applySelectNewOwnerRules(beans, currentUserId)
+                    runOnUiThread { submitRemoveList(sorted) }
+                }
+            },
+            {
+                runOnUiThread {
+                    if (keyword == currentSearchKey()) {
+                        submitRemoveList(emptyList())
+                    }
+                }
+            },
+        )
+    }
+
 
     private fun updateYiXuan() {
         mAdapter2?.setList(mDataList3)
@@ -312,13 +371,14 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     }
 
     private fun submit() {
-        val ids = mDataList.filter { it.isSelect }.mapNotNull { it.userId }
-        if (ids.isEmpty()) {
+        val selected = mDataList.filter { it.isSelect && it.isZy != "1" }
+        if (selected.isEmpty()) {
             ToastBroadUtils.show(getString(R.string.qingxuanzelianxiren))
             return
         }
         when (fromPage) {
             "remove" -> {
+                val ids = selected.mapNotNull { it.userId }
                 ImGroupHttpExample.requestKickOut(qunId, ids, object : OnHttpImListener<String> {
                     override fun onHttpImSuccess(result: String) {
                         runOnUiThread { finish() }
@@ -330,6 +390,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 })
             }
             "selectManager" -> {
+                val ids = selected.mapNotNull { it.userId }
                 ImGroupHttpExample.requestSetGroupManager(
                     qunId,
                     ids,
@@ -346,7 +407,9 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     },
                 )
             }
+            "selectNewOwner" -> confirmTransferOwner(selected.first())
             "add" -> {
+                val ids = selected.mapNotNull { it.userId }
                 ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
                     override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {
                         runOnUiThread { finish() }
@@ -358,6 +421,46 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 })
             }
         }
+    }
+
+    private fun confirmTransferOwner(target: CommonDataListBroadBean.CommonBean) {
+        val newOwnerId = target.userId ?: return
+        val displayName = target.name?.takeIf { it.isNotBlank() } ?: newOwnerId
+        CommanConfimBroadHolder(
+            this,
+            getString(R.string.group_row_transfer),
+            getString(R.string.group_transfer_confirm, displayName),
+            getString(R.string.queding),
+            getString(R.string.quxiao)
+        ).apply {
+            callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
+                override fun onClickConfim(isConfim: Boolean) {
+                    if (isConfim) doTransferOwner(newOwnerId)
+                }
+            }
+            show()
+        }
+    }
+
+    private fun doTransferOwner(newOwnerId: String) {
+        ImGroupHttpExample.requestTransferOwner(
+            qunId,
+            newOwnerId,
+            object : OnHttpImListener<BaseMsgResponse<Void>> {
+                override fun onHttpImSuccess(result: BaseMsgResponse<Void>) {
+                    runOnUiThread {
+                        ToastBroadUtils.show(getString(R.string.group_transfer_success))
+                        setResult(RESULT_OK)
+                        finish()
+                    }
+                }
+            },
+            {
+                runOnUiThread {
+                    ToastBroadUtils.show(getString(R.string.group_transfer_failed))
+                }
+            },
+        )
     }
 
     override fun onDestroy() {
