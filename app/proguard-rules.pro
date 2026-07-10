@@ -738,6 +738,21 @@
 
 
 
+#===============================自研 IM 聊天层 (com.freddy.chat) start==============================
+# im_lib 通过 consumer-rules.pro 合并；聊天 UI / 信令监听 / 事件总线在 app 模块，需单独保留
+-keep class com.freddy.chat.** { *; }
+-keepclassmembers class com.freddy.chat.** { *; }
+-keep interface com.freddy.chat.** { *; }
+
+# app 层 OthBusiSig 业务 Handler（1001~1004 等）
+-keep class com.freddy.chat.im.othbusi.** { *; }
+-keep class * implements com.freddy.im.signal.othbusi.OthBusiSigHandler { *; }
+
+# 事件中心监听器接口方法
+-keep interface com.freddy.chat.event.I_CEventListener { *; }
+-keep class com.freddy.chat.event.** { *; }
+#===============================自研 IM 聊天层 end==============================
+
 #===============================app模块核心类 start==============================
 # 保留 app 模块的所有类
 -keep class com.cboda.intelligent.** { *; }
