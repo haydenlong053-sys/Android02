@@ -20,7 +20,7 @@ object ImGroupMemberUiMapper {
     fun toCommonBean(member: GroupMemberItem): CommonDataListBroadBean.CommonBean {
         val bean = CommonDataListBroadBean.CommonBean()
         bean.userId = member.userId
-        bean.name = member.nickname?.takeIf { it.isNotBlank() } ?: member.userId
+        bean.name = member.displayName.takeIf { it.isNotBlank() } ?: member.userId
         bean.icon = member.headPortrait
         bean.type = GroupRole.toWildfireUiType(member.role)
         return bean

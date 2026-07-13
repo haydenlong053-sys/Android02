@@ -93,8 +93,11 @@ public final class MergeTranspondDetailAdapter extends RecyclerView.Adapter<Recy
         Map<String, String> map = new HashMap<>(membersByUserId.size() + 1);
         for (Map.Entry<String, GroupMemberItem> entry : membersByUserId.entrySet()) {
             GroupMemberItem member = entry.getValue();
-            if (member != null && !TextUtils.isEmpty(member.getNickname())) {
-                map.put(entry.getKey(), member.getNickname());
+            if (member != null) {
+                String name = member.getDisplayName();
+                if (!TextUtils.isEmpty(name)) {
+                    map.put(entry.getKey(), name);
+                }
             }
         }
         if (!isGroupChat && !TextUtils.isEmpty(peerDisplayName)) {

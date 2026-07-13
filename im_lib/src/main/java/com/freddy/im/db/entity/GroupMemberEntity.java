@@ -14,10 +14,16 @@ public class GroupMemberEntity extends RealmObject {
     private String userId;
     private String companyId;
     private String nickname;
+    private String username;
+    private String idNo;
     private String headPortrait;
     private int statusInGroup;
     private int role;
     private long joinTime;
+    private long registerTime;
+    private String lianghao;
+    private String isvip;
+    private String grade;
     private String userExtAttrs;
     /** 软删除：退群 / 被踢 */
     private boolean deleted;
@@ -62,6 +68,22 @@ public class GroupMemberEntity extends RealmObject {
         this.nickname = nickname;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(String idNo) {
+        this.idNo = idNo;
+    }
+
     public String getHeadPortrait() {
         return headPortrait;
     }
@@ -92,6 +114,38 @@ public class GroupMemberEntity extends RealmObject {
 
     public void setJoinTime(long joinTime) {
         this.joinTime = joinTime;
+    }
+
+    public long getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(long registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public String getLianghao() {
+        return lianghao;
+    }
+
+    public void setLianghao(String lianghao) {
+        this.lianghao = lianghao;
+    }
+
+    public String getIsvip() {
+        return isvip;
+    }
+
+    public void setIsvip(String isvip) {
+        this.isvip = isvip;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getUserExtAttrs() {

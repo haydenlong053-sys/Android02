@@ -112,7 +112,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             nameLayout.setVisibility(View.GONE);
             avatarLeft.setVisibility(View.GONE);
             avatarRight.setVisibility(View.VISIBLE);
-            MessageAvatarBinder.bindAvatar(avatarRight, context.selfAvatarUrl, context.currentUserId, context.isGroupChat);
+            MessageAvatarBinder.bindAvatar(avatarRight, context.selfAvatarUrl, member, context.isGroupChat, context.currentUserId);
             alignMessageColumn(Gravity.END);
             alignTimeTextView(Gravity.END);
             bubbleRow.setGravity(Gravity.BOTTOM | Gravity.END);
@@ -129,7 +129,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             nameLayout.setVisibility(View.VISIBLE);
             tvNickname.setVisibility(View.VISIBLE);
             tvNickname.setText(resolveDisplayName(member, senderId));
-            MessageAvatarBinder.bindJoinTime(joinTimeTv, true, member, context.sessionId, senderId);
+            MessageAvatarBinder.bindJoinTime(joinTimeTv, true, member);
         } else {
             nameLayout.setVisibility(View.GONE);
             tvNickname.setVisibility(View.GONE);
@@ -140,7 +140,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         String avatarUrl = member != null && !TextUtils.isEmpty(member.getHeadPortrait())
                 ? member.getHeadPortrait()
                 : context.peerAvatarUrl;
-        MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, senderId, context.isGroupChat);
+        MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, member, context.isGroupChat, senderId);
         bindAvatarMentionLongClick(context, sentByMe, member, senderId);
         bindAvatarClick(context, senderId);
         alignMessageColumn(Gravity.START);
@@ -436,8 +436,11 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
 
     @NonNull
     private static String resolveDisplayName(@Nullable GroupMemberItem member, @Nullable String userId) {
-        if (member != null && !TextUtils.isEmpty(member.getNickname())) {
-            return member.getNickname();
+        if (member != null) {
+            String name = member.getDisplayName();
+            if (!TextUtils.isEmpty(name)) {
+                return name;
+            }
         }
         return TextUtils.isEmpty(userId) ? "" : userId;
     }

@@ -118,8 +118,11 @@ public final class MessageViewHolderContext {
     public Map<String, String> buildUserDisplayNameMap() {
         Map<String, String> map = new HashMap<>(membersByUserId.size() + 1);
         for (Map.Entry<String, GroupMemberItem> e : membersByUserId.entrySet()) {
-            if (e.getValue() != null && !TextUtils.isEmpty(e.getValue().getNickname())) {
-                map.put(e.getKey(), e.getValue().getNickname());
+            if (e.getValue() != null) {
+                String name = e.getValue().getDisplayName();
+                if (!TextUtils.isEmpty(name)) {
+                    map.put(e.getKey(), name);
+                }
             }
         }
         if (!isGroupChat
