@@ -2,17 +2,17 @@
 <network-security-config xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="NetworkSecurityConfig,AcceptsUserCertificates">
     <!--    /*** 用于抓包 ***/-->
-<!--    <base-config cleartextTrafficPermitted="false">-->
-<!--        <trust-anchors>-->
-<!--            <certificates src="system" />-->
-<!--            <certificates src="user" />-->
-<!--        </trust-anchors>-->
-<!--    </base-config>-->
-<!--</network-security-config>-->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
 
     <!--    /*** 截止抓包 ***/-->
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">127.0.0.1</domain>
-    </domain-config>
-    <base-config cleartextTrafficPermitted="true" />
-</network-security-config>
+<!--    <domain-config cleartextTrafficPermitted="true">-->
+<!--        <domain includeSubdomains="true">127.0.0.1</domain>-->
+<!--    </domain-config>-->
+<!--    <base-config cleartextTrafficPermitted="true" />-->
+<!--</network-security-config>-->
