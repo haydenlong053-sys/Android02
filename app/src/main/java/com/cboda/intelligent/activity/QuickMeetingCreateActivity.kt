@@ -23,8 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.openH5InImToken
 import com.cboda.baselibrary.utils.openH5InMetaMask
@@ -42,6 +45,7 @@ import com.cboda.intelligent.bean.PaymentMethodBroadBean
 import com.cboda.intelligent.bean.PaymentMethodDefaults.IM_TOKEN
 import com.cboda.intelligent.bean.PaymentMethodDefaults.META_MASK
 import com.cboda.intelligent.bean.PaymentMethodDefaults.TP
+import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.QuickMeetingCreateViewModel
@@ -105,16 +109,21 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                 viewModel = viewModel,
                 groupName,
                 onBack = { finish() },
-                onCreateClick = { startCreatePayOrderFlow() },
+                onCreateClick = {
+                    if (HttpsBroadConfig.openTPay) {
+                        startCreatePayOrderFlow()
+                    }
+                },
                 onPayAuthSuccess = {
-//                    lifecycleScope.launch {
-//                        val meetingCreateUiState = viewModel.uiState.value
-//                        viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0)
-//                            .observe(this@QuickMeetingCreateActivity) {
-//                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
-//                            }
-//                    }
-
+                    if (!HttpsBroadConfig.openTPay) {
+                        lifecycleScope.launch {
+                            val meetingCreateUiState = viewModel.uiState.value
+                            viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0, "")
+                                .observe(this@QuickMeetingCreateActivity) {
+                                    MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                }
+                        }
+                    }
                 }
             )
         }
@@ -398,7 +407,26 @@ fun QuickMeetingCreateScreen(
                 isLoading = uiState.isLoading,
                 isPriceLoading = uiState.isPriceLoading,
                 showPriceLoadingIndicator = true, // 可以设置为false来隐藏价格加载指示器
-                onCreateClick = onCreateClick
+                onCreateClick = if (HttpsBroadConfig.openTPay) onCreateClick else {
+                    {
+                        goPermissionAudioMeet() {
+                            viewModel.startCreateMeetingFlow(
+//                        onSuccess = onCreateSuccess,
+                                onError = { error ->
+                                    ToastBroadUtils.show(error)
+                                },
+                                onSuccessInvoke = { hasPassword ->
+                                    if (hasPassword) {
+                                        eLogD(APP_TAG, "展示支付密码弹窗----》")
+                                        PasswordPricedPop(getAppContext(), uiState.calculateTotalPrice().toString(), {
+                                            onPayAuthSuccess.invoke()
+                                        }).showPopupWindow()
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
             )
         }
     }

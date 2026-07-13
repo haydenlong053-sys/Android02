@@ -78,10 +78,12 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             "channelId" to groupIdNo,
             "channelName" to channelName,
             "durationConfigId" to durationConfigId,
-            "userTierConfigId" to userTierConfigId,
-            "payType" to "chain",
-            "orderId" to orderId
+            "userTierConfigId" to userTierConfigId
         )
+        if (!TextUtils.isEmpty(orderId)) {
+            params["payType"] = "chain"
+            params["orderId"] = orderId ?: ""
+        }
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(
@@ -142,10 +144,14 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 延长直播时间
      */
-    suspend fun goExtendQuickMeet(groupIdNo: String, orderId: String?, durationConfigId: Int = 1): SingleLiveBroadData<QuickDetailMeetBean> {
+    suspend fun goExtendQuickMeet(groupIdNo: String, orderId: String? = "", durationConfigId: Int = 1): SingleLiveBroadData<QuickDetailMeetBean> {
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
-        val params = hashMapOf("groupIdNo" to groupIdNo, "durationConfigId" to durationConfigId, "orderId" to orderId, "payType" to "chain")
+        val params = hashMapOf("groupIdNo" to groupIdNo, "durationConfigId" to durationConfigId)
+        if (!TextUtils.isEmpty(orderId)) {
+            params["payType"] = "chain"
+            params["orderId"] = orderId ?: ""
+        }
         withContext(Dispatchers.IO) {
             try {
                 NetworkBroadRepository.postEncrypted2<QuickDetailMeetBean>(

@@ -15,6 +15,7 @@ import kotlin.system.exitProcess
 object HttpsBroadConfig {
     // 此处提审的时候改成true
     const val isReviewEnv = BuildConfig.IS_REVIEW_ENV
+    const val openTPay = !BuildConfig.IS_DEBUG
     val appBaseUrl
         get():String {
             return "$appHost2/api"
