@@ -25,8 +25,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.chatui.MarqueeTextBroadView;
+import com.cboda.intelligent.activity.QuickMeetingCreateActivity;
 import com.cboda.select.picture.basic.PictureSelector;
 import com.cboda.select.picture.config.PictureMimeType;
 import com.cboda.select.picture.config.SelectMimeType;
@@ -138,7 +140,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private ActivityResultLauncher<String[]> filePickerLauncher;
     private ActivityResultLauncher<Intent> mentionPickerLauncher;
 
-    /** 本地是否可能还有更早一页（用于下拉刷新） */
+    /**
+     * 本地是否可能还有更早一页（用于下拉刷新）
+     */
     private boolean hasMoreHistory;
     public View qungonggaoBroad;
     public MarqueeTextBroadView gonggaoxinxiBroad;
@@ -383,7 +387,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         qungonggaoBroad.setOnClickListener(openNoticeListener);
     }
 
-    /** 群禁言数据就绪或角色变化后刷新底栏。 */
+    /**
+     * 群禁言数据就绪或角色变化后刷新底栏。
+     */
     public void onGroupMuteStateReady() {
         applyGroupMuteStatus(myGroupRole);
     }
@@ -739,7 +745,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 fileName,
                 localPath);
         sendMediaMessage(message, file, (msg, upload) ->
-                MessageBuilder.applyFileUpload(msg, fileName, localPath, upload.getUrl()),
+                        MessageBuilder.applyFileUpload(msg, fileName, localPath, upload.getUrl()),
                 R.string.file_upload_failed);
     }
 
@@ -753,7 +759,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 duration,
                 localPath);
         sendMediaMessage(message, file, (msg, upload) ->
-                MessageBuilder.applyVoiceUpload(msg, duration, localPath, upload.getUrl()),
+                        MessageBuilder.applyVoiceUpload(msg, duration, localPath, upload.getUrl()),
                 R.string.voice_upload_failed);
     }
 
@@ -859,7 +865,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         final int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
         retryMediaUpload(message, new File(localPath), (msg, upload) ->
-                MessageBuilder.applyVoiceUpload(msg, duration, localPath, upload.getUrl()),
+                        MessageBuilder.applyVoiceUpload(msg, duration, localPath, upload.getUrl()),
                 R.string.voice_upload_failed);
     }
 
@@ -875,7 +881,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         final String fileName = MediaMessageContentUtil.resolveFileName(message.getContent());
         retryMediaUpload(message, new File(localPath), (msg, upload) ->
-                MessageBuilder.applyFileUpload(msg, fileName, localPath, upload.getUrl()),
+                        MessageBuilder.applyFileUpload(msg, fileName, localPath, upload.getUrl()),
                 R.string.file_upload_failed);
     }
 
@@ -1025,7 +1031,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
         AppMessage message = MessageBuilder.buildTextMessage(
                 sessionId, sessionItem.getConversation(), peerUserId, text, customInfo);
-        ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG,"message.getContent()="+message.getContent()+"------"+"message.getCustomInfo()="+message.getCustomInfo());
+        ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG, "message.getContent()=" + message.getContent() + "------" + "message.getCustomInfo()=" + message.getCustomInfo());
         MessageProcessor.getInstance().sendMsg(message, () -> {
             adapter.appendMessages(Collections.singletonList(message));
             scrollToLatest();
@@ -1278,29 +1284,33 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private void openCollectFolder() {
         if (isGroupChat) {
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
-                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), "", sessionId, sessionId,null);
+                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), "", sessionId, sessionId, null);
         } else {
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
-                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), peerUserId, "", sessionId,null);
+                    requireActivity(), BridgeImEnum.COLLECT_IM.getValue(), peerUserId, "", sessionId, null);
         }
     }
 
     private void openBusinessCardPicker() {
         if (isGroupChat) {
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
-                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), "", sessionId, sessionId,null);
+                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), "", sessionId, sessionId, null);
         } else {
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
-                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), peerUserId, "", sessionId,null);
+                    requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), peerUserId, "", sessionId, null);
         }
     }
 
     private void openMeetingRoom() {
-        if (!isGroupChat) {
+        if (!isGroupChat || sessionId == null || sessionItem.getSessionName() == null) {
             return;
         }
-        MyCommonBroadBridge.getInstance().setMyBridgeMethod(
-                requireActivity(), BridgeImEnum.MEETING_ROOM.getValue(), "", sessionId, null);
+        if (myGroupRole == GroupRole.MEMBER) {
+            ToastBroadUtils.show("只有群主/管理员可以开启会议室");
+        } else {
+            QuickMeetingCreateActivity.Companion.launch(requireContext(), sessionId, sessionItem.getSessionName());
+
+        }
     }
 
     private void openAntiFraud() {
