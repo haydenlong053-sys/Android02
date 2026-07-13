@@ -31,7 +31,9 @@ plugins {
 
 allprojects {
     configurations.configureEach {
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
         resolutionStrategy {
+            force "com.google.protobuf:protobuf-javalite:${libs.versions.protobuf.verson.get()}"
             force 'androidx.activity:activity:1.13.0-alpha01'
             force 'androidx.collection:collection-jvm:1.5.0'
             force 'androidx.compose.animation:animation-android:1.9.4'

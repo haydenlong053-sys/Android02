@@ -52,6 +52,8 @@ import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
 import com.freddy.chat.im.ImAppLifecycleObserver
 import com.freddy.im.http.EasyHttpBootstrap
+import com.freddy.webtrc.utils.CallUtil
+import com.freddy.webtrc.utils.CallUtil.initCall
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.scwang.smart.refresh.footer.BallPulseFooter
@@ -145,6 +147,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         initDoraKit()
         lateInitSdk()
         initMyIm()
+        initCall(this)
         addActivityLifecycleCallbacks(lifeListener)
         clearUserDataLiveData.removeObserver(clearUserDataListener)
         clearUserDataLiveData.observeForever(clearUserDataListener)

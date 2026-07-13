@@ -14,6 +14,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.shinichi.library.ImagePreview
@@ -394,6 +395,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                                 CallUtil.joinRoom(
                                     callTokenBean.url,
                                     callTokenBean.token,
+                                    lifecycle.coroutineScope,
                                     this@HaoYouPageBroadActivity
                                 )
                             } else {

@@ -3,17 +3,22 @@ package com.freddy.webtrc.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.toLog
 import io.livekit.android.LiveKit
 import io.livekit.android.events.RoomEvent
 import io.livekit.android.events.collect
 import io.livekit.android.room.Room
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 object CallUtil {
+    private const val tAG = "CallUtilClass"
+
     // scope: CoroutineScope
     @SuppressLint("StaticFieldLeak")
     private var callRoom: Room? = null
@@ -25,18 +30,32 @@ object CallUtil {
         return callRoom
     }
 
+    fun initCall(context: Context) {
+        getCallRoom(context)
+    }
+
     private fun createRoom(context: Context? = null): Room {
         return LiveKit.create(getAppContext(context))
     }
 
     // 创建/加入通话
-    fun joinRoom(url: String?, token: String?, context: Context? = null) {
-        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(token)) {
-            GlobalScope.launch {
-                withContext(Dispatchers.IO) {
-                    getCallRoom(context)?.connect(url ?: "", token ?: "")
+    fun joinRoom(url: String?, token: String?, scope: CoroutineScope, context: Context? = null) {
+        eLogD(tAG,"url:$url")
+        eLogD(tAG,"token:$token")
+        try {
+            if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(token)) {
+                scope.launch {
+                    withContext(Dispatchers.IO) {
+                        try {
+                            getCallRoom(context)?.connect(url ?: "", token ?: "")
+                        } catch (e1: Exception) {
+                            e1.toLog(tAG)
+                        }
+                    }
                 }
             }
+        } catch (e2: Exception) {
+            e2.toLog(tAG)
         }
     }
 

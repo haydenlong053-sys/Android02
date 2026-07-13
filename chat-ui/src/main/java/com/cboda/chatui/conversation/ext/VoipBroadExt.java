@@ -112,7 +112,7 @@ public class VoipBroadExt extends ConversationMidExt {
             @Override
             public Unit invoke(CallTokenBean callTokenBean) {
                 if (callTokenBean != null) {
-                    CallUtil.INSTANCE.joinRoom(callTokenBean.getUrl(), callTokenBean.getToken(), activity);
+//                    CallUtil.INSTANCE.joinRoom(callTokenBean.getUrl(), callTokenBean.getToken(), activity);
                 } else {
                     ToastBroadUtils.show(activity.getString(R.string.call_network_error));
                 }

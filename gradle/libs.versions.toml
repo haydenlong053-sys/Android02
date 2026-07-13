@@ -183,6 +183,7 @@ agora_meet = { group = "io.agora.rtc" , name = "agora-special-full", version.ref
 agora_screen_share = { group = "io.agora.rtc" , name = "full-screen-sharing", version.ref = "agora_verson"}
 
 protobuf_java = { group = "com.google.protobuf" , name = "protobuf-java", version.ref = "protobuf_verson"}
+protobuf_javalite = { group = "com.google.protobuf" , name = "protobuf-javalite", version.ref = "protobuf_verson"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
