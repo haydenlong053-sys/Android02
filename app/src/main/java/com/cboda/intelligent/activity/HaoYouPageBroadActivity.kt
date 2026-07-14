@@ -389,20 +389,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 .request(object : OnPermissionCallback {
                     override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
 //                        WfcUIBroadKit.singleCall(this@HaoYouPageBroadActivity, otherUid, true)
-                        BroadE.startCall(otherUid, false) { callTokenBean ->
-                            if (callTokenBean != null) {
-                                CallUtil.joinRoom(
-                                    callTokenBean.url,
-                                    callTokenBean.token,
-                                    lifecycle.coroutineScope,
-                                    this@HaoYouPageBroadActivity
-                                )
-//                                val voip = Intent(this, SingleCallBroadActivity::class.java)
-//                                .startActivity(context, voip)
-                            } else {
-                                ToastBroadUtils.show(getString(com.cboda.chatui.R.string.call_network_error))
-                            }
-                        }
+                        BroadE.startCall(otherUid, false)
                     }
                 })
         }

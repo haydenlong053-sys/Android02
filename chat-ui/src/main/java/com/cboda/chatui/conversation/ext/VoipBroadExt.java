@@ -108,17 +108,7 @@ public class VoipBroadExt extends ConversationMidExt {
     }
 
     private void startVoipCall(String targetId, boolean video) {
-        BroadE.INSTANCE.startCall(targetId, video, new Function1<CallTokenBean, Unit>() {
-            @Override
-            public Unit invoke(CallTokenBean callTokenBean) {
-                if (callTokenBean != null) {
-//                    CallUtil.INSTANCE.joinRoom(callTokenBean.getUrl(), callTokenBean.getToken(), activity);
-                } else {
-                    ToastBroadUtils.show(activity.getString(R.string.call_network_error));
-                }
-                return Unit.INSTANCE;
-            }
-        });
+        BroadE.INSTANCE.startCall(targetId, video, null, null);
     }
 
     @Override

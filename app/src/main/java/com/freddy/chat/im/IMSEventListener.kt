@@ -202,7 +202,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 eLogD(tAG, "解析 CountMsgReadSig 失败", e)
             }
         }
-        //语音通话
+        //收到语音通话
         else if (push.header.cmd == ImSignalProtos.Cmd.CALL_SIGNAL_VALUE && push.hasBody()) {
             val sign = ImSignalProtos.CallSignal.parseFrom(push.body.toByteArray())
             eLogD(
@@ -214,6 +214,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                         + " ,mode=" + sign.mode
                         + " ,fromUserIcon=" + sign.fromUserIcon)
             )
+
         }
 
         // 0x0501 其他业务信令：OthBusiSig 按 code 分发
