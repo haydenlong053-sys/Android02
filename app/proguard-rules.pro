@@ -228,6 +228,8 @@
 -keep class com.cboda.baselibrary.bean.**{*;}
 -keep class com.cboda.baselibrary.event.**{*;}
 -keep class com.cboda.intelligent.bean.**{*;}
+-keep class com.freddy.webtrc.bean.**{*;}
+-keep class com.freddy.webtrc.utils.**{*;}
 -keep class com.cboda.baselibrary.app.UtilBroadApplication { *; }
 -keep class com.cboda.baselibrary.utils.CrashUtilKt { *; }
 -keep class com.cboda.baselibrary.utils.MMKVBroadUtils { *; }
