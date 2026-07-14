@@ -473,9 +473,10 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                     isFirst = false;
                     fetchGroupNoticeFromServer();
                 }
-                if (meetPlugin != null && MeetCallManager.getInstance().isIdleState()) {
-                    meetPlugin.queryMeetInfo(sessionItem.getSessionId(), "active");
-                }
+                //onResume暂时先不开启聚焦查询会议信息
+//                if (meetPlugin != null && MeetCallManager.getInstance().isIdleState()) {
+//                    meetPlugin.queryMeetInfo(sessionItem.getSessionId(), "active");
+//                }
             } else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.PAIR_VALUE) {
                 getUserData();
             }
