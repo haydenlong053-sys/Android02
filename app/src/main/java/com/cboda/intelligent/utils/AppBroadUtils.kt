@@ -223,10 +223,14 @@ class AppBroadUtils {
 
             NetworkBroadConfig.updateAppToken(apptoken)
             goLoginMyIm(apptoken, uid)
-            //自研隐藏此处野火im
             //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
-            val connextStatus = ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
-            eLogD("野火", "connect----> $connextStatus --> }")
+            if (!HttpsBroadConfig.useSelfImOnly) {
+                val connextStatus =
+                    ChatManagerBroadHolder.gChatManager.connect(uid ?: "", myImUserToken ?: "")
+                eLogD("野火", "connect----> $connextStatus --> }")
+            } else {
+                eLogD("野火", "useSelfImOnly=true，跳过登录 connect")
+            }
 
             MyBroadApp.initOkGo()
             MainScope().launch {
@@ -305,7 +309,9 @@ class AppBroadUtils {
 
 
         fun clearUserData(context: Context?) {
-            ChatManager.Instance().disconnect(true, false)
+            if (!HttpsBroadConfig.useSelfImOnly) {
+                ChatManager.Instance().disconnect(true, false)
+            }
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "")
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "")
             NetworkBroadConfig.updateAppToken("")
