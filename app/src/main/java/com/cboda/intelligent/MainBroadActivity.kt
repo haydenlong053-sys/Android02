@@ -587,7 +587,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
             viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
             tongxunluUnreadCount = (data.fris + data.gros).toString()
-            ChatManager.Instance().qunshenqing = data.gros
+            if (!HttpsBroadConfig.useSelfImOnly) {
+                ChatManager.Instance().qunshenqing = data.gros
+            }
 
             IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
             eLogD("看看未读", "main$tongxunluUnreadCount")
@@ -603,12 +605,15 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                     tongxunluUnreadCount
                 )
             )
-            val entry = ModifyMyInfoEntry(ModifyMyInfoType.Modify_DisplayName, data.name)
-            val entry1 = ModifyMyInfoEntry(ModifyMyInfoType.Modify_Portrait, data.userImg)
-            userViewModel?.modifyMyInfo(listOf(entry, entry1))
-                ?.observe(this@MainBroadActivity) { it1 ->
-                    AppBroadUtils.debug("野火", "修改用户信息---> ${it1.isSuccess}")
-                }
+            // useSelfImOnly 时未 connect，ChatManager.userId 为空，modifyMyInfo 会 NPE
+            if (!HttpsBroadConfig.useSelfImOnly) {
+                val entry = ModifyMyInfoEntry(ModifyMyInfoType.Modify_DisplayName, data.name)
+                val entry1 = ModifyMyInfoEntry(ModifyMyInfoType.Modify_Portrait, data.userImg)
+                userViewModel?.modifyMyInfo(listOf(entry, entry1))
+                    ?.observe(this@MainBroadActivity) { it1 ->
+                        AppBroadUtils.debug("野火", "修改用户信息---> ${it1.isSuccess}")
+                    }
+            }
         }
     }
 
@@ -640,7 +645,16 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     private var isInitialized = false
     private var playHolder: SingleBtnBroadHolder? = null
     private fun afterViews() {
-        eLogD("MainActivityClass", "野火开始初始化--->")
+        if (HttpsBroadConfig.useSelfImOnly) {
+            eLogD("MainActivityClass", "useSelfImOnly=true，跳过等野火 ClientService，直接挂 Tab")
+            if (!isInitialized) {
+                initMyIm()
+                isInitialized = true
+            }
+            return
+        }
+
+//        eLogD("MainActivityClass", "野火开始初始化--->")
         val imServiceStatusViewModel = ViewModelProvider(this)[IMServiceStatusViewBroadModel::class.java]
         imServiceStatusViewModel.imServiceStatusLiveData().observe(this) {
             if (it && !isInitialized) {
