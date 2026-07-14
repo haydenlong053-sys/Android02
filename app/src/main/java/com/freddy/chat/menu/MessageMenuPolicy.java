@@ -21,7 +21,9 @@ public final class MessageMenuPolicy {
     }
 
     public static boolean supportsContextMenu(@Nullable AppMessage message) {
-        return message != null && !WeChatUiHelper.isSystemMessage(message);
+        return message != null
+                && !WeChatUiHelper.isSystemMessage(message)
+                && !WeChatUiHelper.isMeetStatusMessage(message.getMsgContentType());
     }
 
     public static boolean canRecall(@NonNull AppMessage message, @Nullable String currentUserId) {

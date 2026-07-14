@@ -82,6 +82,18 @@ public final class MessageContentFormatter {
         return MessageType.MessageContentType.isNotice(msgContentType);
     }
 
+    public static boolean isMeetStartMessage(int msgContentType) {
+        return MessageType.MessageContentType.isMeetStart(msgContentType);
+    }
+
+    public static boolean isMeetEndMessage(int msgContentType) {
+        return MessageType.MessageContentType.isMeetEnd(msgContentType);
+    }
+
+    public static boolean isMeetStatusMessage(int msgContentType) {
+        return MessageType.MessageContentType.isMeetStatus(msgContentType);
+    }
+
     @NonNull
     public static String formatDisplayText(@NonNull AppMessage message,
                                            @Nullable String currentUserId,
@@ -116,6 +128,12 @@ public final class MessageContentFormatter {
         }
         if (isNoticeMessage(type)) {
             return "[公告]";
+        }
+        if (isMeetStartMessage(type)) {
+            return "会议中";
+        }
+        if (isMeetEndMessage(type)) {
+            return "会议已结束";
         }
         if (isMergeTranspondMessage(type)) {
             return formatMergeTranspondDisplay(message.getContent());
@@ -175,6 +193,12 @@ public final class MessageContentFormatter {
         }
         if (isNoticeMessage(type)) {
             return "[公告]";
+        }
+        if (isMeetStartMessage(type)) {
+            return "会议中";
+        }
+        if (isMeetEndMessage(type)) {
+            return "会议已结束";
         }
         if (isMergeTranspondMessage(type)) {
             return formatMergeTranspondDisplay(content);

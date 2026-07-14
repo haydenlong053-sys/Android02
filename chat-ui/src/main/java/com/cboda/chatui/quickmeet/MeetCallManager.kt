@@ -16,6 +16,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.chatui.quickmeet.bean.CallData
+import com.cboda.chatui.quickmeet.bean.GroupMemberRole
 import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.CallStatus
 import com.cboda.chatui.quickmeet.bean.MeetRole
@@ -89,7 +90,13 @@ class MeetCallManager private constructor() {
      * @param msg CallRespData 通话接口数据
      * @param direct CallDirect? 会议接听/发言方
      */
-    fun callMeetAction(direct: CallDirect?, channelId: String, token: String, quickDetailMeetBean: QuickDetailMeetBean? = null) {
+    fun callMeetAction(
+        direct: CallDirect?,
+        channelId: String,
+        token: String,
+        quickDetailMeetBean: QuickDetailMeetBean? = null,
+        groupMemberRole: Int = GroupMemberRole.UNKNOWN,
+    ) {
         if (checkMeetPermissions()) {
             if (!isIdleState()) {
                 eLogD("call", "callEvent 当前有正在进行的通话会议=========>")
@@ -100,6 +107,7 @@ class MeetCallManager private constructor() {
             data.direct = direct
             data.channelId = channelId
             data.quickDetailMeetBean = quickDetailMeetBean
+            data.groupMemberRole = groupMemberRole
             //初始化通话参数
             start(data, channelId, token)
         } else {
@@ -129,8 +137,11 @@ class MeetCallManager private constructor() {
             mCallData.callStatus = data.callStatus
             mCallData.channelId = data.channelId
             mCallData.quickDetailMeetBean = data.quickDetailMeetBean
+            mCallData.groupMemberRole = data.groupMemberRole
             mCallData.role = if (data.quickDetailMeetBean != null && realUserId == data.quickDetailMeetBean?.userId) {
                 MeetRole.OWNER
+            } else if (data.groupMemberRole == GroupMemberRole.ADMIN) {
+                MeetRole.MANAGER
             } else {
                 null
             }
@@ -425,6 +436,11 @@ class MeetCallManager private constructor() {
     }
     fun isOwner(): Boolean {
         return mCallData.role == MeetRole.OWNER
+    }
+
+    /** 当前用户是否为群主或群管理员（用于下麦等群管理操作）。 */
+    fun isGroupOwnerOrAdmin(): Boolean {
+        return GroupMemberRole.isOwnerOrAdmin(mCallData.groupMemberRole)
     }
 
     /**

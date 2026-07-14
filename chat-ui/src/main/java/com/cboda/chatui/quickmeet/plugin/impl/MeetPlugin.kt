@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.cboda.baselibrary.bean.GlobalChatGroupBean
 import com.cboda.baselibrary.bean.MeetUser
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
@@ -32,6 +31,7 @@ import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.CallDirect
+import com.cboda.chatui.quickmeet.bean.GroupMemberRole
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.bean.SeatNumb
@@ -106,9 +106,11 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private var outsideTapMaskView: View? = null
 
     private var viewModel: QuickMeetViewBroadModel? = null
-    private var groupBean: GlobalChatGroupBean? = null
     private var groupId: String? = null
     private var meetChannelBean: QuickDetailMeetBean? = null
+
+    /** 自研群聊本地群成员角色，加入会议时写入 CallData。 */
+    var groupMemberRole: Int = GroupMemberRole.UNKNOWN
 
     //4个固定麦位的本地数据
     private val seatMicFourList = arrayListOf(
@@ -132,8 +134,6 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private val closeMicText by lazy {
         activity.resources.getString(com.cboda.baselibrary.R.string.msg_meeting_close_mic)
     }
-
-    private var myGroupMemberType: String? = null
 
     val pluginMoveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
         LiveDataBroadBroadBus.getInstance().with("call_move_event")
@@ -279,7 +279,13 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 } else {
                     CallDirect.ANSWER
                 }
-                MeetCallManager.getInstance().callMeetAction(direct, it.channelId ?: "", it.token ?: "", it)
+                MeetCallManager.getInstance().callMeetAction(
+                    direct,
+                    it.channelId ?: "",
+                    it.token ?: "",
+                    it,
+                    groupMemberRole,
+                )
             }
         }
     }
@@ -405,7 +411,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     //群主或管理员点击下mic弹框
     private fun goDownMic(ordinal: Int) {
-        if (myGroupMemberType == "1" || myGroupMemberType == "2") {
+        if (MeetCallManager.getInstance().isGroupOwnerOrAdmin()) {
             showDownMicDialog(activity) { i, _ ->
                 val applicantUserId = if (SeatNumb.MIC_SUB.ordinal == ordinal) {
                     seatMicFourList[1].userId
@@ -878,30 +884,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             if (MeetCallManager.getInstance().isCallingState()) {
                 //当前处于会议通话状态
                 setupPanel(activity)
-                queryGroupInfo()
-            }
-//            setupPanel(activity)
-        }
-    }
-
-    //首次进入会议频道后
-    private fun queryGroupInfo() {
-        activity.lifecycleScope.launch {
-            val channelId = MeetCallManager.getInstance().mCallData.channelId
-            viewModel?.queryGroupInfo(channelId, failInvoke = { code, _ ->
-                // 如果当前用户已不在群组内，则退出正在进行中的会议
-                if (code == 200 && MeetCallManager.getInstance().isCallingState()) {
-                    goOverMeeting()
-                }
-            })?.observe(activity) { bean ->
-                groupBean = bean
-                groupBean?.userList?.find {
-                    it.userId == myUserId
-                }?.let {
-                    myGroupMemberType = it.type
-                }
                 goRefreshMeetSeatInfo(true)
             }
+//            setupPanel(activity)
         }
     }
 

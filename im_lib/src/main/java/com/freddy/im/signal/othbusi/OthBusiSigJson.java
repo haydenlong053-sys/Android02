@@ -26,6 +26,16 @@ public final class OthBusiSigJson {
         return readString(data, "groupId");
     }
 
+    /** 会议室业务统一群 ID 字段；兼容误写为 {@code groupId} 的场景。 */
+    @Nullable
+    public static String readGroupIdNo(@Nullable String data) {
+        String groupIdNo = readString(data, "groupIdNo");
+        if (!TextUtils.isEmpty(groupIdNo)) {
+            return groupIdNo;
+        }
+        return readGroupId(data);
+    }
+
     @Nullable
     public static String readString(@Nullable String data, @NonNull String field) {
         if (TextUtils.isEmpty(data) || TextUtils.isEmpty(field)) {

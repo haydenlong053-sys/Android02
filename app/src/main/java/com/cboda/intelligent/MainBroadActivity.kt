@@ -493,24 +493,26 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
 
     private fun checkMeetOrder() {
-        quickMeetViewBroadModel.checkPayMeet().observe(this@MainBroadActivity) { data ->
-            val paidUnused = data.paidUnused
-            paidUnused?.let { checkMeetBean ->
-                if (checkMeetBean.remainSeconds > 0 && checkMeetBean.has) {
-                    showCommonStrTip("是否继续创建会议？", "你有一笔已支付但未使用的会议订单，该订单将保留", "稍后处理", "继续开会", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
-                        if (toCheck) {
+        if (HttpsBroadConfig.openTPay) {
+            quickMeetViewBroadModel.checkPayMeet().observe(this@MainBroadActivity) { data ->
+                val paidUnused = data.paidUnused
+                paidUnused?.let { checkMeetBean ->
+                    if (checkMeetBean.remainSeconds > 0 && checkMeetBean.has) {
+                        showCommonStrTip("是否继续创建会议？", "你有一笔已支付但未使用的会议订单，该订单将保留", "稍后处理", "继续开会", getResumeActivity(), isOutSideTouchable = false) { toCheck ->
+                            if (toCheck) {
 //                            eLogD("MainBroadActivityClass", "toCheck")
-                            lifecycleScope.launch {
+                                lifecycleScope.launch {
 //                                eLogD("MainBroadActivityClass", "goCreateQuickMeet")
-                                quickMeetViewModel.goCreateQuickMeet(checkMeetBean.groupIdNo, checkMeetBean.channelName, checkMeetBean.durationConfigId, checkMeetBean.userTierConfigId, checkMeetBean.orderId)
-                                    .observe(this@MainBroadActivity) {
+                                    quickMeetViewModel.goCreateQuickMeet(checkMeetBean.groupIdNo, checkMeetBean.channelName, checkMeetBean.durationConfigId, checkMeetBean.userTierConfigId, checkMeetBean.orderId)
+                                        .observe(this@MainBroadActivity) {
 //                                        eLogD("MainBroadActivityClass", "callMeetAction_data:${toJson2(it)}")
-                                        AppBroadUtils.goChat(this@MainBroadActivity, paidUnused.groupIdNo, "1", it)
-                                    }
+                                            AppBroadUtils.goChat(this@MainBroadActivity, paidUnused.groupIdNo, "1", it)
+                                        }
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
             }
         }
@@ -814,13 +816,22 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     showMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount) {
                                         eLogD("createYsGroupPayOrder", "isCallingState:${MeetCallManager.getInstance().isCallingState()}")
                                         if (MeetCallManager.getInstance().isCallingState()) {
-                                            //会议加时 延长会议
-                                            newMirrorViewBroadModel.createYsGroupPayOrder(MeetCallManager.getInstance().mCallData, true, true) { data ->
-                                                eLogD("createYsGroupPayOrder", "createYsGroupPayOrder_return_Success")
-                                                eLogD("createYsGroupPayOrder", "data:${toJson2(data)}")
-                                                payLsOrderBean = data
-                                                showSelectPayMethod()
+                                            if (HttpsBroadConfig.openTPay) {
+                                                //会议加时 延长会议
+                                                newMirrorViewBroadModel.createYsGroupPayOrder(MeetCallManager.getInstance().mCallData, true, true) { data ->
+                                                    eLogD("createYsGroupPayOrder", "createYsGroupPayOrder_return_Success")
+                                                    eLogD("createYsGroupPayOrder", "data:${toJson2(data)}")
+                                                    payLsOrderBean = data
+                                                    showSelectPayMethod()
+                                                }
+                                            } else {
+                                                lifecycleScope.launch {
+                                                    quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
+                                                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                                                    }
+                                                }
                                             }
+
 
                                         }
                                     }

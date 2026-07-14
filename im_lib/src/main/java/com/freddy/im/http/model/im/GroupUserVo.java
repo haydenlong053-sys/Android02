@@ -13,10 +13,15 @@ public class GroupUserVo {
     private String nickname;
     /** 接口部分场景返回 username */
     private String username;
+    private String idNo;
     private int statusInGroup;
     //角色 0:群主 1:管理员 2:普通成员
     private int role;
     private Long joinTime;
+    private Long registerTime;
+    private String lianghao;
+    private String isvip;
+    private Double grade;
     private String headPortrait;
     private List<String> busiRoles;
     private String userExtAttrs;
@@ -53,6 +58,14 @@ public class GroupUserVo {
         this.username = username;
     }
 
+    public String getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(String idNo) {
+        this.idNo = idNo;
+    }
+
     /** 展示用昵称 */
     public String getDisplayName() {
         if (nickname != null && !nickname.isEmpty()) {
@@ -86,6 +99,38 @@ public class GroupUserVo {
 
     public void setJoinTime(Long joinTime) {
         this.joinTime = joinTime;
+    }
+
+    public Long getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Long registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public String getLianghao() {
+        return lianghao;
+    }
+
+    public void setLianghao(String lianghao) {
+        this.lianghao = lianghao;
+    }
+
+    public String getIsvip() {
+        return isvip;
+    }
+
+    public void setIsvip(String isvip) {
+        this.isvip = isvip;
+    }
+
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Double grade) {
+        this.grade = grade;
     }
 
     public String getHeadPortrait() {

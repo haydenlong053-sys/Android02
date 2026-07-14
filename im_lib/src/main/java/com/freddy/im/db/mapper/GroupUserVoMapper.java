@@ -45,12 +45,26 @@ public final class GroupUserVoMapper {
         item.setUserId(vo.getUserId().trim());
         item.setCompanyId(vo.getCompanyId());
         item.setNickname(vo.getNickname());
+        item.setUsername(vo.getUsername());
+        item.setIdNo(vo.getIdNo());
         item.setHeadPortrait(vo.getHeadPortrait());
         item.setStatusInGroup(vo.getStatusInGroup());
         item.setRole(vo.getRole());
         item.setJoinTime(vo.getJoinTime() != null ? vo.getJoinTime() : 0L);
+        item.setRegisterTime(vo.getRegisterTime() != null ? vo.getRegisterTime() : 0L);
+        item.setLianghao(vo.getLianghao());
+        item.setIsvip(vo.getIsvip());
+        item.setGrade(formatGrade(vo.getGrade()));
         item.setUserExtAttrs(vo.getUserExtAttrs());
         item.setDeleted(false);
         return item;
+    }
+
+    @Nullable
+    private static String formatGrade(@Nullable Double grade) {
+        if (grade == null) {
+            return null;
+        }
+        return String.valueOf(grade);
     }
 }
