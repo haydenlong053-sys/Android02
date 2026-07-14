@@ -3,8 +3,7 @@ package com.freddy.webtrc.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
-import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.utils.toLog
 import io.livekit.android.LiveKit
 import io.livekit.android.events.RoomEvent
@@ -24,33 +23,45 @@ object CallUtil {
     private var callRoom: Room? = null
 
     private fun getCallRoom(context: Context? = null): Room? {
-        if (callRoom == null) {
-            callRoom = createRoom(context)
+        try {
+            if (callRoom == null) {
+                callRoom = createRoom(context)
+            }
+        } catch (e: Exception) {
+            e.toLog(tAG)
         }
         return callRoom
     }
 
     fun initCall(context: Context) {
-        getCallRoom(context)
+//        getCallRoom(context)
     }
 
     private fun createRoom(context: Context? = null): Room {
-        return LiveKit.create(getAppContext(context))
+//        return LiveKit.create(getAppContext(context))
+        return LiveKit.create(UtilBroadApplication.cxt)
+    }
+
+
+    private suspend fun joinRoom(url: String?, token: String?, context: Context? = null) {
+        try {
+            getCallRoom(context)?.connect(url ?: "", token ?: "")
+        } catch (e1: Exception) {
+            e1.toLog(tAG)
+        }
     }
 
     // 创建/加入通话
-    fun joinRoom(url: String?, token: String?, scope: CoroutineScope, context: Context? = null) {
-        eLogD(tAG,"url:$url")
-        eLogD(tAG,"token:$token")
+    fun joinRoom(url: String?, token: String?, scope: CoroutineScope? = null, context: Context? = null) {
         try {
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(token)) {
-                scope.launch {
+                scope?.launch {
                     withContext(Dispatchers.IO) {
-                        try {
-                            getCallRoom(context)?.connect(url ?: "", token ?: "")
-                        } catch (e1: Exception) {
-                            e1.toLog(tAG)
-                        }
+                        joinRoom(url, token, context)
+                    }
+                } ?: GlobalScope.launch {
+                    withContext(Dispatchers.IO) {
+                        joinRoom(url, token, context)
                     }
                 }
             }
@@ -60,11 +71,24 @@ object CallUtil {
     }
 
     //静音/打开麦克风
-    fun openOrCloseMicrophone(boolean: Boolean = false, context: Context? = null) {
-        GlobalScope.launch {
+    fun openOrCloseMicrophone(boolean: Boolean = false, scope: CoroutineScope? = null, context: Context? = null) {
+        scope?.launch {
             withContext(Dispatchers.IO) {
-                getCallRoom(context)?.localParticipant?.setMicrophoneEnabled(boolean)
+                openOrCloseMicrophone(boolean,context)
             }
+        }?: GlobalScope.launch {
+            withContext(Dispatchers.IO) {
+                openOrCloseMicrophone(boolean,context)
+            }
+        }
+    }
+
+
+    private suspend fun openOrCloseMicrophone(boolean: Boolean = false, context: Context? = null) {
+        try {
+            getCallRoom(context)?.localParticipant?.setMicrophoneEnabled(boolean)
+        } catch (e: Exception) {
+            e.toLog(tAG)
         }
     }
 

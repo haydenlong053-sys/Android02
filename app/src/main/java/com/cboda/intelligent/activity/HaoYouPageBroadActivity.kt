@@ -24,36 +24,35 @@ import com.airbnb.lottie.LottieAnimationView
 import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.clipViewOutlineRound
 import com.cboda.baselibrary.utils.formatWithBigDecimal
 import com.cboda.baselibrary.utils.setBackColor
-import com.cboda.baselibrary.utils.setBackColorAndStrokeColor
 import com.cboda.baselibrary.utils.setTxtColor
-import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.chatui.WfcUIBroadKit
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.chatui.conversation.ConversationViewBroadModel
 import com.cboda.chatui.utils.MyIMActivityBroadUtils
+import com.cboda.chatui.voip.SingleCallBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.PengYouQuanBroadAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
+import com.cboda.intelligent.bean.ErrorBroadBean
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
-import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.AppBroadUtils.Companion.goChatP2p
 import com.cboda.intelligent.utils.GlideLoaderBroadHelper
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
-import com.cboda.intelligent.bean.ErrorBroadBean
-import com.cboda.intelligent.utils.AppBroadUtils.Companion.goChatP2p
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
+import com.freddy.chat.clear.SessionMessageClearHelper
 import com.freddy.webtrc.utils.BroadE
 import com.freddy.webtrc.utils.CallUtil
-import com.freddy.chat.clear.SessionMessageClearHelper
-import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
@@ -398,6 +397,8 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                                     lifecycle.coroutineScope,
                                     this@HaoYouPageBroadActivity
                                 )
+//                                val voip = Intent(this, SingleCallBroadActivity::class.java)
+//                                .startActivity(context, voip)
                             } else {
                                 ToastBroadUtils.show(getString(com.cboda.chatui.R.string.call_network_error))
                             }

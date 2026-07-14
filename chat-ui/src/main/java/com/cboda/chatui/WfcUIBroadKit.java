@@ -387,10 +387,6 @@ public class WfcUIBroadKit implements AVEngineKit.AVEngineCallback, OnReceiveMes
             AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(isAudioOnly ? AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
             audioManager.setSpeakerphoneOn(!isAudioOnly);
-
-            Intent voip = new Intent(context, SingleCallBroadActivity.class);
-            startActivity(context, voip);
-
             VoipCallBroadService.start(context, false);
         }
     }
