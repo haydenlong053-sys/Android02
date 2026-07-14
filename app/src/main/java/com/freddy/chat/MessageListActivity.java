@@ -1,6 +1,7 @@
 package com.freddy.chat;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showMeetLeaveTip;
 
@@ -8,25 +9,36 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cboda.baselibrary.bean.DanmakuItem;
 import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.UserInfoBean;
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.utils.RealmUtil;
+import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
+import com.cboda.chatui.dialog.DanMaPop;
+import com.cboda.chatui.group.GroupViewBroadModel;
+import com.cboda.chatui.quickmeet.CallEventCallback;
 import com.cboda.chatui.quickmeet.MeetCallManager;
+import com.cboda.chatui.quickmeet.bean.CallData;
+import com.cboda.chatui.quickmeet.bean.EnumerationBean;
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
@@ -34,6 +46,7 @@ import com.freddy.im.group.GroupRole;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
+import com.freddy.chat.im.OthBusiSignalSender;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupVo;
@@ -48,6 +61,7 @@ import com.google.gson.Gson;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -59,9 +73,10 @@ import kotlin.jvm.functions.Function1;
 
 /**
  * 消息列表容器 Activity，内部承载 {@link MessageListFragment}。
+ * 群会话会议中展示 {@link HighPerformanceDanmakuView} 弹幕。
  */
 public class MessageListActivity extends BaseSimple2BroadActivity
-        implements GroupNoticeHost, GroupMuteHost {
+        implements GroupNoticeHost, GroupMuteHost, CallEventCallback {
     private boolean isInitialized = false;
     private MessageListFragment messageListFragment;
     private View pageTitleLeftIcon;
@@ -76,6 +91,11 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     private boolean groupAllMute;
     @NonNull
     private Set<String> mutedMemberIds = Collections.emptySet();
+
+    private HighPerformanceDanmakuView verticalDanmakuView;
+    private ImageView danmakuIv;
+    private View danmakuView;
+    private GroupViewBroadModel groupViewBroadModel;
 
     @Override
     public boolean showOrHideTitleLayout() {
@@ -147,6 +167,9 @@ public class MessageListActivity extends BaseSimple2BroadActivity
 
         pageTitle = findViewById(com.cboda.chatui.R.id.page_title);
         titleGradeAndTimeBroad = findViewById(com.cboda.chatui.R.id.titleGradeAndTime);
+        verticalDanmakuView = findViewById(R.id.verticalDanmakuView);
+        danmakuIv = findViewById(R.id.danmakuIv);
+        danmakuView = findViewById(R.id.danmakuView);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -166,6 +189,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             return;
         }
         final String groupId = sessionItem.getSessionId();
+        groupViewBroadModel = new ViewModelProvider(this).get(GroupViewBroadModel.class);
         meetPlugin = new MeetPlugin(this);
         getLifecycle().addObserver(meetPlugin);
         if (messageListFragment != null) {
@@ -181,11 +205,19 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         });
         meetPlugin.queryMeetInfo(groupId, "active");
 
+        MeetCallManager.getInstance().unregisterEngineEvent(this);
+        MeetCallManager.getInstance().registerEngineEvent(this);
+        setMeetingDanmakuVisible(isMeetingInCurrentGroup());
+        bindMeetingDanmakuObservers(groupId);
+
         BaseLiveDataEventKt.meetEndMsgLiveData.observe(this, groupIdNo -> {
             if (messageListFragment != null
                     && messageListFragment.isAdded()
                     && TextUtils.equals(groupId, groupIdNo)) {
                 messageListFragment.hideMeetJoinUi();
+            }
+            if (TextUtils.equals(groupId, groupIdNo)) {
+                setMeetingDanmakuVisible(false);
             }
         });
 
@@ -202,8 +234,165 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             if (!canReviewApply) {
                 return;
             }
+            if (danmakuView != null && danmakuIv != null && danmakuIv.getVisibility() == View.VISIBLE) {
+                danmakuView.setVisibility(View.VISIBLE);
+            }
             new MeetSeatApplyPop(this, groupIdNo).showPopupWindow();
         });
+    }
+
+    private void bindMeetingDanmakuObservers(@NonNull String groupId) {
+        BaseLiveDataEventKt.getUpdateBarrageDataLiveData().observe(this, barrageBean -> {
+            if (barrageBean == null || !isMeetingInCurrentGroup() || verticalDanmakuView == null) {
+                return;
+            }
+            if (barrageBean.getConversationType() != ImSignalProtos.ConversationType.MULTI_VALUE
+                    || !TextUtils.equals(groupId, barrageBean.getConversationId())) {
+                return;
+            }
+            String myId = MMKVBroadUtils.Companion.getRealUserId();
+            if (TextUtils.equals(myId, barrageBean.getSender())) {
+                // 本端发送时已立即展示，避免重复
+                return;
+            }
+            resolveUserDisplayName(barrageBean.getSender(), name -> {
+                addBarrageData(name, barrageBean.getGiftType(), false);
+                return Unit.INSTANCE;
+            });
+        });
+
+        if (danmakuIv != null) {
+            click(danmakuIv, () -> {
+                showMeetingDanMaPop();
+                return Unit.INSTANCE;
+            });
+        }
+    }
+
+    private void showMeetingDanMaPop() {
+        if (sessionItem == null || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        final String groupId = sessionItem.getSessionId();
+        int myRole = messageListFragment != null
+                ? messageListFragment.getMyGroupRole()
+                : GroupRole.MEMBER;
+        boolean isMan = GroupRole.isOwnerOrAdmin(myRole);
+        boolean haveApplyList = MeetCallManager.getInstance().isOwner() || isMan;
+        boolean haveUnread = danmakuView != null && danmakuView.getVisibility() == View.VISIBLE;
+        DanMaPop danMaPop;
+        if (MeetCallManager.getInstance().isOwner()) {
+            danMaPop = new DanMaPop(this, false, false, groupAllMute,
+                    false, false, true, haveUnread);
+        } else {
+            danMaPop = new DanMaPop(this, false, false, groupAllMute,
+                    !MeetCallManager.getInstance().isCallDirect(),
+                    MeetCallManager.getInstance().isCallDirect(),
+                    haveApplyList, haveUnread);
+        }
+        danMaPop.setClickInvoke(action -> {
+            EnumerationBean.DanMaPopAction popAction = action;
+            if (popAction == EnumerationBean.DanMaPopAction.FLOWER
+                    || popAction == EnumerationBean.DanMaPopAction.ACCLAMATION) {
+                OthBusiSignalSender.sendMeetingGift(
+                        String.valueOf(popAction.getCode()), groupId, "");
+                String sender = MMKVBroadUtils.Companion.getRealUserId();
+                resolveUserDisplayName(sender, name -> {
+                    addBarrageData(name, popAction.getCode(), true);
+                    return Unit.INSTANCE;
+                });
+            } else if (popAction == EnumerationBean.DanMaPopAction.UP_MIC) {
+                if (groupViewBroadModel != null) {
+                    groupViewBroadModel.goMeetUpMicApply(groupId).observe(this, ok ->
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_apply_pending));
+                }
+            } else if (popAction == EnumerationBean.DanMaPopAction.DOWN_MIC) {
+                if (groupViewBroadModel != null) {
+                    groupViewBroadModel.goMeetDownMicApply(groupId).observe(this, ok ->
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_off_mic_done));
+                }
+            } else if (popAction == EnumerationBean.DanMaPopAction.APPLICATION_LIST) {
+                if (danmakuView != null) {
+                    danmakuView.setVisibility(View.GONE);
+                }
+                new MeetSeatApplyPop(this, groupId).showPopupWindow();
+            }
+            return Unit.INSTANCE;
+        });
+        danMaPop.showPopupWindow(danmakuIv);
+    }
+
+    private void resolveUserDisplayName(@Nullable String userId,
+                                        @NonNull Function1<String, Unit> callback) {
+        if (TextUtils.isEmpty(userId)) {
+            callback.invoke("");
+            return;
+        }
+        RealmUtil.INSTANCE.findUserData(userId, bean -> {
+            String name = userId;
+            if (bean != null) {
+                if (!TextUtils.isEmpty(bean.remarkName)) {
+                    name = bean.remarkName;
+                } else if (!TextUtils.isEmpty(bean.nickName)) {
+                    name = bean.nickName;
+                }
+            }
+            callback.invoke(name);
+            return Unit.INSTANCE;
+        });
+    }
+
+    private void addBarrageData(@Nullable String userName, int giftType, boolean isMeSend) {
+        if (verticalDanmakuView == null) {
+            return;
+        }
+        DanmakuItem danmakuItem = new DanmakuItem();
+        danmakuItem.setContent((userName == null ? "" : userName) + ": ");
+        danmakuItem.setMeSend(isMeSend);
+        danmakuItem.setIconResId(giftType == 1
+                ? com.cboda.baselibrary.R.mipmap.icon_danma_xh
+                : com.cboda.baselibrary.R.mipmap.icon_danma_gz);
+        verticalDanmakuView.addDanmaku(danmakuItem);
+    }
+
+    private boolean isMeetingInCurrentGroup() {
+        if (sessionItem == null
+                || sessionItem.getConversation() != ImSignalProtos.ConversationType.MULTI_VALUE
+                || TextUtils.isEmpty(sessionItem.getSessionId())
+                || !MeetCallManager.getInstance().isCallingState()) {
+            return false;
+        }
+        QuickDetailMeetBean meetBean = MeetCallManager.getInstance().getMCallData().getQuickDetailMeetBean();
+        String meetGroupId = meetBean != null ? meetBean.groupIdNo : null;
+        if (TextUtils.isEmpty(meetGroupId)) {
+            meetGroupId = MeetCallManager.getInstance().getMCallData().getChannelId();
+        }
+        return TextUtils.equals(sessionItem.getSessionId(), meetGroupId);
+    }
+
+    private void setMeetingDanmakuVisible(boolean visible) {
+        if (danmakuIv != null) {
+            danmakuIv.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+        if (verticalDanmakuView != null) {
+            if (!visible) {
+                verticalDanmakuView.clearAll();
+            }
+            verticalDanmakuView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+        if (!visible && danmakuView != null) {
+            danmakuView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onRtcJoinChannelSuccess() {
+        setMeetingDanmakuVisible(isMeetingInCurrentGroup());
+    }
+
+    @Override
+    public void onEngineDestroy(@NotNull CallData data) {
+        setMeetingDanmakuVisible(false);
     }
 
     /** 同步本地群成员角色到 MeetPlugin，加入会议时写入 CallData。 */
@@ -522,9 +711,12 @@ public class MessageListActivity extends BaseSimple2BroadActivity
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        MeetCallManager.getInstance().unregisterEngineEvent(this);
+        if (verticalDanmakuView != null) {
+            verticalDanmakuView.clearAll();
+        }
         EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
-
 
 }

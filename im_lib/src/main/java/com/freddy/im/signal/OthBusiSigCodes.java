@@ -15,6 +15,12 @@ public final class OthBusiSigCodes {
     /** 群管理员角色变更，data 为 {@code {"groupId":"...","userIdList":[...],"newRole":1|2}}（1 管理员，2 普通成员）。 */
     public static final int GROUP_MANAGER_ROLE = 1004;
 
+    /**
+     * 会议礼物等业务通知，data 为
+     * {@code {"type":"...","groupId":"...","fromUserId":"...","giftType":"meeting_gift","toUserId":"...","timestamp":0}}。
+     */
+    public static final int MEETING_GIFT = 2001;
+
     // ---------- 会议室（与野火 MessageContentBroadType 4010~4040 对齐，勿跨模块引用 chat-client） ----------
 
     /** 会议开始，data 为 {@code {"groupIdNo":"..."}}。 */
