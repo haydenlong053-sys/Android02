@@ -154,6 +154,18 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isNoticeMessage(msgContentType);
     }
 
+    public static boolean isMeetStartMessage(int msgContentType) {
+        return MessageContentFormatter.isMeetStartMessage(msgContentType);
+    }
+
+    public static boolean isMeetEndMessage(int msgContentType) {
+        return MessageContentFormatter.isMeetEndMessage(msgContentType);
+    }
+
+    public static boolean isMeetStatusMessage(int msgContentType) {
+        return MessageContentFormatter.isMeetStatusMessage(msgContentType);
+    }
+
     public static boolean isMergeTranspondMessage(int msgContentType) {
         return MessageContentFormatter.isMergeTranspondMessage(msgContentType);
     }

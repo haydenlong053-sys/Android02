@@ -22,6 +22,7 @@ import com.freddy.chat.viewholder.CardMessageVH;
 import com.freddy.chat.viewholder.FileMessageVH;
 import com.freddy.chat.viewholder.ImageMessageVH;
 import com.freddy.chat.viewholder.MapMessageVH;
+import com.freddy.chat.viewholder.MeetStatusMessageVH;
 import com.freddy.chat.viewholder.MergeTransMessageVH;
 import com.freddy.chat.viewholder.MessageViewHolderContext;
 import com.freddy.chat.viewholder.NoticeMessageVH;
@@ -55,6 +56,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int VIEW_TYPE_MERGE_TRANS = 7;
     private static final int VIEW_TYPE_CARD = 8;
     private static final int VIEW_TYPE_NOTICE = 9;
+    private static final int VIEW_TYPE_MEET_START = 10;
+    private static final int VIEW_TYPE_MEET_END = 11;
     private static final int VIEW_TYPE_UNKNOWN = 99;
 
     private final boolean isGroupChat;
@@ -475,6 +478,12 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (WeChatUiHelper.isNoticeMessage(contentType)) {
             return VIEW_TYPE_NOTICE;
         }
+        if (WeChatUiHelper.isMeetStartMessage(contentType)) {
+            return VIEW_TYPE_MEET_START;
+        }
+        if (WeChatUiHelper.isMeetEndMessage(contentType)) {
+            return VIEW_TYPE_MEET_END;
+        }
         if (WeChatUiHelper.isMergeTranspondMessage(contentType)) {
             return VIEW_TYPE_MERGE_TRANS;
         }
@@ -488,6 +497,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (viewType == VIEW_TYPE_SYSTEM) {
             View v = inflater.inflate(R.layout.item_message_system, parent, false);
             return new SystemMessageVH(v);
+        }
+        if (viewType == VIEW_TYPE_MEET_START || viewType == VIEW_TYPE_MEET_END) {
+            View v = inflater.inflate(R.layout.item_message_meet_status, parent, false);
+            return new MeetStatusMessageVH(v);
         }
         switch (viewType) {
             case VIEW_TYPE_IMAGE: {
@@ -553,6 +566,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 listMode);
         if (holder instanceof SystemMessageVH) {
             ((SystemMessageVH) holder).bind(m, context);
+            return;
+        }
+        if (holder instanceof MeetStatusMessageVH) {
+            ((MeetStatusMessageVH) holder).bind(m);
             return;
         }
         if (holder instanceof ImageMessageVH) {

@@ -5,7 +5,7 @@ import com.freddy.im.signal.ImSignalProtos;
 /**
  * IM 消息类型定义（会话 {@link #msgType}、内容 {@link MessageContentType}），全局统一使用。
  * <p>
- * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告。
+ * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告、900 开始会议、901 结束会议。
  */
 public enum MessageType {
 
@@ -56,7 +56,11 @@ public enum MessageType {
         /** 个人名片 card */
         CARD(700),
         /** 系统公告 announcement */
-        SYS_NOTICE(710);
+        SYS_NOTICE(710),
+        /** 开始会议（会话通知条，对齐野火 MeetStart「会议中」） */
+        MEET_START(900),
+        /** 结束会议（会话通知条，对齐野火 MeetEnd「会议已结束」） */
+        MEET_END(901);
 
         private final int msgContentType;
 
@@ -102,6 +106,19 @@ public enum MessageType {
 
         public static boolean isNotice(int type) {
             return type == SYS_NOTICE.msgContentType;
+        }
+
+        public static boolean isMeetStart(int type) {
+            return type == MEET_START.msgContentType;
+        }
+
+        public static boolean isMeetEnd(int type) {
+            return type == MEET_END.msgContentType;
+        }
+
+        /** 开始/结束会议通知条（无气泡、不可长按菜单的会话通知类消息）。 */
+        public static boolean isMeetStatus(int type) {
+            return isMeetStart(type) || isMeetEnd(type);
         }
     }
 }

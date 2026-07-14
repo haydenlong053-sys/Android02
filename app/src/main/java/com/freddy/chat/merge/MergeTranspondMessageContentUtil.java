@@ -148,6 +148,12 @@ public final class MergeTranspondMessageContentUtil {
         if (MessageContentFormatter.isNoticeMessage(contentType)) {
             return "[公告]";
         }
+        if (MessageContentFormatter.isMeetStartMessage(contentType)) {
+            return "会议中";
+        }
+        if (MessageContentFormatter.isMeetEndMessage(contentType)) {
+            return "会议已结束";
+        }
         if (MessageType.MessageContentType.isMergeTranspond(contentType)) {
             return "[聊天记录]";
         }
