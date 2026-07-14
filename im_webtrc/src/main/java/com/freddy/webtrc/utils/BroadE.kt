@@ -2,17 +2,15 @@ package com.freddy.webtrc.utils
 
 import android.content.Context
 import android.text.TextUtils
-import androidx.lifecycle.coroutineScope
-import com.blankj.utilcode.util.CacheDiskStaticUtils.getString
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
-import com.cboda.baselibrary.utils.getUuIdMd5
+import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.toJson2
 import com.freddy.im.http.ImCallHttpExample
 import com.freddy.im.http.model.im.CallTokenContent
 import com.freddy.im.listener.OnHttpImListener
+import com.freddy.webtrc.activity.CallActivity
 import com.freddy.webtrc.bean.CallTokenBean
 import kotlinx.coroutines.CoroutineScope
 
@@ -48,14 +46,14 @@ object BroadE {
             },
             { callBack.invoke(null) }
         )
-
     }
 
-    //发起通话
+    //发起通话：接口成功后打开 CallActivity，由页面通过 CallUtil 进房
     fun startCall(
         id: String?,
         video: Boolean = false,
-        scope: CoroutineScope? = null, context: Context? = null
+        scope: CoroutineScope? = null,
+        context: Context? = null
     ) {
         if (TextUtils.isEmpty(id)) {
             return
@@ -64,22 +62,15 @@ object BroadE {
             id ?: "",
             video,
             { result ->
-//                eLogD("startCall_data", toJson2(result))
-                //                    callBack.invoke(
-                //                        CallTokenBean(
-                //                            token = result.token.orEmpty(),
-                //                            url = result.url.orEmpty(),
-                //                            roomName = result.roomName
-                //                        )
-                //                    )
                 if (!TextUtils.isEmpty(result.token) && !TextUtils.isEmpty(result.url)) {
-                    CallUtil.joinRoom(
+                    CallActivity.startOutgoing(
+                        getAppContext(context),
+                        id,
                         result.url,
                         result.token,
-                        scope,
-                        context
+                        result.roomName,
+                        video
                     )
-//                    val voip = Intent(this, SingleCallBroadActivity::class.java)
                 } else {
                     ToastBroadUtils.show(R.string.call_network_error2)
                 }

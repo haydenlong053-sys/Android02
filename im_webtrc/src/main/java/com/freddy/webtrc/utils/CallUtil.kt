@@ -45,10 +45,16 @@ object CallUtil {
 
     private suspend fun joinRoom(url: String?, token: String?, context: Context? = null) {
         try {
-            getCallRoom(context)?.connect(url ?: "", token ?: "")
+            val room = getCallRoom(context) ?: return
+            room.connect(url ?: "", token ?: "")
+            room.localParticipant.setMicrophoneEnabled(true)
         } catch (e1: Exception) {
             e1.toLog(tAG)
         }
+    }
+
+    fun hasRemoteParticipant(context: Context? = null): Boolean {
+        return !getCallRoom(context)?.remoteParticipants.isNullOrEmpty()
     }
 
     // 创建/加入通话
@@ -94,7 +100,13 @@ object CallUtil {
 
     //离开通话房间/结束通话
     fun leaveRoom(context: Context? = null) {
-        getCallRoom(context)?.disconnect()
+        try {
+            getCallRoom(context)?.disconnect()
+        } catch (e: Exception) {
+            e.toLog(tAG)
+        } finally {
+            callRoom = null
+        }
     }
 
     //通话监听

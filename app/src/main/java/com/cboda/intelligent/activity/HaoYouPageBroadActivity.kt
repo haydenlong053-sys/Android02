@@ -52,7 +52,6 @@ import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.freddy.chat.clear.SessionMessageClearHelper
 import com.freddy.webtrc.utils.BroadE
-import com.freddy.webtrc.utils.CallUtil
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
@@ -389,7 +388,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 .request(object : OnPermissionCallback {
                     override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
 //                        WfcUIBroadKit.singleCall(this@HaoYouPageBroadActivity, otherUid, true)
-                        BroadE.startCall(otherUid, false)
+                        BroadE.startCall(otherUid, false, context = this@HaoYouPageBroadActivity)
                     }
                 })
         }
