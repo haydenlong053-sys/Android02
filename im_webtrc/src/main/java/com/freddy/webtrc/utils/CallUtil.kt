@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import io.livekit.android.LiveKit
 import io.livekit.android.events.RoomEvent
@@ -80,11 +81,11 @@ object CallUtil {
     fun openOrCloseMicrophone(boolean: Boolean = false, scope: CoroutineScope? = null, context: Context? = null) {
         scope?.launch {
             withContext(Dispatchers.IO) {
-                openOrCloseMicrophone(boolean,context)
+                openOrCloseMicrophone(boolean, context)
             }
-        }?: GlobalScope.launch {
+        } ?: GlobalScope.launch {
             withContext(Dispatchers.IO) {
-                openOrCloseMicrophone(boolean,context)
+                openOrCloseMicrophone(boolean, context)
             }
         }
     }
@@ -104,55 +105,61 @@ object CallUtil {
             getCallRoom(context)?.disconnect()
         } catch (e: Exception) {
             e.toLog(tAG)
-        } finally {
-            callRoom = null
+        }
+    }
+
+    private suspend fun setCallListener(context: Context? = null, callBack: (RoomEvent) -> Unit) {
+        getCallRoom(context)?.events?.events?.collect { event ->
+            when (event) {
+                is RoomEvent.ParticipantConnected -> {
+                    // 有⼈进来 → 视为接通
+                    callBack.invoke(event)
+                }
+
+                is RoomEvent.ParticipantDisconnected -> {
+                    callBack.invoke(event)
+                }
+
+                is RoomEvent.TrackSubscribed -> {
+                    // 收到对⽅⾳/视频轨
+                    callBack.invoke(event)
+                }
+
+                is RoomEvent.TrackUnsubscribed -> {
+                    callBack.invoke(event)
+                }
+
+                is RoomEvent.ActiveSpeakersChanged -> {
+                    //event.speakers 正在说话,做⾼亮
+                    callBack.invoke(event)
+                }
+
+                is RoomEvent.Disconnected -> {
+                    //通话结束,关⻚⾯
+                    callBack.invoke(event)
+                }
+
+                is RoomEvent.FailedToConnect -> {
+                    //连接失败
+                    callBack.invoke(event)
+                }
+
+                else -> {
+                    callBack.invoke(event)
+                }
+            }
         }
     }
 
     //通话监听
-    fun setCallListener(context: Context? = null, callBack: (RoomEvent) -> Unit) {
-        GlobalScope.launch {
+    fun setCallListener(scope: CoroutineScope? = null, context: Context? = null, callBack: (RoomEvent) -> Unit) {
+        scope?.launch {
             withContext(Dispatchers.IO) {
-                getCallRoom(context)?.events?.collect { event ->
-                    when (event) {
-                        is RoomEvent.ParticipantConnected -> {
-                            // 有⼈进来 → 视为接通
-                            callBack.invoke(event)
-                        }
-
-                        is RoomEvent.ParticipantDisconnected -> {
-                            callBack.invoke(event)
-                        }
-
-                        is RoomEvent.TrackSubscribed -> {
-                            // 收到对⽅⾳/视频轨
-                            callBack.invoke(event)
-                        }
-
-                        is RoomEvent.TrackUnsubscribed -> {
-                            callBack.invoke(event)
-                        }
-
-                        is RoomEvent.ActiveSpeakersChanged -> {
-                            //event.speakers 正在说话,做⾼亮
-                            callBack.invoke(event)
-                        }
-
-                        is RoomEvent.Disconnected -> {
-                            //通话结束,关⻚⾯
-                            callBack.invoke(event)
-                        }
-
-                        is RoomEvent.FailedToConnect -> {
-                            //连接失败
-                            callBack.invoke(event)
-                        }
-
-                        else -> {
-                            callBack.invoke(event)
-                        }
-                    }
-                }
+                setCallListener(context, callBack)
+            }
+        } ?: GlobalScope.launch {
+            withContext(Dispatchers.IO) {
+                setCallListener(context, callBack)
             }
         }
     }

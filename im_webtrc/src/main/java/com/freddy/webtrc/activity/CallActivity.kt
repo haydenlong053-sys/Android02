@@ -1,9 +1,11 @@
 package com.freddy.webtrc.activity
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,11 +16,15 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.PermissionUtils
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.utils.requestPermission
 import com.freddy.webtrc.R
 import com.freddy.webtrc.utils.BroadE
 import com.freddy.webtrc.utils.CallUtil
@@ -30,7 +36,7 @@ import io.livekit.android.events.RoomEvent
  * 基于 [CallUtil] / LiveKit 的单聊通话页，UI 对齐 [com.cboda.chatui.voip.SingleCallBroadActivity] 语音布局。
  */
 class CallActivity : AppCompatActivity() {
-
+    private val tAG = "CallActivityClass"
     private lateinit var backgroundImageView: ImageView
     private lateinit var portraitImageView: ImageView
     private lateinit var nameTextView: TextView
@@ -72,8 +78,8 @@ class CallActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                    or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
         setContentView(R.layout.activity_call)
         acquireWakeLock()
@@ -87,7 +93,7 @@ class CallActivity : AppCompatActivity() {
         bindEvents()
         renderPeerInfo()
         applyInitialUi()
-        CallUtil.setCallListener(this) { event -> onRoomEvent(event) }
+        CallUtil.setCallListener(lifecycle.coroutineScope, this) { event -> onRoomEvent(event) }
         if (outgoing || (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken))) {
             joinCurrentRoom()
         }
@@ -120,23 +126,28 @@ class CallActivity : AppCompatActivity() {
         findViewById<View>(R.id.speakerImageView).setOnClickListener { toggleSpeaker() }
         findViewById<View>(R.id.outgoingHangupImageView).setOnClickListener { hangup() }
         findViewById<View>(R.id.incomingHangupImageView).setOnClickListener { hangup() }
-        findViewById<View>(R.id.acceptImageView).setOnClickListener { acceptCall() }
+        findViewById<View>(R.id.acceptImageView).setOnClickListener {
+            eLogD(tAG, "接听电话")
+            requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) {
+                acceptCall()
+            }
+        }
         findViewById<View>(R.id.minimizeImageView).setOnClickListener { moveTaskToBack(true) }
     }
 
     private fun applyInitialUi() {
         if (outgoing) {
-            descTextView.setText(R.string.call_waiting)
+            descTextView.setText(com.cboda.baselibrary.R.string.call_waiting)
             outgoingActionContainer.visibility = View.VISIBLE
             incomingActionContainer.visibility = View.GONE
         } else if (TextUtils.isEmpty(callUrl) || TextUtils.isEmpty(callToken)) {
             descTextView.setText(
-                if (video) R.string.call_invite_video else R.string.call_invite_audio
+                if (video) com.cboda.baselibrary.R.string.call_invite_video else com.cboda.baselibrary.R.string.call_invite_audio
             )
             outgoingActionContainer.visibility = View.GONE
             incomingActionContainer.visibility = View.VISIBLE
         } else {
-            descTextView.setText(R.string.call_connecting)
+            descTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
             outgoingActionContainer.visibility = View.VISIBLE
             incomingActionContainer.visibility = View.GONE
         }
@@ -170,11 +181,11 @@ class CallActivity : AppCompatActivity() {
 
     private fun joinCurrentRoom() {
         if (TextUtils.isEmpty(callUrl) || TextUtils.isEmpty(callToken)) {
-            ToastBroadUtils.show(R.string.call_failed)
+            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
             finishFade()
             return
         }
-        descTextView.setText(R.string.call_connecting)
+        descTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
         CallUtil.joinRoom(callUrl, callToken, lifecycleScope, this)
         CallUtil.openOrCloseMicrophone(true, lifecycleScope, this)
     }
@@ -187,17 +198,17 @@ class CallActivity : AppCompatActivity() {
             return
         }
         if (TextUtils.isEmpty(roomName)) {
-            ToastBroadUtils.show(R.string.call_failed)
+            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
             finishFade()
             return
         }
-        descTextView.setText(R.string.call_connecting)
+        descTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
         val userId = MMKVBroadUtils.getRealUserId()
         val userName = MMKVBroadUtils.getUserName()
         BroadE.getCallToken(userId, roomName, userName, video) { bean ->
             runOnUiThread {
                 if (bean == null || TextUtils.isEmpty(bean.url) || TextUtils.isEmpty(bean.token)) {
-                    ToastBroadUtils.show(R.string.call_failed)
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                     finishFade()
                     return@runOnUiThread
                 }
@@ -214,27 +225,33 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun onRoomEvent(event: RoomEvent) {
+//        eLogD(tAG, "event:" + event.toString())
+        eLogD(tAG, "event2:" + event.javaClass.simpleName)
         runOnUiThread {
             when (event) {
                 is RoomEvent.ParticipantConnected,
                 is RoomEvent.TrackSubscribed -> onCallConnected()
+
                 is RoomEvent.Connected -> {
                     // 进房时对端已在房内（典型为被叫接听）则直接进入通话态
                     if (CallUtil.hasRemoteParticipant(this)) {
                         onCallConnected()
                     }
                 }
+
                 is RoomEvent.ParticipantDisconnected,
                 is RoomEvent.Disconnected -> {
                     if (!finishing) {
-                        ToastBroadUtils.show(R.string.call_ended)
+                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
                         hangup()
                     }
                 }
+
                 is RoomEvent.FailedToConnect -> {
-                    ToastBroadUtils.show(R.string.call_failed)
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                     hangup()
                 }
+
                 else -> Unit
             }
         }
@@ -281,7 +298,8 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun hangup() {
-        if (finishing) return
+//        if (finishing) return
+        ToastBroadUtils.show("挂断通话")
         finishing = true
         durationHandler.removeCallbacks(durationTicker)
         CallUtil.leaveRoom(this)
@@ -323,6 +341,7 @@ class CallActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    @SuppressLint("MissingSuperCall")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         moveTaskToBack(true)
@@ -347,7 +366,7 @@ class CallActivity : AppCompatActivity() {
             video: Boolean = false
         ) {
             if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(url) || TextUtils.isEmpty(token)) {
-                ToastBroadUtils.show(R.string.call_failed)
+                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                 return
             }
             val intent = Intent(context, CallActivity::class.java).apply {
@@ -377,7 +396,7 @@ class CallActivity : AppCompatActivity() {
             token: String? = null
         ) {
             if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(roomName)) {
-                ToastBroadUtils.show(R.string.call_failed)
+                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                 return
             }
             val intent = Intent(context, CallActivity::class.java).apply {

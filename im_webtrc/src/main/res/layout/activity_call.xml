@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <eightbitlab.com.blurview.BlurTarget
+        android:id="@+id/target"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_head_broad_defaut" />
+    </eightbitlab.com.blurview.BlurTarget>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:blurOverlayColor="#80000000" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="#c0000000">
+
+        <ImageView
+            android:id="@+id/minimizeImageView"
+            android:layout_width="@dimen/dp_72"
+            android:layout_height="@dimen/dp_72"
+            android:layout_marginTop="@dimen/dp_40"
+            android:padding="@dimen/dp_24"
+            android:scaleType="centerCrop"
+            android:src="@drawable/av_broad_minimize"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.cboda.baselibrary.view.AppRoundBroadImage
+                android:id="@+id/portraitImageView"
+                android:layout_width="@dimen/dp_88"
+                android:layout_height="@dimen/dp_88"
+                android:layout_marginTop="@dimen/dp_102"
+                app:app_round_border_color="@color/white"
+                app:app_round_border_width="@dimen/dp_1"
+                tools:src="@mipmap/ic_head_broad_defaut" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                tools:text="voip" />
+
+            <TextView
+                android:id="@+id/descTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:text="@string/call_waiting"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/outgoingActionContainer"
+            layout="@layout/call_audio_outgoing_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_114"
+            android:visibility="visible" />
+
+        <include
+            android:id="@+id/incomingActionContainer"
+            layout="@layout/call_audio_incoming_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_114"
+            android:visibility="gone" />
+    </RelativeLayout>
+</FrameLayout>

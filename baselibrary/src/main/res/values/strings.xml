@@ -217,4 +217,14 @@
     <string name="tip_sure_again">确定开启会议多次缺席自动移出功能吗</string>
     <string name="payment_method_select_title">请选择支付方式</string>
     <string name="call_network_error2">网络错误</string>
+    <string name="call_waiting">正在等待对方接受邀请...</string>
+    <string name="call_invite_audio">邀请你进行语音通话</string>
+    <string name="call_invite_video">邀请你进行视频通话</string>
+    <string name="call_connecting">连接中...</string>
+    <string name="call_mute">静音</string>
+    <string name="call_hang_up">挂断</string>
+    <string name="call_hands_free">免提</string>
+    <string name="call_accept">接听</string>
+    <string name="call_failed">通话连接失败</string>
+    <string name="call_ended">通话已结束</string>
 </resources>
