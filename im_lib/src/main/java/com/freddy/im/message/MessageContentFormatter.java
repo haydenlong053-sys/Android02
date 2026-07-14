@@ -106,6 +106,9 @@ public final class MessageContentFormatter {
             return formatTextDisplay(message.getContent(), message.getCustomInfo(),
                     currentUserId, userIdToDisplayName);
         }
+        if (isCallMessageContent(message.getContent())) {
+            return formatCallDisplayText(message.getContent(), false);
+        }
         int type = message.getMsgContentType();
         if (isVoiceMessage(type)) {
             String duration = parseVoiceDurationLabel(message.getContent());
@@ -172,6 +175,10 @@ public final class MessageContentFormatter {
         }
         if (!TextUtils.isEmpty(lastMessageContent) && isSystemContentJson(lastMessageContent)) {
             return formatSystemDisplay(lastMessageContent, lastCustomInfo, currentUserId, null);
+        }
+        if (isCallMessageContent(content) || isCallMessageContent(lastMessageContent)) {
+            String callRaw = isCallMessageContent(content) ? content : lastMessageContent;
+            return formatCallDisplayText(callRaw, false);
         }
         if (isVoiceMessage(type)) {
             return "[语音]";
@@ -292,6 +299,9 @@ public final class MessageContentFormatter {
         if (obj == null) {
             return trimmed;
         }
+        if (isCallMessageContent(trimmed)) {
+            return formatCallDisplayText(trimmed, false);
+        }
         if (obj.has("msg") && obj.get("msg").isJsonPrimitive()) {
             return obj.get("msg").getAsString();
         }
@@ -302,6 +312,114 @@ public final class MessageContentFormatter {
             return formatFileDisplay(trimmed);
         }
         return trimmed;
+    }
+
+    /**
+     * 通话结束/取消等会话通知 JSON：
+     * {@code {"media":"voice","status":"ended","duration":3,"desc":"[语音通话]通话时长 0:03"}}
+     */
+    public static boolean isCallMessageContent(@Nullable String raw) {
+        JsonObject obj = parseJsonObject(raw);
+        if (obj == null || !obj.has("media")) {
+            return false;
+        }
+        try {
+            String media = obj.get("media").getAsString();
+            if (!"voice".equalsIgnoreCase(media)
+                    && !"audio".equalsIgnoreCase(media)
+                    && !"video".equalsIgnoreCase(media)) {
+                return false;
+            }
+            return obj.has("status") || obj.has("desc");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isCallVideoMedia(@Nullable String raw) {
+        JsonObject obj = parseJsonObject(raw);
+        if (obj == null || !obj.has("media")) {
+            return false;
+        }
+        try {
+            return "video".equalsIgnoreCase(obj.get("media").getAsString());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * @param sentByMe 是否为当前用户发出的通话记录（影响「已取消」/「对方已取消」文案）
+     */
+    @NonNull
+    public static String formatCallDisplayText(@Nullable String raw, boolean sentByMe) {
+        JsonObject obj = parseJsonObject(raw);
+        if (obj == null) {
+            return "[通话]";
+        }
+        String status = "";
+        if (obj.has("status") && obj.get("status").isJsonPrimitive()) {
+            status = obj.get("status").getAsString();
+        }
+        String desc = "";
+        if (obj.has("desc") && obj.get("desc").isJsonPrimitive()) {
+            desc = obj.get("desc").getAsString();
+        }
+        String cleanedDesc = stripCallDescPrefix(desc);
+
+        if ("cancelled".equalsIgnoreCase(status) || "canceled".equalsIgnoreCase(status)) {
+            return sentByMe ? "对方已取消" : "已取消";
+        }
+        if ("missed".equalsIgnoreCase(status) || "timeout".equalsIgnoreCase(status)) {
+            if (!TextUtils.isEmpty(cleanedDesc)) {
+                return cleanedDesc;
+            }
+            return sentByMe ? "对方无应答" : "无人应答";
+        }
+        if ("ended".equalsIgnoreCase(status) || "connected".equalsIgnoreCase(status)) {
+            if (!TextUtils.isEmpty(cleanedDesc) && cleanedDesc.contains("通话时长")) {
+                return cleanedDesc;
+            }
+            int durationSec = 0;
+            if (obj.has("duration")) {
+                try {
+                    durationSec = Math.max(0, obj.get("duration").getAsInt());
+                } catch (Exception ignored) {
+                }
+            }
+            return "通话时长 " + formatCallDuration(durationSec);
+        }
+        if (!TextUtils.isEmpty(cleanedDesc)) {
+            return cleanedDesc;
+        }
+        return "[通话]";
+    }
+
+    @NonNull
+    private static String stripCallDescPrefix(@Nullable String desc) {
+        if (TextUtils.isEmpty(desc)) {
+            return "";
+        }
+        String text = desc.trim();
+        if (text.startsWith("[语音通话]")) {
+            return text.substring("[语音通话]".length()).trim();
+        }
+        if (text.startsWith("[视频通话]")) {
+            return text.substring("[视频通话]".length()).trim();
+        }
+        return text;
+    }
+
+    @NonNull
+    private static String formatCallDuration(int durationSec) {
+        int s = Math.max(0, durationSec);
+        int hours = s / 3600;
+        int minutes = (s % 3600) / 60;
+        int seconds = s % 60;
+        if (hours > 0) {
+            return String.format("%d:%02d:%02d", hours, minutes, seconds);
+        }
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     @NonNull

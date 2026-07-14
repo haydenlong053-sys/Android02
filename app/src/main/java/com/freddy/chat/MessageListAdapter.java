@@ -18,6 +18,7 @@ import com.freddy.chat.menu.MessageListMode;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.chat.viewholder.BaseMessageVH;
+import com.freddy.chat.viewholder.CallMessageVH;
 import com.freddy.chat.viewholder.CardMessageVH;
 import com.freddy.chat.viewholder.FileMessageVH;
 import com.freddy.chat.viewholder.ImageMessageVH;
@@ -58,6 +59,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int VIEW_TYPE_NOTICE = 9;
     private static final int VIEW_TYPE_MEET_START = 10;
     private static final int VIEW_TYPE_MEET_END = 11;
+    private static final int VIEW_TYPE_CALL = 12;
     private static final int VIEW_TYPE_UNKNOWN = 99;
 
     private final boolean isGroupChat;
@@ -456,6 +458,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (message == null || WeChatUiHelper.isSystemMessage(message)) {
             return VIEW_TYPE_SYSTEM;
         }
+        if (WeChatUiHelper.isCallMessage(message)) {
+            return VIEW_TYPE_CALL;
+        }
         int contentType = message.getMsgContentType();
         if (WeChatUiHelper.isImageMessage(contentType)) {
             return VIEW_TYPE_IMAGE;
@@ -507,6 +512,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 View v = inflater.inflate(R.layout.item_message, parent, false);
                 return new ImageMessageVH(v);
             }
+            case VIEW_TYPE_CALL:
             case VIEW_TYPE_VOICE:
             case VIEW_TYPE_VIDEO:
             case VIEW_TYPE_FILE:
@@ -518,6 +524,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             case VIEW_TYPE_UNKNOWN:
             default: {
                 View v = inflater.inflate(R.layout.item_message, parent, false);
+                if (viewType == VIEW_TYPE_CALL) {
+                    return new CallMessageVH(v);
+                }
                 if (viewType == VIEW_TYPE_VOICE) {
                     return new VoiceMessageVH(v);
                 }
@@ -572,7 +581,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             ((MeetStatusMessageVH) holder).bind(m);
             return;
         }
-        if (holder instanceof ImageMessageVH) {
+        if (holder instanceof CallMessageVH) {
+            ((CallMessageVH) holder).bind(m, position, context);
+        } else if (holder instanceof ImageMessageVH) {
             ((ImageMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof VoiceMessageVH) {
             ((VoiceMessageVH) holder).bind(m, position, context, voiceMessagePlayer);

@@ -170,6 +170,10 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isMergeTranspondMessage(msgContentType);
     }
 
+    public static boolean isCallMessage(@Nullable AppMessage message) {
+        return message != null && MessageContentFormatter.isCallMessageContent(message.getContent());
+    }
+
     public static boolean isVoiceSessionPreview(@Nullable SessionItem session) {
         return session != null && matchesContentType(session.getLastContentType(),
                 MessageType.MessageContentType.VOICE.getMsgContentType(), "voice");
