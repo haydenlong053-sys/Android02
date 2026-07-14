@@ -2,9 +2,13 @@ package com.freddy.chat.im
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.toLog
 import com.freddy.chat.im.othbusi.OthBusiSigHandlers
 import com.freddy.im.bean.AppMessage
@@ -24,6 +28,7 @@ import com.freddy.im.signal.ImSignalProtos.MessageReadSig
 import com.freddy.im.signal.ImSignalProtos.MessageRepealSig
 import com.freddy.im.signal.ImSignalProtos.NewMsgSignal
 import com.freddy.im.signal.ImSignalProtos.NewMsgSignal.MsgSig
+import com.freddy.webtrc.activity.CallActivity
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
@@ -39,7 +44,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
     private val tAG = "IMSEventListener"
 
     private val RSA_PUBLIC_ASSET = "public_key.pem"
-
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     @Volatile
     private var rsaPublicKeyPem: String? = null
@@ -202,24 +207,62 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 eLogD(tAG, "解析 CountMsgReadSig 失败", e)
             }
         }
-        //收到语音通话
+        // 收到语音/视频通话信令
         else if (push.header.cmd == ImSignalProtos.Cmd.CALL_SIGNAL_VALUE && push.hasBody()) {
-            val sign = ImSignalProtos.CallSignal.parseFrom(push.body.toByteArray())
-            eLogD(
-                tAG, ("callData_fromUserId:" + sign.fromUserId
-                        + " ,fromUsername=" + sign.fromUsername
-                        + " ,type=" + sign.type
-                        + " ,roomName=" + sign.roomName
-                        + " ,callId=" + sign.callId
-                        + " ,mode=" + sign.mode
-                        + " ,fromUserIcon=" + sign.fromUserIcon)
-            )
-
+            try {
+                val sign = ImSignalProtos.CallSignal.parseFrom(push.body.toByteArray())
+                eLogD(
+                    tAG, ("callData_fromUserId:" + sign.fromUserId
+                            + " ,fromUsername=" + sign.fromUsername
+                            + " ,type=" + sign.type
+                            + " ,roomName=" + sign.roomName
+                            + " ,callId=" + sign.callId
+                            + " ,mode=" + sign.mode
+                            + " ,mediaType=" + sign.mediaType
+                            + " ,fromUserIcon=" + sign.fromUserIcon)
+                )
+                handleCallSignal(sign)
+            } catch (e: Exception) {
+                e.toLog(tAG + "_解析 CallSignal 失败")
+            }
         }
 
         // 0x0501 其他业务信令：OthBusiSig 按 code 分发
         else if (push.header.cmd == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
             OthBusiSigHandlers.get().dispatch(push.body.toByteArray())
+        }
+    }
+
+    private fun handleCallSignal(sign: ImSignalProtos.CallSignal) {
+        when (sign.type) {
+            ImSignalProtos.CallSignalType.CALL_INVITE_VALUE -> {
+                val selfId = MMKVBroadUtils.getRealUserId()
+                if (!TextUtils.isEmpty(selfId) && TextUtils.equals(selfId, sign.fromUserId)) {
+                    eLogD(tAG, "忽略自己发出的 CALL_INVITE")
+                    return
+                }
+                val roomName = when {
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    else -> ""
+                }
+                if (TextUtils.isEmpty(sign.fromUserId) || TextUtils.isEmpty(roomName)) {
+                    eLogD(tAG, "CALL_INVITE 缺少 fromUserId/roomName，跳过")
+                    return
+                }
+                val video = TextUtils.equals("video", sign.mediaType)
+                mainHandler.post {
+                    CallActivity.startIncoming(
+                        getAppContext(),
+                        sign.fromUserId,
+                        roomName,
+                        video
+                    )
+                }
+            }
+            else -> {
+                eLogD(tAG, "未处理的通话信令 type=${sign.type}")
+            }
         }
     }
 
