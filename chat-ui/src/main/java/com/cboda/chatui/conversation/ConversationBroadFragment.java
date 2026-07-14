@@ -120,6 +120,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.bean.CallData;
 import com.cboda.chatui.quickmeet.bean.CallDirect;
 import com.cboda.chatui.quickmeet.bean.CheckMeetPayBean;
+import com.cboda.chatui.quickmeet.bean.GroupMemberRole;
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
@@ -748,7 +749,7 @@ public class ConversationBroadFragment extends Fragment implements
         }
         if (!TextUtils.isEmpty(quickDetailMeetBeanStr) && conversation.type == Conversation.ConversationType.Group) {
             QuickDetailMeetBean quickDetailMeetBean = fromJson2(quickDetailMeetBeanStr, QuickDetailMeetBean.class);
-            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, !TextUtils.isEmpty(quickDetailMeetBean.channelId) ? quickDetailMeetBean.channelId : conversation.target, quickDetailMeetBean.token != null ? quickDetailMeetBean.token : "", quickDetailMeetBean);
+            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, !TextUtils.isEmpty(quickDetailMeetBean.channelId) ? quickDetailMeetBean.channelId : conversation.target, quickDetailMeetBean.token != null ? quickDetailMeetBean.token : "", quickDetailMeetBean, GroupMemberRole.UNKNOWN);
         } else if (conversation.type == Conversation.ConversationType.Group) {
 //            quickMeetViewBroadModel.checkPayMeet(conversation.target, data -> {
 //                CheckMeetPayBean.CheckMeetBean checkMeetBean = data.getPaidUnused();

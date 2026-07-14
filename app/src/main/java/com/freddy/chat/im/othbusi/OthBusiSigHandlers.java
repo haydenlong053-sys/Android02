@@ -22,6 +22,10 @@ public final class OthBusiSigHandlers {
         dispatcher.register(new GroupAllMuteOthBusiSigHandler());
         dispatcher.register(new GroupMemberMuteOthBusiSigHandler());
         dispatcher.register(new GroupManagerRoleOthBusiSigHandler());
+        dispatcher.register(new MeetStartOthBusiSigHandler());
+        dispatcher.register(new MeetEndOthBusiSigHandler());
+        dispatcher.register(new MeetUpMicApplyOthBusiSigHandler());
+        dispatcher.register(new MeetSeatChangeOthBusiSigHandler());
         return dispatcher;
     }
 }

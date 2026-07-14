@@ -14,7 +14,19 @@ class CallData : Serializable{
     var channelId: String = ""
     var quickDetailMeetBean:QuickDetailMeetBean?=null
 
+    /** 群成员角色：0 群主、1 管理员、2 普通成员，-1 未知（对齐自研 {@code GroupRole}）。 */
+    var groupMemberRole: Int = GroupMemberRole.UNKNOWN
 
+}
+
+/** 群成员角色（与自研 im_lib GroupRole 数值对齐，避免 chat-ui 跨模块依赖）。 */
+object GroupMemberRole {
+    const val UNKNOWN = -1
+    const val OWNER = 0
+    const val ADMIN = 1
+    const val MEMBER = 2
+
+    fun isOwnerOrAdmin(role: Int): Boolean = role == OWNER || role == ADMIN
 }
 
 

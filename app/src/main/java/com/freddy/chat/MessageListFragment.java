@@ -27,7 +27,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+
 import com.cboda.chatui.MarqueeTextBroadView;
+import com.cboda.chatui.quickmeet.MeetCallManager;
+import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
+import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.cboda.intelligent.activity.QuickMeetingCreateActivity;
 import com.cboda.select.picture.basic.PictureSelector;
 import com.cboda.select.picture.config.PictureMimeType;
@@ -214,6 +220,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         qungonggaoBroad = view.findViewById(R.id.qungonggao);
         if (isGroupChat) {
             setupGroupNoticeInteraction();
+            setupMeetJoinInteraction();
             if (getActivity() instanceof GroupNoticeHost) {
                 ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
             }
@@ -372,9 +379,62 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         if (self != null) {
             myGroupRole = self.getRole();
         }
+        if (getActivity() instanceof MessageListActivity) {
+            ((MessageListActivity) getActivity()).updateMeetPluginGroupRole(myGroupRole);
+        }
         if (isAdded()) {
             onGroupMuteStateReady();
         }
+    }
+
+    private void setupMeetJoinInteraction() {
+        if (mTvMeetJoin == null) {
+            return;
+        }
+        mTvMeetJoin.setOnClickListener(new OnSingleClickBroadListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if (!(getActivity() instanceof MessageListActivity)) {
+                    return;
+                }
+                MeetPlugin plugin = ((MessageListActivity) getActivity()).meetPlugin;
+                if (plugin == null) {
+                    return;
+                }
+                plugin.joinMyMeetRoom(() -> {
+                    hideMeetJoinUi();
+                    return kotlin.Unit.INSTANCE;
+                });
+            }
+        });
+    }
+
+    public void showMeetJoinUi(@NonNull QuickMeetInfoBean quickDetailMeetBean) {
+        if (MeetCallManager.getInstance().isCallingState()) {
+            hideMeetJoinUi();
+            return;
+        }
+        if (mViewMeetJoin == null || mTvMeetPeople == null) {
+            return;
+        }
+        mViewMeetJoin.setVisibility(View.VISIBLE);
+        int count = anyToInt(quickDetailMeetBean.getJoinedUsers());
+        if (count == 0) {
+            count = 1;
+        }
+        mTvMeetPeople.setText(getString(
+                com.cboda.baselibrary.R.string.msg_meeting_active_count,
+                String.valueOf(count)));
+    }
+
+    public void hideMeetJoinUi() {
+        if (mViewMeetJoin != null && mViewMeetJoin.getVisibility() == View.VISIBLE) {
+            mViewMeetJoin.setVisibility(View.GONE);
+        }
+    }
+
+    public int getMyGroupRole() {
+        return myGroupRole;
     }
 
     private void setupGroupNoticeInteraction() {
@@ -1073,6 +1133,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         if (!isAdded()) {
             return;
         }
+        if (getActivity() instanceof MessageListActivity) {
+            ((MessageListActivity) getActivity()).requestCloseHost();
+            return;
+        }
         if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
             requireActivity().getSupportFragmentManager().popBackStack();
         } else {
@@ -1087,6 +1151,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     public boolean onBackPressed() {
         if (isInMultiSelectMode()) {
             exitMultiSelectMode();
+            return true;
+        }
+        if (inputPanel != null && inputPanel.handleBackPressed()) {
             return true;
         }
         return false;
@@ -1305,11 +1372,15 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         if (!isGroupChat || sessionId == null || sessionItem.getSessionName() == null) {
             return;
         }
+        if (!MeetCallManager.getInstance().isIdleState()) {
+            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.msg_meeting_in_progress));
+            return;
+        }
         if (myGroupRole == GroupRole.MEMBER) {
             ToastBroadUtils.show("只有群主/管理员可以开启会议室");
         } else {
-            QuickMeetingCreateActivity.Companion.launch(requireContext(), sessionId, sessionItem.getSessionName());
-
+            QuickMeetingCreateActivity.Companion.launch(
+                    requireContext(), sessionId, sessionItem.getSessionName(), myGroupRole);
         }
     }
 

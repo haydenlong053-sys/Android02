@@ -20,13 +20,17 @@ import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.UserInfoBean;
 import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
+import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.quickmeet.MeetCallManager;
+import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
+import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
+import com.freddy.im.group.GroupRole;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
@@ -101,6 +105,8 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                     .findFragmentById(R.id.fragment_container);
         }
         initData();
+        getSupportFragmentManager().executePendingTransactions();
+        initGroupMeetIfNeeded();
     }
 
 
@@ -142,23 +148,74 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         pageTitle = findViewById(com.cboda.chatui.R.id.page_title);
         titleGradeAndTimeBroad = findViewById(com.cboda.chatui.R.id.titleGradeAndTime);
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (messageListFragment != null && messageListFragment.onBackPressed()) {
+                    return;
+                }
+                requestCloseHost();
+            }
+        });
+    }
 
-        // 使用 OnBackPressedDispatcher 适配系统返回事件（替代 onBackPressed）
-        //todo 待完善
-//        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                if (!messageListFragment.onBackPressed()) {
-//                    if (sessionItem != null
-//                            && sessionItem.getConversation() == ImSignalProtos.ConversationType.MULTI_VALUE
-//                            && MeetCallManager.getInstance().isCallingState()) {
-//                        showMyMeetLeaveTip();
-//                    } else {
-//                        finish();
-//                    }
-//                }
-//            }
-//        });
+    private void initGroupMeetIfNeeded() {
+        if (sessionItem == null
+                || sessionItem.getConversation() != ImSignalProtos.ConversationType.MULTI_VALUE
+                || TextUtils.isEmpty(sessionItem.getSessionId())) {
+            return;
+        }
+        final String groupId = sessionItem.getSessionId();
+        meetPlugin = new MeetPlugin(this);
+        getLifecycle().addObserver(meetPlugin);
+        if (messageListFragment != null) {
+            updateMeetPluginGroupRole(messageListFragment.getMyGroupRole());
+        }
+        meetPlugin.setHasMeetInfoInvoke(quickMeetBean -> {
+            if (MeetCallManager.getInstance().isIdleState()
+                    && messageListFragment != null
+                    && messageListFragment.isAdded()) {
+                messageListFragment.showMeetJoinUi(quickMeetBean);
+            }
+            return Unit.INSTANCE;
+        });
+        meetPlugin.queryMeetInfo(groupId, "active");
+
+        BaseLiveDataEventKt.meetEndMsgLiveData.observe(this, groupIdNo -> {
+            if (messageListFragment != null
+                    && messageListFragment.isAdded()
+                    && TextUtils.equals(groupId, groupIdNo)) {
+                messageListFragment.hideMeetJoinUi();
+            }
+        });
+
+        BaseLiveDataEventKt.getMeetUpMicMsgLiveData().observe(this, groupIdNo -> {
+            if (TextUtils.isEmpty(groupIdNo) || !TextUtils.equals(groupId, groupIdNo)) {
+                return;
+            }
+            if (!MeetCallManager.getInstance().isCallingState()) {
+                return;
+            }
+            boolean canReviewApply = MeetCallManager.getInstance().isOwner()
+                    || (messageListFragment != null
+                    && GroupRole.isOwnerOrAdmin(messageListFragment.getMyGroupRole()));
+            if (!canReviewApply) {
+                return;
+            }
+            new MeetSeatApplyPop(this, groupIdNo).showPopupWindow();
+        });
+    }
+
+    /** 同步本地群成员角色到 MeetPlugin，加入会议时写入 CallData。 */
+    public void updateMeetPluginGroupRole(int groupMemberRole) {
+        if (meetPlugin != null) {
+            meetPlugin.setGroupMemberRole(groupMemberRole);
+        }
+    }
+
+    /** 关闭页面前检查会议中离开提示（返回键 / Fragment 关闭宿主）。 */
+    public void requestCloseHost() {
+        checkMeeting();
     }
 
     private void initData() {
@@ -415,6 +472,9 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                 if (isFirst) {
                     isFirst = false;
                     fetchGroupNoticeFromServer();
+                }
+                if (meetPlugin != null && MeetCallManager.getInstance().isIdleState()) {
+                    meetPlugin.queryMeetInfo(sessionItem.getSessionId(), "active");
                 }
             } else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.PAIR_VALUE) {
                 getUserData();

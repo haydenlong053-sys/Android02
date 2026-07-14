@@ -37,6 +37,8 @@ import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.quickmeet.CallEventCallback
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.bean.CallDirect
+import com.cboda.chatui.quickmeet.bean.GroupMemberRole
+import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.goPermissionAudioMeet
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
@@ -74,17 +76,33 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
     private val groupId by lazy {
         intent.getStringExtra("group_id") ?: ""
     }
+    private val groupMemberRole by lazy {
+        intent.getIntExtra(EXTRA_GROUP_MEMBER_ROLE, GroupMemberRole.UNKNOWN)
+    }
 
     companion object {
+        private const val EXTRA_GROUP_MEMBER_ROLE = "group_member_role"
 
-        fun launch(context: Context?, groupId: String, groupName: String) {
+        @JvmOverloads
+        fun launch(context: Context?, groupId: String, groupName: String, groupMemberRole: Int = GroupMemberRole.UNKNOWN) {
             context?.let {
                 val intent = Intent(it, QuickMeetingCreateActivity::class.java)
                 intent.putExtra("group_name", groupName)
                 intent.putExtra("group_id", groupId)
+                intent.putExtra(EXTRA_GROUP_MEMBER_ROLE, groupMemberRole)
                 it.startActivity(intent)
             }
         }
+    }
+
+    private fun joinCreatedMeet(meetBean: QuickDetailMeetBean) {
+        MeetCallManager.getInstance().callMeetAction(
+            CallDirect.CALLER,
+            meetBean.channelId ?: groupId,
+            meetBean.token ?: "",
+            meetBean,
+            groupMemberRole,
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,7 +138,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                             val meetingCreateUiState = viewModel.uiState.value
                             viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0, "")
                                 .observe(this@QuickMeetingCreateActivity) {
-                                    MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                    joinCreatedMeet(it)
                                 }
                         }
                     }
@@ -160,7 +178,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                                 lifecycleScope.launch {
                                     viewModel.goCreateQuickMeet(checkMeetBean.groupIdNo, checkMeetBean.channelName, checkMeetBean.durationConfigId, checkMeetBean.userTierConfigId, checkMeetBean.orderId)
                                         .observe(this@QuickMeetingCreateActivity) {
-                                            MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                            joinCreatedMeet(it)
                                         }
                                 }
                             } else {
@@ -209,7 +227,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                             .observe(this@QuickMeetingCreateActivity) {
                                 canPay = false
                                 payLsOrderBean = null
-                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                joinCreatedMeet(it)
                             }
                     }
                 } else {
@@ -229,7 +247,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                                             .observe(this@QuickMeetingCreateActivity) {
                                                 canPay = false
                                                 payLsOrderBean = null
-                                                MeetCallManager.getInstance().callMeetAction(CallDirect.CALLER, it.channelId ?: groupId, it.token ?: "", it)
+                                                joinCreatedMeet(it)
                                             }
                                     }
                                 } else {
