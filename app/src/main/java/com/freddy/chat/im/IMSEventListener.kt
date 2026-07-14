@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
@@ -44,7 +45,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
     private val tAG = "IMSEventListener"
 
     private val RSA_PUBLIC_ASSET = "public_key.pem"
-    private val mainHandler = Handler(Looper.getMainLooper())
+//    private val mainHandler = Handler(Looper.getMainLooper())
 
     @Volatile
     private var rsaPublicKeyPem: String? = null
@@ -251,7 +252,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     return
                 }
                 val video = TextUtils.equals("video", sign.mediaType)
-                mainHandler.post {
+                ThreadUtils.getMainHandler().post {
                     CallActivity.startIncoming(
                         getAppContext(),
                         sign.fromUserId,

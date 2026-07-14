@@ -39,7 +39,7 @@ object BroadE {
                         CallTokenBean(
                             token = result.token.orEmpty(),
                             url = result.url.orEmpty(),
-                            roomName = result.roomName
+                            roomName = roomName ?: ""
                         )
                     )
                 }
