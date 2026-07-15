@@ -28,6 +28,7 @@ public final class OthBusiSigJson {
 
     /** 会议室业务统一群 ID 字段；兼容误写为 {@code groupId} 的场景。 */
     @Nullable
+    @Deprecated
     public static String readGroupIdNo(@Nullable String data) {
         String groupIdNo = readString(data, "groupIdNo");
         if (!TextUtils.isEmpty(groupIdNo)) {

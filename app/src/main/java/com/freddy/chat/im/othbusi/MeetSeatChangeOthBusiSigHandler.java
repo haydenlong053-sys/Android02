@@ -12,7 +12,7 @@ import com.freddy.im.signal.othbusi.OthBusiSigJson;
 
 /**
  * 麦位变更：code=4040，
- * data={"refreshType":"micSeat","groupIdNo":"..."}（对齐野火 MeetingSeatChangeMessageContent）。
+ * data={"refreshType":"micSeat","groupId":"..."}（对齐野火 MeetingSeatChangeMessageContent）。
  */
 public final class MeetSeatChangeOthBusiSigHandler implements OthBusiSigHandler {
 
@@ -26,7 +26,7 @@ public final class MeetSeatChangeOthBusiSigHandler implements OthBusiSigHandler 
 
     @Override
     public boolean handle(@Nullable String data) {
-        String groupIdNo = OthBusiSigJson.readGroupIdNo(data);
+        String groupIdNo = OthBusiSigJson.readGroupId(data);
         if (TextUtils.isEmpty(groupIdNo)) {
             return false;
         }
@@ -35,7 +35,7 @@ public final class MeetSeatChangeOthBusiSigHandler implements OthBusiSigHandler 
             ELogUtilKt.eLogD(TAG, "ignore refreshType=" + refreshType);
             return false;
         }
-        ELogUtilKt.eLogD(TAG, "groupIdNo=" + groupIdNo);
+        ELogUtilKt.eLogD(TAG, "groupId=" + groupIdNo);
         BaseLiveDataEventKt.getMeetSeatChangeMsgLiveData().postValue(groupIdNo);
         return true;
     }
