@@ -27,6 +27,7 @@ public final class OthBusiSigHandlers {
         dispatcher.register(new MeetUpMicApplyOthBusiSigHandler());
         dispatcher.register(new MeetSeatChangeOthBusiSigHandler());
         dispatcher.register(new MeetingGiftOthBusiSigHandler());
+        dispatcher.register(new MeetPreEndTipOthBusiSigHandler());
         return dispatcher;
     }
 }
