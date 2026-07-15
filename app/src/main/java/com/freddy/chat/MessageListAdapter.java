@@ -455,7 +455,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     private int resolveViewType(@Nullable AppMessage message) {
-        if (message == null || WeChatUiHelper.isSystemMessage(message)) {
+        if (message == null) {
             return VIEW_TYPE_SYSTEM;
         }
         if (WeChatUiHelper.isCallMessage(message)) {
@@ -491,6 +491,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         }
         if (WeChatUiHelper.isMergeTranspondMessage(contentType)) {
             return VIEW_TYPE_MERGE_TRANS;
+        }
+        if (WeChatUiHelper.isSystemMessage(message)) {
+            return VIEW_TYPE_SYSTEM;
         }
         return VIEW_TYPE_TEXT;
     }

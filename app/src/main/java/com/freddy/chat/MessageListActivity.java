@@ -237,7 +237,6 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             if (danmakuView != null && danmakuIv != null && danmakuIv.getVisibility() == View.VISIBLE) {
                 danmakuView.setVisibility(View.VISIBLE);
             }
-            new MeetSeatApplyPop(this, groupIdNo).showPopupWindow();
         });
     }
 

@@ -12,7 +12,7 @@ import com.freddy.im.signal.othbusi.OthBusiSigJson;
 
 /**
  * 上麦申请：code=4030，
- * data={"applicantUserId":"...","groupIdNo":"..."}（对齐野火 MeetingUpMicApplyMessageContent）。
+ * data={"applicantUserId":"...","groupId":"..."}（对齐野火 MeetingUpMicApplyMessageContent）。
  */
 public final class MeetUpMicApplyOthBusiSigHandler implements OthBusiSigHandler {
 
@@ -25,12 +25,12 @@ public final class MeetUpMicApplyOthBusiSigHandler implements OthBusiSigHandler 
 
     @Override
     public boolean handle(@Nullable String data) {
-        String groupIdNo = OthBusiSigJson.readGroupIdNo(data);
+        String groupIdNo = OthBusiSigJson.readGroupId(data);
         String applicantUserId = OthBusiSigJson.readString(data, "applicantUserId");
         if (TextUtils.isEmpty(groupIdNo) || TextUtils.isEmpty(applicantUserId)) {
             return false;
         }
-        ELogUtilKt.eLogD(TAG, "groupIdNo=" + groupIdNo + " applicant=" + applicantUserId);
+        ELogUtilKt.eLogD(TAG, "groupId=" + groupIdNo + " applicant=" + applicantUserId);
         BaseLiveDataEventKt.getMeetUpMicMsgLiveData().postValue(groupIdNo);
         return true;
     }

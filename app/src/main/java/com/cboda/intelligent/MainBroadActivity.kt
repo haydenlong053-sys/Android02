@@ -75,6 +75,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
+import com.cboda.baselibrary.utils.meetPreEndTipMsgLiveData
 import com.cboda.baselibrary.utils.meetSeatChangeMsgLiveData
 import com.cboda.baselibrary.utils.meetUpMicMsgLiveData
 import com.cboda.baselibrary.utils.showCommonStrTip
@@ -122,6 +123,7 @@ import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
 import com.freddy.chat.ConversationListFragment
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.im.signal.othbusi.OthBusiSigJson
 import com.freddy.chat.utils.WeChatUiHelper
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -644,7 +646,44 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
     private var isInitialized = false
     private var playHolder: SingleBtnBroadHolder? = null
+    /**
+     * 会议倒计时提醒（野火 6011 / 自研 OthBusiSig 6011 共用）：
+     * 房主在会议中弹加时提醒，确认后走付费/免费延长会议流程。
+     */
+    private fun handleMeetPreEndTip(time: String?, amount: String?) {
+        if (!MeetCallManager.getInstance().isCallingState() || !MeetCallManager.getInstance().isOwner()) {
+            return
+        }
+        showMeetPreEndTip(time, amount) {
+            eLogD("createYsGroupPayOrder", "isCallingState:${MeetCallManager.getInstance().isCallingState()}")
+            if (MeetCallManager.getInstance().isCallingState()) {
+                if (HttpsBroadConfig.openTPay) {
+                    //会议加时 延长会议
+                    newMirrorViewBroadModel.createYsGroupPayOrder(MeetCallManager.getInstance().mCallData, true, true) { data ->
+                        eLogD("createYsGroupPayOrder", "createYsGroupPayOrder_return_Success")
+                        eLogD("createYsGroupPayOrder", "data:${toJson2(data)}")
+                        payLsOrderBean = data
+                        showSelectPayMethod()
+                    }
+                } else {
+                    lifecycleScope.launch {
+                        quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun afterViews() {
+        // 自研 OthBusiSig 6011：会议倒计时提醒（value 为原始 data JSON）
+        meetPreEndTipMsgLiveData.observe(this) { data ->
+            val time = OthBusiSigJson.readString(data, "time")
+            val amount = OthBusiSigJson.readString(data, "amount")
+            handleMeetPreEndTip(time, amount)
+        }
+
         if (HttpsBroadConfig.useSelfImOnly) {
             eLogD("MainActivityClass", "useSelfImOnly=true，跳过等野火 ClientService，直接挂 Tab")
             if (!isInitialized) {
@@ -826,31 +865,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                         } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
                             val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
                             runOnUiThread {
-                                if (MeetCallManager.getInstance().isCallingState() && MeetCallManager.getInstance().isOwner()) {
-                                    showMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount) {
-                                        eLogD("createYsGroupPayOrder", "isCallingState:${MeetCallManager.getInstance().isCallingState()}")
-                                        if (MeetCallManager.getInstance().isCallingState()) {
-                                            if (HttpsBroadConfig.openTPay) {
-                                                //会议加时 延长会议
-                                                newMirrorViewBroadModel.createYsGroupPayOrder(MeetCallManager.getInstance().mCallData, true, true) { data ->
-                                                    eLogD("createYsGroupPayOrder", "createYsGroupPayOrder_return_Success")
-                                                    eLogD("createYsGroupPayOrder", "data:${toJson2(data)}")
-                                                    payLsOrderBean = data
-                                                    showSelectPayMethod()
-                                                }
-                                            } else {
-                                                lifecycleScope.launch {
-                                                    quickMeetViewModel.goExtendQuickMeet(MeetCallManager.getInstance().mCallData.channelId).observeForever {
-                                                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.chat_meet_time_tip_success)
-                                                    }
-                                                }
-                                            }
-
-
-                                        }
-                                    }
-                                }
-
+                                handleMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount)
                             }
                         } else if (message.content is MeetingUpMicApplyMessageContent) {
                             val meetingUpMicApplyMessageContent = message.content as MeetingUpMicApplyMessageContent

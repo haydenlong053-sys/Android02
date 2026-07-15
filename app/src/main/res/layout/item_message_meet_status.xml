@@ -26,11 +26,38 @@
         android:visibility="gone"
         tools:text="下午 5:00"
         tools:visibility="visible" />
-
-    <include
-        layout="@layout/chat_meet_start_end_layout"
+    <LinearLayout
+        android:id="@+id/llAll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxWidth="240dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:padding="5dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/black_12"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            tools:text="会议中"
+            android:textColor="@color/black_45"
+            android:textSize="12sp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/black_12"
+            android:layout_weight="1"
+            />
+
+
+    </LinearLayout>
 </LinearLayout>

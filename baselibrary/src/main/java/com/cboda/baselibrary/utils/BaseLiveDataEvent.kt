@@ -39,6 +39,11 @@ val meetSeatChangeMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafety
 @JvmField
 val meetEndMsgLiveData: BusLiveBroadData<String> = LiveDataBroadBroadBus.getInstance().with("meetEndMsg")
 
+//会议倒计时提醒（房主收到，value 为原始 data JSON：{"time":"...","amount":"..."}）
+val meetPreEndTipMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyMode.NONE) {
+    LiveDataBroadBroadBus.getInstance().with("meetPreEndTipMsg")
+}
+
 
 //群数据变更通知
 @JvmField
