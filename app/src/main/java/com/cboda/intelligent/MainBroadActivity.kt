@@ -650,8 +650,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
      * 会议倒计时提醒（野火 6011 / 自研 OthBusiSig 6011 共用）：
      * 房主在会议中弹加时提醒，确认后走付费/免费延长会议流程。
      */
-    private fun handleMeetPreEndTip(time: String?, amount: String?) {
-        if (!MeetCallManager.getInstance().isCallingState() || !MeetCallManager.getInstance().isOwner()) {
+    private fun handleMeetPreEndTip(groupId: String?,time: String?, amount: String?) {
+        if (!MeetCallManager.getInstance().isCallingState() || !MeetCallManager.getInstance().isOwner() || groupId != MeetCallManager.getInstance().mCallData.channelId) {
             return
         }
         showMeetPreEndTip(time, amount) {
@@ -678,10 +678,11 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
     private fun afterViews() {
         // 自研 OthBusiSig 6011：会议倒计时提醒（value 为原始 data JSON）
-        meetPreEndTipMsgLiveData.observe(this) { data ->
+        meetPreEndTipMsgLiveData.observeForever {  data ->
             val time = OthBusiSigJson.readString(data, "time")
             val amount = OthBusiSigJson.readString(data, "amount")
-            handleMeetPreEndTip(time, amount)
+            val groupId = OthBusiSigJson.readGroupId(data)
+            handleMeetPreEndTip(groupId,time, amount)
         }
 
         if (HttpsBroadConfig.useSelfImOnly) {
@@ -863,10 +864,11 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                 )
                             )
                         } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
-                            val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
-                            runOnUiThread {
-                                handleMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount)
-                            }
+                            //原野火会议室的逻辑，废弃
+//                            val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
+//                            runOnUiThread {
+//                                handleMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount)
+//                            }
                         } else if (message.content is MeetingUpMicApplyMessageContent) {
                             val meetingUpMicApplyMessageContent = message.content as MeetingUpMicApplyMessageContent
                             meetUpMicMsgLiveData.postValue(meetingUpMicApplyMessageContent.groupIdNo ?: "")
