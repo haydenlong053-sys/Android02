@@ -22,6 +22,13 @@ public class GroupVo implements java.io.Serializable {
     private String openAbsentKick;
     /** 全局连续未参会次数阈值，如 5（群详情接口返回） */
     private String absentKickLimit;
+    /**
+     * 商业功能开关能力标记（群详情返回）。
+     * null/空：不展示入口；"0"：关；"1"：开。对齐野火 {@code CommonResult.isshop}。
+     */
+    private String isshop;
+    /** 会话内商城入口是否展示，通常与 {@link #isshop} 同步。 */
+    private String showShop;
 
     /** @return 是否全员禁言 */
     public boolean isAllMute() {
@@ -114,6 +121,22 @@ public class GroupVo implements java.io.Serializable {
 
     public void setAbsentKickLimit(String absentKickLimit) {
         this.absentKickLimit = absentKickLimit;
+    }
+
+    public String getIsshop() {
+        return isshop;
+    }
+
+    public void setIsshop(String isshop) {
+        this.isshop = isshop;
+    }
+
+    public String getShowShop() {
+        return showShop;
+    }
+
+    public void setShowShop(String showShop) {
+        this.showShop = showShop;
     }
 
 }

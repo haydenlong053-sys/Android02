@@ -202,4 +202,45 @@ class ImQunInfoViewModel : BaseViewModel() {
         }
         return liveData
     }
+
+    /** 设置群商业功能开关（复用业务接口 {@code /setGroupShop}）。 */
+    suspend fun setCommercialFunction(groupId: String, enabled: Boolean): SingleLiveBroadData<Boolean> {
+        showLoading()
+        val liveData = SingleLiveBroadData<Boolean>()
+        val params = hashMapOf<String, Any?>(
+            "id" to groupId,
+            "state" to if (enabled) "1" else "0"
+        )
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.SET_GROUP_SHOP,
+                    Any::class.java,
+                    params
+                ).onSuccess {
+                    dismissLoading()
+                    val cur = _state.value
+                    val vo = cur?.groupVo
+                    if (vo != null) {
+                        val flag = if (enabled) "1" else "0"
+                        vo.isshop = flag
+                        vo.showShop = flag
+                        _state.postValue(cur.copy(groupVo = vo))
+                    }
+                    liveData.postValue(enabled)
+                }.onFailure { _, message ->
+                    dismissLoading()
+                    showToastMain(message)
+                    liveData.postValue(!enabled)
+                }.onError {
+                    dismissLoading()
+                    liveData.postValue(!enabled)
+                }
+            } catch (e: Exception) {
+                dismissLoading()
+                liveData.postValue(!enabled)
+            }
+        }
+        return liveData
+    }
 }

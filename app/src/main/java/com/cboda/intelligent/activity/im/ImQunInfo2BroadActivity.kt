@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.showAbsentKickTip
@@ -112,6 +113,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var chakangebngduo: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var commercialFunctionLayout: View
+    private lateinit var commercialFunctionSwitch: SwitchCompat
     private lateinit var mScAbsentKickView: View
     private lateinit var mScAbsentKick: SwitchCompat
     private lateinit var mTvLookRule: TextView
@@ -149,6 +151,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         jiesanqun = findViewById(R.id.jiesanqun)
         tuichuquan = findViewById(R.id.tuichuquan)
         commercialFunctionLayout = findViewById(R.id.commercialFunctionLayout)
+        commercialFunctionSwitch = findViewById(R.id.commercialFunctionSwitch)
         mScAbsentKick = findViewById(R.id.mScAbsentKick)
         mScAbsentKickView = findViewById(R.id.mScAbsentKickView)
         mTvRuleDes = findViewById(R.id.mTvRuleDes)
@@ -162,14 +165,11 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     private fun hideUnsupportedWildfireFeatures() {
-        commercialFunctionLayout.isGone = true
         zidongfanyiView.isGone = true
         zidongfanyi.isGone = true
         wodequnnicheng.isGone = true
         findViewById<View>(R.id.shengjiqun)?.isGone = true
         findViewById<View>(R.id.shengjiqunView)?.isGone = true
-        findViewById<View>(R.id.jiqiren)?.isGone = true
-        findViewById<View>(R.id.huanyingchengyuan)?.isGone = true
         hideSwitchRow(R.id.yaoqinghaioyuView)
         hideSwitchRow(R.id.jinqunjiaoyanView)
         hideSwitchRow(R.id.kefahongboaView)
@@ -294,6 +294,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         mScAbsentKick.isChecked = vo.openAbsentKick == "1"
         val limit = vo.absentKickLimit?.takeIf { it.isNotBlank() } ?: "5"
         mTvRuleDes.text = getString(R.string.absentkick_tip, limit)
+
+        // 商业功能：群详情返回 isshop 非空才展示入口（对齐野火 QunInfo2BroadActivity）
+        commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.isshop)
+        commercialFunctionSwitch.isChecked = anyToInt(vo.isshop) == 1
     }
 
     private fun bindClicks() {
@@ -350,6 +354,20 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             }
             JumpBroadUtils.startImQunManagerActivity(this, qunId)
         }
+        findViewById<View>(R.id.jiqiren)?.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) {
+                ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanli))
+                return@setOnClickListener
+            }
+            JumpBroadUtils.startJiQiRenActivity(this, qunId)
+        }
+        findViewById<View>(R.id.huanyingchengyuan)?.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) {
+                ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanli))
+                return@setOnClickListener
+            }
+            JumpBroadUtils.startHyyActivity(this, qunId)
+        }
         mScAbsentKickView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
             if (!mScAbsentKick.isChecked) {
@@ -360,6 +378,18 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
         mTvLookRule.setOnClickListener {
             JumpBroadUtils.startAbsentKickRulesActivity(this)
+        }
+        commercialFunctionSwitch.click {
+            val checked = commercialFunctionSwitch.isChecked
+            lifecycleScope.launch {
+                viewModel?.setCommercialFunction(qunId, checked)
+                    ?.observe(this@ImQunInfo2BroadActivity) { enabled ->
+                        commercialFunctionSwitch.isChecked = enabled
+                        val flag = if (enabled) "1" else "0"
+                        groupVo?.isshop = flag
+                        groupVo?.showShop = flag
+                    }
+            }
         }
     }
 

@@ -227,6 +227,8 @@ object UrlBroadBroadConstants {
     const val ABSENT_KICK_RULES = "api/absentKickRules"
     /** 设置群缺席自动移出开关 */
     const val SET_GROUP_ABSENT_KICK = "api/setGroupAbsentKick"
+    /** 设置群商业功能开关（对齐野火 {@code /setGroupShop}） */
+    const val SET_GROUP_SHOP = "api/setGroupShop"
 
     const val CREDIT_CREDITCONSTITUTELIST = "api/credit/creditConstituteList" // 查询信用构成列表
     const val CREDIT_GETLOGPAGE = "api/credit/getLogPage" // 信用分记录分页
