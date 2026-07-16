@@ -18,6 +18,10 @@ public class GroupVo implements java.io.Serializable {
     private String owerId;
     /** 全员禁言：0 未开启，1 开启（群详情接口返回） */
     private int allMute;
+    /** 本群会议缺席自动移出开关："0" 关 / "1" 开（群详情接口返回） */
+    private String openAbsentKick;
+    /** 全局连续未参会次数阈值，如 5（群详情接口返回） */
+    private String absentKickLimit;
 
     /** @return 是否全员禁言 */
     public boolean isAllMute() {
@@ -94,6 +98,22 @@ public class GroupVo implements java.io.Serializable {
 
     public void setOwerId(String owerId) {
         this.owerId = owerId;
+    }
+
+    public String getOpenAbsentKick() {
+        return openAbsentKick;
+    }
+
+    public void setOpenAbsentKick(String openAbsentKick) {
+        this.openAbsentKick = openAbsentKick;
+    }
+
+    public String getAbsentKickLimit() {
+        return absentKickLimit;
+    }
+
+    public void setAbsentKickLimit(String absentKickLimit) {
+        this.absentKickLimit = absentKickLimit;
     }
 
 }

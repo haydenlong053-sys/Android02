@@ -2,7 +2,16 @@ package com.cboda.intelligent.activity.im
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.cboda.intelligent.utils.dismissLoading
+import com.cboda.intelligent.utils.showLoading
+import com.cboda.intelligent.utils.showToastMain
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImConversationHttpExample
@@ -12,6 +21,8 @@ import com.freddy.im.http.model.im.GroupNoticeRes
 import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicInteger
 
 data class ImGroupInfoUiState(
@@ -25,7 +36,7 @@ data class ImGroupInfoUiState(
     val loadFailed: Boolean = false
 )
 
-class ImQunInfoViewModel : ViewModel() {
+class ImQunInfoViewModel : BaseViewModel() {
 
     private val _state = MutableLiveData(ImGroupInfoUiState(loading = true))
     val state: LiveData<ImGroupInfoUiState> = _state
@@ -160,5 +171,35 @@ class ImQunInfoViewModel : ViewModel() {
                 onDone(true)
             }
         }, { onDone(false) })
+    }
+
+    /** 设置群缺席自动移出开关（复用业务接口 {@code /setGroupAbsentKick}）。 */
+    suspend fun setGroupAbsentKick(groupId: String, state: String): SingleLiveBroadData<String> {
+        showLoading()
+        val liveData = SingleLiveBroadData<String>()
+        val params = hashMapOf<String, Any?>(
+            "id" to groupId,
+            "state" to state
+        )
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.SET_GROUP_ABSENT_KICK,
+                    Any::class.java,
+                    params
+                ).onSuccess {
+                    dismissLoading()
+                    liveData.postValue(state)
+                }.onFailure { _, message ->
+                    dismissLoading()
+                    showToastMain(message)
+                }.onError {
+                    dismissLoading()
+                }
+            } catch (e: Exception) {
+                dismissLoading()
+            }
+        }
+        return liveData
     }
 }

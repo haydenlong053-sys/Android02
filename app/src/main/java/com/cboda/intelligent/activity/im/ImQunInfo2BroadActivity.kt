@@ -14,6 +14,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
@@ -21,6 +22,7 @@ import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.utils.showAbsentKickTip
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunUserBroadAdapter2
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
@@ -110,6 +112,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var chakangebngduo: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var commercialFunctionLayout: View
+    private lateinit var mScAbsentKickView: View
+    private lateinit var mScAbsentKick: SwitchCompat
+    private lateinit var mTvLookRule: TextView
+    private lateinit var mTvRuleDes: TextView
 
     override fun getLayoutId(): Int = R.layout.activity_qun_broad_info2
 
@@ -143,6 +149,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         jiesanqun = findViewById(R.id.jiesanqun)
         tuichuquan = findViewById(R.id.tuichuquan)
         commercialFunctionLayout = findViewById(R.id.commercialFunctionLayout)
+        mScAbsentKick = findViewById(R.id.mScAbsentKick)
+        mScAbsentKickView = findViewById(R.id.mScAbsentKickView)
+        mTvRuleDes = findViewById(R.id.mTvRuleDes)
+        mTvLookRule = findViewById(R.id.mTvLookRule)
     }
 
     private fun hideSwitchRow(anchorViewId: Int, ancestorLevel: Int = 1) {
@@ -280,6 +290,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
 
         mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole))
+
+        mScAbsentKick.isChecked = vo.openAbsentKick == "1"
+        val limit = vo.absentKickLimit?.takeIf { it.isNotBlank() } ?: "5"
+        mTvRuleDes.text = getString(R.string.absentkick_tip, limit)
     }
 
     private fun bindClicks() {
@@ -335,6 +349,27 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 return@setOnClickListener
             }
             JumpBroadUtils.startImQunManagerActivity(this, qunId)
+        }
+        mScAbsentKickView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            if (!mScAbsentKick.isChecked) {
+                showAbsentKickTip(this) { goAbsentKick() }
+            } else {
+                goAbsentKick()
+            }
+        }
+        mTvLookRule.setOnClickListener {
+            JumpBroadUtils.startAbsentKickRulesActivity(this)
+        }
+    }
+
+    private fun goAbsentKick() {
+        val state = if (mScAbsentKick.isChecked) "0" else "1"
+        lifecycleScope.launch {
+            viewModel?.setGroupAbsentKick(qunId, state)?.observe(this@ImQunInfo2BroadActivity) { newState ->
+                mScAbsentKick.isChecked = newState == "1"
+                groupVo?.openAbsentKick = newState
+            }
         }
     }
 
