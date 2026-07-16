@@ -272,9 +272,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         findViewById<View>(R.id.guanlixian)?.isVisible = GroupRole.isOwner(myRole)
 
         val canManage = GroupRole.isOwnerOrAdmin(myRole)
-        shezhiquntou.isEnabled = canManage
-        shezhiqunnicheng.isEnabled = canManage
-        qungonggao.isEnabled = canManage
+//        shezhiquntou.isEnabled = canManage
+//        shezhiqunnicheng.isEnabled = canManage
+//        qungonggao.isEnabled = canManage
         findViewById<View>(R.id.qunjinmyan)?.isVisible = canManage
 
         zhiding.isChecked = state.sessionPinned
