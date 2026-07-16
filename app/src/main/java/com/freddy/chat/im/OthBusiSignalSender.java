@@ -3,14 +3,12 @@ package com.freddy.chat.im;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.freddy.im.signal.ImSignalProtos;
 import com.freddy.im.signal.OthBusiSigCodes;
 import com.google.gson.JsonObject;
-import com.google.protobuf.ByteString;
 
 /**
  * 其他业务信令发送封装（cmd={@link ImSignalProtos.Cmd#OTHER_BUSI} / 0x0501）。
@@ -54,7 +52,10 @@ public final class OthBusiSignalSender {
         String fromUserId = resolveFromUserId();
         JsonObject data = new JsonObject();
         data.addProperty("type", jsonType == null ? "" : jsonType);
-        data.addProperty("groupId", groupId == null ? "" : groupId);
+        String gid = groupId == null ? "" : groupId;
+        data.addProperty("groupId", gid);
+        // 与会议室其它信令对齐，便于服务端按群广播
+        data.addProperty("groupIdNo", gid);
         data.addProperty("fromUserId", fromUserId == null ? "" : fromUserId);
         data.addProperty("giftType", TextUtils.isEmpty(giftType) ? GIFT_TYPE_MEETING : giftType);
         data.addProperty("toUserId", toUserId == null ? "" : toUserId);
@@ -102,7 +103,7 @@ public final class OthBusiSignalSender {
 
         ImSignalProtos.SignalRequest request = ImSignalProtos.SignalRequest.newBuilder()
                 .setHeader(header.build())
-                .setBody(ByteString.copyFrom(body.toByteArray()))
+                .setBody(body.toByteString())
                 .build();
 
         Log.d(TAG, "send OTHER_BUSI code=" + code + " data=" + dataJson);

@@ -16,8 +16,10 @@ import com.freddy.im.signal.othbusi.OthBusiSigJson;
  * 会议礼物弹幕：code={@link OthBusiSigCodes#MEETING_GIFT} / 2001。
  * <p>
  * data 示例：
- * {@code {"type":"1","groupId":"...","fromUserId":"...","giftType":"meeting_gift","toUserId":"...","timestamp":0}}
+ * {@code {"type":"1","groupId":"...","groupIdNo":"...","fromUserId":"...","giftType":"meeting_gift","toUserId":"...","timestamp":0}}
  * type=1 鲜花，type=2 鼓掌。
+ * <p>
+ * 接收路径：IMSEventListener(OTHER_BUSI) → {@link OthBusiSigHandlers} → 本 Handler → updateBarrageDataLiveData。
  */
 public final class MeetingGiftOthBusiSigHandler implements OthBusiSigHandler {
 
@@ -30,9 +32,15 @@ public final class MeetingGiftOthBusiSigHandler implements OthBusiSigHandler {
 
     @Override
     public boolean handle(@Nullable String data) {
-        String groupId = OthBusiSigJson.readGroupId(data);
+        String groupId = OthBusiSigJson.readGroupIdNo(data);
+        if (TextUtils.isEmpty(groupId)) {
+            groupId = OthBusiSigJson.readGroupId(data);
+        }
         String fromUserId = OthBusiSigJson.readString(data, "fromUserId");
-        if (TextUtils.isEmpty(groupId) || TextUtils.isEmpty(fromUserId)) {
+        if (TextUtils.isEmpty(fromUserId)) {
+            fromUserId = OthBusiSigJson.readString(data, "operator");
+        }
+        if (TextUtils.isEmpty(groupId)) {
             return false;
         }
         int giftType = OthBusiSigJson.readInt(data, "type", 0);
@@ -51,7 +59,7 @@ public final class MeetingGiftOthBusiSigHandler implements OthBusiSigHandler {
         }
 
         BarrageBean barrageBean = new BarrageBean();
-        barrageBean.setSender(fromUserId);
+        barrageBean.setSender(fromUserId == null ? "" : fromUserId);
         barrageBean.setConversationId(groupId);
         barrageBean.setConversationType(ImSignalProtos.ConversationType.MULTI_VALUE);
         barrageBean.setGiftType(giftType);

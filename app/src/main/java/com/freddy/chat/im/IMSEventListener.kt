@@ -228,8 +228,9 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
             }
         }
 
-        // 0x0501 其他业务信令：OthBusiSig 按 code 分发
+        // 0x0501 其他业务信令：OthBusiSig 按 code 分发（含会议弹幕 MEETING_GIFT=2001）
         else if (push.header.cmd == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
+            eLogD(tAG, "收到 OTHER_BUSI，bodySize=${push.body.size()}")
             OthBusiSigHandlers.get().dispatch(push.body.toByteArray())
         }
     }
