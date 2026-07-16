@@ -242,13 +242,16 @@ public class MessageListActivity extends BaseSimple2BroadActivity
 
     private void bindMeetingDanmakuObservers(@NonNull String groupId) {
         BaseLiveDataEventKt.getUpdateBarrageDataLiveData().observe(this, barrageBean -> {
-            if (barrageBean == null || !isMeetingInCurrentGroup() || verticalDanmakuView == null) {
+            if (barrageBean == null || verticalDanmakuView == null) {
                 return;
             }
-            if (barrageBean.getConversationType() != ImSignalProtos.ConversationType.MULTI_VALUE
-                    || !TextUtils.equals(groupId, barrageBean.getConversationId())) {
+            if (!MeetCallManager.getInstance().isCallingState()) {
                 return;
             }
+            if (!TextUtils.equals(groupId, barrageBean.getConversationId())) {
+                return;
+            }
+            // conversationType：自研 MULTI=2；兼容仅校验 groupId
             String myId = MMKVBroadUtils.Companion.getRealUserId();
             if (TextUtils.equals(myId, barrageBean.getSender())) {
                 // 本端发送时已立即展示，避免重复
@@ -293,6 +296,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             EnumerationBean.DanMaPopAction popAction = action;
             if (popAction == EnumerationBean.DanMaPopAction.FLOWER
                     || popAction == EnumerationBean.DanMaPopAction.ACCLAMATION) {
+                // 自研 IM：OTHER_BUSI code=2001，对端经 IMSEventListener → MeetingGiftOthBusiSigHandler 接收
                 OthBusiSignalSender.sendMeetingGift(
                         String.valueOf(popAction.getCode()), groupId, "");
                 String sender = MMKVBroadUtils.Companion.getRealUserId();

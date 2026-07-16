@@ -931,6 +931,7 @@ public class ConversationBroadFragment extends Fragment implements
 //                                Toast.makeText(getActivity(), "当前为观众角色，无法发送鲜花和鼓掌", Toast.LENGTH_SHORT).show();
 //                                break;
 //                            }
+                            // 会议中：通过野火聊天室发送礼物，避免群禁言影响
                             GiftChatRoomHelper.sendGift(conversationBroad.target, action.getCode());
                             // 本端立即展示一条弹幕
                             String sender = MMKVBroadUtils.Companion.getRealUserId();
