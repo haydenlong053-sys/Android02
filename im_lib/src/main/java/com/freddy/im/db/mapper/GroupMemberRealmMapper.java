@@ -31,6 +31,7 @@ public final class GroupMemberRealmMapper {
         entity.setUserId(userId);
         entity.setCompanyId(item.getCompanyId());
         entity.setNickname(item.getNickname());
+        entity.setGroupNickname(item.getGroupNickname());
         entity.setUsername(item.getUsername());
         entity.setIdNo(item.getIdNo());
         entity.setHeadPortrait(item.getHeadPortrait());
@@ -56,6 +57,7 @@ public final class GroupMemberRealmMapper {
         item.setUserId(entity.getUserId());
         item.setCompanyId(entity.getCompanyId());
         item.setNickname(entity.getNickname());
+        item.setGroupNickname(entity.getGroupNickname());
         item.setUsername(entity.getUsername());
         item.setIdNo(entity.getIdNo());
         item.setHeadPortrait(entity.getHeadPortrait());

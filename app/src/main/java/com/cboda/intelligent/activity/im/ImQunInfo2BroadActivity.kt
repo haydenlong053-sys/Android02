@@ -41,6 +41,7 @@ import com.freddy.chat.event.Events
 import com.freddy.chat.event.I_CEventListener
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.utils.AvatarViews
+import com.freddy.im.db.ImDbExecutor
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
@@ -294,6 +295,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         val limit = vo.absentKickLimit?.takeIf { it.isNotBlank() } ?: "5"
         mTvRuleDes.text = getString(R.string.absentkick_tip, limit)
 
+        refreshMyGroupNickname()
+
         // 商业功能：群详情返回 isshop 非空才展示入口（对齐野火 QunInfo2BroadActivity）
         commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.isshop)
         commercialFunctionSwitch.isChecked = anyToInt(vo.isshop) == 1
@@ -378,6 +381,13 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         mTvLookRule.setOnClickListener {
             JumpBroadUtils.startAbsentKickRulesActivity(this)
         }
+        wodequnnicheng.setOnClickListener {
+            JumpBroadUtils.startImQunNichengActivity(
+                this,
+                qunId,
+                wodequnbnicjheng.text?.toString() ?: ""
+            )
+        }
         commercialFunctionSwitch.click {
             val checked = commercialFunctionSwitch.isChecked
             lifecycleScope.launch {
@@ -388,6 +398,21 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                         groupVo?.isshop = flag
                         groupVo?.showShop = flag
                     }
+            }
+        }
+    }
+
+    /** 展示当前用户群昵称：本地 [ImLocalStore.queryGroupMember]。 */
+    private fun refreshMyGroupNickname() {
+        val uid = currentUserId
+        if (uid.isNullOrEmpty()) {
+            wodequnbnicjheng.text = ""
+            return
+        }
+        ImDbExecutor.runRead {
+            val member = ImLocalStore.queryGroupMember(qunId, uid)
+            runOnUiThread {
+                wodequnbnicjheng.text = member?.groupNickname?.takeIf { it.isNotBlank() } ?: ""
             }
         }
     }
@@ -572,6 +597,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     override fun onResume() {
         super.onResume()
+        refreshMyGroupNickname()
         if (skipMembersRefreshOnResume) {
             skipMembersRefreshOnResume = false
             return

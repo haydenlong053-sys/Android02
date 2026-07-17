@@ -14,6 +14,8 @@ public class GroupMemberEntity extends RealmObject {
     private String userId;
     private String companyId;
     private String nickname;
+    /** 群内昵称 */
+    private String groupNickname;
     private String username;
     private String idNo;
     private String headPortrait;
@@ -66,6 +68,14 @@ public class GroupMemberEntity extends RealmObject {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getGroupNickname() {
+        return groupNickname;
+    }
+
+    public void setGroupNickname(String groupNickname) {
+        this.groupNickname = groupNickname;
     }
 
     public String getUsername() {

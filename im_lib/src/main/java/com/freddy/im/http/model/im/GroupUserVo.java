@@ -10,7 +10,10 @@ public class GroupUserVo {
 
     private String userId;
     private String companyId;
+    /** 用户昵称 / 好友侧展示名（非群内专属） */
     private String nickname;
+    /** 群内昵称（文档字段；群内展示优先） */
+    private String groupNickname;
     /** 接口部分场景返回 username */
     private String username;
     private String idNo;
@@ -50,6 +53,14 @@ public class GroupUserVo {
         this.nickname = nickname;
     }
 
+    public String getGroupNickname() {
+        return groupNickname;
+    }
+
+    public void setGroupNickname(String groupNickname) {
+        this.groupNickname = groupNickname;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -66,8 +77,11 @@ public class GroupUserVo {
         this.idNo = idNo;
     }
 
-    /** 展示用昵称 */
+    /** 群内展示名：groupNickname → nickname → username → userId */
     public String getDisplayName() {
+        if (groupNickname != null && !groupNickname.isEmpty()) {
+            return groupNickname;
+        }
         if (nickname != null && !nickname.isEmpty()) {
             return nickname;
         }

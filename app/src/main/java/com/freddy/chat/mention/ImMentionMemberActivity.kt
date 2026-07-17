@@ -105,7 +105,7 @@ class ImMentionMemberActivity : BaseSimple2BroadActivity() {
                             && !TextUtils.isEmpty(member.userId)
                             && member.userId != currentUserId
                 }
-                .sortedBy { it.nickname?.lowercase().orEmpty() }
+                .sortedBy { it.displayName.lowercase() }
             runOnUiThread {
                 allMembers.clear()
                 allMembers.addAll(members)
@@ -134,8 +134,8 @@ class ImMentionMemberActivity : BaseSimple2BroadActivity() {
     }
 
     private fun matchesKeyword(member: GroupMemberItem, key: String): Boolean {
-        val nickname = member.nickname?.trim().orEmpty().lowercase()
-        return nickname.contains(key)
+        val name = member.displayName.trim().lowercase()
+        return name.contains(key)
     }
 
     private fun finishWithMentionAll() {
@@ -147,7 +147,7 @@ class ImMentionMemberActivity : BaseSimple2BroadActivity() {
     }
 
     private fun finishWithMember(member: GroupMemberItem) {
-        val displayName = member.nickname?.trim().orEmpty().ifEmpty { member.userId }
+        val displayName = member.displayName.ifEmpty { member.userId }
         setResult(
             Activity.RESULT_OK,
             Intent()
@@ -235,7 +235,7 @@ class ImMentionMemberActivity : BaseSimple2BroadActivity() {
             private val btnAction: TextView = itemView.findViewById(R.id.btn_member_action)
 
             fun bind(member: GroupMemberItem, onClick: () -> Unit) {
-                val name = member.nickname?.trim().orEmpty().ifEmpty { member.userId }
+                val name = member.displayName.ifEmpty { member.userId }
                 tvName.text = name
                 tvRole.visibility = View.GONE
                 btnAction.visibility = View.GONE

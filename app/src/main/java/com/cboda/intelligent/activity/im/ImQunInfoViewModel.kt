@@ -135,6 +135,8 @@ class ImQunInfoViewModel : BaseViewModel() {
                     GroupUserVo().apply {
                         userId = item.userId
                         nickname = item.nickname
+                        groupNickname = item.groupNickname
+                        username = item.username
                         headPortrait = item.headPortrait
                         role = item.role
                     }

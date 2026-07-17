@@ -53,6 +53,7 @@ import com.cboda.intelligent.activity.im.ImGroupIntent
 import com.cboda.intelligent.activity.im.ImQunCodeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGerenJInyanTimeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
+import com.cboda.intelligent.activity.im.ImQunNichengBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoInfoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity
@@ -404,6 +405,13 @@ class JumpBroadUtils {
             val intent = Intent(context, ImQunGerenJInyanTimeBroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             intent.putExtra("uid", uid)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunNichengActivity(context: Context?, qunId: String, beizhu: String) {
+            val intent = Intent(context, ImQunNichengBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            intent.putExtra("beizhu", beizhu)
             context?.startActivity(intent)
         }
 

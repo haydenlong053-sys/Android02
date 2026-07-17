@@ -9,7 +9,10 @@ public class GroupMemberItem {
     private String groupId;
     private String userId;
     private String companyId;
+    /** 用户昵称 / 好友侧展示名（非群内专属） */
     private String nickname;
+    /** 群内昵称；群内展示优先 */
+    private String groupNickname;
     private String username;
     private String idNo;
     private String headPortrait;
@@ -23,8 +26,11 @@ public class GroupMemberItem {
     private String userExtAttrs;
     private boolean deleted;
 
-    /** 消息列表展示名：nickname → username → userId */
+    /** 消息列表 / 群内展示名：groupNickname → nickname → username → userId */
     public String getDisplayName() {
+        if (groupNickname != null && !groupNickname.isEmpty()) {
+            return groupNickname.trim();
+        }
         if (nickname != null && !nickname.isEmpty()) {
             return nickname.trim();
         }
@@ -72,6 +78,14 @@ public class GroupMemberItem {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getGroupNickname() {
+        return groupNickname;
+    }
+
+    public void setGroupNickname(String groupNickname) {
+        this.groupNickname = groupNickname;
     }
 
     public String getUsername() {

@@ -28,6 +28,7 @@ import com.freddy.im.http.api.SearchGroupAsstApi;
 import com.freddy.im.http.api.SearchMembersApi;
 import com.freddy.im.http.api.SetAllMuteApi;
 import com.freddy.im.http.api.SetGroupManagerApi;
+import com.freddy.im.http.api.SetGroupNicknameApi;
 import com.freddy.im.http.api.SetMembersMuteApi;
 import com.freddy.im.http.api.TransferGroupApi;
 import com.freddy.im.http.api.UpdateGroupNoticeApi;
@@ -224,6 +225,24 @@ public final class ImGroupHttpExample {
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new KickOutGroupApi().setGroupId(groupId).setMembers(members))
                 .request(postListener("kickOut", callback, onFail, false, String.class));
+    }
+
+    /**
+     * POST {@code /im/group/setNickname}：设置当前用户在本群的群昵称（文档 §3.26）。
+     */
+    public static void requestSetGroupNickname(@NonNull String groupId,
+                                               @NonNull String nickname,
+                                               @NonNull OnHttpImListener<Boolean> callback,
+                                               @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId) || TextUtils.isEmpty(nickname)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new SetGroupNicknameApi().setGroupId(groupId).setNickname(nickname))
+                .request(postListener("setNickname", callback, onFail, false, Boolean.class));
     }
 
     public static void requestDisbandGroup(@NonNull String groupId,

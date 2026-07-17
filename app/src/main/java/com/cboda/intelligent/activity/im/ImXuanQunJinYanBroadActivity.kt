@@ -152,7 +152,7 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
                 if (member.userId == currentUserId) return@mapNotNull null
                 if (GroupRole.isOwnerOrAdmin(member.role)) return@mapNotNull null
                 member
-            }.sortedBy { it.nickname?.lowercase() ?: it.userId }
+            }.sortedBy { it.displayName.lowercase() }
             runOnUiThread { submitMembers(members) }
         }
     }
@@ -185,7 +185,7 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
             if (member.userId == currentUserId) return@filter false
             if (GroupRole.isOwnerOrAdmin(member.role)) return@filter false
             true
-        }.sortedBy { it.nickname?.lowercase() ?: it.userId }
+        }.sortedBy { it.displayName.lowercase() }
     }
 
     private fun submitMembers(members: List<GroupMemberItem>) {
@@ -230,7 +230,7 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
         override fun onBindViewHolder(holder: VH, position: Int) {
             val item = items[position]
             val userId = item.userId ?: return
-            val name = item.nickname?.takeIf { it.isNotBlank() } ?: userId
+            val name = item.displayName.ifEmpty { userId }
             holder.name.text = name
             AvatarViews.bind(holder.avatar, item.headPortrait, name, name)
             holder.check.setImageResource(

@@ -45,6 +45,7 @@ public final class GroupUserVoMapper {
         item.setUserId(vo.getUserId().trim());
         item.setCompanyId(vo.getCompanyId());
         item.setNickname(vo.getNickname());
+        item.setGroupNickname(vo.getGroupNickname());
         item.setUsername(vo.getUsername());
         item.setIdNo(vo.getIdNo());
         item.setHeadPortrait(vo.getHeadPortrait());
