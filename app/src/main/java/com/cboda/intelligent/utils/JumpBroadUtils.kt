@@ -51,6 +51,7 @@ import com.cboda.intelligent.activity.QunTouSuBroadActivity
 import com.cboda.intelligent.activity.QunUserList2BroadActivity
 import com.cboda.intelligent.activity.im.ImGroupIntent
 import com.cboda.intelligent.activity.im.ImQunCodeBroadActivity
+import com.cboda.intelligent.activity.im.ImQunGerenJInyanTimeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoInfoBroadActivity
@@ -391,15 +392,18 @@ class JumpBroadUtils {
         fun startImQunGerenPageActivity(
             context: Context?,
             qunId: String,
-            uid: String,
-            type: String,
-            myRole: Int
+            uid: String
         ) {
             val intent = Intent(context, ImQunGerenPageBroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             intent.putExtra("uid", uid)
-            intent.putExtra("type", type)
-            intent.putExtra(ImGroupIntent.EXTRA_MY_ROLE, myRole)
+            context?.startActivity(intent)
+        }
+
+        fun startImQunGerenJInyanTimeActivity(context: Context?, qunId: String, uid: String) {
+            val intent = Intent(context, ImQunGerenJInyanTimeBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
+            intent.putExtra("uid", uid)
             context?.startActivity(intent)
         }
 

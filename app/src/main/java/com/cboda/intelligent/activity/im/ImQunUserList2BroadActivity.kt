@@ -46,7 +46,7 @@ class ImQunUserList2BroadActivity : BaseSimpleBroadActivity() {
         mAdapter?.setOnItemClickListener { _, _, position ->
             val item = mAdapter?.getItem(position) ?: return@setOnItemClickListener
             JumpBroadUtils.startImQunGerenPageActivity(
-                this, qunId, item.userId ?: "", item.type ?: "", myRole
+                this, qunId, item.userId ?: ""
             )
         }
         smartLayout.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {

@@ -167,7 +167,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private fun hideUnsupportedWildfireFeatures() {
         zidongfanyiView.isGone = true
         zidongfanyi.isGone = true
-        wodequnnicheng.isGone = true
+//        wodequnnicheng.isGone = true
         findViewById<View>(R.id.shengjiqun)?.isGone = true
         findViewById<View>(R.id.shengjiqunView)?.isGone = true
         hideSwitchRow(R.id.yaoqinghaioyuView)
@@ -224,8 +224,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     this, qunId, "remove", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole)
                 )
                 else -> JumpBroadUtils.startImQunGerenPageActivity(
-                    this, qunId, items[position].userId ?: "",
-                    items[position].type ?: "", myRole
+                    this, qunId, items[position].userId ?: ""
                 )
             }
         }
