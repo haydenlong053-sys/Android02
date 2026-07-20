@@ -225,8 +225,10 @@ class ImQunInfoViewModel : BaseViewModel() {
                     val vo = cur?.groupVo
                     if (vo != null) {
                         val flag = if (enabled) "1" else "0"
-                        vo.isshop = flag
-                        vo.showShop = flag
+                        vo.ensureBusiExt().apply {
+                            isshop = flag
+                            showShop = flag
+                        }
                         _state.postValue(cur.copy(groupVo = vo))
                     }
                     liveData.postValue(enabled)

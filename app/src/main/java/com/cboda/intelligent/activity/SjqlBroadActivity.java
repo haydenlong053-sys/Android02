@@ -169,7 +169,11 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
     private void bindGroupDetail(@NonNull GroupVo group) {
         tvName.setText(group.getName() != null ? group.getName() : "");
         E.INSTANCE.loadGroupImg(ivIcon, id, group.getIcon());
-        gsize = TextUtils.isEmpty(group.getGsize()) ? "1" : group.getGsize();
+        String remoteGsize = null;
+        if (group.getBusiExt() != null) {
+            remoteGsize = group.getBusiExt().getGsize();
+        }
+        gsize = TextUtils.isEmpty(remoteGsize) ? "1" : remoteGsize;
         if ("0".equals(isvip)) {
             tvKt.setText(getString(R.string.群主还未成为会员));
             tvKt.setBackgroundResource(R.mipmap.ic_bg_btn2_broad_01);

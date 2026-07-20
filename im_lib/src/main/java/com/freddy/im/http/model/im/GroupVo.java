@@ -1,7 +1,11 @@
 package com.freddy.im.http.model.im;
 
+import java.util.List;
+
 /**
- * POST {@code im/group/create} 响应 {@code content}（GroupVO）。
+ * 群详情 / 建群响应 {@code content}（GroupVO）。
+ * <p>
+ * 业务开关与扩展配置见嵌套对象 {@link #busiExt}，不再平铺在根上。
  */
 @SuppressWarnings("unused")
 public class GroupVo implements java.io.Serializable {
@@ -18,22 +22,11 @@ public class GroupVo implements java.io.Serializable {
     private String owerId;
     /** 全员禁言：0 未开启，1 开启（群详情接口返回） */
     private int allMute;
-    /** 本群会议缺席自动移出开关："0" 关 / "1" 开（群详情接口返回） */
-    private String openAbsentKick;
-    /** 全局连续未参会次数阈值，如 5（群详情接口返回） */
-    private String absentKickLimit;
-    /**
-     * 群规模档位（群详情返回，对齐业务 {@code gsize}）。
-     * {@code "1"}：未升到最高（上限约 1000）；其它：已升级最高档（上限约 10000）。
-     */
-    private String gsize;
-    /**
-     * 商业功能开关能力标记（群详情返回）。
-     * null/空：不展示入口；"0"：关；"1"：开。对齐野火 {@code CommonResult.isshop}。
-     */
-    private String isshop;
-    /** 会话内商城入口是否展示，通常与 {@link #isshop} 同步。 */
-    private String showShop;
+    private List<String> managerIds;
+    private String allowMemberInvite;
+    private String joinNeedVerify;
+    /** 业务扩展（缺席踢人、商城、群规模 gsize 等） */
+    private GroupBusiExt busiExt;
 
     /** @return 是否全员禁言 */
     public boolean isAllMute() {
@@ -112,44 +105,43 @@ public class GroupVo implements java.io.Serializable {
         this.owerId = owerId;
     }
 
-    public String getOpenAbsentKick() {
-        return openAbsentKick;
+    public List<String> getManagerIds() {
+        return managerIds;
     }
 
-    public void setOpenAbsentKick(String openAbsentKick) {
-        this.openAbsentKick = openAbsentKick;
+    public void setManagerIds(List<String> managerIds) {
+        this.managerIds = managerIds;
     }
 
-    public String getAbsentKickLimit() {
-        return absentKickLimit;
+    public String getAllowMemberInvite() {
+        return allowMemberInvite;
     }
 
-    public void setAbsentKickLimit(String absentKickLimit) {
-        this.absentKickLimit = absentKickLimit;
+    public void setAllowMemberInvite(String allowMemberInvite) {
+        this.allowMemberInvite = allowMemberInvite;
     }
 
-    public String getGsize() {
-        return gsize;
+    public String getJoinNeedVerify() {
+        return joinNeedVerify;
     }
 
-    public void setGsize(String gsize) {
-        this.gsize = gsize;
+    public void setJoinNeedVerify(String joinNeedVerify) {
+        this.joinNeedVerify = joinNeedVerify;
     }
 
-    public String getIsshop() {
-        return isshop;
+    public GroupBusiExt getBusiExt() {
+        return busiExt;
     }
 
-    public void setIsshop(String isshop) {
-        this.isshop = isshop;
+    public void setBusiExt(GroupBusiExt busiExt) {
+        this.busiExt = busiExt;
     }
 
-    public String getShowShop() {
-        return showShop;
+    /** 懒创建 {@link #busiExt}，便于本地回写开关态。 */
+    public GroupBusiExt ensureBusiExt() {
+        if (busiExt == null) {
+            busiExt = new GroupBusiExt();
+        }
+        return busiExt;
     }
-
-    public void setShowShop(String showShop) {
-        this.showShop = showShop;
-    }
-
 }

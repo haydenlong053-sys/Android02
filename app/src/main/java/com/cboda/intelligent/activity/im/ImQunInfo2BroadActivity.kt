@@ -291,15 +291,15 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
         mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole))
 
-        mScAbsentKick.isChecked = vo.openAbsentKick == "1"
-        val limit = vo.absentKickLimit?.takeIf { it.isNotBlank() } ?: "5"
+        mScAbsentKick.isChecked = vo.busiExt?.openAbsentKick == "1"
+        val limit = vo.busiExt?.absentKickLimit?.toString()?.takeIf { it.isNotBlank() } ?: "5"
         mTvRuleDes.text = getString(R.string.absentkick_tip, limit)
 
         refreshMyGroupNickname()
 
-        // 商业功能：群详情返回 isshop 非空才展示入口（对齐野火 QunInfo2BroadActivity）
-        commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.isshop)
-        commercialFunctionSwitch.isChecked = anyToInt(vo.isshop) == 1
+        // 商业功能：群详情 busiExt.isshop 非空才展示入口（对齐野火 QunInfo2BroadActivity）
+        commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.busiExt?.isshop)
+        commercialFunctionSwitch.isChecked = anyToInt(vo.busiExt?.isshop) == 1
     }
 
     private fun bindClicks() {
@@ -398,8 +398,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     ?.observe(this@ImQunInfo2BroadActivity) { enabled ->
                         commercialFunctionSwitch.isChecked = enabled
                         val flag = if (enabled) "1" else "0"
-                        groupVo?.isshop = flag
-                        groupVo?.showShop = flag
+                        groupVo?.ensureBusiExt()?.apply {
+                            isshop = flag
+                            showShop = flag
+                        }
                     }
             }
         }
@@ -425,7 +427,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         lifecycleScope.launch {
             viewModel?.setGroupAbsentKick(qunId, state)?.observe(this@ImQunInfo2BroadActivity) { newState ->
                 mScAbsentKick.isChecked = newState == "1"
-                groupVo?.openAbsentKick = newState
+                groupVo?.ensureBusiExt()?.openAbsentKick = newState
             }
         }
     }
