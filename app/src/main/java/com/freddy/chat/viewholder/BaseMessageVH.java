@@ -281,8 +281,9 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             hideReadReceipt();
             return;
         }
+        // 自研暂不展示群聊已读回执；单聊圆点仍保留。
         if (context.isGroupChat) {
-            bindGroupReadReceipt(message, context);
+            hideReadReceipt();
         } else {
             bindSingleReadReceipt(message, context);
         }
@@ -301,6 +302,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         }
     }
 
+    //群聊的已读回执逻辑（暂不使用）
     private void bindGroupReadReceipt(@NonNull AppMessage message,
                                       @NonNull MessageViewHolderContext context) {
         singleReceiptImageView.setVisibility(View.GONE);
