@@ -51,6 +51,8 @@ object BroadE {
     }
 
     //发起通话：接口成功后打开 CallActivity，由页面通过 CallUtil 进房
+    @JvmOverloads
+    @JvmStatic
     fun startCall(
         id: String?,
         video: Boolean = false,
@@ -60,15 +62,31 @@ object BroadE {
         if (TextUtils.isEmpty(id)) {
             return
         }
+        startCall(listOf(id!!), video, scope, context)
+    }
+
+    /** 发起通话（支持多被叫，如群聊选人后语音通话）。 */
+    @JvmOverloads
+    @JvmStatic
+    fun startCall(
+        toUserIds: List<String>?,
+        video: Boolean = false,
+        scope: CoroutineScope? = null,
+        context: Context? = null
+    ) {
+        val ids = toUserIds?.filter { !it.isNullOrBlank() }.orEmpty()
+        if (ids.isEmpty()) {
+            return
+        }
         requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) {
             ImCallHttpExample.requestCallStart(
-                id ?: "",
+                ids,
                 video,
                 { result ->
                     if (!TextUtils.isEmpty(result.token) && !TextUtils.isEmpty(result.url)) {
                         CallActivity.startOutgoing(
                             getAppContext(context),
-                            id,
+                            ids.first(),
                             result.url,
                             result.token,
                             result.roomName,

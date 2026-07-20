@@ -82,6 +82,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         getToolbarTitle()?.text = when (fromPage) {
             "selectManager" -> getString(R.string.qunguanliyuan)
             "selectNewOwner" -> getString(R.string.xuanxinqunzhu)
+            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> getString(R.string.select_group_members)
             else -> getString(R.string.xuanzelianxiren)
         }
         tvAgree.isSubmitCanGo(false)
@@ -137,7 +138,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (fromPage != "add" && fromPage != "remove"
-                    && fromPage != "selectManager" && fromPage != "selectNewOwner") return
+                    && fromPage != "selectManager" && fromPage != "selectNewOwner"
+                    && fromPage != ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS) return
                 searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
                 searchRunnable = Runnable { triggerSearch() }.also { runnable ->
                     searchHandler.postDelayed(runnable, SEARCH_DEBOUNCE_MS)
@@ -153,6 +155,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             "remove" -> loadRemoveMembers()
             "selectManager" -> loadSelectManagerMembers()
             "selectNewOwner" -> loadSelectNewOwnerMembers()
+            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> loadSelectCallMembers()
         }
     }
 
@@ -190,6 +193,14 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     loadSelectNewOwnerMembers()
                 } else {
                     searchSelectNewOwnerMembers(keyword)
+                }
+            }
+            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> {
+                val keyword = currentSearchKey()
+                if (keyword.isEmpty()) {
+                    loadSelectCallMembers()
+                } else {
+                    searchSelectCallMembers(keyword)
                 }
             }
         }
@@ -360,6 +371,43 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     }
 
 
+    /** 群语音通话：本地群成员库加载（排除自己）。 */
+    private fun loadSelectCallMembers() {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImLocalStore.loadGroupMembersMap(qunId) { map ->
+            val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(map.values.toList())
+                .filter { it.userId != currentUserId }
+            runOnUiThread { submitRemoveList(beans) }
+        }
+    }
+
+    /** 群语音通话：ES 模糊搜索群成员（排除自己）。 */
+    private fun searchSelectCallMembers(keyword: String) {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImGroupHttpExample.requestSearchMembers(
+            qunId,
+            keyword,
+            object : OnHttpImListener<List<com.freddy.im.http.model.im.GroupUserVo>> {
+                override fun onHttpImSuccess(result: List<com.freddy.im.http.model.im.GroupUserVo>) {
+                    if (keyword != currentSearchKey()) return
+                    val items = GroupUserVoMapper.toItems(qunId, result)
+                    val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(items)
+                        .filter { it.userId != currentUserId }
+                    runOnUiThread { submitRemoveList(beans) }
+                }
+            },
+            {
+                runOnUiThread {
+                    if (keyword == currentSearchKey()) {
+                        submitRemoveList(emptyList())
+                    }
+                }
+            },
+        )
+    }
+
     private fun updateYiXuan() {
         mAdapter2?.setList(mDataList3)
         recyclerView2.isVisible = mDataList3.isNotEmpty()
@@ -419,6 +467,17 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                         ToastBroadUtils.show(getString(R.string.group_add_member_failed))
                     }
                 })
+            }
+            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> {
+                val ids = selected.mapNotNull { it.userId }
+                setResult(
+                    RESULT_OK,
+                    android.content.Intent().putStringArrayListExtra(
+                        ImGroupIntent.EXTRA_SELECTED_USER_IDS,
+                        ArrayList(ids)
+                    )
+                )
+                finish()
             }
         }
     }

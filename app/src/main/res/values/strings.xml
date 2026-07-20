@@ -1217,6 +1217,7 @@
     <string name="refresh_conversations">刷新列表</string>
     <string name="create_group_name_hint">群名称</string>
     <string name="create_group_select_members">选择群成员（自己将自动加入）</string>
+    <string name="select_group_members">Select group members</string>
     <string name="create_group_search_hint">搜索用户（可选）</string>
     <string name="create_group_search">搜索</string>
     <string name="create_group_members_empty">暂无可选用户</string>

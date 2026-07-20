@@ -92,14 +92,27 @@ public final class ImCallHttpExample {
                                         boolean video,
                                         @NonNull OnHttpImListener<CallTokenContent> callback,
                                         @Nullable Runnable onFail) {
-        if (TextUtils.isEmpty(identity)) {
+        List<String> idList = new ArrayList<>();
+        idList.add(identity);
+        requestCallStart(idList, video, callback, onFail);
+    }
+
+    public static void requestCallStart(@NonNull List<String> toUserIds,
+                                        boolean video,
+                                        @NonNull OnHttpImListener<CallTokenContent> callback,
+                                        @Nullable Runnable onFail) {
+        List<String> idList = new ArrayList<>();
+        for (String id : toUserIds) {
+            if (!TextUtils.isEmpty(id)) {
+                idList.add(id);
+            }
+        }
+        if (idList.isEmpty()) {
             if (onFail != null) {
                 onFail.run();
             }
             return;
         }
-        List<String> idList = new ArrayList<>();
-        idList.add(identity);
         UserInfoBean userInfoBean = fromJson2(MMKVBroadUtils.Companion.getSqlStrData(LOGIN_USER_DATA, ""), UserInfoBean.class);
         CallStartApi api = new CallStartApi()
                 .setMediaType(video ? "video" : "audio")

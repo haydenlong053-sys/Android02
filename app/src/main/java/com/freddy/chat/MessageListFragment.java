@@ -48,7 +48,10 @@ import com.freddy.chat.event.GroupMuteUpdateEvent;
 import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
+import com.cboda.intelligent.activity.im.ImGroupIntent;
+import com.cboda.intelligent.activity.im.ImGroupMemberUiMapper;
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity;
+import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
@@ -146,6 +149,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private int myGroupRole = GroupRole.MEMBER;
     private ActivityResultLauncher<String[]> filePickerLauncher;
     private ActivityResultLauncher<Intent> mentionPickerLauncher;
+    private ActivityResultLauncher<Intent> groupCallMemberPickerLauncher;
 
     /**
      * 本地是否可能还有更早一页（用于下拉刷新）
@@ -182,6 +186,20 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                         inputPanel.insertMention(
                                 ImMentionHelper.buildMentionSpannable(userId, displayName));
                     }
+                });
+        groupCallMemberPickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() != android.app.Activity.RESULT_OK
+                            || result.getData() == null) {
+                        return;
+                    }
+                    ArrayList<String> userIds = result.getData().getStringArrayListExtra(
+                            ImGroupIntent.EXTRA_SELECTED_USER_IDS);
+                    if (userIds == null || userIds.isEmpty()) {
+                        return;
+                    }
+                    BroadE.startCall(userIds, false, null, requireContext());
                 });
         sessionItem = SessionItemIntent.getSessionItem(getArguments());
         focusMsgId = SessionItemIntent.getFocusMsgId(getArguments());
@@ -291,13 +309,15 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
             @Override
             public void onOpenVoiceCall() {
-                if (isGroupChat){
-
-                    ToastBroadUtils.show("群聊通话--sessionId="+sessionId);
-                }else {
-                    BroadE.INSTANCE.startCall(peerUserId, false,null,requireContext());
+                if (MeetCallManager.getInstance().isCallingState()) {
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_func_unavailable);
+                    return;
                 }
-
+                if (isGroupChat) {
+                    launchGroupCallMemberPicker();
+                } else {
+                    BroadE.startCall(peerUserId, false, null, requireContext());
+                }
             }
 
             @Override
@@ -491,6 +511,18 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         intent.putExtra(ImMentionContract.EXTRA_GROUP_ID, sessionId);
         intent.putExtra(ImMentionContract.EXTRA_SHOW_MENTION_ALL, GroupRole.isOwnerOrAdmin(myGroupRole));
         mentionPickerLauncher.launch(intent);
+    }
+
+    /** 群聊语音通话：先选择群成员，再发起通话。 */
+    private void launchGroupCallMemberPicker() {
+        if (!isAdded() || TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        Intent intent = new Intent(requireContext(), ImQunMemberListBroadActivity.class);
+        intent.putExtra("qunid", sessionId);
+        intent.putExtra("fromPage", ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS);
+        intent.putExtra("userType", com.freddy.chat.utils.BroadE.INSTANCE.wildfireUserTypeForRole(myGroupRole));
+        groupCallMemberPickerLauncher.launch(intent);
     }
 
     private void loadLocalMessages() {
