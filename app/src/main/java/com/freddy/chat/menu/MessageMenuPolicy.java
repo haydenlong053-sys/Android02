@@ -26,7 +26,13 @@ public final class MessageMenuPolicy {
                 && !WeChatUiHelper.isMeetStatusMessage(message.getMsgContentType());
     }
 
-    public static boolean canRecall(@NonNull AppMessage message, @Nullable String currentUserId) {
+    /**
+     * @param skipTimeLimit 群主/管理员可跳过 {@link BroadConfig#RECALL_TIME_LIMIT} 时限
+     *                      （仍仅能撤回自己发出的消息）。
+     */
+    public static boolean canRecall(@NonNull AppMessage message,
+                                    @Nullable String currentUserId,
+                                    boolean skipTimeLimit) {
         if (!message.isSender(currentUserId)) {
             return false;
         }
@@ -36,6 +42,9 @@ public final class MessageMenuPolicy {
         if (message.getSendStatus() == IMSConfig.SEND_STATUS_SENDING) {
             return false;
         }
+        if (skipTimeLimit) {
+            return true;
+        }
         long millis = WeChatUiHelper.normalizeToMillis(message.getTimestamp());
         if (millis <= 0L) {
             return false;
@@ -43,6 +52,10 @@ public final class MessageMenuPolicy {
         long limitMs = BroadConfig.RECALL_TIME_LIMIT * 1000L;
         return System.currentTimeMillis() - millis < limitMs;
     }
+
+//    public static boolean canRecall(@NonNull AppMessage message, @Nullable String currentUserId) {
+//        return canRecall(message, currentUserId, false);
+//    }
 
     public static boolean canCopy(@NonNull AppMessage message) {
         return MessageType.MessageContentType.isText(message.getMsgContentType());

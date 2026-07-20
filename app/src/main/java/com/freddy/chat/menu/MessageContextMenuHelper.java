@@ -27,6 +27,7 @@ public final class MessageContextMenuHelper {
                             int anchorTopOnScreen,
                             @NonNull AppMessage message,
                             @Nullable String currentUserId,
+                            boolean skipRecallTimeLimit,
                             @NonNull MessageListActions actions) {
         if (!MessageMenuPolicy.supportsContextMenu(message)) {
             return;
@@ -34,7 +35,7 @@ public final class MessageContextMenuHelper {
         List<ChatPopBroadMenu.ChatPopMenuAction> menuActions = new ArrayList<>();
         Context context = anchor.getContext();
 
-        if (MessageMenuPolicy.canRecall(message, currentUserId)) {
+        if (MessageMenuPolicy.canRecall(message, currentUserId, skipRecallTimeLimit)) {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_recall,
                     () -> actions.onRecallMessage(message)));
         }
