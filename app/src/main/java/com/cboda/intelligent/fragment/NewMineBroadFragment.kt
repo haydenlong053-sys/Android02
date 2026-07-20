@@ -67,8 +67,8 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
             }
         }
         binding.layoutViewService?.click {
-            MMKVBroadUtils.getKeFuId()?.let { it1 ->
-                AppBroadUtils.goChat(context, it1, "")
+            MMKVBroadUtils.getKeFuId()?.let { keFuId ->
+                AppBroadUtils.goChatP2p(keFuId, "", context)
             }
         }
 

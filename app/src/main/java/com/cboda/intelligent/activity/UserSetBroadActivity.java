@@ -166,7 +166,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
         } else if (view.getId() == R.id.tvLogout) {
             AppBroadUtils.Companion.exit(UserSetBroadActivity.this);
         } else if (view.getId() == R.id.llLianxi) {
-            AppBroadUtils.Companion.goChat(UserSetBroadActivity.this, MMKVBroadUtils.Companion.getKeFuId(), "",null);
+            AppBroadUtils.Companion.goChatP2p(MMKVBroadUtils.Companion.getKeFuId(), "", UserSetBroadActivity.this);
         } else if (view.getId() == R.id.tvZx) {
             intent = new Intent(this, ZxzhBroadActivity.class);
             startActivity(intent);
