@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.FileUploadApi;
@@ -816,7 +817,8 @@ public final class ImMessageHttpExample {
                             Log.e(MY_TAG, "repeal 业务错误: errorCode=" + result.getErrorCode()
                                     + " msg=" + result.getErrorMsg());
                             if (onFail != null) {
-                                onFail.run();
+                                ToastBroadUtils.show(result.getErrorMsg());
+//                                onFail.run();
                             }
                             return;
                         }

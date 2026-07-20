@@ -30,6 +30,7 @@ import com.freddy.chat.utils.MessageAvatarBinder;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.IMSConfig;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.group.GroupRole;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.hjq.shape.view.ShapeTextView;
 
@@ -401,6 +402,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
                     location[1],
                     message,
                     context.currentUserId,
+                    shouldSkipRecallTimeLimit(context),
                     context.messageActions);
             return true;
         };
@@ -433,6 +435,19 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         }
         if (view.isClickable() || view.hasOnClickListeners()) {
             view.setOnLongClickListener(listener);
+        }
+    }
+
+    /** 群聊中自己是群主/管理员时，撤回不受时限约束。 */
+    private static boolean shouldSkipRecallTimeLimit(@NonNull MessageViewHolderContext context) {
+        if (!context.isGroupChat) {
+            return false;
+        }
+        GroupMemberItem self = context.resolveMember(context.currentUserId);
+        if (self == null){
+            return true;
+        }else {
+            return GroupRole.isOwnerOrAdmin(self.getRole());
         }
     }
 
