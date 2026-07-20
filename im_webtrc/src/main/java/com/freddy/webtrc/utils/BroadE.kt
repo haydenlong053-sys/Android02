@@ -90,7 +90,8 @@ object BroadE {
                             result.url,
                             result.token,
                             result.roomName,
-                            video
+                            video,
+                            ids
                         )
                     } else {
                         ToastBroadUtils.show(R.string.call_network_error2)

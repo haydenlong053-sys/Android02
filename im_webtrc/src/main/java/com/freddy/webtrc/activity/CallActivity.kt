@@ -5,20 +5,21 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
-import com.blankj.utilcode.util.PermissionUtils
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
@@ -28,32 +29,46 @@ import com.cboda.baselibrary.utils.requestPermission
 import com.freddy.webtrc.R
 import com.freddy.webtrc.utils.BroadE
 import com.freddy.webtrc.utils.CallUtil
+import com.freddy.webtrc.widget.MultiCallParticipantItem
 import eightbitlab.com.blurview.BlurTarget
 import eightbitlab.com.blurview.BlurView
 import io.livekit.android.events.RoomEvent
 
 /**
- * 基于 [CallUtil] / LiveKit 的单聊通话页，UI 对齐 [com.cboda.chatui.voip.SingleCallBroadActivity] 语音布局。
+ * 基于 [CallUtil] / LiveKit 的通话页。
+ * - 单人：UI 对齐 [com.cboda.chatui.voip.SingleCallBroadActivity]
+ * - 多人：UI 对齐 [com.cboda.chatui.voip.MultiCallBroadActivity] 语音布局
  */
 class CallActivity : AppCompatActivity() {
     private val tAG = "CallActivityClass"
+
+    // 单人 UI
+    private var portraitImageView: ImageView? = null
+    private var nameTextView: TextView? = null
+    private var descTextView: TextView? = null
+    private var outgoingActionContainer: View? = null
+
+    // 多人 UI
+    private var audioContainerGridLayout: GridLayout? = null
+    private var connectedContainer: View? = null
+    private var durationTextView: TextView? = null
+
+    // 共用
     private lateinit var backgroundImageView: ImageView
-    private lateinit var portraitImageView: ImageView
-    private lateinit var nameTextView: TextView
-    private lateinit var descTextView: TextView
     private lateinit var muteImageView: ImageView
     private lateinit var speakerImageView: ImageView
-    private lateinit var outgoingActionContainer: View
     private lateinit var incomingActionContainer: View
     private lateinit var blurView: BlurView
     private lateinit var blurTarget: BlurTarget
 
     private var targetId: String = ""
+    private var participantIds: ArrayList<String> = arrayListOf()
     private var roomName: String = ""
     private var callUrl: String = ""
     private var callToken: String = ""
     private var video: Boolean = false
     private var outgoing: Boolean = true
+    private var isMultiCall: Boolean = false
 
     private var muted = false
     private var speakerOn = true
@@ -81,35 +96,31 @@ class CallActivity : AppCompatActivity() {
                     or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                     or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
-        setContentView(R.layout.activity_call)
+        parseIntent()
+        isMultiCall = participantIds.size > 1
+        setContentView(if (isMultiCall) R.layout.activity_multi_call else R.layout.activity_call)
         acquireWakeLock()
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         bindViews()
-        parseIntent()
-        if (TextUtils.isEmpty(targetId)) {
+        if (TextUtils.isEmpty(targetId) && participantIds.isEmpty()) {
             finishFade()
             return
         }
+        if (TextUtils.isEmpty(targetId) && participantIds.isNotEmpty()) {
+            targetId = participantIds.first()
+        }
         bindEvents()
-        renderPeerInfo()
-        applyInitialUi()
+        if (isMultiCall) {
+            initMultiParticipants()
+            applyMultiInitialUi()
+        } else {
+            renderPeerInfo()
+            applySingleInitialUi()
+        }
         CallUtil.setCallListener(lifecycle.coroutineScope, this) { event -> onRoomEvent(event) }
         if (outgoing || (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken))) {
             joinCurrentRoom()
         }
-    }
-
-    private fun bindViews() {
-        backgroundImageView = findViewById(R.id.backgroundImageView)
-        portraitImageView = findViewById(R.id.portraitImageView)
-        nameTextView = findViewById(R.id.nameTextView)
-        descTextView = findViewById(R.id.descTextView)
-        outgoingActionContainer = findViewById(R.id.outgoingActionContainer)
-        incomingActionContainer = findViewById(R.id.incomingActionContainer)
-        blurView = findViewById(R.id.blurView)
-        blurTarget = findViewById(R.id.target)
-        muteImageView = outgoingActionContainer.findViewById(R.id.muteImageView)
-        speakerImageView = outgoingActionContainer.findViewById(R.id.speakerImageView)
     }
 
     private fun parseIntent() {
@@ -119,40 +130,164 @@ class CallActivity : AppCompatActivity() {
         callToken = intent.getStringExtra(EXTRA_TOKEN).orEmpty()
         video = intent.getBooleanExtra(EXTRA_VIDEO, false)
         outgoing = intent.getBooleanExtra(EXTRA_OUTGOING, true)
+        participantIds = intent.getStringArrayListExtra(EXTRA_PARTICIPANT_IDS) ?: arrayListOf()
+        if (participantIds.isEmpty() && !TextUtils.isEmpty(targetId)) {
+            participantIds = arrayListOf(targetId)
+        }
+    }
+
+    private fun bindViews() {
+        backgroundImageView = findViewById(R.id.backgroundImageView)
+        blurView = findViewById(R.id.blurView)
+        blurTarget = findViewById(R.id.target)
+        incomingActionContainer = findViewById(R.id.incomingActionContainer)
+
+        if (isMultiCall) {
+            audioContainerGridLayout = findViewById(R.id.audioContainerGridLayout)
+            connectedContainer = findViewById(R.id.connectedContainer)
+            durationTextView = connectedContainer?.findViewById(R.id.durationTextView)
+            muteImageView = connectedContainer!!.findViewById(R.id.muteImageView)
+            speakerImageView = connectedContainer!!.findViewById(R.id.speakerImageView)
+        } else {
+            portraitImageView = findViewById(R.id.portraitImageView)
+            nameTextView = findViewById(R.id.nameTextView)
+            descTextView = findViewById(R.id.descTextView)
+            outgoingActionContainer = findViewById(R.id.outgoingActionContainer)
+            muteImageView = outgoingActionContainer!!.findViewById(R.id.muteImageView)
+            speakerImageView = outgoingActionContainer!!.findViewById(R.id.speakerImageView)
+        }
     }
 
     private fun bindEvents() {
-        findViewById<View>(R.id.muteImageView).setOnClickListener { toggleMute() }
-        findViewById<View>(R.id.speakerImageView).setOnClickListener { toggleSpeaker() }
-        findViewById<View>(R.id.outgoingHangupImageView).setOnClickListener { hangup() }
-        findViewById<View>(R.id.incomingHangupImageView).setOnClickListener { hangup() }
-        findViewById<View>(R.id.acceptImageView).setOnClickListener {
-            eLogD(tAG, "接听电话")
-            requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) {
-                acceptCall()
+        findViewById<View>(R.id.minimizeImageView)?.setOnClickListener { moveTaskToBack(true) }
+        muteImageView.setOnClickListener { toggleMute() }
+        speakerImageView.setOnClickListener { toggleSpeaker() }
+
+        if (isMultiCall) {
+            connectedContainer?.findViewById<View>(R.id.hangupImageView)?.setOnClickListener { hangup() }
+            incomingActionContainer.findViewById<View>(R.id.incomingHangupImageView)?.setOnClickListener { hangup() }
+            incomingActionContainer.findViewById<View>(R.id.acceptImageView)?.setOnClickListener {
+                requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) { acceptCall() }
+            }
+        } else {
+            findViewById<View>(R.id.outgoingHangupImageView).setOnClickListener { hangup() }
+            findViewById<View>(R.id.incomingHangupImageView).setOnClickListener { hangup() }
+            findViewById<View>(R.id.acceptImageView).setOnClickListener {
+                eLogD(tAG, "接听电话")
+                requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) { acceptCall() }
             }
         }
-        findViewById<View>(R.id.minimizeImageView).setOnClickListener { moveTaskToBack(true) }
     }
 
-    private fun applyInitialUi() {
+    private fun applySingleInitialUi() {
         if (outgoing) {
-            descTextView.setText(com.cboda.baselibrary.R.string.call_waiting)
-            outgoingActionContainer.visibility = View.VISIBLE
+            descTextView?.setText(com.cboda.baselibrary.R.string.call_waiting)
+            outgoingActionContainer?.visibility = View.VISIBLE
             incomingActionContainer.visibility = View.GONE
         } else if (TextUtils.isEmpty(callUrl) || TextUtils.isEmpty(callToken)) {
-            descTextView.setText(
-                if (video) com.cboda.baselibrary.R.string.call_invite_video else com.cboda.baselibrary.R.string.call_invite_audio
+            descTextView?.setText(
+                if (video) com.cboda.baselibrary.R.string.call_invite_video
+                else com.cboda.baselibrary.R.string.call_invite_audio
             )
-            outgoingActionContainer.visibility = View.GONE
+            outgoingActionContainer?.visibility = View.GONE
             incomingActionContainer.visibility = View.VISIBLE
         } else {
-            descTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
-            outgoingActionContainer.visibility = View.VISIBLE
+            descTextView?.setText(com.cboda.baselibrary.R.string.call_connecting)
+            outgoingActionContainer?.visibility = View.VISIBLE
             incomingActionContainer.visibility = View.GONE
         }
         speakerImageView.isSelected = speakerOn
         applySpeakerRoute()
+    }
+
+    private fun applyMultiInitialUi() {
+        if (outgoing) {
+            connectedContainer?.visibility = View.VISIBLE
+            incomingActionContainer.visibility = View.GONE
+        } else if (TextUtils.isEmpty(callUrl) || TextUtils.isEmpty(callToken)) {
+            connectedContainer?.visibility = View.GONE
+            incomingActionContainer.visibility = View.VISIBLE
+        } else {
+            connectedContainer?.visibility = View.VISIBLE
+            incomingActionContainer.visibility = View.GONE
+        }
+        speakerImageView.isSelected = speakerOn
+        applySpeakerRoute()
+    }
+
+    /** 多人：网格展示自己 + 被邀请成员（对齐 MultiCallAudioBroadFragment）。 */
+    private fun initMultiParticipants() {
+        val grid = audioContainerGridLayout ?: return
+        grid.removeAllViews()
+        val dm: DisplayMetrics = resources.displayMetrics
+        val width = dm.widthPixels
+        val size = width / maxOf(Math.ceil(Math.sqrt((participantIds.size + 1).toDouble())).toInt(), 3)
+
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        val selfName = MMKVBroadUtils.getUserName().orEmpty()
+        val selfImg = MMKVBroadUtils.getUserImg()
+        addParticipantItem(grid, selfId, selfName, selfImg, size, isSelf = true)
+
+        // 背景用第一个被叫头像
+        val firstPeer = participantIds.firstOrNull().orEmpty()
+        if (firstPeer.isNotEmpty()) {
+            RealmUtil.findUserData(firstPeer) { friend ->
+                backgroundImageView.loadImg(friend?.userImg)
+                blurView.setupWith(blurTarget)
+                    .setFrameClearDrawable(window.decorView.background)
+                    .setBlurRadius(20f)
+            }
+        }
+
+        participantIds.forEach { uid ->
+            if (uid == selfId) return@forEach
+            RealmUtil.findUserData(uid) { friend ->
+                val name = when {
+                    friend == null -> uid
+                    !TextUtils.isEmpty(friend.remarkName) -> friend.remarkName
+                    else -> friend.nickName
+                }
+                runOnUiThread {
+                    addParticipantItem(grid, uid, name, friend?.userImg, size, isSelf = false)
+                }
+            }
+        }
+    }
+
+    private fun addParticipantItem(
+        grid: GridLayout,
+        userId: String,
+        name: String?,
+        avatar: String?,
+        size: Int,
+        isSelf: Boolean
+    ) {
+        if (grid.findViewWithTag<View>(userId) != null) return
+        val item = MultiCallParticipantItem(this)
+        item.tag = userId
+        item.layoutParams = ViewGroup.LayoutParams(size, ViewGroup.LayoutParams.WRAP_CONTENT)
+        item.portraitImageView.loadImg(avatar)
+        item.userNameTv.text = name.orEmpty()
+        if (isSelf) {
+            item.statusTextView.visibility = View.GONE
+        } else {
+            item.statusTextView.visibility = View.VISIBLE
+            item.statusTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
+        }
+        grid.addView(item)
+    }
+
+    private fun markParticipantConnected(userId: String) {
+        val item = audioContainerGridLayout?.findViewWithTag<MultiCallParticipantItem>(userId) ?: return
+        item.statusTextView.visibility = View.GONE
+        item.statusTextView.text = ""
+    }
+
+    private fun removeParticipant(userId: String) {
+        val grid = audioContainerGridLayout ?: return
+        val view = grid.findViewWithTag<View>(userId) ?: return
+        grid.removeView(view)
+        participantIds.remove(userId)
     }
 
     private fun renderPeerInfo() {
@@ -171,9 +306,9 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun updateUserInfo(userImg: String?, userName: String?) {
-        portraitImageView.loadImg(userImg)
+        portraitImageView?.loadImg(userImg)
         backgroundImageView.loadImg(userImg)
-        nameTextView.text = userName.orEmpty()
+        nameTextView?.text = userName.orEmpty()
         blurView.setupWith(blurTarget)
             .setFrameClearDrawable(window.decorView.background)
             .setBlurRadius(20f)
@@ -185,7 +320,9 @@ class CallActivity : AppCompatActivity() {
             finishFade()
             return
         }
-        descTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
+        if (!isMultiCall) {
+            descTextView?.setText(com.cboda.baselibrary.R.string.call_connecting)
+        }
         CallUtil.joinRoom(callUrl, callToken, lifecycleScope, this)
         CallUtil.openOrCloseMicrophone(true, lifecycleScope, this)
     }
@@ -193,7 +330,11 @@ class CallActivity : AppCompatActivity() {
     private fun acceptCall() {
         if (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken)) {
             incomingActionContainer.visibility = View.GONE
-            outgoingActionContainer.visibility = View.VISIBLE
+            if (isMultiCall) {
+                connectedContainer?.visibility = View.VISIBLE
+            } else {
+                outgoingActionContainer?.visibility = View.VISIBLE
+            }
             joinCurrentRoom()
             return
         }
@@ -202,7 +343,9 @@ class CallActivity : AppCompatActivity() {
             finishFade()
             return
         }
-        descTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
+        if (!isMultiCall) {
+            descTextView?.setText(com.cboda.baselibrary.R.string.call_connecting)
+        }
         val userId = MMKVBroadUtils.getRealUserId()
         val userName = MMKVBroadUtils.getUserName()
         BroadE.getCallToken(userId, roomName, userName, video) { bean ->
@@ -218,28 +361,63 @@ class CallActivity : AppCompatActivity() {
                     roomName = bean.roomName
                 }
                 incomingActionContainer.visibility = View.GONE
-                outgoingActionContainer.visibility = View.VISIBLE
+                if (isMultiCall) {
+                    connectedContainer?.visibility = View.VISIBLE
+                } else {
+                    outgoingActionContainer?.visibility = View.VISIBLE
+                }
                 joinCurrentRoom()
             }
         }
     }
 
     private fun onRoomEvent(event: RoomEvent) {
-//        eLogD(tAG, "event:" + event.toString())
         eLogD(tAG, "event2:" + event.javaClass.simpleName)
         runOnUiThread {
             when (event) {
-                is RoomEvent.ParticipantConnected,
-                is RoomEvent.TrackSubscribed -> onCallConnected()
+                is RoomEvent.ParticipantConnected -> {
+                    val uid = event.participant.identity?.value.orEmpty()
+                    if (isMultiCall && uid.isNotEmpty()) {
+                        ensureRemoteParticipantItem(uid)
+                        markParticipantConnected(uid)
+                    }
+                    onCallConnected()
+                }
+
+                is RoomEvent.TrackSubscribed -> {
+                    val uid = event.participant.identity?.value.orEmpty()
+                    if (isMultiCall && uid.isNotEmpty()) {
+                        markParticipantConnected(uid)
+                    }
+                    onCallConnected()
+                }
 
                 is RoomEvent.Connected -> {
-                    // 进房时对端已在房内（典型为被叫接听）则直接进入通话态
                     if (CallUtil.hasRemoteParticipant(this)) {
+                        if (isMultiCall) {
+                            syncRemoteParticipants()
+                        }
                         onCallConnected()
                     }
                 }
 
-                is RoomEvent.ParticipantDisconnected,
+                is RoomEvent.ParticipantDisconnected -> {
+                    val uid = event.participant.identity?.value.orEmpty()
+                    if (isMultiCall) {
+                        if (uid.isNotEmpty()) {
+                            removeParticipant(uid)
+                        }
+                        // 多人：仅当房间内已无远端成员时结束
+                        if (!CallUtil.hasRemoteParticipant(this) && callConnected) {
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                            hangup()
+                        }
+                    } else if (!finishing) {
+                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                        hangup()
+                    }
+                }
+
                 is RoomEvent.Disconnected -> {
                     if (!finishing) {
                         ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
@@ -257,12 +435,58 @@ class CallActivity : AppCompatActivity() {
         }
     }
 
+    private fun syncRemoteParticipants() {
+        // 进房时已在房内的远端，标记为已连接
+        // CallUtil 未暴露列表，通过事件补齐；此处仅标记已存在格子
+        participantIds.forEach { markParticipantConnected(it) }
+    }
+
+    private fun ensureRemoteParticipantItem(userId: String) {
+        val grid = audioContainerGridLayout ?: return
+        if (grid.findViewWithTag<View>(userId) != null) return
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        if (userId == selfId) return
+        val dm = resources.displayMetrics
+        val width = dm.widthPixels
+        val size = width / 3
+        RealmUtil.findUserData(userId) { friend ->
+            val name = when {
+                friend == null -> userId
+                !TextUtils.isEmpty(friend.remarkName) -> friend.remarkName
+                else -> friend.nickName
+            }
+            runOnUiThread {
+                // 插到自己前面（对齐野火）
+                val selfView = grid.findViewWithTag<View>(selfId)
+                val item = MultiCallParticipantItem(this)
+                item.tag = userId
+                item.layoutParams = ViewGroup.LayoutParams(size, ViewGroup.LayoutParams.WRAP_CONTENT)
+                item.portraitImageView.loadImg(friend?.userImg)
+                item.userNameTv.text = name.orEmpty()
+                item.statusTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
+                val index = if (selfView != null) grid.indexOfChild(selfView) else -1
+                if (index >= 0) {
+                    grid.addView(item, index)
+                } else {
+                    grid.addView(item)
+                }
+                if (!participantIds.contains(userId)) {
+                    participantIds.add(userId)
+                }
+            }
+        }
+    }
+
     private fun onCallConnected() {
         if (callConnected) return
         callConnected = true
         connectedAtMs = System.currentTimeMillis()
         incomingActionContainer.visibility = View.GONE
-        outgoingActionContainer.visibility = View.VISIBLE
+        if (isMultiCall) {
+            connectedContainer?.visibility = View.VISIBLE
+        } else {
+            outgoingActionContainer?.visibility = View.VISIBLE
+        }
         updateDurationText()
         durationHandler.removeCallbacks(durationTicker)
         durationHandler.post(durationTicker)
@@ -272,10 +496,15 @@ class CallActivity : AppCompatActivity() {
     private fun updateDurationText() {
         var s = (System.currentTimeMillis() - connectedAtMs) / 1000
         if (s < 0) s = 0
-        descTextView.text = if (s > 3600) {
+        val text = if (s > 3600) {
             String.format("%d:%02d:%02d", s / 3600, (s % 3600) / 60, s % 60)
         } else {
             String.format("%02d:%02d", s / 60, s % 60)
+        }
+        if (isMultiCall) {
+            durationTextView?.text = text
+        } else {
+            descTextView?.text = text
         }
     }
 
@@ -298,8 +527,6 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun hangup() {
-//        if (finishing) return
-        ToastBroadUtils.show("挂断通话")
         finishing = true
         durationHandler.removeCallbacks(durationTicker)
         CallUtil.leaveRoom(this)
@@ -349,6 +576,7 @@ class CallActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_TARGET_ID = "targetId"
+        const val EXTRA_PARTICIPANT_IDS = "participantIds"
         const val EXTRA_ROOM_NAME = "roomName"
         const val EXTRA_URL = "url"
         const val EXTRA_TOKEN = "token"
@@ -363,14 +591,21 @@ class CallActivity : AppCompatActivity() {
             url: String?,
             token: String?,
             roomName: String? = null,
-            video: Boolean = false
+            video: Boolean = false,
+            participantIds: List<String>? = null
         ) {
-            if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(url) || TextUtils.isEmpty(token)) {
+            val ids = ArrayList(
+                (participantIds ?: listOfNotNull(targetId))
+                    .filter { !it.isNullOrBlank() }
+            )
+            val primary = targetId?.takeIf { it.isNotBlank() } ?: ids.firstOrNull()
+            if (primary.isNullOrBlank() || TextUtils.isEmpty(url) || TextUtils.isEmpty(token)) {
                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                 return
             }
             val intent = Intent(context, CallActivity::class.java).apply {
-                putExtra(EXTRA_TARGET_ID, targetId)
+                putExtra(EXTRA_TARGET_ID, primary)
+                putStringArrayListExtra(EXTRA_PARTICIPANT_IDS, ids)
                 putExtra(EXTRA_URL, url)
                 putExtra(EXTRA_TOKEN, token)
                 putExtra(EXTRA_ROOM_NAME, roomName)
@@ -393,14 +628,20 @@ class CallActivity : AppCompatActivity() {
             roomName: String?,
             video: Boolean = false,
             url: String? = null,
-            token: String? = null
+            token: String? = null,
+            participantIds: List<String>? = null
         ) {
             if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(roomName)) {
                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                 return
             }
+            val ids = ArrayList(
+                (participantIds ?: listOfNotNull(targetId))
+                    .filter { !it.isNullOrBlank() }
+            )
             val intent = Intent(context, CallActivity::class.java).apply {
                 putExtra(EXTRA_TARGET_ID, targetId)
+                putStringArrayListExtra(EXTRA_PARTICIPANT_IDS, ids)
                 putExtra(EXTRA_ROOM_NAME, roomName)
                 putExtra(EXTRA_URL, url)
                 putExtra(EXTRA_TOKEN, token)
