@@ -384,13 +384,13 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
         }
         yuyintonghua?.setOnClickListener {
-            XXPermissions.with(this).permission(Permission.RECORD_AUDIO)
-                .request(object : OnPermissionCallback {
-                    override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
+//            XXPermissions.with(this).permission(Permission.RECORD_AUDIO)
+//                .request(object : OnPermissionCallback {
+//                    override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
 //                        WfcUIBroadKit.singleCall(this@HaoYouPageBroadActivity, otherUid, true)
                         BroadE.startCall(otherUid, false, context = this@HaoYouPageBroadActivity)
-                    }
-                })
+//                    }
+//                })
         }
         qingkong?.setOnClickListener {
             val holder = CommanConfimBroadHolder(

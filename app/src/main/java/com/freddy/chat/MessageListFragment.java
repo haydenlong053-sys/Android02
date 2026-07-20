@@ -292,6 +292,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             @Override
             public void onOpenVoiceCall() {
                 if (isGroupChat){
+
                     ToastBroadUtils.show("群聊通话--sessionId="+sessionId);
                 }else {
                     BroadE.INSTANCE.startCall(peerUserId, false,null,requireContext());

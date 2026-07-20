@@ -1,11 +1,13 @@
 package com.freddy.webtrc.utils
 
+import android.Manifest
 import android.content.Context
 import android.text.TextUtils
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.requestPermission
 import com.cboda.baselibrary.utils.toJson2
 import com.freddy.im.http.ImCallHttpExample
 import com.freddy.im.http.model.im.CallTokenContent
@@ -58,26 +60,28 @@ object BroadE {
         if (TextUtils.isEmpty(id)) {
             return
         }
-        ImCallHttpExample.requestCallStart(
-            id ?: "",
-            video,
-            { result ->
-                if (!TextUtils.isEmpty(result.token) && !TextUtils.isEmpty(result.url)) {
-                    CallActivity.startOutgoing(
-                        getAppContext(context),
-                        id,
-                        result.url,
-                        result.token,
-                        result.roomName,
-                        video
-                    )
-                } else {
+        requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) {
+            ImCallHttpExample.requestCallStart(
+                id ?: "",
+                video,
+                { result ->
+                    if (!TextUtils.isEmpty(result.token) && !TextUtils.isEmpty(result.url)) {
+                        CallActivity.startOutgoing(
+                            getAppContext(context),
+                            id,
+                            result.url,
+                            result.token,
+                            result.roomName,
+                            video
+                        )
+                    } else {
+                        ToastBroadUtils.show(R.string.call_network_error2)
+                    }
+                },
+                {
                     ToastBroadUtils.show(R.string.call_network_error2)
                 }
-            },
-            {
-                ToastBroadUtils.show(R.string.call_network_error2)
-            }
-        )
+            )
+        }
     }
 }
