@@ -8,40 +8,38 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.cboda.baselibrary.bean.GlobalBroadInfo;
-import com.cboda.baselibrary.bean.GlobalFriendBroadBean;
-import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.chatui.utils.E;
-import com.cboda.chatui.utils.GroupAvatarBroadLoader;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
-import com.cboda.intelligent.holder.CommanConfimBroadHolder;
 import com.cboda.intelligent.bean.ResultBroadBean;
+import com.cboda.intelligent.holder.CommanConfimBroadHolder;
+import com.cboda.intelligent.net.BroadUrl;
 import com.cboda.intelligent.utils.OkHttpBroadHelper;
 import com.cboda.intelligent.utils.SpotsCallBroadBack;
-import com.cboda.intelligent.net.BroadUrl;
-import com.cboda.intelligent.utils.GlideBroadUtil;
-import com.cboda.select.picture.entity.CircleCommListBroadBean;
-import com.makeramen.roundedimageview.RoundedImageView;
+import com.freddy.im.http.ImGroupHttpExample;
+import com.freddy.im.http.model.im.GroupVo;
+import com.freddy.im.listener.OnHttpImListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import cn.wildfirechat.model.GroupInfo;
-import cn.wildfirechat.model.UserInfo;
-import cn.wildfirechat.remote.ChatManager;
 import okhttp3.Response;
 
-//升级群聊页
+/**
+ * 升级群聊页。
+ * <p>
+ * 群资料改走自研 {@code GET im/group/detail}（含 {@code gsize}）；
+ * 会员态 / 规则文案 / 升级动作仍走业务 {@code userInfo}、{@code ptConfig}、{@code upGroup}。
+ */
 public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.OnClickListener {
 
-
-    private ResultBroadBean bean;
-    private String id, isvip = "0";
+    private String id;
+    private String isvip = "0";
+    /** 对齐业务字段：{@code "1"} 可升级，其它已是最高档 */
+    private String gsize = "1";
     private View viHead;
     private AppCompatImageView fanhui;
     private ImageView ivIcon;
@@ -75,8 +73,8 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
         }
-        LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) viHead.getLayoutParams(); //取控件textView当前的布局参数
-        linearParams.height = result;// 控件的高强制设成20
+        LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) viHead.getLayoutParams();
+        linearParams.height = result;
         viHead.setLayoutParams(linearParams);
         fanhui.setOnClickListener(this);
         tvKt.setOnClickListener(this);
@@ -84,7 +82,6 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
         userInfo();
         ptConfig();
     }
-
 
     @Override
     protected int getLayoutId() {
@@ -95,88 +92,40 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
     public void onClick(View view) {
         if (view.getId() == R.id.fanhui) {
             finish();
+            return;
         }
-        if (view.getId() == R.id.tvKt) {
-            if (isvip.equals("0")) {
-                startActivity(new Intent(this, HyzxBroadActivity.class));
-            } else {
-                if (null != bean && bean.data.gsize.equals("1")) {
-                    CommanConfimBroadHolder holder = new CommanConfimBroadHolder(this, getString(R.string.wenxintishi),
-                            getString(R.string.是否升级该群聊),
-                            getString(R.string.queding),
-                            getString(R.string.quxiao));
-                    holder.setCallBack(new CommanConfimBroadHolder.OnConfimCallBack() {
-                        @Override
-                        public void onClickConfim(boolean isConfim) {
-                            upGroup();
-                        }
-                    });
-                    holder.show();
+        if (view.getId() != R.id.tvKt) {
+            return;
+        }
+        if ("0".equals(isvip)) {
+            startActivity(new Intent(this, HyzxBroadActivity.class));
+            return;
+        }
+        if (!"1".equals(gsize)) {
+            return;
+        }
+        CommanConfimBroadHolder holder = new CommanConfimBroadHolder(this, getString(R.string.wenxintishi),
+                getString(R.string.是否升级该群聊),
+                getString(R.string.queding),
+                getString(R.string.quxiao));
+        holder.setCallBack(new CommanConfimBroadHolder.OnConfimCallBack() {
+            @Override
+            public void onClickConfim(boolean isConfim) {
+                if (isConfim) {
+                    upGroup();
                 }
             }
-
-//                    JumpBroadUtils.Companion.startCreateQunActivity(this);
-        }
-
+        });
+        holder.show();
     }
-
 
     private void ptConfig() {
         Map<String, Object> param = new HashMap<>();
         OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
-                tvGroupinfo.setText(resultBean.data.groupinfo);
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
-    }
-
-    /**
-     * 用户信息
-     */
-    private void userInfo() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
-
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                isvip = resultBean.data.isvip;
-                groupInfo();
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
-    }
-
-    /**
-     * 群组详情
-     */
-    private void groupInfo() {
-        Map<String, Object> param = new HashMap<>();
-        param.put("id", id);
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.groupInfo, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                bean = resultBean;
-                tvName.setText(bean.data.name);
-                E.INSTANCE.loadGroupImg(ivIcon, id, bean.data.icon);
-                if (isvip.equals("0")) {
-                    tvKt.setText(getString(R.string.群主还未成为会员));
-                    tvKt.setBackgroundResource(R.mipmap.ic_bg_btn2_broad_01);
-                } else {
-                    if (bean.data.gsize.equals("1")) {
-                        tvGsize.setText(getString(R.string.群成员上限为1000人));
-                        tvKt.setText(getString(R.string.立即升级));
-                    } else {
-                        tvGsize.setText(getString(R.string.群成员上限为10000人));
-                        tvKt.setText(getString(R.string.您已升级成为最高群聊));
-                    }
+                if (resultBean != null && resultBean.data != null) {
+                    tvGroupinfo.setText(resultBean.data.groupinfo);
                 }
             }
 
@@ -186,17 +135,62 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
         });
     }
 
+    private void userInfo() {
+        Map<String, Object> param = new HashMap<>();
+        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
+            @Override
+            public void onSuccess(Response response, ResultBroadBean resultBean) {
+                if (resultBean != null && resultBean.data != null && resultBean.data.isvip != null) {
+                    isvip = resultBean.data.isvip;
+                }
+                loadGroupDetail();
+            }
 
-    /**
-     * 升级群聊
-     */
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
+
+    /** 自研群详情（含 {@code gsize}），替换原业务 {@code /groupInfo}。 */
+    private void loadGroupDetail() {
+        if (TextUtils.isEmpty(id)) {
+            return;
+        }
+        ImGroupHttpExample.requestGetGroupDetail(id, new OnHttpImListener<GroupVo>() {
+            @Override
+            public void onHttpImSuccess(@NonNull GroupVo group) {
+                runOnUiThread(() -> bindGroupDetail(group));
+            }
+        }, () -> {
+        });
+    }
+
+    private void bindGroupDetail(@NonNull GroupVo group) {
+        tvName.setText(group.getName() != null ? group.getName() : "");
+        E.INSTANCE.loadGroupImg(ivIcon, id, group.getIcon());
+        gsize = TextUtils.isEmpty(group.getGsize()) ? "1" : group.getGsize();
+        if ("0".equals(isvip)) {
+            tvKt.setText(getString(R.string.群主还未成为会员));
+            tvKt.setBackgroundResource(R.mipmap.ic_bg_btn2_broad_01);
+            return;
+        }
+        if ("1".equals(gsize)) {
+            tvGsize.setText(getString(R.string.群成员上限为1000人));
+            tvKt.setText(getString(R.string.立即升级));
+        } else {
+            tvGsize.setText(getString(R.string.群成员上限为10000人));
+            tvKt.setText(getString(R.string.您已升级成为最高群聊));
+        }
+    }
+
     private void upGroup() {
         Map<String, Object> param = new HashMap<>();
         param.put("id", id);
         OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.upGroup, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
-                groupInfo();
+                loadGroupDetail();
             }
 
             @Override

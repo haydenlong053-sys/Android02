@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.loadImg
@@ -168,9 +169,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private fun hideUnsupportedWildfireFeatures() {
         zidongfanyiView.isGone = true
         zidongfanyi.isGone = true
-//        wodequnnicheng.isGone = true
-        findViewById<View>(R.id.shengjiqun)?.isGone = true
-        findViewById<View>(R.id.shengjiqunView)?.isGone = true
+        findViewById<View>(R.id.shengjiqun)?.isGone = HttpsBroadConfig.isReviewEnv
+        findViewById<View>(R.id.shengjiqunView)?.isGone = HttpsBroadConfig.isReviewEnv
         hideSwitchRow(R.id.yaoqinghaioyuView)
         hideSwitchRow(R.id.jinqunjiaoyanView)
         hideSwitchRow(R.id.kefahongboaView)
@@ -369,6 +369,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 return@setOnClickListener
             }
             JumpBroadUtils.startHyyActivity(this, qunId)
+        }
+        findViewById<View>(R.id.shengjiqun)?.setOnClickListener {
+            JumpBroadUtils.startQunShengJiActivity(this, qunId)
         }
         mScAbsentKickView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener

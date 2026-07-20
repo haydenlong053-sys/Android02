@@ -23,6 +23,11 @@ public class GroupVo implements java.io.Serializable {
     /** 全局连续未参会次数阈值，如 5（群详情接口返回） */
     private String absentKickLimit;
     /**
+     * 群规模档位（群详情返回，对齐业务 {@code gsize}）。
+     * {@code "1"}：未升到最高（上限约 1000）；其它：已升级最高档（上限约 10000）。
+     */
+    private String gsize;
+    /**
      * 商业功能开关能力标记（群详情返回）。
      * null/空：不展示入口；"0"：关；"1"：开。对齐野火 {@code CommonResult.isshop}。
      */
@@ -121,6 +126,14 @@ public class GroupVo implements java.io.Serializable {
 
     public void setAbsentKickLimit(String absentKickLimit) {
         this.absentKickLimit = absentKickLimit;
+    }
+
+    public String getGsize() {
+        return gsize;
+    }
+
+    public void setGsize(String gsize) {
+        this.gsize = gsize;
     }
 
     public String getIsshop() {
