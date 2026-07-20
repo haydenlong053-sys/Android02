@@ -34,13 +34,17 @@ public class GroupBusiExt implements java.io.Serializable {
     private String shopLink;
     /** 商业功能开关："0" / "1"；null/空表示不展示入口 */
     private String isshop;
-    /** 群主名片推送 */
+    /** 群员邀请好友进群："0" / "1" */
+    private String openQyyq;
+    /** 仅群主及管理员可推送名片："0" / "1" */
     private String openQzts;
-    /** 进群验证 */
+    /** 群员进群邀请校验："0" / "1" */
     private String openQyyz;
+    /** 群员入群邀请管理验证："0" / "1" */
+    private String openQygl;
     /** 商城相关时间 */
     private String shoptime;
-    /** 可见管理员 */
+    /** 普通成员仅可见群主及管理员："0" / "1" */
     private String openQykj;
     /** 发言间隔（秒） */
     private int jiange;
@@ -143,6 +147,14 @@ public class GroupBusiExt implements java.io.Serializable {
         this.isshop = isshop;
     }
 
+    public String getOpenQyyq() {
+        return openQyyq;
+    }
+
+    public void setOpenQyyq(String openQyyq) {
+        this.openQyyq = openQyyq;
+    }
+
     public String getOpenQzts() {
         return openQzts;
     }
@@ -157,6 +169,14 @@ public class GroupBusiExt implements java.io.Serializable {
 
     public void setOpenQyyz(String openQyyz) {
         this.openQyyz = openQyyz;
+    }
+
+    public String getOpenQygl() {
+        return openQygl;
+    }
+
+    public void setOpenQygl(String openQygl) {
+        this.openQygl = openQygl;
     }
 
     public String getShoptime() {

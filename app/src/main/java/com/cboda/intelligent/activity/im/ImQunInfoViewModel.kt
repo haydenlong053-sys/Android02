@@ -153,17 +153,29 @@ class ImQunInfoViewModel : BaseViewModel() {
         }
     }
 
+    /**
+     * 会话置顶 / 取消置顶。
+     * 接口：POST {@code api/im/conversation/sessionTop?sessionId=&flag=}
+     * 开关展示态以群详情 {@code busiExt.isZd} 为准，成功后同步回写。
+     */
     fun setSessionTop(groupId: String, top: Boolean, onDone: (Boolean) -> Unit) {
         ImConversationHttpExample.requestSessionTop(groupId, top, object : OnHttpImListener<Boolean> {
             override fun onHttpImSuccess(result: Boolean) {
                 val muted = _state.value?.sessionMuted == true
                 ImLocalStore.updateSessionTopMute(groupId, top, muted)
-                _state.postValue(_state.value?.copy(sessionPinned = top))
+                val cur = _state.value
+                val vo = cur?.groupVo
+                vo?.ensureBusiExt()?.isZd = if (top) "1" else "0"
+                _state.postValue(cur?.copy(groupVo = vo, sessionPinned = top) ?: cur)
                 onDone(true)
             }
         }, { onDone(false) })
     }
 
+    /**
+     * 会话免打扰 / 取消免打扰。
+     * 接口：POST {@code api/im/conversation/muteNotify?sessionId=&flag=}
+     */
     fun setSessionMute(groupId: String, mute: Boolean, onDone: (Boolean) -> Unit) {
         ImConversationHttpExample.requestMuteNotify(groupId, mute, object : OnHttpImListener<Boolean> {
             override fun onHttpImSuccess(result: Boolean) {
@@ -246,5 +258,66 @@ class ImQunInfoViewModel : BaseViewModel() {
             }
         }
         return liveData
+    }
+
+    /**
+     * 修改群管理开关（复用业务接口 {@code /editGroup}）。
+     * 对齐野火：openQyyq / openQyyz / openQzts / openQygl / openQysl / openQykj / jiange。
+     */
+    suspend fun editGroupField(groupId: String, key: String, value: String): SingleLiveBroadData<String> {
+        showLoading()
+        val liveData = SingleLiveBroadData<String>()
+        val params = hashMapOf<String, Any?>(
+            "id" to groupId,
+            key to value
+        )
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.EDIT_GROUP,
+                    Any::class.java,
+                    params
+                ).onSuccess {
+                    dismissLoading()
+                    val cur = _state.value
+                    val vo = cur?.groupVo
+                    if (vo != null) {
+                        applyEditGroupField(vo, key, value)
+                        _state.postValue(cur.copy(groupVo = vo))
+                    }
+                    liveData.postValue(value)
+                }.onFailure { _, message ->
+                    dismissLoading()
+                    showToastMain(message)
+                }.onError {
+                    dismissLoading()
+                }
+            } catch (e: Exception) {
+                dismissLoading()
+            }
+        }
+        return liveData
+    }
+
+    companion object {
+        /** 将 editGroup 成功结果回写到本地 GroupVo / busiExt。 */
+        fun applyEditGroupField(vo: GroupVo, key: String, value: String) {
+            val ext = vo.ensureBusiExt()
+            when (key) {
+                "openQyyq" -> {
+                    ext.openQyyq = value
+                    vo.allowMemberInvite = value
+                }
+                "openQyyz" -> {
+                    ext.openQyyz = value
+                    vo.joinNeedVerify = value
+                }
+                "openQzts" -> ext.openQzts = value
+                "openQygl" -> ext.openQygl = value
+                "openQysl" -> ext.openQysl = value
+                "openQykj" -> ext.openQykj = value
+                "jiange" -> ext.jiange = value.toIntOrNull()?.coerceAtLeast(0) ?: 0
+            }
+        }
     }
 }

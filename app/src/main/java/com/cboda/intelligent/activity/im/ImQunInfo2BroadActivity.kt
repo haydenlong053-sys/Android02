@@ -1,10 +1,15 @@
 package com.cboda.intelligent.activity.im
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -120,6 +125,22 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var mScAbsentKick: SwitchCompat
     private lateinit var mTvLookRule: TextView
     private lateinit var mTvRuleDes: TextView
+    private lateinit var yaoqinghaioyu: SwitchCompat
+    private lateinit var yaoqinghaioyuView: View
+    private lateinit var jinqunjiaoyan: SwitchCompat
+    private lateinit var jinqunjiaoyanView: View
+    private lateinit var qunzhumingpian: SwitchCompat
+    private lateinit var qunzhumingpianView: View
+    private lateinit var ruqunyanz: SwitchCompat
+    private lateinit var ruqunyanzView: View
+    private lateinit var wufajiahaoyou: SwitchCompat
+    private lateinit var wufajiahaoyouView: View
+    private lateinit var kejianguanli: SwitchCompat
+    private lateinit var kejianguanliView: View
+    private lateinit var jianhao: AppCompatImageView
+    private lateinit var jiahao: AppCompatImageView
+    private lateinit var tvjiangeshi: EditText
+    private var jiangetime = 0
 
     override fun getLayoutId(): Int = R.layout.activity_qun_broad_info2
 
@@ -137,8 +158,13 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         mIvGroupQrcode = findViewById(R.id.mIvGroupQrcode)
         zhiding = findViewById(R.id.zhiding)
         zhidingView = findViewById(R.id.zhidingView)
+        // 仅通过覆盖层触发接口，避免 Switch 先本地翻转导致状态错乱
+        zhiding.isClickable = false
+        zhiding.isFocusable = false
         miaodarao = findViewById(R.id.miaodarao)
         miaodaraoView = findViewById(R.id.miaodaraoView)
+        miaodarao.isClickable = false
+        miaodarao.isFocusable = false
         zidongfanyi = findViewById(R.id.zidongfanyi)
         zidongfanyiView = findViewById(R.id.zidongfanyiView)
         qungonggao = findViewById(R.id.qungonggao)
@@ -158,6 +184,33 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         mScAbsentKickView = findViewById(R.id.mScAbsentKickView)
         mTvRuleDes = findViewById(R.id.mTvRuleDes)
         mTvLookRule = findViewById(R.id.mTvLookRule)
+        yaoqinghaioyu = findViewById(R.id.yaoqinghaioyu)
+        yaoqinghaioyuView = findViewById(R.id.yaoqinghaioyuView)
+        yaoqinghaioyu.isClickable = false
+        yaoqinghaioyu.isFocusable = false
+        jinqunjiaoyan = findViewById(R.id.jinqunjiaoyan)
+        jinqunjiaoyanView = findViewById(R.id.jinqunjiaoyanView)
+        jinqunjiaoyan.isClickable = false
+        jinqunjiaoyan.isFocusable = false
+        qunzhumingpian = findViewById(R.id.qunzhumingpian)
+        qunzhumingpianView = findViewById(R.id.qunzhumingpianView)
+        qunzhumingpian.isClickable = false
+        qunzhumingpian.isFocusable = false
+        ruqunyanz = findViewById(R.id.ruqunyanz)
+        ruqunyanzView = findViewById(R.id.ruqunyanzView)
+        ruqunyanz.isClickable = false
+        ruqunyanz.isFocusable = false
+        wufajiahaoyou = findViewById(R.id.wufajiahaoyou)
+        wufajiahaoyouView = findViewById(R.id.wufajiahaoyouView)
+        wufajiahaoyou.isClickable = false
+        wufajiahaoyou.isFocusable = false
+        kejianguanli = findViewById(R.id.kejianguanli)
+        kejianguanliView = findViewById(R.id.kejianguanliView)
+        kejianguanli.isClickable = false
+        kejianguanli.isFocusable = false
+        jianhao = findViewById(R.id.jianhao)
+        jiahao = findViewById(R.id.jiahao)
+        tvjiangeshi = findViewById(R.id.tvjiangeshi)
     }
 
     private fun hideSwitchRow(anchorViewId: Int, ancestorLevel: Int = 1) {
@@ -171,14 +224,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         zidongfanyi.isGone = true
         findViewById<View>(R.id.shengjiqun)?.isGone = HttpsBroadConfig.isReviewEnv
         findViewById<View>(R.id.shengjiqunView)?.isGone = HttpsBroadConfig.isReviewEnv
-        hideSwitchRow(R.id.yaoqinghaioyuView)
-        hideSwitchRow(R.id.jinqunjiaoyanView)
         hideSwitchRow(R.id.kefahongboaView)
-        hideSwitchRow(R.id.qunzhumingpianView)
-        hideSwitchRow(R.id.ruqunyanzView)
-        hideSwitchRow(R.id.wufajiahaoyouView)
-        hideSwitchRow(R.id.kejianguanliView)
-        hideSwitchRow(R.id.jianhao, 2)
     }
 
     @SuppressLint("SetTextI18n")
@@ -277,7 +323,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //        qungonggao.isEnabled = canManage
         findViewById<View>(R.id.qunjinmyan)?.isVisible = canManage
 
-        zhiding.isChecked = state.sessionPinned
+        zhiding.isChecked = vo.busiExt?.isZd == "1"
         miaodarao.isChecked = state.sessionMuted
 
         if (state.noticeContent.isNullOrEmpty()) {
@@ -300,6 +346,19 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         // 商业功能：群详情 busiExt.isshop 非空才展示入口（对齐野火 QunInfo2BroadActivity）
         commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.busiExt?.isshop)
         commercialFunctionSwitch.isChecked = anyToInt(vo.busiExt?.isshop) == 1
+
+        // 群管理开关（对齐野火）
+        val busi = vo.busiExt
+        yaoqinghaioyu.isChecked = busi?.openQyyq == "1" ||
+            (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
+        jinqunjiaoyan.isChecked = busi?.openQyyz == "1" ||
+            (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == "1")
+        qunzhumingpian.isChecked = busi?.openQzts == "1"
+        ruqunyanz.isChecked = busi?.openQygl == "1"
+        wufajiahaoyou.isChecked = busi?.openQysl == "1"
+        kejianguanli.isChecked = busi?.openQykj == "1"
+        jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
+        tvjiangeshi.setText(jiangetime.toString())
     }
 
     private fun bindClicks() {
@@ -324,18 +383,27 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             JumpBroadUtils.startImQunGongGaoActivity(this, qunId, mTvNoticeDes.text?.toString() ?: "")
         }
         shezhiquntou.setOnClickListener { pickAndUploadAvatar() }
+        // 置顶 / 取消置顶：api/im/conversation/sessionTop（开关态以 busiExt.isZd 为准）
         zhidingView.setOnClickListener {
             val target = !zhiding.isChecked
             viewModel?.setSessionTop(qunId, target) { ok ->
-                if (!ok) ToastBroadUtils.show(getString(R.string.group_rename_failed))
-                else zhiding.isChecked = target
+                if (ok) {
+                    zhiding.isChecked = target
+                    groupVo?.ensureBusiExt()?.isZd = if (target) "1" else "0"
+                } else {
+                    ToastBroadUtils.show(getString(R.string.group_rename_failed))
+                }
             }
         }
+        // 免打扰 / 取消免打扰：api/im/conversation/muteNotify
         miaodaraoView.setOnClickListener {
             val target = !miaodarao.isChecked
             viewModel?.setSessionMute(qunId, target) { ok ->
-                if (!ok) ToastBroadUtils.show(getString(R.string.group_rename_failed))
-                else miaodarao.isChecked = target
+                if (ok) {
+                    miaodarao.isChecked = target
+                } else {
+                    ToastBroadUtils.show(getString(R.string.group_rename_failed))
+                }
             }
         }
         jiesanqun.setOnClickListener { confirmDisband() }
@@ -404,6 +472,85 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                         }
                     }
             }
+        }
+        // 群员邀请好友进群 / 进群邀请校验 / 仅群主及管理员可推送名片（api/editGroup）
+        yaoqinghaioyuView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            toggleGroupManageSwitch("openQyyq", yaoqinghaioyu)
+        }
+        jinqunjiaoyanView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            toggleGroupManageSwitch("openQyyz", jinqunjiaoyan)
+        }
+        qunzhumingpianView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            toggleGroupManageSwitch("openQzts", qunzhumingpian)
+        }
+        // 群员入群邀请管理验证 / 群内无法私加好友 / 普通成员仅可见群主及管理员
+        ruqunyanzView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            toggleGroupManageSwitch("openQygl", ruqunyanz)
+        }
+        wufajiahaoyouView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            toggleGroupManageSwitch("openQysl", wufajiahaoyou)
+        }
+        kejianguanliView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            toggleGroupManageSwitch("openQykj", kejianguanli)
+        }
+        // 间隔发言（秒）
+        jianhao.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            submitSpeakInterval((jiangetime - 1).coerceAtLeast(0))
+        }
+        jiahao.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            submitSpeakInterval(jiangetime + 1)
+        }
+        tvjiangeshi.setOnEditorActionListener { _, actionId, event ->
+            val isDoneAction = actionId == EditorInfo.IME_ACTION_DONE
+            val isEnterDown =
+                event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN
+            if (!isDoneAction && !isEnterDown) {
+                return@setOnEditorActionListener false
+            }
+            if (!GroupRole.isOwnerOrAdmin(myRole)) {
+                tvjiangeshi.setText(jiangetime.toString())
+                return@setOnEditorActionListener true
+            }
+            val inputVal = tvjiangeshi.text?.toString()?.trim()?.toIntOrNull()
+            submitSpeakInterval(if (inputVal == null || inputVal <= 0) 0 else inputVal)
+            tvjiangeshi.clearFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(tvjiangeshi.windowToken, 0)
+            true
+        }
+    }
+
+    /** 翻转群管理开关并调用 {@code api/editGroup}。 */
+    private fun toggleGroupManageSwitch(key: String, switchCompat: SwitchCompat) {
+        val target = if (switchCompat.isChecked) "0" else "1"
+        lifecycleScope.launch {
+            viewModel?.editGroupField(qunId, key, target)
+                ?.observe(this@ImQunInfo2BroadActivity) { newValue ->
+                    switchCompat.isChecked = newValue == "1"
+                    groupVo?.let { ImQunInfoViewModel.applyEditGroupField(it, key, newValue) }
+                }
+        }
+    }
+
+    /** 提交间隔发言秒数（api/editGroup jiange）。 */
+    private fun submitSpeakInterval(seconds: Int) {
+        jiangetime = seconds.coerceAtLeast(0)
+        tvjiangeshi.setText(jiangetime.toString())
+        tvjiangeshi.setSelection(tvjiangeshi.text?.length ?: 0)
+        lifecycleScope.launch {
+            viewModel?.editGroupField(qunId, "jiange", jiangetime.toString())
+                ?.observe(this@ImQunInfo2BroadActivity) { newValue ->
+                    jiangetime = newValue.toIntOrNull()?.coerceAtLeast(0) ?: jiangetime
+                    groupVo?.ensureBusiExt()?.jiange = jiangetime
+                }
         }
     }
 
