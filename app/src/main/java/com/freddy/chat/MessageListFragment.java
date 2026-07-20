@@ -78,6 +78,7 @@ import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.GroupMemberSyncHelper;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.webtrc.utils.BroadE;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.group.GroupRole;
 import com.freddy.chat.forward.ForwardMode;
@@ -286,6 +287,16 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             @Override
             public void onOpenCollect() {
                 openCollectFolder();
+            }
+
+            @Override
+            public void onOpenVoiceCall() {
+                if (isGroupChat){
+                    ToastBroadUtils.show("群聊通话--sessionId="+sessionId);
+                }else {
+                    BroadE.INSTANCE.startCall(peerUserId, false,null,requireContext());
+                }
+
             }
 
             @Override

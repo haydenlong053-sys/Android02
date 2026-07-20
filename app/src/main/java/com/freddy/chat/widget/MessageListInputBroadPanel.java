@@ -66,6 +66,8 @@ public class MessageListInputBroadPanel extends FrameLayout
 
         void onOpenCollect();
 
+        void onOpenVoiceCall();
+
         void onOpenBusinessCard();
 
         void onOpenMeetingRoom();
@@ -717,6 +719,14 @@ public class MessageListInputBroadPanel extends FrameLayout
                 () -> {
                     if (callback != null) {
                         callback.onOpenCollect();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_voice_call),
+                com.cboda.chatui.R.mipmap.ic_func_broad_video,
+                com.cboda.chatui.R.string.yuyintonghua,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenVoiceCall();
                     }
                 });
         bindMoreItem(root.findViewById(R.id.panel_more_file),
