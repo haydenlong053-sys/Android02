@@ -72,7 +72,9 @@ import com.freddy.im.MyCommonBroadBridge2;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.ImMessageHttpExample;
+import com.freddy.im.http.model.im.GroupBusiExt;
 import com.freddy.im.http.model.im.GroupMemberItem;
+import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.http.model.im.VideoBatchUploadResult;
@@ -159,6 +161,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     public MarqueeTextBroadView gonggaoxinxiBroad;
     private View mViewMeetJoin;
     private TextView mTvMeetJoin, mTvMeetPeople;
+    private GroupVo groupVo;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -392,6 +395,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             GroupMemberSyncHelper.syncOnEnterGroupChat(
                     sessionId,
                     group -> {
+                        this.groupVo = group;
                         if (getActivity() instanceof GroupMuteHost) {
                             ((GroupMuteHost) getActivity()).applyGroupDetailForMute(group);
                         }
@@ -1404,6 +1408,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void openBusinessCardPicker() {
         if (isGroupChat) {
+            GroupBusiExt busi = groupVo != null ? groupVo.getBusiExt() : null;
+            if (busi != null
+                    && "1".equals(busi.getOpenQzts())
+                    && !GroupRole.isOwnerOrAdmin(myGroupRole)) {
+                ToastBroadUtils.show(getString(R.string.qunzhutuisongmingp));
+                return;
+            }
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
                     requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), "", sessionId, sessionId, null);
         } else {
