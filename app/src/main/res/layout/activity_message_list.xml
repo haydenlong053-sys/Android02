@@ -204,6 +204,23 @@
                 app:shape_radius="@dimen/dp_4"
                 app:shape_solidColor="@color/color_EB534B"
                 tools:visibility="visible" />
+
+            <com.cboda.baselibrary.widge.CountPillView
+                android:id="@+id/countPillView"
+                android:layout_width="@dimen/dp_42"
+                android:layout_height="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_48"
+                android:layout_marginBottom="@dimen/dp_45"
+                android:visibility="gone"
+                app:cornerRadius="@dimen/dp_9"
+                app:layout_constraintBottom_toBottomOf="@id/danmakuIv"
+                app:layout_constraintEnd_toEndOf="@id/danmakuIv"
+                app:pillBgColor="#99212234"
+                app:rollLineGapExtra="@dimen/dp_5"
+                app:suffixText="@string/msg_person_unit"
+                app:suffixTextColor="#ffd957"
+                app:suffixTextSize="10sp"
+                tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 

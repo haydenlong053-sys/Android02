@@ -29,6 +29,7 @@ import com.cboda.baselibrary.bean.LoginBean;
 import com.cboda.baselibrary.event.AppBroadEvent;
 import com.cboda.baselibrary.event.AppEventBroadCode;
 import com.cboda.baselibrary.utils.DeviceBroadUtil;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.chatui.group.GroupViewBroadModel;
 import com.cboda.intelligent.dialog.pop.SecurityVerificationPopup;
@@ -311,6 +312,8 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
      * @param s
      */
     public void handleQrCode(String s) {
+        ToastBroadUtil.show(s);
+        ELogUtilKt.eLogD(ELogUtilKt.APP_TAG,"====handleQrCode===="+s);
         if (null == s) {
             ToastBroadUtil.show(getString(R.string.scan_image_qr_code_unrecognizable));
             restartScan();
@@ -485,6 +488,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             @Override
             public void onScannerCompletion(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
 //                handleQrCode(rawResult.getText());
+                ELogUtilKt.eLogD(ELogUtilKt.APP_TAG,"onScannerCompletion========"+rawResult.getText());
                 if (jumpSource == ScanJumpBroadEnum.ETH_TRANSFER.getSourceType() && isEthWalletLinkQrCode(rawResult.getText())) {
                     Intent intent = new Intent();
                     intent.putExtra("scan_result", rawResult.getText());
