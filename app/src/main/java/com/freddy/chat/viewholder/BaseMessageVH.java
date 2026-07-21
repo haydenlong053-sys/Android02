@@ -296,7 +296,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         singleReceiptImageView.setVisibility(View.VISIBLE);
         if (context.readUiState.shouldShowPeerRead(message, context.currentUserId)) {
             singleReceiptImageView.setImageResource(
-                    com.cboda.chatui.R.drawable.bg_circle_read_broad_icon);
+                    com.cboda.chatui.R.drawable.bg_circle_read_broad_icon2);
         } else {
             singleReceiptImageView.setImageResource(
                     com.cboda.chatui.R.drawable.bg_circle_unread_broad_icon);
