@@ -59,6 +59,7 @@
             android:id="@+id/groupCodeImg"
             android:layout_width="@dimen/dp_200"
             android:layout_height="@dimen/dp_200"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@id/mViewDash"
             app:layout_constraintEnd_toEndOf="@id/mViewDash"
             app:layout_constraintStart_toStartOf="@id/mViewDash"
