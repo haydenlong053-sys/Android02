@@ -29,6 +29,7 @@ import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.utils.RealmUtil;
+import com.cboda.baselibrary.widge.CountPillView;
 import com.cboda.baselibrary.widge.HighPerformanceDanmakuView;
 import com.cboda.chatui.bridge.MyBroadEvent;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
@@ -95,6 +96,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     private HighPerformanceDanmakuView verticalDanmakuView;
     private ImageView danmakuIv;
     private View danmakuView;
+    private CountPillView countPillView;
     private GroupViewBroadModel groupViewBroadModel;
 
     @Override
@@ -170,6 +172,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         verticalDanmakuView = findViewById(R.id.verticalDanmakuView);
         danmakuIv = findViewById(R.id.danmakuIv);
         danmakuView = findViewById(R.id.danmakuView);
+        countPillView = findViewById(R.id.countPillView);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -394,8 +397,31 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             }
             verticalDanmakuView.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
-        if (!visible && danmakuView != null) {
-            danmakuView.setVisibility(View.GONE);
+        if (!visible) {
+            if (danmakuView != null) {
+                danmakuView.setVisibility(View.GONE);
+            }
+            if (countPillView != null) {
+                countPillView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void onMeetTotalPersonCount(@NotNull String chanelId, int personCount) {
+        if (countPillView == null
+                || danmakuIv == null
+                || danmakuIv.getVisibility() != View.VISIBLE) {
+            return;
+        }
+        if (sessionItem == null || !TextUtils.equals(sessionItem.getSessionId(), chanelId)) {
+            return;
+        }
+        if (personCount > 0) {
+            countPillView.setTarget(personCount, 500L);
+            if (countPillView.getVisibility() != View.VISIBLE) {
+                countPillView.setVisibility(View.VISIBLE);
+            }
         }
     }
 

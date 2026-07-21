@@ -150,7 +150,7 @@ class ImQunCodeBroadActivity : BaseSimpleBroadActivity() {
                 runOnUiThread {
                     val url = result.codeUrl
                     if (!TextUtils.isEmpty(url)) {
-                        erweima.loadImg(CodeUtils.createQRCode(url, dp2px(260f)), null)
+                        erweima.loadImg(url)
                     }
                 }
             }

@@ -30,6 +30,7 @@ import com.freddy.chat.utils.MessageAvatarBinder;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.IMSConfig;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.group.GroupRole;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.hjq.shape.view.ShapeTextView;
 
@@ -101,13 +102,13 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         boolean sentByMe = message.isSender(context.currentUserId);
         String senderId = message.getFromId();
         GroupMemberItem member = context.resolveMember(senderId);
-        AppMessage prev = context.getPrevMessage(position);
+//        AppMessage prev = context.getPrevMessage(position);
 
         bindMessageTime(message, sentByMe);
         updateRowInsets(sentByMe);
         updateContentHostMargin(sentByMe);
         bindSelectionMode(message, context);
-
+        //消息发送方
         if (sentByMe) {
             nameLayout.setVisibility(View.GONE);
             avatarLeft.setVisibility(View.GONE);
@@ -123,8 +124,10 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             return;
         }
 
-        boolean showNickname = context.isGroupChat
-                && MessageViewHolderContext.shouldShowGroupNickname(prev, senderId, context.currentUserId);
+//        boolean showNickname = context.isGroupChat
+//                && MessageViewHolderContext.shouldShowGroupNickname(prev, senderId, context.currentUserId);
+        //消息接收方
+        boolean showNickname = context.isGroupChat;
         if (showNickname) {
             nameLayout.setVisibility(View.VISIBLE);
             tvNickname.setVisibility(View.VISIBLE);
@@ -295,7 +298,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         singleReceiptImageView.setVisibility(View.VISIBLE);
         if (context.readUiState.shouldShowPeerRead(message, context.currentUserId)) {
             singleReceiptImageView.setImageResource(
-                    com.cboda.chatui.R.drawable.bg_circle_read_broad_icon);
+                    com.cboda.chatui.R.drawable.bg_circle_read_broad_icon2);
         } else {
             singleReceiptImageView.setImageResource(
                     com.cboda.chatui.R.drawable.bg_circle_unread_broad_icon);
@@ -401,6 +404,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
                     location[1],
                     message,
                     context.currentUserId,
+                    shouldSkipRecallTimeLimit(context),
                     context.messageActions);
             return true;
         };
@@ -433,6 +437,19 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         }
         if (view.isClickable() || view.hasOnClickListeners()) {
             view.setOnLongClickListener(listener);
+        }
+    }
+
+    /** 群聊中自己是群主/管理员时，撤回不受时限约束。 */
+    private static boolean shouldSkipRecallTimeLimit(@NonNull MessageViewHolderContext context) {
+        if (!context.isGroupChat) {
+            return false;
+        }
+        GroupMemberItem self = context.resolveMember(context.currentUserId);
+        if (self == null){
+            return true;
+        }else {
+            return GroupRole.isOwnerOrAdmin(self.getRole());
         }
     }
 

@@ -85,30 +85,36 @@ class MyImManagerBroadHolder(private val context: Context?) {
                         if (params2?.isNotEmpty() == true) {
                             //群聊
                             if (sessionId?.isNotEmpty() == true){
-                                val userId = MMKVBroadUtils.getRealUserId()?:""
-                                ImGroupHttpExample.requestGetSpecifyMembers(
-                                    sessionId, mutableListOf<String>(userId),
-                                    object : OnHttpImListener<MutableList<GroupUserVo>?> {
-                                        override fun onHttpImSuccess(members: MutableList<GroupUserVo>) {
-                                            if (members.isEmpty()) {
-                                                return
-                                            }
-                                            val groupUserVo = members[0]
-                                            // 以前的老逻辑还有一个开关判断，后续再完善 && group.openQzts == "1"
-                                            if (groupUserVo.role ==GroupRole.MEMBER ) {
-                                                ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
-                                            } else {
-                                                JumpBroadUtils.startHaoyouListActivity(
-                                                    mContext,
-                                                    params ?: "",
-                                                    params2 ?: "",
-                                                    sessionId
-                                                )
-                                            }
-                                        }
-                                    }, Runnable {
-                                        ToastBroadUtils.show("获取requestGetSpecifyMembers群成员信息失败")
-                                    })
+//                                val userId = MMKVBroadUtils.getRealUserId()?:""
+//                                ImGroupHttpExample.requestGetSpecifyMembers(
+//                                    sessionId, mutableListOf<String>(userId),
+//                                    object : OnHttpImListener<MutableList<GroupUserVo>?> {
+//                                        override fun onHttpImSuccess(members: MutableList<GroupUserVo>) {
+//                                            if (members.isEmpty()) {
+//                                                return
+//                                            }
+//                                            val groupUserVo = members[0]
+//                                            // 以前的老逻辑还有一个开关判断，后续再完善 && group.openQzts == "1"
+//                                            if (groupUserVo.role ==GroupRole.MEMBER ) {
+//                                                ToastBroadUtils.show(mContext?.getString(R.string.qunzhutuisongmingp))
+//                                            } else {
+//                                                JumpBroadUtils.startHaoyouListActivity(
+//                                                    mContext,
+//                                                    params ?: "",
+//                                                    params2 ?: "",
+//                                                    sessionId
+//                                                )
+//                                            }
+//                                        }
+//                                    }, Runnable {
+//                                        ToastBroadUtils.show("获取requestGetSpecifyMembers群成员信息失败")
+//                                    })
+                                JumpBroadUtils.startHaoyouListActivity(
+                                    mContext,
+                                    params ?: "",
+                                    params2 ?: "",
+                                    sessionId
+                                )
                             }
 
                         } else {
@@ -130,7 +136,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
         })
     }
 
-
+   @Deprecated("原野火的，自研已废弃")
     private fun setBridge() {
         MyCommonBroadBridge.getInstance()
             ?.setMyImCommonListener(object : MyCommonBroadBridge.MyImCommonListener {

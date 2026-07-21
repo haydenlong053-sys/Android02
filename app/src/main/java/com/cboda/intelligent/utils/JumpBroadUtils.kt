@@ -50,7 +50,6 @@ import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
 import com.cboda.intelligent.activity.QunUserList2BroadActivity
 import com.cboda.intelligent.activity.im.ImGroupIntent
-import com.cboda.intelligent.activity.im.ImQunCodeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGerenJInyanTimeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
 import com.cboda.intelligent.activity.im.ImQunNichengBroadActivity
@@ -77,6 +76,7 @@ import com.cboda.intelligent.activity.ZhuanzhangBroadActivity
 import com.cboda.intelligent.activity.ZoomPicBroadActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.dialog.GroupQrCodeDialog
+import com.cboda.intelligent.dialog.ImGroupQrCodeDialog
 import com.freddy.chat.MessageListActivity
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.chat.SessionItemIntent
@@ -382,12 +382,8 @@ class JumpBroadUtils {
         }
 
         fun startImQunCodeActivity(context: Context?, qunId: String, groupVo: GroupVo?) {
-            val intent = Intent(context, ImQunCodeBroadActivity::class.java)
-            intent.putExtra("qunid", qunId)
-            if (groupVo != null) {
-                intent.putExtra(ImGroupIntent.EXTRA_GROUP_VO, groupVo)
-            }
-            context?.startActivity(intent)
+            val dialog = ImGroupQrCodeDialog(getAppContext(context), qunId, groupVo)
+            dialog.showPopupWindow()
         }
 
         fun startImQunGerenPageActivity(
