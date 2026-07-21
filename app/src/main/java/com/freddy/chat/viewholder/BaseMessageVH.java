@@ -102,13 +102,13 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         boolean sentByMe = message.isSender(context.currentUserId);
         String senderId = message.getFromId();
         GroupMemberItem member = context.resolveMember(senderId);
-        AppMessage prev = context.getPrevMessage(position);
+//        AppMessage prev = context.getPrevMessage(position);
 
         bindMessageTime(message, sentByMe);
         updateRowInsets(sentByMe);
         updateContentHostMargin(sentByMe);
         bindSelectionMode(message, context);
-
+        //消息发送方
         if (sentByMe) {
             nameLayout.setVisibility(View.GONE);
             avatarLeft.setVisibility(View.GONE);
@@ -124,8 +124,10 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             return;
         }
 
-        boolean showNickname = context.isGroupChat
-                && MessageViewHolderContext.shouldShowGroupNickname(prev, senderId, context.currentUserId);
+//        boolean showNickname = context.isGroupChat
+//                && MessageViewHolderContext.shouldShowGroupNickname(prev, senderId, context.currentUserId);
+        //消息接收方
+        boolean showNickname = context.isGroupChat;
         if (showNickname) {
             nameLayout.setVisibility(View.VISIBLE);
             tvNickname.setVisibility(View.VISIBLE);
