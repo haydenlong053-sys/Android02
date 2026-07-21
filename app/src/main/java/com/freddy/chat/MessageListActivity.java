@@ -284,10 +284,11 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         boolean haveUnread = danmakuView != null && danmakuView.getVisibility() == View.VISIBLE;
         DanMaPop danMaPop;
         if (MeetCallManager.getInstance().isOwner()) {
-            danMaPop = new DanMaPop(this, false, false, groupAllMute,
+            // 会议主持人始终具备禁言/解禁言；发图仍按群管理身份
+            danMaPop = new DanMaPop(this, isMan, true, groupAllMute,
                     false, false, true, haveUnread);
         } else {
-            danMaPop = new DanMaPop(this, false, false, groupAllMute,
+            danMaPop = new DanMaPop(this, isMan, isMan, groupAllMute,
                     !MeetCallManager.getInstance().isCallDirect(),
                     MeetCallManager.getInstance().isCallDirect(),
                     haveApplyList, haveUnread);
@@ -304,6 +305,16 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                     addBarrageData(name, popAction.getCode(), true);
                     return Unit.INSTANCE;
                 });
+            } else if (popAction == EnumerationBean.DanMaPopAction.GAG
+                    || popAction == EnumerationBean.DanMaPopAction.REMOVE_GAG) {
+                boolean targetMute = popAction == EnumerationBean.DanMaPopAction.GAG;
+                ImGroupHttpExample.requestSetAllMute(groupId, targetMute,
+                        new OnHttpImListener<Boolean>() {
+                            @Override
+                            public void onHttpImSuccess(@NonNull Boolean result) {
+                                runOnUiThread(() -> applyGroupAllMute(targetMute));
+                            }
+                        }, null);
             } else if (popAction == EnumerationBean.DanMaPopAction.UP_MIC) {
                 if (groupViewBroadModel != null) {
                     groupViewBroadModel.goMeetUpMicApply(groupId).observe(this, ok ->

@@ -33,6 +33,8 @@
     <dimen name="wechat_corner_radius">12dp</dimen>
     <dimen name="wechat_corner_radius_btn">4dp</dimen>
     <dimen name="wechat_input_bar_height">52dp</dimen>
+    <!-- 输入栏高度(约82dp) + 与消息区底部间距(16dp)，供 Activity 层弹幕礼物图标避开输入框 -->
+    <dimen name="message_list_danmaku_bottom_margin">98dp</dimen>
     <dimen name="wechat_send_btn_size">64dp</dimen>
     <dimen name="chat_panel_default_height">160dp</dimen>
     <dimen name="chat_panel_more_height">217dp</dimen>
