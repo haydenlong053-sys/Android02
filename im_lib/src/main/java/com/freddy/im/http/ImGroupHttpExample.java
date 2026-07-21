@@ -62,7 +62,7 @@ public final class ImGroupHttpExample {
 
     public static final String TAG = "group_http";
 
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = ImGsonHelper.getGson();
 
     private ImGroupHttpExample() {
     }
