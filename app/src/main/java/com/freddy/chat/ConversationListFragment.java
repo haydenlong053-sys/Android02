@@ -97,8 +97,8 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         view.findViewById(R.id.btn_my_groups).setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), GroupListActivity.class)));
 
-        swipeRefreshConversations.setOnRefreshListener(this::loadConversationList);
-        swipeRefreshConversations.setColorSchemeResources(R.color.wechat_green);
+        // 禁用下拉刷新；列表由 onViewCreated / 信令事件触发 loadConversationList
+        swipeRefreshConversations.setEnabled(false);
 
         showCachedConversations();
         //同时获取服务器最近会话，防止本地卸载找不到会话的情况
@@ -134,10 +134,7 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         if (!isAdded()) {
             return;
         }
-        boolean pullRefresh = swipeRefreshConversations.isRefreshing();
-        if (!pullRefresh) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
+        progressBar.setVisibility(View.VISIBLE);
         tvEmpty.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
 
@@ -154,7 +151,6 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
             return;
         }
         progressBar.setVisibility(View.GONE);
-        swipeRefreshConversations.setRefreshing(false);
         if (failed) {
             if (adapter.getItemCount() <= 0) {
                 tvEmpty.setVisibility(View.VISIBLE);

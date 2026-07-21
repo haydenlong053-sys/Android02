@@ -55,8 +55,8 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        swipeRefresh.setOnRefreshListener { parentViewModel.loadConversations() }
-        swipeRefresh.setColorSchemeResources(R.color.wechat_green)
+        // 禁用下拉刷新；会话数据由 ViewModel 主动拉取 / 信令更新
+        swipeRefresh.isEnabled = false
 
         parentViewModel.observeSessions(sessionCategory).observe(viewLifecycleOwner) { sessions ->
             if (!shouldEnrichSessionDisplay()) {
@@ -78,11 +78,10 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
             }
         }
         parentViewModel.loading.observe(viewLifecycleOwner) { loading ->
-            if (loading == true && !swipeRefresh.isRefreshing && adapter.itemCount <= 0) {
+            if (loading == true && adapter.itemCount <= 0) {
                 progressBar.visibility = View.VISIBLE
             } else if (loading != true) {
                 progressBar.visibility = View.GONE
-                swipeRefresh.isRefreshing = false
             }
         }
     }
