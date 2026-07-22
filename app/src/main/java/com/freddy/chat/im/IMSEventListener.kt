@@ -258,8 +258,23 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                         getAppContext(),
                         sign.fromUserId,
                         roomName,
-                        video
+                        video,
+                        callId = sign.callId
                     )
+                }
+            }
+            ImSignalProtos.CallSignalType.CALL_REJECT_VALUE,
+            ImSignalProtos.CallSignalType.CALL_CANCEL_VALUE,
+            ImSignalProtos.CallSignalType.CALL_BUSY_VALUE,
+            ImSignalProtos.CallSignalType.CALL_END_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "通话结束信令 type=${sign.type} matchId=$matchId")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.finishIfRemoteEnded(matchId)
                 }
             }
             else -> {
