@@ -312,7 +312,6 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
      * @param s
      */
     public void handleQrCode(String s) {
-        ToastBroadUtil.show(s);
         ELogUtilKt.eLogD(ELogUtilKt.APP_TAG,"====handleQrCode===="+s);
         if (null == s) {
             ToastBroadUtil.show(getString(R.string.scan_image_qr_code_unrecognizable));

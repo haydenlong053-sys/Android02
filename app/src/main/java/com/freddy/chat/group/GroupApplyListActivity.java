@@ -20,6 +20,7 @@ import com.freddy.im.listener.OnHttpImListener;
 import java.util.List;
 
 /** 入群申请审批（§3.18 / §3.16）。 */
+@Deprecated
 public class GroupApplyListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
