@@ -479,6 +479,26 @@ public final class ImLocalStore {
         ImGroupMemberRepository.getInstance().updateRolesThen(groupId, userIds, role, afterCommit);
     }
 
+    /**
+     * 信令 0x0501 code=3001：按 userId 更新所有群内该成员的信用分（grade），
+     * 并分发受影响群的成员变更通知。
+     */
+    public static void updateGroupMemberGradeByUserIdThen(@NonNull String userId,
+                                                          @Nullable String grade,
+                                                          @Nullable Runnable afterCommit) {
+        ImGroupMemberRepository.getInstance().updateGradeByUserIdThen(userId, grade, groupIds -> {
+            //目前仅本地群成员数据库的信用分更新，不做ui通知，防止刷新过于频繁，仅下次打开展示最新信用分
+//            if (groupIds != null) {
+//                for (String groupId : groupIds) {
+//                    dispatchGroupMembersUpdated(groupId);
+//                }
+//            }
+//            if (afterCommit != null) {
+//                afterCommit.run();
+//            }
+        });
+    }
+
     @Nullable
     public static GroupMemberItem queryGroupMember(@NonNull String groupId, @NonNull String userId) {
         return ImGroupMemberRepository.getInstance().queryActiveMember(groupId, userId);
