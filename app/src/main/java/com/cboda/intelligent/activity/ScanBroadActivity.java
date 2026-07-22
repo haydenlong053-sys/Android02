@@ -56,6 +56,14 @@ import com.cboda.intelligent.utils.ToastBroadUtil;
 import com.cboda.intelligent.utils.AppBroadUtils;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.cboda.intelligent.utils.QRCodeParseBroadUtils;
+import com.freddy.im.http.ImGroupHttpExample;
+import com.freddy.im.http.model.im.GroupBusiExt;
+import com.freddy.im.http.model.im.GroupQrInfoRes;
+import com.freddy.im.http.model.im.GroupVo;
+import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.listener.OnHttpImListener;
+import com.freddy.im.util.ImGroupQrCodeHelper;
+import com.freddy.im.util.ImUtilKt;
 import com.mylhyl.zxing.scanner.OnScannerCompletionListener;
 import com.mylhyl.zxing.scanner.ScannerView;
 
@@ -336,6 +344,16 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     private void handleResult(String con) {
         try {
+            // 自研群二维码：https://.../api/im/group/getGroupByCodeId/{codeId}?type=1
+            if (ImGroupQrCodeHelper.isGetGroupByCodeIdUrl(con)) {
+                if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
+                    ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
+                    finish();
+                    return;
+                }
+                handleSelfImGroupQr(ImGroupQrCodeHelper.parseCodeId(con));
+                return;
+            }
             String[] result = con.split("-");
             if (result.length < 2) {
                 ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
@@ -371,10 +389,14 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                         }
                     });
                     break;
-                case "2"://群
+                case "2"://群（兼容旧 2-{groupId}；自研主路径为 getGroupByCodeId URL）
                     if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
                         ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
                         finish();
+                        return;
+                    }
+                    if (HttpsBroadConfig.useSelfImOnly) {
+                        applySelfImJoinGroup(linkId, null);
                         return;
                     }
                     Map<String, Object> param1 = new HashMap<>();
@@ -384,13 +406,6 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                         @Override
                         public void onSuccess(Response response, ResultBroadBean commonResultBean) {
                             if (commonResultBean != null && !TextUtils.isEmpty(commonResultBean.groupId)) {
-//                                        Bundle param = new Bundle();
-//                                        param.putInt(
-//                                                TUIConstants.TUIChat.CHAT_TYPE,
-//                                                V2TIMConversation.V2TIM_GROUP
-//                                        );
-//                                        param.putString(TUIConstants.TUIChat.CHAT_ID, commonResultBean.groupId);
-//                                        TUICore.startActivity(TUIConstants.TUIChat.GROUP_CHAT_ACTIVITY_NAME, param);
                                 AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1",null);
                                 finish();
                             } else {
@@ -419,6 +434,83 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             restartScan();
         }
 
+    }
+
+    /** 自研：扫码 codeId → getGroupByCodeId → applyInGroup */
+    private void handleSelfImGroupQr(@Nullable String codeId) {
+        if (TextUtils.isEmpty(codeId)) {
+            ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
+            restartScan();
+            return;
+        }
+        ImGroupHttpExample.requestGetGroupByCodeId(codeId, new OnHttpImListener<GroupQrInfoRes>() {
+            @Override
+            public void onHttpImSuccess(@NonNull GroupQrInfoRes result) {
+                runOnUiThread(() -> {
+                    if (TextUtils.isEmpty(result.getId())) {
+                        ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
+                        restartScan();
+                        return;
+                    }
+                    applySelfImJoinGroup(result.getId(), result);
+                });
+            }
+        }, () -> runOnUiThread(() -> {
+            ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
+            restartScan();
+        }));
+    }
+
+    /**
+     * 自研申请入群。对齐野火：无需审核则进群聊；需审核则提示等待群主。
+     */
+    private void applySelfImJoinGroup(@NonNull String groupId, @Nullable GroupVo groupInfo) {
+        ImGroupHttpExample.requestApplyInGroup(groupId, new OnHttpImListener<Boolean>() {
+            @Override
+            public void onHttpImSuccess(@NonNull Boolean result) {
+                runOnUiThread(() -> {
+                    // content 为 boolean；是否需审核看群设置（对齐野火：有群 id 可进 / 否则等待）
+                    if (!result) {
+                        ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
+                        restartScan();
+                        return;
+                    }
+                    if (isJoinNeedVerify(groupInfo)) {
+                        ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner));
+                        finish();
+                    } else {
+                        openSelfImGroupChat(groupInfo, groupId);
+                    }
+                });
+            }
+        }, () -> runOnUiThread(() -> {
+            ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
+            restartScan();
+        }));
+    }
+
+    private static boolean isJoinNeedVerify(@Nullable GroupVo groupInfo) {
+        if (groupInfo == null) {
+            return false;
+        }
+        if ("1".equals(groupInfo.getJoinNeedVerify())) {
+            return true;
+        }
+        GroupBusiExt busi = groupInfo.getBusiExt();
+        return busi != null && "1".equals(busi.getOpenQyyz());
+    }
+
+    private void openSelfImGroupChat(@Nullable GroupVo groupInfo, @NonNull String groupId) {
+        GroupVo vo = groupInfo;
+        if (vo == null) {
+            vo = new GroupVo();
+            vo.setId(groupId);
+        }
+        SessionItem session = ImUtilKt.groupToSession(vo);
+        if (session != null) {
+            JumpBroadUtils.Companion.startChatMsgActivity(session, ScanBroadActivity.this);
+        }
+        finish();
     }
 
     private void idLogin(String linkId) {
@@ -502,88 +594,9 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                     finish();
                     return;
                 }
-                if (!TextUtils.isEmpty(rawResult.getText()) && rawResult.getText().contains("-")) {
-                    String[] result = rawResult.getText().split("-");
-                    if (result.length < 2) {
-                        ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
-                        restartScan();
-                        return;
-                    }
-                    String linkId = result[1];//用户id or 群id
-                    switch (result[0]) {
-                        case "1"://用户
-                            if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
-                                ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
-                                finish();
-                                return;
-                            }
-                            Map<String, Object> param = new HashMap<>();
-                            param.put("id", linkId);
-                            OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/duiInfo", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
-
-                                @Override
-                                public void onSuccess(Response response, ResultBroadBean commonResultBean) {
-                                    if (commonResultBean != null && commonResultBean.data != null && "1".equals(commonResultBean.data.isFri)) {
-                                        JumpBroadUtils.Companion.startHaoYouAddActivity(ScanBroadActivity.this, linkId, "3");
-                                    } else {
-                                        JumpBroadUtils.Companion.startHaoYouAddActivity(ScanBroadActivity.this, linkId, "3");
-                                    }
-                                    finish();
-
-                                }
-
-                                @Override
-                                public void onError(Response response, int code, Exception e) {
-                                    ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
-                                    restartScan();
-                                }
-                            });
-                            break;
-                        case "2"://群
-                            if (jumpSource == ScanJumpBroadEnum.Login.getSourceType()) {
-                                ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
-                                finish();
-                                return;
-                            }
-                            Map<String, Object> param1 = new HashMap<>();
-                            param1.put("id", linkId);
-                            OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/groupScan", param1, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
-
-                                @Override
-                                public void onSuccess(Response response, ResultBroadBean commonResultBean) {
-                                    if (commonResultBean != null && !TextUtils.isEmpty(commonResultBean.groupId)) {
-//                                        Bundle param = new Bundle();
-//                                        param.putInt(
-//                                                TUIConstants.TUIChat.CHAT_TYPE,
-//                                                V2TIMConversation.V2TIM_GROUP
-//                                        );
-//                                        param.putString(TUIConstants.TUIChat.CHAT_ID, commonResultBean.groupId);
-//                                        TUICore.startActivity(TUIConstants.TUIChat.GROUP_CHAT_ACTIVITY_NAME, param);
-                                        AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1",null);
-                                        finish();
-                                    } else {
-                                        ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner));
-                                        finish();
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Response response, int code, Exception e) {
-                                    ToastBroadUtil.show(getString(R.string.scan_network_request_failed));
-                                    restartScan();
-                                }
-                            });
-                            break;
-                        case "3"://扫描登录
-                            idLogin(linkId);
-                            break;
-                        default:
-                            ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type));
-                            restartScan();
-                            break;
-                    }
+                if (!TextUtils.isEmpty(rawResult.getText())) {
+                    handleResult(rawResult.getText());
                 } else {
-                    // 二维码格式不正确，继续扫描
                     restartScan();
                 }
 

@@ -10,6 +10,7 @@ import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
@@ -20,7 +21,13 @@ import com.cboda.intelligent.bean.*
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.holder.SendCustomBroadMsg
 import com.cboda.intelligent.utils.OKGoBroadHelper
+import com.cboda.intelligent.utils.ToastBroadUtil
+import com.freddy.im.db.repository.ImSessionRepository
+import com.freddy.im.http.ImGroupHttpExample
+import com.freddy.im.http.model.im.GroupApplyInfoRes
+import com.freddy.im.listener.OnHttpImListener
 import org.json.JSONObject
+import java.util.ArrayList
 
 class CommViewBroadModel : FriendViewBroadModel() {
 
@@ -491,6 +498,10 @@ class CommViewBroadModel : FriendViewBroadModel() {
     }
 
     fun getYanZhengList(context: Context?, pageNo: String, type: String, fromPage: String) {
+        if (fromPage != "xindepengyou" && HttpsBroadConfig.useSelfImOnly) {
+            loadSelfImGroupApplyList()
+            return
+        }
 
         val map = mapOf(
             "pageNo" to pageNo,
@@ -516,6 +527,61 @@ class CommViewBroadModel : FriendViewBroadModel() {
                 }
             },
         )
+    }
+
+    /** 自研：入群申请列表 searchGroupAsst，映射为野火 Verify 列表 UI 数据结构。 */
+    private fun loadSelfImGroupApplyList() {
+        ImGroupHttpExample.requestSearchGroupAsst(object : OnHttpImListener<List<GroupApplyInfoRes>> {
+            override fun onHttpImSuccess(result: List<GroupApplyInfoRes>) {
+                val bean = CommonDataListBroadBean()
+                val list = ArrayList<CommonDataListBroadBean.CommonBean>()
+                for (item in result) {
+                    list.add(mapGroupApplyToCommonBean(item))
+                }
+                bean.dataList = list
+                yanzhengListLiveData.postValue(bean)
+            }
+        }, {
+            ToastBroadUtil.show("加载失败")
+            val bean = CommonDataListBroadBean()
+            bean.dataList = ArrayList()
+            yanzhengListLiveData.postValue(bean)
+        })
+    }
+
+    /**
+     * 自研 status 原样写入：0 申请 / 1 已同意 / 2 已拒绝（展示由适配器按 fromPage 区分）。
+     */
+    private fun mapGroupApplyToCommonBean(item: GroupApplyInfoRes): CommonDataListBroadBean.CommonBean {
+        val bean = CommonDataListBroadBean.CommonBean()
+        bean.id = item.applyId
+        bean.userId = item.applicant
+        bean.type = item.type
+        bean.name = when {
+            !TextUtils.isEmpty(item.groupName) -> item.groupName
+            !TextUtils.isEmpty(item.groupId) -> item.groupId
+            else -> item.applyId
+        }
+        bean.info = when {
+            !TextUtils.isEmpty(item.desc) -> item.desc
+            !TextUtils.isEmpty(item.groupName) -> item.groupName
+            else -> item.groupId
+        }
+        bean.state = item.status
+        //优先从接口取icon
+        val icon= if (item.icon?.isNotEmpty() == true){
+            item.icon
+        }else{
+            val session = if (!TextUtils.isEmpty(item.groupId)) {
+                ImSessionRepository.getInstance().queryBySessionId(item.groupId)
+            } else {
+                null
+            }
+            session?.icon
+        }
+
+        bean.icon = icon
+        return bean
     }
 
     fun hongbaoInfo(context: Context?, hongbaoid: String) {
@@ -621,7 +687,6 @@ class CommViewBroadModel : FriendViewBroadModel() {
             )
     }
 
-
     fun tongyi(
         context: Context?,
         uid: String,
@@ -629,6 +694,10 @@ class CommViewBroadModel : FriendViewBroadModel() {
         remarkName: String = "",
         tagsId: Int = -1
     ) {
+        if (fromPage != "xindepengyou" && HttpsBroadConfig.useSelfImOnly) {
+            approveSelfImGroupApply(uid, "Y")
+            return
+        }
         val map = if (tagsId == -1) {
             mapOf(
                 "id" to uid,
@@ -663,6 +732,10 @@ class CommViewBroadModel : FriendViewBroadModel() {
     }
 
     fun jujue(context: Context?, uid: String, fromPage: String) {
+        if (fromPage != "xindepengyou" && HttpsBroadConfig.useSelfImOnly) {
+            approveSelfImGroupApply(uid, "N")
+            return
+        }
         val map = mapOf(
             "id" to uid,
             "state" to "3",
@@ -684,6 +757,20 @@ class CommViewBroadModel : FriendViewBroadModel() {
             },
 
             )
+    }
+
+    /** 自研：approveInGroup，approveStatus 1 通过 / 2 拒绝。 */
+    private fun approveSelfImGroupApply(applyId: String, approveStatus: String) {
+        if (TextUtils.isEmpty(applyId)) {
+            return
+        }
+        ImGroupHttpExample.requestApproveInGroup(applyId, approveStatus, object : OnHttpImListener<Any> {
+            override fun onHttpImSuccess(result: Any) {
+                errorLiveData.postValue(ErrorBroadBean(type = "tongyiSuc"))
+            }
+        }, {
+            ToastBroadUtil.show("操作失败")
+        })
     }
 
 

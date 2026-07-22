@@ -7,10 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.http.api.AddGroupMembersApi;
+import com.freddy.im.http.api.ApplyInGroupApi;
 import com.freddy.im.http.api.ApproveInGroupApi;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.DisbandGroupApi;
 import com.freddy.im.http.api.GetAllGroupMembersApi;
+import com.freddy.im.http.api.GetGroupByCodeIdApi;
 import com.freddy.im.http.api.GetGroupManagersApi;
 import com.freddy.im.http.api.GetGroupDetailApi;
 import com.freddy.im.http.api.GetGroupListApi;
@@ -39,6 +41,7 @@ import com.freddy.im.http.model.im.GroupListResp;
 import com.freddy.im.http.model.im.GroupMemberListContent;
 import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.GroupQrCodeRes;
+import com.freddy.im.http.model.im.GroupQrInfoRes;
 import com.freddy.im.http.model.im.GroupUserVo;
 import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.InviteMemberItem;
@@ -482,6 +485,36 @@ public final class ImGroupHttpExample {
                 });
     }
 
+    /** GET {@code api/im/group/getGroupByCodeId/{codeId}}：扫码获取群信息。 */
+    public static void requestGetGroupByCodeId(@NonNull String codeId,
+                                               @NonNull OnHttpImListener<GroupQrInfoRes> callback,
+                                               @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(codeId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.get(ApplicationLifecycle.getInstance())
+                .api(new GetGroupByCodeIdApi().setCodeId(codeId))
+                .request(getListener("getGroupByCodeId", callback, onFail, true, GroupQrInfoRes.class));
+    }
+
+    /** POST {@code api/im/group/applyInGroup}：申请入群（content 多为 boolean）。 */
+    public static void requestApplyInGroup(@NonNull String groupId,
+                                           @NonNull OnHttpImListener<Boolean> callback,
+                                           @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new ApplyInGroupApi().setGroupId(groupId))
+                .request(postListener("applyInGroup", callback, onFail, false, Boolean.class));
+    }
+
     public static void requestSearchGroupAsst(@NonNull OnHttpImListener<List<GroupApplyInfoRes>> callback,
                                               @Nullable Runnable onFail) {
         EasyHttp.post(ApplicationLifecycle.getInstance())
@@ -602,7 +635,31 @@ public final class ImGroupHttpExample {
         if (contentType instanceof Class && ((Class<?>) contentType).isInstance(raw)) {
             return (T) raw;
         }
-        return GSON.fromJson(GSON.toJson(raw), contentType);
+        // content 常为 boolean / 字符串，与声明类型不一致时勿抛崩
+        if (contentType instanceof Class) {
+            Class<?> clazz = (Class<?>) contentType;
+            if (clazz == Boolean.class || clazz == boolean.class) {
+                if (raw instanceof Boolean) {
+                    return (T) raw;
+                }
+                if (raw instanceof String) {
+                    return (T) Boolean.valueOf((String) raw);
+                }
+                if (raw instanceof Number) {
+                    return (T) Boolean.valueOf(((Number) raw).intValue() != 0);
+                }
+            }
+            if ((clazz == Object.class) || (clazz == Void.class)) {
+                return (T) raw;
+            }
+        }
+        try {
+            return GSON.fromJson(GSON.toJson(raw), contentType);
+        } catch (Exception e) {
+            Log.e(TAG, "resolveContent 类型不匹配 raw=" + raw
+                    + " type=" + contentType + " err=" + e.getMessage());
+            return null;
+        }
     }
 
     private static Type listOf(@NonNull Class<?> itemClass) {
@@ -636,8 +693,12 @@ public final class ImGroupHttpExample {
             return (T) Collections.emptyList();
         }
         if (contentType instanceof Class) {
+            Class<?> clazz = (Class<?>) contentType;
+            if (clazz == Boolean.class || clazz == boolean.class) {
+                return (T) Boolean.TRUE;
+            }
             try {
-                return (T) ((Class<?>) contentType).getDeclaredConstructor().newInstance();
+                return (T) clazz.getDeclaredConstructor().newInstance();
             } catch (ReflectiveOperationException ignored) {
                 return null;
             }

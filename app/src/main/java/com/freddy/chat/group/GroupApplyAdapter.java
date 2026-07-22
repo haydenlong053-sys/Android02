@@ -52,14 +52,21 @@ public final class GroupApplyAdapter extends RecyclerView.Adapter<GroupApplyAdap
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         GroupApplyInfoRes item = items.get(position);
-        String applicant = TextUtils.isEmpty(item.getApplicant()) ? "—" : item.getApplicant();
-        holder.tvTitle.setText(holder.itemView.getContext().getString(
-                R.string.group_apply_item_title, applicant));
-        holder.tvMeta.setText(holder.itemView.getContext().getString(
-                R.string.group_apply_item_meta, item.getGroupId(), item.getApplyId()));
-        boolean pending = "0".equals(item.getStatus()) || TextUtils.isEmpty(item.getStatus());
-        holder.btnApprove.setEnabled(pending);
-        holder.btnReject.setEnabled(pending);
+        String title = !TextUtils.isEmpty(item.getGroupName())
+                ? item.getGroupName()
+                : (!TextUtils.isEmpty(item.getGroupId()) ? item.getGroupId() : "—");
+        String meta = !TextUtils.isEmpty(item.getDesc())
+                ? item.getDesc()
+                : holder.itemView.getContext().getString(
+                R.string.group_apply_item_meta, item.getGroupId(), item.getApplyId());
+        holder.tvTitle.setText(title);
+        holder.tvMeta.setText(meta);
+        boolean pendingApprove = "0".equals(item.getStatus())
+                && "approve".equalsIgnoreCase(item.getType());
+        holder.btnApprove.setEnabled(pendingApprove);
+        holder.btnReject.setEnabled(pendingApprove);
+        holder.btnApprove.setVisibility(pendingApprove ? View.VISIBLE : View.GONE);
+        holder.btnReject.setVisibility(pendingApprove ? View.VISIBLE : View.GONE);
         holder.btnApprove.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onApprove(item);
