@@ -1,5 +1,7 @@
 package com.freddy.im.netty;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import java.security.GeneralSecurityException;
 
 import com.freddy.im.crypto.Aes128CbcZeroIv;
@@ -14,7 +16,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * 处理服务端 CMD 0x81 / 0x82 / 0x00：按需 AES 解密后解析 imsignal。
  */
 public class SeekWeb4SignalInboundHandler extends SimpleChannelInboundHandler<SeekWeb4Packet> {
-
+    private String TAG = "SeekWeb4SignalInboundHandlerClass";
     private final NettyTcpClient imsClient;
 
     public SeekWeb4SignalInboundHandler(NettyTcpClient imsClient) {
@@ -47,10 +49,9 @@ public class SeekWeb4SignalInboundHandler extends SimpleChannelInboundHandler<Se
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, SeekWeb4Packet p) throws Exception {
         short cmd = p.getCmd();
-        if (cmd!=0x00){
-            if (cmd!=0x03 || ImUtils.isPrintHeartLog){
-                System.out.println("收到服务端的信令响应cmd: " + p.getCmd() + "=====body长度：" + p.getBody().length + "----" + "lcId:" + p.getLcId() +"----" + "seqId:" + p.getSeqId() + "---code=" + p.getCode());
-
+        if (cmd != 0x00) {
+            if (cmd != 0x03 || ImUtils.isPrintHeartLog) {
+                eLogD(TAG, "收到服务端的信令响应cmd: " + p.getCmd() + "=====body长度：" + p.getBody().length + "----" + "lcId:" + p.getLcId() + "----" + "seqId:" + p.getSeqId() + "---code=" + p.getCode());
             }
         }
 
@@ -74,12 +75,12 @@ public class SeekWeb4SignalInboundHandler extends SimpleChannelInboundHandler<Se
 
         if (cmd == 0x82) {
             ImSignalProtos.SignalResponse response = ImSignalProtos.SignalResponse.parseFrom(body);
-            imsClient.handleSignalResponseInternal(response,p.getSeqId());
+            imsClient.handleSignalResponseInternal(response, p.getSeqId());
             imsClient.getMsgDispatcher().dispatchSignalResponse(response);
             return;
         }
 
-        if (cmd == 0x00 && p.getCode() ==0) {
+        if (cmd == 0x00 && p.getCode() == 0) {
             ImSignalProtos.SignalPush push = ImSignalProtos.SignalPush.parseFrom(body);
             imsClient.getMsgDispatcher().dispatchSignalPush(push);
         }

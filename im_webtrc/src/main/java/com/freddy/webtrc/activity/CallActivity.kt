@@ -26,10 +26,12 @@ import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.requestPermission
+import com.freddy.im.call.CallSignalSender
 import com.freddy.webtrc.R
 import com.freddy.webtrc.utils.BroadE
 import com.freddy.webtrc.utils.CallUtil
 import com.freddy.webtrc.widget.MultiCallParticipantItem
+import java.lang.ref.WeakReference
 import eightbitlab.com.blurview.BlurTarget
 import eightbitlab.com.blurview.BlurView
 import io.livekit.android.events.RoomEvent
@@ -63,6 +65,7 @@ class CallActivity : AppCompatActivity() {
 
     private var targetId: String = ""
     private var participantIds: ArrayList<String> = arrayListOf()
+    private var callId: String = ""
     private var roomName: String = ""
     private var callUrl: String = ""
     private var callToken: String = ""
@@ -91,6 +94,7 @@ class CallActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        currentRef = WeakReference(this)
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -125,6 +129,7 @@ class CallActivity : AppCompatActivity() {
 
     private fun parseIntent() {
         targetId = intent.getStringExtra(EXTRA_TARGET_ID).orEmpty()
+        callId = intent.getStringExtra(EXTRA_CALL_ID).orEmpty()
         roomName = intent.getStringExtra(EXTRA_ROOM_NAME).orEmpty()
         callUrl = intent.getStringExtra(EXTRA_URL).orEmpty()
         callToken = intent.getStringExtra(EXTRA_TOKEN).orEmpty()
@@ -133,6 +138,12 @@ class CallActivity : AppCompatActivity() {
         participantIds = intent.getStringArrayListExtra(EXTRA_PARTICIPANT_IDS) ?: arrayListOf()
         if (participantIds.isEmpty() && !TextUtils.isEmpty(targetId)) {
             participantIds = arrayListOf(targetId)
+        }
+        if (TextUtils.isEmpty(callId)) {
+            callId = roomName
+        }
+        if (TextUtils.isEmpty(roomName)) {
+            roomName = callId
         }
     }
 
@@ -165,13 +176,13 @@ class CallActivity : AppCompatActivity() {
 
         if (isMultiCall) {
             connectedContainer?.findViewById<View>(R.id.hangupImageView)?.setOnClickListener { hangup() }
-            incomingActionContainer.findViewById<View>(R.id.incomingHangupImageView)?.setOnClickListener { hangup() }
+            incomingActionContainer.findViewById<View>(R.id.incomingHangupImageView)?.setOnClickListener { rejectIncoming() }
             incomingActionContainer.findViewById<View>(R.id.acceptImageView)?.setOnClickListener {
                 requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) { acceptCall() }
             }
         } else {
             findViewById<View>(R.id.outgoingHangupImageView).setOnClickListener { hangup() }
-            findViewById<View>(R.id.incomingHangupImageView).setOnClickListener { hangup() }
+            findViewById<View>(R.id.incomingHangupImageView).setOnClickListener { rejectIncoming() }
             findViewById<View>(R.id.acceptImageView).setOnClickListener {
                 eLogD(tAG, "接听电话")
                 requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO)) { acceptCall() }
@@ -526,6 +537,20 @@ class CallActivity : AppCompatActivity() {
         audioManager.isSpeakerphoneOn = speakerOn
     }
 
+    /** 来电未接通时点拒绝：发 CALL_SIGNAL(0x0502) / CALL_REJECT=3。 */
+    private fun rejectIncoming() {
+        if (outgoing || callConnected || finishing) {
+            hangup()
+            return
+        }
+        val id = if (!TextUtils.isEmpty(callId)) callId else roomName
+        eLogD(tAG, "拒绝通话 callId=$id toUserId=$targetId")
+        if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(targetId)) {
+            CallSignalSender.reject(id, targetId, roomName, video)
+        }
+        hangup()
+    }
+
     private fun hangup() {
         finishing = true
         durationHandler.removeCallbacks(durationTicker)
@@ -556,6 +581,9 @@ class CallActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        if (currentRef?.get() === this) {
+            currentRef = null
+        }
         durationHandler.removeCallbacks(durationTicker)
         if (!finishing) {
             CallUtil.leaveRoom(this)
@@ -577,11 +605,29 @@ class CallActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_TARGET_ID = "targetId"
         const val EXTRA_PARTICIPANT_IDS = "participantIds"
+        const val EXTRA_CALL_ID = "callId"
         const val EXTRA_ROOM_NAME = "roomName"
         const val EXTRA_URL = "url"
         const val EXTRA_TOKEN = "token"
         const val EXTRA_VIDEO = "video"
         const val EXTRA_OUTGOING = "outgoing"
+
+        @Volatile
+        private var currentRef: WeakReference<CallActivity>? = null
+
+        /** 对端拒绝/取消时关闭当前通话页（按 callId 或 roomName 匹配）。 */
+        @JvmStatic
+        fun finishIfRemoteEnded(matchId: String?) {
+            if (matchId.isNullOrBlank()) return
+            val activity = currentRef?.get() ?: return
+            val same = TextUtils.equals(matchId, activity.callId)
+                    || TextUtils.equals(matchId, activity.roomName)
+            if (!same || activity.isFinishing || activity.finishing) return
+            activity.runOnUiThread {
+                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                activity.hangup()
+            }
+        }
 
         @JvmStatic
         @JvmOverloads
@@ -608,6 +654,7 @@ class CallActivity : AppCompatActivity() {
                 putStringArrayListExtra(EXTRA_PARTICIPANT_IDS, ids)
                 putExtra(EXTRA_URL, url)
                 putExtra(EXTRA_TOKEN, token)
+                putExtra(EXTRA_CALL_ID, roomName)
                 putExtra(EXTRA_ROOM_NAME, roomName)
                 putExtra(EXTRA_VIDEO, video)
                 putExtra(EXTRA_OUTGOING, true)
@@ -629,7 +676,8 @@ class CallActivity : AppCompatActivity() {
             video: Boolean = false,
             url: String? = null,
             token: String? = null,
-            participantIds: List<String>? = null
+            participantIds: List<String>? = null,
+            callId: String? = null
         ) {
             if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(roomName)) {
                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
@@ -639,9 +687,11 @@ class CallActivity : AppCompatActivity() {
                 (participantIds ?: listOfNotNull(targetId))
                     .filter { !it.isNullOrBlank() }
             )
+            val resolvedCallId = callId?.takeIf { it.isNotBlank() } ?: roomName
             val intent = Intent(context, CallActivity::class.java).apply {
                 putExtra(EXTRA_TARGET_ID, targetId)
                 putStringArrayListExtra(EXTRA_PARTICIPANT_IDS, ids)
+                putExtra(EXTRA_CALL_ID, resolvedCallId)
                 putExtra(EXTRA_ROOM_NAME, roomName)
                 putExtra(EXTRA_URL, url)
                 putExtra(EXTRA_TOKEN, token)
