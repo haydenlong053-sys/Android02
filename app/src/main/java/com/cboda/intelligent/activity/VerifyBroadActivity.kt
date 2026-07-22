@@ -26,7 +26,10 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
     private var fromPage = ""
     private var viewModel: CommViewBroadModel? = null
     private var mAdapter: YanZhengBroadAdapter? = null
+    /** 当前展示列表（入群邀请搜索时为过滤结果） */
     private var mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
+    /** 入群邀请完整本地数据，供模糊搜索 */
+    private var mAllDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private var pageNo = 1
     private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var recyclerView: RecyclerView
@@ -67,6 +70,12 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
             smartLayout?.finishRefresh()
             smartLayout?.finishLoadMore()
             it.dataList?.apply {
+                if (fromPage == GROUP_INVITED) {
+                    mAllDataList.clear()
+                    mAllDataList.addAll(this)
+                    filterGroupInviteLocal()
+                    return@apply
+                }
                 if (this.isNotEmpty()) {
                     pageNo++
                 }
@@ -90,6 +99,7 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
                     toEditUserId = ""
                     pageNo = 1
                     mDataList.clear()
+                    mAllDataList.clear()
                     request()
                 }
             }
@@ -107,9 +117,13 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
         edtSousuo.setOnEditorActionListener(TextView.OnEditorActionListener { textView, i, keyEvent ->
 
             if (i == EditorInfo.IME_ACTION_SEARCH) {
-                pageNo = 1
-                mDataList.clear()
-                request()
+                if (fromPage == GROUP_INVITED) {
+                    filterGroupInviteLocal()
+                } else {
+                    pageNo = 1
+                    mDataList.clear()
+                    request()
+                }
                 return@OnEditorActionListener true
             }
             false
@@ -172,6 +186,7 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 pageNo = 1
                 mDataList.clear()
+                mAllDataList.clear()
                 request()
             }
 
@@ -189,9 +204,27 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
         viewModel?.getYanZhengList(
             this,
             pageNo.toString(),
-            edtSousuo?.text?.trim()?.toString() ?: "",
+            if (fromPage == GROUP_INVITED) "" else (edtSousuo?.text?.trim()?.toString() ?: ""),
             fromPage
         )
+    }
+
+    /** 入群邀请：按本地列表 name / id 模糊过滤 */
+    private fun filterGroupInviteLocal() {
+        val key = edtSousuo.text?.trim()?.toString().orEmpty()
+        mDataList.clear()
+        if (key.isEmpty()) {
+            mDataList.addAll(mAllDataList)
+        } else {
+            mDataList.addAll(mAllDataList.filter { bean ->
+                bean.name?.contains(key, ignoreCase = true) == true
+                        || bean.id?.contains(key, ignoreCase = true) == true
+            })
+        }
+        mAdapter?.setList(mDataList)
+        if (mDataList.isEmpty()) {
+            mAdapter?.setEmptyView(R.layout.list_empty_broad_layout)
+        }
     }
 
     private val startForResult =
