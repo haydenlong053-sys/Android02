@@ -47,7 +47,7 @@ import com.freddy.im.group.GroupRole;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
-import com.freddy.chat.im.OthBusiSignalSender;
+import com.freddy.im.signal.OthBusiSignalSender;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupVo;
@@ -300,9 +300,8 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             EnumerationBean.DanMaPopAction popAction = action;
             if (popAction == EnumerationBean.DanMaPopAction.FLOWER
                     || popAction == EnumerationBean.DanMaPopAction.ACCLAMATION) {
-                // 自研 IM：OTHER_BUSI code=2001，对端经 IMSEventListener → MeetingGiftOthBusiSigHandler 接收
-                OthBusiSignalSender.sendMeetingGift(
-                        String.valueOf(popAction.getCode()), groupId, "");
+                // OTHER_BUSI(0x0501) code=2001，giftType：1=鲜花 2=鼓掌（对齐 CallSignalSender 发送方式）
+                OthBusiSignalSender.sendMeetingGift(popAction.getCode(), groupId, null);
                 String sender = MMKVBroadUtils.Companion.getRealUserId();
                 resolveUserDisplayName(sender, name -> {
                     addBarrageData(name, popAction.getCode(), true);

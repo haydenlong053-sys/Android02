@@ -16,8 +16,8 @@ import com.freddy.im.signal.othbusi.OthBusiSigJson;
  * 会议礼物弹幕：code={@link OthBusiSigCodes#MEETING_GIFT} / 2001。
  * <p>
  * data 示例：
- * {@code {"type":"1","groupId":"...","groupIdNo":"...","fromUserId":"...","giftType":"meeting_gift","toUserId":"...","timestamp":0}}
- * type=1 鲜花，type=2 鼓掌。
+ * {@code {"giftType":1,"type":1,"groupId":"...","groupIdNo":"...","fromUserId":"...","toUserId":"...","timestamp":0}}
+ * giftType / type：1=鲜花，2=鼓掌。
  * <p>
  * 接收路径：IMSEventListener(OTHER_BUSI) → {@link OthBusiSigHandlers} → 本 Handler → updateBarrageDataLiveData。
  */
@@ -43,9 +43,16 @@ public final class MeetingGiftOthBusiSigHandler implements OthBusiSigHandler {
         if (TextUtils.isEmpty(groupId)) {
             return false;
         }
-        int giftType = OthBusiSigJson.readInt(data, "type", 0);
+        // 优先 giftType（1=鲜花 2=鼓掌），兼容旧字段 type
+        int giftType = OthBusiSigJson.readInt(data, "giftType", 0);
         if (giftType <= 0) {
-            String typeStr = OthBusiSigJson.readString(data, "type");
+            giftType = OthBusiSigJson.readInt(data, "type", 0);
+        }
+        if (giftType <= 0) {
+            String typeStr = OthBusiSigJson.readString(data, "giftType");
+            if (TextUtils.isEmpty(typeStr)) {
+                typeStr = OthBusiSigJson.readString(data, "type");
+            }
             if (!TextUtils.isEmpty(typeStr)) {
                 try {
                     giftType = Integer.parseInt(typeStr.trim());
@@ -63,7 +70,7 @@ public final class MeetingGiftOthBusiSigHandler implements OthBusiSigHandler {
         barrageBean.setConversationId(groupId);
         barrageBean.setConversationType(ImSignalProtos.ConversationType.MULTI_VALUE);
         barrageBean.setGiftType(giftType);
-        ELogUtilKt.eLogD(TAG, "groupId=" + groupId + ", from=" + fromUserId + ", type=" + giftType);
+        ELogUtilKt.eLogD(TAG, "groupId=" + groupId + ", from=" + fromUserId + ", giftType=" + giftType);
         BaseLiveDataEventKt.getUpdateBarrageDataLiveData().postValue(barrageBean);
         return true;
     }

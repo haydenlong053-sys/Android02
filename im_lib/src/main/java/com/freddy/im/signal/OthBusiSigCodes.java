@@ -1,6 +1,8 @@
 package com.freddy.im.signal;
 
-/** {@link ImSignalProtos.OthBusiSig} 多端约定业务 code。 */
+/**
+ * {@link ImSignalProtos.OthBusiSig} 多端约定业务 code。
+ */
 public final class OthBusiSigCodes {
 
     /** 群公告变更通知，data 为 {@code {"groupId":"..."}}。 */
@@ -16,8 +18,9 @@ public final class OthBusiSigCodes {
     public static final int GROUP_MANAGER_ROLE = 1004;
 
     /**
-     * 会议礼物等业务通知，data 为
-     * {@code {"type":"...","groupId":"...","fromUserId":"...","giftType":"meeting_gift","toUserId":"...","timestamp":0}}。
+     * 会议礼物弹幕（cmd=OTHER_BUSI / 0x0501，code=2001）。
+     * data 为 {@code {"giftType":1|2,"groupId":"...","fromUserId":"...","toUserId":"...","timestamp":0}}，
+     * giftType：1=鲜花，2=鼓掌。
      */
     public static final int MEETING_GIFT = 2001;
 

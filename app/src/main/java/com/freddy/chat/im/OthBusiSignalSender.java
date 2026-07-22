@@ -1,122 +1,66 @@
 package com.freddy.chat.im;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 
-import com.cboda.baselibrary.utils.MMKVBroadUtils;
-import com.freddy.im.signal.ImSignalProtos;
-import com.freddy.im.signal.OthBusiSigCodes;
-import com.google.gson.JsonObject;
-
 /**
- * 其他业务信令发送封装（cmd={@link ImSignalProtos.Cmd#OTHER_BUSI} / 0x0501）。
- * <p>
- * body 为 {@link ImSignalProtos.OthBusiSig}：{@code code} + JSON {@code data}。
- * <pre>
- * // 会议礼物 code=2001
- * OthBusiSignalSender.sendMeetingGift(jsonType, groupId, toUserId);
- *
- * // 通用
- * OthBusiSignalSender.send(code, dataJson);
- * </pre>
+ * @deprecated 请改用 {@link com.freddy.im.signal.OthBusiSignalSender}（已迁至 im_lib，对齐 CallSignalSender 发送方式）。
  */
+@Deprecated
 public final class OthBusiSignalSender {
 
-    private static final String TAG = "OthBusiSignalSender";
-
+    /** @deprecated 使用 {@link com.freddy.im.signal.OthBusiSignalSender#GIFT_FLOWER} */
+    @Deprecated
     public static final String GIFT_TYPE_MEETING = "meeting_gift";
 
     private OthBusiSignalSender() {
     }
 
+    /** 会议礼物：giftType 1=鲜花 2=鼓掌，code=2001。 */
+    public static boolean sendMeetingGift(int giftType,
+                                          @Nullable String groupId,
+                                          @Nullable String toUserId) {
+        return com.freddy.im.signal.OthBusiSignalSender.sendMeetingGift(giftType, groupId, toUserId);
+    }
+
     /**
-     * 发送会议礼物信令（code={@link OthBusiSigCodes#MEETING_GIFT} / 2001）。
-     *
-     * @param jsonType  业务 type 字段
-     * @param groupId   群/会议室 ID
-     * @param toUserId  目标用户
+     * @deprecated 请改用 {@link #sendMeetingGift(int, String, String)}，giftType 传 1/2。
      */
+    @Deprecated
     public static boolean sendMeetingGift(@Nullable String jsonType,
                                           @Nullable String groupId,
                                           @Nullable String toUserId) {
-        return sendMeetingGift(jsonType, groupId, toUserId, GIFT_TYPE_MEETING, System.currentTimeMillis());
+        int giftType = 0;
+        if (jsonType != null) {
+            try {
+                giftType = Integer.parseInt(jsonType.trim());
+            } catch (NumberFormatException ignored) {
+                giftType = 0;
+            }
+        }
+        return com.freddy.im.signal.OthBusiSignalSender.sendMeetingGift(giftType, groupId, toUserId);
     }
 
+    /**
+     * @deprecated 请改用 {@link #sendMeetingGift(int, String, String)}。
+     */
+    @Deprecated
     public static boolean sendMeetingGift(@Nullable String jsonType,
                                           @Nullable String groupId,
                                           @Nullable String toUserId,
                                           @Nullable String giftType,
                                           long timestamp) {
-        String fromUserId = resolveFromUserId();
-        JsonObject data = new JsonObject();
-        data.addProperty("type", jsonType == null ? "" : jsonType);
-        String gid = groupId == null ? "" : groupId;
-        data.addProperty("groupId", gid);
-        // 与会议室其它信令对齐，便于服务端按群广播
-        data.addProperty("groupIdNo", gid);
-        data.addProperty("fromUserId", fromUserId == null ? "" : fromUserId);
-        data.addProperty("giftType", TextUtils.isEmpty(giftType) ? GIFT_TYPE_MEETING : giftType);
-        data.addProperty("toUserId", toUserId == null ? "" : toUserId);
-        data.addProperty("timestamp", timestamp > 0L ? timestamp : System.currentTimeMillis());
-        return send(OthBusiSigCodes.MEETING_GIFT, data.toString());
+        int type = 0;
+        if (jsonType != null) {
+            try {
+                type = Integer.parseInt(jsonType.trim());
+            } catch (NumberFormatException ignored) {
+                type = 0;
+            }
+        }
+        return com.freddy.im.signal.OthBusiSignalSender.sendMeetingGift(type, groupId, toUserId, timestamp);
     }
 
-    /**
-     * 通用 OthBusiSig 发送。
-     *
-     * @param code     业务 code，如 {@link OthBusiSigCodes#MEETING_GIFT}
-     * @param dataJson data 字段 JSON 字符串
-     * @return 是否已提交给 IMS
-     */
     public static boolean send(int code, @Nullable String dataJson) {
-        if (TextUtils.isEmpty(dataJson)) {
-            Log.e(TAG, "dataJson 为空，跳过发送 code=" + code);
-            return false;
-        }
-        IMSClientBootstrap bootstrap = IMSClientBootstrap.getInstance();
-        if (!bootstrap.isActive()) {
-            Log.e(TAG, "IMS 未激活，跳过发送 code=" + code);
-            return false;
-        }
-        String fromUserId = resolveFromUserId();
-        if (TextUtils.isEmpty(fromUserId)) {
-            Log.e(TAG, "fromUserId 为空，跳过发送 code=" + code);
-            return false;
-        }
-
-        ImSignalProtos.OthBusiSig body = ImSignalProtos.OthBusiSig.newBuilder()
-                .setCode(code)
-                .setData(dataJson)
-                .build();
-
-        ImSignalProtos.ClientRequestHeader.Builder header = ImSignalProtos.ClientRequestHeader.newBuilder()
-                .setVersion(1)
-                .setUserId(fromUserId)
-                .setClientType(ImSignalProtos.ClientType.ANDROID_VALUE)
-                .setCmd(ImSignalProtos.Cmd.OTHER_BUSI_VALUE);
-        String token = bootstrap.getBindToken();
-        if (!TextUtils.isEmpty(token)) {
-            header.setToken(token);
-        }
-
-        ImSignalProtos.SignalRequest request = ImSignalProtos.SignalRequest.newBuilder()
-                .setHeader(header.build())
-                .setBody(body.toByteString())
-                .build();
-
-        Log.d(TAG, "send OTHER_BUSI code=" + code + " data=" + dataJson);
-        bootstrap.sendSignalRequest(request, false);
-        return true;
-    }
-
-    @Nullable
-    private static String resolveFromUserId() {
-        String fromUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
-        if (TextUtils.isEmpty(fromUserId)) {
-            fromUserId = MMKVBroadUtils.Companion.getRealUserId();
-        }
-        return fromUserId;
+        return com.freddy.im.signal.OthBusiSignalSender.send(code, dataJson);
     }
 }
