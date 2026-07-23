@@ -473,10 +473,31 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     }
             }
         }
-        // 群员邀请好友进群 / 进群邀请校验 / 仅群主及管理员可推送名片（api/editGroup）
+        // 群员邀请好友进群：api/im/group/modify（allowMemberInvite 1=允许 / 0=不允许）
         yaoqinghaioyuView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
-            toggleGroupManageSwitch("openQyyq", yaoqinghaioyu)
+            val targetAllow = if (yaoqinghaioyu.isChecked) 0 else 1
+            ImGroupHttpExample.requestModifyGroup(
+                qunId,
+                null,
+                null,
+                targetAllow,
+                object : OnHttpImListener<GroupVo> {
+                    override fun onHttpImSuccess(result: GroupVo) {
+                        runOnUiThread {
+                            yaoqinghaioyu.isChecked = targetAllow == 1
+                            val flag = if (targetAllow == 1) "1" else "0"
+                            groupVo?.allowMemberInvite = flag
+                            groupVo?.ensureBusiExt()?.openQyyq = flag
+                        }
+                    }
+                },
+                {
+                    runOnUiThread {
+                        ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                    }
+                },
+            )
         }
         jinqunjiaoyanView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener

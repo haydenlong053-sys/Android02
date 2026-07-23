@@ -1,6 +1,7 @@
 package com.freddy.im.http.api;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.hjq.http.config.IRequestApi;
 
@@ -10,6 +11,8 @@ public final class ModifyGroupApi implements IRequestApi {
     private String groupId;
     private String name;
     private String icon;
+    /** 1=允许群员邀请，0=不允许；未设置时不传该字段 */
+    private Integer allowMemberInvite;
 
     @NonNull
     @Override
@@ -29,6 +32,11 @@ public final class ModifyGroupApi implements IRequestApi {
 
     public ModifyGroupApi setIcon(String icon) {
         this.icon = icon;
+        return this;
+    }
+
+    public ModifyGroupApi setAllowMemberInvite(@Nullable Integer allowMemberInvite) {
+        this.allowMemberInvite = allowMemberInvite;
         return this;
     }
 }

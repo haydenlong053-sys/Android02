@@ -183,6 +183,20 @@ public final class ImGroupHttpExample {
                                           @Nullable String icon,
                                           @NonNull OnHttpImListener<GroupVo> callback,
                                           @Nullable Runnable onFail) {
+        requestModifyGroup(groupId, name, icon, null, callback, onFail);
+    }
+
+    /**
+     * 修改群资料。
+     *
+     * @param allowMemberInvite 1=允许群员邀请好友进群，0=不允许；null 表示不修改该字段
+     */
+    public static void requestModifyGroup(@NonNull String groupId,
+                                          @Nullable String name,
+                                          @Nullable String icon,
+                                          @Nullable Integer allowMemberInvite,
+                                          @NonNull OnHttpImListener<GroupVo> callback,
+                                          @Nullable Runnable onFail) {
         if (TextUtils.isEmpty(groupId)) {
             if (onFail != null) {
                 onFail.run();
@@ -195,6 +209,9 @@ public final class ImGroupHttpExample {
         }
         if (!TextUtils.isEmpty(icon)) {
             api.setIcon(icon);
+        }
+        if (allowMemberInvite != null) {
+            api.setAllowMemberInvite(allowMemberInvite);
         }
         EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
                 .api(api)
