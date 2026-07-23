@@ -36,8 +36,8 @@ public final class ImageMessageVH extends BaseMessageVH {
         bindCommon(message, position, context);
         boolean meetingImage = MessageType.MessageContentType.isMeetingImage(message.getMsgContentType());
         if (meetingImage) {
-            // 对齐野火会议弹幕图：不展示群昵称
-            nameLayout.setVisibility(View.GONE);
+            // 对齐野火会议弹幕图：只展示图片，隐藏头像/信用分/昵称/时间等
+            applyMeetingImageChromeOnly();
         }
         applyImageBubbleSize(message, meetingImage);
         boolean sentByMe = message.isSender(context.currentUserId);
@@ -61,6 +61,36 @@ public final class ImageMessageVH extends BaseMessageVH {
 
         ivMessageImage.setOnClickListener(v -> MessageMediaPreviewHelper.previewImages(
                 v.getContext(), context.items, message, context.currentUserId));
+    }
+
+    /** 会议弹幕图：去掉发送者头像、信用分、昵称、时间、回执等，仅保留图片。 */
+    private void applyMeetingImageChromeOnly() {
+        avatarLeft.setVisibility(View.GONE);
+        avatarRight.setVisibility(View.GONE);
+        avatarLeft.setOnClickListener(null);
+        avatarRight.setOnClickListener(null);
+        avatarLeft.setOnLongClickListener(null);
+        nameLayout.setVisibility(View.GONE);
+        tvNickname.setVisibility(View.GONE);
+        joinTimeTv.setVisibility(View.GONE);
+        timeTextView.setVisibility(View.GONE);
+        progress.setVisibility(View.GONE);
+        errorLinearLayout.setVisibility(View.GONE);
+        singleReceiptImageView.setVisibility(View.GONE);
+        groupReceiptFrameLayout.setVisibility(View.GONE);
+
+        int horizontal = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_20);
+        int bottom = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_2);
+        rowContainer.setPadding(horizontal, 0, horizontal, bottom);
+
+        ViewGroup.MarginLayoutParams hostLp =
+                (ViewGroup.MarginLayoutParams) flMessageContentHost.getLayoutParams();
+        hostLp.setMarginStart(0);
+        hostLp.setMarginEnd(0);
+        flMessageContentHost.setLayoutParams(hostLp);
+
+        messageColumn.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
+        bubbleRow.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
     }
 
     /**
