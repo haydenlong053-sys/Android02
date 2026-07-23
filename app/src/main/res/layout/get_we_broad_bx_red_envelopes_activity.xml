@@ -197,7 +197,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="ODIC"
+        android:text="DUALX"
         android:textColor="#73DBE2"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@id/moneyNum"
@@ -215,7 +215,7 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/moneyNum"
-        tools:text="已领取 2/10个，共1000ODIC" />
+        tools:text="已领取 2/10个，共1000DUALX" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listView"

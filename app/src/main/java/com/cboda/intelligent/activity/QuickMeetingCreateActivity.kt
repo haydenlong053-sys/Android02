@@ -283,7 +283,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
         val h5Url = "https://pay.web4x.io/pay?amountDisplay=$priceOdic" +
                 "&chainId=$chainId" +
                 "&orderId=${data.orderId}" +
-                "&tokenSymbol=ODIC&paymentType=${data.paymentType}"
+                "&tokenSymbol=DUALX&paymentType=${data.paymentType}"
         eLogD("openWalletPay_h5Url2", h5Url)
         when (paymentMethod.id) {
             IM_TOKEN -> openH5InImToken(h5Url, this)

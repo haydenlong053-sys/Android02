@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Halaga ng Transfer</string>
     <string name="bianjixiaoxineirong">I-edit ang Nilalaman ng Mensahe</string>
     <string name="mourendehongbao">Red Packet mula kay %1$s</string>
-    <string name="yuanqian">ODIC</string>
+    <string name="yuanqian">DUALX</string>
     <string name="yilingquhongbao">Natanggap na ang %1$s, kabuuang %2$s yuan</string>
     <string name="daishoulkuan">Naghihintay ng Koleksyon</string>
     <string name="zhuanzhuangshijian">Oras ng Transfer</string>
@@ -246,7 +246,7 @@
     <string name="确定">Kumpirmahin</string>
     <string name="点击保存图片">Pindutin upang i-save ang larawan</string>
     <string name="设置签名">Itakda ang Lagda</string>
-    <string name="人民币">ODIC</string>
+    <string name="人民币">DUALX</string>
     <string name="当前余额">Kasalukuyang Balanse</string>
     <string name="充值">Mag-recharge</string>
     <string name="提现">Mag-withdraw</string>
