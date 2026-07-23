@@ -12,7 +12,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -152,7 +156,7 @@ public final class MessageContentFormatter {
                                               @Nullable String lastCustomInfo,
                                               @Nullable String currentUserId) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, 0);
+                currentUserId, null, 0);
     }
 
     @NonNull
@@ -162,19 +166,31 @@ public final class MessageContentFormatter {
                                               @Nullable String lastCustomInfo,
                                               @Nullable String currentUserId,
                                               int lastMsgType) {
+        return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
+                currentUserId, null, lastMsgType);
+    }
+
+    @NonNull
+    public static String formatSessionPreview(@Nullable String content,
+                                              @Nullable String contentType,
+                                              @Nullable String lastMessageContent,
+                                              @Nullable String lastCustomInfo,
+                                              @Nullable String currentUserId,
+                                              @Nullable Map<String, String> userIdToDisplayName,
+                                              int lastMsgType) {
         if (isApiSystemMsgType(lastMsgType)) {
             String raw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
             if (isSystemContentJson(raw)) {
-                return formatSystemDisplay(raw, lastCustomInfo, currentUserId, null);
+                return formatSystemDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName);
             }
-            return formatTextDisplay(raw, lastCustomInfo, currentUserId, null);
+            return formatTextDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName);
         }
         int type = parseContentTypeInt(contentType);
         if (isSystemContentJson(content)) {
-            return formatSystemDisplay(content, lastCustomInfo, currentUserId, null);
+            return formatSystemDisplay(content, lastCustomInfo, currentUserId, userIdToDisplayName);
         }
         if (!TextUtils.isEmpty(lastMessageContent) && isSystemContentJson(lastMessageContent)) {
-            return formatSystemDisplay(lastMessageContent, lastCustomInfo, currentUserId, null);
+            return formatSystemDisplay(lastMessageContent, lastCustomInfo, currentUserId, userIdToDisplayName);
         }
         if (isCallMessageContent(content) || isCallMessageContent(lastMessageContent)) {
             String callRaw = isCallMessageContent(content) ? content : lastMessageContent;
@@ -211,9 +227,29 @@ public final class MessageContentFormatter {
             return formatMergeTranspondDisplay(content);
         }
         if (!TextUtils.isEmpty(lastMessageContent)) {
-            return formatTextDisplay(lastMessageContent, lastCustomInfo, currentUserId, null);
+            return formatTextDisplay(lastMessageContent, lastCustomInfo, currentUserId, userIdToDisplayName);
         }
-        return formatTextDisplay(content, lastCustomInfo, currentUserId, null);
+        return formatTextDisplay(content, lastCustomInfo, currentUserId, userIdToDisplayName);
+    }
+
+    /**
+     * 从 content / 展示文案中提取 {@code ${userId}} 占位符，用于会话预览补齐昵称映射。
+     */
+    @NonNull
+    public static List<String> extractPlaceholderUserIds(@Nullable String raw) {
+        String text = extractTextFromContent(raw);
+        if (TextUtils.isEmpty(text) || !PLACEHOLDER_USER.matcher(text).find()) {
+            return Collections.emptyList();
+        }
+        Matcher matcher = PLACEHOLDER_USER.matcher(text);
+        LinkedHashSet<String> ids = new LinkedHashSet<>();
+        while (matcher.find()) {
+            String uid = matcher.group(1);
+            if (!TextUtils.isEmpty(uid)) {
+                ids.add(uid.trim());
+            }
+        }
+        return new ArrayList<>(ids);
     }
 
     public static boolean isSystemContentJson(@Nullable String raw) {

@@ -58,6 +58,9 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
 
         // 禁用下拉刷新；会话数据由 ViewModel 主动拉取 / 信令更新
         swipeRefresh.isEnabled = false
+//        swipeRefresh.setOnRefreshListener { parentViewModel.loadConversations() }
+//        swipeRefresh.setColorSchemeResources(R.color.wechat_green)
+
 
         parentViewModel.observeSessions(sessionCategory).observe(viewLifecycleOwner) { sessions ->
             if (!shouldEnrichSessionDisplay()) {

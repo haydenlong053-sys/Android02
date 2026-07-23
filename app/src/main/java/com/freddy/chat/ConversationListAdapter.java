@@ -175,7 +175,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
     @NonNull
     private CharSequence buildSubtitle(@NonNull VH holder, @NonNull SessionItem session) {
-        String preview = WeChatUiHelper.formatSessionPreview(session);
+        String preview = WeChatUiHelper.formatSessionPreview(session, currentUserId);
         if (AtMentionChecker.isMentioningMe(session, currentUserId)) {
             String prefix = holder.itemView.getContext().getString(com.cboda.chatui.R.string.someone_mentioned_me);
             String text = prefix + preview;

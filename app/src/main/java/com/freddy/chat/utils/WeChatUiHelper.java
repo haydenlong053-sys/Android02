@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.db.ImLocalStore;
+import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.UserInfoItem;
 import com.freddy.im.message.MessageContentFormatter;
@@ -14,6 +16,8 @@ import com.freddy.im.message.MessageContentFormatter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -210,12 +214,49 @@ public final class WeChatUiHelper {
 
     @NonNull
     public static String formatSessionPreview(@NonNull SessionItem session) {
+        return formatSessionPreview(session, null);
+    }
+
+    /**
+     * 会话列表预览：传入当前用户与群成员昵称，避免撤回等系统文案显示裸 userId。
+     */
+    @NonNull
+    public static String formatSessionPreview(@NonNull SessionItem session,
+                                              @Nullable String currentUserId) {
+        Map<String, String> nameMap = buildSessionPreviewNameMap(session);
         return MessageContentFormatter.formatSessionPreview(
                 session.getLastMessageContent(),
                 session.getLastContentType(),
                 session.getLastMessageContent(),
                 session.getLastCustomInfo(),
-                null,
+                currentUserId,
+                nameMap,
                 session.getLastMsgType());
+    }
+
+    @NonNull
+    private static Map<String, String> buildSessionPreviewNameMap(@NonNull SessionItem session) {
+        Map<String, String> map = new HashMap<>();
+        List<String> uids = MessageContentFormatter.extractPlaceholderUserIds(
+                session.getLastMessageContent());
+        if (uids.isEmpty()) {
+            return map;
+        }
+        boolean group = MessageType.isGroupChat(session.getConversation());
+        for (String uid : uids) {
+            if (TextUtils.isEmpty(uid)) {
+                continue;
+            }
+            if (group) {
+                GroupMemberItem member = ImLocalStore.queryGroupMember(session.getSessionId(), uid);
+                if (member != null && !TextUtils.isEmpty(member.getDisplayName())) {
+                    map.put(uid, member.getDisplayName());
+                }
+            } else if (uid.equals(session.getOppositeUserId())
+                    && !TextUtils.isEmpty(session.getSessionName())) {
+                map.put(uid, session.getSessionName().trim());
+            }
+        }
+        return map;
     }
 }
